@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Business Is Booming. So Why Has the Stock Dropped by More Than a Third?
+  summary: Palantir's recent share price decline illustrates that strong execution and poor stock performance can coexist. In fact, it happens quite often.
+  url: https://finnhub.io/api/news?id=eb9d2dd7f2ab91212021a6a1df3cd153c0ee6bedbe2e23fa2561f88570cba39b

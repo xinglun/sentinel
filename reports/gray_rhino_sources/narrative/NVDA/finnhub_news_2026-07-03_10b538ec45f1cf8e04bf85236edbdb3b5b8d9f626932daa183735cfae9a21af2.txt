@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Up 90% YTD, Will Credo’s Rally Continue?
+  summary: After a 89% year-to-date rally that has taken shares from $143.89 to $271.95, Credo Technology Group (NASDAQ: CRDO) has become one of the most talked-about AI infrastructure plays on the market. Our 24/7 Wall St. price target for Credo is $248.61, implying -8.58% downside over the next 12 months. Our recommendation is hold, with a ... Price Prediction: Up 90% YTD, Will Credo’s Rally Continue?
+  url: https://finnhub.io/api/news?id=142243cc6d6523bbd189b9fd06fd10b1d5d124b2bca39c6f3048f9d76f3e3474

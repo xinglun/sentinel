@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Edges Higher Before Joining Nasdaq-100 Index on July 7
+  summary: Space Exploration Technologies shares are trading marginally higher Thursday, in-line with the broader Industrials sector&#39;s 0.7% gain.
+  url: https://finnhub.io/api/news?id=5ef95f7f9a055df0a7d15bd4a1ad6829e79a41b3b6bdeb5d20d220c08d7e8aa3

@@ -10,18 +10,18 @@
     "flat_weight": 0.0,
     "down_weight": 6.0,
     "total_weight": 19.0,
-    "gravity_strength": 0.13644045163098037,
-    "potential_energy": 1.3370685621915746,
-    "dominance_margin": 0.5975337549891604,
-    "system_confidence": 55.6048494472909,
+    "gravity_strength": 0.1368636201222055,
+    "potential_energy": 1.3108893326052669,
+    "dominance_margin": 0.6056421935362835,
+    "system_confidence": 55.84721799744203,
     "trend_dominant": true,
-    "stability_score": 41.71893010642779,
-    "stability_structural": 21.394323131501434,
-    "stability_temporal": 97.5,
-    "trend_maturity": 0.975,
+    "stability_score": 43.27338336330511,
+    "stability_structural": 21.636691681652554,
+    "stability_temporal": 100.0,
+    "trend_maturity": 1.0,
     "universe_integrity": 1.0,
-    "flow_acceleration": 0.02256998922879453,
-    "regime_age": 39,
+    "flow_acceleration": 0.017749472334904044,
+    "regime_age": 40,
     "any_pullback_occurred": false,
     "core_assets_breakdown": false
   },
@@ -31,7 +31,7 @@
     "risk_overlay": "NORMAL",
     "reasons": [],
     "low_stability_streak": 0,
-    "duration_in_state": 39,
+    "duration_in_state": 40,
     "transition_audit": {
       "from": "IGNITION",
       "to": "IGNITION",
@@ -52,7 +52,7 @@
     "breakout_changes": [
       {
         "symbol": "U",
-        "status": "New"
+        "status": "Unchanged"
       },
       {
         "symbol": "GOOG",
@@ -63,8 +63,8 @@
         "status": "Unchanged"
       }
     ],
-    "stability": 41.71893010642779,
-    "continuity_days": 39,
+    "stability": 43.27338336330511,
+    "continuity_days": 40,
     "has_mainline": true
   },
   "portfolio_policy": {
@@ -78,76 +78,25 @@
   "assets": [
     {
       "symbol": "U",
-      "price": 29.6299991607666,
+      "price": 29.31999969482422,
       "asset_state": {
         "symbol": "U",
         "state": "CRUISE",
         "reasons": [
-          "Matched band: cruise (dev: 9.71)",
+          "Matched band: cruise (dev: 8.59)",
           "[Memory:Context] Top Tier Lock: 10/10 days in Top 3"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 131
+        "last_defend_age": 132
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: cruise (dev: 9.71)",
+        "Matched band: cruise (dev: 8.59)",
         "[Memory:Context] Top Tier Lock: 10/10 days in Top 3",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": 9.7122940867232,
-      "z_score": 1.2779011232699136,
-      "trade_enabled": false,
-      "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
-      "prev_action": "REDUCE",
-      "action_changed": true,
-      "exit_decision": {
-        "position_intent": "HOLD",
-        "asset_exit_state": "None",
-        "reasons": []
-      },
-      "position_intent": "HOLD",
-      "unified_position_intent": "Watch",
-      "breakout": {
-        "status": "EmergingBreakout",
-        "breakout_eligible": true,
-        "breakout_strength": 100.0,
-        "breakout_age": 1,
-        "breakout_quality": 100.0,
-        "failed_breakout_risk": 10.0,
-        "reasons": [
-          "StructuralBreakout"
-        ]
-      },
-      "is_core_fact": false,
-      "has_position_fact": false,
-      "previous_state": "OVERHEAT",
-      "state_streak": 1,
-      "top_tier_streak": 39,
-      "out_of_top_tier_streak": 0
-    },
-    {
-      "symbol": "GOOG",
-      "price": 355.20001220703125,
-      "asset_state": {
-        "symbol": "GOOG",
-        "state": "CRUISE",
-        "reasons": [
-          "Matched band: cruise (dev: 5.40)",
-          "[Memory:Context] Top Tier Lock: 10/10 days in Top 3"
-        ],
-        "recovery_streak": 0,
-        "last_defend_age": 138
-      },
-      "action": "HOLD",
-      "reasons": [
-        "Matched band: cruise (dev: 5.40)",
-        "[Memory:Context] Top Tier Lock: 10/10 days in Top 3",
-        "Matrix: Ignition + Build -> Soft hold"
-      ],
-      "deviation": 5.402135089217037,
-      "z_score": 0.5731490130303164,
+      "deviation": 8.585218734530219,
+      "z_score": 1.1328267824995162,
       "trade_enabled": false,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -163,8 +112,59 @@
       "breakout": {
         "status": "EmergingBreakout",
         "breakout_eligible": true,
-        "breakout_strength": 34.1592739391683,
-        "breakout_age": 3,
+        "breakout_strength": 100.0,
+        "breakout_age": 2,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 10.0,
+        "reasons": [
+          "StructuralBreakout"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": "CRUISE",
+      "state_streak": 2,
+      "top_tier_streak": 40,
+      "out_of_top_tier_streak": 0
+    },
+    {
+      "symbol": "GOOG",
+      "price": 356.17999267578125,
+      "asset_state": {
+        "symbol": "GOOG",
+        "state": "CRUISE",
+        "reasons": [
+          "Matched band: cruise (dev: 5.69)",
+          "[Memory:Context] Top Tier Lock: 10/10 days in Top 3"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 139
+      },
+      "action": "HOLD",
+      "reasons": [
+        "Matched band: cruise (dev: 5.69)",
+        "[Memory:Context] Top Tier Lock: 10/10 days in Top 3",
+        "Matrix: Ignition + Build -> Soft hold"
+      ],
+      "deviation": 5.690373496962642,
+      "z_score": 0.6036534813628006,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": "HOLD",
+      "action_changed": false,
+      "exit_decision": {
+        "position_intent": "HOLD",
+        "asset_exit_state": "None",
+        "reasons": []
+      },
+      "position_intent": "HOLD",
+      "unified_position_intent": "Watch",
+      "breakout": {
+        "status": "EmergingBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 35.29968712796773,
+        "breakout_age": 4,
         "breakout_quality": 100.0,
         "failed_breakout_risk": 55.0,
         "reasons": [
@@ -175,29 +175,29 @@
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "CRUISE",
-      "state_streak": 3,
-      "top_tier_streak": 39,
+      "state_streak": 4,
+      "top_tier_streak": 40,
       "out_of_top_tier_streak": 0
     },
     {
       "symbol": "SPY",
-      "price": 744.9500122070312,
+      "price": 744.780029296875,
       "asset_state": {
         "symbol": "SPY",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: 0.52)"
+          "Matched band: optimal (dev: 0.50)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 138
+        "last_defend_age": 139
       },
       "action": "ACCUMULATE",
       "reasons": [
-        "Matched band: optimal (dev: 0.52)",
+        "Matched band: optimal (dev: 0.50)",
         "Matrix: Ignition + Optimal -> Aggressive entry"
       ],
-      "deviation": 0.5216016549595066,
-      "z_score": 1.782111737436986,
+      "deviation": 0.4998171912759893,
+      "z_score": 1.7764791697787814,
       "trade_enabled": false,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -213,8 +213,8 @@
       "breakout": {
         "status": "EmergingBreakout",
         "breakout_eligible": true,
-        "breakout_strength": 41.396699057757075,
-        "breakout_age": 5,
+        "breakout_strength": 41.25099713850036,
+        "breakout_age": 6,
         "breakout_quality": 100.0,
         "failed_breakout_risk": 55.0,
         "reasons": [
@@ -225,43 +225,39 @@
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "OPTIMAL",
-      "state_streak": 39,
-      "top_tier_streak": 5,
+      "state_streak": 40,
+      "top_tier_streak": 6,
       "out_of_top_tier_streak": 0
     },
     {
       "symbol": "NVDA",
-      "price": 194.92010498046875,
+      "price": 194.8300018310547,
       "asset_state": {
         "symbol": "NVDA",
-        "state": "OPTIMAL",
+        "state": "PULLBACK",
         "reasons": [
-          "Matched band: pullback (dev: -5.92)",
-          "[Friction:Hold] Strong asset protected; needs 2d failure (1/2). State held at OPTIMAL.",
-          "[Memory:Context] Top Tier Lock: 6/10 days in Top 3"
+          "Matched band: pullback (dev: -5.96)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 138
+        "last_defend_age": 139
       },
-      "action": "ACCUMULATE",
+      "action": "HOLD",
       "reasons": [
-        "Matched band: pullback (dev: -5.92)",
-        "[Friction:Hold] Strong asset protected; needs 2d failure (1/2). State held at OPTIMAL.",
-        "[Memory:Context] Top Tier Lock: 6/10 days in Top 3",
-        "Matrix: Ignition + Optimal -> Aggressive entry"
+        "Matched band: pullback (dev: -5.96)",
+        "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -5.920310225409337,
-      "z_score": -1.1013492983663484,
+      "deviation": -5.963117609703777,
+      "z_score": -1.1091393796234434,
       "trade_enabled": false,
       "trade_amount": 2000.0,
-      "config_multiplier": 1.0,
+      "config_multiplier": 0.5,
       "prev_action": "ACCUMULATE",
-      "action_changed": false,
+      "action_changed": true,
       "exit_decision": {
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 5 days"
+          "Strength Loss: out of top tier for 6 days"
         ]
       },
       "position_intent": "TRIM",
@@ -269,51 +265,51 @@
       "breakout": {
         "status": "NoBreakout",
         "breakout_eligible": true,
-        "breakout_strength": 26.302223370172108,
+        "breakout_strength": 26.297683829469477,
         "breakout_age": 0,
         "breakout_quality": 100.0,
         "failed_breakout_risk": 55.0,
         "reasons": [
-          "OrdinaryRebound",
+          "PullbackRepair",
           "FailedBreakoutRisk"
         ]
       },
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "OPTIMAL",
-      "state_streak": 3,
+      "state_streak": 1,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 5
+      "out_of_top_tier_streak": 6
     },
     {
       "symbol": "TSLA",
-      "price": 394.80999755859375,
+      "price": 393.4500122070313,
       "asset_state": {
         "symbol": "TSLA",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -2.15)"
+          "Matched band: optimal (dev: -2.48)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 114
+        "last_defend_age": 115
       },
       "action": "ACCUMULATE",
       "reasons": [
-        "Matched band: optimal (dev: -2.15)",
+        "Matched band: optimal (dev: -2.48)",
         "Matrix: Ignition + Optimal -> Aggressive entry"
       ],
-      "deviation": -2.14914948035985,
-      "z_score": -0.3418228679932599,
+      "deviation": -2.4834730806512164,
+      "z_score": -0.39492104924984855,
       "trade_enabled": false,
       "trade_amount": 5000.0,
       "config_multiplier": 1.0,
-      "prev_action": "HOLD",
-      "action_changed": true,
+      "prev_action": "ACCUMULATE",
+      "action_changed": false,
       "exit_decision": {
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 39 days"
+          "Strength Loss: out of top tier for 40 days"
         ]
       },
       "position_intent": "TRIM",
@@ -332,14 +328,14 @@
       },
       "is_core_fact": false,
       "has_position_fact": false,
-      "previous_state": "CRUISE",
-      "state_streak": 1,
+      "previous_state": "OPTIMAL",
+      "state_streak": 2,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 39
+      "out_of_top_tier_streak": 40
     },
     {
       "symbol": "SPCX",
-      "price": 157.99000549316406,
+      "price": 162.0,
       "asset_state": {
         "symbol": "SPCX",
         "state": "FORMING",
@@ -365,7 +361,7 @@
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 14 days"
+          "Strength Loss: out of top tier for 15 days"
         ]
       },
       "position_intent": "TRIM",
@@ -384,81 +380,29 @@
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "FORMING",
-      "state_streak": 14,
+      "state_streak": 15,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 14
+      "out_of_top_tier_streak": 15
     },
     {
       "symbol": "MSFT",
-      "price": 387.1700134277344,
+      "price": 390.489990234375,
       "asset_state": {
         "symbol": "MSFT",
-        "state": "PULLBACK",
-        "reasons": [
-          "Matched band: pullback (dev: -5.17)"
-        ],
-        "recovery_streak": 0,
-        "last_defend_age": 138
-      },
-      "action": "HOLD",
-      "reasons": [
-        "Matched band: pullback (dev: -5.17)",
-        "Matrix: Ignition + Build -> Soft hold"
-      ],
-      "deviation": -5.174841890654534,
-      "z_score": -0.7413573795932611,
-      "trade_enabled": false,
-      "trade_amount": 2000.0,
-      "config_multiplier": 0.5,
-      "prev_action": "HOLD",
-      "action_changed": false,
-      "exit_decision": {
-        "position_intent": "TRIM",
-        "asset_exit_state": "StrengthLoss",
-        "reasons": [
-          "Strength Loss: out of top tier for 39 days"
-        ]
-      },
-      "position_intent": "TRIM",
-      "unified_position_intent": "Trim",
-      "breakout": {
-        "status": "NoBreakout",
-        "breakout_eligible": true,
-        "breakout_strength": 0.0,
-        "breakout_age": 0,
-        "breakout_quality": 100.0,
-        "failed_breakout_risk": 55.0,
-        "reasons": [
-          "PullbackRepair",
-          "FailedBreakoutRisk"
-        ]
-      },
-      "is_core_fact": false,
-      "has_position_fact": false,
-      "previous_state": "PULLBACK",
-      "state_streak": 12,
-      "top_tier_streak": 0,
-      "out_of_top_tier_streak": 39
-    },
-    {
-      "symbol": "PLTR",
-      "price": 129.1649932861328,
-      "asset_state": {
-        "symbol": "PLTR",
         "state": "OPTIMAL",
         "reasons": [
-          "Matched band: optimal (dev: -4.55)"
+          "Matched band: optimal (dev: -4.37)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 116
+        "last_defend_age": 139
       },
       "action": "ACCUMULATE",
       "reasons": [
-        "Matched band: optimal (dev: -4.55)",
+        "Matched band: optimal (dev: -4.37)",
         "Matrix: Ignition + Optimal -> Aggressive entry"
       ],
-      "deviation": -4.553419606380203,
-      "z_score": -0.6026760644825635,
+      "deviation": -4.368197688476987,
+      "z_score": -0.6262541705539058,
       "trade_enabled": false,
       "trade_amount": 2000.0,
       "config_multiplier": 1.0,
@@ -468,7 +412,7 @@
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 39 days"
+          "Strength Loss: out of top tier for 40 days"
         ]
       },
       "position_intent": "TRIM",
@@ -490,27 +434,79 @@
       "previous_state": "PULLBACK",
       "state_streak": 1,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 39
+      "out_of_top_tier_streak": 40
+    },
+    {
+      "symbol": "PLTR",
+      "price": 129.3000030517578,
+      "asset_state": {
+        "symbol": "PLTR",
+        "state": "OPTIMAL",
+        "reasons": [
+          "Matched band: optimal (dev: -4.46)"
+        ],
+        "recovery_streak": 0,
+        "last_defend_age": 117
+      },
+      "action": "ACCUMULATE",
+      "reasons": [
+        "Matched band: optimal (dev: -4.46)",
+        "Matrix: Ignition + Optimal -> Aggressive entry"
+      ],
+      "deviation": -4.455242706237516,
+      "z_score": -0.5897688754688231,
+      "trade_enabled": false,
+      "trade_amount": 2000.0,
+      "config_multiplier": 1.0,
+      "prev_action": "ACCUMULATE",
+      "action_changed": false,
+      "exit_decision": {
+        "position_intent": "TRIM",
+        "asset_exit_state": "StrengthLoss",
+        "reasons": [
+          "Strength Loss: out of top tier for 40 days"
+        ]
+      },
+      "position_intent": "TRIM",
+      "unified_position_intent": "Trim",
+      "breakout": {
+        "status": "NoBreakout",
+        "breakout_eligible": true,
+        "breakout_strength": 0.0,
+        "breakout_age": 0,
+        "breakout_quality": 100.0,
+        "failed_breakout_risk": 55.0,
+        "reasons": [
+          "OrdinaryRebound",
+          "FailedBreakoutRisk"
+        ]
+      },
+      "is_core_fact": false,
+      "has_position_fact": false,
+      "previous_state": "OPTIMAL",
+      "state_streak": 2,
+      "top_tier_streak": 0,
+      "out_of_top_tier_streak": 40
     },
     {
       "symbol": "ISRG",
-      "price": 420.1099853515625,
+      "price": 426.010009765625,
       "asset_state": {
         "symbol": "ISRG",
         "state": "PULLBACK",
         "reasons": [
-          "Matched band: pullback (dev: -9.77)"
+          "Matched band: pullback (dev: -8.51)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 138
+        "last_defend_age": 139
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: pullback (dev: -9.77)",
+        "Matched band: pullback (dev: -8.51)",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -9.769497584930376,
-      "z_score": -1.1177303765311841,
+      "deviation": -8.511961571277176,
+      "z_score": -0.9751912314039631,
       "trade_enabled": false,
       "trade_amount": 2000.0,
       "config_multiplier": 0.5,
@@ -520,7 +516,7 @@
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 39 days"
+          "Strength Loss: out of top tier for 40 days"
         ]
       },
       "position_intent": "TRIM",
@@ -540,29 +536,29 @@
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "PULLBACK",
-      "state_streak": 7,
+      "state_streak": 8,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 39
+      "out_of_top_tier_streak": 40
     },
     {
       "symbol": "FIG",
-      "price": 20.93000030517578,
+      "price": 21.34000015258789,
       "asset_state": {
         "symbol": "FIG",
         "state": "PULLBACK",
         "reasons": [
-          "Matched band: pullback (dev: -9.49)"
+          "Matched band: pullback (dev: -7.73)"
         ],
         "recovery_streak": 0,
-        "last_defend_age": 138
+        "last_defend_age": 139
       },
       "action": "HOLD",
       "reasons": [
-        "Matched band: pullback (dev: -9.49)",
+        "Matched band: pullback (dev: -7.73)",
         "Matrix: Ignition + Build -> Soft hold"
       ],
-      "deviation": -9.490260039812828,
-      "z_score": -0.4901306218116361,
+      "deviation": -7.730888579938952,
+      "z_score": -0.39946131894468795,
       "trade_enabled": false,
       "trade_amount": 2000.0,
       "config_multiplier": 0.5,
@@ -572,7 +568,7 @@
         "position_intent": "TRIM",
         "asset_exit_state": "StrengthLoss",
         "reasons": [
-          "Strength Loss: out of top tier for 39 days"
+          "Strength Loss: out of top tier for 40 days"
         ]
       },
       "position_intent": "TRIM",
@@ -592,9 +588,9 @@
       "is_core_fact": false,
       "has_position_fact": false,
       "previous_state": "PULLBACK",
-      "state_streak": 2,
+      "state_streak": 3,
       "top_tier_streak": 0,
-      "out_of_top_tier_streak": 39
+      "out_of_top_tier_streak": 40
     }
   ],
   "top_tier_symbols": [
@@ -609,8 +605,8 @@
     "gate_passed": true,
     "stability_ready": true,
     "continuity_ready": true,
-    "stability_score": 41.71893010642779,
-    "continuity_streak": 5,
+    "stability_score": 43.27338336330511,
+    "continuity_streak": 6,
     "candidate_count": 3,
     "leader_count": 3,
     "cohesion_score": 96.4,
@@ -649,15 +645,7 @@
       "to": "FragmentedLeaders",
       "changed": false
     },
-    "breakout_changes": [
-      {
-        "symbol": "U",
-        "from_status": "NoBreakout",
-        "to_status": "EmergingBreakout",
-        "status_changed": true,
-        "risk_changed": true
-      }
-    ],
+    "breakout_changes": [],
     "opportunity_mode": {
       "from": "Ready",
       "to": "Ready",
@@ -29615,6 +29603,226 @@
             "symbol": "SPY",
             "source_url": "https://finnhub.io/api/news?id=afbd40400405f9e92146499277bd3832a68ed616331b5475d0099e8aa0bc5f74",
             "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-01:https://finnhub.io/api/news?id=afbd40400405f9e92146499277bd3832a68ed616331b5475d0099e8aa0bc5f74"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in TSLA ()",
+            "event_date": "2026-07-02",
+            "symbol": "TSLA",
+            "source_url": "https://finnhub.io/api/news?id=0fb73174820761d52515f73bc40596293157321b4270b6b5be197fe172135ab5",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-02:https://finnhub.io/api/news?id=0fb73174820761d52515f73bc40596293157321b4270b6b5be197fe172135ab5"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in TSLA ()",
+            "event_date": "2026-07-02",
+            "symbol": "TSLA",
+            "source_url": "https://finnhub.io/api/news?id=9c4aa7e25c71cdea9118e9cf6f862a6b3028a3feeddbbc921d6707ce9e9bc09b",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-02:https://finnhub.io/api/news?id=9c4aa7e25c71cdea9118e9cf6f862a6b3028a3feeddbbc921d6707ce9e9bc09b"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in PLTR ()",
+            "event_date": "2026-07-02",
+            "symbol": "PLTR",
+            "source_url": "https://finnhub.io/api/news?id=342edb1200483bb96d0bf2b4cf39405c99fe9ba2ef640a6049ecf7516e92aadc",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:PLTR:2026-07-02:https://finnhub.io/api/news?id=342edb1200483bb96d0bf2b4cf39405c99fe9ba2ef640a6049ecf7516e92aadc"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "CapexPayoff",
+            "confidence": 0.8,
+            "description": "Detected CAPEX related keywords in GOOG ()",
+            "event_date": "2026-07-02",
+            "symbol": "GOOG",
+            "source_url": "https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3",
+            "dedupe_key": "AUTO:NewsMedia:CapexPayoff:GOOG:2026-07-02:https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in GOOG ()",
+            "event_date": "2026-07-02",
+            "symbol": "GOOG",
+            "source_url": "https://finnhub.io/api/news?id=58ed5665b7305a5447fca930cac9a31dca1c9e3b756ccffc89f8bbe3335e73c6",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:GOOG:2026-07-02:https://finnhub.io/api/news?id=58ed5665b7305a5447fca930cac9a31dca1c9e3b756ccffc89f8bbe3335e73c6"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in GOOG ()",
+            "event_date": "2026-07-02",
+            "symbol": "GOOG",
+            "source_url": "https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:GOOG:2026-07-02:https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=cdd5ce79caf662182fbebc7ad9a20953515597d58735ff4f340ffd898878385f",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=cdd5ce79caf662182fbebc7ad9a20953515597d58735ff4f340ffd898878385f"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=27f5822288b114241056fd11c38863ba1b8ed324ff163ed926a40c6d53517c6c",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=27f5822288b114241056fd11c38863ba1b8ed324ff163ed926a40c6d53517c6c"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=10a60e4658d2cb355524ab772ed3f55a4d08ba64b5479fa80797f487874efd7c",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=10a60e4658d2cb355524ab772ed3f55a4d08ba64b5479fa80797f487874efd7c"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "OrderVisibility",
+            "confidence": 0.75,
+            "description": "Detected order visibility related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=001d58e5034e9e49a25e52309c081cb46235506816a7ab104f70a090892ccc6a",
+            "dedupe_key": "AUTO:NewsMedia:OrderVisibility:NVDA:2026-07-02:https://finnhub.io/api/news?id=001d58e5034e9e49a25e52309c081cb46235506816a7ab104f70a090892ccc6a"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=ce63c68aeda1af9123103da1a57edfa4bcd7424d8654ca8c118c4fa6feb01739",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=ce63c68aeda1af9123103da1a57edfa4bcd7424d8654ca8c118c4fa6feb01739"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "OrderVisibility",
+            "confidence": 0.75,
+            "description": "Detected order visibility related keywords in NVDA ()",
+            "event_date": "2026-07-02",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=a606522ff4e8f3b0e18aff6e320fa596a1ec7a7a8bd5e09f833e0d40363ec596",
+            "dedupe_key": "AUTO:NewsMedia:OrderVisibility:NVDA:2026-07-02:https://finnhub.io/api/news?id=a606522ff4e8f3b0e18aff6e320fa596a1ec7a7a8bd5e09f833e0d40363ec596"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "CapexPayoff",
+            "confidence": 0.8,
+            "description": "Detected CAPEX related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3",
+            "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-02:https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=5da611daffe65f20f56b0554949c2d040004d75167af304cb3aef62611431fa4",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=5da611daffe65f20f56b0554949c2d040004d75167af304cb3aef62611431fa4"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=4ac3241e39562322112403a522ff7af14e3961915cf93678c539194911594601",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=4ac3241e39562322112403a522ff7af14e3961915cf93678c539194911594601"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=2c80d47279db839c73d21c5859330d85ca1d48cf7c679a98ea70f6e3c00cf3fb",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=2c80d47279db839c73d21c5859330d85ca1d48cf7c679a98ea70f6e3c00cf3fb"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-02",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "CapexPayoff",
+            "confidence": 0.8,
+            "description": "Detected CAPEX related keywords in MSFT ()",
+            "event_date": "2026-07-01",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=95413de3ad5b89988131e1d364d2f13e4604ab743a53b7c7e4b62aef2ee4f007",
+            "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-01:https://finnhub.io/api/news?id=95413de3ad5b89988131e1d364d2f13e4604ab743a53b7c7e4b62aef2ee4f007"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in ISRG ()",
+            "event_date": "2026-07-02",
+            "symbol": "ISRG",
+            "source_url": "https://finnhub.io/api/news?id=542e053c1af8a94688c44a85f79bde2d5ba289512d6e5525356f725119a5af27",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:ISRG:2026-07-02:https://finnhub.io/api/news?id=542e053c1af8a94688c44a85f79bde2d5ba289512d6e5525356f725119a5af27"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "CapexPayoff",
+            "confidence": 0.8,
+            "description": "Detected CAPEX related keywords in SPY ()",
+            "event_date": "2026-07-02",
+            "symbol": "SPY",
+            "source_url": "https://finnhub.io/api/news?id=b41420a22adf5710206f6a6ab552cc996dca10429e9a89177483a74aa156fbbb",
+            "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-02:https://finnhub.io/api/news?id=b41420a22adf5710206f6a6ab552cc996dca10429e9a89177483a74aa156fbbb"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in SPY ()",
+            "event_date": "2026-07-02",
+            "symbol": "SPY",
+            "source_url": "https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:SPY:2026-07-02:https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32"
           }
         ],
         "capex_payoff_signal": true,
@@ -58572,6 +58780,226 @@
           "symbol": "SPY",
           "source_url": "https://finnhub.io/api/news?id=afbd40400405f9e92146499277bd3832a68ed616331b5475d0099e8aa0bc5f74",
           "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-01:https://finnhub.io/api/news?id=afbd40400405f9e92146499277bd3832a68ed616331b5475d0099e8aa0bc5f74"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in TSLA ()",
+          "event_date": "2026-07-02",
+          "symbol": "TSLA",
+          "source_url": "https://finnhub.io/api/news?id=0fb73174820761d52515f73bc40596293157321b4270b6b5be197fe172135ab5",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-02:https://finnhub.io/api/news?id=0fb73174820761d52515f73bc40596293157321b4270b6b5be197fe172135ab5"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in TSLA ()",
+          "event_date": "2026-07-02",
+          "symbol": "TSLA",
+          "source_url": "https://finnhub.io/api/news?id=9c4aa7e25c71cdea9118e9cf6f862a6b3028a3feeddbbc921d6707ce9e9bc09b",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-02:https://finnhub.io/api/news?id=9c4aa7e25c71cdea9118e9cf6f862a6b3028a3feeddbbc921d6707ce9e9bc09b"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in PLTR ()",
+          "event_date": "2026-07-02",
+          "symbol": "PLTR",
+          "source_url": "https://finnhub.io/api/news?id=342edb1200483bb96d0bf2b4cf39405c99fe9ba2ef640a6049ecf7516e92aadc",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:PLTR:2026-07-02:https://finnhub.io/api/news?id=342edb1200483bb96d0bf2b4cf39405c99fe9ba2ef640a6049ecf7516e92aadc"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "CapexPayoff",
+          "confidence": 0.8,
+          "description": "Detected CAPEX related keywords in GOOG ()",
+          "event_date": "2026-07-02",
+          "symbol": "GOOG",
+          "source_url": "https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3",
+          "dedupe_key": "AUTO:NewsMedia:CapexPayoff:GOOG:2026-07-02:https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in GOOG ()",
+          "event_date": "2026-07-02",
+          "symbol": "GOOG",
+          "source_url": "https://finnhub.io/api/news?id=58ed5665b7305a5447fca930cac9a31dca1c9e3b756ccffc89f8bbe3335e73c6",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:GOOG:2026-07-02:https://finnhub.io/api/news?id=58ed5665b7305a5447fca930cac9a31dca1c9e3b756ccffc89f8bbe3335e73c6"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in GOOG ()",
+          "event_date": "2026-07-02",
+          "symbol": "GOOG",
+          "source_url": "https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:GOOG:2026-07-02:https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=cdd5ce79caf662182fbebc7ad9a20953515597d58735ff4f340ffd898878385f",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=cdd5ce79caf662182fbebc7ad9a20953515597d58735ff4f340ffd898878385f"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=27f5822288b114241056fd11c38863ba1b8ed324ff163ed926a40c6d53517c6c",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=27f5822288b114241056fd11c38863ba1b8ed324ff163ed926a40c6d53517c6c"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=10a60e4658d2cb355524ab772ed3f55a4d08ba64b5479fa80797f487874efd7c",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=10a60e4658d2cb355524ab772ed3f55a4d08ba64b5479fa80797f487874efd7c"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "OrderVisibility",
+          "confidence": 0.75,
+          "description": "Detected order visibility related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=001d58e5034e9e49a25e52309c081cb46235506816a7ab104f70a090892ccc6a",
+          "dedupe_key": "AUTO:NewsMedia:OrderVisibility:NVDA:2026-07-02:https://finnhub.io/api/news?id=001d58e5034e9e49a25e52309c081cb46235506816a7ab104f70a090892ccc6a"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=ce63c68aeda1af9123103da1a57edfa4bcd7424d8654ca8c118c4fa6feb01739",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-02:https://finnhub.io/api/news?id=ce63c68aeda1af9123103da1a57edfa4bcd7424d8654ca8c118c4fa6feb01739"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "OrderVisibility",
+          "confidence": 0.75,
+          "description": "Detected order visibility related keywords in NVDA ()",
+          "event_date": "2026-07-02",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=a606522ff4e8f3b0e18aff6e320fa596a1ec7a7a8bd5e09f833e0d40363ec596",
+          "dedupe_key": "AUTO:NewsMedia:OrderVisibility:NVDA:2026-07-02:https://finnhub.io/api/news?id=a606522ff4e8f3b0e18aff6e320fa596a1ec7a7a8bd5e09f833e0d40363ec596"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "CapexPayoff",
+          "confidence": 0.8,
+          "description": "Detected CAPEX related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3",
+          "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-02:https://finnhub.io/api/news?id=4a2f3d6a6ef45c3d6bfcc7efb2b68ac76e155c02532eeae8d6fb2c8078e599d3"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=5da611daffe65f20f56b0554949c2d040004d75167af304cb3aef62611431fa4",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=5da611daffe65f20f56b0554949c2d040004d75167af304cb3aef62611431fa4"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=4ac3241e39562322112403a522ff7af14e3961915cf93678c539194911594601",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=4ac3241e39562322112403a522ff7af14e3961915cf93678c539194911594601"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=2c80d47279db839c73d21c5859330d85ca1d48cf7c679a98ea70f6e3c00cf3fb",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=2c80d47279db839c73d21c5859330d85ca1d48cf7c679a98ea70f6e3c00cf3fb"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-02",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-02:https://finnhub.io/api/news?id=81b04c7457b694debedf025597e613e7b499bfb4c40e036f393d5be1a5c4ec59"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "CapexPayoff",
+          "confidence": 0.8,
+          "description": "Detected CAPEX related keywords in MSFT ()",
+          "event_date": "2026-07-01",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=95413de3ad5b89988131e1d364d2f13e4604ab743a53b7c7e4b62aef2ee4f007",
+          "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-01:https://finnhub.io/api/news?id=95413de3ad5b89988131e1d364d2f13e4604ab743a53b7c7e4b62aef2ee4f007"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in ISRG ()",
+          "event_date": "2026-07-02",
+          "symbol": "ISRG",
+          "source_url": "https://finnhub.io/api/news?id=542e053c1af8a94688c44a85f79bde2d5ba289512d6e5525356f725119a5af27",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:ISRG:2026-07-02:https://finnhub.io/api/news?id=542e053c1af8a94688c44a85f79bde2d5ba289512d6e5525356f725119a5af27"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "CapexPayoff",
+          "confidence": 0.8,
+          "description": "Detected CAPEX related keywords in SPY ()",
+          "event_date": "2026-07-02",
+          "symbol": "SPY",
+          "source_url": "https://finnhub.io/api/news?id=b41420a22adf5710206f6a6ab552cc996dca10429e9a89177483a74aa156fbbb",
+          "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-02:https://finnhub.io/api/news?id=b41420a22adf5710206f6a6ab552cc996dca10429e9a89177483a74aa156fbbb"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in SPY ()",
+          "event_date": "2026-07-02",
+          "symbol": "SPY",
+          "source_url": "https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:SPY:2026-07-02:https://finnhub.io/api/news?id=5269ba4f42967e112e73fef6209f40622776266ebf80b62e63b6fb58da117d32"
         }
       ],
       "capex_payoff_signal": true,

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Liquid Cooling Boosts Future Charging Technology Growth
+  summary: The market for liquid cooled EV charging cables is expected to grow significantly, from USD 0.51 billion in 2025 to USD 1.28 billion by 2032, driven by the adoption of 800 V electrical architectures that enable faster charging. These developments highlight the increasing need for advanced current and thermal management solutions in charging infrastructure. Liquid cooling technology has emerged as vital for ensuring compact cable designs that maintain thermal stability, especially in the...
+  url: https://finnhub.io/api/news?id=d329bcb85dd6bb0ee991281de53d06172eba168c11ec4012fd9cb84bce0444e6

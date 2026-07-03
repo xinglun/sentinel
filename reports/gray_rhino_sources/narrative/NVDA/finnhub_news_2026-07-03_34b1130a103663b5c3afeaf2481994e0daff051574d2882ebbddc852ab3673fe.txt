@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could SpaceX Really Disrupt the Telecoms?
+  summary: It’s getting tougher to reach for yields within the telecom sector, especially when you have a company like Space Exploration Technologies (NASDAQ:SPCX) out there with its disruptive satellite connectivity business, Starlink, which might just be the cash cow the firm needs to fuel its other, more ambitious voyages. In its current state, it feels like ... Could SpaceX Really Disrupt the Telecoms?
+  url: https://finnhub.io/api/news?id=af15efc67c3613124eb9b7949c66dc6ddde30fddbed72461dbea4904b5b07836

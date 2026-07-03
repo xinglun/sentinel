@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Parent Alphabet Invested $900 Million Into SpaceX in January 2015 -- Here's How Much That Investment Is Worth Today
+  summary: Alphabet's stake in SpaceX is now worth more than the gross domestic product (GDP) of Costa Rica.
+  url: https://finnhub.io/api/news?id=248737f2781bd12b0bf6ff707fa05c056e2415b7262da3747543215b5cd1ec45

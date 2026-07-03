@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Amazon: “We Need to See a Bountiful Return, or the Declines Will Continue”
+  summary: Amazon.com, Inc. (NASDAQ:AMZN) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Cramer noted why the stock “could be punished,” as he commented: Second worst performer, Amazon, off 12% from June. My Trust owns Microsoft; it owns this Amazon. This is […]
+  url: https://finnhub.io/api/news?id=d5c27cab3068d6418897ae318f082f24da0e4788c06c5096957aefa665383807

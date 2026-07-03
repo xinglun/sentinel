@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Africa's Largest Centralized Exchange Integrates Hyperliquid Perps
+  summary: VALR will become the first major regulated exchange to natively integrate Hyperliquid, sourcing onchain liquidity for 200+ perps markets.
+  url: https://finnhub.io/api/news?id=c3203355ddce03ce34ac65642ccfd409994ef5f0436c5b942d48af7d2296a89a

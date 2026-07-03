@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intuitive Surgical (ISRG) Could Beat Earnings Estimates Again
+  summary: Intuitive Surgical (ISRG) has an impressive earnings surprise history and currently possesses the right combination of the two key ingredients for a likely beat in its next quarterly report.
+  url: https://finnhub.io/api/news?id=542e053c1af8a94688c44a85f79bde2d5ba289512d6e5525356f725119a5af27

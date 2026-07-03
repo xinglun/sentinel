@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETW: Decent For Income, But Likely To Underperform Over The Long Term
+  summary: The Eaton Vance Tax-Managed Global Buy-Write Opportunities Fund offers an 8.32% yield via global equities + buy-write calls. Click here to read more on ETW.
+  url: https://finnhub.io/api/news?id=a664584e5b6adf36e0eaa214a5dafa0688eff43291c95b5f263e62c564f7c44f

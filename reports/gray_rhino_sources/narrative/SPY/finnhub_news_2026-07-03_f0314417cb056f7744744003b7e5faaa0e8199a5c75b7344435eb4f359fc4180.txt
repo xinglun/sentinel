@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jobs Slow As Trade Talks Enter A New Phase
+  summary: The U.S. economy added 57,000 jobs in June, below consensus expectations of 110,000.
+  url: https://finnhub.io/api/news?id=08473aeb7aaf47702ab521c550f417a5e7890c5821d115febf295bdd2227009f

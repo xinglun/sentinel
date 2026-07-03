@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains What Microsoft Needs to Do to “Reverse Its Fortunes”
+  summary: Microsoft Corporation (NASDAQ:MSFT) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Cramer highlighted the company stock’s decline during the second quarter, as he stated: We need to go over what the heck happened to these losing stocks in the month […]
+  url: https://finnhub.io/api/news?id=0a89234f2599285eee3efc717a6235814e070fbf9dd6b655502bf313430e327b

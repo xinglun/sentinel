@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Industrials Stock to Own for Decades and 2 We Question
+  summary: Whether you see them or not, industrials businesses play a crucial part in our daily activities. But their prominence also brings high exposure to the ups and downs of economic cycles. Luckily, the tide is turning in their favor as the industry’s 14.9% return over the past six months has topped the S&P 500 by 6.4 percentage points.
+  url: https://finnhub.io/api/news?id=1cc33e9b1dc16aa5572f8a5609392ac49acca7a702881b0417b3cdb8ce5873fa

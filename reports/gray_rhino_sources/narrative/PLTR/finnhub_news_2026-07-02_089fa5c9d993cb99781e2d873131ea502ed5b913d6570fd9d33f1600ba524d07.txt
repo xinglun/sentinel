@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Stock Trades Up, Here Is Why
+  summary: Shares of data analytics company Palantir Technologies (NASDAQ:PLTR) jumped 2.7% in the morning session after DA Davidson upgraded the software company to Buy from Neutral and a series of positive operational developments.
+  url: https://finnhub.io/api/news?id=5d3d59cb32870d6c62e09060c4323a98a90f3998aa7de64c29e60aca48915628

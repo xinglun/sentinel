@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: National Grid (LSE:NG) Is Putting $1.75 Billion Into U.S. Data Center Power
+  summary: National Grid (LSE:NG) is committing $1.75b for a major stake in Joulent LLC. The partnership focuses on delivering power solutions for large U.S. data centers and AI infrastructure. The plan includes a 2.67 GW power facility in Texas designed to support Microsoft's long-term energy needs. The deal expands National Grid's U.S. footprint and exposure to digital infrastructure demand. For investors watching National Grid, this move deepens the company's role in U.S. electricity infrastructure...
+  url: https://finnhub.io/api/news?id=aa3aaa3261a8cbe623ac2d77c6cfa27521f806b21347b8e5263dd237d7b9de12

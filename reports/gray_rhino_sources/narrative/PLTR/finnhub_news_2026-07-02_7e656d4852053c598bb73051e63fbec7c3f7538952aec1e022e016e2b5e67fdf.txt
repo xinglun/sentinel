@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GraniteShares Announces Monthly Distributions for its Autocallable ETFs: ANV, TLA, MSR, ATC, PLA, AHD, SCA and MRA
+  summary: New York, July 02, 2026 (GLOBE NEWSWIRE) -- GraniteShares today announced the monthly distributions for its GraniteShares Autocallable ETFs: ANV, TLA, MSR, ATC, PLA, AHD, SCA and MRA as shown in the table below. ETF TickerETF NameDistribution FrequencyDistribution per ShareDistribution Rate1,330-Day SEC Yield2ROC4Ex-Date & Record Date5,6Payment Date7SCAGraniteShares Autocallable SMCI ETFMonthly$0.8294547.87%n/an/a1-Jul-20266-Jul-2026MRAGraniteShares Autocallable MARA ETFMonthly$0.8664544.81%n/an
+  url: https://finnhub.io/api/news?id=a725e5b6f252422f54149951bb0db92c3e0c81bd93911f00e29f69f03f59b215

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO gets painfully honest about AI’s biggest problem
+  summary: Palantir (PLTR) CEOAlex Karp just pitched the company’s next big AI moment as a trust crisis. In a fresh television appearance on CNBC’s "Squawk Box," Karp said the AI boom has created a problem most businesses aren’t too eager to say out loud. Investors are chasing bigger models and faster ...
+  url: https://finnhub.io/api/news?id=55424ace3be8386bf1ac7be712399af2d621a776205bb723234100a2e47dcf41

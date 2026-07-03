@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did Lucid Stock Jump 20% This Week?
+  summary: Lucid announced a new executive team with a turnaround plan.
+  url: https://finnhub.io/api/news?id=145df0679046bba3c4507fb8dd856f86a3195ee44d27a8c08157d03f217213ce

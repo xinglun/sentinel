@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This 65-Year Dividend Streak Nearly Broke. Here Is Why It Keeps Rising
+  summary: Cincinnati Financial (NASDAQ:CINF) just sent another quarterly check to shareholders, extending one of the most remarkable streaks in American business. The Ohio-based property and casualty insurer declared a quarterly cash dividend of 94 cents per share, payable July 15, to shareholders of record as of June 23. That payout represents an 8% increase over the ... This 65-Year Dividend Streak Nearly Broke. Here Is Why It Keeps Rising
+  url: https://finnhub.io/api/news?id=3a6350364417de84f30b3c6a3d05eb1b73231fa4794696a8f002f6616371395b

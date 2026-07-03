@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s next big bet isn’t on a model but on becoming the Swiss Army knife of enterprise AI
+  summary: The tech giant is investing $2.5 billion in a new business unit called Microsoft Frontier.
+  url: https://finnhub.io/api/news?id=d360996d394ce17637185f215d3b306a17c1d1347e55b78e96d2f2f222449ae0

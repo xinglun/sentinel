@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Has Some ‘Cool News’ Coming Next Week—the Stock Needs It
+  summary: Tesla’s vice president of vehicle engineering, Lars Moravy, recently gave a lengthy interview. There were several tidbits for investors.
+  url: https://finnhub.io/api/news?id=bd47e1fb5fa34b3286c1b52993b4b00b209e7159abae1e46a44a7b437a334b2f

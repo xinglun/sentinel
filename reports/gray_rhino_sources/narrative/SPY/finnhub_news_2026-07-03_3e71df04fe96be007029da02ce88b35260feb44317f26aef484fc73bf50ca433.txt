@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Resumes Quantitative Tightening In Warsh's First Move
+  summary: Fed resumes quantitative tightening as Warsh signals a smaller balance sheet; June FOMC note hints RMP pause. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=86fd148316af56071637cfe160a8e885835fa5fb32114d4a0dbb0275cfdf3139

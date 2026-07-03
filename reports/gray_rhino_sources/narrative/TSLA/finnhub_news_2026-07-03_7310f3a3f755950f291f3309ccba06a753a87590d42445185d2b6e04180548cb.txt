@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian stock spikes following latest update
+  summary: BNP Paribas has been one of the few Wall Street firms that is bearish on EV industry leader Tesla. Late last year, the firm initiated coverage with an underperform rating and a $280 price target. BNPP cited unrealistic goals and a bloated valuation as the reasons for the bearish outlook on the ...
+  url: https://finnhub.io/api/news?id=ef965a9f788f2d60f810078a64401ad42b46951580f4fad3bbb7b4ca242d4ca3

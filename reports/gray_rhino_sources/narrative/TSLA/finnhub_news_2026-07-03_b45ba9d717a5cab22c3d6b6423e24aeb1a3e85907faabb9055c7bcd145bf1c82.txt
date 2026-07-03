@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, BYD, or Rivian: Which Stock Currently Has the EV Crown?
+  summary: The EV race is about more than vehicle sales.
+  url: https://finnhub.io/api/news?id=4fb2d8cf3c192eac66914c5ef4b58d505961e513a2063f13f38ab8e45d0a3159

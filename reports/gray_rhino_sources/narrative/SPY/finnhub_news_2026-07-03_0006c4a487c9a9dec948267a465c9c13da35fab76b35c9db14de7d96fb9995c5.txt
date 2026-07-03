@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Weakness In The Economy Cannot Be Ignored Any Longer
+  summary: S&P 500 valuations are near dot-com extremes as yields lag Treasuries and fundamentals weaken. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=d9760eaa1e904d6cf7a830d7790e2b1b12260641d642a7adb599e9fc7cacd5b4

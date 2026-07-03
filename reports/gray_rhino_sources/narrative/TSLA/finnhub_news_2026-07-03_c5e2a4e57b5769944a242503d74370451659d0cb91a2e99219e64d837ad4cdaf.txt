@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Fall Techs Rise After Tesla, Sandisk, AI Stocks Dive; Apple, Robinhood Flash Buy Signals
+  summary: The stock market had strong weekly gains, but it didn't feel that way with Sandisk and other AI plays selling off Thursday.
+  url: https://finnhub.io/api/news?id=8672db719454b9e9dceb42dcc875325376da479a7bd644de40df3597d049c69b

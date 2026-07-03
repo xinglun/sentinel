@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cramer Says Palantir Is the Cheapest He’s Ever Seen It, and Names 2 More AI Winners
+  summary: Jim Cramer opened his Mad Dash Thursday morning with a striking call. Palantir Technologies (NASDAQ:PLTR) is now the cheapest he has ever seen it. That is a striking sentence about a company still trading at a trailing P/E of 146x. Cramer’s exact framing, after watching CEO Alex Karp’s recent interview, was “I will say this ... Cramer Says Palantir Is the Cheapest He’s Ever Seen It, and Names 2 More AI Winners
+  url: https://finnhub.io/api/news?id=1b5eca8b14f00d6893f945f4a2b0f398635815905b706bacea89975149169043

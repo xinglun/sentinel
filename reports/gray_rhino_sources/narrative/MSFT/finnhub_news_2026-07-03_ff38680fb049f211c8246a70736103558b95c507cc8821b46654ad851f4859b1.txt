@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nvidia Must Be More Like Apple to Remain World’s Most Valuable Company
+  summary: Nvidia is losing ground to Apple in the competition to be the world's largest company by market value.
+  url: https://finnhub.io/api/news?id=254f8c2e56b7355600f9bd363556fc41dea862bd839c83f462ed805372736709

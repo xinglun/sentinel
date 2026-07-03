@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VGT Investors: Watch Hyperscaler Capex Guidance in H2 2026
+  summary: The Vanguard Information Technology ETF (NYSEARCA:VGT) just gave back a chunk of its 2026 run, sliding 5% in a single week as semiconductor names corrected. The fund is still up about 21% year to date and roughly 39% over the past year, but holders should treat that pullback as the market beginning to question the ... VGT Investors: Watch Hyperscaler Capex Guidance in H2 2026
+  url: https://finnhub.io/api/news?id=646a1b033a96729a96ec6344f1e57b340112817dffdd1f40d5c325ac516a0ffe

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Thursday's session: top gainers and losers in the S&P500 index
+  summary: Uncover the latest developments among S&P500 stocks in today's session. Stay tuned to the S&P500 index's top gainers and losers on Thursday.
+  url: https://finnhub.io/api/news?id=afc6f972edca8e59c70f0dd58bf9394983a07e6f89b0020f28d80fa3ace38c75

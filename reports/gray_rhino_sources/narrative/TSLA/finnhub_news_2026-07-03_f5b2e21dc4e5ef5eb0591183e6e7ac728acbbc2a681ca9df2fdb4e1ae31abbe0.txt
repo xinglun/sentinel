@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s strong Q2 deliveries lift Chinese supplier shares
+  summary: Tesla (NASDAQ:TSLA) suppliers in China traded higher on Friday after the electric vehicle manufacturer reported stronger-than-expected second-quarter delivery figures, boosting investor confidence that the company may be emerging from a prolonged period of declining sales. Auto parts manufacturers Ningbo Xusheng, Ningbo Tuopu and Zhejiang Sanhua gained between 5% and 9% in mainland Chinese trading.
+  url: https://finnhub.io/api/news?id=bffb83153f884fa582c16d2722ea261510cf708496321aeab886885fab4d8fd8

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Meta’s Betting-App Dream Could Be a ‘Poison Golden Egg’ for Its Cash Machine
+  summary: The hosts at TBPN spent a segment this week chewing over a report from NPR’s Bobby Allen that Meta (NASDAQ:META) considered acquiring Kalshi before deciding to build its own prediction-market app. If you have been ignoring prediction markets, the short version is that they let people place real money on future events. Elections. Box office. Whether the ... Why Meta’s Betting-App Dream Could Be a ‘Poison Golden Egg’ for Its Cash Machine
+  url: https://finnhub.io/api/news?id=89c566c65d0fa30c720ee829b257f169c2b2e780f52a12edde3287d652c15820

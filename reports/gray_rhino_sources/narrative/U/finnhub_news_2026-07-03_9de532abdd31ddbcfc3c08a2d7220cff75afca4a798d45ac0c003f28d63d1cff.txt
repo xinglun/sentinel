@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity: The Story Improved, But I'm Still Bearish
+  summary: Unity Software Inc. stock surged 45% on margin gains and AI Vector growth, but valuation and GAAP losses raise risks vs. Unreal. Click for this U update.
+  url: https://finnhub.io/api/news?id=d3c3fc34e97fa6fad1739c15dde79e4e4a4790e96e74401da8aa748fb0bd4948

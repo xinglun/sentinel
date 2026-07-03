@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Wall Street So Bullish on Micron? There's 1 Key Reason.
+  summary: Micron could be on track to reach an incredible milestone next year.
+  url: https://finnhub.io/api/news?id=38f7a9c7df2f9fa8182a713fcbe364a615a4aa4731e4e976b862873c29e31b7f

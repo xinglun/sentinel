@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In AI Chips - Blockchain Meets Stocks With Onchain Tokenization Trends
+  summary: Recent developments in the AI chip sector have seen a significant shift towards onchain tokenization of real-world assets, as evidenced by a new partnership between Bitget Wallet and Robinhood Crypto. This collaboration enables the integration of Robinhood Chain, an Ethereum Layer 2 solution, within Bitget Wallet, allowing users to trade Stock Tokens representing major companies like NVIDIA, Google, and Apple. The initiative demonstrates the growing trend of incorporating traditional finance...
+  url: https://finnhub.io/api/news?id=921923678e349f755dc283f59737135198f9286edc0a35506a384ecc66f7859e

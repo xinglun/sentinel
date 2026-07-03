@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk Stock Is Up More Than 6,000% Since Spinning Off From Western Digital. Is a Stock Split on the Horizon?
+  summary: Sandisk spun off from Western Digital in February 2025.
+  url: https://finnhub.io/api/news?id=9dca8217e7fefbe21a7734858e9ba64ce78b563e91cd8ed785c0241f2275c145

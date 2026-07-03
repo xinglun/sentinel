@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. SanDisk: Two Paths to AI Riches, One Winner
+  summary: Palantir (NASDAQ: PLTR) and SanDisk (NASDAQ: SNDK) both posted blowout quarters, sitting on different rungs of the AI infrastructure ladder. Palantir sells the software brain that runs enterprise AI. SanDisk sells the NAND flash memory that feeds hyperscaler datacenters. Comparing them shows how the AI buildout is minting winners at opposite ends of the stack. ... Palantir vs. SanDisk: Two Paths to AI Riches, One Winner
+  url: https://finnhub.io/api/news?id=5a95fa81661e59d20305a769aa7a2e50de5a169cceb388d1c59f7b6c2ee2de7f

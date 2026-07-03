@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s 13% Rally Sets Up a Balanced Risk Reward Ahead of Q2 Delivery Numbers
+  summary: Tesla (NASDAQ:TSLA) shares have staged a sharp rebound heading into the Q2 delivery release, and my proprietary model now pegs the stock right on top of fair value. Tesla closed at $425.30 on July 1, 2026, after a 13.25% rally over the past week. My 24/7 Wall St. price target for Tesla is $436.34, implying ... Tesla’s 13% Rally Sets Up a Balanced Risk Reward Ahead of Q2 Delivery Numbers
+  url: https://finnhub.io/api/news?id=a294fe20fc434e09ae331a09e6bc7368edef6ccdfe0a73c81bccb2746e9daae6

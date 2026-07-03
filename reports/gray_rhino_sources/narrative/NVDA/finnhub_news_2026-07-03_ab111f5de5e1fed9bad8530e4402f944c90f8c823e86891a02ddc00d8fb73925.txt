@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO's iconic leather jacket heads to auction
+  summary: NVIDIA (NASDAQ: NVDA) co-founder and CEO Jensen Huang is putting his trademark black leather jacket up for auction at Sotheby's, with bidding opening July 7. The Tom Ford piece, signed by Huang himself, carries an estimated value of $40,000 to $60,000, according to Sotheby's listing. ...
+  url: https://finnhub.io/api/news?id=c5b3b94c9ff0a21bf44f84965e4c0dcb9221cc40bacdb24ef28206d211fda12f

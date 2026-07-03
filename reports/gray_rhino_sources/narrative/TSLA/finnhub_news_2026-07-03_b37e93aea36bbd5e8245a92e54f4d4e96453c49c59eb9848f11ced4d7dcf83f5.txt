@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains How NVIDIA Can Change “Direction of the Price”
+  summary: NVIDIA Corporation (NASDAQ:NVDA) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Discussing stocks that have declined in the second quarter, Cramer mentioned the company and its possible competitors. Six: NVIDIA. NVIDIA, down just over 5% this month. At these levels, […]
+  url: https://finnhub.io/api/news?id=a96a4cbf6aae35d01d0d285b1cce674211d5a7d17ca099811c9d2533dde33ed1

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Mag Seven Could Become Magnificent Again in the Second Half, Says Pro
+  summary: The Magnificent Seven have been dragging their feet, at least relative to the rest of the tech scene in the past year. And while the semiconductor basket is the new leadership group that could continue to do more of the heavy-lifting as more investors crowd into the “pick and shovels” plays that are profiting in ... The Mag Seven Could Become Magnificent Again in the Second Half, Says Pro
+  url: https://finnhub.io/api/news?id=02dc06ba004a96ec89922a54f86649446364fc4ece65e96575cc60a18800fd01

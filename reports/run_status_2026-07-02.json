@@ -1,12 +1,12 @@
 {
   "date": "2026-07-02",
-  "timestamp": "2026-07-03T00:20:49.779718237+09:00",
+  "timestamp": "2026-07-04T01:10:50.203869790+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
   "gray_rhino_collection": {
     "status": "partial_failure",
-    "date": "2026-07-03",
+    "date": "2026-07-04",
     "sec": {
       "status": "succeeded",
       "accepted": 0,

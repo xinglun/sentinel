@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why Viking Therapeutics Stock Surged Higher in June
+  summary: Investors are growing more optimistic over the company's pipeline and the initiation of a Phase 1 trial with a new drug.
+  url: https://finnhub.io/api/news?id=570bbb3b7612cc003af58247147d83f6864848d84ec833834a2195433c105740

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Manufacturing Trends Vary As North American And East Asian Growth Spurts Contrast With ASEAN Slowdown
+  summary: PMIÂ survey data highlight a widening growth differential between major regions and economies around the world since the outbreak of the war in the Middle East.
+  url: https://finnhub.io/api/news?id=b2ea6abea6c341613f70597ac9b6b71936d849133d804f062c0fc70abc3157a9

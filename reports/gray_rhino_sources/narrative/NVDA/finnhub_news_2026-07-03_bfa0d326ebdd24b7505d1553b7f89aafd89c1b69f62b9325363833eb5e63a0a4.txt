@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From Contrarian Bets to Steady Income: Ranking 3 Miller-Style Stocks for Retirees
+  summary: Bill Miller beat the market for 15 straight years by betting on misunderstood companies when everyone else ran scared. Three stocks carry that same contrarian DNA, but only one of them belongs anywhere near a retirement portfolio.
+  url: https://finnhub.io/api/news?id=5aeeaf5e3f7c0b457cc5afeb0abb791e6d4ccf04db8b87050974be7891e8ddb3

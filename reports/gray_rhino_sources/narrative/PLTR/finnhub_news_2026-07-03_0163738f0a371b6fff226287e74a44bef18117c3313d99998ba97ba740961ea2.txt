@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From Punch Cards To Tokens: Some Thoughts On AI Pricing
+  summary: 
+  url: https://finnhub.io/api/news?id=0e9ba25fe3355c29261c1a666ca9beef0245cbd38beede41c83b27d641fbe595

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says Alphabet Is “Getting Very Little Credit for YouTube, Google Cloud, or Even Search”
+  summary: Alphabet Inc. (NASDAQ:GOOGL) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Cramer explained why the stock declined in the second quarter, as he commented: Speaking of Google, parent company Alphabet was able to do a giant fundraise not long ago. […]
+  url: https://finnhub.io/api/news?id=307d12f7d487df8bacedbbac1e40138583c8aad8e520a7cf502a2c91388c2b4b

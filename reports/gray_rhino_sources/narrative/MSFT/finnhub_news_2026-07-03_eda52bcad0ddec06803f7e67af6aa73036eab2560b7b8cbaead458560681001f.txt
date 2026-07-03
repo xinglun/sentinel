@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Income Stocks To Tap Into The AI CapEx Megatrend
+  summary: We offer 2 ideas on how income investors can profit from the AI boom. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=b13167a42c5d72721da47921a4fc2798fc5da87e2a0bde824159087e27920d6d

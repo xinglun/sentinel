@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Unveils 6,000-Employee AI Deployment Organization
+  summary: New team will help businesses implement AI while reducing costs and shaping Microsoft's future products.
+  url: https://finnhub.io/api/news?id=221793984bab98e751f179d925c5b6871967f7bc0d89260d95d3dc967c0354da

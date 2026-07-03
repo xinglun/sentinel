@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Household Survey Shows 500k Jobs Lost In June While Labor Force Participation Crashes To Multi-Year Lows
+  summary: The Household Survey showed a whopping loss of 507k jobs. That is a major loss, the second-largest in a year for the household survey. Read more here...
+  url: https://finnhub.io/api/news?id=6d97087c96cba8b4e55f4d297f2cf9205adffc441b7fb3e64d4d6478d0ca9ab7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy the Dip on SpaceX's Stock?
+  summary: SpaceX's stock has faced some selling pressure -- and it could get worse.
+  url: https://finnhub.io/api/news?id=58f07bab2cd5a56c90e7ea18844f169e4171689688da1554c5ca4baf8ab1c0c5

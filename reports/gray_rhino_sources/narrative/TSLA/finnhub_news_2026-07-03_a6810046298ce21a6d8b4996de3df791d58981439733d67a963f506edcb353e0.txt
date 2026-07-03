@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla sales soar 25% in sign its troubles may be easing
+  summary: Tesla’s global sales shot up 25% in the second quarter in a sign that Elon Musk’s EV maker may be turning a corner.
+  url: https://finnhub.io/api/news?id=dd62ba2db77d3eba695a4bf4965dd80b8770e99ca50d664119b225e71045ea9c

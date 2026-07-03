@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Stock: A Familiar Ride With Better Shocks
+  summary: The tech giant's recent run feels like a can't-miss opportunity, but its real value to your portfolio is more subtle than you think.
+  url: https://finnhub.io/api/news?id=37239de8e14a4f9a67088a38daa7797d8a79b08473f5f09c3dadb410045b047b

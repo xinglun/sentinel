@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Praises Micron's $250 Million Trump Accounts Commitment as CEO Highlights $200 Billion US Investment
+  summary: Trump praised Micron&#39;s $250M Trump Accounts commitment as CEO Sanjay Mehrotra said it complements its $200 billion U.S. investment.
+  url: https://finnhub.io/api/news?id=f88d56557b815cdd482bef45153839b2639c8c73d8f0cd81f9d295a7665fc9dd

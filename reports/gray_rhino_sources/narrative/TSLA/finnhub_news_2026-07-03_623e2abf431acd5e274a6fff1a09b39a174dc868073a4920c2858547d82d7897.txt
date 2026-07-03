@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. holiday pause, softer Fed expectations and Asia rebound shape global markets: Dow Jones, S&P, Nasdaq, Wall Street Futures
+  summary: U. S. financial markets will remain closed on Friday for the Independence Day holiday, but futures pointed to a stronger Wall Street open when trading resumes.
+  url: https://finnhub.io/api/news?id=6c7130980f590e60412c131a0e08f3f53e56a2c3b4dca84c8c51ba7caf9dbccc

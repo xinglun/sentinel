@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan new vehicle sales jump 25% in June
+  summary: Market rebound – driven By BEVs – followed a sharp decline a year earlier.
+  url: https://finnhub.io/api/news?id=af41fc6375f4645f3f04785b1859b0bc2d21356aafc6a13f68758a1c36b699fb

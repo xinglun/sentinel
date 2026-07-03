@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Redwire up 10% This Week — Here's What's Driving the Space Stock Higher
+  summary: Redwire Corporation (NYSE: RDW) shares are edging higher Thursday on defense contract win, and broader space sector momentum.
+  url: https://finnhub.io/api/news?id=71e26e1f1366fe16a25a9ab36d98782f4086de6d605056954ed09ac0a3029d60

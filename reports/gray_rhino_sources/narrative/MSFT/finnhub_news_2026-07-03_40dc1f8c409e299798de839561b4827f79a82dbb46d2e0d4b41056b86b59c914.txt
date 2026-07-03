@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft launches Microsoft Frontier Company with $2.5bn investment
+  summary: The new company will focus on integrating enterprise AI, offering tailored support and protecting client data and intellectual property.
+  url: https://finnhub.io/api/news?id=8ab101debd1cf3080b8bca5208a0eda6cb0d6c86b49213321f572064ebf43cce

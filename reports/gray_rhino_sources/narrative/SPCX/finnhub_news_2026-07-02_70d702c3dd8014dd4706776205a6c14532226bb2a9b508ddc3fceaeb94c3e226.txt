@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Brookfield: Short-Term Noise, Long-Term Opportunity
+  summary: Brookfield Corporation remains a top compounder, positioned for AI infrastructure and energy megatrends. Click for this BN stock update.
+  url: https://finnhub.io/api/news?id=442d0d9cc180752a21d10e612bc25111f7729c730505cdef34df00bf3c0761bc

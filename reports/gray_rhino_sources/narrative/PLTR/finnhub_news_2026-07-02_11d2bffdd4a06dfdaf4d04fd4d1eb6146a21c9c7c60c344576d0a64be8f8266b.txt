@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Gains After Upgrade Adds Momentum to Comeback
+  summary: Palantir stock continues to rise after bottoming at $107.27 last week. DA Davidson upgrades the stock to a Buy and sees 39% upside.
+  url: https://finnhub.io/api/news?id=5577fac3ea7423c60e192a91d42dc761dea6e2c37458f4fd2da987e410503cf5

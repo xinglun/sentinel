@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Governance & Risk Platforms Lead Growth in Agentic AI Security Sector with Highest Predicted CAGR
+  summary: The agentic AI security market is set to expand from USD 1.65 billion in 2026 to USD 13.52 billion by 2032, driven by a 42.0% CAGR. As third-party AI tools grow, demand for secure integration across agentic environments rises. The BFSI sector will lead market adoption with autonomous systems enhancing fraud detection and risk assessment, necessitating robust security measures. AI governance & risk platforms are projected to grow fastest, enabling organizations to ensure transparency and complian
+  url: https://finnhub.io/api/news?id=6444c5e003b7e97bac2eaf417c58068d5fc89e0a0d468cb2423c87cc9c765743

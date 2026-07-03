@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Hewlett Packard Enterprise: 1 Dividend-Rich Tech Giant to Buy Hand Over Fist on the Structural Pivot
+  summary: Wall Street is drooling over Hewlett Packard Enterprise (NYSE:HPE) because the Juniper Networks deal detonated a 148.2% Networking revenue surge in the most recent quarter and management just yanked FY26 EPS guidance to $3.35 to $3.45 from a prior $2.25 to $2.45. But here’s what you should actually be watching. The HPE Story Is a ... Forget Hewlett Packard Enterprise: 1 Dividend-Rich Tech Giant to Buy Hand Over Fist on the Structural Pivot
+  url: https://finnhub.io/api/news?id=d842ba4b25d55910a13c3536c73f2dfab6450133be532addc7e3fe20b99a0f2e

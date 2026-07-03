@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wage Growth As A Leading Inflation Indicator
+  summary: Headline CPI hit 4.2% in May, the highest reading since April 2023, driven by a 23.5% year-over-year jump in energy on the Iran war. Core CPI sits at 2.9%, anchored.
+  url: https://finnhub.io/api/news?id=375394a66749e6a374352455b321b15e4c3fbe46db03d7c727613406ba5d4725

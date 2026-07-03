@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir's Valuation Finally Catching up to Its Growth?
+  summary: The AI-powered data mining company is still richly valued relative to its peers.
+  url: https://finnhub.io/api/news?id=3c6453a23dec368feee787a91384e822aab2ec9689bb27deca0e68944db59a45

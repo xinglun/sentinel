@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Scored a New 'Buy' Rating. What Comes Next for PLTR Stock.
+  summary: Palantir stock gains as D. A. Davidson upgrades it to “Buy.” Here’s why analyst Gil Luria recommends buying PLTR shares at current levels.
+  url: https://finnhub.io/api/news?id=c174b0bd26fb7c7a1b7a95adb67d47cc01b18591b878f33aba32e5e0261820a9

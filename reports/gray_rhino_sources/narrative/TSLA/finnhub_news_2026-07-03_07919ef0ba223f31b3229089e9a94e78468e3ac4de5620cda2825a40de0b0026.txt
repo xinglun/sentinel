@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 deliveries up 25% on last year
+  summary: Tesla has reported it delivered 480,126 vehicles in the second quarter of 2026, a 25% gain on the same quarter of last year. The company produced 451,758 units in the quarter, compared with 410,244 units a year ago – a 10% gain. Analysts said the company has benefited from stronger demand generally for BEVs, especially…
+  url: https://finnhub.io/api/news?id=f9a886a8f4a7427e648bd58c5099bdae99f03d53919d6511b2ff9801ae478093

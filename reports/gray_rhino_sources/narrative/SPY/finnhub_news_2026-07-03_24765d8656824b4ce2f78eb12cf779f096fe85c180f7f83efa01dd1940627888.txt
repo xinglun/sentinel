@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: June Jobs Report: Focus On The Trend, Not The Noise
+  summary: Labor market data looks strong but signals muddled economic trends. Click here to read in detail.
+  url: https://finnhub.io/api/news?id=958a12e87a7ccc123074d8f6b46a4c351f5fe1bdd1db93d5039c50f178504698

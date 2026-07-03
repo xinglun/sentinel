@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Daiwa Capital Initiates Coverage On SpaceX with Neutral Rating, Announces Price Target of $175
+  summary: Daiwa Capital  analyst Jonathan Kees   initiates coverage on SpaceX (NASDAQ:SPCX) with a Neutral rating and announces Price Target of $175.
+  url: https://finnhub.io/api/news?id=da6191deb4485a35264a60622c483eef587f9c6ca1e655348453041cb776d5dd

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is NVIDIA Corporation (NVDA) Stock Positioned for AI Growth Through New NVIDIA Blackwell Infrastructure Deal?
+  summary: We recently compiled a list of the 10 Most Undervalued Dow Stocks to Buy According to Wall Street Analysts. NVIDIA Corporation (NASDAQ:NVDA) is among the most undervalued stocks. TheFly reported on June 29 that Bit Origin Ltd. (BTOG) announced the purchase of approximately $11 million worth of NVDA Blackwell B300 AI infrastructure assets. The acquisition […]
+  url: https://finnhub.io/api/news?id=c8a066d769a174894ea089f0c7b5cca72b04bff52ec582a9fc9ed7d25d9a32ce

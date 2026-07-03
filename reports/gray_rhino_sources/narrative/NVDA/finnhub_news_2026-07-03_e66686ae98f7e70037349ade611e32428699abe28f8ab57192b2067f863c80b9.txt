@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Top Growth Stocks Worth Buying Under $100 Today
+  summary: These four under-the-radar stocks are built to benefit from powerful secular trends that could reward patient, long-term investors.
+  url: https://finnhub.io/api/news?id=0c68c88487ced793870308070e8b671249c31723e5196f5c3f30efb7e693de90

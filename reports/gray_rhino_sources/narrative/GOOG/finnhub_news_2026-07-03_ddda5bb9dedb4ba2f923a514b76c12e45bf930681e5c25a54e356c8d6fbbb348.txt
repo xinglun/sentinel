@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Today - AI Orchestration Platforms Set For Massive Market Expansion
+  summary: Recent research indicates significant growth in the global AI Orchestration Platform Market, fueled by the increasing adoption of artificial intelligence across various industries. These platforms, vital in coordinating and optimizing AI operations, are set to expand from a market value of approximately USD 9.81 billion in 2025 to about USD 72.45 billion by 2035, exhibiting a substantial compound annual growth rate of 22.13%. The demand for AI orchestration is driven by the necessity to...
+  url: https://finnhub.io/api/news?id=ec37f867cf1c3fad6a407ac39f9ac1fb0b7868f179e529a23bb060985506967f

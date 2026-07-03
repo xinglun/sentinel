@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Labor Market Tightens Despite Tepid Job Growth As Labor Force Declines Further Amid Crackdown On Illegal Immigration
+  summary: Total payrolls at nonfarm employers rose by 57,000 jobs in June from May, while May and April job gains were revised lower by a combined 74,000 jobs.
+  url: https://finnhub.io/api/news?id=ccfdf263e625a22b1b3584440674effd612b3b0055f0f16c93b14fc7ab60f420

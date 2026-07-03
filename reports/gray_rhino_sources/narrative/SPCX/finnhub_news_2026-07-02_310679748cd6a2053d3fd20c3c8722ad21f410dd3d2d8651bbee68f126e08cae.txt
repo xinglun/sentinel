@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taylor Swift Could Soon Be Writing a Bigger Check As Rhode Island's New Luxury Home Tax Officially Kicks In
+  summary: Rhode Island begins taxing non-owner occupied homes above $1 million as state pushes to fund affordable housing.
+  url: https://finnhub.io/api/news?id=526e7784573669d282a804f8a0590294cc059331963f4f158b0fd1634c18eaa7

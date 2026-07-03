@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Launches AI Adoption Firm
+  summary: The new unit will start with $2.5 billion to help companies choose and use AI tools.
+  url: https://finnhub.io/api/news?id=05fb4744f8bced2409f792e4ef10f2179e7be80a71eefb619a712e9306bbdef9

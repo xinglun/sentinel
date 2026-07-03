@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Apple: “We Need to See the Quarter and Hear What They Say”
+  summary: Apple Inc. (NASDAQ:AAPL) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Cramer highlighted the effect of rising cost of components on the company’s stock, as he remarked: Fourth, Apple was down over 7% in June thanks to the skyrocketing cost […]
+  url: https://finnhub.io/api/news?id=f0c1c76460d5eb52b24a90588c073849ef52e2b8b3d67f79a3b490ec78762cc8

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Has Barely Moved in 2026. Should You Switch to AMD or Intel Now?
+  summary: Shares of Broadcom (NASDAQ:AVGO) have gone almost nowhere in 2026, up just 4.15% year to date (YTD) while the rest of the AI chip complex has ripped higher. The U.S. markets are closed Friday for the Independence Day holiday, giving investors a clean moment to review the scoreboard heading into the second half. Advanced Micro ... Broadcom Has Barely Moved in 2026. Should You Switch to AMD or Intel Now?
+  url: https://finnhub.io/api/news?id=6c4a154246b6d5585ad8ad9c85f360bdef74215aaf35104ab1f3e7d3b1d6d718

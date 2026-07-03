@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Fell on Below-Consensus Forecast
+  summary: Brown Advisory, an investment management company, released its “Brown Large-Cap Growth Strategy” for the first-quarter 2026 investor letter. A copy of the letter is available to download here. The Brown Advisory Large-Cap Growth Strategy experienced a decline in the first quarter of 2026, modestly trailing the Russell 1000 Growth Index. Despite negative absolute returns amidst volatility, […]
+  url: https://finnhub.io/api/news?id=6e4929e0e2bd8e76280b9a466179156103f81c29cc9ae77795636575625ab82a

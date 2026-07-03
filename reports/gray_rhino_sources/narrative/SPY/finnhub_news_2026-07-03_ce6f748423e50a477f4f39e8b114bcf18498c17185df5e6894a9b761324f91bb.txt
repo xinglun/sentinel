@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: W. R. Berkley: Capital Appreciation Potential From Its Baby Bonds
+  summary: W. R. Berkley maintains credit ratings and balance sheet strength, with $44.35B in assets, $3.09B in debt, and $9.75B in equity. Read more on WRB stock here.
+  url: https://finnhub.io/api/news?id=23856ff9cf42c3a78437b74ea5584b3e07df3a262841902ca20506847173f085

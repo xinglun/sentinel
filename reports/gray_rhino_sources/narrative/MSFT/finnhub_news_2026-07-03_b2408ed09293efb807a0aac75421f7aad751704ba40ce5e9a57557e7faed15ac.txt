@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is Split on Meta’s Secret Cloud Move, and One Side Is Very Wrong
+  summary: Meta Platforms (NASDAQ:META) is reportedly considering renting idle GPU capacity as a cloud business, and the market has picked sides. Meta shares climbed 7% in the past five days, while CoreWeave (NASDAQ:CRWV) shed 14% over just the past five days. A recent “Diet TBPN” panel laid out three framings for what is happening. At least ... Wall Street Is Split on Meta’s Secret Cloud Move, and One Side Is Very Wrong
+  url: https://finnhub.io/api/news?id=06892519f5af73c728aca8e1eb5559517f594d5e029d4659dedf8998e2108c60

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July Market Digest
+  summary: The AI investment cycle continued to drive the economy forward in June, with Q1 GDP growth recently revised upward and corporate profits growing at an exceptional pace.
+  url: https://finnhub.io/api/news?id=9e30788fb8be3601a9a2c068be1781c3c9b859a2ff8659a745d4646c352cb2e1

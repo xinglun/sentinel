@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EU’s top court confirms Google’s $4.7bn Android antitrust fine
+  summary: The judgment concludes a legal dispute that began after the European Commission fined Google in 2018 for abusing market dominance.
+  url: https://finnhub.io/api/news?id=adeb731ad163fb348dccdde3be5447471793919c1ff3942deb3b75ce0551e053

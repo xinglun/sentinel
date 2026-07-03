@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons I Bought Comcast This Week
+  summary: Comcast is spinning off another business, but it's different this time.
+  url: https://finnhub.io/api/news?id=e9d2a755fbd7fcbbb6c3ca8a59248b672c6cd93f13a1b27667c5fa7c65c82e3f

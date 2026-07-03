@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jobs Disappoint, Market Gives Two Cheers
+  summary: The market is doing a reprise of one of its favorite schticks, the âbad news goodâ routine, in which whatâs bad for Main Street America is good for the market and its focus on interest rates
+  url: https://finnhub.io/api/news?id=f2f3b8038d4905a93d02f678c335b1e6a95810f4b0f47de883ac589becec71d8

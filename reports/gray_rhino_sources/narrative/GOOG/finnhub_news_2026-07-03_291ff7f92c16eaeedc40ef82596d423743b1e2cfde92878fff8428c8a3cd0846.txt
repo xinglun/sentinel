@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock: A Different Engine, Not A Quieter One
+  summary: The data-analytics firm is on a tear, but its real value to your portfolio is more complicated than just chasing momentum.
+  url: https://finnhub.io/api/news?id=867ed610051c6deb5d75b07dadf5153f49da35e7fc86f15ba2bcd92a202dd686

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tokenmaxxing is out, but companies are still spending on AI. What's changed?
+  summary: In just a short amount of time, corporate policy on "tokenmaxxing" — or excessively using AI models to inflate usage on internal leaderboards — has already peaked and valleyed. After seeing their bill for AI tokens, many companies have shifted toward a more efficient outlook on AI spending. Tabs CEO Ali Hussain discusses what's changed within corporate AI pricing and what this pivot may mean for OpenAI (OPAI.PVT) and Anthropic (ANTH.PVT) ahead of their mega-IPOs.
+  url: https://finnhub.io/api/news?id=2b5dad17df54697e7c5456b0c66d4082a6a86ab811ffa8030f8b1590b4791c22

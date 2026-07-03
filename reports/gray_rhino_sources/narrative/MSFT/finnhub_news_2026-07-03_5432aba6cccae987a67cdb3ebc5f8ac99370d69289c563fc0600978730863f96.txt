@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI spending spree is making the Fed's job harder
+  summary: An AI spending blitz is demolishing new Fed chair Kevin Warsh's argument for interest rate cuts with more price increases about to ripple through the economy
+  url: https://finnhub.io/api/news?id=29791696a9d5543fbcfaef19048db67b9060e16880eff7014bf2084e31bef25e

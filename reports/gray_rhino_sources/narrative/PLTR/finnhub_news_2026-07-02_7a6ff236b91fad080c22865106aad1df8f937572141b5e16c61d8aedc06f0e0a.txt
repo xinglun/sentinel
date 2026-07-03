@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Jumps After DA Davidson Upgrades to Buy
+  summary: Palantir Stock Climbs After Bullish Call on Its AI Moat
+  url: https://finnhub.io/api/news?id=2896330eb9e331afacd7d837766b8361ee1794b9f8a9520caf3fac1b0107bd25

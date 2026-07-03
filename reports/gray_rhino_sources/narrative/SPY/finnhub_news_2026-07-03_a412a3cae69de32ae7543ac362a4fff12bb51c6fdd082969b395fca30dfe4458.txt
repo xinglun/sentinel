@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: June Jobs Report: Softer Than Expected, But Still In Balance
+  summary: June payroll figures came in meaningfully lower than expected, posting an increase of just 57,000, a notable decline from the 164,000 monthly average over the prior three months.
+  url: https://finnhub.io/api/news?id=46c9ed058bc32758adaf7c57cbaff74f9a6aa08a79d99d9dddccb3e1d7c4f913

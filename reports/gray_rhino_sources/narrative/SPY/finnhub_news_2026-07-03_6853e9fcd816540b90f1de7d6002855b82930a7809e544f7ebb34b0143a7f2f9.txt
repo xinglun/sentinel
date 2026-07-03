@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETF Zoo: Mid-Year Check-In  the AI Trade That Won’t Quit
+  summary: The ETF industry smashed through the $1 trillion mark in flows shortly before the close of the first half. Find out what this week’s ETF Zoo crew thought about where the money is going, SEC regulatory updates, leveraged ETF popularity and more.
+  url: https://finnhub.io/api/news?id=ce7bdfec88fa410304ba1f123ac18afef5df6e93d7f4966608da019e4c5d9f13

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir upgraded to Buy, Rivian lifts delivery outlook, Robinhood's new product
+  summary: Market Domination Host Josh Lipton tracks several of the day's top trending stock tickers, including Palantir Technologies (PLTR) getting an upgrade to Buy from D.A. Davidson analysts, Rivian (RIVN) lifting its full-year outlook on EV deliveries, and Robinhood Markets (HOOD) expanding its product offerings for investors.
+  url: https://finnhub.io/api/news?id=a2937e4664572cd0017ac5558bcd2f10a79f843e2ac0ef41bd213b1d57656dfe

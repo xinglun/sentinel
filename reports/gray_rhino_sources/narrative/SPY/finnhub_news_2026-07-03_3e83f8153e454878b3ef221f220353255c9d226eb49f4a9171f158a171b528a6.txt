@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two 7%+-Yielding And Discounted CEFs For Retirement Income
+  summary: RLTY and ADX high-yield closed-end funds are trading at NAV discountsâ8.3% and 7.5% yields, leverage/fee pros, and income insights. Click here to read more.
+  url: https://finnhub.io/api/news?id=99bf10ee91f9980bf4c1b379c8067d7cd3cf97b414df509a1d046231e68bb7a1

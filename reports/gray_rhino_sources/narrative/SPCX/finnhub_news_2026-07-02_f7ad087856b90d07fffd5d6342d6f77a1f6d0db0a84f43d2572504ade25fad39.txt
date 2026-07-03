@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FCC Moves to Speed Satellite License Reviews, Boosting SpaceX and Rival Broadband Networks
+  summary: FCC to vote on Space Modernization Order on July 22, aiming to speed up satellite licensing process from over a year to weeks/months.
+  url: https://finnhub.io/api/news?id=970fb04f442bf7c8a7c8da7f2cc7d5108172fcffff9c093d1dda30cc3c767ec3

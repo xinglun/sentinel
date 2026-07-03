@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Launches Three-Row Model YL in US
+  summary: Tesla opened US and Puerto Rico orders for the six-seat Model Y Long Wheelbase after Q2 deliveries beat estimates.
+  url: https://finnhub.io/api/news?id=e2d63b2d5a39ef0ca1a84fb03266c6c3a11b88a2cf9e34786217cc5713d9b649

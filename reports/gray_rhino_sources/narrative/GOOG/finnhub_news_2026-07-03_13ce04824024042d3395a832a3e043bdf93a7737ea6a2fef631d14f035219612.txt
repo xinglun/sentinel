@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Takes Aim at Malicious Web Traffic
+  summary: FBI-backed action targets NetNut and Popa botnet
+  url: https://finnhub.io/api/news?id=9ef48a4cd78a87de72d8e8297a37271f2e1b02f3cb29d8aa1ae5d33dbe147dce

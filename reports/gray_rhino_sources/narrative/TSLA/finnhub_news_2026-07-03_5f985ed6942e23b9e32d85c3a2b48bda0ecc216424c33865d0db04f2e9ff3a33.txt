@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla beat the Street and was still punished. Here's why
+  summary: Tesla Inc (NASDAQ:TSLA) delivered 480,126 vehicles in the second quarter, a 25% jump on a year earlier and a decisive beat against a consensus of roughly 406,000. On any conventional reading, it was the rebound the company badly needed after a bruising start to the year. The stock fell about...
+  url: https://finnhub.io/api/news?id=136a90d5cd27f65c3c61d3df3edd6fcac620bf2175ba93050c38a061c6706664

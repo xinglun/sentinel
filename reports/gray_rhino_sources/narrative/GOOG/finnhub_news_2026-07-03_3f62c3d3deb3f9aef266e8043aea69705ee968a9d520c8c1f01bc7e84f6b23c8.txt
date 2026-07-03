@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Contracted Revenue Backlog Microsoft Stock Bears Keep Missing
+  summary: Microsoft (MSFT) stock has had a tough run, down 20% over the last year and trailing the market significantly. The conversation is dominated by one large number: a plan to invest roughly $190 billion in capital expenditures in calendar year 2026. The question for skeptics is whether the demand for artificial intelligence is real enough to pay for it all.
+  url: https://finnhub.io/api/news?id=d82836e689998c1552b03c316b7237740bcfb99c8ab7cb889f1231fffc7254f6

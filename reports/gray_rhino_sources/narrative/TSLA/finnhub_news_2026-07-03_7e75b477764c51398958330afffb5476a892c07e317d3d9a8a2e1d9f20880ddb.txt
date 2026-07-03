@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Tesla: “I Think It’ll Be Bought By SpaceX Sooner Rather Than Later”
+  summary: Tesla, Inc. (NASDAQ:TSLA) was among the stocks on Jim Cramer’s Mad Money radar as he taught investors how to profit from the upcoming wave of takeovers. Cramer made a prediction about the company during the episode, as he said: Finally, there’s Tesla. No issues here. I think it’ll be bought by SpaceX sooner rather than […]
+  url: https://finnhub.io/api/news?id=26397fef9c7843ba781878bd7ca2da7b9d7c096ce307136dd2d68e20e034378d

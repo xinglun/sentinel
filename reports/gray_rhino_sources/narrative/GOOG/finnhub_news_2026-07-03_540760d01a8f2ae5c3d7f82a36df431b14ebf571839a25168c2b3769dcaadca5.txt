@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Incredible Autonomous Vehicle Stock to Buy Instead of Tesla
+  summary: A better option to Tesla may be hiding in plain sight.
+  url: https://finnhub.io/api/news?id=badd7d86c8ba750defed0134be77aaf6b2e068220dc3377b9c979dcd5022a20e

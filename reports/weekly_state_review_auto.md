@@ -4,8 +4,8 @@
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 55.0
-- 平均稳定度: 37.4
+- 平均置信度: 55.1
+- 平均稳定度: 38.7
 - 趋势凝聚 ready 天数: 5
 
 ## 市场状态计数
@@ -48,12 +48,12 @@
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
-- Information Content: UNKNOWN
+- Information Content: LOW
 - Primary Context: None
 - Context Quality: LOW
 - Event Fact: N/A
-- Source Diagnostics: 官方日历源健康: PARTIAL；覆盖: 10/16 成功，6 失败；macro sources: 10/16 succeeded, 6 failed; macro notes: BLS schedule: fetch failed | BLS CPI release: fetch failed | BLS PPI release: fetch failed | BLS Employment Situation: fetch failed | BLS JOLTS: fetch failed | BEA schedule: reached with no matching releases | BEA current releases: reached with no matching releases | BEA GDP: reached with no matching releases | Census retail schedule: reached with no matching releases | Census retail sales: reached with no matching releases | Fed calendar: reached with no matching releases | FOMC calendars: reached with no matching releases | ISM PMI reports: reached with no matching releases | ISM report calendar: fetch failed | Treasury upcoming auctions: reached with no matching releases | Treasury announcements and results: reached with no matching releases; observations: 0; derived facts: index reconstitution 0, ETF rebalance 0, holiday liquidity 0
-- Interpretation: 上下文读模型已经接入，但今天没有命中明确事件，Signal Context 仍应视为未知。
+- Source Diagnostics: Official Calendar coverage 10/16; unavailable 6; health PARTIAL.
+- Interpretation: 今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。今日价格变化更可能由企业消息、板块轮动、技术走势驱动。
 - 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
 ## 宏观引力快照
@@ -70,10 +70,10 @@
 
 ### 6.1 Supply Layer（Capital Absorption）
 - 最新观测日: 2026-07-02
-- 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 1
-- 7 日 Future Queue 最小值 / 最大值: 1 / 2
-- 已报道 / 已确认: 1 / 0
+- 最新 Near-Term Supply 数量: 1
+- 最新 Future Queue 数量: 0
+- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 已报道 / 已确认: 0 / 1
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -87,7 +87,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-03
+- 观测日: 2026-07-04
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16
