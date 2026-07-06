@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Dell Reaffirms $250 Trump Accounts Pledge to 25M Children, Says It Gives Them 'A Real Stake' in America
+  summary: Michael Dell reiterated his $6.25 billion pledge to provide $250 to 25 million children as Trump Accounts launched nationwide.
+  url: https://finnhub.io/api/news?id=e801814a9fa5d478ab4c1abd912779d238aac55e6bffaa0d6ea50a713b6e4f9a

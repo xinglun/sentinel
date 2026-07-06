@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rumored Nvidia AI Computer Delay Called 'Noise'
+  summary: A research firm claims Nvidia is facing a "massive delay" on its Kyber AI computing architecture.
+  url: https://finnhub.io/api/news?id=215ddf761194ba347bf79e0c3028863ed1b30a2c57c6aea16866e27dd683f049

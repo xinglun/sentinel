@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology Has Trillion-Dollar Ambitions. Here Is What the Timeline Could Look Like.
+  summary: Reaching the trillion-dollar market capitalization is more complicated than the hype suggests.
+  url: https://finnhub.io/api/news?id=89e11aed1871d6d194a753d1e0ef71ae6f791de80bee689304547065a09bf3a0

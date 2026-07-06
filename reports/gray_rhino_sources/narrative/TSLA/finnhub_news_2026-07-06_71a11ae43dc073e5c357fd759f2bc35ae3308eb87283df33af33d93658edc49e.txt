@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Stocks In The Spotlight:  Wall Street's Most Accurate Analysts Weigh In
+  summary: U.S. stocks mixed, Dow at record high. S&amp;P 500 up 1.8%, Dow surges 2% for the week. Analyst ratings on Benzinga Pro can outperform market.
+  url: https://finnhub.io/api/news?id=dbc3c759dda3f77719ad9f32561b0037f7831fd8935f15d2f6f81fcee064b73e

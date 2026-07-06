@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft axes 2% of workforce as 'AI is changing how work gets done'
+  summary: Microsoft Corp (NASDAQ:MSFT) shares fell after the software giant said it would cut around 4,800 jobs, or 2.1% of its global workforce, as it restructures to focus on its biggest growth priorities. The stock was down 1.7% at $383.84 in late morning trading. In a memo to staff, chief people...
+  url: https://finnhub.io/api/news?id=8f7a05500aa9f69f6b811fe273597f2fa6a6db5d75ad6010f5036fdb31772461

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises as the Slow Robo-Taxi Rollout Heads to Miami
+  summary: The pace of expansion is one reason Tesla stock has fallen about 13% this year heading into Monday.  Investors appear to be waiting for Tesla’s artificial intelligence efforts to yield material sales and earnings.
+  url: https://finnhub.io/api/news?id=2fc7d934b1c84def05486b54e422a66eea607495b71fa9ac032fa5f4f4bd4868

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Do Non‑SpaceX Space Stocks Offer Real Diversification?
+  summary: Space Exploration Technologies (NASDAQ:SPCX) is the blue-chip stock to bet on the future of the space economy. With the promise of satellite connectivity and orbital data centers, Elon Musk’s space company really does feel not only exciting but like the missing piece to a growth portfolio that seeks to cover all bases in this AI ... Do Non‑SpaceX Space Stocks Offer Real Diversification?
+  url: https://finnhub.io/api/news?id=b6eec176f59284e947361e88d677e16f04a66edb4b42eaaa0b33a8eb696ba7b8

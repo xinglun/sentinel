@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s Bargain Price Already Reflects Lost Market Share, Says Goldman
+  summary: Another semiconductor rally, another ho-hum day for  Nvidia  The leading chip maker is still suffering from the fear that it won’t be one of the main beneficiaries of artificial-intelligence spending in future but analysts at  Goldman Sachs  preach patience.  Nvidia shares were up 0.2% in premarket trading.  The company’s major issue continues to be that major customers like  Alphabet  and  Amazon  are offering their own custom AI chips to third parties, even as they buy up Nvidia’s processors.
+  url: https://finnhub.io/api/news?id=2afc0d7b1ba5b45740344f92025ec9a2b0b52279d95cfdf298532835b007bc7f

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Open AI Should “Strike While The Iron Is Hot”
+  summary: Borrowing from Barron’s, the newspaper reported that Deutsche Bank’s Adrian Cox, concerned about the IPO pace of OpenAI and Anthropic, wrote, “They and their peers need to strike while the iron is hot to secure computing power, distribution and capital.” He is worried that if investors begin to lose patience with AI’s revenue prospects, access ... Open AI Should “Strike While The Iron Is Hot”
+  url: https://finnhub.io/api/news?id=4a04d7702f5aaa62669c93d932bbf42a305e404b0122672648718029968e6f7d

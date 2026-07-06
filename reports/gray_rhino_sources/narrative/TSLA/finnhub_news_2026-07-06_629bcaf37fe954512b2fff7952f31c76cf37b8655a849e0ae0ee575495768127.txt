@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber's Insurance Charges Varied by Ride Despite the Same Route and Driver, Study Finds
+  summary: Uber faces questions about varying insurance and operations costs on similar rides, with analysts indicating discrepancies.
+  url: https://finnhub.io/api/news?id=5a7b754ca0e6c1cab1f4d026951bd732269bb8d34c511e69c75d25af9f065eed

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Unprofitable Stock on Our Watchlist and 2 We Brush Off
+  summary: Unprofitable companies can burn through cash quickly, leaving investors exposed if they fail to turn things around. Without a clear path to profitability, these businesses risk running out of capital or relying on dilutive fundraising.
+  url: https://finnhub.io/api/news?id=9092efabae06eacd23c377423e8badd34927fb31aa349924d1628bc9b5da9b3b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI investors may pivot to hyperscalers from chipmakers, Morgan Stanley says
+  summary: Morgan Stanley said the recent weakness in U.S. semiconductor stocks is a sign that the market ‌gains are broadening, with investors likely to turn toward ‌AI "hyperscalers" as well as consumer discretionary, transport and biotechnology shares.  In a note dated ​Monday, the brokerage said hyperscalers — an industry term for tech companies that are spending big on data centers — could benefit from a rotation away from semiconductor stocks as the AI cycle shifts.  Although the ‌likes of Alphabet ⁠and Amazon have committed billions to scale up their AI infrastructure, skyrocketing the share prices of semiconductor ⁠companies, clear evidence that AI products can generate returns that justify the spending is yet to be seen.
+  url: https://finnhub.io/api/news?id=7b018d44e4aff179992cb60719a4a7ce8a9a89f16b36760e135ea6b8be090821

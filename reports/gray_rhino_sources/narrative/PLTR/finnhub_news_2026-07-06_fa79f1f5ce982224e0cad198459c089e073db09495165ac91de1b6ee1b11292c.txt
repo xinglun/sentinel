@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Down 38% From Its High -- and It Just Got a Wall Street Upgrade. Time to Buy?
+  summary: The upgrade's argument is simple: the earnings finally caught up to the price.
+  url: https://finnhub.io/api/news?id=9099df0878cd163c010528bd7bcb4fb40893adf436f3f8706fa886227ee382f6

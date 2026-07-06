@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Popped This Week
+  summary: The AI leader's stock is a buy, according to a respected Wall Street analyst.
+  url: https://finnhub.io/api/news?id=c92cf6f5c70e332fa7d4ddc3992971f423e3abe82185f8ac3aad448ab731b7f5

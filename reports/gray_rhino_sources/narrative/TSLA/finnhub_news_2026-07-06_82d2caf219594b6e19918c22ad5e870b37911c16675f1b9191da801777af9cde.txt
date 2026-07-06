@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla robotaxi service expands to Miami from Texas
+  summary: Miami is the first market outside Texas and California where Tesla has launched its driverless ride-hailing service
+  url: https://finnhub.io/api/news?id=dd6e022bc82018f9fff7364f02d41d0a72a867eafef1ac3d6d4536ba92cd776c

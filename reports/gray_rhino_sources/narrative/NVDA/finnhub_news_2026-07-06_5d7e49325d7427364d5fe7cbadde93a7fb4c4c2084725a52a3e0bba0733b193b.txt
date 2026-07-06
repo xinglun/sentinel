@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron's New Strategy Will Face SK Hynix and Samsung's $575 Billion Spending Plans
+  summary: How much can Micron protect against the massive supply entering the market at the end of the decade?
+  url: https://finnhub.io/api/news?id=445a6ab08321f2dc752a18f986e279e899e48e37e45f0497884ae672d26bdccb

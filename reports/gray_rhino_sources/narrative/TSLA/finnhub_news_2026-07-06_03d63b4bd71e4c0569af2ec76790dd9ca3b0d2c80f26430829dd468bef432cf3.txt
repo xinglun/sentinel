@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry’s New Shorts Are Going Really Well—Is It Too Late to Follow His Lead?
+  summary: Michael Burry of The Big Short fame has been making quite a few bearish bets across many of the pricier-looking names fitting the AI theme. While it’s too soon to tell whether or not there’s a bubble brewing in AI, I do think that it’s hard not to think that some of the more overheated ... Michael Burry’s New Shorts Are Going Really Well—Is It Too Late to Follow His Lead?
+  url: https://finnhub.io/api/news?id=60c96e6a8b59d809c73d2b4bd98fcc8ffe642c3a8ff53143bc35fc7e1a619491

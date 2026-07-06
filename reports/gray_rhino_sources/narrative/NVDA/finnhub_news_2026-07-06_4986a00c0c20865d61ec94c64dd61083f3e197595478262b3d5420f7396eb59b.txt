@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Best Stock to Invest $1,000 in Right Now
+  summary: If you want in on a great stock for your next investment, join the club.
+  url: https://finnhub.io/api/news?id=7147b96e63e7c05d2357a721eb8602083ab22388ad32e6fad7cb8956ae29fc02

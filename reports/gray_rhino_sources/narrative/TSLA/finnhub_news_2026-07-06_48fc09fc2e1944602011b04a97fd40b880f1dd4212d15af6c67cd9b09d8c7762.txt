@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Launches Robo Taxi In Miami. What It Means for the Stock.
+  summary: The pace of expansion is one reason Tesla stock has fallen about 13% this year heading into Monday.  Investors appear to be waiting for Tesla’s artificial intelligence efforts to yield material sales and earnings.
+  url: https://finnhub.io/api/news?id=0f8ae885b834d062423f7821042d0d5c5ab699e7fe1c26549903f23335c74cd2

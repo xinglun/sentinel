@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Advanced Micro Devices Stock Just Bounced Back
+  summary: AMD stock is cheaper than it looks -- and Goldman Sachs just noticed.
+  url: https://finnhub.io/api/news?id=75322bb168c93ead8253b1d86df38d45ebd6d29e2263786afc07dc91d5a1c6d4

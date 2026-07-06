@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Reasons Intel Can Help Lead a Tech Rebound Into Earnings Season
+  summary: Intel was leading a chip-sector recovery, while memory storage stocks Sandisk and Western Digital were also climbing.
+  url: https://finnhub.io/api/news?id=6689ef1591403fa2e0d312e253281611ff042728ff0ae96317fba45516644f7b

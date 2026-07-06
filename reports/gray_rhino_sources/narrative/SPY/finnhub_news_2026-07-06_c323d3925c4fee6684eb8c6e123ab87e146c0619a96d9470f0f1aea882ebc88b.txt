@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump, On Whether Trump Accounts Could Include Bitcoin, Says "Something Could Happen"
+  summary: https://www.youtube.com/watch?v=FgBPU_QWJmA
+  url: https://finnhub.io/api/news?id=565e4a643707ea1a3fd5419cedeaac87c01ec51d4576ec9a3799ed49b43d6e62

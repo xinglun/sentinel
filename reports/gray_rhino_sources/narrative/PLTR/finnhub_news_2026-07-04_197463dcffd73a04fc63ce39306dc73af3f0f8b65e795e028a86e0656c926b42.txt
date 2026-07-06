@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: America’s 250th Birthday Bash and Severe Weather Spark Travel Chaos
+  summary: Both air and rail travelers can expect delays as a result of airspace restrictions and extreme weather.
+  url: https://finnhub.io/api/news?id=d8e6e608d0ad5d474e9b4bc1d3cacfc839f813243b7e6ea296c9b277de55d8a4

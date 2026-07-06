@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Wall Street Is Quietly Dumping Meta Stock for Google
+  summary: Meta stock is down 10% as big investors sell and buy Google instead, with a rising AI spending bill raising risk before July 29 earnings.
+  url: https://finnhub.io/api/news?id=f0949ce3ea5dafe3c4ce90a05ce5ebf35b74333ae4e1f7836bb7afdca99cef10

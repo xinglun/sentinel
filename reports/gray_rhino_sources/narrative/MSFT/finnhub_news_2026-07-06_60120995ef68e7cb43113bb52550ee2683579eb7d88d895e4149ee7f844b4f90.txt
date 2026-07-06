@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft sheds 4,800 roles in massive structural pivot
+  summary: Investing.com -- Microsoft Corp (NASDAQ: MSFT) announced Monday it is eliminating approximately 4,800 positions—about 2.1% of its global workforce—as the tech giant shifts resources toward high-priority growth areas. In an internal memo to staff, Executive Vice President and Chief People Officer Amy Coleman contextualized the restructuring around a rapidly evolving tech landscape. “Our business is changing because the world around it is changing,” Coleman wrote. “Companies don’t get to choose wh
+  url: https://finnhub.io/api/news?id=c804ef7df1d15e0b78a14ee00dc9dab17522079baae05ced577670820f2fd923

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Factbox-Companies cutting jobs as investments shift toward AI
+  summary: Microsoft said on Monday it is cutting about 2.1% of its workforce, or roughly 4,800 jobs, as ‌the Windows maker restructures parts of its commercial and ‌Xbox businesses, joining other tech giants in a wave of layoffs as companies ​shift investment toward AI infrastructure. The cuts highlight deepening concern among investors and economists that AI adoption will upend established industries, with job losses already emerging in sectors most exposed to automation.
+  url: https://finnhub.io/api/news?id=fdc1593e3e061b8f7544fa9dd99f08865450ec027079acefbe2458debe0dcbcf

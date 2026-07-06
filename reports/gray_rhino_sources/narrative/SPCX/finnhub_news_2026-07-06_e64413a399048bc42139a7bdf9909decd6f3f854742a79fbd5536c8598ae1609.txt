@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones Futures Fall,  S&P 500, Nasdaq Gain Following Independence Day Weekend— Intel, SanDisk, Tesla, Ford In Focus (UPDATED)
+  summary: U.S. stock futures advanced on Monday, as the Dow Jones, Nasdaq 100, and S&amp;P 500 indices rose, following Thursday&#39;s mixed close.
+  url: https://finnhub.io/api/news?id=74deaa10ff9f8b780c61d5883c7bb9496270cb02ec011222cca520d52648acf1

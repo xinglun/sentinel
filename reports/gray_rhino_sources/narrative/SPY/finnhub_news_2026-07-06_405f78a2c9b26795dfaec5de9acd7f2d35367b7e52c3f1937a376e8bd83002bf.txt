@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The BIS Warning: AI Bubble Burst, Credit Event, Inflation, Fiscal Problems
+  summary: BIS warns in its 2026 report of an AI bubble burst and private credit risks as debt-funded AI capex grows. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=44351e2b0d1c7889439992876ce7907ae79974f8afb9c3fd2f74fa6afe86e282

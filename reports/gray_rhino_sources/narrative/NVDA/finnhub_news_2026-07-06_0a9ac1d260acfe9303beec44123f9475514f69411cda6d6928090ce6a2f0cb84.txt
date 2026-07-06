@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wait! Michael Burry Is Right About the Memory Boom Ending? This Analyst Says Yes
+  summary: The AI infrastructure boom has rewritten the rules of the semiconductor industry. Over the past 18 months, memory chips transformed from commodity products into one of the world’s most valuable bottlenecks. High-bandwidth memory (HBM), DRAM, and enterprise NAND became indispensable for Nvidia‘s (NASDAQ:NVDA) AI accelerators, sending memory manufacturers into one of their strongest upcycles in ... Wait! Michael Burry Is Right About the Memory Boom Ending? This Analyst Says Yes
+  url: https://finnhub.io/api/news?id=76904238f53c0b124ec1494fcc32284416fcdd05c12cd5d33ac8b18617ee3152

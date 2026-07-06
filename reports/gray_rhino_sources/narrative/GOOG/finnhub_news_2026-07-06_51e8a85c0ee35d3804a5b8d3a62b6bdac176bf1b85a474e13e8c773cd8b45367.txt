@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's $1.6 Trillion Opportunity Could Be More Valuable Than Its AI Business
+  summary: It has a solid foundation and a lot of potential to build this huge business.
+  url: https://finnhub.io/api/news?id=c071c5a8de6dce6ab621bff556963ca8243752935a7200d04de991e73ffd9086

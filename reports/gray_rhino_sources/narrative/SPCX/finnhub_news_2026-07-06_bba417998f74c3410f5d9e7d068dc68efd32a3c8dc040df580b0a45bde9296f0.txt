@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MrBeast Says America Gave Him 'Freedom' to Chase Dreams, Tim Cook Calls 'Our Country' a Testament to 'Power of Possibility' as US Celebrates 250 Years
+  summary: Tech leaders celebrated America&#39;s 250th birthday, while President Donald Trump used the occasion to warn of a &#34;communist menace.&#34;
+  url: https://finnhub.io/api/news?id=a6f6363a3e37038e7f7894ea901882edf8c2823cbec0347cd693e012b65131ab

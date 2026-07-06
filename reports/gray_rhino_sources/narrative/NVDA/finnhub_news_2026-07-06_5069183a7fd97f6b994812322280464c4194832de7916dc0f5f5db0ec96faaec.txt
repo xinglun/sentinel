@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Is Up 6% Today: Is It Outperforming Other AI Server Stocks Like Hewlett Packard Enterprise and Super Micro?
+  summary: Dell Technologies (NYSE:DELL) stock is up 6% in midday trading Monday, running to about $419 after a broad bid returned to AI infrastructure names to open the week. The move puts Dell back near the top of the large-cap tech leaderboard for the session. Peers are participating, but not equally. Hewlett Packard Enterprise (NYSE:HPE) stock ... Dell Is Up 6% Today: Is It Outperforming Other AI Server Stocks Like Hewlett Packard Enterprise and Super Micro?
+  url: https://finnhub.io/api/news?id=2caa1045253fb3b93c4e21212ff49e27716a25036b8e53b531f73b40d91a69b7

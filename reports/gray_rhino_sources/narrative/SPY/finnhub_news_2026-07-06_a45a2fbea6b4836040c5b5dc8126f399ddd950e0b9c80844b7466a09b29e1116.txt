@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump On Trump Accounts, Says $1,000 Has Been Deposited Into Accounts For More Than 500,000 U.S. Children; Urges Investors To Buy Dell; Says Dell Donation Will Be Repaid; Thanks Micron For Support; Says The Market Is Going To Go Through The Roof; Says Looking With Congress At A Type Of Accounts For Adults
+  summary: https://www.youtube.com/watch?v=FgBPU_QWJmA
+  url: https://finnhub.io/api/news?id=5bc9935ab3b1eb7bb6af62f2176d955de5f110b99c3ce08358570a0ca333699a

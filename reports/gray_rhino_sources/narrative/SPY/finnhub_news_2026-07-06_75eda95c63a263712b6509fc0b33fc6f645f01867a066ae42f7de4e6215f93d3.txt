@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Are Mixed After Long Holiday Weekend
+  summary: The markets are mixed in the early going as investors check in after the long holiday weekend.
+  url: https://finnhub.io/api/news?id=59eed1cb7f4803d34b9e7f631498a01fd31d33389336da1df2b81bf7914e71d8

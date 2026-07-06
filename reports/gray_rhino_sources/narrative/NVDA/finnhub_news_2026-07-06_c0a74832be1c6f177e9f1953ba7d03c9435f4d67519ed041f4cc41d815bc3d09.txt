@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Risk Inside Micron Stock
+  summary: The company's new long-term contracts are meant to tame its wild cycles, but they might also be putting a cap on its historic profitability.
+  url: https://finnhub.io/api/news?id=447a664810e3ea4a595a057e2edfb625622f0a85b61f15279860904717307fa7

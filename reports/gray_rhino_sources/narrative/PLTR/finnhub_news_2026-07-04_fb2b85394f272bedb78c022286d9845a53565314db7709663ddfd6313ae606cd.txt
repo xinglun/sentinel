@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Palantir: “This Is the Fastest Grower of the Stocks I Follow, and It’s Been Crushed”
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) was among the stocks Jim Cramer commented on as he advised investors on how to take advantage of Wednesday’s market rotation. During the episode, Cramer was bullish on the company, as he said: The only one right now that I actually trust is Palantir. This is the fastest grower of the […]
+  url: https://finnhub.io/api/news?id=22dc1ab4f097f08fc3bbc541fb1a90b9a0de89d8e0e95b1adf1a04dadae556e6

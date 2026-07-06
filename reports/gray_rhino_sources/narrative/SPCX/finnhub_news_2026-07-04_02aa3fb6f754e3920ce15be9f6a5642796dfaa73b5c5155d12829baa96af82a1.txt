@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Linde: Space Growth Prospects Already At Orbit
+  summary: Linde (LIN) stock analysis: industrial gas diversification, on-site gas growth, clean energy & space demand, and valuation risks.
+  url: https://finnhub.io/api/news?id=626eb6f1dfb68e1f15144a76051510c3f9072c6760d4b6662ccb5890ecfd724e

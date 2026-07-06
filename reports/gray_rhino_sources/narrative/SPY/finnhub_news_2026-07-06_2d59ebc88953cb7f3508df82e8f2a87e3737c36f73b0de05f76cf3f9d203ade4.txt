@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PNC Financial: Premium Valuation Leads To 'Hold' Recommendation Ahead Of Q2 Earnings
+  summary: PNC Financial is a Hold, citing solid earnings and NIM growth post-FirstBank, but premium valuation and a 2.7% yield cap upside. Click for more on PNC stock.
+  url: https://finnhub.io/api/news?id=faf6d35a08ac0533d692794702933d1c36278b61c8246f06b60b9f5f940ab476

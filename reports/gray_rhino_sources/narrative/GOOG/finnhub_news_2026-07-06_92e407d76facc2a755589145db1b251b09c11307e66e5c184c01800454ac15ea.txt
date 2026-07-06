@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Memory Chipmaker SK Hynix Kicks Off $28 Billion US Listing
+  summary: (Bloomberg) -- SK Hynix Inc. kicked off its formal marketing process for its US listing on Monday, as the South Korean chipmaker looks to capitalize on surging investor demand for the high-flying memory-chip sector.Most Read from BloombergGreece Offers Bounty to Catch Ravenous Fish Lured by Warming SeaOil, Gas Tankers Cross Hormuz Via Oman-Side Route After U-TurnsThe Tanker Tycoon Making Millions on Hormuz Shuttle RunsModi’s Flagship Biofuel Push Faces Backlash From MotoristsOil’s Supply Wave, T
+  url: https://finnhub.io/api/news?id=c7ce62d97cd2e4461b8a20f4e36bee640b155c2463c6cf1e06c4023e1c80595b

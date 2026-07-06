@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ranking the Best "Magnificent Seven" Stocks to Buy Right Now
+  summary: The "Magnificent Seven" stocks haven't done very well in recent months.
+  url: https://finnhub.io/api/news?id=88fab612f359470ecf02c019b7b4248c07103321ba02901663d2817ada58a2f6

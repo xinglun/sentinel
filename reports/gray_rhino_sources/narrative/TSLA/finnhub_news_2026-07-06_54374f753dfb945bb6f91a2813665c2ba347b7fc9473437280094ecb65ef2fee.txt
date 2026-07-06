@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stellantis-Backed Tesla Rival Leapmotor Enters Mexico, Marking First North America Expansion Amid Canada Production Plans
+  summary: Stellantis-backed Chinese automaker Zhejiang Leapmotor debuts in the Mexican market with its B10 crossover SUV.
+  url: https://finnhub.io/api/news?id=406be5bfefd434cf99687cfbc3c4fa4e46ec1a5cde30fe8248d5aff4040013fb

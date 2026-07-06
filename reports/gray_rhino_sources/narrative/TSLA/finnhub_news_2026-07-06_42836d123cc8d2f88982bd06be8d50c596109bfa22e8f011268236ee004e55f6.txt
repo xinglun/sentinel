@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - Wireless Charging Revolutionizing Future of Vehicle Technology
+  summary: The wireless charging market for electric vehicles is poised for substantial growth, projected to rise from USD 0.11 billion in 2026 to USD 0.82 billion by 2032, at a compound annual growth rate of 38.7%. This surge is driven by increasing electric vehicle adoption and the demand for convenient charging solutions, with Original Equipment Manufacturers (OEMs) and tech providers collaborating to advance this technology. Europe is the fastest-growing market due to stringent emission norms and...
+  url: https://finnhub.io/api/news?id=166a4ef18591780b4b895edcaf867d784e11b96d2c3ee9fef191a8a9d6b7ad99

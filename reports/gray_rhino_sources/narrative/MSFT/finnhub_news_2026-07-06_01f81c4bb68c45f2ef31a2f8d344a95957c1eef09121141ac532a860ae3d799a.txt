@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Becomes Biggest Enemy Of US AI
+  summary: OpenAI and Anthropic may want to get their companies public as soon as possible. Microsoft and Meta may want to close financial deals for data centers sometime this year. Several sources say a new AI model from China has already caught up to US AI models across several features. The model in question is GLM-5.2 ... China Becomes Biggest Enemy Of US AI
+  url: https://finnhub.io/api/news?id=ed30ad98cf8aee105756cf5bdfe2333d0c3009abd032845aebc5ad07ef2ddac9

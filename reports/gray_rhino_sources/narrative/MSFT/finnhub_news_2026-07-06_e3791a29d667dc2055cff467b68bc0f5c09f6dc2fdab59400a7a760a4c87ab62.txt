@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Xbox 'reset' as Microsoft cuts 4,800 jobs
+  summary: Microsoft has revealed 4,800 job losses globally, with the bulk of the pain to be felt at its struggling Xbox gaming unit where a fifth of its workforce is facing the axe.  Commercial and engineering teams would be the other areas of the group affected by the cuts, Microsoft said, the latest to hit employees amid huge investments in AI infrastructure to grow the business.  Microsoft has also paid out vast sums to bolster its own productivity and bottom line but it denied any suggestion the roles would be the latest to be replaced by AI.
+  url: https://finnhub.io/api/news?id=dde22643a4baf91ddd44c02a0ff563a42d5db3a19d850f350bf94d9aed32be3c

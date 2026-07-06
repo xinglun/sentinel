@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed's Waller Says Fed Will Not Keep Rates Down For The Purpose Of Helping The U.S. Government Finance Its Deficits; Would Prefer The Inflation Target Be Set As A Range, But Changing The Target At This Point Would Not Be Credible
+  summary: https://www.federalreserve.gov/newsevents/speech/waller20260706a.htm
+  url: https://finnhub.io/api/news?id=678da9d3f6a74ba942307ddbd057f0f2ecc81fa88a0660913823ade2f3237156

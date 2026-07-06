@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equity REITs: Takeaways From REITWeek 2026
+  summary: REITs may deliver 6â7% earnings growth as shopping centers, healthcare, data centers and select offices lead.
+  url: https://finnhub.io/api/news?id=4b60523b9f94398a5c1a1b49ad2612a99a10f330a1e48c2823349e55895ea66f

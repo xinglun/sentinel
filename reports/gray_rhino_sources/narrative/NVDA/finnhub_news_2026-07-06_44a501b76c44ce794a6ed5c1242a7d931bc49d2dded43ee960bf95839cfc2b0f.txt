@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Unstoppable Stocks to Buy Before the Next Market Rally -- Including Netflix (NFLX) Stock
+  summary: These are all giants in their realms, and their stocks are attractively valued, too.
+  url: https://finnhub.io/api/news?id=65d7fa8c4860fd988cfb0044dec6146403df994442e750fd1d18fd4ce8b9a644

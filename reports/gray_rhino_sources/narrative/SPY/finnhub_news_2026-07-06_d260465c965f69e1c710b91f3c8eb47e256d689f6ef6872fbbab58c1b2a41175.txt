@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed's Waller Says If The Fed's Reaction Function Is Not Well Understood, Policymakers Needs To Talk About It
+  summary: https://www.federalreserve.gov/newsevents/speech/waller20260706a.htm
+  url: https://finnhub.io/api/news?id=a7befe51596804641fa571faaff0bca4d766a9861982c87c259268b47ee8b505

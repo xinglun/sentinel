@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft lays off nearly 5,000 employees across Xbox, commercial sales
+  summary: Microsoft cut around 4,800 roles, or 2.1% of its global workforce, on Monday — the latest in a series of layoffs that’s stoking fears of AI replacing jobs. The layoffs will hit Xbox and commercial sales the hardest.
+  url: https://finnhub.io/api/news?id=563e1c87cddaa9d35633975a9a2e4d1c35f4623fb2270f4f48a76dbab61a0a35

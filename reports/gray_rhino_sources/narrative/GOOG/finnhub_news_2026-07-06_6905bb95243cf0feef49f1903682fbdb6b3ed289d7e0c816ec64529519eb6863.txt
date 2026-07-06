@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Jumps After It Reveals Starmind AI Satellite Constellation Plan
+  summary: SpaceX  had a busy holiday weekend, working on its Starlink space-based broadband business and revealing some of its AI plans.  SpaceX stock rose 2.5% to $165.99 in early trading, while the  and  were up 0.5% and 0.3%, respectively.  The moves came after SpaceX posted a new video to its website detailing plans for a new “Starmind” satellite constellation.
+  url: https://finnhub.io/api/news?id=290a0fdec53bd7928aee6ae0cabad70dc26ab1619edc2f5880e0701f4476a0fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed's Waller Says Fed Policymakers Have Always Been Committed To 2% Inflation And It Is A Credible Pledge; Risks Have Flipped Around; Labor Market Seems Stabilized And Inflation Has Been Taking Off, Which Changes How You Think About Policy; Asked About Warsh "Recommitting" To Inflation Target, Says He Has Never Been Anything But Committed
+  summary: https://www.federalreserve.gov/newsevents/speech/waller20260706a.htm
+  url: https://finnhub.io/api/news?id=dd5d7060c5587e70eadea3e62b64e8e0594029fd425abd70fbafecb2603b295c

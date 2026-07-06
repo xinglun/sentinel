@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Stock Bounced Back Today
+  summary: Is Intel stock finally ready to beat TSMC?
+  url: https://finnhub.io/api/news?id=d1503f774dc072998dcc2f26b0c2cf62022f5070da8eb6cd6bffc7e1978d6cc7

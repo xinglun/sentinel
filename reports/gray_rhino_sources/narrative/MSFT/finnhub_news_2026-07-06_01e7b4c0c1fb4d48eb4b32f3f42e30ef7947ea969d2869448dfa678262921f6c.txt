@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft cuts 4,800 jobs as it revamps Xbox
+  summary: Microsoft said Monday it was eliminating about 4,800 jobs -- roughly two percent of its global workforce -- in a cost-cutting move that will deliver a sweeping restructuring of its struggling Xbox gaming division.Microsoft on June 25 said it will raise the price of its Xbox video game consoles worldwide as a component-cost surge fueled by AI affects the industry.
+  url: https://finnhub.io/api/news?id=ba62a50e4163b3b6c68c49b119675cacdfe39299aee9f9ed6d81f695d232f21c

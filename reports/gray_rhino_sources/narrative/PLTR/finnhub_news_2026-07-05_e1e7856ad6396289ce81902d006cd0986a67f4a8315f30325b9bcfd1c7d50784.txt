@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Microsoft Looks Like the Best Big Tech Trade for H2 2026
+  summary: MSFT is down 20% in the first half of 2026, but a 22.9x forward P/E, 40% Azure growth, and stabilizing technicals point to a potential second-half reversal.
+  url: https://finnhub.io/api/news?id=2c761fc1bea5055a292c227a3fc56408f334400d585977c4e1d710e4e3888f66

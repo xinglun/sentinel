@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft stock target cut at Wolfe on higher capex estimates
+  summary: Investing.com -- Wolfe Research revealed in a note on Monday that it has cut its price target on Microsoft to $525 from $570, pointing to surging memory prices that have forced the firm to raise its fiscal 2027 capital expenditure estimate to $270 billion from $230 billion, while maintaining its Outperform rating.
+  url: https://finnhub.io/api/news?id=bd344bdcd9aa1f7d99b2e4d950a73c6dc87ab01bc32d91cba423d4feb8b0c8b4

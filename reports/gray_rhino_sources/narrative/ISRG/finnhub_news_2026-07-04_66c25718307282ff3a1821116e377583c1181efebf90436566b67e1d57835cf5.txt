@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Piper Sandler (PIPR) Stock Looks Strong On Returns Yet Above Fair Value
+  summary: Piper Sandler Companies stock has delivered a strong 5 year return, yet with the recent pullback and a mixed valuation score, the current share price around US$71.09 looks less like a straightforward bargain and more like a test of how much investors are willing to pay for its track record. Over the past 5 years the stock has returned 165.8%, which sets a high bar for future returns to justify the current valuation. Positive sentiment around Piper Sandler's research and advisory work, such...
+  url: https://finnhub.io/api/news?id=319f2b088690f539d242e6f56022b6be9542a07b0a7d83b9922376cb098e9b23

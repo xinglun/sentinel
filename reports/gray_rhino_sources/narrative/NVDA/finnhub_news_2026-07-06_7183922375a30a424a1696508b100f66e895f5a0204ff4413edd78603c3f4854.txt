@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Quantum Computing Stocks to Buy in July
+  summary: Quantum computing stocks are speculative, pre-profit bets, well outside core-portfolio territory, on a technology that even NVIDIA (NASDAQ:NVDA) CEO Jensen Huang once suggested is likely at least 15 years away from large-scale commercialization. All three names below routinely swing in double-digit percentages on no news and trade at extreme price-to-sales multiples that have been reported ... 3 Quantum Computing Stocks to Buy in July
+  url: https://finnhub.io/api/news?id=e496e0949a1d1e8c0313a0e31964be8414263d213bdbda4b18462c85297e1b58

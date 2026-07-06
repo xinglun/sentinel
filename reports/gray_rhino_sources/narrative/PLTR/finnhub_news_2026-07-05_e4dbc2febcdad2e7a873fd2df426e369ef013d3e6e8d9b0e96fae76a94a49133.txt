@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Axon and Rocket Lab rallied while chip stocks sank
+  summary: SanDisk Corp. (SNDK) closed out the holiday-shortened week as the Nasdaq’s biggest loser, ending Thursday at $1,745 a share, down 26% for the week, according to Seeking Alpha. Micron (MU), Western Digital (WDC), Seagate (STX) and Teradyne (TER) fell alongside it, each posting double-digit weekly ...
+  url: https://finnhub.io/api/news?id=bca2f6e27883012d64fd6ec763bda85c61eb0b86c49421c327fc5aac9bff2395

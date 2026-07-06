@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Eases, Nasdaq Rises; Memory Names Micron, Sandisk Bounce Higher (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Monday, while the Nasdaq rallied sharply. Micron stock and Sandisk rebounded in morning trading.
+  url: https://finnhub.io/api/news?id=89cd59b8b212a1e538700ec04a8c851eb7168726e90c6976661bdcdceb80ca6b

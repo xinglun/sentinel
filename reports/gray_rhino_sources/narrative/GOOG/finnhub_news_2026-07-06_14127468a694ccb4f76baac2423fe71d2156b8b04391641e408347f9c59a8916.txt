@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is JG Stock Rising Today?
+  summary: Aurora Mobile has signed a new partnership to deploy its push notification solutions across its customer’s mobile apps.
+  url: https://finnhub.io/api/news?id=2794b104cd4cdf901bf65279cd20b831da14322b2c30957a0384ca7b4177daee

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Robotaxi Expands To Miami As Slow Rollout Continues. Stock Ticks Up.
+  summary: Miami marks the latest city to offer Tesla's robotaxis. However, the service's rollout remains slow.
+  url: https://finnhub.io/api/news?id=ea228d71edc9aa6b9c2203cbb1e31edb56eb1e8791f85cdc586cf251cd59017a

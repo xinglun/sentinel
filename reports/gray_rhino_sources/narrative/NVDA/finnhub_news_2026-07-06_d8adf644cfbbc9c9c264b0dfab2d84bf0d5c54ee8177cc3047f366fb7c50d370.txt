@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 No-Brainer Stocks to Buy on the Latest Sell-Off
+  summary: Sell-offs create opportunities, especially for these three stocks
+  url: https://finnhub.io/api/news?id=8703fe085398d8830253254cdb284f7689a7f6243bee29afe3a95a94f187c0ad

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Most Dangerous Stock Market In The World
+  summary: KOSPIâs AI chip rally is concentrated in Samsung & SK hynix as leverage and retail flows spike volatility. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=1aed9ad0ab62d6a6e57d0afaeae93ed194f4af0bc33638f5be7bcedc33986699

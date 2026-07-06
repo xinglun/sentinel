@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft cuts 4,800 jobs, including many at Xbox in a 'reset' of its gaming division
+  summary: Microsoft is cutting 4,800 jobs, about 2.1% of its global workforce, including a large number of workers at its Xbox video game business.  The layoffs included 1,600 Xbox workers, with more to come this year in a broader reorganization designed to “reset” Xbox as it faces heightened competition, the company said Monday.  “Our business today is not healthy,” said a memo from Xbox CEO Asha Sharma, who took over the gaming division earlier this year.
+  url: https://finnhub.io/api/news?id=bdfa3ee09dcfe7211b015ada93c2b74f20b6fef315368ddc7ac9f62dd3578d7d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Only Priced For Bad News
+  summary: Tesla stock analysis: why TSLA looks like a buy ahead of earnings. Explore autonomy/FSD, Optimus & energy optionality, key risks, valuation & what to watch.
+  url: https://finnhub.io/api/news?id=b283a0aae6fc44500bb3bba2e61a033b479ab34a85c69d68aa5d3675264756f5

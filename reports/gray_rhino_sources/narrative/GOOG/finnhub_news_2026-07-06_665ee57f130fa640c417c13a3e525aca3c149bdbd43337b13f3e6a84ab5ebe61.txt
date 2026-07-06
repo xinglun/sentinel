@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump vs. Pelosi: Who Made More Money in the Stock Market Last Year?
+  summary: Two of the most-watched retail trading proxies in America filed very different sets of paperwork last year. Nancy Pelosi averaged roughly one trade every 22 days over the past 12 years. Donald Trump logged more than 21,000 stock trades across eight investment accounts in 2025, roughly 60 trades per day, according to Financial Times and ... Trump vs. Pelosi: Who Made More Money in the Stock Market Last Year?
+  url: https://finnhub.io/api/news?id=d77b4e33bcefe6cc308557b7c12346ce66b3ea93f36bfb3690f1ff1e6cd21496

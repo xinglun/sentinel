@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Sells Palantir Stock and Buys an AI Stock Up 2,100% Since 2023
+  summary: Trump's investment accounts sold Palantir and bought Western Digital in the first quarter.
+  url: https://finnhub.io/api/news?id=13354d474e09cd73fb176dafc7d1914532e6de74dad3d659ed95ffe61779c548

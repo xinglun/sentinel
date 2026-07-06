@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Transformation World 2026: The Best Data for Business AI
+  summary: HEIDELBERG, Germany, July 06, 2026--SNP welcomes a record 2,000 industry experts from around the world to its flagship event, Transformation World, on July 8-9 at Heidelberg's SNP dome.
+  url: https://finnhub.io/api/news?id=6ce3042daaf8232bf05ab08d61cfa272c99d50de582c06aedffbea589972795c

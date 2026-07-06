@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Faces Fresh UK Pressure Over NHS Contract Continuity
+  summary: Palantir Technologies' NHS federated data platform contract in the UK is drawing increased political scrutiny. Critics are questioning the reliance of the National Health Service on a U.S. technology provider for critical data infrastructure. A former NHS data leader has suggested that replacing Palantir before the next contract break point is unlikely, keeping attention on renewal risk. Palantir Technologies, listed as NasdaqGS:PLTR, is back in the spotlight for political reasons rather...
+  url: https://finnhub.io/api/news?id=006530d4430e3c773eda7e05531e44d0ac58f2746a6918a143608406d2070a3a

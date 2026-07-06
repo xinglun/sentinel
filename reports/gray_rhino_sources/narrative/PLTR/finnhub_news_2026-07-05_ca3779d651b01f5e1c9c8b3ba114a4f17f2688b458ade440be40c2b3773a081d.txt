@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Palantir Technologies Inc. (PLTR) Is Expanding AI Deployment Channels Across Government and Enterprise
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the stocks with rising earnings estimates and fresh catalysts. Palantir Technologies Inc. (NASDAQ:PLTR) is one of the stocks with rising earnings estimates and fresh catalysts. The stock has 25 upward EPS revisions and no downward revisions for the upcoming fiscal year over the last three months, while revenue […]
+  url: https://finnhub.io/api/news?id=64011c59692e69e90836916fc478bc16f4e8812386a858d754c5c4818d4fb831

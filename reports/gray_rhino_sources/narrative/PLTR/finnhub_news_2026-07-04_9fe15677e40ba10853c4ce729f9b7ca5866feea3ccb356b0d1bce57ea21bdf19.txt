@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir doubles down on national security with Nvidia AI alliance
+  summary: Palantir Technologies is betting big on a simple idea: The U.S. government should never have to depend on someone else's AI model to protect the country. That idea is now a formal partnership. Palantir (PLTR) recently announced it is teaming with NVIDIA to give federal agencies and companies that ...
+  url: https://finnhub.io/api/news?id=137f950a215d4c4db756b5742a161fc6f5a90c3cb0cdb17bd14c4534d976dc5d

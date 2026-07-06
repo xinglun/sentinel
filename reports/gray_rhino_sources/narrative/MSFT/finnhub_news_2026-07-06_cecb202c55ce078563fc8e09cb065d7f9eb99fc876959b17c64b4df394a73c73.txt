@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft says 'we lost 64 cents for every dollar we invested' into game studios as Xbox says goodbye to 3,200 people
+  summary: New Xbox CEO Asha Sharma is calling it "the most significant restructure in Xbox history."
+  url: https://finnhub.io/api/news?id=3f4de48ac420cd179c3fc3d796d7aea81275a1b23c9f42e2b0acf40449bd09cd

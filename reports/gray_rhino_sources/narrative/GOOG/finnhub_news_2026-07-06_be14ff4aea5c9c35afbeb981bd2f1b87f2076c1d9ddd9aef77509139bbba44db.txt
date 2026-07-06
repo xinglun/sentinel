@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit Is Cracking Down on AI Marketing Slop With Its Own AI
+  summary: (Bloomberg) -- Reddit Inc. is battling a new kind of spam: stealth marketing content created by brands that want to get mentioned by popular artificial intelligence chatbots like ChatGPT and Gemini.Most Read from BloombergGreece Offers Bounty to Catch Ravenous Fish Lured by Warming SeaOil, Gas Tankers Cross Hormuz Via Oman-Side Route After U-TurnsThe Tanker Tycoon Making Millions on Hormuz Shuttle RunsModi’s Flagship Biofuel Push Faces Backlash From MotoristsOil’s Supply Wave, Tumbling Prices Re
+  url: https://finnhub.io/api/news?id=249af243c4f9aae6d97a37ce2608be55c4314903ba89cf02a7a724dc3975dc05

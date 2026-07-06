@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft plans to cut 3,200 jobs from its Xbox division
+  summary: Microsoft (MSFT) announced that it plans to cut 3,200 jobs in its Xbox gaming division, with Xbox CEO Asha Sharma commenting on the business' margins in her latest memo to employees.
+  url: https://finnhub.io/api/news?id=8b82b8693978286d7cae7e04d5a72a8298d22b50694c95809ec328539e92ee15

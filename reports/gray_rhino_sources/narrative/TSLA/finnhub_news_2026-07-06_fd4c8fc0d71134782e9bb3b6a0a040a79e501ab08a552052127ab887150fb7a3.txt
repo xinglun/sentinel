@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Even The Bull Case Doesn't Justify This Absurd Valuation
+  summary: Tesla has shown strong operational improvements, with Q1 2026 revenue up 15.8% and margins expanding across key metrics. Read more on TSLA stock here.
+  url: https://finnhub.io/api/news?id=c2cd6954b5b7357bd2338a92b69678e5d91eb44a2293b3b120032cc6982331d7

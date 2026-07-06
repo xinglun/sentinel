@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Dell’s Net Wealth Falls $34 Billion as Stock Faces Headwinds
+  summary: Michael Dell was initally one of the biggest winners this year, with his net worth soaring by more than $70 billion since January as Dell stock surged. But recently, his wealth has declined by about $34 billion, dropping from $244 billion to $210 billion.
+  url: https://finnhub.io/api/news?id=ca3da790ec342d6e3004c91fede5b25b224e0a37ed24357fcec344cb1fc87217

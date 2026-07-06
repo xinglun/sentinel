@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lucid Is on Sale. Could This Be the Buy That Sets You Up for Life?
+  summary: Lucid shares are down 45% so far in 2026.
+  url: https://finnhub.io/api/news?id=be71081dfa2a27ce9373803468871b94c75116f1a24ddef54a4947b93406b50e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX ‘Deorbited’ Almost as Many Satellites as Amazon Has in Space
+  summary: SpaceX  had a busy holiday weekend, working on its Starlink space-based broadband business and revealing some of its AI plans.  SpaceX stock rose 0.9% to $163.37 in premarket trading, while  and  futures were up 0.5% and down 0.1%, respectively.  The moves came after SpaceX posted a new video to its website detailing plans for a new “Starmind” satellite constellation.
+  url: https://finnhub.io/api/news?id=c7f4f218f50006feb794c906cf982b582d46ae8c61c605194a93180ecf1fb653

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is Why Palantir Technologies (PLTR) is One of BlackRock’s 30 Most Important AI Stock Picks
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of BlackRock’s 30 most important AI stocks right now. BlackRock is the largest institutional investor in the company, holding 8.67% or 188.99 million of outstanding shares, as per the filings on March 31. On June 29, Palantir Technologies Inc. (NASDAQ:PLTR) shared that the company has entered into a strategic […]
+  url: https://finnhub.io/api/news?id=602cda31d8af36dc53691e79bd7c7d47d586f22948dd5658b8363014401ed42a

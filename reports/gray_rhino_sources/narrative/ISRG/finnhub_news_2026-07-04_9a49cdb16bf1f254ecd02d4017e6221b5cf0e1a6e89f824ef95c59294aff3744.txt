@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Posts Strong Results As Da Vinci 5 Gains Ground
+  summary: Intuitive Surgical (NasdaqGS:ISRG) reported strong quarterly results, supported by solid procedure volumes and rapid adoption of its new da Vinci 5 system. Management issued softer guidance for future procedure growth, citing competitive pressures and increased regulatory scrutiny. The company was recently added to the Russell 1000 Dynamic Index and removed from the Russell Top 50 Index, altering its index exposure. Intuitive Surgical focuses on robotic assisted surgery, with its da Vinci...
+  url: https://finnhub.io/api/news?id=45838b9c4472a73ddc70f38ccc05b1f2ba8392df5974fa1d00cdd5126253de62

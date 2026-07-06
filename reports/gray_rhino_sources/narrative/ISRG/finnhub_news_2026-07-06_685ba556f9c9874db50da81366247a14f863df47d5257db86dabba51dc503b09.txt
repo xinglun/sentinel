@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Looks Weighed Down. Its After-Hours Growth Says Otherwise.
+  summary: While investors fixate on slowing elective surgeries, a powerful, non-obvious growth engine is accelerating inside the company's U.S. business.
+  url: https://finnhub.io/api/news?id=2912828987debfe482d154cb8869250ceca30533455825d752a5f8b801edaad6

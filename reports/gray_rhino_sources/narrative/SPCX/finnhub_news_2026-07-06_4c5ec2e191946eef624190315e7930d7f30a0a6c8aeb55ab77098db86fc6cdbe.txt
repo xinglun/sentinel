@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Gwynne Shotwell Pledges SpaceX Stock for 2 Million Children Through Trump Accounts
+  summary: Gwynne Shotwell, President of SpaceX, and her husband will donate shares to Trump Accounts for 2 million children in lower-income areas.
+  url: https://finnhub.io/api/news?id=421df06073d370568cf53eb37af61b6a2958c3c96a684963fbcd37c8a54dc7da

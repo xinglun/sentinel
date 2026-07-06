@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Broadcom Stock Is Rising Today
+  summary: It's a bullish start to the week for this tech powerhouse.
+  url: https://finnhub.io/api/news?id=f8ed6d682327837fc1014351b9de19af3c42b149fad3c7ce2566f407b3c04c96

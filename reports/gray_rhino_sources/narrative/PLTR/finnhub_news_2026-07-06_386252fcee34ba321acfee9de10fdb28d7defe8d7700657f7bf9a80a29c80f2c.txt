@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Pullback Creates A Rare Opportunity
+  summary: Palantir Technologies Inc. stock after a 20% pullback: retention, backlog, and AIP catalysts vs valuation and NHS risks. Click for this PLTR stock update.
+  url: https://finnhub.io/api/news?id=5dab738753621f103d1ecebb10a54e331e4eb2aebac524037fc1aaf65ed88c00

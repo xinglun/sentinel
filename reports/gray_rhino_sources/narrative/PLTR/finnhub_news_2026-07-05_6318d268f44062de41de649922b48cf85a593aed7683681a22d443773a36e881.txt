@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Stock Could Soar 55% in 1 Year, According to Wall Street. Should You Buy It Hand Over Fist?
+  summary: Analysts believe that this AI software specialist is poised for solid gains over the coming year, but can it indeed deliver?
+  url: https://finnhub.io/api/news?id=f124ce09d9b8798ea5a31cd1663480eb44d5d1777ae9dee4ba4235b0563347f8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed's Waller Says When It Works, Forward Guidance Can Speed The Impact Of Monetary Policy, As In Late 2021; Forward Guidance Can Be A 'Valuable Tool' That Has At Times Strengthened Policymaking And Will Continue To Be Useful; Forward Guidance Can Be A Hindrance If It Is 'Too Strong Or Rigid'; Forward Guidance Also 'Problematic' When Policymakers Confront Different Economic Outcomes All With A Significant Probability Of Occurring
+  summary: https://www.federalreserve.gov/newsevents/speech/waller20260706a.htm
+  url: https://finnhub.io/api/news?id=4b6bbab1ee7f260a60fc463173d2e306d26fd99fbad1b27fadc91330ff730c32

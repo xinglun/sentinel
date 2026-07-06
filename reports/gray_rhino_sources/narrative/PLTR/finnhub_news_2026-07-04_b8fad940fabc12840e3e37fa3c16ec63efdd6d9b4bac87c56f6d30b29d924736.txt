@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Says AI Labs Are Chasing 'Tokens' While Enterprises Fear for Their IP: 'Something Has Gone Completely Wrong'
+  summary: On Wednesday, Palantir Technologies Inc. CEO Alex Karp argued that many enterprise customers are growing increasingly skeptical of frontier AI companies, warning that businesses fear sacrificing their intellectual property and competitive advantage in exchange for AI services. Alex Karp Says...
+  url: https://finnhub.io/api/news?id=40e19a572539f34a3fefd14583a13b7ddd9cf9d6dd62fe5563db01dc32a7d59b

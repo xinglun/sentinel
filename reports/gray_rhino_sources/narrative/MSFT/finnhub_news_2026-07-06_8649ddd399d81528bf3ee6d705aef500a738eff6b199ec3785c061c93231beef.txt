@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock Jumps 124% in 6 Months: Time to Buy, Hold or Sell?
+  summary: NBIS stock rallies on AI infrastructure expansion, surging revenues and strong demand, but high capex and premium valuation temper near-term upside.
+  url: https://finnhub.io/api/news?id=852dbbff8292b589e499282c6e81d1f441f8cf46e92af37e9f6488d1be705af2

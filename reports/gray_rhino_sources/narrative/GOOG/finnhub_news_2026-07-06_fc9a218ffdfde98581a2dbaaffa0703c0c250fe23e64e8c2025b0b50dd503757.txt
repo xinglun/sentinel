@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, SK Hynix, and 2 More Unknown Factors Threatening Markets This Week. Four Other Things to Know Today.
+  summary: OpenAI and Anthropic need an IPO soon, Elon Musk's wealth soars again after SpaceX IPO, and more news to start your day.
+  url: https://finnhub.io/api/news?id=a8f44f5e586cfb918a521ef1e6bdbab93f6f109f53c8df0654bc4f6ddf075aa6

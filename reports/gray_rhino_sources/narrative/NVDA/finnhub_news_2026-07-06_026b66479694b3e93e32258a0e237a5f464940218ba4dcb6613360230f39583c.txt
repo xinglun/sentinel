@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reliable Income Generators to Buy in July
+  summary: With the Federal Reserve’s benchmark funds rate parked at 3.75% since Dec. 11, 2025, and the 10-year Treasury offering just 4.38%, income investors entering July are still hunting for yield well above the risk-free rate. Business development companies remain one of the cleanest ways to get it. BDCs are required to distribute at least 90% ... 3 Reliable Income Generators to Buy in July
+  url: https://finnhub.io/api/news?id=26a4a796281318a13e7c93f6595b3cccb6997f56a59fe0714bc1261eab3b1b3e

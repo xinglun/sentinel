@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft to cut 3,200 jobs amid Xbox restructuring. 'Our business ... is not healthy.'
+  summary: Microsoft is cutting 4,800 jobs, including 3,200 in its Xbox division.
+  url: https://finnhub.io/api/news?id=b102dd6f0660cf71711a87ed0c47f14d177ce675093fde79ca974597fab55b03

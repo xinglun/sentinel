@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Solid Q2 Delivery Report Sent Elon Musk's Stock Down 6%. What Happened?
+  summary: Seemingly good news didn't boost the stock as one might have expected. Just don't read too much into the market's response.
+  url: https://finnhub.io/api/news?id=5fc6f69cb316dbca485a2f06180b3a23b26b744d68831ebb2c8b0b8346336d3e

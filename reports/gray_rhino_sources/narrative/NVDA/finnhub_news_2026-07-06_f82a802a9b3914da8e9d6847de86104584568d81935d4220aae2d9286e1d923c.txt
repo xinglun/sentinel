@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Only 4% of SpaceX Shares Trade Right Now. By December, That Number Could Be 40%. Here's What That Supply Boost Means for Investors
+  summary: It's the law of supply and demand.
+  url: https://finnhub.io/api/news?id=333b3c296a207961cbf40e212a19d5fdc5551bea874fc3460d68ee7b4a2c7285

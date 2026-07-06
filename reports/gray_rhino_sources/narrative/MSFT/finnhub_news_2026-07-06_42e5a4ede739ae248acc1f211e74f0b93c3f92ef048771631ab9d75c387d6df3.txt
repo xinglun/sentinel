@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Genius Artificial Intelligence (AI) Stocks Trading at Irresistible Prices
+  summary: Microsoft and Meta Platforms are down, but definitely not out.
+  url: https://finnhub.io/api/news?id=b7a21fc69822cbc7c3894ddae2ae68c6e72f2dbd6a659dfa12675077f12dc7e1

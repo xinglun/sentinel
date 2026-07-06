@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: Wall Street's Bulls, Few Bears
+  summary: Wall Street's bulls are dreaming big. Bitcoin tops $63K. Tesla's (TSLA) robotaxis land in Miami.
+  url: https://finnhub.io/api/news?id=cfe363bb51ea21c4d6931a4065e068a1edc47f468d162f6acc3c8441a2db2cdb

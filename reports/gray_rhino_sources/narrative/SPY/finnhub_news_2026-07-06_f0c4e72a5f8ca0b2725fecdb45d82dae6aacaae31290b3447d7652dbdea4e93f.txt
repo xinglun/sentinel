@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Bianco On The 'AI Economy,' Inflation And What's Next
+  summary: Jim Bianco shares his perspective on the rapidly changing market landscape - including how AI is reshaping the economy, investor expectations, and the outlook for growth.
+  url: https://finnhub.io/api/news?id=adff713b85151130c8f76b3edd4a6f0e5165d58f791eea87ab7eebaf5f839af4

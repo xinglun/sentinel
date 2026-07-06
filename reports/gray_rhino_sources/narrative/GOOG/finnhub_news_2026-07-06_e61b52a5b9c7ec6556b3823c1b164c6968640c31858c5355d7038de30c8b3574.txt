@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Artificial Intelligence (AI) Stocks Are Selling Off, But Taiwan Semiconductor Is Holding Strong. Is It the Ultimate AI Stock?
+  summary: Taiwan Semiconductor is one of the top AI stocks available.
+  url: https://finnhub.io/api/news?id=e155c3ae8ec937bc51df9a54585fba3cc841d9367cd7b42705b5192178f51d5c

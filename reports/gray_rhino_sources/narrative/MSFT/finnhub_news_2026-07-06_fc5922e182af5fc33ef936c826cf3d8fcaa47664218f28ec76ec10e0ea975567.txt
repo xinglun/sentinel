@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Solstice to Acquire Element Solutions for About $14.5 Billion; Anthropic Enters 20-Year Lease Agreement for TeraWulf Data Center
+  summary: The Nasdaq Composite and S&P 500 Index were up in late-morning trading Monday, as tech stocks rose b
+  url: https://finnhub.io/api/news?id=0366aee7493fcf718569f0d301205b51eba1772d95e5118b7fbf8aeca8361318

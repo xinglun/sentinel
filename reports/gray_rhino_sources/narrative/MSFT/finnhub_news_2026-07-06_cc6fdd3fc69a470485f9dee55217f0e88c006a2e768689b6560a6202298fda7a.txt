@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft to cut more than 3,000 jobs from ailing Xbox unit
+  summary: Microsoft moves to slash costs as the video game industry faces what the tech giant calls the "most severe hardware crisis in its history."
+  url: https://finnhub.io/api/news?id=4f5bf2c9e756140d9479ce12b1534d040ec904e06521a738d295666b32ea4a2b

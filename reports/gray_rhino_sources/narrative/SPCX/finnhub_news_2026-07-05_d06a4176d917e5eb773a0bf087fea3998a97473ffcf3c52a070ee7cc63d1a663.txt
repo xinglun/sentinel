@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Week Ahead
+  summary: Wall Streetâs week ahead: Q2 earnings, Fed minutes, SpaceX ratings, and key economic dataâplus energy market lessons.
+  url: https://finnhub.io/api/news?id=e1484bac8e16dbda455fb97bb4007cad530b3e13d3bdbd81aa57edd4b424aa5f
