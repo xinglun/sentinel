@@ -40,6 +40,10 @@ checks:
     commandTemplate: make check-ai-change-summary SUMMARY={summaryPath} CONTRACT={contractPath}
     purpose: AI Change Summary と Contract の対応を確認する。
 
+  aiCheckpoint:
+    commandTemplate: make ai-checkpoint CONTRACT={contractPath} SUMMARY={summaryPath} STAGE={stage}
+    purpose: checkpoint evidence chain と required check の状態を手動で確認する。
+
   aiBacktrack:
     command: make check-ai-backtrack
     purpose: test / snapshot / i18n / Work Item evidence の無宣言な後退を hard fail する。破壊的変更は Contract と Summary の両方へ記録する。
@@ -61,6 +65,10 @@ checks:
     command: make check-ai-status-consistency
     purpose: current_status.md が存在する Contract / Summary、または no_active_work_item 状態と一致することを確認する。
 
+  aiPr:
+    command: make check-ai-pr
+    purpose: PR diff に含まれる archive Work Item の Contract / Summary 整合性と append-only 性を確認する。
+
 selectionRules:
   - "Contract の verification を最優先する。"
   - "すべての Work Item Contract は `make fmt-check` を required verification として含める。"
@@ -70,3 +78,4 @@ selectionRules:
   - "test、snapshot、i18n、`.ai/work-items/**` を変更した場合は Backtrack Guard を実行し、無宣言削除を許可しない。"
   - "`src/**/*.rs` を変更した場合は Coverage Guard を実行し、test 変更証跡を必須とする。"
   - "Work Item を archive した場合、または `.ai/cockpit/current_status.md` を更新した場合は `make check-ai-status-consistency` を実行する。"
+  - "pull_request や release 前の diff で `.ai/work-items/archive/**` を含む場合は `make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>` を実行する。"

@@ -39,13 +39,17 @@ def minimal_contract(*, include_fmt: bool) -> dict:
     if include_fmt:
         verification.insert(0, {"command": "make fmt-check", "required": True})
     return {
-        "contractVersion": 1,
+        "contractVersion": 2,
         "workItemId": "fmt_contract_test",
         "mode": "investigate",
         "title": "fmt contract test",
+        "baseCommit": "deadbeefdeadbeef",
+        "baselineDirtyPaths": [],
         "scope": ["README.md"],
         "outOfScope": [],
         "sources": [{"path": "README.md", "reason": "test source"}],
+        "problemStatement": "test problem",
+        "intent": {},
         "unknowns": [],
         "notCodable": False,
         "acceptance": ["test acceptance"],
@@ -72,17 +76,29 @@ def test_ai_start_generates_required_fmt(active: Path) -> None:
     with (
         patch.object(ai_start, "ACTIVE_DIR", active),
         patch.object(ai_start, "run_preflight_checks", return_value=0),
+        patch.object(ai_start, "current_head", return_value="abc123"),
+        patch.object(ai_start, "baseline_dirty_paths", return_value=["scripts/ai_start.py"]),
         patch.object(sys, "argv", ["ai_start.py", "--task", task, "--mode", "investigate"]),
     ):
         code = ai_start.main()
     assert_equal(code, 0, "ai_start should succeed")
     contract = json.loads((active / f"{task}.contract.json").read_text(encoding="utf-8"))
+    assert_equal(contract["contractVersion"], 2, "generated contract should be v2")
+    assert_equal(contract["baseCommit"], "abc123", "generated contract should record baseCommit")
+    assert_equal(contract["baselineDirtyPaths"], ["scripts/ai_start.py"], "generated contract should record baselineDirtyPaths")
     required = {
         item["command"]
         for item in contract["verification"]
         if item.get("required") is True
     }
     assert_true("make fmt-check" in required, "generated contract should include make fmt-check")
+    summary = json.loads((active / f"{task}.summary.json").read_text(encoding="utf-8"))
+    assert_true("checkpointEvidence" in summary, "generated summary should include checkpointEvidence")
+    assert_equal(
+        [item["stage"] for item in summary["checkpointEvidence"]],
+        ["contract_start", "before_edit", "before_ready", "after_verification"],
+        "generated summary should record the upstream checkpoint chain",
+    )
 
 
 def test_ai_start_preflight_failure_creates_no_files(active: Path) -> None:

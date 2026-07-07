@@ -27,6 +27,10 @@ REQUIRED_FIELDS = (
     "rollbackNote",
 )
 ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
+    "baseCommit",
+    "baselineDirtyPaths",
+    "problemStatement",
+    "intent",
     "destructiveChangePolicy",
     "riskAssessment",
     "agentCapability",
@@ -59,6 +63,7 @@ RISK_TYPES = {
 }
 EXECUTION_STATUSES = {"continue", "contract_update_required", "blocked", "downgraded_to_investigation"}
 REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
+ALLOWED_INTENT_FIELDS = {"problem", "constraints", "rationale"}
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -100,6 +105,57 @@ def validate_sources(data: dict[str, Any]) -> list[str]:
                 issues.append(f"sources[{index}].reason は必須です。")
             continue
         issues.append(f"sources[{index}] は string または path/reason object にしてください。")
+    return issues
+
+
+def validate_optional_problem_statement(data: dict[str, Any]) -> list[str]:
+    if "problemStatement" not in data:
+        return []
+    value = data.get("problemStatement")
+    if not non_empty_string(value):
+        return ["problemStatement は空でない string にしてください。"]
+    return []
+
+
+def validate_optional_intent(data: dict[str, Any]) -> list[str]:
+    if "intent" not in data:
+        return []
+    issues: list[str] = []
+    value = data.get("intent")
+    if value is None:
+        return []
+    if not isinstance(value, dict):
+        return ["intent は object にしてください。"]
+    for key in value:
+        if key not in ALLOWED_INTENT_FIELDS:
+            issues.append(f"intent.{key} は許可されていない field です。")
+    problem = value.get("problem")
+    if problem is not None and not non_empty_string(problem):
+        issues.append("intent.problem は空でない string にしてください。")
+    constraints = value.get("constraints")
+    if constraints is not None:
+        issues.extend(validate_string_list({"constraints": constraints}, "constraints", allow_empty=True))
+    rationale = value.get("rationale")
+    if rationale is not None and not non_empty_string(rationale):
+        issues.append("intent.rationale は空でない string にしてください。")
+    return issues
+
+
+def validate_optional_v2_fields(data: dict[str, Any]) -> list[str]:
+    if data.get("contractVersion") != 2:
+        return []
+    issues: list[str] = []
+    if not non_empty_string(data.get("baseCommit")):
+        issues.append("contractVersion 2 では baseCommit が必要です。")
+    baseline = data.get("baselineDirtyPaths")
+    if not isinstance(baseline, list):
+        issues.append("contractVersion 2 では baselineDirtyPaths は list にしてください。")
+    else:
+        for index, item in enumerate(baseline):
+            if not non_empty_string(item):
+                issues.append(f"baselineDirtyPaths[{index}] は空でない string にしてください。")
+    issues.extend(validate_optional_problem_statement(data))
+    issues.extend(validate_optional_intent(data))
     return issues
 
 
@@ -255,7 +311,8 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
             issues.append(f"未知の field です: {key}")
 
     if data.get("contractVersion") != 1:
-        issues.append("contractVersion は 1 にしてください。")
+        if data.get("contractVersion") != 2:
+            issues.append("contractVersion は 1 または 2 にしてください。")
     if data.get("mode") not in MODES:
         issues.append(f"mode は {sorted(MODES)} のいずれかにしてください。")
     for key in ("workItemId", "title", "rollbackNote"):
@@ -267,6 +324,7 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_string_list(data, "unknowns", allow_empty=True))
     issues.extend(validate_string_list(data, "acceptance", allow_empty=False))
     issues.extend(validate_sources(data))
+    issues.extend(validate_optional_v2_fields(data))
     issues.extend(validate_verification(data))
     issues.extend(validate_optional_risk_assessment(data))
     issues.extend(validate_optional_agent_capability(data))

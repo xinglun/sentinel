@@ -9,7 +9,7 @@ key: ai-cockpit
 
 AI Cockpit は、AI 作業の状態を一画面で確認するための軽量な計器盤です。
 
-Cockpit は判断を代行しません。Contract、Summary、検証結果、Backtrack report を整理し、人間が review / merge / follow-up を判断しやすくします。
+Cockpit は判断を代行しません。Contract、Summary、検証結果、Backtrack report を整理し、人間が review / merge / follow-up を判断しやすくします。`make ai-checkpoint` は checkpoint ごとの contract hash と required check の進捗を確認する補助入口です。
 
 ## 状態
 
@@ -65,7 +65,7 @@ Agent の三大 risk は、Cockpit では次の hardening target として扱う
 - `executionDecision: blocked`: 人間判断、外部状態、または不足証拠により実装を止める。
 - `executionDecision: downgraded_to_investigation`: production code を変更せず、調査や TODO 整理に降格する。
 
-`mode: code` で `executionDecision: continue` の Work Item は、Agent の自己申告だけで進めない。`make check-ai-contract`、`make check-ai-scope`、`make check-ai-guards`、`make check-ai-backtrack`、`make check-ai-change-summary`、`make generate-cockpit-status`、`make check-ai-status` を required verification として持つ。
+`mode: code` で `executionDecision: continue` の Work Item は、Agent の自己申告だけで進めない。`make check-ai-contract`、`make check-ai-scope`、`make check-ai-guards`、`make check-ai-backtrack`、`make check-ai-change-summary`、`make generate-cockpit-status`、`make check-ai-status` を required verification として持つ。checkpoint の可視化が必要な長時間作業では `make ai-checkpoint` を併用する。PR で archive 配下を含む diff を扱う場合は、CI で `make check-ai-pr AI_BASE_COMMIT=<merge-base>` を併用する。
 
 Summary の `reviewReadiness` は、完了報告の強さを制御する。
 
@@ -87,6 +87,7 @@ make check-ai-coverage-guard
 make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
 make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
 make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
+make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>
 make ai-preflight
 ```
 

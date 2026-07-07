@@ -19,13 +19,17 @@ def assert_equal(actual: object, expected: object, message: str) -> None:
 
 def base_contract(command: str) -> dict:
     return {
-        "contractVersion": 1,
+        "contractVersion": 2,
         "workItemId": "make_only_test",
         "mode": "investigate",
         "title": "make only test",
+        "baseCommit": "deadbeefdeadbeef",
+        "baselineDirtyPaths": [],
         "scope": ["README.md"],
         "outOfScope": [],
         "sources": [{"path": "README.md", "reason": "test source"}],
+        "problemStatement": "test problem",
+        "intent": {},
         "unknowns": [],
         "notCodable": False,
         "acceptance": ["test acceptance"],

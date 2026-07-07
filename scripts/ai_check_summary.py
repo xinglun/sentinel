@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import time
@@ -31,6 +32,7 @@ RESIDUAL_RISK_LEVELS = {"low", "medium", "high"}
 REVIEW_READINESS_STATUSES = {"ready", "ready_with_risks", "not_ready"}
 SOLIDIFICATION_TARGETS = {"contract", "summary", "doc", "template", "guard", "skill", "none_with_reason"}
 REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
+CHECKPOINT_EVIDENCE_KEYS = ("stage", "recorded", "detail", "contractHash", "acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed")
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -173,6 +175,108 @@ def validate_optional_checkpoint_review(summary: dict[str, Any], contract: dict[
     return issues
 
 
+def contract_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def checkpoint_evidence(summary: dict[str, Any]) -> list[dict[str, Any]]:
+    value = summary.get("checkpointEvidence")
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
+def validate_optional_checkpoint_evidence(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
+    if "checkpointEvidence" not in summary:
+        if (
+            isinstance(contract, dict)
+            and contract.get("mode") == "code"
+            and isinstance(contract.get("executionDecision"), dict)
+            and contract["executionDecision"].get("status") == "continue"
+        ):
+            return ["code mode の executionDecision: continue では checkpointEvidence が必要です。"]
+        return []
+    issues: list[str] = []
+    value = summary.get("checkpointEvidence")
+    if not isinstance(value, list):
+        return ["checkpointEvidence は list にしてください。"]
+    seen: set[str] = set()
+    expected_hash = ""
+    if isinstance(contract, dict) and non_empty_string(summary.get("contractPath")):
+        try:
+            expected_hash = contract_hash(Path(str(summary["contractPath"])))
+        except OSError:
+            expected_hash = ""
+    required_stages = []
+    if isinstance(contract, dict):
+        checkpoint_policy = contract.get("checkpointPolicy")
+        if isinstance(checkpoint_policy, dict):
+            stages = checkpoint_policy.get("requiredCheckpoints")
+            if isinstance(stages, list):
+                required_stages = [stage for stage in stages if non_empty_string(stage)]
+    for index, item in enumerate(value):
+        if not isinstance(item, dict):
+            issues.append(f"checkpointEvidence[{index}] は object にしてください。")
+            continue
+        stage = item.get("stage")
+        if not non_empty_string(stage):
+            issues.append(f"checkpointEvidence[{index}].stage は必須です。")
+        else:
+            seen.add(stage)
+        if not isinstance(item.get("recorded"), bool):
+            issues.append(f"checkpointEvidence[{index}].recorded は boolean にしてください。")
+        if not non_empty_string(item.get("detail")):
+            issues.append(f"checkpointEvidence[{index}].detail は必須です。")
+        if not non_empty_string(item.get("contractHash")):
+            issues.append(f"checkpointEvidence[{index}].contractHash は必須です。")
+        elif expected_hash and item.get("contractHash") != expected_hash:
+            issues.append(f"checkpointEvidence[{index}].contractHash が Contract と一致しません。")
+        for key in ("acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed"):
+            if not isinstance(item.get(key), int):
+                issues.append(f"checkpointEvidence[{index}].{key} は integer にしてください。")
+    if isinstance(contract, dict) and contract.get("mode") == "code":
+        missing = [stage for stage in required_stages if stage not in seen]
+        if missing:
+            issues.append(f"checkpointEvidence が不足しています: {', '.join(missing)}")
+        acceptance_count = len(contract.get("acceptance", [])) if isinstance(contract.get("acceptance"), list) else 0
+        unknown_count = len(contract.get("unknowns", [])) if isinstance(contract.get("unknowns"), list) else 0
+        required_check_count = len([
+            item for item in contract.get("verification", [])
+            if isinstance(item, dict) and item.get("required") is True and non_empty_string(item.get("command"))
+        ])
+        verification_status = {
+            item.get("command"): item.get("result")
+            for item in summary.get("verification", [])
+            if isinstance(item, dict)
+        }
+        passed_required_count = sum(
+            1
+            for item in contract.get("verification", [])
+            if isinstance(item, dict)
+            and item.get("required") is True
+            and non_empty_string(item.get("command"))
+            and verification_status.get(item["command"]) == "passed"
+        )
+        for item in checkpoint_evidence(summary):
+            stage = item.get("stage")
+            if stage in required_stages and item.get("recorded") is True:
+                if expected_hash and item.get("contractHash") != expected_hash:
+                    issues.append(f"checkpointEvidence[{stage}] contractHash が stale です。")
+                expected_counts = {
+                    "acceptanceCount": acceptance_count,
+                    "unknownCount": unknown_count,
+                    "requiredChecks": required_check_count,
+                }
+                if stage == "after_verification":
+                    expected_counts["requiredChecksPassed"] = passed_required_count
+                else:
+                    expected_counts["requiredChecksPassed"] = 0
+                for key, expected in expected_counts.items():
+                    if item.get(key) != expected:
+                        issues.append(f"checkpointEvidence[{stage}].{key} が stale です。")
+    return issues
+
+
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -227,6 +331,7 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     issues.extend(validate_optional_review_readiness(summary))
     issues.extend(validate_optional_user_correction_solidification(summary))
     issues.extend(validate_optional_checkpoint_review(summary, contract))
+    issues.extend(validate_optional_checkpoint_evidence(summary, contract))
 
     if summary.get("userCorrectionsCaptured") and "userCorrectionSolidification" not in summary:
         issues.append("userCorrectionsCaptured がある場合は userCorrectionSolidification で固化先を記録してください。")
