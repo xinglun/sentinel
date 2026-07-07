@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Performance Food Group Analyst Begins Coverage On A Bullish Note; Here Are Top 5 Initiations For Tuesday
+  summary: Wall Street analysts changed outlook on top names. See analyst rating changes on top stocks. PFGC, SPCX, KC, WELL, KYNB have coverage initiated.
+  url: https://finnhub.io/api/news?id=5548385bedf2b89aa7d2415716e0791d35827a465b99b3fe06f4f4ae1433b700

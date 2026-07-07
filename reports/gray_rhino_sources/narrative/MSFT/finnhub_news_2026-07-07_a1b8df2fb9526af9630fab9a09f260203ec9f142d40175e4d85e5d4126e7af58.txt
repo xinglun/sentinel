@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Proof That China Is Stealing US AI
+  summary: Very recently, there have been more than suspicions that China has been stealing US AI secrets to build their own models, inexpensively. Several American companies, led by Anthropic, say it is so. The huge AI firm, valued at about $1 trillion, sent a letter to Senators, which appears to have settled the matter of the ... Proof That China Is Stealing US AI
+  url: https://finnhub.io/api/news?id=01d48e6f1892ca7932994507d7363f50dea693305176c8257aa58ad5ad9388ae

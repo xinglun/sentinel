@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chips Get Their Confidence Back, the Dow Cracks 53,000, and Trump Moonlights as a Dell Salesman
+  summary: Chip and memory stocks broadly rebounded Monday after last week's selloff, helping the Dow close above 53,000 for the first time as Microsoft's latest round of job cuts failed to reassure investors. Analyst upgrades lifted AMD and ASML, President Trump publicly endorsed Dell, a bitcoin miner signed a multibillion-dollar AI leasing deal, and auto-parts retailers sold off hard while EV makers rallied.
+  url: https://finnhub.io/api/news?id=33b5337e056249b77c20dede8944605eb8293aba603b8b60d3cbebdc84e42488

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Looks Beyond the Pentagon With a New Commercial Win in Mexico
+  summary: The announcement comes after Palantir Technologies stock fell 25% in June, marking its worst month since February 2021.
+  url: https://finnhub.io/api/news?id=c8821a1e364c20e05920dc2e872aa28334fafee9de1c4ae306730e612ac0a0cc

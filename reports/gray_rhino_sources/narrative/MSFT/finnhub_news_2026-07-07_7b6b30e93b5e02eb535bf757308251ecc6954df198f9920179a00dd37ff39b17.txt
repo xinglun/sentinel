@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel's $500 Billion Question: Where Are Foundry Proof Points?
+  summary: Intel’s (INTC) stock has climbed more than 5x over the past 12 months, moving from roughly $19 to a recent range near $120 currently. Intel has added close to $500 billion to its market cap - not a small number.
+  url: https://finnhub.io/api/news?id=d196ba711e29af4a83ba95bc66de16fa0014d2f35b7c6d3ba2f3e7cec7c25e39

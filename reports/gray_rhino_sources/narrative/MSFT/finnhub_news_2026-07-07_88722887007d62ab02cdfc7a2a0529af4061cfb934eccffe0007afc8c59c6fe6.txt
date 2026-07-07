@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology Poised to Sustain 40%+ Growth for Next 3 Years on Strong AI Demand, RBC Says
+  summary: Marvell Technology (MRVL) can sustain 40% and above growth for the next three years on account of st
+  url: https://finnhub.io/api/news?id=17b3908943f8447d388e7f8f188eb1b4186f7a143f770e44b9a9f86e29cdc3a5

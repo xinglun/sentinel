@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: British billionaire backs plans for European fusion giant
+  summary: British trading billionaire Alex Gerko has backed Europe’s biggest nuclear fusion company as start-ups race to crack the holy grail of renewable energy.
+  url: https://finnhub.io/api/news?id=6ff2c0a8ab7f48db9e21b3d9edc0ebc1748a1bef577a31c7eee9703c3b087ed1

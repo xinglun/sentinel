@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Falls Again as AI Chip Competition Fears Mount
+  summary: Nvidia stock was headed for its lowest level since April on a report another customer is developing an in-house AI chip.
+  url: https://finnhub.io/api/news?id=a1d6288903882f2c5f542a8820f7c5bdc39f662da7bc5ef2935e5853aa6e7870

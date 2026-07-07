@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Bears are Blind: 3 Reasons to Ignore Them and Buy Now
+  summary: I keep hitting the buy button on NVIDIA (NASDAQ:NVDA), and after the June pullback I hit it again. I bought near $225 in May, I bought near $212 in June, and I added last week close to $194.83. The story that got me into this position keeps getting louder. Here is what pulls me back ... Nvidia Bears are Blind: 3 Reasons to Ignore Them and Buy Now
+  url: https://finnhub.io/api/news?id=f66447098c6c239a89e7f88177201556469bb10caca65d34f004d0ec42ea2dbb

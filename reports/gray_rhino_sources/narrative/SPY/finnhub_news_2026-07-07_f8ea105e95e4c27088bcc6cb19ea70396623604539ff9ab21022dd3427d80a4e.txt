@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Playing It Safe With $1.7 Million in Cash and Bonds Is Costing This Retiree $39,000 a Year
+  summary: Unnerved by market swings, a 66-year-old single retiree has roughly 90% of her $1.7 million portfolio parked in cash and short-term bonds. The portfolio feels safe and sleep comes easier. That comfort has a potential price tag — roughly $39,000 a year in foregone returns. How do we reach this number? Here’s our scenario: Roughly ... Playing It Safe With $1.7 Million in Cash and Bonds Is Costing This Retiree $39,000 a Year
+  url: https://finnhub.io/api/news?id=4246e346bf068640ce71c12dab656caf3631371bf8f41cbac5b81902da9c3109

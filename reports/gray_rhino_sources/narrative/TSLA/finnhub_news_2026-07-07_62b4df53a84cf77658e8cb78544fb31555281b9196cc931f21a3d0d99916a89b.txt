@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla under fire for hiking prices in South Korea after qualifying for BEV subsidies
+  summary: Calls for tighter rules to ensure automakers do not undermine the purpose of the incentives.
+  url: https://finnhub.io/api/news?id=94c3e895dddbb309d13ff849e4f9a9f5f43725a46c476c06ef719cf905735e4c

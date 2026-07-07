@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Tesla Stock Before July 22?
+  summary: Tesla stock reports second-quarter earnings on July 22.
+  url: https://finnhub.io/api/news?id=a3413ef9134c8c4140c1807d10654f163d14c5cea4acf47ed75480bd20b49f0b

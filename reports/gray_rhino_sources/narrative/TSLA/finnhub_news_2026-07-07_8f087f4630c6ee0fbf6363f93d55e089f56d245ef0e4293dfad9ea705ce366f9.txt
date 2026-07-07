@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Craters 14% on 75M Share Offering, Lucid Falls 9% as EV Rally Reverses
+  summary: Shares of Rivian (NASDAQ:RIVN) are down 14% in Tuesday morning trading, changing hands at $17 and change after the electric-vehicle maker priced a large secondary equity offering after Monday’s close. The move wipes out most of Rivian stock’s 23% one-month advance heading into the announcement. The selling has spread across the sector. Lucid (NASDAQ:LCID) stock ... Rivian Craters 14% on 75M Share Offering, Lucid Falls 9% as EV Rally Reverses
+  url: https://finnhub.io/api/news?id=ff36510754a1eefd3fc4fd7ad16ff8ec36a23181e91e1a6f80cdb2c6f007164e

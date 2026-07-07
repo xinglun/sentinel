@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Invests in $468-Million Funding Round for German Fusion Group
+  summary: Proxima Fusion, a Munich, Germany-based group that is considered among the leading European companies working on fusion energy, said it completed a €411 million ($468 million) funding round. Proxima on July 7 said investors included technology giant Google along with global energy company RWE.
+  url: https://finnhub.io/api/news?id=0f2e94d959fa617f44188ceb073ccd55acc6de179d2d66e8b1f76550b02caeca

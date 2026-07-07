@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chipotle vs. McDonald’s: Why the Stock with Negative Comps Is the Better Buy
+  summary: Chipotle Mexican Grill (NYSE:CMG) and McDonald’s (NYSE:MCD) just closed earnings cycles that exposed a widening split inside fast food. Chipotle posted its first full year of negative comps. McDonald’s printed broad traffic recovery powered by value menus. Both feed millions weekly, yet their balance sheets, customers, and pricing playbooks barely rhyme. Negative Comps for Chipotle, ... Chipotle vs. McDonald’s: Why the Stock with Negative Comps Is the Better Buy
+  url: https://finnhub.io/api/news?id=d7f5e9c9671ccf0b14dc95fa7b965d88751659215942f359d5cfb9fbae0e7b55

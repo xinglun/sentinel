@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q2 GDP Expectations Cool - But Some Economists Aren't Worried
+  summary: US economic growth estimates for the second quarter have weakened, according to recent nowcasts. Read more here.
+  url: https://finnhub.io/api/news?id=356a029edd849c8bfab2d5993dc0d6255ad81381fd0390cf505238df1a7b1961

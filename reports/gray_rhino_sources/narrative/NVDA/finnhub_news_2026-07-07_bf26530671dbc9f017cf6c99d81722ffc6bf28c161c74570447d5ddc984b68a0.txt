@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Costco’s $250 Billion Expansion Strategy Keeps Delivering Results
+  summary: $275.24 billion. That is what Costco (NASDAQ:COST) rang up in revenue for fiscal year 2025, representing a +8.17% year-over-year haul that pushed the warehouse operator past a quarter-trillion dollars in annual sales. The company followed this impressive report with a Q3 FY2026 quarter that showed this growth machine is still accelerating in the right direction, ... Costco’s $250 Billion Expansion Strategy Keeps Delivering Results
+  url: https://finnhub.io/api/news?id=899aea2a8051283e10e9fa06c8e44c12dd78b1e7d455f0ca2cde6ee2039137cf

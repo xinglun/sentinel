@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit (RDDT) Expands AI Licensing, Is The Stock Fully Priced?
+  summary: Reddit (RDDT) is back in focus after highlighting progress on two fronts: expanded AI data licensing deals with Google and OpenAI, and improved AI tools that detect and remove spam across its platform. See our latest analysis for Reddit. Recent AI licensing headlines have arrived during a period of strong momentum for Reddit, with a 7 day share price return of 15.18% and a 90 day share price return of 42.31%, even though the year to date share price return is down 16.96% and the 1 year total...
+  url: https://finnhub.io/api/news?id=a242faf6c3c449354a2c5f77df02dbba77a48612165467ad9b6d4adbc51404f4

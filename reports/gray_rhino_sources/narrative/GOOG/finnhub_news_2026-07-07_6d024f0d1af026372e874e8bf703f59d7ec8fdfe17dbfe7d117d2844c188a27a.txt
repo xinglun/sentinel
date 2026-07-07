@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon aims to raise $25 billion from bond sale, Bloomberg News reports
+  summary: Amazon.com is looking to raise at least $25 billion through a U.S. dollar bond sale, Bloomberg ‌News reported on Tuesday, in the company's latest push ‌to fund its hefty AI investments.  Tech companies have been tapping debt markets and ​launching equity sales to fund their costly AI infrastructure build-out.  Big Tech, including Amazon, Alphabet, Microsoft and Meta, are expected to spend more than $700 billion on AI this year.
+  url: https://finnhub.io/api/news?id=656e41d36c18a54ca22ed628f2405751e5958d3804813f635fbbc40441728ff7

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Joins the Nasdaq-100. What the Fast-Track Addition Means for the Stock.
+  summary: SpaceX  trading on Tuesday won’t have much to do with space or AI fundamentals.  Elon Musk’s AI and space company is now in the  one of the best-known large-cap growth indexes that tracks the largest nonfinancial companies listed on Nasdaq.  Being fast-tracked into the index reflects just how important privately held frontier AI companies, including OpenAI, Anthropic, and SpaceX before its June IPO, have become to the entire stock market.
+  url: https://finnhub.io/api/news?id=52eb9e37013df18123c3d5a428e6313a510fe02ab60dd7ef04a0deb87aa6227e

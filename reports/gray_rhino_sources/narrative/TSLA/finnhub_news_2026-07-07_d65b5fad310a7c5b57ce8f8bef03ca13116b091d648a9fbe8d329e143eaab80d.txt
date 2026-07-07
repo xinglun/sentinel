@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RBC raises Tesla price target on potential SpaceX deal speculation (TSLA)
+  summary: RBC increases target to $500RBC Capital has raised its price target for Tesla (NASDAQ:TSLA) to $500 from $475, reflecting both a revised standalone valuation and an additional premium linked to a potential merger with SpaceX (NASDAQ:SPCX). Analyst Tom Narayan said the updated target incorporates “a 25-30% premium to current trading levels (and a 15% premium to the stock’s intrinsic value) owing to a potential SpaceX acquisition scenario based on unconfirmed media reports.
+  url: https://finnhub.io/api/news?id=a5781e0e0b7c666d3929040c7fd465de36b03dddc4aa19e792465704d2fd91a6

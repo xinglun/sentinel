@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Intuitive Surgical Will Be Worth $500 Billion by 2031 -- Here's Why
+  summary: The company has the elements that make a fantastic long-term investment.
+  url: https://finnhub.io/api/news?id=d6b2c9ef6fe6d89be579b8bac41a4ecbe241b476bc8d759b7b5a557116c5d1c9

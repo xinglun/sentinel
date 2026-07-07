@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Battlefield-Proven: How The Drone Revolution Maps Onto WisdomTree's Physical AI, Humanoids And Drones Strategy
+  summary: While drones are today's catalyst, WDRN also captures the broader Physical AI trend across robotics, healthcare, logistics and industrial automation.
+  url: https://finnhub.io/api/news?id=85f5ea4240a8aa4963799f31961351b1ab152a7a291004f66d0555750e49ae25

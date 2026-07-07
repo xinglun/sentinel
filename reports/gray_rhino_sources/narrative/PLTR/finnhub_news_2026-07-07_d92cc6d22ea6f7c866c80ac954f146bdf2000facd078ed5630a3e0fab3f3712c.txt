@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir Stock's 'N-of-One' Growth Story Worth the Steep Price of Admission?
+  summary: The company's AI platform is driving rapid, triple-digit growth in its core U.S. market, but the stock's premium price and past volatility demand a clear-eyed look at the risks.
+  url: https://finnhub.io/api/news?id=e4d008065d471289d36a67296e80ae81ecbf6273a627665f594b44eff0c50aee

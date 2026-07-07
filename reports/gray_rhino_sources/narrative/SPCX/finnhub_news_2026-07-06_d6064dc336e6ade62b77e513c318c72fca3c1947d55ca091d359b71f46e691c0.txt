@@ -1,0 +1,22 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Semi Stocks Gain Ahead Of Samsung Earnings And SK Hynix US Listing; Yields Ease
+  summary: 
+
+
+
+Tech Rebound
+
+
+
+Please click here for an enlarged chart of Direxion Daily Semiconductor Bull 3X ETF (NYSE:SOXL).
+
+
+
+Note the following:
+
+
+
+
+Semiconductors are the leading sector that has been driving the stock
+  url: https://finnhub.io/api/news?id=71a0db6bb31f8a2164523441ea566a05099a6094d89dd46bf49304ec6e66a937

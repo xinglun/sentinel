@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin, Ethereum, XRP Flat, Dogecoin Falls Amid Strategic Bitcoin Reserve Push: Analyst Says 'a Lot of' Upside to Come If BTC Does This
+  summary: Leading cryptocurrencies moved sideways on Monday, July 6, as high-profile Bitcoin sell-offs were offset by growing optimism for a Strategic Bitcoin Reserve.
+  url: https://finnhub.io/api/news?id=31daad618bcecfbcb076692504e7eb75b7d0466fee519333668a90764b5edaab

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondo Perps Pushes Tokenized Stocks Into 20x Leveraged Trading
+  summary: Ondo Perps brings tokenized stocks, ETFs, commodities, and indices into 24/7 futures trading with up to 20x leverage for eligible users.
+  url: https://finnhub.io/api/news?id=73ccaa1aea8b60a1623f370194eeb74a92408f31d59ee001cfc58e47318648a7

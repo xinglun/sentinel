@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Shares Down Heavily Since Jim Cramer Said He Saw “No Reason” To Back Away
+  summary: We recently published Jim Cramer’s Biggest Losers: 10 Stocks That Just Didn’t Work Out. Palantir Technologies Inc. (NASDAQ:PLTR) is one of the stocks discussed by Jim Cramer. Palantir Technologies Inc. (NASDAQ:PLTR) was one of Cramer’s most frequently discussed stocks in 2025. Throughout the year, he praised the firm on multiple grounds. These included its ability […]
+  url: https://finnhub.io/api/news?id=6be9d9bedb98580cbd87b70696c023be56f42b37d774b31a1850c461e1a5b2e2

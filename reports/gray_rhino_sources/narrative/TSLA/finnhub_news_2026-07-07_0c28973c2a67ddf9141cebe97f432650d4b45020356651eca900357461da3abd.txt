@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - India's Path to Net Zero by 2050: A Renewable Revolution
+  summary: The global energy transition is being significantly accelerated by India's ambitious plan to become a Net Zero economy by 2050, necessitating a shift to renewable energy sources and innovative technologies. Central to this transformation is India's target to install 450 GW of renewable energy capacity by 2030, alongside a transition to electric vehicles, the commercialization of hydrogen energy, and increased ethanol blending. Complementing these efforts are carbon capture and storage...
+  url: https://finnhub.io/api/news?id=9b019026d24e6e280854e7c9e2f0f743aa1af8c19425e942ee09cf9f2a5c3039

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This is One of The Best AI Stocks to Own In 2026
+  summary: Palantir Technologies (NASDAQ:PLTR) has become the poster child of the enterprise AI trade, and after a sharp first-half pullback, our proprietary model sees the setup skewing bullish again. Shares closed at $129.30 on July 2, and our 24/7 Wall St. price target for Palantir is $161.53 over the next 12 months, implying 24.93% upside. Our ... This is One of The Best AI Stocks to Own In 2026
+  url: https://finnhub.io/api/news?id=58e1bf4c036d0332897679050f120e5f6348c041e762029de811ccccb19b757c

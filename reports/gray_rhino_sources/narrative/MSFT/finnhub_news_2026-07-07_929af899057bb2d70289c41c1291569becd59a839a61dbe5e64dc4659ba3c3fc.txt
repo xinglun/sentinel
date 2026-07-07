@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Slides As Samsung Tumbles On Earnings; Micron, Sandisk Lose Big (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose, while the Nasdaq dropped amid Samsung earnings. Micron and Sandisk plunged.
+  url: https://finnhub.io/api/news?id=0add1b096141ec74b3d6cd8f42c09bb8ff6335d4e57ffb6497dbd39245915f1b

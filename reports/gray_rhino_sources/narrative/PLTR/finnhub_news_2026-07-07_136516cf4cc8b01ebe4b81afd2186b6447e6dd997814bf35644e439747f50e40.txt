@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Signs a Deal With Mexico’s Top Insurer to Boost Commercial Business. Will It Boost the Stock?
+  summary: The announcement comes after Palantir Technologies stock fell 25% in June, marking its worst month since February 2021.
+  url: https://finnhub.io/api/news?id=7e1d70b4748bc61e799c3215985e7a215a3b9f4fe231f23121948cbbf0a4f89f

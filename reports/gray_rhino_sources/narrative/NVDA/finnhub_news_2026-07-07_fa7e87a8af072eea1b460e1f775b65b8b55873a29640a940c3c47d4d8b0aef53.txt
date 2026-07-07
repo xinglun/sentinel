@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are Now 4 Honeywell Stocks After This Latest Spin-Off. Which Is the Better Buy Today?
+  summary: Following the industrial conglomerate's breakup, which of the Honeywell spin-offs offers the greatest upside opportunity?
+  url: https://finnhub.io/api/news?id=c1029e7dc57b389638e940318c91935391bd3a9b12333499e189d28cb2c6e8e2

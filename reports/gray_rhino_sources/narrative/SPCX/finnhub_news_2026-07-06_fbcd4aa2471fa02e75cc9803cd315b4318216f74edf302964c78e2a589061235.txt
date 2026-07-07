@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has a Hidden 30% Rule—and It Could Surprise Investors
+  summary: A little-known IPO rule could unlock 456 million extra SpaceX shares after earnings if the stock stays above $175.50 before Aug. 3.
+  url: https://finnhub.io/api/news?id=8b781af8fb122db2fab5f10b173c99c5d4b0145173e624a3fb5ee7b705bd27fb

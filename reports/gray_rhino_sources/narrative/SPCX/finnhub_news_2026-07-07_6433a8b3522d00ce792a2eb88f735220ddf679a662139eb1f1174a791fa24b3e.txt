@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Nasdaq-100 Inclusion Flashes A Historic 'Sell-The-News' Warning
+  summary: SpaceXâs inclusion in Nasdaq-100 is expected to trigger ~US$4.3 bln of compulsory passive buying, but historical precedents suggest such events can evolve into âsell-the-newsâ opportunities.
+  url: https://finnhub.io/api/news?id=ca40c17c8ded57e80d2b6aed7ea5ee445987cc44d08814275bc016341b2f701f

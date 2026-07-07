@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Likes That New Stock Smell: 3 IPO Stocks She Bought on Monday
+  summary: Ark Invest's top investor is adding to stocks that went public over the past year.
+  url: https://finnhub.io/api/news?id=7ef59fbc7ab7e75df9e8d1420845df0d1cb8605099cf65e6995f7cbfcdfc8af0

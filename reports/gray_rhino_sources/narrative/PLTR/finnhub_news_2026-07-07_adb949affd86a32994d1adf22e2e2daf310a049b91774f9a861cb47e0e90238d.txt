@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Eli Lilly, HSBC, Palantir and CBL & Associates
+  summary: LLY, HSBC and PLTR headline new research as growth drivers, strategic initiatives and key risks shape the latest outlooks for these companies.
+  url: https://finnhub.io/api/news?id=37a2108fec9094606f3ebe5d5ff4e2b0ae74d3503d5a4911ba6c5ed9c686f3f7

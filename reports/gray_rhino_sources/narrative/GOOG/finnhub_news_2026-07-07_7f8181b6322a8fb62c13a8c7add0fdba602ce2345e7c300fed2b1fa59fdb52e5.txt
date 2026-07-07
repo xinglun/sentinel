@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - Generative AI Revolutionizing Customer Experience Market Growth
+  summary: The generative AI in customer services market is experiencing substantial growth, with its size expected to escalate from $0.66 billion in 2025 to $1.95 billion by 2030. Key market drivers include the integration of generative AI into CRM platforms, increased customer expectations for immediacy, and the adoption of hybrid cloud AI solutions. Notable advancements such as AI-driven self-service, predictive customer interaction analytics, and real-time sentiment detection are reshaping the...
+  url: https://finnhub.io/api/news?id=fba9709e47bbd64309f6a23350d6491308bce913a6bbdee2979593fdb036fde2

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DeepSeek Wants to Bypass US Sanctions With a Custom Chip. Why Nvidia Stock Is Sliding.
+  summary: Nvidia stock was headed for its lowest level since April on a report another customer is developing an in-house AI chip.
+  url: https://finnhub.io/api/news?id=b50f441a2fc643ce102a7049169a07c4356195061b71a7c238c0319ccb801fcb

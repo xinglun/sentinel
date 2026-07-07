@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Cuts Xbox Jobs, Is The AI Upside Already Priced In?
+  summary: Microsoft (MSFT) has moved aggressively to reset its cost base, announcing about 4,800 job cuts that fall heavily on Xbox and commercial teams while keeping capital pointed at AI and cloud growth priorities. See our latest analysis for Microsoft. Microsoft’s share price has been under pressure, with a 30 day share price return down 7.18% and year to date share price return down 18.23%, even as multi year total shareholder returns of 19.31% over three years and 45.31% over five years point to...
+  url: https://finnhub.io/api/news?id=561db5e6cbe2ee358477efbc9ba7070bf312616b0b403e1b22815d5a764d7619

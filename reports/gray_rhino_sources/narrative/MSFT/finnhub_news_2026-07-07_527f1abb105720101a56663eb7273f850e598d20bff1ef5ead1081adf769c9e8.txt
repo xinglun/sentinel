@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Banned the Hottest AI Company for 3 Weeks. It May Have Handed Them a ‘Trillion-Dollar’ Marketing Gift
+  summary: For three weeks in June 2026, the most-talked-about AI company in the world went dark. Then it came back, and a panel of tech veterans started arguing about whether the Trump administration had accidentally handed Anthropic the most valuable brand asset in artificial intelligence. That argument, aired on a recent This Week in Tech episode, ... Trump Banned the Hottest AI Company for 3 Weeks. It May Have Handed Them a ‘Trillion-Dollar’ Marketing Gift
+  url: https://finnhub.io/api/news?id=0f69c25cb29033a47ea72d01901ba0c89ef5f66b5ff039bedcc27fec1a853aec

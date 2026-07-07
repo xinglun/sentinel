@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit Detects 25,000 Daily Spam Posts as AI Marketing Battle Intensifies
+  summary: Reddit expands AI-powered moderation to curb stealth marketing targeting ChatGPT and Gemini recommendations.
+  url: https://finnhub.io/api/news?id=e6c0c6543e9cb9fa6304659d49335b974cecb70bd9473cc13d2fb9d813622eb1

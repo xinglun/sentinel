@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LOGICALIS ACHIEVES MICROSOFT FRONTIER PARTNER STATUS TO ACCELERATE ENTERPRISE AI ADOPTION
+  summary: Global technology service provider, Logicalis, has achieved Microsoft Frontier Partner status alongside its Microsoft Copilot specialisation, reinforcing its position as a trusted partner for organisations looking to scale AI securely, responsibly, with measurable business impact.
+  url: https://finnhub.io/api/news?id=5cdc1ae1074a464fb30db38c56797bcdda92d9d06478e248cc18227761900dce

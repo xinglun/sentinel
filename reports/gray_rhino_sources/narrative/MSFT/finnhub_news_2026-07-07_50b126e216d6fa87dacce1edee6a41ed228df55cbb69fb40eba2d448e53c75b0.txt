@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What CrowdStrike Stock Was Telling You Before Its AI-Fueled Surge
+  summary: Before the stock nearly doubled, the company’s own earnings calls were pointing to a powerful new growth engine firing up in the one place most people had stopped looking.
+  url: https://finnhub.io/api/news?id=509ce494b7fe07178b9993e483dfc14bbe497c13ee8ca6373279789ebc5c074e

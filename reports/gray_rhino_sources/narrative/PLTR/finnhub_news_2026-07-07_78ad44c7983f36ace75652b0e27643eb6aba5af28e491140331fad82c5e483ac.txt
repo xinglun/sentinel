@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did BigBear AI Investors Just Shoot Themselves in the Foot? Or Did They Set the Stock Up to Soar?
+  summary: The Palantir competitor could turn its fortunes (and its stock) around.
+  url: https://finnhub.io/api/news?id=328067af819880f27bdeb78bd9c471a27c9056cfee8bed0beba9f21581cb0557

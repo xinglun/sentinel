@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Hidden Tech Catalyst Makes Dover Corporation an Absolute Sanctuary for Retirees Protecting Their Wealth
+  summary: Industrial bellwether Dover (NYSE:DOV) has spent the year shrugging off recession chatter while quietly riding an AI data center tailwind. Its Pumps & Process Solutions arm makes thermal connectors used in liquid cooling, and Climate & Sustainability Technologies just posted +15.2% organic growth. With shares up 16.29% YTD, the real question for retirees is whether ... 1 Hidden Tech Catalyst Makes Dover Corporation an Absolute Sanctuary for Retirees Protecting Their Wealth
+  url: https://finnhub.io/api/news?id=e5bd8d3b1a63e60150808becc0637e194d7b9effd56af84e5ed55c72023d5934

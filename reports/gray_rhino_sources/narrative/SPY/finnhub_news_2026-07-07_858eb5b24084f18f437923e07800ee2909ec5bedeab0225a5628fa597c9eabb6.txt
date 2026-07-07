@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Get Ready For An Earnings Stampede
+  summary: Tech stocks rebound, but semiconductor and AI infrastructure valuations look bubble-like.
+  url: https://finnhub.io/api/news?id=f381e076f10b43cdaabbb4ab2731d62fec0cdf4b274b863f1c8ffcf5307e1a20

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian's Good Day Came With a Price Tag
+  summary: Investors cheered a strong delivery report that sent the stock soaring, but the company had another plan for that higher price.
+  url: https://finnhub.io/api/news?id=29410c4f3fa85579af01f31e21429d97fecab0753bdbd071cff154a93362930c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoFi Survived the Short Sellers. Has the Stock Finally Bottomed?
+  summary: A short seller's bombshell report torched SoFi shares by nearly a third, yet the stock has quietly climbed back off its lows while smart money keeps buying. The real test arrives on July 29, and the answer hinges on one credit metric.
+  url: https://finnhub.io/api/news?id=1ff8d6790ae269a7601bdc20614d1ea1ff96dc9fea40ead832ea047681033414

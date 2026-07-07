@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lumen21, L&L Consulting Services, and TechWise Group Merge to Form a Unified Microsoft Partner
+  summary: CONSHOHOCKEN, PA / ACCESS Newswire / July 7, 2026 / Lumen21, L&L Consulting Services, and TechWise Group today announced a strategic merger, combining into a single organization operating under the TechWise Group name. TechWise Group serves growth ...
+  url: https://finnhub.io/api/news?id=cadc94f34dc46ae9f93ab4745446abd245563059085468e537123084edf810dd

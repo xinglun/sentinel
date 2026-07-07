@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Snowflake’s $80 Billion Data Bet Is Starting to Show Results
+  summary: Snowflake’s title bet references an $80 billion data opportunity, but the number in the Q1 FY27 filing that actually validates the thesis is the size of the contracted backlog. That contracted figure is what long-term holders should anchor on. The Number Snowflake (NYSE:SNOW) closed Q1 FY27 with $9.21 billion in remaining performance obligations, up 38% ... Snowflake’s $80 Billion Data Bet Is Starting to Show Results
+  url: https://finnhub.io/api/news?id=761bed7756e6f979a2f217a26e7885db1d869c73d7d6296d2380a710589a7358

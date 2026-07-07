@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Too Many ETFs? Record 214 Fund Launches In June Raise Questions About Market Saturation
+  summary: The ETF industry launched a record 214 new funds in June, led by leveraged, thematic and active strategies. And they may struggle to survive.
+  url: https://finnhub.io/api/news?id=6bde426009e1779af2cf513d165deca08af5fad6ae38e6dc2026079ab513733c

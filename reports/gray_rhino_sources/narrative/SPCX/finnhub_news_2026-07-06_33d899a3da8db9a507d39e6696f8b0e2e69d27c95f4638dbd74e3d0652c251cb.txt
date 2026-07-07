@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CHI: Strong Performance, But Tech Exposure Could Be A Risk
+  summary: The Calamos Convertible Opportunities and Income Fund delivers an 8.72% yield and has outperformed the S&P 500 over the past year. Read more on CHI CEF here.
+  url: https://finnhub.io/api/news?id=b6e7dc8f6261694e307834db08e584f65497b343305919f03cf60d9576772c3e

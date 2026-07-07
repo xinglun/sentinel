@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung’s Blowout Quarter Still Spooks the Chip Trade
+  summary: Record earnings were not enough to stop a global semiconductor selloff as investors questioned how much AI demand is already priced in.
+  url: https://finnhub.io/api/news?id=e92df360ebc54457dc1cba509686987ccf3e02b1bd382cc587eea247959ff669

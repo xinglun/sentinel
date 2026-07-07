@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones Futures Gain, S&P 500, Nasdaq 100 Slips As SpaceX Debuts On The Exchange—Rivian, Micron In Focus (UPDATED)
+  summary: U.S. stock futures were mixed on Tuesday, as the Dow Jones index rose while the Nasdaq 100 and S&amp;P 500 indices fell.
+  url: https://finnhub.io/api/news?id=9824542fb3a897ab9b18554fe75de86f91812a13a0ae8bf9432a2ec1292d8b51

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Expands Its Presence in Mexico and Strengthens Its AI Offering in the Insurance Sector with GNP Seguros
+  summary: MIAMI, July 07, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) announced today an enterprise expansion agreement with GNP Seguros (Grupo Nacional Provincial), the largest insurer in Mexico and part of the prominent Grupo BAL consortium. This alliance marks a milestone for Palantir, as GNP Seguros becomes Palantir’s first publicly announced commercial customer in Latin America.
+  url: https://finnhub.io/api/news?id=51e677b76107bf02ffc9ac71ee541b80dbe49594ea72c91f2097a9449e79957b

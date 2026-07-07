@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 AI Stocks That Could Outperform the S&P 500 for Years to Come
+  summary: These leading artificial intelligence companies still have room to run.
+  url: https://finnhub.io/api/news?id=4701d784eebd618671621bb6d454864b38e91a955b87f3ae5961170cb36310d2

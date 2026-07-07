@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Analysts Prefer SpaceX to Tesla Stock
+  summary: Wall Street analysts prefer  SpaceX.  to  Tesla  among Elon Musk’s publicly traded companies.  Morgan Stanley, Goldman Sachs, BofA, RBC, Wells Fargo, Bernstein, UBS, were among the firms launching coverage, and only one rates the stock a Hold—the rest are Buy.  The average analyst price target for Tesla stock is about $404, according to FactSet.
+  url: https://finnhub.io/api/news?id=e03eed3050817031881e48855569f7bef5ef16a388cb8bc964b7709426379ee9

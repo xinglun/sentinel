@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IAA MOBILITY 2027 Registration Now Open - Record-Breaking Demand - More Than Half of Floor Space Already Accounted For
+  summary: Registration for IAA MOBILITY 2027 is officially open. Interest from the international mobility sector hits record-breaking demand even before the regular registration period started. More than 100 companies have pre-registered as rebookers. As a result, over a year ahead of the event (scheduled for September 7–12, 2027), 53 percent of the total space used at IAA 2025 (both downtown and at the exhibition center) has already been reserved.
+  url: https://finnhub.io/api/news?id=18b19c01593f2cfda7a2720cb7b1b176a547294a76ae869d7b27d0e1fec28db3

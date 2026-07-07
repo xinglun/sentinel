@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO: “Something Has Gone Completely Wrong” With OpenAI and Anthropic
+  summary: Palantir (NASDAQ:PLTR) is one of the most-watched tech stocks in the market, and for good reason. The big data and software giant, known for its intelligence platforms used by government entities and a range of corporate big data software platforms has been on a bumpy ride over the past year, actually down 2% over the past ... Palantir CEO: “Something Has Gone Completely Wrong” With OpenAI and Anthropic
+  url: https://finnhub.io/api/news?id=b83bdea38996e3216649a4152def9108352caaccec6384792d493ea7fded16b7

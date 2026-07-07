@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Partners with Nvidia For Secure AI Offerings
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the top 10 AI stocks that will skyrocket. On July 1, Alex Karp, the Chief Executive Officer of Palantir Technologies Inc. (NASDAQ:PLTR) highlighted the company’s recent partnership with Nvidia Corp. (NASDAQ:NVDA) to provide safe AI services to U.S. government agencies, allies, and enterprises across the globe. In a […]
+  url: https://finnhub.io/api/news?id=1a116fecd5de1747cc5a06b1a1adc664c595313c2c54aa31d90de8832ba5ae4b

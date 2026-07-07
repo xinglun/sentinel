@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Is Betting Everything On A Rocket That Hasn't Flown
+  summary: 
+  url: https://finnhub.io/api/news?id=e57403aceeae9cc9f033dd1ea2419c1eb247ca59006c16f5678dbb8c99779787

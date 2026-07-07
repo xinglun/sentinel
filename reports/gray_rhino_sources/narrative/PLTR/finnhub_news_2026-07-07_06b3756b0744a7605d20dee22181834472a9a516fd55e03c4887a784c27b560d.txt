@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Leaders Nvidia, Palantir, and Meta Platforms Are Shaking Wall Street's Foundation With This $15.6 Billion Warning
+  summary: Insider activity at three of Wall Street's most influential artificial intelligence (AI) businesses paints a picture worth a thousand words.
+  url: https://finnhub.io/api/news?id=f2f311ddeea6d605fd8598e668f07060a8acd08ede5c5e248083af0104dc659f

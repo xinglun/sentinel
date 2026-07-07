@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Readies $25 Billion Bond With AI Costs Rising
+  summary: Amazon is reportedly readying a bond offering of at least $25 billion, as the tech giant continues to plow investments into AI-related infrastructure.  Amazon stock was trading slightly lower.  The Seattle-based Amazon is expected to issue at least $25 billion of new U.S.-dollar bonds Tuesday, the Wall Street Journal reported.
+  url: https://finnhub.io/api/news?id=02b99b1b3c3bb6aeccac32efbb3694730e8feecd56e3b0b762690d56f132cf7c

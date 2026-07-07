@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical, Inc. (ISRG) Rises Higher Than Market: Key Facts
+  summary: Intuitive Surgical, Inc. (ISRG) concluded the recent trading session at $432.83, signifying a +1.6% move from its prior day's close.
+  url: https://finnhub.io/api/news?id=3ba0b2af94090c4f397a423637f5233da3e229f74616169737d37a2c419a5433

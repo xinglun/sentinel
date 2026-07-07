@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Plummeted Last Month But Is Soaring in July
+  summary: Are things finally looking up for Palantir after last month's brutal sell-off?
+  url: https://finnhub.io/api/news?id=97cb08f58d9700b6e7ced98933158c81ba1f8b75d3119af9e74be101ebc358b9

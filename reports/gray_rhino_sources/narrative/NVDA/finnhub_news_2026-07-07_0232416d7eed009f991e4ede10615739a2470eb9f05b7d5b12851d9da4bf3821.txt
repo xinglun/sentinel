@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Prediction for AMD Stock Over the Next 5 Years
+  summary: Advanced Micro Devices (NASDAQ:AMD | AMD Price Prediction) is finally getting the AI story it has been chasing for a decade. Q1 2026 revenue landed at $10.25B, up 37.85% YoY, with Data Center now the dominant engine at $5.78B (+57%). CEO Lisa Su told investors, “Data Center now the primary driver of our revenue and ... 1 Prediction for AMD Stock Over the Next 5 Years
+  url: https://finnhub.io/api/news?id=1ed90d9c2133d48063877fd6822ffac050a3cdef9ba3c5ed829334953d572eb4

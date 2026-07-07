@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Time Re-Prices Tesla Stock For Patient Investors
+  summary: The premium you see on the sticker today is not the price you are really paying once you account for the earnings growth analysts expect.
+  url: https://finnhub.io/api/news?id=288abc74f62e9c8c817335a338ea73010257e7842abb4463f541da166bcf43e5

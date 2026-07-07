@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Market Summary And Commentary
+  summary: US equity markets were mixed over last week, with broad index performance modestly positive but sector leadership uneven. The S&P 500 ETF gained 0.56% but the NASDAQ 100 ETF declined 1.55%.
+  url: https://finnhub.io/api/news?id=df3536907d7e8203966441acc229e9a149e44eeca9c4063341c40d6184ac7f43

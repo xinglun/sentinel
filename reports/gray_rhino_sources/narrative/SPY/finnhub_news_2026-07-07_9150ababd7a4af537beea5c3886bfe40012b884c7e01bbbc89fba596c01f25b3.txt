@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors Maintained Order In The S&P 500
+  summary: Through the close of trading on 2 July 2026, the S&P 500 is still above the long-term trend that has become established since 29 December 2023.
+  url: https://finnhub.io/api/news?id=564e23f7e583b18b0749c66589c818fb3df79e4fa1cdb861f6eaed1322a2ed98

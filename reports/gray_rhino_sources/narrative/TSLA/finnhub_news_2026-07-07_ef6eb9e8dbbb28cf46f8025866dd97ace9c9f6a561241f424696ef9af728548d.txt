@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX to join the Nasdaq 100: How Wall Street feels about the Elon Musk story
+  summary: SpaceX (SPCX) will join the Nasdaq 100 (^NDX) on Tuesday after going public via an IPO over 3 weeks ago. Morning Brief Host Julie Hyman welcomes Yahoo Finance Senior Business Reporter Ines Ferré and Interactive Brokers chief strategist Steve Sosnick take a closer look at Wall Street forecasts of Elon Musk's space enterprise.
+  url: https://finnhub.io/api/news?id=d68847c484d4e4f02da44c0a056b32c2820ff99a6c6242482b0596081fd20ed7

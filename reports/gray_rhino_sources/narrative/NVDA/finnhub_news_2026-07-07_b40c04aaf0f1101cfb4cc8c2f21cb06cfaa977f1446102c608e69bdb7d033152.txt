@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mastercard Vs. Paypal: The Argument Over Which Undervalued Fintech To Buy Has a Clear Cut Answer
+  summary: Mastercard (NYSE:MA) and PayPal (NASDAQ:PYPL) just closed Q1 2026 reports that look like mirror opposites. Mastercard delivered accelerating services growth and margin expansion from a position of dominance. PayPal beat low expectations under brand-new CEO Enrique Lores, but guided to a flat-to-down 2026. Both stocks trade below where they started the year, and investors are ... Mastercard Vs. Paypal: The Argument Over Which Undervalued Fintech To Buy Has a Clear Cut Answer
+  url: https://finnhub.io/api/news?id=c40c241e13f51417e42637251021c2203671c9698342ddc83b62ccb0f05b6501

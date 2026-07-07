@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Deorbits 260 Starlink Satellites in Six Months, With Hundreds More Set to Burn Up
+  summary: Elon Musk guides 260 Starlink satellites to burn up in Earth&#39;s atmosphere. Starlink has over 10,000 satellites and plans for 42,000 more.
+  url: https://finnhub.io/api/news?id=fc2454c18c63769ae88a5ae4a12cf51cd91b3c259772aa80474bf190608c2e11

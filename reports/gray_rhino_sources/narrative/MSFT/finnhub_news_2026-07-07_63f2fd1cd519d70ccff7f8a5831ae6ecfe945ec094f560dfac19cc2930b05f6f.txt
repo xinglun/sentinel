@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Gets New AI Cost Catalyst
+  summary: AI orchestration could help companies manage model costs more efficiently.
+  url: https://finnhub.io/api/news?id=dbdd915fb80a752197e7bed10025ba5448265d25cd515a86ee8ed70c6d6a8c2c

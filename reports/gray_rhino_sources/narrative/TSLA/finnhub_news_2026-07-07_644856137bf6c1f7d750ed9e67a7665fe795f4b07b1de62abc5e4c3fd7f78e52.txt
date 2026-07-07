@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget EVs — Tesla’s Biggest Growth Engine Is Hiding in Plain Sight
+  summary: Tesla (NASDAQ:TSLA) keeps proving that investors can become fixated on the wrong metric. Every quarterly delivery report sparks debate over electric vehicle demand, price cuts, and market share. Its recent expansion of the Cybercab robotaxi service into Miami only reinforced that narrative, with Morgan Stanley forecasting Tesla could operate a fleet of roughly 30,000 robotaxis ... Forget EVs — Tesla’s Biggest Growth Engine Is Hiding in Plain Sight
+  url: https://finnhub.io/api/news?id=e1d531d499b8e069cb61b4faa282627e2fb7931ae6d3a2951650b8c8ae3179cd

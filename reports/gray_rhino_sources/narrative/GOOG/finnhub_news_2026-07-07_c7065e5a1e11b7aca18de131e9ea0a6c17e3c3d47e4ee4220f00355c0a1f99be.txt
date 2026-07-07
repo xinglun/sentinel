@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Backs Fusion Startup Proxima
+  summary: Proxima funding targets Europe's first commercial fusion plant
+  url: https://finnhub.io/api/news?id=a428ff85e3873e703520ba5e04bbf7a9c5c8e8ce29c046b63942fbccdc919ec6

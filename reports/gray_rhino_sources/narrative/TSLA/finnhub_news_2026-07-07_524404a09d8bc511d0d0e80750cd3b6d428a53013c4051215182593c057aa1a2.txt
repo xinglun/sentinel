@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Robotaxi Just Launched in Miami -- Its First City Outside Texas and California. Can It Rescue the Stock?
+  summary: The Robotaxi map is growing. The question is whether the business is growing with it.
+  url: https://finnhub.io/api/news?id=9ff83908bb128b3ed89d380f42f308519e971803eaf8d4d2489b5be79d666383

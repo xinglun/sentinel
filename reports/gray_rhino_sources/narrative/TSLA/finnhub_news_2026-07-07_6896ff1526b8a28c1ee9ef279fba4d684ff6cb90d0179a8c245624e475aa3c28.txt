@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's Ark Invest Buys the SpaceX Dip and Dumps $8.6 Million Worth of Surging AMD Stock
+  summary: Cathie Wood&#39;s Ark Invest bought SpaceX shares and sold AMD shares, still bullish on SpaceX&#39;s potential despite pullback, trimming AMD stake.
+  url: https://finnhub.io/api/news?id=ef9b19d8da0956497c3110a9762618681f8ba7e0168a66350608610dc401e541

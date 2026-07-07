@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Launches Miami Robotaxi Service, Is The Upside Already Priced In?
+  summary: Tesla (TSLA) is back in focus after launching a driverless robotaxi service in Miami and reporting second quarter deliveries of 480,126 vehicles, pairing new autonomous ambitions with solid electric vehicle volumes. See our latest analysis for Tesla. Tesla’s share price has climbed to US$419.77, with a 1-day share price return of 6.69% and a 90-day share price return of 21.09%, while the year to date share price return is down 4.18%. Over the longer term, total shareholder returns of 42.81%...
+  url: https://finnhub.io/api/news?id=973f8e8aca10c1216ff248049f8273b62f1d53db50990b796612bb0ed3bb87d4

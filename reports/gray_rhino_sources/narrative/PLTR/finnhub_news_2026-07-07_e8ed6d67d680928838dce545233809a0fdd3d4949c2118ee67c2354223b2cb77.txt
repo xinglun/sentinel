@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir And Nvidia Deal Could Be Huge
+  summary: Palantir is rated a Strong Buy due to accelerating government and commercial growth despite a premium valuation and risks. Read more on PLTR stock here.
+  url: https://finnhub.io/api/news?id=70a7f6dac0b27f9b37633885b5b8943749e2bae1ef9ceb45bebc4469c5608ff1

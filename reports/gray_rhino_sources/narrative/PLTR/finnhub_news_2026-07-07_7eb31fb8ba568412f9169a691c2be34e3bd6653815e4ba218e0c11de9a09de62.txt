@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What Wall Street Must See Before Palantir Stock Can Rally Again
+  summary: The AI data analytics company's business is still firing on all cylinders, yet its stock remains well below its 2025 peak.
+  url: https://finnhub.io/api/news?id=79e42225ada4e56d07ea72fa20fb9179c12c9552ef3b8a9bcc7bfa2d32c92018

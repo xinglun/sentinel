@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Photonic Inc. Names Orlagh Neary Chief Marketing Officer and Briony Shipman Vice President of Global Government Affairs
+  summary: Former Microsoft Quantum leader and Senior UK Civil Servant join to scale commercialization following the company’s $200M USD raise Source: Photonic Inc. Orlagh Neary, Chief Marketing Officer (CMO), Photonic Inc. Source: Photonic Inc. Briony Shipman, Vice President, Global Government Affairs, Photonic Inc. VANCOUVER, British Columbia, July 07, 2026 (GLOBE NEWSWIRE) -- Photonic Inc., a global leader in distributed quantum computing, today announced the appointments of Orlagh Neary as Chief Market
+  url: https://finnhub.io/api/news?id=a0ffd92357138af2866d666cae10355ca40e0d08fac703936c53a81e25829c44

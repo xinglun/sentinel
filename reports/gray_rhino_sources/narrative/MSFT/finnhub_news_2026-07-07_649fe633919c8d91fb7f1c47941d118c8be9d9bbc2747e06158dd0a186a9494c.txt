@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Vs. Microsoft: Which Underpriced Mag 7 Titan Is a No Brainer?
+  summary: Meta Platforms (NASDAQ: META) and Microsoft (NASDAQ: MSFT) both reported earnings on April 29, 2026, and both have been punished in 2026 despite operational strength. Meta is off 11.54% year to date; Microsoft has fared worse at down 18.9%. The market is asking which Mag 7 titan is truly the bargain. Ad Engine Roars. Azure ... Meta Vs. Microsoft: Which Underpriced Mag 7 Titan Is a No Brainer?
+  url: https://finnhub.io/api/news?id=fbb29e1956fc47f3a22618248852d3eb2d76d9cf1d6e9fab26d4424cc281a0e0

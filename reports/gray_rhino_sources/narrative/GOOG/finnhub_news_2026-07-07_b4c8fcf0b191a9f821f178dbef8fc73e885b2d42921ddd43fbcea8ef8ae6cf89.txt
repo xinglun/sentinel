@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Germany's Proxima Fusion secures $2.7B valuation as Google backs Europe's reactor race
+  summary: Proxima Fusion co-founder and CEO Francesco Sciortino Image courtesy of Proxima Fusion Energy startup Proxima Fusion has raised €411 million from an investor group that includes Google and German energy giant RWE, to build Europe’s first commercial fusion reactor. The deal, which values Proxima at €2.4 billion (about $2.7 billion), is the largest in a series of VC energy deals in Europe this year, driven by the continent’s push for energy sovereignty. XTX Ventures and East X Ventures led the rou
+  url: https://finnhub.io/api/news?id=dfbdd596320bc5cd86ec5218a50d2e7304c32da887585a6513f6ef9f9c78910e

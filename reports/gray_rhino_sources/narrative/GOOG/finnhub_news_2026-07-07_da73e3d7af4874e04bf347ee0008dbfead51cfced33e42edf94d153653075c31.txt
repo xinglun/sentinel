@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Who will be the AI trade's real winners: The makers vs. the takers?
+  summary: Samsung Electronics (005930.KS) released preliminary second quarter earnings results on Tuesday, reporting a 19-fold profit jump from a year ago, amounting to $58 billion. Morning Brief Host Julie Hyman welcomes Yahoo Finance Senior Business Reporter Ines Ferré and Interactive Brokers chief strategist Steve Sosnick to help break down whether Samsung's breakout numbers still weren't enough to impress Wall Street investors and what it signifies for the broader chip space.
+  url: https://finnhub.io/api/news?id=8ec7b95ad2ef099405fd0152281258b73ce1244a48634d3542451af08cbea5b8

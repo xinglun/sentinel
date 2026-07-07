@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your Biggest Fund May Be A Bad Deal
+  summary: This simple screen finds the rare funds built to be permanent, cheap, and fairly valued right now.
+  url: https://finnhub.io/api/news?id=7f45e0dc2648250f7be7a05b95855c8fe050f65056cdbdacde4516d0a937c71c

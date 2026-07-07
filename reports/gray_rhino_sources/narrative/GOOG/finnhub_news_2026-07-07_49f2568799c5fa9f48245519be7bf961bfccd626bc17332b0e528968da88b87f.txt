@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Q2 Earnings Preview: What To Expect From Upcoming Report
+  summary: Wall Street expects another strong Alphabet earnings report as AI and Google Cloud continue to fuel growth
+  url: https://finnhub.io/api/news?id=5d945f0ef0ad819d2b954a5dc64d5c51afe128ca875aff47d11ddf3a88835786

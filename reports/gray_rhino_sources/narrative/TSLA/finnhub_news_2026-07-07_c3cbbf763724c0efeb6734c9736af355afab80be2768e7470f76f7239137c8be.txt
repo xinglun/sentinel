@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s $500 Billion Question: Can Growth Justify the Valuation?
+  summary: The headline number cuts through the noise around Tesla (NASDAQ:TSLA) faster than any product roadmap can. It is the price tag investors have chosen to hang on the entire enterprise, and Q1 finally gave the bulls a fresh reason to defend it. The Number Tesla’s market capitalization sits at roughly $1.48 trillion as of July ... Tesla’s $500 Billion Question: Can Growth Justify the Valuation?
+  url: https://finnhub.io/api/news?id=aad210a0bed141368a11cc79a48aa6c239c9123ab3690953e7bfeb007517f8bf

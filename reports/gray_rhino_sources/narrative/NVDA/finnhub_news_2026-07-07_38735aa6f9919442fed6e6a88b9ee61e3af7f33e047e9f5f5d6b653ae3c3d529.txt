@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Mark Zuckerberg Just Suggest That Meta Platforms May Have Invested Too Much Into Artificial Intelligence?
+  summary: The company is launching a new business that will sell excess compute power.
+  url: https://finnhub.io/api/news?id=967bf16e6ec3dc0e772dd18dcb0fb0a0760fea87095746a334ef726477db8cdc

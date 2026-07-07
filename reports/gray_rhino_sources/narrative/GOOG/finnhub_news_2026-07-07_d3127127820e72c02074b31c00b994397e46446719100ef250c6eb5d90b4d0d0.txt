@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Leverage Shares by Themes Expands Tech Offering with Six New Single-Stock Leveraged ETFs
+  summary: GREENWICH, Conn., July 07, 2026 (GLOBE NEWSWIRE) -- Leverage Shares by Themes is pleased to announce the launch of six new 2X single-stock leveraged ETFs, available for trading beginning July 7, 2026. Designed for active traders seeking dynamic ways to express short-term views on some of the world's most influential technology companies, these funds provide a tool to seek 200% (up & down) of the daily performance of Alphabet, Amazon, Meta, and Apple. The new Cboe-listed ETFs are tailored to targ
+  url: https://finnhub.io/api/news?id=090103e8dadbe01c63d89eb42acc8df89c3af33730b11b9e5ece83ded50f5617

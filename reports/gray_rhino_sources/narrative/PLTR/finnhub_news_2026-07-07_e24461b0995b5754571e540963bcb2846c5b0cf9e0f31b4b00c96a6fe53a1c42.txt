@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Plummeting 27% in 2026, Is Palantir Stock Finally a Buy? 3 Words From Palantir CEO Alex Karp May Reveal the Answer
+  summary: Palantir stock has cratered in 2026 as growth investors rotate out of SaaS stocks.
+  url: https://finnhub.io/api/news?id=a2996cb60acea558ac56a1f7b9669ce2daabc9b4f00f26fdf3287661b273f634

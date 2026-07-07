@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Inc. (TSLA) is Attracting Investor Attention: Here is What You Should Know
+  summary: Zacks.com users have recently been watching Tesla (TSLA) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects.
+  url: https://finnhub.io/api/news?id=53d3a240e6a0e9760fbe399a0dd9f6c3232b44ad19d96aea889a4b7e9f0dbb92

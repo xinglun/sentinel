@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Amazon Seeking at Least $25 Billion From US Bond Sale; Fiserv Explores Sale of STAR Debit Network
+  summary: All three major US stock indexes were down in late-morning trading Tuesday, with the Nasdaq Composit
+  url: https://finnhub.io/api/news?id=f1ee1f2e8c1fd17d1633be73a2c1668c06c85cf4fbafeaf8fcc4f8d5c6c0829f

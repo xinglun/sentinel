@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SHLD vs. XAR: Should You Play the Rearmament Boom With Defense Tech or Classic Aerospace?
+  summary: The Global X Defense Tech ETF (NYSEARCA:SHLD) and the SPDR S&P Aerospace & Defense ETF (NYSEARCA:XAR) look like two ways to buy the same rearmament story, but they take structurally different bets. One is a global, market-cap bet on next-generation defense platforms and European primes. The other is an equal-weight bet on the U.S. aerospace ... SHLD vs. XAR: Should You Play the Rearmament Boom With Defense Tech or Classic Aerospace?
+  url: https://finnhub.io/api/news?id=913db91041ac2b213f1e4aa4f48642a61ba2c51affe1c40efe29931588d661ed

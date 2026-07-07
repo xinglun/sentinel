@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Insiders Are Dumping Micron At The Highest Rate Since 2010. Is It Time To Get Out?
+  summary: Micron insiders have sold more than $100 million in company stock over the past 24 months, and they’re not slowing down. Per the Oppenheimer desk, as cited by CNBC’s Carl Quintanilla on Bluesky this morning, “$MU, the second-best performing SPX stock YTD, is seeing insider selling at the highest level on record since 2010.” That ... Insiders Are Dumping Micron At The Highest Rate Since 2010. Is It Time To Get Out?
+  url: https://finnhub.io/api/news?id=eabc6ddcc300bad24c545b73a89282c4d1d1a349f1cd6d9f0592851b4bc19224

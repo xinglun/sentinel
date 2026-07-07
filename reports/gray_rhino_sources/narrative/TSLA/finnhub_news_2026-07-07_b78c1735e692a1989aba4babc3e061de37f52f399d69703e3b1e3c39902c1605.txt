@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla stock target lifted at RBC on potential SpaceX merger
+  summary: Investing.com -- RBC Capital lifted its price target on Tesla to $500 from $475 in a note on Tuesday, incorporating a premium tied to a potential combination with SpaceX, while also updating its standalone intrinsic valuation of the electric vehicle maker.
+  url: https://finnhub.io/api/news?id=8d4b1f93625075823a7677b53898b20744326cbfafcf642dfde144c5fd2058f4

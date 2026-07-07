@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: David Sacks Says Palantir's Alex Karp Was 'Exactly Right' to Warn Enterprises Against Feeding Data to OpenAI and Anthropic— the Figma Story Shows Why
+  summary: David Sacks said Palantir CEO Alex Karp was “exactly right” in warning enterprises against handing proprietary data to frontier AI labs. Speaking on the All-In Podcast episode aired Friday, Sacks said the real meaning of AI safety for enterprises is...
+  url: https://finnhub.io/api/news?id=5beb4ad960d9295fb07e93e841d9e55b0546e80b2532f8e52a6492735f89bd30

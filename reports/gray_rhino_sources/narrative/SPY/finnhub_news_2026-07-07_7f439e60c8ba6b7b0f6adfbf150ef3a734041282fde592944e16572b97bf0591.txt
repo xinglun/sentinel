@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reuters Reported Saudi-Flagged Crude Oil Tanker Damaged Near Hormuz; Bloomberg Reported Qatari LNG Ship Struck in Strait of Hormuz Earlier
+  summary: https://www.reuters.com/world/middle-east/saudi-flagged-crude-oil-tanker-damaged-near-hormuz-after-lng-tanker-hit-sources-2026-07-07/https://www.bloomberg.com/news/articles/2026-07-06/latest-oil-market-news-and-analysis-
+  url: https://finnhub.io/api/news?id=960b3f33a36df8ce92615a04b63b54da63ac2d3b4e347fb0789ac0aa7a6e2a0d

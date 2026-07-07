@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Margin Break The Market Is Ignoring At SPOT
+  summary: The music streaming giant has quietly transformed its earnings power, but investors seem to be listening to an old, less profitable playlist.
+  url: https://finnhub.io/api/news?id=43ac422f64b48a9cba12e0ee4b77a85b5023d5f51ac8fb00dad928f016c4a60a

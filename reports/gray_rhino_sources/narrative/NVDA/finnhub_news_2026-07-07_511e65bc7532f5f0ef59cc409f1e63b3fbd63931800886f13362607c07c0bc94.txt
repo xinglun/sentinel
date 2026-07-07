@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Erases All Post-IPO Gains. Will Today’s Nasdaq-100 Addition Help?
+  summary: The market has spent much of 2026 rewarding companies tied to artificial intelligence, defense, and space technology with premium valuations. Investors have been willing to pay up for businesses promising decades of future growth, often overlooking near-term fundamentals. That enthusiasm helped make SpaceX‘s (NASDAQ:SPCX) public debut one of the biggest investing stories of the year. ... SpaceX Erases All Post-IPO Gains. Will Today’s Nasdaq-100 Addition Help?
+  url: https://finnhub.io/api/news?id=bcf0ceb06e2f49649315d7e97ebe44770a11744f0892c0690bd4392bcab5b83f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mag 7 Loses Market Swagger as AI Trade Spreads Beyond Behemoths
+  summary: (Bloomberg) -- For years, the Magnificent Seven tech giants commanded investors’ attention, dominating the S&P 500 Index and determining which way the overall stock market was headed. Those days are over.Most Read from BloombergGreece Offers Bounty to Catch Ravenous Fish Lured by Warming SeaMicrosoft’s Xbox to Cut 3,200 Jobs, Divest Five Studios in Major OverhaulTwo Millennium Trading Pods Made About $3.7 Billion Last MonthSaudis Slash Main Oil Price to Rare Discount as Market DivesChina Sentenc
+  url: https://finnhub.io/api/news?id=18c63ca649353e3f26570098064a54e591fbf8cffd9ec7ab609b076a500e5290

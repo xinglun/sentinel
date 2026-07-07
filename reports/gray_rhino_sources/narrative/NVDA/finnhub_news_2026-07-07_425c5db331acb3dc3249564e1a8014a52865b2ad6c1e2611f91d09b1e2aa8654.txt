@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eli Lilly Stock Hits a New All-Time High: Has It Gotten Too Expensive to Buy?
+  summary: Shares of Eli Lilly have risen by over 40% since the company last reported earnings.
+  url: https://finnhub.io/api/news?id=94f144166168679378f28a9665f1a5495f8b74e073cab0d967c8a5aa5245a37e

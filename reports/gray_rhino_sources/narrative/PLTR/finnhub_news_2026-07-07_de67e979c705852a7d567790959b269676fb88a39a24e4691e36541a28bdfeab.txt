@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Announces Enterprise Expansion Agreement With GNP Seguros To Deploy AI For Claims Fraud Detection, Precision Underwriting
+  summary: Mexico&#39;s largest insurer leverages Palantir&#39;s AI platform to detect claims fraud, sharpen underwriting precision, process claims more effectively, and bring high-quality insurance coverage to people in
+  url: https://finnhub.io/api/news?id=a600e2778c2501cc1f219a5efc01e00911a3a8315a2fbf82935a6090e90c3d6a

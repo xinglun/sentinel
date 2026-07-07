@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Stock Tests Key Technical Level As Wall Street Sizes Up Cloud Potential
+  summary: Meta stock is off to a strong start in July as investors are sizing up a potential Meta cloud business.
+  url: https://finnhub.io/api/news?id=ee5146c6d702686c3f666bb7e1b2d204ba2d4c7f7d81152e06dff9ba586eec5f

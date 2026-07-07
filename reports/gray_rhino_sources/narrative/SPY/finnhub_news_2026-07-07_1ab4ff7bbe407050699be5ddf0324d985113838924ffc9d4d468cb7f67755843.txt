@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Our July Perspective
+  summary: June delivered two of the most widely anticipated market events of 2026: the IPO of SpaceX and Kevin Warshâs first FOMC meeting as chair of the Federal Reserve.
+  url: https://finnhub.io/api/news?id=2b29ab3e801754778fc064ac2e93c368e595ee2bdcfe5193bb8ec5e24393b479

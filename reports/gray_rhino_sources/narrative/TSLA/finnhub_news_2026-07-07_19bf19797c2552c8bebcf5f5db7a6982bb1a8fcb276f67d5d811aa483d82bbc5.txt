@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does ARKW's History Reward Buying This Dip?
+  summary: The fund's past suggests deep pullbacks often rebound, but what's inside the basket makes this time a unique decision.
+  url: https://finnhub.io/api/news?id=27436cd19e1e70417efad4cb495980e0b408529aaf29da7c3d827e6fb670dcf7
