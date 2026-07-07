@@ -28,11 +28,11 @@ COVERAGE_MIN_FILE_LINES ?= 50
 COVERAGE_FILE_IGNORE_REGEX ?= src/adapters/mod.rs|src/adapters/futu/mod.rs|src/adapters/futu/protocol/mod.rs|src/adapters/futu/protocol/generated/|src/adapters/yahoo_provider.rs|src/features/backtest/(acl/radar_decision_engine|application|infrastructure)|src/features/radar/acl/market_data_provider_factory.rs|src/features/radar/application/runtime_mode.rs|src/features/radar/application/evidence_assembly.rs|src/features/radar/interface/display.rs|src/features/research/infrastructure/dependency_source_adapter.rs
 COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-under-functions $(COVERAGE_MIN_FUNCTIONS) --fail-under-regions $(COVERAGE_MIN_REGIONS) --fail-under-file-lines $(COVERAGE_MIN_FILE_LINES) --ignore-filename-regex '$(COVERAGE_FILE_IGNORE_REGEX)'
 
-.PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-work-item-risk-readiness test-ai-generate-status test-ai-start test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
+.PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-work-item-risk-readiness test-ai-generate-status test-ai-start test-ai-pr-check test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight ai-start ai-finish check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -74,6 +74,7 @@ help:
 	@printf '%s\n' '  make test-ai-lifecycle'
 	@printf '%s\n' '  make test-ai-work-item-contract'
 	@printf '%s\n' '  make test-ai-verification-commands'
+	@printf '%s\n' '  make test-ai-pr-check'
 	@printf '%s\n' '  make test-ai-start'
 	@printf '%s\n' '  make test-architecture-boundaries'
 	@printf '%s\n' '  make test-gray-rhino-evidence-contract'
@@ -87,6 +88,7 @@ help:
 	@printf '%s\n' '  make generate-cockpit-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status CONTRACT=<contract.json> SUMMARY=<summary.json>'
 	@printf '%s\n' '  make check-ai-status-consistency'
+	@printf '%s\n' '  make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>'
 	@printf '%s\n' '  make ai-preflight'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..."'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
@@ -164,6 +166,9 @@ test-ai-work-item-contract:
 test-ai-verification-commands:
 	python3 scripts/ai_test_verification_commands.py
 
+test-ai-pr-check:
+	python3 scripts/ai_test_pr_check.py
+
 test-ai-work-item-risk-readiness:
 	python3 scripts/ai_test_work_item_risk_readiness.py
 
@@ -212,6 +217,9 @@ check-ai-status:
 
 check-ai-status-consistency:
 	python3 scripts/ai_check_status_consistency.py
+
+check-ai-pr:
+	python3 scripts/ai_check_pr.py --base $(AI_BASE_COMMIT)
 
 check-work-items-lifecycle:
 	python3 scripts/ai_check_lifecycle.py

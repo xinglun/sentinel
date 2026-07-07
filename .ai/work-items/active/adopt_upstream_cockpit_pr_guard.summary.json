@@ -1,0 +1,167 @@
+{
+  "workItemId": "adopt_upstream_cockpit_pr_guard",
+  "contractPath": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/README.md",
+      "reason": "PR guard の運用手順を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "required verification と CI での PR guard 併用を記載した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "check catalog に aiPr を追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を更新対象に含めた。"
+    },
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "reason": "PR guard 追加の契約に更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "reason": "実施内容と検証結果を記録している。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "pull_request / push で PR guard を実行するようにした。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-ai-pr と test-ai-pr-check の入口を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR diff の archive Work Item 整合性を検証する新しい guard を実装した。"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "reason": "PR guard の回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/checks.yaml",
+    ".github/workflows/develop_checks.yml",
+    "Makefile",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_check_summary.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json SUMMARY=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json SUMMARY=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json SUMMARY=.ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-pr-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=<merge-base>",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "PR guard は archive 境界を検証するが、CI 上の diff base と archive 追加/削除の対応は review で確認したい。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md",
+    "target/ai_guard_report.json",
+    "target/ai_backtrack_report.json",
+    "target/ai_coverage_guard_report.json",
+    "target/ai_pr_report.json",
+    "target/ai_observability.jsonl"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "PR guard 追加の scope / sources / acceptance / verification を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 内の files だけを編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "verification 実行前に Summary と status 更新方針を整理した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "PR guard / Rust / Cockpit の required checks を記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "pr_archive_boundary",
+      "detail": "PR guard は archive 境界を検証するが、diff base の取り方と archive 追加/削除の対応は human review で最終確認したい。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks を通し、PR guard の運用も文書化したが、CI の diff base と archive 境界は review で再確認したい。",
+    "expectedReviewFocus": [
+      "CI の diff base 取得方法",
+      "archive 追加と active 削除の対応",
+      "append-only 判定の妥当性"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "verified",
+    "persistence": "no_persistence",
+    "i18n": "not_applicable",
+    "makeEntrypoints": "changed"
+  }
+}

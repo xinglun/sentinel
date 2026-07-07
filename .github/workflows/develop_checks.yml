@@ -45,6 +45,16 @@ jobs:
           AI_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: make check-ai
 
+      - name: Run AI PR Guard
+        env:
+          AI_BASE_COMMIT: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ "${AI_BASE_COMMIT}" = "0000000000000000000000000000000000000000" ]; then
+            echo "Skipping PR guard because AI_BASE_COMMIT is an all-zero hash."
+            exit 0
+          fi
+          make check-ai-pr
+
   audit-daily-guard:
     name: Audit Daily Guard
     runs-on: ubuntu-latest

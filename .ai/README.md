@@ -89,7 +89,7 @@ Summary では次を使います。
 5. `scope` と `outOfScope` の範囲内で実装する。
 6. `verification` に記載した command を `make` 経由で実行する。
 7. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus を記録する。
-8. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。
+8. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。PR に archive 配下の変更が含まれる場合は `make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>` を CI で併用する。
 9. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
 10. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。
 11. 完了時は `make ai-finish TASK=<task>` で required checks を再実行し、成功時だけ archive する。
