@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-07T14:06:09.558745+00:00`
+- Generated At: `2026-07-07T14:15:33.414014+00:00`
 - Task: `adopt_upstream_cockpit_pr_guard`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -66,15 +66,17 @@ generated: true
 ## Review Readiness
 
 - Status: `ready_with_risks`
-- Reason: required checks は通過したが、checkpointEvidence の hash 境界と ai-checkpoint の運用は review で再確認したい。
+- Reason: required checks は通過したが、checkpointEvidence の hash 境界、ai-checkpoint の運用、PR diff governance は review で再確認したい。
 - Expected Review Focus:
   - checkpointEvidence の contractHash 整合性
   - ai-checkpoint の出力内容
   - Contract v2 の baseCommit / baselineDirtyPaths
+  - PR diff governance は次の Work Item で補強する
 
 ## Residual Risks
 
 - `medium` `checkpoint_evidence_chain`: checkpointEvidence と ai-checkpoint の相互整合性は review で再確認したい。
+- `medium` `pr_diff_governance`: 現行 PR guard は archive integrity を中心に検証するため、非 archive diff の Work Item 覆蓋は別 Work Item で補強したい。
 
 ## Backtrack
 

@@ -103,7 +103,7 @@ def base_summary() -> dict:
                 "acceptanceCount": 1,
                 "unknownCount": 0,
                 "requiredChecks": len(base_contract()["verification"]),
-                "requiredChecksPassed": len(base_contract()["verification"]),
+                "requiredChecksPassed": 0 if stage != "after_verification" else len(base_contract()["verification"]),
             }
             for stage in [
                 "contract_start",
@@ -192,6 +192,10 @@ def main() -> int:
     missing_checkpoint_summary = base_summary()
     del missing_checkpoint_summary["checkpointReview"]
     assert any("checkpointReview" in issue for issue in validate_summary(missing_checkpoint_summary, contract))
+
+    stale_checkpoint_summary = base_summary()
+    stale_checkpoint_summary["checkpointEvidence"][1]["requiredChecksPassed"] = len(base_contract()["verification"])
+    assert any("before_edit" in issue and "stale" in issue for issue in validate_summary(stale_checkpoint_summary, contract))
 
     print("✅ Work Item risk readiness tests passed")
     return 0

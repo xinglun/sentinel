@@ -238,33 +238,42 @@ def validate_optional_checkpoint_evidence(summary: dict[str, Any], contract: dic
         missing = [stage for stage in required_stages if stage not in seen]
         if missing:
             issues.append(f"checkpointEvidence が不足しています: {', '.join(missing)}")
+        acceptance_count = len(contract.get("acceptance", [])) if isinstance(contract.get("acceptance"), list) else 0
+        unknown_count = len(contract.get("unknowns", [])) if isinstance(contract.get("unknowns"), list) else 0
+        required_check_count = len([
+            item for item in contract.get("verification", [])
+            if isinstance(item, dict) and item.get("required") is True and non_empty_string(item.get("command"))
+        ])
+        verification_status = {
+            item.get("command"): item.get("result")
+            for item in summary.get("verification", [])
+            if isinstance(item, dict)
+        }
+        passed_required_count = sum(
+            1
+            for item in contract.get("verification", [])
+            if isinstance(item, dict)
+            and item.get("required") is True
+            and non_empty_string(item.get("command"))
+            and verification_status.get(item["command"]) == "passed"
+        )
         for item in checkpoint_evidence(summary):
-            if item.get("stage") in required_stages and item.get("recorded") is True:
+            stage = item.get("stage")
+            if stage in required_stages and item.get("recorded") is True:
                 if expected_hash and item.get("contractHash") != expected_hash:
-                    issues.append(f"checkpointEvidence[{item.get('stage')}] contractHash が stale です。")
+                    issues.append(f"checkpointEvidence[{stage}] contractHash が stale です。")
                 expected_counts = {
-                    "acceptanceCount": len(contract.get("acceptance", [])) if isinstance(contract.get("acceptance"), list) else 0,
-                    "unknownCount": len(contract.get("unknowns", [])) if isinstance(contract.get("unknowns"), list) else 0,
-                    "requiredChecks": len([
-                        item for item in contract.get("verification", [])
-                        if isinstance(item, dict) and item.get("required") is True and non_empty_string(item.get("command"))
-                    ]),
+                    "acceptanceCount": acceptance_count,
+                    "unknownCount": unknown_count,
+                    "requiredChecks": required_check_count,
                 }
-                verification_status = {
-                    item.get("command"): item.get("result")
-                    for item in summary.get("verification", [])
-                    if isinstance(item, dict)
-                }
-                expected_counts["requiredChecksPassed"] = sum(
-                    1 for item in contract.get("verification", [])
-                    if isinstance(item, dict)
-                    and item.get("required") is True
-                    and non_empty_string(item.get("command"))
-                    and verification_status.get(item["command"]) == "passed"
-                )
+                if stage == "after_verification":
+                    expected_counts["requiredChecksPassed"] = passed_required_count
+                else:
+                    expected_counts["requiredChecksPassed"] = 0
                 for key, expected in expected_counts.items():
                     if item.get(key) != expected:
-                        issues.append(f"checkpointEvidence[{item.get('stage')}].{key} が stale です。")
+                        issues.append(f"checkpointEvidence[{stage}].{key} が stale です。")
     return issues
 
 
