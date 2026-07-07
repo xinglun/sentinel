@@ -1,0 +1,137 @@
+{
+  "contractVersion": 1,
+  "workItemId": "market-interpretation-acceptance-fix",
+  "mode": "code",
+  "title": "市場解釈層の验收修正",
+  "scope": [
+    ".ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+    ".ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/market-interpretation-layer.contract.json",
+    ".ai/work-items/archive/2026/market-interpretation-layer-review-fixes.contract.json",
+    ".ai/work-items/archive/2026/market-interpretation-layer-review-fixes.summary.json",
+    ".ai/work-items/archive/2026/market-interpretation-layer.summary.json",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/trading/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "reason": "验收修正の scope / acceptance / verification を定義する。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "audit daily の Market Interpretation Snapshot 出力ロジック。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "验收で確認された audit daily snapshot の代表例。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "市場解釈層の audit daily 表示语义を修正する。表示専用だが snapshot 差分の確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "验收修正の範囲は audit daily の説明出力に限定され、decision chain へ接続しない。"
+  },
+  "preReviewWarnings": [
+    "Leadership の primary と weakening が同一 symbol を同時に主張しないことを確認する。",
+    "trend_continuation を exceptionalFactors に入れず、normal day reason として扱うことを確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "audit daily の Leadership で primary と weakening が同一 breakout fallback から重複しない。",
+    "trend_continuation は exceptionalFactors に入らず、Normal Trading Day の reason として扱われる。",
+    "Decision Weight = 0% と observationOnly は維持される。",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing / decision threshold に影響しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

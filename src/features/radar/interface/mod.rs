@@ -2,6 +2,7 @@ pub(crate) mod audit_daily_report;
 pub mod display;
 pub(crate) mod hypothesis_read_model;
 pub(crate) mod interpretation_read_model;
+pub(crate) mod market_interpretation_read_model;
 pub mod presentation;
 pub mod presentation_assembler;
 pub mod radar_pipeline_runner;

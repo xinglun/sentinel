@@ -1,0 +1,153 @@
+{
+  "contractVersion": 1,
+  "workItemId": "market-interpretation-layer",
+  "mode": "code",
+  "title": "市場解釈層の追加",
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/market-interpretation-layer.contract.json",
+    ".ai/work-items/active/market-interpretation-layer.summary.json",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/acl/**",
+    "src/features/radar/application/**",
+    "src/features/radar/interface/transition_evidence_read_model.rs",
+    "src/features/radar/interface/trend_recognition_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/shared/application/**",
+    "src/features/shared/domain/**"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Telegram / Markdown daily report の出力入口。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "日次監査レポートの出力入口。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "週次 review と JSON latest_context の出力入口。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "既存の説明層 read model と 0% decision weight の実装参照。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "report / snapshot の既存テスト体系。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "説明専用の新規 section を複数の report surface に追加するため、表示差分と snapshot 更新の確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance / verification が explainability-only change として確定した。"
+  },
+  "preReviewWarnings": [
+    "Decision Weight = 0% を report / review に明示し、Gate / Execution / Trader / Action Matrix / Position Sizing へ接続しないことを確認する。",
+    "report / weekly review の表示順が既存の Interpretation / Signal Context と競合しないか確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Decision Weight = 0% の市場解釈層が report で明示される。",
+    "Normal / Exceptional の dayType と exceptionalFactors が説明専用の出力として表示される。",
+    "primary / supporting / weakening の leadership が説明専用の出力として表示される。",
+    "rotationType / from / to / interpretation の rotation observation が説明専用の出力として表示される。",
+    "breadthScore / concentrationScore / rotationScore と label が説明専用の出力として表示される。",
+    "trend / macro / expectation / gravity / flow / overall の confidence 分解が表示される。",
+    "interpretation priority は高優先度 layer のみ詳細化し、低優先度 layer は簡潔に扱う。",
+    "Telegram report / Markdown daily report / weekly review / snapshot or fixture に必要な表示と検証が追加される。",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing / any decision threshold に影響しないことをテストで確認する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,139 @@
+{
+  "workItemId": "market-interpretation-acceptance-fix",
+  "contractPath": ".ai/work-items/archive/2026/market-interpretation-acceptance-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "reason": "市场解釈層の验收修正 scope と acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "reason": "验收修正、検証結果、review 状態を記録した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "audit daily の Leadership fallback と trend continuation の exceptional 判定を修正し、回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-interpretation-acceptance-fix.contract.json SUMMARY=.ai/work-items/active/market-interpretation-acceptance-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は audit daily の説明出力と回帰テストに限定した。Decision Weight = 0% と observation-only boundary は維持している。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "breakout_changes fallback が退場銘柄を primary leadership として扱う可能性があった。",
+      "resolution": "to_status が NoBreakout の breakout change を primary fallback から除外し、退場銘柄は weakening 側に限定した。"
+    },
+    {
+      "issue": "trend_continuation が exceptionalFactors に入ると、通常の trend continuation day を exceptional と誤読する可能性があった。",
+      "resolution": "trend_continuation は exceptionalFactors へ入れず、day type reason としてのみ扱う回帰テストを追加した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "验收修正の scope / sources / acceptance / verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は audit daily の表示専用ロジックと Work Item metadata に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt、test、clippy、Contract、scope check が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks と Cockpit guards の通過結果を Summary に反映した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "验收修正の required checks は通過し、既知の residual risk はない。",
+    "expectedReviewFocus": [
+      "audit daily の Leadership primary / weakening の分離",
+      "trend_continuation が normal day reason として扱われること",
+      "Decision Weight = 0% と report-only boundary"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "verified",
+    "reportOutput": "changed",
+    "persistence": "snapshot_and_weekly_context_existing_change",
+    "i18n": "snapshot_existing_change",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "验收で指摘された explainability 語义を修正する。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "验收で指摘された explainability 語义を修正する。",
+      "solidifiedTo": "guard",
+      "reason": "audit daily 回帰テストと Summary の review focus として primary / weakening 分離と trend_continuation normal day を固定した。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "完了報告では、変更が report / audit / review 専用であり、Gate、Execution、Trader、Action Matrix、Position Sizing には接続しないことを明記する。"
+}

@@ -36,4 +36,41 @@
 
 6. Audit One-liner
 - NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.
+
+7. Market Interpretation Snapshot
+- decision_weight: 0%
+- dayType: exceptional
+- reason: unusual_rotation
+- exceptionalFactors: [unusual_rotation]
+- Leadership:
+  - primary: [GOOG]
+  - supporting: []
+  - weakening: []
+  - leadershipBreadth: narrow
+- Rotation Observation:
+  - rotationType: mega_cap_internal_rotation
+  - from: []
+  - to: [GOOG]
+  - interpretation: Flow is rotating within the leading mega caps rather than exiting.
+  - observationOnly: true
+- Trend Concentration:
+  - breadthScore: 18
+  - concentrationScore: 82
+  - rotationScore: 66
+  - label: very_narrow
+- Observation Confidence:
+  - trend: MEDIUM
+  - macro: LOW
+  - supply: MEDIUM
+  - expectation: NONE
+  - gravity: NONE
+  - flow: LOW
+  - overall: MEDIUM
+- Interpretation Priority:
+  - Trend: ★★
+  - Supply: ★★
+  - Macro: ★
+  - Flow: ★
+  - Expectation: ☆
+- Boundary: this is an audit-side explanation snapshot only; it does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing.
 - Trend Recognition Quality: Early Leader; Diffusion Score 0.45; Conviction Score 0.45; Lag State Leading formed / Lagging

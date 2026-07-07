@@ -433,6 +433,10 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     out.push_str(&format!("\n6. {}\n", text.section_one_liner));
     out.push_str(&format!("- {}\n", audit_sentence));
 
+    out.push_str(&build_market_interpretation_audit_snapshot(
+        today, language, &text,
+    ));
+
     if let Some(evidence) = &today_latest.log.trend_recognition {
         let dict = crate::features::shared::interface::i18n::get_dictionary(language);
         let tr_dict = &dict.trend_recognition;
@@ -467,6 +471,408 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     out
 }
 
+fn build_market_interpretation_audit_snapshot(
+    day: &TransitionAuditDay,
+    language: Language,
+    text: &AuditDailyText,
+) -> String {
+    let latest = day.latest();
+    let trend_recognition = latest.log.trend_recognition.as_ref();
+    let substantive_records = trend_recognition
+        .and_then(|e| e.substantive.as_ref())
+        .map(|substantive| {
+            substantive
+                .records
+                .iter()
+                .filter_map(|record| record.symbol.as_ref().map(|symbol| symbol.to_string()))
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+
+    let mut leadership_primary = unique_symbols(&substantive_records);
+    if leadership_primary.is_empty() {
+        leadership_primary = unique_symbols(
+            &latest
+                .log
+                .breakout_changes
+                .iter()
+                .filter(|change| {
+                    !matches!(
+                        change.to_status,
+                        crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+                    )
+                })
+                .map(|change| change.symbol.clone())
+                .collect::<Vec<_>>(),
+        );
+    }
+    let leadership_supporting = leadership_primary
+        .iter()
+        .skip(1)
+        .take(2)
+        .cloned()
+        .collect::<Vec<_>>();
+    let leadership_weakening = unique_symbols(
+        &latest
+            .log
+            .breakout_changes
+            .iter()
+            .filter(|change| change.status_changed)
+            .map(|change| change.symbol.clone())
+            .collect::<Vec<_>>(),
+    )
+    .into_iter()
+    .filter(|symbol| !leadership_primary.contains(symbol))
+    .collect::<Vec<_>>();
+
+    let exceptional_factors = audit_exceptional_factors(latest, trend_recognition);
+    let day_type = if exceptional_factors.is_empty() {
+        "normal"
+    } else {
+        "exceptional"
+    };
+    let day_type_reason = audit_day_type_reason(latest, trend_recognition);
+    let leadership_breadth = audit_leadership_breadth(
+        leadership_primary.len(),
+        leadership_supporting.len(),
+        leadership_weakening.len(),
+    );
+    let concentration = audit_concentration_scores(
+        leadership_primary.len(),
+        leadership_supporting.len(),
+        leadership_weakening.len(),
+        latest,
+    );
+    let rotation_type = audit_rotation_type(latest, trend_recognition);
+    let rotation_from = leadership_weakening.clone();
+    let mut rotation_to = leadership_primary.clone();
+    let additional_supporting = leadership_supporting
+        .iter()
+        .filter(|symbol| !rotation_to.contains(symbol))
+        .cloned()
+        .collect::<Vec<_>>();
+    rotation_to.extend(additional_supporting);
+
+    let confidence = audit_confidence_labels(latest, trend_recognition, exceptional_factors.len());
+    let priority = audit_interpretation_priority(&confidence);
+
+    let mut out = String::new();
+    out.push_str(&format!("\n7. {}\n", text.market_interpretation_snapshot));
+    out.push_str("- decision_weight: 0%\n");
+    out.push_str(&format!("- dayType: {}\n", day_type));
+    out.push_str(&format!("- reason: {}\n", day_type_reason));
+    out.push_str(&format!(
+        "- exceptionalFactors: {}\n",
+        format_string_list(&exceptional_factors)
+    ));
+    out.push_str("- Leadership:\n");
+    out.push_str(&format!(
+        "  - primary: {}\n",
+        format_string_list(&leadership_primary)
+    ));
+    out.push_str(&format!(
+        "  - supporting: {}\n",
+        format_string_list(&leadership_supporting)
+    ));
+    out.push_str(&format!(
+        "  - weakening: {}\n",
+        format_string_list(&leadership_weakening)
+    ));
+    out.push_str(&format!("  - leadershipBreadth: {}\n", leadership_breadth));
+    out.push_str("- Rotation Observation:\n");
+    out.push_str(&format!("  - rotationType: {}\n", rotation_type));
+    out.push_str(&format!(
+        "  - from: {}\n",
+        format_string_list(&rotation_from)
+    ));
+    out.push_str(&format!("  - to: {}\n", format_string_list(&rotation_to)));
+    out.push_str(&format!(
+        "  - interpretation: {}\n",
+        audit_rotation_interpretation(language, &rotation_type)
+    ));
+    out.push_str("  - observationOnly: true\n");
+    out.push_str("- Trend Concentration:\n");
+    out.push_str(&format!("  - breadthScore: {}\n", concentration.0));
+    out.push_str(&format!("  - concentrationScore: {}\n", concentration.1));
+    out.push_str(&format!("  - rotationScore: {}\n", concentration.2));
+    out.push_str(&format!("  - label: {}\n", concentration.3));
+    out.push_str("- Observation Confidence:\n");
+    out.push_str(&format!("  - trend: {}\n", confidence.0));
+    out.push_str(&format!("  - macro: {}\n", confidence.1));
+    out.push_str(&format!("  - supply: {}\n", confidence.2));
+    out.push_str(&format!("  - expectation: {}\n", confidence.3));
+    out.push_str(&format!("  - gravity: {}\n", confidence.4));
+    out.push_str(&format!("  - flow: {}\n", confidence.5));
+    out.push_str(&format!("  - overall: {}\n", confidence.6));
+    out.push_str("- Interpretation Priority:\n");
+    for item in priority {
+        out.push_str(&format!("  - {}\n", item));
+    }
+    out.push_str(&format!("- {}\n", text.market_interpretation_boundary));
+    out
+}
+
+fn unique_symbols(symbols: &[String]) -> Vec<String> {
+    let mut seen = std::collections::BTreeSet::new();
+    let mut out = Vec::new();
+    for symbol in symbols {
+        if seen.insert(symbol.clone()) {
+            out.push(symbol.clone());
+        }
+    }
+    out
+}
+
+fn format_string_list(values: &[String]) -> String {
+    if values.is_empty() {
+        "[]".to_string()
+    } else {
+        format!("[{}]", values.join(", "))
+    }
+}
+
+fn audit_exceptional_factors(
+    latest: &TransitionAuditEntry,
+    _trend_recognition: Option<
+        &crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence,
+    >,
+) -> Vec<String> {
+    let mut factors = Vec::new();
+    if latest.log.market_state.changed {
+        factors.push("macro_surprise".to_string());
+    }
+    if latest.log.risk_overlay.changed {
+        factors.push("abnormal_volume_or_flow".to_string());
+    }
+    if !latest.log.breakout_changes.is_empty() {
+        factors.push("unusual_rotation".to_string());
+    }
+    factors.sort();
+    factors.dedup();
+    factors
+}
+
+fn audit_day_type_reason(
+    latest: &TransitionAuditEntry,
+    trend_recognition: Option<
+        &crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence,
+    >,
+) -> String {
+    if latest.log.market_state.changed {
+        return "macro_surprise".to_string();
+    }
+    if !latest.log.breakout_changes.is_empty() {
+        return "unusual_rotation".to_string();
+    }
+    if latest.log.risk_overlay.changed {
+        return "abnormal_flow".to_string();
+    }
+    if trend_recognition.is_some() {
+        return "trend_continuation".to_string();
+    }
+    "trend_continuation".to_string()
+}
+
+fn audit_leadership_breadth(
+    primary_count: usize,
+    supporting_count: usize,
+    weakening_count: usize,
+) -> String {
+    if primary_count <= 1 && supporting_count <= 1 && weakening_count == 0 {
+        "narrow".to_string()
+    } else if weakening_count > 0 {
+        "rotation".to_string()
+    } else {
+        "broad".to_string()
+    }
+}
+
+fn audit_concentration_scores(
+    primary_count: usize,
+    supporting_count: usize,
+    weakening_count: usize,
+    latest: &TransitionAuditEntry,
+) -> (usize, usize, usize, String) {
+    let breadth_score = match primary_count + supporting_count + weakening_count {
+        0 => 0,
+        1 => 18,
+        2 => 32,
+        3 => 45,
+        4 => 58,
+        5 => 68,
+        _ => 76,
+    };
+    let concentration_score = 100usize.saturating_sub(breadth_score);
+    let rotation_score = if latest.log.breakout_changes.is_empty() {
+        18
+    } else {
+        66
+    };
+    let label = if concentration_score >= 80 {
+        "very_narrow"
+    } else if concentration_score >= 60 {
+        "narrow"
+    } else if concentration_score >= 40 {
+        "mixed"
+    } else {
+        "broad"
+    };
+    (
+        breadth_score,
+        concentration_score,
+        rotation_score,
+        label.to_string(),
+    )
+}
+
+fn audit_rotation_type(
+    latest: &TransitionAuditEntry,
+    trend_recognition: Option<
+        &crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence,
+    >,
+) -> String {
+    if latest.log.market_state.changed
+        && matches!(
+            latest.log.market_state.to,
+            crate::features::radar::domain::market_regime::MarketState::DEFENSIVE
+        )
+    {
+        return "defensive_rotation".to_string();
+    }
+    if latest.log.market_state.changed {
+        return "index_rotation".to_string();
+    }
+    if !latest.log.breakout_changes.is_empty() {
+        return "mega_cap_internal_rotation".to_string();
+    }
+    if matches!(
+        trend_recognition.map(|e| e.state),
+        Some(
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging
+                | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Broadening
+                | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature
+        )
+    ) {
+        return "broad_participation".to_string();
+    }
+    "none".to_string()
+}
+
+fn audit_rotation_interpretation(language: Language, rotation_type: &str) -> String {
+    match language {
+        Language::ZhCn => match rotation_type {
+            "defensive_rotation" => "资金更偏向防御板块内切换。".to_string(),
+            "index_rotation" => "更像指数内部轮动，而不是系统性撤退。".to_string(),
+            "mega_cap_internal_rotation" => "资金在主导资产内部轮动，而非整体流出。".to_string(),
+            "broad_participation" => "参与面扩展，轮动更接近广度扩散。".to_string(),
+            _ => "当前未观察到明确的轮动切换。".to_string(),
+        },
+        Language::EnUs => match rotation_type {
+            "defensive_rotation" => "Flow is rotating into defensive groups.".to_string(),
+            "index_rotation" => {
+                "This looks like index-level rotation rather than broad retreat.".to_string()
+            }
+            "mega_cap_internal_rotation" => {
+                "Flow is rotating within the leading mega caps rather than exiting.".to_string()
+            }
+            "broad_participation" => {
+                "Participation is broadening rather than collapsing.".to_string()
+            }
+            _ => "No clear rotation regime is observable.".to_string(),
+        },
+        Language::JaJp => match rotation_type {
+            "defensive_rotation" => "資金は防御グループ内へ回転している。".to_string(),
+            "index_rotation" => {
+                "広範な撤退ではなく、指数内部のローテーションとして観測される。".to_string()
+            }
+            "mega_cap_internal_rotation" => {
+                "資金は主導大型株の内部で回っており、全面流出ではない。".to_string()
+            }
+            "broad_participation" => {
+                "参加銘柄が広がっており、広がりを伴うローテーションとして観測される。".to_string()
+            }
+            _ => "明確なローテーションは観測されない。".to_string(),
+        },
+    }
+}
+
+fn audit_confidence_labels(
+    latest: &TransitionAuditEntry,
+    trend_recognition: Option<
+        &crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence,
+    >,
+    exceptional_count: usize,
+) -> (String, String, String, String, String, String, String) {
+    let trend = match trend_recognition.map(|e| e.state) {
+        Some(
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::LeaderConfirmedFollowersLagging
+                | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Broadening
+                | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature,
+        ) => "HIGH",
+        Some(
+            crate::features::radar::domain::trend_cohesion::TrendContinuationState::StructuralPersistence
+                | crate::features::radar::domain::trend_cohesion::TrendContinuationState::EarlyLeader,
+        ) => "MEDIUM",
+        Some(crate::features::radar::domain::trend_cohesion::TrendContinuationState::None) | None => "LOW",
+    };
+    let macro_confidence = if latest.log.market_state.changed {
+        "MEDIUM"
+    } else {
+        "LOW"
+    };
+    let supply = if latest.log.breakout_changes.is_empty() {
+        "LOW"
+    } else {
+        "MEDIUM"
+    };
+    let expectation = "NONE";
+    let gravity = "NONE";
+    let flow = if latest.log.risk_overlay.changed || exceptional_count > 1 {
+        "MEDIUM"
+    } else {
+        "LOW"
+    };
+    let overall = if trend == "HIGH" && flow == "MEDIUM" {
+        "MEDIUM"
+    } else if trend == "HIGH" {
+        "HIGH"
+    } else if trend == "MEDIUM" || flow == "MEDIUM" {
+        "MEDIUM"
+    } else {
+        "LOW"
+    };
+    (
+        trend.to_string(),
+        macro_confidence.to_string(),
+        supply.to_string(),
+        expectation.to_string(),
+        gravity.to_string(),
+        flow.to_string(),
+        overall.to_string(),
+    )
+}
+
+fn audit_interpretation_priority(
+    confidence: &(String, String, String, String, String, String, String),
+) -> Vec<String> {
+    let priority = [
+        ("Trend", &confidence.0),
+        ("Supply", &confidence.2),
+        ("Macro", &confidence.1),
+        ("Flow", &confidence.5),
+        ("Expectation", &confidence.3),
+    ];
+    priority
+        .iter()
+        .map(|(label, confidence)| match confidence.as_str() {
+            "HIGH" => format!("{}: ★★★★★", label),
+            "MEDIUM" => format!("{}: ★★", label),
+            "LOW" => format!("{}: ★", label),
+            _ => format!("{}: ☆", label),
+        })
+        .collect()
+}
+
 struct AuditDailyText {
     title: &'static str,
     section_gate: &'static str,
@@ -475,6 +881,8 @@ struct AuditDailyText {
     section_streaks: &'static str,
     section_substantive: &'static str,
     section_one_liner: &'static str,
+    market_interpretation_snapshot: &'static str,
+    market_interpretation_boundary: &'static str,
     label_status: &'static str,
     label_duration: &'static str,
     label_no_trade_mode: &'static str,
@@ -520,6 +928,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_streaks: "连续段统计",
             section_substantive: "实体证据摘要",
             section_one_liner: "审计一句话",
+            market_interpretation_snapshot: "市场解释快照",
+            market_interpretation_boundary: "说明: 这是审计侧的解释快照，仅用于 report / review，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。",
             label_status: "状态",
             label_duration: "持续天数",
             label_no_trade_mode: "NO TRADE 分层",
@@ -562,6 +972,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_streaks: "Streak Metrics",
             section_substantive: "Substantive Evidence",
             section_one_liner: "Audit One-liner",
+            market_interpretation_snapshot: "Market Interpretation Snapshot",
+            market_interpretation_boundary: "Boundary: this is an audit-side explanation snapshot only; it does not connect to Gate, Execution, Trader, Action Matrix, or Position Sizing.",
             label_status: "Status",
             label_duration: "Duration",
             label_no_trade_mode: "NO TRADE tier",
@@ -606,6 +1018,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             section_streaks: "連続区間統計",
             section_substantive: "実体的な証拠サマリー",
             section_one_liner: "監査ワンライン要約",
+            market_interpretation_snapshot: "市場解釈スナップショット",
+            market_interpretation_boundary: "境界: これは監査側の説明スナップショットであり、Gate / Execution / Trader / Action Matrix / Position Sizing には接続しません。",
             label_status: "状態",
             label_duration: "継続日数",
             label_no_trade_mode: "NO TRADE レイヤー",
@@ -1172,6 +1586,7 @@ pub(crate) fn audit_daily_usage(language: Language) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::shared::application::run_status::DeliveryStatus;
     use std::fs;
     use tempfile::NamedTempFile;
 
@@ -1220,6 +1635,100 @@ mod tests {
                 }
             }
         })
+    }
+
+    fn sample_audit_days() -> Vec<TransitionAuditDay> {
+        let entry_day1 = TransitionAuditEntry {
+            date: NaiveDate::from_ymd_opt(2026, 4, 21).unwrap(),
+            timestamp: DateTime::parse_from_rfc3339("2026-04-21T09:00:00+00:00").unwrap(),
+            log: serde_json::from_value(
+                sample_transition_json("2026-04-21T09:00:00+00:00", false, "Dispersed")
+                    .get("transition")
+                    .cloned()
+                    .unwrap(),
+            )
+            .unwrap(),
+        };
+        let entry_day2 = TransitionAuditEntry {
+            date: NaiveDate::from_ymd_opt(2026, 4, 22).unwrap(),
+            timestamp: DateTime::parse_from_rfc3339("2026-04-22T15:00:00+00:00").unwrap(),
+            log: serde_json::from_value(
+                sample_transition_json("2026-04-22T15:00:00+00:00", true, "Forming")
+                    .get("transition")
+                    .cloned()
+                    .unwrap(),
+            )
+            .unwrap(),
+        };
+        vec![
+            TransitionAuditDay {
+                date: entry_day1.date,
+                events: vec![entry_day1],
+            },
+            TransitionAuditDay {
+                date: entry_day2.date,
+                events: vec![entry_day2],
+            },
+        ]
+    }
+
+    #[test]
+    fn market_interpretation_audit_keeps_trend_continuation_normal() {
+        let mut value = sample_transition_json("2026-04-22T15:00:00+00:00", true, "Forming");
+        value["transition"]["trend_recognition"]["state"] = serde_json::json!("Broadening");
+        let entry = TransitionAuditEntry {
+            date: NaiveDate::from_ymd_opt(2026, 4, 22).unwrap(),
+            timestamp: DateTime::parse_from_rfc3339("2026-04-22T15:00:00+00:00").unwrap(),
+            log: serde_json::from_value(value["transition"].clone()).unwrap(),
+        };
+        let day = TransitionAuditDay {
+            date: entry.date,
+            events: vec![entry],
+        };
+
+        let snapshot = build_market_interpretation_audit_snapshot(
+            &day,
+            Language::EnUs,
+            &audit_text(Language::EnUs),
+        );
+
+        assert!(snapshot.contains("- dayType: normal"));
+        assert!(snapshot.contains("- reason: trend_continuation"));
+        assert!(snapshot.contains("- exceptionalFactors: []"));
+        assert!(!snapshot.contains("exceptionalFactors: [trend_continuation]"));
+    }
+
+    #[test]
+    fn market_interpretation_audit_does_not_promote_fading_breakout_to_primary() {
+        let mut value = sample_transition_json("2026-04-22T15:00:00+00:00", true, "Forming");
+        value["transition"]["breakout_changes"] = serde_json::json!([
+            {
+                "symbol": "GOOG",
+                "from_status": "ConfirmedBreakout",
+                "to_status": "NoBreakout",
+                "status_changed": true,
+                "risk_changed": false
+            }
+        ]);
+        let entry = TransitionAuditEntry {
+            date: NaiveDate::from_ymd_opt(2026, 4, 22).unwrap(),
+            timestamp: DateTime::parse_from_rfc3339("2026-04-22T15:00:00+00:00").unwrap(),
+            log: serde_json::from_value(value["transition"].clone()).unwrap(),
+        };
+        let day = TransitionAuditDay {
+            date: entry.date,
+            events: vec![entry],
+        };
+
+        let snapshot = build_market_interpretation_audit_snapshot(
+            &day,
+            Language::EnUs,
+            &audit_text(Language::EnUs),
+        );
+
+        assert!(snapshot.contains("  - primary: []"));
+        assert!(snapshot.contains("  - weakening: [GOOG]"));
+        assert!(!snapshot.contains("  - primary: [GOOG]"));
     }
 
     #[test]
@@ -1288,5 +1797,80 @@ mod tests {
         assert!(questions.contains("已有结构证据"));
         assert!(questions.contains("- 需校准认知对象数: 2"));
         assert!(questions.contains("- 需复查观察命题数: 4"));
+    }
+
+    #[test]
+    fn audit_daily_renders_market_interpretation_snapshot() {
+        let days = sample_audit_days();
+        let report = build_audit_daily_report_with_evidence_status(
+            &days,
+            1,
+            14,
+            Language::EnUs,
+            Some(&DeliveryStatus::Succeeded),
+        );
+
+        assert!(report.contains("Market Interpretation Snapshot"));
+        assert!(report.contains("decision_weight: 0%"));
+        assert!(report.contains("dayType: normal"));
+        assert!(report.contains("Leadership:"));
+        assert!(report.contains("Rotation Observation:"));
+        assert!(report.contains("Observation Confidence:"));
+        assert!(report.contains("observationOnly: true"));
+        assert!(report.contains("Boundary: this is an audit-side explanation snapshot only"));
+    }
+
+    #[test]
+    fn audit_daily_does_not_repeat_primary_symbol_in_weakening() {
+        let mut days = sample_audit_days();
+        let day = days
+            .last_mut()
+            .expect("sample audit days should include a target day");
+        let latest = day
+            .events
+            .last_mut()
+            .expect("sample day has at least one event");
+        latest.log.breakout_changes.push(
+            crate::features::radar::domain::transition_log::BreakoutTransition {
+                symbol: "GOOG".to_string(),
+                from_status: crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout,
+                to_status: crate::features::radar::domain::breakout_detection::BreakoutStatus::ConfirmedBreakout,
+                status_changed: true,
+                risk_changed: false,
+            },
+        );
+        let report = build_audit_daily_report_with_evidence_status(
+            &days,
+            1,
+            14,
+            Language::EnUs,
+            Some(&DeliveryStatus::Succeeded),
+        );
+
+        assert!(report.contains("  - primary: [GOOG]"));
+        assert!(report.contains("  - weakening: []"));
+        assert!(!report.contains("  - weakening: [GOOG]"));
+    }
+
+    #[test]
+    fn audit_daily_treats_trend_continuation_as_normal_day_reason() {
+        let mut days = sample_audit_days();
+        let mut day = days.pop().expect("sample day exists");
+        let latest = day.events.last_mut().expect("sample day has event");
+        latest.log.breakout_changes.clear();
+        latest.log.market_state.changed = false;
+        latest.log.risk_overlay.changed = false;
+
+        let report = build_audit_daily_report_with_evidence_status(
+            &[day],
+            0,
+            14,
+            Language::EnUs,
+            Some(&DeliveryStatus::Succeeded),
+        );
+
+        assert!(report.contains("dayType: normal"));
+        assert!(report.contains("reason: trend_continuation"));
+        assert!(report.contains("exceptionalFactors: []"));
     }
 }

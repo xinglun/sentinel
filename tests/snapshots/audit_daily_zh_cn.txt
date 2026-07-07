@@ -36,4 +36,41 @@
 
 6. 审计一句话
 - NO TRADE 连续第 2 天；主因：连续性不足 / 稳定性不足 / 无主线；NO TRADE 分层：侦察态（有信号未验证）；今日突破：GOOG（新增）；主线状态：未形成。
+
+7. 市场解释快照
+- decision_weight: 0%
+- dayType: exceptional
+- reason: unusual_rotation
+- exceptionalFactors: [unusual_rotation]
+- Leadership:
+  - primary: [GOOG]
+  - supporting: []
+  - weakening: []
+  - leadershipBreadth: narrow
+- Rotation Observation:
+  - rotationType: mega_cap_internal_rotation
+  - from: []
+  - to: [GOOG]
+  - interpretation: 资金在主导资产内部轮动，而非整体流出。
+  - observationOnly: true
+- Trend Concentration:
+  - breadthScore: 18
+  - concentrationScore: 82
+  - rotationScore: 66
+  - label: very_narrow
+- Observation Confidence:
+  - trend: MEDIUM
+  - macro: LOW
+  - supply: MEDIUM
+  - expectation: NONE
+  - gravity: NONE
+  - flow: LOW
+  - overall: MEDIUM
+- Interpretation Priority:
+  - Trend: ★★
+  - Supply: ★★
+  - Macro: ★
+  - Flow: ★
+  - Expectation: ☆
+- 说明: 这是审计侧的解释快照，仅用于 report / review，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 - 趋势识别质量: 初步领涨; 扩散评分 0.45; 确信度 0.45; 滞后状态 先行成立・追随迟缓
