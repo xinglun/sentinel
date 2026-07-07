@@ -40,6 +40,10 @@ checks:
     commandTemplate: make check-ai-change-summary SUMMARY={summaryPath} CONTRACT={contractPath}
     purpose: AI Change Summary と Contract の対応を確認する。
 
+  aiCheckpoint:
+    commandTemplate: make ai-checkpoint CONTRACT={contractPath} SUMMARY={summaryPath} STAGE={stage}
+    purpose: checkpoint evidence chain と required check の状態を手動で確認する。
+
   aiBacktrack:
     command: make check-ai-backtrack
     purpose: test / snapshot / i18n / Work Item evidence の無宣言な後退を hard fail する。破壊的変更は Contract と Summary の両方へ記録する。

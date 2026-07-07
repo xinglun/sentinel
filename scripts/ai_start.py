@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -27,6 +28,48 @@ def slug(value: str) -> str:
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def contract_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
+
+
+def current_head() -> str:
+    result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def baseline_dirty_paths() -> list[str]:
+    result = subprocess.run(
+        ["git", "status", "--porcelain=v1", "--untracked-files=all"],
+        cwd=PROJECT_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return []
+    paths: list[str] = []
+    for line in result.stdout.splitlines():
+        if len(line) < 4:
+            continue
+        path = line[3:].strip()
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        if path:
+            paths.append(path)
+    return sorted(set(paths))
+
+
+def required_verification_count(contract: dict) -> int:
+    values = contract.get("verification", [])
+    if not isinstance(values, list):
+        return 0
+    return sum(
+        1
+        for item in values
+        if isinstance(item, dict) and item.get("required") is True and isinstance(item.get("command"), str) and item["command"].strip()
+    )
 
 
 def run_preflight_checks() -> int:
@@ -82,10 +125,14 @@ def main() -> int:
     contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
     summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
     contract = {
-        "contractVersion": 1,
+        "contractVersion": 2,
         "workItemId": task,
         "mode": args.mode,
         "title": title,
+        "baseCommit": current_head(),
+        "baselineDirtyPaths": baseline_dirty_paths(),
+        "problemStatement": "このタスクが解決する問題を記述する。製品文脈がない場合は機械的変更であることを明記する。",
+        "intent": {},
         "scope": [contract_rel, summary_rel],
         "outOfScope": [],
         "sources": [{"path": contract_rel, "reason": "Work Item の初期 skeleton。"}],
@@ -131,6 +178,8 @@ def main() -> int:
         "destructiveChangePolicy": {"allowed": False, "requiresHumanApproval": True, "allowPatterns": []},
         "rollbackNote": "この Work Item の diff を revert する。",
     }
+    write_json(contract_path, contract)
+    contract_digest = contract_hash(contract_path)
     summary = {
         "workItemId": task,
         "contractPath": contract_rel,
@@ -145,6 +194,24 @@ def main() -> int:
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "checkpointEvidence": [
+            {
+                "stage": stage,
+                "recorded": False,
+                "detail": "initial skeleton",
+                "contractHash": contract_digest,
+                "acceptanceCount": 0,
+                "unknownCount": 0,
+                "requiredChecks": required_verification_count(contract),
+                "requiredChecksPassed": 0,
+            }
+            for stage in [
+                "contract_start",
+                "before_edit",
+                "before_ready",
+                "after_verification",
+            ]
+        ],
         "checkpointReview": [
             {
                 "checkpoint": "contract_start",
@@ -182,7 +249,6 @@ def main() -> int:
             "expectedReviewFocus": ["scope", "sources", "acceptance", "verification"],
         },
     }
-    write_json(contract_path, contract)
     write_json(summary_path, summary)
     status_code = generate_active_status(contract_path, summary_path)
     if status_code != 0:

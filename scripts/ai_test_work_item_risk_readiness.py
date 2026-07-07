@@ -10,13 +10,21 @@ from ai_generate_status import status_for
 
 def base_contract() -> dict:
     return {
-        "contractVersion": 1,
+        "contractVersion": 2,
         "workItemId": "risk-readiness-test",
         "mode": "code",
         "title": "Risk readiness test",
+        "baseCommit": "deadbeefdeadbeef",
+        "baselineDirtyPaths": [],
         "scope": ["src/example.rs"],
         "outOfScope": [],
         "sources": [{"path": "docs/spec.md", "reason": "仕様根拠。"}],
+        "problemStatement": "review で確認すべき残余リスクを明示する。",
+        "intent": {
+            "problem": "risk readiness を検証する。",
+            "constraints": ["summary の checkpointEvidence を記録する。"],
+            "rationale": "checkpoint chain と review readiness の両方を保護する。",
+        },
         "unknowns": [],
         "notCodable": False,
         "riskAssessment": {
@@ -86,6 +94,24 @@ def base_summary() -> dict:
         "generatedFiles": [],
         "destructiveChanges": [],
         "observedIssues": [],
+        "checkpointEvidence": [
+            {
+                "stage": stage,
+                "recorded": True,
+                "detail": "fixture checkpoint",
+                "contractHash": "deadbeefdeadbeef",
+                "acceptanceCount": 1,
+                "unknownCount": 0,
+                "requiredChecks": len(base_contract()["verification"]),
+                "requiredChecksPassed": len(base_contract()["verification"]),
+            }
+            for stage in [
+                "contract_start",
+                "before_edit",
+                "before_ready",
+                "after_verification",
+            ]
+        ],
         "checkpointReview": [
             {
                 "checkpoint": "contract_start",

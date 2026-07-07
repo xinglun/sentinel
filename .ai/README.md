@@ -56,7 +56,7 @@ Work Item は、Agent が問題を認識した時に「できる」と過大主�
 AI Agent の運用 risk は次の三つを前提に扱います。
 
 1. Prompt は助言であり、命令ではない。重要な制約は `make` target、hook、gate、scope guard で検証する。
-2. Agent は実行途中で文脈を失うことがある。Contract と Summary は中間判断を曖昧な会話文脈に残さず、checkpoint ごとに更新する。
+2. Agent は実行途中で文脈を失うことがある。Contract と Summary は中間判断を曖昧な会話文脈に残さず、checkpoint ごとに更新し、必要なら `make ai-checkpoint` で evidence snapshot を出力する。
 3. Agent には合法に「分からない」「実装できない」「検証できない」と言える channel が必要である。証拠不足や能力不足を実装で埋めない。
 
 Contract では次を使います。
@@ -66,6 +66,7 @@ Contract では次を使います。
 - `executionDecision`: `continue`、`contract_update_required`、`blocked`、`downgraded_to_investigation` のいずれかを記録する。
 - `preReviewWarnings`: review で問題化しそうな観点を事前に記録する。
 - `checkpointPolicy`: `contract_start`、`before_edit`、`before_ready`、`after_verification` の確認点と reminder を記録する。
+- `checkpointEvidence`: Summary に checkpoint ごとの evidence snapshot を残す。`contractHash`、`acceptanceCount`、`unknownCount`、`requiredChecks`、`requiredChecksPassed` を更新する。
 
 `mode: code` かつ `executionDecision: continue` の Contract では、AI governance の hard gate を required verification として持つ必要があります。少なくとも Contract、scope、guard、backtrack、summary、status の `make` gate が必要です。
 
@@ -88,7 +89,7 @@ Summary では次を使います。
 4. `checkpointPolicy` を確認し、少なくとも `contract_start`、`before_edit`、`before_ready`、`after_verification` の判断点を保持する。
 5. `scope` と `outOfScope` の範囲内で実装する。
 6. `verification` に記載した command を `make` 経由で実行する。
-7. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus を記録する。
+7. `.ai/work-items/active/<task>.summary.json` に結果、residual risk、review readiness、expected review focus、checkpoint evidence を記録する。
 8. `make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json`、`make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json`、`make check-ai-coverage-guard` を実行し、scope 外変更、無宣言な回帰、および test 証跡不足がないことを確認する。PR に archive 配下の変更が含まれる場合は `make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>` を CI で併用する。
 9. `make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で `.ai/cockpit/current_status.md` を更新する。
 10. `make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` と `make check-ai-status-consistency` で参照整合性を確認する。

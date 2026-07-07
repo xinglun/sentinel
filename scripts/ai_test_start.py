@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -34,6 +35,8 @@ def test_start_generates_active_status(root: Path) -> None:
     with (
         patch.object(ai_start, "PROJECT_ROOT", root),
         patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "current_head", return_value="abc123"),
+        patch.object(ai_start, "baseline_dirty_paths", return_value=["scripts/ai_start.py"]),
         patch.object(ai_start.subprocess, "run", fake_run),
         patch.object(
             sys,
@@ -52,13 +55,20 @@ def test_start_generates_active_status(root: Path) -> None:
         code = ai_start.main()
 
     assert_true(code == 0, "ai_start should succeed")
+    contract = json.loads((active / "sample-start-status.contract.json").read_text(encoding="utf-8"))
+    summary = json.loads((active / "sample-start-status.summary.json").read_text(encoding="utf-8"))
+    assert_true(contract["contractVersion"] == 2, "contract should be v2")
+    assert_true(contract["baseCommit"] == "abc123", "contract should record baseCommit")
+    assert_true(contract["baselineDirtyPaths"] == ["scripts/ai_start.py"], "contract should record baselineDirtyPaths")
+    assert_true("checkpointEvidence" in summary, "summary should contain checkpointEvidence")
     assert_true(
-        (active / "sample-start-status.contract.json").exists(),
-        "contract should be created",
-    )
-    assert_true(
-        (active / "sample-start-status.summary.json").exists(),
-        "summary should be created",
+        [item["stage"] for item in summary["checkpointEvidence"]] == [
+            "contract_start",
+            "before_edit",
+            "before_ready",
+            "after_verification",
+        ],
+        "summary should prefill checkpointEvidence chain",
     )
     assert_true(
         any("scripts/ai_generate_status.py" in call for call in calls),
