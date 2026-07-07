@@ -456,6 +456,7 @@ impl PresentationAssembler {
                 packet, rules, &dict,
             ),
             interpretation_layer: None,
+            market_interpretation: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),

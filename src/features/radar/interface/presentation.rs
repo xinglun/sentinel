@@ -400,6 +400,64 @@ pub struct InterpretationLayerViewModel {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct MarketInterpretationViewModel {
+    pub title: String,
+    pub notice: String,
+    pub current_decision_weight_label: String,
+    pub current_decision_weight_value: String,
+    pub day_type_label: String,
+    pub day_type_value: String,
+    pub day_type_reason_label: String,
+    pub day_type_reason_value: String,
+    pub exceptional_factors_label: String,
+    pub exceptional_factors_values: Vec<String>,
+    pub leadership_label: String,
+    pub primary_label: String,
+    pub primary_values: Vec<String>,
+    pub supporting_label: String,
+    pub supporting_values: Vec<String>,
+    pub weakening_label: String,
+    pub weakening_values: Vec<String>,
+    pub leadership_breadth_label: String,
+    pub leadership_breadth_value: String,
+    pub concentration_label: String,
+    pub breadth_score_label: String,
+    pub breadth_score_value: String,
+    pub concentration_score_label: String,
+    pub concentration_score_value: String,
+    pub rotation_score_label: String,
+    pub rotation_score_value: String,
+    pub rotation_label: String,
+    pub rotation_type_value: String,
+    pub rotation_from_label: String,
+    pub rotation_from_values: Vec<String>,
+    pub rotation_to_label: String,
+    pub rotation_to_values: Vec<String>,
+    pub rotation_interpretation_label: String,
+    pub rotation_interpretation_value: String,
+    pub confidence_label: String,
+    pub trend_confidence_label: String,
+    pub trend_confidence_value: String,
+    pub macro_confidence_label: String,
+    pub macro_confidence_value: String,
+    pub supply_confidence_label: String,
+    pub supply_confidence_value: String,
+    pub expectation_confidence_label: String,
+    pub expectation_confidence_value: String,
+    pub gravity_confidence_label: String,
+    pub gravity_confidence_value: String,
+    pub flow_confidence_label: String,
+    pub flow_confidence_value: String,
+    pub overall_confidence_label: String,
+    pub overall_confidence_value: String,
+    pub interpretation_priority_label: String,
+    pub interpretation_priority_values: Vec<String>,
+    pub observation_only_label: String,
+    pub observation_only_value: String,
+    pub boundary: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct HypothesisLayerViewModel {
     pub title: String,
     pub notice: String,
@@ -507,6 +565,8 @@ pub struct PresentationPacket {
     pub transition_evidence: Option<StateTransitionViewModel>,
     #[serde(default)]
     pub interpretation_layer: Option<InterpretationLayerViewModel>,
+    #[serde(default)]
+    pub market_interpretation: Option<MarketInterpretationViewModel>,
     #[serde(default)]
     pub hypothesis_layer: Option<HypothesisLayerViewModel>,
     // terminal table と archival markdown 用。

@@ -247,6 +247,12 @@ pub(crate) async fn run_pipeline(
                 dict: &dict,
             },
         ));
+        pres_packet.market_interpretation =
+            crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                &packet,
+                &pres_packet,
+                lang,
+            );
 
         let default_trading_config = config::TradingConfig {
             enabled: false,

@@ -176,6 +176,11 @@ pub(crate) fn persist_weekly_state_outputs(
         pres_packet.interpretation_layer.as_ref(),
         text,
     );
+    push_weekly_market_interpretation_snapshot(
+        &mut review,
+        pres_packet.market_interpretation.as_ref(),
+        text,
+    );
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
     push_weekly_capital_dynamics_snapshot(
         &mut review,
@@ -326,6 +331,8 @@ fn build_weekly_latest_context(
         .map(|evidence| evidence.strategic_context.clone())
         .unwrap_or_default();
     let signal_context = build_weekly_signal_context(pres_packet.interpretation_layer.as_ref());
+    let market_interpretation =
+        build_weekly_market_interpretation_context(pres_packet.market_interpretation.as_ref());
 
     json!({
         "trend_breadth_mode": trend_breadth_mode,
@@ -333,6 +340,7 @@ fn build_weekly_latest_context(
         "holding_efficiency": holding_efficiency,
         "strategic_context": strategic_context,
         "signal_context": signal_context,
+        "market_interpretation": market_interpretation,
         "macro_gravity": build_weekly_macro_gravity_context(context),
         "capital_absorption_ipo_queue": capital_absorption_ipo_queue,
         "capital_dynamics": {
@@ -382,6 +390,54 @@ fn build_weekly_signal_context(
         "event_fact": layer.signal_context_event_fact_value,
         "source_diagnostics": layer.signal_context_source_diagnostics_value,
         "interpretation": layer.signal_context_interpretation_value
+    })
+}
+
+fn build_weekly_market_interpretation_context(
+    layer: Option<&crate::features::radar::interface::presentation::MarketInterpretationViewModel>,
+) -> serde_json::Value {
+    let Some(layer) = layer else {
+        return json!({
+            "configured": false
+        });
+    };
+
+    json!({
+        "configured": true,
+        "decision_weight": layer.current_decision_weight_value,
+        "day_type": layer.day_type_value,
+        "reason": layer.day_type_reason_value,
+        "exceptional_factors": layer.exceptional_factors_values,
+        "leadership": {
+            "primary": layer.primary_values,
+            "supporting": layer.supporting_values,
+            "weakening": layer.weakening_values,
+            "breadth": layer.leadership_breadth_value
+        },
+        "rotation": {
+            "type": layer.rotation_type_value,
+            "from": layer.rotation_from_values,
+            "to": layer.rotation_to_values,
+            "interpretation": layer.rotation_interpretation_value,
+            "observation_only": layer.observation_only_value
+        },
+        "concentration": {
+            "breadth_score": layer.breadth_score_value,
+            "concentration_score": layer.concentration_score_value,
+            "rotation_score": layer.rotation_score_value,
+            "label": layer.concentration_label
+        },
+        "confidence": {
+            "trend": layer.trend_confidence_value,
+            "macro": layer.macro_confidence_value,
+            "supply": layer.supply_confidence_value,
+            "expectation": layer.expectation_confidence_value,
+            "gravity": layer.gravity_confidence_value,
+            "flow": layer.flow_confidence_value,
+            "overall": layer.overall_confidence_value
+        },
+        "priority": layer.interpretation_priority_values,
+        "boundary": layer.boundary
     })
 }
 
@@ -445,6 +501,121 @@ fn push_weekly_signal_context_snapshot(
     review.push('\n');
 }
 
+fn push_weekly_market_interpretation_snapshot(
+    review: &mut String,
+    layer: Option<&crate::features::radar::interface::presentation::MarketInterpretationViewModel>,
+    text: &WeeklyText,
+) {
+    review.push('\n');
+    review.push_str(text.market_interpretation_snapshot);
+    review.push('\n');
+    let Some(layer) = layer else {
+        review.push_str(&format!(
+            "- {}\n",
+            text.market_interpretation_not_configured
+        ));
+        review.push_str("- ");
+        review.push_str(text.market_interpretation_boundary);
+        review.push('\n');
+        return;
+    };
+
+    review.push_str(&format!(
+        "- decision_weight: {}\n",
+        layer.current_decision_weight_value
+    ));
+    review.push_str(&format!("- dayType: {}\n", layer.day_type_value));
+    review.push_str(&format!("- reason: {}\n", layer.day_type_reason_value));
+    review.push_str(&format!(
+        "- exceptionalFactors: {}\n",
+        render_json_string_array(&layer.exceptional_factors_values)
+    ));
+    review.push_str("- Leadership:\n");
+    review.push_str(&format!(
+        "  - primary: {}\n",
+        render_json_string_array(&layer.primary_values)
+    ));
+    review.push_str(&format!(
+        "  - supporting: {}\n",
+        render_json_string_array(&layer.supporting_values)
+    ));
+    review.push_str(&format!(
+        "  - weakening: {}\n",
+        render_json_string_array(&layer.weakening_values)
+    ));
+    review.push_str(&format!(
+        "  - leadershipBreadth: {}\n",
+        layer.leadership_breadth_value
+    ));
+    review.push_str("- Rotation Observation:\n");
+    review.push_str(&format!(
+        "  - rotationType: {}\n",
+        layer.rotation_type_value
+    ));
+    review.push_str(&format!(
+        "  - from: {}\n",
+        render_json_string_array(&layer.rotation_from_values)
+    ));
+    review.push_str(&format!(
+        "  - to: {}\n",
+        render_json_string_array(&layer.rotation_to_values)
+    ));
+    review.push_str(&format!(
+        "  - interpretation: {}\n",
+        layer.rotation_interpretation_value
+    ));
+    review.push_str(&format!(
+        "  - observationOnly: {}\n",
+        layer.observation_only_value
+    ));
+    review.push_str("- Trend Concentration:\n");
+    review.push_str(&format!(
+        "  - breadthScore: {}\n",
+        layer.breadth_score_value
+    ));
+    review.push_str(&format!(
+        "  - concentrationScore: {}\n",
+        layer.concentration_score_value
+    ));
+    review.push_str(&format!(
+        "  - rotationScore: {}\n",
+        layer.rotation_score_value
+    ));
+    review.push_str(&format!("  - label: {}\n", layer.concentration_label));
+    review.push_str("- Observation Confidence:\n");
+    review.push_str(&format!("  - trend: {}\n", layer.trend_confidence_value));
+    review.push_str(&format!("  - macro: {}\n", layer.macro_confidence_value));
+    review.push_str(&format!("  - supply: {}\n", layer.supply_confidence_value));
+    review.push_str(&format!(
+        "  - expectation: {}\n",
+        layer.expectation_confidence_value
+    ));
+    review.push_str(&format!(
+        "  - gravity: {}\n",
+        layer.gravity_confidence_value
+    ));
+    review.push_str(&format!("  - flow: {}\n", layer.flow_confidence_value));
+    review.push_str(&format!(
+        "  - overall: {}\n",
+        layer.overall_confidence_value
+    ));
+    review.push_str("- Interpretation Priority:\n");
+    for item in &layer.interpretation_priority_values {
+        review.push_str(&format!("  - {}\n", item));
+    }
+    review.push_str("- ");
+    review.push_str(text.market_interpretation_boundary);
+    review.push('\n');
+}
+
+fn render_json_string_array(values: &[String]) -> String {
+    if values.is_empty() {
+        "[]".to_string()
+    } else {
+        format!("[{}]", values.join(", "))
+    }
+}
+
 struct WeeklyText {
     title: &'static str,
     as_of: &'static str,
@@ -480,6 +651,9 @@ struct WeeklyText {
     signal_context_source_diagnostics: &'static str,
     signal_context_interpretation: &'static str,
     signal_context_boundary: &'static str,
+    market_interpretation_snapshot: &'static str,
+    market_interpretation_not_configured: &'static str,
+    market_interpretation_boundary: &'static str,
     macro_gravity_snapshot: &'static str,
     macro_gravity_not_configured: &'static str,
     rate_pressure: &'static str,
@@ -571,6 +745,10 @@ static WEEKLY_TEXT_ZH: WeeklyText = WeeklyText {
     signal_context_interpretation: "Interpretation",
     signal_context_boundary:
         "边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。",
+    market_interpretation_snapshot: "## Market Interpretation Snapshot",
+    market_interpretation_not_configured: "Market interpretation not configured",
+    market_interpretation_boundary:
+        "Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.",
     macro_gravity_snapshot: "## 宏观引力快照",
     macro_gravity_not_configured: "宏观引力未配置",
     rate_pressure: "利率压力",
@@ -656,6 +834,10 @@ static WEEKLY_TEXT_EN: WeeklyText = WeeklyText {
     signal_context_interpretation: "Interpretation",
     signal_context_boundary:
         "Boundary: Signal Context is kept only for weekly traceability. It does not connect to Gate, Execution, Trader, READY / EXECUTE, or Position Sizing.",
+    market_interpretation_snapshot: "## Market Interpretation Snapshot",
+    market_interpretation_not_configured: "Market interpretation not configured",
+    market_interpretation_boundary:
+        "Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.",
     macro_gravity_snapshot: "## Macro Gravity Snapshot",
     macro_gravity_not_configured: "Macro gravity: not configured",
     rate_pressure: "Rate pressure",
@@ -743,6 +925,10 @@ static WEEKLY_TEXT_JA: WeeklyText = WeeklyText {
     signal_context_interpretation: "Interpretation",
     signal_context_boundary:
         "境界: Signal Context は週次の追跡可能な蓄積のみを担当し、Gate、Execution、Trader、READY / EXECUTE、Position Sizing へ接続しない。",
+    market_interpretation_snapshot: "## Market Interpretation Snapshot",
+    market_interpretation_not_configured: "Market interpretation not configured",
+    market_interpretation_boundary:
+        "境界: market interpretation は観測専用であり、Decision weight は 0% に固定され、Gate、Execution、Trader、Action Matrix、Position Sizing、いかなる decision threshold にも入らない。",
     macro_gravity_snapshot: "## マクログラビティスナップショット",
     macro_gravity_not_configured: "マクログラビティ未設定",
     rate_pressure: "金利圧力",
@@ -1172,10 +1358,14 @@ mod tests {
         build_weekly_latest_context, load_weekly_state_machine_summaries,
         persist_weekly_state_outputs, push_weekly_capital_absorption_ipo_queue_snapshot,
         push_weekly_capital_dynamics_snapshot, push_weekly_expectation_snapshot,
-        push_weekly_flow_layer_snapshot, push_weekly_signal_context_snapshot, weekly_text,
-        WeeklyReportContext,
+        push_weekly_flow_layer_snapshot, push_weekly_market_interpretation_snapshot,
+        push_weekly_signal_context_snapshot, weekly_text, WeeklyReportContext,
+    };
+    use crate::features::radar::interface::display::{
+        RiskOpportunityViewModel, TopActionViewModel,
     };
     use crate::features::radar::interface::presentation::{
+        ExitDecisionItemViewModel, ExitDecisionSummaryViewModel, ExitDisplayIntent,
         InterpretationLayerViewModel, PresentationPacket,
     };
     use crate::features::shared::application::run_status::StateMachineSummary;
@@ -1481,7 +1671,69 @@ mod tests {
             ..Default::default()
         };
         let packet = PresentationPacket {
-            interpretation_layer: Some(interpretation_layer),
+            top_actions: vec![
+                TopActionViewModel {
+                    symbol: "SPY".to_string(),
+                    ..Default::default()
+                },
+                TopActionViewModel {
+                    symbol: "GOOG".to_string(),
+                    ..Default::default()
+                },
+                TopActionViewModel {
+                    symbol: "U".to_string(),
+                    ..Default::default()
+                },
+            ],
+            exit_summary: ExitDecisionSummaryViewModel {
+                items: vec![ExitDecisionItemViewModel {
+                    symbol: "NVDA".to_string(),
+                    intent: ExitDisplayIntent::Trim,
+                    ..Default::default()
+                }],
+                ..Default::default()
+            },
+            risk_opportunities: vec![RiskOpportunityViewModel {
+                kind: "RISK".to_string(),
+                symbol: "PLTR".to_string(),
+                reason: "rotation".to_string(),
+            }],
+            interpretation_layer: Some(interpretation_layer.clone()),
+            market_interpretation: crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                &crate::features::radar::domain::decision::DecisionPacket::default(),
+                &PresentationPacket {
+                    top_actions: vec![
+                        TopActionViewModel {
+                            symbol: "SPY".to_string(),
+                            ..Default::default()
+                        },
+                        TopActionViewModel {
+                            symbol: "GOOG".to_string(),
+                            ..Default::default()
+                        },
+                        TopActionViewModel {
+                            symbol: "U".to_string(),
+                            ..Default::default()
+                        },
+                    ],
+                    exit_summary: ExitDecisionSummaryViewModel {
+                        items: vec![ExitDecisionItemViewModel {
+                            symbol: "NVDA".to_string(),
+                            intent: ExitDisplayIntent::Trim,
+                            ..Default::default()
+                        }],
+                        ..Default::default()
+                    },
+                    risk_opportunities: vec![RiskOpportunityViewModel {
+                        kind: "RISK".to_string(),
+                        symbol: "PLTR".to_string(),
+                        reason: "rotation".to_string(),
+                    }],
+                    interpretation_layer: Some(interpretation_layer.clone()),
+                    ..Default::default()
+                },
+                Language::ZhCn,
+            ),
             ..Default::default()
         };
         let latest = build_weekly_latest_context(
@@ -1520,6 +1772,16 @@ mod tests {
             latest["signal_context"]["interpretation"],
             "Market is repricing new macro information."
         );
+        assert_eq!(latest["market_interpretation"]["configured"], true);
+        assert_eq!(latest["market_interpretation"]["day_type"], "exceptional");
+        assert_eq!(
+            latest["market_interpretation"]["rotation"]["type"],
+            "macro_repricing"
+        );
+        assert_eq!(
+            latest["market_interpretation"]["leadership"]["primary"],
+            serde_json::json!(["SPY"])
+        );
     }
 
     #[test]
@@ -1556,6 +1818,63 @@ mod tests {
             review.contains("Interpretation: Market is waiting for new fundamental information.")
         );
         assert!(review.contains("仅作周度追溯沉淀"));
+        assert!(!review.contains("BUY"));
+        assert!(!review.contains("SELL"));
+    }
+
+    #[test]
+    fn weekly_market_interpretation_review_section_keeps_observation_boundary() {
+        let packet = crate::features::radar::domain::decision::DecisionPacket::default();
+        let interpretation_layer = InterpretationLayerViewModel {
+            signal_context_information_content_value: "LOW".to_string(),
+            signal_context_primary_context_value: "Index Reconstitution".to_string(),
+            signal_context_quality_value: "MEDIUM".to_string(),
+            signal_context_event_fact_value: "reconstitution".to_string(),
+            signal_context_source_diagnostics_value: "calendar".to_string(),
+            signal_context_interpretation_value: "index driven".to_string(),
+            trend_confidence_value: "HIGH".to_string(),
+            supply_confidence_value: "MEDIUM".to_string(),
+            expectation_confidence_value: "NONE".to_string(),
+            gravity_confidence_value: "NONE".to_string(),
+            flow_confidence_value: "LOW".to_string(),
+            interpretation_quality_value: "MEDIUM".to_string(),
+            ..Default::default()
+        };
+        let market_interpretation = crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+            &packet,
+            &PresentationPacket {
+                top_actions: vec![
+                    TopActionViewModel {
+                        symbol: "SPY".to_string(),
+                        ..Default::default()
+                    },
+                    TopActionViewModel {
+                        symbol: "QQQ".to_string(),
+                        ..Default::default()
+                    },
+                ],
+                exit_summary: ExitDecisionSummaryViewModel::default(),
+                risk_opportunities: vec![],
+                interpretation_layer: Some(interpretation_layer),
+                ..Default::default()
+            },
+            Language::EnUs,
+        )
+        .unwrap();
+        let mut review = String::new();
+
+        push_weekly_market_interpretation_snapshot(
+            &mut review,
+            Some(&market_interpretation),
+            weekly_text(Language::EnUs),
+        );
+
+        assert!(review.contains("## Market Interpretation Snapshot"));
+        assert!(review.contains("decision_weight: 0%"));
+        assert!(review.contains("dayType: exceptional"));
+        assert!(review.contains("rotationType: index_rotation"));
+        assert!(review.contains("observationOnly: true"));
+        assert!(review.contains("Boundary: market interpretation is observation only"));
         assert!(!review.contains("BUY"));
         assert!(!review.contains("SELL"));
     }

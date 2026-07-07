@@ -236,6 +236,10 @@ fn generate_markdown_report(
         RenderMode::Markdown,
         detailed_transition,
     ));
+    card.push_str(&render_market_interpretation_section(
+        pres.market_interpretation.as_ref(),
+        RenderMode::Markdown,
+    ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
         &dict,
@@ -424,6 +428,10 @@ fn generate_telegram_html_report(
         pres.interpretation_layer.as_ref(),
         RenderMode::Html,
         detailed_transition,
+    ));
+    card.push_str(&render_market_interpretation_section(
+        pres.market_interpretation.as_ref(),
+        RenderMode::Html,
     ));
     card.push_str(&render_hypothesis_section(
         pres.hypothesis_layer.as_ref(),
@@ -1656,6 +1664,252 @@ fn render_interpretation_section(
     }
     block.push('\n');
     block
+}
+
+fn render_market_interpretation_section(
+    layer: Option<&crate::features::radar::interface::presentation::MarketInterpretationViewModel>,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(layer) = layer else {
+        return block;
+    };
+
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", layer.title));
+            block.push_str(&format!("  - {}\n", layer.notice));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.current_decision_weight_label, layer.current_decision_weight_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.day_type_label, layer.day_type_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.day_type_reason_label, layer.day_type_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.exceptional_factors_label,
+                format_values(&layer.exceptional_factors_values)
+            ));
+            block.push_str(&format!("  - {}:\n", layer.leadership_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.primary_label,
+                format_values(&layer.primary_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supporting_label,
+                format_values(&layer.supporting_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.weakening_label,
+                format_values(&layer.weakening_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.leadership_breadth_label, layer.leadership_breadth_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.concentration_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_score_label, layer.breadth_score_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.concentration_score_label, layer.concentration_score_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_score_label, layer.rotation_score_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.rotation_label));
+            block.push_str(&format!(
+                "    - rotationType: {}\n",
+                layer.rotation_type_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_from_label,
+                format_values(&layer.rotation_from_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_to_label,
+                format_values(&layer.rotation_to_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_interpretation_label, layer.rotation_interpretation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.observation_only_label, layer.observation_only_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.confidence_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.trend_confidence_label, layer.trend_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.macro_confidence_label, layer.macro_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supply_confidence_label, layer.supply_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_confidence_label, layer.expectation_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.gravity_confidence_label, layer.gravity_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_confidence_label, layer.flow_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.overall_confidence_label, layer.overall_confidence_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.interpretation_priority_label));
+            for item in &layer.interpretation_priority_values {
+                block.push_str(&format!("    - {}\n", item));
+            }
+            block.push_str(&format!("  - {}\n", layer.boundary));
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n\n", layer.title));
+            block.push_str(&format!("  - <i>{}</i>\n", layer.notice));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.current_decision_weight_label, layer.current_decision_weight_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.day_type_label, layer.day_type_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.day_type_reason_label, layer.day_type_reason_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.exceptional_factors_label,
+                format_values(&layer.exceptional_factors_values)
+            ));
+            block.push_str(&format!("  - {}:\n", layer.leadership_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.primary_label,
+                format_values(&layer.primary_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supporting_label,
+                format_values(&layer.supporting_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.weakening_label,
+                format_values(&layer.weakening_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.leadership_breadth_label, layer.leadership_breadth_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.concentration_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_score_label, layer.breadth_score_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.concentration_score_label, layer.concentration_score_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_score_label, layer.rotation_score_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.rotation_label));
+            block.push_str(&format!(
+                "    - rotationType: {}\n",
+                layer.rotation_type_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_from_label,
+                format_values(&layer.rotation_from_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_to_label,
+                format_values(&layer.rotation_to_values)
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.rotation_interpretation_label, layer.rotation_interpretation_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.observation_only_label, layer.observation_only_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.confidence_label));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.trend_confidence_label, layer.trend_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.macro_confidence_label, layer.macro_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.supply_confidence_label, layer.supply_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.expectation_confidence_label, layer.expectation_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.gravity_confidence_label, layer.gravity_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.flow_confidence_label, layer.flow_confidence_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.overall_confidence_label, layer.overall_confidence_value
+            ));
+            block.push_str(&format!("  - {}:\n", layer.interpretation_priority_label));
+            for item in &layer.interpretation_priority_values {
+                block.push_str(&format!("    - <i>{}</i>\n", item));
+            }
+            block.push_str(&format!("  - <i>{}</i>\n", layer.boundary));
+        }
+    }
+
+    block.push('\n');
+    block
+}
+
+fn format_values(values: &[String]) -> String {
+    if values.is_empty() {
+        "[]".to_string()
+    } else {
+        format!("[{}]", values.join(", "))
+    }
 }
 
 fn render_transition_diff(target: &mut String, label: &str, values: &[String], mode: RenderMode) {

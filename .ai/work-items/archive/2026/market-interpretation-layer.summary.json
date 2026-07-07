@@ -1,0 +1,193 @@
+{
+  "workItemId": "market-interpretation-layer",
+  "contractPath": ".ai/work-items/archive/2026/market-interpretation-layer.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状態の生成結果を反映した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-interpretation-layer.contract.json",
+      "reason": "explainability-only scope と verification boundary を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-interpretation-layer.summary.json",
+      "reason": "実装内容、検証結果、review 観点を記録した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "audit daily に市場解釈スナップショットを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "市場解釈 read model module を公開した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "市場解釈層の view model を新規追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "市場解釈 view model を presentation packet に追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "presentation packet の初期値を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "report / audit 用の市場解釈 view model を組み込んだ。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown / HTML report に市場解釈セクションを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "市場解釈が observation-only であることの回帰テストを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly review と latest_context に市場解釈 snapshot を追加した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "audit daily の英語 snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "audit daily の日本語 snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "audit daily の中国語 snapshot を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/market-interpretation-layer.contract.json",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-interpretation-layer.contract.json SUMMARY=.ai/work-items/active/market-interpretation-layer.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "説明専用の市場解釈層を複数の report surface に追加したため、決定チェーンへ入らないことと snapshot の整合性を review で再確認する必要がある。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "zh-cn audit snapshot の boundary 文言が最初は実装と一致しなかった。",
+      "resolution": "`审计侧` の文言へ統一し、snapshot を再確認した。"
+    },
+    {
+      "issue": "Contract の scope が一部の変更ファイルを含んでいなかった。",
+      "resolution": "audit report、pipeline runner、snapshot、.ai files を scope に追加した。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope / sources / acceptance / verification を explainability-only で確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象が scope 内であり、outOfScope に含まれないことを確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "主要な required checks と Cockpit 系の残り check を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を Summary に同期し、Cockpit status を再生成できる状態にした。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "Decision Weight = 0% は report / audit / review 専用だが、将来の再利用時に decision chain へ混入しないことを review で再確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks と Cockpit check は通過したが、report-only boundary の review focus が残る。",
+    "expectedReviewFocus": [
+      "report / audit / review 以外へ流入しない boundary",
+      "Decision Weight = 0% の固定",
+      "zh / en / ja snapshot の整合性",
+      "report-only boundary の再確認"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "verified",
+    "reportOutput": "changed",
+    "persistence": "weekly_only",
+    "i18n": "changed",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "knownGaps": [
+    "report-only boundary は将来の再利用時に再確認が必要。"
+  ],
+  "overclaimPrevention": "完了報告では report / audit / review 専用の説明変更であることを明記し、Gate、Execution、Trader、Action Matrix、Position Sizing には接続しないと書く。"
+}

@@ -87,11 +87,15 @@ mod tests {
     use crate::features::radar::domain::trend_cohesion::{
         TrendCohesionGateCondition, TrendCohesionSnapshot,
     };
+    use crate::features::radar::interface::display::{
+        RiskOpportunityViewModel, TopActionViewModel,
+    };
     use crate::features::radar::interface::interpretation_read_model::{
         build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
         InterpretationNarrativeSignal,
     };
     use crate::features::radar::interface::presentation::{
+        ExitDecisionItemViewModel, ExitDecisionSummaryViewModel, ExitDisplayIntent,
         InterpretationExpectationQuality, InterpretationGravityDataQuality,
         InterpretationGravityDataQualityReason, InterpretationTrendState,
     };
@@ -4037,6 +4041,99 @@ mod tests {
         assert!(report.telegram_html_body.contains("PARTIAL"));
         assert!(!report.telegram_html_body.contains("fetch failed"));
         assert!(report.archival_markdown.contains("fetch failed"));
+    }
+
+    #[test]
+    fn market_interpretation_report_section_is_observation_only() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket::default();
+        let interpretation_layer =
+            crate::features::radar::interface::presentation::InterpretationLayerViewModel {
+                signal_context_information_content_value: "LOW".to_string(),
+                signal_context_primary_context_value: "ETF Rebalance".to_string(),
+                signal_context_quality_value: "MEDIUM".to_string(),
+                signal_context_event_fact_value: "rebalance".to_string(),
+                signal_context_source_diagnostics_value: "calendar".to_string(),
+                signal_context_interpretation_value: "repositioning".to_string(),
+                trend_confidence_value: "HIGH".to_string(),
+                supply_confidence_value: "MEDIUM".to_string(),
+                expectation_confidence_value: "NONE".to_string(),
+                gravity_confidence_value: "NONE".to_string(),
+                flow_confidence_value: "LOW".to_string(),
+                interpretation_quality_value: "MEDIUM".to_string(),
+                ..Default::default()
+            };
+        let pres_for_builder =
+            crate::features::radar::interface::presentation::PresentationPacket {
+                top_actions: vec![
+                    TopActionViewModel {
+                        symbol: "SPY".to_string(),
+                        ..Default::default()
+                    },
+                    TopActionViewModel {
+                        symbol: "GOOG".to_string(),
+                        ..Default::default()
+                    },
+                    TopActionViewModel {
+                        symbol: "U".to_string(),
+                        ..Default::default()
+                    },
+                ],
+                exit_summary: ExitDecisionSummaryViewModel {
+                    items: vec![ExitDecisionItemViewModel {
+                        symbol: "NVDA".to_string(),
+                        intent: ExitDisplayIntent::Trim,
+                        ..Default::default()
+                    }],
+                    ..Default::default()
+                },
+                risk_opportunities: vec![RiskOpportunityViewModel {
+                    kind: "RISK".to_string(),
+                    symbol: "PLTR".to_string(),
+                    reason: "rotation".to_string(),
+                }],
+                interpretation_layer: Some(interpretation_layer.clone()),
+                ..Default::default()
+            };
+        let market_interpretation =
+            crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                &packet,
+                &pres_for_builder,
+                Language::EnUs,
+            )
+            .unwrap();
+        let pres = crate::features::radar::interface::presentation::PresentationPacket {
+            interpretation_layer: Some(interpretation_layer),
+            market_interpretation: Some(market_interpretation),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("Market Interpretation Layer"));
+        assert!(report.markdown_body.contains("dayType: exceptional"));
+        assert!(report
+            .markdown_body
+            .contains("rotationType: index_rotation"));
+        assert!(report.markdown_body.contains("observationOnly: true"));
+        assert!(report
+            .telegram_html_body
+            .contains("Market Interpretation Layer"));
+        assert!(report
+            .telegram_html_body
+            .contains("Current decision weight: 0%"));
+        assert!(!report.markdown_body.contains("BUY"));
+        assert!(!report.markdown_body.contains("SELL"));
+        assert!(!report.telegram_html_body.contains("BUY"));
+        assert!(!report.telegram_html_body.contains("SELL"));
+        assert_eq!(packet.market_regime.market_state, MarketState::IGNITION);
     }
 
     #[test]
