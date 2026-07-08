@@ -41,6 +41,15 @@ pub(crate) fn render_auto_discovery_inline_reference(
     monitoring_statuses: &[GrayRhinoMonitoringStatus],
     language: Language,
 ) -> String {
+    if !should_expand_gray_rhino_summary(monitoring_statuses) {
+        return format!(
+            "{}\n- {}\n{}",
+            gray_rhino_summary_title(language),
+            gray_rhino_quiet_label(language),
+            summary_boundary_label(language)
+        );
+    }
+
     format!(
         "{}\n\n{}\n\n{}",
         render_gray_rhino_compact_summary(display_candidates, monitoring_statuses, language),
@@ -128,6 +137,17 @@ fn is_active_monitoring_state(state: GrayRhinoCandidateState) -> bool {
             | GrayRhinoCandidateState::Expanding
             | GrayRhinoCandidateState::Critical
     )
+}
+
+fn should_expand_gray_rhino_summary(statuses: &[GrayRhinoMonitoringStatus]) -> bool {
+    statuses.iter().any(|status| {
+        is_active_monitoring_state(status.current_state)
+            || status.current_state != GrayRhinoCandidateState::Background
+            || status
+                .previous_state
+                .is_some_and(|previous_state| previous_state != status.current_state)
+            || status.direction != GrayRhinoMonitoringDirection::Stable
+    })
 }
 
 fn format_subject_set(subjects: BTreeSet<String>, language: Language) -> String {
@@ -343,6 +363,14 @@ fn gray_rhino_summary_title(language: Language) -> &'static str {
         Language::ZhCn => "灰犀牛摘要（语义隔离）",
         Language::EnUs => "Gray Rhino Summary (semantic isolation)",
         Language::JaJp => "灰色のサイ要約（意味的に隔離）",
+    }
+}
+
+fn gray_rhino_quiet_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "安静",
+        Language::EnUs => "Quiet",
+        Language::JaJp => "静観",
     }
 }
 
@@ -819,4 +847,19 @@ fn localized_structural_text(value: &str, language: Language) -> String {
         Language::EnUs => None,
     };
     translated.unwrap_or(value).to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn quiet_summary_collapses_when_no_status_is_active_or_changed() {
+        let report = render_auto_discovery_inline_reference(&[], &[], &[], Language::EnUs);
+
+        assert!(report.contains("Gray Rhino Summary"));
+        assert!(report.contains("Quiet"));
+        assert!(!report.contains("Watchlist Inline Reference"));
+        assert!(!report.contains("Gray Rhino Monitoring State"));
+    }
 }

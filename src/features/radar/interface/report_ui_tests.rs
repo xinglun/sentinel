@@ -3383,6 +3383,9 @@ mod tests {
         assert!(report.telegram_html_body.contains("Decision Explanation"));
         assert!(report
             .telegram_html_body
+            .contains("See Market Interpretation for the main narrative."));
+        assert!(!report
+            .telegram_html_body
             .contains("Price structure remains stable"));
         assert!(report
             .telegram_html_body
@@ -3505,9 +3508,6 @@ mod tests {
         assert!(report.archival_markdown.contains("Today's Explanation"));
         assert!(report
             .archival_markdown
-            .contains("Trend continuation. (HIGH)"));
-        assert!(report
-            .archival_markdown
             .contains("See Market Interpretation for the main narrative."));
         assert!(!report.archival_markdown.contains("Secondary Drivers:"));
         assert!(!report
@@ -3520,9 +3520,6 @@ mod tests {
 
         // HTML レンダリング検証
         assert!(report.telegram_html_body.contains("Today's Explanation"));
-        assert!(report
-            .telegram_html_body
-            .contains("Trend continuation. (<i>HIGH</i>)"));
         assert!(report
             .telegram_html_body
             .contains("See Market Interpretation for the main narrative."));
@@ -4109,6 +4106,7 @@ mod tests {
             crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
                 &packet,
                 &pres_for_builder,
+                &crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model(&pres_for_builder, Language::EnUs),
                 Language::EnUs,
             )
             .unwrap();
@@ -4219,6 +4217,8 @@ mod tests {
                 ..Default::default()
             }),
             interpretation_layer: Some(interpretation_layer.clone()),
+            leadership_snapshot: None,
+            market_change_log: None,
             market_interpretation: None,
             hypothesis_layer: None,
             terminal_rows: vec![],
@@ -4229,12 +4229,13 @@ mod tests {
             crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
                 &packet,
                 &pres,
+                &crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model(&pres, Language::EnUs),
                 Language::EnUs,
             )
             .expect("market interpretation should be available");
         assert_eq!(
             market_interpretation.leadership_classification_value,
-            "Leadership unavailable"
+            "MEDIUM"
         );
         pres.market_interpretation = Some(market_interpretation);
 
@@ -4247,9 +4248,6 @@ mod tests {
         )
         .unwrap();
 
-        assert!(report
-            .markdown_body
-            .contains("Leadership detail suppressed because the leadership sets conflict."));
         assert!(!report.markdown_body.contains("primary: [GOOG]"));
         assert!(!report.markdown_body.contains("supporting: [GOOG]"));
         assert!(!report.markdown_body.contains("weakening: [GOOG]"));

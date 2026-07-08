@@ -199,6 +199,10 @@ fn generate_markdown_report(
     if let Some(note) = &d.candidate_only_note {
         card.push_str(&format!("\n> {}\n", note));
     }
+    card.push_str(&render_market_change_log_section(
+        pres.market_change_log.as_ref(),
+        RenderMode::Markdown,
+    ));
     if !compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
         card.push('\n');
         card.push_str(&transition_block);
@@ -225,6 +229,10 @@ fn generate_markdown_report(
         pres,
         &dict,
         is_no_trade,
+        RenderMode::Markdown,
+    ));
+    card.push_str(&render_leadership_snapshot_section(
+        pres.leadership_snapshot.as_ref(),
         RenderMode::Markdown,
     ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
@@ -418,6 +426,14 @@ fn generate_telegram_html_report(
         pres,
         &dict,
         is_no_trade,
+        RenderMode::Html,
+    ));
+    card.push_str(&render_market_change_log_section(
+        pres.market_change_log.as_ref(),
+        RenderMode::Html,
+    ));
+    card.push_str(&render_leadership_snapshot_section(
+        pres.leadership_snapshot.as_ref(),
         RenderMode::Html,
     ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
@@ -1297,6 +1313,152 @@ fn render_hypothesis_section(
     block
 }
 
+fn render_market_change_log_section(
+    change_log: Option<&crate::features::radar::interface::presentation::MarketChangeLogViewModel>,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(change_log) = change_log else {
+        return block;
+    };
+
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", change_log.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.leader_label, change_log.leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.breadth_label, change_log.breadth_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.risk_label, change_log.risk_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.supply_phase_label, change_log.supply_phase_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.confidence_label, change_log.confidence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.interpretation_label, change_log.interpretation_value
+            ));
+            block.push_str(&format!("  - {}:\n", change_log.summary_label));
+            for line in &change_log.summary_values {
+                block.push_str(&format!("    - {}\n", line));
+            }
+            block.push_str(&format!("  - {}\n", change_log.boundary));
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n\n", change_log.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.leader_label, change_log.leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.breadth_label, change_log.breadth_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.risk_label, change_log.risk_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.supply_phase_label, change_log.supply_phase_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.confidence_label, change_log.confidence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                change_log.interpretation_label, change_log.interpretation_value
+            ));
+            block.push_str(&format!("  - {}:\n", change_log.summary_label));
+            for line in &change_log.summary_values {
+                block.push_str(&format!("    - {}\n", line));
+            }
+            block.push_str(&format!("  - {}\n", change_log.boundary));
+        }
+    }
+    block.push('\n');
+    block
+}
+
+fn render_leadership_snapshot_section(
+    snapshot: Option<&crate::features::radar::interface::presentation::LeadershipSnapshotViewModel>,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(snapshot) = snapshot else {
+        return block;
+    };
+
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", snapshot.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.primary_leader_label, snapshot.primary_leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.secondary_leaders_label,
+                format_values(&snapshot.secondary_leaders_values)
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.watchlist_leaders_label,
+                format_values(&snapshot.watchlist_leaders_values)
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.leadership_confidence_label, snapshot.leadership_confidence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.leadership_conflict_label, snapshot.leadership_conflict_value
+            ));
+            block.push_str(&format!("  - {}\n", snapshot.boundary));
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n\n", snapshot.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.primary_leader_label, snapshot.primary_leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.secondary_leaders_label,
+                format_values(&snapshot.secondary_leaders_values)
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.watchlist_leaders_label,
+                format_values(&snapshot.watchlist_leaders_values)
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.leadership_confidence_label, snapshot.leadership_confidence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                snapshot.leadership_conflict_label, snapshot.leadership_conflict_value
+            ));
+            block.push_str(&format!("  - {}\n", snapshot.boundary));
+        }
+    }
+    block.push('\n');
+    block
+}
+
 fn render_interpretation_section(
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
     mode: RenderMode,
@@ -1316,11 +1478,8 @@ fn render_interpretation_section(
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
             block.push_str(&format!(
-                "  - {}: {} ({}) {}\n",
-                layer.todays_explanation_label,
-                layer.primary_driver_value,
-                layer.primary_driver_confidence,
-                layer.todays_explanation_navigation_value
+                "  - {}: {}\n",
+                layer.todays_explanation_label, layer.todays_explanation_navigation_value
             ));
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
@@ -1409,46 +1568,9 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.interpretation_quality_label, layer.interpretation_quality_value
             ));
-            block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.trend_label, layer.trend_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.trend_confidence_label, layer.trend_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.expectation_label, layer.expectation_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.expectation_confidence_label, layer.expectation_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supply_label, layer.supply_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supply_confidence_label, layer.supply_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.gravity_label, layer.gravity_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.gravity_confidence_label, layer.gravity_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.flow_label, layer.flow_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.flow_confidence_label, layer.flow_confidence_value
+                "  - {}: See Market Interpretation.\n",
+                layer.narrative_components_label
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
@@ -1479,11 +1601,8 @@ fn render_interpretation_section(
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
             block.push_str(&format!(
-                "  - <b>{}:</b> {} (<i>{}</i>) {}\n",
-                layer.todays_explanation_label,
-                layer.primary_driver_value,
-                layer.primary_driver_confidence,
-                layer.todays_explanation_navigation_value
+                "  - <b>{}:</b> {}\n",
+                layer.todays_explanation_label, layer.todays_explanation_navigation_value
             ));
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
@@ -1572,46 +1691,9 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.interpretation_quality_label, layer.interpretation_quality_value
             ));
-            block.push_str(&format!("  - {}:\n", layer.narrative_components_label));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.trend_label, layer.trend_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.trend_confidence_label, layer.trend_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.expectation_label, layer.expectation_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.expectation_confidence_label, layer.expectation_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supply_label, layer.supply_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supply_confidence_label, layer.supply_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.gravity_label, layer.gravity_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.gravity_confidence_label, layer.gravity_confidence_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.flow_label, layer.flow_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.flow_confidence_label, layer.flow_confidence_value
+                "  - {}: See Market Interpretation.\n",
+                layer.narrative_components_label
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",

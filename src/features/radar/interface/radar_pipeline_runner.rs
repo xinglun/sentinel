@@ -8,6 +8,7 @@ use crate::features::radar::application::delivery_plan::{
 };
 use crate::features::radar::application::execution_gate::TradingLimits;
 use crate::features::radar::application::provider::MarketDataProvider;
+use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::rules::{
     ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
 };
@@ -17,6 +18,8 @@ use crate::features::radar::interface::interpretation_read_model::{
     derive_gravity_data_quality, derive_gravity_data_quality_reason, derive_trend_state,
     has_supply_pressure, InterpretationLayerReadModelInput, InterpretationNarrativeSignal,
 };
+use crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model;
+use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::signal_context_event_read_model::{
@@ -37,6 +40,7 @@ use crate::features::research::interface::capital_absorption_report_builder::{
     build_capital_absorption_auto_snapshot_with_config,
     build_capital_absorption_ipo_queue_weekly_summary, build_capital_absorption_report_with_auto,
 };
+use crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_phase_view_model_from_snapshot;
 use crate::features::research::interface::cognitive_reports::{
     build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
     build_flow_layer_weekly_summary, credit_stress_label, enabled_asset_thesis_count,
@@ -171,6 +175,73 @@ pub(crate) async fn run_pipeline(
             14,
         )
         .await;
+        let current_supply_phase =
+            build_supply_phase_view_model_from_snapshot(capital_absorption_snapshot.as_ref(), lang);
+        let mut previous_presentation = prev_packet.map(|previous| {
+            PresentationAssembler::assemble(
+                previous,
+                &domain_rules_arc,
+                &positions,
+                failed_symbols.clone(),
+                lang,
+            )
+        });
+        let previous_capital_absorption_snapshot = match prev_packet {
+            Some(previous) => {
+                build_capital_absorption_auto_snapshot_with_config(
+                    config_arc.as_ref(),
+                    previous.date,
+                    14,
+                )
+                .await
+            }
+            None => None,
+        };
+        let previous_supply_phase = build_supply_phase_view_model_from_snapshot(
+            previous_capital_absorption_snapshot.as_ref(),
+            lang,
+        );
+        if let (Some(previous_packet), Some(previous_pres)) =
+            (prev_packet, previous_presentation.as_mut())
+        {
+            let previous_packet_date = previous_packet.date;
+            let previous_future_calendar = std::thread::spawn(move || {
+                crate::features::research::interface::macro_event_calendar_adapter::load_macro_event_calendar_from_env(previous_packet_date)
+            })
+            .join()
+            .unwrap_or_else(|_| {
+                crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel::unavailable(
+                    previous_packet_date,
+                    "macro-event-calendar-connector".to_string(),
+                )
+            });
+            let previous_gravity_observation = build_valuation_gravity_observation_with_auto(
+                config_arc.as_ref(),
+                previous_packet_date,
+            )
+            .await?;
+            let previous_gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
+                config_arc.as_ref(),
+                save_dir,
+                previous_packet_date,
+                GrayRhinoSnapshotPersistence::ReadOnly,
+            )
+            .ok();
+            previous_pres.interpretation_layer = Some(build_packet_interpretation_layer(
+                previous_packet,
+                previous_pres,
+                &expectation_snapshot,
+                &previous_gravity_observation,
+                previous_capital_absorption_snapshot.as_ref(),
+                previous_gray_rhino_daily_report.as_ref(),
+                &previous_future_calendar,
+                lang,
+                &dict,
+            ));
+        }
+        let previous_leadership_snapshot = previous_presentation
+            .as_ref()
+            .map(|previous| build_leadership_snapshot_view_model(previous, lang));
         let future_calendar = std::thread::spawn(move || {
             crate::features::research::interface::macro_event_calendar_adapter::load_macro_event_calendar_from_env(packet.date)
         })
@@ -247,12 +318,45 @@ pub(crate) async fn run_pipeline(
                 dict: &dict,
             },
         ));
+        let current_leadership_snapshot = build_leadership_snapshot_view_model(&pres_packet, lang);
+        pres_packet.leadership_snapshot = Some(current_leadership_snapshot.clone());
+        pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
+        pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
         pres_packet.market_interpretation =
             crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
                 &packet,
                 &pres_packet,
+                &current_leadership_snapshot,
                 lang,
             );
+        let previous_market_interpretation = match (
+            prev_packet,
+            previous_presentation.as_ref(),
+            previous_leadership_snapshot.as_ref(),
+        ) {
+            (Some(previous_packet), Some(previous_presentation), Some(previous_snapshot)) => {
+                crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                    previous_packet,
+                    previous_presentation,
+                    previous_snapshot,
+                    lang,
+                )
+            }
+            _ => None,
+        };
+        pres_packet.market_change_log = Some(build_market_change_log_view_model(
+            prev_packet,
+            previous_presentation.as_ref(),
+            &packet,
+            &pres_packet,
+            &current_leadership_snapshot,
+            previous_leadership_snapshot.as_ref(),
+            &current_supply_phase,
+            Some(&previous_supply_phase),
+            pres_packet.market_interpretation.as_ref(),
+            previous_market_interpretation.as_ref(),
+            lang,
+        ));
 
         let default_trading_config = config::TradingConfig {
             enabled: false,
@@ -372,6 +476,78 @@ pub(crate) async fn run_pipeline(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_packet_interpretation_layer(
+    packet: &DecisionPacket,
+    pres_packet: &PresentationPacket,
+    expectation_snapshot: &crate::features::research::interface::expectation_report_builder::ExpectationLayerSnapshot,
+    gravity_observation: &crate::features::research::application::valuation_gravity::ValuationGravityObservation,
+    capital_absorption_snapshot: Option<
+        &crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
+    >,
+    gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
+    future_calendar: &crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel,
+    language: crate::features::shared::interface::i18n::Language,
+    dict: &crate::features::shared::interface::i18n::DisplayDictionary,
+) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
+    let future_context = build_signal_context_event_read_model(SignalContextEventReadModelInput {
+        as_of_date: packet.date,
+        expectation_snapshot: Some(expectation_snapshot),
+        future_calendar: Some(future_calendar),
+    });
+    let (expectation_quality, expectation_quality_reason) =
+        derive_expectation_quality(expectation_snapshot);
+    let interpretation_signal = InterpretationNarrativeSignal {
+        trend_state: derive_trend_state(pres_packet.transition_evidence.as_ref()),
+        trend_available: pres_packet.transition_evidence.is_some(),
+        expectation_quality,
+        expectation_quality_reason,
+        gravity_data_quality: derive_gravity_data_quality(gravity_observation),
+        gravity_data_quality_reason: derive_gravity_data_quality_reason(gravity_observation),
+        gravity_status: gravity_observation
+            .snapshot
+            .assets
+            .iter()
+            .filter_map(|asset| asset.gravity)
+            .find(|gravity| {
+                matches!(
+                    *gravity,
+                    crate::features::research::domain::valuation_gravity::GravityStatus::Fair
+                        | crate::features::research::domain::valuation_gravity::GravityStatus::Undervalued
+                        | crate::features::research::domain::valuation_gravity::GravityStatus::DeepUndervalued
+                )
+            })
+            .or_else(|| {
+                gravity_observation
+                    .snapshot
+                    .assets
+                    .iter()
+                    .find_map(|asset| asset.gravity)
+            }),
+        supply_pressure: capital_absorption_snapshot
+            .as_ref()
+            .is_some_and(|snapshot| has_supply_pressure(snapshot)),
+        supply_available: capital_absorption_snapshot.is_some(),
+        flow_acceleration: packet.market_features.flow_acceleration,
+        gray_rhino_escalated: gray_rhino_daily_report.as_ref().is_some_and(|view_model| {
+            derive_gray_rhino_escalated_from_daily_report(
+                view_model.assessment.as_ref(),
+                &view_model.monitoring_statuses,
+            )
+        }),
+    };
+    let subjects = collect_subjects(expectation_snapshot, gravity_observation);
+    build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+        as_of_date: packet.date,
+        subjects: &subjects,
+        signal: interpretation_signal,
+        future_context,
+        decision_summary: Some(&pres_packet.decision_summary),
+        language,
+        dict,
+    })
 }
 
 fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderContext {
@@ -625,6 +801,166 @@ fn contains_reference_status_token(trimmed: &str) -> bool {
         || trimmed.contains("READY")
         || trimmed.contains("WATCH")
         || trimmed.contains("FAILED")
+}
+
+#[allow(clippy::too_many_arguments)]
+fn build_market_change_log_view_model(
+    prev_packet: Option<&DecisionPacket>,
+    previous_presentation: Option<
+        &crate::features::radar::interface::presentation::PresentationPacket,
+    >,
+    packet: &DecisionPacket,
+    pres_packet: &crate::features::radar::interface::presentation::PresentationPacket,
+    current_leadership_snapshot: &crate::features::radar::interface::presentation::LeadershipSnapshotViewModel,
+    previous_leadership_snapshot: Option<
+        &crate::features::radar::interface::presentation::LeadershipSnapshotViewModel,
+    >,
+    current_supply_phase: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplyPhaseViewModel,
+    previous_supply_phase: Option<
+        &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplyPhaseViewModel,
+    >,
+    current_market_interpretation: Option<
+        &crate::features::radar::interface::presentation::MarketInterpretationViewModel,
+    >,
+    previous_market_interpretation: Option<
+        &crate::features::radar::interface::presentation::MarketInterpretationViewModel,
+    >,
+    language: crate::features::shared::interface::i18n::Language,
+) -> crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+    let current_leader = current_leadership_snapshot.primary_leader_value.clone();
+    let previous_leader = previous_leadership_snapshot
+        .map(|snapshot| snapshot.primary_leader_value.clone())
+        .or_else(|| prev_packet.and_then(|prev| prev.top_tier_symbols.first().cloned()))
+        .unwrap_or_else(|| current_leader.clone());
+
+    let breadth_value = pres_packet.signal_summary.breadth_semantic_value.clone();
+    let previous_breadth_value = previous_presentation
+        .and_then(|previous| {
+            if previous.signal_summary.breadth_semantic_value.is_empty() {
+                None
+            } else {
+                Some(previous.signal_summary.breadth_semantic_value.clone())
+            }
+        })
+        .unwrap_or_else(|| breadth_value.clone());
+    let risk_value = match prev_packet.map(|prev| prev.market_regime.risk_overlay) {
+        Some(prev_risk) if prev_risk == packet.market_regime.risk_overlay => {
+            "unchanged".to_string()
+        }
+        Some(_)
+            if matches!(
+                packet.market_regime.risk_overlay,
+                crate::features::radar::domain::market_regime::RiskOverlay::DEFENSIVE
+                    | crate::features::radar::domain::market_regime::RiskOverlay::BROKEN
+            ) =>
+        {
+            "upgraded".to_string()
+        }
+        Some(_) => "downgraded".to_string(),
+        None => "unchanged".to_string(),
+    };
+    let supply_phase_value = current_supply_phase.phase_value.clone();
+    let previous_supply_phase_value = previous_supply_phase
+        .map(|phase| phase.phase_value.clone())
+        .unwrap_or_else(|| supply_phase_value.clone());
+    let current_confidence = packet.market_features.system_confidence;
+    let previous_confidence = prev_packet
+        .map(|prev| prev.market_features.system_confidence)
+        .unwrap_or(current_confidence);
+    let confidence_value = if current_confidence > previous_confidence + 0.5 {
+        format!("increased to {:.1}", current_confidence)
+    } else if current_confidence + 0.5 < previous_confidence {
+        format!("decreased to {:.1}", current_confidence)
+    } else {
+        format!("unchanged at {:.1}", current_confidence)
+    };
+    let current_interpretation_value = current_market_interpretation
+        .map(|interpretation| interpretation.narrative_values.join(" | "))
+        .unwrap_or_else(|| "Trend continuation.".to_string());
+    let previous_interpretation_value = previous_market_interpretation
+        .map(|interpretation| interpretation.narrative_values.join(" | "))
+        .unwrap_or_else(|| current_interpretation_value.clone());
+    let structural_change_detected = current_leader != previous_leader
+        || breadth_value != previous_breadth_value
+        || risk_value != "unchanged"
+        || supply_phase_value != previous_supply_phase_value
+        || (current_confidence - previous_confidence).abs() >= 0.5
+        || current_interpretation_value != previous_interpretation_value;
+    let interpretation_value = if structural_change_detected {
+        match language {
+            crate::features::shared::interface::i18n::Language::ZhCn => {
+                "结构变化: moderate".to_string()
+            }
+            crate::features::shared::interface::i18n::Language::EnUs => {
+                "Structural change: moderate.".to_string()
+            }
+            crate::features::shared::interface::i18n::Language::JaJp => {
+                "Structural change: moderate.".to_string()
+            }
+        }
+    } else {
+        match language {
+            crate::features::shared::interface::i18n::Language::ZhCn => {
+                "没有明显结构变化。".to_string()
+            }
+            crate::features::shared::interface::i18n::Language::EnUs => {
+                "No meaningful structural change.".to_string()
+            }
+            crate::features::shared::interface::i18n::Language::JaJp => {
+                "No meaningful structural change.".to_string()
+            }
+        }
+    };
+    let mut summary_values = Vec::new();
+    if current_leader != previous_leader {
+        summary_values.push(format!(
+            "Leader shifted from {previous_leader} to {current_leader}."
+        ));
+    } else {
+        summary_values.push(format!("Leader remains {current_leader}."));
+    }
+    summary_values.push(if breadth_value != previous_breadth_value {
+        format!("Breadth shifted from {previous_breadth_value} to {breadth_value}.")
+    } else {
+        format!("Breadth remains {breadth_value}.")
+    });
+    summary_values.push(match risk_value.as_str() {
+        "upgraded" => "Risk upgraded.".to_string(),
+        "downgraded" => "Risk downgraded.".to_string(),
+        _ => "Risk remains broadly unchanged.".to_string(),
+    });
+    summary_values.push(if supply_phase_value != previous_supply_phase_value {
+        format!("Supply phase shifted from {previous_supply_phase_value} to {supply_phase_value}.")
+    } else {
+        format!("Supply phase remains {supply_phase_value}.")
+    });
+    summary_values.push(format!("Confidence: {confidence_value}."));
+    summary_values.push(interpretation_value.clone());
+
+    crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+        title: "Market Change Log".to_string(),
+        leader_label: "Leader".to_string(),
+        leader_value: format!("{previous_leader} -> {current_leader}"),
+        breadth_label: "Breadth".to_string(),
+        breadth_value: breadth_value.to_string(),
+        risk_label: "Risk".to_string(),
+        risk_value,
+        supply_phase_label: "Supply Phase".to_string(),
+        supply_phase_value: supply_phase_value.to_string(),
+        confidence_label: "Confidence".to_string(),
+        confidence_value,
+        interpretation_label: "Market Interpretation".to_string(),
+        interpretation_value,
+        structural_change_label: "Structural change".to_string(),
+        structural_change_value: if structural_change_detected {
+            "moderate".to_string()
+        } else {
+            "none".to_string()
+        },
+        summary_label: "Summary".to_string(),
+        summary_values,
+        boundary: "Boundary: observation only; this log does not change trading, Gate, Execution, Trader, or Position Sizing.".to_string(),
+    }
 }
 
 fn is_noisy_reference_detail(trimmed: &str) -> bool {

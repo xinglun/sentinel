@@ -87,6 +87,14 @@ pub(super) fn capital_absorption_potential_supply_pressure_label(
     }
 }
 
+pub(super) fn capital_absorption_supply_phase_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "供给阶段",
+        Language::EnUs => "Supply Phase",
+        Language::JaJp => "供給段階",
+    }
+}
+
 pub(super) fn capital_absorption_no_actual_supply(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "- 未观察到已发生的大型股权/可转债供给。",
@@ -526,6 +534,41 @@ pub(super) fn capital_absorption_structural_impact_value(
             capital_absorption_observation_only_value(language).to_string()
         }
         Some(value) => value.to_string(),
+    }
+}
+
+pub(super) fn capital_absorption_supply_phase_value(
+    level: CapitalAbsorptionPotentialSupplyPressureLevel,
+    language: Language,
+) -> String {
+    match (level, language) {
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::ZhCn) => {
+            "积累（Accumulating）".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::ZhCn) => {
+            "吸收中（Absorbing）".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::ZhCn) => {
+            "压倒性（Overwhelming）".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::EnUs) => {
+            "Accumulating".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::EnUs) => {
+            "Absorbing".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::EnUs) => {
+            "Overwhelming".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::JaJp) => {
+            "蓄積（Accumulating）".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::JaJp) => {
+            "吸収中（Absorbing）".to_string()
+        }
+        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::JaJp) => {
+            "圧倒的（Overwhelming）".to_string()
+        }
     }
 }
 

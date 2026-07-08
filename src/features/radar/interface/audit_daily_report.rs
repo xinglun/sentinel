@@ -478,52 +478,8 @@ fn build_market_interpretation_audit_snapshot(
 ) -> String {
     let latest = day.latest();
     let trend_recognition = latest.log.trend_recognition.as_ref();
-    let substantive_records = trend_recognition
-        .and_then(|e| e.substantive.as_ref())
-        .map(|substantive| {
-            substantive
-                .records
-                .iter()
-                .filter_map(|record| record.symbol.as_ref().map(|symbol| symbol.to_string()))
-                .collect::<Vec<_>>()
-        })
-        .unwrap_or_default();
-
-    let mut leadership_primary = unique_symbols(&substantive_records);
-    if leadership_primary.is_empty() {
-        leadership_primary = unique_symbols(
-            &latest
-                .log
-                .breakout_changes
-                .iter()
-                .filter(|change| {
-                    !matches!(
-                        change.to_status,
-                        crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
-                    )
-                })
-                .map(|change| change.symbol.clone())
-                .collect::<Vec<_>>(),
-        );
-    }
-    let leadership_supporting = leadership_primary
-        .iter()
-        .skip(1)
-        .take(2)
-        .cloned()
-        .collect::<Vec<_>>();
-    let leadership_weakening = unique_symbols(
-        &latest
-            .log
-            .breakout_changes
-            .iter()
-            .filter(|change| change.status_changed)
-            .map(|change| change.symbol.clone())
-            .collect::<Vec<_>>(),
-    )
-    .into_iter()
-    .filter(|symbol| !leadership_primary.contains(symbol))
-    .collect::<Vec<_>>();
+    let leadership_snapshot =
+        crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_transition_log(&latest.log, language);
 
     let exceptional_factors = audit_exceptional_factors(latest, trend_recognition);
     let day_type = if exceptional_factors.is_empty() {
@@ -532,26 +488,28 @@ fn build_market_interpretation_audit_snapshot(
         "exceptional"
     };
     let day_type_reason = audit_day_type_reason(latest, trend_recognition);
+    let primary_count = usize::from(leadership_snapshot.primary_leader_value != "none");
     let concentration = audit_concentration_scores(
-        leadership_primary.len(),
-        leadership_supporting.len(),
-        leadership_weakening.len(),
+        primary_count,
+        leadership_snapshot.secondary_leaders_values.len(),
+        leadership_snapshot.watchlist_leaders_values.len(),
         latest,
     );
-    let leadership_consistency_valid = audit_leadership_consistency(
-        &leadership_primary,
-        &leadership_supporting,
-        &leadership_weakening,
-    );
+    let leadership_consistency_valid = leadership_snapshot.leadership_conflict_value == "none";
     let classification_value = if leadership_consistency_valid {
         concentration.3.clone()
     } else {
-        "Leadership unavailable".to_string()
+        match language {
+            Language::ZhCn => "检测到 leadership 冲突".to_string(),
+            Language::EnUs => "Leadership conflict detected".to_string(),
+            Language::JaJp => "Leadership conflict detected".to_string(),
+        }
     };
     let rotation_type = audit_rotation_type(latest, trend_recognition);
-    let rotation_from = leadership_weakening.clone();
-    let mut rotation_to = leadership_primary.clone();
-    let additional_supporting = leadership_supporting
+    let rotation_from = leadership_snapshot.watchlist_leaders_values.clone();
+    let mut rotation_to = vec![leadership_snapshot.primary_leader_value.clone()];
+    let additional_supporting = leadership_snapshot
+        .secondary_leaders_values
         .iter()
         .filter(|symbol| !rotation_to.contains(symbol))
         .cloned()
@@ -571,7 +529,7 @@ fn build_market_interpretation_audit_snapshot(
         "- exceptionalFactors: {}\n",
         format_string_list(&exceptional_factors)
     ));
-    out.push_str("- Narrative:\n");
+    out.push_str("- Market Interpretation:\n");
     for line in &narrative_values {
         out.push_str(&format!("  - {}\n", line));
     }
@@ -583,9 +541,13 @@ fn build_market_interpretation_audit_snapshot(
     if !leadership_consistency_valid {
         out.push_str("  - leadership detail suppressed because the leadership sets conflict.\n");
     }
-    out.push_str(&format!("  - Breadth: {}\n", concentration.0));
-    out.push_str(&format!("  - Concentration: {}\n", concentration.1));
-    out.push_str(&format!("  - Rotation: {}\n", concentration.2));
+    out.push_str(&format!(
+        "  - Breadth label: {}\n",
+        audit_breadth_label(primary_count, language)
+    ));
+    out.push_str(&format!("  - Breadth score: {}\n", concentration.0));
+    out.push_str(&format!("  - Concentration score: {}\n", concentration.1));
+    out.push_str(&format!("  - Rotation score: {}\n", concentration.2));
     out.push_str("- Rotation Observation:\n");
     out.push_str(&format!("  - rotationType: {}\n", rotation_type));
     out.push_str(&format!(
@@ -614,15 +576,21 @@ fn build_market_interpretation_audit_snapshot(
     out
 }
 
-fn unique_symbols(symbols: &[String]) -> Vec<String> {
-    let mut seen = std::collections::BTreeSet::new();
-    let mut out = Vec::new();
-    for symbol in symbols {
-        if seen.insert(symbol.clone()) {
-            out.push(symbol.clone());
-        }
+fn audit_breadth_label(primary_count: usize, language: Language) -> &'static str {
+    match (primary_count, language) {
+        (0, Language::ZhCn) => "Very Narrow",
+        (1, Language::ZhCn) => "Narrow",
+        (2, Language::ZhCn) => "Healthy Expansion",
+        (_, Language::ZhCn) => "Broad Participation",
+        (0, Language::EnUs) => "Very Narrow",
+        (1, Language::EnUs) => "Narrow",
+        (2, Language::EnUs) => "Healthy Expansion",
+        (_, Language::EnUs) => "Broad Participation",
+        (0, Language::JaJp) => "Very Narrow",
+        (1, Language::JaJp) => "Narrow",
+        (2, Language::JaJp) => "Healthy Expansion",
+        (_, Language::JaJp) => "Broad Participation",
     }
-    out
 }
 
 fn format_string_list(values: &[String]) -> String {
@@ -673,23 +641,6 @@ fn audit_day_type_reason(
         return "trend_continuation".to_string();
     }
     "trend_continuation".to_string()
-}
-
-fn audit_leadership_consistency(
-    primary: &[String],
-    supporting: &[String],
-    weakening: &[String],
-) -> bool {
-    intersection(primary, supporting).is_empty()
-        && intersection(primary, weakening).is_empty()
-        && intersection(supporting, weakening).is_empty()
-}
-
-fn intersection(left: &[String], right: &[String]) -> Vec<String> {
-    left.iter()
-        .filter(|symbol| right.iter().any(|item| item == *symbol))
-        .cloned()
-        .collect()
 }
 
 fn audit_market_interpretation_narrative_values(day_type: &str, language: Language) -> Vec<String> {
@@ -1754,9 +1705,10 @@ mod tests {
 
         assert!(snapshot.contains("- Leadership Classification:"));
         assert!(snapshot.contains("- Leadership Metrics:"));
-        assert!(snapshot.contains("  - Breadth: "));
-        assert!(snapshot.contains("  - Concentration: "));
-        assert!(snapshot.contains("  - Rotation: "));
+        assert!(snapshot.contains("  - Breadth label: "));
+        assert!(snapshot.contains("  - Breadth score: "));
+        assert!(snapshot.contains("  - Concentration score: "));
+        assert!(snapshot.contains("  - Rotation score: "));
         assert!(snapshot.contains("- Rotation Observation:"));
         assert!(!snapshot.contains("  - primary: "));
         assert!(!snapshot.contains("  - supporting: "));
@@ -1847,9 +1799,10 @@ mod tests {
         assert!(report.contains("dayType: normal"));
         assert!(report.contains("Leadership Classification:"));
         assert!(report.contains("Leadership Metrics:"));
-        assert!(report.contains("  - Breadth: "));
-        assert!(report.contains("  - Concentration: "));
-        assert!(report.contains("  - Rotation: "));
+        assert!(report.contains("  - Breadth label: "));
+        assert!(report.contains("  - Breadth score: "));
+        assert!(report.contains("  - Concentration score: "));
+        assert!(report.contains("  - Rotation score: "));
         assert!(report.contains("Rotation Observation:"));
         assert!(report.contains("Observation Confidence:"));
         assert!(report.contains("observationOnly: true"));
@@ -1888,9 +1841,10 @@ mod tests {
             Some(&DeliveryStatus::Succeeded),
         );
 
-        assert!(report.contains("  - Breadth: "));
-        assert!(report.contains("  - Concentration: "));
-        assert!(report.contains("  - Rotation: "));
+        assert!(report.contains("  - Breadth label: "));
+        assert!(report.contains("  - Breadth score: "));
+        assert!(report.contains("  - Concentration score: "));
+        assert!(report.contains("  - Rotation score: "));
         assert!(!report.contains("  - primary: [GOOG]"));
         assert!(!report.contains("  - weakening: [GOOG]"));
     }

@@ -1,0 +1,296 @@
+{
+  "workItemId": "market-report-convergence-modeling",
+  "contractPath": ".ai/work-items/archive/2026/market-report-convergence-modeling.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "reason": "モデル収斂の返工用 Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "reason": "この返工の変更要約を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "作業状態を Cockpit に反映するため。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Audit Daily の Narrative と Breadth 表示を旧モデルから収斂させた。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leadership Snapshot を唯一の leadership facts source として読むようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Market Change Log と Supply Phase 向けの view model を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "breadth semantic label と Supply Phase の初期値を投影した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "current / previous の read model を比較して Market Change Log を組み立てた。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Market Change Log と Leadership Snapshot を先頭近くに表示した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Leadership Snapshot と Market Interpretation の接線に合わせて回帰テストを更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "Weekly report 側の Market Interpretation 呼び出しを新しい leader 参照に合わせた。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Supply Phase の表示ラベルを追加した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply Phase を共有 read model から描画するようにした。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "Supply Phase の表示回帰を維持した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+      "reason": "Supply Phase の共有 read model を新規作成した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "Gray Rhino の Quiet 既定表示を維持した。"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "reason": "新しい Supply Phase read model module を公開した。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Gray Rhino Quiet 折りたたみの CLI 回帰テストを維持した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "Audit Daily の市場解釈表示が旧 Narrative から Market Interpretation になった。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "Audit Daily の市場解釈表示が旧 Narrative から Market Interpretation になった。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "Audit Daily の市場解釈表示が旧 Narrative から Market Interpretation になった。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/market-report-convergence-modeling.contract.json",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/status_policy.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "表示面と Cockpit 校验は完了したが、Market Interpretation / Leadership / Supply Phase の収斂経路は review で再確認したい。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract と Cockpit 方針を確認した。",
+      "contractHash": "1dd4534da771ebc2",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "実装前に scope / acceptance / verification を確認した。",
+      "contractHash": "1dd4534da771ebc2",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "主要な表示改修とテスト更新を完了し、fmt / test / clippy を通過した。",
+      "contractHash": "1dd4534da771ebc2",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "fmt / test / clippy / AI guard / status 系の required verification を完了した。",
+      "contractHash": "1dd4534da771ebc2",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract と Cockpit 方針を確認済み。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / sources / acceptance を確認してから編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "主要な表示改修とテスト更新を完了し、fmt / test / clippy を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "fmt / test / clippy / AI guard / status 系の required verification を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "ai_guard_verification",
+      "detail": "Market Interpretation / Leadership / Supply Phase の収斂は完了したが、最終的な review では参照経路の重複が再発していないかを確認したい。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification は通過済みだが、Market Interpretation / Leadership / Supply Phase の収斂経路は review で再確認したい。",
+    "expectedReviewFocus": [
+      "Leadership Snapshot の単一 facts source 化",
+      "Market Change Log の current / previous 比較",
+      "Supply Phase の共有 read model",
+      "Audit Daily の Market Interpretation 化"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Market Change Log が報告先頭付近に出て、昨日との差分を leader / breadth / risk / supply / confidence / interpretation で要約する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs"
+      ],
+      "reason": "Market Change Log を current / previous の read model 比較で構成した。"
+    },
+    {
+      "scenario": "Leadership Snapshot が leader の唯一の facts source になり、conflict は explanation されるが unavailable に逃げない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "src/features/radar/interface/report.rs"
+      ],
+      "reason": "Leadership Snapshot を primary / secondary / watchlist / confidence / conflict の単一出力に寄せた。"
+    },
+    {
+      "scenario": "Market Interpretation が正式 Narrative を一つだけ持ち、Today's Explanation / Narrative Components / Signal Context はそこへ参照する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "Narrative の重複経路を Market Interpretation 参照に集約した。"
+    },
+    {
+      "scenario": "Supply Phase が共有 read model で表現され、Capital Absorption report と Market Change Log で同じ規則を使う",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+        "src/features/research/interface/capital_absorption_report.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs"
+      ],
+      "reason": "Supply Phase を共有 read model に抽出して両方から参照した。"
+    },
+    {
+      "scenario": "Gray Rhino が Quiet では省スペース表示になり、Watching / Ready / Triggered や状態変化時だけ展開する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+        "tests/research_attention_cli_integration.rs"
+      ],
+      "reason": "状態が静的な場合は Quiet のみを出力するようにした。"
+    }
+  ]
+}

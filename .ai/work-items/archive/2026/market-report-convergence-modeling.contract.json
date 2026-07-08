@@ -1,0 +1,235 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-report-convergence-modeling",
+  "mode": "code",
+  "title": "市場レポートのモデル収斂を修正",
+  "baseCommit": "d7787b0e4ed45e0ae38f36c5d77c51cb8a1312df",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "59d0f7a81179e700fab5265b66e507e843f0420a24a18743dd020a21e97f7353"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "83909908f808afb0dca09d5170fafc8cadb33989d5c1a848884abe6dc055b376"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "65e12a812e28acbd2019620a2eb71335e3bd61f30531fdfa05aa1044932e19f5"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "16fd1133b9e25d2cdb1b0b4a588c0aabcac0f36d54079bb9b08e1cd30cd6bd26"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "ac0a40ee3d033ff72310107b2a628fd6581bab15f86c40cb48cb70ce7f04947d"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "2583296f20f61d62f784b7126a593b6b8fffd93303d740a0c44daed114642458"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "bcc2b35d90f4f4cd1a701dba1df7e20f75d3cbfe0db1e5cf06fc19587d09a811"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "dc7a6570653982ab261151f7d1b1ff10c82785e246536bdc2880a402544d71b7"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "fc75a4ca95eff31b2a625a17f32fda3bf2729bd2293a2de6b8afa5e64c87fea1"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "status": "M",
+      "fingerprint": "d1f702584fdab9eae0aa2b4d0e46a869cff4f13b7c1a22fd0c8b88eddb5b5949"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "status": "M",
+      "fingerprint": "06902b1777f0c712b4aa4b6ff85d16b3a95ebbba4e47670fb2eaa50213ce9d0b"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "status": "M",
+      "fingerprint": "4f7341791d736456cbff5ee714e44cbc5b133fc349b92ee61911f8d85ed267ba"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "status": "M",
+      "fingerprint": "3be8328630da9babb3ad33f975565fa71b73a26fb9607beb2a7da10c380ef55d"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "7f3c0701c07ef4a7fb31204dc4fc467fb468498fac3b6c2a73b0b88380930d20"
+    }
+  ],
+  "problemStatement": "市場レポートの reading / rendering を収斂させ、Leadership と Supply Phase の単一事実源を作る。旧実装の二重計算と、昨日比較のない Change Log を修正する。",
+  "scope": [
+    ".ai/work-items/active/market-report-convergence-modeling.contract.json",
+    ".ai/work-items/active/market-report-convergence-modeling.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "Gate / Execution / Trader / Position Sizing の挙動変更",
+    "新しい market observation layer の追加",
+    "データ取得先の追加や外部 API の変更"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leadership Snapshot と Market Interpretation の read model を収斂させる中核の実装。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "current / previous の packet から shared read model を組み立てる呼び出し元。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Market Change Log と Leadership Snapshot を表示する主レポート。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "旧 Narrative / Leadership unavailable / 裸の Breadth 表示を残す別系統の report。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply Phase の単一表示元を共有 read model に寄せる対象。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+      "reason": "Supply Phase の共通 read model を定義する新規ファイル。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "Gray Rhino の既定折りたたみ表示を維持する回帰対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "既存の表示接線が多いため、shared read model に寄せた後に report / audit_daily / weekly state の整合確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "contract / scope / acceptance / verification が確定しており、task scope 内で実装可能。"
+  },
+  "preReviewWarnings": [
+    "Leadership Snapshot の conflict 判定は watchlist 生成と overlap 規則を一緒に見直す必要がある。",
+    "Market Change Log は current / previous の read model 比較が必須で、current-only の推測は禁止する。",
+    "Supply Phase は report と change log で別実装にしない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leadership Snapshot が primary / secondary / watchlist / confidence / conflict を一度だけ決め、他の layer はそれを読み取るだけになる。",
+    "watchlist に primary leader を混ぜないことで、通常の leader overlap が conflict / LOW に化けない。",
+    "Market Interpretation と Action Matrix と Audit Daily が leadership について同じ結論を表示する。",
+    "Market Change Log が current / previous の read model を比較し、今日と昨日の差分を先頭で示す。",
+    "No meaningful structural change が、昨日も今日も同じ窄い体制なら実際に出る。",
+    "Supply Phase の判定ロジックが共通化され、capital_absorption report と Market Change Log で一致する。",
+    "Audit Daily から独立した Narrative / Leadership unavailable / 裸の Breadth 数字を除去または参照化する。",
+    "Gray Rhino の Quiet 折りたたみが維持される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-report-convergence-modeling.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-modeling.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
