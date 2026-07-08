@@ -11,7 +11,9 @@ import time
 from pathlib import Path
 from typing import Any
 
+from ai_json import load_json as load_json_file
 from ai_observability import create_observability, elapsed_ms
+from ai_scenario_coverage import validate_scenario_coverage
 
 
 REQUIRED_FIELDS = (
@@ -33,13 +35,6 @@ REVIEW_READINESS_STATUSES = {"ready", "ready_with_risks", "not_ready"}
 SOLIDIFICATION_TARGETS = {"contract", "summary", "doc", "template", "guard", "skill", "none_with_reason"}
 REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
 CHECKPOINT_EVIDENCE_KEYS = ("stage", "recorded", "detail", "contractHash", "acceptanceCount", "unknownCount", "requiredChecks", "requiredChecksPassed")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("root は JSON object にしてください。")
-    return data
 
 
 def non_empty_string(value: Any) -> bool:
@@ -324,9 +319,12 @@ def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -
     for key in ("sourcesUsed", "unknownsRemaining", "generatedFiles", "destructiveChanges", "observedIssues"):
         if key in summary and not isinstance(summary.get(key), list):
             issues.append(f"{key} は list にしてください。")
+    issues.extend(validate_scenario_coverage(summary.get("scenarioCoverage")))
     issues.extend(validate_string_list(summary, "expectedReviewFocus"))
     issues.extend(validate_string_list(summary, "userCorrectionsCaptured"))
     issues.extend(validate_string_list(summary, "knownGaps"))
+    issues.extend(validate_string_list(summary, "followUps"))
+    issues.extend(validate_string_list(summary, "unverifiedScenarios"))
     issues.extend(validate_optional_residual_risks(summary))
     issues.extend(validate_optional_review_readiness(summary))
     issues.extend(validate_optional_user_correction_solidification(summary))
@@ -370,8 +368,8 @@ def main() -> int:
         return 0
     start = time.time()
     try:
-        summary = load_json(Path(args.summary))
-        contract = load_json(Path(args.contract)) if args.contract else None
+        summary = load_json_file(Path(args.summary))
+        contract = load_json_file(Path(args.contract)) if args.contract else None
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"❌ Summary / Contract を読めません: {exc}", file=sys.stderr)
         return 1

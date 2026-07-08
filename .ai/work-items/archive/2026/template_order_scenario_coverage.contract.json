@@ -1,0 +1,235 @@
+{
+  "contractVersion": 2,
+  "workItemId": "template_order_scenario_coverage",
+  "mode": "code",
+  "title": "テンプレート順序と Scenario Coverage の採用",
+  "baseCommit": "f444b2828571f55501550550c5c643289da74aee",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ea7e86c6b88836b4e40efb6a9778a9762b1e730285d0c12a5735c4cf12bfbcd4"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "status": "??",
+      "fingerprint": "cd26a5d6390f4e0558121ce53f5323efab66a6f037116923ef80c75bd184cc17"
+    }
+  ],
+  "problemStatement": "Sentinel の Contract / Summary テンプレートと status 生成を、Intent の順序固定と Scenario Coverage の軽量機構に合わせて更新する。",
+  "intent": {
+    "problem": "テンプレートの読みやすさと Scenario Coverage の検証可視性を Sentinel 側に固める。",
+    "constraints": [
+      "verification[].command は make entrypoint のまま維持する。",
+      "verification[].check 方式へは今回移行しない。",
+      "低リスク Work Item では scenarioCoverage を必須にしない。"
+    ],
+    "rationale": "template repo の V2.6 機構を Sentinel 向けに縮約し、意図せぬ diff と重複 key を減らす。"
+  },
+  "scope": [
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/template_adoption.md",
+    ".ai/guards/scenario_coverage_policy.yaml",
+    ".ai/work-items/_templates/ai_change_summary.example.json",
+    ".ai/work-items/_templates/work_item_contract.example.json",
+    ".ai/work-items/active/template_order_scenario_coverage.contract.json",
+    ".ai/work-items/active/template_order_scenario_coverage.summary.json",
+    "Makefile",
+    "scripts/ai_check_scenario_coverage.py",
+    "scripts/ai_check_scope.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_check_summary.py",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_json.py",
+    "scripts/ai_scenario_coverage.py",
+    "scripts/ai_start.py",
+    "scripts/ai_test_scenario_coverage.py",
+    "scripts/ai_test_start.py",
+    "scripts/ai_test_work_item_risk_readiness.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/**",
+    "src/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Cockpit の既存 status / boundary / review 方針の更新根拠。"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "reason": "template 採用メモに field 順序と Scenario Coverage を反映するため。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/archive/2026/scenario_coverage_v26.contract.json",
+      "reason": "Scenario Coverage V2.6 の field / guard / status 機構の参照元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Contract field 順序と optional scenarioCoverage の示し方の参照元。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/_templates/work_item_summary.example.json",
+      "reason": "Summary の scenarioCoverage / followUps / unverifiedScenarios の参照元。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Contract / Summary の field 順序が fixed order で示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-work-item-contract",
+        "make test-ai-start"
+      ]
+    },
+    {
+      "scenario": "Scenario Coverage ガードが duplicate key rejection と optional schema を検証する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-scenario-coverage",
+        "make check-ai-scenario-coverage"
+      ]
+    },
+    {
+      "scenario": "current_status.md が Scenario Coverage state を表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-generate-status",
+        "make check-ai-status"
+      ]
+    },
+    {
+      "scenario": "verification[].check 方式への移行は今回行わない",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "Sentinel は引き続き make-only verification を採用する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "Work Item は docs、Makefile、status 生成、検証スクリプトをまたぐため、review での整合確認が必要である。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope、sources、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "duplicate key rejection が ai_json の共通 loader に入っているか確認する。",
+    "Scenario Coverage は test list ではなく risk 域の verification として扱う。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Contract と Summary の example が metadata → intent → boundary → codability → risk / execution → acceptance / verification → safety の順で読める。",
+    "ai_start が同じ順序で Contract skeleton を生成する。",
+    "Scenario Coverage は optional schema として Contract / Summary に追加され、低リスク Work Item では必須ではない。",
+    "make check-ai-scenario-coverage が Scenario Coverage の structural validity と status signal を提供する。",
+    "current_status.md に Scenario Coverage: complete / incomplete / not_required / unknown が表示される。",
+    "active Contract / Summary の JSON は duplicate key を拒否する。",
+    "verification[].command は make entrypoint のままで、verification[].check 方式へは今回移行しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make test-ai-verification-commands",
+      "required": true
+    },
+    {
+      "command": "make test-ai-generate-status",
+      "required": true
+    },
+    {
+      "command": "make test-ai-start",
+      "required": true
+    },
+    {
+      "command": "make test-ai-scenario-coverage",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、関連 test / docs を元に戻す。"
+}

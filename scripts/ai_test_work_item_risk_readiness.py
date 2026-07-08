@@ -58,6 +58,7 @@ def base_contract() -> dict:
             {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json", "required": True},
             {"command": "make fmt-check", "required": True},
             {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json", "required": True},
+            {"command": "make check-ai-scenario-coverage", "required": True},
             {
                 "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/risk-readiness-test.contract.json SUMMARY=.ai/work-items/active/risk-readiness-test.summary.json",
                 "required": True,

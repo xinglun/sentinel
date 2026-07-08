@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from typing import Any
 
 from ai_observability import AiRunContext, create_observability
 
@@ -34,12 +35,16 @@ def contract_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
 
 
+def file_fingerprint(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def current_head() -> str:
     result = subprocess.run(["git", "rev-parse", "HEAD"], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
-def baseline_dirty_paths() -> list[str]:
+def baseline_dirty_paths() -> list[dict[str, Any]]:
     result = subprocess.run(
         ["git", "status", "--porcelain=v1", "--untracked-files=all"],
         cwd=PROJECT_ROOT,
@@ -49,16 +54,26 @@ def baseline_dirty_paths() -> list[str]:
     )
     if result.returncode != 0:
         return []
-    paths: list[str] = []
+    paths: list[dict[str, Any]] = []
     for line in result.stdout.splitlines():
         if len(line) < 4:
             continue
+        status = line[:2].strip() or "M"
         path = line[3:].strip()
         if " -> " in path:
             path = path.split(" -> ", 1)[1]
         if path:
-            paths.append(path)
-    return sorted(set(paths))
+            file_path = PROJECT_ROOT / path
+            if file_path.exists() and file_path.is_file():
+                paths.append({"path": path, "status": status, "fingerprint": file_fingerprint(file_path)})
+            else:
+                paths.append({"path": path, "status": status, "fingerprint": "deleted"})
+    unique: dict[str, dict[str, Any]] = {}
+    for item in paths:
+        path = item.get("path")
+        if isinstance(path, str) and path:
+            unique[path] = item
+    return [unique[path] for path in sorted(unique)]
 
 
 def required_verification_count(contract: dict) -> int:
@@ -171,6 +186,7 @@ def main() -> int:
             {"command": f"make check-ai-guards CONTRACT={contract_rel}", "required": True},
             {"command": f"make check-ai-backtrack CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
             {"command": "make check-ai-coverage-guard", "required": True},
+            {"command": "make check-ai-scenario-coverage", "required": True},
             {"command": f"make check-ai-change-summary SUMMARY={summary_rel} CONTRACT={contract_rel}", "required": True},
             {"command": f"make generate-cockpit-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},
             {"command": f"make check-ai-status CONTRACT={contract_rel} SUMMARY={summary_rel}", "required": True},

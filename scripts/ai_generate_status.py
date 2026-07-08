@@ -10,20 +10,15 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from ai_json import load_json as load_json_file
 from ai_observability import DEFAULT_LOG_PATH, create_observability
+from ai_scenario_coverage import scenario_coverage_state
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 BACKTRACK_REPORT = PROJECT_ROOT / "target" / "ai_backtrack_report.json"
 DEFAULT_RETRY_THRESHOLD = 5
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("root は JSON object にしてください。")
-    return data
 
 
 def consecutive_failure_count(work_item_id: str, log_path: Path = DEFAULT_LOG_PATH) -> int:
@@ -171,9 +166,9 @@ def main() -> int:
         return 0
     try:
         contract_path = Path(args.contract)
-        contract = load_json(contract_path)
+        contract = load_json_file(contract_path)
         summary_path = Path(args.summary) if args.summary else None
-        summary = load_json(summary_path) if summary_path and summary_path.exists() else None
+        summary = load_json_file(summary_path) if summary_path and summary_path.exists() else None
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"❌ Cockpit status を生成できません: {exc}", file=sys.stderr)
         return 1
@@ -184,11 +179,12 @@ def main() -> int:
         retry_threshold=args.retry_threshold,
         observability_log=Path(args.observability_log),
     )
-    backtrack = load_json(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
+    backtrack = load_json_file(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
     changed_files = summary.get("changedFiles", []) if isinstance(summary, dict) else []
     verification = summary.get("verification", []) if isinstance(summary, dict) else []
     review_readiness = summary.get("reviewReadiness") if isinstance(summary, dict) else None
     residual_risks = summary.get("residualRisks", []) if isinstance(summary, dict) else []
+    scenario_coverage = scenario_coverage_state(contract, summary)
 
     lines = [
         "---",
@@ -245,6 +241,9 @@ def main() -> int:
                 lines.append(f"  - {item}")
     else:
         lines.append("- Status: `not_recorded`")
+
+    lines.extend(["", "## Scenario Coverage", ""])
+    lines.append(f"- State: `{scenario_coverage}`")
 
     lines.extend(["", "## Residual Risks", ""])
     if isinstance(residual_risks, list) and residual_risks:

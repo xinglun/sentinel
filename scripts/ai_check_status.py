@@ -10,17 +10,12 @@ import time
 from pathlib import Path
 from typing import Any
 
+from ai_json import load_json as load_json_file
 from ai_observability import create_observability, elapsed_ms
+from ai_scenario_coverage import scenario_coverage_state
 
 
 REQUIRED_FIELDS = ("workItemId", "mode")
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("root は JSON object にしてください。")
-    return data
 
 
 def required_commands(contract: dict[str, Any]) -> list[str]:
@@ -46,8 +41,8 @@ def main() -> int:
         return 0
     start = time.time()
     try:
-        contract = load_json(Path(args.contract))
-        summary = load_json(Path(args.summary))
+        contract = load_json_file(Path(args.contract))
+        summary = load_json_file(Path(args.summary))
         status = Path(args.status).read_text(encoding="utf-8")
     except (OSError, json.JSONDecodeError, ValueError) as exc:
         print(f"❌ Cockpit status を検証できません: {exc}", file=sys.stderr)
@@ -71,6 +66,11 @@ def main() -> int:
         issues.append("status が ready_for_review / ready_with_risks ではありません。")
     if "- none" not in status.split("## Required Checks", 1)[0]:
         issues.append("Blocking section が none ではありません。")
+
+    scenario_state = scenario_coverage_state(contract, summary)
+    expected_scenario_line = f"- State: `{scenario_state}`"
+    if "## Scenario Coverage" not in status or expected_scenario_line not in status:
+        issues.append(f"status に Scenario Coverage の表示がありません: {scenario_state}")
 
     verification_status = {
         item.get("command"): item.get("result")
