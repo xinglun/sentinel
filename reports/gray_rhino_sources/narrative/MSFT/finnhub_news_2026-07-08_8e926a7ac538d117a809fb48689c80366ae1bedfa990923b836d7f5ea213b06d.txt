@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Makes Wix.com (WIX) Amongst The Best Small-Cap Software Infrastructure Names
+  summary: Wix.com Ltd (NASDAQ:WIX) is one of the best 11 small-cap software infrastructure stocks to buy now. On June 15, Wix.com Ltd. (NASDAQ:WIX) disclosed its partnership with Microsoft to bring the creation of the Wix Harmony website into Microsoft 365 Copilot. Individuals can access the website directly with the support of Copilot for the OpenAI Apps […]
+  url: https://finnhub.io/api/news?id=04e832134aaa7d75f7506c842abd507ea9181868253ae69d7f62ea0979cba6df

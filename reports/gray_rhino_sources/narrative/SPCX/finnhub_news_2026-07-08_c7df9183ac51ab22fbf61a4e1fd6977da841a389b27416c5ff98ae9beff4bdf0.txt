@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chamath Palihapitiya Explains Why He Would Pick SPCX Over OpenAI, Anthropic
+  summary: Chamath Palihapitiya backs Elon Musk&#39;s SpaceX in AI race over competitors like OpenAI and Anthropic in the AI race.
+  url: https://finnhub.io/api/news?id=2c5a4412229b00785f0e06bea9d74cf49aa3d712c16397a93c73b4ca4d144e02

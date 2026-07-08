@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Government Is Now Using Anthropic’s AI to Hunt Bugs in Its Own Code
+  summary: On CNBC’s Squawk Box on July 7, 2026, anchors dug into fresh Reuters reporting that the U.S. cyber defense agency is using Anthropic’s Mythos software to audit federal code for vulnerabilities foreign adversaries could exploit. The tool, per that reporting, has already flagged a meaningful number of bugs in government systems. For an industry that ... The U.S. Government Is Now Using Anthropic’s AI to Hunt Bugs in Its Own Code
+  url: https://finnhub.io/api/news?id=185bc8f66f011f4cde1a67749086af795a1d93fbe3ef65de9b86332623beb792

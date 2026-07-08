@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Big Is the Appendectomy Opportunity for ISRG's Robotic Expansion?
+  summary: ISRG sees appendectomy as a long-term robotic growth market, but reimbursement limits near-term adoption as clinical evidence continues to build.
+  url: https://finnhub.io/api/news?id=f73d9bb5aecbe9b69580b1a7d34036b80a10531a82d3d18ec22b3063bbc2320c

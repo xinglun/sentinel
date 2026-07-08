@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Platforms Help Enterprises Extend AI Into Operations
+  summary: STAMFORD, Conn., July 08, 2026--Enterprises are adopting Palantir platforms and working with Palantir ecosystem partners to embed AI into operational decision-making, ISG says.
+  url: https://finnhub.io/api/news?id=a71e94badfa2f7c1d2ae93559335a47db25b8223cd7a508dafa76b2df932dd12

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceXAI to Launch Grok 4.5 for Public Access, Musk Confirms (SPCX)
+  summary: SpaceX (NASDAQ:SPCX) will make its Grok 4. 5 artificial intelligence model publicly available on Thursday, according to a social media post from chief executive Elon Musk.
+  url: https://finnhub.io/api/news?id=7df4335c5c5cc001708005031d8bd6c3aec34c8c61ea75c35c78c4a4285b0359

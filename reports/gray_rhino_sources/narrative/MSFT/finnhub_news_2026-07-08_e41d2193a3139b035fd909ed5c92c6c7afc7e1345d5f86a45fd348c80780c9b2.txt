@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Trades at Rare Discount
+  summary: AI spending is pressuring margins, but analysts still see room for a rebound.
+  url: https://finnhub.io/api/news?id=e8747f79a50c14423aa1e9defbee66a1aa8fe6c8fb1159ac6ee527608ebae627

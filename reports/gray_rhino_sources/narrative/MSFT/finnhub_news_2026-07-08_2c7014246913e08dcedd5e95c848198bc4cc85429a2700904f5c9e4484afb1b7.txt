@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Powerful Nuclear Energy Stocks to Buy in July
+  summary: Nuclear power has shifted from a sleepy utility niche to the most strategically important corner of the energy market. AI-driven electricity demand, hyperscaler power-purchase agreements and an executive-level push to quadruple U.S. nuclear capacity to 400 GWe by 2050 have rewritten the sector’s growth math. The EIA now models commercial data-center server electricity use growing ... 3 Powerful Nuclear Energy Stocks to Buy in July
+  url: https://finnhub.io/api/news?id=f240aacb53ffd1eb2a3026b437a97902f03ee590ab93d3ff91d17ce804eefec3

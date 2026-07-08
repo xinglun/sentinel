@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Valuation Falls to Pre-AI Boom Low
+  summary: The stock has pulled back even as investors continue to watch long-term AI demand.
+  url: https://finnhub.io/api/news?id=f864854339aff06f205c0b6e4bc71b507592aef1f718ef324abf57331b883247

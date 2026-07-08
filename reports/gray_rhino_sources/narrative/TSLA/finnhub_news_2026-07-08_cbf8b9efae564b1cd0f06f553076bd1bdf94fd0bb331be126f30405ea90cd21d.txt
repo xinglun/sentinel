@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Stock Could Command a 20-30% Premium in a SpaceX Merger, Analysts Say — But Major Obstacles Remain
+  summary: A merger between Space Exploration Technologies Corp. (NASDAQ:SPCX) and Tesla Inc. (NASDAQ:TSLA) is possible, but significant hurdles stand in the way, say analysts. RBC’s Tom Narayan said an all-stock acquisition is the most likely structure, citing operational synergies in AI training, Tesla’s Megapack energy-storage systems, and the Terafab chip project. He estimated Tesla could “potentially” receive a 20%–30% takeover premium and raised his Tesla price target to $500 from $475, considering t
+  url: https://finnhub.io/api/news?id=5b220ee66526645dec6a824eb268b97b13626de0c787613bc243afd8799a1380

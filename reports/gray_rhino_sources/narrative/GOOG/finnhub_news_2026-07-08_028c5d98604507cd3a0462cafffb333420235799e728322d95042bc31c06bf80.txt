@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks: Will Self-Improving Models Decide Who Wins Superintelligence Race?
+  summary: Self-improving models are reshaping the AI race as OpenAI, Anthropic, Google and others pursue superintelligence.
+  url: https://finnhub.io/api/news?id=051280dbb3e874fdca7078835db8891d8ea9c710ec768e1ddcf71a96834447fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Konica Minolta Launches Print Support App to Bridge Microsoft's Driverless Print Transition for Enterprise Customers
+  summary: New application enables organizations to adopt Windows Protected Print Mode while preserving advanced device functionality RAMSEY, NJ / ACCESS Newswire / July 8, 2026 / Konica Minolta Business Solutions U.S.A., Inc. ( Konica Minolta ) today announced ...
+  url: https://finnhub.io/api/news?id=8edafd44ea3258e0525353cedbb6b9d96500b7b503399f757c92f60806c1f50c

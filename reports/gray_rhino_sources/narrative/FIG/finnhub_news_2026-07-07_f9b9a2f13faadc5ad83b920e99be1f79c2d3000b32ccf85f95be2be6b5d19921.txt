@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Rout Drags Nasdaq 100 Lower, Oil Climbs: Stock Market Today
+  summary: A deepening chipmaker slide pulls all major U.S. indexes lower Tuesday while oil climbs on a Strait of Hormuz strike and defensive sectors led the tape.
+  url: https://finnhub.io/api/news?id=88838d918ef36a68dd9a57ba3da664535632ea5d2c95962d93187f73ced0a534

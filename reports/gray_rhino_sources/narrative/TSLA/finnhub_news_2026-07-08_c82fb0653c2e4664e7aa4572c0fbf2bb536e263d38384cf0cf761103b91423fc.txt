@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla Stock Will Reach This Price in July (Hint: It's Going to Plummet)
+  summary: Tesla reports second-quarter earnings on July 22.
+  url: https://finnhub.io/api/news?id=6f0018a99a7515847ae895bbb3d48cbe5989ad49dfb2b8a89a7dc88cf3460ac8

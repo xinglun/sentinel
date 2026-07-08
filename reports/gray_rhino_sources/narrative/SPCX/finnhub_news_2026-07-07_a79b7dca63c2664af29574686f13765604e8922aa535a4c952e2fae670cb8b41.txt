@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: SpaceX Stock Could ‘Eventually Double,’ Market Expert Jay Woods Says ‘Put it Away, Don’t Look At It’
+  summary: A market expert tells Benzinga why there&#39;s caution for the short-term valuation of SpaceX, but a long-term buying opportunity.
+  url: https://finnhub.io/api/news?id=cc4747fff505a52a6312b1b1975c8403d4acf900faadf4dae30e49b5015cb36d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Stock: The 1 Number That Could Tell You a Market Turn Is Coming
+  summary: On The AI Investor Podcast, one point kept resurfacing when the panel discussed index concentration risk: “Nvidia is 8.5% of the NASDAQ, but it’s expected to contribute 37% of next year’s profits for the entire index. Nvidia, Micron, Broadcom combined, they’re just a little under half of all the profit contributions to the NASDAQ index ... Broadcom Stock: The 1 Number That Could Tell You a Market Turn Is Coming
+  url: https://finnhub.io/api/news?id=66bf92d187f7dcdf0b316045e22a25415e9b2ceb128d1f955b3e7bc453978f33

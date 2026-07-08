@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jobs For Teens Decline In June 2026
+  summary: The U.S. Bureau of Labor Statistics reports the seasonally adjusted number of employed Americans Age 16-19 fell by 37,000 to 5,313,000 in June 2026. Read more here.
+  url: https://finnhub.io/api/news?id=0d378d33535ef4f57a8683d6b9a0117e031600c6d54a6d794a228c65be4f7d46

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The State Of The Memory Trade: Pullback Or Bust?
+  summary: DRAM pricing growth is decelerating fast, from nearly 100% sequential growth in Q1 2026 down to the mid-to-low teens in Q3. Read more here.
+  url: https://finnhub.io/api/news?id=32e9c4b9c41be7294ee15c11f2d7c74e5e7dc63cb4da1ebaecaa0e54e7214bf2

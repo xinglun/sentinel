@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Douglas Elliman Bets on AI to Reinvent Brokerage Business
+  summary: (Bloomberg) -- Luxury real estate brokerage Douglas Elliman Inc. is betting artificial intelligence can expand its business beyond buying and selling homes. Most Read from BloombergTrump Vents Anger With Iran and Warns Ceasefire May Be ‘Over’Greece Offers Bounty to Catch Ravenous Fish Lured by Warming SeaUS Strikes Iran and Blocks Oil Sales in New Test of TruceChip Stocks Sink After Blistering Run as Oil Jumps: Markets WrapTwo Millennium Trading Pods Made About $3.7 Billion Last MonthOn Wednesda
+  url: https://finnhub.io/api/news?id=4c9b9546a2bc5bd300f82fc417270fced770cc2dfb7b1eb8cba14785bf3f82f4

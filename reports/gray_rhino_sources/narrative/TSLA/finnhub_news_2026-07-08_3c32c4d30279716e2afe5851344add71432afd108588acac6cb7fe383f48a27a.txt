@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung's Blowout Quarter Triggers a Chip Rout, Then Iran Reignites Overnight
+  summary: Semiconductor stocks got hammered Tuesday after Samsung's record quarter failed to convince investors AI memory demand keeps accelerating, while software names quietly rebounded. Rivian tumbled on a surprise capital raise, Fiserv drew takeover interest, and overnight U.S. strikes on more than 80 Iranian targets pushed oil and gold higher heading into Wednesday's open.
+  url: https://finnhub.io/api/news?id=7798d50e53e3cdfd9e435de512860f2cb2636945c78acdaf00a2825b16f7c8b8

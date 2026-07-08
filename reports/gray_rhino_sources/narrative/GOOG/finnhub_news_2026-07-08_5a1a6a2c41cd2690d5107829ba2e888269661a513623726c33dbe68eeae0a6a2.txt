@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tencent Signs 300,000 Carbon Credit Deal in Landmark Overseas Move
+  summary: Tencent's 10-year Indonesia agreement supports its 2030 carbon neutrality goal as Google also expands carbon removal purchases.
+  url: https://finnhub.io/api/news?id=eadd3ff57e255cb4dca66bb1e553afff516e5d1a01f6a57ff23e3861df588237

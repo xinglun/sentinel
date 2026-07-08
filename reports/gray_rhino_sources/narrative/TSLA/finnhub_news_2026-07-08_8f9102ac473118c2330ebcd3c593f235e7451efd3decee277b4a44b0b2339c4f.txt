@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Cash Machine The Market Put On Sale: Ford
+  summary: The automaker is offering a cash yield that dwarfs the market average, but investors are hesitating for reasons buried in the balance sheet.
+  url: https://finnhub.io/api/news?id=c2dd559da5b1705180ba901a546a0bcd4b3199942b19f5b665e01891a0754520

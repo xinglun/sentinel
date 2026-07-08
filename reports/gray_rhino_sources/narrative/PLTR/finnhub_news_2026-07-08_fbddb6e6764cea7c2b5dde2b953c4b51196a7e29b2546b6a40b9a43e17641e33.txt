@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Looks Beaten Down Despite Expanding Its Sovereign AI Push
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the best beaten-down technology stocks to buy now. On June 29, Palantir Technologies Inc. (NASDAQ:PLTR) entered into a strategic partnership with Nvidia to deliver an intelligence engine to run the latter’s open models in sovereign environments. Under the terms of the agreement, Nvidia’s AI platform will be combined […]
+  url: https://finnhub.io/api/news?id=a784ffb57af78073e4480c0d4f59225fb0a2391abbba72c572c539f1bcb6ae8f

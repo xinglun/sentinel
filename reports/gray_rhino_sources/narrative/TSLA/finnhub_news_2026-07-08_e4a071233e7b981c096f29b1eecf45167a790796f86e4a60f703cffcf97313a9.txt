@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Update - Rise Of Portable DC Fast Chargers In Remote Areas
+  summary: The global market for portable DC fast chargers is set to experience significant growth, driven by increasing adoption of electric vehicles (EVs) and the demand for flexible charging solutions in remote or underserved areas. A key factor in this growth is the rise of mobile charging-as-a-service models and technology advancements, which offer rapid charging capabilities through compact, high-power systems. Notable developments in this market include portable chargers integrated into energy...
+  url: https://finnhub.io/api/news?id=6258699e0b7d597ef8eca34a67706af9062c9d48831f3f37fe09afb4a9fcadf7

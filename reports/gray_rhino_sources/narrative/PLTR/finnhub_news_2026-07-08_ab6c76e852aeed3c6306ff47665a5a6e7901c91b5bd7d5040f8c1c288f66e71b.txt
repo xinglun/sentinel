@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Just Hit a 52-Week Low. Is Now the Perfect Time to Buy?
+  summary: Palantir has lost a ton of value, but all of it was justified.
+  url: https://finnhub.io/api/news?id=60ba4ad2ace43a32123be20f20a713ce0c7fec19c7d3bc571e0a1d4817d215eb

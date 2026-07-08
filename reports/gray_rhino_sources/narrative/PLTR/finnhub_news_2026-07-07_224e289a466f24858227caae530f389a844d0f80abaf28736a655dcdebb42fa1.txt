@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DA Davidson Upgrades Palantir (PLTR) To Buy
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of our Best Software Stocks to Buy in 2026. Recently, on July 2, DA Davidson upgraded Palantir Technologies Inc. (NASDAQ:PLTR) from Neutral to Buy and also raised the price target from $165 to $175. ​The firm noted that the company has grown into its valuation, due to profits rising […]
+  url: https://finnhub.io/api/news?id=c43423b182a374444e52d194924019fb327b9a2d8e3cb3e6ec5c167aa83da232

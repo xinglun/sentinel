@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix and Disney Eye World Cup Rights
+  summary: YouTube may also challenge Fox for future tournaments
+  url: https://finnhub.io/api/news?id=cf9a8981025e36c71142c03ea110a2b47c739e0a21280da1894da4a093641100

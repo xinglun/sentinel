@@ -1,0 +1,22 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung Selloff Sends Warning To US Investors; Amazon Enters AI Debt Binge
+  summary: 
+
+
+
+Samsung Warning
+
+
+
+Please click here for an enlarged chart of Direxion Daily Semiconductor Bull 3X ETF (NYSE:SOXL).
+
+
+
+Note the following:
+
+
+
+
+Semiconductors are the leading sector that has been driving the stock
+  url: https://finnhub.io/api/news?id=569b1253d52b138448798a16bfdc34eb7de8f4d867e592000ca718829053e09d

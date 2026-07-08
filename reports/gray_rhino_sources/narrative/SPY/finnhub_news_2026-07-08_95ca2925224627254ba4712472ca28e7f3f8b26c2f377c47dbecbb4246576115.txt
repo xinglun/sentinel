@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Nasdaq 100 Now Controls a Quarter of Every Growth ETF Dollar
+  summary: On a recent Animal Spirits podcast titled “Talk Your Book: How SpaceX Got Into the Nasdaq 100,” Invesco’s Paul Schroeder dropped a statistic that should stop any growth investor mid-scroll. The Nasdaq 100, which you probably know through Invesco QQQ Trust (NASDAQ:QQQ) and its cheaper sibling Invesco NASDAQ 100 ETF (NASDAQ:QQQM), now owns 27% of ... The Nasdaq 100 Now Controls a Quarter of Every Growth ETF Dollar
+  url: https://finnhub.io/api/news?id=77692947d1693f08a9035fddaa33d53364da160991a9d03c46180e38a6b92ebc

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Tech Stocks You Can Buy and Hold for the Next Decade
+  summary: AI adoption will make these top tech companies winners for the foreseeable future.
+  url: https://finnhub.io/api/news?id=cd7f64dad894bfc165c9dc9765be8612541ab2a0a14b0323388cf7f9c4d91119

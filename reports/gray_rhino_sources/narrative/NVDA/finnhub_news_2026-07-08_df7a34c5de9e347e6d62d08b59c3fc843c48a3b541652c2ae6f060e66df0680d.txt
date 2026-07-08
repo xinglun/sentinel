@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China plans to let top AI firms buy limited Nvidia H200 chips, the Information reports
+  summary: China is planning to allow the country's top AI companies to buy a limited number of Nvidia's H200 chips, the ‌Information reported on Wednesday, citing two people with direct knowledge of ‌the matter.  Chinese officials have told Alibaba, ByteDance and DeepSeek in recent weeks that they may soon receive ​permission to buy some H200 chips, the report said.  Shares of Nvidia rose 1% after the report.
+  url: https://finnhub.io/api/news?id=acf60faaadccff7a030b0e2b4a94c5641b2790ad59b50a72c884b62d52f3bece

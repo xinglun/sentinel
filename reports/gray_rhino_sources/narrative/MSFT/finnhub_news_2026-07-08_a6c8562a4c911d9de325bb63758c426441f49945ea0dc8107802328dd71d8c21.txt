@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Contractual Backlog The Oracle Stock Bears Keep Missing
+  summary: Oracle (ORCL) stock has had a rough year, down 37% while the market climbed. The reason for the pessimism is plain to see: a colossal spending plan to build out its cloud infrastructure. Investors are worried about the cost, the execution risk, and the impact on near-term margins. But the stock's low price appears to give little credit for the one number that reframes that entire risk: the company's Remaining Performance Obligations, or RPO.
+  url: https://finnhub.io/api/news?id=cb85fd2753f275eca90793c065d4bbda9d8603675b6fccb103912c52c94c9fee

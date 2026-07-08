@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GitLab (GTLB) Makes a Big Push Into Enterprise AI Workflows
+  summary: GitLab Inc. (NASDAQ:GTLB) is one of the 10 Best Stocks to Buy in Glen Kacher’s Light Street Portfolio. On June 10, 2026, GitLab Inc. (NASDAQ:GTLB) announced new enterprise-scale capabilities designed to optimize agent-driven software delivery. The updates aim at solving operational bottlenecks and compliance risks in addition to unpredictable costs associated with automated workflows. Key […]
+  url: https://finnhub.io/api/news?id=0d8d2dc31f3f72f6508322dc5951107e3c425003d5b2cb6cb76bf3a2d2ed1a6d

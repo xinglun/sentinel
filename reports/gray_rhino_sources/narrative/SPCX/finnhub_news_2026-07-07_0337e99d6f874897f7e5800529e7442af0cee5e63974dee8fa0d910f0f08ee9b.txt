@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Analyst Sees 64% Upside to Stock: ‘Vertical Integration at Civilization Scale’
+  summary: SpaceX analysts begin coverage on the space stock with bullish takes on the short-term and long-term opportunities.
+  url: https://finnhub.io/api/news?id=760ce6ea764d169c56b867d83efe626b1f68d6d041eeb1e5876c6bb44fd29fe2

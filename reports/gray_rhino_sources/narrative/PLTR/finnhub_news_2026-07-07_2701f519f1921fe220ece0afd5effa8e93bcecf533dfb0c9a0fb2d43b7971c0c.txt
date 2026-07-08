@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Ticked Higher on Tuesday
+  summary: The company revealed that it's secured a large new client outside our borders.
+  url: https://finnhub.io/api/news?id=ffab29d4194296eb67719c6f49456d266d6218aa138f5701e976edac4694bae5

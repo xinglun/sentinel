@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Rivian Worth Half Of Ford?
+  summary: Rivian’s (NASDAQ: RIVN) stock dropped 18% on news that it would issue new equity to pay off debt. The day before, it was worth half as much as Ford (NYSE: F) based on market cap. Rivian’s is $25 billion today. Ford’s is $53 billion. Rivian’s stock is down 80% since late 2021. It went public ... Is Rivian Worth Half Of Ford?
+  url: https://finnhub.io/api/news?id=9024d12ffd7ba1bdcecf861cad2432fc5016468907d23b5c6cfc3852c9d4a5c2

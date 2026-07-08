@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab’s Mega Iridium Deal Kicks off Space Industry Consolidation
+  summary: Rocket Lab’s $8B Iridium buyout signals a massive shift toward vertical integration in the space and satellite telecom industry.
+  url: https://finnhub.io/api/news?id=f4552941cefa492434931cb2872fb40b68162ca545646f014c2feca9cf330ebd

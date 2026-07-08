@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Bear Case Just Broke
+  summary: Palantir Q1 earnings beat: 84.7% YoY growth, raised guidance.
+  url: https://finnhub.io/api/news?id=e37718da42c21c34999898d987befa0e127db1046e37be66a1bf7c71511d39c3

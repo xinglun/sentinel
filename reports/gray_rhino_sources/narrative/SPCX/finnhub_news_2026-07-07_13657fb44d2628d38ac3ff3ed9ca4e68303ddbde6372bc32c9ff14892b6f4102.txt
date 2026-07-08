@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Data Center Blues
+  summary: AI data center buildout is facing mounting ROI concerns, with capex exceeding $700B in FY2026 and surging debt and equity issuance. Read full analysis here.
+  url: https://finnhub.io/api/news?id=0045c78319897fde7fbdf853b0a88e5157bb3e828498e063b2d47af1a092298b

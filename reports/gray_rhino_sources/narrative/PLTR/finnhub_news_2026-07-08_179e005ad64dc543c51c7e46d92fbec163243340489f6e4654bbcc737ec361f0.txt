@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It's Finally Time To Buy Palantir (Rating Upgrade)
+  summary: Palantir Technologies Inc. stock is 37.5% off highs despite surging revenue, margins and guidance. Click here for this PLTR update.
+  url: https://finnhub.io/api/news?id=b9be57da0fe32337ca623281195ce62b00cd82d5869e96f1694198891386c60f

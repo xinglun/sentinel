@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Doubles Prices for Starlink Aviation Plans, Raises Hardware Cost to $200,000
+  summary: SpaceX increases the prices of Starlink satellite internet service&#39;s Aviation plans amid bullish Morgan Stanley bet.
+  url: https://finnhub.io/api/news?id=0699d16a3bd48ca66e3b5cd4bb9ad677af8496a3cae3669b530fbc6558289aec

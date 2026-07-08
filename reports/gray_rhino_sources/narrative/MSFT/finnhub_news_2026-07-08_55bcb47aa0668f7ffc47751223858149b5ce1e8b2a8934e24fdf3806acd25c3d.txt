@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The One Number That Could Rewrite the Story for CoreWeave Stock
+  summary: The market is focused on today's costs, but the company has already sold a future that looks entirely different.
+  url: https://finnhub.io/api/news?id=f808f463d5f0bb22dc96f28672fbc2e037f5d169cc4a1ef4e380aa09c200209e

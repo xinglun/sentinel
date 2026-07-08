@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Undervalued $40 Billion Company Is Ready To Soar
+  summary: $40 billion. That is the market capitalization of Celestica (NYSE:CLS), a company that raised its revenue guidance from $17.0 billion to $19 billion recently (now trading right around 2-times sales). This move came alongside the company’s Q1 2026 report on April 27, 2026. Management now expects to add more than $6.5 billion in revenue this ... This Undervalued $40 Billion Company Is Ready To Soar
+  url: https://finnhub.io/api/news?id=4a22815c435c6829323b9bf72a697245ba51c1490f27af4a1a394a343b884424

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, ClearOne, FuelCell Energy, Cloudflare and Penguin Solutions: Why These 5 Stocks Are on Investors' Radars Today
+  summary: SPCX, CLRO, FCEL, NET, PENG were among the stocks trending with investors on Tuesday, July 7, 2026.
+  url: https://finnhub.io/api/news?id=8607e02dd0aa347718816bff40bd4f165c19f6d89733144fef93a88e31ad6d9d

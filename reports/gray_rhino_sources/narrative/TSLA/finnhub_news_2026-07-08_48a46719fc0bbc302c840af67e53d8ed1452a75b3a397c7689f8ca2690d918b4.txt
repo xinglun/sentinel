@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Lands $9 Billion In Megapack Orders And Expands Home Energy Push
+  summary: Tesla (NasdaqGS:TSLA) has reported over US$9b in new Megapack energy storage orders tied to utility scale projects. New contracts include agreements with Esyasoft and NatPower, adding to a growing backlog of energy infrastructure work. Tesla is expanding its partnership with Sunrun and Renew Home to pool home batteries and smart devices into gigawatt scale virtual power resources for data centers and grid operators across the US. Tesla is increasingly positioning its energy storage segment...
+  url: https://finnhub.io/api/news?id=eb026fbaa04e733159ed29af6153ab89b42d6394e9e534a0266b4992879ef867

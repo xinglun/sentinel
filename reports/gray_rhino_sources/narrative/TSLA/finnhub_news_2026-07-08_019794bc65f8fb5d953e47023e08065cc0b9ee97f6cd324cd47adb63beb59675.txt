@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Picks From Seeking Alpha's June 2026 New Analysts
+  summary: June 2026 Seeking Alpha cohort: high-conviction Strong Buy/Sell ideas with catalysts across sectorsâTT, CNC, UNCY, PRCH, WIX, BNAI & more.
+  url: https://finnhub.io/api/news?id=ac42def051a1959606ac16ccf41937c08addfa6e500ed202afb76c1790e7780b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce vs ServiceNow: One Buys Back Shares, Other Buys Companies
+  summary: Salesforce (NYSE:CRM) and ServiceNow (NYSE:NOW) both just delivered results that reset the enterprise AI conversation. Salesforce posted $11.13 billion in Q1 FY27 revenue on May 27, 2026, leaning on Agentforce and a massive buyback. ServiceNow closed FY25 on January 28, 2026 with $3.568 billion in Q4 revenue and a wave of security-focused acquisitions. Two AI ... Salesforce vs ServiceNow: One Buys Back Shares, Other Buys Companies
+  url: https://finnhub.io/api/news?id=5957f065d9bce8b133c5ff81bdc21793c04f8c62e8d2494b38a744e73be55b06

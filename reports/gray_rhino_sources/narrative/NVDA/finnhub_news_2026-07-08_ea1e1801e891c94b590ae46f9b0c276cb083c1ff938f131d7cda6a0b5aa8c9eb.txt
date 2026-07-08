@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FuelCell Energy Sinks 14%, Bloom Energy Slides 8% After $225M FCEL Share Sale Prices at $21; Plug Power Treads Water
+  summary: Shares of FuelCell Energy (NASDAQ:FCEL) are down 14% in Wednesday morning trading after the company priced a large dilutive stock offering below recent levels. The stock last changed hands at $22.43, well off last week’s high. The pain is spreading. Bloom Energy (NYSE:BE) shares are off 8% to $247.53, while Plug Power (NASDAQ:PLUG) shares are ... FuelCell Energy Sinks 14%, Bloom Energy Slides 8% After $225M FCEL Share Sale Prices at $21; Plug Power Treads Water
+  url: https://finnhub.io/api/news?id=e18e5fc72a45fc3bdc12b8350d1524282cd22317233c7ee26967bb7587868da3

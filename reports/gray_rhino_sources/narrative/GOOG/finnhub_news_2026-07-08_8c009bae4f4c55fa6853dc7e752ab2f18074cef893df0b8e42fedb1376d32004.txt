@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google vs. Microsoft: The AI Economics War Has a Clear Winner (and a Clear Buy)
+  summary: Alphabet (NASDAQ:GOOGL) and Microsoft (NASDAQ:MSFT) both reported earnings on April 29, 2026, and the results now read very differently after this week’s news that Microsoft is replacing OpenAI and Anthropic models with its own MAI system inside Excel and Outlook. One company is defending margins. The other is compounding them. Full Stack Google vs. a ... Google vs. Microsoft: The AI Economics War Has a Clear Winner (and a Clear Buy)
+  url: https://finnhub.io/api/news?id=c2e714b72eb15a307482f086280cb4073ef04d51bba4a0281c4d9d0044895e7e

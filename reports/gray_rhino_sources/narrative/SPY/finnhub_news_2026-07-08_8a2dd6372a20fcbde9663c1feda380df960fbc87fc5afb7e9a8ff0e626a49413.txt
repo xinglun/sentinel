@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Strategist Sees the S&P 500 Hitting 8,500, and One Thing Changed Her Mind
+  summary: Anastasia Amoroso, chief investment strategist at Partners Group, walked onto CNBC on July 7, 2026 with a target that would have sounded aggressive six months ago and now sounds almost consensus. The S&P 500 could reach roughly 8,500 on 2027 earnings, with 8,200 the more likely landing spot by the end of 2027. The index ... This Strategist Sees the S&P 500 Hitting 8,500, and One Thing Changed Her Mind
+  url: https://finnhub.io/api/news?id=482470f326e2d05b58df615fe993c145292467d0a7e93a29bf5926f5e4580b93

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Thread I Left Hanging: Labor Share Collapse And The Reshaping Of The Economy
+  summary: Labor share hits record low as AI boosts productivity and margins; unit labor costs stay tame and startups surge. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=f1d1fe315b285e110af60b45207951e4ad275f52e219156593e6d12442b3153b

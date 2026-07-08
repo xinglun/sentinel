@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Penguin Solutions (PENG) Wins Nvidia AI Status And Unveils New ClusterWareAI Tools
+  summary: Penguin Solutions has been awarded Nvidia AI Factory Specialized Partner status, an invitation-only recognition for AI infrastructure providers. The company has launched a major upgrade to its ClusterWareAI AI Factory Platform Operating System. The new release adds a conversational AI Operations Agent and deeper automated monitoring for GPU clusters. For investors tracking NasdaqGS:PENG, this combination of partner recognition and product rollout provides context around how Penguin...
+  url: https://finnhub.io/api/news?id=de5f3625e4a333a8f3b38d7f1d9b9db4e2efc4f1e13b22d8c959795716d4c410

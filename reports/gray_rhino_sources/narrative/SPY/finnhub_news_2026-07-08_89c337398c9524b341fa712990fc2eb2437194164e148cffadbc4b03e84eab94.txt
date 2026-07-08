@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Smart Money Is Done Buying AI
+  summary: UBS 2026 Family Office Report: âsmart moneyâ is reallocating from real estate & PE into gold, EM stocks, and infrastructure amid rising risksâread now.
+  url: https://finnhub.io/api/news?id=d0b462a6c93b1f695b2800491dd3709ab47bcc45b39aea6754227efded790cbc

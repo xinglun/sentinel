@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Unifies Copilot Strategy to Challenge ChatGPT and Claude
+  summary: Microsoft Corp (NASDAQ:MSFT) is a top AI stock on Wall Street’s radar. On July 6, Wolfe Research cut its price target on Microsoft Corp (NASDAQ:MSFT) to $525 from $570, citing surging memory costs that lifted its FY27 capex forecast to $270 billion from $230 billion, while maintaining an Outperform rating. Analyst Alex Zukin noted Micron’s […]
+  url: https://finnhub.io/api/news?id=7f8080a8078df908b4a50f1e2461a0192d1946b2da43b33db1bb0d22832e6d1e

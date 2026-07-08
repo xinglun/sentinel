@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Should A VYM Holder Do At This New High?
+  summary: The fund just printed a record price, and while it feels like a moment for a big decision, the data points toward quiet confidence.
+  url: https://finnhub.io/api/news?id=15dc8dbee1a3386520a364442e91c39f2bdb30befd3e9b918355d6b4f9f9f3ad

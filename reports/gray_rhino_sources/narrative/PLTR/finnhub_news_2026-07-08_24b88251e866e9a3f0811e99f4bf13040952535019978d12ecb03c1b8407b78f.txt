@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Story Has Started Breaking: Buckle Up For What's Coming Next
+  summary: Semiconductor stocks surged on AI demand but are losing forward premium as ROI remains unproven. Click for more on the overall market outlook.
+  url: https://finnhub.io/api/news?id=ed7a4d89c0435c1fa9207f1d9cececb15a7372c56025f970d6473f7b7d0304d7

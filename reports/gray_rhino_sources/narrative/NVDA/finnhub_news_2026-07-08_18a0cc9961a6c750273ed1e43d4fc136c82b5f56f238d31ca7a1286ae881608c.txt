@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Thinks AI Is Slowing. Wall Street Is Wrong
+  summary: The narrative around artificial intelligence has shifted several times over the past year. Investors have worried about stretched valuations, slowing cloud spending, and whether businesses will generate enough return on their investment to justify the billions pouring into AI infrastructure. Yet the latest long-term forecasts suggest the investment cycle is still in its early innings. ... Wall Street Thinks AI Is Slowing. Wall Street Is Wrong
+  url: https://finnhub.io/api/news?id=ef1941432fdf04985140d70ea041a101e0dace801881eb070080ed4f95ffa010

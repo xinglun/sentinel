@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s Why Nvidia Might Be the New Value Play in Semiconductors
+  summary: It’s been brutal to be a semiconductor investor lately, with the iShares Semiconductor ETF (NASDAQ:SOXX) tanking 11% in the past week and around 16% from all-time highs seen at the end of June. At this pace, it feels like a bear market is unavoidable, but before you hit the panic button, I’d argue that the ... Here’s Why Nvidia Might Be the New Value Play in Semiconductors
+  url: https://finnhub.io/api/news?id=13ee6c45a9984d722566b7b14465bbf92f7216086c70385760af964a54222a46

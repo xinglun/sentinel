@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Delivery Boom Is A Game-Changer (Rating Upgrade)
+  summary: Tesla is upgraded to Strong Buy due to a strong delivery rebound, attractive risk profile, and expansion of robotaxis to Miami. Read more on TSLA stock here.
+  url: https://finnhub.io/api/news?id=a9973d944af95d0b6d6e71acdfa7583d1b2771ecdc5b06799cf7f1601cd0e0e5

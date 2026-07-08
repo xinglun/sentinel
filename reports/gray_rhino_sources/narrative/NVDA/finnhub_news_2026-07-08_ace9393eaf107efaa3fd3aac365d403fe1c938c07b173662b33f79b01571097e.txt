@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Top Dividend Stock to Buy in July and Hold Forever
+  summary: This has proven to be one of the most resilient consumer brands in recent years.
+  url: https://finnhub.io/api/news?id=39e6b07a0e17b36eb369cfda5409f39689d6ab08759c16483ecf51de5118fe76

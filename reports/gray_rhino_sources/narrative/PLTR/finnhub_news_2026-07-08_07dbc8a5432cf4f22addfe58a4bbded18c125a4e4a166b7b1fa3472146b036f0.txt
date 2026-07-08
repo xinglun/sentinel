@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SNP and Palantir Form Strategic Partnership to Accelerate Secure SAP Transformations
+  summary: HEIDELBERG, Germany & MIAMI, July 08, 2026--SNP and Palantir annouce a strategic partnership at SNP’s flagship event, Transformation World, in Heidelberg, Germany.
+  url: https://finnhub.io/api/news?id=c1982860ad78011b0b3157ede97e46656a7d7a157ea63cdc193a4c8523fa59af

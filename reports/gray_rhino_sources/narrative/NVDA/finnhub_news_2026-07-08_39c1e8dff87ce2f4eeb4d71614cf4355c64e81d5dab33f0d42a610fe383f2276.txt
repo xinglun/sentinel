@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs. BYD: Here Is My Pick in This EV Showdown
+  summary: Tesla (NASDAQ:TSLA) and BYD (OTC:BYDDF) sit at opposite ends of the electric vehicle capital cycle. Tesla just posted Q1 revenue of $22.39B alongside surging AI spending, while BYD keeps compounding units and cash. The contrast has rarely been sharper, and the market is finally pricing it. Robotaxi Theater Meets Export Reality Tesla’s Q1 FY2026 print ... Tesla vs. BYD: Here Is My Pick in This EV Showdown
+  url: https://finnhub.io/api/news?id=3a2bec9e324c788525fb55041a5402e6da02c330b39c197a4834ab6e0a6803ec

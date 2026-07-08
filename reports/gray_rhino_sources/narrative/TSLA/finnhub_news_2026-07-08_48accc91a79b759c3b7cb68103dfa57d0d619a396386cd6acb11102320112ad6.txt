@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceXAI To Release Grok 4.5 To Public Tomorrow Following Positive Beta Test Feedback From Customers
+  summary: https://x.com/elonmusk/status/2074740539874775163 
+  url: https://finnhub.io/api/news?id=eb615f250f3dedec198ad4622b8b66fe7e0ac778fbb912997e1dbcf0fc86a7ec

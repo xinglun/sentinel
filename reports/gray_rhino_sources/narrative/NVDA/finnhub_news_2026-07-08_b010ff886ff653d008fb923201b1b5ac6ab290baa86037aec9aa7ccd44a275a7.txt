@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beijing greenlights Nvidia: Chinese tech giants clamor for H200 silicon
+  summary: Nvidia (NASDAQ: NVDA) shares edged higher by 1% following a scoop from The Information detailing a major policy shift in Beijing. Reports state that Chinese regulators are finally preparing to lift their local blockade, allowing the country’s premier artificial intelligence firms to buy Nvidia’s powerhouse H200 chips. In a major strategic pivot, Chinese officials have reportedly informed tech titans—including Alibaba, ByteDance, and DeepSeek—that they may soon receive conditional approval to pur
+  url: https://finnhub.io/api/news?id=15733c4eae076e153d6774e8f6385d370be97ff3426932b9c35aa4043e48788f

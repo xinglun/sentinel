@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How PANW Stock Built Its Own Growth Engine
+  summary: The cybersecurity giant is surging, but its real value to your portfolio lies in how it moves on its own.
+  url: https://finnhub.io/api/news?id=429f0c6754e74f442d18043e34c2a9e5dd4f1987b811d51092568f566918df87

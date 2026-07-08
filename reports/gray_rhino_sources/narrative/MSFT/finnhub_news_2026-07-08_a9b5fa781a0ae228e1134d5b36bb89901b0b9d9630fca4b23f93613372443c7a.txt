@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beaten Down Technology Stock to Buy: Microsoft Corporation (MSFT) Embarks on Cost Cuts
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the best beaten-down technology stocks to buy now. On July 1, Business Insider reported that Microsoft Corporation (NASDAQ:MSFT) is poised to cut its workforce by under 2.5%. The cut, which will affect thousands of employees, is part of an effort to control costs. The cuts will mostly affect personnel […]
+  url: https://finnhub.io/api/news?id=ef39e850a125feb9f3de7a9b3964f2f760cabfc09150d8529618d69779280f17

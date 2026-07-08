@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did Sandisk Stock Pop Today?
+  summary: Investors may have sold Sandisk stock for the wrong reason yesterday. That doesn't mean they were wrong to sell.
+  url: https://finnhub.io/api/news?id=0cdf68cfc5d8c8afd7947e5bf568b9bd85949a615de6a43313ef97579f90f281

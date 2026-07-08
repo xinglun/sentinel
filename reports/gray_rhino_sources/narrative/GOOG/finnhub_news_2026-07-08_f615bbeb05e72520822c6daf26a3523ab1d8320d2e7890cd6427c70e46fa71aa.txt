@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Reason Behind Blue Origin’s Eye-Popping Valuation
+  summary: Space is the hot new sector on Wall Street, and market optimism has sent Jeff Bezos’ Blue Origin valuation to the moon.  Wednesday, CNBC reported that Blue Origin raised $10 billion, valuing the rocket company at $130 billion.  Blue Origin didn’t immediately return a request for comment.
+  url: https://finnhub.io/api/news?id=ff3357b1ce5570fc518044d027c6392a73c6b8be8a48ca68fdacb59cf803f382

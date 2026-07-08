@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Bank 10% On IBM Stock Before Buying A Single Share
+  summary: Generate upfront income by selling put options on a tech giant below current market prices—keeping the premium regardless of whether the stock rises, moves sideways, or stays above your target price.
+  url: https://finnhub.io/api/news?id=3401362e120c4b82eaa819b4971f65b9021c455c5cd555942856a306cb0a970e

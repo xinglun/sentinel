@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Most Valuable Companies at $13 Trillion: Buy, Sell, or Hold
+  summary: The three most valuable companies in the world, NVIDIA (NASDAQ:NVDA), Apple (NASDAQ:AAPL), and Google parent Alphabet (NASDAQ:GOOG), collectively command a combined market cap north of $13 trillion and sit at the center of the AI capex boom. Each enters the second half of 2026 with a very different risk/reward setup. Here is a Buy, Sell, ... Three Most Valuable Companies at $13 Trillion: Buy, Sell, or Hold
+  url: https://finnhub.io/api/news?id=cace55be5abf23c0fd8ea8c14461791f84ad9fb72f1dfc24d6a726769bc0cf8b

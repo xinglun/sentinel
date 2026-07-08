@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Investors Are Waiting For a Merger. They’ll Keep Waiting.
+  summary: BNP Paribas analyst James Picariello doesn’t see a Tesla-SpaceX merger happening any time soon. He ticks off several reasons why.
+  url: https://finnhub.io/api/news?id=ccbbb217c3f3c7cf33640f28e44f33b6c47c75cc7c4209a53da4d3602ec0ab36

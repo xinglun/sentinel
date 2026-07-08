@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why Oracle Stock Slumped in the First Half of 2026 (Hint: Microsoft Was Also Impacted)
+  summary: Oracle and Microsoft stocks declined amid AI infrastructure spending and exposure to OpenAI.
+  url: https://finnhub.io/api/news?id=6096de1d58e2e0a556278187b17e6842f19fd944ca66b3e858006c6870523a6d

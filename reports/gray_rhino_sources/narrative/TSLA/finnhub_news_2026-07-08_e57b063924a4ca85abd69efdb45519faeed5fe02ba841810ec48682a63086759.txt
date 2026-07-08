@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s New Car Might Give Sales a Boost. Why It Isn’t Boosting the Stock.
+  summary: Tesla  produced a new version of its Model Y crossover.  Tesla stock was down 1.1% in premarket trading at $396.61, while  and  futures were down 0.6% and 0.9%, respectively.  The stock is down despite Tesla starting production of the three-row, six-seat version of its Model Y, called the Model Y L, with L for long wheelbase.
+  url: https://finnhub.io/api/news?id=c0cd215f412411d0560e720c3b6d81c01447ea057c4ee649d1e272de5680be11

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Trump Says US May Attack Iran Again; Apple Signs $30 Billion Deal With Broadcom for US-Made Chips
+  summary: All three major US stock indexes were down in late-morning trading Wednesday, as hostilities re-esca
+  url: https://finnhub.io/api/news?id=da1289ad70af75d2774e78f2d1cddd34a280c88be8e56ac5b8cb71614388c278

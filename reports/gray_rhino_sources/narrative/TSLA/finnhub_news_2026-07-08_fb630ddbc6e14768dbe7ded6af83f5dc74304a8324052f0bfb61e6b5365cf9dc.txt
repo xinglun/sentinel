@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla driver faces manslaughter charge after fatal crash
+  summary: While Tesla is just beginning to experience the civil fallout from the fatal crash in a Houston, Texas, suburb last month, the driver of the vehicle is now facing legal consequences for his role. The Model 3 of Michael David Butler, 44, crashed into a home, killing a 76-year-old woman. Footage of ...
+  url: https://finnhub.io/api/news?id=a65fcbc94c246e763f8b152c262ac5db3616c0193f42d4b2d4032320c87b1ff9

@@ -1,12 +1,12 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-07-07
+- 截至: 2026-07-08
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 55.1
-- 平均稳定度: 40.3
-- 趋势凝聚 ready 天数: 6
+- 平均置信度: 55.3
+- 平均稳定度: 41.3
+- 趋势凝聚 ready 天数: 7
 
 ## 市场状态计数
 - IGNITION: 7
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-06-26: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-29: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-06-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-01: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-02: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-06: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-07: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-07-08: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -52,7 +52,7 @@
 - Primary Context: None
 - Context Quality: LOW
 - Event Fact: N/A
-- Source Diagnostics: Official Calendar coverage 10/16; unavailable 6; health PARTIAL.
+- Source Diagnostics: No major event today. Current monitoring remains idle.
 - Interpretation: 今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。今日价格变化更可能由企业消息、板块轮动、技术走势驱动。
 - 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
@@ -61,22 +61,26 @@
 - dayType: normal
 - reason: trend_continuation
 - exceptionalFactors: []
-- Leadership:
-  - primary: [SPY]
-  - supporting: [U, GOOG]
-  - weakening: [SPY, NVDA, FIG, ISRG, MSFT, TSLA, PLTR, SPCX]
+- Narrative:
+  - 今天是正常趋势延续。
+  - No major event today. Current monitoring remains idle.
+  - 没有结构性恶化证据。
+- Leadership Classification: Leadership unavailable
+- Leadership Metrics:
+  - primary: [U]
+  - supporting: [SPY, GOOG]
+  - weakening: [U, SPY, ISRG, MSFT, NVDA, PLTR, TSLA, FIG, SPCX]
   - leadershipBreadth: rotation
-- Rotation Observation:
-  - rotationType: mega_cap_internal_rotation
-  - from: [SPY, NVDA, FIG, ISRG, MSFT, TSLA, PLTR, SPCX]
-  - to: [SPY, U, GOOG]
-  - interpretation: 资金不是撤退，而是在主导大盘的核心资产之间轮动。
-  - observationOnly: true
-- Trend Concentration:
+- very_narrow:
   - breadthScore: 35
   - concentrationScore: 82
   - rotationScore: 18
-  - label: very_narrow
+- Rotation Observation:
+  - rotationType: sector_or_index_rotation
+  - from: [U, SPY, ISRG, MSFT, NVDA, PLTR, TSLA, FIG, SPCX]
+  - to: [U, SPY, GOOG]
+  - interpretation: 不是全面撤退，而是行业 / 资产组内部的轮动。
+  - observationOnly: true
 - Observation Confidence:
   - trend: HIGH
   - macro: LOW
@@ -106,11 +110,11 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-07-07
-- 最新 Near-Term Supply 数量: 1
+- 最新观测日: 2026-07-08
+- 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 1
 - 7 日 Future Queue 最小值 / 最大值: 0 / 1
-- 已报道 / 已确认: 1 / 1
+- 已报道 / 已确认: 1 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -124,7 +128,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-08
+- 观测日: 2026-07-09
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

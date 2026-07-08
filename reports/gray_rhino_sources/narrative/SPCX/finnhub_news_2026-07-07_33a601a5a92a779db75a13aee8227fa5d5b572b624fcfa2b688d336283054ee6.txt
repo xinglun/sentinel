@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceXAI Plans to Launch New Model with Cursor as Soon as Wednesday'- The Information
+  summary: https://www.theinformation.com/briefings/exclusive-spacexai-plans-launch-new-model-cursor-soon-wednesday
+  url: https://finnhub.io/api/news?id=710af5665ab9eee39c138a09215a51a66e8a5f86f7affd45958027875a01a3d1

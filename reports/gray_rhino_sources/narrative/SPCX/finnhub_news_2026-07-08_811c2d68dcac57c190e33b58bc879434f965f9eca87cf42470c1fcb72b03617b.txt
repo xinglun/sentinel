@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Junk Bond Yield, But Stock Is A Surprising Buy
+  summary: SpaceX is rated a long-term buy, with a more attractive entry expected 180-365 days post-IPO as share unlocks increase float. Learn more about SPCX stock here.
+  url: https://finnhub.io/api/news?id=b46fb7cf1e21435a3d3ffb5e9257dd005fa562fb78e4706583b958552e9e663e

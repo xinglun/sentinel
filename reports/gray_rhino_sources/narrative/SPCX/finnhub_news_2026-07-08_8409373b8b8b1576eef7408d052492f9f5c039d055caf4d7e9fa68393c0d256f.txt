@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Takes Aim at Zohran Mamdani As 18.2% Mayor Pay Raise Sparks Fresh Questions Over NYC's Rent Freeze Policy: 'How Is This Fair?'
+  summary: Bill Ackman criticized an 18.2% NYC pay raise proposal, citing Mamdani&#39;s rent freeze policy and inflation.
+  url: https://finnhub.io/api/news?id=a8d3bf89d27c1b5f1eb51a3fe5bc7ad0539c973648579053f59265ca09ef32c7

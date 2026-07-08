@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apollo Sounds the Alarm: AI Profits Are a No-Show Outside Tech, and AI-Heavy ETFs Could Pay the Price
+  summary: Artificial Intelligence (AI) is probably the hottest financial sector right now, based on expectation and anticipation. The expectations are over its far-reaching productivity boosting capabilities to generate huge profits in practically every industrial sector that uses computers, and the anticipation is over AI’s commercial realization timing. The AI fervor is one of the biggest ... Apollo Sounds the Alarm: AI Profits Are a No-Show Outside Tech, and AI-Heavy ETFs Could Pay the Price
+  url: https://finnhub.io/api/news?id=b68b6eb8cc92f49c45d5f8049c523e14dca9c4ae8611f011cc42a05f6909d9d7

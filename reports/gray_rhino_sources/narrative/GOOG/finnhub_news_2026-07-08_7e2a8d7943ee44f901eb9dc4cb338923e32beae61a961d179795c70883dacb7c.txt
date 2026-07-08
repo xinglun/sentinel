@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom’s $200 Billion AI Opportunity Is Drawing New Interest From Investors
+  summary: Broadcom (NASDAQ:AVGO) is now being talked about in $200 billion increments. That figure represents forward AI opportunity framing, surfaced on the company’s Q2 FY2026 earnings call, when JPMorgan analyst Harlan Sur pressed CEO Hock Tan on an implied $200 billion-plus 18-month backlog covering the back half of 2026 through fiscal 2027. Tan did not push ... Broadcom’s $200 Billion AI Opportunity Is Drawing New Interest From Investors
+  url: https://finnhub.io/api/news?id=432bb9e02183208e341ab5c7d6e1271b0edf51f1759d2493d6c50155ef4d1315

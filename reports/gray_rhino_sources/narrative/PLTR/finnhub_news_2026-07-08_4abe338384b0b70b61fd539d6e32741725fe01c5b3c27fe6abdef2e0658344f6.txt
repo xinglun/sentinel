@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones and Nasdaq start lower as Trump says Iran ceasefire 'over'
+  summary: Oil prices spiked following an exchange of strikes between the US and Iran
+  url: https://finnhub.io/api/news?id=961c0a32e8a2697dab9deacd629e37f144c77ccb61b2833357916b0c6031e247

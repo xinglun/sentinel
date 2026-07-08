@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Done-For-You Silence That Reshapes The Intuit Stock Growth Story
+  summary: Management now champions a new portfolio of 'growth engines,' but the story they quietly shelved was powered by a flagship product whose once-explosive growth has started to cool.
+  url: https://finnhub.io/api/news?id=6c265724525fe0b81fbb88ef82e9b1a5a4057d490e64683dfc83bc7a5282a4c5

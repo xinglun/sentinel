@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI spending is becoming more capital market 'sensitive': Portfolio mgr.
+  summary: Northwestern Mutual Wealth Management chief portfolio manager Matt Stucky comes on Market Domination Overtime to comment on what this signifies in capital market conditions and AI spending "intentions" for 2027.
+  url: https://finnhub.io/api/news?id=7ea9cea21cc41a3b58683f6c79c9d42427cf8198b830b6b99c4989e0a99dc540

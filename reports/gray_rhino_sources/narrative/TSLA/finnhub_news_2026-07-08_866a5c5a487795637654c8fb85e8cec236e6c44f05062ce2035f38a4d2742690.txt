@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Shifts Bitcoin Out Of Crypto Wallet
+  summary: Elon Musk’s SpaceX (NASDAQ: $SPCX) has moved some Bitcoin (CRYPTO: $BTC) out of its digital wallet, the first...
+  url: https://finnhub.io/api/news?id=d0e7d8b973947661903752223b5bd9163b4a4f43b8a0546ebe89d667214567fe

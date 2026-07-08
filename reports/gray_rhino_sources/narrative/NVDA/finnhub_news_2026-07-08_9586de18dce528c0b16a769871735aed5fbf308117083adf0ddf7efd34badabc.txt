@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Super Micro Computer Fell Over 36% in June
+  summary: Super Micro Computer diluted shareholders in order to fund a massive order book, and investors weren't fans of the move.
+  url: https://finnhub.io/api/news?id=0276639d80720506c5d35aca2f9e6f1e21c1ecaf15f21657142872113d879312

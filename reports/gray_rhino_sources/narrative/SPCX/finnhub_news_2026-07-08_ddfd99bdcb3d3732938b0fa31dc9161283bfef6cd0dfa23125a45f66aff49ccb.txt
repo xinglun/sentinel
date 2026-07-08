@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Q2 Includes A Massive Bill Nobody's Talking About
+  summary: Alphabetâs fourth-quarter 2025 print showed Gemini Enterprise had 8 million paid seats across more than 2,800 companies. Read why GOOGL stock is a buy.
+  url: https://finnhub.io/api/news?id=b7f67d2435667c2dcea9d625c3bb99c997f380e3d425e430db663a0b55712e22

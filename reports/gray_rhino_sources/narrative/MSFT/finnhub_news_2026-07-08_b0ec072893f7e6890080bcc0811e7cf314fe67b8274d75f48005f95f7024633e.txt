@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Battered Artificial Intelligence (AI) Stocks Due for a Massive Summer Rebound
+  summary: Microsoft and Meta Platforms could see a major rally to end 2026.
+  url: https://finnhub.io/api/news?id=60877bee6742c55a124bb9d2634c81d00c6f20cd62b0759a6e54c88e07c668d2

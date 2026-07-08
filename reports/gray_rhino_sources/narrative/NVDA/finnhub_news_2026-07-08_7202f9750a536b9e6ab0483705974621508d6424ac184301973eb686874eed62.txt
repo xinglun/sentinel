@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon vs. Walmart vs. Costco: Which Is the Smartest Buy for the Second Half of 2026?
+  summary: These retail companies are proven leaders.
+  url: https://finnhub.io/api/news?id=ee1c866a25d15f9c8ced1e906e69ad5a6fd453ef217418d201981693b991d145

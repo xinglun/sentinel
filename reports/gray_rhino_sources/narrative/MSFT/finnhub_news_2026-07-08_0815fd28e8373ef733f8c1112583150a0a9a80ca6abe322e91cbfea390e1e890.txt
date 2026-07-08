@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Math Behind All the Crazy SpaceX Valuations
+  summary: Analysts prefer a sum-of-the-parts approach to determining the value of Elon Musk’s rocket and AI company, SpaceX.
+  url: https://finnhub.io/api/news?id=7dbd4fda6a9a72e38eea3d8006e5b3e63f226959b73176b6d8ab3b962b6962eb

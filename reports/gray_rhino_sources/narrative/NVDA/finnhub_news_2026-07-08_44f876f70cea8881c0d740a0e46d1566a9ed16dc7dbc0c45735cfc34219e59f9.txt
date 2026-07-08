@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bank of America Affirms Why NVIDIA Corp. (NVDA) is a Top AI Stock on Wall Street Radar
+  summary: NVIDIA Corp. (NASDAQ:NVDA) is a top AI stock on Wall Street’s radar. On July 6, Bank of America touted NVIDIA Corp (NASDAQ:NVDA) as one of the stocks poised for a rally after the recent reset. According to the research firm, the recent pullback aligns perfectly with historically weak seasonal patterns in the sector. Consequently, it […]
+  url: https://finnhub.io/api/news?id=42bf967e018326c0b50c18e0855f95223d4a0e8698fee174be1eb994b2a3fdce

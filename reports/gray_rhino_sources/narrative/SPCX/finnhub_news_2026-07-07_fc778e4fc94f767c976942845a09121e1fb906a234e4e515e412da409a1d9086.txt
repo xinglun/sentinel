@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Alphabet Replaces Verizon, Here’s Who Market Expert Jay Woods Says Could Leave Dow Jones Next
+  summary: A market expert tells Benzinga why the recent Dow Jones Industrial Average change is good and what stock could be next to change.
+  url: https://finnhub.io/api/news?id=c29c7ff7005b1fc2a3d45ea7f5fc5beacce56bfd1a9c0c572b850103681ddec7

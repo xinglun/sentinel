@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Expands SAP Transformation Push With SNP Partnership
+  summary: The deal expands Palantir's role in large enterprise technology projects.
+  url: https://finnhub.io/api/news?id=726eb99d534c123282643a6121f0070fedb78189226e03007f0df46ffd8be4aa

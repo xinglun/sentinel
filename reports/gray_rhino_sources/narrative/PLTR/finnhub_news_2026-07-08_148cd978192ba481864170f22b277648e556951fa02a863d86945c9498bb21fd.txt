@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dives As Trump Says Iran Ceasefire Is 'Over'; Micron, Sandisk Reverse (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index sold off Wednesday after Trump declared the ceasefire is "over." Micron and Sandisk reversed.
+  url: https://finnhub.io/api/news?id=6c1053ab2647c24af3f9f70f391992d2cc3f0f0796bb2a1dbcb50c49b3f71ee3

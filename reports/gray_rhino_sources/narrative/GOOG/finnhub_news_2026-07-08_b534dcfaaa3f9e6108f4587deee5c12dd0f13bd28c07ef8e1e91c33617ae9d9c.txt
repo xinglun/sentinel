@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TeraWulf Rises 12%, IREN Climbs 7% as AI-Infrastructure Stocks Bounce Back
+  summary: Shares of TeraWulf (NASDAQ:WULF) are up 12% to $22.67 in mid-morning trading, leading a broad rebound across AI-infrastructure names that were hammered on Tuesday. IREN (NASDAQ:IREN) stock is up 7% to $42.55, while peers Applied Digital (NASDAQ:APLD) and Cipher Mining (NASDAQ:CIFR) are up 3% to $31.53 and up 5% to $21.45, respectively. Today’s move mirrors ... TeraWulf Rises 12%, IREN Climbs 7% as AI-Infrastructure Stocks Bounce Back
+  url: https://finnhub.io/api/news?id=4df8e83c464a8b68e2af4e29d6f3a38f96113ada35098cda68ff8bc4fd06476c

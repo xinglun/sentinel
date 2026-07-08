@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LangChain and NVIDIA Launch NemoClaw Deep Agents Blueprint for Enterprise Agents
+  summary: LangChain today announced the NemoClaw for LangChain Deep Agents blueprint, developed with NVIDIA to help enterprises build, evaluate, and deploy advanced open agent systems.
+  url: https://finnhub.io/api/news?id=1fcb662d0ade2aa335820407ef9e15b5da6e8f95e525371878e8b000f5247baa

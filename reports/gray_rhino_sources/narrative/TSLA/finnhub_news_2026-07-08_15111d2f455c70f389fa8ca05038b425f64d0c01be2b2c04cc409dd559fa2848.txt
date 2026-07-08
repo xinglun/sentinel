@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla latest: The 'inevitable' SpaceX merger, Robotaxi's Miami launch, & more
+  summary: Barron's associate editor Al Root takes a closer look at Tesla's (TSLA) Robotaxi expansion, potential SpaceX (SPCX) merger, robotics business, and more.
+  url: https://finnhub.io/api/news?id=4dff0a9e42b43bc45235f4ae9b0c596d9a25a3c14d8184d8ca3dbbffd0f2f93c

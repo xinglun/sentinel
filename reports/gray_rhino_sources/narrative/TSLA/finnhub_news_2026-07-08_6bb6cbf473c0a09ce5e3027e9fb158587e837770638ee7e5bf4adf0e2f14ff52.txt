@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Why Robots Can't Learn Like ChatGPT
+  summary: ChatGPT learned from internet-scale data. Robots can&#39;t. Jerry Wang explains why embodied AI faces a very different—and slower—learning curve.
+  url: https://finnhub.io/api/news?id=f4155d095b20321cce76e62c47e8fa939ff6d4f7aeebefb26c35ed9274ea713d

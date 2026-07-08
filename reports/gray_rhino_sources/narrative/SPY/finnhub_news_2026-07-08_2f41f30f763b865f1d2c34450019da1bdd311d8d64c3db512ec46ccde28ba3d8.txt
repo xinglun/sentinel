@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small-Cap Stocks Snap Back, But Iran Is Still A Wildcard
+  summary: Small-caps are outperforming in 2026, fueled by stronger earnings expectations and bargain valuations. Will it last? Read more here...
+  url: https://finnhub.io/api/news?id=5bc5f4e2ed59179c7a8244ec1270e848cf310d30fabc7ef7a9435998399bb3b4

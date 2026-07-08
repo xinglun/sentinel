@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Falls As Trump Declares Iran Ceasefire 'Over'; Micron, Sandisk Keep Losing (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index dropped Wednesday after Trump declared the ceasefire is "over." Micron and Sandisk dived.
+  url: https://finnhub.io/api/news?id=e8166282549e2c454a0a9438bb01f287cf9d1aaf2ed4bfe7cacd9be6991380d8

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Zeta Global’s (ZETA) New AI Alliance Has Wall Street Paying Attention
+  summary: With a 5-year EPS growth forecasted at 25.08%, Zeta Global Holdings Corp. (NYSE:ZETA) is among the 12 Best Cybersecurity Stocks to Buy and Hold for the Long Term. On June 24, BofA raised its price target on Zeta Global Holdings Corp. (NYSE:ZETA) to $28 from $24 while maintaining a Buy rating after the company announced a seven-year […]
+  url: https://finnhub.io/api/news?id=2d0b10e8c7e4121e1929f2c41dccc547366cfffaa7b9126aca1b58d0676dcf3d
