@@ -77,7 +77,17 @@ def test_ai_start_generates_required_fmt(active: Path) -> None:
         patch.object(ai_start, "ACTIVE_DIR", active),
         patch.object(ai_start, "run_preflight_checks", return_value=0),
         patch.object(ai_start, "current_head", return_value="abc123"),
-        patch.object(ai_start, "baseline_dirty_paths", return_value=["scripts/ai_start.py"]),
+        patch.object(
+            ai_start,
+            "baseline_dirty_paths",
+            return_value=[
+                {
+                    "path": "scripts/ai_start.py",
+                    "status": "M",
+                    "fingerprint": "deadbeef",
+                }
+            ],
+        ),
         patch.object(sys, "argv", ["ai_start.py", "--task", task, "--mode", "investigate"]),
     ):
         code = ai_start.main()
@@ -85,13 +95,27 @@ def test_ai_start_generates_required_fmt(active: Path) -> None:
     contract = json.loads((active / f"{task}.contract.json").read_text(encoding="utf-8"))
     assert_equal(contract["contractVersion"], 2, "generated contract should be v2")
     assert_equal(contract["baseCommit"], "abc123", "generated contract should record baseCommit")
-    assert_equal(contract["baselineDirtyPaths"], ["scripts/ai_start.py"], "generated contract should record baselineDirtyPaths")
+    assert_equal(
+        contract["baselineDirtyPaths"],
+        [
+            {
+                "path": "scripts/ai_start.py",
+                "status": "M",
+                "fingerprint": "deadbeef",
+            }
+        ],
+        "generated contract should record baselineDirtyPaths",
+    )
     required = {
         item["command"]
         for item in contract["verification"]
         if item.get("required") is True
     }
     assert_true("make fmt-check" in required, "generated contract should include make fmt-check")
+    assert_true(
+        "make check-ai-scenario-coverage" in required,
+        "generated contract should include make check-ai-scenario-coverage",
+    )
     summary = json.loads((active / f"{task}.summary.json").read_text(encoding="utf-8"))
     assert_true("checkpointEvidence" in summary, "generated summary should include checkpointEvidence")
     assert_equal(

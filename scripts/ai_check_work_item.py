@@ -3,13 +3,14 @@
 
 from __future__ import annotations
 
-import json
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
+from ai_json import load_json
 from ai_observability import create_observability, elapsed_ms
+from ai_scenario_coverage import validate_scenario_coverage
 
 
 REQUIRED_FIELDS = (
@@ -31,6 +32,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "baselineDirtyPaths",
     "problemStatement",
     "intent",
+    "scenarioCoverage",
     "destructiveChangePolicy",
     "riskAssessment",
     "agentCapability",
@@ -45,6 +47,7 @@ REQUIRED_CODE_GATE_PREFIXES = (
     "make check-ai-scope",
     "make check-ai-guards",
     "make check-ai-backtrack",
+    "make check-ai-scenario-coverage",
     "make check-ai-change-summary",
     "make generate-cockpit-status",
     "make check-ai-status",
@@ -60,17 +63,14 @@ RISK_TYPES = {
     "destructive_change",
     "review_debt",
     "governance_process",
+    "security",
+    "ci",
+    "migration",
+    "api_change",
 }
 EXECUTION_STATUSES = {"continue", "contract_update_required", "blocked", "downgraded_to_investigation"}
 REQUIRED_CHECKPOINTS = {"contract_start", "before_edit", "before_ready", "after_verification"}
 ALLOWED_INTENT_FIELDS = {"problem", "constraints", "rationale"}
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("root は JSON object にしてください。")
-    return data
 
 
 def non_empty_string(value: Any) -> bool:
@@ -152,10 +152,21 @@ def validate_optional_v2_fields(data: dict[str, Any]) -> list[str]:
         issues.append("contractVersion 2 では baselineDirtyPaths は list にしてください。")
     else:
         for index, item in enumerate(baseline):
-            if not non_empty_string(item):
-                issues.append(f"baselineDirtyPaths[{index}] は空でない string にしてください。")
+            if isinstance(item, str):
+                issues.append(f"baselineDirtyPaths[{index}] は object にしてください。")
+                continue
+            if not isinstance(item, dict):
+                issues.append(f"baselineDirtyPaths[{index}] は object にしてください。")
+                continue
+            if not non_empty_string(item.get("path")):
+                issues.append(f"baselineDirtyPaths[{index}].path は空でない string にしてください。")
+            if "status" in item and not non_empty_string(item.get("status")):
+                issues.append(f"baselineDirtyPaths[{index}].status は空でない string にしてください。")
+            if not non_empty_string(item.get("fingerprint")):
+                issues.append(f"baselineDirtyPaths[{index}].fingerprint は空でない string にしてください。")
     issues.extend(validate_optional_problem_statement(data))
     issues.extend(validate_optional_intent(data))
+    issues.extend(validate_scenario_coverage(data.get("scenarioCoverage")))
     return issues
 
 
@@ -340,13 +351,17 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
         issues.append("mode: code で notCodable: true の task は coding できません。")
     if data.get("mode") == "code" and data.get("unknowns"):
         issues.append("mode: code で unknowns が残っています。")
-    if isinstance(data.get("executionDecision"), dict):
-        execution_status = data["executionDecision"].get("status")
-        if data.get("mode") == "code" and execution_status in {"contract_update_required", "blocked", "downgraded_to_investigation"}:
-            issues.append(f"mode: code で executionDecision.status: {execution_status} の task は ready にできません。")
-    if isinstance(data.get("agentCapability"), dict) and isinstance(data.get("executionDecision"), dict):
+    execution_status = None
+    execution_decision = data.get("executionDecision")
+    if isinstance(execution_decision, dict):
+        execution_status = execution_decision.get("status")
+    elif data.get("mode") == "code":
+        issues.append("mode: code では executionDecision が必要です。")
+    if data.get("mode") == "code" and execution_status in {"contract_update_required", "blocked", "downgraded_to_investigation"}:
+        issues.append(f"mode: code で executionDecision.status: {execution_status} の task は ready にできません。")
+    if isinstance(data.get("agentCapability"), dict) and isinstance(execution_decision, dict):
         capability = data["agentCapability"]
-        execution_status = data["executionDecision"].get("status")
+        execution_status = execution_decision.get("status")
         if execution_status == "continue":
             if capability.get("canImplement") is not True:
                 issues.append("agentCapability.canImplement: false の task は executionDecision: continue にできません。")

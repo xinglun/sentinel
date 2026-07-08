@@ -11,6 +11,8 @@ AI Cockpit は、AI 作業の状態を一画面で確認するための軽量な
 
 Cockpit は判断を代行しません。Contract、Summary、検証結果、Backtrack report を整理し、人間が review / merge / follow-up を判断しやすくします。`make ai-checkpoint` は checkpoint ごとの contract hash と required check の進捗を確認する補助入口です。
 
+Contract と Summary の field 順序は review の可読性を上げるための約束であり、意味を変えない。Sentinel では新規または大きく書き換える Work Item で、metadata、intent、boundary、codability、risk / execution、acceptance / verification、safety の順を保つ。
+
 ## 状態
 
 | 状態 | 意味 |
@@ -28,6 +30,7 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 | `checks.yaml` | Sentinel 向けの共通検証 command catalog。 |
 | `current_status.md` | `make generate-cockpit-status` が生成する現在の状態。実装詳細は `scripts/ai_generate_status.py`。 |
 | `status_policy.yaml` | active / no-active status、archive 後の同期、参照整合性の方針。 |
+| `scenario_coverage_policy.yaml` | Scenario Coverage の hard risk 判定と guard 方針。 |
 
 `status_policy.yaml` は Cockpit の machine-readable SSOT である。状態名、archive 後の `no_active_work_item` 表示、参照整合性 check はこの file と `make` target の契約に従う。script 実装と衝突する場合は `status_policy.yaml` と Makefile target を正とする。
 
@@ -45,6 +48,7 @@ Cockpit は判断を代行しません。Contract、Summary、検証結果、Bac
 | 証拠 | fact、manual observation、hypothesis、fixture、local cache を混同していないか。 |
 | command | 新しい検証・運用入口が `make` target に収まっているか。 |
 | risk / readiness | 実装可能性、検証可能性、人間判断の要否、review focus、残余 risk を記録したか。 |
+| scenario coverage | `scenarioCoverage`、`followUps`、`unverifiedScenarios` が必要な Work Item か。|
 
 機能完了の報告では、少なくとも code / test / docs / i18n / report output / data or weekly record / CI or Make guard のどれを確認したかを Summary に残す。未確認項目がある場合は「未確認」と明記し、完了を過大主張しない。
 
@@ -67,11 +71,15 @@ Agent の三大 risk は、Cockpit では次の hardening target として扱う
 
 `mode: code` で `executionDecision: continue` の Work Item は、Agent の自己申告だけで進めない。`make check-ai-contract`、`make check-ai-scope`、`make check-ai-guards`、`make check-ai-backtrack`、`make check-ai-change-summary`、`make generate-cockpit-status`、`make check-ai-status` を required verification として持つ。checkpoint の可視化が必要な長時間作業では `make ai-checkpoint` を併用する。PR で archive 配下を含む diff を扱う場合は、CI で `make check-ai-pr AI_BASE_COMMIT=<merge-base>` を併用する。
 
+Scenario Coverage は risk 域の検証場面を表す。test case の一覧でも residual risk の置き換えでもなく、verified / unverified / not_applicable の状態で Work Item の検証範囲を見える化する。低リスク Work Item では必須ではないが、中高リスクで未検証の場面があるなら Summary に残す。
+
 Summary の `reviewReadiness` は、完了報告の強さを制御する。
 
 - `ready`: required checks が通過し、known residual risk がない。
 - `ready_with_risks`: required checks は通過したが、`residualRisks` と `expectedReviewFocus` が残る。
 - `not_ready`: required checks、Contract、または人間判断待ちが残る。
+
+Scenario Coverage がある場合は、`current_status.md` に `Scenario Coverage: complete / incomplete / not_required / unknown` を別表示する。これは Summary の `scenarioCoverage` から派生する補助信号で、reviewReadiness と独立して読む。
 
 User correction が発生した場合は、`userCorrectionSolidification` に固化先を記録する。修正だけで終えず、同種の review finding を次回の Contract、template、guard、doc、skill のどこで防ぐかを明示する。
 

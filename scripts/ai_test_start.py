@@ -36,7 +36,17 @@ def test_start_generates_active_status(root: Path) -> None:
         patch.object(ai_start, "PROJECT_ROOT", root),
         patch.object(ai_start, "ACTIVE_DIR", active),
         patch.object(ai_start, "current_head", return_value="abc123"),
-        patch.object(ai_start, "baseline_dirty_paths", return_value=["scripts/ai_start.py"]),
+        patch.object(
+            ai_start,
+            "baseline_dirty_paths",
+            return_value=[
+                {
+                    "path": "scripts/ai_start.py",
+                    "status": "M",
+                    "fingerprint": "deadbeef",
+                }
+            ],
+        ),
         patch.object(ai_start.subprocess, "run", fake_run),
         patch.object(
             sys,
@@ -59,7 +69,17 @@ def test_start_generates_active_status(root: Path) -> None:
     summary = json.loads((active / "sample-start-status.summary.json").read_text(encoding="utf-8"))
     assert_true(contract["contractVersion"] == 2, "contract should be v2")
     assert_true(contract["baseCommit"] == "abc123", "contract should record baseCommit")
-    assert_true(contract["baselineDirtyPaths"] == ["scripts/ai_start.py"], "contract should record baselineDirtyPaths")
+    assert_true(
+        contract["baselineDirtyPaths"]
+        == [
+            {
+                "path": "scripts/ai_start.py",
+                "status": "M",
+                "fingerprint": "deadbeef",
+            }
+        ],
+        "contract should record baselineDirtyPaths",
+    )
     assert_true("checkpointEvidence" in summary, "summary should contain checkpointEvidence")
     assert_true(
         [item["stage"] for item in summary["checkpointEvidence"]] == [

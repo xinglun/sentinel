@@ -52,6 +52,10 @@ checks:
     command: make check-ai-coverage-guard
     purpose: production Rust code の変更に test 変更証跡がない場合は hard fail する。
 
+  aiScenarioCoverage:
+    commandTemplate: make check-ai-scenario-coverage CONTRACT={contractPath} SUMMARY={summaryPath}
+    purpose: Scenario Coverage の structural validity と risk-domain coverage を確認する。
+
   aiStatus:
     commandTemplate: make generate-cockpit-status CONTRACT={contractPath} SUMMARY={summaryPath}
     purpose: Cockpit current status を生成する。

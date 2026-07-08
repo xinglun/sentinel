@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import subprocess
 import sys
@@ -12,6 +13,7 @@ import time
 from pathlib import Path
 from typing import Any
 
+from ai_json import load_json
 from ai_observability import create_observability, elapsed_ms
 
 
@@ -39,13 +41,6 @@ DEPENDENCY_SCOPE_RULES: dict[str, list[str]] = {
         "src/core/report_ui_tests.rs",
     ],
 }
-
-
-def load_json(path: Path) -> dict[str, Any]:
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise ValueError("root は JSON object にしてください。")
-    return data
 
 
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -104,6 +99,35 @@ def string_list(data: dict[str, Any], key: str) -> list[str]:
     return [item for item in value if isinstance(item, str)]
 
 
+def file_fingerprint(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def baseline_dirty_paths(contract: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    value = contract.get("baselineDirtyPaths", [])
+    baseline: dict[str, dict[str, Any]] = {}
+    if not isinstance(value, list):
+        return baseline
+    for item in value:
+        if isinstance(item, str):
+            baseline[item] = {"path": item}
+        elif isinstance(item, dict):
+            path = item.get("path")
+            if isinstance(path, str):
+                baseline[path] = item
+    return baseline
+
+
+def baseline_matches(path: str, record: dict[str, Any]) -> bool:
+    fingerprint = record.get("fingerprint")
+    if isinstance(fingerprint, str) and fingerprint:
+        file_path = PROJECT_ROOT / path
+        if not file_path.exists() or not file_path.is_file():
+            return fingerprint == "deleted"
+        return file_fingerprint(file_path) == fingerprint
+    return True
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Work Item scope と実 diff を検証します。")
     parser.add_argument("contract", nargs="?")
@@ -118,6 +142,7 @@ def main() -> int:
     start = time.time()
     try:
         contract = load_json(Path(args.contract))
+        baseline_records = baseline_dirty_paths(contract)
         paths = changed_paths()
     except (OSError, json.JSONDecodeError, ValueError, RuntimeError) as exc:
         print(f"❌ scope guard を実行できません: {exc}", file=sys.stderr)
@@ -139,6 +164,8 @@ def main() -> int:
             continue
         if included(path, out_of_scope):
             issues.append(f"outOfScope に該当します: {path}")
+        if baseline_matches(path, baseline_records.get(path, {})):
+            continue
         if not included(path, scope):
             issues.append(f"scope に含まれていません: {path}")
 

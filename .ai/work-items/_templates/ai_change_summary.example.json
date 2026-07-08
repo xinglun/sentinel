@@ -10,6 +10,30 @@
   "sourcesUsed": [
     ".ai/work-items/active/example-task.contract.json"
   ],
+  "scenarioCoverage": [
+    {
+      "scenario": "example verified scenario",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make example-check"
+      ]
+    },
+    {
+      "scenario": "example unverified scenario",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "外部システムの実行待ち。"
+    },
+    {
+      "scenario": "example not applicable scenario",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "旧経路は変更しない。"
+    }
+  ],
   "verification": [
     {
       "command": "make fmt-check",
@@ -28,6 +52,12 @@
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [],
+  "followUps": [
+    "example unverified scenario を外部システム実行後に再確認する。"
+  ],
+  "unverifiedScenarios": [
+    "example unverified scenario"
+  ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",

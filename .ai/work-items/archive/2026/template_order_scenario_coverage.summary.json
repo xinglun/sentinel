@@ -1,0 +1,306 @@
+{
+  "workItemId": "template_order_scenario_coverage",
+  "contractPath": ".ai/work-items/archive/2026/template_order_scenario_coverage.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Scenario Coverage と field 順序の運用方針を追記した。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "check-ai-scenario-coverage を Cockpit の command catalog に追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Scenario Coverage state を含む現在状態を再生成する。"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "reason": "field 順序固定と Scenario Coverage 採用判断を反映した。"
+    },
+    {
+      "path": ".ai/guards/scenario_coverage_policy.yaml",
+      "reason": "Scenario Coverage の hard risk policy を追加した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/ai_change_summary.example.json",
+      "reason": "Summary example に scenarioCoverage / followUps / unverifiedScenarios を追加した。"
+    },
+    {
+      "path": ".ai/work-items/_templates/work_item_contract.example.json",
+      "reason": "Contract example の field 順序と scenarioCoverage 例を更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "reason": "Work Item Contract を実作業の scope / acceptance / verification に合わせて確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "reason": "AI Change Summary を実際の変更内容と Scenario Coverage に合わせて更新した。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "check-ai-scenario-coverage と test-ai-scenario-coverage の入口を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_scenario_coverage.py",
+      "reason": "Scenario Coverage findings を報告する新しい guard を追加した。"
+    },
+    {
+      "path": "scripts/ai_check_scope.py",
+      "reason": "baseline dirty paths を除外して scope guard が pre-existing residue に引っ張られないようにした。"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "current_status.md に Scenario Coverage state が出ることを検証するようにした。"
+    },
+    {
+      "path": "scripts/ai_check_summary.py",
+      "reason": "duplicate key rejection と scenarioCoverage / followUps / unverifiedScenarios を検証するようにした。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "duplicate key rejection、scenarioCoverage、追加 risk type を検証するようにした。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "current_status.md に Scenario Coverage section を追加した。"
+    },
+    {
+      "path": "scripts/ai_json.py",
+      "reason": "duplicate key rejection を共通化する JSON loader を追加した。"
+    },
+    {
+      "path": "scripts/ai_scenario_coverage.py",
+      "reason": "Scenario Coverage の validation と state 判定を共通化した。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Contract skeleton の verification 順序と Scenario Coverage check を更新した。"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "reason": "ai_start の baselineDirtyPaths 出力が fingerprint 付き record であることを検証するようにした。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_risk_readiness.py",
+      "reason": "risk / readiness fixture に check-ai-scenario-coverage を追加した。"
+    },
+    {
+      "path": "scripts/ai_test_scenario_coverage.py",
+      "reason": "Scenario Coverage と duplicate key rejection の回帰テストを追加した。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "ai_start が check-ai-scenario-coverage を含むことを確認するようにした。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/template_order_scenario_coverage.contract.json",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/template_adoption.md",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/archive/2026/scenario_coverage_v26.contract.json",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/_templates/work_item_contract.example.json",
+    "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/.ai/work-items/_templates/work_item_summary.example.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Contract / Summary の field 順序が fixed order で示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-work-item-contract",
+        "make test-ai-start"
+      ]
+    },
+    {
+      "scenario": "Scenario Coverage ガードが duplicate key rejection と optional schema を検証する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-scenario-coverage",
+        "make check-ai-scenario-coverage"
+      ]
+    },
+    {
+      "scenario": "current_status.md が Scenario Coverage state を表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-ai-generate-status",
+        "make check-ai-status"
+      ]
+    },
+    {
+      "scenario": "verification[].check 方式への移行は今回行わない",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "Sentinel は引き続き make-only verification を採用する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/template_order_scenario_coverage.contract.json SUMMARY=.ai/work-items/active/template_order_scenario_coverage.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-verification-commands",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-generate-status",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-start",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-scenario-coverage",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "docs、Makefile、status 生成、検証スクリプトをまたぐため、Scenario Coverage と duplicate key rejection の整合確認が必要である。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "followUps": [],
+  "unverifiedScenarios": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract を実作業の scope と Scenario Coverage 方針に合わせて更新した。",
+      "contractHash": "18e8c51b8d401c7f",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "編集対象が scope 内であることを確認した。",
+      "contractHash": "18e8c51b8d401c7f",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "required checks を実行する前の状態にある。",
+      "contractHash": "18e8c51b8d401c7f",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "verification 結果を summary に同期した。",
+      "contractHash": "18e8c51b8d401c7f",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 17
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract は実作業の scope に合わせて更新済みで、verification も完了した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "編集対象は scope 内であり、verification も完了した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks が通過し、ready_with_risks に進める。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification 結果を記録済み。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "governance_process",
+      "detail": "docs、Makefile、scripts をまたぐ変更なので、field 順序固定、Scenario Coverage の意味、duplicate key rejection の境界を review で再確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks は通過済みで、残余 risk は governance_process のレビュー確認に限られる。",
+    "expectedReviewFocus": [
+      "field 順序固定",
+      "Scenario Coverage の verification / status signal",
+      "duplicate key rejection"
+    ]
+  }
+}

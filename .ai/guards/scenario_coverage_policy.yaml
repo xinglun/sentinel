@@ -1,0 +1,18 @@
+# Scenario Coverage policy.
+# Keep the mechanism generic; scenario content stays in Work Items.
+
+version: 1
+
+reportOnly: false
+
+hardRiskTypes:
+  - governance_process
+  - data_integrity
+  - architecture_boundary
+  - i18n_snapshot
+  - external_dependency
+  - destructive_change
+  - security
+  - ci
+  - migration
+  - api_change
