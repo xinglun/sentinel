@@ -530,24 +530,50 @@ fn push_weekly_market_interpretation_snapshot(
         "- exceptionalFactors: {}\n",
         render_json_string_array(&layer.exceptional_factors_values)
     ));
-    review.push_str("- Leadership:\n");
+    if !layer.narrative_values.is_empty() {
+        review.push_str(&format!("- {}:\n", layer.narrative_label));
+        for value in &layer.narrative_values {
+            review.push_str(&format!("  - {}\n", value));
+        }
+    }
     review.push_str(&format!(
-        "  - primary: {}\n",
+        "- {}: {}\n",
+        layer.leadership_classification_label, layer.leadership_classification_value
+    ));
+    review.push_str(&format!("- {}:\n", layer.leadership_metrics_label));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.primary_label,
         render_json_string_array(&layer.primary_values)
     ));
     review.push_str(&format!(
-        "  - supporting: {}\n",
+        "  - {}: {}\n",
+        layer.supporting_label,
         render_json_string_array(&layer.supporting_values)
     ));
     review.push_str(&format!(
-        "  - weakening: {}\n",
+        "  - {}: {}\n",
+        layer.weakening_label,
         render_json_string_array(&layer.weakening_values)
     ));
     review.push_str(&format!(
-        "  - leadershipBreadth: {}\n",
-        layer.leadership_breadth_value
+        "  - {}: {}\n",
+        layer.leadership_breadth_label, layer.leadership_breadth_value
     ));
-    review.push_str("- Rotation Observation:\n");
+    review.push_str(&format!("- {}:\n", layer.concentration_label));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.breadth_score_label, layer.breadth_score_value
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.concentration_score_label, layer.concentration_score_value
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.rotation_score_label, layer.rotation_score_value
+    ));
+    review.push_str(&format!("- {}:\n", layer.rotation_label));
     review.push_str(&format!(
         "  - rotationType: {}\n",
         layer.rotation_type_value
@@ -568,20 +594,6 @@ fn push_weekly_market_interpretation_snapshot(
         "  - observationOnly: {}\n",
         layer.observation_only_value
     ));
-    review.push_str("- Trend Concentration:\n");
-    review.push_str(&format!(
-        "  - breadthScore: {}\n",
-        layer.breadth_score_value
-    ));
-    review.push_str(&format!(
-        "  - concentrationScore: {}\n",
-        layer.concentration_score_value
-    ));
-    review.push_str(&format!(
-        "  - rotationScore: {}\n",
-        layer.rotation_score_value
-    ));
-    review.push_str(&format!("  - label: {}\n", layer.concentration_label));
     review.push_str("- Observation Confidence:\n");
     review.push_str(&format!("  - trend: {}\n", layer.trend_confidence_value));
     review.push_str(&format!("  - macro: {}\n", layer.macro_confidence_value));

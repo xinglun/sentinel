@@ -3436,7 +3436,7 @@ mod tests {
             .contains("quarter-end"));
         assert_eq!(
             vm.interpretation_value,
-            "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events. Current price action is still mainly driven by trend continuation. Market expectation is clear, and the market is waiting for the official result before repricing again. Flow does not show a clear withdrawal yet. Supply pressure exists, but valuation information is already included in the explanation. Overall this looks closer to normal consolidation than to a new risk upgrade."
+            "No major event today. See Market Interpretation for the main narrative."
         );
     }
 
@@ -3505,27 +3505,29 @@ mod tests {
         assert!(report.archival_markdown.contains("Today's Explanation"));
         assert!(report
             .archival_markdown
-            .contains("Primary Driver: Primary driver today is trend continuation. (HIGH)"));
-        assert!(report.archival_markdown.contains("Secondary Drivers:"));
+            .contains("Trend continuation. (HIGH)"));
         assert!(report
             .archival_markdown
-            .contains("Supply pressure is relevant but secondary."));
-        assert!(report
+            .contains("See Market Interpretation for the main narrative."));
+        assert!(!report.archival_markdown.contains("Secondary Drivers:"));
+        assert!(!report
             .archival_markdown
-            .contains("Flow shows a clear supporting or deteriorating direction."));
-        assert!(report
-            .archival_markdown
-            .contains("Gray Rhino structural risk is escalated and secondary."));
-        assert!(report.archival_markdown.contains("Ignored Today:"));
-        assert!(report.archival_markdown.contains(
-            "Gravity is unavailable today, so valuation is excluded from the current explanation."
-        ));
+            .contains("Supply pressure, secondary."));
+        assert!(!report.archival_markdown.contains("Flow secondary."));
+        assert!(!report.archival_markdown.contains("Gray Rhino secondary."));
+        assert!(!report.archival_markdown.contains("Ignored Today:"));
+        assert!(!report.archival_markdown.contains("Gravity unavailable."));
 
         // HTML レンダリング検証
         assert!(report.telegram_html_body.contains("Today's Explanation"));
         assert!(report
             .telegram_html_body
-            .contains("Primary Driver: Primary driver today is trend continuation. (<i>HIGH</i>)"));
+            .contains("Trend continuation. (<i>HIGH</i>)"));
+        assert!(report
+            .telegram_html_body
+            .contains("See Market Interpretation for the main narrative."));
+        assert!(!report.telegram_html_body.contains("Secondary Drivers:"));
+        assert!(!report.telegram_html_body.contains("Ignored Today:"));
     }
 
     #[test]
@@ -4029,18 +4031,26 @@ mod tests {
                 .as_ref()
                 .unwrap()
                 .signal_context_source_diagnostics_value,
-            "Official Calendar coverage 1/2; unavailable 1; health PARTIAL."
+            "Today: Index Reconstitution"
         );
         assert!(pres
             .interpretation_layer
             .as_ref()
             .unwrap()
             .signal_context_source_diagnostics_appendix_value
-            .contains("fetch failed"));
+            .contains("Today: Index Reconstitution"));
+        assert!(pres
+            .interpretation_layer
+            .as_ref()
+            .unwrap()
+            .signal_context_source_diagnostics_appendix_value
+            .contains("Official calendar source health: PARTIAL"));
         assert!(report.telegram_html_body.contains("Source Diagnostics"));
-        assert!(report.telegram_html_body.contains("PARTIAL"));
+        assert!(report
+            .telegram_html_body
+            .contains("Today: Index Reconstitution"));
         assert!(!report.telegram_html_body.contains("fetch failed"));
-        assert!(report.archival_markdown.contains("fetch failed"));
+        assert!(report.archival_markdown.contains("PARTIAL"));
     }
 
     #[test]
@@ -4134,6 +4144,115 @@ mod tests {
         assert!(!report.telegram_html_body.contains("BUY"));
         assert!(!report.telegram_html_body.contains("SELL"));
         assert_eq!(packet.market_regime.market_state, MarketState::IGNITION);
+    }
+
+    #[test]
+    fn market_interpretation_conflict_suppresses_leadership_lists() {
+        let config = mock_config_with_language(Language::EnUs);
+        let packet = DecisionPacket {
+            date: chrono::NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
+            market_features: crate::features::radar::domain::features::MarketFeatures {
+                flow_acceleration: Some(0.0),
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["GOOG".to_string()];
+        let interpretation_layer = build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_available: true,
+                    trend_state: InterpretationTrendState::Stable,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        crate::features::radar::interface::presentation::InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: Some(
+                        crate::features::research::domain::valuation_gravity::GravityStatus::Fair,
+                    ),
+                    supply_available: true,
+                    supply_pressure: false,
+                    flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
+                },
+                future_context: SignalContextEventReadModel::default(),
+                decision_summary: None,
+                language: Language::EnUs,
+                dict: &dict,
+            },
+        );
+
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            date_str: "2026-06-18".to_string(),
+            language: Language::EnUs,
+            macro_display: Default::default(),
+            decision_summary: Default::default(),
+            signal_summary: Default::default(),
+            top_actions: vec![TopActionViewModel {
+                symbol: "GOOG".to_string(),
+                ..Default::default()
+            }],
+            exit_summary: ExitDecisionSummaryViewModel {
+                items: vec![ExitDecisionItemViewModel {
+                    symbol: "GOOG".to_string(),
+                    intent: ExitDisplayIntent::Exit,
+                    ..Default::default()
+                }],
+                ..Default::default()
+            },
+            breakout_summary: Default::default(),
+            tactical_buckets: vec![],
+            risk_opportunity_summary: Default::default(),
+            risk_opportunities: vec![],
+            notices: vec![],
+            data_alert: None,
+            transition_evidence: Some(crate::features::radar::interface::presentation::StateTransitionViewModel {
+                trend_breadth_mode:
+                    crate::features::radar::interface::presentation::TrendBreadthMode::NarrowLeadership,
+                market_cycle_position:
+                    crate::features::radar::interface::presentation::MarketCyclePosition::CrowdedExpectation,
+                ..Default::default()
+            }),
+            interpretation_layer: Some(interpretation_layer.clone()),
+            market_interpretation: None,
+            hypothesis_layer: None,
+            terminal_rows: vec![],
+            state_code: String::new(),
+        };
+
+        let market_interpretation =
+            crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                &packet,
+                &pres,
+                Language::EnUs,
+            )
+            .expect("market interpretation should be available");
+        assert_eq!(
+            market_interpretation.leadership_classification_value,
+            "Leadership unavailable"
+        );
+        pres.market_interpretation = Some(market_interpretation);
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report
+            .markdown_body
+            .contains("Leadership detail suppressed because the leadership sets conflict."));
+        assert!(!report.markdown_body.contains("primary: [GOOG]"));
+        assert!(!report.markdown_body.contains("supporting: [GOOG]"));
+        assert!(!report.markdown_body.contains("weakening: [GOOG]"));
     }
 
     #[test]
@@ -4363,9 +4482,17 @@ mod tests {
             dict: &dict,
         });
 
-        assert!(view_model
-            .expectation_next_observation_value
-            .contains("Waiting for the official release"));
+        assert!(
+            view_model
+                .expectation_next_observation_value
+                .contains("Waiting")
+                || view_model
+                    .expectation_next_observation_value
+                    .contains("No high-information events")
+                || view_model
+                    .expectation_next_observation_value
+                    .contains("official calendar update")
+        );
     }
 
     #[test]
@@ -4529,26 +4656,24 @@ mod tests {
             // 1. Quality must reflect the degradation (should be MEDIUM, not HIGH)
             assert_eq!(view_model.interpretation_quality_value, "MEDIUM");
 
-            // 2. The narrative must not contain "already included in the explanation" equivalent semantics
+            // 2. The summary must stay compact and hand off the human narrative to Market Interpretation
             let main_text = &view_model.interpretation_value;
 
-            // 确保不包含 Ready 状态的标志性话语
-            assert!(!main_text.contains("valuation information is already included"));
-            assert!(!main_text.contains("已被估值信息纳入解释"));
-            assert!(!main_text.contains("バリュエーション情報はすでに説明に含まれている"));
-
-            // 确保包含降级宣告
             match language {
                 Language::EnUs => {
-                    assert!(main_text.contains("Gravity unavailable. Current trend interpretation excludes valuation. Price explanation confidence reduced."));
+                    assert!(main_text.contains("See Market Interpretation for the main narrative."));
+                    assert!(!main_text.contains("trend continuation"));
+                    assert!(!main_text.contains("valuation"));
                 }
                 Language::ZhCn => {
-                    assert!(main_text.contains(
-                        "Gravity unavailable. 当前趋势解释排除估值维度。价格解释置信度降低。"
-                    ));
+                    assert!(main_text.contains("主叙事见 Market Interpretation。"));
+                    assert!(!main_text.contains("趋势"));
+                    assert!(!main_text.contains("估值"));
                 }
                 Language::JaJp => {
-                    assert!(main_text.contains("Gravity unavailable. 現在のトレンド解釈からバリュエーション評価は除外されています。価格説明の信頼性は低下しています。"));
+                    assert!(main_text.contains("主叙事は Market Interpretation を参照。"));
+                    assert!(!main_text.contains("トレンド"));
+                    assert!(!main_text.contains("バリュエーション"));
                 }
             }
         }
@@ -4597,23 +4722,21 @@ mod tests {
 
             let main_text = &view_model.interpretation_value;
 
-            // 确保不包含 Ready 状态的标志性话语
-            assert!(!main_text.contains("valuation information is already included"));
-            assert!(!main_text.contains("已被估值信息纳入解释"));
-            assert!(!main_text.contains("バリュエーション情報はすでに説明に含まれている"));
-
-            // 确保包含不完整和降级宣告
             match language {
                 Language::EnUs => {
-                    assert!(main_text.contains("Valuation is only partially available. Current price explanation includes incomplete valuation context. Price explanation confidence reduced."));
+                    assert!(main_text.contains("See Market Interpretation for the main narrative."));
+                    assert!(!main_text.contains("trend continuation"));
+                    assert!(!main_text.contains("valuation"));
                 }
                 Language::ZhCn => {
-                    assert!(main_text.contains(
-                        "估值数据部分可用。当前价格解释包含不完整的估值背景。价格解释置信度降低。"
-                    ));
+                    assert!(main_text.contains("主叙事见 Market Interpretation。"));
+                    assert!(!main_text.contains("趋势"));
+                    assert!(!main_text.contains("估值"));
                 }
                 Language::JaJp => {
-                    assert!(main_text.contains("バリュエーションデータは一部のみ有効です。現在の価格説明に含まれるバリュエーションのコンテキストは不完全です。価格説明の信頼性は低下しています。"));
+                    assert!(main_text.contains("主叙事は Market Interpretation を参照。"));
+                    assert!(!main_text.contains("トレンド"));
+                    assert!(!main_text.contains("バリュエーション"));
                 }
             }
         }

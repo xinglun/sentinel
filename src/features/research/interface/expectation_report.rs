@@ -14,6 +14,8 @@ use super::expectation_report_builder::{
     build_expectation_layer_snapshot_from_config, ExpectationLayerSnapshot,
 };
 
+const SILENT_PENDING_MIN_AGE_DAYS: i64 = 14;
+
 /// Expectation Layer の fixture 用 read-only report を組み立てる。
 #[cfg(test)]
 pub(crate) fn build_expectation_layer_report(language: Language) -> String {
@@ -103,21 +105,73 @@ pub(crate) fn build_expectation_layer_report_from_snapshot(
         ));
     }
 
-    for observation in &snapshot.observations {
-        out.push_str("\n### ");
+    if is_silent_expectation_snapshot(snapshot) {
         out.push_str(&format!(
-            "{} / {} / {}",
-            observation.subject,
-            observation.period,
-            enum_code(&observation.event_type)
+            "\n{}\n\n",
+            expectation_no_updates_today_label(language)
         ));
-        out.push('\n');
-        push_observation_block(&mut out, observation, language);
+    } else {
+        for observation in &snapshot.observations {
+            out.push_str("\n### ");
+            out.push_str(&format!(
+                "{} / {} / {}",
+                observation.subject,
+                observation.period,
+                enum_code(&observation.event_type)
+            ));
+            out.push('\n');
+            push_observation_block(&mut out, observation, language);
+        }
+    }
+
+    if is_silent_expectation_snapshot(snapshot) {
+        out.push_str("\n## Appendix\n\n");
+        for observation in &snapshot.observations {
+            out.push_str("\n### ");
+            out.push_str(&format!(
+                "{} / {} / {}",
+                observation.subject,
+                observation.period,
+                enum_code(&observation.event_type)
+            ));
+            out.push('\n');
+            push_observation_block(&mut out, observation, language);
+        }
     }
 
     out.push('\n');
     out.push_str(expectation_boundary(language));
     out
+}
+
+fn is_silent_expectation_snapshot(snapshot: &ExpectationLayerSnapshot) -> bool {
+    if snapshot.observations.is_empty() {
+        return false;
+    }
+
+    if !snapshot.observations.iter().all(|observation| {
+        observation.lifecycle_state == ExpectationLifecycleState::Pending
+            && observation.result.is_none()
+            && observation.released_at.is_none()
+            && observation.archived_at.is_none()
+    }) {
+        return false;
+    }
+
+    let Some(latest_observed_at) = snapshot
+        .observations
+        .iter()
+        .map(|observation| observation.observed_at)
+        .max()
+    else {
+        return false;
+    };
+
+    snapshot
+        .as_of_date
+        .signed_duration_since(latest_observed_at)
+        .num_days()
+        >= SILENT_PENDING_MIN_AGE_DAYS
 }
 
 fn push_observation_block(
@@ -374,6 +428,14 @@ fn expectation_subjects_label(language: Language) -> &'static str {
         Language::ZhCn => "subjects",
         Language::EnUs => "subjects",
         Language::JaJp => "subjects",
+    }
+}
+
+fn expectation_no_updates_today_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "No expectation updates today.",
+        Language::EnUs => "No expectation updates today.",
+        Language::JaJp => "No expectation updates today.",
     }
 }
 

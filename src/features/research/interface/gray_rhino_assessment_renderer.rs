@@ -9,6 +9,29 @@ pub(super) fn render_gray_rhino_assessment_markdown(
     language: Language,
 ) -> String {
     let escalation = &assessment.current.escalation;
+    if is_idle_background_assessment(assessment) {
+        let mut out = String::new();
+        out.push_str(gray_rhino_title(language));
+        out.push_str("\n\n");
+        out.push_str(&format!(
+            "{}: {}\n",
+            assessment_date_heading(language),
+            assessment.current.as_of_date
+        ));
+        out.push_str(&format!(
+            "{}: {}\n",
+            state_heading(language),
+            state_label(escalation.escalation_state, language)
+        ));
+        out.push_str(&format!("{}\n", idle_deterioration_message(language)));
+        out.push_str(&format!("{}\n", idle_monitoring_message(language)));
+        out.push('\n');
+        out.push_str(boundary_label(language));
+        out.push('\n');
+        out.push_str(non_signal_notice(language));
+        return out;
+    }
+
     let mut out = String::new();
     out.push_str(gray_rhino_title(language));
     out.push_str("\n\n");
@@ -110,6 +133,36 @@ pub(super) fn render_gray_rhino_assessment_markdown(
     out.push('\n');
     out.push_str(non_signal_notice(language));
     out
+}
+
+fn is_idle_background_assessment(assessment: &GrayRhinoAssessment) -> bool {
+    let escalation = &assessment.current.escalation;
+    escalation.escalation_state == RhinoEscalationState::Background
+        && escalation.risk_expansion_rate == RiskLevel::Low
+        && escalation.constraint_growth_rate == RiskLevel::Low
+        && escalation.dependency_centralization == RiskLevel::Low
+        && escalation.awareness_decay == RiskLevel::Low
+        && escalation.narrative_overconfidence == RiskLevel::Low
+        && escalation.single_point_fragility == RiskLevel::Low
+        && escalation.fallback_survivability_risk == RiskLevel::Low
+        && escalation.notes.is_empty()
+        && escalation.suppressed_note_count == 0
+}
+
+fn idle_deterioration_message(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "No structural deterioration observed.",
+        Language::EnUs => "No structural deterioration observed.",
+        Language::JaJp => "No structural deterioration observed.",
+    }
+}
+
+fn idle_monitoring_message(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Current monitoring remains idle.",
+        Language::EnUs => "Current monitoring remains idle.",
+        Language::JaJp => "Current monitoring remains idle.",
+    }
 }
 
 pub(super) fn gray_rhino_title(language: Language) -> &'static str {
@@ -497,5 +550,47 @@ pub(super) fn non_signal_notice(language: Language) -> &'static str {
         Language::JaJp => {
             "境界声明: 灰色のサイ昇格監視は構造的リスクの昇格だけを観測し、取引シグナルを生成しない。"
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::features::research::domain::gray_rhino::{
+        GrayRhinoAssessment, GrayRhinoAssessmentSnapshot, GrayRhinoEscalation,
+        GrayRhinoObservationSource, RhinoEscalationState, RiskLevel,
+    };
+    use chrono::NaiveDate;
+
+    #[test]
+    fn background_assessment_renders_idle_copy_without_detail_rows() {
+        let assessment = GrayRhinoAssessment {
+            current: GrayRhinoAssessmentSnapshot {
+                schema_version: 1,
+                as_of_date: NaiveDate::from_ymd_opt(2026, 7, 8).unwrap(),
+                source: GrayRhinoObservationSource::ManualConfiguration,
+                escalation: GrayRhinoEscalation {
+                    escalation_state: RhinoEscalationState::Background,
+                    risk_expansion_rate: RiskLevel::Low,
+                    constraint_growth_rate: RiskLevel::Low,
+                    dependency_centralization: RiskLevel::Low,
+                    awareness_decay: RiskLevel::Low,
+                    narrative_overconfidence: RiskLevel::Low,
+                    single_point_fragility: RiskLevel::Low,
+                    fallback_survivability_risk: RiskLevel::Low,
+                    notes: vec![],
+                    suppressed_note_count: 0,
+                },
+            },
+            previous: None,
+        };
+
+        let report = render_gray_rhino_assessment_markdown(&assessment, Language::EnUs);
+
+        assert!(report.contains("No structural deterioration observed."));
+        assert!(report.contains("Current monitoring remains idle."));
+        assert!(!report.contains("Risk Expansion"));
+        assert!(!report.contains("Constraint Growth"));
+        assert!(!report.contains("Notes"));
     }
 }

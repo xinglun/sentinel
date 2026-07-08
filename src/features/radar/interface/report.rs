@@ -1315,25 +1315,13 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
-            block.push_str(&format!("  - {}:\n", layer.todays_explanation_label));
             block.push_str(&format!(
-                "    - {}: {} ({})\n",
-                layer.primary_driver_label,
+                "  - {}: {} ({}) {}\n",
+                layer.todays_explanation_label,
                 layer.primary_driver_value,
-                layer.primary_driver_confidence
+                layer.primary_driver_confidence,
+                layer.todays_explanation_navigation_value
             ));
-            if !layer.secondary_drivers_values.is_empty() {
-                block.push_str(&format!("    - {}:\n", layer.secondary_drivers_label));
-                for val in &layer.secondary_drivers_values {
-                    block.push_str(&format!("      - {}\n", val));
-                }
-            }
-            if !layer.ignored_today_values.is_empty() {
-                block.push_str(&format!("    - {}:\n", layer.ignored_today_label));
-                for val in &layer.ignored_today_values {
-                    block.push_str(&format!("      - {}\n", val));
-                }
-            }
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1490,25 +1478,13 @@ fn render_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
-            block.push_str(&format!("  - <b>{}:</b>\n", layer.todays_explanation_label));
             block.push_str(&format!(
-                "    - {}: {} (<i>{}</i>)\n",
-                layer.primary_driver_label,
+                "  - <b>{}:</b> {} (<i>{}</i>) {}\n",
+                layer.todays_explanation_label,
                 layer.primary_driver_value,
-                layer.primary_driver_confidence
+                layer.primary_driver_confidence,
+                layer.todays_explanation_navigation_value
             ));
-            if !layer.secondary_drivers_values.is_empty() {
-                block.push_str(&format!("    - {}:\n", layer.secondary_drivers_label));
-                for val in &layer.secondary_drivers_values {
-                    block.push_str(&format!("      - {}\n", val));
-                }
-            }
-            if !layer.ignored_today_values.is_empty() {
-                block.push_str(&format!("    - {}:\n", layer.ignored_today_label));
-                for val in &layer.ignored_today_values {
-                    block.push_str(&format!("      - <i>{}</i>\n", val));
-                }
-            }
             block.push_str(&format!("  - {}:\n", layer.signal_context_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1683,6 +1659,12 @@ fn render_market_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            if !layer.narrative_values.is_empty() {
+                block.push_str(&format!("  - {}:\n", layer.narrative_label));
+                for value in &layer.narrative_values {
+                    block.push_str(&format!("    - {}\n", value));
+                }
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.day_type_label, layer.day_type_value
@@ -1696,62 +1678,63 @@ fn render_market_interpretation_section(
                 layer.exceptional_factors_label,
                 format_values(&layer.exceptional_factors_values)
             ));
-            block.push_str(&format!("  - {}:\n", layer.leadership_label));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.primary_label,
-                format_values(&layer.primary_values)
+                "  - {}: {}\n",
+                layer.leadership_classification_label, layer.leadership_classification_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.leadership_metrics_label));
+            if is_leadership_unavailable(&layer.leadership_classification_value) {
+                block.push_str(
+                    "  - Leadership detail suppressed because the leadership sets conflict.\n",
+                );
+            } else {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.primary_label,
+                    format_values(&layer.primary_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.supporting_label,
+                    format_values(&layer.supporting_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.weakening_label,
+                    format_values(&layer.weakening_values)
+                ));
+            }
+            block.push_str(&format!("    - Breadth: {}\n", layer.breadth_score_value));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supporting_label,
-                format_values(&layer.supporting_values)
+                "    - Concentration: {}\n",
+                layer.concentration_score_value
             ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.weakening_label,
-                format_values(&layer.weakening_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.leadership_breadth_label, layer.leadership_breadth_value
-            ));
-            block.push_str(&format!("  - {}:\n", layer.concentration_label));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.breadth_score_label, layer.breadth_score_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.concentration_score_label, layer.concentration_score_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_score_label, layer.rotation_score_value
-            ));
-            block.push_str(&format!("  - {}:\n", layer.rotation_label));
-            block.push_str(&format!(
-                "    - rotationType: {}\n",
-                layer.rotation_type_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_from_label,
-                format_values(&layer.rotation_from_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_to_label,
-                format_values(&layer.rotation_to_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_interpretation_label, layer.rotation_interpretation_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.observation_only_label, layer.observation_only_value
-            ));
+            block.push_str(&format!("    - Rotation: {}\n", layer.rotation_score_value));
+            if !is_leadership_unavailable(&layer.leadership_classification_value) {
+                block.push_str(&format!("  - {}:\n", layer.rotation_label));
+                block.push_str(&format!(
+                    "    - rotationType: {}\n",
+                    layer.rotation_type_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_from_label,
+                    format_values(&layer.rotation_from_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_to_label,
+                    format_values(&layer.rotation_to_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_interpretation_label, layer.rotation_interpretation_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.observation_only_label, layer.observation_only_value
+                ));
+            }
             block.push_str(&format!("  - {}:\n", layer.confidence_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1794,6 +1777,12 @@ fn render_market_interpretation_section(
                 "  - {}: {}\n",
                 layer.current_decision_weight_label, layer.current_decision_weight_value
             ));
+            if !layer.narrative_values.is_empty() {
+                block.push_str(&format!("  - {}:\n", layer.narrative_label));
+                for value in &layer.narrative_values {
+                    block.push_str(&format!("    - {}\n", value));
+                }
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.day_type_label, layer.day_type_value
@@ -1807,62 +1796,63 @@ fn render_market_interpretation_section(
                 layer.exceptional_factors_label,
                 format_values(&layer.exceptional_factors_values)
             ));
-            block.push_str(&format!("  - {}:\n", layer.leadership_label));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.primary_label,
-                format_values(&layer.primary_values)
+                "  - {}: {}\n",
+                layer.leadership_classification_label, layer.leadership_classification_value
             ));
+            block.push_str(&format!("  - {}:\n", layer.leadership_metrics_label));
+            if is_leadership_unavailable(&layer.leadership_classification_value) {
+                block.push_str(
+                    "  - Leadership detail suppressed because the leadership sets conflict.\n",
+                );
+            } else {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.primary_label,
+                    format_values(&layer.primary_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.supporting_label,
+                    format_values(&layer.supporting_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.weakening_label,
+                    format_values(&layer.weakening_values)
+                ));
+            }
+            block.push_str(&format!("    - Breadth: {}\n", layer.breadth_score_value));
             block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.supporting_label,
-                format_values(&layer.supporting_values)
+                "    - Concentration: {}\n",
+                layer.concentration_score_value
             ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.weakening_label,
-                format_values(&layer.weakening_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.leadership_breadth_label, layer.leadership_breadth_value
-            ));
-            block.push_str(&format!("  - {}:\n", layer.concentration_label));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.breadth_score_label, layer.breadth_score_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.concentration_score_label, layer.concentration_score_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_score_label, layer.rotation_score_value
-            ));
-            block.push_str(&format!("  - {}:\n", layer.rotation_label));
-            block.push_str(&format!(
-                "    - rotationType: {}\n",
-                layer.rotation_type_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_from_label,
-                format_values(&layer.rotation_from_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_to_label,
-                format_values(&layer.rotation_to_values)
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.rotation_interpretation_label, layer.rotation_interpretation_value
-            ));
-            block.push_str(&format!(
-                "    - {}: {}\n",
-                layer.observation_only_label, layer.observation_only_value
-            ));
+            block.push_str(&format!("    - Rotation: {}\n", layer.rotation_score_value));
+            if !is_leadership_unavailable(&layer.leadership_classification_value) {
+                block.push_str(&format!("  - {}:\n", layer.rotation_label));
+                block.push_str(&format!(
+                    "    - rotationType: {}\n",
+                    layer.rotation_type_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_from_label,
+                    format_values(&layer.rotation_from_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_to_label,
+                    format_values(&layer.rotation_to_values)
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rotation_interpretation_label, layer.rotation_interpretation_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.observation_only_label, layer.observation_only_value
+                ));
+            }
             block.push_str(&format!("  - {}:\n", layer.confidence_label));
             block.push_str(&format!(
                 "    - {}: {}\n",
@@ -1902,6 +1892,10 @@ fn render_market_interpretation_section(
 
     block.push('\n');
     block
+}
+
+fn is_leadership_unavailable(value: &str) -> bool {
+    value == "Leadership unavailable"
 }
 
 fn format_values(values: &[String]) -> String {

@@ -42,22 +42,20 @@
 - dayType: exceptional
 - reason: unusual_rotation
 - exceptionalFactors: [unusual_rotation]
-- Leadership:
-  - primary: [GOOG]
-  - supporting: []
-  - weakening: []
-  - leadershipBreadth: narrow
+- Narrative:
+  - 今日は例外駆動の日です。
+  - 市場の動きは整然としており、構造的悪化は見えていない。
+- Leadership Classification: very_narrow
+- Leadership Metrics:
+  - Breadth: 18
+  - Concentration: 82
+  - Rotation: 66
 - Rotation Observation:
   - rotationType: mega_cap_internal_rotation
   - from: []
   - to: [GOOG]
   - interpretation: 資金は主導大型株の内部で回っており、全面流出ではない。
   - observationOnly: true
-- Trend Concentration:
-  - breadthScore: 18
-  - concentrationScore: 82
-  - rotationScore: 66
-  - label: very_narrow
 - Observation Confidence:
   - trend: MEDIUM
   - macro: LOW

@@ -38,7 +38,7 @@ pub(crate) fn build_signal_context_assessment(
     let event_fact = compose_event_fact(&input.future_context);
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, source_diagnostics_appendix) =
-        compose_source_diagnostics(&input.future_context, input.language);
+        compose_source_diagnostics(input.as_of_date, &input.future_context, input.language);
     let interpretation = compose_interpretation(
         primary_context,
         information_content,
@@ -47,6 +47,7 @@ pub(crate) fn build_signal_context_assessment(
         input.language,
     );
     let next_observation = compose_next_observation(
+        input.as_of_date,
         primary_context,
         information_content,
         &input.future_context,
@@ -233,13 +234,14 @@ fn compose_interpretation(
 }
 
 fn compose_source_diagnostics(
+    as_of_date: NaiveDate,
     future_context: &SignalContextEventReadModel,
     language: Language,
 ) -> (String, String) {
-    let attempts = future_context.source_attempts;
-    let successes = future_context.source_successes;
-    let failures = future_context.source_failures;
-    let health = signal_context_source_health_label(future_context.source_health);
+    let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
+    if future_context.source_health == MacroEventSourceHealth::Succeeded {
+        return (String::new(), String::new());
+    }
     let detail = future_context
         .source_diagnostic
         .as_deref()
@@ -248,91 +250,185 @@ fn compose_source_diagnostics(
             Language::EnUs => "no extra diagnostic information",
             Language::JaJp => "追加の診断情報はない",
         });
-    let summary = if attempts == 0 {
-        match language {
-            Language::ZhCn => "Official Calendar unavailable.".to_string(),
-            Language::EnUs => "Official Calendar unavailable.".to_string(),
-            Language::JaJp => "Official Calendar は利用不可。".to_string(),
+    let summary = if timeline_lines.is_empty() {
+        match future_context.source_health {
+            MacroEventSourceHealth::Unavailable => match language {
+                Language::ZhCn => {
+                    "Official Calendar unavailable; current monitoring remains idle.".to_string()
+                }
+                Language::EnUs => {
+                    "Official Calendar unavailable; current monitoring remains idle.".to_string()
+                }
+                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+            },
+            _ => match language {
+                Language::ZhCn => {
+                    "No major event today. Current monitoring remains idle.".to_string()
+                }
+                Language::EnUs => {
+                    "No major event today. Current monitoring remains idle.".to_string()
+                }
+                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+            },
         }
-    } else if failures == 0 {
-        String::new()
     } else {
-        match language {
-            Language::ZhCn => format!(
-                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
-            ),
-            Language::EnUs => format!(
-                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
-            ),
-            Language::JaJp => format!(
-                "Official Calendar coverage {successes}/{attempts}; unavailable {failures}; health {health}."
-            ),
+        let first = &timeline_lines[0];
+        if timeline_lines.len() == 1 {
+            first.clone()
+        } else {
+            format!("{} {}", first, timeline_lines[1])
         }
     };
-    let appendix = if attempts == 0 {
+    let mut appendix = if timeline_lines.is_empty() {
         match language {
-            Language::ZhCn => format!("Official Calendar source not loaded; {detail}"),
-            Language::EnUs => format!("Official calendar source not loaded; {detail}"),
-            Language::JaJp => format!("公式カレンダー source は未ロード; {detail}"),
+            Language::ZhCn => format!("No timeline available; {detail}"),
+            Language::EnUs => format!("No timeline available; {detail}"),
+            Language::JaJp => format!("タイムラインなし; {detail}"),
         }
-    } else if future_context.source_health == MacroEventSourceHealth::Succeeded {
-        String::new()
     } else {
-        match language {
-            Language::ZhCn => format!(
-                "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
-            ),
-            Language::EnUs => format!(
-                "Official calendar source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
-            ),
-            Language::JaJp => format!(
-                "公式カレンダーの source health: {health}; coverage: {successes}/{attempts} succeeded, {failures} failed; {detail}"
-            ),
-        }
+        timeline_lines.join("\n")
     };
+    if future_context.source_health != MacroEventSourceHealth::Succeeded {
+        if !appendix.is_empty() {
+            appendix.push('\n');
+        }
+        appendix.push_str(&match language {
+            Language::ZhCn => {
+                format!(
+                    "Official calendar source health: {}",
+                    signal_context_source_health_label(future_context.source_health)
+                )
+            }
+            Language::EnUs => {
+                format!(
+                    "Official calendar source health: {}",
+                    signal_context_source_health_label(future_context.source_health)
+                )
+            }
+            Language::JaJp => {
+                format!(
+                    "公式カレンダー source health: {}",
+                    signal_context_source_health_label(future_context.source_health)
+                )
+            }
+        });
+    }
     (summary, appendix)
 }
 
 fn compose_next_observation(
+    as_of_date: NaiveDate,
     primary_context: SignalContextPrimaryContext,
     information_content: SignalContextInformationContent,
     future_context: &SignalContextEventReadModel,
     language: Language,
 ) -> String {
-    let waiting_text = match language {
-        Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
-        Language::EnUs => "Waiting for the official release. After publication the system will automatically compare Expected / Actual, calculate Surprise, and refresh the Narrative.".to_string(),
-        Language::JaJp => "公式発表を待機中。公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
-    };
-
-    if future_context.source_health == MacroEventSourceHealth::Unavailable
-        && !future_context.has_loaded_context()
-    {
-        return match language {
-            Language::ZhCn => "官方来源当前不可用；待来源恢复后再确认是否存在事件".to_string(),
-            Language::EnUs => "Official source is currently unavailable; verify if events exist once the source is restored.".to_string(),
-            Language::JaJp => "公式ソースは現在利用できません。ソース復旧後にイベントが存在するかどうかを再確認します。".to_string(),
+    let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
+    if timeline_lines.is_empty() {
+        return match (primary_context, information_content, future_context.source_health) {
+            (_, _, MacroEventSourceHealth::Unavailable) if !future_context.has_loaded_context() => {
+                match language {
+                    Language::ZhCn => "官方来源当前不可用；待来源恢复后再确认是否存在事件".to_string(),
+                    Language::EnUs => "Official source is currently unavailable; verify if events exist once the source is restored.".to_string(),
+                    Language::JaJp => "公式ソースは現在利用できません。ソース復旧後にイベントが存在するかどうかを再確認します。".to_string(),
+                }
+            }
+            (_, SignalContextInformationContent::Medium, _) => match language {
+                Language::ZhCn => "观察中等重要事件的后续公布，并在结果落地后重新评估预期修正。".to_string(),
+                Language::EnUs => "Watching the next release for a medium-importance event, then re-evaluating the expectation adjustment once it lands.".to_string(),
+                Language::JaJp => "中重要度イベントの次回公表を観察し、結果が出たら期待修正を再評価する。".to_string(),
+            },
+            (_, SignalContextInformationContent::Low, _) => match language {
+                Language::ZhCn => "No major event today. Current monitoring remains idle.".to_string(),
+                Language::EnUs => "No major event today. Current monitoring remains idle.".to_string(),
+                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+            },
+            _ => match language {
+                Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
+                Language::EnUs => "Waiting for the official release. After publication the system will automatically compare Expected / Actual, calculate Surprise, and refresh the Narrative.".to_string(),
+                Language::JaJp => "公式発表を待機中。公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
+            },
         };
     }
 
-    match (primary_context, information_content) {
-        (SignalContextPrimaryContext::MacroEvent, SignalContextInformationContent::High) => match language {
-            Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
-            Language::EnUs => "Waiting for the official release. After publication the system will automatically compare Expected / Actual, calculate Surprise, and refresh the Narrative.".to_string(),
-            Language::JaJp => "公式発表を待機中。公表後は Expected / Actual を比較し、Surprise を計算して Narrative を更新する。".to_string(),
-        },
-        (_, SignalContextInformationContent::Medium) => match language {
-            Language::ZhCn => "观察中等重要事件的后续公布，并在结果落地后重新评估预期修正。".to_string(),
-            Language::EnUs => "Watching the next release for a medium-importance event, then re-evaluating the expectation adjustment once it lands.".to_string(),
-            Language::JaJp => "中重要度イベントの次回公表を観察し、結果が出たら期待修正を再評価する。".to_string(),
-        },
-        (_, SignalContextInformationContent::Low) => match language {
-            Language::ZhCn => "继续等待官方日历更新；当前更接近正常整理而非新的风险升级。".to_string(),
-            Language::EnUs => "Continue waiting for the official calendar update; this is closer to normal consolidation than a new risk upgrade.".to_string(),
-            Language::JaJp => "公式カレンダーの更新を待つ。現状は新しいリスク上昇というより通常の整理に近い。".to_string(),
-        },
-        _ => waiting_text,
+    let head = if timeline_lines[0].starts_with("Today:")
+        || timeline_lines[0].starts_with("今日:")
+        || timeline_lines[0].starts_with("本日:")
+    {
+        timeline_lines[0].clone()
+    } else {
+        match language {
+            Language::ZhCn => format!("No major event today. {}", timeline_lines[0]),
+            Language::EnUs => format!("No major event today. {}", timeline_lines[0]),
+            Language::JaJp => format!("本日は主要イベントなし。{}", timeline_lines[0]),
+        }
+    };
+    if timeline_lines.len() == 1 {
+        return head;
     }
+    format!("{} {}", head, timeline_lines[1..].join(" "))
+}
+
+fn format_event_timeline_lines(
+    as_of_date: NaiveDate,
+    future_context: &SignalContextEventReadModel,
+    language: Language,
+) -> Vec<String> {
+    let mut entries = future_context
+        .timeline_entries
+        .iter()
+        .map(|entry| {
+            let offset = trading_day_offset(as_of_date, entry.event_date);
+            let prefix = timeline_prefix(offset, language);
+            let title = if entry.importance.is_some() {
+                entry.event_name.clone()
+            } else {
+                entry.summary.clone()
+            };
+            let mut line = format!("{}: {}", prefix, title);
+            if entry.high_information {
+                line.push_str(match language {
+                    Language::ZhCn => " (high information)",
+                    Language::EnUs => " (high information)",
+                    Language::JaJp => " (high information)",
+                });
+            }
+            line
+        })
+        .collect::<Vec<_>>();
+    entries.truncate(3);
+    entries
+}
+
+fn timeline_prefix(offset: i64, language: Language) -> String {
+    match (offset, language) {
+        (0, Language::ZhCn) => "今天".to_string(),
+        (0, Language::EnUs) => "Today".to_string(),
+        (0, Language::JaJp) => "本日".to_string(),
+        (1, Language::ZhCn) => "UpcomingTomorrow".to_string(),
+        (1, Language::EnUs) => "UpcomingTomorrow".to_string(),
+        (1, Language::JaJp) => "UpcomingTomorrow".to_string(),
+        (n, Language::ZhCn) => format!("{} 个交易日后", n),
+        (n, Language::EnUs) => format!("In {} trading days", n),
+        (n, Language::JaJp) => format!("{} 営業日後", n),
+    }
+}
+
+fn trading_day_offset(from: NaiveDate, to: NaiveDate) -> i64 {
+    if to <= from {
+        return 0;
+    }
+
+    let mut current = from;
+    let mut count = 0i64;
+    while current < to {
+        current = current.succ_opt().unwrap_or(current);
+        match current.weekday() {
+            chrono::Weekday::Sat | chrono::Weekday::Sun => {}
+            _ => count += 1,
+        }
+    }
+    count
 }
 
 fn is_quarter_end(date: NaiveDate) -> bool {
@@ -806,7 +902,7 @@ mod tests {
             .contains("Official Calendar unavailable"));
         assert!(assessment
             .source_diagnostics_appendix
-            .contains("Official calendar source not loaded"));
+            .contains("Official calendar source health: UNAVAILABLE"));
     }
 
     #[test]
@@ -1040,9 +1136,8 @@ mod tests {
         assert!(assessment
             .interpretation
             .contains("high-information macro event"));
-        assert!(assessment
-            .next_observation
-            .contains("Waiting for the official release"));
+        assert!(assessment.next_observation.contains("Today:"));
+        assert!(assessment.next_observation.contains("CPI"));
     }
 
     #[test]

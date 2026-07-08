@@ -532,17 +532,22 @@ fn build_market_interpretation_audit_snapshot(
         "exceptional"
     };
     let day_type_reason = audit_day_type_reason(latest, trend_recognition);
-    let leadership_breadth = audit_leadership_breadth(
-        leadership_primary.len(),
-        leadership_supporting.len(),
-        leadership_weakening.len(),
-    );
     let concentration = audit_concentration_scores(
         leadership_primary.len(),
         leadership_supporting.len(),
         leadership_weakening.len(),
         latest,
     );
+    let leadership_consistency_valid = audit_leadership_consistency(
+        &leadership_primary,
+        &leadership_supporting,
+        &leadership_weakening,
+    );
+    let classification_value = if leadership_consistency_valid {
+        concentration.3.clone()
+    } else {
+        "Leadership unavailable".to_string()
+    };
     let rotation_type = audit_rotation_type(latest, trend_recognition);
     let rotation_from = leadership_weakening.clone();
     let mut rotation_to = leadership_primary.clone();
@@ -555,6 +560,7 @@ fn build_market_interpretation_audit_snapshot(
 
     let confidence = audit_confidence_labels(latest, trend_recognition, exceptional_factors.len());
     let priority = audit_interpretation_priority(&confidence);
+    let narrative_values = audit_market_interpretation_narrative_values(day_type, language);
 
     let mut out = String::new();
     out.push_str(&format!("\n7. {}\n", text.market_interpretation_snapshot));
@@ -565,20 +571,21 @@ fn build_market_interpretation_audit_snapshot(
         "- exceptionalFactors: {}\n",
         format_string_list(&exceptional_factors)
     ));
-    out.push_str("- Leadership:\n");
+    out.push_str("- Narrative:\n");
+    for line in &narrative_values {
+        out.push_str(&format!("  - {}\n", line));
+    }
     out.push_str(&format!(
-        "  - primary: {}\n",
-        format_string_list(&leadership_primary)
+        "- Leadership Classification: {}\n",
+        classification_value
     ));
-    out.push_str(&format!(
-        "  - supporting: {}\n",
-        format_string_list(&leadership_supporting)
-    ));
-    out.push_str(&format!(
-        "  - weakening: {}\n",
-        format_string_list(&leadership_weakening)
-    ));
-    out.push_str(&format!("  - leadershipBreadth: {}\n", leadership_breadth));
+    out.push_str("- Leadership Metrics:\n");
+    if !leadership_consistency_valid {
+        out.push_str("  - leadership detail suppressed because the leadership sets conflict.\n");
+    }
+    out.push_str(&format!("  - Breadth: {}\n", concentration.0));
+    out.push_str(&format!("  - Concentration: {}\n", concentration.1));
+    out.push_str(&format!("  - Rotation: {}\n", concentration.2));
     out.push_str("- Rotation Observation:\n");
     out.push_str(&format!("  - rotationType: {}\n", rotation_type));
     out.push_str(&format!(
@@ -591,11 +598,6 @@ fn build_market_interpretation_audit_snapshot(
         audit_rotation_interpretation(language, &rotation_type)
     ));
     out.push_str("  - observationOnly: true\n");
-    out.push_str("- Trend Concentration:\n");
-    out.push_str(&format!("  - breadthScore: {}\n", concentration.0));
-    out.push_str(&format!("  - concentrationScore: {}\n", concentration.1));
-    out.push_str(&format!("  - rotationScore: {}\n", concentration.2));
-    out.push_str(&format!("  - label: {}\n", concentration.3));
     out.push_str("- Observation Confidence:\n");
     out.push_str(&format!("  - trend: {}\n", confidence.0));
     out.push_str(&format!("  - macro: {}\n", confidence.1));
@@ -673,18 +675,42 @@ fn audit_day_type_reason(
     "trend_continuation".to_string()
 }
 
-fn audit_leadership_breadth(
-    primary_count: usize,
-    supporting_count: usize,
-    weakening_count: usize,
-) -> String {
-    if primary_count <= 1 && supporting_count <= 1 && weakening_count == 0 {
-        "narrow".to_string()
-    } else if weakening_count > 0 {
-        "rotation".to_string()
-    } else {
-        "broad".to_string()
-    }
+fn audit_leadership_consistency(
+    primary: &[String],
+    supporting: &[String],
+    weakening: &[String],
+) -> bool {
+    intersection(primary, supporting).is_empty()
+        && intersection(primary, weakening).is_empty()
+        && intersection(supporting, weakening).is_empty()
+}
+
+fn intersection(left: &[String], right: &[String]) -> Vec<String> {
+    left.iter()
+        .filter(|symbol| right.iter().any(|item| item == *symbol))
+        .cloned()
+        .collect()
+}
+
+fn audit_market_interpretation_narrative_values(day_type: &str, language: Language) -> Vec<String> {
+    let mut lines = Vec::new();
+    lines.push(match (day_type, language) {
+        ("normal", Language::ZhCn) => "今天是正常趋势延续。".to_string(),
+        ("normal", Language::EnUs) => "Today is a normal trend continuation.".to_string(),
+        ("normal", Language::JaJp) => "今日は通常のトレンド継続です。".to_string(),
+        ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),
+        ("exceptional", Language::EnUs) => "Today is an exception-driven day.".to_string(),
+        ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
+        _ => "Today is a normal trend continuation.".to_string(),
+    });
+    lines.push(match language {
+        Language::ZhCn => "市场行为保持有序，没有结构性恶化。".to_string(),
+        Language::EnUs => {
+            "Market behavior remains orderly with no structural deterioration.".to_string()
+        }
+        Language::JaJp => "市場の動きは整然としており、構造的悪化は見えていない。".to_string(),
+    });
+    lines
 }
 
 fn audit_concentration_scores(
@@ -1726,9 +1752,15 @@ mod tests {
             &audit_text(Language::EnUs),
         );
 
-        assert!(snapshot.contains("  - primary: []"));
-        assert!(snapshot.contains("  - weakening: [GOOG]"));
-        assert!(!snapshot.contains("  - primary: [GOOG]"));
+        assert!(snapshot.contains("- Leadership Classification:"));
+        assert!(snapshot.contains("- Leadership Metrics:"));
+        assert!(snapshot.contains("  - Breadth: "));
+        assert!(snapshot.contains("  - Concentration: "));
+        assert!(snapshot.contains("  - Rotation: "));
+        assert!(snapshot.contains("- Rotation Observation:"));
+        assert!(!snapshot.contains("  - primary: "));
+        assert!(!snapshot.contains("  - supporting: "));
+        assert!(!snapshot.contains("  - weakening: "));
     }
 
     #[test]
@@ -1813,11 +1845,20 @@ mod tests {
         assert!(report.contains("Market Interpretation Snapshot"));
         assert!(report.contains("decision_weight: 0%"));
         assert!(report.contains("dayType: normal"));
-        assert!(report.contains("Leadership:"));
+        assert!(report.contains("Leadership Classification:"));
+        assert!(report.contains("Leadership Metrics:"));
+        assert!(report.contains("  - Breadth: "));
+        assert!(report.contains("  - Concentration: "));
+        assert!(report.contains("  - Rotation: "));
         assert!(report.contains("Rotation Observation:"));
         assert!(report.contains("Observation Confidence:"));
         assert!(report.contains("observationOnly: true"));
         assert!(report.contains("Boundary: this is an audit-side explanation snapshot only"));
+        assert!(!report.contains("  - primary: "));
+        assert!(!report.contains("  - supporting: "));
+        assert!(!report.contains("  - weakening: "));
+        assert!(!report.contains("Leadership classification: very_narrow."));
+        assert!(!report.contains("Rotation reads "));
     }
 
     #[test]
@@ -1847,8 +1888,10 @@ mod tests {
             Some(&DeliveryStatus::Succeeded),
         );
 
-        assert!(report.contains("  - primary: [GOOG]"));
-        assert!(report.contains("  - weakening: []"));
+        assert!(report.contains("  - Breadth: "));
+        assert!(report.contains("  - Concentration: "));
+        assert!(report.contains("  - Rotation: "));
+        assert!(!report.contains("  - primary: [GOOG]"));
         assert!(!report.contains("  - weakening: [GOOG]"));
     }
 

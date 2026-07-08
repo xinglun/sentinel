@@ -492,6 +492,11 @@ fn push_potential_supply_pressure(
         capital_absorption_confirmed_count_label(language),
         pressure.confirmed_count
     ));
+    out.push_str(&format!(
+        "- {}: {}\n",
+        capital_absorption_supply_interpretation_label(language),
+        capital_absorption_supply_interpretation_value(pressure.level, language)
+    ));
 
     let mut reasons = Vec::new();
     if let Some(actual_usd) = demand.rolling_12m_usd_b {
@@ -555,6 +560,43 @@ fn push_potential_supply_pressure(
         }
     }
     out.push('\n');
+}
+
+fn capital_absorption_supply_interpretation_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Supply Interpretation",
+        Language::EnUs => "Supply Interpretation",
+        Language::JaJp => "Supply Interpretation",
+    }
+}
+
+fn capital_absorption_supply_interpretation_value(
+    level: CapitalAbsorptionPotentialSupplyPressureLevel,
+    language: Language,
+) -> &'static str {
+    match level {
+        CapitalAbsorptionPotentialSupplyPressureLevel::Low => match language {
+            Language::ZhCn => {
+                "Current supply remains absorbable. No abnormal dilution pressure detected."
+            }
+            Language::EnUs => {
+                "Current supply remains absorbable. No abnormal dilution pressure detected."
+            }
+            Language::JaJp => {
+                "Current supply remains absorbable. No abnormal dilution pressure detected."
+            }
+        },
+        CapitalAbsorptionPotentialSupplyPressureLevel::Normal => match language {
+            Language::ZhCn => "Supply pressure is increasing. Absorption is still manageable.",
+            Language::EnUs => "Supply pressure is increasing. Absorption is still manageable.",
+            Language::JaJp => "Supply pressure is increasing. Absorption is still manageable.",
+        },
+        CapitalAbsorptionPotentialSupplyPressureLevel::Elevated => match language {
+            Language::ZhCn => "Supply pressure is increasing. Watch market absorption capability.",
+            Language::EnUs => "Supply pressure is increasing. Watch market absorption capability.",
+            Language::JaJp => "Supply pressure is increasing. Watch market absorption capability.",
+        },
+    }
 }
 
 fn push_supply_event_counts(
