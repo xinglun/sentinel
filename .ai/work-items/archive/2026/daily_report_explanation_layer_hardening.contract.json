@@ -1,0 +1,207 @@
+{
+  "contractVersion": 2,
+  "workItemId": "daily_report_explanation_layer_hardening",
+  "mode": "code",
+  "title": "日報の説明層を再構成する",
+  "baseCommit": "eefa68ec508a2947aa1bcc40c461cf232af386bc",
+  "baselineDirtyPaths": [],
+  "scope": [
+    ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+    ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+    ".ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+    ".ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_tests.rs",
+    "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "tests/research_attention_cli_integration.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/research/domain/**",
+    "src/features/shared/application/**",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "日報の Leadership / Market Interpretation / timeline の表示経路を確認するため。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Today's Explanation と解釈文の重複を整理するため。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leadership の整合性校验と叙事レイヤーを分離するため。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "MarketInterpretationViewModel の構造を更新するため。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Today's Explanation と Market Interpretation の重複を解消するため。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "イベントタイムラインの read model を作るため。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "静的 coverage 表示をイベントタイムラインへ差し替えるため。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "週次レビュー側の Market Interpretation / Expectation 表示を同期するため。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply Layer に叙事的な説明句を追加するため。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "PENDING が続く expectation の静默表示を入れるため。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+      "reason": "Gray Rhino の無変化状態を静默化するため。"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "reason": "日次校正レポートの合成結果を確認するため。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Today's Explanation / Market Interpretation の表示回帰を固定するため。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Daily calibration 連結出力の回帰を固定するため。"
+    }
+  ],
+  "problemStatement": "日报的説明层目前把观察、分类、分数、时间线和静态覆盖信息堆在一起，重复信息多、结论不先出、无变化信息占版面。需要把它收敛成先结论、后指标、静默无变化、冲突直接降级的解释产品。",
+  "intent": {
+    "problem": "将日报从观察堆栈整理为更少重复、更强结论导向的解释层产品。",
+    "constraints": [
+      "Gate / Execution / Trader / Position Sizing 不变。",
+      "无变化信息要静默，冲突信息要降级，不输出伪一致结果。",
+      "Score 只保留在 metrics，classification 只作为结论展示。"
+    ],
+    "rationale": "用户需要的是可直接阅读的日报首页，而不是多层重复的观测明细。"
+  },
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt",
+      "i18n_snapshot"
+    ],
+    "reason": "这次要同时调整多个报告层的文本组织、静默策略与结构化输出，回归主要集中在展示边界、审阅负担和快照一致性。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / acceptance / verification 已明确，可以直接实现并回归验证。"
+  },
+  "preReviewWarnings": [
+    "Market Interpretation 与 Today's Explanation 的去重边界需要在 review 中确认。",
+    "静默化后，Expectation / Gray Rhino 的 appendix 行为需要检查快照输出。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "如果 scope、acceptance 或 verification 变化，先更新 Contract 与 Summary 再继续。"
+  },
+  "acceptance": [
+    "Leadership 发生 Primary / Supporting / Weakening 任意交叉时，整块降级为 Leadership unavailable，不再输出矛盾分类结果。",
+    "Leadership 的分类与 metrics 分离，用户先看到分类，再看到 breadth / concentration / rotation 等指标。",
+    "Market Interpretation 以自然语言叙事为主，Today's Explanation 不再重复同一条趋势句子。",
+    "事件展示优先输出未来会影响判断的事件时间线，而不是静态覆盖或日期计数。",
+    "Supply Layer 会输出可直接阅读的供给压力解释句。",
+    "Gray Rhino 在无证据或无变化时只显示静默状态，不持续刷出百分比。",
+    "Expectation Layer 在 PENDING 且无变化时主区域只显示静默提示，详细信息下沉到 appendix。",
+    "相关展示回归会被测试或快照固定，且不影响 Gate / Execution / Trader / Position Sizing。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

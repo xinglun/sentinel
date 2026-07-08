@@ -100,6 +100,7 @@ pub(crate) fn build_interpretation_layer_view_model(
         expectation_next_observation_value(&input.signal, &signal_context, input.language);
     let interpretation_value =
         compose_interpretation_value(&signal_context, &input.signal, input.language);
+    let todays_explanation_navigation_value = todays_explanation_navigation_text(input.language);
     let (decision_explanation_intro, decision_explanation_reasons, decision_explanation_conclusion) =
         decision_explanation_values(input.decision_summary, input.language, interpretation);
     let todays_explanation =
@@ -205,6 +206,7 @@ pub(crate) fn build_interpretation_layer_view_model(
         primary_driver_label: interpretation.primary_driver_label.clone(),
         primary_driver_value: todays_explanation.primary_driver_value,
         primary_driver_confidence: todays_explanation.primary_driver_confidence,
+        todays_explanation_navigation_value,
         secondary_drivers_label: interpretation.secondary_drivers_label.clone(),
         secondary_drivers_values: todays_explanation.secondary_drivers,
         ignored_today_label: interpretation.ignored_today_label.clone(),
@@ -457,14 +459,14 @@ fn macro_unknown_explanation_text(lang: Language) -> String {
 fn trend_explanation_text(role: ExplanationRole, lang: Language) -> String {
     match role {
         ExplanationRole::Primary => match lang {
-            Language::ZhCn => "今天的市场主驱动是趋势的延续。".to_string(),
-            Language::EnUs => "Primary driver today is trend continuation.".to_string(),
-            Language::JaJp => "本日の市場主要ドライバーはトレンドの継続です。".to_string(),
+            Language::ZhCn => "趋势延续".to_string(),
+            Language::EnUs => "Trend continuation.".to_string(),
+            Language::JaJp => "トレンド継続".to_string(),
         },
         ExplanationRole::Secondary => match lang {
             Language::ZhCn => "趋势结构虽稳定，但今天仅起到辅助解释作用。".to_string(),
-            Language::EnUs => "Trend structure is stable but secondary today.".to_string(),
-            Language::JaJp => "トレンド構造は安定していますが、本日は補助的です。".to_string(),
+            Language::EnUs => "Trend stable, secondary.".to_string(),
+            Language::JaJp => "トレンド安定、補助".to_string(),
         },
         ExplanationRole::Ignored => match lang {
             Language::ZhCn => "趋势结构偏弱或不可用，今日忽略。".to_string(),
@@ -481,19 +483,19 @@ fn trend_explanation_text(role: ExplanationRole, lang: Language) -> String {
 fn supply_explanation_text(role: ExplanationRole, lang: Language) -> String {
     match role {
         ExplanationRole::Primary => match lang {
-            Language::ZhCn => "今天最主要的驱动是显著的供给压力。".to_string(),
-            Language::EnUs => "Primary driver today is significant supply pressure.".to_string(),
-            Language::JaJp => "本日の主要なドライバーは顕著な供給圧力です。".to_string(),
+            Language::ZhCn => "供给压力".to_string(),
+            Language::EnUs => "Supply pressure.".to_string(),
+            Language::JaJp => "供給圧力".to_string(),
         },
         ExplanationRole::Secondary => match lang {
-            Language::ZhCn => "供给压力存在，但仅具有次要解释作用。".to_string(),
-            Language::EnUs => "Supply pressure is relevant but secondary.".to_string(),
-            Language::JaJp => "供給圧力は存在しますが、補助的な要因に留まります。".to_string(),
+            Language::ZhCn => "供给压力，次要".to_string(),
+            Language::EnUs => "Supply pressure, secondary.".to_string(),
+            Language::JaJp => "供給圧力、補助".to_string(),
         },
         ExplanationRole::Ignored => match lang {
-            Language::ZhCn => "未检测到明显的供给压力。".to_string(),
-            Language::EnUs => "No significant supply pressure is detected today.".to_string(),
-            Language::JaJp => "顕著な供給圧力は検出されていません。".to_string(),
+            Language::ZhCn => "供给忽略".to_string(),
+            Language::EnUs => "Supply ignored.".to_string(),
+            Language::JaJp => "供給無視".to_string(),
         },
     }
 }
@@ -529,25 +531,19 @@ fn expectation_explanation_text(role: ExplanationRole, lang: Language) -> String
 fn flow_explanation_text(role: ExplanationRole, lang: Language) -> String {
     match role {
         ExplanationRole::Primary => match lang {
-            Language::ZhCn => "今天最主要的驱动是资金流向的加速倾斜。".to_string(),
-            Language::EnUs => {
-                "Primary driver today is accelerating capital flow direction.".to_string()
-            }
-            Language::JaJp => {
-                "本日の主要なドライバーは加速する資金フローの方向性です。".to_string()
-            }
+            Language::ZhCn => "资金流向".to_string(),
+            Language::EnUs => "Flow direction.".to_string(),
+            Language::JaJp => "資金フロー".to_string(),
         },
         ExplanationRole::Secondary => match lang {
-            Language::ZhCn => "资金流向有明确的支持或恶化趋势。".to_string(),
-            Language::EnUs => {
-                "Flow shows a clear supporting or deteriorating direction.".to_string()
-            }
-            Language::JaJp => "資金フローに明確な支持または悪化の方向性が見られます。".to_string(),
+            Language::ZhCn => "资金流向，次要".to_string(),
+            Language::EnUs => "Flow secondary.".to_string(),
+            Language::JaJp => "資金フロー、補助".to_string(),
         },
         ExplanationRole::Ignored => match lang {
-            Language::ZhCn => "资金流向处于中性，今日忽略。".to_string(),
-            Language::EnUs => "Flow is neutral, and is not a primary driver today.".to_string(),
-            Language::JaJp => "資金フローは中立であり、本日の説明には含まれません。".to_string(),
+            Language::ZhCn => "资金流向忽略".to_string(),
+            Language::EnUs => "Flow ignored.".to_string(),
+            Language::JaJp => "資金フロー無視".to_string(),
         },
     }
 }
@@ -559,11 +555,9 @@ fn gravity_explanation_text(
 ) -> String {
     match role {
         ExplanationRole::Primary => match lang {
-            Language::ZhCn => "估值引力（Gravity）是今天最主要的价格解释因子。".to_string(),
-            Language::EnUs => {
-                "Valuation gravity is the primary explanatory factor today.".to_string()
-            }
-            Language::JaJp => "バリュエーション重力が本日最も主要な価格説明要因です。".to_string(),
+            Language::ZhCn => "估值引力".to_string(),
+            Language::EnUs => "Gravity.".to_string(),
+            Language::JaJp => "重力".to_string(),
         },
         ExplanationRole::Secondary => match lang {
             Language::ZhCn => "估值引力作为价值边界起到辅助解释作用。".to_string(),
@@ -575,17 +569,15 @@ fn gravity_explanation_text(
         ExplanationRole::Ignored => {
             if dq == InterpretationGravityDataQuality::Unavailable {
                 match lang {
-                    Language::ZhCn => "估值引力今天不可用，故估值未纳入当前解释。".to_string(),
-                    Language::EnUs => "Gravity is unavailable today, so valuation is excluded from the current explanation.".to_string(),
-                    Language::JaJp => "バリュエーション重力は利用不可であり、評価は現在の解釈から除外されています。".to_string(),
+                    Language::ZhCn => "估值引力不可用".to_string(),
+                    Language::EnUs => "Gravity unavailable.".to_string(),
+                    Language::JaJp => "重力利用不可".to_string(),
                 }
             } else {
                 match lang {
-                    Language::ZhCn => "估值偏中性，今天被忽略。".to_string(),
-                    Language::EnUs => "Gravity is neutral and ignored today.".to_string(),
-                    Language::JaJp => {
-                        "バリュエーションは中立的であり、本日は無視されます。".to_string()
-                    }
+                    Language::ZhCn => "估值引力忽略".to_string(),
+                    Language::EnUs => "Gravity ignored.".to_string(),
+                    Language::JaJp => "重力無視".to_string(),
                 }
             }
         }
@@ -595,19 +587,19 @@ fn gravity_explanation_text(
 fn gray_rhino_explanation_text(role: ExplanationRole, lang: Language) -> String {
     match role {
         ExplanationRole::Primary => match lang {
-            Language::ZhCn => "灰犀牛长期结构风险升级为当前主驱动。".to_string(),
-            Language::EnUs => "Gray Rhino structural risk acts as primary driver." .to_string(),
-            Language::JaJp => "灰犀牛の構造的リスクが主要なドライバーです。".to_string(),
+            Language::ZhCn => "灰犀牛升级".to_string(),
+            Language::EnUs => "Gray Rhino.".to_string(),
+            Language::JaJp => "灰犀牛".to_string(),
         },
         ExplanationRole::Secondary => match lang {
-            Language::ZhCn => "灰犀牛长期结构风险已升级，起到辅助解释作用。".to_string(),
-            Language::EnUs => "Gray Rhino structural risk is escalated and secondary.".to_string(),
-            Language::JaJp => "灰犀牛の長期構造リスクが拡大しており、補助的な説明要因です。".to_string(),
+            Language::ZhCn => "灰犀牛次要".to_string(),
+            Language::EnUs => "Gray Rhino secondary.".to_string(),
+            Language::JaJp => "灰犀牛補助".to_string(),
         },
         ExplanationRole::Ignored => match lang {
-            Language::ZhCn => "灰犀牛属于持续监控的长期结构风险，不作为今天的解释驱动。".to_string(),
-            Language::EnUs => "Gray Rhino remains a monitored structural risk, not a primary driver of today's move.".to_string(),
-            Language::JaJp => "灰犀牛は継続監視される構造的リスクであり、本日の主要な説明要因ではありません。".to_string(),
+            Language::ZhCn => "灰犀牛忽略".to_string(),
+            Language::EnUs => "Gray Rhino ignored.".to_string(),
+            Language::JaJp => "灰犀牛無視".to_string(),
         },
     }
 }
@@ -1061,204 +1053,53 @@ fn flow_component_value(signal: &InterpretationNarrativeSignal, language: Langua
 
 fn compose_interpretation_value(
     signal_context: &crate::features::radar::interface::signal_context_read_model::SignalContextAssessment,
-    signal: &InterpretationNarrativeSignal,
+    _signal: &InterpretationNarrativeSignal,
     language: Language,
 ) -> String {
-    let event_line = match signal_context.information_content {
+    let content_summary = match signal_context.information_content {
         crate::features::radar::interface::presentation::SignalContextInformationContent::High => {
             match language {
-                Language::ZhCn => {
-                    format!(
-                        "今天识别到高信息量宏观事件: {}。",
-                        signal_context.event_fact
-                    )
-                }
-                Language::EnUs => {
-                    format!(
-                        "A high-information macro event was identified today: {}.",
-                        signal_context.event_fact
-                    )
-                }
-                Language::JaJp => {
-                    format!(
-                        "今日は高情報量のマクロイベントが識別された: {}。",
-                        signal_context.event_fact
-                    )
-                }
-            }
-        }
-        crate::features::radar::interface::presentation::SignalContextInformationContent::Medium => match language {
-            Language::ZhCn => {
-                "今天存在中等重要事件，但尚不足以定义为高信息量事件。".to_string()
-            }
-            Language::EnUs => {
-                "Today has a medium-importance event, but it is not yet high-information enough to define the day as a high-information event."
-                    .to_string()
-            }
-            Language::JaJp => {
-                "今日は中重要度のイベントがあるが、まだ高情報量日と定義するほどではない。".to_string()
-            }
-        },
-        crate::features::radar::interface::presentation::SignalContextInformationContent::Low => match language {
-            Language::ZhCn => {
-                "今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。".to_string()
-            }
-            Language::EnUs => {
-                "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events."
-                    .to_string()
-            }
-            Language::JaJp => {
-                "今日は高情報量のマクロイベントは識別されていない。公式経済カレンダーは CPI、FOMC、雇用、GDP などにヒットしていない。".to_string()
-            }
-        },
-        crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => match language {
-            Language::ZhCn => {
-                "官方来源暂时无法确认今天是否存在高信息量事件。".to_string()
-            }
-            Language::EnUs => {
-                "Official sources cannot confirm whether today has a high-information event."
-                    .to_string()
-            }
-            Language::JaJp => {
-                "公式ソースでは今日は高情報量イベントの有無を確認できない。".to_string()
-            }
-        },
-    };
-
-    let trend_line = match signal.trend_state {
-        InterpretationTrendState::Weak => match language {
-            Language::ZhCn => "当前价格主要仍由趋势延续驱动，但扩散力度还不强。".to_string(),
-            Language::EnUs => "Current price action is still mainly driven by trend continuation, although diffusion remains weak."
-                .to_string(),
-            Language::JaJp => "現在の価格は主にトレンド延長で動いているが、拡散力はまだ弱い。".to_string(),
-        },
-        InterpretationTrendState::Stable => match language {
-            Language::ZhCn => "当前价格主要仍由趋势延续驱动。".to_string(),
-            Language::EnUs => "Current price action is still mainly driven by trend continuation.".to_string(),
-            Language::JaJp => "現在の価格は主にトレンド延長で動いている。".to_string(),
-        },
-        InterpretationTrendState::PostRallyConsolidation => match language {
-            Language::ZhCn => "当前价格更接近上升后的整理。".to_string(),
-            Language::EnUs => "Current price action is closer to post-rally consolidation.".to_string(),
-            Language::JaJp => "現在の価格は上昇後の整理に近い。".to_string(),
-        },
-    };
-
-    let expectation_line = match signal.expectation_quality {
-        InterpretationExpectationQuality::High => match language {
-            Language::ZhCn => "市场预期清晰，等待官方结果落地后重新定价。".to_string(),
-            Language::EnUs => "Market expectation is clear, and the market is waiting for the official result before repricing again."
-                .to_string(),
-            Language::JaJp => "市場期待は明確で、公式結果の確定後に再価格付けを待つ局面である。".to_string(),
-        },
-        InterpretationExpectationQuality::Medium => match language {
-            Language::ZhCn => "市场有预期，但粒度较粗或部分信息缺失。".to_string(),
-            Language::EnUs => "The market has an expectation, but the granularity is coarse or partially missing."
-                .to_string(),
-            Language::JaJp => "市場期待はあるが、粒度が粗いか一部情報が欠けている。".to_string(),
-        },
-        InterpretationExpectationQuality::Low => match language {
-            Language::ZhCn => "市场预期较弱或碎片化，结论仍不稳定。".to_string(),
-            Language::EnUs => "Market expectation is weak or fragmented, so the conclusion remains unstable."
-                .to_string(),
-            Language::JaJp => "市場期待は弱いか断片的で、結論はまだ不安定である。".to_string(),
-        },
-        InterpretationExpectationQuality::Unavailable => match language {
-            Language::ZhCn => "预期数据暂时不可用，因此无法把期待变化纳入解释。".to_string(),
-            Language::EnUs => "Expectation data is temporarily unavailable, so expectation change cannot be folded into the explanation."
-                .to_string(),
-            Language::JaJp => "期待データは一時的に利用不可のため、期待変化を説明に織り込めない。".to_string(),
-        },
-    };
-
-    let supply_line = if signal.supply_available {
-        if signal.supply_pressure {
-            match language {
-                Language::ZhCn => "资金流暂未显示明显撤退，供给压力存在但仍可被市场吸收。".to_string(),
-                Language::EnUs => "Flow does not show a clear withdrawal, and supply pressure exists but is still being absorbed by the market."
-                    .to_string(),
-                Language::JaJp => "資金フローは明確な撤退を示しておらず、供給圧力はあるが市場に吸収されつつある。".to_string(),
-            }
-        } else {
-            match language {
-                Language::ZhCn => "资金流暂未显示明显撤退。".to_string(),
-                Language::EnUs => "Flow does not show a clear withdrawal yet.".to_string(),
-                Language::JaJp => "資金フローはまだ明確な撤退を示していない。".to_string(),
-            }
-        }
-    } else {
-        match language {
-            Language::ZhCn => "资金流观测暂时缺失。".to_string(),
-            Language::EnUs => "Flow observation is temporarily missing.".to_string(),
-            Language::JaJp => "資金フロー観測は一時的に欠けている。".to_string(),
-        }
-    };
-
-    let gravity_line = match signal.gravity_data_quality {
-        InterpretationGravityDataQuality::Ready => match language {
-            Language::ZhCn => "供给压力存在，但已被估值信息纳入解释。".to_string(),
-            Language::EnUs => "Supply pressure exists, but valuation information is already included in the explanation."
-                .to_string(),
-            Language::JaJp => "供給圧力はあるが、バリュエーション情報はすでに説明に含まれている。".to_string(),
-        },
-        InterpretationGravityDataQuality::Partial => match language {
-            Language::ZhCn => "估值数据部分可用。当前价格解释包含不完整的估值背景。价格解释置信度降低。".to_string(),
-            Language::EnUs => "Valuation is only partially available. Current price explanation includes incomplete valuation context. Price explanation confidence reduced."
-                .to_string(),
-            Language::JaJp => "バリュエーションデータは一部のみ有効です。現在の価格説明に含まれるバリュエーションのコンテキストは不完全です。価格説明の信頼性は低下しています。".to_string(),
-        },
-        InterpretationGravityDataQuality::Unavailable => match language {
-            Language::ZhCn => "Gravity unavailable. 当前趋势解释排除估值维度。价格解释置信度降低。".to_string(),
-            Language::EnUs => "Gravity unavailable. Current trend interpretation excludes valuation. Price explanation confidence reduced."
-                .to_string(),
-            Language::JaJp => "Gravity unavailable. 現在のトレンド解釈からバリュエーション評価は除外されています。価格説明の信頼性は低下しています。".to_string(),
-        },
-    };
-
-    let closing_line = match signal_context.information_content {
-        crate::features::radar::interface::presentation::SignalContextInformationContent::High => {
-            match language {
-                Language::ZhCn => "整体更接近新的信息重定价，而不是普通整理。".to_string(),
-                Language::EnUs => "Overall this is closer to a new information repricing than to ordinary consolidation."
-                    .to_string(),
-                Language::JaJp => "全体として、これは通常の整理よりも新しい情報再価格付けに近い。".to_string(),
+                Language::ZhCn => "今天为高信息量。".to_string(),
+                Language::EnUs => "High information today.".to_string(),
+                Language::JaJp => "本日は高情報量。".to_string(),
             }
         }
         crate::features::radar::interface::presentation::SignalContextInformationContent::Medium => {
             match language {
-                Language::ZhCn => "整体仍是观察中的中等信息日，后续公布会决定是否升级。".to_string(),
-                Language::EnUs => "Overall this remains a medium-information day under observation, and the next release will decide whether it upgrades."
-                    .to_string(),
-                Language::JaJp => "全体としては観察中の中情報量日であり、次回発表で格上げかどうかが決まる。".to_string(),
+                Language::ZhCn => "今天为中等信息量。".to_string(),
+                Language::EnUs => "Medium information today.".to_string(),
+                Language::JaJp => "本日は中情報量。".to_string(),
             }
         }
         crate::features::radar::interface::presentation::SignalContextInformationContent::Low => {
             match language {
-                Language::ZhCn => "整体更接近正常整理，而非新的风险升级。".to_string(),
-                Language::EnUs => "Overall this looks closer to normal consolidation than to a new risk upgrade."
-                    .to_string(),
-                Language::JaJp => "全体としては新しいリスク上昇より通常の整理に近い。".to_string(),
+                Language::ZhCn => "今天没有重大事件。".to_string(),
+                Language::EnUs => "No major event today.".to_string(),
+                Language::JaJp => "今日は重要イベントなし。".to_string(),
             }
         }
         crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => {
             match language {
-                Language::ZhCn => "整体解释完整性受限，需要等官方来源恢复后再判断。".to_string(),
-                Language::EnUs => "Overall explanation completeness is limited, and judgment should wait until the official source recovers."
-                    .to_string(),
-                Language::JaJp => "全体の説明完全性は制限されており、公式ソースの復旧を待ってから判断すべきである。".to_string(),
+                Language::ZhCn => "信号上下文暂时不可用。".to_string(),
+                Language::EnUs => "Signal context unavailable today.".to_string(),
+                Language::JaJp => "シグナルコンテキストは一時的に利用不可。".to_string(),
             }
         }
     };
 
-    [
-        event_line,
-        trend_line,
-        expectation_line,
-        supply_line,
-        gravity_line,
-        closing_line,
-    ]
-    .join(" ")
+    format!(
+        "{} {}",
+        content_summary,
+        todays_explanation_navigation_text(language)
+    )
+}
+
+fn todays_explanation_navigation_text(language: Language) -> String {
+    match language {
+        Language::ZhCn => "主叙事见 Market Interpretation。".to_string(),
+        Language::EnUs => "See Market Interpretation for the main narrative.".to_string(),
+        Language::JaJp => "主叙事は Market Interpretation を参照。".to_string(),
+    }
 }
 
 fn decision_explanation_values(
@@ -1916,10 +1757,7 @@ mod tests {
         assert!(view_model.flow_value.contains("Flow is neutral"));
         assert!(view_model
             .interpretation_value
-            .contains("no high-information macro event"));
-        assert!(view_model
-            .interpretation_value
-            .contains("trend continuation"));
+            .contains("See Market Interpretation for the main narrative."));
         assert!(view_model
             .decision_explanation_reasons
             .contains(&"突破连续性不足".to_string()));
@@ -2034,12 +1872,12 @@ mod tests {
         let explanation = build_todays_explanation(&signal, &signal_context, Language::EnUs);
         assert!(explanation
             .primary_driver_value
-            .contains("trend continuation"));
-        // Gravity は unavailable なので Ignored Today に入り、かつ valuation is excluded のメッセージを含む
+            .contains("Trend continuation"));
+        // Gravity は unavailable なので Ignored Today に入る
         assert!(explanation
             .ignored_today
             .iter()
-            .any(|s| s.contains("valuation is excluded")));
+            .any(|s| s.contains("Gravity unavailable")));
 
         // 2. macro primary when information content is high
         // マクロ情報が High の時にマクロが Primary になる
@@ -2072,14 +1910,14 @@ mod tests {
         assert!(explanation_high
             .secondary_drivers
             .iter()
-            .any(|s| s.contains("Trend structure is stable but secondary today")));
+            .any(|s| s.contains("Trend stable, secondary.")));
 
         // 3. gravity unavailable moves to ignored_today
         // 重力が不可用の時に Ignored Today に入る
         assert!(explanation
             .ignored_today
             .iter()
-            .any(|s| s.contains("valuation is excluded")));
+            .any(|s| s.contains("Gravity unavailable.")));
 
         // 4. gray_rhino remains ignored_by_default
         // 灰色サイはデフォルトで Ignored Today
@@ -2112,7 +1950,7 @@ mod tests {
         assert!(explanation_escalated
             .secondary_drivers
             .iter()
-            .any(|s| s.contains("Gray Rhino structural risk is escalated")));
+            .any(|s| s.contains("Gray Rhino secondary.")));
 
         // 6. hypothesis excluded from todays_explanation
         // 推測 (Hypothesis) は本日の説明に含まれない
@@ -2147,11 +1985,11 @@ mod tests {
             build_todays_explanation(&signal_supply, &signal_context_supply, Language::EnUs);
         assert!(explanation_supply
             .primary_driver_value
-            .contains("trend continuation"));
+            .contains("Trend continuation"));
         assert!(explanation_supply
             .secondary_drivers
             .iter()
-            .any(|s| s.contains("Supply pressure is relevant but secondary")));
+            .any(|s| s.contains("Supply pressure, secondary.")));
 
         // 8. flow_neutral becomes ignored
         // 資金フローが中立の場合は Ignored Today になる
@@ -2164,6 +2002,6 @@ mod tests {
         assert!(explanation_flow
             .ignored_today
             .iter()
-            .any(|s| s.contains("Flow is neutral")));
+            .any(|s| s.contains("Flow ignored.")));
     }
 }

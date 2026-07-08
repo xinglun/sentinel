@@ -27,6 +27,42 @@ fn report_renders_tsla_fixture_without_trade_signal_keywords() {
 }
 
 #[test]
+fn report_silences_long_term_pending_snapshot() {
+    let mut snapshot = build_expectation_layer_snapshot();
+    snapshot.as_of_date = NaiveDate::from_ymd_opt(2026, 7, 20).unwrap();
+    for observation in &mut snapshot.observations {
+        observation.observed_at = NaiveDate::from_ymd_opt(2026, 7, 1).unwrap();
+    }
+
+    let report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+
+    assert!(report.contains("No expectation updates today."));
+    assert!(report.contains("## Appendix"));
+    assert!(report.contains("TSLA / 2026Q2 / DELIVERY_CONSENSUS"));
+}
+
+#[test]
+fn report_does_not_silence_recent_pending_snapshot() {
+    let mut snapshot = build_expectation_layer_snapshot();
+    snapshot.as_of_date = NaiveDate::from_ymd_opt(2026, 6, 20).unwrap();
+    for observation in &mut snapshot.observations {
+        observation.observed_at = NaiveDate::from_ymd_opt(2026, 6, 19).unwrap();
+    }
+
+    let report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+
+    assert!(!report.contains("No expectation updates today."));
+    assert!(!report.contains("## Appendix"));
+    assert!(report.contains("TSLA / 2026Q2 / DELIVERY_CONSENSUS"));
+}
+
+#[test]
 fn report_renders_expectation_lifecycle_progression() {
     let as_of_date = NaiveDate::from_ymd_opt(2026, 7, 1).unwrap();
     let released_at = NaiveDate::from_ymd_opt(2026, 6, 18).unwrap();

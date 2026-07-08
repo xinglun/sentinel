@@ -38,6 +38,8 @@ pub(crate) fn build_market_interpretation_view_model(
     let primary_values = select_primary_symbols(&pres_packet.top_actions);
     let supporting_values = select_supporting_symbols(&pres_packet.top_actions, &primary_values);
     let weakening_values = select_weakening_symbols(pres_packet);
+    let leadership_consistency =
+        leadership_consistency(&primary_values, &supporting_values, &weakening_values);
 
     let leadership_breadth_value = leadership_breadth(
         trend_breadth_mode,
@@ -50,7 +52,11 @@ pub(crate) fn build_market_interpretation_view_model(
 
     let (breadth_score, concentration_score, rotation_score, concentration_label_text) =
         concentration_scores(trend_breadth_mode, market_cycle_position, language);
-
+    let classification_value = if leadership_consistency.is_valid {
+        concentration_label_text.clone()
+    } else {
+        leadership_unavailable_value(language).to_string()
+    };
     let rotation_type = rotation_type(&RotationTypeInput {
         primary_context,
         trend_breadth_mode,
@@ -82,6 +88,15 @@ pub(crate) fn build_market_interpretation_view_model(
         flow_acceleration,
         language,
     );
+    let narrative_values = market_interpretation_narrative_values(
+        day_type,
+        pres_packet
+            .interpretation_layer
+            .as_ref()
+            .map(|layer| layer.signal_context_next_observation_value.as_str())
+            .unwrap_or_default(),
+        language,
+    );
 
     let interpretation_priority_values = interpretation_priority(&InterpretationPriorityInput {
         trend_confidence: interpretation_layer.trend_confidence_value.as_str(),
@@ -100,6 +115,8 @@ pub(crate) fn build_market_interpretation_view_model(
         notice: market_interpretation_notice(language).to_string(),
         current_decision_weight_label: current_decision_weight_label(language).to_string(),
         current_decision_weight_value: "0%".to_string(),
+        narrative_label: narrative_label(language).to_string(),
+        narrative_values,
         day_type_label: day_type_label(language).to_string(),
         day_type_value: day_type.to_string(),
         day_type_reason_label: day_type_reason_label(language).to_string(),
@@ -114,12 +131,15 @@ pub(crate) fn build_market_interpretation_view_model(
         exceptional_factors_label: exceptional_factors_label(language).to_string(),
         exceptional_factors_values: exceptional_factors,
         leadership_label: leadership_label(language).to_string(),
+        leadership_classification_label: leadership_classification_label(language).to_string(),
+        leadership_classification_value: classification_value,
         primary_label: primary_label(language).to_string(),
         primary_values: primary_values.clone(),
         supporting_label: supporting_label(language).to_string(),
         supporting_values: supporting_values.clone(),
         weakening_label: weakening_label(language).to_string(),
         weakening_values: weakening_values.clone(),
+        leadership_metrics_label: leadership_metrics_label(language).to_string(),
         leadership_breadth_label: leadership_breadth_label(language).to_string(),
         leadership_breadth_value,
         concentration_label: concentration_label_text,
@@ -158,6 +178,88 @@ pub(crate) fn build_market_interpretation_view_model(
         observation_only_value: "true".to_string(),
         boundary: market_interpretation_boundary(language).to_string(),
     })
+}
+
+struct LeadershipConsistency {
+    is_valid: bool,
+}
+
+fn leadership_consistency(
+    primary: &[String],
+    supporting: &[String],
+    weakening: &[String],
+) -> LeadershipConsistency {
+    let has_overlap = !intersection(primary, supporting).is_empty()
+        || !intersection(primary, weakening).is_empty()
+        || !intersection(supporting, weakening).is_empty();
+    LeadershipConsistency {
+        is_valid: !has_overlap,
+    }
+}
+
+fn intersection(left: &[String], right: &[String]) -> Vec<String> {
+    left.iter()
+        .filter(|symbol| right.iter().any(|item| item == *symbol))
+        .cloned()
+        .collect()
+}
+
+fn leadership_unavailable_value(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership unavailable",
+        Language::EnUs => "Leadership unavailable",
+        Language::JaJp => "Leadership unavailable",
+    }
+}
+
+fn leadership_classification_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership Classification",
+        Language::EnUs => "Leadership Classification",
+        Language::JaJp => "Leadership Classification",
+    }
+}
+
+fn leadership_metrics_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership Metrics",
+        Language::EnUs => "Leadership Metrics",
+        Language::JaJp => "Leadership Metrics",
+    }
+}
+
+fn narrative_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Narrative",
+        Language::EnUs => "Narrative",
+        Language::JaJp => "Narrative",
+    }
+}
+
+fn market_interpretation_narrative_values(
+    day_type: &str,
+    next_observation: &str,
+    language: Language,
+) -> Vec<String> {
+    let mut lines = Vec::new();
+    lines.push(match (day_type, language) {
+        ("normal", Language::ZhCn) => "今天是正常趋势延续。".to_string(),
+        ("normal", Language::EnUs) => "Today is a normal trend continuation.".to_string(),
+        ("normal", Language::JaJp) => "今日は通常のトレンド継続です。".to_string(),
+        ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),
+        ("exceptional", Language::EnUs) => "Today is an exception-driven day.".to_string(),
+        ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
+        _ => "Today is a normal trend continuation.".to_string(),
+    });
+    if !next_observation.is_empty() {
+        lines.push(next_observation.to_string());
+    }
+    lines.push(match language {
+        Language::ZhCn => "没有结构性恶化证据。".to_string(),
+        Language::EnUs => "No structural deterioration evidence is visible.".to_string(),
+        Language::JaJp => "構造的悪化の証拠は見えていません。".to_string(),
+    });
+    lines
 }
 
 fn select_primary_symbols(

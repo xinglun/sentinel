@@ -1,0 +1,278 @@
+{
+  "workItemId": "daily_report_explanation_layer_hardening",
+  "contractPath": ".ai/work-items/archive/2026/daily_report_explanation_layer_hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "reason": "本 work item の適用開始に伴い、旧 active work item を撤去した。"
+    },
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "reason": "本 work item の適用開始に伴い、旧 active work item を撤去した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "reason": "日報の説明層再構成 work item の Contract を維持・更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "reason": "本 work item の Summary を現状に更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を Contract / Summary から再生成した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "日次監査の市場解釈スナップショットを説明層向けに再構成した。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Interpretation Layer の長い市場叙事を短い観測摘要へ圧縮し、Today's Explanation のナビゲーション文を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leadership Consistency と叙事レイヤー分離を実装した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "MarketInterpretationViewModel に叙事/分類/metrics と Today's Explanation のナビゲーション文フィールドを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Today's Explanation を単行ナビゲーション式に圧縮し、Market Interpretation へ主叙事を集約した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Today's Explanation の単行ナビゲーション表示と去重回帰を固定するために表示断言を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "イベント時間線を read model に追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "公式カレンダー coverage を時間線ベースの説明へ差し替えた。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "週次スナップショットの説明層表示を新構造へ同期した。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply Layer に説明文を追加した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "PENDING が続く expectation の静默表示を導入した。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_tests.rs",
+      "reason": "Expectation Layer の長期 PENDING 静默と直近 PENDING 非静默の回帰を固定した。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+      "reason": "Gray Rhino の無変化状態を静默化した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "日次監査のスナップショットを新しい説明層の出力に合わせた。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "日次監査のスナップショットを新しい説明層の出力に合わせた。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "日次監査のスナップショットを新しい説明層の出力に合わせた。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_tests.rs",
+    "src/features/research/interface/gray_rhino_assessment_renderer.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily_report_explanation_layer_hardening.contract.json SUMMARY=.ai/work-items/active/daily_report_explanation_layer_hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "UI/快照の回帰は code / test / clippy / Cockpit で確認済み。残余は review での表示境界確認。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "detail": "旧 active work item を archive / cleanup するために削除した。"
+    },
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "detail": "旧 active work item を archive / cleanup するために削除した。"
+    }
+  ],
+  "observedIssues": [
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.contract.json",
+      "detail": "旧 active work item を archive / cleanup するために削除した。",
+      "type": "cleanup"
+    },
+    {
+      "path": ".ai/work-items/active/adopt_upstream_cockpit_pr_guard.summary.json",
+      "detail": "旧 active work item を archive / cleanup するために削除した。",
+      "type": "cleanup"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "新しい日報重構 work item の Contract を確認した。",
+      "contractHash": "0b2cd4e28b1be207",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "編集前に scope と表示経路を確認した。",
+      "contractHash": "0b2cd4e28b1be207",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装後の code / test / clippy を通している。",
+      "contractHash": "0b2cd4e28b1be207",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "make fmt-check / make test / make clippy / Contract / Scope を通過した。",
+      "contractHash": "0b2cd4e28b1be207",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "新しい日報重構 work item の Contract を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "編集前に scope と表示経路を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装後の code / test / clippy を通している。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "make fmt-check / make test / make clippy / Contract / Scope を通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "review_debt",
+      "detail": "Market Interpretation と Today's Explanation の去重や静默境界は、review で最終確認が必要。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Code / test / clippy / Cockpit の required check を通過済み。",
+    "expectedReviewFocus": [
+      "Leadership Consistency",
+      "Market Interpretation と Today's Explanation の重複解消",
+      "静默化した supply / gray rhino / expectation の表示"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_applicable",
+    "reportOutput": "updated",
+    "persistence": "no_persistence",
+    "i18n": "updated",
+    "makeEntrypoints": "unchanged"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [],
+  "knownGaps": [],
+  "overclaimPrevention": "未確認の改善は未確認として扱う。"
+}

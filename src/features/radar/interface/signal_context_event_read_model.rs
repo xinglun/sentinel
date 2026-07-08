@@ -26,12 +26,25 @@ pub(crate) struct SignalContextEventReadModel {
     pub source_successes: usize,
     pub source_failures: usize,
     pub source_diagnostic: Option<String>,
+    pub timeline_entries: Vec<SignalContextTimelineEntry>,
     pub index_reconstitution: SignalContextEventSlot,
     pub etf_rebalance: SignalContextEventSlot,
     pub holiday_liquidity: SignalContextEventSlot,
     pub pre_earnings_waiting: SignalContextEventSlot,
     pub major_event_waiting: SignalContextEventSlot,
     pub macro_event: SignalContextEventSlot,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub(crate) struct SignalContextTimelineEntry {
+    pub event_date: NaiveDate,
+    pub event_name: String,
+    pub event_type: String,
+    pub source: String,
+    pub importance: Option<MacroEventImportance>,
+    pub lifecycle: String,
+    pub summary: String,
+    pub high_information: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -70,6 +83,11 @@ pub(crate) fn build_signal_context_event_read_model(
         .future_calendar
         .map(|calendar| build_future_calendar_slots(calendar, input.as_of_date))
         .unwrap_or_default();
+    let timeline_entries = build_timeline_entries(
+        input.as_of_date,
+        input.expectation_snapshot,
+        input.future_calendar,
+    );
 
     SignalContextEventReadModel {
         source_health: input
@@ -91,12 +109,99 @@ pub(crate) fn build_signal_context_event_read_model(
         source_diagnostic: input
             .future_calendar
             .and_then(|calendar| calendar.diagnostic.clone()),
+        timeline_entries,
         index_reconstitution: future_calendar.index_reconstitution,
         etf_rebalance: future_calendar.etf_rebalance,
         holiday_liquidity: future_calendar.holiday_liquidity,
         pre_earnings_waiting,
         major_event_waiting: future_calendar.major_event_waiting,
         macro_event: future_calendar.macro_event,
+    }
+}
+
+fn build_timeline_entries(
+    as_of_date: NaiveDate,
+    expectation_snapshot: Option<&ExpectationLayerSnapshot>,
+    future_calendar: Option<&MacroEventCalendarReadModel>,
+) -> Vec<SignalContextTimelineEntry> {
+    let mut entries = Vec::new();
+    if let Some(calendar) = future_calendar {
+        for observation in &calendar.observations {
+            if observation.source_health == MacroEventSourceHealth::Unavailable
+                || observation.event_date < as_of_date
+            {
+                continue;
+            }
+            entries.push(SignalContextTimelineEntry {
+                event_date: observation.event_date,
+                event_name: observation.event_name.clone(),
+                event_type: format!("{:?}", observation.event_type),
+                source: observation.source.clone(),
+                importance: Some(observation.importance),
+                lifecycle: format!("{:?}", observation.lifecycle),
+                summary: observation
+                    .expected_value
+                    .as_ref()
+                    .map(|value| format!("{} / {}", observation.event_name, value))
+                    .unwrap_or_else(|| observation.event_name.clone()),
+                high_information: matches!(
+                    observation.importance,
+                    MacroEventImportance::High | MacroEventImportance::Critical
+                ) && matches!(
+                    observation.information_content,
+                    MacroEventInformationContent::High | MacroEventInformationContent::Medium
+                ),
+            });
+        }
+    }
+
+    if let Some(snapshot) = expectation_snapshot {
+        for observation in &snapshot.observations {
+            if observation.lifecycle_state != ExpectationLifecycleState::Pending {
+                continue;
+            }
+            if !is_near_term_pending_observation(observation.period.as_str(), as_of_date) {
+                continue;
+            }
+            let Some(event_date) = parse_period_date(observation.period.as_str()) else {
+                continue;
+            };
+            entries.push(SignalContextTimelineEntry {
+                event_date,
+                event_name: observation.subject.clone(),
+                event_type: format!("{:?}", observation.event_type),
+                source: observation.consensus_source.clone(),
+                importance: None,
+                lifecycle: format!("{:?}", observation.lifecycle_state),
+                summary: format!(
+                    "{} - {}",
+                    expectation_timeline_label(&observation.event_type),
+                    observation.subject
+                ),
+                high_information: true,
+            });
+        }
+    }
+
+    entries.sort_by(|a, b| {
+        a.event_date
+            .cmp(&b.event_date)
+            .then_with(|| a.summary.cmp(&b.summary))
+    });
+    entries
+}
+
+fn expectation_timeline_label(event_type: &ExpectationEventType) -> &'static str {
+    match event_type {
+        ExpectationEventType::DeliveryConsensus => "Delivery",
+        ExpectationEventType::EarningsConsensus => "Earnings",
+        ExpectationEventType::RevenueConsensus => "Revenue",
+        ExpectationEventType::MarginConsensus => "Margin",
+        ExpectationEventType::CloudGrowthConsensus => "Cloud",
+        ExpectationEventType::CapexConsensus => "Capex",
+        ExpectationEventType::ProductEventExpectation => "Product Event",
+        ExpectationEventType::UserGrowthConsensus => "User Growth",
+        ExpectationEventType::ProcedureGrowthConsensus => "Procedure Growth",
     }
 }
 
