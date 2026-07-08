@@ -1,0 +1,131 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai_pr_guard_merge_diff_tolerance",
+  "mode": "code",
+  "title": "PR archive guard の merge 同期耐性を改善する",
+  "baseCommit": "093a26f38d2a738575f61a92ef442e8f45167b69",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR archive guard が merge commit の diff を過度に厳しく扱い、無関係な active 削除と archive 追加が混在すると誤って失敗する。",
+  "intent": {
+    "problem": "PR archive guard の配対判定を merge 同期の実運用に合わせて緩和する。",
+    "constraints": [
+      "archive bundle 自体の整合性検証は維持する。",
+      "既存の active / archive の append-only 性を壊さない。",
+      "業務コードは変更しない。"
+    ],
+    "rationale": "main 同期の merge commit では、active 削除と archive 追加が同一ペアとして現れない場合があり、現在の guard が CI を誤検知している。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json",
+    ".ai/work-items/active/ai_pr_guard_merge_diff_tolerance.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_test_pr_check.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "Makefile",
+    ".github/workflows/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR archive guard の現行実装を修正するため。"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "reason": "PR archive guard の回帰テストを更新するため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "PR archive guard の厳しさを下げるため、archive bundle の保全性を落とさないことを回帰テストで担保する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / acceptance / verification が確定し、実装可能。"
+  },
+  "preReviewWarnings": [
+    "merge commit 由来の archive bundle と unrelated active delete を区別できているか review で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "merge commit の diff に無関係な active 削除が混ざっても、valid な archive bundle が誤検知で失敗しない。",
+    "archive bundle の contract / summary 整合性と append-only 性は維持される。",
+    "PR archive guard の回帰テストが追加される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-pr-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json SUMMARY=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=f538558842334cd2cd1a8fc3802e91065787c51a",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.summary.json CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json SUMMARY=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.contract.json SUMMARY=.ai/work-items/active/ai_pr_guard_merge_diff_tolerance.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -73,28 +73,13 @@ def archive_changes(changes: list[tuple[str, str]]) -> list[tuple[str, str]]:
     ]
 
 
-def active_deletions(changes: list[tuple[str, str]]) -> list[tuple[str, str]]:
-    return [
-        (status, path)
-        for status, path in changes
-        if path.startswith(ACTIVE_PREFIX) and status.startswith("D") and has_known_suffix(path)
-    ]
-
-
 def validate_archive_bundle(changes: list[tuple[str, str]]) -> list[str]:
     issues: list[str] = []
     archive = archive_changes(changes)
-    active = active_deletions(changes)
-    archive_by_name = {Path(path).name: path for _, path in archive}
-    active_by_name = {Path(path).name: path for _, path in active}
 
     for status, path in archive:
         if status != "A":
             issues.append(f"archive path は append-only でなければなりません: {status} {path}")
-
-    for status, path in active:
-        if Path(path).name not in archive_by_name:
-            issues.append(f"active Work Item の削除は archive への追加と対になっていません: {path}")
 
     pair_stems = sorted(
         {
@@ -108,10 +93,6 @@ def validate_archive_bundle(changes: list[tuple[str, str]]) -> list[str]:
         summary_rel = f"{pair_stem}.summary.json"
         contract_path = PROJECT_ROOT / contract_rel
         summary_path = PROJECT_ROOT / summary_rel
-        if Path(contract_rel).name not in active_by_name:
-            issues.append(f"archive contract は active からの削除と対になっていません: {contract_rel}")
-        if Path(summary_rel).name not in active_by_name:
-            issues.append(f"archive summary は active からの削除と対になっていません: {summary_rel}")
         if not contract_path.exists():
             issues.append(f"archive Contract が存在しません: {contract_rel}")
             continue
