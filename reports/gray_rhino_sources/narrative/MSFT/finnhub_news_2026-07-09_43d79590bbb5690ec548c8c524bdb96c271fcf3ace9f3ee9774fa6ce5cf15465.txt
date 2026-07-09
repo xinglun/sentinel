@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Roth Advantage Most VUG Investors Overlook
+  summary: Most investors focus on VUG's tiny dividend yield and assume the tax math barely matters inside a Roth. The real exposure sits somewhere else entirely, and it compounds every year the fund advances.
+  url: https://finnhub.io/api/news?id=4eda9a113efe92e5b58ce4f007d11f91265a0ee524d6a6770634a6f81b3b0aba

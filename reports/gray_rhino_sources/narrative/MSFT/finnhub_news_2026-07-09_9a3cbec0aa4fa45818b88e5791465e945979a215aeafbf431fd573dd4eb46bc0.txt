@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI’s Altman navigates ’headwinds’ of compute costs and teases model gains
+  summary: Investing.com -- OpenAI CEO Sam Altman acknowledged on Thursday that the soaring costs of compute and memory are throwing a wrench into the AI giant’s rapid expansion, labeling the financial strain "definitely a headwind." Speaking in an interview with CNBC, Altman addressed the mounting infrastructure costs required to keep OpenAI at the frontier of generative AI. However, he balanced the financial reality check with a massive efficiency breakthrough: the company’s newest AI model boasts a 54%
+  url: https://finnhub.io/api/news?id=cfbc47ed8372e561c449ac18a7b50fde29c40629070f0c712d7049cb7f874be5

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK hynix Goes Public Tomorrow. Should You Buy at $149?
+  summary: Artificial intelligence has turned memory chips into one of the most valuable pieces of the semiconductor supply chain. Nvidia‘s (NASDAQ:NVDA) AI accelerators grab the headlines, but high-bandwidth memory (HBM) has quietly become just as essential because advanced AI chips can’t deliver peak performance without it. Until now, U.S. investors looking to capitalize on that trend ... SK hynix Goes Public Tomorrow. Should You Buy at $149?
+  url: https://finnhub.io/api/news?id=9bdf28c6717d654ea00d926f4ffa8f62b8d903686c1fdc8cd08dd396386399e4

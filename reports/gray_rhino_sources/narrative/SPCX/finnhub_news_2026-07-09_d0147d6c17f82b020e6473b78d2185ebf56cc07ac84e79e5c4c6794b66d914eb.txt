@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gene Munster Says SpaceX Is the Only Sovereign AI Company and Should Be a "Core Tech Holding." Time to Buy While It's Below $150?
+  summary: SpaceX is building an ecosystem that no other company can copy.
+  url: https://finnhub.io/api/news?id=b0dbca728dc5178cdbc331d47da76a9191b7e3edfbc188f0c7b172bd7c542e87

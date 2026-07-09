@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla stock gets a surprising SpaceX reset
+  summary: Tesla’s (TSLA) fresh bull case lands at a strange moment for the stock. Investors were anxiously waiting for a demand reset after concerns of some major EV competition, sluggish margins, and lackluster growth. However, in a surprise turn of events, Tesla then beat Q2 delivery estimates by a ...
+  url: https://finnhub.io/api/news?id=4218cc4829089383366cdef16c87e7500f172a81574afa238a1869774881f50a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Has ‘Immense’ AI Potential. Why You Shouldn’t Buy It.
+  summary: Tesla  stock isn’t a buy right now, for one analyst, despite “immense” potential for AI to transform the company.  Citizens analyst Andrew Boone launched coverage of Tesla stock with a Hold rating and no price target, according to ratings aggregators.
+  url: https://finnhub.io/api/news?id=4384df273cab7eb7ba1baf2b8b8741eebc22b2990d07ac07cf5510c0d8618cdc

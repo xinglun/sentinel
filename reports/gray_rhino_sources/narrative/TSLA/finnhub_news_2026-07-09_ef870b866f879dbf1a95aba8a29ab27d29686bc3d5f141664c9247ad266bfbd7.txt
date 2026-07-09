@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Tesla's Valuation Is So 'Stretched' That Most Institutional Investors Won't Touch the Stock— and FSD Isn't Helping
+  summary: Tesla&#39;s stretched valuation and declining earnings estimates explain why institutional investors avoid the stock, says Gary Black.
+  url: https://finnhub.io/api/news?id=4900cc966392826454a77dbefc6980e077c3439736c97436333ca32ccc7743cb

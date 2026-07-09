@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 'Magnificent 7' stocks are trading at their cheapest valuation in more than a decade
+  summary: It's a rarity to see the “Magnificent Seven” tech stocks this cheap.
+  url: https://finnhub.io/api/news?id=afe2c05e2a38e93097977fe26407cf4c73f0a3e3cd4095b78bd45d03b39d3b9d

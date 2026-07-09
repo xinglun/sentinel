@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Some Good and Bad News for Tesla Investors
+  summary: Tesla investors will need to be patient with the robotaxi rollout, but better-than-expected deliveries are bolstering the investment case for the stock.
+  url: https://finnhub.io/api/news?id=f92c12e3e3992badb7e1a6ebfe7742947ce3a52db5b528f52112e8194ee03a50

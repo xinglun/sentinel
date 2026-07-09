@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starbucks Develops AI Software to Reduce Reliance on Microsoft and IBM, Report Says (SBUX)
+  summary: Starbucks Expands Internal AI DevelopmentStarbucks Corp. (NASDAQ:SBUX) is reportedly developing artificial intelligence-powered software that could replace several enterprise applications currently supplied by Microsoft Corp.
+  url: https://finnhub.io/api/news?id=14bd8d4b5fcfeef4734a69daa905ef9c7a2e5b82d8be1783fe31bd380a8bd036

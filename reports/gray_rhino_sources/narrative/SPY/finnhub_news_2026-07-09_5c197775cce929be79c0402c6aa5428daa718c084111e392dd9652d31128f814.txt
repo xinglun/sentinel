@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is Warning of a Market Snapback. For a 73-Year-Old, an RMD Locked to Last Year’s Balance Could Force a Sale at the Bottom.
+  summary: Picture a 73-year-old retiree who watched his IRA swell through 2025 and into this year. The S&P 500 is up about 9% year to date through July 6, and it has gained approximately 20.5% over the past year. He’s comfortable. Then, in early July, Bank of America (NYSE:BAC) warned the market could suffer a “snapback” ... Wall Street Is Warning of a Market Snapback. For a 73-Year-Old, an RMD Locked to Last Year’s Balance Could Force a Sale at the Bottom.
+  url: https://finnhub.io/api/news?id=cf3dbe424da909d21b457bb18062f48bb7ab5539cb55c56c217c23da45ae0b6e

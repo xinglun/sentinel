@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CME Group Is Launching Elon Musk's Tesla and SpaceX Futures Contracts on July 27. Here's the Investment Case.
+  summary: They're not really an investment in and of themselves, but they can certainly help you manage a more traditional position in either stock.
+  url: https://finnhub.io/api/news?id=60b40e82e18259dceda7f464f0a3d8fbd111198f064e2d65478ce4f0bceead4f

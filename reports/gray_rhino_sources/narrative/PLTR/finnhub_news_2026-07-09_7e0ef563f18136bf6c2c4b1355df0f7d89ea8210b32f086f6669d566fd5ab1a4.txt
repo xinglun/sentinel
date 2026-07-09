@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir partnership fails to save Rackspace stock after brutal guidance slash
+  summary: Investing.com -- A major AI team-up wasn’t enough to cushion the blow for Rackspace Technology (NASDAQ:RXT). Shares plummeted over 10% Thursday after the cloud operator severely dialed back its fiscal 2026 revenue projections, completely overshadowing a high-profile strategic partnership with Palantir Technologies (NASDAQ:PLTR) announced earlier in the day. The San Antonio-based enterprise AI infrastructure provider aggressively trimmed its fiscal 2026 revenue guidance to a range of $2.45 billio
+  url: https://finnhub.io/api/news?id=1475be7d0a922d495ac7b3f764bd85357aa8ff4e0c5c31ebaa8937d916f01396

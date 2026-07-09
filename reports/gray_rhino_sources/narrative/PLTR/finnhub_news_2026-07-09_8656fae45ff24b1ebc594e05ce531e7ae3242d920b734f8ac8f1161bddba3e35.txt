@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: MilTech Cash Printer Overshadowed By AI Infrastructure
+  summary: Palantir is supported by elite growth prospects in AI-driven defense and enterprise software, despite recent share price weakness. Learn why PLTR stock is a buy.
+  url: https://finnhub.io/api/news?id=3eb71e5f72f2242cbd57f91634115a9e21386673c70175242ff06a2b0e7a91fb

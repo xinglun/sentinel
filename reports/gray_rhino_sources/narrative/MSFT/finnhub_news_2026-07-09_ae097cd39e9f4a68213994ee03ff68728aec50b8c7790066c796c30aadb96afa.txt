@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq green but Dow drops as chips find favor again
+  summary: Investors weighed fresh developments in the Middle East against signs that chip stocks could extend their recent rally
+  url: https://finnhub.io/api/news?id=4d9cf5bcce47b6d85b219ec567ad62044bb325aac168f582897ef8f969785e43

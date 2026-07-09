@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Wins Approval for SEC Settlement
+  summary: Judge approves deal despite sharp public misgivings
+  url: https://finnhub.io/api/news?id=699b43d5f5444a10b4e8768a1f3041a6662042759418f17167f56a7adaabda90

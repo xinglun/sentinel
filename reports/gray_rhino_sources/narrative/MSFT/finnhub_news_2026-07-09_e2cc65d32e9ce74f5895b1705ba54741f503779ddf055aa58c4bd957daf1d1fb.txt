@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Multi-Cloud Security Market Projected to Reach $104.04 Billion by 2035 | SNS Insider
+  summary: The U.S. multi-cloud security market is expected to reach $8.99 billion by 2035, while Europe is projected to hit $12.96 billion, driven by GDPR compliance, zero trust security strategies, sovereign cloud initiatives, and rising enterprise adoption of AWS, Microsoft Azure, and Google Cloud.Austin, July 09, 2026 (GLOBE NEWSWIRE) -- The Multi-Cloud Security Market was valued at USD 12.20 Billion in 2025 and is expected to reach USD 104.04 Billion by 2035, growing at a CAGR of 23.9% over the foreca
+  url: https://finnhub.io/api/news?id=46bed0365374c8cc8f1c2fcbba6af11b516baebee1b088c6a85ebc5fb8ad367e

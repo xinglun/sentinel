@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir says UK police contract wrongly blocked over perceived 'values'
+  summary: U.S. tech firm Palantir is challenging a decision to block a contract with London police, arguing on Thursday that ‌London mayor Sadiq Khan's office wrongly took into account the company's "values ‌and ethics".  Palantir had agreed a two-year, £50 million ($67.06 million) contract with the Metropolitan Police to use its ​artificial intelligence systems to automate certain tasks and for evidence analysis in criminal investigations.  But the mayor's office refused to approve the deal, telling the Met Police in May that the force had failed to have an open competition for the contract.
+  url: https://finnhub.io/api/news?id=53cc6739850c171d418d54ab74768560d0510d2546f1d424975bebe012e93c52

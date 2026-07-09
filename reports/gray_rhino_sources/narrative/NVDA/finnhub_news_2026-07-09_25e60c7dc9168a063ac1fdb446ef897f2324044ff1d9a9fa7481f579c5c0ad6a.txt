@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Hasn’t Repurchased a Single Share in 4 Years. That’s Exactly Why You Should
+  summary: For much of the past decade, Wall Street rewarded companies that funneled excess cash into stock buybacks. That playbook is changing. The world’s largest technology companies are now directing hundreds of billions of dollars toward artificial intelligence infrastructure instead of repurchasing shares. At first glance, that has disappointed investors looking for immediate capital returns. Yet ... Amazon Hasn’t Repurchased a Single Share in 4 Years. That’s Exactly Why You Should
+  url: https://finnhub.io/api/news?id=b6f6b293d93000d4ea8e78dc1c167d861633199a6cd951d54a2d8fa513d42c99

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Bets Bigger on Fallout Franchise
+  summary: Obsidian shift follows layoffs and project cancellations
+  url: https://finnhub.io/api/news?id=cc13d0b30cd079c6f01ecdbc88c9296ff4dca5ef1d9eae06e53d2d306c0c1f3c

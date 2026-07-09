@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broad Market Gains Offset Big Tech Weakness
+  summary: The S&P 500 was up 0.3%, while the Nasdaq was up 0.2%, and the Dow gained 0.2%.  The S&P 500 Equal Weight Index was up 0.6%, with 316 of the S&P 500’s components in the green.  The broad rally helped offset weakness in the largest names by market capitalization.
+  url: https://finnhub.io/api/news?id=ae64465ea60f3757b4c0f36e3466987872f1bb10bf5d6d977122e905bda0f1bf

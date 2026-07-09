@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Sandisk Stock Popped Again Today
+  summary: Sandisk just scored a huge contract win with Meta -- reportedly.
+  url: https://finnhub.io/api/news?id=93c43ffb44aecbfdd804d5fdda94ae7752ba7fca17852848cc585e9fa7c0d2f0

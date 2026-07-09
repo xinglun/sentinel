@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Stock Battles 200-Day Moving Average: Is the BofA Buy Rating Enough?
+  summary: Figma shares are trading lower Wednesday as risk appetite cools and traders digest a recent bullish analyst reset.
+  url: https://finnhub.io/api/news?id=97dd98958fbccbe36a798d91b69aa4573c313d27f9a1938c4e7c23f80754cd24

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Nebius: “The Stock’s Been a Juggernaut”
+  summary: Nebius Group N.V. (NASDAQ:NBIS) was among Jim Cramer’s stock calls on Mad Money, as he highlighted the AI opportunities in neoclouds. Cramer highlighted the company’s deals with the mega-cap companies, as he commented: Next up is Nebius. It also has the Jensen Huang seal of approval, as NVIDIA took a $2 billion stake in this […]
+  url: https://finnhub.io/api/news?id=90e5ba225bb51deb0d7391b50827ae8f34fafb9b9d5bf17195ea443a8fe9bfdf

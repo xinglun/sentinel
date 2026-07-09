@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Highlights Meta Entering the Neocloud Business
+  summary: Meta Platforms, Inc. (NASDAQ:META) was among Jim Cramer’s stock calls on Mad Money, as he highlighted the AI opportunities in neoclouds. Cramer highlighted the company’s entry into the neocloud space, as he remarked: Last week, we learned that Meta Platforms might pivot some of its AI business and join the ranks of the neoclouds. These […]
+  url: https://finnhub.io/api/news?id=fbafed9045020bf2be2a74357ec171b247562ab1b04dc8e6d3127732f8c35ee9

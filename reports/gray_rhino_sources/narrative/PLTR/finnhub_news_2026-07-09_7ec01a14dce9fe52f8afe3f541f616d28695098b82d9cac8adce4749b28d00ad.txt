@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Brief: SpaceX -6% On Index Day - Wall St Shouts Buy, Your Pension Fund Is Forced In
+  summary: Wall St 19 analysts issued near-unanimous buy ratings, with targets as high as $800. Read more here.
+  url: https://finnhub.io/api/news?id=5c5faa910f72f8b371e706cd3672f32ddb2bb765cecddc0874b07d14c06eb75f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $1,000 Invested in Tesla 10 Years Ago Is Worth Over $27,000 Today. Can SpaceX Follow That Same Path Over the Next Decade?
+  summary: SpaceX would likely need to deliver on long-term ambitions for it to happen.
+  url: https://finnhub.io/api/news?id=3678e682c6393158718122d16cb2247f0e3798199acd089acb726a2c5b8ce51a

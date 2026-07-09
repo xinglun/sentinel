@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If the "Magnificent Seven" Were Recreated, Here's What Stocks I'd Include (Hint: Not SpaceX)
+  summary: The Magnificent Seven would become more AI-centric in this changeout.
+  url: https://finnhub.io/api/news?id=54c17d8278e6522c7bdedb0c82c9aafac062d23c53b3a22704e7dc99d7c57f9d

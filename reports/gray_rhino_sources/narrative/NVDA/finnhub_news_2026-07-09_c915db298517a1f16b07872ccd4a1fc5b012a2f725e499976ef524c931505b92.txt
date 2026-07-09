@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Infra Summit: the world's only full-stack AI Infrastructure conference shares expanded speaker list
+  summary: AI Infra Summit, the world's only full-stack AI Infrastructure conference, has expanded its roster of speakers to over 400. The conference will feature senior speakers from world-leading AI pioneers, as they set out their AI Roadmaps for 2027 and beyond. These now include Google, Meta, Amazon, Intel, NVIDIA, US Bank, Oracle, HPE, Liquid AI, Digital Realty, Agility Robotics and Philips.
+  url: https://finnhub.io/api/news?id=bd30be79f53c7e89fe88f47ea0936e09ca7a41037725da3125899741aec0853a

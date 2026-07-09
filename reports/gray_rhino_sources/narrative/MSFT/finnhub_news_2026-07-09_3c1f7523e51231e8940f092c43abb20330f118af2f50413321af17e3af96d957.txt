@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Falls as a Coffee Chain Decides to Build Its Own Software
+  summary: Starbucks' plan to replace IBM and Microsoft tools with in-house AI highlights
+  url: https://finnhub.io/api/news?id=eed8b7695bce2e622e0b73cdef690fe593fec2a23089575faaec55fca45acb76

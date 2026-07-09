@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Vs. Microsoft: What Amazon’s $25 Billion Bond Tranche Says About Mag 7 Competition
+  summary: Amazon (NASDAQ:AMZN) and Microsoft (NASDAQ:MSFT) both filed earnings on April 29, 2026, framing two different bets on the AI buildout. Amazon leans on custom silicon and, per a $25 billion multi-tranche bond sale, to fund infrastructure. Microsoft leans on its OpenAI stake and contracted backlog. Same tailwind, different balance sheets. AWS Reaccelerates While Azure Sprints ... Amazon Vs. Microsoft: What Amazon’s $25 Billion Bond Tranche Says About Mag 7 Competition
+  url: https://finnhub.io/api/news?id=10de4ef56fa2e3d9aa98d05d8a1b84270e66a1adbabb321b64bc1eaca65184fa

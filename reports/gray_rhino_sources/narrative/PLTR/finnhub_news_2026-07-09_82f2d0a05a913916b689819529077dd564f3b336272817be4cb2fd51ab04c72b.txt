@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Technology Sees Wider Q2 Adjusted Loss, Lower Revenue; Shares Down
+  summary: Rackspace Technology (RXT) said Thursday that it expects a Q2 adjusted loss of between $0.11 and $0.
+  url: https://finnhub.io/api/news?id=cdbb480f5ca6a5741baa8933b09727150ea469386f8db1646c1cefa8cf09a464

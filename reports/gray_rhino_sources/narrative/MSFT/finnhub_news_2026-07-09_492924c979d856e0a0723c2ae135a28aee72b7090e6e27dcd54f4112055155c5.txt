@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Highlights Future Earnings Projections that Make Oracle Look Cheap
+  summary: Oracle Corporation (NYSE:ORCL) was among Jim Cramer’s stock calls on Mad Money, as he highlighted the AI opportunities in neoclouds. Cramer highlighted the future valuation of the company according to some analysts, as he said: The business is now getting crowded, which is why tonight I want to explain the differences between the major neocloud […]
+  url: https://finnhub.io/api/news?id=81c7bd3202913d5282a296a3fe42b839e8d7c642d6df73075a36b79546a9724f

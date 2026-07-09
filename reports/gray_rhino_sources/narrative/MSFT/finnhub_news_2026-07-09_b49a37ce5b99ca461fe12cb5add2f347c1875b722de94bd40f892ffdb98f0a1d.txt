@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1Kosmos Recognized by Microsoft as Entra Verified ID Partner for Delivering Secure Remote Onboarding and Enhanced Digital Trust
+  summary: Integration Empowers Organizations with Seamless, Fraud-Resistant Identity Verification and Authentication Across All EnvironmentsISELIN, N.J., July 09, 2026 (GLOBE NEWSWIRE) -- 1Kosmos, a leader in unifying identity proofing and passwordless authentication, today announced it has extended its existing partnership with Microsoft (Nasdaq: MSFT) as an official Entra Verified ID services and solution partner. This collaboration enables organizations to secure remote onboarding and establish enhance
+  url: https://finnhub.io/api/news?id=a894dbebd635effdcee4ec96bd158ee966f27069e1aa2ac882384c75c564fde6

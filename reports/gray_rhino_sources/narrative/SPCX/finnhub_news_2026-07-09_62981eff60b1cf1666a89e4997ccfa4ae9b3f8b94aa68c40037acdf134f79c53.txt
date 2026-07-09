@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK hynix: From near-collapse to a $1 trillion valuation and a Nasdaq listing
+  summary: SK hynix, the South Korean chipmaker whose memory chips power AI data centres around the world, lists on the Nasdaq this week in one of the largest share sales in history, capping a journey from near-bankruptcy to a trillion-dollar valuation.View on euronews
+  url: https://finnhub.io/api/news?id=9211d8ce8aad17f7ebbaa91a5577c0969fe98c3e860f6a05cbca44781e8ab363

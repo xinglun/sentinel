@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market Marked ZM Down. The Numbers Push Back
+  summary: After a steep fall from its pandemic highs, the market has left Zoom for dead, but the company's vital signs tell a different story.
+  url: https://finnhub.io/api/news?id=e3f5695bd66c229d519db424170231ff21d07290d7bd7e80c92f0657598880e0

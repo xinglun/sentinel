@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD’s $300 Billion Ambition Is Putting Pressure on Rivals
+  summary: Six gigawatts. That is the total AMD Instinct GPU capacity AMD (NASDAQ:AMD) will deploy for Meta under a partnership disclosed alongside its most recent earnings, with the first 1-gigawatt tranche powered by a custom MI450-based GPU. For scale reference, one gigawatt is roughly the output of a large nuclear reactor. Meta is committing to power-plant-scale ... AMD’s $300 Billion Ambition Is Putting Pressure on Rivals
+  url: https://finnhub.io/api/news?id=d3bb1cfca101b20447c7ad06ec5143e5364387eac9fcfc380f7d76639698fa5b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citi’s CIO survey shows Microsoft remains the top AI vendor
+  summary: Investing.com -- Citi's second-quarter 2026 survey of 100 IT decision makers found Microsoft remained the top vendor CIOs are considering increasing spend with for artificial intelligence, followed by Amazon and Google.
+  url: https://finnhub.io/api/news?id=4f6692b4ec83cc102fdeb3adfa8983bb0291dc514f758680342bc83acf6906b5

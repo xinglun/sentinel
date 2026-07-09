@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Brief: SPCX -6% On Index Day - Wall St Shouts Buy, Your Pension Fund Is Forced In
+  summary: Wall St 19 analysts issued near-unanimous buy ratings, with targets as high as $800. Read more here.
+  url: https://finnhub.io/api/news?id=4d91672b2ea7536ed086132cbc0bdb1e9a87901c6bcd5db833e4f85a79296ac8

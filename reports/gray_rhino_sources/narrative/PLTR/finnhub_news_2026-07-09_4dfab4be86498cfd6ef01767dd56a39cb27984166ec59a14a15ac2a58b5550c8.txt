@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Plunged 34% in the First Half of 2026 and Why the Worst Might Be Over
+  summary: The data mining and AI specialist continues to generate results that defy the critics.
+  url: https://finnhub.io/api/news?id=191b6332d64edad31d04e0dbdcfa6b945c5f852fbef63043cfc8d637a1a607ef

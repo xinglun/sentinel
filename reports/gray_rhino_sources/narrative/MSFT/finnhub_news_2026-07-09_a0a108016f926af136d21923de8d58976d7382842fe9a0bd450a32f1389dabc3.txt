@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Platforms To Build $9 Billion A.I. Data Centre In Canada
+  summary: U.S. Technology giant Meta Platforms (NASDAQ: $META) is planning to build its first artificial intelligence (A.I.) ...
+  url: https://finnhub.io/api/news?id=e03b25ef7474d06e2f48f206c75774c8a45942c438a37bb92c120506a1af5c48

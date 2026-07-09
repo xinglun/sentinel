@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Shares Slide on Fears Democrats Could Target Government Contracts
+  summary: Palantir stock fell as a report flagged Democratic efforts to target its government contracts, ending a seven-day rally.
+  url: https://finnhub.io/api/news?id=de504c57595f077efb0a95aa1998cd5fda458152a9968449e6fac2f8de39eedf

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apollo’s $35 Billion AI Chip Credit Deal Is Set to Begin Trading
+  summary: (Bloomberg) -- More money managers and dealers are about to get their hands on pieces of the largest private credit deal on record — when a chunk of a $35 billion financing package for Broadcom Inc. and Anthropic PBC’s AI infrastructure expansion begins trading.Most Read from BloombergMicrosoft’s Xbox to Shift Obsidian Studio to New ‘Fallout’ Video GameNvidia’s $1 Trillion Slide Sends Valuation to Pre-AI Boom LevelsTrump Vents Anger With Iran and Warns Ceasefire May Be ‘Over’US Military Launches
+  url: https://finnhub.io/api/news?id=5b9f112a4dcfc8f8d274ea31991d775366489f2265fbc14bcffe93c33833ea32

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Just Bought $27 Million of SpaceX. Calling the Bottom or Catching a Falling Knife?
+  summary: SpaceX‘s (NASDAQ:SPCX) blockbuster public debut generated exactly the kind of excitement investors expected from Elon Musk’s latest venture. After pricing its IPO at $135 per share and opening at $150, the stock briefly climbed to $225 as demand overwhelmed supply. That early enthusiasm has cooled. The premier space stock closed yesterday at $148.30, below its ... Cathie Wood Just Bought $27 Million of SpaceX. Calling the Bottom or Catching a Falling Knife?
+  url: https://finnhub.io/api/news?id=eaed413a8865f2e4c437d958a54342ad78baac47708724cd562ab0eecdcc84d6

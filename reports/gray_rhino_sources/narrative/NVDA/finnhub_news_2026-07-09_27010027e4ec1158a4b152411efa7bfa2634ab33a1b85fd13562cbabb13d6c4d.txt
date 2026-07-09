@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Nebius Group (NBIS) Using Saturn Cloud To Quietly Redefine Its AI Moat?
+  summary: In recent days, Saturn Cloud Inc. announced that its AI token factory platform is now available for self-service deployment in the Nebius marketplace, enabling Nebius customers to deploy Saturn Cloud on Nebius’s NVIDIA infrastructure with managed fine-tuning, OpenAI-compatible endpoints, and enterprise-grade security features. This deeper integration extends Nebius’s AI Cloud ecosystem beyond raw compute into higher-value software workflows, potentially strengthening its appeal to...
+  url: https://finnhub.io/api/news?id=918ee1dc2852a65e5ab5acca095bfb329d78c8a00b0218624f96374ed2d3a0fa

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Cloud Computing Stocks to Buy Before Earnings Season in July
+  summary: July is shaping up to be the pivotal month for cloud computing investors in 2026. All three of the companies below report late-July results with their cloud franchises accelerating, not decelerating, into the print. Enterprise AI workloads are still running ahead of supply, hyperscaler backlogs are ballooning, and the market has already begun to sort ... 3 Cloud Computing Stocks to Buy Before Earnings Season in July
+  url: https://finnhub.io/api/news?id=27c075f0f4f4c3e45c0e9181279fbc7f3a521348ae739a437f51f89cdae7750e

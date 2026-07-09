@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Dropped 34% From Its High. This Trade Pays You to Bet It Stays There.
+  summary: Learn how a bear call spread could help traders profit if SpaceX stays below key levels as IPO hype cools and volatility falls.
+  url: https://finnhub.io/api/news?id=d9fb051aeda907da2048bfe4e915c65d1103c685be04ea88700e31c9e2bc714f

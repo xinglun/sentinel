@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Fund Adjusted Its Portfolio Weightage in Alphabet (GOOG). Here’s Why
+  summary: ClearBridge Investments, a global equity manager, recently published second-quarter 2026 commentary for its “Large Cap Growth Strategy”. A copy of the letter can be downloaded here. Equity markets experienced a significant rally in the second quarter, fueled by robust earnings and increasing optimism regarding easing geopolitical tensions. The S&P 500 Index climbed 15.2% during this period, […]
+  url: https://finnhub.io/api/news?id=6f1fdae3e3fcebb440cd26ffaa7ba81dc03f9b8a78045c4119bd21c879fa4983

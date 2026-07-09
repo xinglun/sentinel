@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla's "Immense" Opportunity In AI Will Disappoint Investors … For Now
+  summary: Despite the excitement around Tesla's robotaxis and Optimus robots, investors will be disappointed in the short-term, this analyst argues.
+  url: https://finnhub.io/api/news?id=64007b0b201b780cba2e72eee249ea5c8672df61aeda07e620b5bba28688f488

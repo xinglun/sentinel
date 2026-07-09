@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic, OpenAI, and SpaceX are bigger than the last 25 years of tech exits
+  summary: Three big AI IPOs are set to generate more value than all the U.S. VC-backed exits since 2000.
+  url: https://finnhub.io/api/news?id=23d6e9c3f5a45d54e1e4d3f2379ca012b0666aac706e2767ff30687ce8ce37c5

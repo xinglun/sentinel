@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Khan contract ban will cut Met police jobs
+  summary: Palantir has claimed that Sir Sadiq Khan’s contract ban will lead to the Metropolitan Police cutting frontline jobs.
+  url: https://finnhub.io/api/news?id=e4afd81294b2f04121da05087f4863bb6ef6bde60238085ecef453d9d9243871

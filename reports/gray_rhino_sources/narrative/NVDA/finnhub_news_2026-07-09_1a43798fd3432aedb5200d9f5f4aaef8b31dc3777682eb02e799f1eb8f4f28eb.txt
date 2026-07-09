@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MARA Is Up 19% Today: Is It Outperforming Other Crypto Stocks Like Riot and CleanSpark?
+  summary: Shares of Marathon Digital (NASDAQ:MARA) are up 18% in midday trading Thursday, changing hands at $14.27. The move puts Marathon Digital stock at the top of the crypto miner leaderboard on July 9, 2026, ahead of peers Riot Platforms (NASDAQ:RIOT), CleanSpark (NASDAQ:CLSK), and TeraWulf (NASDAQ:WULF), all of which are also higher. The rally caps a ... MARA Is Up 19% Today: Is It Outperforming Other Crypto Stocks Like Riot and CleanSpark?
+  url: https://finnhub.io/api/news?id=ce9ee5a51e4dae67ab9c155f788e866b9d9aed0271dbbb81917e0467c83c2155

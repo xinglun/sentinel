@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: While Wall Street Worries, This Cheap Warren Buffett Consumer Stock Is a Screaming Buy
+  summary: This Berkshire Hathaway holding should reward patient investors.
+  url: https://finnhub.io/api/news?id=de591b703b52faed50b9f38dadeafd7b0170dfdc5194c2b5ca0a4567d6cb0201

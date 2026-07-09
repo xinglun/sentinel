@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: META Stock: Priced Like A Bond, Growing Like A Rocket
+  summary: A technology giant is growing faster than it has in years, yet the market is pricing its stock as if that growth is worth nothing at all.
+  url: https://finnhub.io/api/news?id=a426053d4110f6251912362aa137004f78fdf0e5bc15af6c1ed443ba979319a3

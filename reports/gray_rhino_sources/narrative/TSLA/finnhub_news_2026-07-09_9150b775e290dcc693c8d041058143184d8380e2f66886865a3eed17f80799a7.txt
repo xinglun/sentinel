@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NHTSA Warns Autonomous Vehicle Companies Over 'Clear Pattern' of First Responder Interference
+  summary: NHTSA demands fixes from AV companies by end of July after reports of driverless vehicles interfering with first responders.
+  url: https://finnhub.io/api/news?id=8e542e1307194f1b1e22628d20f912add4956682e1eecbf9b4f201b8e9c3eadf

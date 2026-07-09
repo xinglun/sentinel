@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Tesla: If You Dislike That Tesla Remains Long on Promises and Short on Delivery, Play This Inverse ETF
+  summary: Tesla (NASDAQ:TSLA) is once again eating the financial press, with a $1.58 trillion market cap resting on Cybercab, Optimus, and robotaxi promises that traders keep paying up to own. But here’s what you should actually be watching. The Hot Ticker Is Selling You a Timeline Strip away the AI narrative and Tesla is an auto ... Forget Tesla: If You Dislike That Tesla Remains Long on Promises and Short on Delivery, Play This Inverse ETF
+  url: https://finnhub.io/api/news?id=383780aee4bd1334c7392f51b545038224aa436963da070e3f1447b209b3b3d1

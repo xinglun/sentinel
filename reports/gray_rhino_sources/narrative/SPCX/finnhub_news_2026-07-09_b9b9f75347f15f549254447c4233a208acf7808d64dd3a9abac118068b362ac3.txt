@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Key things to know ahead of SK Hynix’s blockbuster US listing
+  summary: Investing.com - SK Hynix, the world’s leading producer of DRAM memory chips and one of key "AI companies," is set to price its blockbuster U.S. offering on Thursday. The ADRs of the Seoul-listed firm are expected to begin trading on Nasdaq Friday, under the ticker "SKHY."
+  url: https://finnhub.io/api/news?id=919be283ddb400c9a8bb3fbad4000653ae2655e46005c99a43a264cfa4667700

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 Preview: Expecting Positive Results And Outlook To Remain Earthbound
+  summary: 
+  url: https://finnhub.io/api/news?id=502b750c3017933d8f9e64358f644d9c98c9f4d9553e772d0f17966236e6b69f

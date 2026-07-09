@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Technology Announces Plans to Accelerate Enterprise AI Growth Vector; Provides Preliminary 2Q26 Results and Updates FY26 Outlook
+  summary: Investments and Partnerships to Fuel AI Growth in 2027 and Beyond Palantir names Rackspace Technology as a Preferred Partner in Regulated and Sovereign Markets SAN ANTONIO, July 09, 2026 (GLOBE NEWSWIRE) -- Rackspace Technology® (NASDAQ: RXT), a global enterprise AI infrastructure and solutions provider, today announced a strategic and financial update on its transition to becoming the operator of the full enterprise AI stack. Strategy Update Rackspace is becoming the operator of the full enterp
+  url: https://finnhub.io/api/news?id=3bb6faecc55d1d38c1892bccb9cc84ed12eb162682c4b11e9cc4327126ad4a93

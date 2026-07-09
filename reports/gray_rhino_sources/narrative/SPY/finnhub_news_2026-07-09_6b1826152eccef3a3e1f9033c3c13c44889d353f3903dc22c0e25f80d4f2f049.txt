@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Nasdaq 100, Dow Jones Futures Rise as US-Iran Exchange Strikes—Levi Strauss, AZZ, Ionis Pharma In Focus (UPDATED)
+  summary: U.S. stock futures advanced on Thursday, as the Dow Jones, Nasdaq 100, and S&amp;P 500 indices rose, following Wednesday&#39;s mixed close.
+  url: https://finnhub.io/api/news?id=c7336db5efed187852c172df7cbc01b76e145a4e3d732d57b2f345e5ad9d9699

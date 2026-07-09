@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Stock Has Crashed 21% in a Week. Here's What Actually Broke the Rally.
+  summary: Three separate pressures hit at once. But only one of them really threatens the turnaround.
+  url: https://finnhub.io/api/news?id=94fc54c1e7584201c6b1078c7ded185dd52ce887c575dbdd48d098fca92e3fe8

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Bitcoin’s Next Move Could Make or Break MicroStrategy Stock
+  summary: MicroStrategy (NASDAQ:MSTR) has become the market’s cleanest proxy for Bitcoin, and right now that is a double-edged sword. With BTC down 27.34% year to date and MSTR down 35.93% YTD, sentiment has cratered even as the company kept stacking coins. My model still sees meaningful upside from here, but the setup is delicate. Our 24/7 ... Prediction: Bitcoin’s Next Move Could Make or Break MicroStrategy Stock
+  url: https://finnhub.io/api/news?id=502fee8f2e678df25089973b8aa1744ad1c7b79978000d9354e28736ca83b9a5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Boosts SpaceX Valuation On Blue Origin News; Ark Buys Shares
+  summary: Analyst hikes valuation of SpaceX's rocket business by $246 billion after Blue Origin raises funds. Cathie Wood buys $23 million of SPCX stock.
+  url: https://finnhub.io/api/news?id=1009fd615fabe210c11fd65fc652cd30ea08c28dabcf86cf6d40366630c46765

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Disney Before the End of July?
+  summary: Wall Street is bullish on Disney, but the stock continues to struggle.
+  url: https://finnhub.io/api/news?id=9710a4ba995d50734a8f97f6f16885fe02fab94cf027cfff7bd528bca9dd6a2e

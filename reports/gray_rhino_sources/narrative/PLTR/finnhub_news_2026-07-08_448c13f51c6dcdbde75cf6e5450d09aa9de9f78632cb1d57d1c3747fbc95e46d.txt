@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Wall Street Analyst Sees 30% Upside in Palantir. Is It Time to Buy the Stock?
+  summary: Should investors be bullish on Palantir stock despite its lofty valuation?
+  url: https://finnhub.io/api/news?id=45f9cb582f0de1d688cc00543ea205466ba264b8085dc84b8f35d43024f5e85d

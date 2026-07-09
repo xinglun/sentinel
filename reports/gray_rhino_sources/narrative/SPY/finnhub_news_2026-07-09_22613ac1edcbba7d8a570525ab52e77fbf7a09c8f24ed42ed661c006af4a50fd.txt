@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wading Through The Geopolitical Headwinds To Better Days Ahead
+  summary: Iran tensions are pushing oil prices and 2-year Treasury yields higher.
+  url: https://finnhub.io/api/news?id=9eca266b6a72497fc783b28d3d2b2dd997f02e19cc29e12185a6e69f826ff729

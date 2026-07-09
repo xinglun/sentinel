@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IYRI: My Favorite 10%+ Yield Way To Invest In REITs
+  summary: Explore why inflation turns REIT yields negative and how IYRI captures the REIT factor without yield drag. Read the full analysis here on IYRI.
+  url: https://finnhub.io/api/news?id=c8a460a1531782531c8666d16638238f6aa5c3461383c761d5ec9932c47ebf61

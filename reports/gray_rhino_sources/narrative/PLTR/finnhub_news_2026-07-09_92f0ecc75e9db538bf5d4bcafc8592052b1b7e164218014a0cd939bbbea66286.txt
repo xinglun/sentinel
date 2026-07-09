@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Falls 35% From Peak Even After Nasdaq-100 Inclusion
+  summary: SpaceX stock trades 35% below its peak after Nasdaq-100 inclusion, as index buying failed to offset heavy selling.
+  url: https://finnhub.io/api/news?id=a1975e9db5a1d9c6f0cb27d254c57a87685cb2458e164e75d8b11d8624ef0deb

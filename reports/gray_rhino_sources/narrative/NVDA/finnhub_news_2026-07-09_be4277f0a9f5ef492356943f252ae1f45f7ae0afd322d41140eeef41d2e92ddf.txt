@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Best 3 Dividend ETF Picks for the Second Half of 2026
+  summary: Dividend stocks have enjoyed a strong first half of 2026. Conditions still look favorable, which could propel these three ETFs in particular.
+  url: https://finnhub.io/api/news?id=fba4e787979328284e73b7c8510f66a96f14c303bf01d0bed4ea7005d46b9193

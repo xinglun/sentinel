@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Search Traffic Peaked After Argentina's World Cup Win Over Egypt
+  summary: Alphabet's (GOOG, GOOGL) Google recorded unprecedented search engagement after Argentina defeated Eg
+  url: https://finnhub.io/api/news?id=0420a0fc0c8d139ec0d90da4204767997d294da28416a7e08f494bf7e556102c

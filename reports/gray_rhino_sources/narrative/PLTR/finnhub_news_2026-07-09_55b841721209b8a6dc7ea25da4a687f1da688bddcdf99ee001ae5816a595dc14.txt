@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Technology Launches Operating Framework with Palantir for Regulated Enterprises to Accelerate Enterprise AI in Production
+  summary: Palantir and Rackspace execute a definitive agreement establishing operating framework to deploy Palantir Foundry and AIP in mid-market, regulated and sovereign environments, naming Rackspace a preferred partnerSAN ANTONIO and MIAMI, July 09, 2026 (GLOBE NEWSWIRE) -- Rackspace Technology® (NASDAQ: RXT), a global enterprise AI infrastructure and solutions provider, and Palantir Technologies Inc. (NASDAQ: PLTR) today announced an operating model framework to help regulated and sovereign enterprise
+  url: https://finnhub.io/api/news?id=aca3a323dda3a4c7c57a53cc9b967de86a6c2025947156c34a16838ec4abfcfc

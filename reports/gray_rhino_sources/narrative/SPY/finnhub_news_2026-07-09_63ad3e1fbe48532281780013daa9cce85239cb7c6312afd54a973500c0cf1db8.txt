@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everyone Is Becoming A Neocloud - This Is Bad
+  summary: Neocloud entrants are risingâAI bulls call it capex monetization. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=ce57f66f14bcc4aaea647e12e60e98447a94f26abea8bf4bc67b11534acb7afe

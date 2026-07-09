@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Space Exploration Technologies Corp. (SPCX) Boost the Strategy’s Risk-on Positioning?
+  summary: ClearBridge Investments, a global equity manager, recently published second-quarter 2026 commentary for its “Large Cap Growth Strategy”. A copy of the letter can be downloaded here. Equity markets experienced a significant rally in the second quarter, fueled by robust earnings and increasing optimism regarding easing geopolitical tensions. The S&P 500 Index climbed 15.2% during this period, […]
+  url: https://finnhub.io/api/news?id=ad38bf48a4d4f82ade609bfe53ff28a5ea83ea4dee54be613afd16f7ee4d1121

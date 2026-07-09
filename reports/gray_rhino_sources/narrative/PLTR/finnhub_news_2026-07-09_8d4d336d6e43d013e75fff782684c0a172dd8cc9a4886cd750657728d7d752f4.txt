@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Palantir Challenges London Mayor's Move to Block Contract Over Perceived Values
+  summary: Palantir Technologies (PLTR) is challenging London mayor Sadiq Khan's decision to block a contract w
+  url: https://finnhub.io/api/news?id=8b0102c2cf8aeec6e7c65f13d967bdd9dba6f8bbc86ba257fb661a63e471e991

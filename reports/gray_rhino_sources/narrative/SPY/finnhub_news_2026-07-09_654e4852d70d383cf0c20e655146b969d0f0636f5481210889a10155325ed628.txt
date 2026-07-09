@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Slowing U.S. Inflation To Keep The Fed On Hold
+  summary: Lower motor fuel prices are bringing relief for consumers and suggest that inflation may have peaked. Read more here.
+  url: https://finnhub.io/api/news?id=a5c91ed8087da4f7f70b8b5b9823d86eb6e1aec6d493344c2d2bafc830cf3935

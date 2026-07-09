@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises Amid U.S.-Iran News; Micron, Sandisk Rally (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index fell Thursday amid the latest U.S.-Iran news. Micron stock and Sandisk rallied.
+  url: https://finnhub.io/api/news?id=0c3329176b576904453fd83b27c938e33be3c71a257da09f5c0ec293ae2e64ef

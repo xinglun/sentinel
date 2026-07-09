@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agentic AI Has Triggered The Hyperscaler Hardware Killer Spiral
+  summary: Semiconductor outlook splits; favor edge compute, EDA & memory oligopolies vs. hyperscaler hardware. Check out how to manage exposures here.
+  url: https://finnhub.io/api/news?id=b22fda4e7dad89b1a1084f1db52bc58e9eb25f1a469437f43fc61c4256f7317a

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can AST SpaceMobile Stock Become the Next 10-Bagger?
+  summary: Our AST SpaceMobile (NASDAQ:ASTS) 24/7 Wall St. price target is $91.65 over the next 12 months, implying 13.66% upside from the current price of $80.64. Our recommendation is buy with moderate confidence (0.5). The 10-bagger question is fair given ASTS has already returned 542.04% over five years, but our base case does not see a ... Can AST SpaceMobile Stock Become the Next 10-Bagger?
+  url: https://finnhub.io/api/news?id=a8d1c1137087b359088c827c2ec09c737bd5434730a58c745cb82ebd4cc5df3a

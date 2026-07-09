@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stryker: The Market Is Overreacting To One Disrupted Quarter
+  summary: Stryker (SYK) buy rating after a rare Q1 miss from a temporary cyber disruption. Full-year guidance holds; demand strong.
+  url: https://finnhub.io/api/news?id=abd5251e75e6785b9c62af971b1d6f692745a5486eed4c6d763d18f9e5bce35f

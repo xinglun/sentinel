@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains How SpaceX is Changing the Economics of the xAI Business
+  summary: Space Exploration Technologies Corp. (NASDAQ:SPCX) was among Jim Cramer’s stock calls on Mad Money, as he highlighted the AI opportunities in neoclouds. Cramer mentioned the company during the episode and said: SpaceX is now in the same business as well, and it’s allowing them to totally change the economics of their XAI business. Normal neocloud […]
+  url: https://finnhub.io/api/news?id=a920c84934c85b6c9add0d55f35313b437c0751974119e1e1d11e369ca1eac30

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Coinbase and Pivot into IBIT Instead to Save Yourself Headaches and Losses
+  summary: Coinbase (NASDAQ:COIN) is back on every crypto watchlist after a 11.36% one-week bounce reignited the “Bitcoin proxy” trade. But here’s what you should actually be watching. The Case Against the Hot Ticker Coinbase is a cyclical exchange with a bloated cost base, and the numbers make that plain. Q1 2026 delivered a GAAP loss of ... Forget Coinbase and Pivot into IBIT Instead to Save Yourself Headaches and Losses
+  url: https://finnhub.io/api/news?id=df3cbcda8becc3adfe68376c70c8ba40783ce34648420bd53c1550d17b5b6956

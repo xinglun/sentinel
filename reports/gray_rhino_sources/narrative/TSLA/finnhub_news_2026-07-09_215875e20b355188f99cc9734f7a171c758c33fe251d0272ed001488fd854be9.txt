@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don’t Buy Tesla Stock, Analyst Says, Despite ‘Immense’ Potential
+  summary: Tesla  stock isn’t a buy right now, for one analyst, despite “immense” potential for AI to transform the company.  Citizens analyst Andrew Boone launched coverage of Tesla stock with a Hold rating and no price target, according to ratings aggregators.
+  url: https://finnhub.io/api/news?id=ad7b90ccb4c44480876790d566fb78d9805b3518d1e1e44e3edffd709d93dd54

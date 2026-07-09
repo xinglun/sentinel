@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: META's $9B AI Infrastructure Bet, Cloud Ambitions: Is the Stock a Buy?
+  summary: Meta's $9B Alberta data center and potential cloud plans could diversify growth, but heavy AI spending and rich valuation may test investors.
+  url: https://finnhub.io/api/news?id=082cf300b49e62eaad4721a809ca34cb9865ba863abe7972113b9f5286de99f7

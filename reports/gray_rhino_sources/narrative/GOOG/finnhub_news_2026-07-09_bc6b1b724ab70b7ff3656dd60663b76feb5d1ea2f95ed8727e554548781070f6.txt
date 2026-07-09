@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta: Don't Believe The Naysayers That It Has Overbuilt Its Compute
+  summary: Meta Platforms stock is a 'Buy' as the company may launch an AI infrastructure cloud, boosting ad monetization and margins. Click here to learn more about META.
+  url: https://finnhub.io/api/news?id=6260bce87ee433f23aade7a02d158833e9540111296279667a961791eaa39994

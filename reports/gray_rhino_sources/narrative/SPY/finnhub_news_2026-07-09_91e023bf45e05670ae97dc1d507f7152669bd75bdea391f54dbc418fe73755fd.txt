@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Eerie Signs Of A 1999-Like Market Top
+  summary: The AI-driven market closely mirrors the late stages of the 1999 Internet Boom, with extreme valuations and concentration risks. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=2ba53e830454d95c8888e1ce74592aaafbffdfccadd601bba004931b7d504ae1

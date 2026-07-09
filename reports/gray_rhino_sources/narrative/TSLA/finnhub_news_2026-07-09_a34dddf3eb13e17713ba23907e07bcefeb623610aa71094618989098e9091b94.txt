@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Has Some Sky-High Bull Targets—How It Can Hit $900
+  summary: There are, however, a few much higher numbers out there for investors to consider.  Analyst John Godyn rates shares Buy with a $200 price target, but his bull case is much higher.  “We believe this [$200] price target is a milestone along the path to $900-plus, which becomes realistic assuming key engineering achievements are demonstrated at scale,” he wrote earlier this week.
+  url: https://finnhub.io/api/news?id=c306aab1ac18926a4f013af5d7c2690b9df598cb3a6aebf8abddf604e150cb10

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Added to Nasdaq-100 and Could Trigger $4.3B in Forced Passive Buying
+  summary: CNBC’s Leslie Picker walked Squawk Box viewers through one of the most mechanically consequential trading events of 2026: the rebalance that will force index funds to absorb billions in SpaceX (NASDAQ: SPCX) stock, whether their managers like the valuation or not. Picker’s framing was blunt: “Index funds tracking the Nasdaq-100 will have to start buying ... SpaceX Added to Nasdaq-100 and Could Trigger $4.3B in Forced Passive Buying
+  url: https://finnhub.io/api/news?id=4d76a656d72cb12598e880d36e500dad810b19ffffb82d1247f2b4a985655785

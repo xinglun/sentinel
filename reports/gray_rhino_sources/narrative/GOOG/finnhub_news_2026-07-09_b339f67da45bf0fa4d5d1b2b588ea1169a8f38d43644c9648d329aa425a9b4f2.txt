@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Search Hits Record During World Cup Drama
+  summary: Argentina's late win drove the highest search usage in Google's history.
+  url: https://finnhub.io/api/news?id=52dd67e7215be32b1027a2ee275d5abe242566f499958ca5c2a6e3a1408b2b3f

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says Biotech is The Hottest Group in The Market Right Now
+  summary: CNBC’s Jim Cramer pushed viewers away from the usual semiconductor and hyperscaler chatter. Instead, he highlighted a group he says has quietly become the market’s leader. “There is a move in biotech that we have not talked about at all that is really extraordinary, and particularly since the change at the head of the FDA,” ... Jim Cramer Says Biotech is The Hottest Group in The Market Right Now
+  url: https://finnhub.io/api/news?id=553e10dc88f8db461878d38f0666f117101c8f854c6a22e5273fb7ce1784b80d

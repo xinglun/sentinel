@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond issuance backing AI investment tops $250B, testing limits of voracious investor demand
+  summary: Debt financing for AI-related needs — be it for data center construction or general liquidity amid aggressive spending — is accelerating in 2026, testing the limits of investor demand. July already has featured a $25 billion bond package for Amazon.com, and data center operator QTS is marketing an additional $2 billion across bonds and loans for mid-month pricing. That’s after the US high-yield bond market absorbed $31.9 billion of new AI-related bonds through July 8 this year, all but $4 billio
+  url: https://finnhub.io/api/news?id=13f14d287bf96a751bdb460363e5333b0b52d4ded2d42b1756a1ad8295da0296

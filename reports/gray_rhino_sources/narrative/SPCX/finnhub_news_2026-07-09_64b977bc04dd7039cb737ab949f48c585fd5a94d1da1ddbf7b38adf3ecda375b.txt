@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Tens of Thousands’ Nvidia Chips Were Used to Train Grok 4.5. What It Means for the Stock.
+  summary: Nvidia stock has bounced off its lows and a new AI model release from SpaceX could help the move continue.
+  url: https://finnhub.io/api/news?id=82756e1b3a82e766bd60d35bf76d784ba2e8372b6b295824416307e04e9bb362

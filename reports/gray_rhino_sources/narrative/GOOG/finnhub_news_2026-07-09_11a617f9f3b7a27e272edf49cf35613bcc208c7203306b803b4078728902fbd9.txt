@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOG) Rallied with Strong Performance from Cloud
+  summary: Lakehouse Capital, a Sydney-based investment manager, published its “Lakehouse Global Growth Fund” investor letter for April 2026. A copy of the letter can be downloaded here. In April, several portfolio companies reported earnings. Overall, updates were positive, indicating that the companies continue to execute on growth opportunities and show strong fundamentals. The fund returned -0.8% net […]
+  url: https://finnhub.io/api/news?id=2efa360a6ace6f9f6025822bcae8f44647dda77f745fd75da4d0e486840fe372
