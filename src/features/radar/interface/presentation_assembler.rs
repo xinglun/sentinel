@@ -172,6 +172,22 @@ impl PresentationAssembler {
             },
             flow_label: dict.signals.net_flow.clone(),
             flow_value,
+            breadth_label: "Breadth".to_string(),
+            breadth_value: match trend_breadth_mode {
+                TrendBreadthMode::BroadExpansion => "Broad Participation".to_string(),
+                TrendBreadthMode::NarrowLeadership => "Very Narrow".to_string(),
+                TrendBreadthMode::FragileRotation => "Narrow".to_string(),
+                TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
+            },
+            breadth_semantic_label: "Breadth Label".to_string(),
+            breadth_semantic_value: match trend_breadth_mode {
+                TrendBreadthMode::BroadExpansion => "Broad Participation".to_string(),
+                TrendBreadthMode::NarrowLeadership => "Very Narrow".to_string(),
+                TrendBreadthMode::FragileRotation => "Healthy Expansion".to_string(),
+                TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
+            },
+            supply_phase_label: "Supply Phase".to_string(),
+            supply_phase_value: String::new(),
         };
         let macro_display = MacroDisplayContext {
             headline,
@@ -457,6 +473,8 @@ impl PresentationAssembler {
             ),
             interpretation_layer: None,
             market_interpretation: None,
+            leadership_snapshot: None,
+            market_change_log: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),

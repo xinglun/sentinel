@@ -1,0 +1,225 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-report-convergence",
+  "mode": "code",
+  "title": "日报收敛与事实源统一",
+  "baseCommit": "d7787b0e4ed45e0ae38f36c5d77c51cb8a1312df",
+  "baselineDirtyPaths": [],
+  "problemStatement": "将日报从多层重复叙事收敛为高密度市场简报，统一领导力事实源，补上日内变化日志，并压缩 Gray Rhino 默认展开面。",
+  "intent": {
+    "problem": "日报当前会在多个层重复计算 leader 与自然语言叙事，且缺少清晰的日对日变化摘要。",
+    "constraints": [
+      "同一结论只允许一个模型负责生成，其它层只能引用 Read Model。",
+      "日报优先回答今天和昨天有什么不同，其次才回答今天是什么状态。",
+      "不新增新的市场观察 Layer，只重构既有表示路径。",
+      "代码改动只限日报渲染、read model、相关测试与快照。"
+    ],
+    "rationale": "降低日报噪音，避免同一结论在 Action Matrix、Summary、Interpretation、Narrative 中被重复计算或重复解释。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/market-report-convergence.contract.json",
+    ".ai/work-items/active/market-report-convergence.summary.json",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [
+    "src/features/research/application/**",
+    "src/features/research/infrastructure/**",
+    "docs/**",
+    "README.md",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "日报主渲染入口。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Market Interpretation の現行 read model。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Interpretation / Today's Explanation の現行表示経路。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "日报表示用 view model の定義。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Action Matrix / Summary / top action の組み立て起点。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "prev / current packet を使って同日比較の材料を渡す起点。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "日次監査レポートの Market Interpretation Snapshot。"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "reason": "Gray Rhino の日次表示の既存経路。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply Layer の段階判定と明細表示の既存経路。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "Supply Layer 表示ラベルの言語化。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "日次表示の回帰テスト。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Market Change Log が報告先頭付近に出て、昨日との差分を leader / breadth / risk / supply / confidence / interpretation で要約する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装前のため。"
+    },
+    {
+      "scenario": "Leadership Snapshot が leader の唯一の facts source になり、conflict は explanation されるが unavailable に逃げない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装前のため。"
+    },
+    {
+      "scenario": "Market Interpretation が正式 Narrative を一つだけ持ち、Today's Explanation / Narrative Components / Signal Context はそこへ参照する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装前のため。"
+    },
+    {
+      "scenario": "Gray Rhino が Quiet では省スペース表示になり、Watching / Ready / Triggered や状態変化時だけ展開する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装前のため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "表示経路の収束に伴い、Markdown / HTML / audit snapshot の境界と review 負債を同時に管理する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / sources / acceptance が確定しており、表示専用改修として実装できる。"
+  },
+  "preReviewWarnings": [
+    "Market Interpretation と Interpretation Layer の文言重複が残る場合は review で確認する。",
+    "Gray Rhino の折りたたみは可読性と情報密度のトレードオフがあるため、snapshot 差分を確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一日报内で『今天为什么涨 / 跌』的自然语言解释只出现一次。",
+    "Leadership 结论在 Action Matrix、Summary、Interpretation 中完全一致，且 leadership snapshot 是唯一事实源。",
+    "报告开头能直接看出今天和昨天最大的不同。",
+    "Breadth / Concentration 不再只有数字，必须有语义标签。",
+    "Supply Layer 输出阶段性判断，而不只是明细数据。",
+    "Gray Rhino 在无信号时不占用报告主体空间。",
+    "日报中的 Narrative / Today's Explanation / Narrative Components / Signal Context 不再各自生成独立叙事，而是引用 Market Interpretation。",
+    "相关 Markdown / snapshot / UI tests 已更新并通过 make gate。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-report-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-report-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-report-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-report-convergence.contract.json SUMMARY=.ai/work-items/active/market-report-convergence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/market-report-convergence.contract.json SUMMARY=.ai/work-items/active/market-report-convergence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-report-convergence.summary.json CONTRACT=.ai/work-items/active/market-report-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-report-convergence.contract.json SUMMARY=.ai/work-items/active/market-report-convergence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-report-convergence.contract.json SUMMARY=.ai/work-items/active/market-report-convergence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

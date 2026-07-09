@@ -17,6 +17,7 @@ key: gemini-agent-rules
 4. `notCodable: true` または `unknowns` が残る場合、production code を変更しない。
 5. 変更対象が Contract の `scope` に含まれ、`outOfScope` に含まれないことを確認する。
 6. 完了時は `.ai/work-items/active/<task>.summary.json` を更新し、`make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json` で Cockpit status を生成する。
+7. `make ai-preflight` は実装前の共通入口として扱い、active Contract がある場合は Preflight Review を表示して pause rule を明示する。`make generate-ai-preflight-review` は JSON 生成のみ、`make check-ai-preflight-review` は policy 検証のみ。
 
 ## 標準コマンド
 

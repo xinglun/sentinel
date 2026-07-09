@@ -25,6 +25,8 @@ key: ai-governance-entry
 | `.ai/guards/` | Backtrack Guard などの回帰防止 policy。 |
 | `.ai/work-items/` | Contract、Summary、Review checklist の template と active task。 |
 
+`target/ai_preflight_review.json` は active Contract から導出した Preflight Review の machine-readable 出力です。`make ai-preflight` はこの review を表示し、必要に応じて implementation 前の pause を促します。
+
 `current_status.md` の active / no-active 表示、archive 後の同期、参照整合性は `.ai/cockpit/status_policy.yaml` を正とします。
 
 ## 運用原則

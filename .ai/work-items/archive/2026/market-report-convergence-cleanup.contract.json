@@ -1,0 +1,252 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-report-convergence-cleanup",
+  "mode": "code",
+  "title": "市場レポート収斂の残差を清理",
+  "baseCommit": "d7787b0e4ed45e0ae38f36c5d77c51cb8a1312df",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "18b8cfa7dd2946c1c5c9de33a4ca2e862361d922eb1fc47ef58e39c7e81d817f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence-followup.contract.json",
+      "status": "??",
+      "fingerprint": "a171eeba2ff05b0be3db07c88baaac45b2b246a0b179ccb306867faae32c54ac"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence-followup.summary.json",
+      "status": "??",
+      "fingerprint": "c30851e0454b2a56949ad4102d198c73a2dea88ab53fa7bf3140476afb88958e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence-modeling.contract.json",
+      "status": "??",
+      "fingerprint": "1dd4534da771ebc29ffe98413fe96de8c44e150916955965d66b000a675a9e26"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence-modeling.summary.json",
+      "status": "??",
+      "fingerprint": "f2519e7e6218efd8707d45c2427dc0d5d81fb65bce7786950721521a494f80f5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "83909908f808afb0dca09d5170fafc8cadb33989d5c1a848884abe6dc055b376"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-report-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "65e12a812e28acbd2019620a2eb71335e3bd61f30531fdfa05aa1044932e19f5"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "47c182e94f5f475fce77a6dbe946386f39121ed0aa13a9162e33c2668c673a51"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "76745dfdd29f84d040b632d5351639f5930876a3ed18c6533bba807885b7bafe"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "ac0a40ee3d033ff72310107b2a628fd6581bab15f86c40cb48cb70ce7f04947d"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "2583296f20f61d62f784b7126a593b6b8fffd93303d740a0c44daed114642458"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "be4abb79cb674d4ac681d75f143073801dccfb273844ecde72183a3cb51d3124"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "dc7a6570653982ab261151f7d1b1ff10c82785e246536bdc2880a402544d71b7"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "a1fc1639d9d6ff102cfaa4e4cf49338b5ce85497b749ca3107630be6b72a453a"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "a658f3d359ad30f92743e76589088615c2a4d48c0224a9c74a36c8993cd2f441"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "status": "M",
+      "fingerprint": "d1f702584fdab9eae0aa2b4d0e46a869cff4f13b7c1a22fd0c8b88eddb5b5949"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "status": "M",
+      "fingerprint": "0685d288d4bf0c97d1ff7fa885b0e23d85c19e8a4b0541bf8657376b85bd4db4"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "status": "M",
+      "fingerprint": "4f7341791d736456cbff5ee714e44cbc5b133fc349b92ee61911f8d85ed267ba"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+      "status": "??",
+      "fingerprint": "63bcd602fccede49bac34b50c3a4887b144738b333c9825d3a4df84eef0cddd6"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_inline_reference_renderer.rs",
+      "status": "M",
+      "fingerprint": "3be8328630da9babb3ad33f975565fa71b73a26fb9607beb2a7da10c380ef55d"
+    },
+    {
+      "path": "src/features/research/interface/mod.rs",
+      "status": "M",
+      "fingerprint": "5941d1333d7d60688cf7c9209dcf5e4392fb6c78a0a0faf4ae5d7261a3938c20"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "7f3c0701c07ef4a7fb31204dc4fc467fb468498fac3b6c2a73b0b88380930d20"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "b09d210911089804b78d8e7483b44f3e1414e28d129baa6873ce1fca49acad75"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "32b9075505cb018d9fe4920f3ad17096683659e4f509cf98d14877ca74163f9e"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "5aed3ede680add7c3b05b96d825ae31b4cb607dbc9586bcf37017ad186209fa9"
+    }
+  ],
+  "problemStatement": "Audit Daily の leadership 組み立て残差を削り、market interpretation の legacy helper を除去して、read model の収斂を完了する。",
+  "intent": {
+    "problem": "Audit Daily が primary / supporting / weakening を自前で組み立てる残差をなくし、shared helper に寄せる。",
+    "constraints": [
+      "既存の report 出力と snapshot contract を壊さない。",
+      "Leadership Snapshot の出力意味を変えない。",
+      "dead code の削除だけで出力差分を出さない。"
+    ],
+    "rationale": "残余リスクとして残った helper 層の重複を除き、現在の Leadership Snapshot 収斂を完成させる。"
+  },
+  "scope": [
+    ".ai/work-items/active/market-report-convergence-cleanup.contract.json",
+    ".ai/work-items/active/market-report-convergence-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "outOfScope": [
+    "Gate / Execution / Trader / Position Sizing の挙動変更",
+    "新しい market observation layer の追加",
+    "外部 API やデータ取得先の変更"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Audit Daily の leadership 入口と snapshot 生成を持つ。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leadership Snapshot の shared builder と legacy helper がある。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "出力差分を出さずに shared helper へ寄せる軽微な収束作業。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope / acceptance / verification が確定しており、task scope 内で実装可能。"
+  },
+  "preReviewWarnings": [
+    "Audit Daily は leadership の組み立てを shared helper に寄せるだけに留め、出力変更を出さない。",
+    "legacy helper の削除で snapshot / report 差分が出ていないか確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Audit Daily が leadership の component 生成を shared helper に寄せ、ローカルの独立組み立てを残さない。",
+    "market_interpretation_read_model の legacy helper が削除される。",
+    "既存の report / snapshot / test 出力が変わらない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-report-convergence-cleanup.summary.json CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-report-convergence-cleanup.contract.json SUMMARY=.ai/work-items/active/market-report-convergence-cleanup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

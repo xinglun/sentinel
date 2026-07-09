@@ -30,6 +30,7 @@ key: ai-cockpit-template-adoption
 | Backtrack Guard | `make check-ai-backtrack CONTRACT=... SUMMARY=...` で test、snapshot、i18n、Work Item evidence の無宣言削除を検出する。 |
 | Coverage Guard | `make check-ai-coverage-guard` で production Rust code 変更に test 変更証跡を要求する。 |
 | Scenario Coverage Guard | `make check-ai-scenario-coverage` で risk 域の verified / unverified / not_applicable を確認する。 |
+| Preflight Review | `make ai-preflight`、`make generate-ai-preflight-review`、`make check-ai-preflight-review` で Contract evidence から readiness を導出し、implementation 前の pause を促す。 |
 | Status Consistency | `make generate-cockpit-status` と `make check-ai-status`、`make check-ai-status-consistency` で active / no-active 状態を確認する。 |
 | Finish Flow | `make ai-finish TASK=...` が required checks 成功時だけ archive する。 |
 | Rust quality gate | `make fmt-check`、`make test`、`make clippy` を commit 前 gate として扱う。 |
@@ -41,7 +42,7 @@ key: ai-cockpit-template-adoption
 | `verification[].check` ID 方式 | 現行 Sentinel は `verification[].command` と `make` 入口を hard gate にしているため、schema migration なしに混在させない。 |
 | managed installer による上書き upgrade | Sentinel には repository 固有の guard、AI Cockpit policy、Rust / data branch 境界があるため、installer の一括上書きは採用しない。 |
 | 汎用 cross-language examples | Sentinel は Rust repository として運用するため、他言語 example は設計参考に留める。 |
-| template の governance compression 表示面 | 現行 `current_status.md` の簡潔な状態表示を優先し、Recommendation / Decision Drivers の追加は別 Work Item で検討する。 |
+| template の governance compression 表示面 | 現行 `current_status.md` に Preflight Review の Status / Recommendation / Decision Drivers / Pause Rule を追加し、reviewer visibility と pre-implementation pause を両立する。 |
 
 ## 後続候補
 

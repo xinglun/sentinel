@@ -1,0 +1,264 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-test-preflight-review",
+  "mode": "code",
+  "title": "Preflight Review テストを同期する",
+  "baseCommit": "aa32cb44aee33fe76b9f4fc7dc069b00161e61cd",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/README.md",
+      "status": "M",
+      "fingerprint": "7c7a100c423038ca28c2cbbe8883757f11bbd7ab6aaf3cd2d13c1ef53aa4757b"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "522a42e16325de12df8a3ba185a181adf82bf9359bc2eb6b6f1abebc9e84dd73"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "da0cafd9e43060ae6bac49a33a77af08d4baf80ab22007f7cb512e3e95ab8835"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "4cb6d2e1fe8cc81982a29b5339e50c7a5304f9dc1671fe1868a9d8a0fef40a2d"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "status": "M",
+      "fingerprint": "054d27ad511a163f4dea2ab2e77cc2eade074a06952b49c8c9c10d1d9899d1ee"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "??",
+      "fingerprint": "3acb59834138b279362ee9e61e6634a61540d23ebc94a6251c6c6d2c94005d23"
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "status": "??",
+      "fingerprint": "8cac5966e14e244be02539f1d65db3f5505e41a14a83d13d628a801fcf0fa973"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-preflight-review.contract.json",
+      "status": "??",
+      "fingerprint": "bc55c30753efaa9c7b1e4dd0a1fc8d226f2866d992ed881b41d7d5281e866001"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-preflight-review.summary.json",
+      "status": "??",
+      "fingerprint": "c44265bb2eec5164e5a71426ba16875ef21e5b83c60dcd7e19919280b3be7f06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/check-docs-metadata.contract.json",
+      "status": "??",
+      "fingerprint": "fca9d978451f757b1b4be341d85ad06a4db7796bd60d8ce34418cdea5c8ee1ea"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/check-docs-metadata.summary.json",
+      "status": "??",
+      "fingerprint": "968a6850460b443cac6cafe15e5c720067b6ca52dff767b1116076c746626916"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "M",
+      "fingerprint": "97b49d4ff7bddb1cb4a28a6bf32d45b7be97c0417fe0dbdd99392dbe53f832ae"
+    },
+    {
+      "path": "GEMINI.md",
+      "status": "M",
+      "fingerprint": "6506bd6a5cdf2544faf045ffe6d7b9b201a960aa552d2dee4739505e824f10e2"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "acf7dc4073f9839fd34304838fa658e2f38c8996ff404b6dee40e1b505dbe998"
+    },
+    {
+      "path": "docs/specs/DEVELOPMENT_PROTOCOL.md",
+      "status": "M",
+      "fingerprint": "121f31d62eb39141fbf19795020d57bdd9446b2b147afc052e4ecfc36eed312b"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "46328d6b130b295764fbc4d9c8b39aac3114dcaeeda0772debe489941919fca4"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "4e7dc78b3cb03e3cdb1eb6f8b032b65cdd13421fda2a04a890cdfb63ea0e13b9"
+    },
+    {
+      "path": "scripts/ai_preflight.py",
+      "status": "M",
+      "fingerprint": "845d39344b0f5f3ee69ca9a29b0c4907f278bc1259d71095ec7fe3da30c759df"
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "status": "??",
+      "fingerprint": "eb9f13f7baf5e524e2baf4312ac40a8def6f37d39b1ae7266db73d6063d96093"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "d340b7137de68b2faf0c7832744bdf5e9f0cb598d4621e52863041325a5748c2"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "status": "??",
+      "fingerprint": "64428b29d349c7ac3392728bb0cbe7d6d0ae64fec128187a366fc37990d6c5fa"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "status": "M",
+      "fingerprint": "cc4b28fcd3c4e64e755f10ac41bd0950379b3d829cca6236286d419c1ec6735d"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "??",
+      "fingerprint": "e8c79f69f7ec90fdfbadb9f1463807c5c21ce7ae65544531538dc19049133857"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "??",
+      "fingerprint": "f9ddce839de9626ccdf099088fa1bd5adae0bce8ec763b23fddbbfe2fa5d52c2"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "??",
+      "fingerprint": "d55d3e21b1efb4bf4b4a3723b650c7f96179dbd7c12d1f13685831cce2101125"
+    }
+  ],
+  "problemStatement": "Preflight Review 回帰 test の期待値が現行の ai_start 時系列とずれているため、status 更新回数と順序の検証を同期する。",
+  "intent": {
+    "problem": "scripts/ai_test_preflight_review.py が古い 1 回前提の断言を持ち、現在の ai_start 実装とずれている。",
+    "constraints": [
+      "Contract schema に新しい field を追加しない。",
+      "変更対象は Preflight Review 回帰 test に限定する。",
+      "verification は make entrypoint を使う。"
+    ],
+    "rationale": "ai_start の current status 同期は既存設計であり、test がそれに合わせて更新される必要がある。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai-test-preflight-review.contract.json",
+    ".ai/work-items/active/ai-test-preflight-review.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/ai_start.py",
+    "scripts/ai_test_preflight_review.py"
+  ],
+  "outOfScope": [
+    "src/**"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "ai-start の status 同期時系列の参照実装。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Preflight Review を反映する Cockpit status の既存出力。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "AI Cockpit の verify / test 入口の既存実装。"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "reason": "code mode の ai-start 回帰 test と整合する既存期待値。"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "reason": "Preflight Review 回帰 test の更新対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "ai_start の既存挙動に合わせる test 修正で、production code の変更はない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope が test file に限定され、ai_start の現行時系列に合わせる修正が可能になった。"
+  },
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "scripts/ai_test_preflight_review.py の status generation 期待値が現行 ai_start の時系列に一致する。",
+    "status generation の回数と順序が、skeleton 作成後の status と post-preflight の status refresh を含む形で検証される。",
+    "make test-ai-preflight-review が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-preflight-review",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

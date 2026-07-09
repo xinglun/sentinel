@@ -42,14 +42,15 @@
 - dayType: exceptional
 - reason: unusual_rotation
 - exceptionalFactors: [unusual_rotation]
-- Narrative:
+- Market Interpretation:
   - Today is an exception-driven day.
   - Market behavior remains orderly with no structural deterioration.
 - Leadership Classification: very_narrow
 - Leadership Metrics:
-  - Breadth: 18
-  - Concentration: 82
-  - Rotation: 66
+  - Breadth label: Narrow
+  - Breadth score: 18
+  - Concentration score: 82
+  - Rotation score: 66
 - Rotation Observation:
   - rotationType: mega_cap_internal_rotation
   - from: []

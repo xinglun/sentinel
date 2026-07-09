@@ -20,12 +20,30 @@ def assert_true(value: bool, message: str) -> None:
         raise AssertionError(message)
 
 
+def write_preflight_review(root: Path, status: str) -> None:
+    report_path = root / "target/ai_preflight_review.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(
+        json.dumps(
+            {
+                "status": status,
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def test_start_generates_active_status(root: Path) -> None:
     active = root / ".ai/work-items/active"
     calls: list[list[str]] = []
 
     def fake_run(command: list[str], **_: object) -> object:
         calls.append(command)
+        if command[:2] == ["make", "ai-preflight"]:
+            write_preflight_review(root, "ready")
 
         class Result:
             returncode = 0
@@ -91,8 +109,89 @@ def test_start_generates_active_status(root: Path) -> None:
         "summary should prefill checkpointEvidence chain",
     )
     assert_true(
-        any("scripts/ai_generate_status.py" in call for call in calls),
-        "ai_start should generate active cockpit status after skeleton creation",
+        sum(1 for call in calls if any(part.endswith("scripts/ai_generate_status.py") for part in call)) >= 2,
+        "ai_start should sync active cockpit status before and after preflight",
+    )
+    preflight_indices = [
+        index for index, call in enumerate(calls) if call[:2] == ["make", "ai-preflight"]
+    ]
+    assert_true(len(preflight_indices) >= 2, "ai_start should run preflight twice in code mode")
+    preflight_index = preflight_indices[1]
+    status_indices = [
+        index
+        for index, call in enumerate(calls)
+        if any(part.endswith("scripts/ai_generate_status.py") for part in call)
+    ]
+    assert_true(
+        status_indices[0] < preflight_index,
+        "ai_start should generate cockpit status before preflight",
+    )
+    assert_true(
+        status_indices[-1] > preflight_index,
+        "ai_start should refresh cockpit status after preflight",
+    )
+    makefile = (REPO_ROOT / "Makefile").read_text(encoding="utf-8")
+    assert_true(
+        "make check-docs-metadata" in makefile,
+        "Makefile should expose the docs metadata compatibility target",
+    )
+    assert_true(
+        "check-rust: fmt-check check-docs-metadata" in makefile,
+        "check-rust should route through the docs metadata target",
+    )
+
+
+def test_start_pauses_on_non_ready_preflight(root: Path) -> None:
+    active = root / ".ai/work-items/active"
+    calls: list[list[str]] = []
+
+    def fake_run(command: list[str], **_: object) -> object:
+        calls.append(command)
+        if command[:2] == ["make", "ai-preflight"]:
+            write_preflight_review(root, "needs_human_confirmation")
+
+        class Result:
+            returncode = 0
+
+        return Result()
+
+    with (
+        patch.object(ai_start, "PROJECT_ROOT", root),
+        patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "PREFLIGHT_REVIEW_PATH", root / "target" / "ai_preflight_review.json"),
+        patch.object(ai_start, "current_head", return_value="abc123"),
+        patch.object(
+            ai_start,
+            "baseline_dirty_paths",
+            return_value=[
+                {
+                    "path": "scripts/ai_start.py",
+                    "status": "M",
+                    "fingerprint": "deadbeef",
+                }
+            ],
+        ),
+        patch.object(ai_start.subprocess, "run", fake_run),
+        patch.object(
+            sys,
+            "argv",
+            [
+                "ai_start.py",
+                "--task",
+                "sample-start-pause",
+                "--title",
+                "Sample Start Pause",
+                "--mode",
+                "code",
+            ],
+        ),
+    ):
+        code = ai_start.main()
+
+    assert_true(code == 1, "ai_start should pause when preflight is not ready")
+    assert_true(
+        any(command[:2] == ["make", "ai-preflight"] for command in calls),
+        "ai_start should still invoke ai-preflight before pausing",
     )
 
 
@@ -102,6 +201,9 @@ def main() -> int:
     try:
         test_start_generates_active_status(root)
         print("✅ start_generates_active_status")
+        shutil.rmtree(root, ignore_errors=True)
+        test_start_pauses_on_non_ready_preflight(root)
+        print("✅ start_pauses_on_non_ready_preflight")
     finally:
         shutil.rmtree(root, ignore_errors=True)
     print("✅ ai_start tests passed")

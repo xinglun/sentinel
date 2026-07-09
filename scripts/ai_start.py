@@ -17,6 +17,7 @@ from ai_observability import AiRunContext, create_observability
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ACTIVE_DIR = PROJECT_ROOT / ".ai" / "work-items" / "active"
+PREFLIGHT_REVIEW_PATH = PROJECT_ROOT / "target" / "ai_preflight_review.json"
 
 
 def slug(value: str) -> str:
@@ -107,6 +108,17 @@ def generate_active_status(contract_path: Path, summary_path: Path) -> int:
         check=False,
     )
     return result.returncode
+
+
+def preflight_review_status() -> str | None:
+    if not PREFLIGHT_REVIEW_PATH.exists():
+        return None
+    try:
+        report = json.loads(PREFLIGHT_REVIEW_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError, ValueError):
+        return None
+    status = report.get("status") if isinstance(report, dict) else None
+    return status if isinstance(status, str) else None
 
 
 def parse_args() -> argparse.Namespace:
@@ -269,6 +281,20 @@ def main() -> int:
     status_code = generate_active_status(contract_path, summary_path)
     if status_code != 0:
         return status_code
+    if args.mode == "code":
+        post_preflight_code = run_preflight_checks()
+        status_code = generate_active_status(contract_path, summary_path)
+        if status_code != 0:
+            return status_code
+        review_status = preflight_review_status()
+        if review_status is None:
+            print("❌ Preflight Review の結果を確認できません。", file=sys.stderr)
+            return 1
+        if review_status != "ready":
+            print(f"⏸️ Preflight Review pause: status={review_status}", file=sys.stderr)
+            return 1
+        if post_preflight_code != 0:
+            return post_preflight_code
     print(f"✅ Work Item skeleton created: {task}")
     print(f"contract: {contract_rel}")
     print(f"summary: {summary_rel}")

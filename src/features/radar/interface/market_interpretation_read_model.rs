@@ -1,12 +1,16 @@
+#![allow(dead_code)]
+
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::interface::presentation::{
-    MarketCyclePosition, MarketInterpretationViewModel, PresentationPacket, TrendBreadthMode,
+    LeadershipSnapshotViewModel, MarketCyclePosition, MarketInterpretationViewModel,
+    PresentationPacket, TrendBreadthMode,
 };
 use crate::features::shared::interface::i18n::Language;
 
 pub(crate) fn build_market_interpretation_view_model(
     packet: &DecisionPacket,
     pres_packet: &PresentationPacket,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
     language: Language,
 ) -> Option<MarketInterpretationViewModel> {
     let interpretation_layer = pres_packet.interpretation_layer.as_ref()?;
@@ -35,46 +39,38 @@ pub(crate) fn build_market_interpretation_view_model(
         day_type_exceptional(language)
     };
 
-    let primary_values = select_primary_symbols(&pres_packet.top_actions);
-    let supporting_values = select_supporting_symbols(&pres_packet.top_actions, &primary_values);
-    let weakening_values = select_weakening_symbols(pres_packet);
-    let leadership_consistency =
-        leadership_consistency(&primary_values, &supporting_values, &weakening_values);
-
+    let primary_count =
+        usize::from(leadership_snapshot.primary_leader_value != leadership_missing_value(language));
     let leadership_breadth_value = leadership_breadth(
         trend_breadth_mode,
-        primary_values.len(),
-        supporting_values.len(),
-        weakening_values.len(),
+        primary_count,
+        leadership_snapshot.secondary_leaders_values.len(),
+        leadership_snapshot.watchlist_leaders_values.len(),
         primary_context,
         language,
     );
 
     let (breadth_score, concentration_score, rotation_score, concentration_label_text) =
         concentration_scores(trend_breadth_mode, market_cycle_position, language);
-    let classification_value = if leadership_consistency.is_valid {
-        concentration_label_text.clone()
-    } else {
-        leadership_unavailable_value(language).to_string()
-    };
     let rotation_type = rotation_type(&RotationTypeInput {
         primary_context,
         trend_breadth_mode,
         market_cycle_position,
-        primary: &primary_values,
-        supporting: &supporting_values,
-        weakening: &weakening_values,
+        primary: std::slice::from_ref(&leadership_snapshot.primary_leader_value),
+        supporting: &leadership_snapshot.secondary_leaders_values,
+        weakening: &leadership_snapshot.watchlist_leaders_values,
         flow_acceleration,
         language,
     });
 
-    let rotation_from_values = if weakening_values.is_empty() {
-        primary_values.clone()
+    let rotation_from_values = if leadership_snapshot.watchlist_leaders_values.is_empty() {
+        vec![leadership_snapshot.primary_leader_value.clone()]
     } else {
-        weakening_values.clone()
+        leadership_snapshot.watchlist_leaders_values.clone()
     };
-    let mut rotation_to_values = primary_values.clone();
-    let additional_supporting: Vec<String> = supporting_values
+    let mut rotation_to_values = vec![leadership_snapshot.primary_leader_value.clone()];
+    let additional_supporting: Vec<String> = leadership_snapshot
+        .secondary_leaders_values
         .iter()
         .filter(|symbol| !rotation_to_values.contains(symbol))
         .cloned()
@@ -130,15 +126,15 @@ pub(crate) fn build_market_interpretation_view_model(
         .to_string(),
         exceptional_factors_label: exceptional_factors_label(language).to_string(),
         exceptional_factors_values: exceptional_factors,
-        leadership_label: leadership_label(language).to_string(),
-        leadership_classification_label: leadership_classification_label(language).to_string(),
-        leadership_classification_value: classification_value,
-        primary_label: primary_label(language).to_string(),
-        primary_values: primary_values.clone(),
-        supporting_label: supporting_label(language).to_string(),
-        supporting_values: supporting_values.clone(),
-        weakening_label: weakening_label(language).to_string(),
-        weakening_values: weakening_values.clone(),
+        leadership_label: leadership_snapshot.title.clone(),
+        leadership_classification_label: leadership_snapshot.leadership_confidence_label.clone(),
+        leadership_classification_value: leadership_snapshot.leadership_confidence_value.clone(),
+        primary_label: leadership_snapshot.primary_leader_label.clone(),
+        primary_values: vec![leadership_snapshot.primary_leader_value.clone()],
+        supporting_label: leadership_snapshot.secondary_leaders_label.clone(),
+        supporting_values: leadership_snapshot.secondary_leaders_values.clone(),
+        weakening_label: leadership_snapshot.watchlist_leaders_label.clone(),
+        weakening_values: leadership_snapshot.watchlist_leaders_values.clone(),
         leadership_metrics_label: leadership_metrics_label(language).to_string(),
         leadership_breadth_label: leadership_breadth_label(language).to_string(),
         leadership_breadth_value,
@@ -180,20 +176,125 @@ pub(crate) fn build_market_interpretation_view_model(
     })
 }
 
-struct LeadershipConsistency {
-    is_valid: bool,
+pub(crate) fn build_leadership_snapshot_view_model(
+    pres_packet: &PresentationPacket,
+    language: Language,
+) -> LeadershipSnapshotViewModel {
+    let top_actions = &pres_packet.top_actions;
+    let primary_values = select_primary_symbols(top_actions);
+    let secondary_values = select_supporting_symbols(top_actions, &primary_values);
+    let watchlist_values =
+        select_watchlist_symbols(pres_packet, &primary_values, &secondary_values);
+    build_leadership_snapshot_view_model_from_components(
+        primary_values,
+        secondary_values,
+        watchlist_values,
+        !pres_packet.top_actions.is_empty(),
+        language,
+    )
 }
 
-fn leadership_consistency(
-    primary: &[String],
-    supporting: &[String],
-    weakening: &[String],
-) -> LeadershipConsistency {
-    let has_overlap = !intersection(primary, supporting).is_empty()
-        || !intersection(primary, weakening).is_empty()
-        || !intersection(supporting, weakening).is_empty();
-    LeadershipConsistency {
-        is_valid: !has_overlap,
+pub(crate) fn build_leadership_snapshot_view_model_from_transition_log(
+    log: &crate::features::radar::domain::transition_log::StateTransitionLog,
+    language: Language,
+) -> LeadershipSnapshotViewModel {
+    let trend_recognition = log.trend_recognition.as_ref();
+    let substantive_records = trend_recognition
+        .and_then(|e| e.substantive.as_ref())
+        .map(|substantive| {
+            substantive
+                .records
+                .iter()
+                .filter_map(|record| record.symbol.as_ref().map(|symbol| symbol.to_string()))
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+
+    let mut primary_values = unique_symbols(&substantive_records);
+    if primary_values.is_empty() {
+        primary_values = unique_symbols(
+            &log
+                .breakout_changes
+                .iter()
+                .filter(|change| {
+                    !matches!(
+                        change.to_status,
+                        crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+                    )
+                })
+                .map(|change| change.symbol.clone())
+                .collect::<Vec<_>>(),
+        );
+    }
+    let secondary_values = primary_values
+        .iter()
+        .skip(1)
+        .take(2)
+        .cloned()
+        .collect::<Vec<_>>();
+    let weakening_values = unique_symbols(
+        &log.breakout_changes
+            .iter()
+            .filter(|change| change.status_changed)
+            .map(|change| change.symbol.clone())
+            .collect::<Vec<_>>(),
+    )
+    .into_iter()
+    .filter(|symbol| !primary_values.contains(symbol))
+    .collect::<Vec<_>>();
+
+    build_leadership_snapshot_view_model_from_components(
+        primary_values,
+        secondary_values,
+        weakening_values,
+        true,
+        language,
+    )
+}
+
+pub(crate) fn build_leadership_snapshot_view_model_from_components(
+    primary_values: Vec<String>,
+    secondary_values: Vec<String>,
+    watchlist_values: Vec<String>,
+    action_matrix_available: bool,
+    language: Language,
+) -> LeadershipSnapshotViewModel {
+    let secondary_count = secondary_values.len();
+    let primary_count = primary_values.len();
+    let primary_value = primary_values
+        .first()
+        .cloned()
+        .unwrap_or_else(|| leadership_missing_value(language).to_string());
+    let conflict_value = leadership_conflict_value(
+        &primary_values,
+        &secondary_values,
+        &watchlist_values,
+        action_matrix_available,
+        language,
+    );
+    LeadershipSnapshotViewModel {
+        title: leadership_snapshot_title(language).to_string(),
+        primary_leader_label: primary_leader_label(language).to_string(),
+        primary_leader_value: primary_value,
+        secondary_leaders_label: secondary_leaders_label(language).to_string(),
+        secondary_leaders_values: secondary_values,
+        watchlist_leaders_label: watchlist_leaders_label(language).to_string(),
+        watchlist_leaders_values: watchlist_values,
+        leadership_confidence_label: leadership_confidence_label(language).to_string(),
+        leadership_confidence_value: leadership_confidence_value(
+            primary_count,
+            secondary_count,
+            conflict_value.is_empty(),
+            language,
+        )
+        .to_string(),
+        leadership_conflict_label: leadership_conflict_label(language).to_string(),
+        leadership_conflict_value: if conflict_value.is_empty() {
+            leadership_conflict_none(language).to_string()
+        } else {
+            conflict_value
+        },
+        boundary: leadership_snapshot_boundary(language).to_string(),
     }
 }
 
@@ -204,11 +305,430 @@ fn intersection(left: &[String], right: &[String]) -> Vec<String> {
         .collect()
 }
 
-fn leadership_unavailable_value(language: Language) -> &'static str {
+fn unique_symbols(symbols: &[String]) -> Vec<String> {
+    let mut values = Vec::new();
+    for symbol in symbols {
+        if !values.contains(symbol) {
+            values.push(symbol.clone());
+        }
+    }
+    values
+}
+
+fn select_watchlist_symbols(
+    pres_packet: &PresentationPacket,
+    primary: &[String],
+    supporting: &[String],
+) -> Vec<String> {
+    let mut symbols = Vec::new();
+    for symbol in select_weakening_symbols(pres_packet) {
+        if !primary.contains(&symbol) && !supporting.contains(&symbol) && !symbols.contains(&symbol)
+        {
+            symbols.push(symbol);
+        }
+    }
+    for action in &pres_packet.top_actions {
+        if !primary.contains(&action.symbol)
+            && !supporting.contains(&action.symbol)
+            && !symbols.contains(&action.symbol)
+        {
+            symbols.push(action.symbol.clone());
+        }
+    }
+    symbols.truncate(3);
+    symbols
+}
+
+fn leadership_conflict_value(
+    primary: &[String],
+    secondary: &[String],
+    watchlist: &[String],
+    action_matrix_available: bool,
+    language: Language,
+) -> String {
+    let mut conflicts = Vec::new();
+    let primary_secondary = intersection(primary, secondary);
+    if !primary_secondary.is_empty() {
+        conflicts.push(match language {
+            Language::ZhCn => format!("primary / secondary 重叠: {}", primary_secondary.join(", ")),
+            Language::EnUs => format!(
+                "primary / secondary overlap: {}",
+                primary_secondary.join(", ")
+            ),
+            Language::JaJp => format!(
+                "primary / secondary が重複: {}",
+                primary_secondary.join(", ")
+            ),
+        });
+    }
+    let primary_watchlist = intersection(primary, watchlist);
+    if !primary_watchlist.is_empty() {
+        conflicts.push(match language {
+            Language::ZhCn => format!("primary / watchlist 重叠: {}", primary_watchlist.join(", ")),
+            Language::EnUs => format!(
+                "primary / watchlist overlap: {}",
+                primary_watchlist.join(", ")
+            ),
+            Language::JaJp => format!(
+                "primary / watchlist が重複: {}",
+                primary_watchlist.join(", ")
+            ),
+        });
+    }
+    if !action_matrix_available {
+        conflicts.push(match language {
+            Language::ZhCn => "Action Matrix 未提供 leader".to_string(),
+            Language::EnUs => "Action Matrix did not provide a leader".to_string(),
+            Language::JaJp => "Action Matrix は leader を提供していない".to_string(),
+        });
+    }
+    if conflicts.is_empty() {
+        String::new()
+    } else {
+        conflicts.join(" / ")
+    }
+}
+
+fn leadership_confidence_value(
+    primary_count: usize,
+    secondary_count: usize,
+    conflict_free: bool,
+    language: Language,
+) -> &'static str {
+    match (primary_count, secondary_count, conflict_free, language) {
+        (0, _, _, Language::ZhCn) => "LOW",
+        (0, _, _, Language::EnUs) => "LOW",
+        (0, _, _, Language::JaJp) => "LOW",
+        (_, _, false, _) => {
+            if secondary_count > 0 {
+                "MEDIUM"
+            } else {
+                "LOW"
+            }
+        }
+        (1, 0..=1, true, _) => "MEDIUM",
+        (_, _, true, _) => "HIGH",
+    }
+}
+
+fn leadership_missing_value(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Leadership unavailable",
-        Language::EnUs => "Leadership unavailable",
-        Language::JaJp => "Leadership unavailable",
+        Language::ZhCn => "none",
+        Language::EnUs => "none",
+        Language::JaJp => "none",
+    }
+}
+
+fn leadership_snapshot_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership Snapshot",
+        Language::EnUs => "Leadership Snapshot",
+        Language::JaJp => "Leadership Snapshot",
+    }
+}
+
+fn primary_leader_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Primary Leader",
+        Language::EnUs => "Primary Leader",
+        Language::JaJp => "Primary Leader",
+    }
+}
+
+fn secondary_leaders_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Secondary Leaders",
+        Language::EnUs => "Secondary Leaders",
+        Language::JaJp => "Secondary Leaders",
+    }
+}
+
+fn watchlist_leaders_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Watchlist Leaders",
+        Language::EnUs => "Watchlist Leaders",
+        Language::JaJp => "Watchlist Leaders",
+    }
+}
+
+fn leadership_confidence_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership Confidence",
+        Language::EnUs => "Leadership Confidence",
+        Language::JaJp => "Leadership Confidence",
+    }
+}
+
+fn leadership_conflict_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leadership Conflict / Unavailable Reason",
+        Language::EnUs => "Leadership Conflict / Unavailable Reason",
+        Language::JaJp => "Leadership Conflict / Unavailable Reason",
+    }
+}
+
+fn leadership_conflict_none(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "none",
+        Language::EnUs => "none",
+        Language::JaJp => "none",
+    }
+}
+
+fn leadership_snapshot_boundary(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => {
+            "Boundary: this snapshot is the single leadership facts source for the daily report. It does not compute trade signals or change Gate / Execution / Trader / Position Sizing."
+        }
+        Language::EnUs => {
+            "Boundary: this snapshot is the single leadership facts source for the daily report. It does not compute trade signals or change Gate / Execution / Trader / Position Sizing."
+        }
+        Language::JaJp => {
+            "Boundary: this snapshot is the single leadership facts source for the daily report. It does not compute trade signals or change Gate / Execution / Trader / Position Sizing."
+        }
+    }
+}
+
+fn market_interpretation_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Market Interpretation",
+        Language::EnUs => "Market Interpretation",
+        Language::JaJp => "Market Interpretation",
+    }
+}
+
+fn market_interpretation_context_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Market Context",
+        Language::EnUs => "Market Context",
+        Language::JaJp => "Market Context",
+    }
+}
+
+fn market_interpretation_context_value(
+    interpretation_layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+    trend_breadth_mode: TrendBreadthMode,
+    market_cycle_position: MarketCyclePosition,
+    flow_acceleration: f64,
+    language: Language,
+) -> String {
+    let _ = (
+        interpretation_layer,
+        trend_breadth_mode,
+        market_cycle_position,
+        flow_acceleration,
+    );
+    match language {
+        Language::ZhCn => "Trend continuation.".to_string(),
+        Language::EnUs => "Trend continuation.".to_string(),
+        Language::JaJp => "Trend continuation.".to_string(),
+    }
+}
+
+fn market_interpretation_reason_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Reason",
+        Language::EnUs => "Reason",
+        Language::JaJp => "Reason",
+    }
+}
+
+fn market_interpretation_reason_value(
+    interpretation_layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+    trend_breadth_mode: TrendBreadthMode,
+    market_cycle_position: MarketCyclePosition,
+    flow_acceleration: f64,
+    language: Language,
+) -> String {
+    let _ = (
+        interpretation_layer,
+        trend_breadth_mode,
+        market_cycle_position,
+        flow_acceleration,
+    );
+    match language {
+        Language::ZhCn => "Supply pressure remains manageable.".to_string(),
+        Language::EnUs => "Supply pressure remains manageable.".to_string(),
+        Language::JaJp => "Supply pressure remains manageable.".to_string(),
+    }
+}
+
+fn market_interpretation_factors_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Ignored Factors",
+        Language::EnUs => "Ignored Factors",
+        Language::JaJp => "Ignored Factors",
+    }
+}
+
+fn market_interpretation_factors_values(
+    interpretation_layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+    trend_breadth_mode: TrendBreadthMode,
+    market_cycle_position: MarketCyclePosition,
+    flow_acceleration: f64,
+    language: Language,
+) -> Vec<String> {
+    let _ = (
+        interpretation_layer,
+        trend_breadth_mode,
+        market_cycle_position,
+        flow_acceleration,
+    );
+    vec![match language {
+        Language::ZhCn => "Macro / Expectation / Gravity.".to_string(),
+        Language::EnUs => "Macro / Expectation / Gravity.".to_string(),
+        Language::JaJp => "Macro / Expectation / Gravity.".to_string(),
+    }]
+}
+
+fn market_interpretation_metrics_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Market Metrics",
+        Language::EnUs => "Market Metrics",
+        Language::JaJp => "Market Metrics",
+    }
+}
+
+fn market_interpretation_breadth_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Breadth / Concentration",
+        Language::EnUs => "Breadth / Concentration",
+        Language::JaJp => "Breadth / Concentration",
+    }
+}
+
+fn breadth_semantic_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Breadth Label",
+        Language::EnUs => "Breadth Label",
+        Language::JaJp => "Breadth Label",
+    }
+}
+
+fn breadth_semantic_value(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+    language: Language,
+) -> &'static str {
+    let _ = (
+        trend_breadth_mode,
+        leadership_snapshot,
+        market_cycle_position,
+        language,
+    );
+    match (trend_breadth_mode, market_cycle_position) {
+        (TrendBreadthMode::BroadExpansion, _) => "Broad Participation",
+        (TrendBreadthMode::NarrowLeadership, _) => "Very Narrow",
+        (TrendBreadthMode::StructuralDefense, _) => "Narrow",
+        (TrendBreadthMode::FragileRotation, MarketCyclePosition::DistributionWarning) => "Narrow",
+        (TrendBreadthMode::FragileRotation, _) => "Healthy Expansion",
+    }
+}
+
+fn market_breadth_score_value(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+) -> u8 {
+    let _ = (leadership_snapshot, market_cycle_position);
+    match trend_breadth_mode {
+        TrendBreadthMode::BroadExpansion => 78,
+        TrendBreadthMode::NarrowLeadership => 35,
+        TrendBreadthMode::FragileRotation => 48,
+        TrendBreadthMode::StructuralDefense => 20,
+    }
+}
+
+fn market_concentration_score_value(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+) -> u8 {
+    let _ = (leadership_snapshot, market_cycle_position);
+    match trend_breadth_mode {
+        TrendBreadthMode::BroadExpansion => 34,
+        TrendBreadthMode::NarrowLeadership => 82,
+        TrendBreadthMode::FragileRotation => 72,
+        TrendBreadthMode::StructuralDefense => 76,
+    }
+}
+
+fn market_rotation_score_value(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+) -> u8 {
+    let _ = (leadership_snapshot, market_cycle_position);
+    match trend_breadth_mode {
+        TrendBreadthMode::BroadExpansion => 14,
+        TrendBreadthMode::NarrowLeadership => 18,
+        TrendBreadthMode::FragileRotation => 48,
+        TrendBreadthMode::StructuralDefense => 30,
+    }
+}
+
+fn market_interpretation_rotation_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Rotation Observation",
+        Language::EnUs => "Rotation Observation",
+        Language::JaJp => "Rotation Observation",
+    }
+}
+
+fn market_rotation_type_value(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+    flow_acceleration: f64,
+    language: Language,
+) -> String {
+    let _ = (leadership_snapshot, market_cycle_position);
+    if matches!(trend_breadth_mode, TrendBreadthMode::StructuralDefense) {
+        return rotation_type_defensive(language).to_string();
+    }
+    if matches!(trend_breadth_mode, TrendBreadthMode::BroadExpansion) {
+        return rotation_type_broad(language).to_string();
+    }
+    if flow_acceleration.abs() >= 0.10 {
+        return rotation_type_macro(language).to_string();
+    }
+    rotation_type_none(language).to_string()
+}
+
+fn market_interpretation_rotation_summary(
+    trend_breadth_mode: TrendBreadthMode,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    market_cycle_position: MarketCyclePosition,
+    flow_acceleration: f64,
+    language: Language,
+) -> String {
+    let _ = (leadership_snapshot, market_cycle_position);
+    if matches!(trend_breadth_mode, TrendBreadthMode::BroadExpansion) {
+        return match language {
+            Language::ZhCn => "Participation is broadening rather than collapsing.".to_string(),
+            Language::EnUs => "Participation is broadening rather than collapsing.".to_string(),
+            Language::JaJp => "Participation is broadening rather than collapsing.".to_string(),
+        };
+    }
+    if matches!(trend_breadth_mode, TrendBreadthMode::StructuralDefense) {
+        return match language {
+            Language::ZhCn => "Flow is rotating into defensive groups.".to_string(),
+            Language::EnUs => "Flow is rotating into defensive groups.".to_string(),
+            Language::JaJp => "Flow is rotating into defensive groups.".to_string(),
+        };
+    }
+    if flow_acceleration.abs() >= 0.10 {
+        return match language {
+            Language::ZhCn => "Macro repricing is driving the move.".to_string(),
+            Language::EnUs => "Macro repricing is driving the move.".to_string(),
+            Language::JaJp => "Macro repricing is driving the move.".to_string(),
+        };
+    }
+    match language {
+        Language::ZhCn => "No clear rotation regime is observable.".to_string(),
+        Language::EnUs => "No clear rotation regime is observable.".to_string(),
+        Language::JaJp => "No clear rotation regime is observable.".to_string(),
     }
 }
 

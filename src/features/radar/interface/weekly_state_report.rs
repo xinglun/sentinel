@@ -1711,9 +1711,8 @@ mod tests {
                 reason: "rotation".to_string(),
             }],
             interpretation_layer: Some(interpretation_layer.clone()),
-            market_interpretation: crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
-                &crate::features::radar::domain::decision::DecisionPacket::default(),
-                &PresentationPacket {
+            market_interpretation: {
+                let weekly_market_packet = PresentationPacket {
                     top_actions: vec![
                         TopActionViewModel {
                             symbol: "SPY".to_string(),
@@ -1743,9 +1742,18 @@ mod tests {
                     }],
                     interpretation_layer: Some(interpretation_layer.clone()),
                     ..Default::default()
-                },
-                Language::ZhCn,
-            ),
+                };
+                let weekly_leadership_snapshot = crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model(
+                    &weekly_market_packet,
+                    Language::ZhCn,
+                );
+                crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                    &crate::features::radar::domain::decision::DecisionPacket::default(),
+                    &weekly_market_packet,
+                    &weekly_leadership_snapshot,
+                    Language::ZhCn,
+                )
+            },
             ..Default::default()
         };
         let latest = build_weekly_latest_context(
@@ -1852,24 +1860,30 @@ mod tests {
             interpretation_quality_value: "MEDIUM".to_string(),
             ..Default::default()
         };
+        let weekly_market_packet = PresentationPacket {
+            top_actions: vec![
+                TopActionViewModel {
+                    symbol: "SPY".to_string(),
+                    ..Default::default()
+                },
+                TopActionViewModel {
+                    symbol: "QQQ".to_string(),
+                    ..Default::default()
+                },
+            ],
+            exit_summary: ExitDecisionSummaryViewModel::default(),
+            risk_opportunities: vec![],
+            interpretation_layer: Some(interpretation_layer),
+            ..Default::default()
+        };
+        let weekly_leadership_snapshot = crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model(
+            &weekly_market_packet,
+            Language::EnUs,
+        );
         let market_interpretation = crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
             &packet,
-            &PresentationPacket {
-                top_actions: vec![
-                    TopActionViewModel {
-                        symbol: "SPY".to_string(),
-                        ..Default::default()
-                    },
-                    TopActionViewModel {
-                        symbol: "QQQ".to_string(),
-                        ..Default::default()
-                    },
-                ],
-                exit_summary: ExitDecisionSummaryViewModel::default(),
-                risk_opportunities: vec![],
-                interpretation_layer: Some(interpretation_layer),
-                ..Default::default()
-            },
+            &weekly_market_packet,
+            &weekly_leadership_snapshot,
             Language::EnUs,
         )
         .unwrap();

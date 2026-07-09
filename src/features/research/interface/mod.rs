@@ -4,6 +4,7 @@ mod capital_absorption_report;
 pub(crate) mod capital_absorption_report_builder;
 #[cfg(test)]
 mod capital_absorption_report_tests;
+pub(crate) mod capital_absorption_supply_phase_read_model;
 mod capital_dynamics_flow_report;
 mod capital_dynamics_report;
 pub(crate) mod cli_command_handler;

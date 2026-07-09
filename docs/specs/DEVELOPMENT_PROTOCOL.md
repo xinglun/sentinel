@@ -38,6 +38,8 @@ key: development-protocol
 - `make clippy`
 - `make fmt-check`
 
+AI Cockpit を伴う Work Item では、実装前に `make ai-preflight` を実行し、Preflight Review が `needs_human_confirmation` または `not_ready` の場合は、ユーザーへ review を報告してから実装を続けてください。`make generate-ai-preflight-review` は JSON 生成、`make check-ai-preflight-review` は policy 検証に使います。
+
 ## 4. コミットおよびマージフロー
 
 1. **変更のコミット**: ベースラインチェックを通過したことを確認後、`src/**`、`.github/workflows/**`、`docs/**` などのコアな変更を開発ブランチにコミットします。

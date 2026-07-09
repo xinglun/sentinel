@@ -1,0 +1,191 @@
+{
+  "workItemId": "ai-cockpit-preflight-review",
+  "contractPath": ".ai/work-items/archive/2026/ai-cockpit-preflight-review.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "reason": "Work Item Contract skeleton を task に合わせて更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "reason": "AI Change Summary skeleton を task に合わせて更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/status_policy.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make diff-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-preflight-review",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-ai-preflight-review",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-preflight-review",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Preflight Review 導入前の task だが、Contract は code continue に到達している。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "verification snapshot",
+      "contractHash": "bc55c30753efaa9c",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 20,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "verification snapshot",
+      "contractHash": "bc55c30753efaa9c",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 20,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "verification snapshot",
+      "contractHash": "bc55c30753efaa9c",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 20,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "verification snapshot",
+      "contractHash": "bc55c30753efaa9c",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 20,
+      "requiredChecksPassed": 20
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "verification snapshot"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "verification snapshot"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "verification snapshot"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "verification snapshot"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "advisory_gate_operation",
+      "detail": "Preflight Review is advisory by default; the human review step still decides whether to pause.",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Implementation と required checks は完了し、policy gate は advisory default のままである。",
+    "expectedReviewFocus": [
+      "policy gate behavior",
+      "current_status rendering"
+    ]
+  },
+  "contractHash": "bc55c30753efaa9c"
+}

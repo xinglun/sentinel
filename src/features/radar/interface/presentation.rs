@@ -38,6 +38,50 @@ pub struct SignalSummaryViewModel {
     pub regime_age_value: String,
     pub flow_label: String,
     pub flow_value: String,
+    pub breadth_label: String,
+    pub breadth_value: String,
+    pub breadth_semantic_label: String,
+    pub breadth_semantic_value: String,
+    pub supply_phase_label: String,
+    pub supply_phase_value: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct LeadershipSnapshotViewModel {
+    pub title: String,
+    pub primary_leader_label: String,
+    pub primary_leader_value: String,
+    pub secondary_leaders_label: String,
+    pub secondary_leaders_values: Vec<String>,
+    pub watchlist_leaders_label: String,
+    pub watchlist_leaders_values: Vec<String>,
+    pub leadership_confidence_label: String,
+    pub leadership_confidence_value: String,
+    pub leadership_conflict_label: String,
+    pub leadership_conflict_value: String,
+    pub boundary: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct MarketChangeLogViewModel {
+    pub title: String,
+    pub leader_label: String,
+    pub leader_value: String,
+    pub breadth_label: String,
+    pub breadth_value: String,
+    pub risk_label: String,
+    pub risk_value: String,
+    pub supply_phase_label: String,
+    pub supply_phase_value: String,
+    pub confidence_label: String,
+    pub confidence_value: String,
+    pub interpretation_label: String,
+    pub interpretation_value: String,
+    pub structural_change_label: String,
+    pub structural_change_value: String,
+    pub summary_label: String,
+    pub summary_values: Vec<String>,
+    pub boundary: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -563,6 +607,10 @@ pub struct PresentationPacket {
     pub risk_opportunity_summary: RiskOpportunitySummaryViewModel,
     #[serde(default)]
     pub risk_opportunities: Vec<RiskOpportunityViewModel>,
+    #[serde(default)]
+    pub leadership_snapshot: Option<LeadershipSnapshotViewModel>,
+    #[serde(default)]
+    pub market_change_log: Option<MarketChangeLogViewModel>,
     #[serde(default)]
     pub notices: Vec<String>,
     #[serde(default)]

@@ -12,6 +12,7 @@ use crate::features::shared::interface::i18n::Language;
 use std::collections::BTreeMap;
 
 use super::capital_absorption_i18n::*;
+use super::capital_absorption_supply_phase_read_model::build_supply_phase_view_model;
 
 pub(crate) fn build_capital_absorption_report_from_config(
     manual: Option<&config::CapitalAbsorptionConfig>,
@@ -54,7 +55,7 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &snapshot.observed_events,
         language,
     );
-    push_potential_supply_trend(&mut out, &snapshot.potential_supply_trend, language);
+    push_potential_supply_trend(&mut out, snapshot.potential_supply_trend, language);
     push_potential_supply_pressure(
         &mut out,
         &snapshot.potential_supply_pressure,
@@ -63,6 +64,20 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &snapshot.capital_demand,
         language,
     );
+    let supply_phase = build_supply_phase_view_model(
+        snapshot.potential_supply_pressure.level,
+        snapshot.potential_supply_trend,
+        language,
+    );
+    out.push_str(&format!("{}\n\n", supply_phase.title));
+    out.push_str(&format!(
+        "{} {}\n\n",
+        supply_phase.phase_label, supply_phase.phase_value
+    ));
+    out.push_str(&format!(
+        "{} {}\n\n",
+        supply_phase.summary_label, supply_phase.summary_value
+    ));
     push_supply_queue(
         &mut out,
         capital_absorption_near_term_supply_label(language),
@@ -81,9 +96,7 @@ pub(crate) fn build_capital_absorption_report_from_config(
         capital_absorption_structural_impact_label(language),
         snapshot.structural_impact
     ));
-    out.push_str(capital_absorption_current_phase_boundary(language));
-    out.push_str("\n\n");
-    out.push_str(capital_absorption_boundary(language));
+    out.push_str(&supply_phase.boundary);
     out
 }
 
@@ -97,7 +110,7 @@ struct CapitalAbsorptionRenderSnapshot {
     upcoming_supply_timeline: Vec<CapitalAbsorptionSupplyTimelineItem>,
     observation_watchlist: Vec<CapitalAbsorptionObservationWatchlistItem>,
     ipo_queue_history: Vec<CapitalAbsorptionIpoQueueHistoryPoint>,
-    potential_supply_trend: String,
+    potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend,
     potential_supply_pressure: CapitalAbsorptionPotentialSupplyPressure,
     capital_demand: CapitalDemandRenderSnapshot,
     capital_supply: CapitalSupplyRenderSnapshot,
@@ -161,10 +174,7 @@ impl CapitalAbsorptionRenderSnapshot {
             upcoming_supply_timeline: Vec::new(),
             observation_watchlist: Vec::new(),
             ipo_queue_history: Vec::new(),
-            potential_supply_trend: capital_absorption_potential_supply_trend_value(
-                CapitalAbsorptionPotentialSupplyTrend::Stable,
-                language,
-            ),
+            potential_supply_trend: CapitalAbsorptionPotentialSupplyTrend::Stable,
             potential_supply_pressure: default_capital_absorption_potential_supply_pressure(),
             observed_events,
             capital_demand: CapitalDemandRenderSnapshot::from_config(
@@ -199,10 +209,7 @@ impl CapitalAbsorptionRenderSnapshot {
             upcoming_supply_timeline: value.upcoming_supply_timeline.clone(),
             observation_watchlist: value.observation_watchlist.clone(),
             ipo_queue_history: value.ipo_queue_history.clone(),
-            potential_supply_trend: capital_absorption_potential_supply_trend_value(
-                value.potential_supply_trend,
-                language,
-            ),
+            potential_supply_trend: value.potential_supply_trend,
             potential_supply_pressure: value.potential_supply_pressure.clone(),
             observed_events: value
                 .observed_events
@@ -447,13 +454,17 @@ fn push_actual_capital_supply(
     out.push('\n');
 }
 
-fn push_potential_supply_trend(out: &mut String, trend: &str, language: Language) {
+fn push_potential_supply_trend(
+    out: &mut String,
+    trend: CapitalAbsorptionPotentialSupplyTrend,
+    language: Language,
+) {
     out.push_str(capital_absorption_potential_supply_trend_label(language));
     out.push_str(":\n");
     out.push_str(&format!(
         "- {} {}\n\n",
         capital_absorption_trend_label(language),
-        trend
+        capital_absorption_potential_supply_trend_value(trend, language)
     ));
 }
 

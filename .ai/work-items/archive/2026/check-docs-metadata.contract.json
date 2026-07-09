@@ -1,0 +1,279 @@
+{
+  "contractVersion": 2,
+  "workItemId": "check-docs-metadata",
+  "mode": "code",
+  "title": "docs metadata チェック target を追加する",
+  "baseCommit": "aa32cb44aee33fe76b9f4fc7dc069b00161e61cd",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/README.md",
+      "status": "M",
+      "fingerprint": "7c7a100c423038ca28c2cbbe8883757f11bbd7ab6aaf3cd2d13c1ef53aa4757b"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "522a42e16325de12df8a3ba185a181adf82bf9359bc2eb6b6f1abebc9e84dd73"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "status": "M",
+      "fingerprint": "185fc5fc9bda824e5b68e999d689cefcbc0f3f9fd49166657c5fdbcc630cc290"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "27caa89b6b1ec57834ef7c31ea5f64e22c47cf351809388fa489b5462cdbde98"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "status": "M",
+      "fingerprint": "054d27ad511a163f4dea2ab2e77cc2eade074a06952b49c8c9c10d1d9899d1ee"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "status": "??",
+      "fingerprint": "3acb59834138b279362ee9e61e6634a61540d23ebc94a6251c6c6d2c94005d23"
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "status": "??",
+      "fingerprint": "8cac5966e14e244be02539f1d65db3f5505e41a14a83d13d628a801fcf0fa973"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-preflight-review.contract.json",
+      "status": "??",
+      "fingerprint": "bc55c30753efaa9c7b1e4dd0a1fc8d226f2866d992ed881b41d7d5281e866001"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-preflight-review.summary.json",
+      "status": "??",
+      "fingerprint": "c44265bb2eec5164e5a71426ba16875ef21e5b83c60dcd7e19919280b3be7f06"
+    },
+    {
+      "path": "AGENTS.md",
+      "status": "M",
+      "fingerprint": "97b49d4ff7bddb1cb4a28a6bf32d45b7be97c0417fe0dbdd99392dbe53f832ae"
+    },
+    {
+      "path": "GEMINI.md",
+      "status": "M",
+      "fingerprint": "6506bd6a5cdf2544faf045ffe6d7b9b201a960aa552d2dee4739505e824f10e2"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "cb9072f10d3e3dca75c371565377acf107a838efe16f59998bca4d5950968e99"
+    },
+    {
+      "path": "docs/specs/DEVELOPMENT_PROTOCOL.md",
+      "status": "M",
+      "fingerprint": "121f31d62eb39141fbf19795020d57bdd9446b2b147afc052e4ecfc36eed312b"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "status": "M",
+      "fingerprint": "46328d6b130b295764fbc4d9c8b39aac3114dcaeeda0772debe489941919fca4"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "status": "M",
+      "fingerprint": "4e7dc78b3cb03e3cdb1eb6f8b032b65cdd13421fda2a04a890cdfb63ea0e13b9"
+    },
+    {
+      "path": "scripts/ai_preflight.py",
+      "status": "M",
+      "fingerprint": "845d39344b0f5f3ee69ca9a29b0c4907f278bc1259d71095ec7fe3da30c759df"
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "status": "??",
+      "fingerprint": "eb9f13f7baf5e524e2baf4312ac40a8def6f37d39b1ae7266db73d6063d96093"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "status": "M",
+      "fingerprint": "515bfa780a2359de66dbd2f7b8118d525f0fbba45399a66d2019850f47865ea2"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "status": "??",
+      "fingerprint": "64428b29d349c7ac3392728bb0cbe7d6d0ae64fec128187a366fc37990d6c5fa"
+    },
+    {
+      "path": "templates/agents/AI_COCKPIT_RULES.md",
+      "status": "??",
+      "fingerprint": "e8c79f69f7ec90fdfbadb9f1463807c5c21ce7ae65544531538dc19049133857"
+    },
+    {
+      "path": "templates/glossary.md",
+      "status": "??",
+      "fingerprint": "f9ddce839de9626ccdf099088fa1bd5adae0bce8ec763b23fddbbfe2fa5d52c2"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "status": "??",
+      "fingerprint": "1a2a08aa60058873f19c38aecbf69427b75ba4085723e649528201ed1c4e90ed"
+    }
+  ],
+  "problemStatement": "Sentinel の docs gate と ai-start の preflight pause を、既存の Make 入口へまとめて接続する。",
+  "intent": {
+    "problem": "docs metadata の互換入口がなく、docs gate、template、ai-start の扱いが分散している。",
+    "constraints": [
+      "新しい Contract field は追加しない。",
+      "既存の docs gate をまとめる compatibility target として実装する。",
+      "ai-start は code mode で Preflight Review を表示し、非 ready なら implementation を止める。",
+      "verification は make entrypoint のみを使う。"
+    ],
+    "rationale": "Evidence over Self-Declaration を維持しつつ、Sentinel の既存 governance と template copy list に自然に接続する。"
+  },
+  "scope": [
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/check-docs-metadata.contract.json",
+    ".ai/work-items/active/check-docs-metadata.summary.json",
+    "Makefile",
+    "scripts/ai_start.py",
+    "scripts/ai_test_start.py",
+    "templates/make/Makefile.ai",
+    "target/ai_preflight_review.json"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": "Makefile",
+      "reason": "docs metadata の互換入口と quality chain の接続点。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "code mode の preflight pause と status 同期の実装点。"
+    },
+    {
+      "path": "scripts/ai_preflight.py",
+      "reason": "Preflight Review を生成・検証する既存 entrypoint。"
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Contract evidence から readiness と pause rule を派生する既存ロジック。"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "reason": "ai-start の時系列と docs metadata 互換入口を固定する回帰 test。"
+    },
+    {
+      "path": ".ai/cockpit/checks.yaml",
+      "reason": "共通 check catalog に docs metadata 互換入口を記録する。"
+    },
+    {
+      "path": "templates/make/Makefile.ai",
+      "reason": "template copy list の Makefile fragment にも互換入口を反映する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "既存の doc gate と ai-start の流れを互換入口へまとめる作業であり、production Rust code には触れない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が task に合わせて確定した。"
+  },
+  "preReviewWarnings": [
+    "ai-start は advisory preflight を見て自動的に pause するため、非 ready の回帰テストを含める。",
+    "check-docs-metadata は新しい独立ルールではなく、既存 docs gate の互換入口として維持する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "make check-docs-metadata が既存 docs gate をまとめる互換入口として存在する。",
+    "make check-rust と make quality が check-docs-metadata を経由する。",
+    "make ai-start TASK=... MODE=code が preflight 前後で current_status を同期する。",
+    "ai-start が non-ready preflight を pause として扱い、静かに継続しない。",
+    "templates/make/Makefile.ai と .ai/cockpit/checks.yaml に docs metadata 互換入口が反映される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json SUMMARY=.ai/work-items/active/check-docs-metadata.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/check-docs-metadata.summary.json CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json SUMMARY=.ai/work-items/active/check-docs-metadata.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/check-docs-metadata.contract.json SUMMARY=.ai/work-items/active/check-docs-metadata.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make test-ai-start",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

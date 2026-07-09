@@ -624,12 +624,12 @@ fn gray_rhino_auto_discovery_finds_governance_control_and_reports_inline() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("Gray Rhino Summary (semantic isolation)"));
-    assert!(stdout.contains("Market active candidates: 0"));
-    assert!(stdout.contains("Company active candidates: none"));
-    assert!(stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
+    assert!(stdout.contains("Quiet"));
+    assert!(!stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
+    assert!(!stdout.contains("Market active candidates: 0"));
+    assert!(!stdout.contains("Company active candidates: none"));
     assert!(!stdout.contains("SPACEX / Company / Governance Concentration / Expanding"));
     assert!(!stdout.contains("IPO voting terms"));
-    assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
     assert!(!stdout.contains("gate signal"));
@@ -667,9 +667,11 @@ fn gray_rhino_observation_daily_report_does_not_replay_sec_htm_cache() {
 
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
+    assert!(stdout.contains("Gray Rhino Summary (semantic isolation)"));
+    assert!(stdout.contains("Quiet"));
+    assert!(!stdout.contains("Gray Rhino Inline Reference (semantic isolation)"));
     assert!(!stdout.contains("TSLA / Company / Governance Concentration / Expanding"));
     assert!(!stdout.contains("STALE / Company / Governance Concentration"));
-    assert!(stdout.contains("reference only; no trading"));
     assert!(!stdout.contains("BUY"));
     assert!(!stdout.contains("SELL"));
     assert!(!stdout.contains("gate signal"));
