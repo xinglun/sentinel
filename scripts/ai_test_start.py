@@ -53,6 +53,7 @@ def test_start_generates_active_status(root: Path) -> None:
     with (
         patch.object(ai_start, "PROJECT_ROOT", root),
         patch.object(ai_start, "ACTIVE_DIR", active),
+        patch.object(ai_start, "PREFLIGHT_REVIEW_PATH", root / "target" / "ai_preflight_review.json"),
         patch.object(ai_start, "current_head", return_value="abc123"),
         patch.object(
             ai_start,
