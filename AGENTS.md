@@ -125,6 +125,7 @@ Work Item 化の基準は AI が関与したかではなく、repo diff と revi
 7. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []`、`executionDecision: continue`、`agentCapability.canImplement: true`、`agentCapability.canVerify: true`、`agentCapability.needsHumanDecision: false` を確認し、`scope` に含まれる範囲だけを変更する。
 8. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
 9. 必須 check が失敗した状態で `ready_for_review` と報告しない。required checks が通過しても残余 risk がある場合は、`ready_with_risks` と `expectedReviewFocus` を Summary に記録する。
+10. `make ai-preflight` は実装前の共通入口として使い、active Contract がある場合は Preflight Review を表示して pause rule を明示する。`make generate-ai-preflight-review` は JSON 生成のみ、`make check-ai-preflight-review` は policy 検証のみを担う。
 
 
 ### 5.1 Work Item 境界 checklist

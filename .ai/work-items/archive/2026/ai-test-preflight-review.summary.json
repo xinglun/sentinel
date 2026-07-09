@@ -1,0 +1,159 @@
+{
+  "workItemId": "ai-test-preflight-review",
+  "contractPath": ".ai/work-items/archive/2026/ai-test-preflight-review.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-test-preflight-review.contract.json",
+      "reason": "Work Item Contract を test 修正に合わせて更新する。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-test-preflight-review.summary.json",
+      "reason": "AI Change Summary を test 修正に合わせて更新する。"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "reason": "Preflight Review 回帰 test の status 期待値を現行 ai_start に合わせる。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_start.py",
+    "scripts/ai_test_start.py",
+    "scripts/ai_test_preflight_review.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-preflight-review",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-test-preflight-review.summary.json CONTRACT=.ai/work-items/active/ai-test-preflight-review.contract.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "ai_start の現在の status 同期に合わせる test 修正で、production code は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "586840a1369f178c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    },
+    {
+      "stage": "before_edit",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "586840a1369f178c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    },
+    {
+      "stage": "before_ready",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "586840a1369f178c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    },
+    {
+      "stage": "after_verification",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "586840a1369f178c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "test-only の code-ready Contract に更新した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "updated",
+      "note": "変更対象を scripts/ai_test_preflight_review.py に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "required checks を通過し、ready 判定に進める。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "verification 結果を記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "contract_readiness",
+      "detail": "test-only 修正だが、現行 ai_start の状態同期時系列に追従しているため、回帰時に同じ順序を維持する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks が通過し、残る risk は test 回帰の監視に限定される。",
+    "expectedReviewFocus": [
+      "scripts/ai_test_preflight_review.py の status 回数と順序が ai_start と一致しているか",
+      "ai-start の status 同期変更が再度発生した場合に test が追従できるか",
+      "shared dirty workspace の scope 表示が review を分かりにくくしていないか"
+    ]
+  }
+}

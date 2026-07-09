@@ -13,6 +13,7 @@ from typing import Any
 from ai_json import load_json as load_json_file
 from ai_observability import create_observability, elapsed_ms
 from ai_scenario_coverage import scenario_coverage_state
+from ai_generate_status import load_preflight_review, preflight_review_section_lines
 
 
 REQUIRED_FIELDS = ("workItemId", "mode")
@@ -71,6 +72,16 @@ def main() -> int:
     expected_scenario_line = f"- State: `{scenario_state}`"
     if "## Scenario Coverage" not in status or expected_scenario_line not in status:
         issues.append(f"status に Scenario Coverage の表示がありません: {scenario_state}")
+
+    preflight_review = load_preflight_review(contract, Path(args.contract))
+    if isinstance(preflight_review, dict):
+        expected_lines = preflight_review_section_lines(preflight_review)
+        if "## Preflight Review" not in status:
+            issues.append("status に Preflight Review section がありません。")
+        else:
+            for line in expected_lines:
+                if line and line not in status:
+                    issues.append(f"status に Preflight Review の表示がありません: {line}")
 
     verification_status = {
         item.get("command"): item.get("result")

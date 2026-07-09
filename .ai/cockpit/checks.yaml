@@ -19,6 +19,10 @@ checks:
     command: make audit-docs
     purpose: audit_daily ドキュメント契約を確認する。
 
+  docsMetadata:
+    command: make check-docs-metadata
+    purpose: 既存の docs gate をまとめた互換入口として metadata / language / link / index を確認する。
+
   diffCheck:
     command: make diff-check
     purpose: whitespace と patch 形式の問題を検出する。
@@ -61,6 +65,14 @@ checks:
     purpose: Cockpit current status を生成する。
 
 
+  aiPreflightReview:
+    commandTemplate: make generate-ai-preflight-review CONTRACT={contractPath}
+    purpose: Preflight Review JSON を生成する。
+
+  aiPreflightReviewCheck:
+    commandTemplate: make check-ai-preflight-review CONTRACT={contractPath}
+    purpose: Preflight Review JSON と policy を検証する。
+
   aiStatusCheck:
     commandTemplate: make check-ai-status CONTRACT={contractPath} SUMMARY={summaryPath}
     purpose: current_status.md が Contract / Summary と一致し、required checks が passed と表示されることを確認する。
@@ -82,4 +94,5 @@ selectionRules:
   - "test、snapshot、i18n、`.ai/work-items/**` を変更した場合は Backtrack Guard を実行し、無宣言削除を許可しない。"
   - "`src/**/*.rs` を変更した場合は Coverage Guard を実行し、test 変更証跡を必須とする。"
   - "Work Item を archive した場合、または `.ai/cockpit/current_status.md` を更新した場合は `make check-ai-status-consistency` を実行する。"
+  - "`target/ai_preflight_review.json` を生成した場合は `make check-ai-preflight-review` を実行する。"
   - "pull_request や release 前の diff で `.ai/work-items/archive/**` を含む場合は `make check-ai-pr AI_BASE_COMMIT=<merge-base-sha>` を実行する。"

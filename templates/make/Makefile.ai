@@ -1,0 +1,44 @@
+# AI Cockpit command entrypoints template.
+# Include from a repository Makefile if you want the same governance flow.
+
+AI_CONTRACT ?= $(shell ls .ai/work-items/active/*.contract.json 2>/dev/null | head -n 1)
+AI_SUMMARY ?= $(shell ls .ai/work-items/active/*.summary.json 2>/dev/null | head -n 1)
+CONTRACT ?= $(AI_CONTRACT)
+SUMMARY ?= $(AI_SUMMARY)
+SUMMARY_ARGS ?= $(if $(CONTRACT),--contract $(CONTRACT))
+STATUS_ARGS ?= $(if $(SUMMARY),--summary $(SUMMARY))
+TASK ?=
+TITLE ?=
+MODE ?= investigate
+
+.PHONY: ai-preflight generate-ai-preflight-review check-ai-preflight-review ai-start ai-finish generate-cockpit-status check-ai-status check-ai-status-consistency check-docs-metadata
+
+ai-preflight:
+	python3 scripts/ai_preflight.py
+
+generate-ai-preflight-review:
+	python3 scripts/ai_preflight_review.py $(if $(CONTRACT),--contract $(CONTRACT))
+
+check-ai-preflight-review:
+	python3 scripts/ai_preflight_review.py --check $(if $(CONTRACT),--contract $(CONTRACT))
+
+check-docs-metadata:
+	$(MAKE) audit-docs
+	$(MAKE) check-doc-forbidden-terms
+	$(MAKE) check-doc-links
+	$(MAKE) check-doc-index
+
+ai-start:
+	python3 scripts/ai_start.py --task "$(TASK)" --title "$(TITLE)" --mode "$(MODE)"
+
+ai-finish:
+	python3 scripts/ai_finish.py --task "$(TASK)"
+
+generate-cockpit-status:
+	python3 scripts/ai_generate_status.py $(CONTRACT) $(STATUS_ARGS)
+
+check-ai-status:
+	python3 scripts/ai_check_status.py .ai/cockpit/current_status.md $(SUMMARY_ARGS) $(STATUS_ARGS)
+
+check-ai-status-consistency:
+	python3 scripts/ai_check_status_consistency.py

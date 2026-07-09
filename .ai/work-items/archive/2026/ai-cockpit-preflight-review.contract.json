@@ -1,0 +1,264 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-cockpit-preflight-review",
+  "mode": "code",
+  "title": "AI Cockpit Preflight Review を導入する",
+  "baseCommit": "aa32cb44aee33fe76b9f4fc7dc069b00161e61cd",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Sentinel には、Work Item Contract の既存 evidence から implementation readiness を先に示す Preflight Review がないため、code mode の開始時に pause 判断を一貫して出せない。",
+  "intent": {
+    "problem": "Work Item Contract の既存 evidence から Preflight Review を導出し、ai-start と Cockpit Status に implementation readiness を表示できるようにする。",
+    "constraints": [
+      "Contract schema に新しい field を追加しない。",
+      "target/ai_preflight_review.json だけを生成し、target/ai_preflight_review.md は生成しない。",
+      "verification は make entrypoint のみを使う。",
+      "repository Markdown は日本語本文と front matter の規則に従う。"
+    ],
+    "rationale": "Evidence over Self-Declaration を Sentinel に移植し、code mode の開始前にレビュー可視化と pause rule を共通化するため。"
+  },
+  "scope": [
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/cockpit/checks.yaml",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/template_adoption.md",
+    ".ai/guards/preflight_review_policy.yaml",
+    ".ai/glossary.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "Makefile",
+    "docs/specs/DEVELOPMENT_PROTOCOL.md",
+    "scripts/ai_preflight.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_start.py",
+    "scripts/ai_generate_status.py",
+    "scripts/ai_check_status.py",
+    "scripts/ai_test_preflight_review.py",
+    "scripts/ai_test_start.py",
+    "scripts/ai_test_generate_status.py",
+    "scripts/ai_test_work_item_contract.py",
+    "scripts/ai_test_work_item_risk_readiness.py",
+    "scripts/ai_test_guards.py",
+    "scripts/ai_test_lifecycle.py",
+    "templates/agents/AI_COCKPIT_RULES.md",
+    "templates/glossary.md",
+    "templates/make/Makefile.ai",
+    ".ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+    ".ai/work-items/active/ai-cockpit-preflight-review.summary.json"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "Cargo.toml",
+    "Cargo.lock",
+    ".github/workflows/**",
+    "reports/**",
+    "backtest/**",
+    "target/**"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/scripts/ai_preflight_review.py",
+      "reason": "Preflight Review の evidence から readiness を導出する基準実装。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/scripts/ai_start.py",
+      "reason": "ai-start が review を表示して pause する実行順序の参照。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/scripts/ai_generate_status.py",
+      "reason": "current_status.md へ Preflight Review を注入する表示面の参照。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/scripts/ai_governance_compression.py",
+      "reason": "Cockpit Status に Review を圧縮表示する評価ロジックの参照。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/docs/reference/how-to-read-cockpit-status.md",
+      "reason": "Preflight Review と Pause Rule の説明を Sentinel 文体へ移植するため。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/docs/getting-started/first-work-item.md",
+      "reason": "ai-start の code mode で review を先に出す運用の参照。"
+    },
+    {
+      "path": "/Users/sei-rinn/dev/workspace_python/ai-cockpit-template/docs/roadmap.md",
+      "reason": "V2.6.5 Preflight Review / Evidence over Self-Declaration の設計意図の参照。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Sentinel の Cockpit 状態と review 説明の現行 SSOT。"
+    },
+    {
+      "path": ".ai/cockpit/status_policy.yaml",
+      "reason": "current_status.md の state / archive 後の表示方針の SSOT。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "既存の ai-preflight / generate-cockpit-status / status check entrypoint の SSOT。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "Sentinel の ai-start 実装と preflight 挿入点。"
+    },
+    {
+      "path": "scripts/ai_generate_status.py",
+      "reason": "current_status.md の生成ロジック。"
+    },
+    {
+      "path": "scripts/ai_check_status.py",
+      "reason": "current_status.md の検証ロジック。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "AI ガバナンス入口の文脈。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Sentinel の repository-wide rule。"
+    },
+    {
+      "path": "GEMINI.md",
+      "reason": "Gemini 向けの repository rule。"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "reason": "source template から Sentinel へ採用する判断の記録。"
+    },
+    {
+      "path": "docs/specs/DEVELOPMENT_PROTOCOL.md",
+      "reason": "文書化された開発プロトコルと review/pause の説明。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "変更は AI governance、文書、Make entrypoint、テストに閉じており、product Rust code へは触れない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "既存の Contract evidence だけで Preflight Review と pause rule を実装できる。"
+  },
+  "preReviewWarnings": [
+    "Preflight Review は reviewer visibility であり、Cockpit Status だけで implementation pause を置き換えない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Work Item Contract から Preflight Review を導出する Python 実装が追加され、json だけを生成する。",
+    "make ai-preflight が active Contract あり/なしの両方で妥当な挙動を示し、review が not_ready のときは pause を明示する。",
+    "make generate-ai-preflight-review と make check-ai-preflight-review が追加される。",
+    "current_status.md が Preflight Review の Status / Recommendation / Decision Drivers / Pause Rule を表示する。",
+    "The generator must not create target/ai_preflight_review.md.",
+    "preflight_review_policy.yaml は advisory default で、gateEnabled が true のときだけ needs_human_confirmation / not_ready を block する。",
+    "AGENTS.md、GEMINI.md、.ai/README.md、.ai/cockpit/README.md、.ai/glossary.md、docs/specs/DEVELOPMENT_PROTOCOL.md が Sentinel の言語規則に従って更新される。",
+    "templates/agents/AI_COCKPIT_RULES.md、templates/glossary.md、templates/make/Makefile.ai が追加され、採用メモに反映される。",
+    "tests が readiness 派生、advisory default、gate blocking、ai-start pause、status rendering、md 非生成、docs metadata、template reference coverage を固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make diff-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-preflight-review",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-cockpit-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make generate-ai-preflight-review",
+      "required": true
+    },
+    {
+      "command": "make check-ai-preflight-review",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone
@@ -18,7 +19,12 @@ from ai_scenario_coverage import scenario_coverage_state
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT = PROJECT_ROOT / ".ai" / "cockpit" / "current_status.md"
 BACKTRACK_REPORT = PROJECT_ROOT / "target" / "ai_backtrack_report.json"
+DEFAULT_PREFLIGHT_REVIEW = PROJECT_ROOT / "target" / "ai_preflight_review.json"
 DEFAULT_RETRY_THRESHOLD = 5
+
+
+def contract_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:16]
 
 
 def consecutive_failure_count(work_item_id: str, log_path: Path = DEFAULT_LOG_PATH) -> int:
@@ -90,6 +96,51 @@ def status_for(
         if isinstance(readiness, dict) and readiness.get("status") == "ready_with_risks":
             return "ready_with_risks", []
     return "ready_for_review", []
+
+
+def load_preflight_review(
+    contract: dict[str, Any],
+    contract_path: Path,
+    review_path: Path | None = None,
+) -> dict[str, Any] | None:
+    review_path = review_path or DEFAULT_PREFLIGHT_REVIEW
+    if not review_path.exists():
+        return None
+    try:
+        report = load_json_file(review_path)
+    except (OSError, json.JSONDecodeError, ValueError):
+        return None
+    if not isinstance(report, dict):
+        return None
+    if report.get("workItemId") != contract.get("workItemId"):
+        return None
+    if report.get("contractHash") != contract_hash(contract_path):
+        return None
+    if not isinstance(report.get("status"), str) or not isinstance(report.get("recommendation"), str):
+        return None
+    return report
+
+
+def preflight_review_section_lines(report: dict[str, Any]) -> list[str]:
+    lines = [
+        "",
+        "## Preflight Review",
+        "",
+        f"- Status: `{report.get('status', '')}`",
+        f"- Recommendation: {report.get('recommendation', '')}",
+        "- Decision Drivers:",
+    ]
+    decision_drivers = report.get("decisionDrivers", [])
+    if isinstance(decision_drivers, list) and decision_drivers:
+        for item in decision_drivers:
+            if isinstance(item, str) and item.strip():
+                lines.append(f"  - {item.strip()}")
+    else:
+        lines.append("  - none")
+    pause_rule = report.get("pauseRule", "")
+    if isinstance(pause_rule, str) and pause_rule.strip():
+        lines.extend(["- Pause Rule:", f"  {pause_rule.strip()}"])
+    return lines
 
 
 def parse_args() -> argparse.Namespace:
@@ -180,6 +231,7 @@ def main() -> int:
         observability_log=Path(args.observability_log),
     )
     backtrack = load_json_file(BACKTRACK_REPORT) if BACKTRACK_REPORT.exists() else None
+    preflight_review = load_preflight_review(contract, contract_path)
     changed_files = summary.get("changedFiles", []) if isinstance(summary, dict) else []
     verification = summary.get("verification", []) if isinstance(summary, dict) else []
     review_readiness = summary.get("reviewReadiness") if isinstance(summary, dict) else None
@@ -229,6 +281,9 @@ def main() -> int:
                 lines.append(f"- `{item.get('path', '')}`: {item.get('reason', '')}")
     else:
         lines.append("- none")
+
+    if isinstance(preflight_review, dict):
+        lines.extend(preflight_review_section_lines(preflight_review))
 
     lines.extend(["", "## Review Readiness", ""])
     if isinstance(review_readiness, dict):

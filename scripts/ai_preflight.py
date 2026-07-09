@@ -61,8 +61,24 @@ def cleanup_archived_active_residue() -> int:
     return removed
 
 
+def active_contracts() -> list[Path]:
+    if not ACTIVE_DIR.exists():
+        return []
+    return sorted(path for path in ACTIVE_DIR.glob("*.contract.json") if path.is_file())
+
+
 def run_check(label: str, script: Path) -> int:
     result = subprocess.run([sys.executable, str(script)], cwd=PROJECT_ROOT, check=False)
+    if result.returncode != 0:
+        print(f"❌ ai-preflight failed: {label}", file=sys.stderr)
+    return result.returncode
+
+
+def run_make(label: str, target: str, *, contract: Path | None = None) -> int:
+    command = ["make", target]
+    if contract is not None:
+        command.append(f"CONTRACT={contract.relative_to(PROJECT_ROOT).as_posix()}")
+    result = subprocess.run(command, cwd=PROJECT_ROOT, check=False)
     if result.returncode != 0:
         print(f"❌ ai-preflight failed: {label}", file=sys.stderr)
     return result.returncode
@@ -78,6 +94,18 @@ def main() -> int:
         code = run_check(label, script)
         if code != 0:
             return code
+
+    contracts = active_contracts()
+    if len(contracts) == 1:
+        contract = contracts[0]
+        review_checks = [
+            ("preflight review generation", "generate-ai-preflight-review"),
+            ("preflight review validation", "check-ai-preflight-review"),
+        ]
+        for label, target in review_checks:
+            code = run_make(label, target, contract=contract)
+            if code != 0:
+                return code
     return 0
 
 
