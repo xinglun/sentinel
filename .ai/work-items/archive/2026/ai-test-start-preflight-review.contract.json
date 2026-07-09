@@ -1,0 +1,129 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-test-start-preflight-review",
+  "mode": "code",
+  "title": "ai-start テストの Preflight Review を同期する",
+  "baseCommit": "816a2fa811283ed2b606e4be6256a72cc2769adc",
+  "baselineDirtyPaths": [],
+  "problemStatement": "ai_start の code mode は Preflight Review を前提に pause するため、回帰テストが review 生成先と参照先の一致を保証する必要がある。",
+  "intent": {
+    "problem": "scripts/ai_test_start.py の成功系 fixture が temp root に review を書いているが、ai_start が読むのは module-level の PREFLIGHT_REVIEW_PATH であり、CI で review 未検出として失敗する。",
+    "constraints": [
+      "新しい Contract field は追加しない。",
+      "production code ではなく回帰 test を更新する。",
+      "verification は make entrypoint のみを使う。"
+    ],
+    "rationale": "ai_start の現行実装に合わせて、success path でも non-ready path でも review の読み取り先を一致させる必要がある。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai-test-start-preflight-review.contract.json",
+    ".ai/work-items/active/ai-test-start-preflight-review.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_test_start.py"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "scripts/ai_start.py",
+    "Makefile"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "code mode で参照される Preflight Review の読み取り先と pause 条件の SSOT。"
+    },
+    {
+      "path": "scripts/ai_test_start.py",
+      "reason": "ai_start の回帰 test を修正する対象。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "review の読み取り先を test fixture で合わせるだけの回帰修正であり、production code には触れない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が task に合わせて確定した。"
+  },
+  "preReviewWarnings": [
+    "成功系 fixture だけでなく pause 系 fixture でも review path の一致を維持する。",
+    "既存の ai_start 実装はそのままに、test 側で review 生成先を module-level path に合わせる。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "scripts/ai_test_start.py の成功系 fixture が ai_start の PREFLIGHT_REVIEW_PATH と一致する review file を生成する。",
+    "make test-ai-start が通る。",
+    "ai_start の code mode 成功パスで Preflight Review 未検出の誤判定が発生しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-start",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-start-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-test-start-preflight-review.summary.json CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-start-preflight-review.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-test-start-preflight-review.contract.json SUMMARY=.ai/work-items/active/ai-test-start-preflight-review.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
