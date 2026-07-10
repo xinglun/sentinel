@@ -520,10 +520,9 @@ fn split_clock_and_meridiem(token: &str) -> Option<(String, String)> {
     let lower = trimmed.to_ascii_lowercase();
     let (clock, meridiem) = if let Some(clock) = lower.strip_suffix("am") {
         (clock, "AM")
-    } else if let Some(clock) = lower.strip_suffix("pm") {
-        (clock, "PM")
     } else {
-        return None;
+        let clock = lower.strip_suffix("pm")?;
+        (clock, "PM")
     };
     if is_clock_token(clock) {
         Some((clock.to_string(), meridiem.to_string()))

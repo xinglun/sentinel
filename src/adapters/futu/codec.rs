@@ -3,7 +3,7 @@ use bytes::{Buf, BufMut, BytesMut};
 use std::io::Cursor;
 use tokio_util::codec::{Decoder, Encoder};
 
-pub const FUTU_PROTO_MAGIC: [u8; 2] = [b'F', b'T'];
+pub const FUTU_PROTO_MAGIC: [u8; 2] = *b"FT";
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
