@@ -1,0 +1,222 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-relative-strength",
+  "mode": "code",
+  "title": "接入 Leader 的真实相对强度数据源",
+  "baseCommit": "1fd15a4f394879bf1c8a1bf74e000f17781d0502",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "c9c279a5fe48b0fb36b9091ddc90300efbf2c8a55236fc988a22e6b1bff540fa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.contract.json",
+      "status": "??",
+      "fingerprint": "002ffae649394031b3659753c89d73c2bff7f53952aa3276cb5a1c0c978bac81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.summary.json",
+      "status": "??",
+      "fingerprint": "88192e5c9d382346897910c54b352b766c725dce38b53b3eec4809881d3c8199"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.contract.json",
+      "status": "??",
+      "fingerprint": "9f54263bee6d4da92d0740f916b7b666986275603950f5065246b20698fcbcc4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.summary.json",
+      "status": "??",
+      "fingerprint": "89d2978f4d76f3244a9804973d5f317c21fa43f68e0928b8455647b3fa661f06"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "??",
+      "fingerprint": "f1c73f6dc7fa1002d946c01bb91df066f9dd6319c7de475c0d2653ca011b4e1a"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "e75d7205257b6a091629f4f7cc07df93e7c4b78cd2cb9cddb794ac406c9d67c6"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "625d125f5b3ac415db391c7a829b24fc8482da49214a4365e94447359056daba"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "6de877761edb9df5f7cf56e9ef4fdb14bcc34f91ee6783d05e2c9c8c9ff19616"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "ff2d4322d29cc309ae2c59d2c7e1efd642f922ce4c89ce50fc79997a9e2a7e89"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "590d4418e193454931a435d959425faa2933a83dae4503d8067d31a4c7c2108b"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "d3e3b1060d9536b6d6409aa67fcdaf45bf7428aa71ae553887caa6c3829b8d79"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "89656d78fc8f39aee40a141bbb0271be955c5710e00a3a618b8219d6ae227cca"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "a09e394fef2f36d3feb27db4125767382b262ad47c8542193708afbd988bbf4b"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "fa8c51ed47a12fbc21d1b76a6737f9efecb6e6e3907c39fa0cd38538d293f226"
+    }
+  ],
+  "problemStatement": "Leader Persistence の Score が flow_acceleration を相対強度の代理値として使っているため、価格ベースの Leader relative strength を同一市場ベンチマークから計算して保存する。",
+  "intent": {
+    "problem": "各 watchlist asset の実測累積リターンと同一市場 benchmark の累積リターン差を日次 relative strength として Leader observation に供給する。",
+    "constraints": [
+      "ベンチマークは同一 run の TickerHistory から選び、未来値や別日の値を混在させない。",
+      "基準履歴がない場合は None に降級し、Decision、Gate、Execution、Trader、Position Sizing を変更しない。",
+      "relative strength は Observation / Score の入力に限定し、売買予測信号として扱わない。"
+    ],
+    "rationale": "既存の Yahoo/Futu 互換 TickerHistory に日次終値があり、新しい外部 API を増やさず再現可能な価格相対強度を計算できる。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/leader-relative-strength.contract.json",
+    ".ai/work-items/active/leader-relative-strength.summary.json",
+    "src/features/shared/domain/market_data.rs",
+    "src/features/radar/domain/features.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/application/engine.rs"
+  ],
+  "outOfScope": [
+    "新增外部行情 API 或改变 MarketDataProvider trait",
+    "调整 Leader 判定、Gate、Execution、Trader、Position Sizing 规则",
+    "把 relative strength 解释成价格预测信号"
+  ],
+  "sources": [
+    {"path": "src/features/shared/domain/market_data.rs", "reason": "日次終値を保持する TickerHistory 契約。"},
+    {"path": "src/features/radar/domain/features.rs", "reason": "AssetFeatures の価格特徴量計算箇所。"},
+    {"path": "src/features/radar/application/engine.rs", "reason": "同一 run の asset / benchmark history と DecisionPacket 装立経路。"},
+    {"path": "src/features/radar/domain/action_matrix.rs", "reason": "DecisionPacket 内の asset record へ observation-only 値を保存する境界。"},
+    {"path": "src/features/radar/interface/market_interpretation_read_model.rs", "reason": "Leader observation への relative strength 投影。"},
+    {"path": "src/features/radar/domain/leader_persistence.rs", "reason": "Score の relative strength factor。"},
+    {"path": "config.toml", "reason": "既存 watchlist に SPY benchmark が含まれることの確認。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "SPY を基準に asset の 63 日 excess return が正しく計算される", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "benchmark 欠損、履歴不足、日付不一致は None に降級する", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "relative strength が Decision / Gate / Execution の結果を変更しない", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "Leader Persistence の Score が flow_acceleration ではなく価格 relative strength を使う", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存 TickerHistory と watchlist benchmark だけで実装・検証でき、外部仕様の追加判断は不要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、benchmark 降級規則を確定した。"
+  },
+  "preReviewWarnings": [
+    "benchmark 選択、日付整合、欠損降級、Observation-only 境界を重点 review する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一 market の benchmark との差分リターンが relative strength として計算される。",
+    "63 日 window の値が DecisionPacket と Leader observation に保存され、過去日と同一口径で Score に入る。",
+    "benchmark 欠損・履歴不足・日付不一致は None として安全に降級する。",
+    "relative strength は Decision、Gate、Execution、Trader、Position Sizing を変更しない。",
+    "unit test と pipeline assembly test が benchmark、欠損、境界を検証する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json SUMMARY=.ai/work-items/active/leader-relative-strength.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-relative-strength.summary.json CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json SUMMARY=.ai/work-items/active/leader-relative-strength.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-relative-strength.contract.json SUMMARY=.ai/work-items/active/leader-relative-strength.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

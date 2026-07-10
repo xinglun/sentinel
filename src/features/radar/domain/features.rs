@@ -344,6 +344,28 @@ impl AssetFeatures {
     }
 }
 
+pub fn calculate_relative_strength(
+    asset: &TickerHistory<'_>,
+    benchmark: &TickerHistory<'_>,
+    window: usize,
+) -> Option<f64> {
+    if window == 0 || asset.bars.len() <= window || benchmark.bars.len() <= window {
+        return None;
+    }
+
+    let current = asset.bars.last()?;
+    let start = asset.bars.get(asset.bars.len() - 1 - window)?;
+    let benchmark_current = benchmark.bars.iter().find(|bar| bar.date == current.date)?;
+    let benchmark_start = benchmark.bars.iter().find(|bar| bar.date == start.date)?;
+    if start.close == 0.0 || benchmark_start.close == 0.0 {
+        return None;
+    }
+
+    Some(
+        ((current.close / start.close) - (benchmark_current.close / benchmark_start.close)) * 100.0,
+    )
+}
+
 impl MarketFeatures {
     pub fn compute(
         assets: &[AssetFeatures],
@@ -556,6 +578,7 @@ impl MarketFeatures {
 mod tests {
     use super::*;
     use crate::features::radar::domain::rules::{ParsedInertia, ParsedRules, TrendConfig};
+    use std::borrow::Cow;
 
     fn mock_rules() -> ParsedRules {
         ParsedRules {
@@ -641,5 +664,49 @@ mod tests {
         rules.inertia.core_breakdown_k = 2;
         let f2 = MarketFeatures::compute(&assets, 10, None, &rules);
         assert!(!f2.core_assets_breakdown);
+    }
+
+    #[test]
+    fn relative_strength_is_excess_return_against_benchmark() {
+        let dates = [
+            NaiveDate::from_ymd_opt(2026, 1, 1).unwrap(),
+            NaiveDate::from_ymd_opt(2026, 1, 2).unwrap(),
+        ];
+        let asset = TickerHistory {
+            symbol: "AAPL".to_string(),
+            bars: Cow::Owned(
+                dates
+                    .iter()
+                    .enumerate()
+                    .map(|(index, date)| DailyBar {
+                        date: *date,
+                        close: if index == 0 { 100.0 } else { 120.0 },
+                        volume: None,
+                    })
+                    .collect(),
+            ),
+            total_trading_days: 2,
+            latest_quote_timestamp: None,
+        };
+        let benchmark = TickerHistory {
+            symbol: "SPY".to_string(),
+            bars: Cow::Owned(
+                dates
+                    .iter()
+                    .enumerate()
+                    .map(|(index, date)| DailyBar {
+                        date: *date,
+                        close: if index == 0 { 100.0 } else { 110.0 },
+                        volume: None,
+                    })
+                    .collect(),
+            ),
+            total_trading_days: 2,
+            latest_quote_timestamp: None,
+        };
+
+        let strength = calculate_relative_strength(&asset, &benchmark, 1).unwrap();
+        assert!((strength - 10.0).abs() < 1e-9);
+        assert_eq!(calculate_relative_strength(&asset, &benchmark, 63), None);
     }
 }

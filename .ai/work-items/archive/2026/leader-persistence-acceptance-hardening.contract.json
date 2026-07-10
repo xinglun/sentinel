@@ -1,0 +1,287 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-persistence-acceptance-hardening",
+  "mode": "code",
+  "title": "关闭 Leader Persistence 剩余验收风险",
+  "baseCommit": "1fd15a4f394879bf1c8a1bf74e000f17781d0502",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "db1971ad5c58b3c51a225ac7294c6a6da0e1aa7f3304ad09942ff5814b6d7e88"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/benchmark-config.contract.json",
+      "status": "??",
+      "fingerprint": "5570ef6e600840876d0d47daed550093a072b3c40c6a5d37bb111f758b4d4b0d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/benchmark-config.summary.json",
+      "status": "??",
+      "fingerprint": "95e842363c9cebf402fc3d26d52f6cfe27ad10afd4ae7148cf6de6cd5f50b968"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.contract.json",
+      "status": "??",
+      "fingerprint": "002ffae649394031b3659753c89d73c2bff7f53952aa3276cb5a1c0c978bac81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.summary.json",
+      "status": "??",
+      "fingerprint": "88192e5c9d382346897910c54b352b766c725dce38b53b3eec4809881d3c8199"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.contract.json",
+      "status": "??",
+      "fingerprint": "9f54263bee6d4da92d0740f916b7b666986275603950f5065246b20698fcbcc4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.summary.json",
+      "status": "??",
+      "fingerprint": "89d2978f4d76f3244a9804973d5f317c21fa43f68e0928b8455647b3fa661f06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-relative-strength.contract.json",
+      "status": "??",
+      "fingerprint": "2f0eb203e59bc0141a87de2158a9b821567642d1cfebc55ae25830015b5d4418"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-relative-strength.summary.json",
+      "status": "??",
+      "fingerprint": "381def5b29a0b9dffa57f350c63a91ae8cd84484bb49fc30ffb76a73ab62571d"
+    },
+    {
+      "path": "config.toml",
+      "status": "M",
+      "fingerprint": "42265b04ae9357fa42195ed693bda4916b212879425123cbdd32ec222143cf16"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "c9ffda08bbf8f090fe08806c46388f174b8b96f51e27cd011a91e2c1dc44effd"
+    },
+    {
+      "path": "src/config.rs",
+      "status": "M",
+      "fingerprint": "793114481569aee3d1c6f16536396837085cc4525041a030be78deb33d59faf3"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "d440629ac43083613ffdc6b01741dc3386e16b5d373b206ab7bfdaa0fc50df69"
+    },
+    {
+      "path": "src/features/radar/domain/action_matrix.rs",
+      "status": "M",
+      "fingerprint": "000f2815a20055667d99b2100cd16852bb6e64be86b01e571ce52ce495f1e5f9"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "status": "M",
+      "fingerprint": "c079696dd8dfd77402c7734b39883c9481cddaa857c33b27b2a0ab43e84153e0"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "??",
+      "fingerprint": "f1c73f6dc7fa1002d946c01bb91df066f9dd6319c7de475c0d2653ca011b4e1a"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "e75d7205257b6a091629f4f7cc07df93e7c4b78cd2cb9cddb794ac406c9d67c6"
+    },
+    {
+      "path": "src/features/radar/domain/rules.rs",
+      "status": "M",
+      "fingerprint": "34bc819d057fb6628fc837744a41ecd5d9d0ecfeb919c6210360df9b88b757a8"
+    },
+    {
+      "path": "src/features/radar/domain/trend_cohesion.rs",
+      "status": "M",
+      "fingerprint": "018f4d9b2577436a840ef27a551848b93fdc42d6144dfd3b660ed66b0e937c2e"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "625d125f5b3ac415db391c7a829b24fc8482da49214a4365e94447359056daba"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "289d964ba9db5cd1a2270c707725e70d31db4592c6e9177a27054f5594f7ea3e"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "ff2d4322d29cc309ae2c59d2c7e1efd642f922ce4c89ce50fc79997a9e2a7e89"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "590d4418e193454931a435d959425faa2933a83dae4503d8067d31a4c7c2108b"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "status": "M",
+      "fingerprint": "72e0f954e60d6d16c92acd85b78b67b9aa3825841e715c467ec0df23ad480742"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "d3e3b1060d9536b6d6409aa67fcdaf45bf7428aa71ae553887caa6c3829b8d79"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "89656d78fc8f39aee40a141bbb0271be955c5710e00a3a618b8219d6ae227cca"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "6e232819acd4b917ad5f30234b556090c4b96b9c10d8e03658875cb4ab5e7440"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "fa8c51ed47a12fbc21d1b76a6737f9efecb6e6e3907c39fa0cd38538d293f226"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_report.rs",
+      "status": "M",
+      "fingerprint": "add4764f534361aca2b0bb89d4cfe97d5a77ceb22fb2f59c644e0c7ddbac394f"
+    }
+  ],
+  "problemStatement": "Leader Persistence の残余验收风险を关闭する：Contract と実装の confidence semantics を一致させ、25 日超の再ロード・装立テストと三言語降級表示を追加する。",
+  "intent": {
+    "problem": "Leadership Confidence の HIGH/MEDIUM/LOW を Score の confidence factor に使い、市場 system confidence と分離する。",
+    "constraints": [
+      "Persistence は Leader の連続性だけで計算し、confidence label は Score の品質要素だけに使う。",
+      "25 日超の persisted observations、save/load、read-model assembly を直接テストする。",
+      "中文、英文、日文の切替文言と欠損指標の降級状態を明示する。"
+    ],
+    "rationale": "条件付き通过から無条件通过へ移行するため、Contract semantics、専用回帰証拠、出力言語・降級状態を同時に収束させる。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/leader-persistence-acceptance-hardening.contract.json",
+    ".ai/work-items/active/leader-persistence-acceptance-hardening.summary.json",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "outOfScope": [
+    "Leader 判定、Decision、Gate、Execution、Trader、Position Sizing の変更",
+    "過去 archive report の改変",
+    "新しい外部行情 provider の追加"
+  ],
+  "sources": [
+    {"path": "src/features/radar/domain/leader_persistence.rs", "reason": "Persistence、Score、State の confidence semantics。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "observation save/load と日付 upsert。"},
+    {"path": "src/features/radar/interface/market_interpretation_read_model.rs", "reason": "Leadership snapshot、confidence label、三言語 output、assembly。"},
+    {"path": "src/features/radar/interface/report_ui_tests.rs", "reason": "多言語 report と observation-only 境界テスト。"},
+    {"path": "src/features/radar/interface/weekly_state_report.rs", "reason": "structured weekly JSON 契約。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Leadership Confidence HIGH/MEDIUM/LOW が Score の confidence factor に入り system confidence と混同されない", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "同一 Leader 25 日超の streak が保存後 reload と read-model assembly を通じて継続する", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "中文、英文、日文の Leader switch 文言と boundary が各言語で出力される", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "履歴の breadth / strength / stability 欠損が降級状態として明示される", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "現行 read model と persistence 境界が確認でき、専用回帰テストを追加可能。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "三つの残余 risk と専用 verification を確定した。"
+  },
+  "preReviewWarnings": [
+    "confidence label mapping、25 日 reload assembly、三言語降級表示を重点 review する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Contract の confidence semantics と実装が一致する。",
+    "25 日超、保存後 reload、read-model assembly の専用テストが通過する。",
+    "中文、英文、日文の switch / boundary が混言語なしで出力される。",
+    "欠損指標は明示的な degraded status として表示される。",
+    "Leader Persistence は Observation / Score 専用で Decision 系へ接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json SUMMARY=.ai/work-items/active/leader-persistence-acceptance-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-persistence-acceptance-hardening.summary.json CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json SUMMARY=.ai/work-items/active/leader-persistence-acceptance-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-persistence-acceptance-hardening.contract.json SUMMARY=.ai/work-items/active/leader-persistence-acceptance-hardening.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

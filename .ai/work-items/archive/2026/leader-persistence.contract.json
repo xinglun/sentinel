@@ -1,0 +1,202 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-persistence",
+  "mode": "code",
+  "title": "Leader Persistence 指標を追加",
+  "baseCommit": "1fd15a4f394879bf1c8a1bf74e000f17781d0502",
+  "baselineDirtyPaths": [],
+  "problemStatement": "現行の日報は当日の Primary Leader を示すだけで、同一 Leader が複数日にわたり継続しているか、質と安定性を伴って維持されているかを表現できない。Observation 層のまま、Leader Persistence を追加して日報の市場状態記述を強化する。",
+  "intent": {
+    "problem": "Primary Leader の継続性、品質、安定性を Observation 層で追跡し、日報に安全に表示できるようにする。",
+    "constraints": [
+      "Observation / Interpretation / Hypothesis / Decision を分離する。",
+      "Leader Persistence は交易実行や Gate 判定に接続しない。",
+      "欠損フィールドは降格処理し、日報生成を中断しない。",
+      "指標は持続性だけでなく、広度・相対強度・安定性・置信度を固定範囲で加味する。"
+    ],
+    "rationale": "短期の当日判定だけでは資金偏好の継続性を誤読しやすいため、状態記述を補強する必要がある。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/leader-persistence.contract.json",
+    ".ai/work-items/active/leader-persistence.summary.json",
+    "src/features/radar/domain/mod.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/application/**",
+    "src/features/trader/**",
+    "src/features/radar/domain/market_regime.rs",
+    "src/features/radar/interface/hypothesis_read_model.rs"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "既存の Leader / Market Interpretation の view model 定義を拡張対象として確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Primary Leader の観測値と日報向け派生ロジックの接続点を確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "前日 Presentation を引き継ぐ跨日処理と、日報へ注入する pipeline を確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "日報の Markdown / HTML レンダリング位置を確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "週次 JSON / レビュー出力へ派生する観測状態の表示面を確認した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "観測層境界と日報表示の既存テストパターンを確認した。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一 Leader が 5 日連続で継続する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装後に単体テストで固定する。"
+    },
+    {
+      "scenario": "6 日目に Leader が切り替わる",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "切り替え時の連続カウント reset を単体テストで固定する。"
+    },
+    {
+      "scenario": "広度が低い状態で Leader が一時的に急伸する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "低広度保護とスコア上限を単体テストで固定する。"
+    },
+    {
+      "scenario": "Leader 名は変わらないがスコアが連続低下する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "DECAYING 判定を単体テストで固定する。"
+    },
+    {
+      "scenario": "Leader が頻繁に輪動して ROTATING になる",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "rotation 判定を単体テストで固定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "Observation 層のまま跨日状態を追加するため、表示層と状態計算の境界を review で確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Scope、sources、acceptance、verification が確定し、欠損入力の降格方針も明示されている。"
+  },
+  "preReviewWarnings": [
+    "Leader Persistence は observation only であり、Decision へ接続しないことを review で確認する。",
+    "rotation_stability と relative_strength は既存データの近似値を使うため、近似規則が過度に信号化していないかを review で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leader Persistence の追跡結果が独立した observation view model として計算される。",
+    "Leader 切り替え時に連続カウントが正しく reset される。",
+    "Leadership Score が持続性と品質・安定性・置信度を固定範囲で統合する。",
+    "Leader State が NEW / EARLY / ESTABLISHED / DECAYING / ROTATING を返す。",
+    "日報に Primary Leader、Persistence、Score、State、Change from Yesterday が表示される。",
+    "Observation / Interpretation / Hypothesis / Decision の分離が維持される。",
+    "欠損フィールド時は降格出力になり、日報生成が中断しない。",
+    "単体テストで 5 日連続、切り替え、低広度急伸、スコア低下、頻繁輪動の各シナリオを固定する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-persistence.contract.json SUMMARY=.ai/work-items/active/leader-persistence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-persistence.summary.json CONTRACT=.ai/work-items/active/leader-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-persistence.contract.json SUMMARY=.ai/work-items/active/leader-persistence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-persistence.contract.json SUMMARY=.ai/work-items/active/leader-persistence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

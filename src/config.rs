@@ -11,6 +11,14 @@ fn default_true() -> bool {
     true
 }
 
+fn default_market_benchmarks() -> BTreeMap<String, String> {
+    BTreeMap::from([
+        ("US".to_string(), "SPY".to_string()),
+        ("HK".to_string(), "2800.HK".to_string()),
+        ("CN".to_string(), "510300.SS".to_string()),
+    ])
+}
+
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct AppConfig {
@@ -453,6 +461,7 @@ pub struct RulesConfig {
     pub trend_cohesion: Option<TrendCohesionRulesConfig>,
     pub breakout: Option<BreakoutRulesConfig>,
     pub market_state_engine: Option<MarketStateEngineConfig>,
+    pub market_benchmarks: Option<BTreeMap<String, String>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]
@@ -589,6 +598,7 @@ pub struct ParsedMarketStateEngineRules {
     pub capex_payoff_weight: f64,
     pub earnings_validation_weight: f64,
     pub order_visibility_weight: f64,
+    pub market_benchmarks: BTreeMap<String, String>,
 }
 
 impl Default for ParsedMarketStateEngineRules {
@@ -603,6 +613,7 @@ impl Default for ParsedMarketStateEngineRules {
             capex_payoff_weight: 2.0,
             earnings_validation_weight: 1.5,
             order_visibility_weight: 1.0,
+            market_benchmarks: default_market_benchmarks(),
         }
     }
 }
@@ -1031,6 +1042,11 @@ impl AppConfig {
                     order_visibility_weight: m
                         .and_then(|x| x.order_visibility_weight)
                         .unwrap_or(defaults.order_visibility_weight),
+                    market_benchmarks: self
+                        .rules
+                        .market_benchmarks
+                        .clone()
+                        .unwrap_or_else(default_market_benchmarks),
                 }
             },
             sec: self.sec.clone(),
@@ -1129,6 +1145,7 @@ impl From<&ParsedRules> for crate::features::radar::domain::rules::ParsedRules {
                         .market_state_engine
                         .earnings_validation_weight,
                     order_visibility_weight: value.market_state_engine.order_visibility_weight,
+                    market_benchmarks: value.market_state_engine.market_benchmarks.clone(),
                 },
             breakout: crate::features::radar::domain::rules::ParsedBreakoutRules {
                 confirmed_trend_age_threshold: value.breakout.confirmed_trend_age_threshold,
@@ -1196,6 +1213,9 @@ mod tests {
             optimal    = "买入"
             fear       = "恐慌加仓"
 
+            [rules.market_benchmarks]
+            US = "QQQ"
+
             [[watchlist]]
             symbol = "TSLA"
             weight = 2.0
@@ -1209,6 +1229,15 @@ mod tests {
         let config: AppConfig = toml::from_str(toml_str).expect("should parse");
         assert_eq!(config.version, 1);
         assert_eq!(config.watchlist[0].symbol, "TSLA");
+        assert_eq!(
+            config
+                .get_parsed_rules()
+                .market_state_engine
+                .market_benchmarks
+                .get("US")
+                .map(String::as_str),
+            Some("QQQ")
+        );
         assert_eq!(
             config.fred.as_ref().map(|fred| fred.fred_api_key.as_str()),
             Some("fred-test-key")
@@ -1312,6 +1341,7 @@ mod tests {
                 trend_cohesion: None,
                 breakout: None,
                 market_state_engine: None,
+                market_benchmarks: None,
             },
             watchlist: vec![],
             sec: None,
@@ -1405,6 +1435,7 @@ mod tests {
                 trend_cohesion: None,
                 breakout: None,
                 market_state_engine: None,
+                market_benchmarks: None,
             },
             watchlist: vec![],
             sec: None,

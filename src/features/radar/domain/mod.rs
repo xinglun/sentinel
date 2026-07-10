@@ -6,6 +6,7 @@ pub mod exit;
 pub mod features;
 pub(crate) mod hypothesis_governance_policy;
 pub mod intent_synthesizer;
+pub mod leader_persistence;
 pub mod market_regime;
 pub mod market_state;
 pub mod portfolio_policy;

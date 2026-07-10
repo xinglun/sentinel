@@ -39,6 +39,7 @@ fn mock_config(lang: Language) -> AppConfig {
             trend_cohesion: None,
             breakout: None,
             market_state_engine: None,
+            market_benchmarks: None,
         },
         watchlist: vec![],
         sec: None,

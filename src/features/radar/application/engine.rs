@@ -1,4 +1,6 @@
-use crate::features::radar::domain::features::{AssetFeatures, MarketFeatures};
+use crate::features::radar::domain::features::{
+    calculate_relative_strength, AssetFeatures, MarketFeatures,
+};
 use crate::features::radar::domain::market_regime::MarketRegimeStateMachine;
 use crate::features::radar::domain::rules::{ParsedRules, WatchlistEntry};
 use crate::features::shared::domain::market_data::TickerHistory;
@@ -243,6 +245,24 @@ impl Engine {
             decision.state_streak = state_streak;
             decision.top_tier_streak = top_tier_streak;
             decision.out_of_top_tier_streak = out_of_top_tier_streak;
+            decision.relative_strength = ticker_histories
+                .iter()
+                .find(|(_, candidate)| {
+                    candidate.symbol
+                        == rules
+                            .market_state_engine
+                            .market_benchmarks
+                            .get(&entry.market.to_ascii_uppercase())
+                            .or_else(|| rules.market_state_engine.market_benchmarks.get("US"))
+                            .map(String::as_str)
+                            .unwrap_or("SPY")
+                })
+                .and_then(|(benchmark, _)| {
+                    ticker_histories
+                        .iter()
+                        .find(|(history, _)| history.symbol == f.symbol)
+                        .and_then(|(asset, _)| calculate_relative_strength(asset, benchmark, 63))
+                });
 
             asset_decisions.push(decision);
         }
