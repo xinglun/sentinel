@@ -474,6 +474,7 @@ impl PresentationAssembler {
             interpretation_layer: None,
             market_interpretation: None,
             leadership_snapshot: None,
+            leader_persistence: None,
             market_change_log: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),

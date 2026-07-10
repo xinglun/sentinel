@@ -179,6 +179,7 @@ pub(crate) fn persist_weekly_state_outputs(
     push_weekly_market_interpretation_snapshot(
         &mut review,
         pres_packet.market_interpretation.as_ref(),
+        pres_packet.leader_persistence.as_ref(),
         text,
     );
     push_weekly_macro_gravity_snapshot(&mut review, context, text);
@@ -333,6 +334,8 @@ fn build_weekly_latest_context(
     let signal_context = build_weekly_signal_context(pres_packet.interpretation_layer.as_ref());
     let market_interpretation =
         build_weekly_market_interpretation_context(pres_packet.market_interpretation.as_ref());
+    let leader_persistence =
+        build_weekly_leader_persistence_context(pres_packet.leader_persistence.as_ref());
 
     json!({
         "trend_breadth_mode": trend_breadth_mode,
@@ -341,6 +344,7 @@ fn build_weekly_latest_context(
         "strategic_context": strategic_context,
         "signal_context": signal_context,
         "market_interpretation": market_interpretation,
+        "leader_persistence": leader_persistence,
         "macro_gravity": build_weekly_macro_gravity_context(context),
         "capital_absorption_ipo_queue": capital_absorption_ipo_queue,
         "capital_dynamics": {
@@ -441,6 +445,31 @@ fn build_weekly_market_interpretation_context(
     })
 }
 
+fn build_weekly_leader_persistence_context(
+    layer: Option<&crate::features::radar::interface::presentation::LeaderPersistenceViewModel>,
+) -> serde_json::Value {
+    let Some(layer) = layer else {
+        return json!({
+            "configured": false
+        });
+    };
+
+    json!({
+        "configured": true,
+        "primary_leader": layer.primary_leader_value,
+        "persistence_days": layer.persistence_days,
+        "leadership_score": layer.leadership_score,
+        "state": layer.leader_state_value,
+        "change_from_yesterday": {
+            "persistence_days": layer.persistence_change_days,
+            "score": layer.score_change,
+            "display": layer.change_from_yesterday_value
+        },
+        "switch_history": layer.switch_history_values,
+        "boundary": layer.boundary
+    })
+}
+
 fn push_weekly_signal_context_snapshot(
     review: &mut String,
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
@@ -504,6 +533,9 @@ fn push_weekly_signal_context_snapshot(
 fn push_weekly_market_interpretation_snapshot(
     review: &mut String,
     layer: Option<&crate::features::radar::interface::presentation::MarketInterpretationViewModel>,
+    leader_persistence: Option<
+        &crate::features::radar::interface::presentation::LeaderPersistenceViewModel,
+    >,
     text: &WeeklyText,
 ) {
     review.push('\n');
@@ -614,6 +646,40 @@ fn push_weekly_market_interpretation_snapshot(
     review.push_str("- Interpretation Priority:\n");
     for item in &layer.interpretation_priority_values {
         review.push_str(&format!("  - {}\n", item));
+    }
+    if let Some(leader_persistence) = leader_persistence {
+        review.push_str("- Leader Persistence:\n");
+        review.push_str(&format!(
+            "  - {}: {}\n",
+            leader_persistence.primary_leader_label, leader_persistence.primary_leader_value
+        ));
+        review.push_str(&format!(
+            "  - {}: {}\n",
+            leader_persistence.persistence_label, leader_persistence.persistence_value
+        ));
+        review.push_str(&format!(
+            "  - {}: {}\n",
+            leader_persistence.leadership_score_label, leader_persistence.leadership_score_value
+        ));
+        review.push_str(&format!(
+            "  - {}: {}\n",
+            leader_persistence.leader_state_label, leader_persistence.leader_state_value
+        ));
+        review.push_str(&format!(
+            "  - {}: {}\n",
+            leader_persistence.change_from_yesterday_label,
+            leader_persistence.change_from_yesterday_value
+        ));
+        if !leader_persistence.switch_history_values.is_empty() {
+            review.push_str(&format!(
+                "  - {}:\n",
+                leader_persistence.switch_history_label
+            ));
+            for item in &leader_persistence.switch_history_values {
+                review.push_str(&format!("    - {}\n", item));
+            }
+        }
+        review.push_str(&format!("  - {}\n", leader_persistence.boundary));
     }
     review.push_str("- ");
     review.push_str(text.market_interpretation_boundary);
@@ -1711,6 +1777,28 @@ mod tests {
                 reason: "rotation".to_string(),
             }],
             interpretation_layer: Some(interpretation_layer.clone()),
+            leader_persistence: Some(
+                crate::features::radar::interface::presentation::LeaderPersistenceViewModel {
+                    title: "Leader Persistence".to_string(),
+                    primary_leader_label: "Primary Leader".to_string(),
+                    primary_leader_value: "SPY".to_string(),
+                    persistence_label: "Leader Persistence".to_string(),
+                    persistence_value: "3 days".to_string(),
+                    persistence_days: 3,
+                    leadership_score_label: "Leadership Score".to_string(),
+                    leadership_score_value: "64.2".to_string(),
+                    leadership_score: 64.2,
+                    leader_state_label: "Leader State".to_string(),
+                    leader_state_value: "EARLY".to_string(),
+                    change_from_yesterday_label: "Change from Yesterday".to_string(),
+                    change_from_yesterday_value: "+1 day, score stable".to_string(),
+                    persistence_change_days: 1,
+                    score_change: 0.0,
+                    switch_history_label: "Switch History".to_string(),
+                    switch_history_values: vec!["2026-06-17: QQQ -> SPY".to_string()],
+                    boundary: "Boundary: observation only; this block does not change Decision, Gate, Execution, Trader, or Position Sizing.".to_string(),
+                },
+            ),
             market_interpretation: {
                 let weekly_market_packet = PresentationPacket {
                     top_actions: vec![
@@ -1802,6 +1890,10 @@ mod tests {
             latest["market_interpretation"]["leadership"]["primary"],
             serde_json::json!(["SPY"])
         );
+        assert_eq!(latest["leader_persistence"]["configured"], true);
+        assert_eq!(latest["leader_persistence"]["primary_leader"], "SPY");
+        assert_eq!(latest["leader_persistence"]["persistence_days"], 3);
+        assert_eq!(latest["leader_persistence"]["leadership_score"], 64.2);
     }
 
     #[test]
@@ -1892,6 +1984,7 @@ mod tests {
         push_weekly_market_interpretation_snapshot(
             &mut review,
             Some(&market_interpretation),
+            None,
             weekly_text(Language::EnUs),
         );
 

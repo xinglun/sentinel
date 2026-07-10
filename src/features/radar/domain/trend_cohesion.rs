@@ -429,6 +429,7 @@ mod tests {
             capex_payoff_weight: 2.0,
             earnings_validation_weight: 1.5,
             order_visibility_weight: 1.0,
+            market_benchmarks: Default::default(),
             evidence_decay_days: 5,
             evidence_retention_days: 3650,
             ..Default::default()

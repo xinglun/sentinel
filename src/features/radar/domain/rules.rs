@@ -128,6 +128,7 @@ pub struct ParsedMarketStateEngineRules {
     pub capex_payoff_weight: f64,
     pub earnings_validation_weight: f64,
     pub order_visibility_weight: f64,
+    pub market_benchmarks: std::collections::BTreeMap<String, String>,
 }
 
 impl Default for ParsedMarketStateEngineRules {
@@ -142,6 +143,11 @@ impl Default for ParsedMarketStateEngineRules {
             capex_payoff_weight: 2.0,
             earnings_validation_weight: 1.5,
             order_visibility_weight: 1.0,
+            market_benchmarks: std::collections::BTreeMap::from([
+                ("US".to_string(), "SPY".to_string()),
+                ("HK".to_string(), "2800.HK".to_string()),
+                ("CN".to_string(), "510300.SS".to_string()),
+            ]),
         }
     }
 }

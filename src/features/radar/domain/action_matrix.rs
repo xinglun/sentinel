@@ -51,6 +51,8 @@ pub struct AssetActionDecision {
     pub top_tier_streak: usize,
     #[serde(default)]
     pub out_of_top_tier_streak: usize,
+    #[serde(default)]
+    pub relative_strength: Option<f64>,
 }
 
 pub struct ActionMatrix;

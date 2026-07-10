@@ -1,0 +1,209 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-persistence-correction",
+  "mode": "code",
+  "title": "修正 Leader Persistence 事实源、持久化与输出契约",
+  "baseCommit": "1fd15a4f394879bf1c8a1bf74e000f17781d0502",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "18b084baca9205661037f713ebd0c08b9cc721e983ed28c9176213a6abacfdbe"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.contract.json",
+      "status": "??",
+      "fingerprint": "9f54263bee6d4da92d0740f916b7b666986275603950f5065246b20698fcbcc4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.summary.json",
+      "status": "??",
+      "fingerprint": "89d2978f4d76f3244a9804973d5f317c21fa43f68e0928b8455647b3fa661f06"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "??",
+      "fingerprint": "ae1052bb0e17626efdc57742bab1aa4bdfaec3d433ac9d441d9783d12cb01b74"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "e75d7205257b6a091629f4f7cc07df93e7c4b78cd2cb9cddb794ac406c9d67c6"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "4280bc1f370fda7d7d67881d6d1b913ca3facb44765fe52514cf0ba2b9f7d407"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "08e159c360065f88b43c702b1d937308fd94984286743d0ed26ca9cabd78a441"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "590d4418e193454931a435d959425faa2933a83dae4503d8067d31a4c7c2108b"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "0a44f2f9297b8e14e12af1ecb6de88e1fd748653afa2743e72cc9deb0eabd0a4"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "89656d78fc8f39aee40a141bbb0271be955c5710e00a3a618b8219d6ae227cca"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "8c799f542d8f45a70b892219051219f2a8970cb80e295953b38f61099bf9390a"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "86087d7d400116626e89616c8a32a8599bb1c12006640f3c94803cd103cffc89"
+    }
+  ],
+  "problemStatement": "Leader Persistence の日次観測が現在日と履歴日で異なる事実源・指標口径を使い、再実行時の重複と履歴窓制限によって Persistence、Score、State を誤表示する問題を修正する。",
+  "intent": {
+    "problem": "日次 Leader observation を構造化して日付単位で一意に保持し、同一の leadership snapshot と実測指標から跨日 streak と score/state を再現可能にする。",
+    "constraints": [
+      "Observation と Interpretation / Hypothesis / Decision を分離し、Gate、Execution、Trader、Position Sizing には接続しない。",
+      "Leadership Confidence は Persistence の継続条件に使わず Score の因子だけに使う。relative strength は concentration score と呼ばず、既存の実データ指標を使える範囲で明示する。",
+      "欠損指標は降級出力し、同日再実行は日付で upsert して重複を作らない。"
+    ],
+    "rationale": "受入れで指摘された異なる事実源、system confidence 依存、履歴観測の空値、append-only 重複、表示文字列 JSON を修正し、実流水線で検証可能な契約にする。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/leader-persistence-correction.contract.json",
+    ".ai/work-items/active/leader-persistence-correction.summary.json",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/interface/report.rs の既存 Leader Persistence 表示以外の大規模改修"
+  ],
+  "sources": [
+    {"path": "src/features/radar/interface/market_interpretation_read_model.rs", "reason": "現在日・履歴日の Leader snapshot と observation 装立経路。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "実流水線の履歴ロード、前日 Presentation、Leader Persistence 装立経路。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "日次 DecisionPacket の永続化と再実行時重複の原因。"},
+    {"path": "src/features/radar/domain/leader_persistence.rs", "reason": "Persistence、Score、State のドメイン規則。"},
+    {"path": "src/features/radar/interface/weekly_state_report.rs", "reason": "weekly JSON の構造化フィールド契約。"},
+    {"path": "src/features/radar/interface/report_ui_tests.rs", "reason": "多言語・装立経路回帰テストの配置。"},
+    {"path": ".ai/work-items/archive/2026/leader-persistence.summary.json", "reason": "前回実装の検証記録と受入れ差戻し対象。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "同一 Leader を 25 日以上維持しても履歴窓で切れず、同日再実行で日数が増えない", "required": true, "status": "unverified", "evidence": [], "reason": "修正実装と装立テストが未実施。"},
+    {"scenario": "現在日と履歴日が同一の leadership snapshot 事実源と実測指標口径を使う", "required": true, "status": "unverified", "evidence": [], "reason": "修正実装と装立テストが未実施。"},
+    {"scenario": "Leadership Confidence が低くても Persistence は継続し、Score だけが影響を受ける", "required": true, "status": "unverified", "evidence": [], "reason": "修正実装と装立テストが未実施。"},
+    {"scenario": "欠損指標、Leader 切替、頻繁輪動、中文・英文・日文の JSON / report 出力", "required": true, "status": "unverified", "evidence": [], "reason": "修正実装と装立テストが未実施。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存の snapshot・DecisionPacket・Presentation を根拠に、データ契約と回帰試験を同一 Work Item 内で確定できる。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification と回帰シナリオを確定した。"
+  },
+  "preReviewWarnings": [
+    "実流水線の前日 Presentation 注入、日付 upsert、JSON 数値型、多言語文言を重点 review する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "現在日と履歴日の Leader が同一の leadership snapshot 系事実源から構成される。",
+    "Leader observation は構造化された日次 record として日付で upsert され、25 日超の streak と同日再実行を正しく扱う。",
+    "Persistence は Leader の同一性と日付だけで継続し、confidence は Score 因子に限定される。",
+    "Score の breadth、relative strength、stability、confidence は現在日・履歴日で同一口径を使い、相対強度の意味が JSON 契約に明示される。",
+    "weekly JSON は persistence_days と leadership_score を数値、state と change を構造化フィールドで保持する。",
+    "欠損指標と中文・英文・日文 report output の実流水線装立テストがある。",
+    "Leader Persistence は Observation 専用で Gate、Execution、Trader、Position Sizing に接続しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

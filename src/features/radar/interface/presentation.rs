@@ -63,6 +63,28 @@ pub struct LeadershipSnapshotViewModel {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct LeaderPersistenceViewModel {
+    pub title: String,
+    pub primary_leader_label: String,
+    pub primary_leader_value: String,
+    pub persistence_label: String,
+    pub persistence_value: String,
+    pub persistence_days: usize,
+    pub leadership_score_label: String,
+    pub leadership_score_value: String,
+    pub leadership_score: f64,
+    pub leader_state_label: String,
+    pub leader_state_value: String,
+    pub change_from_yesterday_label: String,
+    pub change_from_yesterday_value: String,
+    pub persistence_change_days: i32,
+    pub score_change: f64,
+    pub switch_history_label: String,
+    pub switch_history_values: Vec<String>,
+    pub boundary: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct MarketChangeLogViewModel {
     pub title: String,
     pub leader_label: String,
@@ -609,6 +631,8 @@ pub struct PresentationPacket {
     pub risk_opportunities: Vec<RiskOpportunityViewModel>,
     #[serde(default)]
     pub leadership_snapshot: Option<LeadershipSnapshotViewModel>,
+    #[serde(default)]
+    pub leader_persistence: Option<LeaderPersistenceViewModel>,
     #[serde(default)]
     pub market_change_log: Option<MarketChangeLogViewModel>,
     #[serde(default)]

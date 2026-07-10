@@ -1375,6 +1375,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
                 trend_cohesion: None,
                 breakout: None,
                 market_state_engine: None,
+                market_benchmarks: None,
             },
             watchlist: ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"]
                 .into_iter()

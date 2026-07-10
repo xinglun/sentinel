@@ -50,6 +50,12 @@ capex_payoff_weight = 2.0
 earnings_validation_weight = 1.5
 order_visibility_weight = 1.0
 
+[rules.market_benchmarks]
+# Leader relative strength 用の市場別 benchmark。未指定時は US=SPY / HK=2800.HK / CN=510300.SS。
+US = "SPY"
+HK = "2800.HK"
+CN = "510300.SS"
+
 [rules.trend]
 lookback_days = 20         # 趋势识别回看天数
 flat_threshold_pct = 0.5   # 平盘阈值，[-0.5%, +0.5%] 视为平盘

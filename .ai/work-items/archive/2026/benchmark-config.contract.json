@@ -1,0 +1,248 @@
+{
+  "contractVersion": 2,
+  "workItemId": "benchmark-config",
+  "mode": "code",
+  "title": "将 Leader relative strength benchmark 配置化",
+  "baseCommit": "1fd15a4f394879bf1c8a1bf74e000f17781d0502",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "f5adbd80a17b5351257bc0a4f44e5bac68e66f269debf1cf8dadc5162af8440b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.contract.json",
+      "status": "??",
+      "fingerprint": "002ffae649394031b3659753c89d73c2bff7f53952aa3276cb5a1c0c978bac81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-correction.summary.json",
+      "status": "??",
+      "fingerprint": "88192e5c9d382346897910c54b352b766c725dce38b53b3eec4809881d3c8199"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.contract.json",
+      "status": "??",
+      "fingerprint": "9f54263bee6d4da92d0740f916b7b666986275603950f5065246b20698fcbcc4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence.summary.json",
+      "status": "??",
+      "fingerprint": "89d2978f4d76f3244a9804973d5f317c21fa43f68e0928b8455647b3fa661f06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-relative-strength.contract.json",
+      "status": "??",
+      "fingerprint": "2f0eb203e59bc0141a87de2158a9b821567642d1cfebc55ae25830015b5d4418"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-relative-strength.summary.json",
+      "status": "??",
+      "fingerprint": "381def5b29a0b9dffa57f350c63a91ae8cd84484bb49fc30ffb76a73ab62571d"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "5cbd04d9771d6bcb381894ee1643e47b7b4c5a3579d1c7fd8a9cb79467f11cda"
+    },
+    {
+      "path": "src/features/radar/domain/action_matrix.rs",
+      "status": "M",
+      "fingerprint": "000f2815a20055667d99b2100cd16852bb6e64be86b01e571ce52ce495f1e5f9"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "status": "M",
+      "fingerprint": "c079696dd8dfd77402c7734b39883c9481cddaa857c33b27b2a0ab43e84153e0"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "??",
+      "fingerprint": "f1c73f6dc7fa1002d946c01bb91df066f9dd6319c7de475c0d2653ca011b4e1a"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "e75d7205257b6a091629f4f7cc07df93e7c4b78cd2cb9cddb794ac406c9d67c6"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "625d125f5b3ac415db391c7a829b24fc8482da49214a4365e94447359056daba"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "289d964ba9db5cd1a2270c707725e70d31db4592c6e9177a27054f5594f7ea3e"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "ff2d4322d29cc309ae2c59d2c7e1efd642f922ce4c89ce50fc79997a9e2a7e89"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "590d4418e193454931a435d959425faa2933a83dae4503d8067d31a4c7c2108b"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "d3e3b1060d9536b6d6409aa67fcdaf45bf7428aa71ae553887caa6c3829b8d79"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "89656d78fc8f39aee40a141bbb0271be955c5710e00a3a618b8219d6ae227cca"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "a09e394fef2f36d3feb27db4125767382b262ad47c8542193708afbd988bbf4b"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "fa8c51ed47a12fbc21d1b76a6737f9efecb6e6e3907c39fa0cd38538d293f226"
+    }
+  ],
+  "problemStatement": "Leader relative strength の市場別 benchmark がコード固定のため、設定ファイルで benchmark symbol を変更できるようにし、旧設定はデフォルトで後方互換する。",
+  "intent": {
+    "problem": "market_benchmarks 設定を ParsedRules まで伝播し、relative strength 計算が設定された symbol を使うようにする。",
+    "constraints": [
+      "設定未指定時は US=SPY、HK=2800.HK、CN=510300.SS を使用する。",
+      "benchmark 変更は Observation / Score のみへ影響し、Decision、Gate、Execution、Trader、Position Sizing は変更しない。",
+      "未知 market は US default に fallback し、benchmark 履歴不在は None に降級する。"
+    ],
+    "rationale": "市場やデータ provider の benchmark 差替えを production code の変更なしで行えるようにする。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/benchmark-config.contract.json",
+    ".ai/work-items/active/benchmark-config.summary.json",
+    "src/config.rs",
+    "src/features/radar/domain/rules.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/domain/features.rs",
+    "config.toml",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/cli.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/gray_rhino_report.rs"
+  ],
+  "outOfScope": [
+    "変更 benchmark に伴う取引戦略・閾値の再調整",
+    "新しい外部データ provider の追加",
+    "relative strength を売買信号に接続すること"
+  ],
+  "sources": [
+    {"path": "src/config.rs", "reason": "TOML 設定と ParsedRules 変換の SSOT。"},
+    {"path": "src/features/radar/domain/rules.rs", "reason": "Radar domain rules の runtime 契約。"},
+    {"path": "src/features/radar/application/engine.rs", "reason": "benchmark 選択と relative strength 計算呼び出し。"},
+    {"path": "src/features/radar/domain/features.rs", "reason": "価格差分計算と benchmark fallback のテスト。"},
+    {"path": "config.toml", "reason": "既存 runtime config の default benchmark 設定。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "market_benchmarks の設定値が TOML から ParsedRules まで伝播する", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "設定未指定時の US/HK/CN default benchmark が後方互換で有効になる", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "設定 benchmark の履歴がない場合は relative strength が None に降級する", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"},
+    {"scenario": "benchmark 設定が Decision、Gate、Execution、Trader、Position Sizing を変更しない", "required": true, "status": "unverified", "evidence": [], "reason": "実装とテストが未実施。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存の config parser と ParsedRules 伝播経路が明確で、実装・検証可能。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "設定 schema、default、fallback、verification を確定した。"
+  },
+  "preReviewWarnings": [
+    "設定未指定時の挙動と未知 market fallback を重点 review する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "market_benchmarks が config.toml から runtime benchmark 選択へ伝播する。",
+    "旧設定は default benchmark により動作を維持する。",
+    "設定 benchmark 不在時は relative strength を None に降級する。",
+    "benchmark 設定は Observation / Score 専用で、Decision / Gate / Execution / Trader / Position Sizing に接続しない。",
+    "設定 parser、default、fallback、quality gate のテストが通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/benchmark-config.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/benchmark-config.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/benchmark-config.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/benchmark-config.contract.json SUMMARY=.ai/work-items/active/benchmark-config.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/benchmark-config.summary.json CONTRACT=.ai/work-items/active/benchmark-config.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/benchmark-config.contract.json SUMMARY=.ai/work-items/active/benchmark-config.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/benchmark-config.contract.json SUMMARY=.ai/work-items/active/benchmark-config.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

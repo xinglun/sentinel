@@ -1,9 +1,12 @@
 #![allow(dead_code)]
 
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::leader_persistence::{
+    build_leader_persistence, LeaderObservation,
+};
 use crate::features::radar::interface::presentation::{
-    LeadershipSnapshotViewModel, MarketCyclePosition, MarketInterpretationViewModel,
-    PresentationPacket, TrendBreadthMode,
+    LeaderPersistenceViewModel, LeadershipSnapshotViewModel, MarketCyclePosition,
+    MarketInterpretationViewModel, PresentationPacket, TrendBreadthMode,
 };
 use crate::features::shared::interface::i18n::Language;
 
@@ -295,6 +298,270 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
             conflict_value
         },
         boundary: leadership_snapshot_boundary(language).to_string(),
+    }
+}
+
+pub(crate) struct LeaderPersistenceReadModelInput<'a> {
+    pub persisted_observations:
+        &'a [crate::features::radar::domain::leader_persistence::LeaderObservation],
+    pub current_packet: &'a DecisionPacket,
+    pub current_presentation: &'a PresentationPacket,
+    pub language: Language,
+}
+
+pub(crate) fn build_leader_persistence_view_model(
+    input: LeaderPersistenceReadModelInput<'_>,
+) -> Option<LeaderPersistenceViewModel> {
+    let current_snapshot = input.current_presentation.leadership_snapshot.as_ref()?;
+    let current_leader = current_snapshot.primary_leader_value.trim();
+    if current_leader.is_empty() || current_leader == leadership_missing_value(input.language) {
+        return None;
+    }
+
+    let mut observations = input.persisted_observations.to_vec();
+
+    let current_observation = build_current_observation(
+        input.current_packet,
+        input.current_presentation,
+        current_snapshot,
+    );
+    observations.push(current_observation);
+
+    let result = build_leader_persistence(&observations)?;
+
+    Some(LeaderPersistenceViewModel {
+        title: leader_persistence_title(input.language).to_string(),
+        primary_leader_label: leader_persistence_primary_label(input.language).to_string(),
+        primary_leader_value: result.current_leader.clone(),
+        persistence_label: leader_persistence_persistence_label(input.language).to_string(),
+        persistence_value: leader_persistence_value(result.persistence_days, input.language),
+        persistence_days: result.persistence_days,
+        leadership_score_label: leader_persistence_score_label(input.language).to_string(),
+        leadership_score_value: format!("{:.1}", result.leadership_score),
+        leadership_score: result.leadership_score,
+        leader_state_label: leader_persistence_state_label(input.language).to_string(),
+        leader_state_value: result.leader_state.as_str().to_string(),
+        change_from_yesterday_label: leader_persistence_change_label(input.language).to_string(),
+        change_from_yesterday_value: leader_persistence_change_value(&result, input.language),
+        persistence_change_days: if result.same_leader_as_previous { 1 } else { 0 },
+        score_change: result.leadership_score - result.previous_score,
+        switch_history_label: leader_persistence_history_label(input.language).to_string(),
+        switch_history_values: result.switch_history.clone(),
+        boundary: leader_persistence_boundary(input.language, result_has_missing_metrics(&result)),
+    })
+}
+
+fn build_current_observation(
+    packet: &DecisionPacket,
+    presentation: &PresentationPacket,
+    snapshot: &LeadershipSnapshotViewModel,
+) -> LeaderObservation {
+    build_presentation_observation(packet, presentation).unwrap_or(LeaderObservation {
+        date: packet.date,
+        leader: snapshot.primary_leader_value.clone(),
+        confidence: leadership_confidence_score(snapshot),
+        breadth: None,
+        relative_strength: packet
+            .assets
+            .iter()
+            .find(|asset| asset.symbol == snapshot.primary_leader_value)
+            .and_then(|asset| asset.relative_strength),
+        rotation_stability: None,
+        sector_or_index_rotation: None,
+        supply_state: None,
+    })
+}
+
+pub(crate) fn build_leader_observation(
+    packet: &DecisionPacket,
+    presentation: &PresentationPacket,
+) -> Option<LeaderObservation> {
+    let snapshot = presentation.leadership_snapshot.as_ref()?;
+    Some(build_current_observation(packet, presentation, snapshot))
+}
+
+fn build_presentation_observation(
+    packet: &DecisionPacket,
+    presentation: &PresentationPacket,
+) -> Option<LeaderObservation> {
+    let leadership_snapshot = presentation.leadership_snapshot.as_ref()?;
+    let market_interpretation = presentation.market_interpretation.as_ref();
+    Some(LeaderObservation {
+        date: packet.date,
+        leader: leadership_snapshot.primary_leader_value.clone(),
+        confidence: leadership_confidence_score(leadership_snapshot),
+        breadth: market_interpretation
+            .and_then(|value| value.breadth_score_value.parse::<f64>().ok()),
+        relative_strength: packet
+            .assets
+            .iter()
+            .find(|asset| asset.symbol == leadership_snapshot.primary_leader_value)
+            .and_then(|asset| asset.relative_strength),
+        rotation_stability: market_interpretation
+            .and_then(|value| value.rotation_score_value.parse::<f64>().ok())
+            .map(|value| (100.0 - value).clamp(0.0, 100.0)),
+        sector_or_index_rotation: market_interpretation
+            .map(|value| value.rotation_type_value.clone()),
+        supply_state: Some(presentation.signal_summary.supply_phase_value.clone())
+            .filter(|value| !value.trim().is_empty()),
+    })
+}
+
+fn leader_persistence_title(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leader Persistence",
+        Language::EnUs => "Leader Persistence",
+        Language::JaJp => "Leader Persistence",
+    }
+}
+
+fn leader_persistence_primary_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "当前 Leader",
+        Language::EnUs => "Primary Leader",
+        Language::JaJp => "現在の Leader",
+    }
+}
+
+fn leader_persistence_persistence_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "连续领导天数",
+        Language::EnUs => "Leader Persistence",
+        Language::JaJp => "連続リーダー日数",
+    }
+}
+
+fn leader_persistence_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "领导评分",
+        Language::EnUs => "Leadership Score",
+        Language::JaJp => "リーダースコア",
+    }
+}
+
+fn leader_persistence_state_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "领导状态",
+        Language::EnUs => "Leader State",
+        Language::JaJp => "リーダー状態",
+    }
+}
+
+fn leader_persistence_change_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "较昨日变化",
+        Language::EnUs => "Change from Yesterday",
+        Language::JaJp => "前日比",
+    }
+}
+
+fn leader_persistence_history_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "切换历史",
+        Language::EnUs => "Switch History",
+        Language::JaJp => "切替履歴",
+    }
+}
+
+fn leader_persistence_boundary(language: Language, degraded: bool) -> String {
+    let quality = if degraded {
+        match language {
+            Language::ZhCn => "数据质量：降级，部分历史指标缺失。",
+            Language::EnUs => "Data quality: degraded; some historical metrics are unavailable.",
+            Language::JaJp => "データ品質：降級、過去の一部指標が欠損しています。",
+        }
+    } else {
+        ""
+    };
+    let boundary = match language {
+        Language::ZhCn => "边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。",
+        Language::EnUs => "Boundary: observation only; this block does not change Decision, Gate, Execution, Trader, or Position Sizing.",
+        Language::JaJp => "境界：観測専用。このブロックは Decision、Gate、Execution、Trader、Position Sizing を変更しません。",
+    };
+    if quality.is_empty() {
+        boundary.to_string()
+    } else {
+        format!("{boundary} {quality}")
+    }
+}
+
+fn leadership_confidence_score(snapshot: &LeadershipSnapshotViewModel) -> Option<f64> {
+    match snapshot
+        .leadership_confidence_value
+        .trim()
+        .to_ascii_uppercase()
+        .as_str()
+    {
+        "HIGH" => Some(90.0),
+        "MEDIUM" => Some(70.0),
+        "LOW" => Some(40.0),
+        _ => None,
+    }
+}
+
+fn result_has_missing_metrics(
+    result: &crate::features::radar::domain::leader_persistence::LeaderPersistenceResult,
+) -> bool {
+    result.current_breadth.is_none()
+        || result.current_relative_strength.is_none()
+        || result.current_rotation_stability.is_none()
+        || result.previous_breadth.is_none() && result.previous_leader.is_some()
+        || result.previous_relative_strength.is_none() && result.previous_leader.is_some()
+        || result.previous_rotation_stability.is_none() && result.previous_leader.is_some()
+}
+
+fn leader_persistence_value(days: usize, language: Language) -> String {
+    match language {
+        Language::ZhCn => format!("{days} 天"),
+        Language::EnUs => format!("{days} days"),
+        Language::JaJp => format!("{days} 日"),
+    }
+}
+
+fn leader_persistence_change_value(
+    result: &crate::features::radar::domain::leader_persistence::LeaderPersistenceResult,
+    language: Language,
+) -> String {
+    if !result.same_leader_as_previous {
+        return match (&result.previous_leader, language) {
+            (Some(previous), Language::ZhCn) => {
+                format!("{previous} -> {}，连续天数重置", result.current_leader)
+            }
+            (Some(previous), Language::JaJp) => {
+                format!(
+                    "{previous} -> {}、連続日数をリセット",
+                    result.current_leader
+                )
+            }
+            (Some(previous), Language::EnUs) => {
+                format!("{previous} -> {}, streak reset", result.current_leader)
+            }
+            (None, Language::ZhCn) => format!("{}：首次观察", result.current_leader),
+            (None, Language::JaJp) => format!("{}：初回観測", result.current_leader),
+            (None, Language::EnUs) => format!("{}: first observed", result.current_leader),
+        };
+    }
+
+    if result.leadership_score + 1.0 < result.previous_score {
+        return match language {
+            Language::ZhCn => "+1 天，评分下降".to_string(),
+            Language::EnUs => "+1 day, score down".to_string(),
+            Language::JaJp => "+1 日、スコア低下".to_string(),
+        };
+    }
+
+    if result.leadership_score > result.previous_score + 1.0 {
+        return match language {
+            Language::ZhCn => "+1 天，评分上升".to_string(),
+            Language::EnUs => "+1 day, score up".to_string(),
+            Language::JaJp => "+1 日、スコア上昇".to_string(),
+        };
+    }
+
+    match language {
+        Language::ZhCn => "+1 天，评分稳定".to_string(),
+        Language::EnUs => "+1 day, score stable".to_string(),
+        Language::JaJp => "+1 日、スコア安定".to_string(),
     }
 }
 
@@ -1707,5 +1974,109 @@ fn rotation_interpretation_withdrawal(language: Language) -> &'static str {
         Language::ZhCn => "flow 显示撤退迹象，但仍需结合其他层确认是否只是轮动。",
         Language::EnUs => "Flow shows withdrawal signs, but other layers are still needed to confirm whether this is only rotation.",
         Language::JaJp => "flow は撤退の兆候を示すが、単なるローテーションかどうかは他層の確認が必要。",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use chrono::{Duration, NaiveDate};
+    use std::fs;
+
+    #[test]
+    fn read_model_assembles_persisted_streak_and_marks_missing_history_as_degraded() {
+        let start = NaiveDate::from_ymd_opt(2026, 1, 1).unwrap();
+        let observations = (0..25)
+            .map(|offset| LeaderObservation {
+                date: start + Duration::days(offset),
+                leader: "GOOG".to_string(),
+                confidence: Some(90.0),
+                breadth: None,
+                relative_strength: None,
+                rotation_stability: None,
+                sector_or_index_rotation: None,
+                supply_state: None,
+            })
+            .collect::<Vec<_>>();
+        let temp_dir =
+            std::env::temp_dir().join(format!("leader_persistence_e2e_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&temp_dir);
+        fs::create_dir_all(&temp_dir).unwrap();
+        let persistence =
+            crate::features::radar::infrastructure::persistence::PersistenceLayer::new(&temp_dir);
+        for observation in &observations {
+            persistence.save_leader_observation(observation).unwrap();
+        }
+        let loaded_observations = persistence.load_leader_observations().unwrap();
+        let packet = DecisionPacket {
+            date: start + Duration::days(25),
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "GOOG".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &loaded_observations,
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::ZhCn,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.persistence_days, 26);
+        assert!(view_model.boundary.contains("降级"));
+        assert_eq!(view_model.primary_leader_value, "GOOG");
+        fs::remove_dir_all(temp_dir).unwrap();
+    }
+
+    #[test]
+    fn leader_persistence_switch_and_boundary_are_localized_for_all_languages() {
+        let date = NaiveDate::from_ymd_opt(2026, 1, 26).unwrap();
+        let previous = LeaderObservation {
+            date: date - Duration::days(1),
+            leader: "MSFT".to_string(),
+            confidence: Some(70.0),
+            breadth: None,
+            relative_strength: None,
+            rotation_stability: None,
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "GOOG".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        for (language, switch_marker, boundary_marker) in [
+            (Language::ZhCn, "连续天数重置", "边界：仅用于观察"),
+            (Language::EnUs, "streak reset", "Boundary: observation only"),
+            (Language::JaJp, "連続日数をリセット", "境界：観測専用"),
+        ] {
+            let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+                persisted_observations: std::slice::from_ref(&previous),
+                current_packet: &packet,
+                current_presentation: &presentation,
+                language,
+            })
+            .unwrap();
+            assert!(view_model
+                .change_from_yesterday_value
+                .contains(switch_marker));
+            assert!(view_model.boundary.contains(boundary_marker));
+        }
     }
 }

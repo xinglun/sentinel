@@ -18,7 +18,10 @@ use crate::features::radar::interface::interpretation_read_model::{
     derive_gravity_data_quality, derive_gravity_data_quality_reason, derive_trend_state,
     has_supply_pressure, InterpretationLayerReadModelInput, InterpretationNarrativeSignal,
 };
-use crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model;
+use crate::features::radar::interface::market_interpretation_read_model::{
+    build_leader_observation, build_leader_persistence_view_model,
+    build_leadership_snapshot_view_model, LeaderPersistenceReadModelInput,
+};
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::report::{self, ReportRenderContext};
@@ -88,6 +91,10 @@ pub(crate) async fn run_pipeline(
     let history = runtime_services
         .persistence
         .load_recent_packets(20)
+        .unwrap_or_default();
+    let leader_observations = runtime_services
+        .persistence
+        .load_leader_observations()
         .unwrap_or_default();
     let all_evidence = evidence_store
         .load_all()
@@ -329,6 +336,13 @@ pub(crate) async fn run_pipeline(
                 &current_leadership_snapshot,
                 lang,
             );
+        pres_packet.leader_persistence =
+            build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+                persisted_observations: &leader_observations,
+                current_packet: &packet,
+                current_presentation: &pres_packet,
+                language: lang,
+            });
         let previous_market_interpretation = match (
             prev_packet,
             previous_presentation.as_ref(),
@@ -412,6 +426,11 @@ pub(crate) async fn run_pipeline(
         if should_persist_history {
             runtime_services.persistence.save_packet(&packet)?;
             runtime_services.persistence.save_daily_packet(&packet)?;
+            if let Some(observation) = build_leader_observation(&packet, &pres_packet) {
+                runtime_services
+                    .persistence
+                    .save_leader_observation(&observation)?;
+            }
             if let Some(log) = &packet.transition_log {
                 let _ = runtime_services
                     .transition_logger

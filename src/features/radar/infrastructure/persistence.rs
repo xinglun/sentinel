@@ -1,5 +1,6 @@
 use crate::features::radar::application::execution_gate::ExecutionResult;
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::leader_persistence::LeaderObservation;
 use anyhow::{Context, Result};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
@@ -28,6 +29,37 @@ impl PersistenceLayer {
             .context("Failed to open decision_history.jsonl for appending")?;
 
         writeln!(file, "{}", json).context("Failed to write packet to jsonl")?;
+        Ok(())
+    }
+
+    pub fn load_leader_observations(&self) -> Result<Vec<LeaderObservation>> {
+        let path = self.save_dir.join("leader_observations.jsonl");
+        if !path.exists() {
+            return Ok(Vec::new());
+        }
+        let file = File::open(path).context("Failed to open leader_observations.jsonl")?;
+        let mut by_date = std::collections::BTreeMap::new();
+        for line in BufReader::new(file).lines().map_while(Result::ok) {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let observation: LeaderObservation =
+                serde_json::from_str(&line).context("Failed to deserialize leader observation")?;
+            by_date.insert(observation.date, observation);
+        }
+        Ok(by_date.into_values().collect())
+    }
+
+    pub fn save_leader_observation(&self, observation: &LeaderObservation) -> Result<()> {
+        let mut observations = self.load_leader_observations()?;
+        observations.retain(|existing| existing.date != observation.date);
+        observations.push(observation.clone());
+        observations.sort_by_key(|value| value.date);
+        let path = self.save_dir.join("leader_observations.jsonl");
+        let mut file = File::create(path).context("Failed to rewrite leader_observations.jsonl")?;
+        for value in observations {
+            writeln!(file, "{}", serde_json::to_string(&value)?)?;
+        }
         Ok(())
     }
 
@@ -290,6 +322,35 @@ mod tests {
         let saved_content = fs::read_to_string(report_path).unwrap();
         assert_eq!(saved_content, content);
 
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn leader_observation_upsert_deduplicates_date() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_leader_observation_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 10).unwrap();
+        let first = LeaderObservation {
+            date,
+            leader: "GOOG".to_string(),
+            confidence: Some(80.0),
+            breadth: Some(70.0),
+            relative_strength: Some(75.0),
+            rotation_stability: Some(80.0),
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let mut replacement = first.clone();
+        replacement.leader = "MSFT".to_string();
+        layer.save_leader_observation(&first).unwrap();
+        layer.save_leader_observation(&replacement).unwrap();
+        let loaded = layer.load_leader_observations().unwrap();
+        assert_eq!(loaded.len(), 1);
+        assert_eq!(loaded[0].leader, "MSFT");
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 

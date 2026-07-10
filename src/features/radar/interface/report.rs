@@ -235,6 +235,10 @@ fn generate_markdown_report(
         pres.leadership_snapshot.as_ref(),
         RenderMode::Markdown,
     ));
+    card.push_str(&render_leader_persistence_section(
+        pres.leader_persistence.as_ref(),
+        RenderMode::Markdown,
+    ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
         card.push('\n');
         card.push_str(&transition_block);
@@ -434,6 +438,10 @@ fn generate_telegram_html_report(
     ));
     card.push_str(&render_leadership_snapshot_section(
         pres.leadership_snapshot.as_ref(),
+        RenderMode::Html,
+    ));
+    card.push_str(&render_leader_persistence_section(
+        pres.leader_persistence.as_ref(),
         RenderMode::Html,
     ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
@@ -1453,6 +1461,83 @@ fn render_leadership_snapshot_section(
                 snapshot.leadership_conflict_label, snapshot.leadership_conflict_value
             ));
             block.push_str(&format!("  - {}\n", snapshot.boundary));
+        }
+    }
+    block.push('\n');
+    block
+}
+
+fn render_leader_persistence_section(
+    persistence: Option<
+        &crate::features::radar::interface::presentation::LeaderPersistenceViewModel,
+    >,
+    mode: RenderMode,
+) -> String {
+    let mut block = String::new();
+    let Some(persistence) = persistence else {
+        return block;
+    };
+
+    match mode {
+        RenderMode::Markdown => {
+            block.push_str(&format!("### {}\n\n", persistence.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.primary_leader_label, persistence.primary_leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.persistence_label, persistence.persistence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.leadership_score_label, persistence.leadership_score_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.leader_state_label, persistence.leader_state_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.change_from_yesterday_label, persistence.change_from_yesterday_value
+            ));
+            if !persistence.switch_history_values.is_empty() {
+                block.push_str(&format!("  - {}:\n", persistence.switch_history_label));
+                for value in &persistence.switch_history_values {
+                    block.push_str(&format!("    - {}\n", value));
+                }
+            }
+            block.push_str(&format!("  - {}\n", persistence.boundary));
+        }
+        RenderMode::Html => {
+            block.push_str(&format!("\n<b>{}</b>\n\n", persistence.title));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.primary_leader_label, persistence.primary_leader_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.persistence_label, persistence.persistence_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.leadership_score_label, persistence.leadership_score_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.leader_state_label, persistence.leader_state_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.change_from_yesterday_label, persistence.change_from_yesterday_value
+            ));
+            if !persistence.switch_history_values.is_empty() {
+                block.push_str(&format!("  - {}:\n", persistence.switch_history_label));
+                for value in &persistence.switch_history_values {
+                    block.push_str(&format!("    - {}\n", value));
+                }
+            }
+            block.push_str(&format!("  - {}\n", persistence.boundary));
         }
     }
     block.push('\n');

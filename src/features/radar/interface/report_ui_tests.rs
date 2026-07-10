@@ -42,6 +42,7 @@ fn mock_config() -> AppConfig {
             trend_cohesion: None,
             breakout: None,
             market_state_engine: None,
+            market_benchmarks: None,
         },
         watchlist: vec![],
         research_attention: None,
@@ -4145,6 +4146,55 @@ mod tests {
     }
 
     #[test]
+    fn leader_persistence_report_section_is_observation_only() {
+        let config = mock_config_with_language(Language::EnUs);
+        let leader_persistence =
+            crate::features::radar::interface::presentation::LeaderPersistenceViewModel {
+                title: "Leader Persistence".to_string(),
+                primary_leader_label: "Primary Leader".to_string(),
+                primary_leader_value: "GOOG".to_string(),
+                persistence_label: "Leader Persistence".to_string(),
+                persistence_value: "5 days".to_string(),
+                persistence_days: 5,
+                leadership_score_label: "Leadership Score".to_string(),
+                leadership_score_value: "82.4".to_string(),
+                leadership_score: 82.4,
+                leader_state_label: "Leader State".to_string(),
+                leader_state_value: "ESTABLISHED".to_string(),
+                change_from_yesterday_label: "Change from Yesterday".to_string(),
+                change_from_yesterday_value: "+1 day, score stable".to_string(),
+                persistence_change_days: 1,
+                score_change: 0.0,
+                switch_history_label: "Switch History".to_string(),
+                switch_history_values: vec!["2026-07-02: MSFT -> GOOG".to_string()],
+                boundary: "Boundary: observation only; this block does not change Decision, Gate, Execution, Trader, or Position Sizing.".to_string(),
+            };
+        let pres = crate::features::radar::interface::presentation::PresentationPacket {
+            leader_persistence: Some(leader_persistence),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("Leader Persistence"));
+        assert!(report.markdown_body.contains("Primary Leader: GOOG"));
+        assert!(report.markdown_body.contains("Leadership Score: 82.4"));
+        assert!(report
+            .markdown_body
+            .contains("Change from Yesterday: +1 day, score stable"));
+        assert!(report.markdown_body.contains("Switch History"));
+        assert!(report.markdown_body.contains("2026-07-02: MSFT -> GOOG"));
+        assert!(report.telegram_html_body.contains("Leader Persistence"));
+    }
+
+    #[test]
     fn market_interpretation_conflict_suppresses_leadership_lists() {
         let config = mock_config_with_language(Language::EnUs);
         let packet = DecisionPacket {
@@ -4218,6 +4268,7 @@ mod tests {
             }),
             interpretation_layer: Some(interpretation_layer.clone()),
             leadership_snapshot: None,
+            leader_persistence: None,
             market_change_log: None,
             market_interpretation: None,
             hypothesis_layer: None,

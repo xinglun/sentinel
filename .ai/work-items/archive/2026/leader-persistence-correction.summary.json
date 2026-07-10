@@ -1,0 +1,244 @@
+{
+  "workItemId": "leader-persistence-correction",
+  "contractPath": ".ai/work-items/archive/2026/leader-persistence-correction.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Persistence を confidence 閾値から分離し、日付 dedupe と flow strength proxy を導入した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "構造化 Leader observation JSONL の日付 upsert / 全履歴ロードを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "現在日と履歴日の fact source を persisted observation に統一し、欠損時の降級と多言語 change を修正した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "実流水線で observation をロード、計算、日付 upsert 保存するよう接続した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "数値の persistence / score / change フィールドを read model に追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly JSON を数値と構造化 change に変更した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "既存 report fixture を新しい構造化 view model 契約へ更新した。"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-correction.contract.json",
+      "reason": "差戻し内容、scope、acceptance、scenario coverage を新規修正 Work Item として固化した。"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-correction.summary.json",
+      "reason": "検証結果と residual risk を矛盾なく記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    ".ai/work-items/archive/2026/leader-persistence.summary.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-persistence-correction.contract.json SUMMARY=.ai/work-items/active/leader-persistence-correction.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "真实外部数据源不在单元测试范围内；review 时需确认 flow_strength proxy 与字段命名符合产品口径。"
+  },
+  "generatedFiles": [
+    "leader_observations.jsonl は runtime output であり repository artifact ではない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一 Leader を 25 日以上維持しても履歴窓で切れず、同日再実行で日数が増えない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_observation_upsert_deduplicates_date --all-targets",
+        "cargo test leader_persistence --all-targets"
+      ]
+    },
+    {
+      "scenario": "現在日と履歴日が同一の leadership snapshot 事実源と実測指標口径を使う",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Leadership Confidence が低くても Persistence は継続し、Score だけが影響を受ける",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --all-targets"
+      ]
+    },
+    {
+      "scenario": "欠損指標、Leader 切替、頻繁輪動、中文・英文・日文の JSON / report 出力",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "以前の leader_observations.jsonl に relative_strength 名称が存在する場合は serde alias で読み込むが、以降は flow_strength として保存する。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "修正 Work Item の scope、boundary、acceptance を確定した。",
+      "contractHash": "002ffae649394031",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight advisory を確認し、scope 内で実装を開始した。",
+      "contractHash": "002ffae649394031",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装と review-ready 整合性を確認した。",
+      "contractHash": "002ffae649394031",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required make checks の結果を Summary に同期した。",
+      "contractHash": "002ffae649394031",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "差戻し findings を Contract に固化した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "production code scope と regression scenarios を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required make checks を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks の結果を Summary に同期した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "strength_semantics",
+      "detail": "既存 domain に asset-relative-strength の直接値がないため、flow_acceleration を flow_strength proxy として明示した。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "legacy_history",
+      "detail": "旧 DecisionPacket のみで保存された過去日には leader observation の詳細指標がなく、移行前の日付は欠損値で降級する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required make checks は通過したが、flow_strength proxy と旧履歴移行は review で確認する。",
+    "expectedReviewFocus": [
+      "flow_strength proxy の命名と意味",
+      "runtime output の日付 upsert",
+      "三言語 report と weekly JSON の型契約",
+      "旧履歴の降級挙動"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Leader Persistence の初回验收差戻し findings を反映した。",
+      "solidifiedTo": "contract",
+      "reason": "新規 Contract の acceptance / scenarioCoverage に固化し、実装とテストで検証した。"
+    }
+  ]
+}
