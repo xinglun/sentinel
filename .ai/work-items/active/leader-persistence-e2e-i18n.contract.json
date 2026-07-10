@@ -173,7 +173,9 @@
     ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
     "src/features/radar/infrastructure/persistence.rs",
     "src/features/radar/interface/market_interpretation_read_model.rs",
-    "src/features/radar/interface/report_ui_tests.rs"
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/adapters/futu/codec.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs"
   ],
   "outOfScope": ["Decision、Gate、Execution、Trader、Position Sizing 以及归档报告"],
   "sources": [
