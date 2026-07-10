@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It's Time To Buy Gold And Silver
+  summary: Precious metals, especially gold and silver, look oversold after recent sell-offs, presenting an attractive entry or overweight opportunity. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=98a1a072db1b1bc531459aa10163b9287a3cee71cd7ff259053022b4f910d043

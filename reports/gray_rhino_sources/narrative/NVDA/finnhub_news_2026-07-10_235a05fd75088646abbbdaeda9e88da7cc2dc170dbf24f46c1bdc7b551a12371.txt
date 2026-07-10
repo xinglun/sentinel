@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is The Market Really Expecting From AVGO Stock?
+  summary: This is a hyper-growth chapter for Broadcom (AVGO), fueled by what management calls insatiable demand for AI infrastructure. The company's core engine is supplying custom accelerators and networking silicon to a handful of hyperscale customers, including Alphabet (GOOG.
+  url: https://finnhub.io/api/news?id=19195047cc03938f2d65bd4b2ab548c3357f14c62651dd6b9e5fb059acebf2a2

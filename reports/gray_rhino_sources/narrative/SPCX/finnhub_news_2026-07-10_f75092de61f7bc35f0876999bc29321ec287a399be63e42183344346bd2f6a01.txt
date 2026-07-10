@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why you should care about SK Hynix's IPO
+  summary: SK Hynix (SKHY, SKHYV) has officially gone public in the US. Yahoo Finance Executive Editor Brian Sozzi is joined by Breaking News Reporter Jake Conley and Trustless Media founder Zack Guzman to discuss the IPO.
+  url: https://finnhub.io/api/news?id=f5e071778e12130627cd7f42999986e6c1bcec5c6b0823ea5299de8b6eb9c008

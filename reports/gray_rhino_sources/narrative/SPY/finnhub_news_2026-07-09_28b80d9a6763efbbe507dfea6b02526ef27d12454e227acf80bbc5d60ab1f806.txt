@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq, Dow End Higher Led By Chipmaker Stocks As Investors Look Past US-Iran Hostility — ORCL, SBUX, WULF, PANW, FATE In Focus
+  summary: The United States carried out a second consecutive day of new military operations against Iran.
+  url: https://finnhub.io/api/news?id=686c560b0a8617f924c28daef7a556f675cb90bc2747e458ce95b511b6050e69

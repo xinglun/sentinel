@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Greg Abel Built a $31 Billion Berkshire Stake in Alphabet
+  summary: Alphabet has become a key holding in a very short time.
+  url: https://finnhub.io/api/news?id=578c1d589b77f2559cc8d9c7926deaaf09427e0b3e47a73deefe2b4d5dc3faa9

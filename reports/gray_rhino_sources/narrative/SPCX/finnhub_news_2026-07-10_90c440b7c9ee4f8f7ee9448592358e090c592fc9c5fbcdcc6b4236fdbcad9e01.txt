@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitget rToken Tops $100M as Tokenized Stock Demand Grows
+  summary: Bitget rToken crossed $100 million in AUM as tokenized stock value hit $1.82 billion and transfer volume surged, per RWA.xyz.
+  url: https://finnhub.io/api/news?id=4d287ce84dfdd2815e8fed47c115f4c8bdbb9cd80d4a6cb10dba586c1edbd211

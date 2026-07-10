@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global EV Sales Reach 2 Million in June as Europe Surges Despite US, China Slowdown
+  summary: Global EV sales hit 2 million in June, up 11% from May. Europe saw a 31% surge, while North America and China declined.
+  url: https://finnhub.io/api/news?id=7a5e06f973b02730e8d54c95f50439b0a567508439df69be524bb80e6f91f828

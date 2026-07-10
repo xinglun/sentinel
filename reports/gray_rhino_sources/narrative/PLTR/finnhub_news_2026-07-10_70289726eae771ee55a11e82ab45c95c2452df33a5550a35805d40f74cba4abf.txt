@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Down 36% From Its All-Time High. Time to Buy?
+  summary: The business keeps getting better. The valuation is still the sticking point.
+  url: https://finnhub.io/api/news?id=46284f39f2dc3e3bd2418cd524b3b995df43772ef0ff29e85e3b3c8733fd15c8

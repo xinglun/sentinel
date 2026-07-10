@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Stock Offering Overshadows AI Deal
+  summary: Stock offering overshadows ambitious enterprise AI expansion plans
+  url: https://finnhub.io/api/news?id=fd69091c2fc3c6e6d0eca58e7260aa537510d7a303a6b79ec64b06a4342537a8

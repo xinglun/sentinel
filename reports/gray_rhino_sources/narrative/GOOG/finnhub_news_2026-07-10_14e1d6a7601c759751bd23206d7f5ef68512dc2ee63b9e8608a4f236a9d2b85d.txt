@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s Why Analysts Think Nebius (NBIS) Could Benefit From Amazon’s GPU Price Increase
+  summary: Nebius Group NV (NASDAQ:NBIS) is one of the 10 Best AI Stocks to Watch in July. On July 2, Nebius Group NV (NASDAQ:NBIS) received some analyst attention on Wall Street as a result of Meta’s entry into the cloud computing business. Stefan Slowinski of BNP Paribas has a Neutral rating on the stock, partly because […]
+  url: https://finnhub.io/api/news?id=4c9dcfd43a0537da70fdfb30ce39ff776d34a8db7b5c9de6a8b7070cc996b15f

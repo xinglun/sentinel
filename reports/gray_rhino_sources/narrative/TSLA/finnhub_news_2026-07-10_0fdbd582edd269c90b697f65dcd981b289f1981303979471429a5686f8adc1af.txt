@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Month After SpaceX IPO, Tesla’s Stock Keeps Holding Its Ground
+  summary: (Bloomberg) -- In the weeks leading up to SpaceX’s monster IPO, many Wall Street pros feared the deal represented an existential threat for Elon Musk’s other giant, Tesla Inc. But after a month in the stock market, the outcome is far from clear. Most Read from BloombergMicrosoft’s Xbox to Shift Obsidian Studio to New ‘Fallout’ Video GameNvidia’s $1 Trillion Slide Sends Valuation to Pre-AI Boom LevelsZuckerberg Pledges ‘Aggressive’ Pricing With Meta’s First Pay-to-Use AITrump Vents Anger With Ira
+  url: https://finnhub.io/api/news?id=00c9b0c0d501d3b8b786a5e93692f41293c81bc69bac238456652f681f9fe812

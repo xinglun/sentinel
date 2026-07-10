@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says SK Hynix Analysts Must Raise Numbers: What It Means for the Biggest Nasdaq IPO in Years
+  summary: Jim Cramer is calling on Wall Street analysts to act before Monday's open, and the pressure he is putting on the SK Hynix syndicate reveals exactly how fragile the biggest Nasdaq IPO in years could become at the starting gate.
+  url: https://finnhub.io/api/news?id=e1959abcb4dc80c34042343a5506f608741882735f54857398e2b9f278fff5d5

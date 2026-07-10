@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Reports 25% Emissions Jump as AI Data Center Expansion Accelerates
+  summary: 2025 carbon emissions reached 20 million metric tons as new AI infrastructure increased energy demand.
+  url: https://finnhub.io/api/news?id=7ed30efa73f7a62c25cfde3afbc763a7af6fb23e5a482742be065417d7919210

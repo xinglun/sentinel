@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Questions Prudent Investors Should Be Asking
+  summary: Market near all-time highs amid extreme valuations: scrutinize passive inflows, negative AI hyperscaler cash flow, and OpenAI/Anthropic moatsâread now.
+  url: https://finnhub.io/api/news?id=c558432756b8356747615e221fdde650747e4fdbef05bd18ae44364329140ab6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Rebounds as Small Caps Join the Rally
+  summary: Thursday produced a broad internal rebound after Wednesday’s weakness. SPY and QQQ remained near their highs, while IWM’s renewed participation helped improve the market’s overall breadth profile. Longer-term participation is constructive, but modest new-high and pocket-pivot readings keep the assessment below outright positive.
+  url: https://finnhub.io/api/news?id=f1bd057a9c0b40ccaf5a4a218cf0e25ba952f4e90dc69399877c87fc27c4ab3c

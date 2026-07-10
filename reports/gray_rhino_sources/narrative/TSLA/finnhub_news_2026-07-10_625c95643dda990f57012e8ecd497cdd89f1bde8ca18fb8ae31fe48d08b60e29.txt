@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Automotive vs. Tesla: What Their Revenue Trends Tell Investors
+  summary: Tesla's revenue towers over Rivian's, but one company shows steadier growth while the other fluctuates.
+  url: https://finnhub.io/api/news?id=3f56547cbd70f1d280b1c3ddff390537b4eee2a04d1c7890e87f4c1e4d640367

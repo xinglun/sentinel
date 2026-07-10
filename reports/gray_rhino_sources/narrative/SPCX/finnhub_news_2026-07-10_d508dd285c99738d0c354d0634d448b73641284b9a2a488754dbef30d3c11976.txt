@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bezos Is Raising $10 Billion for His Rocket Company, After SpaceX Made Musk A Trillionaire
+  summary: SpaceX's historic IPO turned Elon Musk into the world's first trillionaire, and now Jeff Bezos is making the biggest bet of his life on the company he has quietly funded for 26 years.
+  url: https://finnhub.io/api/news?id=005dc9acba2be128fe0e266ca8978c9d126355c52c4127b66439993c76ef46e7

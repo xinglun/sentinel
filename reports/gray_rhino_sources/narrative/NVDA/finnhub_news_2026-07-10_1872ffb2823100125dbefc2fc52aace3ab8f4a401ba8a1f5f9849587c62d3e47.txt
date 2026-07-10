@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defense Investor: 300 Companies Could Define the Future of Warfare – and 92 of Them Are International. “Instead of Thinking U.S. Hegemony, Now We’re Thinking This Is an Allied Play”
+  summary: Record Pentagon budgets are climbing toward $1.45 trillion, yet America's biggest defense contractors keep falling. One investor says the winners are hiding somewhere most portfolios have never looked.
+  url: https://finnhub.io/api/news?id=038632a4fb54731981d949aecacc5872c170bb4ed779fa3bf56a02f4a1030844

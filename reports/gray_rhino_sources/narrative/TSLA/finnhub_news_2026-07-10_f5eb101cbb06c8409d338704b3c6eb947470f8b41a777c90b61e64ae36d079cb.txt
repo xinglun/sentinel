@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Has Some Wild Thoughts About SpaceX’s Valuation
+  summary: This has been valuation week for  SpaceX  with more than a dozen analysts writing initial research following the company’s record-setting June IPO.  Investors have had a lot of estimates, price targets, bull cases, and bear cases to digest.  SpaceX CEO Elon Musk also has a thought about SpaceX’s potential: It will be worth more than Earth.
+  url: https://finnhub.io/api/news?id=df47608dac02d1ff8ba26681ef3cf5d89e37cfc8209866b5434fd511d391e4e7

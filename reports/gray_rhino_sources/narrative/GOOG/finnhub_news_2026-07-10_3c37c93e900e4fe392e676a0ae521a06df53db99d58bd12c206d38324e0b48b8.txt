@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UK to regulate cloud service providers to protect financial system
+  summary: The move is designed to protect the country’s financial system and make sure they have measures in place to support outages or disruption.
+  url: https://finnhub.io/api/news?id=1639ace4f88c8226d0fdbfb3ad850d7d40a64be992453a5675bd8f12510143ec

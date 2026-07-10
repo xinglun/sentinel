@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Is Back At A Level It Has Defended Before
+  summary: After a sharp slide, Palantir's stock is testing a price floor that has held strong before, forcing investors to decide if the company's explosive growth is enough to command a fourth defense.
+  url: https://finnhub.io/api/news?id=98faf10c1cbcbe723aaae304484e6fdd51ebab4dd2866bc8fbc80e3377972762

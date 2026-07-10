@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Is Getting a Boost From California. Could Other States Follow Suit?
+  summary: A new state tax incentive could increase demand for Rivian's new, more affordable R2 fleet.
+  url: https://finnhub.io/api/news?id=ee2f0045f239e3cdcb3021ca45661d2cf1fed365c1836ed2c9ff41a66dfad09a

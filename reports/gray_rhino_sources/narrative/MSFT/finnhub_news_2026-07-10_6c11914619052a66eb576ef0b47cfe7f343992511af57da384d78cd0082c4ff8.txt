@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AAPL & Broadcom's $30B Deal Boosts AI Chip Strategy: What's Ahead?
+  summary: Apple's new $30 billion chip deal will secure over 15 billion U.S.-made chips and support custom silicon, wireless tech and AI-enabled devices.
+  url: https://finnhub.io/api/news?id=9ded799232b09b23faa7477e14e66fc762210f39597328d682e3c5ae3bdcf39a

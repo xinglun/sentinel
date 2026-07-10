@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What to expect this earnings season amid lingering Hindenburg Omens
+  summary: B. Riley Wealth chief market strategist Art Hogan shares his outlook for this earnings season and the opportunities he sees in Big Tech, while Yahoo Finance Markets and Data Editor Jared Blikre discusses what recent Hindenburg Omens may be signaling for US markets (^DJI, ^IXIC, ^GSPC).
+  url: https://finnhub.io/api/news?id=571d9ee8c9b41bf47fa3ec2182908fcb0c259f04ee136108d8a7b0fb878f0beb

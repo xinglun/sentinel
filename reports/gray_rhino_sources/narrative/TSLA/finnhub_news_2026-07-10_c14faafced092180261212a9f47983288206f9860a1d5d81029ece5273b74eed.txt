@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla Stock Will Surprise Investors Over the Next 5 Years
+  summary: Tesla (NASDAQ:TSLA) just posted one of its cleanest quarters in years, and the market shrugged. Tesla grew Q1 2026 revenue 15.78% year over year to $22.387 billion, expanded automotive gross margin by 490 basis points to 21.1%, and grew free cash flow 117%. Yet shares are down 12.38% year to date at $394.06. The question I ... Prediction: Tesla Stock Will Surprise Investors Over the Next 5 Years
+  url: https://finnhub.io/api/news?id=7ccb7f71aeed0f8ed709a023140c4881ffa21142792378a5f6d5c4361984adec

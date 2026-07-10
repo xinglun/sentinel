@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Lands First Latin America Commercial Customer With GNP And Rackspace
+  summary: Palantir Technologies (NasdaqGS:PLTR) announced a multi-year, multimillion-dollar expansion with GNP Seguros, Mexico’s largest insurer. The deal marks Palantir’s first publicly disclosed commercial customer in Latin America across multiple insurance lines. Palantir also finalized an operating model with Rackspace to deploy its AI platforms in regulated and sovereign environments. The Rackspace partnership targets mission-critical sectors including healthcare, finance, and energy. Palantir...
+  url: https://finnhub.io/api/news?id=21195e042b1fa1e0b65b9084eb2476ff96532cde91f60f8faacc0d0705d8249a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Time to Buy Wide Moat & HALO ETFs?
+  summary: Market uncertainty is rising. Could wide-moat and HALO ETFs offer investors a safer way to stay invested amid AI volatility and geopolitical risks?
+  url: https://finnhub.io/api/news?id=080cd8824e2ac6bfc436c39ae635b7a22c6262718c00060c94b52dab7751251c

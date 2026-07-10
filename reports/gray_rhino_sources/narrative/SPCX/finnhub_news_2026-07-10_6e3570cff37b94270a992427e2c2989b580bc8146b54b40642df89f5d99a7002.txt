@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK Hynix makes US debut: What sets it apart from SpaceX's mega-IPO
+  summary: South Korean memory chipmaker SK Hynix (000660.KS) is making its US market debut on Friday through a listing on the Nasdaq (^IXIC), under the ticker "SKHY." The company has already raised $26.5 billion in its Wall Street share offering, the largest first-time listing by a foreign company in the US. B. Riley Wealth chief market strategist Art Hogan sits down with Yahoo Finance Executive Editor Brian Sozzi to touch upon how SK Hynix's US listing may differ from SpaceX's (SPCX) mega-IPO.
+  url: https://finnhub.io/api/news?id=07c62b83a2f48cd9f6909fe420f9cfda2041a540e1ad1e0a01de28c90246cc16

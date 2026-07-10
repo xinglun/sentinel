@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MSFT Stock Gets A Price Target Cut, But Argus Still Sees Nearly 32% Upside
+  summary: According to TheFly, Argus analyst Joseph Bonner maintained a ‘Buy’ rating on Microsoft while trimming the price target to $510 from $620.
+  url: https://finnhub.io/api/news?id=4776ec6f0e306e7d57aa62d111e001966c279638413aef1c0b0dd3a826781848

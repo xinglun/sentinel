@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Tracks Key Trends in Satellite Broadband and AI
+  summary: SPCX combines reusable launch, satellite broadband and AI infrastructure, but returns hinge on execution, monetization and regulatory progress.
+  url: https://finnhub.io/api/news?id=34bb25534a7f4b077dfa626e27f43dbbd1e2a5143a2800b39d343fe96fd58672

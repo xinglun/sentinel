@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Will Be ‘Worth More Than the Rest of Earth,’ Musk Says. How He Gets There.
+  summary: This has been valuation week for  SpaceX  with more than a dozen analysts writing initial research following the company’s record-setting June IPO.  Investors have had a lot of estimates, price targets, bull cases, and bear cases to digest.  SpaceX CEO Elon Musk also has a thought about SpaceX’s potential: It will be worth more than Earth.
+  url: https://finnhub.io/api/news?id=6664c6f98c7cd3385158563f433365fe7389f0c6cd4ff873eb2295f712597b11

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buying stocks at all-time highs still returned 10.5% a year since 1950 — here's why boomers should hold steady
+  summary: Investing at all-time highs seems like a bad move, but the data suggests the timing isn’t everything.
+  url: https://finnhub.io/api/news?id=bb6be114194e6f39ba03b4e43d65d1491ed0856da91a9876dae117ae18cbc7d5

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s How Microsoft (MSFT) Is Entering The Edge AI Processing Arena
+  summary: Microsoft Corporation (NASDAQ:MSFT) is one of the 10 Best AI Stocks to Watch in July. So far in July, analyst sentiment towards Microsoft Corporation (NASDAQ:MSFT) has remained positive, even though the stock continues to be out of favor with investors. According to a report released on July 6, D.A. Davidson analyst Gil Luria maintained a […]
+  url: https://finnhub.io/api/news?id=0897db3e7086cdfb7693663bba991be2e7d10ff339be9a2bbe9a997ffc3e94da

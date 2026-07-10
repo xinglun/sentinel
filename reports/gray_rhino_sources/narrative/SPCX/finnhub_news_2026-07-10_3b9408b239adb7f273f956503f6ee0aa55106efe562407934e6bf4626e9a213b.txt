@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Spending Will Keep Driving the Stock Market, Whether You Like It or Not
+  summary: Micron accelerates U.S. investment plan, SpaceX’s Grok 4.5 is a win for Nvidia, Pepsi posts earnings beat, and more news to start your day.
+  url: https://finnhub.io/api/news?id=1dda5060e36e4bb316c2a0bab6ac5a7ad0772c142eb4af1d972281901a120cef

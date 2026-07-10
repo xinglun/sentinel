@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small Cap ETFs Are Beating the S 500 as the Mag 7 Stumble
+  summary: A rough year for most of the megacaps has opened the door for funds that tilt away from the biggest stocks.
+  url: https://finnhub.io/api/news?id=ab1e79f1c4abf04c5ddf8b7fc713a69e02fe7548ea4ec58e4f20247753c2fcb3

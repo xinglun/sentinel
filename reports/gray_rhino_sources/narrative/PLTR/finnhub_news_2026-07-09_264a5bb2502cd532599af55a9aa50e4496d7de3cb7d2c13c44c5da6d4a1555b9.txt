@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Implications Of 90x P/E
+  summary: Palantir Technologies Inc. is positioned for long-term growth, driven by catalysts unveiled at AIPCon 10. Learn more about PLTR stock here.
+  url: https://finnhub.io/api/news?id=dcd372c8f0a52ff829ae0dbf19b20a181f0f33875c769404e18ff2e6940692fa

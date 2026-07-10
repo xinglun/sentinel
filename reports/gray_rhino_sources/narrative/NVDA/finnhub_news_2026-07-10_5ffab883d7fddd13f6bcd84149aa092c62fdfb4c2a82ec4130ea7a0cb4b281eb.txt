@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “You’re Building a Google in 2 Years,” Why One Energy Analyst Warns The U.S. Grid Is Not Ready For What’s Coming
+  summary: An energy analyst says the AI labs themselves are engineering a power crisis that the U.S. grid cannot survive, and the race to fix it is already minting winners and losers across the market.
+  url: https://finnhub.io/api/news?id=8a5adbca164aeb8c45f60e1f44c92cabe44a54ab86c4520b44e3fd7b83850185

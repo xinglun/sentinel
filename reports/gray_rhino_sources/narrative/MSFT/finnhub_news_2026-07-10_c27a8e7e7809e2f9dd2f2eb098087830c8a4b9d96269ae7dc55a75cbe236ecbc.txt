@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft carbon emissions rose 25% in 2025 amid AI data center boom
+  summary: The company produced 34 million metric tons of CO₂ equivalent last year, putting its 2030 carbon-negative pledge under pressure
+  url: https://finnhub.io/api/news?id=713b792b8e6b18d15b6aa5e0ac36f4130aa51a930de94edc0144e6464b0d37c1

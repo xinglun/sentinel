@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Is Shorting Micron Stock, But His Bear Case Looks Weak
+  summary: Burry has deemed shares of the memory chip major to be cyclical and thus set for an impending drawdown.
+  url: https://finnhub.io/api/news?id=fbf4c6c08f819dbdcc4fdabd12301b4318534deb0728eb1cf95034096a0d76d6

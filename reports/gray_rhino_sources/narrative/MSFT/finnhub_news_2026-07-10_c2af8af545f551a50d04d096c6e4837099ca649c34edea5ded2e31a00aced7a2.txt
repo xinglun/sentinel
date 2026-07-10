@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Microsoft is not this portfolio manager's stock pick
+  summary: Niles Investment Management founder and portfolio manager Dan Niles shares his perspective on Microsoft (MSFT) in the AI landscape.
+  url: https://finnhub.io/api/news?id=be1ea5c67eb3e537b31672248dcb3cb20c4d7f00eaa78b10be5818db30963968

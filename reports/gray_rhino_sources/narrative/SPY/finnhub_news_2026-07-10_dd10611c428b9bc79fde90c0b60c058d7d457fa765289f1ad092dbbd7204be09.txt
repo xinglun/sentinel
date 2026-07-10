@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Labor Market Frozen, Fed PUT On Ice
+  summary: The June NFP report came in at a disappointing 57k net new jobs created. Macroeconomic conditions of slowing growth and disinflation remain intact, even as the ceasefire with Iran unravels.
+  url: https://finnhub.io/api/news?id=29ac7849f5683896763d08bce4c0f238b6ec7c150178b8949f2c622c60e906cc

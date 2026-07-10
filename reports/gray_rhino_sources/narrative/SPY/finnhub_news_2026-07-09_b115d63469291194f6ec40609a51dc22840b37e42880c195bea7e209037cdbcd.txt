@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Convert Your IRA While the Market Is Crashing and the IRS Basically Gives You a Discount
+  summary: If you have a traditional IRA and you watched your balance drop earlier this year, the IRS quietly handed you a coupon. When your account value falls, you can convert those same shares to a Roth IRA and pay income tax on the depressed value, not the peak. Every dollar of recovery after the conversion ... Convert Your IRA While the Market Is Crashing and the IRS Basically Gives You a Discount
+  url: https://finnhub.io/api/news?id=970770c9d6443b542899cab04bc48a7833c6305de751c7b9cf701ec4abbade1b

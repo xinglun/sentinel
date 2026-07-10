@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Lynch’s Favorite Indicator Is Flashing Green for Tech Stocks Again
+  summary: Peter Lynch built his legendary track record by reading signals most investors overlook, and one of his most powerful indicators is now behaving in a way the technology sector has not seen in roughly 15 years.
+  url: https://finnhub.io/api/news?id=3862ca44d572a66ffcf5b1c37fe71afee894620eed3fa6f8c8144c14b287d178

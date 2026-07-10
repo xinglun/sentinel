@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Mega-Cap Stock on Our Buy List and 2 We Find Risky
+  summary: Megacap stocks dominate their sectors and their actions influence economies worldwide. The flip side though is that their sheer size means they have less room for explosive growth as scale works against them.
+  url: https://finnhub.io/api/news?id=7d0cbcfa70ca162d37e3f2c667a7058ba08d31ec1abb84a336df51daa3b20ca0

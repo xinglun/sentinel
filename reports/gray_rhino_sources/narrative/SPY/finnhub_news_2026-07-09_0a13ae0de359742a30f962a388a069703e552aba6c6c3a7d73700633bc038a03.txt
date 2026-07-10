@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your Fund May Carry An Unearned Price
+  summary: Some funds are trading far above their own historical valuations without delivering the performance to justify it; check your holdings against this list.
+  url: https://finnhub.io/api/news?id=ce4c7a66c4c4c54379a7aa014cfb60392f99016b3ad9145b74234f9175718bca

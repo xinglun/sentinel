@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trader keeps massive EUR/USD bet open for 400 days
+  summary: While the crypto industry has several decentralized exchanges that offer perpetual futures tied to assets as diverse as the SpaceX stock to Brent crude oil, these platforms also offer futures tied to forex trades and crypto traders haven't missed the opportunity to ...
+  url: https://finnhub.io/api/news?id=8004b2b918788b66c427eff76233538bab4385304b85655e385ce54f0e092340

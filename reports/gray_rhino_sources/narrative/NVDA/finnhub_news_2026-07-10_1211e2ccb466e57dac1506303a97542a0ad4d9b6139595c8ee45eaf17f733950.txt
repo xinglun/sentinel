@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CBRS' European Expansion Strengthens AI Growth Story: What's Ahead?
+  summary: Cerebras plans its first European AI data center by 2026-end and 200 MW of capacity by 2027-end as demand for local AI compute rises.
+  url: https://finnhub.io/api/news?id=bc1762e3cc4498ec3983a033ba50a0570bb792e0edc62bff788979063ae2a609

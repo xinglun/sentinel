@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Meta Platforms Stock Jumped on Friday
+  summary: The social media maven is making waves with its AI progress.
+  url: https://finnhub.io/api/news?id=a29185fc02ddc00b2731306780f84553d056d3e146884220102e62b080e752c1

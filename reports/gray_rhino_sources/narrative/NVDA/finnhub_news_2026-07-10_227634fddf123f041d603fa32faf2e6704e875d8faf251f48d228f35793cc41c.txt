@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloomberg’s Daybreak Desk Says SK Hynix’s Record $26.5 Billion Nasdaq Debut Proves the AI Chip Boom Isn’t Cooling
+  summary: SK Hynix just shattered a decades-old US listing record, and Bloomberg's desk thinks it signals something much bigger than one blockbuster IPO for the companies already supplying the AI buildout.
+  url: https://finnhub.io/api/news?id=2c3341f04e5aa1c0975e7d3853b0cb9c49465177c8468a2426ba5db67eacf528

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EquipmentShare, Vodafone, Circle Internet Group And Other Big Stocks Moving Higher On Friday
+  summary: Dow Jones index up 50 points, Equipmentshare.Com up 15.4% on revenue guidance increase and share repurchase program. Other stocks recording gains.
+  url: https://finnhub.io/api/news?id=92e2fa3eb1a53e3bd2b38450e6c2aa164ba0f75e8bde27b171bc32aca51ffa67

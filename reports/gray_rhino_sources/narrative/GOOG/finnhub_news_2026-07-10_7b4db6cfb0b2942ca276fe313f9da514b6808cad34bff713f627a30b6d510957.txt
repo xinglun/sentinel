@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel's Operating Margins Are Improving: Is More Upside Ahead?
+  summary: Intel's operating margins jump as AI PC demand, Xeon growth and cost discipline boosted profitability. Can the momentum drive further upside?
+  url: https://finnhub.io/api/news?id=07e1f88f08be4725cf3accd7457da65bed13bc00d60602031be2981482122857

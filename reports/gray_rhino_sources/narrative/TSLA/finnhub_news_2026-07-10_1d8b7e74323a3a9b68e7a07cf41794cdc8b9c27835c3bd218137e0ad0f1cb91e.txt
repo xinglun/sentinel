@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Stock Can’t Get Out of Its Own Way
+  summary: More robo-taxis would give Tesla stock a boost. Scaling the self-driving taxi business, however, has been harder than investors expect.
+  url: https://finnhub.io/api/news?id=fbe43cda2259a96007a8af2708225f5bc284ab053164740ace99f31a754d1a0b

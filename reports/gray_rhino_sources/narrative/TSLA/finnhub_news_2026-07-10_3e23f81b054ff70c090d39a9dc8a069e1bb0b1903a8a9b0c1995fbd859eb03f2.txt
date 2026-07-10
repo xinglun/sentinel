@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Robotaxi Success Endangered By Regulators
+  summary: Federal regulators are raising serious questions about whether autonomous vehicles can safely interact with first responders, and their concerns could throw a massive wrench into Tesla's most ambitious moneymaking plan yet.
+  url: https://finnhub.io/api/news?id=e6d50675d5a0163e9e43b1bf21ace98e99af26b5300e4ea1f6dfbe68e77dd000

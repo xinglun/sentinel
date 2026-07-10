@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: A Pivot That Doesn't Fix The Price
+  summary: Tesla remains rated Sell, as the current valuation far exceeds fundamentals despite recent operational improvements. Learn more about TSLA stock here.
+  url: https://finnhub.io/api/news?id=ec1f7cc01be4740ec74d2538c33a09bf57f6ce4ab0f04221e9bb946246871d54

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: An AI-Powered Flash Crash Is Coming. The Market Isn’t Ready.
+  summary: G7 central banks are quietly war-gaming kill switches for AI trading systems, and regulators in three countries have already admitted the rulebook cannot contain what their own firms have deployed. The window to act may be shorter than markets realize.
+  url: https://finnhub.io/api/news?id=0ea3e3159f58579ff56859e9e443c42a3b4461d43128a5400a1a403683c8efc2

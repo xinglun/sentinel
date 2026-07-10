@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Chevron's Microsoft Partnership Power the Next Leg of Growth?
+  summary: CVX's 20-year Microsoft power deal taps AI data center demand, adding a potential long-term cash flow stream beyond its core oil business.
+  url: https://finnhub.io/api/news?id=df350f50d3d22acdb5c82f30aef22a0aa2aebfcfcd7cc22fccb2a6176f17d101

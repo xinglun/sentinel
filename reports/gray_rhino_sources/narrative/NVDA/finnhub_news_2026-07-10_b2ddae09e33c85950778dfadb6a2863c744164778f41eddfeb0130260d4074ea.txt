@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is American Express Stock a Bargain?
+  summary: American Express is down by 10% this year, but second-quarter earnings can provide the exact catalyst it needs to stage a comeback.
+  url: https://finnhub.io/api/news?id=4662f6a2e6c3150551b34dda576e394a6e46d35c7db180ce16b0080d7dfb2856

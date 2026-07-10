@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SPCX Stock a Buy Now or Too Expensive for the Risk Ahead
+  summary: SPCX combines launch, Starlink and AI upside, but heavy spending, losses and valuation risk keep the near-term case balanced.
+  url: https://finnhub.io/api/news?id=838743925693fdc5933c88c687b74dba480d8c91ce9d093037cbac46fbb6703f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's near-term AI payoff seen tethered to Earth, not outer space
+  summary: Elon Musk may have pitched a future where space powers AI, but Wall Street analysts say SpaceX's near-term value remains firmly tethered to Earth, where it is building out the infrastructure underpinning the AI boom.  Infrastructure providers, particularly ‌data centers, are poised to be among the biggest beneficiaries of the AI boom as businesses and consumers rapidly adopt the ‌technology for applications ranging from software coding and robotics to everyday tasks such as shopping and planning.  SpaceX, a major AI player, has already started monetizing compute by striking deals with enterprise ​customers, including Anthropic, for its Colossus supercomputer clusters.
+  url: https://finnhub.io/api/news?id=ceb5d46ccd3037447e332536df4ec465220285bb8dfcb4f18c69486bf44af785

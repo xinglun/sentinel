@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Top Dividend Stocks to Buy Right Now -- With Dividend Yields Above 5%
+  summary: These companies sport recent dividend yields of 5.1%, 5.6%, and 6.6%.
+  url: https://finnhub.io/api/news?id=e01eb9cd5c21c9fac2205e8d0598a7bde3f206a5d613ab26264e602cfc793c1b

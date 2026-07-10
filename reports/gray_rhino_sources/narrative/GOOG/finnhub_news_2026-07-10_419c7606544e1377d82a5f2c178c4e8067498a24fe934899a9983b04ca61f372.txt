@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UK Places Major Cloud Providers Under Financial Sector Oversight (MSFT)
+  summary: The UK government has formally classified major cloud computing providers, including Microsoft (NASDAQ:MSFT), Google (NASDAQ:GOOG), Amazon (NASDAQ:AMZN) and Oracle (NYSE:ORCL), as critical third-party suppliers to the country’s financial services industry, subjecting them to direct regulatory supervision. The decision is intended to strengthen the resilience of banks, insurers and financial market infrastructure by reducing the risks associated with cyber incidents, operational failures and tech
+  url: https://finnhub.io/api/news?id=fa0c21d42bfe5bc6337749b03983021cd357225f4990a4ff94bdf7abd7bfd6e6

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Of A Great Dividend King Jumps 24%
+  summary: While tech giants burn cash chasing AI dominance, one old-school tobacco company is quietly outpacing some of the biggest names in the market, and income investors are starting to take notice.
+  url: https://finnhub.io/api/news?id=d836c32fb3d22c0ba0bc1d48694176e970ab04e9cf52b803564013daa8b859cd

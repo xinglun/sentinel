@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Start Investing At 60 And Retire On Dividends Forever
+  summary: Retire on dividends even if you started late. Build a 6% high-yield portfolio, reduce sequence risk, and see top picks like ENB, OHI & BMYâread now.
+  url: https://finnhub.io/api/news?id=05c9d0b05eebf89f623c411c536911bdbc907a978d54ebdc8893d5dbc021bd35

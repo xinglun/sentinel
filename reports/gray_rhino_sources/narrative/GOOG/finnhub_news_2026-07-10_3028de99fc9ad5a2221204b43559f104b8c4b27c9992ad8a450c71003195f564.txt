@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Update - AI Transforms Architecture With Smart Design And Planning
+  summary: Recent developments in the cloud AI segment within the architecture industry highlight significant growth opportunities driven by increasing urbanization and demand for efficient design processes. The market for generative AI in architecture is projected to grow rapidly, fueled by advances in CAD software and the adoption of AI-powered design tools. This evolution is further supported by trends in smart city development, sustainability mandates, and cloud-based collaboration platforms...
+  url: https://finnhub.io/api/news?id=650e944541e820621f49b1403ac37b63829449a582d5f4ffed3dba35a9e136fc

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Johnson & Johnson vs AbbVie: Two Paths to Pharma Dominance, One Winner
+  summary: JNJ and AbbVie both beat revenue expectations in Q1 2026, yet their strategies could not look more different, and which playbook actually wins depends entirely on what kind of investor you are.
+  url: https://finnhub.io/api/news?id=9e7c969561b741d7d3e331613b4697e6f1fbaf278c8d61fdd3e72f5aecb85884

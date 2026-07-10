@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Stock Soars on Broadcom Deal. Here's What You Need to Know.
+  summary: Everyone is celebrating Broadcom's win, but it benefits Apple, too.
+  url: https://finnhub.io/api/news?id=b80379ee28f67696a8db46af19766118dea72090574a01411c6d9626c72eeb7a

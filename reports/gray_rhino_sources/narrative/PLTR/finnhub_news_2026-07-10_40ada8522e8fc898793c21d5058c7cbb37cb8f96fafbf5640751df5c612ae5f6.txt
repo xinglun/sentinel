@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Technology's Enterprise AI Buildout Could Generate Up to $600 Million in Annual Revenue, RBC Says
+  summary: Rackspace Technology (RXT) may generate $450 million to $600 million in annual enterprise AI revenue
+  url: https://finnhub.io/api/news?id=1fe20244316888ebadc9f1d1879dcf97111759ec3dceb3081fb79f6d92227149

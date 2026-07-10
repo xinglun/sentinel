@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Want Tesla or SpaceX in Your Portfolio? Meet the New 'Ex-Elon' ETFs
+  summary: Two proposed ETFs aim to track the Nasdaq-100 and S&amp;P 500 while excluding companies founded, controlled or led by Elon Musk.
+  url: https://finnhub.io/api/news?id=adabd7f7dc8bc4c9d3e94fefd108d2f45a5f2550066a23c46bd93d7469fc8327

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Much More Upside Is Left in Palantir Stock, According to Wall Street Analysts
+  summary: Despite a good bounce from its recent lows, Palantir stock still has lots of upside left.
+  url: https://finnhub.io/api/news?id=5d668910b6bfe1c926228c1500f5289b8b07f39114beb7d6e271e5de5db84480

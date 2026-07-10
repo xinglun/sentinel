@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says “We Are Going to Try to Hold on to Microsoft for the Charitable Trust”
+  summary: Microsoft Corporation (NASDAQ:MSFT) was among the stocks Jim Cramer shared his opinions on during Mad Money. Cramer noted that the company is being traded like an enterprise software play, as he said: Microsoft, such a hallowed stock, usually trades with the Mag Seven, but lately, it’s traded with the… enterprise software plays. I think these […]
+  url: https://finnhub.io/api/news?id=d2ff35b0cfa3153a85c7970a36050aa324fe978f3b19ad7ab1602bad75e734f6

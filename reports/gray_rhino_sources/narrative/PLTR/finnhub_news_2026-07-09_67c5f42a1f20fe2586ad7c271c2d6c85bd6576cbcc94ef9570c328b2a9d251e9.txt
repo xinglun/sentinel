@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, July 9: AI Chip, Technology Stocks Rally, Overcoming Ceasefire Worries
+  summary: AI hardware and optical-communication gains helped steady major U.S. indexes after war-driven swings, today, July 9, 2026.
+  url: https://finnhub.io/api/news?id=53db30c2adf144490f4b3228970202e06d57482d2dbf2fd69d8b10485c51d7d2

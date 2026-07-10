@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - Driving Toward a Trillion-Dollar Future
+  summary: The global battery electric vehicle market is poised for robust growth driven by advancements in lithium-ion technology that enhance range and efficiency, supporting quicker adoption of cleaner mobility solutions. Key factors include leveraging government incentives and stricter emission standards, as well as expanding infrastructure in emerging markets. The market is projected to reach USD 8.6 trillion by 2033, with a significant contribution from the Asia-Pacific region. Technological...
+  url: https://finnhub.io/api/news?id=91fd12e8971aa8772bd8eb3e2a97559dfc207416759c6b39cbd64a86c0a1e2da

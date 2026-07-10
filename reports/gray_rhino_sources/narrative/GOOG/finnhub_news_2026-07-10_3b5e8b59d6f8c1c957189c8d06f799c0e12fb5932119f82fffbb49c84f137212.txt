@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Netflix’s Pivot to Live TV Is a Big Risk
+  summary: The streamer may be exploring a pivot away from its roots in a bid to boost engagement and revive its faltering shares.
+  url: https://finnhub.io/api/news?id=cc05abf01b01856addc369c38409f24d442bbac037afb6202bf2ed8446875096

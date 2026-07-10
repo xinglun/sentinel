@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Vanguard ETFs Beating the S&P 500 With a Momentum-Driven Strategy
+  summary: Vanguard's factor ETF lineup doesn't get a lot of attention. Its track record of market-beating returns suggests it should.
+  url: https://finnhub.io/api/news?id=eeba816ae50464bb11b2307b3a5aaf5ef1b5551f14cb72fdf74ca8bbfaf19c38

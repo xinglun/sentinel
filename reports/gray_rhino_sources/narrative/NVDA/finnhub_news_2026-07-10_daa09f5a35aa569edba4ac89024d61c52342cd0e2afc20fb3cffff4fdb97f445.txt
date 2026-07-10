@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK Hynix Stock Begins Trading at $170
+  summary: SK Hynix  shares spiked in their U.S. trading debut Friday as they opened at $170 on the Nasdaq.  SK Hynix  is raising $26.51 billion through the offering, beating out China’s  Alibaba  to become the largest foreign listing in history.  The company issued 177.9 million ADRs, with 10 ADRs representing one common share.
+  url: https://finnhub.io/api/news?id=4a30760f0373492d69dca9095eff9a01019457f2aedfde12bf817343951da0b3

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How OpenAI’s New GPT 5.6 Measures Up to SpaceX, Google, Anthropic
+  summary: The ChatGPT developer’s recent model beats releases from Elon Musk’s SpaceX and Alphabet’s Google on Artificial Analysis’s intelligence ranking.
+  url: https://finnhub.io/api/news?id=694bd043040d5c0815efad87a975a7b16c4d762f9c3509d411b0a0bd80fa335f

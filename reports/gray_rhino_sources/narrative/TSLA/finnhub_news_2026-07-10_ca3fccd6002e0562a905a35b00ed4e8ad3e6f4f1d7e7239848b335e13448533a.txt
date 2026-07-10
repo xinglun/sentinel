@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Chart Pattern Points to $759 — a 92% Move From Here
+  summary: Tesla stock coils between a cup and handle and a triangle. A breakout above $470 could unlock a $759 TSLA target.
+  url: https://finnhub.io/api/news?id=84dc7ed922af85616f98dcf992c02abe05d468abb11b3af0d2f772e7792799a0

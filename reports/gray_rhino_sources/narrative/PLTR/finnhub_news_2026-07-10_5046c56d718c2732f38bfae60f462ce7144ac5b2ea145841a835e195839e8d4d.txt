@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Cloud Computing Stocks to Buy for 2H 2026 as Digital Demand Soars
+  summary: AMZN, GOOGL, CSCO, NET and PLTR are five cloud computing stocks positioned to benefit from AI-driven expanding data center growth in 2H 2026.
+  url: https://finnhub.io/api/news?id=04d778fb84226ed4819f1ecf5f26e3b6185c84dc6216d6fc720911770939edcb

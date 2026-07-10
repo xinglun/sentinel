@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Capex Risk Cuts Both Ways In The American Economy
+  summary: Just over a year ago, I made the case that the deficit narrative would find its cure in artificial intelligence. Read more here.
+  url: https://finnhub.io/api/news?id=311cb315694b2a712afa13ea68f1bfaac71dc7a845eaec0131505b11e5c726e0

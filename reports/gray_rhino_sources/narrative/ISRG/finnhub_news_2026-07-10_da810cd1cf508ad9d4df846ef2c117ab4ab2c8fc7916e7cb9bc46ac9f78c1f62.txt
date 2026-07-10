@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Intuitive Surgical (ISRG) One Of MedTech’s Best AI Stock To Buy?
+  summary: Intuitive Surgical Inc. (NASDAQ:ISRG) is one of the 10 Best AI Stocks to Watch in July. On July 6, Evercore ISI lowered its target price for Intuitive Surgical Inc. (NASDAQ:ISRG) to $430 from $480 and kept an In Line rating on the stock. The firm’s Q2 preview for MedTech, Life Sciences Tools, and Diagnostics shows […]
+  url: https://finnhub.io/api/news?id=dbd5fac2401bc3d750ce53cabb60bdceeccbc88466df961dabd018845c49e03f

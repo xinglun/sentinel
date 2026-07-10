@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Expands Partnership with GNP Seguros
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the 15 Best NASDAQ 100 Stocks to Buy Other Than SpaceX. On July 7, 2026, Palantir Technologies Inc. (NASDAQ:PLTR) announced an enterprise expansion agreement with GNP Seguros. The alliance marks Palantir’s first publicly announced commercial customer in Latin America. GNP Seguros has used Palantir’s Foundry and Artificial Intelligence […]
+  url: https://finnhub.io/api/news?id=3345a6fd1a61240093bb1f3036acab0e2765e034d8bcae5202963bdde6338bb7

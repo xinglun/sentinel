@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Do Bitcoin, SpaceX, And Starlink Have In Common? 10x Research Points To ‘Physics’
+  summary: In a note to investors, 10x Research stated that Bitcoin, SpaceX and Starlink are part of the same long-term infrastructure buildout rather than separate investment themes.
+  url: https://finnhub.io/api/news?id=d6c8e13ccceea9a9ce5490381b8d5e0bf02b401e698a10ac5cfa540947930f89

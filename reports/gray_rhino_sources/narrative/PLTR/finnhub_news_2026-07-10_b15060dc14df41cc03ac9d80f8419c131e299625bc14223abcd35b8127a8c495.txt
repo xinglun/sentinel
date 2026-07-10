@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Stock Has Bounced 23% Off Its Low— One Research Firm Says That's the Trap: 'We Still Won't Buy It'
+  summary: Rebound Capital warns against buying the PLTR dip. Find out why Big Tech rivals and &#39;nosebleed valuations&#39; mean they &#39;still won&#39;t buy it.&#39;
+  url: https://finnhub.io/api/news?id=4e5a6fa6b42b04660f267fcc2c1d978011fb2658d7add6b062e69bd7343e5524

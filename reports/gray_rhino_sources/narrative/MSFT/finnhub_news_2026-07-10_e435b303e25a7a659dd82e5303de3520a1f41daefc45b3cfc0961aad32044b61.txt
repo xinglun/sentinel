@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tata Communications builds the foundation for Asia’s AI future
+  summary: Tata Communications builds India-Singapore capacity early to capture growing AI connectivity demand.
+  url: https://finnhub.io/api/news?id=0c0a4f3f3b4ba64923917e2af8b37a16b575ebc113b1c61e8e81e9418ef3d047

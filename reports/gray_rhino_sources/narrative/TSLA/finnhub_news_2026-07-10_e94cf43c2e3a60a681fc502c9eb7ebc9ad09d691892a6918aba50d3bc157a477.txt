@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Shares Close 3% Higher After Key Trading Signal
+  summary: A key trading signal flashed for Tesla shares at a price of $394.09, after which TSLA hit an intraday high and closed 3% higher.
+  url: https://finnhub.io/api/news?id=ed08c75822a0936ba185bac0075532704e1e7f5aa5e487d294561dc0878b5011

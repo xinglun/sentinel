@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CRM Stock A Steal Or A Trap At 40% Off?
+  summary: The software giant's stock is on the discount rack, but investors must decide if they're getting a deal or just what they paid for.
+  url: https://finnhub.io/api/news?id=e4b6c65f1a0d5c5f8febd604e982e6ef57e92c1fbe483e7c0b071500d45835e7

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech Doubles Debt Load to $350 Billion in AI Spending Spree
+  summary: (Bloomberg) -- The largest builders of artificial intelligence data centers have doubled their debt load in the last five years, turning to borrowing to finance an unprecedented spending spree they claim is needed to transform the economy. Most Read from BloombergMicrosoft’s Xbox to Shift Obsidian Studio to New ‘Fallout’ Video GameNvidia’s $1 Trillion Slide Sends Valuation to Pre-AI Boom LevelsZuckerberg Pledges ‘Aggressive’ Pricing With Meta’s First Pay-to-Use AITrump Vents Anger With Iran and
+  url: https://finnhub.io/api/news?id=4f976e0602427023efd3e82d7be653001bdf35530d3d01156f81034e1adcd974

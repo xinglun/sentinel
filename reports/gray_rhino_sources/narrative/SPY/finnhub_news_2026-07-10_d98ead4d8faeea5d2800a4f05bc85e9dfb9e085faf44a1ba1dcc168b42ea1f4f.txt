@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amoroso On Private Markets, AI And What To Watch Next
+  summary: In this episode,Â Anastasia Amoroso shares her perspective on today's rapidly shifting investment landscape. Read more here.
+  url: https://finnhub.io/api/news?id=4e67c0995e87e9e536e3a71234768e9cf6bb8b5ef5adf34fd1c3d08f52975581

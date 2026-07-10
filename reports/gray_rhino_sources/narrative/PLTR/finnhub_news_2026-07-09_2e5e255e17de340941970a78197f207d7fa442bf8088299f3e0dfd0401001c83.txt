@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Strength in Defense & Propulsion Unit Continue to Drive GE's Momentum?
+  summary: GE's defense business is gaining from strong orders, major contracts and rising military demand, supporting growth expectations for 2026.
+  url: https://finnhub.io/api/news?id=10ccc2d9e64ff0f5251ce0c58a6d8b33d7c7d1ba9a7b692fc0ffa858ff37288a

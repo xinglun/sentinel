@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOG) Surged as Investors’ Confidence Boosted Amid Durable Execution
+  summary: Mar Vista Investment Partners, LLC, an investment management company, released its “Mar Vista U.S. Quality Premier Strategy” second-quarter 2026 investor letter. You can download a copy here. Despite economic uncertainties, US equities rose in Q2, driven by resilient growth and broadening leadership. Confidence was restored despite ongoing uncertainties, with the S&P 500® and Nasdaq achieving their […]
+  url: https://finnhub.io/api/news?id=197391f28a0c9e04c8d0c73cf4240c42f57f0a5ecb96130e6a92f7ce270d17b0

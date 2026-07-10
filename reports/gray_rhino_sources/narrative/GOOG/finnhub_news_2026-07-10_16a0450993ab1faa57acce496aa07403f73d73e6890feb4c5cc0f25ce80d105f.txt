@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Just Broke the Biggest Search Record in Its History Thanks to This One World Cup Moment
+  summary: AI chatbots were supposed to render Google Search extinct. But Argentina and Lionel Messi had something to say about that.
+  url: https://finnhub.io/api/news?id=19c3e1e259d818932f23b290b4e5e9d680d3e6724832e365388ae29e4c2f4028

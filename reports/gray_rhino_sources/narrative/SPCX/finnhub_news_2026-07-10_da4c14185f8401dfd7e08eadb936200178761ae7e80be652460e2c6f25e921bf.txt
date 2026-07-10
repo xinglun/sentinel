@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Has Mojo Back, As Tesla Quarterly Deliveries Skyrocket
+  summary: Tesla’s Q2 delivery print reset the narrative. After two straight years of sales declines, Tesla (NASDAQ:TSLA) reported 480,126 deliveries and 451,758 vehicles produced in Q2 2026, blowing past Wall Street expectations. A Tesla-compiled consensus had targeted 406,024 deliveries, while StreetAccount’s average was 406,600. Bloomberg called it a 25% jump from the year-earlier period and the ... Elon Musk Has Mojo Back, As Tesla Quarterly Deliveries Skyrocket
+  url: https://finnhub.io/api/news?id=76a18ed0e231962375ca8e48e1b9ac8463a6ff371a468d660df747bbd21a139e

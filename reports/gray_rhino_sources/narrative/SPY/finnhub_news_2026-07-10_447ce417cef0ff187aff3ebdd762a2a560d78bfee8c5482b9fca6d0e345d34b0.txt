@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What ICLN's Basket Says About Buying This Dip
+  summary: The fund's history of deep drops comes with a serious warning for anyone tempted by the current discount.
+  url: https://finnhub.io/api/news?id=1acf1294ba84edd4a98c2abdfc5969e078e42d2c2b9942333280739dbfb90c22

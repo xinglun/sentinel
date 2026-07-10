@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Faces AI Access Scrutiny
+  summary: U.S. policy questions are growing over advanced AI services used by Chinese-owned companies.
+  url: https://finnhub.io/api/news?id=c27100d52a469664834c87ca6c3c445a48c57220cfba9c14f5a94c1ab9dce25d

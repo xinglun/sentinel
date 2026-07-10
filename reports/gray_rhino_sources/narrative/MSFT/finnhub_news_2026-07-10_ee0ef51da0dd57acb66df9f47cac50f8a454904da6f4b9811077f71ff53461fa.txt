@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Can’t Stop Buying Microsoft Even As Fears Of An AI Bubble Resurface
+  summary: Microsoft shares keep sliding while the business behind them keeps growing, and that gap between price and reality is exactly where conviction gets built or destroyed.
+  url: https://finnhub.io/api/news?id=b7dd880105dd2c5fea466991ebd3e407caf9b7ed5b7381aaf2c9a1420919d5d6

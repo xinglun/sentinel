@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile vs. SpaceX: Which Space Connectivity Stock Wins Now?
+  summary: SPCX's lower valuation, faster 2026 sales growth and expanding AI infrastructure strategy give it the edge over ASTS.
+  url: https://finnhub.io/api/news?id=ed6107476a91278d9cddcaed53ba1beeab72443c4e640d2d3e123edbac1e321d

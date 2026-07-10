@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget SpaceX: 2 AI Space Stocks to Buy and Hold Instead
+  summary: Everyone's talking about SpaceX, but these two AI space stocks are up big in 2026.
+  url: https://finnhub.io/api/news?id=e685f8f0a8a2deb09437985268f666f2de66c6363a191187f20e5cf186c49a55

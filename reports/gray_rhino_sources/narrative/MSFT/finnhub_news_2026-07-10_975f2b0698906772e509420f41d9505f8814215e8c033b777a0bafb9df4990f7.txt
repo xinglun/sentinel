@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMZN, MSFT, GOOG, ORCL Designated As Critical Third Parties In The UK – What It Means
+  summary: The U.K. government designated Microsoft, Alphabet, Amazon and Oracle as Critical Third Parties to strengthen and safeguard the country’s financial systems.
+  url: https://finnhub.io/api/news?id=5bfbf8b7c7ba9bf2d312b96d602411b1223763d068e6b6db352031f099af28d4

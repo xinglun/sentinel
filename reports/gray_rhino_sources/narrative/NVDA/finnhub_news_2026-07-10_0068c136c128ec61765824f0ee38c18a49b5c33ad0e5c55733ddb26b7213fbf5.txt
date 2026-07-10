@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Overlooked Dividend Stocks Yielding 4%+ to Buy in July
+  summary: The S&P 500 barely yields 2%, yet four stocks hiding in plain sight across airlines, semiconductors, PCs, and consumer electronics are paying well above 4% with the cash flow to back it up. Most dividend investors never think to look here.
+  url: https://finnhub.io/api/news?id=2bac3569b51d215215153551c838003a6962a07047207b2791856c404b9c93a4

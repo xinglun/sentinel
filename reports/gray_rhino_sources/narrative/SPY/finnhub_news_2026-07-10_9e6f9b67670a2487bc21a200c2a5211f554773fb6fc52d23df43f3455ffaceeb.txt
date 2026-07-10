@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow, Nasdaq, S&P 500 Futures Retreat After Chip-Led Gains At Close: META, ONDS, FUBO, FRMI Stocks In Focus
+  summary: U.S. President Donald Trump told reporters on board Air Force One that Iran “badly” wants to make a deal after America had “just hit [Iran] very hard.”
+  url: https://finnhub.io/api/news?id=ccae72370359c6a02451cd1ebe4917c40fed70d1815932b33c5f68da14949a7b

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Palantir Stock Falling Today
+  summary: Palantir Slides Despite AI Momentum as Risk-Off Mood Grips Markets
+  url: https://finnhub.io/api/news?id=d7125bdc5f3f67274fe9f4f48fde9f2f5107e5b841238664ac082a0da303215a

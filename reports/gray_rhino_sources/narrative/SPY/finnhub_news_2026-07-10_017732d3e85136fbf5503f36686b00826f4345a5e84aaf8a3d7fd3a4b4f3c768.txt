@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Precious Metals ETFs Beat The S&P 500 Over The Past Year — Can The Rally Survive The Iran Whiplash?
+  summary: The World Bank projects that its precious metals price index will rise by 42% in 2026, but decline by 8% in 2027.
+  url: https://finnhub.io/api/news?id=291299a4be1b356809cd61c9e4f1e1fd0a4700bc9564e3a25f1193560b4242c1

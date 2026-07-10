@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Slips Overnight: Analyst Sees 2027, 2028 Revenue Below Consensus On Slower Optimus, Robotaxi Ramp
+  summary: Citizens expects Optimus to bring production complexity, delays and higher spending as Tesla enters an Optimus investment cycle.
+  url: https://finnhub.io/api/news?id=7721f50709d8b4de446c656d2b75b57c0288e3f2e5e9b7365b2db9220b62f134

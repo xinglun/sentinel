@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones Index Rises Ahead Of SK Hynix Stock Debut (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Friday, while the Nasdaq edged higher ahead of the debut of SK Hynix stock.
+  url: https://finnhub.io/api/news?id=204081d3b6d823b7cf8a445d4403ff6c1ffb5cc3b040574f675ef7a1a8015df0

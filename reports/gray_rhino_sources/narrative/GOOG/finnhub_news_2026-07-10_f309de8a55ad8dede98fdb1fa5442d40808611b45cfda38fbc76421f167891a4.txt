@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel’s $200 Billion Turnaround Plan Is Under the Microscope
+  summary: Intel is staking its survival on a capital program approaching $200 billion, and the operating results are starting to answer a question that once seemed unanswerable: can the company actually pull this off?
+  url: https://finnhub.io/api/news?id=974c1e22025e81e43d6c367a6fc206d3bb1ba10b1876625a029413b435759e1f

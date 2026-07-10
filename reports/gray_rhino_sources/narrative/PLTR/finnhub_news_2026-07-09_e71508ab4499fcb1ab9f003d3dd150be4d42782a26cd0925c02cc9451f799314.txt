@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Up Massive YTD: Here Are Nvidia, Palantir & AMD’s Price Predictions For 2028
+  summary: NVIDIA (NASDAQ:NVDA), Palantir (NASDAQ:PLTR), and Advanced Micro Devices (NASDAQ:AMD) are the three names that defined this AI cycle. AMD is up 141.6% YTD. NVIDIA is up 9.58%. Palantir has actually fallen 25.61%. The setup is unusual, and I think it creates asymmetric upside into 2028. Below is the math for how NVDA hits $300, PLTR ... Up Massive YTD: Here Are Nvidia, Palantir & AMD’s Price Predictions For 2028
+  url: https://finnhub.io/api/news?id=b122cb396c0b0da1e50d02e7e6a5fb5693325ccb36e42180492be5733a4b5f67
