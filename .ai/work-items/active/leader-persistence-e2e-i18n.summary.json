@@ -3,6 +3,8 @@
   "contractPath": ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
   "changedFiles": [
     {"path": "src/features/radar/interface/market_interpretation_read_model.rs", "reason": "追加真实 JSONL save/load 到 read-model 的端到端测试，以及中英日 switch/boundary 断言。"},
+    {"path": "src/adapters/futu/codec.rs", "reason": "修复 Rust 1.97 byte string Clippy lint。"},
+    {"path": "src/features/research/interface/macro_event_official_calendar_adapter.rs", "reason": "修复 Rust 1.97 question-mark Clippy lint。"},
     {"path": ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json", "reason": "固化本轮验收范围、场景与残余风险。"},
     {"path": ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json", "reason": "记录验证结果与 ready_with_risks 状态。"}
   ],
@@ -32,10 +34,10 @@
     {"scenario": "missing historical metrics remain explicitly degraded", "required": true, "status": "verified", "evidence": ["cargo test leader_persistence --all-targets"]}
   ],
   "checkpointEvidence": [
-    {"stage": "contract_start", "recorded": true, "detail": "验收意见转为新的 correction Work Item。", "contractHash": "3d663d8d71f032df", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
-    {"stage": "before_edit", "recorded": true, "detail": "确认 persistence API、read-model 入口及三语言输出位置。", "contractHash": "3d663d8d71f032df", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
-    {"stage": "before_ready", "recorded": true, "detail": "专用 save/load/read-model 与三语言测试通过。", "contractHash": "3d663d8d71f032df", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
-    {"stage": "after_verification", "recorded": true, "detail": "Cockpit required checks 完成，保留外部 provider 回放风险。", "contractHash": "3d663d8d71f032df", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 12}
+    {"stage": "contract_start", "recorded": true, "detail": "验收意见转为新的 correction Work Item。", "contractHash": "0f1b77bcc0e495ff", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
+    {"stage": "before_edit", "recorded": true, "detail": "确认 persistence API、read-model 入口及三语言输出位置。", "contractHash": "0f1b77bcc0e495ff", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
+    {"stage": "before_ready", "recorded": true, "detail": "专用 save/load/read-model 与三语言测试通过。", "contractHash": "0f1b77bcc0e495ff", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 0},
+    {"stage": "after_verification", "recorded": true, "detail": "Cockpit required checks 完成，保留外部 provider 回放风险。", "contractHash": "0f1b77bcc0e495ff", "acceptanceCount": 4, "unknownCount": 0, "requiredChecks": 12, "requiredChecksPassed": 12}
   ],
   "checkpointReview": [
     {"checkpoint": "contract_start", "status": "confirmed", "note": "验收意见已固化为新的 Work Item。"},
