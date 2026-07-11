@@ -236,6 +236,14 @@ mod tests {
             .contains("NO TRADE"));
 
         assert_eq!(pres.decision_summary.entry_cap_value, "0%");
+        assert_eq!(
+            pres.final_execution_decision.execution_window,
+            crate::features::radar::interface::presentation::ExecutionWindow::None
+        );
+        assert_eq!(
+            pres.final_execution_decision.actionability,
+            crate::features::radar::interface::presentation::ExecutionActionability::CandidateOnly
+        );
         assert_eq!(pres.decision_summary.state_tag_value, "未確認始動期");
         assert_eq!(pres.decision_summary.action_tag_value, "取引禁止");
         assert_eq!(
@@ -267,6 +275,43 @@ mod tests {
             pres.exit_summary.empty_note.as_deref(),
             Some("減資または終了条件は発動していない。")
         );
+    }
+
+    #[test]
+    fn ignition_ready_uses_limited_probe_final_execution_decision() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let config = mock_config(Language::EnUs);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        assert_eq!(
+            pres.final_execution_decision.execution_window,
+            crate::features::radar::interface::presentation::ExecutionWindow::Limited
+        );
+        assert_eq!(
+            pres.final_execution_decision.participation_mode,
+            crate::features::radar::interface::presentation::ParticipationMode::Probe
+        );
+        assert_eq!(
+            pres.final_execution_decision.actionability,
+            crate::features::radar::interface::presentation::ExecutionActionability::Executable
+        );
+        assert!(pres.final_execution_decision.reason.contains("Probe Only"));
     }
 
     #[test]

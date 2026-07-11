@@ -454,11 +454,14 @@ impl PresentationAssembler {
             top_vms.push(vm);
         }
 
+        let final_execution_decision =
+            Self::build_final_execution_decision(&decision_summary, state, lang);
         PresentationPacket {
             date_str,
             language: lang,
             macro_display,
             decision_summary,
+            final_execution_decision,
             signal_summary,
             top_actions: top_vms,
             exit_summary,
@@ -479,6 +482,45 @@ impl PresentationAssembler {
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+        }
+    }
+
+    fn build_final_execution_decision(
+        decision: &DecisionSummaryViewModel,
+        state: MarketState,
+        language: Language,
+    ) -> crate::features::radar::interface::presentation::FinalExecutionDecision {
+        use crate::features::radar::interface::presentation::{
+            ExecutionActionability, ExecutionWindow, FinalExecutionDecision, ParticipationMode,
+        };
+        if decision.is_no_trade {
+            return FinalExecutionDecision {
+                execution_window: ExecutionWindow::None,
+                participation_mode: ParticipationMode::None,
+                position_range: "0%".to_string(),
+                actionability: ExecutionActionability::CandidateOnly,
+                reason: decision.hard_rule_note.clone(),
+            };
+        }
+        if matches!(state, MarketState::IGNITION | MarketState::NEWBORN) {
+            return FinalExecutionDecision {
+                execution_window: ExecutionWindow::Limited,
+                participation_mode: ParticipationMode::Probe,
+                position_range: decision.entry_cap_value.clone(),
+                actionability: ExecutionActionability::Executable,
+                reason: match language {
+                    Language::ZhCn => "有限参与窗口 / 仅 Probe".to_string(),
+                    Language::EnUs => "Limited participation window / Probe Only".to_string(),
+                    Language::JaJp => "限定参加ウィンドウ / Probe のみ".to_string(),
+                },
+            };
+        }
+        FinalExecutionDecision {
+            execution_window: ExecutionWindow::Open,
+            participation_mode: ParticipationMode::Add,
+            position_range: decision.entry_cap_value.clone(),
+            actionability: ExecutionActionability::Executable,
+            reason: decision.summary.clone(),
         }
     }
 

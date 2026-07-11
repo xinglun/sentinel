@@ -1,0 +1,217 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai_framework_trust_boundary_hardening",
+  "mode": "code",
+  "title": "AI フレームワークの信頼境界を強化",
+  "baseCommit": "d9dd3dc7487eaa798be57c9a5ad4cdceb2bd3741",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "1fd46565e664ff586ade633b5f41e50cca0033ceec90ee831dc44a1d1ff8803a"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "status": "D",
+      "fingerprint": "deleted"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "status": "D",
+      "fingerprint": "deleted"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-e2e-i18n.contract.json",
+      "status": "??",
+      "fingerprint": "0f1b77bcc0e495ff0c5121ae60974d0675130b68f0bb0e7fbe36761337635dbc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-e2e-i18n.summary.json",
+      "status": "??",
+      "fingerprint": "9b17fecbb63f6cd2c3a976db57bab0b908f6565cbc357e6fe5e1bb55cc4be9a8"
+    }
+  ],
+  "problemStatement": "Preflight Review の停止を policy gate として強制し、PR 全体 diff と archive evidence の対応を検証して、AI ガバナンス evidence の信頼境界を強化する。",
+  "intent": {
+    "problem": "Preflight が advisory のままでは not_ready の Contract が実装を継続でき、PR guard も merge-base diff の evidence 所有権を十分に検証できない。",
+    "constraints": [
+      "取引判断、Gate、execution、trader、position sizing の挙動を変更しない。",
+      "Cockpit Status は既存 evidence の圧縮表示に限定し、PR 監査の責務を持たせない。",
+      "Adoption Readiness は別 Work Item で扱い、この Work Item には実装しない。"
+    ],
+    "rationale": "Contract、Summary、diff、検証結果を hard check で結び、Agent instruction だけに依存しない運用境界を作る。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json",
+    ".ai/work-items/active/ai_framework_trust_boundary_hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/cockpit/README.md",
+    ".ai/guards/preflight_review_policy.yaml",
+    ".ai/guards/pr_evidence_policy.yaml",
+    "scripts/ai_start.py",
+    "scripts/ai_preflight_review.py",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_test_start.py",
+    "scripts/ai_test_preflight_review.py",
+    "scripts/ai_test_pr_check.py",
+    "scripts/ai_test_generate_status.py",
+    "Makefile",
+    ".github/workflows/develop_checks.yml"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "取引判断、Gate、execution、trader、position sizing",
+    "Adoption Readiness の Profile、Doctor、Calibration、CI 校正"
+  ],
+  "sources": [
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "reason": "Preflight gate の machine-readable SSOT。"
+    },
+    {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "Preflight 判定と policy gate 実装。"
+    },
+    {
+      "path": "scripts/ai_start.py",
+      "reason": "skeleton 作成後に Preflight を実行して停止する入口。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "merge-base diff と archive evidence の PR 所有権検証。"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "reason": "PR evidence 所有権の回帰テスト。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci",
+      "review_debt",
+      "governance_process"
+    ],
+    "reason": "限定した governance guard の変更であり、回帰テストにより主要な失敗経路を確認する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザー確認済みの scope、acceptance、verification に基づき、ガードと回帰テストを実装できる。"
+  },
+  "preReviewWarnings": [
+    "PR guard は merge-base から HEAD の全 diff を対象にし、既存 archive evidence を変更してはならない。",
+    "Preflight gate の not_ready は Status の安全宣言に変換しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "preflight_review_policy.yaml が gateEnabled: true で、needs_human_confirmation と not_ready を blockedStatuses に含む。",
+    "notCodable、continue 以外の executionDecision、実装不能、検証不能、人間判断必要の各条件で Preflight が not_ready となり、ai-start MODE=code が非ゼロで停止する。",
+    "check-ai-pr が merge-base...HEAD の全非豁免変更を、同一 PR で追加された Contract v2 / Summary pair の scope、outOfScope、changedFiles と照合する。",
+    "既存 archive evidence の変更、削除、rename と、pair が欠ける新規 archive evidence を check-ai-pr が拒否する。",
+    "無 archive code change、Summary 未記載、scope 未包含、outOfScope、v1 Contract は失敗し、複数 Work Item が全 diff を共同で所有する PR は成功する。",
+    "no_active_work_item 状態では Contract/Summary Path が空で、working tree の Changed Files を表示せず、active residue と archive 後の状態を回帰テストする。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "not_ready contract blocks code-mode ai-start",
+      "reason": "Preflight の停止境界を回帰テストする。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-ai-preflight-review", "make test-ai-start"]
+    },
+    {
+      "scenario": "complete merge-base diff has archive evidence ownership",
+      "reason": "PR evidence の scope と Summary の所有権を回帰テストする。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-ai-pr-check"]
+    },
+    {
+      "scenario": "no active work item status hides transient working-tree changes",
+      "reason": "Cockpit Status の信頼境界を維持する。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-ai-generate-status", "make check-ai-status-consistency"]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_trust_boundary_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai_framework_trust_boundary_hardening.summary.json CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_trust_boundary_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai_framework_trust_boundary_hardening.contract.json SUMMARY=.ai/work-items/active/ai_framework_trust_boundary_hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

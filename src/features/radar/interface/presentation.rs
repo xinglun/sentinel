@@ -55,6 +55,7 @@ pub struct LeadershipSnapshotViewModel {
     pub secondary_leaders_values: Vec<String>,
     pub watchlist_leaders_label: String,
     pub watchlist_leaders_values: Vec<String>,
+    pub watchlist_leaders_reasons: Vec<String>,
     pub leadership_confidence_label: String,
     pub leadership_confidence_value: String,
     pub leadership_conflict_label: String,
@@ -70,6 +71,13 @@ pub struct LeaderPersistenceViewModel {
     pub persistence_label: String,
     pub persistence_value: String,
     pub persistence_days: usize,
+    pub observed_days_label: String,
+    pub observed_days_value: String,
+    pub breakout_continuity_label: String,
+    pub breakout_continuity_value: String,
+    pub history_coverage_label: String,
+    pub history_coverage_value: String,
+    pub history_note: Option<String>,
     pub leadership_score_label: String,
     pub leadership_score_value: String,
     pub leadership_score: f64,
@@ -145,6 +153,35 @@ pub struct DecisionSummaryViewModel {
     pub opportunity_snapshot_value: String,
     pub risk_snapshot_label: String,
     pub risk_snapshot_value: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ExecutionWindow {
+    #[default]
+    None,
+    Limited,
+    Open,
+}
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ParticipationMode {
+    #[default]
+    None,
+    Probe,
+    Add,
+}
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ExecutionActionability {
+    #[default]
+    CandidateOnly,
+    Executable,
+}
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct FinalExecutionDecision {
+    pub execution_window: ExecutionWindow,
+    pub participation_mode: ParticipationMode,
+    pub position_range: String,
+    pub actionability: ExecutionActionability,
+    pub reason: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -616,6 +653,8 @@ pub struct PresentationPacket {
     pub macro_display: MacroDisplayContext,
     #[serde(default)]
     pub decision_summary: DecisionSummaryViewModel,
+    #[serde(default)]
+    pub final_execution_decision: FinalExecutionDecision,
     #[serde(default)]
     pub signal_summary: SignalSummaryViewModel,
     pub top_actions: Vec<TopActionViewModel>,

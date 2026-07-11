@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 
 const RECENT_SWITCH_WINDOW: usize = 5;
 const SCORE_SCALE: f64 = 16.0;
+pub const LEADERSHIP_LOOKBACK_DAYS: usize = 20;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum LeaderState {
@@ -43,6 +44,8 @@ pub struct LeaderPersistenceResult {
     pub current_leader: String,
     pub previous_leader: Option<String>,
     pub persistence_days: usize,
+    pub observed_leadership_days: usize,
+    pub history_coverage_complete: bool,
     pub leadership_score: f64,
     pub previous_score: f64,
     pub current_breadth: Option<f64>,
@@ -75,6 +78,14 @@ pub fn build_leader_persistence(
 
     let current_index = observations.len() - 1;
     let current_persistence_days = qualified_streak(observations.as_slice(), current_index);
+    let observed_leadership_days = observations
+        .iter()
+        .filter(|observation| observation.leader == current.leader)
+        .count();
+    let history_coverage_complete = observations.len() >= LEADERSHIP_LOOKBACK_DAYS
+        && observations.first().is_some_and(|first| {
+            (current.date - first.date).num_days() >= (LEADERSHIP_LOOKBACK_DAYS - 1) as i64
+        });
     let previous_persistence_days = current_index
         .checked_sub(1)
         .map(|index| qualified_streak(observations.as_slice(), index))
@@ -107,6 +118,8 @@ pub fn build_leader_persistence(
         current_leader: current.leader.clone(),
         previous_leader,
         persistence_days: current_persistence_days,
+        observed_leadership_days,
+        history_coverage_complete,
         leadership_score: current_score,
         previous_score,
         current_breadth: current.breadth,
@@ -333,6 +346,49 @@ mod tests {
 
         let result = build_leader_persistence(&observations).unwrap();
         assert_eq!(result.persistence_days, 26);
+        assert!(result.history_coverage_complete);
+        assert_eq!(result.observed_leadership_days, 26);
+    }
+
+    #[test]
+    fn feature_activation_history_is_partial_without_resetting_known_streak() {
+        let start = NaiveDate::from_ymd_opt(2026, 7, 1).unwrap();
+        let observations = (0..5)
+            .map(|offset| observation((2026, 7, 1 + offset), "SPY", 90.0, 70.0, 72.0, 85.0))
+            .collect::<Vec<_>>();
+
+        let result = build_leader_persistence(&observations).unwrap();
+        assert_eq!(result.persistence_days, 5);
+        assert_eq!(result.observed_leadership_days, 5);
+        assert!(!result.history_coverage_complete);
+        assert_eq!(result.current_leader, "SPY");
+        assert_eq!(start, observations[0].date);
+    }
+
+    #[test]
+    fn complete_lookback_marks_new_leader_as_first_in_covered_history() {
+        let start = NaiveDate::from_ymd_opt(2026, 7, 1).unwrap();
+        let observations = (0..LEADERSHIP_LOOKBACK_DAYS)
+            .map(|offset| LeaderObservation {
+                date: start + chrono::Duration::days(offset as i64),
+                leader: if offset + 1 == LEADERSHIP_LOOKBACK_DAYS {
+                    "MSFT"
+                } else {
+                    "SPY"
+                }
+                .to_string(),
+                confidence: Some(90.0),
+                breadth: Some(70.0),
+                relative_strength: Some(72.0),
+                rotation_stability: Some(85.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            })
+            .collect::<Vec<_>>();
+        let result = build_leader_persistence(&observations).unwrap();
+        assert!(result.history_coverage_complete);
+        assert_eq!(result.current_leader, "MSFT");
+        assert_eq!(result.observed_leadership_days, 1);
     }
 
     #[test]

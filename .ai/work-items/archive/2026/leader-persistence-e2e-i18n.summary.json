@@ -1,0 +1,202 @@
+{
+  "workItemId": "leader-persistence-e2e-i18n",
+  "contractPath": ".ai/work-items/archive/2026/leader-persistence-e2e-i18n.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "追加真实 JSONL save/load 到 read-model 的端到端测试，以及中英日 switch/boundary 断言。"
+    },
+    {
+      "path": "src/adapters/futu/codec.rs",
+      "reason": "修复 Rust 1.97 byte string Clippy lint。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "修复 Rust 1.97 question-mark Clippy lint。"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "reason": "固化本轮验收范围、场景与残余风险。"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "reason": "记录验证结果与 ready_with_risks 状态。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/domain/leader_persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json SUMMARY=.ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-persistence-e2e-i18n.summary.json CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json SUMMARY=.ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-persistence-e2e-i18n.contract.json SUMMARY=.ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "本轮覆盖持久化文件与 read-model 装配，但未覆盖外部真实数据 provider 驱动的全流水线回放。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "save 25 observations -> load -> read-model assembly yields 26 days",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --all-targets"
+      ]
+    },
+    {
+      "scenario": "zh/en/ja each assert switch and observation-only boundary",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --all-targets"
+      ]
+    },
+    {
+      "scenario": "missing historical metrics remain explicitly degraded",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --all-targets"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "验收意见转为新的 correction Work Item。",
+      "contractHash": "0f1b77bcc0e495ff",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "确认 persistence API、read-model 入口及三语言输出位置。",
+      "contractHash": "0f1b77bcc0e495ff",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "专用 save/load/read-model 与三语言测试通过。",
+      "contractHash": "0f1b77bcc0e495ff",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit required checks 完成，保留外部 provider 回放风险。",
+      "contractHash": "0f1b77bcc0e495ff",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "验收意见已固化为新的 Work Item。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 限定为 persistence、read-model 与测试。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "专用场景证据已补齐。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 通过，状态保持 ready_with_risks。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "real_pipeline_replay",
+      "detail": "尚未用外部真实数据 provider 完成全流水线 save/load/read-model 回放。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "专用持久化装配与三语言回归已通过，但保留真实 provider 全流水线回放风险。",
+    "expectedReviewFocus": [
+      "真实数据 provider 驱动的全流水线回放"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Cockpit 不应将核心功能通过误报为无条件 ready。",
+      "solidifiedTo": "contract",
+      "reason": "Contract、Summary 与 residualRisks 明确要求 ready_with_risks 及 review focus。"
+    }
+  ]
+}

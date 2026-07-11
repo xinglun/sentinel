@@ -1,5 +1,5 @@
 version: 1
-gateEnabled: false
+gateEnabled: true
 blockedStatuses:
   - needs_human_confirmation
   - not_ready

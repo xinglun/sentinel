@@ -28,14 +28,14 @@ Contract と Summary の field 順序は review の可読性を上げるため�
 | ファイル | 用途 |
 |---|---|
 | `checks.yaml` | Sentinel 向けの共通検証 command catalog。 |
-| `preflight_review_policy.yaml` | Preflight Review の advisory / gate 方針。 |
+| `preflight_review_policy.yaml` | Preflight Review の hard gate 方針。 |
 | `current_status.md` | `make generate-cockpit-status` が生成する現在の状態。実装詳細は `scripts/ai_generate_status.py`。 |
 | `status_policy.yaml` | active / no-active status、archive 後の同期、参照整合性の方針。 |
 | `scenario_coverage_policy.yaml` | Scenario Coverage の hard risk 判定と guard 方針。 |
 
 `status_policy.yaml` は Cockpit の machine-readable SSOT である。状態名、archive 後の `no_active_work_item` 表示、参照整合性 check はこの file と `make` target の契約に従う。script 実装と衝突する場合は `status_policy.yaml` と Makefile target を正とする。
 
-`preflight_review_policy.yaml` は Preflight Review の machine-readable SSOT である。デフォルトは advisory で、`needs_human_confirmation` と `not_ready` を gate にするかどうかは policy で明示する。
+`preflight_review_policy.yaml` は Preflight Review の machine-readable SSOT である。`needs_human_confirmation` と `not_ready` は hard gate とし、該当時は `ai-start MODE=code` を非ゼロで停止する。
 
 
 ## 作業前の境界定義
@@ -74,7 +74,7 @@ Agent の三大 risk は、Cockpit では次の hardening target として扱う
 
 `mode: code` で `executionDecision: continue` の Work Item は、Agent の自己申告だけで進めない。`make check-ai-contract`、`make check-ai-scope`、`make check-ai-guards`、`make check-ai-backtrack`、`make check-ai-change-summary`、`make generate-cockpit-status`、`make check-ai-status` を required verification として持つ。checkpoint の可視化が必要な長時間作業では `make ai-checkpoint` を併用する。PR で archive 配下を含む diff を扱う場合は、CI で `make check-ai-pr AI_BASE_COMMIT=<merge-base>` を併用する。
 
-`make ai-preflight` は実装前の共通入口である。active Contract がある場合は Preflight Review を生成して表示し、`ready` 以外の review は agent workflow に pause を促す。Cockpit Status は reviewer visibility であり、pre-implementation pause の代替ではない。
+`make ai-preflight` は実装前の共通入口である。active Contract がある場合は Preflight Review を生成して表示し、`needs_human_confirmation` または `not_ready` の review は hard gate として停止する。Cockpit Status は reviewer visibility であり、pre-implementation pause や PR audit の代替ではない。
 
 Scenario Coverage は risk 域の検証場面を表す。test case の一覧でも residual risk の置き換えでもなく、verified / unverified / not_applicable の状態で Work Item の検証範囲を見える化する。低リスク Work Item では必須ではないが、中高リスクで未検証の場面があるなら Summary に残す。
 

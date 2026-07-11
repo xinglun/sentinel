@@ -1,0 +1,11 @@
+version: 1
+exemptPaths:
+  - "target/**"
+  - ".github/**"
+forbiddenExemptPaths:
+  - "src/**"
+  - "tests/**"
+  - "docs/**"
+  - ".ai/**"
+  - "Makefile"
+  - ".github/workflows/**"
