@@ -1,0 +1,137 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr_archive_evidence_ownership_repair",
+  "mode": "review",
+  "title": "PR archive evidence ownership を補完",
+  "baseCommit": "74c2a6f3779b45d1165f98af565f897e74ad55fb",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR archive evidence checker が、既存の Work Item Summary に記録されていない snapshot と weekly report の変更を所有者不明として拒否する。",
+  "intent": {
+    "problem": "append-only archive を改変せず、既存 PR の 7 path に対する補足 evidence ownership を追加する。",
+    "constraints": [
+      "production code、snapshot 内容、既存 archive evidence、PR checker policy を変更しない。"
+    ],
+    "rationale": "Summary の changedFiles に記録がない既存変更を、独立した補足 Work Item で追跡可能にする。"
+  },
+  "scope": [
+    ".ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json",
+    ".ai/work-items/active/pr_archive_evidence_ownership_repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/interface/snapshots/** の内容変更",
+    "src/features/radar/interface/weekly_state_report.rs の内容変更",
+    ".ai/work-items/archive/** の既存 file の変更",
+    "scripts/ai_check_pr.py の policy 変更"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/leadership_execution_semantics_repair.contract.json",
+      "reason": "既存 Work Item の scope と baseline 変更 path を確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leadership_execution_semantics_repair.summary.json",
+      "reason": "既存 Summary の changedFiles に 7 path が欠落していることを確認する。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "archive evidence ownership が Contract scope と Summary changedFiles の両方を要求することを確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process"
+    ],
+    "reason": "governance evidence だけを追加し、production behavior と既存 archive は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が確定し、補足 evidence の追加と PR check を実行できる。"
+  },
+  "preReviewWarnings": [
+    "既存 archive を変更せず、補足 archive pair が 7 path を所有することを確認する。",
+    "PR evidence ownership の欠落は、補足 Work Item の Contract と Summary に固化する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "補足 archive Contract と Summary が、7 path の evidence ownership を記録する。",
+    "既存 archive evidence は append-only のまま変更しない。",
+    "make check-ai-pr AI_BASE_COMMIT=d9dd3dc7487eaa798be57c9a5ad4cdceb2bd3741 が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json SUMMARY=.ai/work-items/active/pr_archive_evidence_ownership_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr_archive_evidence_ownership_repair.summary.json CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json SUMMARY=.ai/work-items/active/pr_archive_evidence_ownership_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr_archive_evidence_ownership_repair.contract.json SUMMARY=.ai/work-items/active/pr_archive_evidence_ownership_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=d9dd3dc7487eaa798be57c9a5ad4cdceb2bd3741",
+      "required": false
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
