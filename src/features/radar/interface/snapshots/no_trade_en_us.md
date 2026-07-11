@@ -6,6 +6,8 @@
 
 **🚫 Decision Summary**
 
+> Any discretionary trade would violate system rules.
+
 ### NO TRADE
 
 > Any discretionary trade would violate system rules.
@@ -13,7 +15,7 @@
 > Trend Cohesion：Dispersed
 > Trend Topology：No Leader
 > State：Ignition Unconfirmed
-> Action：No Trading
+> Action：Candidate Only / No Execution Window
 > New Entry Cap · 0%
 
 > Readiness Reasons：

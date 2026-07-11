@@ -1,0 +1,279 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leadership_execution_semantics_repair",
+  "mode": "code",
+  "title": "Leadership と最終実行 Read Model の意味論を修正",
+  "baseCommit": "d9dd3dc7487eaa798be57c9a5ad4cdceb2bd3741",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "status": "M",
+      "fingerprint": "94855f4aefbe384253d8f09b16957033701a7a49bc83b0d5982fb5fa5a3a09c3"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "054c23576bac4c9c7f244fb8f8ff1fd2e8655aa8a1821c7315d6d8ce890c8712"
+    },
+    {
+      "path": ".ai/guards/pr_evidence_policy.yaml",
+      "status": "??",
+      "fingerprint": "3aa10a58bad92b07b7d7c434e0d7bfcd76a7a57f771ed9564ccbd28ead2a7358"
+    },
+    {
+      "path": ".ai/guards/preflight_review_policy.yaml",
+      "status": "M",
+      "fingerprint": "1a6f5ab602cdcad034b0b795bb18e6739cfed56f7d13f87c654773a7da60dd9b"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.contract.json",
+      "status": "D",
+      "fingerprint": "deleted"
+    },
+    {
+      "path": ".ai/work-items/active/leader-persistence-e2e-i18n.summary.json",
+      "status": "D",
+      "fingerprint": "deleted"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai_framework_trust_boundary_hardening.contract.json",
+      "status": "??",
+      "fingerprint": "182f1c407296e07cefd64d4917acb50758af88b3d0d258ec6ba7906ae2018ce0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai_framework_trust_boundary_hardening.summary.json",
+      "status": "??",
+      "fingerprint": "274979a02248de1052edcedc83d5e212b8169bf29b15181ea897bc4839d8921c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-e2e-i18n.contract.json",
+      "status": "??",
+      "fingerprint": "0f1b77bcc0e495ff0c5121ae60974d0675130b68f0bb0e7fbe36761337635dbc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/leader-persistence-e2e-i18n.summary.json",
+      "status": "??",
+      "fingerprint": "9b17fecbb63f6cd2c3a976db57bab0b908f6565cbc357e6fe5e1bb55cc4be9a8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_adoption_readiness.contract.json",
+      "status": "??",
+      "fingerprint": "9626862301ed4c50ec049d16ed369495463efef2c76a059eea3cbf797f7d8489"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/sentinel_adoption_readiness.summary.json",
+      "status": "??",
+      "fingerprint": "271d331523f576298a426a3153af9e3cf18bd53696a626bfc10206f6ae292161"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "status": "M",
+      "fingerprint": "477fd14445eb215f2b0c9409dc945123a22893a2c52a4bed3463efbcbc48eae7"
+    },
+    {
+      "path": "scripts/ai_test_generate_status.py",
+      "status": "M",
+      "fingerprint": "3ba92d4aff7bd763438cc308465def1b174bb56b7cfff4081172b2df326d8b45"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "status": "M",
+      "fingerprint": "d8f345a6df1b9a3bf36357d9b1c62ee9579294619ae705fd60bd77bc2793c727"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "status": "M",
+      "fingerprint": "896bb87ad3e5817157de699baa39779a6e761c50f4898a9e1d541d0baaba339c"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "M",
+      "fingerprint": "bcf18c177b3fccee0223432619413ca089396428e8529eebe79af9a1b98e94b8"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "1ce424223fbc2fe182e037fa0e43fd39934acbb962ade76e5ea4cc144fa925cf"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "323f47f1d95f726cdc0daf00e41c277c6a05e63769aea62de80a072c36bc9ef7"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "0c616fdfe68acd4ebfd3dbf8024626b0535a2c157b40bfe8c69f3a8e782d45cb"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "status": "M",
+      "fingerprint": "61a052b2eecdc8da878d125ab70255f328add978b526df4b0428c36b9c3c82ff"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "66c21345e169e9e6c6a0d694fb08462ada0fa6ab82e5245d637d26c865e9b5b1"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "a57cf8b0ae87ccd90fb54e00181ed50230c418130afe22d4cf230953772f0da9"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "3c1e3b310e31ec94b3761730a6a7400123767c26692870b938a5e18ca2afc758"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "status": "M",
+      "fingerprint": "7e787feeee037e36638e485c94c6523de981fccb92e5694c6433e8464fd6726f"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "status": "M",
+      "fingerprint": "2c5c7f850876aedd44d26c8079b1272b2e73e58ce67be8342cd812f48350b56a"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "status": "M",
+      "fingerprint": "05a88c3e3d5a78f34c9573ea9d14f7454489ec6a70dcf04ed011a708b1dd2977"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "status": "M",
+      "fingerprint": "17e7a09f4dc1007e52166f32c48b6f9ab5f767ff78c9425098d34641cd78cefa"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "status": "M",
+      "fingerprint": "14b1e50ab0090a5a8a0d0046522dfccaf837ce542681b2d41ce527571da0ca47"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "status": "M",
+      "fingerprint": "f40dcd273de5d6559a6317148f7b88a5362a889e0a8de5f51c2bc28ee3a570b4"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "34b7446c38e38b3a8dff056111ea1626d094173cc83870ece95c9f23ccd8bd3f"
+    }
+  ],
+  "problemStatement": "Leader Persistence の breakout continuity と lookback 集計、FinalExecutionDecision の単一ソース性が報告語義を満たしていない。",
+  "intent": {"problem":"breakout age と leader streak を分離し、FinalExecutionDecision を報告の唯一の行動語義にする。","constraints":["Gate、execution strategy、position sizing threshold を変更しない。"],"rationale":"観測事実と実行文言の誤認を修正する。"},
+  "scope": [
+    ".ai/work-items/active/leadership_execution_semantics_repair.contract.json",
+    ".ai/work-items/active/leadership_execution_semantics_repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.md"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.md"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.md"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "outOfScope": ["Gate の条件・閾値", "Execution strategy の条件・閾値", "Position Sizing の計算"],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Leader history と streak の計算。"
+    }, {"path":"src/features/radar/interface/presentation_assembler.rs","reason":"最終実行 Read Model の組立。"}, {"path":"src/features/radar/interface/report.rs","reason":"行動文言の最終表示。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario":"breakout continuity は asset の breakout_age を表示し leader streak と異なる","required":true,"status":"verified","evidence":["make test"],"reason":"read-model regression で検証。"},
+    {"scenario":"observed leadership days は lookback window を超えない","required":true,"status":"verified","evidence":["make test"],"reason":"read-model regression で検証。"},
+    {"scenario":"NONE と LIMITED+PROBE の report 全区画が FinalExecutionDecision のみを参照する","required":true,"status":"verified","evidence":["make test"],"reason":"三言語 report UI regression で検証。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary", "i18n_snapshot", "review_debt"
+    ],
+    "reason": "報告 Read Model と多言語 snapshot の表示語義だけを修正し、Gate、execution strategy、position sizing の条件・閾値・計算は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue", "reason": "表示語義のみの低リスク変更として scope、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "DecisionSummaryViewModel に行動表示の独自 source を残さない。",
+    "review では FinalExecutionDecision に基づく行動文言と非変更境界を確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Breakout Continuity は breakout_age に基づき、leader streak を再利用しない。",
+    "Observed Leadership Days は固定 lookback window 内だけを集計する。",
+    "FinalExecutionDecision が report の action status、action tag、position range の唯一の source となる。",
+    "NONE は実行指示を出さず、LIMITED + PROBE は全 report 区画で Probe Only と表示する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json SUMMARY=.ai/work-items/active/leadership_execution_semantics_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leadership_execution_semantics_repair.summary.json CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json SUMMARY=.ai/work-items/active/leadership_execution_semantics_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leadership_execution_semantics_repair.contract.json SUMMARY=.ai/work-items/active/leadership_execution_semantics_repair.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

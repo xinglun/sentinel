@@ -1572,7 +1572,7 @@ mod tests {
         assert!(!card.contains("1. **NVDA**"));
         assert!(card.contains("### 取引禁止（NO TRADE）"));
         assert!(card.contains("状態：未確認始動期"));
-        assert!(card.contains("行動：取引禁止"));
+        assert!(card.contains("行動：候補のみ / 実行ウィンドウなし"));
         assert!(card.contains("新規建て上限 · 0%"));
         assert!(!card.contains("0-10%"));
         assert!(!card.contains("推奨ポジション"));
@@ -4156,6 +4156,13 @@ mod tests {
                 persistence_label: "Leader Persistence".to_string(),
                 persistence_value: "5 days".to_string(),
                 persistence_days: 5,
+                observed_days_label: "Observed Leadership Days in Lookback".to_string(),
+                observed_days_value: "5 days".to_string(),
+                breakout_continuity_label: "Breakout Continuity".to_string(),
+                breakout_continuity_value: "5 days".to_string(),
+                history_coverage_label: "History Coverage".to_string(),
+                history_coverage_value: "PARTIAL".to_string(),
+                history_note: Some("Leadership history unavailable before feature activation.".to_string()),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "82.4".to_string(),
                 leadership_score: 82.4,
@@ -4240,6 +4247,7 @@ mod tests {
             language: Language::EnUs,
             macro_display: Default::default(),
             decision_summary: Default::default(),
+            final_execution_decision: Default::default(),
             signal_summary: Default::default(),
             top_actions: vec![TopActionViewModel {
                 symbol: "GOOG".to_string(),

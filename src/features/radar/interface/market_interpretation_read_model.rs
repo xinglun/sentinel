@@ -282,6 +282,10 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
         secondary_leaders_label: secondary_leaders_label(language).to_string(),
         secondary_leaders_values: secondary_values,
         watchlist_leaders_label: watchlist_leaders_label(language).to_string(),
+        watchlist_leaders_reasons: watchlist_values
+            .iter()
+            .map(|symbol| leadership_watch_reason(symbol, language).to_string())
+            .collect(),
         watchlist_leaders_values: watchlist_values,
         leadership_confidence_label: leadership_confidence_label(language).to_string(),
         leadership_confidence_value: leadership_confidence_value(
@@ -318,6 +322,11 @@ pub(crate) fn build_leader_persistence_view_model(
         return None;
     }
 
+    let lookback_start = input.current_packet.date
+        - chrono::Duration::days(
+            (crate::features::radar::domain::leader_persistence::LEADERSHIP_LOOKBACK_DAYS - 1)
+                as i64,
+        );
     let mut observations = input.persisted_observations.to_vec();
 
     let current_observation = build_current_observation(
@@ -336,6 +345,36 @@ pub(crate) fn build_leader_persistence_view_model(
         persistence_label: leader_persistence_persistence_label(input.language).to_string(),
         persistence_value: leader_persistence_value(result.persistence_days, input.language),
         persistence_days: result.persistence_days,
+        observed_days_label: leader_persistence_observed_days_label(input.language).to_string(),
+        observed_days_value: leader_persistence_value(
+            observations
+                .iter()
+                .filter(|observation| {
+                    observation.date >= lookback_start
+                        && observation.leader == result.current_leader
+                })
+                .count(),
+            input.language,
+        ),
+        breakout_continuity_label: leader_persistence_breakout_continuity_label(input.language)
+            .to_string(),
+        breakout_continuity_value: input
+            .current_packet
+            .assets
+            .iter()
+            .find(|asset| asset.symbol == result.current_leader)
+            .map(|asset| leader_persistence_value(asset.breakout.breakout_age, input.language))
+            .unwrap_or_else(|| leader_persistence_history_unavailable(input.language).to_string()),
+        history_coverage_label: leader_persistence_history_coverage_label(input.language)
+            .to_string(),
+        history_coverage_value: if result.history_coverage_complete {
+            "COMPLETE"
+        } else {
+            "PARTIAL"
+        }
+        .to_string(),
+        history_note: (!result.history_coverage_complete)
+            .then(|| leader_persistence_history_unavailable(input.language).to_string()),
         leadership_score_label: leader_persistence_score_label(input.language).to_string(),
         leadership_score_value: format!("{:.1}", result.leadership_score),
         leadership_score: result.leadership_score,
@@ -439,6 +478,38 @@ fn leader_persistence_score_label(language: Language) -> &'static str {
     }
 }
 
+fn leader_persistence_observed_days_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "回看期内观察到的领导天数",
+        Language::EnUs => "Observed Leadership Days in Lookback",
+        Language::JaJp => "ルックバック内の観測リーダー日数",
+    }
+}
+
+fn leader_persistence_breakout_continuity_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "突破连续性",
+        Language::EnUs => "Breakout Continuity",
+        Language::JaJp => "ブレイクアウト継続性",
+    }
+}
+
+fn leader_persistence_history_coverage_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "历史覆盖",
+        Language::EnUs => "History Coverage",
+        Language::JaJp => "履歴カバレッジ",
+    }
+}
+
+fn leader_persistence_history_unavailable(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "功能启用前的 Leadership 历史不可用。",
+        Language::EnUs => "Leadership history unavailable before feature activation.",
+        Language::JaJp => "feature activation 前の Leadership 履歴は利用できません。",
+    }
+}
+
 fn leader_persistence_state_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "领导状态",
@@ -536,9 +607,16 @@ fn leader_persistence_change_value(
             (Some(previous), Language::EnUs) => {
                 format!("{previous} -> {}, streak reset", result.current_leader)
             }
-            (None, Language::ZhCn) => format!("{}：首次观察", result.current_leader),
-            (None, Language::JaJp) => format!("{}：初回観測", result.current_leader),
-            (None, Language::EnUs) => format!("{}: first observed", result.current_leader),
+            (None, Language::ZhCn) if result.history_coverage_complete => {
+                format!("{}：首次成为领导者", result.current_leader)
+            }
+            (None, Language::JaJp) if result.history_coverage_complete => {
+                format!("{}：初めてリーダーになりました", result.current_leader)
+            }
+            (None, Language::EnUs) if result.history_coverage_complete => {
+                format!("{}: first became leader", result.current_leader)
+            }
+            (None, _) => leader_persistence_history_unavailable(language).to_string(),
         };
     }
 
@@ -712,9 +790,17 @@ fn secondary_leaders_label(language: Language) -> &'static str {
 
 fn watchlist_leaders_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Watchlist Leaders",
-        Language::EnUs => "Watchlist Leaders",
-        Language::JaJp => "Watchlist Leaders",
+        Language::ZhCn => "Leadership Watch Candidates",
+        Language::EnUs => "Leadership Watch Candidates",
+        Language::JaJp => "Leadership Watch Candidates",
+    }
+}
+
+fn leadership_watch_reason(_symbol: &str, language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "战略相关，但当前结构偏弱。",
+        Language::EnUs => "strategic relevance, weak current structure",
+        Language::JaJp => "戦略的関連性はあるが、現在の構造は弱い。",
     }
 }
 

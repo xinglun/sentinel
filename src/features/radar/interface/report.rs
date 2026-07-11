@@ -64,7 +64,7 @@ fn generate_markdown_report(
     compact_continuity_threshold: &str,
 ) -> String {
     let dict = get_dictionary(pres.language);
-    let is_no_trade = pres.decision_summary.is_no_trade;
+    let is_no_trade = final_execution_is_none(pres);
     let compact_no_trade_presentation =
         is_no_trade && compact_transition_in_no_trade && !detailed_transition;
 
@@ -92,7 +92,12 @@ fn generate_markdown_report(
     }
 
     let d = &pres.decision_summary;
+    let final_action = final_execution_action_label(pres);
+    let final_position_range = final_execution_position_range(pres, &d.entry_cap_value);
     card.push_str(&format!("**{}**\n\n", d.section_title));
+    if !pres.final_execution_decision.reason.is_empty() {
+        card.push_str(&format!("> {}\n\n", pres.final_execution_decision.reason));
+    }
     if is_no_trade {
         card.push_str(&format!("### {}\n\n", d.action_status_value));
         card.push_str(&format!("> {}\n\n", d.hard_rule_note));
@@ -105,9 +110,9 @@ fn generate_markdown_report(
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
-            d.action_tag_value,
+            final_action,
             d.entry_cap_label,
-            d.entry_cap_value
+            final_position_range
         ));
         if !d.gate_passed {
             if compact_no_trade_presentation {
@@ -160,15 +165,15 @@ fn generate_markdown_report(
             d.trend_topology_label,
             d.trend_topology_value,
             d.action_status_label,
-            d.action_status_value,
+            final_action,
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
-            d.action_tag_value,
+            final_action,
             d.behavior_mode_label,
-            d.behavior_mode_value,
+            final_action,
             d.exposure_label,
-            d.exposure_value,
+            final_position_range,
             d.market_board_label,
             d.market_board_value,
             d.opportunity_snapshot_label,
@@ -269,7 +274,7 @@ fn generate_telegram_html_report(
     compact_continuity_threshold: &str,
 ) -> String {
     let dict = get_dictionary(pres.language);
-    let is_no_trade = pres.decision_summary.is_no_trade;
+    let is_no_trade = final_execution_is_none(pres);
     let compact_no_trade_presentation =
         is_no_trade && compact_transition_in_no_trade && !detailed_transition;
 
@@ -297,7 +302,15 @@ fn generate_telegram_html_report(
     }
 
     let d = &pres.decision_summary;
+    let final_action = final_execution_action_label(pres);
+    let final_position_range = final_execution_position_range(pres, &d.entry_cap_value);
     card.push_str(&format!("<b>{}</b>\n\n", d.section_title));
+    if !pres.final_execution_decision.reason.is_empty() {
+        card.push_str(&format!(
+            "<i>{}</i>\n\n",
+            pres.final_execution_decision.reason
+        ));
+    }
     if is_no_trade {
         card.push_str(&format!("<b>{}</b>\n\n", d.action_status_value));
         card.push_str(&format!("<i>{}</i>\n\n", d.hard_rule_note));
@@ -310,9 +323,9 @@ fn generate_telegram_html_report(
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
-            d.action_tag_value,
+            final_action,
             d.entry_cap_label,
-            d.entry_cap_value
+            final_position_range
         ));
         if !d.gate_passed {
             if compact_no_trade_presentation {
@@ -365,15 +378,15 @@ fn generate_telegram_html_report(
             d.trend_topology_label,
             d.trend_topology_value,
             d.action_status_label,
-            d.action_status_value,
+            final_action,
             d.state_tag_label,
             d.state_tag_value,
             d.action_tag_label,
-            d.action_tag_value,
+            final_action,
             d.behavior_mode_label,
-            d.behavior_mode_value,
+            final_action,
             d.exposure_label,
-            d.exposure_value,
+            final_position_range,
             d.market_board_label,
             d.market_board_value,
             d.opportunity_snapshot_label,
@@ -566,7 +579,12 @@ fn render_top_actions_section(
     is_no_trade: bool,
     mode: RenderMode,
 ) -> String {
-    let top_actions_title = if is_no_trade {
+    let candidate_only = is_no_trade
+        || matches!(
+            pres.final_execution_decision.participation_mode,
+            crate::features::radar::interface::presentation::ParticipationMode::Probe
+        );
+    let top_actions_title = if candidate_only {
         dict.decision.candidate_watchlist.clone()
     } else {
         dict.headers.top_actions.clone()
@@ -580,14 +598,14 @@ fn render_top_actions_section(
 
     for (i, vm) in pres.top_actions.iter().enumerate() {
         let no_trade_secondary_desc =
-            if is_no_trade && vm.secondary_desc == dict.asset_states.optimal {
+            if candidate_only && vm.secondary_desc == dict.asset_states.optimal {
                 format!("{} ({})", vm.secondary_desc, dict.asset_tags.candidate)
             } else {
                 vm.secondary_desc.clone()
             };
         match mode {
             RenderMode::Markdown => {
-                if is_no_trade {
+                if candidate_only {
                     out.push_str(&format!("- {} · {}\n", vm.symbol, no_trade_secondary_desc));
                 } else {
                     out.push_str(&format!(
@@ -600,7 +618,7 @@ fn render_top_actions_section(
                 }
             }
             RenderMode::Html => {
-                if is_no_trade {
+                if candidate_only {
                     out.push_str(&format!("• {} · {}\n", vm.symbol, no_trade_secondary_desc));
                 } else {
                     out.push_str(&format!(
@@ -615,7 +633,7 @@ fn render_top_actions_section(
         }
 
         let mut row2_parts = Vec::new();
-        if !is_no_trade {
+        if !candidate_only {
             row2_parts.push(vm.secondary_desc.clone());
             for tag in &vm.tags {
                 row2_parts.push(tag.clone());
@@ -636,6 +654,53 @@ fn render_top_actions_section(
 
     out.push('\n');
     out
+}
+
+fn final_execution_is_none(pres: &PresentationPacket) -> bool {
+    if pres.final_execution_decision.reason.is_empty() {
+        return pres.decision_summary.is_no_trade;
+    }
+    matches!(
+        pres.final_execution_decision.execution_window,
+        crate::features::radar::interface::presentation::ExecutionWindow::None
+    )
+}
+
+fn final_execution_action_label(pres: &PresentationPacket) -> String {
+    use crate::features::radar::interface::presentation::{ExecutionWindow, ParticipationMode};
+    use crate::features::shared::interface::i18n::Language;
+    match (
+        pres.final_execution_decision.execution_window,
+        pres.final_execution_decision.participation_mode,
+    ) {
+        (ExecutionWindow::None, _) => match pres.language {
+            Language::ZhCn => "仅候选 / 无执行窗口",
+            Language::EnUs => "Candidate Only / No Execution Window",
+            Language::JaJp => "候補のみ / 実行ウィンドウなし",
+        }
+        .to_string(),
+        (ExecutionWindow::Limited, ParticipationMode::Probe) => match pres.language {
+            Language::ZhCn => "有限参与窗口 / 仅 Probe",
+            Language::EnUs => "Limited Participation Window / Probe Only",
+            Language::JaJp => "限定参加ウィンドウ / Probe のみ",
+        }
+        .to_string(),
+        (ExecutionWindow::Open, ParticipationMode::Add) => match pres.language {
+            Language::ZhCn => "开放参与窗口 / 可加仓",
+            Language::EnUs => "Open Participation Window / Add",
+            Language::JaJp => "参加ウィンドウ開始 / 追加可",
+        }
+        .to_string(),
+        _ => pres.final_execution_decision.reason.clone(),
+    }
+}
+
+fn final_execution_position_range(pres: &PresentationPacket, fallback: &str) -> String {
+    if pres.final_execution_decision.reason.is_empty() {
+        fallback.to_string()
+    } else {
+        pres.final_execution_decision.position_range.clone()
+    }
 }
 
 fn render_post_actions_sections(
@@ -1424,7 +1489,10 @@ fn render_leadership_snapshot_section(
             block.push_str(&format!(
                 "  - {}: {}\n",
                 snapshot.watchlist_leaders_label,
-                format_values(&snapshot.watchlist_leaders_values)
+                format_watch_candidates(
+                    &snapshot.watchlist_leaders_values,
+                    &snapshot.watchlist_leaders_reasons
+                )
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
@@ -1450,7 +1518,10 @@ fn render_leadership_snapshot_section(
             block.push_str(&format!(
                 "  - {}: {}\n",
                 snapshot.watchlist_leaders_label,
-                format_values(&snapshot.watchlist_leaders_values)
+                format_watch_candidates(
+                    &snapshot.watchlist_leaders_values,
+                    &snapshot.watchlist_leaders_reasons
+                )
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
@@ -1491,6 +1562,21 @@ fn render_leader_persistence_section(
             ));
             block.push_str(&format!(
                 "  - {}: {}\n",
+                persistence.observed_days_label, persistence.observed_days_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.breakout_continuity_label, persistence.breakout_continuity_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.history_coverage_label, persistence.history_coverage_value
+            ));
+            if let Some(note) = &persistence.history_note {
+                block.push_str(&format!("  - {}\n", note));
+            }
+            block.push_str(&format!(
+                "  - {}: {}\n",
                 persistence.leadership_score_label, persistence.leadership_score_value
             ));
             block.push_str(&format!(
@@ -1519,6 +1605,21 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.persistence_label, persistence.persistence_value
             ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.observed_days_label, persistence.observed_days_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.breakout_continuity_label, persistence.breakout_continuity_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                persistence.history_coverage_label, persistence.history_coverage_value
+            ));
+            if let Some(note) = &persistence.history_note {
+                block.push_str(&format!("  - {}\n", note));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 persistence.leadership_score_label, persistence.leadership_score_value
@@ -2071,6 +2172,21 @@ fn format_values(values: &[String]) -> String {
     } else {
         format!("[{}]", values.join(", "))
     }
+}
+
+fn format_watch_candidates(values: &[String], reasons: &[String]) -> String {
+    if values.is_empty() {
+        return "none".to_string();
+    }
+    values
+        .iter()
+        .enumerate()
+        .map(|(index, symbol)| match reasons.get(index) {
+            Some(reason) if !reason.is_empty() => format!("{symbol} ({reason})"),
+            _ => symbol.clone(),
+        })
+        .collect::<Vec<_>>()
+        .join(", ")
 }
 
 fn render_transition_diff(target: &mut String, label: &str, values: &[String], mode: RenderMode) {

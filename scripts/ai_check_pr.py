@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import fnmatch
 import json
 import os
 import subprocess
@@ -23,6 +24,7 @@ ARCHIVE_PREFIX = ".ai/work-items/archive/"
 ACTIVE_PREFIX = ".ai/work-items/active/"
 ARCHIVE_SUFFIXES = (".contract.json", ".summary.json", ".review.json")
 PAIR_SUFFIXES = (".contract.json", ".summary.json")
+POLICY_PATH = PROJECT_ROOT / ".ai" / "guards" / "pr_evidence_policy.yaml"
 
 
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -54,7 +56,7 @@ def stem(path: str) -> str:
 
 
 def changed_name_status(base: str) -> list[tuple[str, str]]:
-    result = run_git(["diff", "--name-status", f"{base}...HEAD"])
+    result = run_git(["diff", "--name-status", "--no-renames", f"{base}...HEAD"])
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
     changes: list[tuple[str, str]] = []
@@ -91,6 +93,10 @@ def validate_archive_bundle(changes: list[tuple[str, str]]) -> list[str]:
     for pair_stem in pair_stems:
         contract_rel = f"{pair_stem}.contract.json"
         summary_rel = f"{pair_stem}.summary.json"
+        added_paths = {path for status, path in archive if status == "A"}
+        if contract_rel not in added_paths or summary_rel not in added_paths:
+            issues.append(f"archive evidence は Contract と Summary を同じ PR で追加してください: {pair_stem}")
+            continue
         contract_path = PROJECT_ROOT / contract_rel
         summary_path = PROJECT_ROOT / summary_rel
         if not contract_path.exists():
@@ -117,6 +123,64 @@ def validate_archive_bundle(changes: list[tuple[str, str]]) -> list[str]:
     return issues
 
 
+def policy_exempt_paths() -> list[str]:
+    patterns: list[str] = []
+    in_exempt = False
+    if not POLICY_PATH.exists():
+        return patterns
+    for raw in POLICY_PATH.read_text(encoding="utf-8").splitlines():
+        stripped = raw.strip()
+        if stripped == "exemptPaths:":
+            in_exempt = True
+        elif stripped.endswith(":"):
+            in_exempt = False
+        elif in_exempt and stripped.startswith("- "):
+            patterns.append(stripped[2:].strip().strip('"').strip("'"))
+    return patterns
+
+
+def is_exempt(path: str) -> bool:
+    return any(fnmatch.fnmatch(path, pattern) for pattern in policy_exempt_paths())
+
+
+def changed_file_paths(summary: dict[str, Any]) -> set[str]:
+    values = summary.get("changedFiles", [])
+    return {
+        item.get("path", "") for item in values
+        if isinstance(item, dict) and isinstance(item.get("path"), str)
+    }
+
+
+def contract_owns_path(contract: dict[str, Any], summary: dict[str, Any], path: str) -> bool:
+    scope = contract.get("scope", [])
+    out_of_scope = contract.get("outOfScope", [])
+    in_scope = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in scope)
+    excluded = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in out_of_scope)
+    return in_scope and not excluded and path in changed_file_paths(summary)
+
+
+def validate_evidence_ownership(changes: list[tuple[str, str]]) -> list[str]:
+    issues: list[str] = []
+    pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for _, path in archive_changes(changes):
+        if not path.endswith(".contract.json"):
+            continue
+        summary_path = PROJECT_ROOT / f"{stem(path)}.summary.json"
+        contract_path = PROJECT_ROOT / path
+        if contract_path.exists() and summary_path.exists():
+            contract, summary = load_json(contract_path), load_json(summary_path)
+            if contract.get("contractVersion") != 2:
+                issues.append(f"{path}: PR evidence requires contractVersion: 2")
+            else:
+                pairs.append((contract, summary))
+    for _, path in changes:
+        if path.startswith(ARCHIVE_PREFIX) or path.startswith(ACTIVE_PREFIX) or is_exempt(path):
+            continue
+        if not any(contract_owns_path(contract, summary, path) for contract, summary in pairs):
+            issues.append(f"PR changed path lacks archive evidence ownership: {path}")
+    return issues
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="PR diff の archive Work Item 整合性を検証します。")
     parser.add_argument("--base", default=os.environ.get("AI_BASE_COMMIT", ""))
@@ -137,6 +201,7 @@ def main() -> int:
         return 1
 
     issues = validate_archive_bundle(changes)
+    issues.extend(validate_evidence_ownership(changes))
     report = {
         "baseCommit": args.base.strip(),
         "status": "error" if issues else "passed",

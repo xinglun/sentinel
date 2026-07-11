@@ -26,10 +26,12 @@ def write_json(path: Path, data: dict) -> None:
 
 def valid_contract() -> dict:
     return {
-        "contractVersion": 1,
+        "contractVersion": 2,
         "workItemId": "task",
         "mode": "investigate",
         "title": "task",
+        "baseCommit": "0123456789abcdef",
+        "baselineDirtyPaths": [],
         "scope": ["README.md"],
         "outOfScope": [],
         "sources": [{"path": "README.md", "reason": "test"}],
@@ -88,7 +90,7 @@ def test_validate_archive_bundle_rejects_missing_summary(root: Path) -> None:
     with patch.object(ai_check_pr, "PROJECT_ROOT", root):
         issues = ai_check_pr.validate_archive_bundle(changes)
     assert_true(
-        any("archive Summary" in issue or "対になって" in issue for issue in issues),
+        any("archive Summary" in issue or "同じ PR" in issue for issue in issues),
         f"missing summary should be rejected: {issues}",
     )
 
@@ -107,6 +109,33 @@ def test_validate_archive_bundle_rejects_modified_archive_path(root: Path) -> No
     )
 
 
+def test_validate_evidence_ownership(root: Path) -> None:
+    contract_rel = ".ai/work-items/archive/2026/task.contract.json"
+    summary_rel = ".ai/work-items/archive/2026/task.summary.json"
+    contract = valid_contract()
+    summary = valid_summary(contract_rel)
+    write_json(root / contract_rel, contract)
+    write_json(root / summary_rel, summary)
+    changes = [("A", contract_rel), ("A", summary_rel), ("M", "README.md")]
+    with patch.object(ai_check_pr, "PROJECT_ROOT", root), patch.object(ai_check_pr, "POLICY_PATH", root / ".ai/guards/pr_evidence_policy.yaml"):
+        assert_true(not ai_check_pr.validate_evidence_ownership(changes), "owned path should pass")
+        summary["changedFiles"] = []
+        write_json(root / summary_rel, summary)
+        assert_true(ai_check_pr.validate_evidence_ownership(changes), "missing Summary path should fail")
+        summary["changedFiles"] = [{"path": "README.md", "reason": "test"}]
+        contract["scope"] = ["docs/**"]
+        write_json(root / contract_rel, contract)
+        write_json(root / summary_rel, summary)
+        assert_true(ai_check_pr.validate_evidence_ownership(changes), "scope omission should fail")
+        contract["scope"] = ["README.md"]
+        contract["outOfScope"] = ["README.md"]
+        write_json(root / contract_rel, contract)
+        assert_true(ai_check_pr.validate_evidence_ownership(changes), "outOfScope path should fail")
+        contract["contractVersion"] = 1
+        write_json(root / contract_rel, contract)
+        assert_true(ai_check_pr.validate_evidence_ownership(changes), "v1 contract should fail")
+
+
 def main() -> int:
     root = REPO_ROOT / "target" / "ai_pr_check_test"
     shutil.rmtree(root, ignore_errors=True)
@@ -118,6 +147,8 @@ def main() -> int:
         print("✅ rejects_missing_summary")
         test_validate_archive_bundle_rejects_modified_archive_path(root)
         print("✅ rejects_modified_archive_path")
+        test_validate_evidence_ownership(root)
+        print("✅ validates_evidence_ownership")
     finally:
         shutil.rmtree(root, ignore_errors=True)
     print("✅ ai_check_pr tests passed")

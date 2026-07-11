@@ -17,6 +17,9 @@ def main() -> int:
         subprocess.run(command, check=True, capture_output=True, text=True)
         repeated = output.read_text(encoding="utf-8")
         assert initial == repeated, "no-active status は時刻差分のみで更新してはならない"
+        assert "- Contract Path: ``" in initial, "no-active status の Contract Path は空にする"
+        assert "- Summary Path: ``" in initial, "no-active status の Summary Path は空にする"
+        assert "## Changed Files\n\n- none" in initial, "working tree の transient diff を表示しない"
     print("✅ cockpit status generation tests passed")
     return 0
 

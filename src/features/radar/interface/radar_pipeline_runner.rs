@@ -899,22 +899,52 @@ fn build_market_change_log_view_model(
     let previous_interpretation_value = previous_market_interpretation
         .map(|interpretation| interpretation.narrative_values.join(" | "))
         .unwrap_or_else(|| current_interpretation_value.clone());
-    let structural_change_detected = current_leader != previous_leader
-        || breadth_value != previous_breadth_value
-        || risk_value != "unchanged"
-        || supply_phase_value != previous_supply_phase_value
-        || (current_confidence - previous_confidence).abs() >= 0.5
+    let mut change_dimensions = Vec::new();
+    if current_leader != previous_leader {
+        change_dimensions.push("primary leader ranking");
+    }
+    if breadth_value != previous_breadth_value {
+        change_dimensions.push("breadth threshold");
+    }
+    if risk_value != "unchanged" {
+        change_dimensions.push("risk overlay");
+    }
+    if supply_phase_value != previous_supply_phase_value {
+        change_dimensions.push("supply phase");
+    }
+    if (current_confidence - previous_confidence).abs() >= 0.5 {
+        change_dimensions.push("confidence");
+    }
+    let execution_changed = previous_presentation.is_some_and(|previous| {
+        previous.decision_summary.action_status_value
+            != pres_packet.decision_summary.action_status_value
+    });
+    if execution_changed {
+        change_dimensions.push("execution decision");
+    }
+    let structural_change_detected = change_dimensions
+        .iter()
+        .any(|dimension| *dimension != "primary leader ranking")
         || current_interpretation_value != previous_interpretation_value;
     let interpretation_value = if structural_change_detected {
         match language {
             crate::features::shared::interface::i18n::Language::ZhCn => {
-                "结构变化: moderate".to_string()
+                format!(
+                    "变化等级: moderate（依据：{}）",
+                    change_dimensions.join("、")
+                )
             }
             crate::features::shared::interface::i18n::Language::EnUs => {
-                "Structural change: moderate.".to_string()
+                format!(
+                    "Structural change: moderate (basis: {}).",
+                    change_dimensions.join(", ")
+                )
             }
             crate::features::shared::interface::i18n::Language::JaJp => {
-                "Structural change: moderate.".to_string()
+                format!(
+                    "構造変化: moderate（根拠: {}）。",
+                    change_dimensions.join("、")
+                )
             }
         }
     } else {
@@ -954,6 +984,11 @@ fn build_market_change_log_view_model(
         format!("Supply phase remains {supply_phase_value}.")
     });
     summary_values.push(format!("Confidence: {confidence_value}."));
+    if change_dimensions.len() == 1 && change_dimensions[0] == "primary leader ranking" {
+        summary_values.push("Relative-strength ordering changed only; regime, risk, confidence, and execution decision are unchanged.".to_string());
+    } else if !change_dimensions.is_empty() {
+        summary_values.push(format!("Change basis: {}.", change_dimensions.join(", ")));
+    }
     summary_values.push(interpretation_value.clone());
 
     crate::features::radar::interface::presentation::MarketChangeLogViewModel {

@@ -195,6 +195,25 @@ def test_gate_blocks_not_ready(root: Path) -> None:
     assert_true(policy_path.exists(), "policy fixture should exist")
 
 
+def test_readiness_blockers_are_not_ready(root: Path) -> None:
+    contract_path = root / ".ai/work-items/active/preflight-variants.contract.json"
+    policy_path = root / ".ai/guards/preflight_review_policy.yaml"
+    write_policy(policy_path, gate_enabled=True)
+    variants = [
+        ("notCodable", True),
+        ("executionDecision", {"status": "blocked", "reason": "fixture"}),
+        ("agentCapability", {"canImplement": False, "canVerify": True, "needsHumanDecision": False, "blockedReason": "fixture"}),
+        ("agentCapability", {"canImplement": True, "canVerify": False, "needsHumanDecision": False, "blockedReason": "fixture"}),
+        ("agentCapability", {"canImplement": True, "canVerify": True, "needsHumanDecision": True, "blockedReason": "fixture"}),
+    ]
+    for key, value in variants:
+        contract = base_contract("preflight-variants", ready=True)
+        contract[key] = value
+        write_json(contract_path, contract)
+        report = ai_preflight_review.derive_report(contract, contract_path=contract_path, policy_path=policy_path)
+        assert_equal(report["status"], "not_ready", f"{key} should block readiness")
+
+
 def test_generate_does_not_write_markdown(root: Path) -> None:
     contract_path = root / ".ai/work-items/active/preflight-ready.contract.json"
     policy_path = root / ".ai/guards/preflight_review_policy.yaml"
@@ -487,6 +506,7 @@ def main() -> int:
             temp_root = Path(temp_dir)
             test_derive_ready_report(temp_root)
             test_gate_blocks_not_ready(temp_root)
+            test_readiness_blockers_are_not_ready(temp_root)
             test_generate_does_not_write_markdown(temp_root)
             test_check_blocks_when_gate_enabled(temp_root)
             test_status_renderer_includes_preflight_section(temp_root)

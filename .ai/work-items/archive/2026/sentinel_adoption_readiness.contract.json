@@ -1,0 +1,93 @@
+{
+  "contractVersion": 2,
+  "workItemId": "sentinel_adoption_readiness",
+  "mode": "code",
+  "title": "Leadership と最終実行表示の意味論を統一する",
+  "baseCommit": "d9dd3dc7487eaa798be57c9a5ad4cdceb2bd3741",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leadership の履歴表示とレポート内の実行文言が別々に導出され、feature activation 前の履歴を初回観測として誤認したり、同一レポート内で実行可能性が矛盾したりする。",
+  "intent": {
+    "problem": "履歴 coverage を明示し、最終実行判断を単一 Read Model に集約して、Leadership、候補、ポジション提案、Market Change Log の表示意味論を追跡可能にする。",
+    "constraints": [
+      "Gate、execution、action matrix、trader、position sizing の戦略閾値は変更しない。",
+      "変更は Read Model、表示、観測ログ、snapshot / contract test に限定する。",
+      "無変化の Expectation、Gray Rhino、Gravity は短縮または非表示を維持する。"
+    ],
+    "rationale": "同一市場事実の表示責任を一箇所に集め、履歴欠損と実行不可候補を命令として誤読しないようにする。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/sentinel_adoption_readiness.contract.json",
+    ".ai/work-items/active/sentinel_adoption_readiness.summary.json",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.md"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.md"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.md"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "outOfScope": [
+    "Gate の条件・閾値",
+    "Execution の条件・閾値",
+    "Action Matrix、Trader、Position Sizing の計算",
+    "data branch、JSONL schema の破壊的移行",
+    "投資判断・売買戦略の変更"
+  ],
+  "sources": [
+    {"path": "src/features/radar/domain/leader_persistence.rs", "reason": "Leadership streak と履歴 observation の計算。"},
+    {"path": "src/features/radar/interface/market_interpretation_read_model.rs", "reason": "Leadership Snapshot と Persistence Read Model。"},
+    {"path": "src/features/radar/interface/presentation_assembler.rs", "reason": "DecisionPacket から日次表示を組み立てる既存の唯一の経路。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "Market Change Log の現在・前回比較。"},
+    {"path": "src/features/radar/interface/report.rs", "reason": "Markdown と Telegram の最終表示。"},
+    {"path": "src/features/radar/interface/report_ui_tests.rs", "reason": "報告出力の回帰契約。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "feature activation 前の履歴がない leader は PARTIAL coverage と unavailable 文言を出し、first-leader 表現を出さない", "required": true, "status": "unverified", "evidence": [], "reason": "実装と report contract test が未実施。"},
+    {"scenario": "完全 lookback 内で初めて現れた leader だけが first-leader 表現を出す", "required": true, "status": "unverified", "evidence": [], "reason": "実装と domain/read-model test が未実施。"},
+    {"scenario": "NONE window では Markdown と Telegram のどの区画にも実行可能な add/open 指示がない", "required": true, "status": "unverified", "evidence": [], "reason": "単一 FinalExecutionDecision の表示経路テストが未実施。"},
+    {"scenario": "LIMITED + PROBE は上部、候補、ポジション表示の全てで Probe Only を出す", "required": true, "status": "unverified", "evidence": [], "reason": "単一 FinalExecutionDecision の表示経路テストが未実施。"},
+    {"scenario": "Watch Candidates と Current / Secondary Leaders を分離し、moderate change に比較軸を記録する", "required": true, "status": "unverified", "evidence": [], "reason": "read-model と report contract test が未実施。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["architecture_boundary", "i18n_snapshot", "review_debt"], "reason": "表示 Read Model の変更は多言語出力と既存 snapshot に波及するが、取引閾値は変更しない。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "ユーザーは preflight 時点の unverified scenario が本実装に依存する後続検証であり、要件・risk unknown ではないことを確認した。Read Model、報告出力、テストの範囲で実装を続行する。"},
+  "preReviewWarnings": ["FinalExecutionDecision が表示専用の単一ソースであり、戦略閾値を再定義しないことを確認する。", "PARTIAL coverage の文言が first-leader と誤認されないことを三言語で確認する。", "preflight の required scenario は実装後に必ず test で verified にする。未検証・失敗・閾値変更が必要な場合は実装を止めて Contract を更新する。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability に変更があれば Contract と Summary に記録する。"},
+  "acceptance": [
+    "Leader Persistence は Current Leadership Streak、Observed Leadership Days in Lookback、Breakout Continuity、History Coverage を出力し、PARTIAL coverage で初回リーダー表現を使わない。",
+    "完全な履歴 coverage の回看期間内で実際に初回リーダーとなった場合だけ first-leader 表現を使う。",
+    "FinalExecutionDecision は execution window、participation mode、position range、actionability、reason を持ち、レポート上部、候補アクション、ポジション提案が同一 Read Model を参照する。",
+    "NONE では実行可能な追加・新規建て文言がなく、LIMITED + PROBE では全表示が Probe Only と整合する。",
+    "Leadership Watch Candidates は Current / Secondary Leaders と区別され、各候補に観測理由がある。",
+    "Market Change Log の moderate は変更した比較軸を明示し、相対強弱順位のみの変化を状態の根本切替として表現しない。",
+    "Expectation、Gray Rhino、Gravity は状態・方向・深刻度・実行含意が不変なら、詳細本文を展開しない。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json SUMMARY=.ai/work-items/active/sentinel_adoption_readiness.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/sentinel_adoption_readiness.summary.json CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json SUMMARY=.ai/work-items/active/sentinel_adoption_readiness.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/sentinel_adoption_readiness.contract.json SUMMARY=.ai/work-items/active/sentinel_adoption_readiness.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の変更を revert すれば従来の表示へ戻せる。"
+}
