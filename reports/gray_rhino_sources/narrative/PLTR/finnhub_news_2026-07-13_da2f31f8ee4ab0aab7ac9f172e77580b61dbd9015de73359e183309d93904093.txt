@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: The AI Momentum Basket: Nvidia, Palantir, AMD & Tesla. Our 2027–2029 Targets
+  summary: Nvidia, AMD, Palantir, and Tesla are all riding the AI wave in 2026, but the gap between their valuations, momentum, and math needed to reach bold 2029 targets reveals which name deserves conviction and which requires a leap of faith.
+  url: https://finnhub.io/api/news?id=301b0738dab6ca32e88b019a851dd2a5f5fb5d4dc34db4ee43f2c6071594eeca

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: European Equities Mixed in Monday Trading; Eni to Fuel BMW Corporate Fleets With Renewable Diesel
+  summary: European stock markets closed mixed in Monday trading with the Stoxx 600 down 0.1%, Germany's DAX fr
+  url: https://finnhub.io/api/news?id=295240b390fbcd2980dda163a0bed032ba1aea83cec61bf4c8b03dbdfd2fb521

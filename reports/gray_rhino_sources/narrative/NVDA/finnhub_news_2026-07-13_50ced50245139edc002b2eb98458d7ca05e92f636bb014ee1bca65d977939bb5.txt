@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Hits New All-Time High. Here’s Why It Will Top $5 Trillion and Nvidia
+  summary: Apple just hit an all-time high, and the same forces that once looked like threats to its business may now be the very things that push it past Nvidia to become the world's most valuable company.
+  url: https://finnhub.io/api/news?id=63a739158001b646d58f04dab6d07f119f7be9f07d369a62f29077ecafa574e2

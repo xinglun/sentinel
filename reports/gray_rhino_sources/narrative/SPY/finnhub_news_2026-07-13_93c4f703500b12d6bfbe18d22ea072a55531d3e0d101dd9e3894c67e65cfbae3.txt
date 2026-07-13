@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 7 Numbers That Should Make A Prudent Investor Say 'Whoa!'
+  summary: The key market warning signs? Read why tech concentration, stretched valuations, and housing headwinds can lead to trouble for investors.
+  url: https://finnhub.io/api/news?id=89b00f20ff3e92a7ecc93748ec4bae0bcd72dafdac0b92439af7c3fa61a4da3d

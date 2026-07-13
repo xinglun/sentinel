@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is What to Know Beyond Why Alphabet Inc. (GOOGL) is a Trending Stock
+  summary: Recently, Zacks.com users have been paying close attention to Alphabet (GOOGL). This makes it worthwhile to examine what the stock has in store.
+  url: https://finnhub.io/api/news?id=8451800326cd76428d2a34942e25f27fe62bfda33c9ca36a64d99d789115a6ca

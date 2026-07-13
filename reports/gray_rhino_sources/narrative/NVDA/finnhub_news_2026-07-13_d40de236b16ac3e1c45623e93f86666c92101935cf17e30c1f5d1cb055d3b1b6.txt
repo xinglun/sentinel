@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starbucks Wants to Cut $400 Million in Software Costs. Toast Investors Should Pay Attention.
+  summary: Starbucks is ditching legacy software vendors for homegrown AI tools. Here's why that could eventually benefit companies like Toast.
+  url: https://finnhub.io/api/news?id=f4b4a30532608ef8b362265bbfbc2a6c248f2efeb5cb70310e2afdea54a27c6d

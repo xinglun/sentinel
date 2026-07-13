@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Stock Slides After ‘Leading Competitor’ China's Reusable Rocket Launch – So, Why Is Bernstein Still Bullish?
+  summary: Bernstein named China as SpaceX’s "leading competitor" following Beijing's first successful landing of a reusable rocket booster.
+  url: https://finnhub.io/api/news?id=f581601ad26a3cd5c78306cd179bf4d9c7b6ca6305892314e46ddfdaea721787

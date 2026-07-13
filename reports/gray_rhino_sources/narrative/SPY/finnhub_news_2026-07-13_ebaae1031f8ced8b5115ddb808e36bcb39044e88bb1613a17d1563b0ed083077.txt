@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QUAL Is At A Record. Don't Make The Obvious Mistake.
+  summary: A new peak for this quality-focused fund feels like a moment to act, but the smartest move might be the one that requires the most patience.
+  url: https://finnhub.io/api/news?id=d0b8d3024c959a6867b6b7601447cafde56839a1f0b0f8ae5199d0aa6467827c

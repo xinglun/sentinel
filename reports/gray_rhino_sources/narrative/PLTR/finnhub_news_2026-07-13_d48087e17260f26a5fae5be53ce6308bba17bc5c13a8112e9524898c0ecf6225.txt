@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Innodata Raises Outlook as AI Demand Broadens Across New Workloads
+  summary: INOD's expanding AI services and raised outlook highlight its growth story, but customer concentration remains a key risk.
+  url: https://finnhub.io/api/news?id=a73374878f3163dd5a8629f846d69e3e2ccb014e59f6096483c9952de460d99e

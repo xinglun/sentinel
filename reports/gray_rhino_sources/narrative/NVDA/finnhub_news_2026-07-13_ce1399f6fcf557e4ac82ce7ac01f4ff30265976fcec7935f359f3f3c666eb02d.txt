@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Won’t Buy A Rivian
+  summary: Rivian keeps winning SUV awards, but a growing list of red flags is making at least one longtime car shopper walk away for good. The quality scores, the pricing, the service gaps, and the CEO's pay package all tell a troubling story.
+  url: https://finnhub.io/api/news?id=c4cefd876783c1709fa9fd25b96b861946843f66d694607f24427dd43782dbdf

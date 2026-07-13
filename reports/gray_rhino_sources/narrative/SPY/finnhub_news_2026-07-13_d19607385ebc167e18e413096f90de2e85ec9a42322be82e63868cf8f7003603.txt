@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chart Of The Day: The 'IPO Overload' Counterargument
+  summary: 2026 looks like a solid year for issuance - but not a wildly exuberant one. It doesnât look like weâve reached a tipping point yet. Read more here...
+  url: https://finnhub.io/api/news?id=9deaae67371c0987aea5d643855f366885a487bf9e220dec88a0d637b1c15872

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Bought $54 Million Worth Of SpaceX Stock Last Week
+  summary: Cathie Wood's ARK Invest was extremely active last week, adding SpaceX and Meta, while selling AMD and Robinhood stock.
+  url: https://finnhub.io/api/news?id=f9b778750087e7257dcaa89a698cc3abdd980ec775cf51eb75bfbabbca689d65

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Banks to Hit Earnings Season With High Hopes: ETFs in Focus
+  summary: Big bank earnings are here. Positive Earnings ESPs, and healthy fundamentals put financial ETFs like IYG, KBE and VFH in focus. Can the rally last?
+  url: https://finnhub.io/api/news?id=48b6a2133ec52e302fccd2e6d41c093237b44685921b2b97c8808ed6d970d4d2

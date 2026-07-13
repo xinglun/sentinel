@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 1 Reason Jim Cramer Won’t Stop Buying Nvidia
+  summary: Jim Cramer keeps pounding the table on one chip stock even as rivals flood the AI market with competing silicon. The reason he gives sounds almost too simple, but the financials suggest he has a point.
+  url: https://finnhub.io/api/news?id=b68c019528300c6a1fcd3515a7725db8cc1a98d0bb07651700aa4ee6169397b3

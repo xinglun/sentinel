@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CSQ: Trading Below Its Historical Discount
+  summary: CSQ remains a buy at a 9.13% NAV discount with a 7.8% yield.
+  url: https://finnhub.io/api/news?id=3e6e50fab155555cf1e2d90bd2c2543669ee632102970d9b9b3e754496e034b6

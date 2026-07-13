@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Rackspace Technology Stock Is Finally Starting to Look Attractive
+  summary: Rackspace stock is falling after cutting its revenue and announcing a planned stock offering.
+  url: https://finnhub.io/api/news?id=74139dc238c91758afd2f5bf183de0c71d9a525f4fdfccb675dbf041a4937f74

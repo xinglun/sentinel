@@ -1,0 +1,22 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Critical 4 Hours Ahead, Korea And Iran Drive Selling In US Stocks
+  summary: 
+
+
+
+Important Data Ahead
+
+
+
+Please click here for an enlarged chart of Direxion Daily Semiconductor Bull 3X ETF (NYSE:SOXL).
+
+
+
+Note the following:
+
+
+
+
+Semiconductors are the leading sector that has been driving the
+  url: https://finnhub.io/api/news?id=c755c89cb2dfc2d1ec93e03aa10d2c82797ce041638f1dd23eba32626708224d

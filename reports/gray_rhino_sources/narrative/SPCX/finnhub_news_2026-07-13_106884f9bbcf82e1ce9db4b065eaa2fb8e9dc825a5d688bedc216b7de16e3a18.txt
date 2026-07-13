@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX and AST SpaceMobile Fall 5%, Rocket Lab Sheds 4% as China Rocket Milestone and Oil Spike Hit Space Stocks
+  summary: A surprise milestone from China's space program just cracked the story Wall Street told itself about American rocket dominance, and it sent shockwaves through a sector already rattled by spiking oil prices.
+  url: https://finnhub.io/api/news?id=cc6a1ca3d17f92488568a9ac74327961123c804a1366bb6e69c354617c4490c1

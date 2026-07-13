@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As SpaceX stock dips near IPO price, bulls like BofA's Epstein say buy on 'launch leadership'
+  summary: Another analyst on Wall Street is getting on board the SpaceX trade, just as the stock hits a weak moment.
+  url: https://finnhub.io/api/news?id=4435af8c387da3b1901e9f1ccc6d1209eabd6a49ad435ee53b61b6791bc7cef8

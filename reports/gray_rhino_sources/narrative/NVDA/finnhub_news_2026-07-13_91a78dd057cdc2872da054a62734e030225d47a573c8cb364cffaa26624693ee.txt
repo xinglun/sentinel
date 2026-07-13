@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ASML Holding's Next Earnings Report on July 15 Could Send the Stock Soaring. Here's Why.
+  summary: The earnings report could be significant for the entire industry.
+  url: https://finnhub.io/api/news?id=2e25e15c8fe271343578b5311cdbd434c299014872bb4c71e50c9e4145ea254f

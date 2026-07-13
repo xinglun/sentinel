@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ranking the "Magnificent 7" Stocks by Free-Cash-Flow Yield
+  summary: The artificial intelligence (AI) boom is altering the financial landscape of America's largest tech companies.
+  url: https://finnhub.io/api/news?id=a455756fcf49cc351f2e4c2ca395272206ccb37a6d19b1a932823cf0ae9face9

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Cut 16,000 Jobs While Bezos Predicts AI Will Create a Labor Shortage
+  summary: Jeff Bezos just told a Paris crowd that AI will cause a labor shortage, five months after his own company cited AI to justify cutting thousands of jobs. The contradiction runs deeper than it looks.
+  url: https://finnhub.io/api/news?id=2f29b6a23de6bc0bf7ea8c73bd8c9a8b3165d990ae1bf26e92334fd17be8e3a2

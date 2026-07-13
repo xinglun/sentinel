@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Could Hit a $400 Billion Market Cap by the End of 2027, and Here Is Why Investors Should Pay Attention
+  summary: An expanding AI platform makes the $400 billion market cap case compelling, but Palantir investors still need to watch the risks.
+  url: https://finnhub.io/api/news?id=adc4b9bc1beb3f5ca6351009a6032aeda9bba6c237b4756b665690ce9b54a90b

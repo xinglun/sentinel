@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX is So Complex, It Took 3 Analysts to Call It a ‘Buy’
+  summary: SpaceX’s ambitions span many industries, which is creating a problem for Wall Street brokers covering the stock.
+  url: https://finnhub.io/api/news?id=0b9f7825c93723aac465b9b554351ca726b2df813495a3e5193fdfc5372e8926

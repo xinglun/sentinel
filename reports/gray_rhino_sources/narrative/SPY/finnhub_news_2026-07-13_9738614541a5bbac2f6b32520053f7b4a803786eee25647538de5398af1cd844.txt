@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UN's Shipping Agency Spokesperson Says Awaiting Further Details On Trump Comment That U.S. Will Charge 20% For Cargo Through Hormuz; UN's Shipping Agency Against Charging Fees For Any Strait Used For International Navigation; No Legal Basis For Introducing Mandatory Tolls For Transit Through A Strait
+  summary: - Reuters
+  url: https://finnhub.io/api/news?id=f0382f9d15526d0d70fcd6d7b5e092152315eaeeb5ac392e99bf66a4d0cb1905

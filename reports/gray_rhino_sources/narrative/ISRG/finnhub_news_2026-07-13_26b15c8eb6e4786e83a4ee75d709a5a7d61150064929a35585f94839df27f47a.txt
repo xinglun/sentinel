@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Has +35% Upside: A Compelling Buy Story Before July 16
+  summary: Intuitive Surgical (NASDAQ:ISRG) looks compelling ahead of its July 16 earnings report, and the setup rarely gets this clean for a category leader trading well below fair value. Shares sit at $413.58, down 26.71% YTD, while the 247 base-case target of $559.79 implies 35.35% upside. Wall Street sits higher still at $563.35, with 22 buy ... Intuitive Surgical Has +35% Upside: A Compelling Buy Story Before July 16
+  url: https://finnhub.io/api/news?id=087b5685a9462b95788424a1d6cfb48b2ecca25fbdba085caa948b1a96b5afbe

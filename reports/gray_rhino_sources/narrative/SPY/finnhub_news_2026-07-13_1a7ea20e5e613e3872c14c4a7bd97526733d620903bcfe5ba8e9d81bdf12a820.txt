@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Palo Alto Networks (PANW) Do You Own By Accident?
+  summary: Your diversified ETFs may have quietly made a concentrated bet on this single cybersecurity stock for you.
+  url: https://finnhub.io/api/news?id=1f64ae09b086f5a7c52abdf48156737a5ddb230cf55b3c1beee088a2a6cdc6df

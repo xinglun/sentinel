@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Why You Should Consider Buying After The IPO Bubble Implodes
+  summary: SpaceX AI shift could drive explosive 2030 growthâ$365B revenue potential but high volatility and unlock risk. Click for more on SPCX stock.
+  url: https://finnhub.io/api/news?id=acbb4cea47be2b9251bc3a92838582142d4995a715088fed9c96702c6ed38e3c

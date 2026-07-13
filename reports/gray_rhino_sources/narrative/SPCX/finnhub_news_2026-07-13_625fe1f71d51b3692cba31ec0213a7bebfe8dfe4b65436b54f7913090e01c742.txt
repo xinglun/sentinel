@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AI Running Out Of Money?
+  summary: Tech giants are borrowing at a pace that would have seemed unthinkable just a few years ago, betting that AI revenues will eventually justify the load. But skeptical investors, blocked construction projects, and corporate silence about real returns are raising questions the industry does not yet have answers for.
+  url: https://finnhub.io/api/news?id=bc78c352c55abdcb80bc4b300413c6c9ac24d9e943dac3abcbb61ed9923e763b

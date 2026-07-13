@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Sell-Off: How investors should navigate the market
+  summary: Yahoo Finance Executive Editor Brian Sozzi sits down with Visible Alpha Head of TMT Research Melissa Otto to discuss how investors should navigate the technology sector following its recent market sell-off.
+  url: https://finnhub.io/api/news?id=8435df224924bad4944dc0a5aef0ec056b6d0b638902ab7f23030a7cf0bf2e08

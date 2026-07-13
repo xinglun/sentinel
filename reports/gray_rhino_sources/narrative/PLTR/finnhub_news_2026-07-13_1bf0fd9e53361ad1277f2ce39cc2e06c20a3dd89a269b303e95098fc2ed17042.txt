@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global Eyes AI Infrastructure Shift as Palantir Integration Nears
+  summary: Zeta Global (NYSE:ZETA) executives said the company is moving beyond its core marketing technology positioning and toward what they described as an AI infrastructure and business intelligence platform, supported by recently announced partnerships with Palantir, OpenAI and Snowflake. Speaking during
+  url: https://finnhub.io/api/news?id=e410eaef67d2a614aedb641a5a43d6d090bac11cd9c80005934f9bd94f6717a4

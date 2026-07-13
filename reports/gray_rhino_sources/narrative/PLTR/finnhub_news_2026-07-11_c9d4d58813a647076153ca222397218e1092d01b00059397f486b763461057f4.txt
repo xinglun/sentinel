@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MarketBeat Week in Review – 07/06 - 07/10
+  summary: MarketBeat recaps the week's top stories, covering SK Hynix's debut, AI stock rotation, earnings from D.R. Horton, and analysis of Palantir, Microsoft, Meta, Broadcom, Rivian, ASML, and Circle.
+  url: https://finnhub.io/api/news?id=98c8c1e0411974102a1fe09ac4bd4be0aed2671348c0f1c84a429787ec7007ad

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Invests €5 Billion in Irish Hub to Keep Up in AI Chip Race
+  summary: (Bloomberg) -- Intel Corp. is spending €5 billion ($5.7 billion) to expand its plant in Ireland, as the chipmaker attempts to regain its manufacturing dominance for the AI boom.Most Read from BloombergLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Hormuz Route Open Despite Iran Declaration, Maritime Group SaysOpenAI Engineer’s ‘LOL’ Moment Set Stage for Legal Fight With AppleTrump Embraces Australian Retirement System Backed by Larry FinkUS Renews Iran Strikes as Both Sides Dispute Hor
+  url: https://finnhub.io/api/news?id=47acae58e4f3c01565822d2520008ed218eea9ebd428d877ae2130565610a43a

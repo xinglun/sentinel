@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: California Attorney General Rob Bonta Today Led A Coalition Of 12 Attorneys General In Filing A Lawsuit Challenging The $110B Acquisition Of Warner Bros. Discovery By Paramount Skydance
+  summary: https://oag.ca.gov/news/press-releases/attorney-general-bonta-files-lawsuit-block-110-billion-warner-brosparamount
+  url: https://finnhub.io/api/news?id=143e1037a34050b11bd37ce771e91534e169cb723c7d4ea6c693630859c3be1e

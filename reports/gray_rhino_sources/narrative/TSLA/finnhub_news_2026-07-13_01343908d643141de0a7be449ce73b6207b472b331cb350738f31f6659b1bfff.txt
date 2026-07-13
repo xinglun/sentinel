@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Slip As Iran Tensions Rattle Markets Again: Why MU, TSLA, BATL, SKHYV, MSFT, TSM, SLS Are In Focus
+  summary: Stocktwits data showed retail sentiment remained ‘bullish’ around SPY and ‘neutral’ on QQQ.
+  url: https://finnhub.io/api/news?id=e8eb63f4c558c3df1a1f66c01c0777ba6eabea843318b51bc5921cf1bf8d021b

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Galaxy’s Mike Novogratz Warns AI Is Quietly Commoditizing Humans, Calls Palantir CEO's TV Rant Most Honest He's Seen
+  summary: Novogratz linked AI concerns to broader market trends, suggesting investor capital is rotating between AI-related stocks and crypto assets.
+  url: https://finnhub.io/api/news?id=eb3d9b49a3e8db991acf09500f8d44de61e6601f277fb22db1d5c72b8dd1f16a

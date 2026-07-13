@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Earnings Setup Just Changed
+  summary: Tesla, Inc. beats delivery estimates by 18% as inventory shrinks; analysts raise EPS/revenue forecasts. Click for this TSLA earnings preview.
+  url: https://finnhub.io/api/news?id=a90baceed9dbfc631be59949425ee002c98671ca2f51076ca2c30177064baef5

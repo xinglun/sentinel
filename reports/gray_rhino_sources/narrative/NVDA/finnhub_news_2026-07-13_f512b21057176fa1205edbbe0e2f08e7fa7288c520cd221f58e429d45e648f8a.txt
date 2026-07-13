@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mortgage Rates Are Heading Higher. Here's What It Means for Homebuilder Stocks.
+  summary: Homes continue to become less affordable, which is bad news for builders.
+  url: https://finnhub.io/api/news?id=ea377258d0974611b64c310f8cb3a371d7545406fd95c5f53166fdc73df566c1

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Ondas Drive Growth Through AI-Powered Defense Systems?
+  summary: ONDS expands AI-powered autonomous defense with new platforms, Palantir partnership and DZYNE acquisition while raising 2026 revenue guidance.
+  url: https://finnhub.io/api/news?id=808bb2a590390a3af350d3f7750bcfcfc1e9920887b401a028d7bca7a306c45b

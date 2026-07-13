@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BOTZ: There Are Better Options
+  summary: 
+  url: https://finnhub.io/api/news?id=a6b641ac95b6e3bb0d9a02743ec42a47f1cc2c6ecda8f8c3926cdf25d9ee275d

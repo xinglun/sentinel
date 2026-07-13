@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SK Hynix Stock Jumped After US IPO, But SpaceX, Figma, Circle Suggest Retreat Likely
+  summary: SK Hynix stock soared after its recent US IPO, but recent IPOs, including the likes of SpaceX, Figma and Circle suggest a retreat is coming.
+  url: https://finnhub.io/api/news?id=18afc14e852ff2dea87071d8ada9934fead4f1248eb4ba761f07e36d626a5f03

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After a Stock Split, Is Now the Right Time to Buy CrowdStrike Stock?
+  summary: CrowdStrike's stock has been strong, helped by accelerating ARR growth and a stock split.
+  url: https://finnhub.io/api/news?id=4b022f7aeb160e98b13655a2ce8453a72e6808353d7bee65006f91e8b154129d

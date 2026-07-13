@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Gets All the Attention, but These 3 Under-the-Radar Defense Stocks Have Stronger Fundamentals
+  summary: SpaceX stock is the most popular kid in school today -- but these three defense stocks work harder for your money.
+  url: https://finnhub.io/api/news?id=bbc8340b8d367915df46b626eec42d905563d9018e453f5a521528852f3dd83e

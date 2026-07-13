@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: For Palantir To Justify Its Current Share Price, It Would Need To Increase Revenue To $42 Billion By 2030
+  summary: Palantir must achieve ~$42B in revenue and a 61% FCF margin by 2030 to justify its current valuation. See why I rate PLTR stock a Hold now.
+  url: https://finnhub.io/api/news?id=c2065b7da7a06cfceb1fcc5f664a93b87d51f947db3f6b5b847d699b8a2d6b82

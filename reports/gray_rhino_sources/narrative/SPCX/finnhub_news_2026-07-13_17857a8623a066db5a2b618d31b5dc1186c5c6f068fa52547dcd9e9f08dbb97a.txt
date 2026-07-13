@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XOVR Expands Private Market Strategy with $30 Million Investment in Kalshi
+  summary: ERShares, adviser to the ERShares Private-Public Crossover ETF (NASDAQ: XOVR), today announced that XOVR has invested $30 million in Kalshi, a federally regulated prediction market company, as part of the Fund's latest rebalance.
+  url: https://finnhub.io/api/news?id=693f77c59361a25caed61271a3e56a269d62ae8f8c81e12ceddbdbc12b951f66

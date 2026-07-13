@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apex Fintech Solutions Releases Q2 2026 Investor Pulse Report: SpaceX IPO Draws Universal Demand as Retail Rotates Into the AI Buildout
+  summary: NEW YORK, July 13, 2026--Apex Fintech Solutions Inc. ("Apex"), the infrastructure powering modern investing, today released its Q2 2026 Apex Investor Pulse report, revealing that the public-market debut of SpaceX (SPCX) drew cross-generational demand to become the quarter's single largest net buy, even as retail investors rotated out of the spring's energy and commodity winners and into the AI infrastructure buildout led by memory chips.
+  url: https://finnhub.io/api/news?id=ff3e1d3d456cc847f3fe4328e8d8c86849e3374b81e2a56356f5e0053ed84a69

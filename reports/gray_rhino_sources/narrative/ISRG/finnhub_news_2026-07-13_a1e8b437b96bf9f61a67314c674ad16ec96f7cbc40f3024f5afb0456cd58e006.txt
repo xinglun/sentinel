@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC Could Swing $150 Billion as Options Market Prices Big Moves for This Week’s Earnings
+  summary: TSMC, JPMorgan, ASML, Netflix and more report earnings next week. See the options-implied moves, market caps and billions in market value at stake.
+  url: https://finnhub.io/api/news?id=fe2cc42d718bb0ede68b078e17a8e90e9c2cdfed4ed647b4dee06d264e76c81d

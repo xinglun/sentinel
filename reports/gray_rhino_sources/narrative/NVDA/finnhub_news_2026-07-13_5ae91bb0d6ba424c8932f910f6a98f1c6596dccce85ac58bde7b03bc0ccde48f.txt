@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Nvidia-Backed Darlings are Great Dip-Buys, Say Pros
+  summary: Jensen Huang has been placing bold bets on optical connectivity firms that could define the next chokepoint of the AI race, and a recent market pullback may have just handed investors a rare entry point into his favorite picks.
+  url: https://finnhub.io/api/news?id=b5312311bb56eab1e9526cc119daa435f3aec4cde43830530d80749aa3e7909b

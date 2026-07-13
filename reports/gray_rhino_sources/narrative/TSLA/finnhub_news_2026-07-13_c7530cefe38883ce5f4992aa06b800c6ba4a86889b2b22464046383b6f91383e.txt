@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is Falling. Can Robots Arrive Soon Enough to Save It?
+  summary: Tesla decommissioned its Model S and X production in less than seven weeks. The plan is to replace the S and X with humanoid robots.
+  url: https://finnhub.io/api/news?id=7c54289946b36276f77a102496c8397f29d4e45ecd57f6df1e58768756fdc8fd

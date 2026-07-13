@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Vs. Nvidia: Meta Has Quietly Emerged as the Strongest Mega-Cap Alternative This Summer
+  summary: Both Meta and NVIDIA delivered blowout quarters on the same AI wave, yet investors treated the two stocks very differently this summer. One company quietly flipped its biggest cost line into a potential revenue stream, and that changes the comparison entirely.
+  url: https://finnhub.io/api/news?id=221f52333c8f5e936e515c4d390fbb457ef442d24dd4e8e8fe476c764eaa6be8

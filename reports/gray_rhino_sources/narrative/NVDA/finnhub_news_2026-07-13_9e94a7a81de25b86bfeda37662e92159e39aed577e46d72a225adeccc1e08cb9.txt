@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are Plenty of Reasons to Buy Netflix Stock. This Is the One Investors Shouldn't Overlook.
+  summary: Itʻs been four years since Netflix stock has been this cheap.
+  url: https://finnhub.io/api/news?id=aa5ed81558fb1f9320cd57f3fb6835242b637597decec24771ffe583db612d2c

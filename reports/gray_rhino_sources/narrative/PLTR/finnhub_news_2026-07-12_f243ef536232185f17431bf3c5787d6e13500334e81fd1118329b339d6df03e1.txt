@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citi Analysts Name Three Tech Stocks to Buy Ahead of Earnings
+  summary: Citi analysts believe that some of the top tech stocks to buy ahead of earnings are companies like Figma, Microsoft, and Palantir.
+  url: https://finnhub.io/api/news?id=ef58038da71c87976d549dfc6b4c6b487d2d306a1c12d4dc8b617e75e7e2d65a

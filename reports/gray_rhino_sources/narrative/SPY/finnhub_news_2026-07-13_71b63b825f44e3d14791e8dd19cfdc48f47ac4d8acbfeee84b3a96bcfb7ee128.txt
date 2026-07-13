@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Slides On New U.S.-Iran Strikes; SK Hynix Plunges (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose, while the Nasdaq dropped Monday on new U.S.-Iran strikes. SK Hynix plunged in morning trading.
+  url: https://finnhub.io/api/news?id=966ddaa9c15b770e7f6d3115e2029d65a80125f510369fc96d9fabeec4db5130

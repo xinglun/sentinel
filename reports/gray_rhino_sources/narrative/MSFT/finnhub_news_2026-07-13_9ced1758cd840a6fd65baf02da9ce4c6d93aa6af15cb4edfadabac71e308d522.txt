@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer on Meta: “Zuckerberg’s Not a Bozo, You Can Quote Me on That”
+  summary: Meta Platforms, Inc. (NASDAQ:META) was among Jim Cramer’s stock calls on Mad Money, as he advised investors to stick with the largest tech companies in the market. Cramer discussed the company’s competition, as he stated: Consider what each of these companies really is. Hey, why don’t we start with Meta? Okay, that’s become a real […]
+  url: https://finnhub.io/api/news?id=8d9ccff30c741a1b1c46e2a5de384772074b91ff36d1966bd70b5b7b4ee189f5

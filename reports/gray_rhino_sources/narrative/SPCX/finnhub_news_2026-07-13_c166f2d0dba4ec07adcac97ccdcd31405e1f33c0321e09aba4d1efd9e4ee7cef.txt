@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is So Complex, It Took 3 Analysts to Call It a Buy
+  summary: SpaceX’s ambitions span many industries, which is creating a problem for Wall Street brokers covering the stock.
+  url: https://finnhub.io/api/news?id=9a205dc71218eeecc62213bf426317d1c770b3432f14929dd2f5520ad8e7f355

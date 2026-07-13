@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Ultimate Low-Stress Reliable Retirement Income Portfolio
+  summary: Discover a low-stress, diversified income portfolio strategy with specific picks to boost dividend growth and yield. Read more macro analysis here.
+  url: https://finnhub.io/api/news?id=3a9ca70e792711b6a319dd0be92fb5a6c6f9c2a24ac7605fdd87130190581178

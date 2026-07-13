@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI’s Sam Altman criticizes Elon Musk’s space data center plans amid public feud
+  summary: OpenAI (Unlisted:OPAI) CEO Sam Altman has criticized Elon Musk’s plans for space-based data centers, accusing the SpaceX Corp (NASDAQ:SPCX) and xAI leader of promoting an unproven technology to public market investors as the two technology executives continued their long-running dispute. The...
+  url: https://finnhub.io/api/news?id=f55caad635fb963faec50357fcaaf0aac92f5faa2178e540d20931d3e7ef6641

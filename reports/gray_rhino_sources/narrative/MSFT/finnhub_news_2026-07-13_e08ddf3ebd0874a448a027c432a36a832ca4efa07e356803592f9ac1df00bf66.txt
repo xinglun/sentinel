@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Moves From Pilots to Production at the World's Largest Developer Event
+  summary: WeAreDevelopers World Congress brought 15,000 attendees, more than 500 speakers and technology leaders from NVIDIA, Amazon, Microsoft, Google Cloud, Atlassian, SAP, Salesforce and IBM to Berlin, under the patronage of Germany's Federal Ministry for Digital Transformation and Government Modernisation. Next stops: San Jose, CA, and Bengaluru, India.San José, CA / Berlin, DE, July 13, 2026 (GLOBE NEWSWIRE) -- The software industry has stopped asking whether AI can build software and started asking
+  url: https://finnhub.io/api/news?id=78bda40a75b3e85f6f0ee79a609f9d7ec53cd44c0127336874772ea2c9eec3c3

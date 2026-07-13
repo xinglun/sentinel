@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy, Sell or Hold: My View On Microsoft As AI Capex Costs Rise
+  summary: Microsoft has fallen 20% this year while its AI business accelerates at a triple-digit clip and its commercial backlog swells past half a trillion dollars, which raises an uncomfortable question about whether the market is punishing the wrong variable.
+  url: https://finnhub.io/api/news?id=609684cfa2ea7f71fbd584e847816edc43178d7587ed92943a3e0a016e8509f6

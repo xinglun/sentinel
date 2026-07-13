@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rackspace Technology (RXT) Is Down 6.6% After Revenue Cut And Dilutive AI Pivot Announcement – Has The Bull Case Changed?
+  summary: Earlier this week, Rackspace Technology cut its 2026 revenue guidance to US$2.45–2.55 billion, reduced expected adjusted EBITDA, and outlined exits from low-margin public cloud resale and legacy hosting while launching a US$250 million at-the-market equity program to fund an enterprise AI push. At the same time, Rackspace deepened its AI focus by becoming Palantir’s preferred operator for regulated and sovereign deployments and committing to expand AMD-powered AI capacity, effectively...
+  url: https://finnhub.io/api/news?id=90968530f6da7c25ee8c183c6ac704f424a7db66e26a6b68e7630888a6678bf0

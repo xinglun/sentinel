@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What a $5,000 Investment in SpaceX Could Be Worth by 2028
+  summary: The analyst community is optimistic about SpaceX, but retail investors should look at more than just their price targets when making investment decisions.
+  url: https://finnhub.io/api/news?id=a086067b29b475d9dfd58e1d35fe78461a346248c8501945f2a392aefa167d0a

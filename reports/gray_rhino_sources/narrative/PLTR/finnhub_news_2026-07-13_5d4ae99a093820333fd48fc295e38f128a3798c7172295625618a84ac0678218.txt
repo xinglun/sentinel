@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is INOD Stock a Buy After Strong Growth and a Rich Valuation?
+  summary: Innodata's rapid AI growth and margin gains support its outlook, but can its premium valuation withstand execution risks?
+  url: https://finnhub.io/api/news?id=11ce607d6cd8f606c3f99a29c18984550dda6045297d967255a3501c427bc86d

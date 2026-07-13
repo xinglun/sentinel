@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Price of Tesla Stock Is Three Years Away
+  summary: The premium you see on the sticker today isn't what a patient investor is actually paying for the company's future.
+  url: https://finnhub.io/api/news?id=5f76ce6b80610aab6e185e2662c085add1d0e193c537df9f7520dd89acf61abf

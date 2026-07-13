@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Conflicting Consumer Sentiment Data
+  summary: The June consumer sentiment reading of 91.2 is near the level reached during the depths of the COVID recession period. Read more here.
+  url: https://finnhub.io/api/news?id=b004409d68680ffaf30f09425a44828b8af5e3405978722d13f5fe02a80d7c9d

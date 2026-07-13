@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congress Is Trading on Laws They’re About to Pass — And It’s Perfectly Legal
+  summary: Lawmakers are buying and selling stocks in the exact industries they regulate, and nothing about it breaks the law. Here is what the latest filings reveal about where congressional money is moving before the votes happen.
+  url: https://finnhub.io/api/news?id=1cc06670e47403149ad23f9f2f9e20364f2297f40efbd91677f18c861f82c8eb

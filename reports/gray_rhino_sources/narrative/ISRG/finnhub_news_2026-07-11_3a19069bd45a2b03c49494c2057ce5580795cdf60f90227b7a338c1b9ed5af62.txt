@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Stock Looks Close To Fair Value Today
+  summary: Intuitive Surgical stock has returned 28.4% over the past five years, yet its current checks point to a company that is not clearly cheap, with an intrinsic value estimate from a Discounted Cash Flow (DCF) model sitting close to the market price while earnings based multiples lean expensive. Over five years, a 28.4% share price gain suggests Intuitive Surgical has rewarded patient holders, even though shorter term returns have been weaker. Growth expectations tied to expanding robotic...
+  url: https://finnhub.io/api/news?id=4b8f2e30b5f23b95572c2459d7b3f9e2866f8660d6d76f43333f64877cdf46b7

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains Why He Thinks Google Can Defeat Competitors in AI
+  summary: Alphabet Inc. (NASDAQ:GOOGL) was among Jim Cramer’s stock calls on Mad Money, as he advised investors to stick with the largest tech companies in the market. Cramer highlighted the company’s position in the AI race, as he commented: How about Google? Alright, now, they raised a ton of money recently and basically capped the terrific […]
+  url: https://finnhub.io/api/news?id=08b536e53271c320e1deeee969c0b9647b4cc13780104e17392993f88d7f50db

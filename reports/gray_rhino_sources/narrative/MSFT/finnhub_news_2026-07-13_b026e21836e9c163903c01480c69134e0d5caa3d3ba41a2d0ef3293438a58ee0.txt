@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A $10,000 Investment in Microsoft When Satya Nadella Took Over Is Worth This Much Today
+  summary: Satya Nadella inherited a company many had written off and spent a decade making bets that seemed reckless at the time. Whether those bets still look brilliant depends entirely on which window of time you examine.
+  url: https://finnhub.io/api/news?id=09edf344eaf048f533e9c6b80985b9d36920ec9ad88111e6375153bb7a24f530

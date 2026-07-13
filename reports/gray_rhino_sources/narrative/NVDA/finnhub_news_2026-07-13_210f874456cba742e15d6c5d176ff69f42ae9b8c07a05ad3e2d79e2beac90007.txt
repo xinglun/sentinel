@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did Nio Stock Jump Today?
+  summary: One Wall Street firm sees more than 45% upside for Nio stock.
+  url: https://finnhub.io/api/news?id=2d15258bd633f6e5e548e63bfacc6fdfa192fd876931aec2fa6f77641c1145f1

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom and Marvell Are Bigger Threats to Nvidia Than You Know
+  summary: Nvidia still dominates AI training, but a quiet shift in how hyperscalers spend their next trillion dollars is opening a lane for two chip designers most investors have barely considered.
+  url: https://finnhub.io/api/news?id=e0e5ab6c2aced8d5a6a688a5221223d211800810d5dd731f3b1cf270de482785

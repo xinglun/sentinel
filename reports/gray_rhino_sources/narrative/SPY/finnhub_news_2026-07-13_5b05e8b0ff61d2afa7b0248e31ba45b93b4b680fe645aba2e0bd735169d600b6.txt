@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump On Truth Social Says Hormuz Strait Is Open, And Will Remain Open, With Or Without Iran; Reinstating Iranian Blockade; U.S.A. Will Be Known As " Guardian Of Hormuz Strait," But Will Be Reimbursed At Rate Of 20% On All Cargo Shipped; Process And Formation Will Begin Immediately
+  summary: https://truthsocial.com/@realDonaldTrump/posts/116913091653271692
+  url: https://finnhub.io/api/news?id=6abf87f05383274b3e71b00e12aef54a5ef8add67ad1b2c17bdc02899b60a2ce

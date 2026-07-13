@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Can’t Stop Buying Amazon Stock
+  summary: Every time Wall Street panics over Amazon's massive capital spending tab, one investor hits the buy button again. Here is the contrarian case that the loudest critics are confusing a bill for a bet they cannot afford to miss.
+  url: https://finnhub.io/api/news?id=c7e8a32c91016cd9d09899d907cf257c4f029492d8f08380fa53195be771abeb

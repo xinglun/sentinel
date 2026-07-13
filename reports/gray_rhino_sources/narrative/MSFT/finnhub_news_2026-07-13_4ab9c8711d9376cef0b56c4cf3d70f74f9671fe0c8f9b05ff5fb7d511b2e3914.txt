@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Data Center Spending Is Outpacing Every Forecast on Wall Street. These 2 Stocks Are the Best Pick-and-Shovel Plays.
+  summary: Analysts had no idea how big this would be.
+  url: https://finnhub.io/api/news?id=2ac1bf9bfddabb34cb54846807159438d1e51393c989ca83cdbdac0b093d1beb

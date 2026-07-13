@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: South Korean vehicle import sales surge 37% in June
+  summary: Imports continue to be driven by strong demand for BEVs, led by Tesla and BYD.
+  url: https://finnhub.io/api/news?id=72dcd1f0711e7c7b5a7b37c4528ad0af4b0186a53c91c96c1db24d295d91947e

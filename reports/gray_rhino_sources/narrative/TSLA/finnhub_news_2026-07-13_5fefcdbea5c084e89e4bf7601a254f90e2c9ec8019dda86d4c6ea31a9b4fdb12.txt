@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s $600 Billion Rally Fueled by Traders Fleeing AI Selloff
+  summary: (Bloomberg) -- Investors are flocking back to Apple Inc. as nervousness about artificial intelligence spending weighs on the stocks of chipmakers and cloud-computing giants. Most Read from BloombergLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Hormuz Route Open Despite Iran Declaration, Maritime Group SaysOpenAI Engineer’s ‘LOL’ Moment Set Stage for Legal Fight With AppleTrump Embraces Australian Retirement System Backed by Larry FinkUS Renews Iran Strikes as Both Sides Dispute Hormuz
+  url: https://finnhub.io/api/news?id=78811c0f71ddef6c20d7af907cc18a06cfb75c66ac984a86b1833ca1ed2c59be

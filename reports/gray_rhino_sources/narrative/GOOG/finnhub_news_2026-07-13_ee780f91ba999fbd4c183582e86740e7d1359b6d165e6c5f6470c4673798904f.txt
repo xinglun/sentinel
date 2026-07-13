@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nona Ehyaei Real Estate Sees Surge in AI Professionals Buying Homes as San Francisco's AI Boom Reshapes Housing Demand
+  summary: San Francisco Realtor Nona Ehyaei says AI professionals are increasingly buying homes near Mission Bay and Noe Valley, creating new opportunities for sellers. Thinking about buying a home in Noe Valley? In this video, I break down what it’s really like to live in one of San Francisco’s most desirable neighborhoods - from sunshine and walkability to home prices, schools, and the realities buyers need to understand before making a move. All the major tech shuttles from Google, Meta, Apple, Nvidia,
+  url: https://finnhub.io/api/news?id=37bdbfbf34059e1386739bda9a1f134a4b7d0e3cb4f975360163ebb05e2bb2bd

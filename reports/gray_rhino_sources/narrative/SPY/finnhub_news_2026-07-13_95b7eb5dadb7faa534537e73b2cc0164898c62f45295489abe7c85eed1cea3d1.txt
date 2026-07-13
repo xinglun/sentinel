@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crude Oil Higher; Earnings Kick Off To Highlight Week
+  summary: Thereâs a lot on tap this week that could steer the markets down a number of paths.
+  url: https://finnhub.io/api/news?id=ca96d62fa7194f360593ce23eec43f5c707f92e8ff2d09533938a55cb15d30b1

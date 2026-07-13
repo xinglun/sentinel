@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Banks Set to Pull in Almost $39 Billion From Trading
+  summary: (Bloomberg) -- Wall Street’s trading bonanza is poised to keep rolling. Most Read from BloombergLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Hormuz Route Open Despite Iran Declaration, Maritime Group SaysTrump Embraces Australian Retirement System Backed by Larry FinkOpenAI Engineer’s ‘LOL’ Moment Set Stage for Legal Fight With AppleUS Renews Iran Strikes as Both Sides Dispute Hormuz StatusThe biggest US banks — set to kick off a marathon Tuesday with five of those firms reporting se
+  url: https://finnhub.io/api/news?id=3382d5ec688baf1f79c68d15d67915328582cfd23bc47291bbd8a19b652e3c8f

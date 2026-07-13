@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reken Launches From Stealth, to Build an Internet Safe for Humans
+  summary: Reken, an AI cybersecurity company, today announced its emergence from stealth, introducing a new on-device AI security software platform and the first product built on that platform, to address the worldwide problem of safety and trust in online communications.
+  url: https://finnhub.io/api/news?id=ad5b36cba141cadde6750aa86e9268b3eabfbb157668161672db2445462a72b1

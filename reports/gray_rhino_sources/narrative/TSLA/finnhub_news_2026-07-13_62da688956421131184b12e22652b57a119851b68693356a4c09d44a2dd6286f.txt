@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk and Altman Clash Again
+  summary: The rivalry now spans lawsuits, AI models and competing business plans.
+  url: https://finnhub.io/api/news?id=4b9cd6ea5bc7ae0be926cfd4397e402dd98f864697d2f8d4d0d35e4dc5267d99

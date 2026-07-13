@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir Technologies' Stock Price in 2030
+  summary: Palantir Technologies stock may be expensive right now, but its growing share of the AI software platforms market points toward substantial upside.
+  url: https://finnhub.io/api/news?id=6f5b75a77e4899a0141f46a6e82920338cbd71dc4eb624eb3f11e4cf4297bb3b

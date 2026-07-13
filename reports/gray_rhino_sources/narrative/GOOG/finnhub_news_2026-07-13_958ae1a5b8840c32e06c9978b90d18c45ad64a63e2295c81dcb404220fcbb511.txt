@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Micron, and other chip players are poised to become cash-producing machines
+  summary: Chip players are churning out cash while hyperscalers spend big on the AI build-out.
+  url: https://finnhub.io/api/news?id=651787bdd01e7d4809925eeb1e95c1b3609221087f45b49985fb5b262b744e23

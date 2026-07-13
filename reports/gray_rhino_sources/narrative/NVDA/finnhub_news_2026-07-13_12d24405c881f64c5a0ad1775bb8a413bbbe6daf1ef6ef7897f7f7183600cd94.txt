@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Stocks So Cheap It's Like Christmas in July
+  summary: There are still bargains to be had these days. The first name will surprise you.
+  url: https://finnhub.io/api/news?id=12faa92dcc1d1093d7c6415b78388ea4edd8ee456ba860cb0651ff4feac8cf0a

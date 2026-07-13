@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Overture Maps Foundation Reaches 50 Members as Industry Converges on Open Data to Ground AI
+  summary: Overture Maps Foundation, a collaborative effort to build a foundational base layer of map data to facilitate data exchange, today announced it has reached 50 members, nearly doubling its 2024 count, as more industries turn to open spatial data to ground AI systems in the real world.
+  url: https://finnhub.io/api/news?id=c97e0efdf3d2c73b0046040872e1999fd63f4ffa9622f6cc3608746acff9ebd2

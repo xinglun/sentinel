@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet’s $1 Trillion Ad Dominance Is Facing New Threats
+  summary: Alphabet is pouring more cash into AI infrastructure each year than most companies generate in a lifetime, and the ad empire funding that bet is showing cracks in places investors have not had to worry about before.
+  url: https://finnhub.io/api/news?id=22a4bf3071000df7f15142c764d02a366cc444d5a1917a6f74619377182950de

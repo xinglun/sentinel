@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paper Transport Expands Sustainable Transportation Portfolio with Tesla
+  summary: Paper Transport (PTI), a leading dedicated transportation provider, today announced a partnership with Tesla to evaluate the Tesla Semi Long Range in dedicated operations within the Chicago market.
+  url: https://finnhub.io/api/news?id=3ce6bd04d1568b8d4534910c42c8496fe141ef84b1f0db44fe62436762af7a45

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX at All-Time Low a Month After IPO: Time to Buy SPCX or Wait?
+  summary: SPCX has fallen 35% from its peak, but Starlink profits, Starship progress and AI ambitions support a hold-and-watch approach.
+  url: https://finnhub.io/api/news?id=3afc2faa40f164c9e120a28585bc7070190b5e1922c96b840581f66beb0ea0c5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Drops 35% From Peak Despite $75 Billion Record IPO
+  summary: AI expansion, index additions, and bullish analyst initiations failed to prevent post-IPO profit-taking.
+  url: https://finnhub.io/api/news?id=fd89db7bce59529b948ae188961939c0081d1f9ae3445290209b4d63085262dd

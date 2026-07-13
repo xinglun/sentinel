@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Trade Desk Appoints Penry Price to Board of Directors
+  summary: VENTURA, Calif., July 13, 2026--The Trade Desk (Nasdaq: TTD), the world's leading independent advertising technology company, today announced the appointment of Penry Price to its board of directors.
+  url: https://finnhub.io/api/news?id=18b9e875db45299ed462f252fdee00ceb19282605a5350b8aa5220a767f5ecfb

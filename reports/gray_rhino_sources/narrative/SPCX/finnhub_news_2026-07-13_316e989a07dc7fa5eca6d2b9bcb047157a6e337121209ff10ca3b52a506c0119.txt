@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX & Google will boost big bank earnings, but can the AI-driven supercycle really last?
+  summary: Big banks are kicking off second quarter earnings season on Tuesday, with reports from JPMorgan (JPM), Goldman Sachs (GS), Wells Fargo (WFC), Bank of America (BAC), and Citigroup (C). Morgan Stanley (MS) posts its results on Wednesday. Yahoo Finance Senior Reporter David Hollerith explains what investors need to know.
+  url: https://finnhub.io/api/news?id=c15605a42b726a1f7c51bef8509a385e013b67e41b8aa21df86d208c70c254dd

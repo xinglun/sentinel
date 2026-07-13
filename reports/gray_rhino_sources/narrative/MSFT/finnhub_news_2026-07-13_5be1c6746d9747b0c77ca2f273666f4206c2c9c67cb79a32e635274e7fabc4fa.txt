@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street’s Bar for Big Tech Is on the Floor, and That Could Spark the Next Rally
+  summary: Wall Street is bracing for the worst out of Big Tech's Q2 earnings, and that gap between dread and reality may be exactly what sends the next rally higher. Five hyperscalers report soon, starting with Microsoft on July 29, and the setup looks nothing like the fear priced in.
+  url: https://finnhub.io/api/news?id=93c1e4fd22bc08ec1dd6fcdb14b96431ef6b10bfb02197469439ccbfe6ab48c8

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jeff Bezos Backed Grail Before It Lost Half Its Value. Here's Whether He Was Early -- or Just Wrong.
+  summary: The fate of Grail's stock will ultimately be decided in the cost-benefit calculations of medical insurers.
+  url: https://finnhub.io/api/news?id=90e0e66755494ed0410222990f94a2c2a247faec8c05db0a956b5a7206bae5a5

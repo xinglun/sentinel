@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Isn’t Cheap Anymore. Buy, Sell or Hold?
+  summary: Tesla just posted its strongest earnings inflection in years, yet the stock sits at a valuation that prices in a future most investors have never seen before. The real question is whether that future arrives on schedule or falls apart in Q2.
+  url: https://finnhub.io/api/news?id=1586a96f761578bd5b6c33c5251ca66c512846cdb0117bb7c72879e4aa57c09d

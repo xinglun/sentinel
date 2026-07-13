@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Expands AI Data Center to 5GW, Raises Investment Above $50 Billion
+  summary: Hyperion project grows from 2GW as Meta deepens AI infrastructure spending in Louisiana.
+  url: https://finnhub.io/api/news?id=688091d7f0473cb43a6f79e9279754b8a6fe0a42ba04cf6adbf778ce1e6b3dc5

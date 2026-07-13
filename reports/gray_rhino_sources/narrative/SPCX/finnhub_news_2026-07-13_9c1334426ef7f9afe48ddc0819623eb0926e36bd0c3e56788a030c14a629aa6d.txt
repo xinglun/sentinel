@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Price Targets Are Out for SpaceX, and You Won't Believe How High Some of Them Are
+  summary: It isn't just investors who are bullish about SpaceX; some analysts also have rosy outlooks for the business.
+  url: https://finnhub.io/api/news?id=cb8a0cb114024d77dc284df586ec27db736794390d39b577b13df933028cdebd

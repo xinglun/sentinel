@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO has a blunt verdict on OpenAI and Anthropic
+  summary: Palantir posted the highest revenue growth rate in its history in the first quarter of fiscal year 2026. U.S. commercial revenue jumped 133%. The company raised its full-year guidance by 10 points. By any operational measure, things are going well. And yet Alex Karp walked onto CNBC's Squawk Box ...
+  url: https://finnhub.io/api/news?id=2985ba8b5a5b2136e22c8b67964c7ee1f2618f7df9a2efc620e2544fde1ada61

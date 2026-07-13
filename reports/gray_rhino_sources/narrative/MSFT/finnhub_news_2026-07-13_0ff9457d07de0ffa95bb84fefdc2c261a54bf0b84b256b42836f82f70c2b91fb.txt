@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $6 Billion Cybersecurity Prize Tech Giants Are Circling
+  summary: SentinelOne has quietly built a cybersecurity platform that four of the world's most powerful tech companies would each benefit from owning, but for very different reasons. Only one of them makes a clean strategic case without antitrust landmines or cultural resistance getting in the way.
+  url: https://finnhub.io/api/news?id=bd451216bd154be78eef908cda7d27fe33cb910bbeecfe5560d75f6f43d3d124

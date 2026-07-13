@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cramer’s Ultimatum to Palantir: Disavow the “Satanic” Video Today
+  summary: Jim Cramer spent two years telling investors to trust Palantir, so when he walked onto Mad Dash and called a company-produced video satanic, the enterprise software world took notice and so did the stock.
+  url: https://finnhub.io/api/news?id=aae25d3be86a8bd6fd8b4f7be45efad56d5b952da0e3d3607131d4f02308568e

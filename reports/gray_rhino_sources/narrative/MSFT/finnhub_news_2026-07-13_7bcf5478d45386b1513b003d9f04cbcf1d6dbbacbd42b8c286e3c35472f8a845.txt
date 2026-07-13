@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Relic Announces Hein Hellemons as Chief Revenue Officer
+  summary: SAN FRANCISCO, July 13, 2026--New Relic, the Intelligent Observability company, announced the appointment of Hein Hellemons as Chief Revenue Officer (CRO). Hellemons will oversee the company’s worldwide revenue and go-to-market strategy, leading global sales, commercial segments, and partner channel organizations to drive predictable, substantial growth.
+  url: https://finnhub.io/api/news?id=c5ccc545c09b3b210fe637b9291b45d64a71ce8a2b187f4d911d50b7099ddc27

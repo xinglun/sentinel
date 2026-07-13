@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says “Don’t Sell Apple”
+  summary: Apple Inc. (NASDAQ:AAPL) was among Jim Cramer’s stock calls on Mad Money, as he advised investors to stick with the largest tech companies in the market. Cramer discussed the company’s AI strategy, as he said: You know what held back Apple for ages? Its lack of data centers spending, lack of it… See, all that’s […]
+  url: https://finnhub.io/api/news?id=9f87cd589a9872efa32657a33a5459340e42b437e1415ce2c32d6eac3ed19fbd

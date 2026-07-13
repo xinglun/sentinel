@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: An Elite Bet On The Software Recovery
+  summary: Palantir's key risks include government contract exposure and competitive threats from Snowflake, Databricks, and AI labs. Learn why PLTR stock is a buy.
+  url: https://finnhub.io/api/news?id=97c80b68c12d9d6de0ff53eeea279f317a84961ae24f5f9d5955771d917cc9d6

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Intuitive Surgical (ISRG) Fairly Valued On Its Recall News?
+  summary: Intuitive Surgical (ISRG) is in focus after voluntarily recalling certain Da Vinci surgical system components tied to a potential E-brake pin issue. This development is prompting fresh attention on product risk and how it might factor into the stock. See our latest analysis for Intuitive Surgical. Against this backdrop, Intuitive Surgical’s short term share price momentum has softened, with the stock down 4.5% over the past week and 9.7% over the past 90 days. However, the 3 year total...
+  url: https://finnhub.io/api/news?id=43e3f32f1db1b7e7f9092d348841d953d2937b40722283a124b01290e7fadad4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Sued OpenAI for Stealing Secrets, Elon Musk Couldn’t Resist Piling On
+  summary: Apple just accused OpenAI of running a coordinated theft operation targeting its most sensitive hardware secrets, and the lawsuit landed at the worst possible moment for a company quietly preparing the most anticipated AI IPO in history.
+  url: https://finnhub.io/api/news?id=a73d716cc2071b9462b785c637d96553f07f613d68d5f9032d85b146724c79f7
