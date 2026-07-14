@@ -2923,7 +2923,7 @@ fallback_survivability_risk = "MODERATE"
     assert!(stdout.contains("- 趋势: 稳定（STABLE）"));
     assert!(stdout.contains("Future IPO 队列"));
     assert!(stdout.contains(
-        "Anthropic: IPO 阶段 传闻（Rumor） · Lifecycle 传闻（Rumor） · Evidence 传闻（Rumor）"
+        "Subject: Anthropic · Event Type: 传闻（Rumor） · Expected Window: future window · Status: 传闻（Rumor） · Source Quality: unavailable · Lifecycle: 传闻（Rumor）"
     ));
     assert!(stdout.contains("发现"));
     assert!(stdout.contains("新增:"));

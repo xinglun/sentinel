@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use chrono::Datelike;
 use std::sync::Arc;
 
 use crate::config;
@@ -9,6 +10,9 @@ use crate::features::radar::application::delivery_plan::{
 use crate::features::radar::application::execution_gate::TradingLimits;
 use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::market_change_driver::{
+    build_market_change_driver, MarketChangeSnapshot,
+};
 use crate::features::radar::domain::rules::{
     ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
 };
@@ -431,6 +435,12 @@ pub(crate) async fn run_pipeline(
                     .persistence
                     .save_leader_observation(&observation)?;
             }
+            if let Some(timeline_entry) = build_observation_timeline_entry(&packet, &pres_packet) {
+                let expected_dates = recent_trading_dates(packet.date);
+                runtime_services
+                    .persistence
+                    .save_observation_timeline_entry(timeline_entry, &expected_dates)?;
+            }
             if let Some(log) = &packet.transition_log {
                 let _ = runtime_services
                     .transition_logger
@@ -438,8 +448,13 @@ pub(crate) async fn run_pipeline(
             }
         }
 
+        let mut report_context = build_report_render_context(config_arc.as_ref());
+        report_context.observation_timeline = runtime_services
+            .persistence
+            .load_latest_observation_timeline()
+            .unwrap_or_default();
         let mut report_result = report::generate_refined_report(
-            &build_report_render_context(config_arc.as_ref()),
+            &report_context,
             &pres_packet,
             realized_pl,
             &positions,
@@ -495,6 +510,55 @@ pub(crate) async fn run_pipeline(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn build_observation_timeline_entry(
+    packet: &DecisionPacket,
+    presentation: &PresentationPacket,
+) -> Option<crate::features::radar::domain::observation_timeline::ObservationTimelineEntry> {
+    let leadership = presentation.leadership_snapshot.as_ref()?;
+    let interpretation = presentation.market_interpretation.as_ref()?;
+    Some(
+        crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
+            date: packet.date,
+            primary_leader: leadership.primary_leader_value.clone(),
+            secondary_leaders: leadership.secondary_leaders_values.clone(),
+            breadth_score: interpretation
+                .breadth_score_value
+                .parse()
+                .unwrap_or_default(),
+            concentration_score: interpretation
+                .concentration_score_value
+                .parse()
+                .unwrap_or_default(),
+            rotation_score: interpretation
+                .rotation_score_value
+                .parse()
+                .unwrap_or_default(),
+            confidence_index: packet.market_features.system_confidence,
+            market_state: format!("{:?}", packet.market_regime.market_state),
+            supply_phase: interpretation.supply_confidence_value.clone(),
+            risk_state: format!("{:?}", packet.market_regime.risk_overlay),
+            day_type: interpretation.day_type_value.clone(),
+        },
+    )
+}
+
+fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
+    let mut dates = Vec::with_capacity(7);
+    let mut date = current;
+    while dates.len()
+        < crate::features::radar::domain::observation_timeline::OBSERVATION_TIMELINE_DAYS
+    {
+        let is_weekend = matches!(date.weekday(), chrono::Weekday::Sat | chrono::Weekday::Sun);
+        let is_nyse_holiday = crate::features::research::interface::macro_event_official_calendar_adapter::nyse_market_holidays(date.year()).contains(&date);
+        if !is_weekend && !is_nyse_holiday {
+            dates.push(date);
+        }
+        date -= chrono::Duration::days(1);
+    }
+    dates.sort_unstable();
+    dates
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -577,6 +641,7 @@ fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderCo
             rules.trend_cohesion.gate_stability_threshold,
         ),
         compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+        observation_timeline: None,
     }
 }
 
@@ -893,71 +958,83 @@ fn build_market_change_log_view_model(
     } else {
         format!("unchanged at {:.1}", current_confidence)
     };
-    let current_interpretation_value = current_market_interpretation
-        .map(|interpretation| interpretation.narrative_values.join(" | "))
-        .unwrap_or_else(|| "Trend continuation.".to_string());
-    let previous_interpretation_value = previous_market_interpretation
-        .map(|interpretation| interpretation.narrative_values.join(" | "))
-        .unwrap_or_else(|| current_interpretation_value.clone());
-    let mut change_dimensions = Vec::new();
-    if current_leader != previous_leader {
-        change_dimensions.push("primary leader ranking");
-    }
-    if breadth_value != previous_breadth_value {
-        change_dimensions.push("breadth threshold");
-    }
-    if risk_value != "unchanged" {
-        change_dimensions.push("risk overlay");
-    }
-    if supply_phase_value != previous_supply_phase_value {
-        change_dimensions.push("supply phase");
-    }
-    if (current_confidence - previous_confidence).abs() >= 0.5 {
-        change_dimensions.push("confidence");
-    }
-    let execution_changed = previous_presentation.is_some_and(|previous| {
-        previous.decision_summary.action_status_value
-            != pres_packet.decision_summary.action_status_value
-    });
-    if execution_changed {
-        change_dimensions.push("execution decision");
-    }
-    let structural_change_detected = change_dimensions
-        .iter()
-        .any(|dimension| *dimension != "primary leader ranking")
-        || current_interpretation_value != previous_interpretation_value;
-    let interpretation_value = if structural_change_detected {
-        match language {
-            crate::features::shared::interface::i18n::Language::ZhCn => {
-                format!(
-                    "变化等级: moderate（依据：{}）",
-                    change_dimensions.join("、")
-                )
-            }
-            crate::features::shared::interface::i18n::Language::EnUs => {
-                format!(
-                    "Structural change: moderate (basis: {}).",
-                    change_dimensions.join(", ")
-                )
-            }
-            crate::features::shared::interface::i18n::Language::JaJp => {
-                format!(
-                    "構造変化: moderate（根拠: {}）。",
-                    change_dimensions.join("、")
-                )
-            }
+    let current_day_type = current_market_interpretation
+        .map(|interpretation| interpretation.day_type_value.clone())
+        .unwrap_or_else(|| "NORMAL".to_string());
+    let previous_day_type = previous_market_interpretation
+        .map(|interpretation| interpretation.day_type_value.clone())
+        .unwrap_or_else(|| current_day_type.clone());
+    let current_ranked_leaders = std::iter::once(current_leader.clone())
+        .chain(
+            current_leadership_snapshot
+                .secondary_leaders_values
+                .iter()
+                .cloned(),
+        )
+        .collect::<Vec<_>>();
+    let previous_ranked_leaders = previous_leadership_snapshot
+        .map(|snapshot| {
+            std::iter::once(previous_leader.clone())
+                .chain(snapshot.secondary_leaders_values.iter().cloned())
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_else(|| vec![previous_leader.clone()]);
+    let previous_score = previous_presentation
+        .and_then(|presentation| presentation.leader_persistence.as_ref())
+        .map(|persistence| persistence.leadership_score)
+        .unwrap_or(0.0);
+    let current_score = pres_packet
+        .leader_persistence
+        .as_ref()
+        .map(|persistence| persistence.leadership_score)
+        .unwrap_or(0.0);
+    let change = build_market_change_driver(
+        &MarketChangeSnapshot {
+            primary_leader: previous_leader.clone(),
+            breadth_classification: previous_breadth_value.clone(),
+            supply_phase: previous_supply_phase_value.clone(),
+            market_state: prev_packet
+                .map(|prev| format!("{:?}", prev.market_regime.market_state))
+                .unwrap_or_else(|| format!("{:?}", packet.market_regime.market_state)),
+            risk_state: prev_packet
+                .map(|prev| format!("{:?}", prev.market_regime.risk_overlay))
+                .unwrap_or_else(|| format!("{:?}", packet.market_regime.risk_overlay)),
+            day_type: previous_day_type,
+            confidence: previous_confidence,
+            score: previous_score,
+            ranked_leaders: previous_ranked_leaders,
+        },
+        &MarketChangeSnapshot {
+            primary_leader: current_leader.clone(),
+            breadth_classification: breadth_value.clone(),
+            supply_phase: supply_phase_value.clone(),
+            market_state: format!("{:?}", packet.market_regime.market_state),
+            risk_state: format!("{:?}", packet.market_regime.risk_overlay),
+            day_type: current_day_type,
+            confidence: current_confidence,
+            score: current_score,
+            ranked_leaders: current_ranked_leaders,
+        },
+    );
+    let change_level = format!("{:?}", change.change_level).to_ascii_uppercase();
+    let interpretation_value = match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => {
+            format!(
+                "变化等级: {change_level}（依据：{}）",
+                change.change_drivers.join("、")
+            )
         }
-    } else {
-        match language {
-            crate::features::shared::interface::i18n::Language::ZhCn => {
-                "没有明显结构变化。".to_string()
-            }
-            crate::features::shared::interface::i18n::Language::EnUs => {
-                "No meaningful structural change.".to_string()
-            }
-            crate::features::shared::interface::i18n::Language::JaJp => {
-                "No meaningful structural change.".to_string()
-            }
+        crate::features::shared::interface::i18n::Language::EnUs => {
+            format!(
+                "Change level: {change_level} (drivers: {}).",
+                change.change_drivers.join(", ")
+            )
+        }
+        crate::features::shared::interface::i18n::Language::JaJp => {
+            format!(
+                "変化レベル: {change_level}（根拠: {}）。",
+                change.change_drivers.join("、")
+            )
         }
     };
     let mut summary_values = Vec::new();
@@ -984,10 +1061,11 @@ fn build_market_change_log_view_model(
         format!("Supply phase remains {supply_phase_value}.")
     });
     summary_values.push(format!("Confidence: {confidence_value}."));
-    if change_dimensions.len() == 1 && change_dimensions[0] == "primary leader ranking" {
-        summary_values.push("Relative-strength ordering changed only; regime, risk, confidence, and execution decision are unchanged.".to_string());
-    } else if !change_dimensions.is_empty() {
-        summary_values.push(format!("Change basis: {}.", change_dimensions.join(", ")));
+    if !change.change_drivers.is_empty() {
+        summary_values.push(format!(
+            "Change basis: {}.",
+            change.change_drivers.join(", ")
+        ));
     }
     summary_values.push(interpretation_value.clone());
 
@@ -1006,11 +1084,11 @@ fn build_market_change_log_view_model(
         interpretation_label: "Market Interpretation".to_string(),
         interpretation_value,
         structural_change_label: "Structural change".to_string(),
-        structural_change_value: if structural_change_detected {
-            "moderate".to_string()
-        } else {
-            "none".to_string()
-        },
+        structural_change_value: change_level.clone(),
+        change_level,
+        change_drivers: change.change_drivers,
+        unchanged_dimensions: change.unchanged_dimensions,
+        summary: change.summary,
         summary_label: "Summary".to_string(),
         summary_values,
         boundary: "Boundary: observation only; this log does not change trading, Gate, Execution, Trader, or Position Sizing.".to_string(),

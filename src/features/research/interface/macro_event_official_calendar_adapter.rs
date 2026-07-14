@@ -980,7 +980,7 @@ fn nth_weekday_of_month(
     None
 }
 
-fn nyse_market_holidays(year: i32) -> Vec<NaiveDate> {
+pub(crate) fn nyse_market_holidays(year: i32) -> Vec<NaiveDate> {
     vec![
         NaiveDate::from_ymd_opt(year, 1, 1).expect("valid new year"),
         observed_mlk_day(year),

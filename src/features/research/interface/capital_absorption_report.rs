@@ -644,6 +644,10 @@ fn push_ai_ipo_queue(
     queue: &[CapitalAbsorptionIpoQueueItem],
     language: Language,
 ) {
+    if queue.is_empty() {
+        out.push_str("Future Queue details unavailable.\n\n");
+        return;
+    }
     push_supply_queue(
         out,
         capital_absorption_ai_ipo_queue_label(language),
@@ -659,29 +663,34 @@ fn push_supply_queue(
     language: Language,
 ) {
     if queue.is_empty() {
+        out.push_str(label);
+        out.push_str(": unavailable\n\n");
         return;
     }
     out.push_str(label);
     out.push_str(":\n");
-    for item in queue {
-        let sources = if item.source_count > 0 {
+    for item in queue.iter().take(3) {
+        let source_quality = if item.source_count > 0 {
             format!(
-                " · {} {}",
+                "{} {}",
                 capital_absorption_sources_count_label(language),
                 item.source_count
             )
         } else {
-            String::new()
+            "unavailable".to_string()
         };
+        let expected_window = item
+            .observation_day
+            .map(|days| format!("within {days} days"))
+            .unwrap_or_else(|| "future window".to_string());
         out.push_str(&format!(
-            "- {}: {} {} · Lifecycle {} · {} {}{}\n",
+            "- Subject: {} · Event Type: {} · Expected Window: {} · Status: {} · Source Quality: {} · Lifecycle: {}\n",
             item.issuer,
-            capital_absorption_ipo_stage_label(language),
-            capital_absorption_ipo_queue_status_value(item.status, language),
-            capital_absorption_lifecycle_status_value(item.lifecycle_status, language),
-            capital_absorption_evidence_label(language),
             capital_absorption_event_type_value(item.event_type, language),
-            sources
+            expected_window,
+            capital_absorption_ipo_queue_status_value(item.status, language),
+            source_quality,
+            capital_absorption_lifecycle_status_value(item.lifecycle_status, language)
         ));
     }
     out.push('\n');

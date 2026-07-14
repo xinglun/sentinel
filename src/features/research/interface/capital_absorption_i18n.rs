@@ -381,14 +381,6 @@ pub(super) fn capital_absorption_drivers_label(language: Language) -> &'static s
     }
 }
 
-pub(super) fn capital_absorption_evidence_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "Evidence",
-        Language::EnUs => "Evidence",
-        Language::JaJp => "Evidence",
-    }
-}
-
 pub(super) fn capital_absorption_reported_count_label(language: Language) -> &'static str {
     match language {
         Language::ZhCn => "Reported Count",
@@ -458,14 +450,6 @@ pub(super) fn capital_absorption_sources_count_label(language: Language) -> &'st
         Language::ZhCn => "来源",
         Language::EnUs => "Sources",
         Language::JaJp => "ソース数",
-    }
-}
-
-pub(super) fn capital_absorption_ipo_stage_label(language: Language) -> &'static str {
-    match language {
-        Language::ZhCn => "IPO 阶段",
-        Language::EnUs => "IPO Stage",
-        Language::JaJp => "IPO 段階",
     }
 }
 

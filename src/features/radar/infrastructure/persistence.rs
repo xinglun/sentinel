@@ -1,6 +1,9 @@
 use crate::features::radar::application::execution_gate::ExecutionResult;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::leader_persistence::LeaderObservation;
+use crate::features::radar::domain::observation_timeline::{
+    ObservationTimeline, ObservationTimelineEntry,
+};
 use anyhow::{Context, Result};
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
@@ -61,6 +64,66 @@ impl PersistenceLayer {
             writeln!(file, "{}", serde_json::to_string(&value)?)?;
         }
         Ok(())
+    }
+
+    pub fn load_latest_observation_timeline(&self) -> Result<Option<ObservationTimeline>> {
+        let path = self.save_dir.join("observation_timeline_latest.json");
+        if !path.exists() {
+            return Ok(None);
+        }
+        let content = std::fs::read_to_string(path)
+            .context("Failed to read observation_timeline_latest.json")?;
+        Ok(Some(
+            serde_json::from_str(&content).context("Failed to deserialize observation timeline")?,
+        ))
+    }
+
+    pub fn save_observation_timeline(
+        &self,
+        timeline: &ObservationTimeline,
+        date: &str,
+    ) -> Result<()> {
+        let json = serde_json::to_string_pretty(timeline)
+            .context("Failed to serialize observation timeline")?;
+        std::fs::write(
+            self.save_dir.join("observation_timeline_latest.json"),
+            &json,
+        )
+        .context("Failed to write latest observation timeline")?;
+        std::fs::write(
+            self.save_dir
+                .join(format!("observation_timeline_{date}.json")),
+            &json,
+        )
+        .context("Failed to write dated observation timeline")?;
+        let mut file = OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(self.save_dir.join("observation_timeline.jsonl"))
+            .context("Failed to open observation_timeline.jsonl")?;
+        writeln!(file, "{}", serde_json::to_string(timeline)?)?;
+        Ok(())
+    }
+
+    #[allow(dead_code)]
+    pub fn save_observation_timeline_entry(
+        &self,
+        entry: ObservationTimelineEntry,
+        expected_trading_dates: &[chrono::NaiveDate],
+    ) -> Result<ObservationTimeline> {
+        let mut entries = self
+            .load_latest_observation_timeline()?
+            .map(|timeline| timeline.entries)
+            .unwrap_or_default();
+        entries.retain(|existing| existing.date != entry.date);
+        entries.push(entry);
+        let timeline =
+            crate::features::radar::domain::observation_timeline::build_observation_timeline(
+                &entries,
+                expected_trading_dates,
+            );
+        self.save_observation_timeline(&timeline, &entries.last().unwrap().date.to_string())?;
+        Ok(timeline)
     }
 
     pub fn load_latest_packet(&self) -> Result<Option<DecisionPacket>> {
@@ -351,6 +414,58 @@ mod tests {
         let loaded = layer.load_leader_observations().unwrap();
         assert_eq!(loaded.len(), 1);
         assert_eq!(loaded[0].leader, "MSFT");
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn observation_timeline_writes_latest_dated_and_jsonl_artifacts() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_observation_timeline_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 10).unwrap();
+        let timeline = ObservationTimeline {
+            history_coverage:
+                crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial,
+            entries: vec![ObservationTimelineEntry {
+                date,
+                primary_leader: "SPY".to_string(),
+                secondary_leaders: vec![],
+                breadth_score: 50.0,
+                concentration_score: 70.0,
+                rotation_score: 20.0,
+                confidence_index: 55.0,
+                market_state: "RANGE".to_string(),
+                supply_phase: "WATCH".to_string(),
+                risk_state: "NORMAL".to_string(),
+                day_type: "NORMAL".to_string(),
+            }],
+            summary: "NO_STRUCTURAL_CHANGE".to_string(),
+        };
+
+        layer
+            .save_observation_timeline(&timeline, &date.to_string())
+            .unwrap();
+
+        assert!(temp_dir.join("observation_timeline_latest.json").exists());
+        assert!(temp_dir
+            .join("observation_timeline_2026-07-10.json")
+            .exists());
+        assert!(temp_dir.join("observation_timeline.jsonl").exists());
+        assert_eq!(
+            layer
+                .load_latest_observation_timeline()
+                .unwrap()
+                .unwrap()
+                .entries
+                .len(),
+            1
+        );
+        let archive =
+            fs::read_to_string(temp_dir.join("observation_timeline_latest.json")).unwrap();
+        assert!(!archive.contains("过去 7 个交易日"));
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 

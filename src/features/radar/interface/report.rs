@@ -1,3 +1,4 @@
+use crate::features::radar::domain::observation_timeline::ObservationTimeline;
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary};
 use std::collections::HashMap;
@@ -12,6 +13,7 @@ pub struct ReportRenderContext {
     pub compact_transition_in_no_trade: bool,
     pub compact_stability_threshold: String,
     pub compact_continuity_threshold: String,
+    pub observation_timeline: Option<ObservationTimeline>,
 }
 
 #[derive(Clone, Copy)]
@@ -33,6 +35,7 @@ pub fn generate_refined_report(
         context.compact_transition_in_no_trade,
         &context.compact_stability_threshold,
         &context.compact_continuity_threshold,
+        context.observation_timeline.as_ref(),
     );
     let markdown = generate_markdown_report(
         pres,
@@ -40,6 +43,7 @@ pub fn generate_refined_report(
         context.compact_transition_in_no_trade,
         &context.compact_stability_threshold,
         &context.compact_continuity_threshold,
+        context.observation_timeline.as_ref(),
     );
     let archival_markdown = generate_markdown_report(
         pres,
@@ -47,6 +51,7 @@ pub fn generate_refined_report(
         context.compact_transition_in_no_trade,
         &context.compact_stability_threshold,
         &context.compact_continuity_threshold,
+        context.observation_timeline.as_ref(),
     );
 
     Ok(ReportResult {
@@ -62,6 +67,7 @@ fn generate_markdown_report(
     compact_transition_in_no_trade: bool,
     compact_stability_threshold: &str,
     compact_continuity_threshold: &str,
+    observation_timeline: Option<&ObservationTimeline>,
 ) -> String {
     let dict = get_dictionary(pres.language);
     let is_no_trade = final_execution_is_none(pres);
@@ -208,6 +214,11 @@ fn generate_markdown_report(
         pres.market_change_log.as_ref(),
         RenderMode::Markdown,
     ));
+    card.push_str(&render_observation_timeline_section(
+        observation_timeline,
+        pres.language,
+        RenderMode::Markdown,
+    ));
     if !compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
         card.push('\n');
         card.push_str(&transition_block);
@@ -272,6 +283,7 @@ fn generate_telegram_html_report(
     compact_transition_in_no_trade: bool,
     compact_stability_threshold: &str,
     compact_continuity_threshold: &str,
+    observation_timeline: Option<&ObservationTimeline>,
 ) -> String {
     let dict = get_dictionary(pres.language);
     let is_no_trade = final_execution_is_none(pres);
@@ -447,6 +459,11 @@ fn generate_telegram_html_report(
     ));
     card.push_str(&render_market_change_log_section(
         pres.market_change_log.as_ref(),
+        RenderMode::Html,
+    ));
+    card.push_str(&render_observation_timeline_section(
+        observation_timeline,
+        pres.language,
         RenderMode::Html,
     ));
     card.push_str(&render_leadership_snapshot_section(
@@ -1419,6 +1436,12 @@ fn render_market_change_log_section(
                 change_log.confidence_label, change_log.confidence_value
             ));
             block.push_str(&format!(
+                "  - Change Level: {}\n  - Change Drivers: {}\n  - Unchanged Dimensions: {}\n",
+                change_log.change_level,
+                change_log.change_drivers.join(", "),
+                change_log.unchanged_dimensions.join(", ")
+            ));
+            block.push_str(&format!(
                 "  - {}: {}\n",
                 change_log.interpretation_label, change_log.interpretation_value
             ));
@@ -1451,6 +1474,12 @@ fn render_market_change_log_section(
                 change_log.confidence_label, change_log.confidence_value
             ));
             block.push_str(&format!(
+                "  - Change Level: {}\n  - Change Drivers: {}\n  - Unchanged Dimensions: {}\n",
+                change_log.change_level,
+                change_log.change_drivers.join(", "),
+                change_log.unchanged_dimensions.join(", ")
+            ));
+            block.push_str(&format!(
                 "  - {}: {}\n",
                 change_log.interpretation_label, change_log.interpretation_value
             ));
@@ -1459,6 +1488,119 @@ fn render_market_change_log_section(
                 block.push_str(&format!("    - {}\n", line));
             }
             block.push_str(&format!("  - {}\n", change_log.boundary));
+        }
+    }
+    block.push('\n');
+    block
+}
+
+fn render_observation_timeline_section(
+    timeline: Option<&ObservationTimeline>,
+    language: crate::features::shared::interface::i18n::Language,
+    mode: RenderMode,
+) -> String {
+    let Some(timeline) = timeline else {
+        return String::new();
+    };
+    let coverage = match timeline.history_coverage {
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Complete => {
+            "COMPLETE"
+        }
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial => "PARTIAL",
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Unavailable => {
+            "UNAVAILABLE"
+        }
+    };
+    let (
+        title,
+        coverage_label,
+        summary_label,
+        leader_label,
+        breadth_label,
+        confidence_label,
+        supply_label,
+        change_summary,
+        points_label,
+    ) = match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => (
+            "市场演化观察",
+            "历史覆盖",
+            "7日摘要",
+            "主导者序列",
+            "市场广度序列",
+            "置信度序列",
+            "供给阶段序列",
+            if timeline.has_structural_change() {
+                "过去 7 个交易日出现结构性变化。"
+            } else {
+                "过去 7 个交易日未出现结构性变化。"
+            },
+            "观测点数",
+        ),
+        crate::features::shared::interface::i18n::Language::EnUs => (
+            "Observation Timeline",
+            "History Coverage",
+            "7-Day Summary",
+            "Leader sequence",
+            "Breadth sequence",
+            "Confidence sequence",
+            "Supply sequence",
+            if timeline.has_structural_change() {
+                "Structural change observed across the last 7 trading days."
+            } else {
+                "No structural change observed across the last 7 trading days."
+            },
+            "Observed points",
+        ),
+        crate::features::shared::interface::i18n::Language::JaJp => (
+            "市場進化観測",
+            "履歴カバレッジ",
+            "7日間サマリー",
+            "主導銘柄の推移",
+            "市場の広がりの推移",
+            "確信度の推移",
+            "供給局面の推移",
+            if timeline.has_structural_change() {
+                "直近 7 取引日に構造変化が観測されました。"
+            } else {
+                "直近 7 取引日に構造変化は観測されませんでした。"
+            },
+            "観測点数",
+        ),
+    };
+    let sequence = |value: &dyn Fn(
+        &crate::features::radar::domain::observation_timeline::ObservationTimelineEntry,
+    ) -> String| {
+        timeline
+            .entries
+            .iter()
+            .map(value)
+            .collect::<Vec<_>>()
+            .join(" → ")
+    };
+    let mut block = String::new();
+    match mode {
+        RenderMode::Markdown | RenderMode::Html => {
+            block.push_str(&format!("### {title}\n\n"));
+            block.push_str(&format!("  - {coverage_label}: {coverage}\n"));
+            block.push_str(&format!("  - {summary_label}: {change_summary}\n"));
+            block.push_str(&format!("  - {points_label}: {}\n", timeline.entries.len()));
+            block.push_str(&format!(
+                "  - {leader_label}: {}\n",
+                sequence(&|entry| entry.primary_leader.clone())
+            ));
+            block.push_str(&format!(
+                "  - {breadth_label}: {}\n",
+                sequence(&|entry| format!("{:.1}", entry.breadth_score))
+            ));
+            block.push_str(&format!(
+                "  - {confidence_label}: {}\n",
+                sequence(&|entry| format!("{:.1}", entry.confidence_index))
+            ));
+            block.push_str(&format!(
+                "  - {supply_label}: {}\n",
+                sequence(&|entry| entry.supply_phase.clone())
+            ));
         }
     }
     block.push('\n');

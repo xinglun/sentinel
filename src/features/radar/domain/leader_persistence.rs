@@ -11,6 +11,9 @@ pub enum LeaderState {
     New,
     Early,
     Established,
+    Dominant,
+    Fading,
+    Unavailable,
     Decaying,
     Rotating,
 }
@@ -21,6 +24,9 @@ impl LeaderState {
             LeaderState::New => "NEW",
             LeaderState::Early => "EARLY",
             LeaderState::Established => "ESTABLISHED",
+            LeaderState::Dominant => "DOMINANT",
+            LeaderState::Fading => "FADING",
+            LeaderState::Unavailable => "UNAVAILABLE",
             LeaderState::Decaying => "DECAYING",
             LeaderState::Rotating => "ROTATING",
         }
@@ -46,6 +52,8 @@ pub struct LeaderPersistenceResult {
     pub persistence_days: usize,
     pub observed_leadership_days: usize,
     pub history_coverage_complete: bool,
+    pub history_coverage: &'static str,
+    pub first_observed_at: Option<NaiveDate>,
     pub leadership_score: f64,
     pub previous_score: f64,
     pub current_breadth: Option<f64>,
@@ -73,6 +81,31 @@ pub fn build_leader_persistence(
         by_date.insert(observation.date, observation);
     }
     let observations = by_date.into_values().collect::<Vec<_>>();
+    if observations.is_empty() {
+        return Some(LeaderPersistenceResult {
+            current_leader: String::new(),
+            previous_leader: None,
+            persistence_days: 0,
+            observed_leadership_days: 0,
+            history_coverage_complete: false,
+            history_coverage: "UNAVAILABLE",
+            first_observed_at: None,
+            leadership_score: 0.0,
+            previous_score: 0.0,
+            current_breadth: None,
+            previous_breadth: None,
+            current_relative_strength: None,
+            previous_relative_strength: None,
+            current_rotation_stability: None,
+            previous_rotation_stability: None,
+            current_confidence: None,
+            previous_confidence: None,
+            leader_state: LeaderState::Unavailable,
+            switch_history: Vec::new(),
+            confidence_floor_met: false,
+            same_leader_as_previous: false,
+        });
+    }
     let current = observations.last().copied()?;
     let previous = observations.iter().rev().nth(1).copied();
 
@@ -82,6 +115,14 @@ pub fn build_leader_persistence(
         .iter()
         .filter(|observation| observation.leader == current.leader)
         .count();
+    let first_observed_at = (observations.len() > 1)
+        .then(|| {
+            observations
+                .iter()
+                .find(|observation| observation.leader == current.leader)
+                .map(|observation| observation.date)
+        })
+        .flatten();
     let history_coverage_complete = observations.len() >= LEADERSHIP_LOOKBACK_DAYS
         && observations.first().is_some_and(|first| {
             (current.date - first.date).num_days() >= (LEADERSHIP_LOOKBACK_DAYS - 1) as i64
@@ -104,7 +145,8 @@ pub fn build_leader_persistence(
     let recent_switches = recent_switch_count(observations.as_slice());
     let switch_history = build_switch_history(observations.as_slice());
 
-    let leader_state = determine_state(
+    let mut leader_state = determine_state(
+        observations.as_slice(),
         current_persistence_days,
         same_leader_as_previous,
         recent_switches,
@@ -113,6 +155,14 @@ pub fn build_leader_persistence(
         current,
         previous,
     );
+    let history_coverage = if observations.len() == 1 {
+        leader_state = LeaderState::Unavailable;
+        "UNAVAILABLE"
+    } else if history_coverage_complete {
+        "COMPLETE"
+    } else {
+        "PARTIAL"
+    };
 
     Some(LeaderPersistenceResult {
         current_leader: current.leader.clone(),
@@ -120,6 +170,8 @@ pub fn build_leader_persistence(
         persistence_days: current_persistence_days,
         observed_leadership_days,
         history_coverage_complete,
+        history_coverage,
+        first_observed_at,
         leadership_score: current_score,
         previous_score,
         current_breadth: current.breadth,
@@ -184,7 +236,9 @@ fn build_switch_history(observations: &[&LeaderObservation]) -> Vec<String> {
         .collect()
 }
 
+#[allow(clippy::too_many_arguments)]
 fn determine_state(
+    observations: &[&LeaderObservation],
     current_persistence_days: usize,
     same_leader_as_previous: bool,
     recent_switches: usize,
@@ -210,6 +264,17 @@ fn determine_state(
         None => return LeaderState::New,
     };
 
+    if meaningful_decline_streak(observations) >= 3 {
+        return LeaderState::Fading;
+    }
+
+    if current_persistence_days >= 8
+        && current.breadth.unwrap_or_default() >= 60.0
+        && current.relative_strength.unwrap_or_default() >= 60.0
+    {
+        return LeaderState::Dominant;
+    }
+
     if current_score + 1.0 < previous_score
         || metric_down(current.breadth, previous.breadth)
         || metric_down(current.relative_strength, previous.relative_strength)
@@ -227,6 +292,25 @@ fn determine_state(
         2 | 3 => LeaderState::Early,
         _ => LeaderState::Established,
     }
+}
+
+fn meaningful_decline_streak(observations: &[&LeaderObservation]) -> usize {
+    let mut streak = 0usize;
+    for pair in observations.windows(2).rev() {
+        let previous = pair[0];
+        let current = pair[1];
+        let score_declined = leadership_score(1, current) + 2.0 <= leadership_score(1, previous);
+        let relative_strength_declined = current
+            .relative_strength
+            .zip(previous.relative_strength)
+            .is_some_and(|(current, previous)| current + 2.0 <= previous);
+        if score_declined || relative_strength_declined {
+            streak += 1;
+        } else {
+            break;
+        }
+    }
+    streak
 }
 
 fn metric_down(current: Option<f64>, previous: Option<f64>) -> bool {
@@ -362,6 +446,8 @@ mod tests {
         assert_eq!(result.observed_leadership_days, 5);
         assert!(!result.history_coverage_complete);
         assert_eq!(result.current_leader, "SPY");
+        assert_eq!(result.history_coverage, "PARTIAL");
+        assert_eq!(result.first_observed_at, Some(start));
         assert_eq!(start, observations[0].date);
     }
 
@@ -463,5 +549,53 @@ mod tests {
         let result = build_leader_persistence(&observations).unwrap();
         assert_eq!(result.leader_state, LeaderState::Rotating);
         assert!(result.switch_history.len() >= 3);
+    }
+
+    #[test]
+    fn eight_day_leader_with_breadth_and_relative_strength_is_dominant() {
+        let start = NaiveDate::from_ymd_opt(2026, 7, 1).unwrap();
+        let observations = (0..8)
+            .map(|offset| LeaderObservation {
+                date: start + chrono::Duration::days(offset),
+                leader: "SPY".to_string(),
+                confidence: Some(70.0),
+                breadth: Some(60.0),
+                relative_strength: Some(60.0),
+                rotation_stability: Some(70.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            })
+            .collect::<Vec<_>>();
+
+        let result = build_leader_persistence(&observations).unwrap();
+
+        assert_eq!(result.leader_state, LeaderState::Dominant);
+    }
+
+    #[test]
+    fn three_consecutive_meaningful_declines_mark_leader_as_fading() {
+        let observations = vec![
+            observation((2026, 7, 1), "SPY", 90.0, 80.0, 80.0, 90.0),
+            observation((2026, 7, 2), "SPY", 90.0, 78.0, 78.0, 88.0),
+            observation((2026, 7, 3), "SPY", 90.0, 76.0, 76.0, 86.0),
+            observation((2026, 7, 4), "SPY", 90.0, 74.0, 74.0, 84.0),
+        ];
+
+        let result = build_leader_persistence(&observations).unwrap();
+
+        assert_eq!(result.leader_state, LeaderState::Fading);
+    }
+
+    #[test]
+    fn empty_or_single_observation_is_unavailable() {
+        assert_eq!(
+            build_leader_persistence(&[]).unwrap().history_coverage,
+            "UNAVAILABLE"
+        );
+        let single = observation((2026, 7, 1), "SPY", 80.0, 70.0, 70.0, 70.0);
+        let result = build_leader_persistence(&[single]).unwrap();
+        assert_eq!(result.history_coverage, "UNAVAILABLE");
+        assert_eq!(result.leader_state, LeaderState::Unavailable);
+        assert_eq!(result.first_observed_at, None);
     }
 }
