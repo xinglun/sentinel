@@ -65,6 +65,7 @@ fn report_context(config: &AppConfig) -> ReportRenderContext {
             rules.trend_cohesion.gate_stability_threshold,
         ),
         compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+        observation_timeline: None,
     }
 }
 

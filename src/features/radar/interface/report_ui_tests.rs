@@ -75,6 +75,7 @@ fn report_context(config: &AppConfig) -> ReportRenderContext {
             rules.trend_cohesion.gate_stability_threshold,
         ),
         compact_continuity_threshold: rules.trend_cohesion.gate_continuity_threshold.to_string(),
+        observation_timeline: None,
     }
 }
 
@@ -4162,6 +4163,8 @@ mod tests {
                 breakout_continuity_value: "5 days".to_string(),
                 history_coverage_label: "History Coverage".to_string(),
                 history_coverage_value: "PARTIAL".to_string(),
+                first_observed_at_value: Some("2026-07-01".to_string()),
+                previous_leader_value: Some("MSFT".to_string()),
                 history_note: Some("Leadership history unavailable before feature activation.".to_string()),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "82.4".to_string(),
@@ -5911,5 +5914,106 @@ mod tests {
             !body.contains("Stability score (1.1) below threshold (10.0)"),
             "Legacy English threshold message should be suppressed or localized"
         );
+    }
+
+    #[test]
+    fn main_report_renders_observation_timeline_summary() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let mut context = report_context(&config);
+        context.observation_timeline = Some(
+            crate::features::radar::domain::observation_timeline::ObservationTimeline {
+                history_coverage:
+                    crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial,
+                entries: vec![
+                    crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
+                        date: NaiveDate::from_ymd_opt(2026, 7, 13).unwrap(),
+                        primary_leader: "SPY".to_string(),
+                        secondary_leaders: vec![],
+                        breadth_score: 50.0,
+                        concentration_score: 50.0,
+                        rotation_score: 50.0,
+                        confidence_index: 50.0,
+                        market_state: "RANGE".to_string(),
+                        supply_phase: "WATCH".to_string(),
+                        risk_state: "NORMAL".to_string(),
+                        day_type: "NORMAL".to_string(),
+                    },
+                    crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
+                        date: NaiveDate::from_ymd_opt(2026, 7, 14).unwrap(),
+                        primary_leader: "MSFT".to_string(),
+                        secondary_leaders: vec![],
+                        breadth_score: 60.0,
+                        concentration_score: 55.0,
+                        rotation_score: 45.0,
+                        confidence_index: 65.0,
+                        market_state: "TREND".to_string(),
+                        supply_phase: "WATCH".to_string(),
+                        risk_state: "NORMAL".to_string(),
+                        day_type: "NORMAL".to_string(),
+                    },
+                ],
+                summary: "STRUCTURAL_CHANGE".to_string(),
+            },
+        );
+        for (language, title, leader_label, breadth_label, confidence_label, supply_label) in [
+            (
+                Language::ZhCn,
+                "市场演化观察",
+                "主导者序列",
+                "市场广度序列",
+                "置信度序列",
+                "供给阶段序列",
+            ),
+            (
+                Language::EnUs,
+                "Observation Timeline",
+                "Leader sequence",
+                "Breadth sequence",
+                "Confidence sequence",
+                "Supply sequence",
+            ),
+            (
+                Language::JaJp,
+                "市場進化観測",
+                "主導銘柄の推移",
+                "市場の広がりの推移",
+                "確信度の推移",
+                "供給局面の推移",
+            ),
+        ] {
+            let presentation =
+                crate::features::radar::interface::presentation::PresentationPacket {
+                    language,
+                    ..Default::default()
+                };
+            let report = generate_refined_report(
+                &context,
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            assert!(report.markdown_body.contains(title));
+            assert!(report.markdown_body.contains("PARTIAL"));
+            assert!(report.markdown_body.contains(leader_label));
+            assert!(report.markdown_body.contains(breadth_label));
+            assert!(report.markdown_body.contains(confidence_label));
+            assert!(report.markdown_body.contains(supply_label));
+            assert!(report.markdown_body.contains("SPY → MSFT"));
+            assert!(!report.markdown_body.contains("2026-07-14"));
+            assert!(!report.markdown_body.contains("Leader 序列"));
+            assert!(!report.markdown_body.contains("Breadth 序列"));
+            assert!(!report.markdown_body.contains("Confidence 序列"));
+            assert!(!report.markdown_body.contains("Supply 序列"));
+            assert!(!report.markdown_body.contains("Leader 推移"));
+            assert!(!report.markdown_body.contains("Breadth 推移"));
+            assert!(!report.markdown_body.contains("Confidence 推移"));
+            assert!(!report.markdown_body.contains("Supply 推移"));
+            if language != Language::ZhCn {
+                assert!(!report.markdown_body.contains("过去 7 个交易日"));
+            }
+        }
     }
 }

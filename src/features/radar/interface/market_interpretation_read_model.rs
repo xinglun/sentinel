@@ -2,7 +2,7 @@
 
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::leader_persistence::{
-    build_leader_persistence, LeaderObservation,
+    build_leader_persistence, LeaderObservation, LeaderState,
 };
 use crate::features::radar::interface::presentation::{
     LeaderPersistenceViewModel, LeadershipSnapshotViewModel, MarketCyclePosition,
@@ -327,7 +327,15 @@ pub(crate) fn build_leader_persistence_view_model(
             (crate::features::radar::domain::leader_persistence::LEADERSHIP_LOOKBACK_DAYS - 1)
                 as i64,
         );
-    let mut observations = input.persisted_observations.to_vec();
+    let mut observations = input
+        .persisted_observations
+        .iter()
+        .filter(|observation| {
+            observation.date >= lookback_start && observation.date <= input.current_packet.date
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    let has_prior_history = !observations.is_empty();
 
     let current_observation = build_current_observation(
         input.current_packet,
@@ -336,7 +344,13 @@ pub(crate) fn build_leader_persistence_view_model(
     );
     observations.push(current_observation);
 
-    let result = build_leader_persistence(&observations)?;
+    let mut result = build_leader_persistence(&observations)?;
+    if !has_prior_history {
+        result.history_coverage_complete = false;
+        result.history_coverage = "UNAVAILABLE";
+        result.first_observed_at = None;
+        result.leader_state = LeaderState::Unavailable;
+    }
 
     Some(LeaderPersistenceViewModel {
         title: leader_persistence_title(input.language).to_string(),
@@ -367,12 +381,12 @@ pub(crate) fn build_leader_persistence_view_model(
             .unwrap_or_else(|| leader_persistence_history_unavailable(input.language).to_string()),
         history_coverage_label: leader_persistence_history_coverage_label(input.language)
             .to_string(),
-        history_coverage_value: if result.history_coverage_complete {
-            "COMPLETE"
-        } else {
-            "PARTIAL"
-        }
-        .to_string(),
+        history_coverage_value: result.history_coverage.to_string(),
+        first_observed_at_value: (result.history_coverage == "COMPLETE")
+            .then_some(result.first_observed_at)
+            .flatten()
+            .map(|date| date.to_string()),
+        previous_leader_value: result.previous_leader.clone(),
         history_note: (!result.history_coverage_complete)
             .then(|| leader_persistence_history_unavailable(input.language).to_string()),
         leadership_score_label: leader_persistence_score_label(input.language).to_string(),
@@ -2115,7 +2129,7 @@ mod tests {
         })
         .unwrap();
 
-        assert_eq!(view_model.persistence_days, 26);
+        assert_eq!(view_model.persistence_days, 20);
         assert!(view_model.boundary.contains("降级"));
         assert_eq!(view_model.primary_leader_value, "GOOG");
         fs::remove_dir_all(temp_dir).unwrap();
@@ -2164,5 +2178,31 @@ mod tests {
                 .contains(switch_marker));
             assert!(view_model.boundary.contains(boundary_marker));
         }
+    }
+
+    #[test]
+    fn read_model_preserves_unavailable_history_coverage() {
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 14).unwrap(),
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "SPY".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &[],
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.history_coverage_value, "UNAVAILABLE");
     }
 }

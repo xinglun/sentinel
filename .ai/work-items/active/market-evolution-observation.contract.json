@@ -1,0 +1,257 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-evolution-observation",
+  "mode": "code",
+  "title": "日报升级为市场演化观察",
+  "baseCommit": "6d547539a5640d85580a1cacf68a00793d5ba2f3",
+  "baselineDirtyPaths": [],
+  "problemStatement": "日报目前主要呈现单日快照，无法稳定回答市场相对前一交易日和近七个交易日发生了什么变化；本 Work Item 将其扩展为可追踪的市场演化观察，同时保持 Observation / Interpretation Only。",
+  "intent": {
+    "problem": "以 Leadership Snapshot 为单一事实源，补齐 Leader Persistence、7 个交易日 Observation Timeline、多维 Market Change Driver 和 Supply Queue 详情。",
+    "constraints": [
+      "不新增交易逻辑，Decision Weight 固定为 0%。",
+      "不得影响 Gate、Execution、Trader、Action Matrix、READY / EXECUTE、Position Sizing 或 Risk Sizing。",
+      "所有新规则必须由结构化字段和测试固定，不以单一 confidence 字段决定 change_level。",
+      "PARTIAL 历史不得输出“首次观察”；只有完整窗口确认后才允许该语义。",
+      "完整时间轴保存为独立 Observation artifact，不塞入现有单日 decision packet。"
+    ],
+    "rationale": "让日报从单日快照升级为市场演化观察，并避免历史覆盖、局部波动和重复内容造成语义误判。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/market-evolution-observation.contract.json",
+    ".ai/work-items/active/market-evolution-observation.summary.json",
+    "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
+    "docs/superpowers/plans/2026-07-14-market-evolution-observation.md",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/domain/mod.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "tests/audit_daily_cli_integration.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/audit_daily_zh_cn.txt",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/engine.rs",
+    "src/adapters/futu/trader.rs",
+    "Gate、Execution、Trader、Action Matrix、READY / EXECUTE、Position Sizing、Risk Sizing 的行为或接口",
+    "任何新的交易信号、仓位建议、风险 sizing 或执行条件",
+    "将完整 Observation Timeline 写入单日 decision packet",
+    "新增 i18n 语言或改变既有交易链路的多语言文案"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/c8948601-583a-4928-b7ed-a1817202a815/pasted-text.txt",
+      "reason": "用户批准的市场演化观察目标、输出范围和持久化建议。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "现有 Leader Persistence 字段、状态和历史计算实现。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "现有 Leadership Snapshot 和 Observation/Interpretation read model 组装入口。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "现有 audit daily Markdown / Telegram 输出入口。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "现有 Future Supply Queue 结构化字段和 source quality 数据。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "日报三语言 snapshot 回归契约。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item scope、verification、review readiness 和 Observation-only 边界规则。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "DOMINANT 仅在连续领导至少 8 个交易日且 breadth_score、relative_strength 均不低于 60 时成立",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认 DOMINANT 阈值；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "FADING 仅在仍为 Primary Leader 且 leadership_score 或 relative_strength 按每日至少 2 分连续下降 3 个交易日，或三日累计下降至少 5 分时成立",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认 FADING 阈值；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "7 个交易日窗口排除周末和已知休市日；缺少应有快照为 PARTIAL，无法形成有效连续历史为 UNAVAILABLE",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认交易日窗口与 coverage 规则；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "PARTIAL 历史不输出首次观察，COMPLETE 且完整窗口确认首次成为 Leader 时才输出首次观察",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认 PARTIAL 禁止首次观察语义；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "change_level 按 MAJOR > MODERATE > MINOR > NONE 的多维优先级计算；仅 confidence 或小幅局部排序变化为 MINOR",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认 change_level 多维优先级；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "主报告显示压缩后的 Observation Timeline 与 Future Supply Queue 详情，完整时间轴进入独立 archival JSON / JSONL",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认主报告压缩与独立 archival 输出范围；实现测试待回填 Summary。"],
+      "reason": "本状态表示设计规则已确认，不表示实现测试已通过。"
+    },
+    {
+      "scenario": "新增观察字段保持 Observation / Interpretation Only，decision_weight 仍为 0%，交易执行链路无 diff",
+      "required": true,
+      "status": "verified",
+      "evidence": ["用户已确认 Observation-only 与 Decision Weight = 0% 边界；实现检查待回填 Summary。"],
+      "reason": "本状态表示设计边界已确认，不表示实现测试已通过。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "evidence_insufficient",
+      "data_integrity",
+      "api_change",
+      "review_debt"
+    ],
+    "reason": "用户已确认跨日历史、缺失交易日和多维 change_level 规则；Contract 已固定阈值、优先级、输出和 Observation-only 边界，实现后仍需按场景回归验证。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已确认阈值和设计；Contract 已固定 scope、边界、acceptance、scenario coverage 与 verification。"
+  },
+  "preReviewWarnings": [
+    "重点 review Leader Persistence 状态语义、PARTIAL 历史措辞、7 日窗口缺失日期和 change_level 优先级。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leader Persistence 输出字段集合固定为 current_leadership_streak_days、observed_leadership_days_in_lookback、breakout_continuity_days、history_coverage、first_observed_at、previous_leader、leadership_score、leadership_state；Evidence: domain_test contract evidence required。",
+    "DOMINANT 规则固定为连续 Primary Leader 至少 8 个交易日且 breadth_score >= 60、relative_strength >= 60；FADING 规则固定为仍为 Leader 且满足连续 3 日每日下降至少 2 分或三日累计下降至少 5 分。",
+    "current_leadership_streak_days 只统计连续 Primary Leader 天数，不与 breakout_continuity_days 混用。",
+    "7 个交易日窗口以交易日计算，周末和已知休市日排除；缺少应有快照为 PARTIAL，无法形成有效连续历史为 UNAVAILABLE；PARTIAL 不得使用首次观察；Evidence: domain_test integration_test。",
+    "Observation Timeline 每日记录 date、primary_leader、secondary_leaders、breadth_score、concentration_score、rotation_score、confidence_index、market_state、supply_phase、risk_state、day_type；Evidence: serialization_test contract evidence required。",
+    "Observation Timeline 主报告仅显示压缩摘要，完整记录保存到独立 latest JSON、按日 JSON 和 JSONL artifact，不写入单日 decision packet。",
+    "change_level 按 MAJOR > MODERATE > MINOR > NONE 的多维优先级计算；核心字段变化、confidence/score 小幅变化和 unchanged_dimensions 均结构化输出。",
+    "局部排序小幅变化定义为排名变化不超过 1 位且分数绝对变化小于 5，仅产生 MINOR；Evidence: market_change_driver_test。",
+    "Future Supply Queue 主报告最多显示前三条；为空时精确显示 Future Queue details unavailable.；非空条目显示 Subject、Event Type、Expected Window、Status、Source Quality，并保留现有 source quality 事实。",
+    "主报告必须消费 Observation Timeline，仅显示 7 日压缩摘要与 history_coverage，不显示逐日 entries；完整逐日记录仅进入 appendix / archival JSON / JSONL。",
+    "Timeline 主报告的标题、coverage、summary、Leader、Breadth、Confidence、Supply 标签与摘要必须按 zh/en/ja 语言输出；中文使用完整中文标签，日文使用完整日文标签，不得跨语言混入固定中文或英文。",
+    "Timeline 压缩摘要必须展示最近 7 个交易日的 Leader、Breadth、Confidence、Supply 演化序列，使用序列压缩，不展开逐日明细。",
+    "ObservationTimeline.summary 仅保存 STRUCTURAL_CHANGE / NO_STRUCTURAL_CHANGE 等语言无关状态键；语言化摘要由报告界面按 zh/en/ja 渲染，任何 archival JSON / JSONL 不得写入固定中文摘要。",
+    "Leader Persistence 仅使用当前 lookback 窗口内记录；无有效历史时输出 UNAVAILABLE，PARTIAL 不输出 first_observed_at。",
+    "Timeline 摘要比较 primary / secondary leader、breadth、concentration、rotation、confidence、market、supply、risk、day_type 全部结构维度。",
+    "Market Change Driver 的 score 使用 leadership score，confidence 变化不得伪造 score 或 local_ranking 变化。",
+    "Markdown、Telegram、CLI、audit daily、weekly review 的显示范围和既有三语言 snapshot 契约保持一致；完整结构化记录只进入报告 archival 输出。",
+    "新增能力保持 Observation / Interpretation Only，decision_weight 固定为 0%，不改变 Gate、Execution、Trader、Action Matrix、READY / EXECUTE、Position Sizing、Risk Sizing。",
+    "生产 Rust 变更均有对应领域、集成或 snapshot 测试，且所有新验证入口通过 make target 执行。",
+    "Contract、Summary、scope、guard、backtrack、status 和 required checks 均通过；Evidence: make_check_results。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、関連する observation domain、report read model、snapshot と archival output を元に戻す。"
+}

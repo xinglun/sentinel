@@ -41,7 +41,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "潜在供给压力",
             "Upcoming Supply Timeline",
             "队列规模 = 0",
-            "SpaceX: IPO 阶段 近端执行（Near-Term） · Lifecycle 确认（Confirmed） · Evidence 确认（Confirmed） · 来源 2",
+            "Subject: SpaceX · Event Type: 确认（Confirmed） · Expected Window:",
             "- SpaceX x2",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
             Some("结构影响: Observation Only"),
@@ -54,7 +54,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "Potential Supply Pressure",
             "Upcoming Supply Timeline",
             "Queue Size = 0",
-            "SpaceX: IPO Stage Near-Term · Lifecycle Confirmed · Evidence Confirmed · Sources 2",
+            "Subject: SpaceX · Event Type: Confirmed · Expected Window:",
             "- SpaceX x2",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
             None,
@@ -67,7 +67,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
             "潜在供給圧力",
             "Upcoming Supply Timeline",
             "キュー規模 = 0",
-            "SpaceX: IPO 段階 近接実行（Near-Term） · Lifecycle 確認（Confirmed） · Evidence 確認（Confirmed） · ソース数 2",
+            "Subject: SpaceX · Event Type: 確認（Confirmed） · Expected Window:",
             "- SpaceX x2",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
             Some("構造的影響: Observation Only"),
@@ -113,7 +113,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::ZhCn,
             "实际资本供给",
             "未观察到已发生的大型股权/可转债供给。",
-            "Anthropic: IPO 阶段 报道（Reported） · Lifecycle 报道（Reported） · Evidence 传闻（Rumor）",
+            "Subject: Anthropic · Event Type: 传闻（Rumor） · Expected Window: within 1 days",
             "- Anthropic x1",
             "实际供给 · 事件类型 确认（Confirmed） · IPO 供给 · Anthropic",
             "不影响 READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -122,7 +122,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::EnUs,
             "Actual Capital Supply",
             "No completed large equity or convertible supply observed.",
-            "Anthropic: IPO Stage Reported · Lifecycle Reported · Evidence Rumor",
+            "Subject: Anthropic · Event Type: Rumor · Expected Window: within 1 days",
             "- Anthropic x1",
             "Actual Supply · Event Type Confirmed · IPO Supply · Anthropic",
             "does not affect READY / EXECUTE / Position Sizing / Gate / Trend Layer",
@@ -131,7 +131,7 @@ fn auto_report_keeps_anthropic_potential_out_of_actual_supply() {
             Language::JaJp,
             "実際の資本供給",
             "発生済みの大型株式・転換社債供給は未観測です。",
-            "Anthropic: IPO 段階 報道（Reported） · Lifecycle 報道（Reported） · Evidence 噂（Rumor）",
+            "Subject: Anthropic · Event Type: 噂（Rumor） · Expected Window: within 1 days",
             "- Anthropic x1",
             "実供給 · イベント種別 確認（Confirmed） · IPO 供給 · Anthropic",
             "READY / EXECUTE / Position Sizing / Gate / Trend Layer に影響しない",
@@ -167,6 +167,39 @@ fn auto_report_shows_post_ipo_observation_watchlist_without_near_term_pressure()
     assert!(report.contains("Near-Term Supply Count: 0"));
     assert!(!report.contains("SpaceX IPO (High)"));
     assert!(!report.contains("Future IPO Queue:\n- SpaceX"));
+}
+
+#[test]
+fn auto_report_limits_future_queue_to_three_items_and_explains_empty_queue() {
+    let mut snapshot = auto_snapshot_with_anthropic_potential_ipo();
+    snapshot.ai_ipo_queue.clear();
+    let empty_report = build_capital_absorption_report(
+        &minimal_app_config(Language::EnUs),
+        Some(&snapshot),
+        Language::EnUs,
+    );
+    assert!(empty_report.contains("Future Queue details unavailable."));
+
+    snapshot.ai_ipo_queue = (0..4)
+        .map(|index| CapitalAbsorptionIpoQueueItem {
+            issuer: format!("Issuer-{index}"),
+            status: CapitalAbsorptionIpoQueueStatus::Rumor,
+            source_count: 1,
+            event_type: CapitalAbsorptionObservationEventType::Rumor,
+            lifecycle_status: CapitalAbsorptionIpoLifecycleStatus::Rumor,
+            observed_at: None,
+            observation_day: None,
+            near_term_weight: None,
+        })
+        .collect();
+    let report = build_capital_absorption_report(
+        &minimal_app_config(Language::EnUs),
+        Some(&snapshot),
+        Language::EnUs,
+    );
+    assert!(report.contains("Issuer-0"));
+    assert!(report.contains("Issuer-2"));
+    assert_eq!(report.matches("Subject: Issuer-").count(), 3);
 }
 
 fn auto_snapshot_with_potential_ipo() -> CapitalAbsorptionAutoSnapshot {
