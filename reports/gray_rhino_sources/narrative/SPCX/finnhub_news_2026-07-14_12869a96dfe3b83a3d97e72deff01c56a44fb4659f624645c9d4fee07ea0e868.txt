@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Frontier joins airlines betting on Starlink to lure travelers
+  summary: Frontier Airlines said on Tuesday it will launch in-flight Wi-Fi using SpaceX's ‌Starlink satellite internet and start installing it across ‌its fleet in early 2027.  The Denver-based airline is the first ultra-low-cost U.S. ​carrier to sign on with Elon Musk's Starlink as the company competes with Amazon's Kuiper for airline customers to provide in-flight Wi-Fi.  Frontier's Starlink rollout follows the airline's introduction of first-class seating and loyalty program changes ⁠aimed at winning over higher spenders.
+  url: https://finnhub.io/api/news?id=308a4fa65a450ee76d7e03ff52e3841328dda6467a9397c7b71adcecf23ac998

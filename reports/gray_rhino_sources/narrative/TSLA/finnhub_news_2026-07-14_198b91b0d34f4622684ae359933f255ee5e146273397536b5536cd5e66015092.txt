@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dongfeng eyes Canada EV entry via reduced tariff quota
+  summary: The Chinese state-owned manufacturer will display EV models at a Montreal event this week and is currently pursuing certification for its vehicles with Canadian regulators.
+  url: https://finnhub.io/api/news?id=b0f850aea3f1018409e14d281be98b14f0e91a931e85eb692684c39f979f4113

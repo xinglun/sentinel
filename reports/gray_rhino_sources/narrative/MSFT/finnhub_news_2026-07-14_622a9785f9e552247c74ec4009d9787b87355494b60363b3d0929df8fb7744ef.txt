@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stock Rotation Intensifies as Growth Outpaces Mega-Cap Performance
+  summary: A divergence is emerging in AI stocks, with high-growth names like AMD and Snowflake outperforming mega-caps like Meta and Microsoft despite strong fundamentals.
+  url: https://finnhub.io/api/news?id=fb8d35ffa17358814f2acf7e9944073e5199d534be2c1958b433a9d5d43aa486

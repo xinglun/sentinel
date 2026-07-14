@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta, Google, Other Tech Firms' Response to Child Exploitation Has 'Significant Gaps', Australian Watchdog Says
+  summary: Meta (META), Alphabet's Google (GOOG), WhatsApp, Apple (AAPL), and other platforms' responses to chi
+  url: https://finnhub.io/api/news?id=7ae12cbf532747e77255eb62f48c92c82599416bdbb9aacc4c9ec0411d553aa1

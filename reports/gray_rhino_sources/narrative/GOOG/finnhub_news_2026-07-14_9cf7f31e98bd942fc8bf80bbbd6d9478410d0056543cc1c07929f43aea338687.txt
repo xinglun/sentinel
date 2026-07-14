@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Canadian companies eye more U.S. chip business even as trade uncertainties persist
+  summary: 'There is no other market right now that is anywhere close in terms of their investment and scale'
+  url: https://finnhub.io/api/news?id=4e0b032033d28347b1214b2fa333749d1e58efb97581ded5dfc5454ebc5146bc

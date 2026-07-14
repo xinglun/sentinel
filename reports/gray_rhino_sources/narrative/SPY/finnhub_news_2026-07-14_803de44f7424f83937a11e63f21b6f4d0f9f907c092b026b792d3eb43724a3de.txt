@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Cost Of Denial: Your Portfolio Is Unprepared For What's Next
+  summary: Geopolitical escalation in the Middle East is a primary driver of inflation and bearish pressure on global equities. Read more for a review of the latest CPI data.
+  url: https://finnhub.io/api/news?id=e4edbcace1c651e1fafa7a20842a8ee75e8ff144c52c3ca5b0adbd0e657f1d15

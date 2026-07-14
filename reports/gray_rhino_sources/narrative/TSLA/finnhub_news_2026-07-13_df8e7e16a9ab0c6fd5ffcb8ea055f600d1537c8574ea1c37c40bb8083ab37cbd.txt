@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Tesla investor warns Saylor is destroying Bitcoin
+  summary: Ross Gerber has run out of patience with Michael Saylor. The Gerber Kawasaki CEO and one of Tesla's most prominent public investors posted on Sunday in response to Saylor's latest Bitcoin content on X, a video captioned "The Right to Bear Arms", with a bluntness that left little room for ...
+  url: https://finnhub.io/api/news?id=4d215852e396e44d396995f3e5da715de684b494d3c0cee0f48ce9eb825957e8

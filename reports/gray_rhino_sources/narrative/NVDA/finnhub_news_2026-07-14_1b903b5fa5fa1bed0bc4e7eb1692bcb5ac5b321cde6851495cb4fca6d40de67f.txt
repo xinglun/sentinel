@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Next Net and Sundial Media & Technology Group Launch SAIL, a New Rights-Managed Content Standard for AI
+  summary: NEW YORK, July 14, 2026 (GLOBE NEWSWIRE) -- Next Net today announced the launch of the Standardized Agentic Intelligence Ledger (SAIL), a new initiative developed with Sundial Media & Technology Group, one of the most influential media and technology companies shaping culture and community today, to establish a scalable framework for how AI systems access, attribute, and compensate premium content creators and publishers, to be built on NVIDIA’s accelerated computing platform. As AI systems incr
+  url: https://finnhub.io/api/news?id=32ce7db93855f00d1c7e3f1825316e272a1675bd0b6c5e395330d645d1d5364e

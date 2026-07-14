@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Blows Past Stock-Trading Records With $7.42 Billion Boon
+  summary: (Bloomberg) -- Goldman Sachs Group Inc. trounced its own Wall Street stock-trading records, posting $7.42 billion for a quarter that saw indexes rip higher and ongoing market volatility around artificial intelligence and war in the Middle East.Most Read from BloombergUS Hits Iran With Strikes, Blockade as Trump Plans Hormuz ChargeLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Trump Embraces Australian Retirement System Backed by Larry FinkOpenAI Engineer’s ‘LOL’ Moment Set Stage for Le
+  url: https://finnhub.io/api/news?id=57516d7cd33b5058807e1c5fb99ab1677caa2ae82a49384a80f697b863c0eb11

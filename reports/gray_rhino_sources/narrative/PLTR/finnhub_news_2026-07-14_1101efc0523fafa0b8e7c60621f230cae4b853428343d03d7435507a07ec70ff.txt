@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Rackspace CFO Says AI Winners Will ‘Own The Outcome,’ Not the GPUs
+  summary: Rackspace Technology Inc. is moving the conversation away from raw GPU capacity and toward who actually owns the AI outcomes those chips enable. In an exclusive interview with Benzinga, CFO Mark Marino laid out Rackspace’s strategy that he describes as...
+  url: https://finnhub.io/api/news?id=9c128428b3dd4cd39a0da981943e101fef6ca9bed1a748e49f527cb36dbab16e

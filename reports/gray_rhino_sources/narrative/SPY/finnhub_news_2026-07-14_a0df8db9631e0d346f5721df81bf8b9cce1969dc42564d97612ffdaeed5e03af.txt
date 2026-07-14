@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which Hot Funds Have Staying Power?
+  summary: A hot year is easy to find, but very few funds can sustain top-quartile performance over the long haul.
+  url: https://finnhub.io/api/news?id=5ddd501d0bea40ce609fcae9aecdcc1b2a25e8d455191da6afeca3fb87631922

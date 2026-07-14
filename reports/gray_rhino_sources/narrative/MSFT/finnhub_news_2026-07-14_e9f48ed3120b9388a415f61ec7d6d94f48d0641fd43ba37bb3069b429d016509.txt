@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Gets Rare Bear Rating as KeyBanc Downgrades on Demand Risk
+  summary: (Bloomberg) -- Apple Inc. received a rare bearish rating as KeyBanc Capital Markets downgraded the stock to underweight, citing concerns over both demand and valuation.Most Read from BloombergUS Hits Iran With Strikes, Blockade as Trump Plans Hormuz ChargeLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Trump Embraces Australian Retirement System Backed by Larry FinkDisney Exiting Streaming Could Spur 40% Rally: Wells FargoOpenAI Engineer’s ‘LOL’ Moment Set Stage for Legal Fight With App
+  url: https://finnhub.io/api/news?id=0147e9bd1c82c2089663d91f68f8d1eeea50d5675f6538b691317b6a075334ff

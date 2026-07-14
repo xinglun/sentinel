@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Stocks Sink as IBM Miss Delivers ‘Devastating Blow’
+  summary: (Bloomberg) -- Shares of software and IT services companies plunged Tuesday after International Business Machines Corp. reported preliminary results that missed analyst expectations, reigniting questions over the sector’s prospects.Most Read from BloombergUS Hits Iran With Strikes, Blockade as Trump Plans Hormuz ChargeLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Trump Embraces Australian Retirement System Backed by Larry FinkDisney Exiting Streaming Could Spur 40% Rally: Wells FargoO
+  url: https://finnhub.io/api/news?id=5756081507768358538048dad6f5e426c0bf8019bfc1d5b8358f34bb26c141f6

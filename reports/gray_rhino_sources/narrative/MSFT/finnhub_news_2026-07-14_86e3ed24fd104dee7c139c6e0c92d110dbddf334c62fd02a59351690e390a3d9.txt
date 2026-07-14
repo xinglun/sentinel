@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO Satya Nadella Says Businesses 'Pay for Intelligence Twice,' Warns AI Can Cost Companies Proprietary Knowledge
+  summary: Microsoft Corp. CEO Satya Nadella on Sunday warned that enterprises risk giving away proprietary knowledge every time they use artificial intelligence, adding that companies should retain ownership of the learning generated from their interactions with AI models. The Reverse Information...
+  url: https://finnhub.io/api/news?id=eb277d465b66c9715a2b93778211ca049ee1285c880973a8d7f9f4b5c80bbd8c

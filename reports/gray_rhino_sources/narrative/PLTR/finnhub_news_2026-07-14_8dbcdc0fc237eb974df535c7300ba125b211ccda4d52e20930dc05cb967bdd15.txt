@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Deepens Rackspace Ties As Zeta Moves Data Cloud To Foundry
+  summary: Palantir Technologies (NasdaqGS:PLTR) is deepening its work with Rackspace to power governed AI stacks for highly regulated sectors such as healthcare, finance, and energy. Zeta Global is integrating Palantir's Foundry platform and plans to migrate its entire Data Cloud client base onto Palantir's infrastructure. These developments position Palantir's software as core plumbing for data sovereignty, compliance, and large scale operational AI in commercial settings. Palantir enters this phase...
+  url: https://finnhub.io/api/news?id=53f1180870983542c530bb80732c5a9899614177656a39494806fb171c918c93

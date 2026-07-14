@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: June CPI: Inflation Decline Likely To Be Short-Lived
+  summary: June CPI falls to 3.5% as gas prices ease; core inflation at 2.6%. Click for a full review of the latest data and see the implications for markets.
+  url: https://finnhub.io/api/news?id=7cc55e5f12a7719a31f4fa059d67ecc1b075cae6427b457737363980f36c29ac

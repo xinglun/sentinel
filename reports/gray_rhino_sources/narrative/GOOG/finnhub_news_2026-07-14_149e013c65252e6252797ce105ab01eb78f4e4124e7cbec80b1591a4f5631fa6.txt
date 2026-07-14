@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Has 48% Upside on Paper
+  summary: A Buy reiteration at $110 highlights World Cup tailwinds and AV partnership updates as key metrics to watch
+  url: https://finnhub.io/api/news?id=64e74d631da2b43b693175e2a98bd92e1b566d70fde0f1c01d9dfb25539b88de

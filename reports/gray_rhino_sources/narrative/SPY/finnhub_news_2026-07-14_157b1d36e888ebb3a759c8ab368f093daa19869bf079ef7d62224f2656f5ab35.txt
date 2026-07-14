@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weakness In Consumer Discretionary Will Persist, But Opportunities Will Emerge
+  summary: Discretionary consumer sectors, represented by VCR and XLY, are underperforming amid an AI-driven bull market. Learn why few companies stand out from the rest.
+  url: https://finnhub.io/api/news?id=03a71bee953bb56bf06ea38b9990a5f0d0c18919063bc8509b8a0eb2fececd67

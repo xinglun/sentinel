@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Down 30%. Can Starship Flight 13 Turn It Around?
+  summary: Starship is the key to SpaceX (SPCX) investment thesis, and the next proof point is coming fast. Without Starship, Will SpaceX Stock Fall Apart.
+  url: https://finnhub.io/api/news?id=0328ebfe1e76126fca071dc7ba39d7ce8a9e52637943d7ad00b52971e877f368

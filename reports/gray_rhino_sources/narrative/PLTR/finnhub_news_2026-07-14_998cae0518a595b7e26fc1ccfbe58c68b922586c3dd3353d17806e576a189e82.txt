@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BigBear.ai Stock Falls 24% in a Month: Buy the Dip or Stay Away?
+  summary: BBAI has pulled back sharply as investors weigh AI growth opportunities against slower revenue growth and ongoing profitability challenges.
+  url: https://finnhub.io/api/news?id=d05e45435ed07996bef15571a771e3452552f9341b2509147058a40f2ed553b0

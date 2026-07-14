@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is The Market Really Expecting From ANET Stock?
+  summary: This is a supply-constrained hyper-growth year for Arista Networks (ANET). The company provides high-speed data center switching, with cloud titans Microsoft and Meta as its long-standing anchor customers.
+  url: https://finnhub.io/api/news?id=a8c5dbed07d75bcb3797b38bf99b6a608850c041e9dcc2b428107dc6c5d6a0db

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VOE Is At A Record. Is It Time To Act?
+  summary: The fund's new peak prompts a choice, but the smartest action might be the one you don't take.
+  url: https://finnhub.io/api/news?id=3bfa93a8c688142cbd61290ebc473376f7afd8b462ef3e9169548a3e5dbe5581

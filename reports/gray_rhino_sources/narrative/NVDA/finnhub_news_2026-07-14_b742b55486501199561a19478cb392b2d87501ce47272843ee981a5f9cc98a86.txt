@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ThoughtLab Collaborates with Urban Leaders to Provide Cities with an Evidence-Based AI Playbook and Benchmarking Model
+  summary: NEW YORK, July 14, 2026--Breakthroughs in AI offer cities extraordinary opportunities to improve economic competitiveness, social impact, and citizen services. But realizing AI’s full potential will only happen if urban leaders are able to overcome challenges around governance, data, resources, and public trust.
+  url: https://finnhub.io/api/news?id=40a29fd5726747ed6264a3ee2ef2c27730bb9583f7799f9be6f2a26b33a18ae8

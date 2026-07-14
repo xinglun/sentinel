@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Stocks Get No Love Even as Tech Bounces Back
+  summary: Futures tracking the Nasdaq 100 were rising on Tuesday–but the tech-heavy index's biggest names weren't benefiting from the broader rebound. Roundhill's Magnificent Seven exchange-traded fund, which tracks shares of seven mega-cap tech companies, slid 0.
+  url: https://finnhub.io/api/news?id=dbda1d6675f0ced12c6d7c968f952dfa4a89abc7b0a12af6a324f0e1b33b349d

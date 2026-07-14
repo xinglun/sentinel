@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I'm Still Buying This July
+  summary: July has historically been the most reliable month for S&P 500 gains, positive 80% of the time over 20 years. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=ecf8ef6adb70099c1511c5f3423e367ce2dac8cda045b21c6aebabb12a941de5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goods Comeback Trade: Why XLY Is the Sleeper ETF of Q3 2026
+  summary: The broader market has pushed higher as enthusiasm for artificial intelligence has lifted spirits. Yet the Consumer Discretionary Select Sector SPDR Fund has quietly lagged.
+  url: https://finnhub.io/api/news?id=f142789eabb368a189e08ed36a44a31cb80a0fa18e0cadf94e14b89a82569c6c

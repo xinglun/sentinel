@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Big Wall Street Expects SpaceX's Business to Get in 5 Years
+  summary: If analysts are right, SpaceX could be on the cusp of some tremendous revenue growth.
+  url: https://finnhub.io/api/news?id=08731b13c4ca55e4516f90a061109cccf12c43a100944f14a3ce3c35383e9e58

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Expansion Continues, But Its Foundations Are Uneven
+  summary: The US expansion just marked its six-year anniversary, and the odds still lean toward growth holding up in the near term.
+  url: https://finnhub.io/api/news?id=a48c61e4211544c81fd8f378f02e73c281eedaa97bd2d599f2289b27e8a4ce12

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Apple, Tesla and Intel
+  summary: Apple, Tesla and Intel have been highlighted in this Investment Ideas article.
+  url: https://finnhub.io/api/news?id=77828a97f186fa83fe2c2c6086bf6532919b436621ce0d4db9f5fd6987c392ee

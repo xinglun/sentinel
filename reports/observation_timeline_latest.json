@@ -1,0 +1,22 @@
+{
+  "history_coverage": "Partial",
+  "entries": [
+    {
+      "date": "2026-07-14",
+      "primary_leader": "SPY",
+      "secondary_leaders": [
+        "GOOG",
+        "U"
+      ],
+      "breadth_score": 35.0,
+      "concentration_score": 82.0,
+      "rotation_score": 18.0,
+      "confidence_index": 55.6327835343568,
+      "market_state": "IGNITION",
+      "supply_phase": "HIGH",
+      "risk_state": "NORMAL",
+      "day_type": "normal"
+    }
+  ],
+  "summary": "NO_STRUCTURAL_CHANGE"
+}

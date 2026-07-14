@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IPOs & ETFs will be the next tokenized assets, but real estate & mortgages are also possible
+  summary: Securitize (SECZ) founder and CEO Carlos Domingo sits down with Scott Melker to discuss the growing tokenized asset market. "The Daily Wolf with Scott Melker" airs every day at 12:00 p.m. Tune in for your daily dose of all things crypto. Make sure to also check out Yahoo Finance's crypto hub to find the latest crypto-related news.
+  url: https://finnhub.io/api/news?id=72aec43d97444a162644f9d93a82e2f7395deccb5912bf1a14a84e3c32cbf4d8

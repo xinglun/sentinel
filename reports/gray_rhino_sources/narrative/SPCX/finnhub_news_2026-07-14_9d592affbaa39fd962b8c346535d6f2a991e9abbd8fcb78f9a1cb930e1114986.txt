@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TerraFirma Raises $115M to Accelerate Construction on Earth and Beyond
+  summary: AUSTIN, Texas, July 14, 2026--TerraFirma, a tech-enabled, vertically integrated construction company focused on critical infrastructure, today announced it has raised approximately $115 million, including a $100 million Series A led by Kleiner Perkins, with participation from Bain Capital Ventures, Glade Brook Capital Partners, BANNER VC, Saga Ventures, Trust Ventures, Definition, PEAK6, Magnetar Capital, and Ravelin Capital. Angel investors include founders, executives, and engineers from compa
+  url: https://finnhub.io/api/news?id=35235fda7bd13cec420c3f811741fea4d46a3ce1c883244179f1b0caf274f284

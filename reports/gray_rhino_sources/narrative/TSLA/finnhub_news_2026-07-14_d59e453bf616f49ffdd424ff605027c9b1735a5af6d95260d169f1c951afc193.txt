@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market's Favorite Trade Is Quietly Falling Apart
+  summary: Mag-7 dominance is fading as AI CapEx and stretched valuations shift markets to selective stock picking.
+  url: https://finnhub.io/api/news?id=82fce80563b85f48202ed4b24f7327b7cf9bb282bd9af234006b6f34ce068b35

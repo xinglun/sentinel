@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Profit Soars as Trading and Dealmaking Fuel Strong Second Quarter (GS)
+  summary: Goldman Sachs (NYSE:GS) reported a sharp increase in second-quarter profit as stronger investment banking activity and record equities trading revenue drove robust financial performance. The bank benefited from an active mergers and acquisitions market and heightened trading volumes as investors repositioned portfolios amid geopolitical tensions in the Middle East, rising oil prices and uncertainty surrounding the outlook for U.
+  url: https://finnhub.io/api/news?id=02d77c170e87762da1931d853d5853d476e6ffb0600b1bcc0915439acecca2a6

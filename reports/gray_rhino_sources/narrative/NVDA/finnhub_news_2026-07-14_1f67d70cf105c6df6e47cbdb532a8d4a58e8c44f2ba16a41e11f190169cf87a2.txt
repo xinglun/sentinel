@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloudera and VAST Data Announce Strategic Partnership to Deliver AI Data Platform Anywhere
+  summary: Combining Cloudera’s next-generation lakehouse data services with VAST’s AI Operating System, leveraging the NVIDIA AI Data Platform reference design, this joint solution eliminates GPU starvation and accelerates enterprise AISAN JOSE, Calif., July 14, 2026 (GLOBE NEWSWIRE) -- Cloudera, the only company bringing AI to data anywhere, today announced a strategic partnership with VAST Data, the AI Operating System company, to deliver a unified AI factory, a scalable production environment where dat
+  url: https://finnhub.io/api/news?id=9aaa13dc9be8f8fd3441511ba06057b3c1b0a2bad6921e9fad72f971a0df837b

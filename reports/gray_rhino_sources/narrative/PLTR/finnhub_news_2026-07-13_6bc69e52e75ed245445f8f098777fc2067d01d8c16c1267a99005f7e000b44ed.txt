@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaires are loading up on these superior stocks. Why it pays to follow their money.
+  summary: The second quarter was a six-year best for U.S. stocks — here are the three sectors poised to lead the next leg higher.
+  url: https://finnhub.io/api/news?id=bd47c554d2874d73d5b184a594bf9d539892b8d3a81c3ac39b03e8186c766d5f

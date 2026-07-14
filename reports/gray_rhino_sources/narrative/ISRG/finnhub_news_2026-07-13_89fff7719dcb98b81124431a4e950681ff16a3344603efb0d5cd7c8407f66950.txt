@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TD Cowen Maintains Buy on Intuitive Surgical, Lowers Price Target to $520
+  summary: TD Cowen  analyst Mathew Blackman   maintains Intuitive Surgical (NASDAQ:ISRG) with a Buy and lowers the price target from $585 to $520.
+  url: https://finnhub.io/api/news?id=df3c92bf9a4de4103afcd3aa758c3d45eb38733d8b22601c254816767ade9178

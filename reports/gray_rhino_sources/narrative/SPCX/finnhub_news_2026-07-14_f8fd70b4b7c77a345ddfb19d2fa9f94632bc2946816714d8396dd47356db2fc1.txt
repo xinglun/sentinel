@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA Profit Soars as Stock Traders, Dealmakers See Resurgence
+  summary: (Bloomberg) -- Bank of America Corp.’s stock traders notched a record during the second quarter, benefiting from market volatility, while its investment bankers capitalized on a dealmaking resurgence. Most Read from BloombergUS Hits Iran With Strikes, Blockade as Trump Plans Hormuz ChargeLindsey Graham, Senate Hawk Turned Trump Ally, Dies at 71Trump Embraces Australian Retirement System Backed by Larry FinkOpenAI Engineer’s ‘LOL’ Moment Set Stage for Legal Fight With AppleDisney Exiting Streamin
+  url: https://finnhub.io/api/news?id=1f822e4f5ddea9115540dfc27e242915cc18824de06e37d29ebf56a5627cae45

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPYI vs. JEPI: Which Monthly ‘Paycheck’ ETF Actually Wins When the Market Gets Ugly?
+  summary: The NEOS S&P 500 High Income ETF (BATS:SPYI) crossed roughly $10 billion in assets under management in June. That makes it one of the largest derivative-income vehicles in the US and forces a real question for anyone using the JPMorgan Equity Premium Income ETF (NYSEARCA:JEPI) as their monthly paycheck. At a share price around $53, ... SPYI vs. JEPI: Which Monthly ‘Paycheck’ ETF Actually Wins When the Market Gets Ugly?
+  url: https://finnhub.io/api/news?id=6b85f9fa1e34cba58b5c88aa747c1d1466c808e9ed06a46d9d1d30e6c89c56fe

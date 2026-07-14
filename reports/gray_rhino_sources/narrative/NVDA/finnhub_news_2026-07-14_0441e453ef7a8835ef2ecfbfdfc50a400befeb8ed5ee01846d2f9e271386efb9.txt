@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Investors Don’t Know About Nio
+  summary: The consensus on Nio has treated it as a perpetual cash-burning startup on the edge of collapse, but the latest financials describe a company that looks almost nothing like that story.
+  url: https://finnhub.io/api/news?id=b3057dbdab7271d0457a8c8000773a63a59b58f2811b7baa56ec9c16e4b45334

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. Snowflake: Which AI Strategy Has the Better Long-Term Potential?
+  summary: Palantir and Snowflake both crushed earnings this spring, but the market punished one and rewarded the other in dramatic fashion. Their AI strategies point in completely opposite directions, and only one of them looks like the better bet right now.
+  url: https://finnhub.io/api/news?id=93711f19d9eb15134c59fc24fe67fe8d233a193fa453c3f3acbdb6fd8f82bfd5

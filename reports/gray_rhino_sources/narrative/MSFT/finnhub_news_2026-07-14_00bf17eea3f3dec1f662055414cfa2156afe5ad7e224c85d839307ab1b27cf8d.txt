@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Tumbles 22% Toward Its Worst Day Since 1987, Rattling Software Stocks
+  summary: IBM just logged its worst single-session collapse in nearly four decades, and the shockwaves are already hitting Microsoft, ServiceNow, and the broader software sector in ways that raise an uncomfortable question about where enterprise spending is actually going.
+  url: https://finnhub.io/api/news?id=149f78a31c2fc2a5b3af9d85705e564c95bc0865aa78f7ea2720adc8290e0604

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Only 3% Away From Complete Humiliation
+  summary: Talk about the inescapable force of gravity. Shares of Elon Musk's Space Exploration have fallen to nearly their IPO price.
+  url: https://finnhub.io/api/news?id=f31d1b2565631ffefa7570dd89dc0d8e81b0cc714f5aabf10fbcdca224ae6b14

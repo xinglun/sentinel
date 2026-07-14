@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum X Labs Validates Continuous-Data Quantum Sampling Workflow and Achieves Significant GPU Acceleration with NVIDIA CUDA-Q
+  summary: Tel-Aviv, Israel, July 14, 2026 (GLOBE NEWSWIRE) -- Quantum X Labs Inc. (the "Company") (NASDAQ: QXL) today announced that the CliniQuantum operation, has successfully validated a quantum sampling workflow that enables continuous probability distributions to be represented and analyzed within a quantum computing framework using Quantum X Labs' proprietary algorithmic technology and related intellectual property portfolio.  The milestone demonstrates the ability to transform continuous data into quantum-compatible energy map representations capable of supporting advanced quantum algorithms.
+  url: https://finnhub.io/api/news?id=861390e0b4322d098418ea82a1126c9f49ca098df89b2323b1d092e9a8dce11b

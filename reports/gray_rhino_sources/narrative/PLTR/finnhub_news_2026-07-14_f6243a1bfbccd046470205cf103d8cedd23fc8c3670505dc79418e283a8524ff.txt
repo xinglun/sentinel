@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple stock move vindicates Palantir CEO warning for AI industry
+  summary: The artificial intelligence boom has been nothing but a headache for Apple (AAPL) since it started. The stock quickly gained a reputation as an AI laggard. The company recently had to raise prices for some of its products due to the skyrocketing memory prices, caused by the AI buildout. The ...
+  url: https://finnhub.io/api/news?id=24c54a438d43260927a92cdfd2d315c3521354080479b6528e39894ed07bb7db

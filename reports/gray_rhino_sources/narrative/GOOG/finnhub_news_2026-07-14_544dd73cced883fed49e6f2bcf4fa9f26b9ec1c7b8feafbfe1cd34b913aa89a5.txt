@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Parent Alphabet Has Abandoned Its $346 Billion Investment -- and History Points to This Decision Being a Mixed Bag
+  summary: Alphabet is going all-in on artificial intelligence (AI), but it comes at a high cost to one of its top catalysts.
+  url: https://finnhub.io/api/news?id=c5ef61713a08837ba96374eafc33c94dc822ba42e26ee4bdbd838cf2734df1a8

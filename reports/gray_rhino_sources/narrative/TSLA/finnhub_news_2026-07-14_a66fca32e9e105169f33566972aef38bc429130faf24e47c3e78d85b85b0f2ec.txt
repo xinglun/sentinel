@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Saudi Arabia Commercial Vehicle Electrification (Trucks & Buses) Market Study Published; Profiles Tesla, Volvo Group, Daimler AG, and 12 Key Players
+  summary: The Saudi Arabia Commercial Vehicle Electrification Market is poised for growth via expanding charging networks and partnerships with logistics firms. Government support, rising fuel prices, and battery advancements drive demand for zero-emission vehicles, particularly in urban areas prioritizing sustainability.Dublin, July 14, 2026 (GLOBE NEWSWIRE) -- The "Saudi Commercial Vehicle Electrification (Trucks & Buses) Market Size, Share, Growth Drivers, Trends, Opportunities, Competitive Landscape &
+  url: https://finnhub.io/api/news?id=1e47e2cd86018c89857d9e661f42be3795d744b083d92003bba7a5dcf088d56e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Circle Has A Message For Stablecoin Rivals: We Are ‘Playing The Long Game’
+  summary: Tarbert also highlighted Circle's newly approved national trust charter, which allows the firm to manage USDC reserves under federal oversight.
+  url: https://finnhub.io/api/news?id=20a7850a124120c31a5f321b7b562a55586a53b8e44c8ece918e6cc6e3fcd3a9

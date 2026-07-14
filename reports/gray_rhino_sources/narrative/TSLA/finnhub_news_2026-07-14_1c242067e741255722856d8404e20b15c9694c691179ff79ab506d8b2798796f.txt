@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Price Target Boosts Can’t Help Tesla Stock
+  summary: Tesla  stock was wobbling at the start of Tuesday trading as investors mulled over what a couple of Wall Street price target hikes could do for it.  Shares of the electric-vehicle maker were up 14 cents in premarket trading at $394.90, while  and  futures were down 0.1% and 0.3%, respectively.  The move came after Morgan Stanley, Barclays, and Wells Fargo all bumped their price targets for Tesla stock.
+  url: https://finnhub.io/api/news?id=ecabe81ea19db489f7bb14963f40d005425991ab9bad6cffbe5fd2248be77c52

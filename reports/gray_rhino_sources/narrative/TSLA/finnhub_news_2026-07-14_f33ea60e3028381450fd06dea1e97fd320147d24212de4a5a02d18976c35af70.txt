@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Powering Homes Fluence Energizes California With Smart Energy Storage
+  summary: Fluence Energy, Inc. has announced a collaboration with Avantus to deploy its U.S.-produced Smartstack energy storage system for the Rexford 2 solar-plus-storage project in Southern California. This 200 MW / 800 MWh facility will support the California energy grid with reliable, clean power, sufficient to energize 84,000 homes. Beyond boosting grid stability, this initiative emphasizes the use of domestic manufacturing, which enhances local job creation and supports the U.S. energy storage...
+  url: https://finnhub.io/api/news?id=54195d55adeff5d2c5d8720a8d4e493809c252b8eeb4cbb9bdc66c275f238f80

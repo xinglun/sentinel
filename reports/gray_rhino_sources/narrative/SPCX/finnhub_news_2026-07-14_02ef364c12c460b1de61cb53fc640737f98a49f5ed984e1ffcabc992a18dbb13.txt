@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How to Spot a Stock Market Bubble 101: Raymond James Just Placed an $800 Price Target on SpaceX, Valuing Elon Musk's Company at $10.5 Trillion
+  summary: SpaceX spotlights everything that's currently amiss on Wall Street.
+  url: https://finnhub.io/api/news?id=50e12e91bbe1b7d72374f377b4c43c85ae3b59ca153519f8def2cb79d7856a63

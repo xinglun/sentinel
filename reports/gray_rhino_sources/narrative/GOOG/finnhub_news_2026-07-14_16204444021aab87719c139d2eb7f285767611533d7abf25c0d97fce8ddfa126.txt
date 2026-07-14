@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway (BRK.B) Stock May Be A Bargain After AI Portfolio Shift
+  summary: Berkshire Hathaway stock has delivered an 82.2% return over the past 5 years, yet the latest intrinsic value checks and earnings multiples both still point to the shares trading at a discount to what the business may be worth. That mix of solid long term returns and a perceived valuation gap is drawing fresh attention as Greg Abel reshapes the portfolio toward large technology and AI holdings. Over 5 years, Berkshire Hathaway has returned 82.2%, which is the kind of compounding that often...
+  url: https://finnhub.io/api/news?id=70205dbec67cddc6498527f34d9d43405580c2201bd668e5a2130627f7fd405a

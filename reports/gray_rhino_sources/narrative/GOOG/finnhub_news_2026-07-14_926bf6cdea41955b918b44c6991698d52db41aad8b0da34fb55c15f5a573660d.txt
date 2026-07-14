@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Signs the Biggest Solar Deal of Its Kind in the U.S.
+  summary: The Steel River Energy Center in Arkansas will deliver 1.6 GW of solar power scaling to 2.5 GW at full completion
+  url: https://finnhub.io/api/news?id=520f7ebf575e9050aa95621a15d45679a91f5532fa7d22d90c2f8fe6df5020be

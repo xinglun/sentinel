@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What AST SpaceMobile Could Be Worth in 2028, According to Analysts
+  summary: AST SpaceMobile wants to bring cell coverage everywhere via satellites.
+  url: https://finnhub.io/api/news?id=85e7fb109332318e950da4fa373de413fc93a598e4851b4143cfbdb69609c8a1

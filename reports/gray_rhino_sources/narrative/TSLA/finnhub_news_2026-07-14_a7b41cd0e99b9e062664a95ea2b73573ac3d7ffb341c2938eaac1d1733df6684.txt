@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why We Still Like ASML At Current Levels
+  summary: Bristlemoon Global Fund analyzes ASML's valuation and growth potential amid a semiconductor capital equipment supercycle. Read the full analysis for more details.
+  url: https://finnhub.io/api/news?id=116c49f90fbe221767b798dc18e07ab477d3c273626a49b311786f4db2d0a114

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Falls Ahead Of CPI Inflation Report; IBM Plunges 23% On Earnings (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index dropped Tuesday ahead of the June CPI inflation report. IBM stock plunged 23% on earnings.
+  url: https://finnhub.io/api/news?id=98e5200998b2689013b5f429f9c2de986f2324435e43ce3e61190b53b9e7f15a

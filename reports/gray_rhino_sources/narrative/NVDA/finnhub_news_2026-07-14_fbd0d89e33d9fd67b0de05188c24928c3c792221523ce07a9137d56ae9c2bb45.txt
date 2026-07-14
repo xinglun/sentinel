@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Donald Trump Just Declared the Ceasefire Is Over. Here's What That Means for Oil Stocks.
+  summary: The resumption of hostilities in the Persian Gulf is reopening the debate over the direction of the price of oil and oil stocks this year.
+  url: https://finnhub.io/api/news?id=9d4d345dc12f3ef6db057c178224f933e489fafbfb6b6138b8ff5e8661bbe726

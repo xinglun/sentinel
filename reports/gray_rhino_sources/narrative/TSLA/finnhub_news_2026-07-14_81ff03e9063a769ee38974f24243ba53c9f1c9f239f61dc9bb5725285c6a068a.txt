@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Already rich, already successful, why the last wave of tech winners is grinding again
+  summary: They're rolling up their sleeves again, seemingly out of fear of missing AI's defining moment and, presumably, the irresistible allure of making even more money -- potentially a lot more.
+  url: https://finnhub.io/api/news?id=88888fde750a56890dba97e3b1bac01a06fa86837220afd7bfc2c6f43ee83632

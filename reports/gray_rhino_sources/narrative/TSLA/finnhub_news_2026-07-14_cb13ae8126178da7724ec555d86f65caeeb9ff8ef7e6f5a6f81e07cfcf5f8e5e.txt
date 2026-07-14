@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla and Meta Are Worth Almost the Same. Which Stock Is the Better Buy?
+  summary: One stock has a very high ceiling, while the other has a much higher floor.
+  url: https://finnhub.io/api/news?id=f386c1dbceccd0548e5f5298bcdf9531c5fdc2da6f453c44262d86e92e20d598

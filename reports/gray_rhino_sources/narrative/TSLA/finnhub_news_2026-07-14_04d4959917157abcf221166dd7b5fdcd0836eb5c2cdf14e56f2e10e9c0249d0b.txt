@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperliquid HIP-3 Volume Nears 50% as Onchain Stock Trading Accelerates
+  summary: Hyperliquid’s (CRYPTO: $HYPE) builder-deployed perpetual markets are moving from the edge of the exchang...
+  url: https://finnhub.io/api/news?id=84083cad7f7b2382e0c9f12740a310607c093ddc4070a3933888370ca2703b17

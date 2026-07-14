@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wells Fargo Q2 2026 earnings beat on wealth, investment banking
+  summary: The bank earned $2.00 per share in the second quarter, topping analyst expectations of $1.72 per share
+  url: https://finnhub.io/api/news?id=c05f2c851cc8ab4671f250a79e560d6125270db02ca3d64f013a46d5de03f6af

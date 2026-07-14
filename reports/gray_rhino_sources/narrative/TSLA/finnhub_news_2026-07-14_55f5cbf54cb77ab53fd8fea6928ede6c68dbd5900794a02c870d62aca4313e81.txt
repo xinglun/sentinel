@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gavin Newsom Unveils $3,500 California EV Rebate, Says State Is Filling 'Void Left by Trump'
+  summary: Gavin Newsom&#39;s new EV rebate program targets first-time buyers with a $3,500 discount, pushing back against Trump&#39;s anti-EV stance.
+  url: https://finnhub.io/api/news?id=a28df7ab989c7d86f41c13e76a9d57d23025215a0990ff1d4f3c56ea94b25f2a

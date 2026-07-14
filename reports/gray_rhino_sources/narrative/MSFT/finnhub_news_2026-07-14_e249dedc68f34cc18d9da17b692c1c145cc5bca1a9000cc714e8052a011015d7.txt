@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Climate Tech Market to Reach $312.74 Billion by 2035 as Clean Energy Investments and Carbon Removal Technologies Accelerate | Research by SNS Insider
+  summary: The U.S. climate tech market is projected to hit $107.48 billion by 2035, while Europe is expected to reach $59.93 billion, driven by the inflation reduction act, European Green Deal, REPowerEU, carbon removal technologies, and rapid investments in renewable energy, green hydrogen, and AI-powered climate solutions.Austin, July 14, 2026 (GLOBE NEWSWIRE) -- The Climate Tech Market was valued at USD 48.46 Billion in 2025 and is expected to reach USD 312.74 Billion by 2035, growing at a CAGR of 20.5
+  url: https://finnhub.io/api/news?id=59165970538a306f12fb309b14a3dcf2ba8ddd24678ddccd5ccf77eed9f7c311

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Could Push GOOGL Stock Higher From Here?
+  summary: Google (GOOGL) Cloud's backlog nearly doubled in a single quarter, reaching a scale of over $460 billion. This is not just incremental growth; it is a fundamental shift in the business. The segment's revenue accelerated to 63% growth, becoming a primary engine for the entire company.
+  url: https://finnhub.io/api/news?id=7d5ac8d80a2f6bc1f07dab34c1c90164d36a27e1bfbd43f312741775f9e11e1b

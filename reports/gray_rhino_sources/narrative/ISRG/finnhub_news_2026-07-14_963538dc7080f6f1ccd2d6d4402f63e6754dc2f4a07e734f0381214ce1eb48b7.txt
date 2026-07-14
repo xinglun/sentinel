@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Stock: What Does Its Valuation Imply?
+  summary: This is a product-cycle year for Intuitive Surgical. The company's growth is fueled by hospitals and surgeons adopting its new da Vinci 5 and existing Ion robotic systems.
+  url: https://finnhub.io/api/news?id=69cac81872a917b82ac0a4526f38f4b08928a2ae81ab419989126f3ac804ca95

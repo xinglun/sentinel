@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Larry Ellison Loses $60 Billion
+  summary: Oracle's founder has watched his fortune collapse faster than any other billionaire on the planet this year, and the reason has Wall Street questioning whether the company can survive the AI arms race at all.
+  url: https://finnhub.io/api/news?id=769ba59a95553f8978d20dfeec5a65719ff4b6d549cec6f34ba5c57e479a560f

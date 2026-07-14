@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Back To $400? Jefferies Lays Out Bull Case, Says ​​SpaceX Merger Could Hand Shareholders A Premium
+  summary: Jefferies said Tesla’s growth and earnings deterioration are beginning to reverse ahead of its July 22 results.
+  url: https://finnhub.io/api/news?id=d001bdbdb8c9e8dd9157f03bb737b32f3674206828793b948220a8527612646f

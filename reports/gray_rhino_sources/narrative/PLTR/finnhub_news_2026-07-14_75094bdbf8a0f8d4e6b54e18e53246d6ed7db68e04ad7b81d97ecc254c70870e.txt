@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Global Race For AI Dominance: How It's Reshaping Markets
+  summary: Kevin Hebner, Global Investment Strategist at TD Epoch, explains how the AI boom is reshaping capital markets, creating a new generation of larger IPOs. Read more here.
+  url: https://finnhub.io/api/news?id=bda329db61e51e5cdd6366d134aca47a29a1a2b8affb65f7a8546cec298fee6c

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s CEO Lays Out the Next Massive AI Trade
+  summary: Satya Nadella just argued that every enterprise adopting AI is quietly giving away its most valuable secrets, and he named the specific companies built to stop that from happening.
+  url: https://finnhub.io/api/news?id=e89c6087110076e55f23c8c055f2c41cc43c25ef51dca6bc306c737675174a84

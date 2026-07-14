@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Free Cash Flow Silence That Reshapes The Amazon Stock Bull Case
+  summary: Management's narrative has pivoted hard to AI and custom chips, but what they've stopped highlighting, the cash generation that funded it all, reveals a profound shift in the company's risk profile.
+  url: https://finnhub.io/api/news?id=698e007633b1655930a805be5b672dd7ba4504bb629d0652eb7c70d935f18d82

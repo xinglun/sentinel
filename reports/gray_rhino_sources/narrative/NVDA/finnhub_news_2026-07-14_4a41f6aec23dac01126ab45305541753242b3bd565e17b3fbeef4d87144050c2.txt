@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Cryptocurrency Could Overtake Bitcoin and Ethereum Combined in Total Value
+  summary: A pivot into decentralized finance (DeFi) could be the catalyst to send the price of Solana soaring.
+  url: https://finnhub.io/api/news?id=a8e010f4ab44ec1142eff7f43500d2002106da29af985762d236431a5956308a

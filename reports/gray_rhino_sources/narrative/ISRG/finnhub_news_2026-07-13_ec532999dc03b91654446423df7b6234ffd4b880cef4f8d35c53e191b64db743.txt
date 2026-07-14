@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Likely To Report Higher Q2 Earnings; These Most Accurate Analysts Revise Forecasts Ahead Of Earnings Call
+  summary: Intuitive Surgical (NASDAQ: ISRG) to report Q2 earnings on July 16. Analysts expect $2.50 EPS and $2.82B revenue. Recent analyst ratings and stock outlook. #ISRG #earnings
+  url: https://finnhub.io/api/news?id=c8dcb369b23639368e2595516607ffbb7aaf3027bc73f03b215d80a6ae7e27a9

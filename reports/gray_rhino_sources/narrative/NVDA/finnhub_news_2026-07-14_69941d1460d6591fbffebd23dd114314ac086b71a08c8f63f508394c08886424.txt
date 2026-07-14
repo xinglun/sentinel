@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Wrong With Oklo's Stock?
+  summary: Oklo's stock has been in a tailspin for much of the year and is trading around its 52-week low.
+  url: https://finnhub.io/api/news?id=96720011cddef61da0b5616b8cd49068acfcdad33511bc4c8fbd46e93d1ec093

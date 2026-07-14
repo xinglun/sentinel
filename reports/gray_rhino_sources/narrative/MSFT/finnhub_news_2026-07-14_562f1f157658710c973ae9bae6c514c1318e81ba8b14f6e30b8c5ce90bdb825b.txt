@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Deep Can Oracle Stock Fall?
+  summary: Its history in market shocks reveals a pattern of deep falls and long recoveries that every shareholder should understand.
+  url: https://finnhub.io/api/news?id=97b18419ecb056f19c21ed2e1759fa60980515a14050ec3fbfc8bac0d102dadc

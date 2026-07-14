@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says 1 Supply Signal Could Finally Unlock NVDA’s Next Big Move
+  summary: Jim Cramer pinpointed a single market variable that could either unlock NVIDIA's next surge or keep the stock in check, and it has nothing to do with earnings or tariffs.
+  url: https://finnhub.io/api/news?id=ea3621ae2cc68fd30ece3c995f617710adfd612fc13018b8b3bd65ec1899bd21

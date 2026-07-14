@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Massive Reason to Buy Tesla Before July 22 Earnings
+  summary: Tesla is sitting 10% below where it started the year, but the options market and a rapidly changing cost structure tell a very different story about what happens after July 22.
+  url: https://finnhub.io/api/news?id=cf2ad885d51de630f260d3635529d13fce2eeddfc333590f307f892e88e4dd87

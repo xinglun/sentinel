@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: June CPI: Soft Inflation Data Undercuts The Hawkish Case
+  summary: June CPI surprised with broad-based disinflation: headline -0.4% MoM, core flat, July Fed hike odds plunged. Click for a look at the data & how it impacts markets.
+  url: https://finnhub.io/api/news?id=9f22f4f22a7bf8e90a4b549d0431c4fe15a19a43c947d6e431c77c0249476edf

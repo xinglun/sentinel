@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Prepares For Five Top Banks To Report Earnings On The Same Day
+  summary: Wells Fargo, Goldman Sachs, Bank of America, Citigroup and JPMorgan Chase all report second-quarter earnings on Tuesday.
+  url: https://finnhub.io/api/news?id=68e5803eccce765b600e33a2292c1bb507ed1b5686050588836d5edb35ace896

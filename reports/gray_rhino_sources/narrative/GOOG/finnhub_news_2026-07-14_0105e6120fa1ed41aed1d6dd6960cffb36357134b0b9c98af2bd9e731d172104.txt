@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - AI Revolutionizes Underwriting with Novacore and FurtherAI Partnership
+  summary: FurtherAI, an AI workspace tailored for the insurance sector, has been chosen by Novacore as the backbone of its underwriting operations. The integration aims to enhance Novacore's efficiency by replacing outdated systems with a platform that molds to specific underwriting workflows, enabling flexibility and growth with evolving AI models. This partnership underscores a trend in Cloud AI deployment within the insurance industry, with AI-driven tools becoming central to streamlined operations...
+  url: https://finnhub.io/api/news?id=c060503036c142f02281be504ff37bf78522620022f2ebb24e3231267ceb4f0f

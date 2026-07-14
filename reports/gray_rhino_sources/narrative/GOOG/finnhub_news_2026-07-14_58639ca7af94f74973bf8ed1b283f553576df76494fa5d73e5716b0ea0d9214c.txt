@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Swiss probe Google dropping search choice on Android phones
+  summary: The Swiss competition authority announced Tuesday it had opened a preliminary investigation into Google's removal of the "choice screen" feature on Android devices in Switzerland."Recently, Google removed this feature in Switzerland," the Secretariat of the Competition Commission (COMCO) said in a statement.
+  url: https://finnhub.io/api/news?id=a3022c604624ccd96c9c4159b7bae94510dff213411b14d9bbe966ec8bc1f0e7

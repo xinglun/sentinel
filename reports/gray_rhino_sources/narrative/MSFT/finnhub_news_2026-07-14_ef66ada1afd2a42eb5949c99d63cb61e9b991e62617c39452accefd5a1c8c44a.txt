@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Entered The AI Power Business. The Oil Patch Won't Be The Same.
+  summary: AI data centers drove Chevron's surprise move into the new gas-to-power business. What should investors expect next?
+  url: https://finnhub.io/api/news?id=8b6a103c53a0c6a873cbef72417fab55c1e02d3833269c5b139f09c93e019ed6

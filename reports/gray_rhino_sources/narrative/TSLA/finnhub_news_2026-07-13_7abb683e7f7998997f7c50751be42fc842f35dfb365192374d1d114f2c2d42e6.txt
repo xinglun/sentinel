@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Huawei's $11 Billion Clean Energy Empire Is Opening New Markets
+  summary: (Bloomberg) -- Surrounded by the turquoise waters of the Atlantic and dotted with native fig trees, the archipelago of Fernando de Noronha is one of Brazil’s most coveted tourist destinations. Home to about 3,000 residents, it greets roughly 40 times that number of visitors each year, placing immense strain on an isolated power grid kept alive largely by boatloads of diesel fuel.Most Read from BloombergUS Hits Iran With Strikes, Blockade as Trump Plans Hormuz ChargeLindsey Graham, Senate Hawk Tu
+  url: https://finnhub.io/api/news?id=3727980957a93b5287da48b11d786184074d77abea5aaf2593bb649c58d82d8e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Stock Looks Fairly Valued Despite Strong AI Hopes
+  summary: Alphabet stock has almost tripled investors’ money over the past five years, yet current valuation checks paint a more measured picture. The Discounted Cash Flow (DCF) intrinsic value estimate points to a price that is close to where the market is already trading, and earnings multiples still screen as supportive. Alphabet has delivered a 5 year total return of about 186%, which puts extra focus on whether today’s price still offers a reasonable entry point after such a strong...
+  url: https://finnhub.io/api/news?id=7ffc8514ddbed103c694be09068426cc2a75de86db134c360e58fc93ab084c10

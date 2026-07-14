@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A $10,000 Investment in Google When Sundar Pichai Took Over Is Worth This Much Now
+  summary: Sundar Pichai inherited a search-and-ads business and spent a decade betting billions on AI, cloud, and autonomous vehicles while antitrust regulators closed in. Whether that gamble rewarded patient shareholders depends on exactly when they bought and whether they held through some brutal swings.
+  url: https://finnhub.io/api/news?id=a16c769bd64da2648acb87fd62fc9641f57b714ebfc057a43f095f353b30bde0

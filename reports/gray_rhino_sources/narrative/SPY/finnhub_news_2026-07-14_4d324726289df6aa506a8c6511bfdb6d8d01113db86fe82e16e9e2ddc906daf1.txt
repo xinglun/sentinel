@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It's Not All About AI: Where To Find Other Potential Market Opportunities
+  summary: Semiconductor-related shares have been hit with bouts of volatility recently, which is fueling concerns about the broader market. TD Asset Management's Damian Fernandes discusses.
+  url: https://finnhub.io/api/news?id=bc188c1726fc8cc99907287e068fe7209c2cf8c06ed8d07784d3eac09667ca36

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation Cooled: I Still Don't Trust It
+  summary: June CPI shocked lower as energy prices fell and core inflation was flat. Click for this look at the latest data and its implications for the market.
+  url: https://finnhub.io/api/news?id=8c57b1e405ada4b41c18d9ecda858fcf376ce6820edcfba783db6e9f833ff56a

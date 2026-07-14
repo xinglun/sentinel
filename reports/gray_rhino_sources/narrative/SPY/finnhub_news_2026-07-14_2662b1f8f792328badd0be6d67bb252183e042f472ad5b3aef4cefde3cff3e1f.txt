@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Tectonic AI Shift Is Here
+  summary: Micron earnings beat, yet AI hardware faces profit-taking as memory margins normalize.
+  url: https://finnhub.io/api/news?id=6c7147c9b3ea2dc5cce8168973d842e4bcc12af955d34a2f946388a2a0e8efd6

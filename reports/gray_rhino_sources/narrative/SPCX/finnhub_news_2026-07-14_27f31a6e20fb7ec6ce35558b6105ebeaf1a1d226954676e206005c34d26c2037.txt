@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equity Futures Mixed Ahead of Key Inflation Data, Big Bank Earnings
+  summary: US equity futures were mixed before the open Tuesday as traders await a key inflation report and qua
+  url: https://finnhub.io/api/news?id=7c3c3876f6951b568b80c51eb07e7cbd994ffb0a6823828264218a450c36967a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Stock Market Has a KOSPI Problem
+  summary: Oil prices head north of $80 a barrel, Waller is watching inflation, Apple’s ties with Google likely to strengthen, and more news to start your day.
+  url: https://finnhub.io/api/news?id=9ef0c2cffbdff30e10040120803ea65daafd6e1582716615030f71deb28fb44b

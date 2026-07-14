@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accelerating Search Revenue Growth Powered Alphabet’s (GOOG) Rally
+  summary: Harris Oakmark recently released its second-quarter 2026 investor letter for the “Oakmark Equity and Income Fund”. A copy of the letter can be downloaded here. Oakmark Equity and Income Fund aims to maximize returns while preserving and enhancing capital. The portfolio consists of US equities and fixed-income securities. The allocation was 60.1% in equities, 38.9% […]
+  url: https://finnhub.io/api/news?id=aa37d4d178d7afb3b437015c0bb915f2502399958f6968d72932fda9b8f4e566

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Potential Buyers Line Up for Unity Software as Valuation Hits Rock Bottom
+  summary: Unity Software's stock has cratered while its AI ad engine and mobile game dominance keep growing, and at least five deep-pocketed giants are now circling a company that may be too strategically valuable to stay independent.
+  url: https://finnhub.io/api/news?id=2444539df0da68cb7d3de67197af0d893dd36b5dd9af0995ddc310b3b2c8a717

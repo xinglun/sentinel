@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Portugal seeks high-value data centres, not to become Europe's dumping ground
+  summary: Portugal is keen to attract data centres that generate economic benefits and boost productivity and not ‌become a dumping ground for power-hungry projects with limited returns ‌for the country, Infrastructure Minister Miguel Pinto Luz said on Tuesday.  • The country is ​emerging as a key European data-centre hub, with more than 2.6 gigawatts under development, led by the 1.2-GW Start Campus project in Sines, backed by Microsoft AI infrastructure investments, with the pipeline expected to grow substantially.  • ‌As opposition to data ⁠centres grows in parts of the world, particularly in the United States, the minister said Portugal will only ⁠support such investments if they deliver measurable productivity gains and real benefits for the economy.
+  url: https://finnhub.io/api/news?id=e55e0cafb9c1ce516b3c8e59d4817540d9d9b97803e5889f67b79c7cafe1636c

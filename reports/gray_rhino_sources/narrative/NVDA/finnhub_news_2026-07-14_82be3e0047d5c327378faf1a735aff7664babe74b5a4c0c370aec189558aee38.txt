@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Nvidia vs AMD vs Broadcom, Which One Could 3x by 2027?
+  summary: NVIDIA, AMD, and Broadcom are all chasing the same AI silicon gold rush, but their valuations tell wildly different stories about who actually has room to run before 2027.
+  url: https://finnhub.io/api/news?id=386a294bd395bde25e3f4a1106f048ec5f1d63e8fc4ebb1e75801fcf0dbab4ca

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Nvidia Stock Be in 2030?
+  summary: Can this AI chip giant step on the gas once again and deliver big gains to investors over the next five years?
+  url: https://finnhub.io/api/news?id=dadd84590540a466aea01b3c1d23fa4a98087cbfe4096c63ae0c5f5c2e56b289

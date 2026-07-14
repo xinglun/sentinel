@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This chipmaker "remains a core AI winner and a close #2 behind NVDA": MS
+  summary: Investing.com -- Morgan Stanley reiterated an Overweight rating on Broadcom in a note on Tuesday, pushing back on investor concerns that MediaTek could significantly erode Broadcom's share of Google's TPU business.
+  url: https://finnhub.io/api/news?id=53c48b739e05ba3a3029fe1c8e6e096b723c0f7755001b42e88de06bdfcc98cb
