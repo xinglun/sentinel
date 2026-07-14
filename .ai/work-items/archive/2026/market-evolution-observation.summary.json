@@ -167,7 +167,16 @@
     "reports/observation_timeline_YYYY-MM-DD.json",
     "reports/observation_timeline.jsonl"
   ],
-  "destructiveChanges": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.contract.json",
+      "reason": "验收通过后将 Work Item Contract 从 active/ 归档到 archive/2026/，保留 PR archive evidence。"
+    },
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.summary.json",
+      "reason": "验收通过后将 Work Item Summary 从 active/ 归档到 archive/2026/，保留 PR archive evidence。"
+    }
+  ],
   "observedIssues": [],
   "scenarioCoverage": [
     {
