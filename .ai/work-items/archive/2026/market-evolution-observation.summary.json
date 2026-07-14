@@ -1,0 +1,384 @@
+{
+  "workItemId": "market-evolution-observation",
+  "contractPath": ".ai/work-items/archive/2026/market-evolution-observation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状态由 required checks 生成。"
+    },
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.contract.json",
+      "reason": "固化阈值、历史覆盖、change_level、显示和 Observation-only 边界。"
+    },
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.summary.json",
+      "reason": "记录实现、验证、场景覆盖和残余风险。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
+      "reason": "记录市场演化观察设计和语义契约。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-14-market-evolution-observation.md",
+      "reason": "记录按 TDD 执行的实施计划。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "增加 DOMINANT/FADING 状态、阈值、first_observed_at 和 history coverage 字段。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "新增多维 change_level、drivers 和 unchanged dimensions 领域规则。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "新增 7 个交易日 Timeline、coverage 和重复内容摘要规则。"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "reason": "注册新的 Observation domain modules。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "独立保存 latest JSON、按日 JSON 和 JSONL Timeline artifact。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "投影 Leader Persistence 的历史语义字段。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "扩展 Market Change Log 和 Leader Persistence read model 字段。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "补充 Presentation packet 字段兼容性回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "保持现有 Presentation packet 默认结构兼容。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "接入多维 Change Driver、Timeline 采集与官方 NYSE 休市日过滤。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "显示 change level、drivers、unchanged dimensions 和 7 日 Observation Timeline 摘要。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "更新 Leader Persistence fixture 并验证主报告渲染 Timeline。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "输出结构化 Leader Persistence 字段别名。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "移除不再使用的旧队列标签。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Future Supply Queue 输出 Subject、Event Type、Expected Window、Status、Source Quality。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "固定三语言 Supply Queue 详情、前三条限制和空队列回归。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "同步实际 Future Supply Queue 输出契约，修复 P0 集成断言。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "复用官方 NYSE 休市日清单作为 Timeline 窗口输入。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/c8948601-583a-4928-b7ed-a1817202a815/pasted-text.txt",
+    ".ai/cockpit/README.md",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/domain/capital_absorption.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json SUMMARY=.ai/work-items/active/market-evolution-observation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "规则和边界已固定；Timeline 的实际历史完整度取决于已有 daily observation 和官方休市日输入，缺失时按 PARTIAL/UNAVAILABLE 保守输出。"
+  },
+  "generatedFiles": [
+    "reports/observation_timeline_latest.json",
+    "reports/observation_timeline_YYYY-MM-DD.json",
+    "reports/observation_timeline.jsonl"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "DOMINANT/FADING 阈值和连续下降规则可测试",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --lib"
+      ]
+    },
+    {
+      "scenario": "7 个交易日缺失快照、周末和官方休市日按 coverage 规则处理",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test observation_timeline --lib",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "PARTIAL 历史不输出首次观察，完整历史才记录 first_observed_at 语义",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test leader_persistence --lib",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "change_level 多维优先级和局部排序阈值不由单一 confidence 决定",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test market_change_driver --lib"
+      ]
+    },
+    {
+      "scenario": "Timeline 独立保存 latest、按日 JSON 和 JSONL",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test observation_timeline_writes_latest_dated_and_jsonl_artifacts --lib"
+      ]
+    },
+    {
+      "scenario": "Future Supply Queue 最多前三条、空队列有 unavailable 说明且五项详情可追踪",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "cargo test capital_absorption_report --lib"
+      ]
+    },
+    {
+      "scenario": "主报告实际渲染 7 日 Timeline 压缩摘要，完整记录仍独立保存",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "report_ui_tests::main_report_renders_observation_timeline_summary"
+      ]
+    },
+    {
+      "scenario": "Timeline zh/en/ja 标题、标签、摘要和 Leader/Breadth/Confidence/Supply 压缩序列均按语言输出",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "report_ui_tests::main_report_renders_observation_timeline_summary",
+        "make clippy"
+      ]
+    },
+    {
+      "scenario": "Observation-only、Decision Weight = 0% 且交易链路无变化",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-ai-scope CONTRACT=.ai/work-items/active/market-evolution-observation.contract.json",
+        "make check-architecture-all",
+        "make test"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "用户确认设计后完成 Contract 和 Preflight。",
+      "contractHash": "b499d7da13be90ca",
+      "acceptanceCount": 20,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope、outOfScope、阈值、coverage、change_level 和 agent capability 已确认。",
+      "contractHash": "b499d7da13be90ca",
+      "acceptanceCount": 20,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "本轮验收的完整中文/日文标签与语言无关归档摘要缺口已转为精确 acceptance 与回归测试。",
+      "contractHash": "b499d7da13be90ca",
+      "acceptanceCount": 20,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "本轮完整中文/日文标签与语言无关归档摘要修复后，make quality 的格式、589 个测试、Clippy、覆盖率、架构检查和 Cockpit 检查均通过。",
+      "contractHash": "b499d7da13be90ca",
+      "acceptanceCount": 20,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "已确认 Contract 和 Preflight。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "生产改动限定在 Observation / Interpretation scope。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt、test、clippy、architecture 已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Cockpit required checks 已全部通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "holiday_calendar",
+      "detail": "Runner 当前使用官方 NYSE holiday 列表；跨市场或 provider 自定义交易日仍需 review。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "report_contract",
+      "detail": "新增 Change Drivers 使用现有多语言报告骨架中的稳定英文字段名，需 review 是否需要进一步本地化。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "本轮验收指出的中文/日文标签混用英文与领域摘要固定中文问题已修复；全量质量门禁通过，保留既有低风险 review 项。",
+    "expectedReviewFocus": [
+      "P0 集成测试与新 Supply Queue 文案契约",
+      "主报告是否实际渲染 7 日 Timeline 摘要",
+      "Leader Persistence 当前窗口与 UNAVAILABLE / PARTIAL 语义",
+      "Timeline 全结构维度变化",
+      "Market Change Driver score/confidence 分离",
+      "Supply Queue 前三条和空队列措辞",
+      "Observation-only 边界"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "verified",
+    "reportOutput": "verified",
+    "persistence": "verified",
+    "i18n": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "将 DOMINANT/FADING 阈值、7 日历史 coverage 和 change_level 优先级固定为可测试规则。",
+    "保持 Observation / Interpretation Only 与 Decision Weight = 0%。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "用户要求将阈值、历史覆盖、change_level 优先级固化为可测试 Contract 规则。",
+      "solidifiedTo": "contract",
+      "reason": "规则已写入 Contract、设计文档和领域测试。"
+    },
+    {
+      "correction": "验收不通过；P0/P1/P2 反馈必须在重新验证后才能更新 readiness。",
+      "solidifiedTo": "contract",
+      "reason": "将验收反馈固化为可检查的主报告消费、历史窗口、队列边界、Timeline 全维度和 score 语义规则。"
+    },
+    {
+      "correction": "再次验收要求主报告只显示压缩摘要、read model 保留 UNAVAILABLE、空 Future Queue 使用约定文案。",
+      "solidifiedTo": "contract",
+      "reason": "新增精确输出与投影语义验收条款，并用回归测试固定。"
+    },
+    {
+      "correction": "第三次验收要求 Timeline 按 zh/en/ja 本地化，并展示 Leader、Breadth、Confidence、Supply 压缩演化序列。",
+      "solidifiedTo": "contract",
+      "reason": "新增语言与序列输出 acceptance，并扩展三语言报告回归测试。"
+    },
+    {
+      "correction": "本轮验收要求中文和日文标签完整本地化，并禁止领域 summary 与 archival JSON/JSONL 混入固定中文。",
+      "solidifiedTo": "contract",
+      "reason": "新增语言无关 summary 状态键 acceptance，并用三语言报告测试和归档 JSON 回归测试固定。"
+    }
+  ]
+}
