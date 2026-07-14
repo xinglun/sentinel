@@ -249,12 +249,9 @@
     }
   ],
   "destructiveChangePolicy": {
-    "allowed": true,
+    "allowed": false,
     "requiresHumanApproval": true,
-    "allowPatterns": [
-      ".ai/work-items/active/market-evolution-observation.contract.json",
-      ".ai/work-items/active/market-evolution-observation.summary.json"
-    ]
+    "allowPatterns": []
   },
   "rollbackNote": "この Work Item の diff を revert し、関連する observation domain、report read model、snapshot と archival output を元に戻す。"
 }

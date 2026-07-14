@@ -167,16 +167,7 @@
     "reports/observation_timeline_YYYY-MM-DD.json",
     "reports/observation_timeline.jsonl"
   ],
-  "destructiveChanges": [
-    {
-      "path": ".ai/work-items/active/market-evolution-observation.contract.json",
-      "reason": "验收通过后将 Work Item Contract 从 active/ 归档到 archive/2026/，保留 PR archive evidence。"
-    },
-    {
-      "path": ".ai/work-items/active/market-evolution-observation.summary.json",
-      "reason": "验收通过后将 Work Item Summary 从 active/ 归档到 archive/2026/，保留 PR archive evidence。"
-    }
-  ],
+  "destructiveChanges": [],
   "observedIssues": [],
   "scenarioCoverage": [
     {
@@ -264,7 +255,7 @@
       "stage": "contract_start",
       "recorded": true,
       "detail": "用户确认设计后完成 Contract 和 Preflight。",
-      "contractHash": "c0844fc7401a8c96",
+      "contractHash": "b499d7da13be90ca",
       "acceptanceCount": 20,
       "unknownCount": 0,
       "requiredChecks": 13,
@@ -274,7 +265,7 @@
       "stage": "before_edit",
       "recorded": true,
       "detail": "scope、outOfScope、阈值、coverage、change_level 和 agent capability 已确认。",
-      "contractHash": "c0844fc7401a8c96",
+      "contractHash": "b499d7da13be90ca",
       "acceptanceCount": 20,
       "unknownCount": 0,
       "requiredChecks": 13,
@@ -284,7 +275,7 @@
       "stage": "before_ready",
       "recorded": true,
       "detail": "本轮验收的完整中文/日文标签与语言无关归档摘要缺口已转为精确 acceptance 与回归测试。",
-      "contractHash": "c0844fc7401a8c96",
+      "contractHash": "b499d7da13be90ca",
       "acceptanceCount": 20,
       "unknownCount": 0,
       "requiredChecks": 13,
@@ -294,7 +285,7 @@
       "stage": "after_verification",
       "recorded": true,
       "detail": "本轮完整中文/日文标签与语言无关归档摘要修复后，make quality 的格式、589 个测试、Clippy、覆盖率、架构检查和 Cockpit 检查均通过。",
-      "contractHash": "c0844fc7401a8c96",
+      "contractHash": "b499d7da13be90ca",
       "acceptanceCount": 20,
       "unknownCount": 0,
       "requiredChecks": 13,
