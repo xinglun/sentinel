@@ -51,6 +51,10 @@
       "reason": "扩展 Market Change Log 和 Leader Persistence read model 字段。"
     },
     {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "补充 Presentation packet 字段兼容性回归测试。"
+    },
+    {
       "path": "src/features/radar/interface/presentation_assembler.rs",
       "reason": "保持现有 Presentation packet 默认结构兼容。"
     },
