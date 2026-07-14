@@ -1,0 +1,41 @@
+{
+  "workItemId": "market-evolution-observation-archive-evidence-repair",
+  "contractPath": ".ai/work-items/archive/2026/market-evolution-observation-archive-evidence-repair.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "补充既有 Presentation 测试变更的 PR archive ownership。"
+    }
+  ],
+  "sourcesUsed": ["scripts/ai_check_pr.py", "scripts/ai_check_backtrack.py"],
+  "verification": [
+    {"command": "make fmt-check", "result": "passed"},
+    {"command": "make check-ai-pr AI_BASE_COMMIT=6d547539a5640d85580a1cacf68a00793d5ba2f3", "result": "not_run"}
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "仅补充 PR ownership 与 archive cleanup 证据。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.contract.json",
+      "reason": "验收通过后已归档，记录 active evidence cleanup 意图。"
+    },
+    {
+      "path": ".ai/work-items/active/market-evolution-observation.summary.json",
+      "reason": "验收通过后已归档，记录 active evidence cleanup 意图。"
+    }
+  ],
+  "observedIssues": [
+    {
+      "detail": "既有 archive bundle 不可追加修改，因此使用独立补充 evidence bundle。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "补充 archive evidence 已固定 ownership 与 cleanup approval。",
+    "expectedReviewFocus": ["既有 archive append-only", "PR ownership", "backtrack cleanup approval"]
+  }
+}

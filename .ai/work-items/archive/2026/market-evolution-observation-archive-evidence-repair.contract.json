@@ -1,0 +1,87 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-evolution-observation-archive-evidence-repair",
+  "mode": "review",
+  "title": "补充市场演化观察 PR 归档证据",
+  "baseCommit": "fcfd74ea6d59e5affed877bbce921694bf5ffcec",
+  "baselineDirtyPaths": [],
+  "problemStatement": "归档 Work Item 的 active 删除需要显式 backtrack 清理证据，且 Presentation 测试路径需要补充 PR ownership。",
+  "intent": {
+    "problem": "为既有市场演化观察归档补充不可变的 PR evidence bundle。",
+    "constraints": [
+      "不修改既有 archive 文件。",
+      "不修改生产交易逻辑。"
+    ],
+    "rationale": "让 PR archive guard 和 backtrack guard 都能从独立归档证据中解析 ownership 与清理批准。"
+  },
+  "scope": [
+    ".ai/work-items/archive/2026/market-evolution-observation-archive-evidence-repair.*",
+    "src/features/radar/interface/presentation_tests.rs"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/2026/market-evolution-observation.*",
+    "src/**/execution_gate.rs",
+    "src/**/trade_executor.rs",
+    "src/**/trader_agent.rs"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "确认 archive Contract/Summary ownership 规则。"
+    },
+    {
+      "path": "scripts/ai_check_backtrack.py",
+      "reason": "确认 active Work Item archive cleanup 的显式批准规则。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/market-evolution-observation.summary.json",
+      "reason": "确认既有归档内容保持 append-only。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "acceptance": [
+    "独立 archive Contract/Summary 记录 presentation_tests.rs 的 ownership。",
+    "Summary 记录 active Contract/Summary 已验收归档的清理意图。",
+    "既有 market-evolution-observation archive 文件保持不变。",
+    "PR archive guard 与 backtrack guard 通过。"
+  ],
+  "verification": [
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=6d547539a5640d85580a1cacf68a00793d5ba2f3",
+      "required": false
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      ".ai/work-items/active/market-evolution-observation.contract.json",
+      ".ai/work-items/active/market-evolution-observation.summary.json"
+    ]
+  },
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["governance_process"],
+    "reason": "仅增加归档证据，不改变生产行为。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "归档证据格式和 guard 行为已明确。"
+  },
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "归档证据变更必须保持既有 archive append-only。"
+  },
+  "rollbackNote": "仅 revert 本补充 archive evidence bundle。"
+}
