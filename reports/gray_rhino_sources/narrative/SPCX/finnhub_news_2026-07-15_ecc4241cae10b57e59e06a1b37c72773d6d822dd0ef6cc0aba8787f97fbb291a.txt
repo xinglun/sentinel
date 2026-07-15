@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Hauled in Billions of Wealth Assets in IPO Frenzy
+  summary: (Bloomberg) -- It’s not just Morgan Stanley’s IPO bankers that are benefiting from the frenzy of companies going public in recent weeks.The bank hauled in $148 billion of net new assets in its wealth-management business in the second quarter, over half of which were tied to IPOs, according to a statement Wednesday. SpaceX’s record-breaking listing earlier this year proved to be a field day for Morgan Stanley and its Wall Street peers that helped take it public. Elon Musk’s space and artificial-i
+  url: https://finnhub.io/api/news?id=a48d0bb6598fa80fd6b538df2094e341688940ce3f3fae7685614126cdd6c0d4

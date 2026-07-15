@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir (PLTR) the Best Growth Stock With Highest Upside Potential?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) is one of the 10 Best Growth Stocks With Highest Upside Potential. On July 9, 2026, Rackspace (RXT) and Palantir Technologies Inc. (NASDAQ:PLTR) announced an operating model framework to help regulated and sovereign enterprises own and operate AI in production. Delivered through Rackspace, the framework combines Palantir Foundry and AIP with […]
+  url: https://finnhub.io/api/news?id=19f90f8f53d6a8820212923b0c76c529e5c85d7c78dc35d1374cab1ee39da8bf

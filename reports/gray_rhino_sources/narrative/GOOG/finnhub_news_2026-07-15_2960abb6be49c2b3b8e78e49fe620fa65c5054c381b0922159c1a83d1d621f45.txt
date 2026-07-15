@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Xsolla Releases New Industry Report Highlighting the Shift Toward Direct-to-Consumer Models as the New Baseline for Monetization
+  summary: LOS ANGELES, July 15, 2026--Xsolla, a leading global video game commerce company, today released the latest edition of The Xsolla Report, analyzing the accelerating global shift toward direct-to-consumer (D2C) commerce and strategies across mobile and PC game distribution. Drawing on data from publishers, platform policy changes, and global market expansion trends, the report shows how D2C has moved from an experimental strategy to a core operating model for leading video game studios.
+  url: https://finnhub.io/api/news?id=c21c30659cbdce8365e640936aece1de2d41cd6b37c84f1d5a8d676bb8185cf7

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 Preview: The Dream Factory Is Burning Cash
+  summary: Tesla, Inc. Q2 2026 deliveries hit records, but incentives, lower ASPs and negative FCF risk loom. Click for this TSLA earnings preview.
+  url: https://finnhub.io/api/news?id=f046e5960b298189af5217107d7d3d59ee56e4a73ac679b7e3bf3721a2490b33

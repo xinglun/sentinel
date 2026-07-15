@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Intuitive Surgical Stock Before Earnings on July 16?
+  summary: The robotic surgery company has posted earnings beats in its past four quarters. Can it make it five in a row?
+  url: https://finnhub.io/api/news?id=d5d525a7834ebf70347ed3d5fa54a4dff6e70186a521cf1c6313d3315a8570e0

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kognitos Named Sample Vendor in Two Gartner® Hype Cycles as Enterprise AI Shifts from Prompts to Governed Execution
+  summary: Dual inclusion in Gartner® Hype Cycle™ publications reflects enterprise demand for AI that is traceable, governed, and built to scaleSAN JOSE, Calif., July 15, 2026 (GLOBE NEWSWIRE) -- Kognitos, the pioneer of neurosymbolic AI for business automation, today announced it has been named a Sample Vendor in the Context Graphs innovation profile in two Gartner® Hype Cycle™ publications: the Hype Cycle for Agentic AI, 2026 and the Hype Cycle for Data Science and Machine Learning, 2026. Kognitos is one
+  url: https://finnhub.io/api/news?id=94752490d482d07b08dc7b5c3f1f78d018e07fe0cb8ca7566822f16d772c6c3b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says Balance Sheet Should Be As Small As Possible, Can Expand When There's A Crisis
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=97885c75419f544d7c8504c404f1df941eb84006b98c8c3d22e7a02fcea1a871

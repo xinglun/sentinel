@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TappAlpha Expands Growth + Income ETF Platform with TMGN, Bringing Tax-Efficient Income to the Cboe Magnificent 10 Index
+  summary: SEATTLE, July 15, 2026 (GLOBE NEWSWIRE) -- Following its recent milestone of surpassing $500 million in assets under management, TappAlpha today announced the launch of the TappAlpha Cboe Magnificent 10 Growth & Daily Income ETF (TMGN), a new ETF designed to provide exposure to the Cboe Magnificent 10 Index (MGTN Index) while applying TappAlpha's daily options-based growth + income strategy. TMGN, listed on Cboe BZX Equities Exchange, expands TappAlpha's growing Growth + Income ETF lineup, which
+  url: https://finnhub.io/api/news?id=c6f464e4b9f72e663d0a7e6ba064587394afd222e567aab5d8858ffd98c4eaab

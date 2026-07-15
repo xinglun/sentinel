@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Trades at 64X Sales. Here's Whether That Premium Is Justified.
+  summary: The stock burned investors who shelled out for Palantir near the stock's highs last year.
+  url: https://finnhub.io/api/news?id=92b03df850e414cfb6022e7476729236801c6923707ad5508bd70ca08e23f365

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Marvell Turned AI Demand Into A 200% Rally
+  summary: Here is how Marvell Technology convinced the market its already bright future was accelerating at a pace few saw coming.
+  url: https://finnhub.io/api/news?id=c568319602d7121bf19a7187c31aac6720169f8bb14eb30ef3a71c92898dd216

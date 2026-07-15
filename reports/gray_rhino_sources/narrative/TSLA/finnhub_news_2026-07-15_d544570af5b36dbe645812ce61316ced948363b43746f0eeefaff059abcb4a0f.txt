@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV Prices Fall Over 4% as Tesla Records Marginal Price Drop—Small, Medium Pickup Sales Jump More Than 12%
+  summary: US EV ATP declined 4.5% in June despite Trump&#39;s anti-EV stance as Subcompact SUV sales saw a 23% surge while Tesla prices came down.
+  url: https://finnhub.io/api/news?id=66431961fc0578cdfd6f50266c0b0458db59b498c7c6bdafc8997a471f6b0891

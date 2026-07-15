@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bold Prediction: Here's What a $5,000 Investment in SpaceX Will Be Worth in 10 Years
+  summary: A $5,000 investment in SpaceX today could sink by more than half in 10 years -- or grow tenfold.
+  url: https://finnhub.io/api/news?id=aaac8ab51b5914b14def1a87333959987131acfccb27d4161f144635fdf3b317

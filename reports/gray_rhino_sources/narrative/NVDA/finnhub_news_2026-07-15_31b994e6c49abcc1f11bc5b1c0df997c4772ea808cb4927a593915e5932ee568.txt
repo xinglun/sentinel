@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons It Might Be Time to Give Up on Lucid Stock
+  summary: Lucid has always been an intriguing investment and has boasted well-designed, advanced EVs. But there may be too many challenges stacked against it for investors to buy or hold long-term.
+  url: https://finnhub.io/api/news?id=2b1913212f7e92d9ca68f0e4c8b92b684e75a0c76d9faec6fceafe194f3a9a96

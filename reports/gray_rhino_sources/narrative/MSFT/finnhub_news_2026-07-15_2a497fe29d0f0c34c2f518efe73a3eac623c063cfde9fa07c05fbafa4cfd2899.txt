@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Traders Bet There's An 88% Chance The S&P 500 Will Plunge Soon
+  summary: It doesn't really matter what you think of betting in prediction markets. They still generate some useful information for investors.
+  url: https://finnhub.io/api/news?id=0bc5ed63fe3d79dc6ab264642fb4a22c2dfaa53709c73ec23b9a529064e16802

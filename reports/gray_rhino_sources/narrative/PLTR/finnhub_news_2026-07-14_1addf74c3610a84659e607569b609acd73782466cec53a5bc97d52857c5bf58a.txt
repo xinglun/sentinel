@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alex Karp Thinks AI’s Irresponsibly Oversold, Critiques OpenAI and Anthropic — Is He Right?
+  summary: Palantir's Alex Karp went on CNBC to blast OpenAI and Anthropic for overselling AI, and his frustration touches a real nerve as enterprises burn cash on tokens without clear returns. But his proposed fix raises bigger questions than the problem itself.
+  url: https://finnhub.io/api/news?id=aa5e681061d5bdd4eb5fcbc3b4996597883365a3b5aff821ff49ccb23f99ebff

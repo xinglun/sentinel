@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A SpaceX vet raised $65M to pull wire harnesses out of the Cold War era
+  summary: Someone has to bundle all the wires that go into rockets, missiles, and satellites.
+  url: https://finnhub.io/api/news?id=e88ea79ba51e95df595f4209dbb54a225b7510e0352bbd111050feea560cd5f0

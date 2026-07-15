@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want A 34% Discount on Meta Stock? Why Not Get Paid While You Wait for It?
+  summary: Get paid a healthy income stream today for simply agreeing to buy shares of Meta Platforms at a steep discount, but only if the stock takes a serious tumble.
+  url: https://finnhub.io/api/news?id=002027fde869ccfd5411c26d79d954f60b862da3f028bdf4d32961093a62a9e9

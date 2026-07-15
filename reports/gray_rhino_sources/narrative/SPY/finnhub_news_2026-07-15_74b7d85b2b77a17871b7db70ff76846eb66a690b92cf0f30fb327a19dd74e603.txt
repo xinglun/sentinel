@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says If Trump Tries To Influence Monetary Policy I Would Keep Head Down, Do My Job; Don't Feel Uncomfortable Receiving A Call From Trump Or Chair Of Banking Committee; President Never Asked Me To Do Anything Inappropriate, And Wouldn't Do It If He Did; Labor Market Is In Good Shape; Not Sure If The Rate Cuts Are What Cause That; Monetary Policy Has Caused Inflation
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=419fbcaf0e3c2da05ccac60db7dcaf391ee20bf9ab506efb86334ca72926f8ce

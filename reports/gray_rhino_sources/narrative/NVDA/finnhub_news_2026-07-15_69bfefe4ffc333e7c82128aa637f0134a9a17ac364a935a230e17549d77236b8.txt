@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Boom Ran Into a Power Wall; This Nasdaq Company Is Building the Battery That Rolls In to Fix It
+  summary: Equity Insider News Commentary — The artificial intelligence buildout has collided with a physical limit that no algorithm can code its way around: electricity. Data centers are demanding power faster than the grid can add it through traditional fixed infrastructure, and that gap has become one of the defining investment themes of the decade. Against that backdrop, NOMAD Power Solutions, Inc. (Nasdaq: NMAD), The Company has entered an exciting new phase of growth by expanding into the AI energy
+  url: https://finnhub.io/api/news?id=7e8f5248eba4bd559e1857d75b1889151a309132f72ccfa6e40e6962474672f4

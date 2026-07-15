@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Warns AI Could Create 'Unimaginable Wealth' For Tech Biggest Winners
+  summary: Palantir Boss Warns AI May Deliver Massive Fortunes to a Select Few
+  url: https://finnhub.io/api/news?id=b0b47b4a4bd9fedc13533a41aa48652a1af4dcb9930d4bb01afcec8a8dfb9f41

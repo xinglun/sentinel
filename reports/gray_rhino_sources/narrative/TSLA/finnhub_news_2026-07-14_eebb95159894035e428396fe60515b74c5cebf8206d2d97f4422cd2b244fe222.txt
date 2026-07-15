@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Is What Rivian Stock Will Do if the R2 Is a Smashing Success
+  summary: Don't assume an inflection point in deliveries will lead to an inflection point for shares.
+  url: https://finnhub.io/api/news?id=56416ce86f4c5186a06eba5d22fbf12970526e33a144dbbceef74fdf73cdf0f4

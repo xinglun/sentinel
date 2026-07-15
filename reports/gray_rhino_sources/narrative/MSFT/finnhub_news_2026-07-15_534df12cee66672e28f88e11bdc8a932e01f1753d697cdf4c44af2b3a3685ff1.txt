@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don’t Miss the Surprising Signal to Buy ServiceNow Before July 22
+  summary: ServiceNow has dropped more than 40% over the past year while its business quietly accelerates, and options traders are making an unusually lopsided bet before the July 22 earnings report. Here is what the signal says about where shares go next.
+  url: https://finnhub.io/api/news?id=bc7f3a0445783aa680868c4d8e8d2e794fc94b08bd9c091a5e1fcf0cd421fbc6

@@ -21,3 +21,4 @@
 {"date":"2026-07-10","near_term_supply_count":1,"future_queue_count":1,"queue_count":1,"reported_count":1,"confirmed_count":1,"pressure":"NORMAL","items":[{"issuer":"OpenAI","ipo_stage":"Near-Term","event_type":"Confirmed","source_count":1},{"issuer":"SpaceX","ipo_stage":"Rumor","event_type":"Reported","source_count":1}]}
 {"date":"2026-07-13","near_term_supply_count":0,"future_queue_count":1,"queue_count":1,"reported_count":1,"confirmed_count":0,"pressure":"NORMAL","items":[{"issuer":"SpaceX","ipo_stage":"Rumor","event_type":"Reported","source_count":4}]}
 {"date":"2026-07-14","near_term_supply_count":0,"future_queue_count":0,"queue_count":0,"reported_count":0,"confirmed_count":0,"pressure":"LOW","items":[]}
+{"date":"2026-07-15","near_term_supply_count":0,"future_queue_count":0,"queue_count":0,"reported_count":0,"confirmed_count":0,"pressure":"LOW","items":[]}

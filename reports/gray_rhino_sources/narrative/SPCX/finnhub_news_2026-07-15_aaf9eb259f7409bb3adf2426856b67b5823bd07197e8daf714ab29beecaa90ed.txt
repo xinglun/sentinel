@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is in a Bear Market. This Can Turn It Around.
+  summary: SpaceX  stock is dangerously close to breaking its $135 IPO price.  SpaceX is set to test its huge, fully-reusable Starship for the thirteenth time.  Starship promises to dramatically lower the cost of reaching space while dramatically increasing SpaceX’s capacity to put things into orbit.
+  url: https://finnhub.io/api/news?id=922e86bd012b9771309f56e0604bde0dfc48db87e758f8da836a9c94635b923b

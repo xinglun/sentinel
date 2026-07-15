@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ADBE Looks Cheap. The Data Says Be Careful
+  summary: After a punishing markdown, the creative software giant looks cheap, but the market is pricing in a story of strategic turmoil and fundamental risk.
+  url: https://finnhub.io/api/news?id=ed1be6f52e232001bb24d46acd68a0a2dbcf9508928a6a374f59d79cbd5f4c60

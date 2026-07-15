@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Down 4% in a Month, This ETF Will Still Be the Best-Performing Tech ETF This Year
+  summary: Semiconductor stocks still have plenty of runway in front of them.
+  url: https://finnhub.io/api/news?id=baf9e2ab66a7f7ae1f3b0dcf82161b1ce1467fdee8c3c55976fb8997e09c2757

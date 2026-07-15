@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want to Buy Tesla? 3 Reasons to Buy This Luxury Automaker's Stock Instead.
+  summary: Tesla is driving head-on into a more uncertain future, and if investors aren't prepared to accept that risk, this luxury automaker might be just the company to check out instead.
+  url: https://finnhub.io/api/news?id=36bf2a015a05063d52492b44ef56867abf585a493c2d4d3aff7ea2dcdd817b99

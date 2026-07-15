@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Technologies Stock Popped Today
+  summary: Palantir might be a buy after earnings -- if the free cash flow holds up.
+  url: https://finnhub.io/api/news?id=20d8607f733634e6c2476af203d5d0aa223a05d973ef44adc48d5eeef5da1475

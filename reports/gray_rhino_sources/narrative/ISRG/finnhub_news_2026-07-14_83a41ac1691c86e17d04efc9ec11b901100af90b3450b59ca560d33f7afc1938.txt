@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Hits 52-Week Lows: What's Going On?
+  summary: Intuitive Surgical shares slid to a fresh 52-week low Tuesday, caught in a broader pullback across medical device names and pressured by a string of Wall Street price-target cuts.
+  url: https://finnhub.io/api/news?id=fa64066849c6405a76b06116d2205302837d2c0358316c3f75bb97884c030037

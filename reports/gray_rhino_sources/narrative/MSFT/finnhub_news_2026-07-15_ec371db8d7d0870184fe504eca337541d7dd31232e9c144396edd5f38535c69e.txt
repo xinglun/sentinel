@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Stock's Sudden Reversal: From 'Buy Now' to Under Investigation
+  summary: Just one day after glowing reviews, a surprise revenue warning sent the stock into a tailspin and brought lawyers to the door.
+  url: https://finnhub.io/api/news?id=c9481f16fa83b37f651e67c90d934730953c059f063cb278b8a56feb6021c4b9

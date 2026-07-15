@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fortinet's AI Surge Is Impressive. Is Microsoft Stock The Smarter Way In?
+  summary: Both companies are riding the AI infrastructure boom, but Microsoft offers that exposure with faster growth and a cheaper valuation, forcing a hard look at what Fortinet's premium price is buying you from here.
+  url: https://finnhub.io/api/news?id=81534d95399257fd44052b2a84ef8b327f6dc6bf141765248af788281c6f70bc

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Says the Crowd Is Wrong on This Beaten-Down Medical Robotics Giant
+  summary: And Goldman Sachs may be right.
+  url: https://finnhub.io/api/news?id=65f1de0268847a44b2b2719d2a7d1721b333a013f7a8113c3d24c04902953c21

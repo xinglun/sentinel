@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Rise, Wall Street Eyes PPI After CPI Surprise: Why PYPL, ORCL, ASML, NOK, LCID, TSLA Are In Focus
+  summary: Stocktwits data showed retail sentiment improved to ‘bullish’ on SPY and QQQ.
+  url: https://finnhub.io/api/news?id=de03098f53382b8837d97e5ef7aa2850cfac187215d009da57ca8e1c7dfabc3a

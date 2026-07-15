@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hazeltree: A Tale of Two Stories Defined the First Half of 2026 for Global Hedge Funds
+  summary: NEW YORK & LONDON, July 15, 2026--The first half of 2026 was defined by a tale of two stories. An AI-infrastructure investment cycle kept broadening and intensifying as positioning in AI-linked technology and hardware names grew steadily more crowded and consensus-driven from January through June, while markets had to absorb a serious geopolitical shock with an escalating Middle East conflict disrupting the transit of oil and pushing headline inflation meaningfully higher through the spring. Equ
+  url: https://finnhub.io/api/news?id=c95228c967fb40b20f8ded0bc8c1a667a3075aef9bbd6c4bdd5665f32be4dbe4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Express Raised Its Platinum Annual Fee to $895. Here's What the 29% Hike Means for Card-Fee Revenue.
+  summary: Retention rates remain high despite the fee hike.
+  url: https://finnhub.io/api/news?id=c1626afe3e15508bdcb4df10c7d1160876fc777149da9631b570593a8f760d63

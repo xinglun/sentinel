@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Added 441,000 Millionaires Last Year, While the Typical American Got 20% Poorer
+  summary: America minted more millionaires last year than any other country on Earth, yet the typical household quietly lost ground at the same time. The same economy, the same five years, and two stories that together reveal a structural fault line hiding inside the headline numbers.
+  url: https://finnhub.io/api/news?id=c693bdd174aac5d7a1849a498400b0626bd4dc0bc0510e525af78551defbf287

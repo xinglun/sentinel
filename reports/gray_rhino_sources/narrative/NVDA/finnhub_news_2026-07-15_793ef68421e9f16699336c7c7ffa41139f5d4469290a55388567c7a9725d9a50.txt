@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘A Huge and Risky Financial Maneuver’: Experts Push Back on BlackRock CEO’s $1.5 Trillion Social Security Plan
+  summary: BlackRock's CEO is championing a plan to redirect $1.5 trillion into the stock market to shore up Social Security, but some of the sharpest retirement researchers in the country say it solves the wrong problem and benefits exactly the wrong person.
+  url: https://finnhub.io/api/news?id=7387f8858ce95e4b77e179aaec60d57b295ad0f8aad09709776ac6ebe945eb1e

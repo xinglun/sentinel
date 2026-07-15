@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett says he drove Berkshire's bet on Google — not Greg Abel
+  summary: Abel framed his first annual letter as CEO around continuity, emphasizing stewardship over reinvention and noting that Buffett remains chairman
+  url: https://finnhub.io/api/news?id=971d63f6e5004e2e702124b8860be5bceaccc6a8e6c5c12a8c4dbc1cde4d5f44

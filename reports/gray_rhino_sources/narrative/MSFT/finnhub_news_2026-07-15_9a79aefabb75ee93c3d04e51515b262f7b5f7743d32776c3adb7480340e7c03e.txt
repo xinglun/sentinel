@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Drops a $50 Billion Bombshell — Can Big Tech Still Afford to Build the AI Factories of the Future?
+  summary: Morgan Stanley just revised what it costs to build a frontier AI cluster, and the new numbers are reshaping which companies can actually compete in the AI arms race. The financial gap between winners and everyone else is widening faster than Wall Street anticipated.
+  url: https://finnhub.io/api/news?id=1f86efe740c396067971dd51aedb8cf5f9cd1e907f21351f81093885cf04becd

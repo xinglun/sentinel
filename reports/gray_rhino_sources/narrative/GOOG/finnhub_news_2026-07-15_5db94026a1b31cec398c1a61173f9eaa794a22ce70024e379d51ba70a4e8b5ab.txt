@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Says Berkshire's Surprise Alphabet Bet Was His Idea
+  summary: During an interview with CNBC, Buffett said that Alphabet is still not among his top five favorites despite the large investment that Berkshire made recently.
+  url: https://finnhub.io/api/news?id=12da8b4992cf098e8f00d6273624175657aba1fe97be5142fa63f70d5b8c8be0

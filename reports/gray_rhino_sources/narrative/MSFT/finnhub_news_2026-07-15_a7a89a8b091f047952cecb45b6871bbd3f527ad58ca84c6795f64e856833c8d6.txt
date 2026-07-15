@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Leads Japan Secure Cloud Talks
+  summary: The proposed system would keep classified government data off the public internet.
+  url: https://finnhub.io/api/news?id=c84435dd86c5ab94b3d374d69a76b6c60ee9c0062c3b9bd9f5a8b6bcac0f45dc

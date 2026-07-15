@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings To Watch: Intuitive Surgical (ISRG) Reports Q2 Results Tomorrow
+  summary: Medical technology company Intuitive Surgical (NASDAQ:ISRG) will be reporting results this Thursday afternoon. Here’s what investors should know.
+  url: https://finnhub.io/api/news?id=cbe79cf5da1952134fa5e84dcb1acff32fb342e7394e84b14112548490cda11a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says He Will Be Very Interested In What Inspector General Finds About VC Chair Bowman's Post-FOMC Dinner; Would Be Inappropriate To Prejudge Facts About That Meeting; Says He Went Over And Above Ethics Agreements By Selling Or Nearly Completely Selling Assets Earned Prior To Becoming Fed Chair
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=8b72f336efb9e670ea1b500127c8c8ce91e3542ab0f1a2401529af47402b7334

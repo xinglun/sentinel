@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s $800 Price Target Value’s The Company Over $10 Trillion — Should It Spark Bubble Worries?
+  summary: Raymond James just slapped a jaw-dropping price target on SpaceX that implies a valuation larger than any company in history, and the bull case hinges on whether Elon Musk can pull off something that seems to defy the laws of physics.
+  url: https://finnhub.io/api/news?id=ff01ef3465a81790d10dec403d775358f7657475383403a71c14132158e3c815

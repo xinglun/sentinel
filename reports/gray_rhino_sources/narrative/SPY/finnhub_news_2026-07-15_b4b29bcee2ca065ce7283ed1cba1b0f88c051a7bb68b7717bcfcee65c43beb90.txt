@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says My View Is There Is No Limit To How Fast Economy Can Grow; There's A Lot Of Structural Change In Labor Market; Labor Market Part Of Fed's Mandate Looks Pretty Good, Inflation Part Looks Less Good; There's Not Much Fed Can Do About Individual Prices, But Can Make Sure Entire Grocery Aisle Doesn't
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=6644c465a14dd8f8a04a4b96c59c3e97f47613277382457e7f644195d893d3c9

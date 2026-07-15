@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says Will Take Consideration Of Both Fed Mandates When Taking On Task Force Recommendations
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=115ad43c035d8ac066c082eb943aae4901f833865ce12be6117662f8476658f8

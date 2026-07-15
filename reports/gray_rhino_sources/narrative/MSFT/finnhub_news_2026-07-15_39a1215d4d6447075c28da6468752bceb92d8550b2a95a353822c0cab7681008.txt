@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One chart reveals why investors are concerned about earnings from Microsoft, Amazon, and other hyperscalers
+  summary: The hyperscalers are under pressure to show results from their AI spending.
+  url: https://finnhub.io/api/news?id=ea4afa192b967d14cfa4e83043438229efad14194f4627cf83bffd0547c0cd49

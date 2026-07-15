@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Cratered Again. Shares Might Be a Triple If These Analysts Are Right.
+  summary: Oracle shares have shed more than half their value while the company doubles down on AI debt and a troubled flagship customer. The question now is whether this collapse represents a catastrophic mistake or the buying opportunity of the decade.
+  url: https://finnhub.io/api/news?id=593f863e8cc48716b78f3f55dd1b5f74b83d9cad2a78e35c4826a6b3e15914c7

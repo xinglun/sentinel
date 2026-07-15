@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says Monetary Aggregates Are Not Perfect, But It's A Good Cross-check; If Had Used Them In 2021 Might Have Seen Inflation Sooner
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=faceadca58381f85740d5ed126e30b8b653807f216826fc38e56aa19ece7f287

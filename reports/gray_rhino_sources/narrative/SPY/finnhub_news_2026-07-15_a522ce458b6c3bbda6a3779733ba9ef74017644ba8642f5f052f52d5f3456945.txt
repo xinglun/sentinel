@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation Has Peaked Again, Paving The Way For More Bull Market Gains
+  summary: Core inflation was flat, with declines in used cars, apparel, and medical care, signaling limited pass-through from war-related costs. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=4978324ba4b0f093a9594e0f3b767d9b89abc9aaa7937e15ed0eb906ad951b38

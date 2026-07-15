@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SBA Expands Use of Palantir Software to Accelerate Pandemic Fraud Crackdown
+  summary: Advanced Technology Will Strengthen SBA’s Fraud Analysis and Enforcement Efforts on Behalf of Small Businesses and TaxpayersWASHINGTON, July 14, 2026 (GLOBE NEWSWIRE) -- WASHINGTON — Today, the U.S. Small Business Administration (SBA) announced a new phase in its anti-fraud initiative in which it is deploying Palantir Technologies (Palantir) software to advance the agency’s ongoing efforts to identify, investigate, and help prosecute fraud in pandemic-era small business relief programs, includin
+  url: https://finnhub.io/api/news?id=455dfd9b96c4bf71781ebc70d42d0d47e3f4c3d97581893d7f8240cafe2ce73f

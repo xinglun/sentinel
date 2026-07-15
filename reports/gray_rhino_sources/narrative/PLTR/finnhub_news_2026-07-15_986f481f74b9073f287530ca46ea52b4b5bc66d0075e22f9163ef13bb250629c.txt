@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO adds fuel to Palantir CEO’s AI warning
+  summary: It turns out that Palantir (PLTR) CEO Alex Karp’s thunderous warning about the AI industry wasn’t a one-off rant. Over the past couple of years, the word "AI" has become like a broken record, heard at least once almost every day, often followed by a wave of anxiety. What has happened amid all the ...
+  url: https://finnhub.io/api/news?id=f08f72cdb1ea0d4072d8a16ff561601d76dbd8c88fdf1e76ebbcab59ea8d763b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Cursor Is Reinventing Itself as SpaceX Deal Looms' - The Information
+  summary: https://www.theinformation.com/articles/cursor-reinventing-spacex-deal-looms
+  url: https://finnhub.io/api/news?id=83ff005ae626cc6b9b01ba45441f492409eda46f529d0cee751b96bffbb8000f

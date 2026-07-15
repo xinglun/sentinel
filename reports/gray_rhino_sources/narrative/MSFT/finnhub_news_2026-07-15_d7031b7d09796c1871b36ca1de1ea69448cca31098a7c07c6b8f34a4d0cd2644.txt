@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3M and Microsoft announce strategic partnership to advance AI data center infrastructure and enterprise transformation
+  summary: 3M (NYSE: MMM) and Microsoft (NASDAQ: MSFT) today announced a strategic partnership focused on AI data center infrastructure and enterprise transformation. Microsoft's Azure Cloud and AI Infrastructure will become the first announced hyperscale cloud provider to deploy 3M's Expanded Beam Optical (EBO) technology. 3M will also use Microsoft's AI and digital platforms as part of its enterprise transformation across key business functions.
+  url: https://finnhub.io/api/news?id=5a4ddf6067bf804ed951b67bdc4805e4b17c595e0d804f99db99714af623312b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is the Bearishness Around Pfizer and Gilead Sciences a Contrarian Opportunity?
+  summary: Both Pfizer and Gilead Sciences just flashed the same ominous technical warning while trading below analyst fair value, but the reasons behind each selloff tell very different stories about which one actually deserves a second look.
+  url: https://finnhub.io/api/news?id=b8c6e3ec8611b248e30d1d53e25eef6984f5dfa5a8b1b6aed9bb11253f63d462

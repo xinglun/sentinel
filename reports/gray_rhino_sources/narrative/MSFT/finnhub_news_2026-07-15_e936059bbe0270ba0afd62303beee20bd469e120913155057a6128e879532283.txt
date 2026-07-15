@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Massive AI Spending Favoring Chip ETFs More Than Big Tech?
+  summary: AI spending is boosting chipmakers' cash flows before Big Tech sees returns, keeping semiconductor ETFs like SMH, XLK and DRAM in focus.
+  url: https://finnhub.io/api/news?id=525df7a9474cef4133726f17619154846ba18aaa948c9b54689687854cc358b0

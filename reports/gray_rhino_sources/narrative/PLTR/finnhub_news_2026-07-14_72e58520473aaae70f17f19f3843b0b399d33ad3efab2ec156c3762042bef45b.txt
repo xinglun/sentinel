@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exiger's Pennsylvania Defense & Innovation Summit Report Released at U.S. Army War College
+  summary: Exiger, the market-leading supply chain AI company and largest provider of supply chain risk technology to the U.S. Government, today unveiled its report, The Defense Industrial Base in Pennsylvania, at the 2026 Pennsylvania Defense & Innovation Summit in Carlisle, Pennsylvania. Held at the U.S. Army War College on July 14th and 15th, the event convenes President Trump and leading defense and tech companies, including Anduril, Exiger, General Dynamics, Lockheed Martin, and Palantir.
+  url: https://finnhub.io/api/news?id=8c3fef0d9adbd40104305a599ca9e1ac46ca954d2468b0e2a3709dd754837dc3

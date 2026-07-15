@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If a Stock Market Crash Is Coming, 100 Years of History Says This Is the Best Move Investors Can Make
+  summary: Market volatility could be looming. Here's how to protect your investments.
+  url: https://finnhub.io/api/news?id=2b84aefd8908820cc98e9d56127a8d69f2a54b28ef46947aa4f794a3d3f681d2

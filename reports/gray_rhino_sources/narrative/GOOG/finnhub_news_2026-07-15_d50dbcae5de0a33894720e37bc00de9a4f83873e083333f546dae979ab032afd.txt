@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Once a $360 Billion Giant, PayPal Draws $53 Billion Bid
+  summary: Stripe and Advent's $60.50-a-share offer marks a 28% premium
+  url: https://finnhub.io/api/news?id=76ab7dde2a608e4e003abf8226bc34ff5139cafaf80be0b2150476248c125ac9

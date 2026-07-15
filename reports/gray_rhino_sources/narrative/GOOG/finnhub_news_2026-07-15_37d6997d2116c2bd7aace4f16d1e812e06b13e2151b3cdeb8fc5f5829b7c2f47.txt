@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buffett says he, not Abel, led Alphabet investment, touts Apple
+  summary: Investing.com -- Warren Buffett said he was the driving force behind Berkshire Hathaway's recent investment in Alphabet, not the conglomerate's new CEO Greg Abel.
+  url: https://finnhub.io/api/news?id=cc53505146c3d786ca813de054089d78023033452a11dd5e9443b51ce2eed2ce

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Can Summarize Employee Feedback. A New Benchmark Shows It Doesn’t Always Understand It.
+  summary: PYX-Voice, the industry's first benchmark evaluating how leading frontier AI models understand employee feedback, finds AI often misses the meaning behind complex workplace experiences PYX Labs logo image Logo for PYX Labs TEMECULA, Calif., July 15, 2026 (GLOBE NEWSWIRE) -- PYX Labs, a research lab sponsored by Perceptyx, today announced the release of PYX-Voice, the industry's first benchmark designed to evaluate how well frontier AI models understand employee feedback. The benchmark tested sev
+  url: https://finnhub.io/api/news?id=5bc704fff2c61b88929414bde7e875ddac8511379e9c275dee16a8a8e70ab2a9

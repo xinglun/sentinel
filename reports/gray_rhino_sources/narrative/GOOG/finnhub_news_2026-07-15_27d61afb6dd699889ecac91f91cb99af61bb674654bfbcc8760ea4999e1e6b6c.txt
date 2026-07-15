@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Defends EU Fine Reversal
+  summary: The company wants Europe's top court to preserve a ruling that erased a $1.7 billion antitrust penalty.
+  url: https://finnhub.io/api/news?id=bde79f2f5c5f842d238a2eb1e26a97caac4c3c4608ac901a048a5fbc17178244

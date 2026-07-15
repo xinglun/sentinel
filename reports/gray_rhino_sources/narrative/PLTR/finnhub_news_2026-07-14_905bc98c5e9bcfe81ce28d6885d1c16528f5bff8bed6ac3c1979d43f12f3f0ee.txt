@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why a $150 Million AI Pivot May Not Be Worth the Pain for Rackspace Stock Holders
+  summary: Rackspace shares slide as market reacts to guidance cut and weak preliminary results.
+  url: https://finnhub.io/api/news?id=b16d5ef103b34ba2cfb8d628d5be9fe4403d74b4c7aabebb53fdfd0825660798

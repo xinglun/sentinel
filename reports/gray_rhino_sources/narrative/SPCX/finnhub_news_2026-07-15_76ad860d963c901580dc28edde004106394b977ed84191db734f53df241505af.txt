@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Posts On X "Once we have completed our review for security vulnerabilities, we will make the entire codebase of 𝕏 open source, with no exceptions. Moreover, we will invite third party reviewers to examine the system that is running to confirm that the open source code is what is running. Trust through total transparency is the only thing that should be believed."
+  summary: https://x.com/elonmusk/status/2077361679034118271
+  url: https://finnhub.io/api/news?id=f8d791d586b4755063e039e48ec441ab77ab590fd4f50eb78872c55efcefab58

@@ -59,3 +59,4 @@ Timestamp,No_Trade_Persists,Opportunity_Mode_From,Opportunity_Mode_To,Scout_Days
 2026-07-11T01:40:48.539891151+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","","","",""
 2026-07-14T02:00:22.844848422+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","","","",""
 2026-07-15T00:58:54.060409800+09:00,false,Ready,Ready,0,3,false,2,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","","","",""
+2026-07-16T01:04:36.850876346+09:00,false,Ready,Ready,0,3,false,3,IGNITION,IGNITION,NORMAL,NORMAL,true,true,Formed,Formed,FragmentedLeaders,FragmentedLeaders,"","","","GOOG:NoBreakout->EmergingBreakout","","",""

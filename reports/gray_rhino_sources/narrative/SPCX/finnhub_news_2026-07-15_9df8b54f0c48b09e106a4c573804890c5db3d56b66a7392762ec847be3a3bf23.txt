@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Missed Out On The SpaceX IPO? Buy These Industrial Giants Instead.
+  summary: Investors can gain exposure to the space boom through established defense contractors benefiting from Golden Dome spending without relying on SpaceX alone.
+  url: https://finnhub.io/api/news?id=f9dacc99c72dbd5b5ed9b88280736807036856068da9a96982c38afe5683d1c6

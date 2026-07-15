@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Crossed A Line The Market Still Misses
+  summary: Palantir posts 85% revenue growth, soaring RPO & retention, and strong FCF margins. Click to read more about PLTR.
+  url: https://finnhub.io/api/news?id=df4e27d5cd2edf4d1a46a15c3cf39b1553a23baced8872019d797f7218d7e94a

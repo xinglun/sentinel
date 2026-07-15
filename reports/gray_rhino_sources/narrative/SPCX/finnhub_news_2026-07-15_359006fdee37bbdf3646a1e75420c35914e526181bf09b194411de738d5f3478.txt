@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PayPal co-founder and Affirm CEO details his 'very high bar' for M&A
+  summary: Words of wisdom from an OG in tech.
+  url: https://finnhub.io/api/news?id=edfe3f13342094c3f50efdbb4ac9e49008bd82ea95f5e5c2e1ef487ea13757dd

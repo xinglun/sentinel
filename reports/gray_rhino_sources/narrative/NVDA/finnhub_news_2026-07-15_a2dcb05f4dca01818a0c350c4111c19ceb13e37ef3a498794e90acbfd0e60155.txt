@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Says Rubin Remains on Track
+  summary: Jensen Huang pushes back against reported production delays
+  url: https://finnhub.io/api/news?id=e448ef100466049bd93b8ae8603e1b1c094ff6765d257a2c8a0e9b2c5aa4b7e8

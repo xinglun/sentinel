@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla Posts Best Quarter in Two Years
+  summary: Tesla smashed delivery expectations, but was it just a fluke?
+  url: https://finnhub.io/api/news?id=67eb43609e4ea8e7a7f6037e1f278f41e1c23fdfc87a691c3d7e0b5aab022b6c

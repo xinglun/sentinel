@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Exactly Why Intuitive Surgical Stock Is Floundering in 2026
+  summary: Intuitive Surgical's stock has fallen sharply in 2026, but that is more a function of investor sentiment than of the company.
+  url: https://finnhub.io/api/news?id=e5d05c6e1769e44930de68caa111a02c85e0ca120573f476540f67550bbe7f15

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MSFT Sees Fresh Price Target Cuts Days Before Quarterly Report – Citi Sees Strong Q4 But Expects Higher Capex Spend In Q1
+  summary: Fiscal AI has polled the consensus earnings estimate at $4.24 per share and revenue of $86.66 billion for Microsoft’s fourth quarter.
+  url: https://finnhub.io/api/news?id=6dd0d7b6b6d7f70b87436f6ecc63923c90e5062582da233c8b821964eadbdfc5

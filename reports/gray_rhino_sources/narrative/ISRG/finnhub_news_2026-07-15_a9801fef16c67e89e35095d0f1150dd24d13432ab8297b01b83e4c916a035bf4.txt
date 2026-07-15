@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Johnson & Johnson Stock Is Falling Even After a Guidance Hike
+  summary: Johnson & Johnson  raised its full-year guidance on the back of better-than-expected second-quarter earnings as strength in its oncology portfolio helped offset falling sales for its former blockbuster drug, Stelara.  The drugmaker on Wednesday reported adjusted earnings of $2.90 a share, beating the $2.85 a share analysts had anticipated.  J&J logged $25 billion in sales, in line with Wall Street estimates and up 6% from the same period last year.
+  url: https://finnhub.io/api/news?id=2a1b2e7c2e336f9a72b568b5ac722ab04c6ed98c7f6cdafa9f706f35418c5d37

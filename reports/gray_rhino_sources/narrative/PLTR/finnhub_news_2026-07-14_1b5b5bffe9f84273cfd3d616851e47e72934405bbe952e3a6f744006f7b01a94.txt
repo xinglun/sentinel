@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock's Profitability Challenges the Market's Slowdown Fears.
+  summary: For a stock like Palantir (PLTR), the conversation always seems to begin and end with one thing: growth. With the shares down 8.7% over the last year, it’s clear the market is skeptical that the company can maintain its torrid pace. The stock now trades at just 63% of its 52-week high, suggesting a lot of pessimism is already baked in.
+  url: https://finnhub.io/api/news?id=dc6169a081fb48fdd83d3d03784519c0cbf900b22aaafc14520c91b5e45606a2

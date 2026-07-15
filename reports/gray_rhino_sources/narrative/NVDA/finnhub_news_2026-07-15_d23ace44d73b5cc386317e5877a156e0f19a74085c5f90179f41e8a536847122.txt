@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM: What Its Earnings Misses Say About the State of AI Right Now
+  summary: If you want to know the tech sector's priorities, follow the money.
+  url: https://finnhub.io/api/news?id=11540940786d819c3f798019a3fd0b21fb956edb1727bc6f806fb71f68b52b74

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Connectbase and InterGlobix Announce Oracle's Dr. Sanjay Basu and NVIDIA's Pete Coticchia to Headline The Connected World LIVE! 2026 with Opening Keynote and Executive Fireside Chat
+  summary: The Connected World LIVE! (TCWLIVE! 2026) is pleased to announce that Dr. Sanjay Basu, Senior Director, GPU & Gen AI Solutions & Services – Cloud Engineering at Oracle and Pete Coticchia, Global Head of Business Development & Go-to-Market (GTM) for Oracle Cloud at NVIDIA, will headline the event's opening executive program with a keynote presentation and exclusive fireside chat on Wednesday, September 9, 2026.
+  url: https://finnhub.io/api/news?id=6cc2be239f9a20e92778bf73d22e1a229dfe364342a21ac5ce158f17676ba610

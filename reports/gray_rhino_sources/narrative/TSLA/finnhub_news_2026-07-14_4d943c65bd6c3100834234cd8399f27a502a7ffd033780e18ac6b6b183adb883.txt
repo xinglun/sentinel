@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises After Wave of Wall Street Target Hikes
+  summary: Analysts Boost Tesla Targets, but the Real Catalyst Isn't Earnings
+  url: https://finnhub.io/api/news?id=c09f18a61443782ee66e3beb34924eaf6a89c773ce95891c920cd1a76c3135dc

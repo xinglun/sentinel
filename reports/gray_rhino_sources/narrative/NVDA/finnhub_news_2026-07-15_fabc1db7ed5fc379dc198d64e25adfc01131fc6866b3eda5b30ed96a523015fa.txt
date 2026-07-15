@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Boyd Gaming Has 17.2% Upside: Here’s Why You Should Buy It Before July 23
+  summary: Boyd Gaming's July 23 earnings report is two weeks out, and a quiet combination of balance sheet strength, aggressive buybacks, and a compressed valuation has set up a trade that most investors are overlooking.
+  url: https://finnhub.io/api/news?id=7084848ec5ff9ddde6e6a288b075f42a2c1f2331d8505d11916fcc0507159739

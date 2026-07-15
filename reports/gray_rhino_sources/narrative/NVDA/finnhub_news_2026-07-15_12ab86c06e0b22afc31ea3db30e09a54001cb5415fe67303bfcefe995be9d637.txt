@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Larry Ellison Was Once the World’s Richest Man. Now Oracle Is Down Over 50% While He Bankrolls His Son’s Fight to Control a $110 Billion Media Empire
+  summary: Larry Ellison peaked as the second person in history to cross $400 billion in net worth, and now two crises are colliding at once: a brutal Oracle collapse and a 12-state legal assault on his son's bid to reshape American media.
+  url: https://finnhub.io/api/news?id=b772651061d87e189e53e91ce70d2905a99250b107505ef018df6387e755e96c

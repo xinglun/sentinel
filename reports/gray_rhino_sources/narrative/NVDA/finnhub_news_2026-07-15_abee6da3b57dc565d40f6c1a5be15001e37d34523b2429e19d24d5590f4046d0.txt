@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s the Clear Reason to Buy Intel Before Its July 23 Earnings Report
+  summary: Intel reports earnings on July 23, and something unusual is happening ahead of that print: prediction markets, insider activity, and a major rival's capital are all pointing in the same direction at once.
+  url: https://finnhub.io/api/news?id=93087175be0c5544fd8c0c3f7b5aac850c3f41f82d0b135c44cfc194b30f4aa0

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Won't Turn Profitable Until 2027, Analyst Says: 'Still Not Sure What People See…'
+  summary: Gary Black renewed his skepticism toward Elon Musk&#39;s SpaceX early Wednesday, after the stock&#39;s recent pullback.
+  url: https://finnhub.io/api/news?id=90d1bdc7ae3c21c7aaa7322c5e3af693d5887a7af852735610c3d0e93dadefd4

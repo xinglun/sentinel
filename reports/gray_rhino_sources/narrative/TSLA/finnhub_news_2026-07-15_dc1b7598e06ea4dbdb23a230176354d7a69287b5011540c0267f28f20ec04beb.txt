@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Stock Looks Expensive Following Its 81% Five Year Gain
+  summary: Tesla stock has delivered an 81.4% gain over the past 5 years, yet current valuation checks flag it as expensive rather than a clear bargain, creating a tension for anyone trying to square the long term share price performance with today’s pricing. With the market assigning a rich multiple and recent news flow focused on growth areas such as energy storage, robotaxis and AI, the question is how much of that story is already embedded in the share price. The 81.4% return over 5 years...
+  url: https://finnhub.io/api/news?id=1adcd8bc915f93786bf5b29d11900b405db01f6197a7525847e755f5022c063a

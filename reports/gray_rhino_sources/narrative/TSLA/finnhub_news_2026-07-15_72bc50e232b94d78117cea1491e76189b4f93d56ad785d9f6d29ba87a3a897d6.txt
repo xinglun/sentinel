@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford Should Stop Selling EVs
+  summary: Two bombshell reports from the Times and the Wall Street Journal suggest the American auto industry is running out of time, yet the real threat to Ford may not be Chinese EVs at all.
+  url: https://finnhub.io/api/news?id=02f35ec2e3b0a858d1d9f08c2a6fc088c934f50eb9d2fd3afe9a834847f83722

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Big Short' Investor Steve Eisman Says AI Has 'No Moats,' Which Is 'Not A Recipe For Longevity'
+  summary: Steve Eisman warns AI firms have &#34;no moats&#34; as trillions get spent. Apollo&#39;s Slok flags a $500 billion software debt wall and Fed hike risk.
+  url: https://finnhub.io/api/news?id=e1cd66527c24809e877a3e17a5982dcc8fdc8dc18a30e6acdb09d1a830c632db

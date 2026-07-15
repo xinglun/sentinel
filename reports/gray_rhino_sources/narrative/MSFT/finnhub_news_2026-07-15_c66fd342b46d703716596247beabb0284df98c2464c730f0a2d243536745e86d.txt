@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s Price Target Is Lowered, Analyst Remains Positive on the Mag 7 Stock
+  summary: Investors should brace themselves for intensifying AI spending in fiscal 2027, according to Citi Research.
+  url: https://finnhub.io/api/news?id=aeee6d0e4d0bb551309a3bfcf187886d758ac7d879d137b684d24f6f56398b7c

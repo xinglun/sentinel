@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On Surprise Inflation Data; ASML Jumps On Earnings Report (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rose Wednesday after a cool inflation reading. ASML stock jumped on earnings.
+  url: https://finnhub.io/api/news?id=0d0624a838561883cccbce2049c90946462af750bb8835a9588f37dbafa0c70e

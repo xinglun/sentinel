@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Center World Power Unveils Industry-Leading Speaker Lineup Driving the Future of Power Infrastructure
+  summary: DALLAS, July 15, 2026--Data Center World Power, the premier conference dedicated exclusively to the intersection of data centers and power infrastructure, today unveiled its conference speaker lineup, bringing together the data center operators, energy executives, and technology innovators responsible for solving one of the world’s most pressing business challenges: powering the digital ecosystem.
+  url: https://finnhub.io/api/news?id=6ca567de524d9501c974d5108dcb3d46f9b93a0b51571a23dbdb33b89cd95727

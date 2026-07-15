@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Climbs Overnight: ‘SPAC King’ Chamath Palihapitiya Sees ‘Obvious’ Logic In Tesla-SpaceX Merger
+  summary: The investor said a combined company could use one balance sheet and capital structure to fund Elon Musk’s broader ambitions.
+  url: https://finnhub.io/api/news?id=42fd478c61e6c7c539fea9150a9b444b443cf7c5181b0c52f68d30a89d414a16

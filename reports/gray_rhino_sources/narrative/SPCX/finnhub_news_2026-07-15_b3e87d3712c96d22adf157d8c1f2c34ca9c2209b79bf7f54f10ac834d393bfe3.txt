@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Engineers Raise $115 Million to Make Construction Faster, Cheaper and Safer After Learning At ‘a Crazy Pace’ Under Elon Musk
+  summary: TerraFirma, a construction startup founded by ex-SpaceX engineers, raises $115 Million for robotic construction.
+  url: https://finnhub.io/api/news?id=aed3e4c08f1063a59ecbb70264ddfe23636553cac7b46f4ea7b9064c2598c12e

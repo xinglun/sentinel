@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle shares gain after report it leads race for Japanese government cloud contract (ORCL)
+  summary: Oracle (NYSE:ORCL) shares moved higher in premarket trading on Monday after a report suggested the company is leading the competition to provide cloud infrastructure services to the Japanese government. Oracle reportedly ahead in bidding processAccording to a Financial Times report citing seven people familiar with the discussions, Oracle is currently ahead of Amazon Web Services, Microsoft and Google in negotiations over the potential contract.
+  url: https://finnhub.io/api/news?id=3296c27bab0371ceadd548de123fc52e9c0f0f77beacd653861adf3417ca61b5

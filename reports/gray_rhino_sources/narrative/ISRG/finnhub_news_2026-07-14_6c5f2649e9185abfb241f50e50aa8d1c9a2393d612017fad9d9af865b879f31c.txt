@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Paid-To-Hold Play On ISRG Stock: A 12% Income
+  summary: Here is a way to get paid a meaningful income now on your Intuitive Surgical shares, cash you keep no matter what, in exchange for capping your gains at a price above today's.
+  url: https://finnhub.io/api/news?id=3b28393a5831026f9ac3732237381ea888082eee864a93bb498cf961a423a22f

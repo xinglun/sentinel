@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says Each Reserve Bank Should Develop A Focus Of Expertise; I Believe Productivity Improvements Over Time Will Be Structurally Disinflationary
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=64cfe72e99dc45fb13b14aa53991dc420b659ff66a1356c62f9e4a1a161625e4

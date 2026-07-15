@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is in the Calm Before the Storm
+  summary: Tesla is expected to report second-quarter earnings per share of 55 cents, up from 40 cents a year ago.
+  url: https://finnhub.io/api/news?id=64affd346224a63d482721d5b59ea2f88eee0bc8e7db4d043c8eae7b1de1584b

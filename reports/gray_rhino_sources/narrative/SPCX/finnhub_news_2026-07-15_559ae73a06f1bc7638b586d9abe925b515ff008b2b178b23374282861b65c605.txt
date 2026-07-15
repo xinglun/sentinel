@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Fell Below Its Debut Price. History Says a $10,000 Investment Will be Worth This Much in a Year.
+  summary: The space and AI giant recently completed a historic IPO.
+  url: https://finnhub.io/api/news?id=dd923f30119781f758953b1f6abaccbab68e69301929c4b39f34439cc10a33fa

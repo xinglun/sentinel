@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Has Already Lapped Tesla — Now It Says Toyota Is Next And US Market Doesn't Matter
+  summary: BYD’s European market share more than doubled to 2.8% in May, surpassing Ford, Tesla and Nissan.
+  url: https://finnhub.io/api/news?id=8dc9307a627f1cc5631a71e5f8ab207fd745329808c3fef32501b40a9147fbcc

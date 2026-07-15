@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This Group Of Medical Giants, Including Intuitive Surgical, Just Took A Tumble
+  summary: Intuitive Surgical stock tumbled Tuesday after HCA Healthcare trimmed its full-year earnings outlook, noting a drop in surgeries.
+  url: https://finnhub.io/api/news?id=1c30ec9fc5eaa65b249de9077cf426329d566c616ac5f9591f0e7f9ba8098349

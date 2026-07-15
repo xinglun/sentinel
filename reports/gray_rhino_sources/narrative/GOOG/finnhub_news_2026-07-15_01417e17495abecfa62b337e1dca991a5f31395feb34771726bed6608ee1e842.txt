@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pasqal Appoints Hewlett Packard Enterprise's Former High Performance Computing & AI Leader as Chief Commercial Officer to Drive Quantum Deployment at Enterprise Scale
+  summary: Former High Performance Computing (HPC) & AI sales leader joins Pasqal with the goal of accelerating commercial scale and bringing neutral-atom quantum computing to enterprise customers across two of the world’s fastest-growing technology regionsPARIS, July 15, 2026 (GLOBE NEWSWIRE) -- Pasqal, a global leader in neutral-atom quantum computing, today announced the appointment of Mark Armstrong as Chief Commercial Officer for Europe, the Middle East, and Africa (EMEA) and the Asia-Pacific region (
+  url: https://finnhub.io/api/news?id=3eef86fe10db63e1e483997a9d4186626d7d631b4de5cd514dcb2b4890cb60f1

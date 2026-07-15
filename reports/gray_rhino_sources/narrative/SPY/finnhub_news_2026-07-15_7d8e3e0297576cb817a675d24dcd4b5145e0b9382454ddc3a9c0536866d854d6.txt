@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says Likely That As Productivity Moves Up, We Should See Wages Move Up More; Reform Is Coming To Bank Supervision And Regulation
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=9750109f88b1ecdd7628f52c49e6a12729aec09c6c7331cd66a815f10b6b61c1

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry's biggest moneymaker isn't a stock
+  summary: There is a version of getting rich on Wall Street that has nothing to do with being right about a stock. You can spend a career building a reputation and then, one day, discover the reputation itself is the position. It pays whether or not your next call works. It compounds while you sleep. It does ...
+  url: https://finnhub.io/api/news?id=8c41606f69309ca21b1ced715df76eb0092eb5f706ac487f0203fdf0c50b35d5

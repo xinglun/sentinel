@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Alphabet Stock's Calm Price Doesn't Tell You About Its Potential Swing
+  summary: If you hold shares, the options market is pricing a future for Alphabet that is far from certain, and you're exposed to the full breadth of that potential swing.
+  url: https://finnhub.io/api/news?id=1e008128f1171589451e8c7de5f25eab9a9ac962e22b63163c71887012ed519e

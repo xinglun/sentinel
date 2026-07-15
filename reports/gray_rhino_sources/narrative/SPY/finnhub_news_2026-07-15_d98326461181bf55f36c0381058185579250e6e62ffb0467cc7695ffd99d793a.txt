@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Chair Warsh Says I Don't View A One-Time Change In Prices From AI As Necessarily Being Inflationary; Whether AI Will Be Inflationary Or Not Is Up To The Fed
+  summary: https://www.youtube.com/watch?v=QFoDJovuCn0
+  url: https://finnhub.io/api/news?id=529d24ce50ca8b2c45505d893f20372e87c21b98bd141ea0b6377561f5f0802c

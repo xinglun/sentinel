@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Electric Vehicles - Global Market Shifts Shape Future Growth and Strategies
+  summary: The global electric vehicle (EV) market is expected to reach $2.74 trillion by 2026, bolstered by investments in charging infrastructure and battery technology. The market's development is shaped by differing regional policies, with Europe, China, and the United States taking varied approaches to regulations and infrastructure. These investments and regulatory changes are fostering regionalized markets, necessitating localized strategies for automakers. The evolving competitive landscape is...
+  url: https://finnhub.io/api/news?id=e897a8c36837f69cec9d902737dcfe7d219b1a11d83ad650b7a1c9cecf9afc72

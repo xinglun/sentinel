@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Pre-Q2 Analysis: Buy, Hold or Sell the Stock Now?
+  summary: Intuitive Surgical heads into Q2 earnings with strong procedure momentum, da Vinci 5 adoption and expectations for another earnings beat despite margin pressures.
+  url: https://finnhub.io/api/news?id=4a3e47be628e3e7507616b74074fceaa3fe9ca6d9916945fc912e01a6834ee7a

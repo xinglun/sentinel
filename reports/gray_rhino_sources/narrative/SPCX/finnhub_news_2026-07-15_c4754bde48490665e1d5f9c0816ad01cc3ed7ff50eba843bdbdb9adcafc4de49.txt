@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike To Rally Over 12%? Here Are 10 Top Analyst Forecasts For Wednesday
+  summary: Top Wall Street analysts changed outlook on top names. See all changes, including upgrades/downgrades, on our analyst ratings page.
+  url: https://finnhub.io/api/news?id=90aa850b00a3f228ce91ad558edf5e1c7e249b0a60ec030340b21f9e96f17305

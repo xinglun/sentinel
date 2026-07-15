@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Social Buzz: Wallstreetbets Stocks Mostly Advancing Pre-Bell Wednesday; ASML Holding, Nebius Group to Open Higher
+  summary: The most-talked-about stocks in the Reddit subforum Wallstreetbets were mostly higher hours before W
+  url: https://finnhub.io/api/news?id=bfe641e02233afdc2283766c66d27d1c969c83f02311e029b7fc95727b68da2b
