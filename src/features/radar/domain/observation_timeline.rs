@@ -8,6 +8,14 @@ pub const SUMMARY_LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE: &str =
     "LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE";
 pub const SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE: &str = "LIMITED_COVERAGE_STRUCTURAL_CHANGE";
 
+const VALID_SUPPLY_PHASES: [&str; 5] = [
+    "IDLE",
+    "ACCUMULATING",
+    "ABSORBING",
+    "STRESSED",
+    "OVERWHELMED",
+];
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum HistoryCoverage {
     Complete,
@@ -37,6 +45,18 @@ pub struct ObservationTimeline {
     pub summary: String,
 }
 
+fn normalize_supply_phase(value: &str) -> String {
+    if VALID_SUPPLY_PHASES.contains(&value) {
+        value.to_string()
+    } else {
+        "UNAVAILABLE".to_string()
+    }
+}
+
+fn supply_phase_changed(previous: &str, current: &str) -> bool {
+    previous != "UNAVAILABLE" && current != "UNAVAILABLE" && previous != current
+}
+
 impl ObservationTimeline {
     pub fn has_structural_change(&self) -> bool {
         self.entries.windows(2).any(|pair| {
@@ -49,7 +69,7 @@ impl ObservationTimeline {
                 || (previous.rotation_score - current.rotation_score).abs() > f64::EPSILON
                 || (previous.confidence_index - current.confidence_index).abs() > f64::EPSILON
                 || previous.market_state != current.market_state
-                || previous.supply_phase != current.supply_phase
+                || supply_phase_changed(&previous.supply_phase, &current.supply_phase)
                 || previous.risk_state != current.risk_state
                 || previous.day_type != current.day_type
         })
@@ -64,6 +84,10 @@ pub fn build_observation_timeline(
         .iter()
         .filter(|entry| expected_trading_dates.contains(&entry.date))
         .cloned()
+        .map(|mut entry| {
+            entry.supply_phase = normalize_supply_phase(&entry.supply_phase);
+            entry
+        })
         .collect::<Vec<_>>();
     entries.sort_by_key(|entry| entry.date);
     entries.dedup_by_key(|entry| entry.date);
@@ -116,7 +140,7 @@ mod tests {
             rotation_score: 20.0,
             confidence_index: 50.0,
             market_state: "RANGE".to_string(),
-            supply_phase: "WATCH".to_string(),
+            supply_phase: "IDLE".to_string(),
             risk_state: "NORMAL".to_string(),
             day_type: "NORMAL".to_string(),
         }
@@ -195,13 +219,31 @@ mod tests {
             .map(|date| entry((date.year(), date.month(), date.day()), "SPY"))
             .collect::<Vec<_>>();
         observations[1].confidence_index = 65.0;
-        observations[1].supply_phase = "DISTRIBUTION".to_string();
+        observations[1].supply_phase = "STRESSED".to_string();
         observations[1].risk_state = "DEFENSIVE".to_string();
         observations[1].day_type = "STRESS".to_string();
 
         let timeline = build_observation_timeline(&observations, &expected);
 
         assert_eq!(timeline.summary, SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE);
+    }
+
+    #[test]
+    fn legacy_supply_values_are_unavailable_and_do_not_create_a_phase_change() {
+        let expected = (1..=5)
+            .map(|day| NaiveDate::from_ymd_opt(2026, 7, day).unwrap())
+            .collect::<Vec<_>>();
+        let mut observations = expected
+            .iter()
+            .map(|date| entry((date.year(), date.month(), date.day()), "SPY"))
+            .collect::<Vec<_>>();
+        observations[0].supply_phase = "HIGH".to_string();
+
+        let timeline = build_observation_timeline(&observations, &expected);
+
+        assert_eq!(timeline.entries[0].supply_phase, "UNAVAILABLE");
+        assert_eq!(timeline.entries[1].supply_phase, "IDLE");
+        assert!(!timeline.has_structural_change());
     }
 
     #[test]

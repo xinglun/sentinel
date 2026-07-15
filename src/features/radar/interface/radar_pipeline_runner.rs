@@ -928,6 +928,25 @@ fn build_market_change_log_view_model(
     >,
     language: crate::features::shared::interface::i18n::Language,
 ) -> crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+    fn breakout_state_signature(
+        presentation: &crate::features::radar::interface::presentation::PresentationPacket,
+    ) -> String {
+        presentation
+            .breakout_summary
+            .items
+            .iter()
+            .map(|item| {
+                let status = match item.status {
+                    crate::features::radar::interface::presentation::BreakoutDisplayStatus::NoBreakout => "NO_BREAKOUT",
+                    crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout => "EMERGING",
+                    crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout => "CONFIRMED",
+                };
+                format!("{}:{status}", item.symbol)
+            })
+            .collect::<Vec<_>>()
+            .join(",")
+    }
+
     let current_leader = current_leadership_snapshot.primary_leader_value.clone();
     let previous_leader = previous_leadership_snapshot
         .map(|snapshot| snapshot.primary_leader_value.clone())
@@ -996,6 +1015,10 @@ fn build_market_change_log_view_model(
                 .collect::<Vec<_>>()
         })
         .unwrap_or_else(|| vec![previous_leader.clone()]);
+    let current_breakout_state = breakout_state_signature(pres_packet);
+    let previous_breakout_state = previous_presentation
+        .map(breakout_state_signature)
+        .unwrap_or_else(|| current_breakout_state.clone());
     let previous_score = previous_presentation
         .and_then(|presentation| presentation.leader_persistence.as_ref())
         .map(|persistence| persistence.leadership_score)
@@ -1021,6 +1044,7 @@ fn build_market_change_log_view_model(
             confidence: previous_confidence,
             score: previous_score,
             ranked_leaders: previous_ranked_leaders,
+            breakout_state: previous_breakout_state,
         },
         &MarketChangeSnapshot {
             primary_leader: current_leader.clone(),
@@ -1033,6 +1057,7 @@ fn build_market_change_log_view_model(
             confidence: current_confidence,
             score: current_score,
             ranked_leaders: current_ranked_leaders,
+            breakout_state: current_breakout_state,
         },
     );
     let change_level = format!("{:?}", change.change_level).to_ascii_uppercase();

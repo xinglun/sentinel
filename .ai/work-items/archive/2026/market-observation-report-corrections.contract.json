@@ -1,0 +1,156 @@
+{
+  "contractVersion": 2,
+  "workItemId": "market-observation-report-corrections",
+  "mode": "code",
+  "title": "修正市场变化驱动、供给时间轴与叙事",
+  "baseCommit": "152e5047e4dd1481ca2718f072b714ef9255723a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Market Change Log と Observation Timeline の表示が現在の意味契約からずれ、未変化の confidence / score を Change Driver として表示し、旧 Supply enum を履歴へ漏らし、当日の GOOG breakout_state を Narrative に反映していない。",
+  "intent": {
+    "problem": "既存の観測・审计出力の意味整合性を修正する。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing の挙動は変更しない。",
+      "変更は Change Driver、Observation Timeline の表示境界、Market Narrative と回帰テストに限定する。",
+      "旧 Supply 値は新しい Supply Phase へ推測変換せず、UNAVAILABLE として表示する。",
+      "有効な履歴が 5—7 日蓄積するまで新しい構造結論を追加しない。"
+    ],
+    "rationale": "現在のレポートに残る三つの意味不整合を最小変更で除去し、観測記録の信頼性を保つ。"
+  },
+  "scope": [
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    ".ai/work-items/active/market-observation-report-corrections.contract.json",
+    ".ai/work-items/active/market-observation-report-corrections.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "Gate / Execution / Trader / Position Sizing のロジック",
+    "新しい取引機能、Supply Phase の新規遷移、7日結論の拡張",
+    "履歴データの遡及変換や data branch の変更"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
+      "reason": "Observation Timeline と構造変化判定の既存契約。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "Change Driver の比較と優先順位の実装・既存テスト。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "7日履歴の保存・構造変化判定・既存テスト。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Change Log と Timeline の view model 組み立て。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Market Narrative の言語別出力。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Timeline と Change Log の Markdown / HTML 出力。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity", "i18n_snapshot"],
+    "reason": "観測専用の表示と回帰テストだけを変更し、取引判断系のロジックや保存形式には触れない。旧履歴の未知 Supply 値は UNAVAILABLE に隔離する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーが三つの修正範囲と受け入れ条件を承認済みで、scope / sources / verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "旧履歴の未知 Supply 値を現行 phase へ推測変換しないこと。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Change Driver は実際に変化した breakout_state と local_ranking のみを drivers として出力する。",
+    "domain regression test の assert は confidence、market_state、risk_state、day_type、primary_leader、breadth_classification、supply_phase を unchanged_dimensions に含める。",
+    "Timeline は IDLE、ACCUMULATING、ABSORBING、STRESSED、OVERWHELMED 以外の Supply 値を UNAVAILABLE として出力する。",
+    "Timeline 回帰テストは未知値から有効 phase への表示を構造的 Supply 変化として数えないことを検証する。",
+    "GOOG の突破萌芽を Market Narrative に反映し、狭い正常トレンド継続・MINOR 定性を維持する。",
+    "変更対象の Rust diff に Gate、execution、trader、action matrix、position sizing の条件分岐・出力変更が存在しない。",
+    "Markdown / HTML report の Change Log、Timeline、Narrative に必要な出力があり、既存の zh / en / ja 表示を壊さない。",
+    "変更対象の diff に data branch、reports、JSONL、snapshot、weekly metrics の writer または schema 変更が存在しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
