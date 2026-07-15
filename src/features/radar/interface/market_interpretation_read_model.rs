@@ -1130,7 +1130,7 @@ fn market_interpretation_narrative_values(
 ) -> Vec<String> {
     let mut lines = Vec::new();
     lines.push(match (day_type, language) {
-        ("normal", Language::ZhCn) => "今天是正常趋势延续。".to_string(),
+        ("normal", Language::ZhCn) => "市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。".to_string(),
         ("normal", Language::EnUs) => "Today is a normal trend continuation.".to_string(),
         ("normal", Language::JaJp) => "今日は通常のトレンド継続です。".to_string(),
         ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),

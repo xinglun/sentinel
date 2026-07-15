@@ -521,41 +521,6 @@ pub(super) fn capital_absorption_structural_impact_value(
     }
 }
 
-pub(super) fn capital_absorption_supply_phase_value(
-    level: CapitalAbsorptionPotentialSupplyPressureLevel,
-    language: Language,
-) -> String {
-    match (level, language) {
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::ZhCn) => {
-            "积累（Accumulating）".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::ZhCn) => {
-            "吸收中（Absorbing）".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::ZhCn) => {
-            "压倒性（Overwhelming）".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::EnUs) => {
-            "Accumulating".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::EnUs) => {
-            "Absorbing".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::EnUs) => {
-            "Overwhelming".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Low, Language::JaJp) => {
-            "蓄積（Accumulating）".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Normal, Language::JaJp) => {
-            "吸収中（Absorbing）".to_string()
-        }
-        (CapitalAbsorptionPotentialSupplyPressureLevel::Elevated, Language::JaJp) => {
-            "圧倒的（Overwhelming）".to_string()
-        }
-    }
-}
-
 pub(super) fn capped_config_status(
     status: config::CapitalAbsorptionStatus,
 ) -> config::CapitalAbsorptionStatus {

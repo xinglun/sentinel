@@ -16,6 +16,7 @@ pub struct MarketChangeSnapshot {
     pub primary_leader: String,
     pub breadth_classification: String,
     pub supply_phase: String,
+    pub supply_pressure: String,
     pub market_state: String,
     pub risk_state: String,
     pub day_type: String,
@@ -76,13 +77,13 @@ pub fn build_market_change_driver(
         &previous.breadth_classification,
         &current.breadth_classification,
     );
-    compare_dimension(
-        &mut moderate,
-        &mut unchanged,
-        "supply_phase",
-        &previous.supply_phase,
-        &current.supply_phase,
-    );
+    if previous.supply_pressure == current.supply_pressure {
+        unchanged.push("supply".to_string());
+    } else if is_lower_supply_pressure(&previous.supply_pressure, &current.supply_pressure) {
+        minor.push("supply_pressure_decreased".to_string());
+    } else {
+        minor.push("supply_pressure_increased".to_string());
+    }
 
     if (previous.confidence - current.confidence).abs() > f64::EPSILON {
         minor.push("confidence".to_string());
@@ -120,6 +121,19 @@ pub fn build_market_change_driver(
         change_drivers: drivers,
         unchanged_dimensions: unchanged,
         summary,
+    }
+}
+
+fn is_lower_supply_pressure(previous: &str, current: &str) -> bool {
+    supply_pressure_rank(current) < supply_pressure_rank(previous)
+}
+
+fn supply_pressure_rank(value: &str) -> u8 {
+    match value {
+        "LOW" => 0,
+        "NORMAL" => 1,
+        "HIGH" => 2,
+        _ => 0,
     }
 }
 
@@ -161,6 +175,7 @@ mod tests {
             primary_leader: "SPY".to_string(),
             breadth_classification: "NARROW".to_string(),
             supply_phase: "WATCH".to_string(),
+            supply_pressure: "LOW".to_string(),
             market_state: "RANGE".to_string(),
             risk_state: "NORMAL".to_string(),
             day_type: "NORMAL".to_string(),
@@ -225,5 +240,29 @@ mod tests {
         assert_eq!(change.change_drivers, vec!["confidence"]);
         assert!(!change.change_drivers.contains(&"score".to_string()));
         assert!(!change.change_drivers.contains(&"local_ranking".to_string()));
+    }
+
+    #[test]
+    fn supply_phase_change_without_pressure_change_is_none() {
+        let previous = snapshot();
+        let mut current = previous.clone();
+        current.supply_phase = "ACCUMULATING".to_string();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert_eq!(change.change_level, ChangeLevel::None);
+        assert!(!change.change_drivers.contains(&"supply_phase".to_string()));
+    }
+
+    #[test]
+    fn supply_pressure_reset_is_minor_with_semantic_driver() {
+        let mut previous = snapshot();
+        previous.supply_pressure = "NORMAL".to_string();
+        let current = snapshot();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert_eq!(change.change_level, ChangeLevel::Minor);
+        assert_eq!(change.change_drivers, vec!["supply_pressure_decreased"]);
     }
 }

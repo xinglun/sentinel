@@ -4,6 +4,9 @@ use serde::{Deserialize, Serialize};
 pub const OBSERVATION_TIMELINE_DAYS: usize = 7;
 pub const SUMMARY_NO_STRUCTURAL_CHANGE: &str = "NO_STRUCTURAL_CHANGE";
 pub const SUMMARY_STRUCTURAL_CHANGE: &str = "STRUCTURAL_CHANGE";
+pub const SUMMARY_LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE: &str =
+    "LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE";
+pub const SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE: &str = "LIMITED_COVERAGE_STRUCTURAL_CHANGE";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum HistoryCoverage {
@@ -64,11 +67,12 @@ pub fn build_observation_timeline(
         .collect::<Vec<_>>();
     entries.sort_by_key(|entry| entry.date);
     entries.dedup_by_key(|entry| entry.date);
-    let coverage = if expected_trading_dates.is_empty() || entries.is_empty() {
+    let coverage = if entries.len() < 3 {
         HistoryCoverage::Unavailable
-    } else if expected_trading_dates
-        .iter()
-        .all(|date| entries.iter().any(|entry| entry.date == *date))
+    } else if entries.len() == OBSERVATION_TIMELINE_DAYS
+        && expected_trading_dates
+            .iter()
+            .all(|date| entries.iter().any(|entry| entry.date == *date))
     {
         HistoryCoverage::Complete
     } else {
@@ -79,10 +83,17 @@ pub fn build_observation_timeline(
         entries,
         summary: String::new(),
     };
-    let summary = if !timeline.has_structural_change() {
-        SUMMARY_NO_STRUCTURAL_CHANGE.to_string()
-    } else {
-        SUMMARY_STRUCTURAL_CHANGE.to_string()
+    let summary = match timeline.history_coverage {
+        HistoryCoverage::Unavailable => String::new(),
+        HistoryCoverage::Partial if timeline.entries.len() < 5 => String::new(),
+        HistoryCoverage::Partial if timeline.has_structural_change() => {
+            SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE.to_string()
+        }
+        HistoryCoverage::Partial => SUMMARY_LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE.to_string(),
+        HistoryCoverage::Complete if timeline.has_structural_change() => {
+            SUMMARY_STRUCTURAL_CHANGE.to_string()
+        }
+        HistoryCoverage::Complete => SUMMARY_NO_STRUCTURAL_CHANGE.to_string(),
     };
     ObservationTimeline {
         summary,
@@ -158,8 +169,25 @@ mod tests {
     }
 
     #[test]
+    fn one_or_two_observations_are_unavailable_without_trend_summary() {
+        let expected = (1..=7)
+            .map(|day| NaiveDate::from_ymd_opt(2026, 7, day).unwrap())
+            .collect::<Vec<_>>();
+        let observations = expected[..2]
+            .iter()
+            .map(|date| entry((date.year(), date.month(), date.day()), "SPY"))
+            .collect::<Vec<_>>();
+
+        let timeline = build_observation_timeline(&observations, &expected);
+
+        assert_eq!(timeline.history_coverage, HistoryCoverage::Unavailable);
+        assert_eq!(timeline.entries.len(), 2);
+        assert!(timeline.summary.is_empty());
+    }
+
+    #[test]
     fn summary_detects_non_leader_structural_dimension_changes() {
-        let expected = (1..=2)
+        let expected = (1..=5)
             .map(|day| NaiveDate::from_ymd_opt(2026, 7, day).unwrap())
             .collect::<Vec<_>>();
         let mut observations = expected
@@ -173,6 +201,35 @@ mod tests {
 
         let timeline = build_observation_timeline(&observations, &expected);
 
-        assert_eq!(timeline.summary, "STRUCTURAL_CHANGE");
+        assert_eq!(timeline.summary, SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE);
+    }
+
+    #[test]
+    fn partial_coverage_uses_point_count_to_gate_trend_conclusions() {
+        let expected = (1..=7)
+            .map(|day| NaiveDate::from_ymd_opt(2026, 7, day).unwrap())
+            .collect::<Vec<_>>();
+
+        for count in [3, 4] {
+            let observations = expected[..count]
+                .iter()
+                .map(|date| entry((date.year(), date.month(), date.day()), "SPY"))
+                .collect::<Vec<_>>();
+            let timeline = build_observation_timeline(&observations, &expected);
+
+            assert_eq!(timeline.history_coverage, HistoryCoverage::Partial);
+            assert!(timeline.summary.is_empty(), "count={count}");
+        }
+
+        for count in [5, 6] {
+            let observations = expected[..count]
+                .iter()
+                .map(|date| entry((date.year(), date.month(), date.day()), "SPY"))
+                .collect::<Vec<_>>();
+            let timeline = build_observation_timeline(&observations, &expected);
+
+            assert_eq!(timeline.history_coverage, HistoryCoverage::Partial);
+            assert_eq!(timeline.summary, "LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE");
+        }
     }
 }

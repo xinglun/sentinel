@@ -81,7 +81,7 @@ fn generate_markdown_report(
         dict.signals.regime_label,
         pres.macro_display.headline,
         dict.signals.bias,
-        pres.macro_display.bias_label
+        top_level_bias_label(pres)
     ));
     card.push_str(&format!("> {}\n\n", pres.macro_display.summary));
 
@@ -297,7 +297,7 @@ fn generate_telegram_html_report(
         dict.signals.regime_label,
         pres.macro_display.headline,
         dict.signals.bias,
-        pres.macro_display.bias_label
+        top_level_bias_label(pres)
     ));
     card.push_str(&format!("<i>{}</i>\n\n", pres.macro_display.summary));
 
@@ -681,6 +681,19 @@ fn final_execution_is_none(pres: &PresentationPacket) -> bool {
         pres.final_execution_decision.execution_window,
         crate::features::radar::interface::presentation::ExecutionWindow::None
     )
+}
+
+fn top_level_bias_label(pres: &PresentationPacket) -> String {
+    use crate::features::radar::interface::presentation::ExecutionWindow;
+    use crate::features::shared::interface::i18n::Language;
+    if pres.final_execution_decision.execution_window != ExecutionWindow::Limited {
+        return pres.macro_display.bias_label.clone();
+    }
+    match pres.language {
+        Language::ZhCn => "有限参与窗口 / 仅 Probe".to_string(),
+        Language::EnUs => "Limited Participation Window / Probe Only".to_string(),
+        Language::JaJp => "限定参加ウィンドウ / Probe のみ".to_string(),
+    }
 }
 
 fn final_execution_action_label(pres: &PresentationPacket) -> String {
@@ -1567,6 +1580,75 @@ fn render_observation_timeline_section(
             },
             "観測点数",
         ),
+    };
+    let change_summary = match timeline.history_coverage {
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Unavailable => {
+            match language {
+                crate::features::shared::interface::i18n::Language::ZhCn => format!(
+                    "7日时间轴尚未形成。\n当前仅有 {}/7 个有效交易日观测点。",
+                    timeline.entries.len()
+                ),
+                crate::features::shared::interface::i18n::Language::EnUs => format!(
+                    "The 7-day timeline has not formed.\nOnly {}/7 valid trading-day observations are available.",
+                    timeline.entries.len()
+                ),
+                crate::features::shared::interface::i18n::Language::JaJp => format!(
+                    "7日間のタイムラインは未形成です。\n有効な取引日観測は {}/7 件のみです。",
+                    timeline.entries.len()
+                ),
+            }
+        }
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial
+            if timeline.entries.len() < 5 => match language {
+            crate::features::shared::interface::i18n::Language::ZhCn => format!(
+                "7日趋势结论暂不生成。当前仅有 {}/7 个有效交易日观测点，覆盖不足。",
+                timeline.entries.len()
+            ),
+            crate::features::shared::interface::i18n::Language::EnUs => format!(
+                "The 7-day trend conclusion is not generated. Only {}/7 valid trading-day observations are available; coverage is insufficient.",
+                timeline.entries.len()
+            ),
+            crate::features::shared::interface::i18n::Language::JaJp => format!(
+                "7日間のトレンド結論は生成しません。有効な取引日観測は {}/7 件のみで、カバレッジが不足しています。",
+                timeline.entries.len()
+            ),
+        },
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial => {
+            let limited_change = timeline.summary
+                == crate::features::radar::domain::observation_timeline::SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE;
+            match language {
+                crate::features::shared::interface::i18n::Language::ZhCn => format!(
+                    "有限结论：{}，但当前仅有 {}/7 个有效交易日观测点，覆盖不足。",
+                    if limited_change {
+                        "观察到结构性变化"
+                    } else {
+                        "目前未见结构性变化"
+                    },
+                    timeline.entries.len()
+                ),
+                crate::features::shared::interface::i18n::Language::EnUs => format!(
+                    "Limited conclusion: {}, but only {}/7 valid trading-day observations are available; coverage is insufficient.",
+                    if limited_change {
+                        "structural change observed"
+                    } else {
+                        "no structural change observed"
+                    },
+                    timeline.entries.len()
+                ),
+                crate::features::shared::interface::i18n::Language::JaJp => format!(
+                    "限定的な結論：{}、ただし有効な取引日観測は {}/7 件のみで、カバレッジが不足しています。",
+                    if limited_change {
+                        "構造変化が観測されました"
+                    } else {
+                        "構造変化は観測されませんでした"
+                    },
+                    timeline.entries.len()
+                ),
+            }
+        }
+        crate::features::radar::domain::observation_timeline::HistoryCoverage::Complete => {
+            change_summary.to_string()
+        }
     };
     let sequence = |value: &dyn Fn(
         &crate::features::radar::domain::observation_timeline::ObservationTimelineEntry,

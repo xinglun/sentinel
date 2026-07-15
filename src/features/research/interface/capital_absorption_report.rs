@@ -12,7 +12,9 @@ use crate::features::shared::interface::i18n::Language;
 use std::collections::BTreeMap;
 
 use super::capital_absorption_i18n::*;
-use super::capital_absorption_supply_phase_read_model::build_supply_phase_view_model;
+use super::capital_absorption_supply_phase_read_model::{
+    build_supply_phase_view_model_from_supply_snapshot, SupplySnapshot,
+};
 
 pub(crate) fn build_capital_absorption_report_from_config(
     manual: Option<&config::CapitalAbsorptionConfig>,
@@ -64,11 +66,8 @@ pub(crate) fn build_capital_absorption_report_from_config(
         &snapshot.capital_demand,
         language,
     );
-    let supply_phase = build_supply_phase_view_model(
-        snapshot.potential_supply_pressure.level,
-        snapshot.potential_supply_trend,
-        language,
-    );
+    let supply_phase =
+        build_supply_phase_view_model_from_supply_snapshot(&snapshot.supply_snapshot, language);
     out.push_str(&format!("{}\n\n", supply_phase.title));
     out.push_str(&format!(
         "{} {}\n\n",
@@ -116,6 +115,7 @@ struct CapitalAbsorptionRenderSnapshot {
     capital_supply: CapitalSupplyRenderSnapshot,
     absorption_ratio: CapitalAbsorptionRenderRatio,
     structural_impact: String,
+    supply_snapshot: SupplySnapshot,
 }
 
 struct CapitalAbsorptionRenderSourceStatus {
@@ -193,6 +193,7 @@ impl CapitalAbsorptionRenderSnapshot {
                 value.structural_impact.as_deref(),
                 language,
             ),
+            supply_snapshot: SupplySnapshot::empty(),
         }
     }
 
@@ -226,6 +227,10 @@ impl CapitalAbsorptionRenderSnapshot {
                 ),
             },
             structural_impact: capital_absorption_observation_only_value(language).to_string(),
+            supply_snapshot:
+                super::capital_absorption_supply_phase_read_model::build_supply_snapshot(Some(
+                    value,
+                )),
         }
     }
 }

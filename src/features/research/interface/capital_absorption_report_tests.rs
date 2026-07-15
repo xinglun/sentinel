@@ -83,7 +83,7 @@ fn auto_report_locks_new_sections_in_en_and_ja() {
         assert!(report.contains(actual_supply));
         assert!(report.contains(potential_trend));
         assert!(report.contains(potential_pressure));
-        assert!(report.contains("Absorbing"));
+        assert!(report.contains("ABSORBING"));
         assert!(report.contains("Near-Term Supply Count: 1"));
         assert!(report.contains("Future Queue Count: 0"));
         assert!(report.contains("Drivers"));

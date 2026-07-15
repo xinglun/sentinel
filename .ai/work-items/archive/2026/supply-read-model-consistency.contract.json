@@ -1,0 +1,205 @@
+{
+  "contractVersion": 2,
+  "workItemId": "supply-read-model-consistency",
+  "mode": "code",
+  "title": "统一 Supply Read Model 与市场决策语义",
+  "baseCommit": "1393f2467fa13602686217d8c5ca0b0012151bdb",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Supply の phase / pressure / event counts が Supply、Change Log、Timeline、最終決定で別々に再解釈され、現在の正常状態が構造変化や誤った実行文案として表示される問題を修正する。",
+  "intent": {
+    "problem": "SupplySnapshot を唯一の規範化された Supply Read Model とし、下流表示と最終決定が同じ事実と文案を消費するようにする。",
+    "constraints": [
+      "SupplySnapshot.phase、pressure、event_counts、interpretation 以外から Supply phase を再計算しない。",
+      "Leader Persistence、スコア閾値、マクロ判断ロジック、無関係な report module は変更しない。",
+      "本 Work Item は fact propagation と wording consistency のみを扱い、Gate / Execution / Trader の挙動を拡張しない。"
+    ],
+    "rationale": "現在の入力では NORMAL / STABLE / LOW、IDLE、供給イベント 0 を全ての報告面で一致させ、Change Level NONE と Probe 限定の決定文案を安定させる。"
+  },
+  "scope": [
+    ".ai/work-items/active/supply-read-model-consistency.contract.json",
+    ".ai/work-items/active/supply-read-model-consistency.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+    "src/features/research/interface/capital_absorption_report.rs",
+    "src/features/research/interface/capital_absorption_i18n.rs",
+    "src/features/research/interface/capital_absorption_report_tests.rs",
+    "src/features/research/interface/mod.rs",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/domain/mod.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "outOfScope": [
+    "Leader Persistence 的计算、输出和测试",
+    "评分阈值、宏观判断逻辑、Gate / Execution / Trader / Action Matrix / Position Sizing",
+    "无关 report module、外部数据源、Leader Persistence 功能扩展",
+    "新增语言或改变既有 i18n 架构"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "当前无供给事件输入生成 IDLE SupplySnapshot，并保留 NORMAL / STABLE / LOW 为 state / trend / pressure",
+      "required": true,
+      "status": "verified",
+      "evidence": ["SupplySnapshot domain test"]
+    },
+    {
+      "scenario": "Change Log 在供给未变化时输出 NONE；非零供给归零时只输出 MINOR 与 supply_pressure_decreased",
+      "required": true,
+      "status": "verified",
+      "evidence": ["market_change_driver domain test"]
+    },
+    {
+      "scenario": "Observation Timeline 1–2 个观测点输出 UNAVAILABLE 且不生成 7 日趋势；供给序列读取 phase 而非 pressure / state / HIGH",
+      "required": true,
+      "status": "verified",
+      "evidence": ["observation_timeline domain test", "report UI regression test"]
+    },
+    {
+      "scenario": "顶层报告只输出有限参与窗口 / 仅 Probe、READY 与仅限 PROBE，不同时出现无交易窗口",
+      "required": true,
+      "status": "verified",
+      "evidence": ["presentation and report integration test"]
+    },
+    {
+      "scenario": "Leader Persistence 的 SPY、3 天、13 天、PARTIAL、EARLY 现有行为保持通过",
+      "required": true,
+      "status": "verified",
+      "evidence": ["leader_persistence domain test suite"]
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+      "reason": "现有 Supply Phase read model 与基于 pressure 的重复映射入口。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "现有 Change Level 与 Supply driver 的比较逻辑。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "现有覆盖状态和供给阶段序列的领域逻辑。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Supply read model、Change Log、Timeline 与决策 presentation 的组装入口。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "主报告 Change Log、Timeline 与顶层决策文案的输出入口。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "规范化 Supply 输入的 state、trend、pressure 与 event counts 来源。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item Contract、scope、verification 和 ready 状态规则。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "顶层启动期 bias 文案的统一显示入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "多个报告接线共享旧字段，必须通过领域测试和报告回归确认同一 SupplySnapshot 传播且不触及执行边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已固定 SupplySnapshot 字段、phase 映射、Change Level、Timeline coverage、决策文案与 out-of-scope 边界。"
+  },
+  "preReviewWarnings": [
+    "Supply Phase 必须使用语义枚举；NORMAL / STABLE / LOW 不能作为 phase。",
+    "Change Level 只消费 normalized Change Drivers，不得从枚举顺序推导。",
+    "Leader Persistence 现有结果必须保持不变。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "当前输入生成 SupplySnapshot: state NORMAL、trend STABLE、pressure LOW、phase IDLE，future_queue / reported / confirmed 均为 0。",
+    "Supply、Change Log、Timeline、Market Summary、Final Decision、Change Level Calculator 只消费 SupplySnapshot.phase / pressure / event_counts / interpretation，不自行从历史字段、pressure、count 或枚举数值推导 phase。",
+    "phase 使用 IDLE、ACCUMULATING、ABSORBING、STRESSED、OVERWHELMED 语义枚举，当前报告显示 Supply Phase: IDLE，不显示 Accumulating 或 HIGH 作为 phase。",
+    "Supply 未变化时 Change Level 为 NONE、Supply 为 normalized / unchanged；只有非零供给状态归零时才允许 MINOR 且 driver 为 supply_pressure_decreased。",
+    "Observation Timeline 在 1 个观测点时显示 UNAVAILABLE、观测点数 1、7日时间轴尚未形成、当前仅有 1/7 个有效交易日观测点；1–2 点不生成 7 日趋势结论，supply sequence 使用 phase。",
+    "顶层决策统一为 市场状态: 启动期、当前倾向: 有限参与窗口 / 仅 Probe、结构层: READY、执行许可: 仅限 PROBE；不同时输出无交易窗口，READY 不表达全面执行许可。",
+    "市场解释精确输出：市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。；不得出现发生了中等程度结构变化。",
+    "Leader Persistence 的当前 Leader SPY、连续领导 3 天、突破连续性 13 天、历史覆盖 PARTIAL、状态 EARLY 及现有测试保持不变。",
+    "SupplySnapshot、Change Log、Timeline、顶层决策和 Leader Persistence 均有对应的领域或报告回归测试，并在 Summary 记录执行结果。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
