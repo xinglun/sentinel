@@ -6003,6 +6003,20 @@ mod tests {
             assert!(report.markdown_body.contains(supply_label));
             assert!(report.markdown_body.contains("SPY → MSFT"));
             assert!(!report.markdown_body.contains("2026-07-14"));
+            match language {
+                Language::ZhCn => {
+                    assert!(report.markdown_body.contains("7日趋势结论暂不生成"));
+                    assert!(!report
+                        .markdown_body
+                        .contains("过去 7 个交易日未出现结构性变化"));
+                }
+                Language::EnUs => assert!(report
+                    .markdown_body
+                    .contains("The 7-day trend conclusion is not generated")),
+                Language::JaJp => assert!(report
+                    .markdown_body
+                    .contains("7日間のトレンド結論は生成しません")),
+            }
             assert!(!report.markdown_body.contains("Leader 序列"));
             assert!(!report.markdown_body.contains("Breadth 序列"));
             assert!(!report.markdown_body.contains("Confidence 序列"));

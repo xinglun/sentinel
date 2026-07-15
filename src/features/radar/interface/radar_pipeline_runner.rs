@@ -188,6 +188,10 @@ pub(crate) async fn run_pipeline(
         .await;
         let current_supply_phase =
             build_supply_phase_view_model_from_snapshot(capital_absorption_snapshot.as_ref(), lang);
+        let current_supply_snapshot =
+            crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_snapshot(
+                capital_absorption_snapshot.as_ref(),
+            );
         let mut previous_presentation = prev_packet.map(|previous| {
             PresentationAssembler::assemble(
                 previous,
@@ -212,6 +216,12 @@ pub(crate) async fn run_pipeline(
             previous_capital_absorption_snapshot.as_ref(),
             lang,
         );
+        let previous_supply_snapshot = previous_capital_absorption_snapshot
+            .as_ref()
+            .map(|snapshot| {
+                crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_snapshot(Some(snapshot))
+            })
+            .unwrap_or_else(|| current_supply_snapshot.clone());
         if let (Some(previous_packet), Some(previous_pres)) =
             (prev_packet, previous_presentation.as_mut())
         {
@@ -371,6 +381,8 @@ pub(crate) async fn run_pipeline(
             previous_leadership_snapshot.as_ref(),
             &current_supply_phase,
             Some(&previous_supply_phase),
+            &current_supply_snapshot,
+            &previous_supply_snapshot,
             pres_packet.market_interpretation.as_ref(),
             previous_market_interpretation.as_ref(),
             lang,
@@ -435,7 +447,9 @@ pub(crate) async fn run_pipeline(
                     .persistence
                     .save_leader_observation(&observation)?;
             }
-            if let Some(timeline_entry) = build_observation_timeline_entry(&packet, &pres_packet) {
+            if let Some(timeline_entry) =
+                build_observation_timeline_entry(&packet, &pres_packet, &current_supply_phase)
+            {
                 let expected_dates = recent_trading_dates(packet.date);
                 runtime_services
                     .persistence
@@ -515,6 +529,7 @@ pub(crate) async fn run_pipeline(
 fn build_observation_timeline_entry(
     packet: &DecisionPacket,
     presentation: &PresentationPacket,
+    supply_phase: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplyPhaseViewModel,
 ) -> Option<crate::features::radar::domain::observation_timeline::ObservationTimelineEntry> {
     let leadership = presentation.leadership_snapshot.as_ref()?;
     let interpretation = presentation.market_interpretation.as_ref()?;
@@ -537,7 +552,7 @@ fn build_observation_timeline_entry(
                 .unwrap_or_default(),
             confidence_index: packet.market_features.system_confidence,
             market_state: format!("{:?}", packet.market_regime.market_state),
-            supply_phase: interpretation.supply_confidence_value.clone(),
+            supply_phase: supply_phase.phase_value.clone(),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
             day_type: interpretation.day_type_value.clone(),
         },
@@ -903,6 +918,8 @@ fn build_market_change_log_view_model(
     previous_supply_phase: Option<
         &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplyPhaseViewModel,
     >,
+    current_supply_snapshot: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot,
+    previous_supply_snapshot: &crate::features::research::interface::capital_absorption_supply_phase_read_model::SupplySnapshot,
     current_market_interpretation: Option<
         &crate::features::radar::interface::presentation::MarketInterpretationViewModel,
     >,
@@ -993,6 +1010,7 @@ fn build_market_change_log_view_model(
             primary_leader: previous_leader.clone(),
             breadth_classification: previous_breadth_value.clone(),
             supply_phase: previous_supply_phase_value.clone(),
+            supply_pressure: previous_supply_snapshot.pressure.clone(),
             market_state: prev_packet
                 .map(|prev| format!("{:?}", prev.market_regime.market_state))
                 .unwrap_or_else(|| format!("{:?}", packet.market_regime.market_state)),
@@ -1008,6 +1026,7 @@ fn build_market_change_log_view_model(
             primary_leader: current_leader.clone(),
             breadth_classification: breadth_value.clone(),
             supply_phase: supply_phase_value.clone(),
+            supply_pressure: current_supply_snapshot.pressure.clone(),
             market_state: format!("{:?}", packet.market_regime.market_state),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
             day_type: current_day_type,

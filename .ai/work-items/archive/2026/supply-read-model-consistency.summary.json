@@ -1,0 +1,258 @@
+{
+  "workItemId": "supply-read-model-consistency",
+  "contractPath": ".ai/work-items/archive/2026/supply-read-model-consistency.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+      "reason": "新增 SupplySnapshot、语义 SupplyPhase 与统一 Supply 映射。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report.rs",
+      "reason": "Supply report 改为消费 SupplySnapshot。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_i18n.rs",
+      "reason": "删除旧的 pressure 到 phase 文案映射。"
+    },
+    {
+      "path": "src/features/research/interface/capital_absorption_report_tests.rs",
+      "reason": "固定语义 phase 输出回归。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "Change Level 改为消费规范化 pressure driver，禁止 phase 枚举顺序推导。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "按有效观测点数量决定 coverage：3–4 点抑制趋势结论，5–6 点输出有限结论并标注覆盖不足。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "统一 SupplySnapshot 到 Change Log 与 Timeline 的传播。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "统一顶层 Probe 文案与 Timeline 的 UNAVAILABLE、PARTIAL 覆盖不足文案。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "补充 Timeline 低覆盖报告文案回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "更新正常趋势延续的市场解释文案。"
+    },
+    {
+      "path": ".ai/work-items/active/supply-read-model-consistency.contract.json",
+      "reason": "固定 scope、边界、场景与 verification。"
+    },
+    {
+      "path": ".ai/work-items/active/supply-read-model-consistency.summary.json",
+      "reason": "记录本 Work Item 的变更与验证证据。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    ".ai/work-items/active/supply-read-model-consistency.contract.json",
+    "src/features/research/domain/capital_absorption.rs",
+    "src/features/research/interface/capital_absorption_supply_phase_read_model.rs",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/supply-read-model-consistency.contract.json SUMMARY=.ai/work-items/active/supply-read-model-consistency.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/archive/2026/supply-read-model-consistency.contract.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Supply 的多个历史显示接线已收敛；残余风险是其他未纳入本 Work Item 的 archival consumer 仍可能保留旧字段，需要 review 时确认。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "status": "resolved",
+      "area": "observation_timeline_partial_coverage",
+      "detail": "修正 3–4 个观测点仍生成结构趋势摘要的问题；5–6 个观测点现在只输出带覆盖不足标记的有限结论。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Preflight Review ready，Contract 可编码。",
+      "contractHash": "c7ee739361d33215",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope、acceptance、verification、agentCapability 已确认。",
+      "contractHash": "c7ee739361d33215",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "Rust quality、AI Contract、scope、guard、architecture、coverage、scenario 与 backtrack 已通过。",
+      "contractHash": "c7ee739361d33215",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "最终 Summary、status、quality 与所有 required checks 已通过。",
+      "contractHash": "c7ee739361d33215",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Preflight Review status=ready。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "仅修改 Contract scope 内文件。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Rust quality、AI Contract、scope、guard、architecture、coverage、scenario 与 backtrack 已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "最终 Summary、status、quality 与所有 required checks 已通过。"
+    }
+  ],
+  "code": {
+    "status": "verified",
+    "detail": "SupplySnapshot、Change Log、Timeline、顶层报告接线已更新，并修正 PARTIAL coverage 的趋势结论门控。"
+  },
+  "test": {
+    "status": "verified",
+    "detail": "TDD RED/GREEN 已执行；新增 3、4、5、6 点 coverage 测试与报告文案回归通过。"
+  },
+  "docs": {
+    "status": "not_changed",
+    "detail": "本轮仅更新 Contract/Summary，不扩展正式 Markdown 文档。"
+  },
+  "i18n": {
+    "status": "verified",
+    "detail": "zh/en/ja 顶层 Probe 文案与 Timeline 不足覆盖文案保持分语言输出。"
+  },
+  "reportOutput": {
+    "status": "verified",
+    "detail": "Supply phase、Change Log、Timeline、顶层决策与市场解释接线已验证。"
+  },
+  "dataOrWeeklyRecord": {
+    "status": "not_changed",
+    "detail": "未修改 data branch、JSONL、snapshot persistence 或 weekly metrics schema。"
+  },
+  "makeOrCiGuard": {
+    "status": "verified",
+    "detail": "Cockpit required Make checks 与 Rust quality gate 已执行或列入最终 verification。"
+  },
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "legacy_consumers",
+      "detail": "未纳入本轮 scope 的历史 archival consumer 可能仍有旧字段读取，需 review 聚焦确认。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "low",
+      "area": "execution_wording_boundary",
+      "detail": "READY 的 Probe 文案仅在 Limited execution window 显示，阻塞状态保留 NO TRADE 保护语义。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks 已通过，保留 legacy consumer 与 READY / Probe 边界风险供 review 确认。",
+    "expectedReviewFocus": [
+      "SupplySnapshot 传播路径",
+      "Change Level driver 语义",
+      "Timeline coverage 文案",
+      "READY / Probe 与阻塞态 NO TRADE 边界"
+    ]
+  }
+}
