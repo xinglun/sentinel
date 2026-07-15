@@ -94,6 +94,11 @@ pub(crate) fn build_market_interpretation_view_model(
             .as_ref()
             .map(|layer| layer.signal_context_next_observation_value.as_str())
             .unwrap_or_default(),
+        pres_packet.breakout_summary.items.iter().any(|item| {
+            item.symbol == "GOOG"
+                && item.status
+                    == crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout
+        }),
         language,
     );
 
@@ -1126,16 +1131,18 @@ fn narrative_label(language: Language) -> &'static str {
 fn market_interpretation_narrative_values(
     day_type: &str,
     next_observation: &str,
+    goog_breakout_emerging: bool,
     language: Language,
 ) -> Vec<String> {
     let mut lines = Vec::new();
-    lines.push(match (day_type, language) {
-        ("normal", Language::ZhCn) => "市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。".to_string(),
-        ("normal", Language::EnUs) => "Today is a normal trend continuation.".to_string(),
-        ("normal", Language::JaJp) => "今日は通常のトレンド継続です。".to_string(),
-        ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),
-        ("exceptional", Language::EnUs) => "Today is an exception-driven day.".to_string(),
-        ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
+    lines.push(match (day_type, language, goog_breakout_emerging) {
+        ("normal", Language::ZhCn, true) => "市场继续由 SPY 主导，U 保持较强延续，GOOG 今日重新出现突破萌芽，为窄幅主线增加了一个局部支撑点。但市场广度仍未扩展，整体仍属于少数资产领导下的正常趋势延续。".to_string(),
+        ("normal", Language::ZhCn, false) => "市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。".to_string(),
+        ("normal", Language::EnUs, _) => "Today is a normal trend continuation.".to_string(),
+        ("normal", Language::JaJp, _) => "今日は通常のトレンド継続です。".to_string(),
+        ("exceptional", Language::ZhCn, _) => "今天属于例外驱动日。".to_string(),
+        ("exceptional", Language::EnUs, _) => "Today is an exception-driven day.".to_string(),
+        ("exceptional", Language::JaJp, _) => "今日は例外駆動の日です。".to_string(),
         _ => "Today is a normal trend continuation.".to_string(),
     });
     if !next_observation.is_empty() {
@@ -2082,6 +2089,15 @@ mod tests {
     use super::*;
     use chrono::{Duration, NaiveDate};
     use std::fs;
+
+    #[test]
+    fn normal_narrative_mentions_new_goog_breakout_without_promoting_structure() {
+        let values = market_interpretation_narrative_values("normal", "", true, Language::ZhCn);
+
+        assert!(values[0].contains("GOOG 今日重新出现突破萌芽"));
+        assert!(values[0].contains("整体仍属于少数资产领导下的正常趋势延续"));
+        assert!(!values[0].contains("广度扩展"));
+    }
 
     #[test]
     fn read_model_assembles_persisted_streak_and_marks_missing_history_as_degraded() {

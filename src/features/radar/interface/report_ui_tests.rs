@@ -6002,6 +6002,8 @@ mod tests {
             assert!(report.markdown_body.contains(confidence_label));
             assert!(report.markdown_body.contains(supply_label));
             assert!(report.markdown_body.contains("SPY → MSFT"));
+            assert!(report.markdown_body.contains("UNAVAILABLE → UNAVAILABLE"));
+            assert!(!report.markdown_body.contains("WATCH"));
             assert!(!report.markdown_body.contains("2026-07-14"));
             match language {
                 Language::ZhCn => {

@@ -1660,6 +1660,8 @@ fn render_observation_timeline_section(
             .collect::<Vec<_>>()
             .join(" → ")
     };
+    let supply_sequence =
+        sequence(&|entry| timeline_supply_phase_value(&entry.supply_phase).to_string());
     let mut block = String::new();
     match mode {
         RenderMode::Markdown | RenderMode::Html => {
@@ -1679,14 +1681,18 @@ fn render_observation_timeline_section(
                 "  - {confidence_label}: {}\n",
                 sequence(&|entry| format!("{:.1}", entry.confidence_index))
             ));
-            block.push_str(&format!(
-                "  - {supply_label}: {}\n",
-                sequence(&|entry| entry.supply_phase.clone())
-            ));
+            block.push_str(&format!("  - {supply_label}: {}\n", supply_sequence));
         }
     }
     block.push('\n');
     block
+}
+
+fn timeline_supply_phase_value(value: &str) -> &str {
+    match value {
+        "IDLE" | "ACCUMULATING" | "ABSORBING" | "STRESSED" | "OVERWHELMED" => value,
+        _ => "UNAVAILABLE",
+    }
 }
 
 fn render_leadership_snapshot_section(

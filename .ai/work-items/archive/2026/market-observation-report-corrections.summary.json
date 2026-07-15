@@ -1,0 +1,200 @@
+{
+  "workItemId": "market-observation-report-corrections",
+  "contractPath": ".ai/work-items/archive/2026/market-observation-report-corrections.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "breakout_state / local_ranking の Change Driver と unchanged dimensions を修正した。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "旧 Supply 値を UNAVAILABLE に隔離し、未知値の遷移を構造変化として数えないようにした。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "GOOG の Emerging Breakout を zh Narrative に反映した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "breakout summary から Change Driver 用の状態署名を組み立てた。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "最終 Timeline 出力境界でも旧 Supply 値を UNAVAILABLE に正規化した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "旧 Supply 値の最終レポート出力回帰を追加した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-observation-report-corrections.contract.json",
+      "reason": "実装範囲、受け入れ条件、検証境界を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/market-observation-report-corrections.summary.json",
+      "reason": "実装結果と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を生成した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/market-observation-report-corrections.contract.json SUMMARY=.ai/work-items/active/market-observation-report-corrections.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "観測専用の表示・回帰テストに限定し、取引判断ロジックと保存形式は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "旧履歴は Supply Phase へ信頼できる変換ができないため、UNAVAILABLE として表示する。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract confirmed before implementation",
+      "contractHash": "d4a1786cac1ad19f",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope and acceptance confirmed before implementation",
+      "contractHash": "d4a1786cac1ad19f",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "implementation completed before final verification",
+      "contractHash": "d4a1786cac1ad19f",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification completed",
+      "contractHash": "d4a1786cac1ad19f",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "ユーザー承認済みの三項目を Contract に固定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope、acceptance、verification、agentCapability を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装差分が Contract scope 内で、受け入れ条件を満たすことを確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks と Rust 品質门禁がすべて passed。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "legacy_supply_history",
+      "detail": "旧 Supply 値の意味は復元せず UNAVAILABLE として扱う。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Change Driver、旧 Supply Phase、GOOG Narrative の三項目をレビュー指摘として反映した。",
+      "solidifiedTo": "contract",
+      "reason": "Contract の acceptance と regression test で同種の意味不整合を再発防止する。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装と required checks は完了した。旧履歴の Supply 値は意味復元せず UNAVAILABLE として扱う残余リスクがある。",
+    "expectedReviewFocus": [
+      "Change Driver の順序と unchanged dimensions",
+      "旧 Supply 値の UNAVAILABLE 表示",
+      "GOOG Narrative の MINOR 定性"
+    ]
+  }
+}

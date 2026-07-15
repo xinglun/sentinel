@@ -23,6 +23,7 @@ pub struct MarketChangeSnapshot {
     pub confidence: f64,
     pub score: f64,
     pub ranked_leaders: Vec<String>,
+    pub breakout_state: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -77,11 +78,18 @@ pub fn build_market_change_driver(
         &previous.breadth_classification,
         &current.breadth_classification,
     );
-    if previous.supply_pressure == current.supply_pressure {
-        unchanged.push("supply".to_string());
-    } else if is_lower_supply_pressure(&previous.supply_pressure, &current.supply_pressure) {
+    compare_dimension(
+        &mut moderate,
+        &mut unchanged,
+        "supply_phase",
+        &previous.supply_phase,
+        &current.supply_phase,
+    );
+    if previous.supply_pressure != current.supply_pressure
+        && is_lower_supply_pressure(&previous.supply_pressure, &current.supply_pressure)
+    {
         minor.push("supply_pressure_decreased".to_string());
-    } else {
+    } else if previous.supply_pressure != current.supply_pressure {
         minor.push("supply_pressure_increased".to_string());
     }
 
@@ -95,6 +103,13 @@ pub fn build_market_change_driver(
     } else {
         unchanged.push("score".to_string());
     }
+    compare_dimension(
+        &mut minor,
+        &mut unchanged,
+        "breakout_state",
+        &previous.breakout_state,
+        &current.breakout_state,
+    );
     let rank_changed = rank_delta(previous, current);
     if rank_changed {
         minor.push("local_ranking".to_string());
@@ -152,17 +167,28 @@ fn compare_dimension(
 }
 
 fn rank_delta(previous: &MarketChangeSnapshot, current: &MarketChangeSnapshot) -> bool {
-    previous
-        .ranked_leaders
-        .iter()
-        .enumerate()
-        .any(|(index, symbol)| {
-            current
-                .ranked_leaders
-                .iter()
-                .position(|candidate| candidate == symbol)
-                .is_some_and(|current_index| current_index.abs_diff(index) > LOCAL_RANK_MAX_DELTA)
-        })
+    previous.ranked_leaders.len() != current.ranked_leaders.len()
+        || previous
+            .ranked_leaders
+            .iter()
+            .enumerate()
+            .any(|(index, symbol)| {
+                current
+                    .ranked_leaders
+                    .iter()
+                    .position(|candidate| candidate == symbol)
+                    .is_some_and(|current_index| {
+                        current_index.abs_diff(index) > LOCAL_RANK_MAX_DELTA
+                    })
+            })
+        || previous
+            .ranked_leaders
+            .iter()
+            .any(|symbol| !current.ranked_leaders.contains(symbol))
+        || current
+            .ranked_leaders
+            .iter()
+            .any(|symbol| !previous.ranked_leaders.contains(symbol))
         || (previous.score - current.score).abs() >= LOCAL_SCORE_MAX_DELTA
 }
 
@@ -182,6 +208,7 @@ mod tests {
             confidence: 52.4,
             score: 50.0,
             ranked_leaders: vec!["SPY".to_string(), "MSFT".to_string()],
+            breakout_state: "SPY:CONFIRMED".to_string(),
         }
     }
 
@@ -243,15 +270,15 @@ mod tests {
     }
 
     #[test]
-    fn supply_phase_change_without_pressure_change_is_none() {
+    fn supply_phase_change_without_pressure_change_is_moderate() {
         let previous = snapshot();
         let mut current = previous.clone();
         current.supply_phase = "ACCUMULATING".to_string();
 
         let change = build_market_change_driver(&previous, &current);
 
-        assert_eq!(change.change_level, ChangeLevel::None);
-        assert!(!change.change_drivers.contains(&"supply_phase".to_string()));
+        assert_eq!(change.change_level, ChangeLevel::Moderate);
+        assert!(change.change_drivers.contains(&"supply_phase".to_string()));
     }
 
     #[test]
@@ -264,5 +291,34 @@ mod tests {
 
         assert_eq!(change.change_level, ChangeLevel::Minor);
         assert_eq!(change.change_drivers, vec!["supply_pressure_decreased"]);
+    }
+
+    #[test]
+    fn breakout_and_local_ranking_are_only_drivers_when_other_dimensions_are_unchanged() {
+        let previous = snapshot();
+        let mut current = previous.clone();
+        current.breakout_state = "SPY:CONFIRMED,GOOG:EMERGING".to_string();
+        current.ranked_leaders = vec!["SPY".to_string(), "GOOG".to_string()];
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert_eq!(change.change_level, ChangeLevel::Minor);
+        assert_eq!(
+            change.change_drivers,
+            vec!["breakout_state", "local_ranking"]
+        );
+        assert_eq!(
+            change.unchanged_dimensions,
+            vec![
+                "market_state",
+                "risk_state",
+                "day_type",
+                "primary_leader",
+                "breadth_classification",
+                "supply_phase",
+                "confidence",
+                "score"
+            ]
+        );
     }
 }
