@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Bottom Is In For U.S.-China Trade
+  summary: A bottom is now in for trade between the U.S. and China. It might even be *the* bottom for the global tariff war that began in April 2025, but only time will confirm that for sure.
+  url: https://finnhub.io/api/news?id=70523978be2a3143cb347df0bc04d4892ff4f69d1c3b30dfb001dd2cd4e49fd4

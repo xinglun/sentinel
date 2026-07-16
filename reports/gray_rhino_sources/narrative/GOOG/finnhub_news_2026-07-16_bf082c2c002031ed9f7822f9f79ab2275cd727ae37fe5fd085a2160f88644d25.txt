@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: At 23x Earnings, Is Meta Stock a Steal or a Trap?
+  summary: The social media giant is pouring record sums into an artificial intelligence future, forcing investors to decide if they are buying a proven profit machine or funding an unproven science project.
+  url: https://finnhub.io/api/news?id=eb0c450ae30993645acd47b7c5ead6b6d671b0511ade66ee9bc8dc34590a38b4

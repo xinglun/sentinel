@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: J&J Slipped On Its Report; Why It Bodes Well For Intuitive, Abbott, Others
+  summary: Johnson & Johnson stock dipped early Wednesday, though the healthcare giant beat second-quarter forecasts and raised its outlook.
+  url: https://finnhub.io/api/news?id=aee602b293e01bdae62f2d6674938ab67845e74bf45b3536a1bd3aa55fdad064

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Falls Back to $135 IPO Price But Raymond James Thinks The Stock Is Going To The Moon
+  summary: SpaceX has surrendered every post-IPO gain in five weeks, landing back at its offering price while one analyst quietly models a valuation that dwarfs the entire cloud computing industry. The question is whether that call is visionary or delusional.
+  url: https://finnhub.io/api/news?id=6800bb8cd4c3defb7b71ad5a312f9f6065a7f2333fec01f1d834e2583c956572

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Magnificent 10 ETF Targets Nvidia, Microsoft and AI Leaders With Daily Income Strategy
+  summary: TappAlpha&#39;s new Magnificent 10 Growth &amp; Daily Income ETF combines exposure to AI mega-cap stocks with an options-based daily income strategy.
+  url: https://finnhub.io/api/news?id=af9bddaa918fc2c2bd327c7a58ac2d1b4fe6e458ba4a0890e7f6fab974c54863

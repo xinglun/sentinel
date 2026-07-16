@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Hidden Turbulence in Microsoft Stock
+  summary: If you hold the shares, you are already exposed to the full, sizable gap between two very different potential outcomes.
+  url: https://finnhub.io/api/news?id=5cc5128fc1132dde3eee2c087d8a800513a7b0237c4688535dd87e69a25a1fb6

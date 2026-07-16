@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Eyes Weekly Loss: Retail Investors Grill Musk On Missed Robotaxi Targets Ahead Of Q2 Earnings
+  summary: Optimus is the second-biggest concern, with investors seeking production and deployment updates.
+  url: https://finnhub.io/api/news?id=d0c0e73a30f9b200764dea1e7f081e14ddc164584c9d20bd4b31ac53c2f94a5a

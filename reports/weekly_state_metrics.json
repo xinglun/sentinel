@@ -1,21 +1,8 @@
 {
-  "as_of_date": "2026-07-15",
-  "avg_confidence": 55.65821918428412,
-  "avg_stability": 42.89538573698929,
+  "as_of_date": "2026-07-16",
+  "avg_confidence": 55.6947182029603,
+  "avg_stability": 42.96838377434165,
   "daily_summaries": [
-    {
-      "core_breakdown": false,
-      "date": "2026-07-07",
-      "defensive_override": false,
-      "duration_locked": false,
-      "from_state": "IGNITION",
-      "preflight_failed": false,
-      "reconciliation_mismatch_count": 0,
-      "reset_blocked": false,
-      "reset_confirmed": false,
-      "soft_reset_applied": false,
-      "to_state": "IGNITION"
-    },
     {
       "core_breakdown": false,
       "date": "2026-07-08",
@@ -93,24 +80,37 @@
       "reset_confirmed": false,
       "soft_reset_applied": false,
       "to_state": "IGNITION"
+    },
+    {
+      "core_breakdown": false,
+      "date": "2026-07-16",
+      "defensive_override": false,
+      "duration_locked": false,
+      "from_state": "IGNITION",
+      "preflight_failed": false,
+      "reconciliation_mismatch_count": 0,
+      "reset_blocked": false,
+      "reset_confirmed": false,
+      "soft_reset_applied": false,
+      "to_state": "IGNITION"
     }
   ],
   "data_status": "OK",
   "days_analyzed": 7,
-  "generated_at": "2026-07-16T01:04:38.771252769+09:00",
+  "generated_at": "2026-07-17T00:58:47.965601580+09:00",
   "include_current_packet": true,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
       "confirmed_count_latest": 0,
-      "future_queue_count_latest": 0,
-      "latest_date": "2026-07-15",
+      "future_queue_count_latest": 2,
+      "latest_date": "2026-07-16",
       "near_term_supply_count_latest": 0,
-      "pressure_latest": "LOW",
-      "queue_count_latest": 0,
-      "queue_count_max_7d": 1,
+      "pressure_latest": "NORMAL",
+      "queue_count_latest": 2,
+      "queue_count_max_7d": 2,
       "queue_count_min_7d": 0,
-      "reported_count_latest": 0
+      "reported_count_latest": 2
     },
     "capital_dynamics": {
       "flow_layer": {
@@ -123,14 +123,14 @@
       "supply_layer": {
         "configured": true,
         "confirmed_count_latest": 0,
-        "future_queue_count_latest": 0,
-        "latest_date": "2026-07-15",
+        "future_queue_count_latest": 2,
+        "latest_date": "2026-07-16",
         "near_term_supply_count_latest": 0,
-        "pressure_latest": "LOW",
-        "queue_count_latest": 0,
-        "queue_count_max_7d": 1,
+        "pressure_latest": "NORMAL",
+        "queue_count_latest": 2,
+        "queue_count_max_7d": 2,
         "queue_count_min_7d": 0,
-        "reported_count_latest": 0
+        "reported_count_latest": 2
       }
     },
     "cognitive_calibration": {
@@ -138,7 +138,7 @@
       "research_attention_entries": 9
     },
     "expectation_layer": {
-      "as_of_date": "2026-07-16",
+      "as_of_date": "2026-07-17",
       "configured": true,
       "decision_weight_percent": 0,
       "event_type_counts": {
@@ -170,14 +170,14 @@
         "UNKNOWN": 16
       },
       "snapshot": {
-        "as_of_date": "2026-07-16",
+        "as_of_date": "2026-07-17",
         "decision_weight_percent": 0,
         "execution_effect": "none",
         "gate_effect": "none",
         "observations": [
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: Tesla には直接の consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -190,7 +190,7 @@
             "expected_value": "未対応",
             "interpretation": "Tesla には直接の consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -200,7 +200,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 利益期待は Finnhub EPS estimates から取得される。",
             "estimate_average": null,
@@ -213,7 +213,7 @@
             "expected_value": "未対応",
             "interpretation": "利益期待は Finnhub EPS estimates から取得される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -223,7 +223,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 売上期待は Finnhub revenue estimates から取得される。",
             "estimate_average": null,
@@ -236,7 +236,7 @@
             "expected_value": "未対応",
             "interpretation": "売上期待は Finnhub revenue estimates から取得される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -246,7 +246,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "estimate_average": null,
@@ -259,7 +259,7 @@
             "expected_value": "未対応",
             "interpretation": "粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -269,7 +269,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -282,7 +282,7 @@
             "expected_value": "未対応",
             "interpretation": "Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -292,7 +292,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -305,7 +305,7 @@
             "expected_value": "未対応",
             "interpretation": "CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -315,7 +315,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 利益期待は Finnhub EPS estimates から取得される。",
             "estimate_average": null,
@@ -328,7 +328,7 @@
             "expected_value": "未対応",
             "interpretation": "利益期待は Finnhub EPS estimates から取得される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -338,7 +338,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -351,7 +351,7 @@
             "expected_value": "未対応",
             "interpretation": "Cloud growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -361,7 +361,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: Product event expectation の consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -374,7 +374,7 @@
             "expected_value": "未対応",
             "interpretation": "Product event expectation の consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -384,7 +384,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -397,7 +397,7 @@
             "expected_value": "未対応",
             "interpretation": "CAPEX の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -407,7 +407,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 売上期待は Finnhub revenue estimates から取得される。",
             "estimate_average": null,
@@ -420,7 +420,7 @@
             "expected_value": "未対応",
             "interpretation": "売上期待は Finnhub revenue estimates から取得される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -430,7 +430,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: User growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -443,7 +443,7 @@
             "expected_value": "未対応",
             "interpretation": "User growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -453,7 +453,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "estimate_average": null,
@@ -466,7 +466,7 @@
             "expected_value": "未対応",
             "interpretation": "粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -476,7 +476,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: Procedure growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "estimate_average": null,
@@ -489,7 +489,7 @@
             "expected_value": "未対応",
             "interpretation": "Procedure growth の直接 consensus endpoint がないため、source unavailable として扱う。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -499,7 +499,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 売上期待は Finnhub revenue estimates から取得される。",
             "estimate_average": null,
@@ -512,7 +512,7 @@
             "expected_value": "未対応",
             "interpretation": "売上期待は Finnhub revenue estimates から取得される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -522,7 +522,7 @@
           },
           {
             "actual_value": "未発表",
-            "as_of_date": "2026-07-16",
+            "as_of_date": "2026-07-17",
             "confidence": null,
             "consensus_source": "unavailable: 粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "estimate_average": null,
@@ -535,7 +535,7 @@
             "expected_value": "未対応",
             "interpretation": "粗利率期待は Finnhub gross income / revenue estimates から推定される。",
             "lifecycle_state": "PENDING",
-            "observed_at": "2026-07-16",
+            "observed_at": "2026-07-17",
             "period": "2026Q3",
             "revision_direction": "UNKNOWN",
             "source_health": "UNAVAILABLE",
@@ -570,15 +570,15 @@
       "change_from_yesterday": {
         "display": "+1 天，评分上升",
         "persistence_days": 1,
-        "score": 10.165366080000002
+        "score": 10.165366080000005
       },
       "configured": true,
-      "current_leadership_streak_days": 4,
+      "current_leadership_streak_days": 5,
       "first_observed_at": null,
       "history_coverage": "PARTIAL",
-      "leadership_score": 40.66146432000001,
-      "observed_leadership_days_in_lookback": "4 天",
-      "persistence_days": 4,
+      "leadership_score": 50.82683040000001,
+      "observed_leadership_days_in_lookback": "5 天",
+      "persistence_days": 5,
       "previous_leader": "SPY",
       "primary_leader": "SPY",
       "state": "ESTABLISHED",
@@ -609,7 +609,7 @@
         "macro": "LOW",
         "overall": "MEDIUM",
         "supply": "HIGH",
-        "trend": "MEDIUM"
+        "trend": "HIGH"
       },
       "configured": true,
       "day_type": "normal",
@@ -621,17 +621,17 @@
           "SPY"
         ],
         "supporting": [
-          "GOOG",
-          "U"
+          "U",
+          "GOOG"
         ],
         "weakening": [
-          "FIG",
           "ISRG",
-          "SPCX"
+          "SPCX",
+          "TSLA"
         ]
       },
       "priority": [
-        "Trend: ★★★",
+        "Trend: ★★★★★",
         "Supply: ★★",
         "Macro: ★",
         "Flow: ☆",
@@ -640,16 +640,16 @@
       "reason": "trend_continuation",
       "rotation": {
         "from": [
-          "FIG",
           "ISRG",
-          "SPCX"
+          "SPCX",
+          "TSLA"
         ],
         "interpretation": "不是全面撤退，而是行业 / 资产组内部的轮动。",
         "observation_only": "true",
         "to": [
           "SPY",
-          "GOOG",
-          "U"
+          "U",
+          "GOOG"
         ],
         "type": "sector_or_index_rotation"
       }

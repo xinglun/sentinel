@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Resets Tesla Stock Price Target for 2027
+  summary: Morgan Stanley Sends Mixed Signal on Tesla: Higher Target, Same Rating
+  url: https://finnhub.io/api/news?id=404e956667c5f560c8ae731cb02a1c92822e915df9b765f15fb520c89a01477a

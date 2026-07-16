@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: He sold his last company to Palantir. Now he’s betting $32 million that robots can fix construction’s labor crisis
+  summary: Monumental founder Salar al Khafaji is bringing his fleet of autonomous bricklaying robots to the U.S. this year, backed by a new Khosla Ventures-led round.
+  url: https://finnhub.io/api/news?id=3e549885cf2ab95b463cf39b1e0e0b525296c579ba41c7517d46867862e329bd

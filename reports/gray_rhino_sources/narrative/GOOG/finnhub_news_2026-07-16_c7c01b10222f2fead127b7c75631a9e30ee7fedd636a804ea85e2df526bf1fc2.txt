@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GOOGL, UBER, RDDT, XMTR Stocks Top Wedbush's Internet Picks – AI Called 'Single Most Impactful Swing Factor'
+  summary: The Wall Street firm stated that companies with the strongest technology, products, and distribution are best positioned to benefit.
+  url: https://finnhub.io/api/news?id=a041217433cb8fefc7de765f6d0765b2eaee35c1b58c89db2e734704c1fe3490

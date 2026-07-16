@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GPIX: Still Bullish As This Covered Call ETF Compounds Through Record Highs
+  summary: Goldman Sachs GPIX ETF offers 8.07% yield plus S&P 500 upside via dynamic options overlay; AUM hits $4.7B.
+  url: https://finnhub.io/api/news?id=43c7ac0af9d66f1e199090cdba31db0af23001f077bb4772088c5bd83f1835ad

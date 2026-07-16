@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buffett Backs Alphabet as Berkshire Builds $21 Billion Stake
+  summary: Buffett says he initiated the investment and supports Alphabet's expanding AI spending despite preferring other Berkshire businesses.
+  url: https://finnhub.io/api/news?id=16bbc40d515c45a50ab64ce08d078b72674ffb6bae2ddc48941b1c026b82500c

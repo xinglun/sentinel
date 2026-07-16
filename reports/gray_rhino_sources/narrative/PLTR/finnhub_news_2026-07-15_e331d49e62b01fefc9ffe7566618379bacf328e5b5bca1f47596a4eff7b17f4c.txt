@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Expanded SBA Fraud Push and New Alliances Might Change The Case For Investing In Palantir Technologies (PLTR)
+  summary: In early July 2026, the U.S. Small Business Administration said it is expanding use of Palantir Technologies’ software to power a nationwide fraud detection push across pandemic-era relief programs, while new commercial alliances with Rackspace, SNP SE, and GNP Seguros extend Palantir’s AI platforms into regulated and SAP-centric environments. Together these moves show Palantir’s tools becoming embedded as core infrastructure for secure, governed AI across government, insurance, healthcare,...
+  url: https://finnhub.io/api/news?id=7d57ec04cea960f89c28a1bb2265f2bb0fbba7f1e363f7fb974f302465f4e289

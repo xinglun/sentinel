@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two AI Stocks, Two Price Targets: What’s Next for AMD and Palantir
+  summary: Palantir has cratered while AMD has gone parabolic, yet our model hands both the same rating and confidence score. The reasoning behind that call reveals a tension in AI investing that most price targets ignore.
+  url: https://finnhub.io/api/news?id=b59470c647ff38115564f0cb8f4087f1e11285706f6fe5d6caf8cfa354f9e21d

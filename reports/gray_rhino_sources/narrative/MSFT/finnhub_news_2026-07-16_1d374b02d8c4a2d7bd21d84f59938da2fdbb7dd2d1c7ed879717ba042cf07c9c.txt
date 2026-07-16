@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Pushes In-House AI in Sales Strategy
+  summary: The strategy positions Microsoft's models as more cost-effective and efficient.
+  url: https://finnhub.io/api/news?id=985eab1ab9050d30c07e2a113c5c7dc3a1599d4db4b4f38aeac4db4e8a2e054c

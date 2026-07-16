@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Should Stop Overlooking the World's Top 3 Auto Stocks
+  summary: Investors tend to overlook the automotive industry when it comes to market-beating returns, but these three stocks flip that narrative on its head -- these are must-research stocks.
+  url: https://finnhub.io/api/news?id=6e21bebe72bcec23b13b29200edae8865a42bb4708702bf318240d18e2cc2fc3

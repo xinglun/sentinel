@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock in Focus After a Busy Stretch of Partnerships, Analyst Activity
+  summary: Palantir Technologies has been in the spotlight recently after a string of partnership announcements and a wave of analyst activity.
+  url: https://finnhub.io/api/news?id=5fbf599dde2f1e4fc6d57136fbe480eb6cfbbf120d646408dac8aa839e11256c

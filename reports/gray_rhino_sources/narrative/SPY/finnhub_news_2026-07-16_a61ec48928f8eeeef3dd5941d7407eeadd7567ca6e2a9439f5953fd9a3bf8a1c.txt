@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Futures Rise, S&P 500 Falls As Trump Says Iran Wants To Negotiate— AtaiBeckley, J B Hunt, AST SpaceMobile in Focus (UPDATED)
+  summary: U.S. stock futures declined on Thursday, as the Dow Jones, Nasdaq 100, and S&amp;P 500 indices fell, following Wednesday&#39;s higher close.
+  url: https://finnhub.io/api/news?id=2d2f2d5b4ce3da3d4f480a303cd89cd505bb3ee9abc505cec2f253e909b24ab3

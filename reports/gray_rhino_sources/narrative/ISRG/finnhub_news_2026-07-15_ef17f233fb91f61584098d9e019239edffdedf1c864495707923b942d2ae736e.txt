@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mizuho Maintains Neutral on Intuitive Surgical, Lowers Price Target to $500
+  summary: Mizuho  analyst Anthony Petrone   maintains Intuitive Surgical (NASDAQ:ISRG) with a Neutral and lowers the price target from $525 to $500.
+  url: https://finnhub.io/api/news?id=921301121020066a5bc5992b4d677f7433d344bae3997ae6091ef4b5ddefcf7c

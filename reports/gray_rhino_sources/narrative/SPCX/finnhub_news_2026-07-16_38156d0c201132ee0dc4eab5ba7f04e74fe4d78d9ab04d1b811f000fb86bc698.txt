@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stack Capital Group Inc. (STCK) Opens the Market
+  summary: Toronto, Ontario--(Newsfile Corp. - July 16, 2026) - Jeff Parks, Chief Executive Officer and Director, Stack Capital Group Inc. ("Stack Capital" or the "Company") (TSX: STCK), joined Richard Rohan, Chief Growth Officer, Capital Formation and Toronto Stock Exchange ("TSX") Trust, TMX Group, to open the market to celebrate the Company's five year listing anniversary on TSX.Cannot view this video? Visit:https://www.youtube.com/watch?v=hUB67WuH4oAStack Capital is an investment holding company that..
+  url: https://finnhub.io/api/news?id=d56415eb9e3a60e26bdf52b82bcab466e77797480c4b72d89deb2b7fdcf40e2d

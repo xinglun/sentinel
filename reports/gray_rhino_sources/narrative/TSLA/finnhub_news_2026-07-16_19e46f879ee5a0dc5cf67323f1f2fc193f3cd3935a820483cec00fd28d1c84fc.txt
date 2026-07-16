@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Q2 Earnings: Elon Musk's Pay Package, Cybercab and Optimus Lead Top Investor Questions
+  summary: As Elon Musk-led automaker Tesla Inc. (NASDAQ:TSLA) is set to hold its second-quarter earnings call with investors next week, here are some top questions investors have submitted for the EV giant’s management. Robotaxi, Optimus Under Spotlight On Wednesday, influencer Sawyer Merritt took to X, sharing some of the top questions investors have asked. One of the top questions was about the Optimus Gen 3 robot, which recently got a boost as Tesla transitioned the Fremont, California, facility to pro
+  url: https://finnhub.io/api/news?id=a7d49acfb409b38c736bc11ce2078952225df82d58c0ca2915da43c982207276

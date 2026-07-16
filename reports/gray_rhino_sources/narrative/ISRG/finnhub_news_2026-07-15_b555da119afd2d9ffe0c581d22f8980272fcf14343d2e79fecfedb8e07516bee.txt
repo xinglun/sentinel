@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can ISRG Defend Its Leadership as Global Competition Intensifies?
+  summary: ISRG is countering rising global robotic surgery competition with tiered platforms, AI features and a broad ecosystem focused on value over price.
+  url: https://finnhub.io/api/news?id=0ba9ab83bb065e00d42c9315f77bdf4129ee97761a6ef55c6d4919351c8c62bc

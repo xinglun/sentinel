@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Biggest Reason I’m Buying Nvidia Over and Over Right Now
+  summary: Every bearish headline about AI spending sends most investors to the sidelines, but one piece of software infrastructure keeps pulling me back to the buy button with growing conviction about where a decade of AI capital is actually flowing.
+  url: https://finnhub.io/api/news?id=2b5982d17c88b8e7433e1e15261a10053292880030258926e15f34ea5b2df4e4

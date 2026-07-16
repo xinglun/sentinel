@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GPIX: Time To Buy This 8% Yielder
+  summary: GPIX covered call ETF analysis: see why itâs a Buy despite an 8% yield, with better dividend/NAV stability and total returns. Click to read more.
+  url: https://finnhub.io/api/news?id=16a6b490ab579f82f09e6e1e74ce31608023e0c2527c53a43ccff96fc5b8d00d

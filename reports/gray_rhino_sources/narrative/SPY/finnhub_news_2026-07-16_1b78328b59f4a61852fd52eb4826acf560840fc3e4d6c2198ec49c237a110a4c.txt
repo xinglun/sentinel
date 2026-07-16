@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $1 Million Portfolio With Two Very Different Futures
+  summary: Picture two retirees, each with a fresh $1 million to invest, staring at the same market on the same morning. One builds a portfolio of high-yield covered-call funds, mortgage REITs, and business development companies, aiming for roughly $100,000 in annual distributions. The other buys dividend growers yielding closer to 2%, collecting about $20,000 in year one. ... The $1 Million Portfolio With Two Very Different Futures
+  url: https://finnhub.io/api/news?id=65543f5946068257fcc0cad1c7c3a5a8520ee9b2478bf55e62b7080b0ad498a8

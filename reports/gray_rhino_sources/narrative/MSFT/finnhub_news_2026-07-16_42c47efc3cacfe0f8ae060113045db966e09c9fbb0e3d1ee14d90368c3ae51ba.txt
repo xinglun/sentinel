@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Portfolios are becoming much riskier’: How to make defensive investments before the AI bubble pops
+  summary: The best practices of risk aversion and diversification have changed in this era of tech hype.
+  url: https://finnhub.io/api/news?id=48438dd7ff92dfe8e9cae2b83931a9ca1b0bc465168a2e938f9a897b5ab502b7

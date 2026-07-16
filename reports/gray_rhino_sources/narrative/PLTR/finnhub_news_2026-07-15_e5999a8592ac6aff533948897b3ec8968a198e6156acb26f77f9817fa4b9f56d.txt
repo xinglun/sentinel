@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XNTK vs. QQQ: Does a 35-Stock Tech ETF Beat Just Buying the Nasdaq-100?
+  summary: A 35-stock equal-weight fund has been quietly outrunning the Nasdaq-100 for years, and the structural reason behind that gap changes how you think about building a tech position.
+  url: https://finnhub.io/api/news?id=5206db0ef9c5fe81b1576c3f9106ddb287b8fdb456338651f8f724445c19e927

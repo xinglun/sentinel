@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Most Obvious Reason to Buy Domino's Pizza (DPZ) Stock Before It Reports Earnings on July 20 Is Hiding in Plain Sight
+  summary: Shares of the pizza chain have rarely been this cheap.
+  url: https://finnhub.io/api/news?id=d35e85b2724cb01d7efeb90d161143b991acef14fa7c9031322190a9c66b8905

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia vs. AMD vs. Cerebras: Which Is the Best AI Inference Stock to Buy Today?
+  summary: Inference is poised to be the next big AI infrastructure market.
+  url: https://finnhub.io/api/news?id=f9a3a3ef9a56e7099140e164bf0770b78cac2b1726f51d4cc0ce1fac029feb33

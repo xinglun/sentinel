@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley’s Q2 CIO survey shows these names are winning the race
+  summary: Investing.com -- Morgan Stanley's second-quarter 2026 CIO survey found IT budget growth expectations for the year ticked higher quarter-over-quarter to 3.8%, with Microsoft and the security software category emerging as the clearest beneficiaries, according to analyst Sanjit Singh.
+  url: https://finnhub.io/api/news?id=0a493cc4ae5465d83ffffbeb8f50f34defb833fd84c41003581a24895ce19000

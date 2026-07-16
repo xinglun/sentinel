@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: INTU: Priced Like A Decline, Paying Like A Machine
+  summary: The market has punished this financial software giant as if its core is crumbling, yet the business keeps producing cash at a rate that dwarfs the average company.
+  url: https://finnhub.io/api/news?id=0f1645042c3e807f9568aff4ff7ec6b09f5c0af5f077ded28050f34137b85317

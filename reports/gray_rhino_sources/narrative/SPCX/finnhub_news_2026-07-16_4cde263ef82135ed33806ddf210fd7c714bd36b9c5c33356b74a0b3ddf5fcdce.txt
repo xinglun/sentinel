@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Thursday’s Top Wall Street Analyst Research Calls: Alphabet, BlackRock, Etsy, Flex, Lululemon Athletica, Meta Platforms, Okta, Palo Alto Networks, and More
+  summary: Wall Street analysts are reshuffling their bets on Thursday, sending some of the market's biggest names in opposite directions as geopolitical tensions and inflation crosscurrents cloud the outlook. Find out which stocks got upgraded, downgraded, or newly covered today.
+  url: https://finnhub.io/api/news?id=91b9156553349142d8fbbf9db8b539d64d665ec2a11a0551aa96efc0345f7c3a

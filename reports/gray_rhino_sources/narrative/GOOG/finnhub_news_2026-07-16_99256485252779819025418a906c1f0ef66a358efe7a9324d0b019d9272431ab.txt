@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Oracle Stock's Large AI Backlog Worth the Execution Risk?
+  summary: The company has booked an unprecedented pipeline of future cloud revenue, but it comes with a large price tag and a bet on a flawless, capital-intensive build-out.
+  url: https://finnhub.io/api/news?id=dbb2b2cbf8d1759dafa7e16ea0ac303efcab3fc5b6131ecd05261b329df98bf7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley Adds $148 Billion as IPO Boom Fuels Wealth Growth
+  summary: More than half of second-quarter net new assets came from IPO-related wealth-management inflows.
+  url: https://finnhub.io/api/news?id=334b1ca735da60769d7552ee29829575eefa811dc4f5f168d89f915656818ab3

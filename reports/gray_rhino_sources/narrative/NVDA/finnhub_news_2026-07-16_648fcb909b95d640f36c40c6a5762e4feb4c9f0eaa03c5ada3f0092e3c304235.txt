@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 3 Social Media Stocks Are Among the Best Bargains in the Market
+  summary: Meta, Pinterest, and Reddit look like bargains given their growth.
+  url: https://finnhub.io/api/news?id=851db934b1592b0e7edbb6cd3c7b4dc9d3d0acca81fe3c22276cc2d801fd6c77

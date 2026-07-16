@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Best Vanguard ETF to Invest $1,000 in This July
+  summary: Not every Vanguard ETF is built the same, and the difference between picking the right one and settling for average has compounded into nearly 100 percentage points of extra return over the past decade. One growth-tilted fund makes a stronger case for your $1,000 this July than the index giant most investors default to.
+  url: https://finnhub.io/api/news?id=89b3808f2121f3ca0666a71adc242183505e0d49bada523b2753b037e18341ae

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XV: Monthly Distribution With 15% Annual Target
+  summary: 
+  url: https://finnhub.io/api/news?id=a095341dcb8afb9d8365e4c705c20613c32484ba2cbb7750bed5c69a9c5b9030

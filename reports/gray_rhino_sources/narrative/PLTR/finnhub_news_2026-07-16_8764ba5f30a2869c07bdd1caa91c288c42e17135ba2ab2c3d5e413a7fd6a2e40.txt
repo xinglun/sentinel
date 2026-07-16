@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Palantir's Latest Partnership With Nvidia Make It a Screaming Buy?
+  summary: Nvidia and Palantir are partnering up for sovereign AI.
+  url: https://finnhub.io/api/news?id=e4e37eb5cc64ccfb65317770b5f18023106ef1935b318eb4e2b63a6c2e191d59

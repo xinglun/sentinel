@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chamath Palihapitiya Sees ‘Very Obvious Industrial Logic’ in SpaceX Acquiring Tesla to Fund Elon Musk’s Broad Swath Of Projects
+  summary: Venture capitalist Chamath Palihapitiya said on Tuesday that investors are overlooking a major near-term value driver for SpaceX, arguing that Elon Musk could create strategic and financial leverage by combining the space venture and Tesla Inc. under one corporate structure....
+  url: https://finnhub.io/api/news?id=1a8e6d7e0b8194e7054cddeee15e7555248fabd247b83ffef12a822ec7c0c2e8

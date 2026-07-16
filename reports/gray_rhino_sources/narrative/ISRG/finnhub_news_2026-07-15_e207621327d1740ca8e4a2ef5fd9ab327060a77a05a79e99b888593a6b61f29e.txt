@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BMO Capital Starts Intuitive Surgical (ISRG) at Outperform
+  summary: Intuitive Surgical, Inc. (NASDAQ:ISRG) is one of the 8 Worst Blue Chip Stocks to Buy Now. On July 9, 2026, BMO Capital analyst Vik Chopra initiated coverage of Intuitive Surgical, Inc. (NASDAQ:ISRG) with an Outperform rating and $518 price target. Chopra said the da Vinci 5 upgrade cycle remains in the early innings, procedure growth […]
+  url: https://finnhub.io/api/news?id=be4de3657449f7c6fbe797fc2604dd374b49c2b11c264a6fd5b6bfee9649ce6f

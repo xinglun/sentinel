@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Trade Desk Appoints Vinny Rinaldi as Vice President of Client Strategy & Growth
+  summary: VENTURA, Calif., July 16, 2026--The Trade Desk, a leading advertising technology company, today announced that Vinny Rinaldi has joined the company as Vice President of Client Strategy & Growth. In this role, Rinaldi will partner closely with marketers to help them unlock greater value from data-driven advertising, navigate the rapidly evolving media landscape and accelerate business growth through the premium open internet. Rinaldi will report to Chief Operating Officer, Vivek Kundra.
+  url: https://finnhub.io/api/news?id=bbf723e4fa5114eef504229325a4437503857c284b5bc571007be8ac35b4651c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UnitedHealth rallies premarket while chip stocks retreat; TSMC’s record earnings
+  summary: Investing.com -- U.S. stock index futures were mixed on Thursday as investors weighed lingering Middle East tensions, and focused on corporate earnings and further signs that U.S. inflationary pressures are easing.
+  url: https://finnhub.io/api/news?id=025e4d322c551bd95b7d637bd845e2f2df6036696d4262605491571b2cfead07

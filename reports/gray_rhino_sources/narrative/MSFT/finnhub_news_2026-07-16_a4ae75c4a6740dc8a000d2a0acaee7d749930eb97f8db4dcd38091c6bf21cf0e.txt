@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackRock, Vanguard and JPMorgan Join DTCC's Tokenization Pilot: Which Crypto Could Benefit?
+  summary: DTCC launched a live tokenization pilot with BlackRock, Vanguard, JPMorgan, and nearly 40 financial firms. The trial tokenizes Microsoft, SPY, QQQ, and US Treasuries ...
+  url: https://finnhub.io/api/news?id=9fe1eb50a24f40d804b8a065d1eedcc477dda4e86f0bd34906018057ad6dd1bc

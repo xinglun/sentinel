@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Chinese Tech Stocks Are on the Rise. Thank Apple and Its AI.
+  summary: Alibaba and Baidu are joining with Apple as it rolls out generative artificial-intelligence features across devices in China.
+  url: https://finnhub.io/api/news?id=91d8475a4e228d2c7b4723b30bea8bc67379d32ef034cdb33dc7c6794765d5d5

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Palantir Technologies CTO Says China's AI Models Rely on Unauthorized Use of US Technology
+  summary: Palantir Technologies (PLTR) Chief Technology Officer Shyam Sankar said China's latest artificial in
+  url: https://finnhub.io/api/news?id=4c1ee1c695eb92e0bd9861a84d4796ecfdef49284561e0995d6d7e1551e47d63

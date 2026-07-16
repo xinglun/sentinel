@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Cleared in Recent Texas Crash. Why the Stock Is Down Anyway.
+  summary: Tesla’s FSD driver assistance product was cleared in a recent tragic crash in Texas that killed one person.
+  url: https://finnhub.io/api/news?id=04cf7883b804a304c350fa5724918324d0a7a0a9510eac6ababe0a8c5515ae63

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's Ark Invest Bought Over $51 Million of SpaceX Stock Last Week
+  summary: That brought the firm's total SpaceX holdings to over $550 million, spread across several of its ETFs.
+  url: https://finnhub.io/api/news?id=22d751ce3c86b56040dee20a5fffdc8220ace5a8b078f8c88c539f154c1aa7b6

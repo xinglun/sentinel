@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does LIT's History Justify Buying This Dip?
+  summary: For this lithium and battery tech fund, a discount doesn't automatically mean a bargain.
+  url: https://finnhub.io/api/news?id=4e904b65d75b71836e0289d6c491334507d0579cf4cfea6468d24401a1796f07

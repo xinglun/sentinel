@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: The Bull Case Is Falling Apart
+  summary: Tesla remains a Sell: Q2 delivery beat driven by discounts, margin risks ahead, and negative FCF. Click here to read more about the TSLA stock.
+  url: https://finnhub.io/api/news?id=a8b9eeeebaa7734abc4c886dd476a463bd44d2d9aafd682e5c39bfb66fe01b41

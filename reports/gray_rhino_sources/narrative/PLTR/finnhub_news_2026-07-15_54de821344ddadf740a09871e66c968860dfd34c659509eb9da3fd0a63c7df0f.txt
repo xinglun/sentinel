@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Warns AI Could Become America's Biggest Driver of Wealth Inequality: 'You Now Have a Revolution Where…'
+  summary: Palantir Technologies Inc. CEO Alex Karp warned that AI could become the biggest driver of wealth inequality in the U.S., saying that while the technology is likely to improve the standard of living for the average person, the biggest gains...
+  url: https://finnhub.io/api/news?id=91be37770f81cfccb7f868b26b9ae7f46b12c1f2c8dd1c71bab9f6ed41b14df9

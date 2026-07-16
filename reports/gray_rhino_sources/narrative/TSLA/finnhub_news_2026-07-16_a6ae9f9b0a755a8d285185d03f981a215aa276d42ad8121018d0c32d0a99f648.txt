@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Consumer-Discretionary Stocks Are ‘Coiled’ for a Rebound. But Which Ones?
+  summary: “The U.S. is operating as two distinct consumer economies, requiring a very different investment approach than in a more uniform spending environment,” says one fund manager.
+  url: https://finnhub.io/api/news?id=1ba43ab6c338d6cac731d156de2c8baccd75d138a535a795be70aa8222aaade3

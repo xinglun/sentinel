@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan Semi Plans Extra $100 Billion in U.S. Investment as It Fights Intel Challenge
+  summary: TSMC stock was dropping after it pledged another hefty U.S. investment, despite reporting a 77% increase in quarterly earnings.
+  url: https://finnhub.io/api/news?id=5a5689c3f57d985f747558e572ee41c65ebfab206ca8788c8047a94e7e603d30

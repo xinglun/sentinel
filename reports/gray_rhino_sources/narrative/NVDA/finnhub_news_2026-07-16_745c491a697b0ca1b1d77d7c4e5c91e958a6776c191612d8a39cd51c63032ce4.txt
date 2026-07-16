@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron signs deals with Qualcomm, others for AI-powered automobile chip components
+  summary: Micron Technology on Thursday signed long-term agreements with automotive suppliers, including chip designer ‌Qualcomm and audio products maker Harman, to secure ‌memory and storage components that powers AI-enabled vehicles. The agreements come as ​the industry races to expand manufacturing capacity to meet the booming demand for memory chips due to the rapid adoption of AI tools. These chips are used in data ‌centers, consumer electronics ⁠and vehicles, where they support AI-enabled features such as ADAS and digital cockpits.
+  url: https://finnhub.io/api/news?id=16af38120032f50e55dcc2f05f9413bdc5cc026e1e1ba4bca8aaaf67846b2920

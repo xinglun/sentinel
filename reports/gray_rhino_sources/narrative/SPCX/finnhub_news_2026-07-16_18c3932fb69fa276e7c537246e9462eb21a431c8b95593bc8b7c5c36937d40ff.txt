@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why investors ignore SpaceX and OpenAI losses
+  summary: Robinhood executives Stephanie Guild and Steve Quirk, along with Yahoo Finance Executive Editor Brian Sozzi, explain why the market is giving massive, money-losing companies like SpaceX and OpenAI a free pass, fueled by powerful visions of the future and unprecedented retail investor optimism.
+  url: https://finnhub.io/api/news?id=3c86eebf96d274187b71ab3103fb5465b7ce1b5d9cf4b401cda7cf2b62dbbe98

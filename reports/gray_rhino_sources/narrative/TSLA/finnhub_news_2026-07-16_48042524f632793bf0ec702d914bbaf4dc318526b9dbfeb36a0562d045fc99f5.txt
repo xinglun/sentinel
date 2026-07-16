@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - Climate Tech Boom Powered By Policy Innovation And Investment
+  summary: The climate technology sector is poised for significant growth, with the global market projected to expand from USD 48.46 billion in 2025 to USD 312.74 billion by 2035, driven by advancements in clean energy and carbon removal technologies. This expansion is supported by substantial investments surpassing USD 1.8 trillion in 2024, favoring renewable energy over fossil fuels and accelerating the commercialization of technologies like carbon capture and AI-driven climate solutions. Key policy...
+  url: https://finnhub.io/api/news?id=de34c975071cb7e7e613e8b09cf65680376782645e47c6a7801702dbad556fd6

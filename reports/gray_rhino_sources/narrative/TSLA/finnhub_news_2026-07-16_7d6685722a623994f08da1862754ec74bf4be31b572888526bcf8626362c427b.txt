@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX IPO & why oil could hit $150: Robinhood Exec
+  summary: Robinhood executives Stephanie Guild and Steve Quirk join Yahoo Finance Executive Editor Brian Sozzi to break down the unprecedented wave of upcoming AI and SpaceX IPOs, the risks of the "Magnificent Seven" market concentration, and why a looming $150 oil shock could test the stock market this summer.
+  url: https://finnhub.io/api/news?id=bdd4fe1a4e647763b3613adb2ee1728a0fc4785157d2525a62ee13538d276730

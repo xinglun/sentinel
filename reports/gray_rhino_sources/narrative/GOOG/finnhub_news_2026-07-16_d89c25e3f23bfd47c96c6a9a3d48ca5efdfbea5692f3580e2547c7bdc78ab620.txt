@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EU orders Google to open Android, search data to OpenAI and AI rivals
+  summary: Investing.com -- Alphabet's Google will be required to open key Android features and share certain search-related data with OpenAI and other artificial intelligence rivals under new European Union rules aimed at curbing the company's market dominance, EU regulators said on Thursday.
+  url: https://finnhub.io/api/news?id=7bee83f217a26fac78c6d0abf99ebce9a55f243b17d3e2d051793d8ee59beb03

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mira Murati Unveils Open-Weight AI Model as Alex Karp, Satya Nadella Warn Companies Are Giving Away Their IP
+  summary: Mira Murati&#39;s new Inkling AI solves the enterprise IP crisis warned by Microsoft&#39;s Satya Nadella and Palantir&#39;s Alex Karp.
+  url: https://finnhub.io/api/news?id=00f290c27cc37b58c3c1fd07a09fa0e2fbb24893d4157feac4cc14c57d34ab87

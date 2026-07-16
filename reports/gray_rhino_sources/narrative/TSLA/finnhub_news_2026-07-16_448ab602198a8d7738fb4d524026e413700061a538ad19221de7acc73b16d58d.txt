@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Traders cool on Tesla-SpaceX merger as Polymarket odds slide
+  summary: Traders on Polymarket have sharply scaled back bets that a Tesla-SpaceX merger will be announced this year, even as Wall Street analysts insist a tie-up is only a matter of time. The prediction market now puts just an 11% chance on an official announcement by 30 September, down 28 percentage...
+  url: https://finnhub.io/api/news?id=7f6eccf57a5b473da0d95852c1f9e58091f91b41c7f6051ffc434056b226b764

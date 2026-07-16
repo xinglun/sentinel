@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix's Q3 Earnings Report Could Lead to $21.5 Billion Swing in Market Value
+  summary: Earnings focus on Thurs, Benzinga-selected slate: industrial engines, logistics real estate, streaming, medical devices. Options market offers snapshot of volatility. UnitedHealth Group Inc. (NYSE:UNH) is the marquee name. Prologis, Inc. (NYSE:PLD) reports before opening bell, GE Aerospace (NYSE:GE) reports after bell.
+  url: https://finnhub.io/api/news?id=a2c4efc0a1dfea40fc5f46748d8ab33e2f1b0a9bce154f011ebe42fe9163b783

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile Stock Fall Is About More Than SpaceX
+  summary: AST SpaceMobile stock has fallen 27% in the past three months and its latest debt offering isn't helping.
+  url: https://finnhub.io/api/news?id=f5a44a97572d6c1cce553b3d4591e13f948970b703ebe4e6ba0c23ad515d368e

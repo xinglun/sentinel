@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Satya Nadella's 'Pay Twice' Warning, Mark Cuban Says AI Is Making Patents Less Valuable, Trade Secrets More Important
+  summary: Billionaire entrepreneur Mark Cuban on Monday said the value of patents has declined in the age of artificial intelligence, while trade secrets have become increasingly important as AI models are trained on patent applications and can be prompted to identify...
+  url: https://finnhub.io/api/news?id=3a8f44eb177deadc28ffadd68d19dcfa0466b3df8f2768da7bcebd2460ac34b2

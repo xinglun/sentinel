@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Price Prediction: How Much a $7,500 Investment Could Be Worth by 2027
+  summary: Alphabet just posted its fourth consecutive EPS beat while growing revenue at 21.8% quarterly, yet the biggest question hanging over GOOGL heading into 2027 is whether its $175 billion spending spree will reward investors or quietly drain the bull case dry.
+  url: https://finnhub.io/api/news?id=8726e4ab39cd7e8cb02c286cd9f44b6200859b8772da17e307df17dda5f51f4d

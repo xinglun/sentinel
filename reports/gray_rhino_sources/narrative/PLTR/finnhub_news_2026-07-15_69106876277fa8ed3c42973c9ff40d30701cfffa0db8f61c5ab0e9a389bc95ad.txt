@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Best House On The Block Costs The Most: PLTR Stock
+  summary: In a field of software giants, one company delivers the fastest growth by far, but the market makes you pay for every last bit of it.
+  url: https://finnhub.io/api/news?id=d752dc2818576cd545a324c1ee0e2f691e5d4e19ce94d9c47212464ecbc29248

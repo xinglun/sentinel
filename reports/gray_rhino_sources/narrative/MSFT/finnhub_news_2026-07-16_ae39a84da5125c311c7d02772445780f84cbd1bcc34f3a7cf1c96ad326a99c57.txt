@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: National Grid plc (NGG) Targets Soaring US Power Demand with $1.75B Joulent Investment
+  summary: National Grid plc (NYSE:NGG) is one of the best dividend stocks to invest in, according to Jim Simons’ Renaissance Technologies. On July 1, National Grid plc (NYSE:NGG) confirmed it will invest $1.75 billion for a 35% stake in Joulent, a U.S. energy platform developing power infrastructure. The investment underscores the company’s push to capitalize on […]
+  url: https://finnhub.io/api/news?id=12cc7d96a5e909ecf13c3e898ee890cdce341855d0bb6e56d63b32f1dca0419d

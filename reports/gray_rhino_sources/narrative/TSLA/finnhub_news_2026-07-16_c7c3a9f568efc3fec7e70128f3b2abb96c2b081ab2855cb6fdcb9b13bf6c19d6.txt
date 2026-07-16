@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Tesla, Space Exploration Technologies, Amazon.com and Microsoft
+  summary: Space Exploration Technologies is emerging as Elon Musk's biggest value creator, driven by Starlink, launch leadership and expanding AI ambitions.
+  url: https://finnhub.io/api/news?id=8109e93203e46603250ec0b5a71f70ee2df67c2d390dd7b6ab39ae9168c3a04e

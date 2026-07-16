@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coinbase Just Joined a 140-Company Stablecoin Alliance. Here's What It Means for the Stock.
+  summary: The cryptocurrency exchange is backing a disruptive new stablecoin.
+  url: https://finnhub.io/api/news?id=8b2402b50ec0f7af2ec3d8f1284b16bfb140f74fb46f363f63638714a4019e34

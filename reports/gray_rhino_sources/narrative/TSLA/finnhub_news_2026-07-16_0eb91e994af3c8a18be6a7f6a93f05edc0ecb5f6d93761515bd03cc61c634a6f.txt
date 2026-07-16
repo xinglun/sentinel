@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'US Takes Aim at Autonomous Car Mishaps in Safety Rulemaking Push' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-07-16/us-takes-aim-at-autonomous-car-mishaps-in-safety-rulemaking-push
+  url: https://finnhub.io/api/news?id=f4bf20d47290138df3798eae0c899389f5b8804d32b215422f67a0dc5660f67b

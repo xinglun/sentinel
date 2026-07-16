@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FFLC: Active Management That Has Actually Beaten The S&P 500
+  summary: Fidelity FFLC ETF is an actively managed S&P 500 alternative targeting risk-adjusted returns via quality large caps and valuation discipline. See more here.
+  url: https://finnhub.io/api/news?id=665e28bf9bba575067329f980252c3681a64a331dc5d3fe5a0f6e012998956e2

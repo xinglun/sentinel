@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Hyperscalers Still Magnificent?
+  summary: Wedgewood Partners analyzes the performance divergence between AI hyperscalers and semiconductor stocks in their Q2 2026 letter. Read the full analysis for more.
+  url: https://finnhub.io/api/news?id=7563d37f89a986479c06d0ef6d12521b89445ecff69793ace30c86e895b148d9

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GPU.ai Named Official Title Sponsor of AGI Summit SF 2026
+  summary: GPU.ai today announced that it has been named the Official Title Sponsor of AGI Summit SF 2026, one of the Bay Area's largest AI gatherings, expected to bring together more than 15,000 attendees including AI founders, enterprise leaders, investors, researchers, and CEOs shaping the future of artificial intelligence.
+  url: https://finnhub.io/api/news?id=efc5eeb57b9833a11271ed2f34364e058d7eff7feeb1dd2160896704c19675d0

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Rise But AI Woes Continue; Taiwan Semi, GE, UnitedHealth Are Key Earnings Movers
+  summary: Dow Jones futures: Taiwan Semiconductor and GE Aero fell despite strong earnings as the AI stock sell-off continues.
+  url: https://finnhub.io/api/news?id=759627f5149f28b6538283c3bf9a71edb694c1f7d5a2529b6c8f3576feb62f51

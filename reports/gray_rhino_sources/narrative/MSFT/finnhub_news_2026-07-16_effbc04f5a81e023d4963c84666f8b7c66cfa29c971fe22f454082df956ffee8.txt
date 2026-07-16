@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why ZM Stock Hands You So Much Cash Right Now
+  summary: A company famous for its growth is now offering investors a surprising amount of cash, but the market isn't buying the story.
+  url: https://finnhub.io/api/news?id=f8a2f62574cc0b7e666b6ed732dc4622885bda36bb8cc2aa5a77da4e6f0d13b9

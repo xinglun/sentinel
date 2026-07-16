@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s CTO Sees Chinese AI Models Posing Economic Risk to US
+  summary: (Bloomberg) -- Palantir Technologies Inc. Chief Technology Officer Shyam Sankar said that China has developed a new vanguard of artificial intelligence models through unauthorized use of work produced by Silicon Valley AI developers, posing an economic threat to the US.Most Read from BloombergThailand Scraps Plan to End Visa-Free Entry for Indian TouristsOpenAI’s First Device Will Be Movable, Screenless Speaker Built as AI CompanionTrump Drops 20% Fee for Hormuz Cargo After Gulf PressureUS Hits
+  url: https://finnhub.io/api/news?id=8d9132e60d58722624f582106057d640054373ec6a7d40fc3cde5f6e93b0245a

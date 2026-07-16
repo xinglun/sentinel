@@ -1,11 +1,11 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-07-15
+- 截至: 2026-07-16
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
 - 平均置信度: 55.7
-- 平均稳定度: 42.9
+- 平均稳定度: 43.0
 - 趋势凝聚 ready 天数: 7
 
 ## 市场状态计数
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-07-07: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-08: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-09: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-10: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-15: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-07-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -62,14 +62,14 @@
 - reason: trend_continuation
 - exceptionalFactors: []
 - Narrative:
-  - 市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。
+  - 市场继续由 SPY 主导，U 保持较强延续，GOOG 今日重新出现突破萌芽，为窄幅主线增加了一个局部支撑点。但市场广度仍未扩展，整体仍属于少数资产领导下的正常趋势延续。
   - No major event today. Current monitoring remains idle.
   - 没有结构性恶化证据。
 - Leadership Confidence: HIGH
 - Leadership Metrics:
   - Primary Leader: [SPY]
-  - Secondary Leaders: [GOOG, U]
-  - Leadership Watch Candidates: [FIG, ISRG, SPCX]
+  - Secondary Leaders: [U, GOOG]
+  - Leadership Watch Candidates: [ISRG, SPCX, TSLA]
   - leadershipBreadth: rotation
 - very_narrow:
   - breadthScore: 35
@@ -77,12 +77,12 @@
   - rotationScore: 18
 - Rotation Observation:
   - rotationType: sector_or_index_rotation
-  - from: [FIG, ISRG, SPCX]
-  - to: [SPY, GOOG, U]
+  - from: [ISRG, SPCX, TSLA]
+  - to: [SPY, U, GOOG]
   - interpretation: 不是全面撤退，而是行业 / 资产组内部的轮动。
   - observationOnly: true
 - Observation Confidence:
-  - trend: MEDIUM
+  - trend: HIGH
   - macro: LOW
   - supply: HIGH
   - expectation: UNAVAILABLE
@@ -90,15 +90,15 @@
   - flow: MEDIUM
   - overall: MEDIUM
 - Interpretation Priority:
-  - Trend: ★★★
+  - Trend: ★★★★★
   - Supply: ★★
   - Macro: ★
   - Flow: ☆
   - Expectation: ☆
 - Leader Persistence:
   - 当前 Leader: SPY
-  - 连续领导天数: 4 天
-  - 领导评分: 40.7
+  - 连续领导天数: 5 天
+  - 领导评分: 50.8
   - 领导状态: ESTABLISHED
   - 较昨日变化: +1 天，评分上升
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。
@@ -117,12 +117,12 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-07-15
+- 最新观测日: 2026-07-16
 - 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 0
-- 7 日 Future Queue 最小值 / 最大值: 0 / 1
-- 已报道 / 已确认: 0 / 0
-- 潜在供给压力: LOW
+- 最新 Future Queue 数量: 2
+- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 已报道 / 已确认: 2 / 0
+- 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
 ### 6.2 Demand Layer（Flow Layer）
@@ -135,7 +135,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-16
+- 观测日: 2026-07-17
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

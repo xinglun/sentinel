@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cooler June Inflation Clashes With Fresh Middle East Risk
+  summary: Federal Reserve officials are talking tough on inflation, but the outlook for monetary policy is still cloudy amid murky geopolitical and economic conditions.
+  url: https://finnhub.io/api/news?id=4b9fae02c25c0c6e5b4fd36dfff743762acca7685d49f292b5e48e13e603aa36

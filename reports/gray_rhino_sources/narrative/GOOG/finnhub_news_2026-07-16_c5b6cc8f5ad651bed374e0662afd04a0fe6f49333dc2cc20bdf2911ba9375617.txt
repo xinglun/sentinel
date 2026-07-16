@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Pushes Its Own AI Models
+  summary: Sales teams will stress lower costs and integration
+  url: https://finnhub.io/api/news?id=d9e5a6109c1507e128d78050c9216e77cbf734c027a6f4572748de46fc4a3669

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sharon AI secures $1.32 billion cloud computing agreement, shares climb (SHAZ)
+  summary: SharonAI Holdings Inc. (NASDAQ:SHAZ) shares gained 10% after the company announced a five-year cloud computing services contract worth approximately $1.
+  url: https://finnhub.io/api/news?id=10760379cbba5f20e756ddffd6c52cfc4d35a12dda5510ef31c7704551746584

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can You Build a Retirement Portfolio Using Only ETFs?
+  summary: Yep. And you should, if you can.
+  url: https://finnhub.io/api/news?id=88f14b82a17d18a50ac3f367b1afc161b076adcdc9ee98f8dae3066f677c602f

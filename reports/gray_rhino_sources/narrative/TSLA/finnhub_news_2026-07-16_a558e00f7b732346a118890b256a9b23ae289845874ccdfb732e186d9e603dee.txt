@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 8 Small Stocks Soar So Explosively You'll Forget About The 'Mag 7'
+  summary: It's been easy to get entranced with the largest S&P 500 stocks. But there's a shift worth noticing to smaller stocks.
+  url: https://finnhub.io/api/news?id=be16c1968c9b1f5b3888422a5ed772254c33190dc5eec46860c188ab7f9b964e

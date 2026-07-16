@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Mag 7 Stocks Can Save the Stock Market Rally
+  summary: Chinese rival to Micron could shake up the chip market, U.S. will put 25% tariff on some Brazilian goods, United Airlines raises full-year guidance, and more news to start your day.
+  url: https://finnhub.io/api/news?id=9a62a1ca365c83c975885250446ec2b3f8a1cc382f01fe9f4d8ef2d2272bca86

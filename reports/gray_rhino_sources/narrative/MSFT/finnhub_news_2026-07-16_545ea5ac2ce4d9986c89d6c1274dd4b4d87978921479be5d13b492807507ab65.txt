@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Soluna Appoints Microsoft Hyperscale Executive Ryan Carver to Lead Soluna’s AI
+  summary: ALBANY, N.Y., July 16, 2026--Soluna Holdings, Inc. ("Soluna" or the "Company") (Nasdaq: SLNH), a developer of green data centers for intensive computing applications, including AI and Bitcoin mining, today announced it has appointed Ryan Carver as Chief Development Officer (CDO), effective immediately. Carver will be responsible for the full lifecycle of Soluna’s AI/HPC data center platform, from site origination and power procurement through design, construction, commissioning, and ongoing oper
+  url: https://finnhub.io/api/news?id=9aee6a8192bbecdd9a68658b52bd6ecd8bc805703ada15911aea38ed38ad125a

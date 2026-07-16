@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood’s ARK Buys SpaceX Stock Ahead of Starship Test 13
+  summary: SpaceX  stock has lost altitude recently, creating an opportunity for Cathie Wood’s ARK Invest.  ARK is a big believer in Elon Musk.  Coming into Thursday trading, SpaceX stock was down for three consecutive days and seven of the past nine days, leaving shares just 27 cents above the $135 IPO price.
+  url: https://finnhub.io/api/news?id=371ecbd43c5840927834d8a3fd43b98682379f35a8923d66c09c97475d571779

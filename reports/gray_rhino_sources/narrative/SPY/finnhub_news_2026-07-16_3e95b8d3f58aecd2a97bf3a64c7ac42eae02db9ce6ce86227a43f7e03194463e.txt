@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Screw Tightens, The Wheel Turns
+  summary: As we step through earnings season, Wall Street focus continues to be on signs that AI is actually creating value for companies that are not selling access to the core AI infrastructure.
+  url: https://finnhub.io/api/news?id=f2f7e6cde6325486c21eae31e82e9f1d705b81facc5f814007b3a2106b2ca7bb

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Top Mag 7 Stock Headed Into Q2 Earnings: Jefferies Says Buy Amazon Over Tesla or Apple
+  summary: With Q2 earnings closing in, Jefferies just named its top Magnificent 7 pick and the choice cuts across some of the most widely held retirement stocks in America. One of these three tech giants wins on valuation, one wins on income, and one barely shows up to the fight.
+  url: https://finnhub.io/api/news?id=e6cc32104d8ea7028527f2b66fb5715c59f10461b14f80be024068ed1588ca0d

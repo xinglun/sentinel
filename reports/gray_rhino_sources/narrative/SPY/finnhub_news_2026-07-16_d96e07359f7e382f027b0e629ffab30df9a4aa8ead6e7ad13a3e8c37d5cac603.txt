@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Slides As Sandisk, SK Hynix Plunge; Nvidia Chipmaker TSMC Tumbles (Live Coverage)
+  summary: Stock Market Today: The Nasdaq composite dropped Thursday as Sandisk and SK Hynix plunged. TSMC sold off on earnings.
+  url: https://finnhub.io/api/news?id=5b5cac05d3caf4d6f487a5a4f455d81648644f9d99ba884c8538700d1a56d35e

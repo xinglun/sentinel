@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will SpaceX Be a $9 Trillion Stock by 2027?
+  summary: One analyst thinks so.
+  url: https://finnhub.io/api/news?id=02211dc5d61f93ca0ea1fa7a61d63bc89a64bbf96eed14e7f5417433bd183840

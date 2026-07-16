@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: illumynt Appoints Anthony Giannetti as Senior Vice President of Global Operations
+  summary: BOSTON, July 16, 2026--illumynt, a technology-driven leader in AI hardware lifecycle recovery and IT asset disposition (ITAD), today announced that Anthony "Tony" Giannetti has joined the company as Senior Vice President of Global Operations, effective July 13, 2026.
+  url: https://finnhub.io/api/news?id=0f5156c153e7e78eefeb82b8ca812fad7725e1548b17dbccdc16e51a789e1ea9

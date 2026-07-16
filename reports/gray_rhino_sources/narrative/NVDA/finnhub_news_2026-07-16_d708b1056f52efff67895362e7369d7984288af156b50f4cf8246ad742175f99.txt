@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Might Be a Massive Winner as SpaceX’s Orbital Data Centers Take Off
+  summary: SpaceX is building data centers in orbit, and the partner positioned to profit most may surprise even the analysts watching Nvidia's every move.
+  url: https://finnhub.io/api/news?id=fae98164eb7a43695c5c7424d4c2ab3f4a93cb513ba5f099088e9d5bc0e8fd31

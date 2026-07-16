@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI is so big, it’s now impossible for investors to avoid
+  summary: Exposure to the artificial-intelligence boom has become virtually impossible for investors to avoid. The theme hasn’t just cornered the stock market. It has systematically swallowed up corporate credit and venture capital, too.
+  url: https://finnhub.io/api/news?id=643b55bac6e2144b03045aec84654292b533b265700ca72b44d983a4836259de

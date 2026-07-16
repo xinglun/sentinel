@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Johnson & Johnson CFO Says This Drug Is Outperforming ‘Almost Any Launch’ in Recent Memory
+  summary: Johnson & Johnson’s  second-quarter earnings were met with a shrug on Wall Street, but one of the drugmaker’s top executives insists the most powerful growth drivers are just starting to pick up speed.  J&J on Wednesday reported adjusted earnings of $2.90 a share, beating the $2.85 a share analysts had anticipated.  “I think the second quarter was just an affirmation of the first quarter,” Chief Financial Officer Joe Wolk said in an interview with Barron’s. “Our pharmaceutical unit continues to thrive, surpassing $16 billion in sales for the first time ever in the company’s history.”
+  url: https://finnhub.io/api/news?id=7f9bf71fadecdd9a92d2d7c8741a7205f9c570edb10edb3efdbbed51786a82c2

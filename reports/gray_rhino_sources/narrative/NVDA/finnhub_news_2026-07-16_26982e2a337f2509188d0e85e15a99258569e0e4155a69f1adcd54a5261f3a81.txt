@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fireworks Raises a $1.5 Billion Series D to Lead the Specialized Intelligence Revolution
+  summary: SAN MATEO, Calif., July 16, 2026--Fireworks raised a $1.5 billion Series D at a $17.5 billion valuation, led by Atreides Management, Index Ventures, and TCV.
+  url: https://finnhub.io/api/news?id=9455d3be1ec73ca2eabe45d93869a637293bb3ed77e6bff5fe4b5967aa97f738

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI startup taps former Grammarly CTO for next growth phase
+  summary: Rogo, an AI startup creating software for Wall Street, has hired former Grammarly chief technology officer Joe Xavier as its CTO, the company tells Axios.
+  url: https://finnhub.io/api/news?id=85d63fd55edc8740f514cbc45b21dbebf5f15445db5c605425f6f2cd05863350

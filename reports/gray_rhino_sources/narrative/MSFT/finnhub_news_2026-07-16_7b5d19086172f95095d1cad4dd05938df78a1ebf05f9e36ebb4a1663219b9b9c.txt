@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Stocks Rise Even as Tech Flounders
+  summary: Tech stocks looked set to struggle on Thursday as the artificial-intelligence trade ran out of steam, but some of the U.S.'s blue-chip names were still catching a bid ahead of the opening bell. Roundhill's Magnificent Seven exchange-traded fund, which tracks the price of seven mega-cap stocks, climbed 0.
+  url: https://finnhub.io/api/news?id=fdc78804fefa4ceebf057fb5a8bfb8cc4dc482b6bf6247f6207921949f2ad926

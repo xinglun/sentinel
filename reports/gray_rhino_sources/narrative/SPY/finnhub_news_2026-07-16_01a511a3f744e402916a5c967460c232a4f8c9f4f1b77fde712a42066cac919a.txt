@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran Tells Yemen's Houthi Rebels To Close The Bab El-Mandeb Strait Into The Red Sea If U.S. Strikes Iranian Power Infrastructure
+  summary: – Reuters exclusive
+  url: https://finnhub.io/api/news?id=546f3f16edb4faa0166815b102de6872853589c6f20a1de0c935cbec988a19ee

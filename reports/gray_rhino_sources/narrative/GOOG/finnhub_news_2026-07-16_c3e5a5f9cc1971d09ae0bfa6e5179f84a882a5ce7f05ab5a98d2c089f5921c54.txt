@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Google Receives EU Binding Specifications on AI Interoperability, Search Data
+  summary: Alphabet (GOOG) Google has received legally binding specifications from the European Commission on i
+  url: https://finnhub.io/api/news?id=6ecc4e45120896e56845c64e694d3e15d47fc0713495a59cd9c92e2a4de1a9e0
