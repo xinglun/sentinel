@@ -1,0 +1,235 @@
+{
+  "workItemId": "cross-day-baseline-continuity",
+  "contractPath": ".ai/work-items/archive/2026/cross-day-baseline-continuity.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "reason": "跨日基線、交易日对齐、缺失基线降级和幂等边界を Contract 化した。"
+    },
+    {
+      "path": ".ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "reason": "検証結果、変更範囲、残余リスクを記録する。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-23-cross-day-baseline-continuity.md",
+      "reason": "実装手順と TDD / Cockpit 境界を記録した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "DecisionPacket を業務日で重複排除し、指定日より前の時系列基線を読み込む。"
+    },
+    {
+      "path": "src/features/radar/domain/transition_log.rs",
+      "reason": "BASELINE_UNAVAILABLE を構造化し、欠損基線から偽の構造変化を出さない。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "前回有効取引日の packet だけを比較基線にし、休日・週末をスキップする。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "前回基線の存在を検証し、古い observation へのフォールバックを停止する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/cross-day-baseline-continuity.contract.json",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/domain/transition_log.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "取引执行链路未连接；真实外部数据源仍需在 review 中确认日期和快照完整性。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract に scope、acceptance、verification と基線境界を記録した。",
+      "contractHash": "ad5fc27f16e82cd8",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD の失敗テストを確認し、production scope を固定した。",
+      "contractHash": "ad5fc27f16e82cd8",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "日付基線、BASELINE_UNAVAILABLE、同日 upsert の実装と targeted test を確認した。",
+      "contractHash": "ad5fc27f16e82cd8",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit required checks と quality gate を完了した。",
+      "contractHash": "ad5fc27f16e82cd8",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope、acceptance、verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TDD の失敗テストを確認後、scope 内だけを編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "production test、fmt、test、clippy を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全 required checks が通過し、外部 runtime データだけを residual risk として残した。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一 Leader 连续两日 Persistence 从 1 增至 2",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "cargo test streak_grows_for_same_leader_with_confident_reads --lib"
+      ]
+    },
+    {
+      "scenario": "缺失上一有效交易日时不使用更早 observation",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "cargo test read_model_does_not_use_older_observation_when_baseline_date_is_missing --lib"
+      ]
+    },
+    {
+      "scenario": "乱序和同日重复 packet 按业务日期去重排序",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "cargo test recent_packets_before_deduplicates_and_sorts_by_business_date --lib"
+      ]
+    },
+    {
+      "scenario": "缺失基线不生成结构性 transition 或 Breakout 变化",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "cargo test baseline_unavailable_does_not_emit_structural_changes --lib"
+      ]
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "external_runtime_data",
+      "detail": "真实 runtime 的历史文件和外部行情数据不在本次本地测试范围内；review 时确认旧数据迁移后的 BASELINE_UNAVAILABLE 表现。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Required checks 已通过；真实 runtime 历史文件仍需 review。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification",
+      "external baseline migration"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "连续日报证明跨日状态基线不真实。",
+      "solidifiedTo": "contract",
+      "solidifiedIn": [
+        ".ai/work-items/active/cross-day-baseline-continuity.contract.json",
+        "docs/superpowers/plans/2026-07-23-cross-day-baseline-continuity.md",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/market_interpretation_read_model.rs"
+      ],
+      "reason": "将日期基线、缺失基线和幂等验收固化为 Contract、代码与回归测试。"
+    }
+  ]
+}
