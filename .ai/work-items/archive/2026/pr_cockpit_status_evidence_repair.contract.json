@@ -1,0 +1,135 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr_cockpit_status_evidence_repair",
+  "mode": "review",
+  "title": "生成 Cockpit 状态文件的 PR 证据归属修复",
+  "baseCommit": "81b17d9e981d0065a0ffc99871d3d88b5af5bf32",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR archive evidence ownership guard が、Work Item archive 完了時に自動生成される .ai/cockpit/current_status.md を所有者不明の変更として拒否する。",
+  "intent": {
+    "problem": "生成状態ファイルの変更を、同一 Work Item の archive Contract / Summary で追跡可能にし、実装変更のないガバナンス更新で CI が誤失敗しないようにする。",
+    "constraints": [
+      "production code、既存 archive evidence、PR checker の判定ロジックは変更しない。",
+      "current_status.md は generator の出力として扱い、手動編集しない。",
+      "data branch、reports、JSONL、Daily Decision Radar の実行結果は対象外とする。"
+    ],
+    "rationale": "Rust quality と AI Governance は通過しており、CI failure は生成状態ファイルの archive evidence ownership 欠落に限定されている。"
+  },
+  "scope": [
+    ".ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json",
+    ".ai/work-items/active/pr_cockpit_status_evidence_repair.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "scripts/ai_check_pr.py",
+    ".ai/guards/pr_evidence_policy.yaml",
+    ".ai/work-items/archive/**",
+    "src/**",
+    "tests/**",
+    "reports/**",
+    "data branch の全ファイル"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "非豁免変更に archive Contract scope と Summary changedFiles の両方を要求する実装を確認する。"
+    },
+    {
+      "path": ".ai/cockpit/status_policy.yaml",
+      "reason": "current_status.md が generator 管理の状態ファイルであることを確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cross-day-baseline-continuity.contract.json",
+      "reason": "直前 Work Item の scope に current_status.md が含まれることを確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/cross-day-baseline-continuity.summary.json",
+      "reason": "直前 Work Item Summary の changedFiles に current_status.md が欠落していることを確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "governance_process"
+    ],
+    "reason": "生成された Cockpit 状態と archive evidence の追跡だけを補完し、製品挙動と既存 archive は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が確定し、archive evidence の追加と PR guard の再検証を実行できる。"
+  },
+  "preReviewWarnings": [
+    "archive 後の current_status.md を同一 archive pair の changedFiles と scope で所有することを確認する。",
+    "既存 archive evidence は変更せず、今回の Work Item 自体で生成状態の所有権を記録する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "archive Contract と Summary が current_status.md の evidence ownership を記録する。",
+    "既存 archive evidence と PR checker 実装は変更しない。",
+    "archive 後に make check-ai-pr AI_BASE_COMMIT=81b17d9e が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json SUMMARY=.ai/work-items/active/pr_cockpit_status_evidence_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr_cockpit_status_evidence_repair.summary.json CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json SUMMARY=.ai/work-items/active/pr_cockpit_status_evidence_repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr_cockpit_status_evidence_repair.contract.json SUMMARY=.ai/work-items/active/pr_cockpit_status_evidence_repair.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
