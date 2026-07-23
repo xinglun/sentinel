@@ -94,8 +94,11 @@ pub(crate) async fn run_pipeline(
 
     let history = runtime_services
         .persistence
-        .load_recent_packets(20)
+        .load_recent_packets_before(radar_context.date, 20)
         .unwrap_or_default();
+    let previous_trading_date = previous_valid_trading_date(radar_context.date);
+    let baseline_packet = select_previous_packet(&history, radar_context.date);
+    let pipeline_history = baseline_packet.iter().cloned().collect::<Vec<_>>();
     let leader_observations = runtime_services
         .persistence
         .load_leader_observations()
@@ -106,7 +109,7 @@ pub(crate) async fn run_pipeline(
         .into_iter()
         .filter(|record| record.is_production_eligible())
         .collect::<Vec<_>>();
-    let prev_packet = history.last();
+    let prev_packet = baseline_packet.as_ref();
 
     let watchlist = config_arc
         .watchlist
@@ -138,12 +141,12 @@ pub(crate) async fn run_pipeline(
     let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {
-        let packet =
+        let mut packet =
             match crate::features::radar::application::radar::RadarPipelineUseCase::decide_daily(
                 &ticker_histories,
                 failed_symbols.len(),
                 &domain_rules_arc,
-                &history,
+                &pipeline_history,
                 &all_evidence,
                 &positions,
                 radar_context.date,
@@ -161,6 +164,14 @@ pub(crate) async fn run_pipeline(
                     return Err(e);
                 }
             };
+
+        if baseline_packet.is_none() {
+            packet.transition_log = Some(
+                crate::features::radar::domain::transition_log::StateTransitionLog::baseline_unavailable(
+                    &packet,
+                ),
+            );
+        }
 
         let lang = config_arc
             .output
@@ -356,6 +367,7 @@ pub(crate) async fn run_pipeline(
                 current_packet: &packet,
                 current_presentation: &pres_packet,
                 language: lang,
+                baseline_date: previous_trading_date,
             });
         let previous_market_interpretation = match (
             prev_packet,
@@ -574,6 +586,21 @@ fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
     }
     dates.sort_unstable();
     dates
+}
+
+fn previous_valid_trading_date(current: chrono::NaiveDate) -> Option<chrono::NaiveDate> {
+    recent_trading_dates(current)
+        .into_iter()
+        .filter(|date| *date < current)
+        .max()
+}
+
+fn select_previous_packet(
+    history: &[crate::features::radar::domain::decision::DecisionPacket],
+    current: chrono::NaiveDate,
+) -> Option<crate::features::radar::domain::decision::DecisionPacket> {
+    previous_valid_trading_date(current)
+        .and_then(|date| history.iter().find(|packet| packet.date == date).cloned())
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -1255,6 +1282,8 @@ fn gray_rhino_failure_appendix(
 mod tests {
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
+    use super::previous_valid_trading_date;
+    use super::select_previous_packet;
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
     };
@@ -1266,6 +1295,26 @@ mod tests {
         GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
     };
     use crate::features::shared::interface::i18n::Language;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn previous_valid_trading_date_skips_weekends_and_nyse_holidays() {
+        let monday = NaiveDate::from_ymd_opt(2026, 7, 6).unwrap();
+        let friday = NaiveDate::from_ymd_opt(2026, 7, 3).unwrap();
+        assert_eq!(previous_valid_trading_date(monday), Some(friday));
+    }
+
+    #[test]
+    fn select_previous_packet_does_not_fallback_to_an_older_date() {
+        let current = NaiveDate::from_ymd_opt(2026, 7, 14).unwrap();
+        let older = current - chrono::Duration::days(2);
+        let packets = vec![crate::features::radar::domain::decision::DecisionPacket {
+            date: older,
+            ..Default::default()
+        }];
+
+        assert!(select_previous_packet(&packets, current).is_none());
+    }
 
     #[test]
     fn telegram_reference_appendix_digest_keeps_judgement_and_omits_detail_lines() {

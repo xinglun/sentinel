@@ -316,6 +316,7 @@ pub(crate) struct LeaderPersistenceReadModelInput<'a> {
     pub current_packet: &'a DecisionPacket,
     pub current_presentation: &'a PresentationPacket,
     pub language: Language,
+    pub baseline_date: Option<chrono::NaiveDate>,
 }
 
 pub(crate) fn build_leader_persistence_view_model(
@@ -340,7 +341,15 @@ pub(crate) fn build_leader_persistence_view_model(
         })
         .cloned()
         .collect::<Vec<_>>();
-    let has_prior_history = !observations.is_empty();
+    let baseline_available = input.baseline_date.is_some_and(|date| {
+        observations
+            .iter()
+            .any(|observation| observation.date == date)
+    });
+    if !baseline_available {
+        observations.clear();
+    }
+    let has_prior_history = baseline_available;
 
     let current_observation = build_current_observation(
         input.current_packet,
@@ -352,7 +361,11 @@ pub(crate) fn build_leader_persistence_view_model(
     let mut result = build_leader_persistence(&observations)?;
     if !has_prior_history {
         result.history_coverage_complete = false;
-        result.history_coverage = "UNAVAILABLE";
+        result.history_coverage = if input.baseline_date.is_some() {
+            "BASELINE_UNAVAILABLE"
+        } else {
+            "UNAVAILABLE"
+        };
         result.first_observed_at = None;
         result.leader_state = LeaderState::Unavailable;
     }
@@ -2142,6 +2155,7 @@ mod tests {
             current_packet: &packet,
             current_presentation: &presentation,
             language: Language::ZhCn,
+            baseline_date: Some(packet.date - Duration::days(1)),
         })
         .unwrap();
 
@@ -2187,6 +2201,7 @@ mod tests {
                 current_packet: &packet,
                 current_presentation: &presentation,
                 language,
+                baseline_date: Some(previous.date),
             })
             .unwrap();
             assert!(view_model
@@ -2216,9 +2231,50 @@ mod tests {
             current_packet: &packet,
             current_presentation: &presentation,
             language: Language::EnUs,
+            baseline_date: None,
         })
         .unwrap();
 
         assert_eq!(view_model.history_coverage_value, "UNAVAILABLE");
+    }
+
+    #[test]
+    fn read_model_does_not_use_older_observation_when_baseline_date_is_missing() {
+        let current_date = NaiveDate::from_ymd_opt(2026, 7, 14).unwrap();
+        let older = LeaderObservation {
+            date: current_date - Duration::days(2),
+            leader: "GOOG".to_string(),
+            confidence: Some(90.0),
+            breadth: Some(35.0),
+            relative_strength: Some(16.0),
+            rotation_stability: Some(82.0),
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let packet = DecisionPacket {
+            date: current_date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "SPY".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: std::slice::from_ref(&older),
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(current_date - Duration::days(1)),
+        })
+        .unwrap();
+
+        assert_eq!(view_model.history_coverage_value, "BASELINE_UNAVAILABLE");
+        assert_eq!(view_model.previous_leader_value, None);
+        assert!(view_model.switch_history_values.is_empty());
     }
 }

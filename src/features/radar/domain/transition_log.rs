@@ -44,6 +44,8 @@ pub enum OpportunityMode {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
 pub struct StateTransitionLog {
+    #[serde(default)]
+    pub baseline_status: String,
     pub no_trade_persists: bool,
     pub market_state: StatusTransition<MarketState>,
     pub risk_overlay: StatusTransition<RiskOverlay>,
@@ -70,6 +72,24 @@ impl StateTransitionLog {
         let defaults =
             crate::features::radar::domain::rules::ParsedMarketStateEngineRules::default();
         Self::compare_with_abort_days(prev, curr, defaults.scout_abort_days)
+    }
+
+    pub fn baseline_unavailable(curr: &DecisionPacket) -> Self {
+        let mut log = Self::compare(None, curr);
+        log.baseline_status = "BASELINE_UNAVAILABLE".to_string();
+        log.market_state.changed = false;
+        log.risk_overlay.changed = false;
+        log.trend_cohesion_status.changed = false;
+        log.trend_cohesion_topology.changed = false;
+        log.trend_cohesion_gate.added.clear();
+        log.trend_cohesion_gate.removed.clear();
+        log.trend_cohesion_gate.persisting.clear();
+        log.trend_cohesion_gate.unmet_conditions_changed = false;
+        log.breakout_changes.clear();
+        log.opportunity_mode.changed = false;
+        log.scout_days_without_expansion = 0;
+        log.scout_reset_triggered = false;
+        log
     }
 
     pub fn compare_with_rules(
@@ -231,6 +251,11 @@ impl StateTransitionLog {
         }
 
         Self {
+            baseline_status: if prev.is_some() {
+                "AVAILABLE".to_string()
+            } else {
+                "BASELINE_UNAVAILABLE".to_string()
+            },
             no_trade_persists: no_trade_prev && no_trade_curr,
             market_state,
             risk_overlay,
@@ -296,6 +321,21 @@ mod tests {
         assert!(log.no_trade_persists);
         assert!(!log.market_state.changed);
         assert!(!log.trend_cohesion_gate.to);
+    }
+
+    #[test]
+    fn baseline_unavailable_does_not_emit_structural_changes() {
+        let curr = mock_packet(MarketState::ESTABLISHED, true);
+
+        let log = StateTransitionLog::baseline_unavailable(&curr);
+
+        assert_eq!(log.baseline_status, "BASELINE_UNAVAILABLE");
+        assert!(!log.market_state.changed);
+        assert!(!log.risk_overlay.changed);
+        assert!(!log.trend_cohesion_status.changed);
+        assert!(!log.trend_cohesion_topology.changed);
+        assert!(log.breakout_changes.is_empty());
+        assert!(!log.opportunity_mode.changed);
     }
 
     #[test]

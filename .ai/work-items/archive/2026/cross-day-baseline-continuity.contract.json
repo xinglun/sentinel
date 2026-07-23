@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "cross-day-baseline-continuity",
+  "mode": "code",
+  "title": "跨日状态基线与交易日幂等性修复",
+  "baseCommit": "3e5c3091a8b64c82f8c52d0d0b6a47d36d01ecd4",
+  "baselineDirtyPaths": [],
+  "problemStatement": "跨日报告没有严格使用上一有效交易日的已持久化状态作为比较基线，导致 Leader 序列、切换、Change Level 与 Breakout 状态转移出现伪变化；同日重跑和乱序写入还可能污染最近基线。",
+  "intent": {
+    "problem": "确保 T 日只与 T-1 有效交易日的持久化快照比较；基线缺失时明确降级，不伪造变化；同日重跑按业务日期幂等。",
+    "constraints": [
+      "仅修改观察状态、持久化、状态转移和相关回归测试；不修改 Leader 判定、Gate、Execution、Trader 或 Position Sizing。",
+      "交易日对齐必须覆盖周末、NYSE 节假日和数据延迟；不得用固定日历天数冒充上一交易日。",
+      "BASELINE_UNAVAILABLE 必须是结构化状态，不能仅靠报告文案推断。"
+    ],
+    "rationale": "连续多日报告已证明时间连续性不真实，修复优先级高于表现层命名或报告长度问题。"
+  },
+  "scope": [
+    ".ai/work-items/active/cross-day-baseline-continuity.contract.json",
+    ".ai/work-items/active/cross-day-baseline-continuity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/plans/2026-07-23-cross-day-baseline-continuity.md",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/domain/transition_log.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/infrastructure/transition_log.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/asset_state.rs",
+    "外部行情 provider、交易策略和历史报告内容"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader Persistence 当前按回溯窗口组装 observations 的入口。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "Leader observation 与 DecisionPacket 的保存、读取和日期幂等边界。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Persistence、切换历史和状态转移的领域规则。"
+    },
+    {
+      "path": "src/features/radar/domain/transition_log.rs",
+      "reason": "Breakout 和市场状态如何从 previous packet 计算变化。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "实际流水线的历史加载、比较、保存顺序和有效交易日计算。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "7 日有效交易日覆盖和历史序列语义。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "流水线跨日和历史注入的集成测试入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "现有模块边界已确认，修复限定在观察持久化和状态比较，不触及交易执行链路；残余风险可由日期场景回归测试验证。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、交易日对齐和缺失基线语义已确定，可在现有边界内实现和验证。"
+  },
+  "preReviewWarnings": [
+    "重点 review：有效交易日基线选择、同日 upsert、缺失基线降级，以及 transition log 的 previous packet 日期。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "T 日 baseline_date 必须等于上一有效交易日的 persisted snapshot date。",
+    "缺少 T-1 snapshot 时输出 BASELINE_UNAVAILABLE，并禁止生成 Leader Breakout Change Level 伪变化。",
+    "同一 trading_date 重跑后 persistence_days switch_history 和 baseline record 数量保持不变。",
+    "周末 NYSE 节假日和 data delay 必须跳过无效日期，并禁止回退到更早历史作为昨日。",
+    "7 日 timeline 必须按有效 trading_date 排序去重，并保留每日实际 observation。",
+    "Leader Persistence 只能属于 Observation-only，且不得调用 Gate Execution Trader Position Sizing。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一 Leader 连续两日运行时 Persistence 从 1 增至 2，且基线日期为上一有效交易日",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要新增领域或流水线回归测试。"
+    },
+    {
+      "scenario": "Leader 变化时只从真实上一有效交易日切换，历史序列包含实际每日结果",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要覆盖缺失中间日期和交易日对齐。"
+    },
+    {
+      "scenario": "Breakout 已经消失后次日不再重复报告同一消失变化",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要用按日期读取的 previous packet 回归验证。"
+    },
+    {
+      "scenario": "同日重跑、周末、NYSE 节假日和数据延迟均保持幂等或明确 BASELINE_UNAVAILABLE",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要持久化和日期解析测试。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/cross-day-baseline-continuity.contract.json SUMMARY=.ai/work-items/active/cross-day-baseline-continuity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

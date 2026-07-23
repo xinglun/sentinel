@@ -134,36 +134,62 @@ impl PersistenceLayer {
     /// 履歴 log から直近 N 件の packet を読み込む。
     /// packet は古い順の時系列で返す。
     pub fn load_recent_packets(&self, count: usize) -> Result<Vec<DecisionPacket>> {
-        if count == 0 || !self.history_path.exists() {
+        if count == 0 {
+            return Ok(Vec::new());
+        }
+        let packets = self.load_all_packets()?;
+        Ok(packets
+            .into_iter()
+            .rev()
+            .take(count)
+            .collect::<Vec<_>>()
+            .into_iter()
+            .rev()
+            .collect())
+    }
+
+    /// 指定日より前の packet を業務日順に返す。
+    pub fn load_recent_packets_before(
+        &self,
+        as_of_date: chrono::NaiveDate,
+        count: usize,
+    ) -> Result<Vec<DecisionPacket>> {
+        if count == 0 {
+            return Ok(Vec::new());
+        }
+        let packets = self
+            .load_all_packets()?
+            .into_iter()
+            .filter(|packet| packet.date < as_of_date)
+            .collect::<Vec<_>>();
+        Ok(packets
+            .into_iter()
+            .rev()
+            .take(count)
+            .collect::<Vec<_>>()
+            .into_iter()
+            .rev()
+            .collect())
+    }
+
+    fn load_all_packets(&self) -> Result<Vec<DecisionPacket>> {
+        if !self.history_path.exists() {
             return Ok(Vec::new());
         }
 
         let file =
             File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
         let reader = BufReader::new(file);
-
-        // 小さな履歴ファイルは全体を読み、末尾 N 件だけを使う。
-        // 非常に大きいファイルでは tail 相当の実装が必要になる。
-        // local tool のため、数百日分なら全読み込みで十分に扱える。
-        let lines: Vec<String> = reader.lines().map_while(Result::ok).collect();
-
-        let recent_lines = if lines.len() > count {
-            &lines[lines.len() - count..]
-        } else {
-            &lines[..]
-        };
-
-        let mut packets = Vec::with_capacity(recent_lines.len());
-        for line in recent_lines {
+        let mut by_date = std::collections::BTreeMap::new();
+        for line in reader.lines().map_while(Result::ok) {
             if line.trim().is_empty() {
                 continue;
             }
-            let packet: DecisionPacket = serde_json::from_str(line)
+            let packet: DecisionPacket = serde_json::from_str(&line)
                 .context("Failed to deserialize DecisionPacket from history")?;
-            packets.push(packet);
+            by_date.insert(packet.date, packet);
         }
-
-        Ok(packets)
+        Ok(by_date.into_values().collect())
     }
 
     pub fn save_daily_packet(&self, packet: &DecisionPacket) -> Result<()> {
@@ -414,6 +440,38 @@ mod tests {
         let loaded = layer.load_leader_observations().unwrap();
         assert_eq!(loaded.len(), 1);
         assert_eq!(loaded[0].leader, "MSFT");
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn recent_packets_before_deduplicates_and_sorts_by_business_date() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_packet_date_order_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date_a = NaiveDate::from_ymd_opt(2026, 7, 8).unwrap();
+        let date_b = NaiveDate::from_ymd_opt(2026, 7, 9).unwrap();
+        let date_c = NaiveDate::from_ymd_opt(2026, 7, 10).unwrap();
+
+        for date in [date_c, date_a, date_b, date_b] {
+            layer
+                .save_packet(&DecisionPacket {
+                    date,
+                    ..DecisionPacket::default()
+                })
+                .unwrap();
+        }
+
+        let packets = layer
+            .load_recent_packets_before(date_c + chrono::Duration::days(1), 10)
+            .unwrap();
+
+        assert_eq!(
+            packets.iter().map(|packet| packet.date).collect::<Vec<_>>(),
+            vec![date_a, date_b, date_c]
+        );
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
