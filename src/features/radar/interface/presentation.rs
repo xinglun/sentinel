@@ -96,6 +96,8 @@ pub struct LeaderPersistenceViewModel {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct MarketChangeLogViewModel {
+    pub baseline_status: String,
+    pub change_status: String,
     pub title: String,
     pub leader_label: String,
     pub leader_value: String,

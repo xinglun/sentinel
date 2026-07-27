@@ -9,6 +9,21 @@ use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum PreviousSnapshotStatus {
+    Available,
+    BaselineUnavailable,
+}
+
+#[derive(Debug, Clone)]
+pub struct PreviousSnapshotResolution {
+    pub status: PreviousSnapshotStatus,
+    pub current_market_date: chrono::NaiveDate,
+    pub previous_market_date: Option<chrono::NaiveDate>,
+    pub snapshot: Option<DecisionPacket>,
+    pub reason: Option<String>,
+}
+
 #[derive(Clone)]
 pub struct PersistenceLayer {
     history_path: PathBuf,
@@ -24,14 +39,17 @@ impl PersistenceLayer {
     }
 
     pub fn save_packet(&self, packet: &DecisionPacket) -> Result<()> {
-        let json = serde_json::to_string(packet).context("Failed to serialize DecisionPacket")?;
-        let mut file = OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(&self.history_path)
-            .context("Failed to open decision_history.jsonl for appending")?;
+        let mut packets = self.load_all_packets()?;
+        packets.retain(|existing| existing.date != packet.date);
+        packets.push(packet.clone());
+        packets.sort_by_key(|value| value.date);
 
-        writeln!(file, "{}", json).context("Failed to write packet to jsonl")?;
+        let mut file =
+            File::create(&self.history_path).context("Failed to rewrite decision_history.jsonl")?;
+        for value in packets {
+            writeln!(file, "{}", serde_json::to_string(&value)?)
+                .context("Failed to write packet to jsonl")?;
+        }
         Ok(())
     }
 
@@ -96,12 +114,37 @@ impl PersistenceLayer {
             &json,
         )
         .context("Failed to write dated observation timeline")?;
-        let mut file = OpenOptions::new()
-            .create(true)
-            .append(true)
-            .open(self.save_dir.join("observation_timeline.jsonl"))
-            .context("Failed to open observation_timeline.jsonl")?;
-        writeln!(file, "{}", serde_json::to_string(timeline)?)?;
+        let history_path = self.save_dir.join("observation_timeline.jsonl");
+        let mut timelines = if history_path.exists() {
+            BufReader::new(
+                File::open(&history_path).context("Failed to open observation_timeline.jsonl")?,
+            )
+            .lines()
+            .map_while(Result::ok)
+            .filter(|line| !line.trim().is_empty())
+            .map(|line| {
+                serde_json::from_str::<ObservationTimeline>(&line)
+                    .context("Failed to deserialize observation timeline history")
+            })
+            .collect::<Result<Vec<_>>>()?
+        } else {
+            Vec::new()
+        };
+        timelines.retain(|existing| {
+            existing
+                .entries
+                .iter()
+                .map(|entry| entry.date.to_string())
+                .max()
+                .as_deref()
+                != Some(date)
+        });
+        timelines.push(timeline.clone());
+        let mut file =
+            File::create(history_path).context("Failed to rewrite observation_timeline.jsonl")?;
+        for value in timelines {
+            writeln!(file, "{}", serde_json::to_string(&value)?)?;
+        }
         Ok(())
     }
 
@@ -170,6 +213,43 @@ impl PersistenceLayer {
             .into_iter()
             .rev()
             .collect())
+    }
+
+    /// 現在日付に対する前回有効スナップショットを一度だけ解決する。
+    pub fn resolve_previous_snapshot(
+        &self,
+        current_market_date: chrono::NaiveDate,
+        previous_market_date: Option<chrono::NaiveDate>,
+    ) -> Result<PreviousSnapshotResolution> {
+        let Some(previous_market_date) = previous_market_date else {
+            return Ok(PreviousSnapshotResolution {
+                status: PreviousSnapshotStatus::BaselineUnavailable,
+                current_market_date,
+                previous_market_date: None,
+                snapshot: None,
+                reason: Some("previous trading date is unavailable".to_string()),
+            });
+        };
+        let snapshot = self
+            .load_all_packets()?
+            .into_iter()
+            .find(|packet| packet.date == previous_market_date);
+        let status = if snapshot.is_some() {
+            PreviousSnapshotStatus::Available
+        } else {
+            PreviousSnapshotStatus::BaselineUnavailable
+        };
+        let reason = snapshot
+            .as_ref()
+            .is_none()
+            .then(|| "previous trading-day snapshot is unavailable".to_string());
+        Ok(PreviousSnapshotResolution {
+            status,
+            current_market_date,
+            previous_market_date: Some(previous_market_date),
+            snapshot,
+            reason,
+        })
     }
 
     fn load_all_packets(&self) -> Result<Vec<DecisionPacket>> {
@@ -393,6 +473,75 @@ mod tests {
     }
 
     #[test]
+    fn previous_snapshot_resolution_uses_previous_valid_trading_day() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_previous_snapshot_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let current = NaiveDate::from_ymd_opt(2026, 7, 6).unwrap();
+
+        let resolution = layer
+            .resolve_previous_snapshot(current, Some(NaiveDate::from_ymd_opt(2026, 7, 3).unwrap()))
+            .unwrap();
+
+        assert_eq!(resolution.current_market_date, current);
+        assert_eq!(
+            resolution.previous_market_date,
+            Some(NaiveDate::from_ymd_opt(2026, 7, 3).unwrap())
+        );
+        assert_eq!(
+            resolution.status,
+            PreviousSnapshotStatus::BaselineUnavailable
+        );
+        assert!(resolution.snapshot.is_none());
+    }
+
+    #[test]
+    fn decision_history_upserts_same_trading_date_without_duplicate_lines() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_packet_upsert_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+
+        layer
+            .save_packet(&DecisionPacket {
+                date,
+                top_tier_symbols: vec!["OLD".to_string()],
+                ..Default::default()
+            })
+            .unwrap();
+        layer
+            .save_packet(&DecisionPacket {
+                date,
+                top_tier_symbols: vec!["NEW".to_string()],
+                ..Default::default()
+            })
+            .unwrap();
+
+        let lines = fs::read_to_string(temp_dir.join("decision_history.jsonl"))
+            .unwrap()
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count();
+        assert_eq!(lines, 1);
+        assert_eq!(
+            layer
+                .load_latest_packet()
+                .unwrap()
+                .unwrap()
+                .top_tier_symbols,
+            ["NEW"]
+        );
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn test_markdown_report_saving() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_report_{}",
@@ -524,6 +673,51 @@ mod tests {
         let archive =
             fs::read_to_string(temp_dir.join("observation_timeline_latest.json")).unwrap();
         assert!(!archive.contains("过去 7 个交易日"));
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn observation_timeline_upserts_same_trading_date_without_duplicate_events() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_observation_timeline_upsert_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let timeline = ObservationTimeline {
+            history_coverage:
+                crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial,
+            entries: vec![ObservationTimelineEntry {
+                date,
+                primary_leader: "SPY".to_string(),
+                secondary_leaders: vec![],
+                breadth_score: 50.0,
+                concentration_score: 70.0,
+                rotation_score: 20.0,
+                confidence_index: 55.0,
+                market_state: "RANGE".to_string(),
+                supply_phase: "IDLE".to_string(),
+                risk_state: "NORMAL".to_string(),
+                day_type: "NORMAL".to_string(),
+            }],
+            summary: "NO_STRUCTURAL_CHANGE".to_string(),
+        };
+
+        layer
+            .save_observation_timeline(&timeline, &date.to_string())
+            .unwrap();
+        layer
+            .save_observation_timeline(&timeline, &date.to_string())
+            .unwrap();
+
+        let lines = fs::read_to_string(temp_dir.join("observation_timeline.jsonl"))
+            .unwrap()
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count();
+        assert_eq!(lines, 1);
+
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
