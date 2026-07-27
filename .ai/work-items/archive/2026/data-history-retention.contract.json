@@ -1,0 +1,145 @@
+{
+  "contractVersion": 2,
+  "workItemId": "data-history-retention",
+  "mode": "code",
+  "title": "为数据分支增加 JSONL 历史清理策略",
+  "baseCommit": "1504a4b30b4dc7c61fc5ad7aa5387bb4ea1ffafd",
+  "baselineDirtyPaths": [],
+  "problemStatement": "data ブランチの append-only JSONL が単一ファイルのまま肥大化し、GitHub の 100 MB 制限で日次データ公開が失敗している。",
+  "intent": {
+    "problem": "日次・週次の data ブランチ公開前に、古い trading-day レコードを自動整理し、将来も同じ制限を再発させない。",
+    "constraints": [
+      "データブランチの履歴は同一の cutoff 日で整理し、最新の有効な履歴を優先する。",
+      "TradingDaySnapshot の現在日・直近基線に必要な履歴を削除しない。",
+      "Gate、execution、trader、position sizing の判断ロジックは変更しない。"
+    ],
+    "rationale": "一回限りの手動削除では次回の append で再発するため、共有スクリプトを daily / weekly publish workflow から呼び出す。"
+  },
+  "scope": [
+    ".ai/work-items/active/data-history-retention.contract.json",
+    ".ai/work-items/active/data-history-retention.summary.json",
+    ".github/workflows/daily_radar.yml",
+    ".github/workflows/weekly_backtest.yml",
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    "Makefile",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "reports/** の develop ブランチへの追加",
+    "履歴ファイルの手動・一回限りの個別削除"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "日次 data ブランチ公開処理が reports/ をコミットする入口。"
+    },
+    {
+      "path": ".github/workflows/weekly_backtest.yml",
+      "reason": "週次 data ブランチ公開処理も同じ reports/ をコミットする入口。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "JSONL の trading-day 単位の共通 cleanup policy を実装する。"
+    },
+    {
+      "path": ".ai/work-items/active/data-history-retention.contract.json",
+      "reason": "Work Item の scope と destructive policy を記録する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "destructive_change",
+      "ci"
+    ],
+    "reason": "ユーザーが古い data ブランチ記録の整理を承認済みで、共通 cutoff・サイズ上限・異常時停止をテストで固定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "cleanup policy、workflow scope、destructive data boundary、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "古い data ブランチ履歴を削除するため、review では cutoff と保持日数を重点確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "cleanup script が両 JSONL を共通 trading-day cutoff で 90 MiB 未満へ整理する。",
+    "cleanup script が size-under-limit では削除せず、invalid JSON/date または oversized latest record では失敗する。",
+    "daily / weekly publish workflow が git add 前に同じ cleanup script を実行する。",
+    "cleanup script の normal / oversized / invalid input tests が make target 経由で通過する。",
+    "data branch の変更が data-only history retention に限定され、売買判断ロジックを変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/data-history-retention.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/data-history-retention.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-data-history-retention",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/data-history-retention.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/data-history-retention.contract.json SUMMARY=.ai/work-items/active/data-history-retention.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/data-history-retention.summary.json CONTRACT=.ai/work-items/active/data-history-retention.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/data-history-retention.contract.json SUMMARY=.ai/work-items/active/data-history-retention.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/data-history-retention.contract.json SUMMARY=.ai/work-items/active/data-history-retention.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "data branch の reports/decision_history.jsonl と reports/state_transitions.jsonl の古い trading-day レコード"
+    ]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

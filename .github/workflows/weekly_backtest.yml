@@ -211,6 +211,7 @@ jobs:
           echo "DATA_DIR=${DATA_DIR}"
           ls -la "${ROOT_DIR}/reports" || true
           
+          python3 "${ROOT_DIR}/scripts/prune_data_history.py" --reports-dir "${ROOT_DIR}/reports"
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.md" "${DATA_DIR}/backtest/"
