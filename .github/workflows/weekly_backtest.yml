@@ -195,12 +195,12 @@ jobs:
           # 3. Hop into worktree and pull latest state BEFORE modifying files
           cd "${DATA_DIR}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git checkout data || true
+          git checkout data
           
           # Minimize --force-with-lease failures by rebasing against latest remote state
           # Uniform refspec for maximum stability
-          git fetch origin refs/heads/data:refs/remotes/origin/data || true
-          git pull --rebase origin data || true
+          git fetch origin refs/heads/data:refs/remotes/origin/data
+          git pull --rebase origin data
 
           # 4. Port over generated reports cleanly
           cd "${ROOT_DIR}"
@@ -211,7 +211,14 @@ jobs:
           echo "DATA_DIR=${DATA_DIR}"
           ls -la "${ROOT_DIR}/reports" || true
           
-          python3 "${ROOT_DIR}/scripts/prune_data_history.py" --reports-dir "${ROOT_DIR}/reports"
+          if [ -f "${ROOT_DIR}/reports/decision_history.jsonl" ] && [ -f "${ROOT_DIR}/reports/state_transitions.jsonl" ]; then
+            make -C "${ROOT_DIR}" prune-data-history PRUNE_DATA_HISTORY_ARGS="--reports-dir ${ROOT_DIR}/reports"
+          elif [ ! -e "${ROOT_DIR}/reports/decision_history.jsonl" ] && [ ! -e "${ROOT_DIR}/reports/state_transitions.jsonl" ]; then
+            echo "ℹ️ No radar history exists yet; skipping history cleanup for initial backtest bootstrap."
+          else
+            echo "❌ Radar history is partially missing; refusing to mirror incomplete data."
+            exit 1
+          fi
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.md" "${DATA_DIR}/backtest/"

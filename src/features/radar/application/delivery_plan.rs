@@ -30,6 +30,8 @@ pub struct RadarDeliveryInput<'a> {
 /// Infrastructure へ引き渡す Radar run の application-level delivery plan。
 pub struct RadarDeliveryPlan {
     pub execution_result: ExecutionResult,
+    pub decision_state: String,
+    pub new_position_limit: f64,
     pub current_exposure: f64,
     pub buying_power: f64,
     pub portfolio_snapshot: PortfolioSnapshot,
@@ -38,6 +40,17 @@ pub struct RadarDeliveryPlan {
     pub state_machine: StateMachineSummary,
     pub prices: HashMap<String, f64>,
     pub substantive_records: Vec<AutomatedEvidenceRecord>,
+}
+
+pub fn derive_new_position_limit(limits: &TradingLimits) -> f64 {
+    if limits.enabled {
+        limits
+            .max_daily_budget
+            .unwrap_or(limits.global_budget)
+            .max(0.0)
+    } else {
+        0.0
+    }
 }
 
 /// DecisionPacket を永続化・配信可能な payload へ変換する application service。
@@ -59,6 +72,12 @@ impl RadarDeliveryPlanner {
             buying_power,
             current_exposure,
         );
+        let new_position_limit = derive_new_position_limit(&input.trading_limits);
+        let decision_state = if new_position_limit > 0.0 && !execution_result.trades.is_empty() {
+            "TRADE_ALLOWED"
+        } else {
+            "NO_TRADE"
+        };
         let date = input.packet.date.to_string();
 
         let substantive_records = input
@@ -71,6 +90,8 @@ impl RadarDeliveryPlanner {
 
         RadarDeliveryPlan {
             execution_result,
+            decision_state: decision_state.to_string(),
+            new_position_limit,
             current_exposure,
             buying_power,
             portfolio_snapshot: build_portfolio_snapshot(
@@ -109,5 +130,39 @@ impl RadarDeliveryPlanner {
                 .collect(),
             substantive_records,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::derive_new_position_limit;
+    use crate::features::radar::application::execution_gate::TradingLimits;
+
+    #[test]
+    fn new_position_limit_uses_daily_budget_or_global_budget_and_zero_when_disabled() {
+        assert_eq!(
+            derive_new_position_limit(&TradingLimits {
+                enabled: true,
+                global_budget: 100.0,
+                max_daily_budget: None,
+            }),
+            100.0
+        );
+        assert_eq!(
+            derive_new_position_limit(&TradingLimits {
+                enabled: true,
+                global_budget: 100.0,
+                max_daily_budget: Some(40.0),
+            }),
+            40.0
+        );
+        assert_eq!(
+            derive_new_position_limit(&TradingLimits {
+                enabled: false,
+                global_budget: 100.0,
+                max_daily_budget: Some(40.0),
+            }),
+            0.0
+        );
     }
 }

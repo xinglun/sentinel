@@ -1,0 +1,158 @@
+{
+  "contractVersion": 2,
+  "workItemId": "temporal-consistency-complete",
+  "mode": "code",
+  "title": "补齐历史清理与事实一致性 Gate",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "379a939c9c4c3847a93d542f982ef0dabd62e2c2222db79d887e85a4463ec614"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "122b3356b9cdb833bfac25937636c371f95569629d1831d354dff31acf109bda"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "157b5b2fe38aafc2e8c2a251abd9e4df051594bef00e6fd3368fdd3ea4c5389c"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "08a114673e7d612e4ea979f61a07f34fdbca11b1bc1ac033147951c6da91354c"
+    }
+  ],
+  "problemStatement": "正式な日付快照目录没有进入历史清理策略，leader history 仍整体重写，snapshot 与 delivery plan 的安全限额来源可能不一致，且尚无可复用的 daily observation consistency gate。",
+  "intent": {
+    "problem": "超过 GitHub 单文件限制后，旧历史无法通过同一清理逻辑从正式 snapshot store 中淘汰；事实一致性只在 runner 局部判断，无法覆盖核心 G-02/G-03/G-07 约束。",
+    "constraints": ["保留 data branch 的 legacy JSONL 兼容读取。", "不修改交易阈值、仓位规则、Hypothesis 或 Gravity。", "清理必须保留至少五个交易日并使用原子替换。"],
+    "rationale": "把临时大文件应对固化为可重复执行的 retention policy，并让历史数量与安全状态检查可测试、可复用。"
+  },
+  "scope": [
+    ".ai/work-items/active/temporal-consistency-complete.contract.json",
+    ".ai/work-items/active/temporal-consistency-complete.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/application/delivery_plan.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py"
+  ],
+  "outOfScope": ["不修改 .github workflow 的 data branch 发布流程。", "不重构 leader read model 或交易执行模型。"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "开发指示中的历史清理、历史回退、安全降级和一致性 Gate 要求。"
+    },
+    {"path": "scripts/prune_data_history.py", "reason": "现有 data history cleanup 仅处理两个 JSONL 文件。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "正式 snapshot、timeline、leader history 的写入和读取路径。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "历史回退、安全状态和 delivery plan 的当前调用顺序。"},
+    {"path": "src/features/radar/domain/observation_timeline.rs", "reason": "交易日历史连续性领域规则和测试入口。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "修改集中在 retention、历史存储和事实 Gate，已有回归测试与明确的 data branch 边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification 和 agent capability 已确定。"
+  },
+  "preReviewWarnings": [
+    "正式 snapshot store 和 legacy JSONL 必须同时满足 retention 与兼容读取。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "prune_data_history 在 fixture 中对四类历史文件使用同一个 cutoff，清理后每类文件仅保留 cutoff 及之后的记录，且至少保留五个交易日；低于阈值时四类文件均保持不变。",
+    "leader_observations.jsonl 的同日 upsert 使用按日期 snapshot file、legacy append、merge read、no full rewrite，并保留旧文件兼容。",
+    "TradingDaySnapshot 的 new_position_limit 与 RadarDeliveryPlan 使用同一计算结果；安全降级时两者均为 0。",
+    "daily_observation_consistency_gate 覆盖历史回退、新交易日 N+1、同日重跑 N、baseline unavailable 时禁止 HIGH confidence 四项，并由 runner 在发布前调用。",
+    "回归测试分别断言快照清理、leader history 同日幂等、delivery limit 一致性，以及 consistency gate 的 regression、append、rerun、baseline confidence 分支。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "required": true
+    },
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make test-data-history-retention", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

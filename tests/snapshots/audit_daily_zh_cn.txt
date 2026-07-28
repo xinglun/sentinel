@@ -44,7 +44,7 @@
 - exceptionalFactors: [unusual_rotation]
 - Market Interpretation:
   - 今天属于例外驱动日。
-  - 市场行为保持有序，没有结构性恶化。
+  - 当前主导资产：GOOG；突破观察：GOOG。
 - Leadership Classification: very_narrow
 - Leadership Metrics:
   - Breadth label: Narrow
@@ -52,10 +52,10 @@
   - Concentration score: 82
   - Rotation score: 66
 - Rotation Observation:
-  - rotationType: mega_cap_internal_rotation
+  - rotationType: BASELINE_UNAVAILABLE
   - from: []
-  - to: [GOOG]
-  - interpretation: 资金在主导资产内部轮动，而非整体流出。
+  - to: []
+  - interpretation: 当前未观察到明确的轮动切换。
   - observationOnly: true
 - Observation Confidence:
   - trend: MEDIUM

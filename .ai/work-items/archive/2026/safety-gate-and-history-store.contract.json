@@ -1,0 +1,138 @@
+{
+  "contractVersion": 2,
+  "workItemId": "safety-gate-and-history-store",
+  "mode": "code",
+  "title": "补齐安全阻断与历史存储契约",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [],
+  "problemStatement": "HISTORY_REGRESSION の検知後も formal report が生成され、TradingDaySnapshot に安全決定と日付分離の完全な契約がなく、legacy JSONL が全体書き換えされる。",
+  "intent": {
+    "problem": "回退检测在写入后执行，无法阻断报告；快照缺少 new_position_limit、report_date、as_of_date 和稳定类型字段。",
+    "constraints": ["保留 legacy JSONL 的读取兼容性，但正式历史使用按日期文件的 append/upsert store。", "不修改交易阈值、突破评估规则和仓位模型。"],
+    "rationale": "完成开发指示 P0 的安全阻断、TradingDaySnapshot 契约和非覆盖历史持久化要求。"
+  },
+  "scope": [
+    ".ai/work-items/active/safety-gate-and-history-store.contract.json",
+    ".ai/work-items/active/safety-gate-and-history-store.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/application/delivery_plan.rs"
+  ],
+  "outOfScope": ["不重构所有 Layer，不修改 Hypothesis、Gravity 或交易阈值。"],
+  "sources": [
+    {
+      "path": "pasted-text.txt",
+      "reason": "用户开发指示中的安全降级、日期分层和历史持久化要求。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "现有历史写入、回退检测和报告发布路径。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "现有 JSONL 持久化和快照模型。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "涉及历史写入顺序和发布阻断，需通过回归测试确认兼容性。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification 已确定。"
+  },
+  "preReviewWarnings": [
+    "回退时需先判定再写入，避免留下正式历史副作用。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "TradingDaySnapshot::to_json 在 persistence 单元测试中同时断言 decision_state、new_position_limit、market_date、report_date、as_of_date 五个键。",
+    "build_breakout_snapshot_projection 单元测试断言 state 为稳定枚举、strength/quality/consecutive_days 为数值。",
+    "history_regression_blocks_publication 单元测试断言 HISTORY_REGRESSION 不调用正式报告发布路径且 decision_state 为 NO_TRADE。",
+    "save_packet 的 persistence 单元测试断言同日只更新 snapshots/<date>.json，且 legacy decision_history.jsonl 仍可读取。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json SUMMARY=.ai/work-items/active/safety-gate-and-history-store.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/safety-gate-and-history-store.summary.json CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json SUMMARY=.ai/work-items/active/safety-gate-and-history-store.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/safety-gate-and-history-store.contract.json SUMMARY=.ai/work-items/active/safety-gate-and-history-store.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -3,7 +3,7 @@ use anyhow::{Context, Result};
 use chrono::{DateTime, Local, NaiveDate};
 use serde::{Deserialize, Serialize};
 use std::fs::OpenOptions;
-use std::io::Write;
+use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default, PartialEq)]
@@ -75,8 +75,46 @@ impl TransitionLogger {
     }
 
     pub fn log_transition(&self, business_date: NaiveDate, log: &StateTransitionLog) -> Result<()> {
+        if let Some(existing) = self.find_business_date(business_date)? {
+            self.repair_csv_if_missing(&existing.transition)?;
+            return Ok(());
+        }
         self.log_to_csv(log)?;
         self.log_to_jsonl(business_date, log)?;
+        Ok(())
+    }
+
+    fn find_business_date(
+        &self,
+        business_date: NaiveDate,
+    ) -> Result<Option<TransitionAuditRecord>> {
+        if !self.jsonl_path.exists() {
+            return Ok(None);
+        }
+        let file = std::fs::File::open(&self.jsonl_path)
+            .context("Failed to open state_transitions.jsonl for idempotency check")?;
+        for line in BufReader::new(file).lines() {
+            let line = line.context("Failed to read state_transitions.jsonl")?;
+            if line.trim().is_empty() {
+                continue;
+            }
+            let record: TransitionAuditRecord = serde_json::from_str(&line)
+                .context("Failed to deserialize state transition for idempotency check")?;
+            if record.date == business_date.to_string() {
+                return Ok(Some(record));
+            }
+        }
+        Ok(None)
+    }
+
+    fn repair_csv_if_missing(&self, log: &StateTransitionLog) -> Result<()> {
+        let has_data_row = self.log_path.exists()
+            && std::fs::read_to_string(&self.log_path)
+                .map(|content| content.lines().skip(1).any(|line| !line.trim().is_empty()))
+                .unwrap_or(false);
+        if !has_data_row {
+            self.log_to_csv(log)?;
+        }
         Ok(())
     }
 
@@ -259,6 +297,54 @@ mod tests {
             record.summary.scout_reset_triggered,
             record.transition.scout_reset_triggered
         );
+    }
+
+    #[test]
+    fn transition_logger_upserts_same_business_date() {
+        let dir = tempdir().unwrap();
+        let logger = TransitionLogger::new(dir.path());
+        let previous = mock_packet(MarketState::DEFENSIVE, false);
+        let current = mock_packet(MarketState::IGNITION, true);
+        let log = StateTransitionLog::compare(Some(&previous), &current);
+        let business_date = NaiveDate::from_ymd_opt(2026, 5, 22).unwrap();
+
+        logger.log_transition(business_date, &log).unwrap();
+        logger.log_transition(business_date, &log).unwrap();
+
+        let jsonl_lines = std::fs::read_to_string(dir.path().join("state_transitions.jsonl"))
+            .unwrap()
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count();
+        let csv_lines = std::fs::read_to_string(dir.path().join("state_transitions.csv"))
+            .unwrap()
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count();
+        assert_eq!(jsonl_lines, 1);
+        assert_eq!(csv_lines, 2);
+    }
+
+    #[test]
+    fn transition_logger_repairs_missing_csv_for_existing_business_date() {
+        let dir = tempdir().unwrap();
+        let logger = TransitionLogger::new(dir.path());
+        let previous = mock_packet(MarketState::DEFENSIVE, false);
+        let current = mock_packet(MarketState::IGNITION, true);
+        let log = StateTransitionLog::compare(Some(&previous), &current);
+        let business_date = NaiveDate::from_ymd_opt(2026, 5, 22).unwrap();
+
+        logger.log_transition(business_date, &log).unwrap();
+        std::fs::remove_file(dir.path().join("state_transitions.csv")).unwrap();
+
+        logger.log_transition(business_date, &log).unwrap();
+
+        let csv_lines = std::fs::read_to_string(dir.path().join("state_transitions.csv"))
+            .unwrap()
+            .lines()
+            .filter(|line| !line.trim().is_empty())
+            .count();
+        assert_eq!(csv_lines, 2);
     }
 
     #[test]

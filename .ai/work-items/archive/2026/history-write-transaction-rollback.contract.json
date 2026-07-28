@@ -1,0 +1,286 @@
+{
+  "contractVersion": 2,
+  "workItemId": "history-write-transaction-rollback",
+  "mode": "code",
+  "title": "为历史多文件写入增加事务回滚保护",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "5ba4352772f376ed46b0a0ef6f4546c84823362f73856daee5870e25d423fd44"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "67f6e246d7c8fd7b73a0272ef30ee8bbcd5aecc0eea7641885d31237f4442555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "d54692c00fb8ef990fd5e1758af7905aec59fbbd5a698c5118102707a38d1c5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.contract.json",
+      "status": "??",
+      "fingerprint": "ef57c1d561b8fb95b593fe4cd16943b9c486a0d5377bf79b3263cae95b4a6f81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.summary.json",
+      "status": "??",
+      "fingerprint": "a28e1eb09c0a98691eb065d749b404bc7fbc11900436981026db679d120827d4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.contract.json",
+      "status": "??",
+      "fingerprint": "064327430be9f04ff8b724696e10cb8d7e9a238c21f2adaa2f343806644c9289"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.summary.json",
+      "status": "??",
+      "fingerprint": "3d88e23d137024e172261e57f453450a4186341f53e5198297e4aadb6571f1e6"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ea3bec692f44397ddd5a5dfd14bd95063bb299c388677fcb39fb0042e26b7c46"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "f9817c2ff85939824868ddfb84821557937ddcc8cabef33adb6c5de5d645030a"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "3c1164efa7f3cc69b7d1961481f1a40d37b67e46566a2b4c6f29fcc1cca51b7a"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "67a6e2c572613fc13c1f2b1cbde5369dc7b0fc37adb7e369e9a3bcd336ca4ee3"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "26405f352d8f9d40da13154f1ddfe40b1c0b10051132e84aba943db526865182"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "e3e38a594cd5b6accf6453fc40c19e3ce2ec760733aeb35bb5e536dedce567bb"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "7ce9e298c9452f5bed45807e1e68514db54aa8c1a8901088b2f558cd94a0599b"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "9effe2eacba73f36bf05b9a864e860b704904bcd32b828a0ad9a4014f156125e"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "4d1dbe11c7381ae0ebe0e9d4d199dcf8895e55b555ee723ee6dda7551c7e033d"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "ac35d15a2edee25d719dd0d5571aba218f18e1108b5b40dacf9f46288b8e62b2"
+    }
+  ],
+  "problemStatement": "歴史関連の複数ファイル保存が途中で失敗した場合、decision packet、leader、timeline、正式快照の一部だけが残り、次回実行の基線が不整合になる。保存単位を可逆な履歴トランザクションとして扱い、失敗時に保存前状態へ戻す。",
+  "intent": {"problem": "履歴多ファイル保存が途中で失敗すると部分的な履歴が残る。", "constraints": ["表示、監査、売買閾値、position sizing、reports は変更しない。", "formal history の Reality Layer だけを対象にする。"], "rationale": "履歴保存を可逆なトランザクション境界で保護する。"},
+  "scope": [
+    ".ai/work-items/active/history-write-transaction-rollback.contract.json",
+    ".ai/work-items/active/history-write-transaction-rollback.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": [
+    "reports/**",
+    "src/features/trading/**"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "履歴関連の保存順序と失敗時の戻り経路。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "履歴ファイルの保存 API とファイル構成。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "履歴連続性および回帰判定の契約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["data_integrity", "architecture_boundary"],
+    "reason": "複数ファイルの既存状態を保全して復元するため、対象パスと失敗境界を限定し、回帰テストで確認する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "対象ファイル、失敗境界、受入条件、検証方法を確定した。"
+  },
+  "preReviewWarnings": [
+    "rollback は履歴保存対象だけに限定し、配信・通知・取引結果の保存はこの Work Item のトランザクション対象外とする。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "履歴保存開始前に対象ファイルの状態を取得し、packet、leader、timeline、history state、formal snapshot のいずれかが失敗した場合は保存前状態へ復元する。",
+    "同日再実行と新規日付保存の両方で、成功時は全履歴が残り、失敗時は部分ファイルが残らない。",
+    "復元失敗は元の保存エラーと区別できる日本語ログコンテキスト付きで返す。",
+    "保存トランザクションは表示、監査、売買閾値、position sizing の計算を変更しない。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "履歴保存途中で未コミット終了した場合、既存ファイルを復元し新規ファイルを削除する", "reason": "部分履歴を次回基線へ流入させない。", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/persistence.rs::history_write_transaction_restores_partial_files_when_not_committed"]},
+    {"scenario": "履歴保存がコミットされた場合、保存結果を保持する", "reason": "正常系の履歴保存を壊さない。", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/persistence.rs::history_write_transaction_keeps_files_after_commit"]},
+    {"scenario": "既存の履歴連続性・正式快照競合チェックはトランザクション開始前に継続する", "reason": "不正な履歴を保存しない。", "required": false, "status": "verified", "evidence": ["src/features/radar/interface/radar_pipeline_runner.rs::history_regression_blocks_publication_before_persistence"]}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json SUMMARY=.ai/work-items/active/history-write-transaction-rollback.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/history-write-transaction-rollback.summary.json CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json SUMMARY=.ai/work-items/active/history-write-transaction-rollback.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/history-write-transaction-rollback.contract.json SUMMARY=.ai/work-items/active/history-write-transaction-rollback.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

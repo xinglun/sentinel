@@ -4,7 +4,8 @@ use crate::features::radar::domain::leader_persistence::LeaderObservation;
 use crate::features::radar::domain::observation_timeline::{
     ObservationTimeline, ObservationTimelineEntry,
 };
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
+use std::collections::HashSet;
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
@@ -13,6 +14,12 @@ use std::path::{Path, PathBuf};
 pub enum PreviousSnapshotStatus {
     Available,
     BaselineUnavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TradingDaySnapshotWriteDisposition {
+    Created,
+    SameDayRerun,
 }
 
 #[derive(Debug, Clone)]
@@ -25,12 +32,15 @@ pub struct PreviousSnapshotResolution {
     pub is_same_cycle: bool,
     pub snapshot: Option<DecisionPacket>,
     pub reason: Option<String>,
+    pub formal_snapshot: Option<TradingDaySnapshot>,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct TradingDaySnapshot {
     pub schema_version: String,
     pub market_date: chrono::NaiveDate,
+    pub report_date: chrono::NaiveDate,
+    pub as_of_date: chrono::NaiveDate,
     pub generated_at: String,
     pub run_id: String,
     pub cycle_id: String,
@@ -39,6 +49,7 @@ pub struct TradingDaySnapshot {
     pub source_status: String,
     pub market_state: String,
     pub decision_state: String,
+    pub new_position_limit: f64,
     pub breadth: f64,
     pub confidence: f64,
     pub supply_phase: String,
@@ -57,6 +68,8 @@ pub struct TradingDaySnapshot {
 pub struct ObservationHistoryState {
     pub count: usize,
     pub last_market_date: chrono::NaiveDate,
+    #[serde(default)]
+    pub cycle_id: String,
 }
 
 #[derive(Clone)]
@@ -65,7 +78,85 @@ pub struct PersistenceLayer {
     save_dir: PathBuf,
 }
 
+pub(crate) struct HistoryWriteTransaction {
+    files: Vec<(PathBuf, Option<Vec<u8>>)>,
+    committed: bool,
+}
+
+impl HistoryWriteTransaction {
+    pub(crate) fn commit(mut self) {
+        self.committed = true;
+    }
+
+    fn rollback(&self) -> Result<()> {
+        for (path, content) in self.files.iter().rev() {
+            match content {
+                Some(content) => {
+                    if let Some(parent) = path.parent() {
+                        std::fs::create_dir_all(parent).with_context(|| {
+                            format!("履歴ロールバック先の作成に失敗: {parent:?}")
+                        })?;
+                    }
+                    std::fs::write(path, content)
+                        .with_context(|| format!("履歴ファイルの復元に失敗: {path:?}"))?;
+                }
+                None => match std::fs::remove_file(path) {
+                    Ok(()) => {}
+                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                    Err(error) => {
+                        return Err(error)
+                            .with_context(|| format!("履歴ファイルの削除に失敗: {path:?}"));
+                    }
+                },
+            }
+        }
+        let known_paths = self
+            .files
+            .iter()
+            .map(|(path, _)| path)
+            .collect::<HashSet<_>>();
+        for entry in std::fs::read_dir(self.files[0].0.parent().unwrap_or(Path::new(".")))
+            .context("履歴ロールバック対象の確認に失敗")?
+        {
+            let path = entry
+                .context("履歴ロールバック対象の読み込みに失敗")?
+                .path();
+            let is_new_legacy_transition = path
+                .file_name()
+                .and_then(|name| name.to_str())
+                .is_some_and(|name| {
+                    name.starts_with("state_transitions_legacy_") && name.ends_with(".csv")
+                });
+            if is_new_legacy_transition && !known_paths.contains(&path) {
+                std::fs::remove_file(&path)
+                    .with_context(|| format!("新規 legacy 履歴の削除に失敗: {path:?}"))?;
+            }
+        }
+        Ok(())
+    }
+}
+
+impl Drop for HistoryWriteTransaction {
+    fn drop(&mut self) {
+        if !self.committed {
+            if let Err(error) = self.rollback() {
+                eprintln!("履歴トランザクションのロールバックに失敗: {error:#}");
+            }
+        }
+    }
+}
+
 impl PersistenceLayer {
+    fn trading_day_snapshot_semantics(snapshot: &TradingDaySnapshot) -> serde_json::Value {
+        let mut value = serde_json::to_value(snapshot).expect("TradingDaySnapshot is serializable");
+        if let Some(object) = value.as_object_mut() {
+            object.remove("generated_at");
+            object.remove("run_id");
+            object.remove("snapshot_id");
+        }
+        value
+    }
+
     pub fn new(save_dir: &Path) -> Self {
         Self {
             history_path: save_dir.join("decision_history.jsonl"),
@@ -73,48 +164,162 @@ impl PersistenceLayer {
         }
     }
 
-    pub fn save_packet(&self, packet: &DecisionPacket) -> Result<()> {
-        let mut packets = self.load_all_packets()?;
-        packets.retain(|existing| existing.date != packet.date);
-        packets.push(packet.clone());
-        packets.sort_by_key(|value| value.date);
+    pub(crate) fn begin_history_write_transaction(
+        &self,
+        market_date: chrono::NaiveDate,
+        cycle_id: &str,
+    ) -> Result<HistoryWriteTransaction> {
+        let date = market_date.to_string();
+        let mut paths = vec![
+            self.save_dir.join("decision_history.jsonl"),
+            self.save_dir.join("state_transitions.csv"),
+            self.save_dir.join("state_transitions.jsonl"),
+            self.save_dir
+                .join("decision_snapshots")
+                .join(format!("{date}.json")),
+            self.save_dir.join("leader_observations.jsonl"),
+            self.save_dir
+                .join("leader_snapshots")
+                .join(format!("{date}.json")),
+            self.save_dir.join("observation_timeline.jsonl"),
+            self.save_dir.join("observation_timeline_latest.json"),
+            self.save_dir
+                .join(format!("observation_timeline_{date}.json")),
+            self.save_dir
+                .join("timeline_snapshots")
+                .join(format!("{date}.json")),
+            self.save_dir.join("observation_history_state.json"),
+            self.save_dir
+                .join("snapshots")
+                .join(format!("{cycle_id}_{date}.json")),
+        ];
+        if self.save_dir.is_dir() {
+            for entry in
+                std::fs::read_dir(&self.save_dir).context("履歴 legacy 文件の読み込みに失敗")?
+            {
+                let path = entry.context("履歴 legacy 文件の読み込みに失敗")?.path();
+                let is_legacy_transition = path
+                    .file_name()
+                    .and_then(|name| name.to_str())
+                    .is_some_and(|name| {
+                        name.starts_with("state_transitions_legacy_") && name.ends_with(".csv")
+                    });
+                if is_legacy_transition {
+                    paths.push(path);
+                }
+            }
+        }
+        let files = paths
+            .into_iter()
+            .map(|path| {
+                let content = path
+                    .exists()
+                    .then(|| std::fs::read(&path))
+                    .transpose()
+                    .with_context(|| format!("履歴トランザクションの状態取得に失敗: {path:?}"))?;
+                Ok((path, content))
+            })
+            .collect::<Result<Vec<_>>>()?;
+        Ok(HistoryWriteTransaction {
+            files,
+            committed: false,
+        })
+    }
 
-        let mut file =
-            File::create(&self.history_path).context("Failed to rewrite decision_history.jsonl")?;
-        for value in packets {
-            writeln!(file, "{}", serde_json::to_string(&value)?)
-                .context("Failed to write packet to jsonl")?;
+    pub fn save_packet(&self, packet: &DecisionPacket) -> Result<()> {
+        let dir = self.save_dir.join("decision_snapshots");
+        std::fs::create_dir_all(&dir).context("Failed to create decision snapshot directory")?;
+        let snapshot_path = dir.join(format!("{}.json", packet.date));
+        let json = serde_json::to_string_pretty(packet)
+            .context("Failed to serialize decision packet snapshot")?;
+        std::fs::write(snapshot_path, json).context("Failed to write decision packet snapshot")?;
+
+        if !self.legacy_packet_dates()?.contains(&packet.date) {
+            let mut file = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(&self.history_path)
+                .context("Failed to open decision_history.jsonl")?;
+            writeln!(file, "{}", serde_json::to_string(packet)?)
+                .context("Failed to append packet to jsonl")?;
         }
         Ok(())
     }
 
-    pub fn load_leader_observations(&self) -> Result<Vec<LeaderObservation>> {
-        let path = self.save_dir.join("leader_observations.jsonl");
-        if !path.exists() {
-            return Ok(Vec::new());
+    fn legacy_packet_dates(&self) -> Result<std::collections::BTreeSet<chrono::NaiveDate>> {
+        if !self.history_path.exists() {
+            return Ok(std::collections::BTreeSet::new());
         }
-        let file = File::open(path).context("Failed to open leader_observations.jsonl")?;
-        let mut by_date = std::collections::BTreeMap::new();
+        let file =
+            File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
+        let mut dates = std::collections::BTreeSet::new();
         for line in BufReader::new(file).lines().map_while(Result::ok) {
             if line.trim().is_empty() {
                 continue;
             }
-            let observation: LeaderObservation =
-                serde_json::from_str(&line).context("Failed to deserialize leader observation")?;
-            by_date.insert(observation.date, observation);
+            let packet: DecisionPacket = serde_json::from_str(&line)
+                .context("Failed to deserialize DecisionPacket from history")?;
+            dates.insert(packet.date);
+        }
+        Ok(dates)
+    }
+
+    pub fn load_leader_observations(&self) -> Result<Vec<LeaderObservation>> {
+        let path = self.save_dir.join("leader_observations.jsonl");
+        let mut by_date = std::collections::BTreeMap::new();
+        if path.exists() {
+            let file = File::open(path).context("Failed to open leader_observations.jsonl")?;
+            for line in BufReader::new(file).lines().map_while(Result::ok) {
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let observation: LeaderObservation = serde_json::from_str(&line)
+                    .context("Failed to deserialize leader observation")?;
+                by_date.insert(observation.date, observation);
+            }
+        }
+        let dir = self.save_dir.join("leader_snapshots");
+        if dir.exists() {
+            for file in std::fs::read_dir(dir).context("Failed to read leader snapshots")? {
+                let path = file?.path();
+                if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                    continue;
+                }
+                let observation: LeaderObservation = serde_json::from_str(
+                    &std::fs::read_to_string(path).context("Failed to read leader snapshot")?,
+                )
+                .context("Failed to deserialize leader snapshot")?;
+                by_date.insert(observation.date, observation);
+            }
         }
         Ok(by_date.into_values().collect())
     }
 
     pub fn save_leader_observation(&self, observation: &LeaderObservation) -> Result<()> {
-        let mut observations = self.load_leader_observations()?;
-        observations.retain(|existing| existing.date != observation.date);
-        observations.push(observation.clone());
-        observations.sort_by_key(|value| value.date);
+        let dir = self.save_dir.join("leader_snapshots");
+        std::fs::create_dir_all(&dir).context("Failed to create leader snapshot directory")?;
+        let json = serde_json::to_string_pretty(observation)
+            .context("Failed to serialize leader snapshot")?;
+        std::fs::write(dir.join(format!("{}.json", observation.date)), json)
+            .context("Failed to write leader snapshot")?;
+
         let path = self.save_dir.join("leader_observations.jsonl");
-        let mut file = File::create(path).context("Failed to rewrite leader_observations.jsonl")?;
-        for value in observations {
-            writeln!(file, "{}", serde_json::to_string(&value)?)?;
+        let has_date = if path.exists() {
+            BufReader::new(File::open(&path).context("Failed to open leader_observations.jsonl")?)
+                .lines()
+                .map_while(Result::ok)
+                .filter_map(|line| serde_json::from_str::<LeaderObservation>(&line).ok())
+                .any(|value| value.date == observation.date)
+        } else {
+            false
+        };
+        if !has_date {
+            let mut file = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(path)
+                .context("Failed to open leader_observations.jsonl")?;
+            writeln!(file, "{}", serde_json::to_string(observation)?)?;
         }
         Ok(())
     }
@@ -149,38 +354,41 @@ impl PersistenceLayer {
             &json,
         )
         .context("Failed to write dated observation timeline")?;
+        let dir = self.save_dir.join("timeline_snapshots");
+        std::fs::create_dir_all(&dir).context("Failed to create timeline snapshot directory")?;
+        std::fs::write(dir.join(format!("{date}.json")), &json)
+            .context("Failed to write timeline snapshot")?;
+
         let history_path = self.save_dir.join("observation_timeline.jsonl");
-        let mut timelines = if history_path.exists() {
-            BufReader::new(
-                File::open(&history_path).context("Failed to open observation_timeline.jsonl")?,
-            )
-            .lines()
-            .map_while(Result::ok)
-            .filter(|line| !line.trim().is_empty())
-            .map(|line| {
-                serde_json::from_str::<ObservationTimeline>(&line)
-                    .context("Failed to deserialize observation timeline history")
-            })
-            .collect::<Result<Vec<_>>>()?
-        } else {
-            Vec::new()
-        };
-        timelines.retain(|existing| {
-            existing
-                .entries
-                .iter()
-                .map(|entry| entry.date.to_string())
-                .max()
-                .as_deref()
-                != Some(date)
-        });
-        timelines.push(timeline.clone());
-        let mut file =
-            File::create(history_path).context("Failed to rewrite observation_timeline.jsonl")?;
-        for value in timelines {
-            writeln!(file, "{}", serde_json::to_string(&value)?)?;
+        if !self.legacy_timeline_dates()?.contains(date) {
+            let mut file = OpenOptions::new()
+                .create(true)
+                .append(true)
+                .open(history_path)
+                .context("Failed to open observation_timeline.jsonl")?;
+            writeln!(file, "{}", serde_json::to_string(timeline)?)?;
         }
         Ok(())
+    }
+
+    fn legacy_timeline_dates(&self) -> Result<std::collections::BTreeSet<String>> {
+        let path = self.save_dir.join("observation_timeline.jsonl");
+        if !path.exists() {
+            return Ok(std::collections::BTreeSet::new());
+        }
+        let file = File::open(path).context("Failed to open observation_timeline.jsonl")?;
+        let mut dates = std::collections::BTreeSet::new();
+        for line in BufReader::new(file).lines().map_while(Result::ok) {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let timeline: ObservationTimeline = serde_json::from_str(&line)
+                .context("Failed to deserialize observation timeline history")?;
+            if let Some(date) = timeline.entries.iter().map(|entry| entry.date).max() {
+                dates.insert(date.to_string());
+            }
+        }
+        Ok(dates)
     }
 
     #[allow(dead_code)]
@@ -203,20 +411,36 @@ impl PersistenceLayer {
 
     /// 正式な cycle history を trading date 単位で一意に読み込む。
     pub fn load_observation_history_entries(&self) -> Result<Vec<ObservationTimelineEntry>> {
-        let path = self.save_dir.join("observation_timeline.jsonl");
-        if !path.exists() {
-            return Ok(Vec::new());
-        }
-        let file = File::open(path).context("Failed to open observation_timeline.jsonl")?;
         let mut by_date = std::collections::BTreeMap::new();
-        for line in BufReader::new(file).lines().map_while(Result::ok) {
-            if line.trim().is_empty() {
-                continue;
+        let legacy_path = self.save_dir.join("observation_timeline.jsonl");
+        if legacy_path.exists() {
+            let file =
+                File::open(legacy_path).context("Failed to open observation_timeline.jsonl")?;
+            for line in BufReader::new(file).lines().map_while(Result::ok) {
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let timeline: ObservationTimeline = serde_json::from_str(&line)
+                    .context("Failed to deserialize observation timeline history")?;
+                for entry in timeline.entries {
+                    by_date.insert(entry.date, entry);
+                }
             }
-            let timeline: ObservationTimeline = serde_json::from_str(&line)
-                .context("Failed to deserialize observation timeline history")?;
-            for entry in timeline.entries {
-                by_date.insert(entry.date, entry);
+        }
+        let dir = self.save_dir.join("timeline_snapshots");
+        if dir.exists() {
+            for file in std::fs::read_dir(dir).context("Failed to read timeline snapshots")? {
+                let path = file?.path();
+                if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                    continue;
+                }
+                let timeline: ObservationTimeline = serde_json::from_str(
+                    &std::fs::read_to_string(path).context("Failed to read timeline snapshot")?,
+                )
+                .context("Failed to deserialize timeline snapshot")?;
+                for entry in timeline.entries {
+                    by_date.insert(entry.date, entry);
+                }
             }
         }
         Ok(by_date.into_values().collect())
@@ -234,17 +458,45 @@ impl PersistenceLayer {
         Ok(Some(value))
     }
 
-    pub fn save_trading_day_snapshot(&self, snapshot: &TradingDaySnapshot) -> Result<()> {
+    pub fn save_trading_day_snapshot(
+        &self,
+        snapshot: &TradingDaySnapshot,
+    ) -> Result<TradingDaySnapshotWriteDisposition> {
         let dir = self.save_dir.join("snapshots");
         std::fs::create_dir_all(&dir).context("Failed to create trading-day snapshot directory")?;
         let path = dir.join(format!(
             "{}_{}.json",
             snapshot.cycle_id, snapshot.market_date
         ));
+        let disposition = self.validate_trading_day_snapshot_conflict(snapshot)?;
         let json = serde_json::to_string_pretty(snapshot)
             .context("Failed to serialize trading-day snapshot")?;
         std::fs::write(path, json).context("Failed to write trading-day snapshot")?;
-        Ok(())
+        Ok(disposition)
+    }
+
+    /// 正式履歴を書き込む前に、同一キーの快照が意味的に一致するか検証する。
+    pub fn validate_trading_day_snapshot_conflict(
+        &self,
+        snapshot: &TradingDaySnapshot,
+    ) -> Result<TradingDaySnapshotWriteDisposition> {
+        let path = self.save_dir.join("snapshots").join(format!(
+            "{}_{}.json",
+            snapshot.cycle_id, snapshot.market_date
+        ));
+        if path.exists() {
+            let existing: TradingDaySnapshot = serde_json::from_str(
+                &std::fs::read_to_string(&path).context("Failed to read trading-day snapshot")?,
+            )
+            .context("Failed to deserialize existing trading-day snapshot")?;
+            if Self::trading_day_snapshot_semantics(&existing)
+                != Self::trading_day_snapshot_semantics(snapshot)
+            {
+                bail!("SNAPSHOT_CONFLICT");
+            }
+            return Ok(TradingDaySnapshotWriteDisposition::SameDayRerun);
+        }
+        Ok(TradingDaySnapshotWriteDisposition::Created)
     }
 
     pub fn load_trading_day_snapshots(&self) -> Result<Vec<TradingDaySnapshot>> {
@@ -262,7 +514,14 @@ impl PersistenceLayer {
                 &std::fs::read_to_string(path).context("Failed to read trading-day snapshot")?,
             )
             .context("Failed to deserialize trading-day snapshot")?;
-            snapshots.insert((snapshot.cycle_id.clone(), snapshot.market_date), snapshot);
+            let key = (snapshot.cycle_id.clone(), snapshot.market_date);
+            if let Some(existing) = snapshots.insert(key, snapshot.clone()) {
+                if Self::trading_day_snapshot_semantics(&existing)
+                    != Self::trading_day_snapshot_semantics(&snapshot)
+                {
+                    bail!("SNAPSHOT_CONFLICT");
+                }
+            }
         }
         Ok(snapshots.into_values().collect())
     }
@@ -337,14 +596,25 @@ impl PersistenceLayer {
                 is_same_cycle: false,
                 snapshot: None,
                 reason: Some("previous trading date is unavailable".to_string()),
+                formal_snapshot: None,
             });
         };
-        let snapshot = self
-            .load_all_packets()?
+        let formal_snapshot = self
+            .load_trading_day_snapshots()?
             .into_iter()
-            .find(|packet| packet.date == previous_market_date);
+            .find(|snapshot| {
+                snapshot.market_date == previous_market_date
+                    && snapshot.is_valid_trading_day
+                    && snapshot.source_status == "complete"
+            });
+        let snapshot = formal_snapshot.as_ref().and_then(|formal| {
+            self.load_all_packets()
+                .ok()?
+                .into_iter()
+                .find(|packet| packet.date == formal.market_date)
+        });
         Ok(PreviousSnapshotResolution {
-            status: if snapshot.is_some() {
+            status: if formal_snapshot.is_some() {
                 PreviousSnapshotStatus::Available
             } else {
                 PreviousSnapshotStatus::BaselineUnavailable
@@ -354,36 +624,31 @@ impl PersistenceLayer {
             previous_snapshot_id: None,
             gap_type: Some("TRADING_DAY_GAP".to_string()),
             is_same_cycle: false,
-            reason: snapshot
+            reason: formal_snapshot
                 .as_ref()
                 .is_none()
                 .then(|| "previous trading-day snapshot is unavailable".to_string()),
             snapshot,
+            formal_snapshot,
         })
     }
 
     pub fn resolve_previous_snapshot_from_history(
         &self,
         current_market_date: chrono::NaiveDate,
+        current_cycle_id: Option<&str>,
     ) -> Result<PreviousSnapshotResolution> {
         let snapshot_history = self.load_trading_day_snapshots()?;
         let previous_snapshot = snapshot_history
             .iter()
             .filter(|snapshot| {
-                snapshot.is_valid_trading_day && snapshot.market_date < current_market_date
+                snapshot.is_valid_trading_day
+                    && snapshot.source_status == "complete"
+                    && snapshot.market_date < current_market_date
+                    && current_cycle_id.is_some_and(|cycle_id| snapshot.cycle_id == cycle_id)
             })
             .max_by_key(|snapshot| snapshot.market_date);
-        let previous_market_date = previous_snapshot
-            .map(|snapshot| snapshot.market_date)
-            .or_else(|| {
-                self.load_all_packets().ok().and_then(|packets| {
-                    packets
-                        .into_iter()
-                        .map(|packet| packet.date)
-                        .filter(|date| *date < current_market_date)
-                        .max()
-                })
-            });
+        let previous_market_date = previous_snapshot.map(|snapshot| snapshot.market_date);
         let Some(previous_market_date) = previous_market_date else {
             return Ok(PreviousSnapshotResolution {
                 status: PreviousSnapshotStatus::BaselineUnavailable,
@@ -394,6 +659,7 @@ impl PersistenceLayer {
                 is_same_cycle: false,
                 snapshot: None,
                 reason: Some("previous trading date is unavailable".to_string()),
+                formal_snapshot: None,
             });
         };
         let snapshot = self
@@ -415,28 +681,40 @@ impl PersistenceLayer {
             previous_market_date: Some(previous_market_date),
             previous_snapshot_id: previous_snapshot.map(|snapshot| snapshot.snapshot_id.clone()),
             gap_type: Some("TRADING_DAY_GAP".to_string()),
-            is_same_cycle: previous_snapshot.is_some_and(|snapshot| snapshot.cycle_id == "default"),
+            is_same_cycle: current_cycle_id.is_some(),
             snapshot,
             reason,
+            formal_snapshot: previous_snapshot.cloned(),
         })
     }
 
     fn load_all_packets(&self) -> Result<Vec<DecisionPacket>> {
-        if !self.history_path.exists() {
-            return Ok(Vec::new());
-        }
-
-        let file =
-            File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
-        let reader = BufReader::new(file);
         let mut by_date = std::collections::BTreeMap::new();
-        for line in reader.lines().map_while(Result::ok) {
-            if line.trim().is_empty() {
-                continue;
+        if self.history_path.exists() {
+            let file =
+                File::open(&self.history_path).context("Failed to open decision_history.jsonl")?;
+            for line in BufReader::new(file).lines().map_while(Result::ok) {
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let packet: DecisionPacket = serde_json::from_str(&line)
+                    .context("Failed to deserialize DecisionPacket from history")?;
+                by_date.insert(packet.date, packet);
             }
-            let packet: DecisionPacket = serde_json::from_str(&line)
-                .context("Failed to deserialize DecisionPacket from history")?;
-            by_date.insert(packet.date, packet);
+        }
+        let dir = self.save_dir.join("decision_snapshots");
+        if dir.exists() {
+            for file in std::fs::read_dir(dir).context("Failed to read decision snapshots")? {
+                let path = file?.path();
+                if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                    continue;
+                }
+                let packet: DecisionPacket = serde_json::from_str(
+                    &std::fs::read_to_string(path).context("Failed to read decision snapshot")?,
+                )
+                .context("Failed to deserialize decision snapshot")?;
+                by_date.insert(packet.date, packet);
+            }
         }
         Ok(by_date.into_values().collect())
     }
@@ -594,8 +872,10 @@ mod tests {
 
     #[test]
     fn test_persistence_roundtrip() {
-        let temp_dir =
-            std::env::temp_dir().join(format!("test_sentinel_persist_{}", Utc::now().timestamp()));
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_persist_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
         fs::create_dir_all(&temp_dir).unwrap();
 
         let layer = PersistenceLayer::new(&temp_dir);
@@ -711,6 +991,169 @@ mod tests {
     }
 
     #[test]
+    fn history_write_transaction_restores_partial_files_when_not_committed() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_history_transaction_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let history_path = temp_dir.join("decision_history.jsonl");
+        fs::write(&history_path, "before\n").unwrap();
+
+        {
+            let _transaction = layer
+                .begin_history_write_transaction(date, "cycle-1")
+                .unwrap();
+            fs::write(&history_path, "partial\n").unwrap();
+            fs::create_dir_all(temp_dir.join("snapshots")).unwrap();
+            fs::write(
+                temp_dir.join("snapshots/cycle-1_2026-07-27.json"),
+                "partial",
+            )
+            .unwrap();
+        }
+
+        assert_eq!(fs::read_to_string(history_path).unwrap(), "before\n");
+        assert!(!temp_dir.join("snapshots/cycle-1_2026-07-27.json").exists());
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn history_write_transaction_includes_transition_logs() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_history_transition_transaction_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        fs::write(temp_dir.join("state_transitions.csv"), "header\nold\n").unwrap();
+        fs::write(temp_dir.join("state_transitions.jsonl"), "old\n").unwrap();
+
+        {
+            let _transaction = layer
+                .begin_history_write_transaction(
+                    NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+                    "cycle-1",
+                )
+                .unwrap();
+            fs::write(temp_dir.join("state_transitions.csv"), "header\npartial\n").unwrap();
+            fs::write(temp_dir.join("state_transitions.jsonl"), "partial\n").unwrap();
+        }
+
+        assert_eq!(
+            fs::read_to_string(temp_dir.join("state_transitions.csv")).unwrap(),
+            "header\nold\n"
+        );
+        assert_eq!(
+            fs::read_to_string(temp_dir.join("state_transitions.jsonl")).unwrap(),
+            "old\n"
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn history_write_transaction_keeps_files_after_commit() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_history_transaction_commit_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let history_path = temp_dir.join("decision_history.jsonl");
+        let transaction = layer
+            .begin_history_write_transaction(date, "cycle-1")
+            .unwrap();
+        fs::write(&history_path, "committed\n").unwrap();
+        transaction.commit();
+
+        assert_eq!(fs::read_to_string(history_path).unwrap(), "committed\n");
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn formal_snapshot_resolution_does_not_fallback_to_legacy_packets() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_formal_baseline_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        layer
+            .save_packet(&DecisionPacket {
+                date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+                ..Default::default()
+            })
+            .unwrap();
+
+        let resolution = layer
+            .resolve_previous_snapshot_from_history(
+                NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+                Some("cycle-1"),
+            )
+            .unwrap();
+        assert_eq!(
+            resolution.status,
+            PreviousSnapshotStatus::BaselineUnavailable
+        );
+        assert!(resolution.snapshot.is_none());
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn formal_snapshot_resolution_exposes_the_formal_snapshot_as_baseline() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_formal_snapshot_object_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+            generated_at: "2026-07-27T05:30:00+09:00".to_string(),
+            run_id: "run-formal".to_string(),
+            cycle_id: "cycle-1".to_string(),
+            snapshot_id: "snapshot-formal".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "STARTUP".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 35.0,
+            confidence: 56.7,
+            supply_phase: "ACCUMULATING".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: Some("TSLA".to_string()),
+            secondary_leaders: vec!["ISRG".to_string()],
+            breakouts: serde_json::json!({}),
+            stability: 1.1,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({"history": "HEALTHY"}),
+        };
+        layer.save_trading_day_snapshot(&snapshot).unwrap();
+
+        let resolution = layer
+            .resolve_previous_snapshot_from_history(
+                NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+                Some("cycle-1"),
+            )
+            .unwrap();
+
+        assert_eq!(
+            resolution.formal_snapshot.unwrap().snapshot_id,
+            "snapshot-formal"
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn test_markdown_report_saving() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_report_{}",
@@ -758,6 +1201,14 @@ mod tests {
         let loaded = layer.load_leader_observations().unwrap();
         assert_eq!(loaded.len(), 1);
         assert_eq!(loaded[0].leader, "MSFT");
+        assert!(temp_dir.join("leader_snapshots/2026-07-10.json").exists());
+        assert_eq!(
+            fs::read_to_string(temp_dir.join("leader_observations.jsonl"))
+                .unwrap()
+                .lines()
+                .count(),
+            1
+        );
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
@@ -945,6 +1396,8 @@ mod tests {
         let snapshot = TradingDaySnapshot {
             schema_version: "1".to_string(),
             market_date: date,
+            report_date: date,
+            as_of_date: date,
             generated_at: "2026-07-28T05:30:00+09:00".to_string(),
             run_id: "run-1".to_string(),
             cycle_id: "default".to_string(),
@@ -953,6 +1406,7 @@ mod tests {
             source_status: "complete".to_string(),
             market_state: "STARTUP".to_string(),
             decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
             breadth: 35.0,
             confidence: 56.7,
             supply_phase: "ACCUMULATING".to_string(),
@@ -966,14 +1420,35 @@ mod tests {
             reset_event: None,
             data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
         };
-        layer.save_trading_day_snapshot(&snapshot).unwrap();
+        assert_eq!(
+            layer.save_trading_day_snapshot(&snapshot).unwrap(),
+            TradingDaySnapshotWriteDisposition::Created
+        );
         let mut revised = snapshot.clone();
         revised.generated_at = "2026-07-28T05:31:00+09:00".to_string();
-        layer.save_trading_day_snapshot(&revised).unwrap();
+        assert_eq!(
+            layer.save_trading_day_snapshot(&revised).unwrap(),
+            TradingDaySnapshotWriteDisposition::SameDayRerun
+        );
+        let mut conflict = revised.clone();
+        conflict.decision_state = "OBSERVE".to_string();
+        let error = layer.save_trading_day_snapshot(&conflict).unwrap_err();
+        assert_eq!(error.to_string(), "SNAPSHOT_CONFLICT");
 
         let loaded = layer.load_trading_day_snapshots().unwrap();
         assert_eq!(loaded.len(), 1);
         assert_eq!(loaded[0].generated_at, "2026-07-28T05:31:00+09:00");
+        let encoded =
+            fs::read_to_string(temp_dir.join("snapshots/default_2026-07-27.json")).unwrap();
+        for key in [
+            "decision_state",
+            "new_position_limit",
+            "market_date",
+            "report_date",
+            "as_of_date",
+        ] {
+            assert!(encoded.contains(&format!("\"{key}\"")));
+        }
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }

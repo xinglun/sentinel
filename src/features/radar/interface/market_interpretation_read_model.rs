@@ -30,6 +30,26 @@ pub(crate) fn build_market_interpretation_view_model(
     leadership_snapshot: &LeadershipSnapshotViewModel,
     language: Language,
 ) -> Option<MarketInterpretationViewModel> {
+    build_market_interpretation_view_model_with_baseline(
+        packet,
+        pres_packet,
+        leadership_snapshot,
+        None,
+        None,
+        language,
+    )
+}
+
+pub(crate) fn build_market_interpretation_view_model_with_baseline(
+    packet: &DecisionPacket,
+    pres_packet: &PresentationPacket,
+    leadership_snapshot: &LeadershipSnapshotViewModel,
+    previous_interpretation: Option<&MarketInterpretationViewModel>,
+    previous_formal_snapshot: Option<
+        &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
+    >,
+    language: Language,
+) -> Option<MarketInterpretationViewModel> {
     let interpretation_layer = pres_packet.interpretation_layer.as_ref()?;
     let transition_evidence = pres_packet.transition_evidence.as_ref();
     let trend_breadth_mode = transition_evidence
@@ -80,11 +100,26 @@ pub(crate) fn build_market_interpretation_view_model(
         language,
     });
 
-    let previous_rotation_values = if leadership_snapshot.watchlist_leaders_values.is_empty() {
-        vec![leadership_snapshot.primary_leader_value.clone()]
-    } else {
-        leadership_snapshot.watchlist_leaders_values.clone()
-    };
+    let previous_rotation_values = previous_formal_snapshot
+        .map(|snapshot| {
+            snapshot
+                .primary_leader
+                .iter()
+                .chain(snapshot.secondary_leaders.iter())
+                .cloned()
+                .collect::<Vec<_>>()
+        })
+        .or_else(|| {
+            previous_interpretation.map(|previous| {
+                previous
+                    .primary_values
+                    .iter()
+                    .chain(previous.supporting_values.iter())
+                    .cloned()
+                    .collect::<Vec<_>>()
+            })
+        })
+        .unwrap_or_default();
     let mut current_rotation_values = vec![leadership_snapshot.primary_leader_value.clone()];
     let additional_supporting: Vec<String> = leadership_snapshot
         .secondary_leaders_values
@@ -106,6 +141,20 @@ pub(crate) fn build_market_interpretation_view_model(
         flow_acceleration,
         language,
     );
+    let current_leaders = std::iter::once(leadership_snapshot.primary_leader_value.clone())
+        .chain(leadership_snapshot.secondary_leaders_values.iter().cloned())
+        .filter(|leader| !leader.is_empty() && leader != "none")
+        .collect::<Vec<_>>();
+    let breakout_leaders = pres_packet
+        .breakout_summary
+        .items
+        .iter()
+        .filter(|item| {
+            item.status
+                == crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout
+        })
+        .map(|item| item.symbol.clone())
+        .collect::<Vec<_>>();
     let narrative_values = market_interpretation_narrative_values(
         day_type,
         pres_packet
@@ -113,11 +162,8 @@ pub(crate) fn build_market_interpretation_view_model(
             .as_ref()
             .map(|layer| layer.signal_context_next_observation_value.as_str())
             .unwrap_or_default(),
-        pres_packet.breakout_summary.items.iter().any(|item| {
-            item.symbol == "GOOG"
-                && item.status
-                    == crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout
-        }),
+        &current_leaders,
+        &breakout_leaders,
         language,
     );
 
@@ -337,6 +383,8 @@ pub(crate) struct LeaderPersistenceReadModelInput<'a> {
     pub language: Language,
     pub baseline_date: Option<chrono::NaiveDate>,
     pub baseline_status: &'a str,
+    pub formal_baseline:
+        Option<&'a crate::features::radar::infrastructure::persistence::TradingDaySnapshot>,
 }
 
 pub(crate) fn build_leader_persistence_view_model(
@@ -361,12 +409,33 @@ pub(crate) fn build_leader_persistence_view_model(
         })
         .cloned()
         .collect::<Vec<_>>();
+    if let Some(snapshot) = input.formal_baseline {
+        if let Some(leader) = snapshot
+            .primary_leader
+            .as_ref()
+            .filter(|leader| !leader.is_empty())
+        {
+            observations.push(LeaderObservation {
+                date: snapshot.market_date,
+                leader: leader.clone(),
+                confidence: Some(snapshot.confidence),
+                breadth: Some(snapshot.breadth),
+                relative_strength: None,
+                rotation_stability: Some(snapshot.stability),
+                sector_or_index_rotation: Some(snapshot.risk_state.clone()),
+                supply_state: Some(snapshot.supply_phase.clone()),
+            });
+        }
+    }
     let baseline_available = input.baseline_status == "AVAILABLE"
-        && input.baseline_date.is_some_and(|date| {
-            observations
-                .iter()
-                .any(|observation| observation.date == date)
-        });
+        && match input.formal_baseline {
+            Some(snapshot) => input.baseline_date == Some(snapshot.market_date),
+            None => input.baseline_date.is_some_and(|date| {
+                observations
+                    .iter()
+                    .any(|observation| observation.date == date)
+            }),
+        };
     if !baseline_available {
         observations.clear();
     }
@@ -1165,18 +1234,66 @@ fn narrative_label(language: Language) -> &'static str {
 fn market_interpretation_narrative_values(
     day_type: &str,
     next_observation: &str,
-    goog_breakout_emerging: bool,
+    current_leaders: &[String],
+    breakout_leaders: &[String],
     language: Language,
 ) -> Vec<String> {
     let mut lines = Vec::new();
-    lines.push(match (day_type, language, goog_breakout_emerging) {
-        ("normal", Language::ZhCn, true) => "市场继续由 SPY 主导，U 保持较强延续，GOOG 今日重新出现突破萌芽，为窄幅主线增加了一个局部支撑点。但市场广度仍未扩展，整体仍属于少数资产领导下的正常趋势延续。".to_string(),
-        ("normal", Language::ZhCn, false) => "市场继续由 SPY 主导，U 和 GOOG 提供有限支撑，但上涨广度没有扩展。当前没有新的宏观、供给或风险事件，整体属于窄幅领导下的正常趋势延续。".to_string(),
-        ("normal", Language::EnUs, _) => "Today is a normal trend continuation.".to_string(),
-        ("normal", Language::JaJp, _) => "今日は通常のトレンド継続です。".to_string(),
-        ("exceptional", Language::ZhCn, _) => "今天属于例外驱动日。".to_string(),
-        ("exceptional", Language::EnUs, _) => "Today is an exception-driven day.".to_string(),
-        ("exceptional", Language::JaJp, _) => "今日は例外駆動の日です。".to_string(),
+    let primary = current_leaders
+        .first()
+        .map(String::as_str)
+        .unwrap_or("UNAVAILABLE");
+    let supporting = current_leaders
+        .iter()
+        .skip(1)
+        .map(String::as_str)
+        .collect::<Vec<_>>()
+        .join(", ");
+    let breakouts = breakout_leaders.join(", ");
+    lines.push(match (day_type, language) {
+        ("normal", Language::ZhCn) => format!(
+            "当前综合排序领先为 {primary}；支持结构为 {}。{}{}，整体属于当前截面观察。",
+            if supporting.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                &supporting
+            },
+            if breakouts.is_empty() {
+                "当前没有 Read Model 标记的突破萌芽"
+            } else {
+                "当前突破萌芽: "
+            },
+            if breakouts.is_empty() { "" } else { &breakouts }
+        ),
+        ("normal", Language::EnUs) => format!(
+            "Current rank leader: {primary}; supporting leaders: {}. Breakout leaders: {}.",
+            if supporting.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                &supporting
+            },
+            if breakouts.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                &breakouts
+            }
+        ),
+        ("normal", Language::JaJp) => format!(
+            "現在の順位リーダーは {primary}、支援リーダーは {}。ブレイクアウト候補は {}。",
+            if supporting.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                &supporting
+            },
+            if breakouts.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                &breakouts
+            }
+        ),
+        ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),
+        ("exceptional", Language::EnUs) => "Today is an exception-driven day.".to_string(),
+        ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
         _ => "Today is a normal trend continuation.".to_string(),
     });
     if !next_observation.is_empty() {
@@ -2126,11 +2243,17 @@ mod tests {
 
     #[test]
     fn normal_narrative_mentions_new_goog_breakout_without_promoting_structure() {
-        let values = market_interpretation_narrative_values("normal", "", true, Language::ZhCn);
+        let values = market_interpretation_narrative_values(
+            "normal",
+            "",
+            &["TSLA".to_string()],
+            &["GOOG".to_string()],
+            Language::ZhCn,
+        );
 
-        assert!(values[0].contains("GOOG 今日重新出现突破萌芽"));
-        assert!(values[0].contains("整体仍属于少数资产领导下的正常趋势延续"));
-        assert!(!values[0].contains("广度扩展"));
+        assert!(values[0].contains("TSLA"));
+        assert!(values[0].contains("GOOG"));
+        assert!(!values[0].contains("SPY 主导"));
     }
 
     #[test]
@@ -2189,6 +2312,7 @@ mod tests {
             language: Language::ZhCn,
             baseline_date: Some(packet.date - Duration::days(1)),
             baseline_status: "AVAILABLE",
+            formal_baseline: None,
         })
         .unwrap();
 
@@ -2236,6 +2360,7 @@ mod tests {
                 language,
                 baseline_date: Some(previous.date),
                 baseline_status: "AVAILABLE",
+                formal_baseline: None,
             })
             .unwrap();
             assert!(view_model
@@ -2267,6 +2392,7 @@ mod tests {
             language: Language::EnUs,
             baseline_date: None,
             baseline_status: "BASELINE_UNAVAILABLE",
+            formal_baseline: None,
         })
         .unwrap();
 
@@ -2306,6 +2432,7 @@ mod tests {
             language: Language::EnUs,
             baseline_date: Some(current_date - Duration::days(1)),
             baseline_status: "BASELINE_UNAVAILABLE",
+            formal_baseline: None,
         })
         .unwrap();
 

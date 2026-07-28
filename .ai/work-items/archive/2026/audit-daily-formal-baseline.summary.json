@@ -1,0 +1,167 @@
+{
+  "workItemId": "audit-daily-formal-baseline",
+  "contractPath": ".ai/work-items/archive/2026/audit-daily-formal-baseline.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "reason": "将 audit-daily CLI 接入正式 baseline resolver。"
+    },
+    {
+      "path": ".ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "reason": "记录基线解析修复和验证结果。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit-daily CLI 解析 cycle_id 并传递 formal baseline。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/audit-daily-formal-baseline.contract.json",
+    "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+    "src/cli.rs",
+    "src/features/radar/interface/audit_daily_report.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "CLI 找到同 cycle 正式前一交易日快照",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "audit_daily_formal_baseline_uses_current_cycle_snapshot"
+      ]
+    },
+    {
+      "scenario": "CLI 无正式 baseline 时安全降级",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "resolve_audit_daily_formal_baseline"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "只接入既有 formal snapshot resolver，不改变交易决策。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已确定。",
+      "contractHash": "550c9ac0d550fd4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "测试先行并通过针对性测试。",
+      "contractHash": "550c9ac0d550fd4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "完整门禁已通过。",
+      "contractHash": "550c9ac0d550fd4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "完整 required checks 已通过。",
+      "contractHash": "550c9ac0d550fd4c",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 已确认，修改在范围内。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "针对性测试通过，完整门禁已执行。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "完整门禁结果已记录。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "audit-daily CLI 已接入正式 baseline resolver。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification"
+    ]
+  }
+}

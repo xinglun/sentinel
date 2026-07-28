@@ -47,6 +47,92 @@ pub fn validate_history_progression(
     }
 }
 
+/// 日次観測の履歴件数と基線信頼性を公開前に検証する。
+pub fn daily_observation_consistency_gate(
+    previous_count: usize,
+    current_count: usize,
+    is_new_market_date: bool,
+    baseline_available: bool,
+    leadership_confidence: &str,
+) -> Result<(), &'static str> {
+    if current_count < previous_count {
+        return Err("HISTORY_REGRESSION");
+    }
+    if is_new_market_date && current_count != previous_count + 1 {
+        return Err("INVALID_HISTORY_APPEND");
+    }
+    if !is_new_market_date && current_count != previous_count {
+        return Err("INVALID_SAME_DAY_RERUN");
+    }
+    if !baseline_available && leadership_confidence == "HIGH" {
+        return Err("CONFIDENCE_CONTRADICTION");
+    }
+    Ok(())
+}
+
+/// 永続化前に、基線日付と Narrative の事実参照を検証する。
+pub fn daily_fact_consistency_gate(
+    current_market_date: NaiveDate,
+    previous_market_date: Option<NaiveDate>,
+    baseline_available: bool,
+    narrative_values: &[String],
+    allowed_leaders: &[String],
+) -> Result<(), &'static str> {
+    if baseline_available
+        && previous_market_date.is_none_or(|previous| previous >= current_market_date)
+    {
+        return Err("BASELINE_MISMATCH");
+    }
+    if narrative_values.iter().any(|line| {
+        line.split(|character: char| !character.is_ascii_alphanumeric())
+            .filter(|token| !token.is_empty())
+            .filter(|token| {
+                token.len() <= 5
+                    && token
+                        .chars()
+                        .all(|character| character.is_ascii_uppercase())
+            })
+            .any(|token| !allowed_leaders.iter().any(|leader| leader == token))
+    }) {
+        return Err("NARRATIVE_FACT_CONFLICT");
+    }
+    Ok(())
+}
+
+/// 日次の事実、供給フェーズ、Read Model の値が同じ観測結果を参照することを検証する。
+pub fn cross_layer_consistency_gate(
+    current_market_date: NaiveDate,
+    previous_market_date: Option<NaiveDate>,
+    baseline_available: bool,
+    current_supply_phase: &str,
+    change_log_supply_phase: &str,
+    narrative_values: &[String],
+    allowed_leaders: &[String],
+) -> Result<(), &'static str> {
+    if baseline_available
+        && previous_market_date.is_none_or(|previous| previous >= current_market_date)
+    {
+        return Err("BASELINE_MISMATCH");
+    }
+    if current_supply_phase != change_log_supply_phase {
+        return Err("BASELINE_MISMATCH");
+    }
+    daily_fact_consistency_gate(
+        current_market_date,
+        previous_market_date,
+        baseline_available,
+        narrative_values,
+        allowed_leaders,
+    )
+    .map_err(|reason| {
+        if reason == "NARRATIVE_FACT_CONFLICT" {
+            "READ_MODEL_CONFLICT"
+        } else {
+            reason
+        }
+    })
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ObservationTimelineEntry {
     pub date: NaiveDate,
@@ -168,6 +254,36 @@ mod tests {
             risk_state: "NORMAL".to_string(),
             day_type: "NORMAL".to_string(),
         }
+    }
+
+    #[test]
+    fn cross_layer_gate_rejects_supply_and_read_model_conflicts() {
+        let current = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let previous = NaiveDate::from_ymd_opt(2026, 7, 24).unwrap();
+        assert_eq!(
+            cross_layer_consistency_gate(
+                current,
+                Some(previous),
+                true,
+                "STRESSED",
+                "IDLE",
+                &[],
+                &[],
+            ),
+            Err("BASELINE_MISMATCH")
+        );
+        assert_eq!(
+            cross_layer_consistency_gate(
+                current,
+                Some(previous),
+                true,
+                "STRESSED",
+                "STRESSED",
+                &["GOOG remains the primary leader.".to_string()],
+                &["TSLA".to_string()],
+            ),
+            Err("READ_MODEL_CONFLICT")
+        );
     }
 
     #[test]
@@ -312,6 +428,58 @@ mod tests {
         assert_eq!(
             validate_history_progression(2, 2, true),
             HistoryProgression::SameDayRerun
+        );
+    }
+
+    #[test]
+    fn daily_consistency_gate_rejects_regression_and_invalid_confidence() {
+        assert_eq!(
+            daily_observation_consistency_gate(3, 2, true, true, "LOW"),
+            Err("HISTORY_REGRESSION")
+        );
+        assert_eq!(
+            daily_observation_consistency_gate(3, 5, true, true, "LOW"),
+            Err("INVALID_HISTORY_APPEND")
+        );
+        assert_eq!(
+            daily_observation_consistency_gate(3, 3, false, false, "HIGH"),
+            Err("CONFIDENCE_CONTRADICTION")
+        );
+        assert_eq!(
+            daily_observation_consistency_gate(3, 3, false, false, "LOW"),
+            Ok(())
+        );
+        assert_eq!(
+            daily_observation_consistency_gate(3, 4, true, true, "HIGH"),
+            Ok(())
+        );
+        assert_eq!(
+            daily_observation_consistency_gate(3, 3, false, true, "HIGH"),
+            Ok(())
+        );
+    }
+
+    #[test]
+    fn daily_fact_gate_rejects_baseline_and_narrative_conflicts() {
+        assert_eq!(
+            daily_fact_consistency_gate(
+                NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+                Some(NaiveDate::from_ymd_opt(2026, 7, 27).unwrap()),
+                true,
+                &[],
+                &[]
+            ),
+            Err("BASELINE_MISMATCH")
+        );
+        assert_eq!(
+            daily_fact_consistency_gate(
+                NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+                Some(NaiveDate::from_ymd_opt(2026, 7, 24).unwrap()),
+                true,
+                &["市场由 SPY 与 GOOG 主导".to_string()],
+                &["SPY".to_string()]
+            ),
+            Err("NARRATIVE_FACT_CONFLICT")
         );
     }
 }

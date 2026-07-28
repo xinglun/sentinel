@@ -1,0 +1,278 @@
+{
+  "contractVersion": 2,
+  "workItemId": "formal-snapshot-change-log-atomic-write",
+  "mode": "code",
+  "title": "统一 Change Log 快照基线并保护历史原子写入",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "992fa57aa98e5c3fa45ea1f40f243ae7b4f3e5027b086e58c54b0887b801b3aa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "67f6e246d7c8fd7b73a0272ef30ee8bbcd5aecc0eea7641885d31237f4442555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "d54692c00fb8ef990fd5e1758af7905aec59fbbd5a698c5118102707a38d1c5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.contract.json",
+      "status": "??",
+      "fingerprint": "064327430be9f04ff8b724696e10cb8d7e9a238c21f2adaa2f343806644c9289"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.summary.json",
+      "status": "??",
+      "fingerprint": "3d88e23d137024e172261e57f453450a4186341f53e5198297e4aadb6571f1e6"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ea3bec692f44397ddd5a5dfd14bd95063bb299c388677fcb39fb0042e26b7c46"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "f9817c2ff85939824868ddfb84821557937ddcc8cabef33adb6c5de5d645030a"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "3c1164efa7f3cc69b7d1961481f1a40d37b67e46566a2b4c6f29fcc1cca51b7a"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "67a6e2c572613fc13c1f2b1cbde5369dc7b0fc37adb7e369e9a3bcd336ca4ee3"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "26405f352d8f9d40da13154f1ddfe40b1c0b10051132e84aba943db526865182"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "e3e38a594cd5b6accf6453fc40c19e3ce2ec760733aeb35bb5e536dedce567bb"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "b7ceec23f7692634674647987be7f7e1d40cf37bf21ca497b0722611acc67fea"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "9effe2eacba73f36bf05b9a864e860b704904bcd32b828a0ad9a4014f156125e"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "4d1dbe11c7381ae0ebe0e9d4d199dcf8895e55b555ee723ee6dda7551c7e033d"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "ac35d15a2edee25d719dd0d5571aba218f18e1108b5b40dacf9f46288b8e62b2"
+    }
+  ],
+  "problemStatement": "Market Change Log 仍从 legacy packet/presentation 获取上一日事实，且正式历史写入由多个独立 save 操作组成，失败时可能留下部分历史。",
+  "intent": {"problem": "跨日 Change Log 未直接消费 formal snapshot，历史写入失败缺少统一回滚边界。", "constraints": ["不修改交易阈值、仓位规则和 reports artifact。", "保持同日幂等和 NO_TRADE 安全降级。", "不提交或推送 Git。"], "rationale": "让 Change Log 读取正式快照字段，并将正式历史写入组织为可验证的前置检查和失败保护。"},
+  "scope": [
+    ".ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json",
+    ".ai/work-items/active/formal-snapshot-change-log-atomic-write.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/domain/observation_timeline.rs"
+  ],
+  "outOfScope": ["不修改 reports artifact。", "不调整交易阈值、仓位规则、Hypothesis 或 Gravity 投资逻辑。", "不提交或推送 Git。"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "正式快照唯一基线与历史写入保护要求。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Market Change Log 的 previous values 当前来源。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "formal snapshot 解析与多阶段正式历史写入。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式快照和各历史存储的写入 API。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "历史追加与回退校验。"
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "Change Log 的 previous supply/risk/leader/confidence 来自 formal snapshot", "reason": "消除 packet 与 formal snapshot 二重基线。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "正式历史任一写入失败时不生成部分成功的正式历史", "reason": "避免 packet、leader、timeline、snapshot 不一致。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "冲突预检和同日幂等继续有效", "reason": "保持既有安全边界。", "required": false, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "修改范围限于 read model、runner、persistence 和已有历史门禁，可由现有测试验证。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、验收与验证已确定。"
+  },
+  "preReviewWarnings": [
+    "正式快照字段必须优先于 legacy packet 作为跨日 Change Log 输入；兼容输入不扩大为新事实源。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Market Change Log 的 previous supply、risk、leader、confidence 和 breadth 在 formal baseline 可用时直接来自 TradingDaySnapshot。",
+    "formal baseline 不可用时 Change Log 输出 BASELINE_UNAVAILABLE/UNAVAILABLE，不输出旧 packet 推导的跨日变化。",
+    "正式历史写入前完成所有可验证的 count、cycle/date、snapshot conflict 和 timeline 一致性预检；任一失败都不进入正式历史 save 阶段。",
+    "正式历史 save 阶段出现错误时记录失败状态并执行可恢复的清理/回滚，避免 packet、leader、timeline、snapshot 留下不一致组合。",
+    "新增回归测试覆盖 Change Log formal 字段来源、写入失败保护、同日幂等；reports 不发生变更。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json SUMMARY=.ai/work-items/active/formal-snapshot-change-log-atomic-write.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/formal-snapshot-change-log-atomic-write.summary.json CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json SUMMARY=.ai/work-items/active/formal-snapshot-change-log-atomic-write.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/formal-snapshot-change-log-atomic-write.contract.json SUMMARY=.ai/work-items/active/formal-snapshot-change-log-atomic-write.summary.json",
+      "required": true
+    },
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

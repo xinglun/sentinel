@@ -17,12 +17,29 @@ from typing import Iterable
 DEFAULT_MAX_BYTES = 90 * 1024 * 1024
 DEFAULT_MIN_DAYS = 5
 HISTORY_FILES = ("decision_history.jsonl", "state_transitions.jsonl")
+TRANSITION_CSV = "state_transitions.csv"
+LEGACY_TRANSITION_GLOB = "state_transitions_legacy_*.csv"
+OPTIONAL_HISTORY_FILES = ("observation_timeline.jsonl", "leader_observations.jsonl")
+SNAPSHOT_DIRECTORIES = (
+    "decision_snapshots",
+    "timeline_snapshots",
+    "leader_snapshots",
+    "snapshots",
+)
 
 
 @dataclass(frozen=True)
 class Record:
     market_date: date
     payload: bytes
+
+
+def _is_iso_date(value: str) -> bool:
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
 
 
 def _market_date(value: object, *, path: Path, line_number: int) -> date:
@@ -35,6 +52,11 @@ def _market_date(value: object, *, path: Path, line_number: int) -> date:
     if not isinstance(raw, str):
         timestamp = value.get("timestamp") or value.get("generated_at")
         raw = timestamp[:10] if isinstance(timestamp, str) else None
+    if not isinstance(raw, str):
+        entries = value.get("entries") if isinstance(value, dict) else None
+        if isinstance(entries, list):
+            dates = [entry.get("date") for entry in entries if isinstance(entry, dict)]
+            raw = max((item for item in dates if isinstance(item, str)), default=None)
     if not isinstance(raw, str):
         raise ValueError(f"{path}: line {line_number} has no trading-day date")
     try:
@@ -108,6 +130,9 @@ def choose_cutoff(
 
 def _write_records(path: Path, records: list[Record], cutoff: date) -> int:
     kept = [record.payload for record in records if record.market_date >= cutoff]
+    if not kept:
+        path.unlink()
+        return 0
     directory = path.parent
     with tempfile.NamedTemporaryFile("wb", dir=directory, prefix=f".{path.name}.", delete=False) as handle:
         temporary_path = Path(handle.name)
@@ -118,22 +143,191 @@ def _write_records(path: Path, records: list[Record], cutoff: date) -> int:
     return sum(len(payload) for payload in kept)
 
 
+def _write_transition_csv(path: Path, records: list[Record], cutoff: date, lines: list[str]) -> int:
+    if not lines or not lines[0].strip():
+        raise ValueError(f"{path}: CSV header is missing")
+    data_lines = lines[1:]
+    if len(data_lines) != len(records):
+        raise ValueError(f"{path}: CSV rows do not match state transition records")
+    kept = [
+        line
+        for record, line in zip(records, data_lines)
+        if record.market_date >= cutoff
+    ]
+    directory = path.parent
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", newline="", dir=directory, prefix=f".{path.name}.", delete=False) as handle:
+        temporary_path = Path(handle.name)
+        handle.write(lines[0])
+        handle.writelines(kept)
+    os.chmod(temporary_path, path.stat().st_mode)
+    os.replace(temporary_path, path)
+    return sum(len(line.encode("utf-8")) for line in [lines[0], *kept])
+
+
+def _read_snapshot_records(directory: Path) -> list[Record]:
+    records: list[Record] = []
+    for path in sorted(directory.glob("*.json")):
+        candidates = path.stem.split("_")
+        snapshot_date = next(
+            (date.fromisoformat(candidate) for candidate in candidates if _is_iso_date(candidate)),
+            None,
+        )
+        if snapshot_date is None:
+            continue
+        payload = path.read_bytes()
+        if not payload.strip():
+            continue
+        try:
+            json.loads(payload)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"{path}: invalid JSON") from exc
+        records.append(Record(snapshot_date, payload))
+    return records
+
+
+def _write_snapshot_records(directory: Path, cutoff: date) -> int:
+    total = 0
+    for path in sorted(directory.glob("*.json")):
+        candidates = path.stem.split("_")
+        snapshot_date = next(
+            (date.fromisoformat(candidate) for candidate in candidates if _is_iso_date(candidate)),
+            None,
+        )
+        if snapshot_date is None:
+            continue
+        if snapshot_date < cutoff:
+            path.unlink()
+        else:
+            total += path.stat().st_size
+    return total
+
+
 def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: bool) -> dict[str, object]:
-    paths = {reports_dir / name: reports_dir / name for name in HISTORY_FILES}
-    missing = [str(path) for path in paths if not path.is_file()]
+    file_paths = [reports_dir / name for name in HISTORY_FILES]
+    file_paths.extend(
+        reports_dir / name
+        for name in OPTIONAL_HISTORY_FILES
+        if (reports_dir / name).is_file()
+    )
+    file_paths.extend(
+        path
+        for path in sorted(reports_dir.glob("observation_timeline_*.json"))
+        if path.name != "observation_timeline_latest.json"
+    )
+    snapshot_paths = [reports_dir / name for name in SNAPSHOT_DIRECTORIES if (reports_dir / name).is_dir()]
+    transition_csv_path = reports_dir / TRANSITION_CSV
+    transition_csv_lines = (
+        transition_csv_path.read_text(encoding="utf-8").splitlines(keepends=True)
+        if transition_csv_path.is_file()
+        else None
+    )
+    legacy_transition_paths = sorted(reports_dir.glob(LEGACY_TRANSITION_GLOB))
+    missing = [str(path) for path in file_paths if not path.is_file()]
     if missing:
         raise ValueError("required history file is missing: " + ", ".join(missing))
-    records_by_file = {path: read_records(path) for path in paths}
+    records_by_file = {path: read_records(path) for path in file_paths}
+    records_by_file.update(
+        {
+            path: records
+            for path in snapshot_paths
+            if (records := _read_snapshot_records(path))
+        }
+    )
+    if transition_csv_lines is not None:
+        transition_records = records_by_file[reports_dir / "state_transitions.jsonl"]
+        transition_data_lines = transition_csv_lines[1:]
+        if len(transition_data_lines) != len(transition_records):
+            raise ValueError(f"{transition_csv_path}: CSV rows do not match state transition records")
+        records_by_file[transition_csv_path] = [
+            Record(record.market_date, line.encode("utf-8"))
+            for record, line in zip(transition_records, transition_data_lines)
+        ]
     cutoff = choose_cutoff(records_by_file, max_bytes=max_bytes, min_days=min_days)
-    before = {str(path): path.stat().st_size for path in paths}
+    before = {
+        str(path): (
+            path.stat().st_size
+            if path.is_file()
+            else sum(item.stat().st_size for item in path.glob("*.json"))
+        )
+        for path in [*file_paths, *snapshot_paths, *([transition_csv_path] if transition_csv_lines is not None else []), *legacy_transition_paths]
+    }
     if cutoff is None:
+        if legacy_transition_paths:
+            after = dict(before)
+            for legacy_path in legacy_transition_paths:
+                after[str(legacy_path)] = 0
+                if not dry_run:
+                    legacy_path.unlink()
+            return {
+                "action": "dry_run" if dry_run else "legacy_cleanup",
+                "cutoff": None,
+                "before_bytes": before,
+                "after_bytes": after,
+            }
         return {"action": "none", "cutoff": None, "before_bytes": before, "after_bytes": before}
 
     after = (
-        {str(path): _retained_size(records, cutoff) for path, records in records_by_file.items()}
+        {
+            str(path): _retained_size(records, cutoff)
+            for path, records in records_by_file.items()
+            if path != transition_csv_path
+        }
         if dry_run
-        else {str(path): _write_records(path, records, cutoff) for path, records in records_by_file.items()}
+        else {
+            **{
+                str(path): _write_records(path, records, cutoff)
+                for path, records in records_by_file.items()
+                if path.is_file() and path != transition_csv_path
+            },
+            **{
+                str(path): _write_snapshot_records(path, cutoff)
+                for path in snapshot_paths
+                if path in records_by_file
+            },
+        }
     )
+    if transition_csv_lines is not None:
+        if dry_run:
+            after[str(transition_csv_path)] = sum(
+                len(line.encode("utf-8"))
+                for line in [
+                    transition_csv_lines[0],
+                    *[
+                        line
+                        for record, line in zip(
+                            records_by_file[reports_dir / "state_transitions.jsonl"],
+                            transition_csv_lines[1:],
+                        )
+                        if record.market_date >= cutoff
+                    ],
+                ]
+            )
+        else:
+            after[str(transition_csv_path)] = _write_transition_csv(
+                transition_csv_path,
+                records_by_file[reports_dir / "state_transitions.jsonl"],
+                cutoff,
+                transition_csv_lines,
+            )
+    for legacy_path in legacy_transition_paths:
+        legacy_path.unlink()
+        after[str(legacy_path)] = 0
+    state_path = reports_dir / "observation_history_state.json"
+    if cutoff is not None and not dry_run and state_path.is_file():
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        retained_dates = sorted(
+            {
+                record.market_date
+                for path, records in records_by_file.items()
+                if path.name in {"timeline_snapshots", "observation_timeline.jsonl"}
+                for record in records
+                if record.market_date >= cutoff
+            }
+        )
+        if retained_dates:
+            state["count"] = len(retained_dates)
+            state["last_market_date"] = retained_dates[-1].isoformat()
+            state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
         "action": "dry_run" if dry_run else "pruned",
         "cutoff": cutoff.isoformat(),

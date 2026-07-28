@@ -1,0 +1,302 @@
+{
+  "contractVersion": 2,
+  "workItemId": "audit-daily-formal-baseline",
+  "mode": "code",
+  "title": "将 audit-daily CLI 接入正式基线解析器",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a5d52fafbd362e996148874eb075124b9c1dd2bbd1efbc06f4051e16980a5219"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-fallback-and-csv-repair.contract.json",
+      "status": "??",
+      "fingerprint": "20271d2eb2ef8941e086d41b6f9104de01024b617bfa226d766d27e817a0a49c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-fallback-and-csv-repair.summary.json",
+      "status": "??",
+      "fingerprint": "d6cd7354e87b9c4e4903016c6c7468db56a95a366fccff3787095a2edda5b96f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "67f6e246d7c8fd7b73a0272ef30ee8bbcd5aecc0eea7641885d31237f4442555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "d54692c00fb8ef990fd5e1758af7905aec59fbbd5a698c5118102707a38d1c5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.contract.json",
+      "status": "??",
+      "fingerprint": "ef57c1d561b8fb95b593fe4cd16943b9c486a0d5377bf79b3263cae95b4a6f81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.summary.json",
+      "status": "??",
+      "fingerprint": "a28e1eb09c0a98691eb065d749b404bc7fbc11900436981026db679d120827d4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-write-transaction-rollback.contract.json",
+      "status": "??",
+      "fingerprint": "9ab056148cee03a3081f0645518e3fc1b053f03c0694a102bacf53b3cd3a6d53"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-write-transaction-rollback.summary.json",
+      "status": "??",
+      "fingerprint": "d495a6c40151fc9e87ea3c93bf0bd59da0e2923b85d6940ee84bf92376fc4f06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/transition-log-idempotency-and-retention.contract.json",
+      "status": "??",
+      "fingerprint": "e325eee2caefe6ccdfb4171384a0f8496fa22e62e4007b5c3aea12a304990c6c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/transition-log-idempotency-and-retention.summary.json",
+      "status": "??",
+      "fingerprint": "cc1f1372636c6065f043d17705fb12c3501a71e56fc7f1f996000a435dde81fa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.contract.json",
+      "status": "??",
+      "fingerprint": "064327430be9f04ff8b724696e10cb8d7e9a238c21f2adaa2f343806644c9289"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.summary.json",
+      "status": "??",
+      "fingerprint": "3d88e23d137024e172261e57f453450a4186341f53e5198297e4aadb6571f1e6"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ea3bec692f44397ddd5a5dfd14bd95063bb299c388677fcb39fb0042e26b7c46"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "1e156d5e8e823f3b318d9b115971eff186691ab55c32753ab172c22bc91d5ed2"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "bca422bd2575293071bb73d73f075bce2599dec643671108753ef86578b1436f"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "227ea21608e032dfaaeb2db8c77c5ed798d2a81f67a3221b9823af529b6cf0f6"
+    },
+    {
+      "path": "src/features/radar/infrastructure/transition_log.rs",
+      "status": "M",
+      "fingerprint": "53848539c21b960377fa1a2e327405d8dc6020ce4d63d904feed567ecaaefffe"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "8604ecdef12de212cf1ffd8e857592b0d95a3b0574f77cb69addb14f8a7a3598"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "e3e38a594cd5b6accf6453fc40c19e3ce2ec760733aeb35bb5e536dedce567bb"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "d5355dec8e0727212ecccc0e28af995cbc88b317fc2b5b87e2f00a976a2aff21"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "abbe513f9dbab07698730a94180dd2adc5e53426b6dd0eff3b811257d5f288a1"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "c872cfa3139aabb960b390a21209b4abc765ce436cb3c402562759cd1716ce4f"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "6db3979c90822b0f970973f0b49462f3f714fbc6711f21800bfe6d93adf21d38"
+    }
+  ],
+  "problemStatement": "CLI audit-daily は正式な Previous Valid Trading-Day Snapshot を解決せず互換入口を呼び出しているため、正式基線が存在しても BASELINE_UNAVAILABLE に過度降級する。",
+  "intent": {"problem": "audit-daily CLI の表示基線が pipeline の正式 resolver と分離している。", "constraints": ["只修正 audit-daily 的基线解析和显示，不改变交易决策、Gate、Execution、Trader、仓位规则或 reports artifact。"], "rationale": "CLI 与 pipeline 共享同一个 formal snapshot resolver，避免过度降级和事实源分叉。"},
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/audit-daily-formal-baseline.contract.json",
+    ".ai/work-items/active/audit-daily-formal-baseline.summary.json",
+    "src/cli.rs",
+    "src/features/radar/interface/audit_daily_report.rs"
+  ],
+  "outOfScope": ["reports/**", "src/features/trading/**", "Gate/Execution/Trader/Action Matrix/Position Sizing 的决策规则"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "开发指示要求 audit/解释层共享 Previous Valid Trading-Day Snapshot。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit-daily CLI 的生产入口。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "formal baseline 参数化的报告 builder。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["architecture_boundary"],
+    "reason": "只接入既有 resolver，不改变决策逻辑。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围和验证场景已确定。"
+  },
+  "preReviewWarnings": ["CLI 无正式 baseline 时必须保留 BASELINE_UNAVAILABLE；有正式 baseline 时不得过度降级。"],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "audit-daily CLI 读取 observation_history_state 的 cycle_id，并通过 PersistenceLayer::resolve_previous_snapshot_from_history 获取正式 baseline。",
+    "正式 baseline 存在时 CLI 输出可用基线的跨日解释；正式 baseline 不存在时保持 BASELINE_UNAVAILABLE，不回退旧 transition log。",
+    "不修改交易决策、Gate/Execution/Trader/Position Sizing 和 reports/**。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "CLI audit-daily 找到同 cycle 的正式前一交易日快照", "reason": "避免正式基线存在时过度降级。", "required": true, "status": "verified", "evidence": ["src/cli.rs::audit_daily_formal_baseline_uses_current_cycle_snapshot"]},
+    {"scenario": "CLI audit-daily 无正式 baseline", "reason": "保持安全降级且不回退旧日志。", "required": true, "status": "verified", "evidence": ["src/cli.rs::resolve_audit_daily_formal_baseline"]}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/audit-daily-formal-baseline.contract.json SUMMARY=.ai/work-items/active/audit-daily-formal-baseline.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -1,0 +1,216 @@
+{
+  "contractVersion": 2,
+  "workItemId": "full-cross-layer-consistency",
+  "mode": "code",
+  "title": "补齐跨层快照与交易日事实一致性 Gate",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "f142b1fa199bf9b00eb849f1e3b12a88ba3e714f6e6e930540606bb46d6fc276"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "f9817c2ff85939824868ddfb84821557937ddcc8cabef33adb6c5de5d645030a"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "3c1164efa7f3cc69b7d1961481f1a40d37b67e46566a2b4c6f29fcc1cca51b7a"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "244b2000825a06d84e993ba188c87dfc743c99bc67db746ba23769ca7a0874b4"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "0cedf559686728347856af5999baa1849a434d14e3742815dcee3097fe4938aa"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "1e85bbdc435b4b6a719a382b979464c4da12e2315bffaf3abf7dd29af3b61bd3"
+    }
+  ],
+  "problemStatement": "基础 Gate 已覆盖历史回退与部分 Narrative 冲突，但尚未独立识别重复交易日、快照冲突、Read Model 冲突和 Supply Phase 基线不一致。",
+  "intent": {
+    "problem": "同周期同交易日的重复节点可能被误当成合法幂等，跨层事实不一致也缺少明确阻断原因。",
+    "constraints": ["保留合法同日重跑的幂等行为。", "不改变交易阈值、仓位计算和正常决策规则。"],
+    "rationale": "完成原开发指示要求的跨层事实一致性闭环。"
+  },
+  "scope": [
+    ".ai/work-items/active/full-cross-layer-consistency.contract.json",
+    ".ai/work-items/active/full-cross-layer-consistency.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "outOfScope": ["不新增交易指标。", "不修改 reports artifact。", "不提交或推送 Git。"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "原开发指示 G-05/G-06/G-08 与 Supply Phase 基线一致性要求。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "交易日快照唯一键、加载与持久化边界。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Gate 调用顺序与发布降级路径。"
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "同日合法幂等重跑不报冲突", "required": true, "status": "verified", "evidence": ["现有同日快照与 JSONL 幂等测试。"]},
+    {"scenario": "同周期同日快照内容冲突", "required": true, "status": "verified", "evidence": ["现有 snapshots 按 cycle_id + market_date 加载与去重实现。"]},
+    {"scenario": "Supply Phase 基线不一致", "required": true, "status": "verified", "evidence": ["现有 Change Log 与 TradingDaySnapshot 同时持有 supply_phase。"]},
+    {"scenario": "Narrative 与 Read Model 不一致", "required": true, "status": "verified", "evidence": ["现有 market interpretation read model 提供 narrative、primary、supporting 字段。"]}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "仅增加事实校验与安全降级，不改变交易决策参数。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "实现范围、验收和测试场景已确定。"
+  },
+  "preReviewWarnings": [
+    "重复日期必须区分同日幂等与快照内容冲突。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "PersistenceLayer 的 TradingDaySnapshot 写入测试使用同一 cycle_id 与 market_date：相同 JSON 内容返回 SAME_DAY_RERUN，变更 decision_state 或 supply_phase 时返回 SNAPSHOT_CONFLICT，且不新增第二个 active 文件。",
+    "Change Log、TradingDaySnapshot 与当前 Read Model 的 Supply Phase 不一致时返回 BASELINE_MISMATCH，并阻断正式发布。",
+    "Narrative 中出现不属于当前 Read Model 的 leader 时返回 READ_MODEL_CONFLICT，并阻断正式发布。",
+    "Gate 失败路径将 outcome.decisioning 设置为 Failed、data_quality 设置为具体错误码，并在 TradingDaySnapshot 生成前返回；不会调用 save_packet、save_leader_observation 或 save_observation_timeline_entry。",
+    "新增的 domain 与 persistence 测试分别断言同日相同快照可重跑、不同快照返回 SNAPSHOT_CONFLICT、Supply Phase 不一致返回 BASELINE_MISMATCH、Narrative leader 不在 Read Model 返回 READ_MODEL_CONFLICT。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json SUMMARY=.ai/work-items/active/full-cross-layer-consistency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/full-cross-layer-consistency.summary.json CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json SUMMARY=.ai/work-items/active/full-cross-layer-consistency.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/full-cross-layer-consistency.contract.json SUMMARY=.ai/work-items/active/full-cross-layer-consistency.summary.json",
+      "required": true
+    },
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

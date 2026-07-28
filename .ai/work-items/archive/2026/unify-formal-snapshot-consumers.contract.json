@@ -1,0 +1,288 @@
+{
+  "contractVersion": 2,
+  "workItemId": "unify-formal-snapshot-consumers",
+  "mode": "code",
+  "title": "统一正式快照消费者并前移历史回退保护",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "670e24323dfca4e5dc638a861e2102b69a1711a38cc7b58ba4885a0b40f5a555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "67f6e246d7c8fd7b73a0272ef30ee8bbcd5aecc0eea7641885d31237f4442555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "d54692c00fb8ef990fd5e1758af7905aec59fbbd5a698c5118102707a38d1c5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ea3bec692f44397ddd5a5dfd14bd95063bb299c388677fcb39fb0042e26b7c46"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "f9817c2ff85939824868ddfb84821557937ddcc8cabef33adb6c5de5d645030a"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "3c1164efa7f3cc69b7d1961481f1a40d37b67e46566a2b4c6f29fcc1cca51b7a"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "525853bbd57f91b203b55a4868157a0482d9a880d2de59211e57baa9b6e32a76"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "ab0e4e4532f3c64cd773c788e95548d353e12d8127540321f4ea4de6ba517759"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "f8a29ae66a1c228cf2beea406a310e18203ff90d3f9c98b0ae0823b5ff36571f"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "19670ed0a7316201cfe745016046ecb339f166457e9d044a5ad0e37ef4c9e8fe"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "9effe2eacba73f36bf05b9a864e860b704904bcd32b828a0ad9a4014f156125e"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "4d1dbe11c7381ae0ebe0e9d4d199dcf8895e55b555ee723ee6dda7551c7e033d"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "ac35d15a2edee25d719dd0d5571aba218f18e1108b5b40dacf9f46288b8e62b2"
+    }
+  ],
+  "problemStatement": "正式 TradingDaySnapshot が前基線の日付選択にしか使われず、legacy packet / transition log が別基線として残っている。また HISTORY_REGRESSION の検知が正式履歴書き込み後で、部分書き込みを防げない。",
+  "intent": {
+    "problem": "正式快照と旧 packet / transition log の二重基線により、Market Change Log、Leader Persistence、audit daily と主报告が異なる跨日事实を消费し得る。",
+    "constraints": ["不改变交易阈值、仓位计算和正常决策规则。", "不修改 reports artifact，不提交或推送 Git。", "保持同日幂等与 NO_TRADE 安全降级。"],
+    "rationale": "将 PreviousSnapshotResolution 扩展为正式快照事实对象，并把历史回退保护前移到任何正式历史写入之前。"
+  },
+  "scope": [
+    ".ai/work-items/active/unify-formal-snapshot-consumers.contract.json",
+    ".ai/work-items/active/unify-formal-snapshot-consumers.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/domain/observation_timeline.rs"
+  ],
+  "outOfScope": ["不修改 reports artifact。", "不调整交易阈值、仓位规则、Hypothesis 或 Gravity 投资逻辑。", "不重构全部 Layer。", "不提交或推送 Git。"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "正式快照唯一基线、历史回退保护、跨层事实一致性要求。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "TradingDaySnapshot、PreviousSnapshotResolution 与 legacy packet 读取路径。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "跨日基线消费、正式历史写入顺序与 HISTORY_REGRESSION 检查。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Market Change Log、Leader Persistence 和 Rotation/Narrative read model。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "独立 audit daily 的 transition-log 基线与市场解释输出。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "历史追加、同日幂等和回退门禁。"
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "正式快照解析结果同时提供正式快照与兼容展示数据，不能只用 legacy packet 伪装基线", "reason": "消除日期由快照、事实由 packet 的二重基线。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "HISTORY_REGRESSION 在 packet、leader、timeline、snapshot 写入前被阻断", "reason": "避免部分正式历史写入。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "audit daily 与主 read model 使用同一正式基线状态", "reason": "避免 transition log 与 TradingDaySnapshot 分叉。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "同日重跑保持同一 cycle/date 正式快照键并不增加历史节点", "reason": "保持幂等。", "required": false, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "跨层基线和写入顺序风险可由现有 persistence、runner、read model 和 timeline 测试验证。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification 已确定，可在既有跨层边界内实现。"
+  },
+  "preReviewWarnings": [
+    "正式快照必须保持为跨日事实源；兼容 packet 只能用于不具备快照字段的当前 pipeline 输入。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "PreviousSnapshotResolution 新增 formal_snapshot 字段，解析结果中的正式快照 market_date、cycle_id、snapshot_id 和 source_status 可被 runner 直接消费；legacy packet 仅保留为兼容决策输入。",
+    "正式快照缺失或 source_status 非 complete 时，runner 的 Market Change Log 与 Leader Persistence 必须输出 BASELINE_UNAVAILABLE，且 rotation_from/to 为空。",
+    "正式快照可用时，Market Change Log 的 previous date、Leader Persistence 的 previous leader/breadth/confidence 和 Rotation 的 previous 集合必须来自同一 formal_snapshot。",
+    "audit daily 接收统一 PreviousSnapshotResolution 状态；BASELINE_UNAVAILABLE 时不输出 from/to、unchanged、remains 或 shifted 跨日结论。",
+    "HISTORY_REGRESSION 与 InvalidGap 在 save_packet、save_leader_observation、save_observation_timeline_entry、save_trading_day_snapshot 之前阻断；冲突路径不写入正式历史。",
+    "同日重跑保持 cycle_id + market_date 幂等，不增加 observation count 或 persistence day；新增回归测试覆盖上述路径，reports 不发生变更。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json SUMMARY=.ai/work-items/active/unify-formal-snapshot-consumers.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/unify-formal-snapshot-consumers.summary.json CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json SUMMARY=.ai/work-items/active/unify-formal-snapshot-consumers.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/unify-formal-snapshot-consumers.contract.json SUMMARY=.ai/work-items/active/unify-formal-snapshot-consumers.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
