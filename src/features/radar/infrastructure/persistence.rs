@@ -83,6 +83,33 @@ pub(crate) struct HistoryWriteTransaction {
     committed: bool,
 }
 
+/// 一時ファイルを同じディレクトリに作成し、完成後に対象へ原子的に置換する。
+fn write_file_atomically(path: &Path, content: &[u8]) -> Result<()> {
+    let parent = path.parent().unwrap_or(Path::new("."));
+    std::fs::create_dir_all(parent)
+        .with_context(|| format!("原子的書き込み先の作成に失敗: {parent:?}"))?;
+    let mut temporary = tempfile::NamedTempFile::new_in(parent)
+        .with_context(|| format!("原子的書き込み用一時ファイルの作成に失敗: {path:?}"))?;
+    temporary
+        .write_all(content)
+        .with_context(|| format!("原子的書き込み用一時ファイルへの書き込みに失敗: {path:?}"))?;
+    temporary
+        .as_file()
+        .sync_all()
+        .with_context(|| format!("原子的書き込み用一時ファイルの同期に失敗: {path:?}"))?;
+    if let Ok(metadata) = std::fs::metadata(path) {
+        temporary
+            .as_file()
+            .set_permissions(metadata.permissions())
+            .with_context(|| format!("原子的書き込み先の権限設定に失敗: {path:?}"))?;
+    }
+    temporary
+        .persist(path)
+        .map(|_| ())
+        .map_err(|error| error.error)
+        .with_context(|| format!("原子的書き込み先の置換に失敗: {path:?}"))
+}
+
 impl HistoryWriteTransaction {
     pub(crate) fn commit(mut self) {
         self.committed = true;
@@ -343,20 +370,21 @@ impl PersistenceLayer {
     ) -> Result<()> {
         let json = serde_json::to_string_pretty(timeline)
             .context("Failed to serialize observation timeline")?;
-        std::fs::write(
-            self.save_dir.join("observation_timeline_latest.json"),
-            &json,
+        write_file_atomically(
+            &self.save_dir.join("observation_timeline_latest.json"),
+            json.as_bytes(),
         )
         .context("Failed to write latest observation timeline")?;
-        std::fs::write(
-            self.save_dir
+        write_file_atomically(
+            &self
+                .save_dir
                 .join(format!("observation_timeline_{date}.json")),
-            &json,
+            json.as_bytes(),
         )
         .context("Failed to write dated observation timeline")?;
         let dir = self.save_dir.join("timeline_snapshots");
         std::fs::create_dir_all(&dir).context("Failed to create timeline snapshot directory")?;
-        std::fs::write(dir.join(format!("{date}.json")), &json)
+        write_file_atomically(&dir.join(format!("{date}.json")), json.as_bytes())
             .context("Failed to write timeline snapshot")?;
 
         let history_path = self.save_dir.join("observation_timeline.jsonl");
@@ -871,6 +899,26 @@ mod tests {
     use std::fs;
 
     #[test]
+    fn atomic_write_replaces_json_without_leaving_temporary_files() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_atomic_write_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let path = temp_dir.join("observation_timeline_2026-07-29.json");
+        fs::write(&path, b"{\"stale\":true}\n").unwrap();
+
+        write_file_atomically(&path, b"{\"history_coverage\":\"Partial\"}\n").unwrap();
+
+        assert_eq!(
+            fs::read_to_string(&path).unwrap(),
+            "{\"history_coverage\":\"Partial\"}\n"
+        );
+        assert_eq!(fs::read_dir(&temp_dir).unwrap().count(), 1);
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn test_persistence_roundtrip() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_persist_{}",
@@ -1293,6 +1341,14 @@ mod tests {
         let archive =
             fs::read_to_string(temp_dir.join("observation_timeline_latest.json")).unwrap();
         assert!(!archive.contains("过去 7 个交易日"));
+        for path in [
+            temp_dir.join("observation_timeline_latest.json"),
+            temp_dir.join("observation_timeline_2026-07-10.json"),
+            temp_dir.join("timeline_snapshots").join("2026-07-10.json"),
+        ] {
+            let payload = fs::read_to_string(path).unwrap();
+            serde_json::from_str::<ObservationTimeline>(&payload).unwrap();
+        }
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 

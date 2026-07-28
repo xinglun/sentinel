@@ -142,6 +142,21 @@ class PruneDataHistoryTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "invalid JSON"):
                 prune_reports(directory, max_bytes=10, min_days=1, dry_run=False)
 
+    def test_rejects_invalid_dated_observation_timeline_json(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_dir:
+            directory = Path(raw_dir)
+            write_history(directory, "decision_history.jsonl", [{"date": "2026-07-01"}])
+            write_history(directory, "state_transitions.jsonl", [{"date": "2026-07-01"}])
+            (directory / "observation_timeline_2026-07-01.json").write_text(
+                "not-json\n", encoding="utf-8"
+            )
+
+            with self.assertRaisesRegex(
+                ValueError,
+                r"observation_timeline_2026-07-01\.json: line 1 is invalid JSON",
+            ):
+                prune_reports(directory, max_bytes=10, min_days=1, dry_run=False)
+
     def test_prunes_jsonl_and_formal_snapshot_directories_with_one_cutoff(self) -> None:
         with tempfile.TemporaryDirectory() as raw_dir:
             directory = Path(raw_dir)

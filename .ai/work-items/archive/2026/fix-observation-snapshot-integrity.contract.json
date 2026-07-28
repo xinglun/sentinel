@@ -1,0 +1,170 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix-observation-snapshot-integrity",
+  "mode": "code",
+  "title": "修复观察时间线快照的 JSON 完整性",
+  "baseCommit": "679e1daee070b494ef7b8181a962e20b045c1f2b",
+  "baselineDirtyPaths": [],
+  "problemStatement": "CI の prune-data-history が、観察タイムラインの日付別 JSON スナップショットの半書き込みデータを検出して停止する。",
+  "intent": {
+    "problem": "観察タイムラインの JSON スナップショットを原子的に保存し、書き込み中断による不完全な履歴ファイルを防止する。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing の動作は変更しない。",
+      "data branch の既存履歴を自動削除・改変せず、対象は production の保存処理とその回帰テストに限定する。"
+    ],
+    "rationale": "std::fs::write は既存ファイルを先に truncate するため、プロセス中断時に不完全な JSON が残る可能性がある。"
+  },
+  "scope": [
+    ".ai/work-items/active/fix-observation-snapshot-integrity.contract.json",
+    ".ai/work-items/active/fix-observation-snapshot-integrity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": [
+    ".github/workflows/daily_radar.yml",
+    "scripts/prune_data_history.py",
+    "reports/**",
+    "data branch の既存ファイル修復"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "観察タイムラインの日付別 JSON、latest JSON、timeline snapshot を std::fs::write で保存している実装。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "CI 失敗箇所。observation_timeline_*.json を JSON として検証してから保持期間を計算する。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "データ履歴清理の既存回帰テスト。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs#observation_timeline_writes_latest_dated_and_jsonl_artifacts",
+      "reason": "保存された観察タイムラインの artifact 契約を確認する既存テスト。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "観察タイムラインを初回保存すると latest、日付別、timeline_snapshots が生成される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/infrastructure/persistence.rs#observation_timeline_writes_latest_dated_and_jsonl_artifacts"
+      ]
+    },
+    {
+      "scenario": "同一取引日の再実行で既存観察履歴を重複させず、全 JSON artifact が有効である",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/infrastructure/persistence.rs#observation_timeline_upserts_same_trading_date_without_duplicate_events"
+      ]
+    },
+    {
+      "scenario": "プロセス中断時の一時ファイル書き込み失敗からの復旧",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "CI 上のプロセス中断をローカルで再現しない。原子置換実装と通常系テストでリスクを低減する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "履歴保存の artifact integrity に関わるが、変更は persistence の原子置換 helper に限定され、取引判断や既存データの意味を変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification が確定しており、既存の persistence test で検証できる。"
+  },
+  "preReviewWarnings": [
+    "CI 上の実データ branch 復旧は hosted state のため、この Work Item では扱わない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "save_observation_timeline が latest、日付別、timeline_snapshots の各 JSON を一時ファイル経由で原子的に置換する。",
+    "既存の保存テストは latest、日付別、timeline_snapshots の各成果物を生成し、各ファイルを serde_json で読み込める JSON artifact contract を検証する。",
+    "変更対象は表示・監査用 persistence のみで、Gate、execution、trader、action matrix、position sizing のコードを変更しない。",
+    "変更対象ファイル一覧に Telegram、Markdown、CLI、audit daily、weekly review の出力実装を含めず、report output contract も変更しない。",
+    "本 Work Item は data branch の既存 reports を削除・手動修復せず、次回生成時の保存動作だけを変更する。",
+    "zh、en、ja の i18n ファイル、snapshot 契約、contract test の変更差分を作成しない。",
+    "新しい運用 command は追加せず、既存の make test / make clippy で検証する。",
+    "Contract と Summary に checkpoint と required check の実行結果を記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json SUMMARY=.ai/work-items/active/fix-observation-snapshot-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-observation-snapshot-integrity.summary.json CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json SUMMARY=.ai/work-items/active/fix-observation-snapshot-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-observation-snapshot-integrity.contract.json SUMMARY=.ai/work-items/active/fix-observation-snapshot-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

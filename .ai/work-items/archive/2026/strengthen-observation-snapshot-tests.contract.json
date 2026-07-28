@@ -1,0 +1,180 @@
+{
+  "contractVersion": 2,
+  "workItemId": "strengthen-observation-snapshot-tests",
+  "mode": "code",
+  "title": "强化观察时间线快照完整性测试",
+  "baseCommit": "679e1daee070b494ef7b8181a962e20b045c1f2b",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "6971762cf173e36c648c2fa66f5a85229557c1aa3fc39a9585ede3736daf38b5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix-observation-snapshot-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "fa165c4b9b211fcaf75f6631e1ac363c8601a4533259a8c0b53c112f31481983"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/fix-observation-snapshot-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "68c6ff326e8d77b011aeddb0d08bb89f40710b1aefaa57039c0e8b32f6ad4501"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "c79ffa8de6b0524e4dce0311572a3eacb7ac29b14064ffec75129afcaa4e71c6"
+    }
+  ],
+  "problemStatement": "原子書き込み修正後も、実際の三つの観察タイムライン artifact と清理入口の不正 JSON 検出が回帰テストで固定されていない。",
+  "intent": {
+    "problem": "観察タイムラインの保存経路と prune-data-history の検証経路を、実際のファイル契約でテストする。",
+    "constraints": [
+      "production の保存ロジックと data branch の既存ファイルは変更しない。",
+      "Gate、execution、trader、action matrix、position sizing の動作は変更しない。"
+    ],
+    "rationale": "既存テストは helper の置換確認とファイル存在確認に留まり、三つの実 artifact と dated JSON の破損検出を直接固定していない。"
+  },
+  "scope": [
+    ".ai/work-items/active/strengthen-observation-snapshot-tests.contract.json",
+    ".ai/work-items/active/strengthen-observation-snapshot-tests.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "scripts/test_prune_data_history.py"
+  ],
+  "outOfScope": [
+    "src/features/radar/infrastructure/persistence.rs の production writer",
+    "scripts/prune_data_history.py の production logic",
+    ".github/workflows/**",
+    "reports/**",
+    "data branch の既存ファイル修復"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "観察タイムラインの三つの artifact を保存する既存テスト。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "prune_reports の既存 JSON 検証テスト。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "dated observation timeline を read_records で検証する清理実装。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "三つの観察タイムライン artifact が保存後に JSON として読める",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/radar/infrastructure/persistence.rs"]
+    },
+    {
+      "scenario": "dated observation timeline の不正 JSON が prune_reports で拒否される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/test_prune_data_history.py"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "テスト限定の変更で、保存形式と清理拒否動作を明確に固定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "テスト対象、境界、検証コマンドが確定している。"
+  },
+  "preReviewWarnings": [
+    "production writer と data branch は scope 外とする。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "既存の観察タイムライン保存テストが latest JSON、日付別 JSON、timeline_snapshots JSON の三ファイルを serde_json で読み込む。",
+    "prune_data_history のテストが observation_timeline_2026-07-01.json の不正 JSON を invalid JSON として拒否する。",
+    "git diff の対象を persistence test、prune test、Work Item evidence、Cockpit status に限定し、production writer、workflow、reports、data branch の既存データを変更しない。",
+    "Gate、execution、trader、action matrix、position sizing の production code と Telegram、Markdown、CLI の出力契約を変更しない。",
+    "zh、en、ja の i18n ファイルを変更せず、新しい運用 command と Make target を追加しない。",
+    "Contract、Summary、Cockpit status に required verification と checkpoint を記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make test-data-history-retention",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json SUMMARY=.ai/work-items/active/strengthen-observation-snapshot-tests.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/strengthen-observation-snapshot-tests.summary.json CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json SUMMARY=.ai/work-items/active/strengthen-observation-snapshot-tests.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/strengthen-observation-snapshot-tests.contract.json SUMMARY=.ai/work-items/active/strengthen-observation-snapshot-tests.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
