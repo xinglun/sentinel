@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import subprocess
 
-from ai_check_guards import detect
+from ai_check_guards import detect, guard_paths
 
 
 def assert_kinds(items: list[object], expected: list[str], message: str) -> None:
@@ -41,6 +41,15 @@ def test_config_toml_with_contract_scope_passes() -> None:
 def test_forbidden_write_cannot_be_authorized() -> None:
     items = detect(["reports/daily.md"], [["reports/daily.md"]])
     assert_kinds(items, ["forbidden_write", "forbidden_boundary"], "forbidden path must remain blocked")
+
+
+def test_deleted_runtime_artifact_is_allowed_but_modified_artifact_is_blocked() -> None:
+    deleted = guard_paths([("D", "reports/old-runtime.json")])
+    modified = guard_paths([("M", "reports/current-runtime.json")])
+    if deleted:
+        raise AssertionError(f"deleted runtime artifact must be excluded from guard writes: {deleted!r}")
+    if modified != ["reports/current-runtime.json"]:
+        raise AssertionError(f"modified runtime artifact must remain guarded: {modified!r}")
 
 
 def test_regular_production_change_also_requires_contract() -> None:
@@ -79,6 +88,7 @@ def main() -> int:
         test_config_toml_manual_change_passes_without_contract_scope,
         test_config_toml_with_contract_scope_passes,
         test_forbidden_write_cannot_be_authorized,
+        test_deleted_runtime_artifact_is_allowed_but_modified_artifact_is_blocked,
         test_regular_production_change_also_requires_contract,
         test_archived_contract_is_evidence_not_recursive_scope_target,
         test_ai_yaml_files_parse,

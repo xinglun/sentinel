@@ -56,20 +56,40 @@ def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["git", *args], cwd=PROJECT_ROOT, text=True, capture_output=True, check=False)
 
 
-def changed_paths() -> list[str]:
+def changed_name_status() -> list[tuple[str, str]]:
     diff_base = os.environ.get("AI_DIFF_BASE", "").strip()
-    args = ["diff", "--name-only", f"{diff_base}...HEAD"] if diff_base else ["diff", "--name-only", "HEAD"]
+    args = ["diff", "--name-status", f"{diff_base}...HEAD"] if diff_base else ["diff", "--name-status", "HEAD"]
     result = run_git(args)
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip())
-    paths = [line.strip() for line in result.stdout.splitlines() if line.strip()]
+    changes: list[tuple[str, str]] = []
+    for line in result.stdout.splitlines():
+        parts = line.split("\t")
+        if len(parts) >= 2:
+            changes.append((parts[0], parts[-1]))
     if diff_base:
-        return sorted(set(paths))
+        return changes
     untracked = run_git(["ls-files", "--others", "--exclude-standard"])
     if untracked.returncode != 0:
         raise RuntimeError(untracked.stderr.strip())
-    paths.extend(line.strip() for line in untracked.stdout.splitlines() if line.strip())
-    return sorted(set(paths))
+    changes.extend(("A", line.strip()) for line in untracked.stdout.splitlines() if line.strip())
+    return changes
+
+
+def guard_paths(changes: list[tuple[str, str]]) -> list[str]:
+    """削除された runtime artifact は cleanup として許可し、他の差分は検査する。"""
+    skipped_patterns = ("reports/**", "target/**")
+    return sorted(
+        {
+            path
+            for status, path in changes
+            if not (status.startswith("D") and any(matches(pattern, path) for pattern in skipped_patterns))
+        }
+    )
+
+
+def changed_paths() -> list[str]:
+    return guard_paths(changed_name_status())
 
 
 def parse_manifest(path: Path) -> dict[str, dict[str, str]]:
