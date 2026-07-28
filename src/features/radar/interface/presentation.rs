@@ -242,6 +242,7 @@ pub struct BreakoutItemViewModel {
     pub reason: String,
     pub strength_value: String,
     pub quality_value: String,
+    pub consecutive_days: usize,
     #[serde(default)]
     pub failed_risk_value: Option<String>,
 }
@@ -707,4 +708,20 @@ pub struct TerminalRowViewModel {
     pub action_label: String,
     pub owner_dev_label: String,
     pub strength_z_label: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::BreakoutItemViewModel;
+
+    #[test]
+    fn breakout_item_keeps_consecutive_days_in_serialized_read_model() {
+        let item = BreakoutItemViewModel {
+            symbol: "SPY".to_string(),
+            consecutive_days: 3,
+            ..Default::default()
+        };
+        let value = serde_json::to_value(item).unwrap();
+        assert_eq!(value["consecutive_days"], 3);
+    }
 }

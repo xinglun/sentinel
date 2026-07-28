@@ -603,7 +603,9 @@ pub(crate) async fn run_pipeline(
                     primary_leader: (!current_leadership_snapshot.primary_leader_value.is_empty())
                         .then_some(current_leadership_snapshot.primary_leader_value.clone()),
                     secondary_leaders: current_leadership_snapshot.secondary_leaders_values.clone(),
-                    breakouts: serde_json::json!({}),
+                    breakouts: build_breakout_snapshot_projection(
+                        &pres_packet.breakout_summary.items,
+                    ),
                     stability: 0.0,
                     continuity: history_after.len(),
                     cycle_length_days: history_after.len(),
@@ -1122,6 +1124,26 @@ fn contains_reference_status_token(trimmed: &str) -> bool {
         || trimmed.contains("READY")
         || trimmed.contains("WATCH")
         || trimmed.contains("FAILED")
+}
+
+fn build_breakout_snapshot_projection(
+    items: &[crate::features::radar::interface::presentation::BreakoutItemViewModel],
+) -> serde_json::Value {
+    items
+        .iter()
+        .map(|item| {
+            (
+                item.symbol.clone(),
+                serde_json::json!({
+                    "state": item.status_label,
+                    "strength": item.strength_value,
+                    "quality": item.quality_value,
+                    "consecutive_days": item.consecutive_days
+                }),
+            )
+        })
+        .collect::<serde_json::Map<String, serde_json::Value>>()
+        .into()
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -1733,5 +1755,23 @@ Boundary: context only; no Gate input or trade instruction.
             latest_observed_at: chrono::NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             stale_days: 0,
         }
+    }
+
+    #[test]
+    fn breakout_snapshot_projection_preserves_existing_read_model_facts() {
+        let projection = super::build_breakout_snapshot_projection(&[
+            crate::features::radar::interface::presentation::BreakoutItemViewModel {
+                symbol: "SPY".to_string(),
+                status_label: "BREAKOUT_EMERGING".to_string(),
+                strength_value: "81".to_string(),
+                quality_value: "100".to_string(),
+                consecutive_days: 4,
+                ..Default::default()
+            },
+        ]);
+        assert_eq!(projection["SPY"]["state"], "BREAKOUT_EMERGING");
+        assert_eq!(projection["SPY"]["strength"], "81");
+        assert_eq!(projection["SPY"]["quality"], "100");
+        assert_eq!(projection["SPY"]["consecutive_days"], 4);
     }
 }

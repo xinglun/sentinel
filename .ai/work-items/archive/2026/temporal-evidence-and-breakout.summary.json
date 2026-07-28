@@ -1,0 +1,177 @@
+{
+  "workItemId": "temporal-evidence-and-breakout",
+  "contractPath": ".ai/work-items/archive/2026/temporal-evidence-and-breakout.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "reason": "Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "reason": "証拠と検証結果を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を生成した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式快照の breakout 投影を受け入れる。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "現行 breakout read model を TradingDaySnapshot.breakouts に投影する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "BreakoutItemViewModel に consecutive_days を追加する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "既存 breakout_age を read model の consecutive_days に渡す。"
+    },
+    {
+      "path": "reports/temporal_consistency_evidence_2026-07-28.json",
+      "reason": "五日連続性と安全降級の決定性証拠。"
+    }
+  ],
+  "sourcesUsed": [
+    "pasted-text.txt",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "breakout projection reuses existing presentation values and does not change evaluator logic."
+  },
+  "generatedFiles": [
+    "reports/temporal_consistency_evidence_2026-07-28.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract scope、acceptance、verification を確定した。",
+      "contractHash": "33a7b18a7eca93e4",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "breakout read model と快照 projection の境界を確認した。",
+      "contractHash": "33a7b18a7eca93e4",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "targeted test と fmt を通過した。",
+      "contractHash": "33a7b18a7eca93e4",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全量 verification と quality を通過した。",
+      "contractHash": "33a7b18a7eca93e4",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Acceptance を具体化した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "既存 breakout evaluator を変更しない境界を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Compile、targeted test、fmt を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Required checks と quality を通過した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "breakout projection と五日确定性证据已补齐。",
+    "expectedReviewFocus": [
+      "快照 breakout 字段与 read model 一致性",
+      "五日证据场景是否覆盖验收要求"
+    ]
+  }
+}

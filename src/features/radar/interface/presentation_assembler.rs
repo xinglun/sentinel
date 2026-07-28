@@ -902,6 +902,7 @@ impl PresentationAssembler {
                     reason,
                     strength_value: format!("{:.0}", breakout.breakout_strength),
                     quality_value: format!("{:.0}", breakout.breakout_quality),
+                    consecutive_days: breakout.breakout_age,
                     failed_risk_value: if breakout.failed_breakout_risk
                         >= failed_risk_display_threshold
                     {
@@ -1346,5 +1347,23 @@ impl PresentationAssembler {
                 .replace("{count}", &same_reason_peers.to_string());
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
+    }
+}
+
+#[cfg(test)]
+mod breakout_projection_tests {
+    use super::PresentationAssembler;
+    use crate::features::radar::domain::breakout_detection::BreakoutStatus;
+    use crate::features::shared::interface::i18n::Language;
+
+    #[test]
+    fn breakout_age_is_rendered_as_the_same_day_number_used_by_the_snapshot() {
+        let label = PresentationAssembler::format_breakout_status_with_age(
+            "Emerging",
+            BreakoutStatus::EmergingBreakout,
+            4,
+            Language::EnUs,
+        );
+        assert_eq!(label, "Emerging (Day 4)");
     }
 }
