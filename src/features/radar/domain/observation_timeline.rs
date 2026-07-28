@@ -23,6 +23,30 @@ pub enum HistoryCoverage {
     Unavailable,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HistoryProgression {
+    Appended,
+    SameDayRerun,
+    HistoryRegression,
+    InvalidGap,
+}
+
+pub fn validate_history_progression(
+    previous_count: usize,
+    current_count: usize,
+    same_market_date: bool,
+) -> HistoryProgression {
+    if current_count < previous_count {
+        HistoryProgression::HistoryRegression
+    } else if same_market_date && current_count == previous_count {
+        HistoryProgression::SameDayRerun
+    } else if !same_market_date && current_count == previous_count + 1 {
+        HistoryProgression::Appended
+    } else {
+        HistoryProgression::InvalidGap
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct ObservationTimelineEntry {
     pub date: NaiveDate,
@@ -273,5 +297,21 @@ mod tests {
             assert_eq!(timeline.history_coverage, HistoryCoverage::Partial);
             assert_eq!(timeline.summary, "LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE");
         }
+    }
+
+    #[test]
+    fn history_progression_rejects_regression_and_accepts_append_or_rerun() {
+        assert_eq!(
+            validate_history_progression(2, 1, false),
+            HistoryProgression::HistoryRegression
+        );
+        assert_eq!(
+            validate_history_progression(2, 3, false),
+            HistoryProgression::Appended
+        );
+        assert_eq!(
+            validate_history_progression(2, 2, true),
+            HistoryProgression::SameDayRerun
+        );
     }
 }

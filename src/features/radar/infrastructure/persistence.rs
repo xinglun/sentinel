@@ -24,6 +24,12 @@ pub struct PreviousSnapshotResolution {
     pub reason: Option<String>,
 }
 
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct ObservationHistoryState {
+    pub count: usize,
+    pub last_market_date: chrono::NaiveDate,
+}
+
 #[derive(Clone)]
 pub struct PersistenceLayer {
     history_path: PathBuf,
@@ -154,10 +160,7 @@ impl PersistenceLayer {
         entry: ObservationTimelineEntry,
         expected_trading_dates: &[chrono::NaiveDate],
     ) -> Result<ObservationTimeline> {
-        let mut entries = self
-            .load_latest_observation_timeline()?
-            .map(|timeline| timeline.entries)
-            .unwrap_or_default();
+        let mut entries = self.load_observation_history_entries()?;
         entries.retain(|existing| existing.date != entry.date);
         entries.push(entry);
         let timeline =
@@ -167,6 +170,47 @@ impl PersistenceLayer {
             );
         self.save_observation_timeline(&timeline, &entries.last().unwrap().date.to_string())?;
         Ok(timeline)
+    }
+
+    /// 正式な cycle history を trading date 単位で一意に読み込む。
+    pub fn load_observation_history_entries(&self) -> Result<Vec<ObservationTimelineEntry>> {
+        let path = self.save_dir.join("observation_timeline.jsonl");
+        if !path.exists() {
+            return Ok(Vec::new());
+        }
+        let file = File::open(path).context("Failed to open observation_timeline.jsonl")?;
+        let mut by_date = std::collections::BTreeMap::new();
+        for line in BufReader::new(file).lines().map_while(Result::ok) {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let timeline: ObservationTimeline = serde_json::from_str(&line)
+                .context("Failed to deserialize observation timeline history")?;
+            for entry in timeline.entries {
+                by_date.insert(entry.date, entry);
+            }
+        }
+        Ok(by_date.into_values().collect())
+    }
+
+    pub fn load_observation_history_state(&self) -> Result<Option<ObservationHistoryState>> {
+        let path = self.save_dir.join("observation_history_state.json");
+        if !path.exists() {
+            return Ok(None);
+        }
+        let value = serde_json::from_str(
+            &std::fs::read_to_string(path).context("Failed to read observation history state")?,
+        )
+        .context("Failed to deserialize observation history state")?;
+        Ok(Some(value))
+    }
+
+    pub fn save_observation_history_state(&self, state: &ObservationHistoryState) -> Result<()> {
+        let path = self.save_dir.join("observation_history_state.json");
+        let json = serde_json::to_string_pretty(state)
+            .context("Failed to serialize observation history state")?;
+        std::fs::write(path, json).context("Failed to write observation history state")?;
+        Ok(())
     }
 
     pub fn load_latest_packet(&self) -> Result<Option<DecisionPacket>> {
@@ -717,6 +761,49 @@ mod tests {
             .filter(|line| !line.trim().is_empty())
             .count();
         assert_eq!(lines, 1);
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn observation_history_keeps_all_valid_cycle_dates_beyond_display_window() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_timeline_full_history_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let start = NaiveDate::from_ymd_opt(2026, 6, 1).unwrap();
+
+        for offset in 0..8 {
+            let date = start + chrono::Duration::days(offset);
+            layer
+                .save_observation_timeline_entry(
+                    ObservationTimelineEntry {
+                        date,
+                        primary_leader: format!("L{offset}"),
+                        secondary_leaders: Vec::new(),
+                        breadth_score: offset as f64,
+                        concentration_score: 0.0,
+                        rotation_score: 0.0,
+                        confidence_index: 0.0,
+                        market_state: "STARTUP".to_string(),
+                        supply_phase: "UNAVAILABLE".to_string(),
+                        risk_state: "NORMAL".to_string(),
+                        day_type: "NORMAL".to_string(),
+                    },
+                    &[date],
+                )
+                .unwrap();
+        }
+
+        let history = layer.load_observation_history_entries().unwrap();
+        assert_eq!(history.len(), 8);
+        assert_eq!(history.first().unwrap().date, start);
+        assert_eq!(
+            history.last().unwrap().date,
+            start + chrono::Duration::days(7)
+        );
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }

@@ -82,8 +82,17 @@ pub(crate) async fn run_pipeline(
     let config_arc = Arc::new(app_config);
     let domain_rules_arc = Arc::new(domain_rules);
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
-    let radar_context =
-        crate::features::radar::application::radar::RadarRunContext::new(chrono::Local::now());
+    let now = chrono::Local::now();
+    let report_date = now.date_naive();
+    let market_date = recent_trading_dates(report_date)
+        .into_iter()
+        .filter(|date| *date <= report_date)
+        .max()
+        .unwrap_or(report_date);
+    let radar_context = crate::features::radar::application::radar::RadarRunContext {
+        date: market_date,
+        timestamp: now.to_rfc3339(),
+    };
     let save_dir = save_dir.as_path();
     if !save_dir.exists() {
         std::fs::create_dir_all(save_dir).context("Failed to create output directory")?;
@@ -361,7 +370,11 @@ pub(crate) async fn run_pipeline(
                 dict: &dict,
             },
         ));
-        let current_leadership_snapshot = build_leadership_snapshot_view_model(&pres_packet, lang);
+        let mut current_leadership_snapshot =
+            build_leadership_snapshot_view_model(&pres_packet, lang);
+        if baseline_packet.is_none() {
+            current_leadership_snapshot.leadership_confidence_value = "LOW".to_string();
+        }
         pres_packet.leadership_snapshot = Some(current_leadership_snapshot.clone());
         pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
         pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
@@ -372,6 +385,19 @@ pub(crate) async fn run_pipeline(
                 &current_leadership_snapshot,
                 lang,
             );
+        if baseline_packet.is_none() {
+            if let Some(interpretation) = pres_packet.market_interpretation.as_mut() {
+                interpretation.rotation_type_value = "BASELINE_UNAVAILABLE".to_string();
+                interpretation.rotation_from_values.clear();
+                interpretation.rotation_to_values.clear();
+                interpretation.rotation_interpretation_value =
+                    "Rotation cannot be determined without a valid baseline.".to_string();
+                interpretation.narrative_values = vec![
+                    "Cross-day narrative cannot be determined without a valid baseline."
+                        .to_string(),
+                ];
+            }
+        }
         pres_packet.leader_persistence =
             build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
                 persisted_observations: &leader_observations,
@@ -379,7 +405,25 @@ pub(crate) async fn run_pipeline(
                 current_presentation: &pres_packet,
                 language: lang,
                 baseline_date: previous_trading_date,
+                baseline_status: match previous_snapshot_resolution.status {
+                    crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::Available => "AVAILABLE",
+                    crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable => "BASELINE_UNAVAILABLE",
+                },
             });
+        if baseline_packet.is_none() {
+            if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
+                persistence.persistence_days = 0;
+                persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.leadership_score = 0.0;
+            }
+            for item in &mut pres_packet.breakout_summary.items {
+                item.status_label = "BASELINE_UNAVAILABLE".to_string();
+            }
+        }
         let previous_market_interpretation = match (
             prev_packet,
             previous_presentation.as_ref(),
@@ -413,6 +457,114 @@ pub(crate) async fn run_pipeline(
             lang,
         ));
 
+        let history_before = runtime_services
+            .persistence
+            .load_observation_history_entries()?;
+        let history_state_before = runtime_services
+            .persistence
+            .load_observation_history_state()?;
+        let same_market_date = history_before.iter().any(|entry| entry.date == packet.date);
+        if should_persist_history {
+            runtime_services.persistence.save_packet(&packet)?;
+            if let Some(observation) = build_leader_observation(&packet, &pres_packet) {
+                runtime_services
+                    .persistence
+                    .save_leader_observation(&observation)?;
+            }
+            if let Some(timeline_entry) =
+                build_observation_timeline_entry(&packet, &pres_packet, &current_supply_phase)
+            {
+                let expected_dates = recent_trading_dates(packet.date);
+                runtime_services
+                    .persistence
+                    .save_observation_timeline_entry(timeline_entry, &expected_dates)?;
+            }
+        }
+        let history_after = runtime_services
+            .persistence
+            .load_observation_history_entries()?;
+        let history_progression =
+            crate::features::radar::domain::observation_timeline::validate_history_progression(
+                history_before.len(),
+                history_after.len(),
+                same_market_date,
+            );
+        let mut history_blocked = should_persist_history
+            && matches!(
+                history_progression,
+                crate::features::radar::domain::observation_timeline::HistoryProgression::HistoryRegression
+                | crate::features::radar::domain::observation_timeline::HistoryProgression::InvalidGap
+            );
+        if should_persist_history {
+            if let Some(previous_state) = history_state_before.as_ref() {
+                let state_regressed = if packet.date > previous_state.last_market_date {
+                    history_after.len() != previous_state.count + 1
+                } else if packet.date == previous_state.last_market_date {
+                    history_after.len() != previous_state.count
+                } else {
+                    true
+                };
+                history_blocked |= state_regressed;
+            }
+        }
+        let safe_downgrade = history_blocked || baseline_packet.is_none();
+        if safe_downgrade {
+            if let Some(snapshot) = pres_packet.leadership_snapshot.as_mut() {
+                snapshot.leadership_confidence_value = "LOW".to_string();
+            }
+            if let Some(interpretation) = pres_packet.market_interpretation.as_mut() {
+                interpretation.leadership_classification_value = "LOW".to_string();
+                interpretation.overall_confidence_value = "LOW".to_string();
+                interpretation.trend_confidence_value = "LOW".to_string();
+                interpretation.rotation_type_value = "UNAVAILABLE".to_string();
+                interpretation.rotation_from_values.clear();
+                interpretation.rotation_to_values.clear();
+                interpretation.narrative_values = vec![
+                    "Cross-day narrative cannot be determined from the current history status."
+                        .to_string(),
+                ];
+            }
+            if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
+                persistence.persistence_days = 0;
+                persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
+                persistence.leadership_score = 0.0;
+            }
+            for item in &mut pres_packet.breakout_summary.items {
+                item.status_label = "BASELINE_UNAVAILABLE".to_string();
+            }
+        }
+        if history_blocked {
+            if let Some(change_log) = pres_packet.market_change_log.as_mut() {
+                change_log.baseline_status = "HISTORY_REGRESSION".to_string();
+                change_log.change_status = "HISTORY_REGRESSION".to_string();
+                change_log.leader_value = current_leadership_snapshot.primary_leader_value.clone();
+                change_log.risk_value = "HISTORY_REGRESSION".to_string();
+                change_log.confidence_value = "UNAVAILABLE".to_string();
+                change_log.structural_change_value = "UNAVAILABLE".to_string();
+                change_log.change_level = "UNAVAILABLE".to_string();
+                change_log.change_drivers.clear();
+                change_log.unchanged_dimensions.clear();
+                change_log.summary = "HISTORY_REGRESSION".to_string();
+                change_log.summary_values = vec![
+                    "History regression detected; cross-day conclusions are unavailable."
+                        .to_string(),
+                ];
+            }
+        } else if should_persist_history {
+            runtime_services
+                .persistence
+                .save_observation_history_state(
+                    &crate::features::radar::infrastructure::persistence::ObservationHistoryState {
+                        count: history_after.len(),
+                        last_market_date: packet.date,
+                    },
+                )?;
+        }
+
         let default_trading_config = config::TradingConfig {
             enabled: false,
             global_budget: 0.0,
@@ -423,9 +575,17 @@ pub(crate) async fn run_pipeline(
             .as_ref()
             .unwrap_or(&default_trading_config);
         let trading_limits = TradingLimits {
-            enabled: trading_config.enabled,
-            global_budget: trading_config.global_budget,
-            max_daily_budget: trading_config.max_daily_budget,
+            enabled: trading_config.enabled && !safe_downgrade,
+            global_budget: if safe_downgrade {
+                0.0
+            } else {
+                trading_config.global_budget
+            },
+            max_daily_budget: if safe_downgrade {
+                Some(0.0)
+            } else {
+                trading_config.max_daily_budget
+            },
         };
         let delivery_plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
             packet: &packet,
@@ -465,21 +625,7 @@ pub(crate) async fn run_pipeline(
         outcome.date = packet.date.to_string();
 
         if should_persist_history {
-            runtime_services.persistence.save_packet(&packet)?;
             runtime_services.persistence.save_daily_packet(&packet)?;
-            if let Some(observation) = build_leader_observation(&packet, &pres_packet) {
-                runtime_services
-                    .persistence
-                    .save_leader_observation(&observation)?;
-            }
-            if let Some(timeline_entry) =
-                build_observation_timeline_entry(&packet, &pres_packet, &current_supply_phase)
-            {
-                let expected_dates = recent_trading_dates(packet.date);
-                runtime_services
-                    .persistence
-                    .save_observation_timeline_entry(timeline_entry, &expected_dates)?;
-            }
             if let Some(log) = &packet.transition_log {
                 let _ = runtime_services
                     .transition_logger
@@ -1000,7 +1146,7 @@ fn build_market_change_log_view_model(
         };
         return crate::features::radar::interface::presentation::MarketChangeLogViewModel {
             baseline_status: "BASELINE_UNAVAILABLE".to_string(),
-            change_status: "UNAVAILABLE".to_string(),
+            change_status: "BASELINE_UNAVAILABLE".to_string(),
             title: "Market Change Log".to_string(),
             leader_label: "Leader".to_string(),
             leader_value: current_leader,

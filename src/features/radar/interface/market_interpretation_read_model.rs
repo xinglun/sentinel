@@ -10,6 +10,20 @@ use crate::features::radar::interface::presentation::{
 };
 use crate::features::shared::interface::i18n::Language;
 
+fn rotation_delta(previous: &[String], current: &[String]) -> (Vec<String>, Vec<String>) {
+    let exited = previous
+        .iter()
+        .filter(|symbol| !current.contains(symbol))
+        .cloned()
+        .collect();
+    let entered = current
+        .iter()
+        .filter(|symbol| !previous.contains(symbol))
+        .cloned()
+        .collect();
+    (exited, entered)
+}
+
 pub(crate) fn build_market_interpretation_view_model(
     packet: &DecisionPacket,
     pres_packet: &PresentationPacket,
@@ -55,7 +69,7 @@ pub(crate) fn build_market_interpretation_view_model(
 
     let (breadth_score, concentration_score, rotation_score, concentration_label_text) =
         concentration_scores(trend_breadth_mode, market_cycle_position, language);
-    let rotation_type = rotation_type(&RotationTypeInput {
+    let mut rotation_type = rotation_type(&RotationTypeInput {
         primary_context,
         trend_breadth_mode,
         market_cycle_position,
@@ -66,19 +80,24 @@ pub(crate) fn build_market_interpretation_view_model(
         language,
     });
 
-    let rotation_from_values = if leadership_snapshot.watchlist_leaders_values.is_empty() {
+    let previous_rotation_values = if leadership_snapshot.watchlist_leaders_values.is_empty() {
         vec![leadership_snapshot.primary_leader_value.clone()]
     } else {
         leadership_snapshot.watchlist_leaders_values.clone()
     };
-    let mut rotation_to_values = vec![leadership_snapshot.primary_leader_value.clone()];
+    let mut current_rotation_values = vec![leadership_snapshot.primary_leader_value.clone()];
     let additional_supporting: Vec<String> = leadership_snapshot
         .secondary_leaders_values
         .iter()
-        .filter(|symbol| !rotation_to_values.contains(symbol))
+        .filter(|symbol| !current_rotation_values.contains(symbol))
         .cloned()
         .collect();
-    rotation_to_values.extend(additional_supporting);
+    current_rotation_values.extend(additional_supporting);
+    let (rotation_from_values, rotation_to_values) =
+        rotation_delta(&previous_rotation_values, &current_rotation_values);
+    if rotation_from_values.is_empty() && rotation_to_values.is_empty() {
+        rotation_type = "no_rotation".to_string();
+    }
 
     let rotation_interpretation_value = rotation_interpretation(
         &rotation_type,
@@ -317,6 +336,7 @@ pub(crate) struct LeaderPersistenceReadModelInput<'a> {
     pub current_presentation: &'a PresentationPacket,
     pub language: Language,
     pub baseline_date: Option<chrono::NaiveDate>,
+    pub baseline_status: &'a str,
 }
 
 pub(crate) fn build_leader_persistence_view_model(
@@ -341,11 +361,12 @@ pub(crate) fn build_leader_persistence_view_model(
         })
         .cloned()
         .collect::<Vec<_>>();
-    let baseline_available = input.baseline_date.is_some_and(|date| {
-        observations
-            .iter()
-            .any(|observation| observation.date == date)
-    });
+    let baseline_available = input.baseline_status == "AVAILABLE"
+        && input.baseline_date.is_some_and(|date| {
+            observations
+                .iter()
+                .any(|observation| observation.date == date)
+        });
     if !baseline_available {
         observations.clear();
     }
@@ -2113,6 +2134,17 @@ mod tests {
     }
 
     #[test]
+    fn rotation_delta_does_not_report_retained_leader_as_rotation() {
+        let previous = vec!["TSLA".to_string()];
+        let current = vec!["TSLA".to_string(), "ISRG".to_string(), "SPCX".to_string()];
+
+        let (exited, entered) = rotation_delta(&previous, &current);
+
+        assert!(exited.is_empty());
+        assert_eq!(entered, vec!["ISRG", "SPCX"]);
+    }
+
+    #[test]
     fn read_model_assembles_persisted_streak_and_marks_missing_history_as_degraded() {
         let start = NaiveDate::from_ymd_opt(2026, 1, 1).unwrap();
         let observations = (0..25)
@@ -2156,6 +2188,7 @@ mod tests {
             current_presentation: &presentation,
             language: Language::ZhCn,
             baseline_date: Some(packet.date - Duration::days(1)),
+            baseline_status: "AVAILABLE",
         })
         .unwrap();
 
@@ -2202,6 +2235,7 @@ mod tests {
                 current_presentation: &presentation,
                 language,
                 baseline_date: Some(previous.date),
+                baseline_status: "AVAILABLE",
             })
             .unwrap();
             assert!(view_model
@@ -2232,6 +2266,7 @@ mod tests {
             current_presentation: &presentation,
             language: Language::EnUs,
             baseline_date: None,
+            baseline_status: "BASELINE_UNAVAILABLE",
         })
         .unwrap();
 
@@ -2270,6 +2305,7 @@ mod tests {
             current_presentation: &presentation,
             language: Language::EnUs,
             baseline_date: Some(current_date - Duration::days(1)),
+            baseline_status: "BASELINE_UNAVAILABLE",
         })
         .unwrap();
 
