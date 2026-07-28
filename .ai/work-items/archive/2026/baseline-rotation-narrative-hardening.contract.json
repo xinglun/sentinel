@@ -1,0 +1,256 @@
+{
+  "contractVersion": 2,
+  "workItemId": "baseline-rotation-narrative-hardening",
+  "mode": "code",
+  "title": "统一正式快照基线并修复 Rotation Narrative 与快照冲突顺序",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ea511185478d18c303964dc5207e0a244e43c4c88dc202795000764aaf36dbbc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "f9817c2ff85939824868ddfb84821557937ddcc8cabef33adb6c5de5d645030a"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "3c1164efa7f3cc69b7d1961481f1a40d37b67e46566a2b4c6f29fcc1cca51b7a"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "b942f4e4ab4566f3292d353acdb4685bdd501b34e05aa8a5e17af5afb073791a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "0b17ebae5dc23b9ab40a0b3ab7d940b48ebc6725bb4c3e64267165cc630fd6c6"
+    }
+  ],
+  "problemStatement": "正式な TradingDaySnapshot を基線の唯一の事実源にし、快照冲突在任何正式历史写入前阻断，并修正 Rotation/Narrative 的事实来源。",
+  "intent": {
+    "problem": "当前基线解析在正式快照与 legacy packet 历史之间回退，快照冲突发生在部分历史写入之后，Rotation 使用当前 watchlist 伪造上一日，Narrative 仍含 GOOG 硬编码事实源。",
+    "constraints": ["保留合法同日重跑的幂等行为。", "不改变交易阈值、仓位计算和正常决策规则。", "不修改 reports artifact，不提交或推送 Git。"],
+    "rationale": "补齐原开发指示中统一 Previous Valid Trading-Day Snapshot、跨层事实一致性和 Rotation/Narrative 真实性要求。"
+  },
+  "scope": [
+    ".ai/work-items/active/baseline-rotation-narrative-hardening.contract.json",
+    ".ai/work-items/active/baseline-rotation-narrative-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "tests/snapshots/audit_daily_zh_cn.txt",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt"
+  ],
+  "outOfScope": ["不新增交易指标。", "不修改 reports artifact。", "不修改 Hypothesis/Gravity 投资逻辑。", "不提交或推送 Git。"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "原开发指示中 PreviousSnapshot、Rotation、Narrative、快照冲突与安全降级要求。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式 TradingDaySnapshot 的加载、唯一键与写入边界。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "基线解析、Gate 调用顺序及正式历史写入路径。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Rotation 和 Narrative Read Model 的当前实现。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "审计日报的独立 Market Interpretation、Rotation 和 Narrative 输出。"
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "正式快照缺失时不回退到 legacy packet 作为跨日基线", "reason": "防止不同历史层产生不同 previous baseline。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "快照语义冲突在 packet/leader/timeline 写入前阻断", "reason": "避免冲突运行留下部分正式历史。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "Rotation 正确计算 retained/entered/exited", "reason": "避免把当前 watchlist 当作上一日 rotation。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "Narrative 不依赖硬编码 GOOG 并消费当前 Read Model", "reason": "避免旧事实或不存在 leader 进入自然语言。", "required": false, "status": "unverified", "evidence": []},
+    {"scenario": "Make 清理入口与 GitHub Actions 使用同一默认策略", "reason": "保证超过容量时可复用同一清理逻辑。", "required": false, "status": "unverified", "evidence": []}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "涉及跨日基线和持久化顺序，但不改变交易决策参数；必须通过回归测试确认写入顺序与事实源。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围、事实源、验收和验证场景已确定，可在 scope 内实现。"
+  },
+  "preReviewWarnings": [
+    "快照冲突必须在任何正式历史写入前预检；合法同日相同语义快照仍允许幂等更新。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "resolve_previous_snapshot_from_history 仅从同 cycle、有效、完整的 TradingDaySnapshot 解析上一基线；正式快照不存在时返回 BASELINE_UNAVAILABLE，不回退到 decision_history packet。",
+    "新增 validate_trading_day_snapshot_conflict 预检，在 save_packet、save_leader_observation、save_observation_timeline_entry 之前执行；同日相同语义返回 SAME_DAY_RERUN，语义变化返回 SNAPSHOT_CONFLICT，且冲突路径不写入任何正式历史。",
+    "Rotation 使用显式 previous/current leader 集合计算 retained、entered、exited；集合无变化时不生成 rotation change，不再把当前 watchlist 当作 previous。",
+    "Narrative 不再硬编码 GOOG 或其他事实；主 Read Model 与 audit daily 均只从当前 primary/supporting/breakout leader 集合生成，缺少基线时不输出跨日 unchanged/remains 结论。",
+    "Makefile 提供 prune-data-history 正式运维入口，与 GitHub Actions 使用相同默认 max-bytes=90MiB、min-days=5，并保留现有 retention 测试入口。",
+    "新增/更新 domain、persistence、read-model、Make 入口测试，覆盖正式快照基线、快照冲突写入顺序、Rotation 集合变化、Narrative 事实源和清理入口。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-data-history-retention",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json SUMMARY=.ai/work-items/active/baseline-rotation-narrative-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/baseline-rotation-narrative-hardening.summary.json CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json SUMMARY=.ai/work-items/active/baseline-rotation-narrative-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/baseline-rotation-narrative-hardening.contract.json SUMMARY=.ai/work-items/active/baseline-rotation-narrative-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

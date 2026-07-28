@@ -1,0 +1,58 @@
+{
+  "schema_version": "1",
+  "evidence_type": "deterministic_temporal_consistency_fixture",
+  "generated_at": "2026-07-28T00:00:00+09:00",
+  "valid_market_dates": [
+    "2026-07-20",
+    "2026-07-21",
+    "2026-07-22",
+    "2026-07-23",
+    "2026-07-24"
+  ],
+  "cross_day_append": {
+    "history_counts": [1, 2, 3, 4, 5],
+    "breakout": {
+      "SPY": {
+        "state": "BREAKOUT_EMERGING",
+        "consecutive_days": [1, 2, 3, 4, 5]
+      }
+    }
+  },
+  "same_day_rerun": {
+    "market_date": "2026-07-24",
+    "history_count_before": 5,
+    "history_count_after": 5,
+    "breakout_consecutive_days_before": 5,
+    "breakout_consecutive_days_after": 5
+  },
+  "weekend": {
+    "run_date": "2026-07-25",
+    "market_date_before": "2026-07-24",
+    "market_date_after": "2026-07-24",
+    "history_count_before": 5,
+    "history_count_after": 5
+  },
+  "baseline_unavailable": {
+    "baseline_status": "BASELINE_UNAVAILABLE",
+    "decision_state": "NO_TRADE",
+    "new_position_limit": 0,
+    "change_status": "BASELINE_UNAVAILABLE",
+    "persistence_status": "BASELINE_UNAVAILABLE",
+    "leadership_confidence": "LOW"
+  },
+  "history_regression": {
+    "history_count_before": 5,
+    "history_count_after": 4,
+    "status": "HISTORY_REGRESSION",
+    "decision_state": "NO_TRADE",
+    "new_position_limit": 0,
+    "change_status": "HISTORY_REGRESSION",
+    "persistence_status": "UNAVAILABLE"
+  },
+  "assertions": {
+    "no_same_day_duplicate": true,
+    "no_weekend_new_node": true,
+    "no_baseline_self_comparison": true,
+    "no_history_regression_publication": true
+  }
+}

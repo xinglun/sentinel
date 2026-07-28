@@ -1,0 +1,170 @@
+{
+  "contractVersion": 2,
+  "workItemId": "baseline-status-propagation",
+  "mode": "code",
+  "title": "贯通统一基线状态到 Leader Persistence",
+  "baseCommit": "82f6b6585184574fd1e0206d1af9256dd9619bd7",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "84be3939708816016be904b7523ea5810fe6751fe234612e5cd34025f7488f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-consistency-gate.contract.json",
+      "status": "??",
+      "fingerprint": "4c41103815b64fa50cc4bb108668bff86e81588b11051e39413d94079356eb31"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-consistency-gate.summary.json",
+      "status": "??",
+      "fingerprint": "7f8b6330ea30152fe0ebf4020d84f8d24a4e28fff437394813cc2a05264f76c5"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "ebefd8857a6c45c3834dc933dad6991b4867613bf823810709525314acf48976"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "66883ea22ce993e8d905243f4caa3a5a3a1eae1418bf57788b3370c2b5ee18ea"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "742c57763baacf5e3aadeb453136310aefbf8c092a67f1afe449023ce907f52c"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "960f393edd2690a462aacdabeb6d672b1e37caea49a476b31d0057eca9a0deb8"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "7b4b2abe578afd3a70f3eb29e308f4e8ae043512c84c5a2ad1e426b73366f3a7"
+    }
+  ],
+  "problemStatement": "Leader Persistence が previous date の有無だけを見ており、統一 resolver の baseline status を直接消費していない。",
+  "intent": {
+    "problem": "PreviousSnapshotResolution の status を Leader Persistence read model に伝播し、baseline unavailable 時に persistence を unavailable として表示する。",
+    "constraints": ["変更は observation-only read model と runner 接続に限定する。", "取引ルールと execution gate は変更しない。"],
+    "rationale": "date が存在しても resolver status が unavailable の場合に persistence が旧 fallback を使わないことを型付き input で保証する。"
+  },
+  "scope": [
+    ".ai/work-items/active/baseline-status-propagation.contract.json",
+    ".ai/work-items/active/baseline-status-propagation.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/archive/2026/observation-consistency-gate.contract.json",
+    ".ai/work-items/archive/2026/observation-consistency-gate.summary.json",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs"
+  ],
+  "outOfScope": ["src/features/radar/application/execution_gate.rs", "src/features/trading/**"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader Persistence input と baseline status 投影。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "PreviousSnapshotResolution status の read model 接続。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "read model input の小規模変更で、取引経路への影響はない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope と acceptance を確定した。"
+  },
+  "preReviewWarnings": [
+    "review では baseline status が date-only fallback を置換していることを確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leader Persistence が baseline status を消費し、unavailable 時に cross-day persistence を表示しない。",
+    "変更が observation-only であり、execution / trading policy を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json SUMMARY=.ai/work-items/active/baseline-status-propagation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/baseline-status-propagation.summary.json CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json SUMMARY=.ai/work-items/active/baseline-status-propagation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/baseline-status-propagation.contract.json SUMMARY=.ai/work-items/active/baseline-status-propagation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

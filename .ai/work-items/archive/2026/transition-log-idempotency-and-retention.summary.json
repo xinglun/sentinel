@@ -1,0 +1,205 @@
+{
+  "workItemId": "transition-log-idempotency-and-retention",
+  "contractPath": ".ai/work-items/archive/2026/transition-log-idempotency-and-retention.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/infrastructure/transition_log.rs",
+      "reason": "按 business_date 对状态转移 JSONL/CSV 做同日幂等。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "将状态转移 CSV/JSONL 纳入历史事务回滚。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "在事务 commit 前写入状态转移并传播错误。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "清理状态转移 CSV 与 legacy CSV，并保留 header。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "增加 CSV/legacy CSV 清理回归测试。"
+    },
+    {
+      "path": ".ai/work-items/active/transition-log-idempotency-and-retention.contract.json",
+      "reason": "确定 Work Item 边界和验收条件。"
+    },
+    {
+      "path": ".ai/work-items/active/transition-log-idempotency-and-retention.summary.json",
+      "reason": "记录实现与验证结果。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/infrastructure/transition_log.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "scripts/prune_data_history.py"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一交易日状态转移重复写入",
+      "reason": "防止重跑重复 transition/breakout event。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "transition_logger_upserts_same_business_date"
+      ]
+    },
+    {
+      "scenario": "状态转移文件写入失败时历史事务回滚",
+      "reason": "避免 formal snapshot 与 transition log 部分成功。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "history_write_transaction_includes_transition_logs"
+      ]
+    },
+    {
+      "scenario": "CSV、JSONL 和 legacy CSV 按交易日清理",
+      "reason": "避免替代格式继续无限增长。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "test_prunes_transition_csv_and_legacy_csv"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json SUMMARY=.ai/work-items/active/transition-log-idempotency-and-retention.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/transition-log-idempotency-and-retention.summary.json CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json SUMMARY=.ai/work-items/active/transition-log-idempotency-and-retention.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/transition-log-idempotency-and-retention.contract.json SUMMARY=.ai/work-items/active/transition-log-idempotency-and-retention.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "状态转移幂等、事务覆盖和清理边界均已实现并有回归测试。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已确定。",
+      "contractHash": "e325eee2caefe6cc",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "同日幂等测试先红后绿。",
+      "contractHash": "e325eee2caefe6cc",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "幂等、事务和清理回归测试及完整质量门禁已通过。",
+      "contractHash": "e325eee2caefe6cc",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "完整 required checks 已通过。",
+      "contractHash": "e325eee2caefe6cc",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "测试先行并确认预期失败。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "完整门禁已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "完整门禁已通过。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "状态转移幂等、事务回滚、CSV/legacy CSV 清理和完整门禁已完成。",
+    "expectedReviewFocus": [
+      "状态转移文件的同日唯一性",
+      "事务失败时 CSV/JSONL 恢复",
+      "legacy CSV 清理边界"
+    ]
+  }
+}

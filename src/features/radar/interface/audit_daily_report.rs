@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Datelike, FixedOffset, NaiveDate, Weekday};
 use std::collections::BTreeMap;
+use std::path::Path;
 
 use crate::features::shared::application::run_status::DeliveryStatus;
 use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
@@ -17,6 +18,21 @@ pub(crate) struct TransitionAuditEntry {
 pub(crate) struct TransitionAuditDay {
     pub(crate) date: NaiveDate,
     pub(crate) events: Vec<TransitionAuditEntry>,
+}
+
+pub(crate) fn resolve_audit_daily_formal_baseline(
+    save_dir: &Path,
+    current_market_date: NaiveDate,
+) -> Result<Option<crate::features::radar::infrastructure::persistence::TradingDaySnapshot>> {
+    let persistence =
+        crate::features::radar::infrastructure::persistence::PersistenceLayer::new(save_dir);
+    let cycle_id = persistence
+        .load_observation_history_state()?
+        .filter(|state| !state.cycle_id.is_empty())
+        .map(|state| state.cycle_id);
+    Ok(persistence
+        .resolve_previous_snapshot_from_history(current_market_date, cycle_id.as_deref())?
+        .formal_snapshot)
 }
 
 impl TransitionAuditDay {
@@ -131,12 +147,30 @@ pub(crate) async fn build_daily_calibration_context(
                 let evidence_collection_status =
                     load_run_evidence_collection_status(save_dir, days[target_idx].date)
                         .unwrap_or(DeliveryStatus::Skipped);
-                build_audit_daily_report_with_evidence_status(
+                let persistence =
+                    crate::features::radar::infrastructure::persistence::PersistenceLayer::new(
+                        save_dir,
+                    );
+                let cycle_id = persistence
+                    .load_observation_history_state()
+                    .ok()
+                    .flatten()
+                    .filter(|state| !state.cycle_id.is_empty())
+                    .map(|state| state.cycle_id);
+                let formal_baseline = persistence
+                    .resolve_previous_snapshot_from_history(
+                        days[target_idx].date,
+                        cycle_id.as_deref(),
+                    )
+                    .ok()
+                    .and_then(|resolution| resolution.formal_snapshot);
+                build_audit_daily_report_with_formal_baseline(
                     &days,
                     target_idx,
                     window_days.max(1),
                     language,
                     Some(&evidence_collection_status),
+                    Some(formal_baseline.as_ref()),
                 )
             }
             Err(_) => audit_empty_log_message(language).to_string(),
@@ -153,6 +187,7 @@ pub(crate) async fn build_daily_calibration_context(
     })
 }
 
+#[cfg(test)]
 pub(crate) fn build_audit_daily_report_with_evidence_status(
     days: &[TransitionAuditDay],
     target_idx: usize,
@@ -160,6 +195,28 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     language: Language,
     evidence_collection_status: Option<
         &crate::features::shared::application::run_status::DeliveryStatus,
+    >,
+) -> String {
+    build_audit_daily_report_with_formal_baseline(
+        days,
+        target_idx,
+        window_days,
+        language,
+        evidence_collection_status,
+        None,
+    )
+}
+
+pub(crate) fn build_audit_daily_report_with_formal_baseline(
+    days: &[TransitionAuditDay],
+    target_idx: usize,
+    window_days: usize,
+    language: Language,
+    evidence_collection_status: Option<
+        &crate::features::shared::application::run_status::DeliveryStatus,
+    >,
+    formal_baseline: Option<
+        Option<&crate::features::radar::infrastructure::persistence::TradingDaySnapshot>,
     >,
 ) -> String {
     let text = audit_text(language);
@@ -434,7 +491,10 @@ pub(crate) fn build_audit_daily_report_with_evidence_status(
     out.push_str(&format!("- {}\n", audit_sentence));
 
     out.push_str(&build_market_interpretation_audit_snapshot(
-        today, language, &text,
+        today,
+        language,
+        &text,
+        formal_baseline,
     ));
 
     if let Some(evidence) = &today_latest.log.trend_recognition {
@@ -475,8 +535,12 @@ fn build_market_interpretation_audit_snapshot(
     day: &TransitionAuditDay,
     language: Language,
     text: &AuditDailyText,
+    formal_baseline: Option<
+        Option<&crate::features::radar::infrastructure::persistence::TradingDaySnapshot>,
+    >,
 ) -> String {
     let latest = day.latest();
+    let formal_snapshot = formal_baseline.flatten();
     let trend_recognition = latest.log.trend_recognition.as_ref();
     let leadership_snapshot =
         crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_transition_log(&latest.log, language);
@@ -505,8 +569,24 @@ fn build_market_interpretation_audit_snapshot(
             Language::JaJp => "Leadership conflict detected".to_string(),
         }
     };
-    let rotation_type = audit_rotation_type(latest, trend_recognition);
-    let rotation_from = leadership_snapshot.watchlist_leaders_values.clone();
+    let mut rotation_type = audit_rotation_type(latest, trend_recognition);
+    let previous_leadership = formal_snapshot.map(|snapshot| {
+        (
+            snapshot.primary_leader.clone(),
+            snapshot.secondary_leaders.clone(),
+        )
+    });
+    let rotation_from = previous_leadership
+        .as_ref()
+        .map(|(primary, supporting)| {
+            primary
+                .iter()
+                .chain(supporting.iter())
+                .filter(|symbol| !symbol.is_empty() && *symbol != "none")
+                .cloned()
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
     let mut rotation_to = vec![leadership_snapshot.primary_leader_value.clone()];
     let additional_supporting = leadership_snapshot
         .secondary_leaders_values
@@ -515,10 +595,33 @@ fn build_market_interpretation_audit_snapshot(
         .cloned()
         .collect::<Vec<_>>();
     rotation_to.extend(additional_supporting);
+    if formal_snapshot.is_none() {
+        rotation_type = "BASELINE_UNAVAILABLE".to_string();
+        rotation_to.clear();
+    }
 
     let confidence = audit_confidence_labels(latest, trend_recognition, exceptional_factors.len());
     let priority = audit_interpretation_priority(&confidence);
-    let narrative_values = audit_market_interpretation_narrative_values(day_type, language);
+    let current_leaders = std::iter::once(leadership_snapshot.primary_leader_value.clone())
+        .chain(leadership_snapshot.secondary_leaders_values.iter().cloned())
+        .filter(|symbol| !symbol.is_empty() && symbol != "none")
+        .collect::<Vec<_>>();
+    let breakout_leaders = latest
+        .log
+        .breakout_changes
+        .iter()
+        .filter(|change| {
+            change.to_status
+                != crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
+        })
+        .map(|change| change.symbol.clone())
+        .collect::<Vec<_>>();
+    let narrative_values = audit_market_interpretation_narrative_values(
+        day_type,
+        &current_leaders,
+        &breakout_leaders,
+        language,
+    );
 
     let mut out = String::new();
     out.push_str(&format!("\n7. {}\n", text.market_interpretation_snapshot));
@@ -643,7 +746,12 @@ fn audit_day_type_reason(
     "trend_continuation".to_string()
 }
 
-fn audit_market_interpretation_narrative_values(day_type: &str, language: Language) -> Vec<String> {
+fn audit_market_interpretation_narrative_values(
+    day_type: &str,
+    current_leaders: &[String],
+    breakout_leaders: &[String],
+    language: Language,
+) -> Vec<String> {
     let mut lines = Vec::new();
     lines.push(match (day_type, language) {
         ("normal", Language::ZhCn) => "今天是正常趋势延续。".to_string(),
@@ -654,12 +762,26 @@ fn audit_market_interpretation_narrative_values(day_type: &str, language: Langua
         ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
         _ => "Today is a normal trend continuation.".to_string(),
     });
+    let leaders = if current_leaders.is_empty() {
+        "UNAVAILABLE".to_string()
+    } else {
+        current_leaders.join(", ")
+    };
+    let breakouts = if breakout_leaders.is_empty() {
+        "UNAVAILABLE".to_string()
+    } else {
+        breakout_leaders.join(", ")
+    };
     lines.push(match language {
-        Language::ZhCn => "市场行为保持有序，没有结构性恶化。".to_string(),
-        Language::EnUs => {
-            "Market behavior remains orderly with no structural deterioration.".to_string()
-        }
-        Language::JaJp => "市場の動きは整然としており、構造的悪化は見えていない。".to_string(),
+        Language::ZhCn => format!("当前主导资产：{}；突破观察：{}。", leaders, breakouts),
+        Language::EnUs => format!(
+            "Current leaders: {}; breakout watch: {}.",
+            leaders, breakouts
+        ),
+        Language::JaJp => format!(
+            "現在の主導銘柄：{}；ブレイクアウト観察：{}。",
+            leaders, breakouts
+        ),
     });
     lines
 }
@@ -1667,6 +1789,7 @@ mod tests {
             &day,
             Language::EnUs,
             &audit_text(Language::EnUs),
+            None,
         );
 
         assert!(snapshot.contains("- dayType: normal"));
@@ -1701,6 +1824,7 @@ mod tests {
             &day,
             Language::EnUs,
             &audit_text(Language::EnUs),
+            None,
         );
 
         assert!(snapshot.contains("- Leadership Classification:"));
@@ -1713,6 +1837,23 @@ mod tests {
         assert!(!snapshot.contains("  - primary: "));
         assert!(!snapshot.contains("  - supporting: "));
         assert!(!snapshot.contains("  - weakening: "));
+    }
+
+    #[test]
+    fn audit_daily_does_not_fallback_to_transition_log_without_formal_baseline() {
+        let current_entry = sample_audit_days()[1].latest().clone();
+        let snapshot = build_market_interpretation_audit_snapshot(
+            &TransitionAuditDay {
+                date: current_entry.date,
+                events: vec![current_entry],
+            },
+            Language::EnUs,
+            &audit_text(Language::EnUs),
+            None,
+        );
+
+        assert!(snapshot.contains("rotationType: BASELINE_UNAVAILABLE"));
+        assert!(snapshot.contains("  - from: []"));
     }
 
     #[test]

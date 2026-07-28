@@ -44,7 +44,7 @@
 - exceptionalFactors: [unusual_rotation]
 - Market Interpretation:
   - Today is an exception-driven day.
-  - Market behavior remains orderly with no structural deterioration.
+  - Current leaders: GOOG; breakout watch: GOOG.
 - Leadership Classification: very_narrow
 - Leadership Metrics:
   - Breadth label: Narrow
@@ -52,10 +52,10 @@
   - Concentration score: 82
   - Rotation score: 66
 - Rotation Observation:
-  - rotationType: mega_cap_internal_rotation
+  - rotationType: BASELINE_UNAVAILABLE
   - from: []
-  - to: [GOOG]
-  - interpretation: Flow is rotating within the leading mega caps rather than exiting.
+  - to: []
+  - interpretation: No clear rotation regime is observable.
   - observationOnly: true
 - Observation Confidence:
   - trend: MEDIUM

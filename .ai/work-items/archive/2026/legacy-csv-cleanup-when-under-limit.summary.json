@@ -1,0 +1,165 @@
+{
+  "workItemId": "legacy-csv-cleanup-when-under-limit",
+  "contractPath": ".ai/work-items/archive/2026/legacy-csv-cleanup-when-under-limit.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "cutoff がない場合も旧版 state transition CSV を整理する。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "未超限時の通常実行と dry-run の旧版 CSV 清理を回帰テストする。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    "Makefile",
+    ".ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json SUMMARY=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.summary.json CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json SUMMARY=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.contract.json SUMMARY=.ai/work-items/active/legacy-csv-cleanup-when-under-limit.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "旧版 CSV の冪等な整理のみで、主履歴と正式 snapshot の保存契約は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [
+    "通常の prune-data-history 実行時に state_transitions_legacy_*.csv を削除する。対象は旧版生成物に限定される。"
+  ],
+  "observedIssues": [
+    "初期実装では cutoff がない場合に旧版 CSV が残ることを回帰テストで再現し、修正後に解消した。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "主履歴が上限未満でも旧版 CSV を削除する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    },
+    {
+      "scenario": "dry-run は旧版 CSV を削除せず対象サイズを報告する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope、acceptance、scenario coverage を確定した。",
+      "contractHash": "3fa23032fe4ab6c4",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD の failing test 追加前に root cause と scope を確認した。",
+      "contractHash": "3fa23032fe4ab6c4",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": false,
+      "detail": "required checks 実行中。",
+      "contractHash": "3fa23032fe4ab6c4",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": false,
+      "detail": "ai-finish 完了後に確定する。",
+      "contractHash": "3fa23032fe4ab6c4",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract が実装可能な状態になった。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は scripts の清理ロジックと回帰テストに限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "blocked",
+      "note": "required checks 完了前のため ready ではない。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "blocked",
+      "note": "required checks 完了前のため未確認。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "実装と required checks を実行中。",
+    "expectedReviewFocus": [
+      "旧版 CSV の対象範囲",
+      "dry-run と通常実行の差異"
+    ]
+  }
+}

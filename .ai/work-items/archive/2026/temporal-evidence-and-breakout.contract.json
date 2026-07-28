@@ -1,0 +1,133 @@
+{
+  "contractVersion": 2,
+  "workItemId": "temporal-evidence-and-breakout",
+  "mode": "code",
+  "title": "补齐突破快照投影与五日连续性证据",
+  "baseCommit": "36693423bd1a8e6b6c8bfe5d49fe46dd1a9f1872",
+  "baselineDirtyPaths": [],
+  "problemStatement": "TradingDaySnapshot は breakout 详细字段为空，且五日跨日、同日重跑、周末和安全降级尚未形成可审阅的证据包。",
+  "intent": {
+    "problem": "正式快照无法承载 breakout state、strength、quality、consecutive_days，提交证据也缺少五日场景。",
+    "constraints": ["不改变 breakout 评估规则，只投影现有 read model 字段。", "证据使用确定性 fixture，不调用网络，不改变交易阈值。"],
+    "rationale": "消除快照结构残项，并使验收标准中的五日累积、同日幂等、周末不新增、baseline unavailable 和 history regression 可复核。"
+  },
+  "scope": [
+    ".ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+    ".ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "reports/temporal_consistency_evidence_2026-07-28.json"
+  ],
+  "outOfScope": ["不修改 breakout domain evaluator、交易规则或仓位逻辑。"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "现有 breakout read model 项目和快照写入点。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式快照存储、同日 upsert 和连续性验证。"
+    },
+    {
+      "path": "pasted-text.txt",
+      "reason": "用户开发指示中的五日验收标准和 breakout 快照契约。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "仅投影已有 read model 并增加确定性证据，不改变计算或交易规则。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification 和 fixture 范围已确定。"
+  },
+  "preReviewWarnings": [
+    "证据报告为生成 artifact，需与单元测试和质量门禁同时审阅。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "TradingDaySnapshot.breakouts[symbol] 的 state、strength、quality、consecutive_days 字段均来自同一 pres_packet.breakout_summary.items 项。",
+    "reports/temporal_consistency_evidence_2026-07-28.json 的 valid_market_dates 数量为 5，且日期唯一有序。",
+    "证据报告的 same_day_rerun.history_count_before 与 history_count_after 相等，weekend.market_date_before 与 market_date_after 相等。",
+    "证据报告的 baseline_unavailable 与 history_regression 均记录 decision_state=NO_TRADE、new_position_limit=0。",
+    "make test、make clippy、make fmt-check、make check-ai-contract、make check-ai-scope、make check-ai-guards、make check-ai-backtrack、make check-ai-coverage-guard、make check-ai-change-summary、make generate-cockpit-status、make check-ai-status 全部返回 0。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-evidence-and-breakout.contract.json SUMMARY=.ai/work-items/active/temporal-evidence-and-breakout.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

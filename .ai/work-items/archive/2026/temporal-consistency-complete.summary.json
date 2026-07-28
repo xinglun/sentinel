@@ -1,0 +1,193 @@
+{
+  "workItemId": "temporal-consistency-complete",
+  "contractPath": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "统一清理 JSONL 与正式日期快照目录，并同步 observation history state。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "增加四类历史存储统一 cutoff 和快照清理回归测试。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "leader observation 改为按日期快照、legacy append 与合并读取。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "增加 daily observation consistency gate 及 regression/append/rerun/confidence 测试。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "在历史发布前调用 consistency gate，并统一 new_position_limit 的 fallback 语义。"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "reason": "抽出可测试的 new_position_limit 计算函数。"
+    },
+    {
+      "path": ".ai/work-items/active/temporal-consistency-complete.contract.json",
+      "reason": "固化本次遗漏项的边界、验收和验证命令。"
+    },
+    {
+      "path": ".ai/work-items/active/temporal-consistency-complete.summary.json",
+      "reason": "记录本次实现和验证结果。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit 状态生成器同步。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+    "scripts/prune_data_history.py",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    ".ai/cockpit/README.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-consistency-complete.contract.json SUMMARY=.ai/work-items/active/temporal-consistency-complete.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make test-data-history-retention",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "修改限于历史 retention、leader persistence 和 observation consistency gate，交易策略未变更。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已通过 ready preflight。",
+      "contractHash": "650741dca60dbe30",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD regression tests written and observed failing before implementation.",
+      "contractHash": "650741dca60dbe30",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "实现、测试和质量门禁已通过。",
+      "contractHash": "650741dca60dbe30",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "完整验证链已通过。",
+      "contractHash": "650741dca60dbe30",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract scope 与 acceptance 已具体化。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "失败测试已先运行并确认缺少实现。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "实现、测试和 Cockpit required checks 已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "完整质量门禁已通过。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "代码、测试、lint、覆盖率和 Cockpit required checks 均已通过。",
+    "expectedReviewFocus": [
+      "清理 cutoff 是否同时作用于 JSONL、snapshot 和 state。",
+      "runner 是否在正式发布前阻断 consistency gate 失败。"
+    ]
+  }
+}

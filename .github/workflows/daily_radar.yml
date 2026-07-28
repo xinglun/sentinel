@@ -404,10 +404,10 @@ jobs:
           # 3. Hop into worktree and pull latest state BEFORE modifying files
           cd "${DATA_DIR}"
           git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git checkout data || true
+          git checkout data
           
-          git fetch origin refs/heads/data:refs/remotes/origin/data || true
-          git pull --rebase origin data || true
+          git fetch origin refs/heads/data:refs/remotes/origin/data
+          git pull --rebase origin data
 
           # 4. Port over generated reports cleanly (Mirror Strategy for snapshots)
           cd "${ROOT_DIR}"
@@ -418,6 +418,7 @@ jobs:
           echo "DATA_DIR=${DATA_DIR}"
           ls -la "${ROOT_DIR}/reports" || true
 
+          make -C "${ROOT_DIR}" prune-data-history PRUNE_DATA_HISTORY_ARGS="--reports-dir ${ROOT_DIR}/reports"
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           
           # 5. Commit and push

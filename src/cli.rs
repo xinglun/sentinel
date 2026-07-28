@@ -20,8 +20,8 @@ use crate::features::radar::acl::market_data_provider_factory::{
 use crate::features::radar::domain::trend_cohesion::EvidenceSourceType;
 use crate::features::radar::interface::audit_daily_report::{
     audit_daily_usage, audit_empty_log_message, audit_error_parse_date,
-    build_audit_daily_report_with_evidence_status, build_daily_calibration_context,
-    load_transition_audit_days, resolve_target_index,
+    build_audit_daily_report_with_formal_baseline, build_daily_calibration_context,
+    load_transition_audit_days, resolve_audit_daily_formal_baseline, resolve_target_index,
 };
 use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
 use crate::features::research::interface::cli_command_handler::{
@@ -854,12 +854,15 @@ fn run_audit_daily(
     let evidence_collection_status =
         load_run_evidence_collection_status(&save_dir, days[target_idx].date)
             .unwrap_or(crate::features::shared::application::run_status::DeliveryStatus::Skipped);
-    let report = build_audit_daily_report_with_evidence_status(
+    let formal_baseline =
+        resolve_audit_daily_formal_baseline(&save_dir, days[target_idx].date).unwrap_or(None);
+    let report = build_audit_daily_report_with_formal_baseline(
         &days,
         target_idx,
         window_days.max(1),
         language,
         Some(&evidence_collection_status),
+        Some(formal_baseline.as_ref()),
     );
     println!("{}", report);
     Ok(())
@@ -1024,7 +1027,8 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_daily_calibration_report, build_daily_calibration_telegram_digest, run_pipeline,
+        build_daily_calibration_report, build_daily_calibration_telegram_digest,
+        resolve_audit_daily_formal_baseline, run_pipeline,
     };
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
@@ -1066,6 +1070,62 @@ mod tests {
         fs::write(tmp.path().join("2026-05-21.md"), "daily").unwrap();
 
         assert_eq!(super::load_latest_daily_report(&config).unwrap(), "daily");
+    }
+
+    #[test]
+    fn audit_daily_formal_baseline_uses_current_cycle_snapshot() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join("observation_history_state.json"),
+            serde_json::json!({
+                "count": 2,
+                "last_market_date": "2026-07-24",
+                "cycle_id": "cycle-a"
+            })
+            .to_string(),
+        )
+        .unwrap();
+        fs::create_dir_all(tmp.path().join("snapshots")).unwrap();
+        fs::write(
+            tmp.path().join("snapshots/cycle-a_2026-07-24.json"),
+            serde_json::json!({
+                "schema_version": "1",
+                "market_date": "2026-07-24",
+                "report_date": "2026-07-25",
+                "as_of_date": "2026-07-24",
+                "generated_at": "2026-07-25T05:00:00+09:00",
+                "run_id": "run-a",
+                "cycle_id": "cycle-a",
+                "snapshot_id": "cycle-a-2026-07-24",
+                "is_valid_trading_day": true,
+                "source_status": "complete",
+                "market_state": "STARTUP",
+                "decision_state": "NO_TRADE",
+                "new_position_limit": 0.0,
+                "breadth": 35.0,
+                "confidence": 56.7,
+                "supply_phase": "ACCUMULATING",
+                "risk_state": "NORMAL",
+                "primary_leader": "TSLA",
+                "secondary_leaders": [],
+                "breakouts": {},
+                "stability": 1.0,
+                "continuity": 2,
+                "cycle_length_days": 2,
+                "reset_event": null,
+                "data_quality": {}
+            })
+            .to_string(),
+        )
+        .unwrap();
+
+        let baseline = resolve_audit_daily_formal_baseline(
+            tmp.path(),
+            NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+        )
+        .unwrap();
+
+        assert_eq!(baseline.unwrap().snapshot_id, "cycle-a-2026-07-24");
     }
 
     #[test]

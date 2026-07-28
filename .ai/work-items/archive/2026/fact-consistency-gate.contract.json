@@ -1,0 +1,190 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fact-consistency-gate",
+  "mode": "code",
+  "title": "统一交易日快照与事实一致性 Gate",
+  "baseCommit": "9855891aeab653bcc4f110d0e7bb0b6424413c37",
+  "baselineDirtyPaths": [],
+  "problemStatement": "radar の cross-day history、Change Log、timeline、Narrative が別々の previous 値を選び、baseline 不在時にも偽の変化を表示する。",
+  "intent": {
+    "problem": "各 cross-day consumer が同じ Previous Valid Trading-Day Snapshot を使い、履歴の追加・同日 upsert・baseline unavailable を構造化して扱う。",
+    "constraints": [
+      "変更は radar の observation / persistence / transition / read model / report と回帰テストに限定する。",
+      "Gate、Execution、Trader、Position Sizing、取引閾値、Hypothesis Layer、Gravity 投資ロジックは変更しない。",
+      "BASELINE_UNAVAILABLE では previous value、unchanged、remains、shifted、HIGH confidence を生成しない。"
+    ],
+    "rationale": "既存の部分修正後も observation timeline が latest window で再構築され、Change Log が current value を previous に回填する根因が残っている。"
+  },
+  "scope": [
+    ".ai/work-items/active/fact-consistency-gate.contract.json",
+    ".ai/work-items/active/fact-consistency-gate.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/domain/transition_log.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/trading/**",
+    "src/features/research/domain/hypothesis_governance_policy.rs",
+    "src/features/research/domain/valuation_gravity.rs"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "DecisionPacket と observation timeline の load/save/upsert 境界。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Previous packet の選択、cross-day consumer の接続、保存順序。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader persistence、rotation、Narrative read model の previous value 生成。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "有効取引日 history count と timeline の重複排除・coverage。"
+    },
+    {
+      "path": "src/features/radar/domain/transition_log.rs",
+      "reason": "BASELINE_UNAVAILABLE と transition の構造化状態。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Change Log / Leader Persistence の status field。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "cross-day、same-day rerun、baseline unavailable の統合回帰入口。"
+    },
+    {
+      "path": ".ai/work-items/active/fact-consistency-gate.contract.json",
+      "reason": "実装範囲と acceptance を固定する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "cross-day snapshot appends and same-day rerun upserts one market_date",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装後に persistence integration test で確認する。"
+    },
+    {
+      "scenario": "baseline unavailable suppresses previous-value and HIGH-confidence language",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装後に read-model/report test で確認する。"
+    },
+    {
+      "scenario": "weekend or holiday uses the previous persisted valid trading-day snapshot",
+      "required": false,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "実装後に date resolver test で確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "変更は observation-only fact flow に限定され、売買実行経路は触れない。日付・baseline・同日 upsert は回帰テストで検証する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、outOfScope、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "review では previous snapshot の唯一性、same-day idempotency、baseline unavailable の出力契約を重点確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "History persistence が trading-day unique upsert になり、同日 rerun で observation count と transition event が増えない。",
+    "PreviousSnapshotResolution が previous valid snapshot の唯一の入力になり、baseline 不在時は構造化 unavailable を返す。",
+    "Change Log、Market Evolution、Leader Persistence、Narrative が baseline unavailable で previous 値を偽造しない。",
+    "weekend holiday data delay leader change breakout continuity regression tests are passed。",
+    "変更が observation-only であり、Gate / Execution / Trader / Position Sizing を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json SUMMARY=.ai/work-items/active/fact-consistency-gate.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fact-consistency-gate.summary.json CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json SUMMARY=.ai/work-items/active/fact-consistency-gate.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fact-consistency-gate.contract.json SUMMARY=.ai/work-items/active/fact-consistency-gate.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

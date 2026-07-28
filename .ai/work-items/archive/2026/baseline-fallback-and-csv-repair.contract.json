@@ -1,0 +1,312 @@
+{
+  "contractVersion": 2,
+  "workItemId": "baseline-fallback-and-csv-repair",
+  "mode": "code",
+  "title": "统一基线回退与状态日志清理边界修复",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "0e75089b9f2262a8cc4d9aff25c216d06c247e69b3a472640f90485cc43e6db4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "67f6e246d7c8fd7b73a0272ef30ee8bbcd5aecc0eea7641885d31237f4442555"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/baseline-rotation-narrative-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "d54692c00fb8ef990fd5e1758af7905aec59fbbd5a698c5118102707a38d1c5f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.contract.json",
+      "status": "??",
+      "fingerprint": "ef57c1d561b8fb95b593fe4cd16943b9c486a0d5377bf79b3263cae95b4a6f81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/formal-snapshot-change-log-atomic-write.summary.json",
+      "status": "??",
+      "fingerprint": "a28e1eb09c0a98691eb065d749b404bc7fbc11900436981026db679d120827d4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "801a4e3af66a4bebb2366203638faa3a460aa823b7c2321ea36d6a798513f2f9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "cc124cc8a30225092e352bb7676056bdf821878646807e8c1f53e3c5ae6663fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-write-transaction-rollback.contract.json",
+      "status": "??",
+      "fingerprint": "9ab056148cee03a3081f0645518e3fc1b053f03c0694a102bacf53b3cd3a6d53"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-write-transaction-rollback.summary.json",
+      "status": "??",
+      "fingerprint": "d495a6c40151fc9e87ea3c93bf0bd59da0e2923b85d6940ee84bf92376fc4f06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+      "status": "??",
+      "fingerprint": "dc290905e6a6c0b9f126ee9c2488346f04e2b6054e70f0a32c6067dd225df93d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-gate-hardening.summary.json",
+      "status": "??",
+      "fingerprint": "2901fb2a78d0c5b1d4fac52d751a5923f09abf1805dd7f31c1a3df7475c0093e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/transition-log-idempotency-and-retention.contract.json",
+      "status": "??",
+      "fingerprint": "e325eee2caefe6ccdfb4171384a0f8496fa22e62e4007b5c3aea12a304990c6c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/transition-log-idempotency-and-retention.summary.json",
+      "status": "??",
+      "fingerprint": "cc1f1372636c6065f043d17705fb12c3501a71e56fc7f1f996000a435dde81fa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.contract.json",
+      "status": "??",
+      "fingerprint": "064327430be9f04ff8b724696e10cb8d7e9a238c21f2adaa2f343806644c9289"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/unify-formal-snapshot-consumers.summary.json",
+      "status": "??",
+      "fingerprint": "3d88e23d137024e172261e57f453450a4186341f53e5198297e4aadb6571f1e6"
+    },
+    {
+      "path": "Cargo.toml",
+      "status": "M",
+      "fingerprint": "222b2e8b5b1fde5d0b1b3c278f95f1e48e3ab4a046b04e4deec3985a25fb997b"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "ea3bec692f44397ddd5a5dfd14bd95063bb299c388677fcb39fb0042e26b7c46"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "65c7e05359221a8678b638eaca1ac96712880feb66eed8cb417e07efc4b6d315"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "994ea3135100c2a9d0e57823c4f3d68538965b15daad5cd7e1c2e8ac094940b1"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "92322fe1525dba0b988cd1db5510f82f82ad0296b66324717d0571e153c78fc3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "227ea21608e032dfaaeb2db8c77c5ed798d2a81f67a3221b9823af529b6cf0f6"
+    },
+    {
+      "path": "src/features/radar/infrastructure/transition_log.rs",
+      "status": "M",
+      "fingerprint": "89cddf0c3f14d104769a69787f51663f592d21296d15330b8e8212f966fbe566"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "26405f352d8f9d40da13154f1ddfe40b1c0b10051132e84aba943db526865182"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "e3e38a594cd5b6accf6453fc40c19e3ce2ec760733aeb35bb5e536dedce567bb"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "d5355dec8e0727212ecccc0e28af995cbc88b317fc2b5b87e2f00a976a2aff21"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "9effe2eacba73f36bf05b9a864e860b704904bcd32b828a0ad9a4014f156125e"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "4d1dbe11c7381ae0ebe0e9d4d199dcf8895e55b555ee723ee6dda7551c7e033d"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "ac35d15a2edee25d719dd0d5571aba218f18e1108b5b40dacf9f46288b8e62b2"
+    }
+  ],
+  "problemStatement": "audit-daily の互換入口が正式 TradingDaySnapshot の基線不可用時に state_transitions の旧行へフォールバックし、状態ログの CSV 清理も JSONL と完全同期しない。統一 resolver を唯一の基線源とし、状態ログの行数不一致・legacy 残留・同日 CSV 欠損を明示的に扱う。",
+  "intent": {
+    "problem": "统一基线不可用时仍存在旧 transition log 回退，状态日志 CSV 清理和同日修复边界不完整。",
+    "constraints": ["只修改显示、审计和历史清理行为，不调整 Gate、Execution、Trader、Action Matrix、Position Sizing。", "不修改 reports/** 生成 artifact 和现有 CSV/JSONL 字段格式。"],
+    "rationale": "让 audit-daily 与正式 pipeline 遵守同一 Previous Valid Trading-Day Snapshot，并使 CSV/JSONL/legacy 清理显式处理异常。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/baseline-fallback-and-csv-repair.contract.json",
+    ".ai/work-items/active/baseline-fallback-and-csv-repair.summary.json",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/infrastructure/transition_log.rs",
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": ["reports/**", "src/features/trading/**", "Gate/Execution/Trader/Action Matrix/Position Sizing 的决策规则"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "开发指示要求所有跨日消费者只使用统一 Previous Valid Trading-Day Snapshot，并在不可用时禁止伪造变化。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "CLI audit-daily 的兼容入口和 formal baseline 分支。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/transition_log.rs",
+      "reason": "状态转移 JSONL/CSV 同日写入和幂等判定。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "数据历史 retention 和状态转移 CSV/legacy 清理规则。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity", "architecture_boundary"],
+    "reason": "修复范围、异常语义和验证路径已由开发指示与现有实现确定。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Contract の scope と acceptance を確定したため実装を継続する。"
+  },
+  "preReviewWarnings": [
+    "CSV は JSONL の日付順と行順で対応するため、行数不一致を黙って許容しない。",
+    "audit-daily の基線不可用表示は旧 transition log の previous 値を参照してはならない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "audit-daily の production 入口が formal baseline unavailable 時に旧 transition log へフォールバックせず、cross-day rotation / previous leader を unavailable とする。",
+    "JSONL に同日 record があっても CSV が欠損・header-only・行数不一致の場合はエラーまたは同期修復を行い、黙って成功しない。",
+    "現行 state_transitions.csv と JSONL のデータ行数が一致しない場合、retention は明示的に失敗する。",
+    "legacy state_transitions_legacy_*.csv は current CSV の有無にかかわらず、prune が実際に削除を実行する場合に整理する。",
+    "reports/** 不发生 diff；src/features/trading/**、交易阈值、仓位规则、Gate/Execution/Trader 逻辑不变。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "CLI audit-daily 在 formal baseline unavailable 时不读取 previous transition log", "reason": "禁止跨日解释层绕过统一 resolver。", "required": true, "status": "verified", "evidence": ["src/features/radar/interface/audit_daily_report.rs::audit_daily_does_not_fallback_to_transition_log_without_formal_baseline"]},
+    {"scenario": "JSONL 已有同日记录但 CSV 缺行或仅有 header", "reason": "同日幂等不能掩盖 CSV 视图损坏。", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/transition_log.rs::transition_logger_repairs_missing_csv_for_existing_business_date"]},
+    {"scenario": "CSV 多余行、缺少 current CSV 的 legacy 文件、legacy 与 current CSV 同时存在", "reason": "清理边界必须显式失败或完成整理。", "required": true, "status": "verified", "evidence": ["scripts/test_prune_data_history.py::test_rejects_transition_csv_with_extra_rows", "scripts/test_prune_data_history.py::test_prunes_legacy_csv_without_current_csv", "scripts/test_prune_data_history.py::test_prunes_transition_csv_and_legacy_csv"]}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json SUMMARY=.ai/work-items/active/baseline-fallback-and-csv-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/baseline-fallback-and-csv-repair.summary.json CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json SUMMARY=.ai/work-items/active/baseline-fallback-and-csv-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/baseline-fallback-and-csv-repair.contract.json SUMMARY=.ai/work-items/active/baseline-fallback-and-csv-repair.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": ["reports/state_transitions_legacy_*.csv"]
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

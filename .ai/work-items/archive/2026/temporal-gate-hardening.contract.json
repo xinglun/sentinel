@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "temporal-gate-hardening",
+  "mode": "code",
+  "title": "补齐历史清理与事实一致性闸门遗漏",
+  "baseCommit": "c9804a5de6aa12b35279a5eef62aad0c96a00174",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "29dde2796c5c7ea7791e9aef0c4093135ea93d5293d8542562b1af668aff0ac7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.contract.json",
+      "status": "??",
+      "fingerprint": "20d38587c6e0a3fbfaf1093c786609cbd0ae1be4db7d18fba46a83f0f6b6df77"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/history-retention-complete.summary.json",
+      "status": "??",
+      "fingerprint": "a2f265d836da10cdb1b2595cd94e6933792e794da1c47746e3a509cdec0627e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.contract.json",
+      "status": "??",
+      "fingerprint": "74449732150171615dc13abd977badaaefd72b7d395539b061fbc15c3bddbada"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/safety-gate-and-history-store.summary.json",
+      "status": "??",
+      "fingerprint": "863c029bf586ba51e047d3004cfade23497aa2f28ac8b4ff2fb54425473df8b1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.contract.json",
+      "status": "??",
+      "fingerprint": "650741dca60dbe30d25af43bfcc31c2b139912d3552763c291ee4657d4a3ed78"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/temporal-consistency-complete.summary.json",
+      "status": "??",
+      "fingerprint": "07f88667880cc8ea9f44daed3c0b2e5df1c786e0e2a31fdadfa7e288347623e1"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "status": "M",
+      "fingerprint": "1efb9fb9d6c4b19b1ffdbae62fd4c323b18d883d02899e8eab3d91756d268127"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "status": "M",
+      "fingerprint": "6d75aa92da4db17071c19bd6d5a06753ab3e2fad891b301d28eae69f23488734"
+    },
+    {
+      "path": "src/features/radar/application/delivery_plan.rs",
+      "status": "M",
+      "fingerprint": "9af940017ce6029ea324bd6e741fd8cbc058553c4296209a7e3a8ea715df4dc0"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "status": "M",
+      "fingerprint": "5f877a7c99258507a2bbbd7fdea705fa03be52148e2043096fced8b194ead7dc"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "4ef843c04ba15a662a31e25c3f6b4438595b170faf2865ac499911c28da79db3"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "ce3eea309d0fbe65416a5e5433d2a199456e18deffe4f6cc35e043c10700c8a0"
+    }
+  ],
+  "problemStatement": "历史清理漏掉根目录日期时间线文件，空快照目录会阻断清理；事实一致性检查在持久化后执行，且缺少冲突错误码与 UUID 标识。",
+  "intent": {
+    "problem": "清理与事实 Gate 仍存在可导致历史污染、数据堆积和跨层误判的边界漏洞。",
+    "constraints": [
+      "不改变交易阈值、仓位计算和正常交易决策规则。",
+      "历史回退或事实冲突必须在正式发布前阻断，并保持 NO_TRADE。"
+    ],
+    "rationale": "把审计发现固化为持久化前 Gate、完整保留策略、冲突错误码和不可预测的 UUID 标识。"
+  },
+  "scope": [
+    ".ai/work-items/active/temporal-gate-hardening.contract.json",
+    ".ai/work-items/active/temporal-gate-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Cargo.toml",
+    "Cargo.lock",
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": [
+    "不重新设计完整 Narrative Layer 或新增交易指标。",
+    "不修改 reports 生成 artifact。",
+    "不提交或推送 Git。"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+      "reason": "原开发指示中的历史保留、事实 Gate、UUID 和安全降级要求。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式快照、时间线写入和 Previous Snapshot Resolver 的实际实现。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "data branch 历史清理的唯一运行入口。"
+    }
+  ],
+  "unknowns": [],
+  "scenarioCoverage": [
+    {"scenario": "根目录日期时间线文件与四类快照共用 cutoff", "required": true, "status": "verified", "evidence": ["审计确认 persistence.rs 写入 observation_timeline_YYYY-MM-DD.json，清理脚本当前未覆盖。"]},
+    {"scenario": "空快照目录不阻断清理", "required": true, "status": "verified", "evidence": ["审计确认 _read_snapshot_records 对空目录抛出 no dated snapshot records found。"]},
+    {"scenario": "一致性失败不写入正式历史", "required": true, "status": "verified", "evidence": ["审计确认 pipeline 在一致性 Gate 前已调用 save_packet、save_leader_observation 与 save_observation_timeline_entry。"]},
+    {"scenario": "UUID run_id 与 cycle_id", "required": true, "status": "verified", "evidence": ["审计确认 TradingDaySnapshot 当前使用 run-时间戳 与 cycle-日期格式，而非 UUID。"]}
+  ],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "涉及持久化顺序、历史删除边界与快照标识，需通过回归测试确认不改变交易决策。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围、验收、场景与验证入口已确定。"
+  },
+  "preReviewWarnings": [
+    "持久化前 Gate 必须在任何正式历史写入前完成。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "prune_reports 清理 observation_timeline_YYYY-MM-DD.json，保留 observation_timeline_latest.json，并对空的正式快照目录按空记录处理。",
+    "radar_pipeline_runner.rs 在 save_packet、save_leader_observation、save_observation_timeline_entry 之前执行 history_count 与 baseline 校验；失败路径只调用 save_run_status，不增加 decision_history.jsonl、leader_observations.jsonl 或 observation_timeline.jsonl 行数。",
+    "observation_timeline.rs 定义并测试 BASELINE_MISMATCH、NARRATIVE_FACT_CONFLICT、DUPLICATE_TRADING_DAY 三个事实冲突错误码；SNAPSHOT_CONFLICT 与 MARKET_DATE_MISMATCH 作为不适用项不伪造实现。",
+    "TradingDaySnapshot 的 run_id 与 cycle_id 均匹配 UUID v4 格式，且 snapshots 仍以 cycle_id + market_date 去重。",
+    "scripts/test_prune_data_history.py 明确断言根目录时间线旧文件、四类快照目录旧文件被删除且 latest 文件保留；Rust 测试明确断言 Gate 失败时历史文件行数不增加、UUID 字段可解析；make test-data-history-retention、make test、make clippy 全部通过。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {"command": "make test-data-history-retention", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "required": true
+    },
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

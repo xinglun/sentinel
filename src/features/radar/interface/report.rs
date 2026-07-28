@@ -1429,6 +1429,10 @@ fn render_market_change_log_section(
         RenderMode::Markdown => {
             block.push_str(&format!("### {}\n\n", change_log.title));
             block.push_str(&format!(
+                "  - Baseline Status: {}\n  - Change Status: {}\n",
+                change_log.baseline_status, change_log.change_status
+            ));
+            block.push_str(&format!(
                 "  - {}: {}\n",
                 change_log.leader_label, change_log.leader_value
             ));
@@ -1466,6 +1470,10 @@ fn render_market_change_log_section(
         }
         RenderMode::Html => {
             block.push_str(&format!("\n<b>{}</b>\n\n", change_log.title));
+            block.push_str(&format!(
+                "  - Baseline Status: {}\n  - Change Status: {}\n",
+                change_log.baseline_status, change_log.change_status
+            ));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 change_log.leader_label, change_log.leader_value

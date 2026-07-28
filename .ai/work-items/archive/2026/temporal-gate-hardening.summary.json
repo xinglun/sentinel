@@ -1,0 +1,185 @@
+{
+  "workItemId": "temporal-gate-hardening",
+  "contractPath": ".ai/work-items/archive/2026/temporal-gate-hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": "Cargo.toml",
+      "reason": "引入 UUID v4 生成依赖。"
+    },
+    {
+      "path": "Cargo.lock",
+      "reason": "锁定 UUID 依赖。"
+    },
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "清理根目录日期时间线并容忍空快照目录。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "增加历史清理边界测试。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "增加持久化前事实一致性 Gate。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "支持 UUID 周期识别。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "将历史与事实 Gate 前移，并持久化稳定 UUID cycle_id。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/71958b2d-17ae-4460-9e61-739f33dae549/pasted-text.txt",
+    "src/features/radar/infrastructure/persistence.rs",
+    "scripts/prune_data_history.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/temporal-gate-hardening.contract.json SUMMARY=.ai/work-items/active/temporal-gate-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test-data-history-retention",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "清理边界、Gate 顺序与 UUID 标识均有测试覆盖；不改变交易阈值与仓位规则。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make quality 首次运行时 Summary 尚未同步，已更新 Summary 后重新执行最终门禁。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已通过 preflight。",
+      "contractHash": "dc290905e6a6c0b9",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "范围与测试场景已确认。",
+      "contractHash": "dc290905e6a6c0b9",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "全量测试、Clippy、质量检查通过。",
+      "contractHash": "dc290905e6a6c0b9",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required checks 全部通过。",
+      "contractHash": "dc290905e6a6c0b9",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 15
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已通过 preflight。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "范围与验收已确定。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "实现与测试完成。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "所有 required checks 通过。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "五项审计遗漏已修正并通过完整质量门禁。",
+    "expectedReviewFocus": [
+      "持久化前 Gate",
+      "历史清理边界",
+      "UUID 周期稳定性"
+    ]
+  }
+}

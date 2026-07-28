@@ -44,7 +44,7 @@
 - exceptionalFactors: [unusual_rotation]
 - Market Interpretation:
   - 今日は例外駆動の日です。
-  - 市場の動きは整然としており、構造的悪化は見えていない。
+  - 現在の主導銘柄：GOOG；ブレイクアウト観察：GOOG。
 - Leadership Classification: very_narrow
 - Leadership Metrics:
   - Breadth label: Narrow
@@ -52,10 +52,10 @@
   - Concentration score: 82
   - Rotation score: 66
 - Rotation Observation:
-  - rotationType: mega_cap_internal_rotation
+  - rotationType: BASELINE_UNAVAILABLE
   - from: []
-  - to: [GOOG]
-  - interpretation: 資金は主導大型株の内部で回っており、全面流出ではない。
+  - to: []
+  - interpretation: 明確なローテーションは観測されない。
   - observationOnly: true
 - Observation Confidence:
   - trend: MEDIUM

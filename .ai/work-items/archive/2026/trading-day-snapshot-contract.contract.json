@@ -1,0 +1,137 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trading-day-snapshot-contract",
+  "mode": "code",
+  "title": "补齐交易日快照契约与显式安全决策",
+  "baseCommit": "5c9cb6bf0e77df40b212155ba09bf7981d2a14e7",
+  "baselineDirtyPaths": [],
+  "problemStatement": "正式な取引日スナップショット契約と安全な決定状態が不足し、resolver が呼び出し側の前日指定に依存している。",
+  "intent": {
+    "problem": "快照元没有正式的 cycle_id + market_date 唯一语义，历史 resolver 由调用方传入前一交易日，异常路径也只关闭预算而未把决策状态持久化为 NO_TRADE。",
+    "constraints": [
+      "只补快照契约、统一 resolver 和安全状态投影，不修改交易阈值或仓位计算规则。",
+      "保持现有 DecisionPacket、报告和历史文件的向后兼容读取。"
+    ],
+    "rationale": "開発指示の P0 要件である正式快照、統一 resolver、安全降級を実装し、既存の履歴連続性 gate と接続する。"
+  },
+  "scope": [
+    ".ai/work-items/active/trading-day-snapshot-contract.contract.json",
+    ".ai/work-items/active/trading-day-snapshot-contract.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/application/radar.rs"
+  ],
+  "outOfScope": [
+    "不调整交易阈值、仓位规则或 Hypothesis / Gravity 逻辑。",
+    "不重构所有 Layer 或新增指标。"
+  ],
+  "sources": [
+    {
+      "path": "pasted-text.txt",
+      "reason": "用户提供的 Sentinel 时间连续性与事实一致性修复开发指示。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "现有快照持久化与 PreviousSnapshotResolution 实现。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "现有 pipeline 写入和安全预算降级入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "只新增快照契约与安全状态字段，不改变交易阈值和仓位规则。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification が確定し、agent が実装・検証可能。"
+  },
+  "preReviewWarnings": [
+    "resolver API は既存呼び出し箇所を含むため、後方互換性と履歴欠損時の明示的降級を確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "新增 TradingDaySnapshot 序列化契约，包含 schema_version、market_date、generated_at、cycle_id、snapshot_id、source_status、decision_state、reset_event 与 data_quality；同一 cycle_id + market_date 只保留一个 active snapshot。",
+    "新增统一 resolver 测试：从保存的有效 trading-day snapshot 选择 current_market_date 之前最近日期；无有效基线时返回 BASELINE_UNAVAILABLE、previous_market_date=null、previous_snapshot_id=null，调用方不再自行读取最新记录。",
+    "新增安全降级测试：HISTORY_REGRESSION 或 BASELINE_UNAVAILABLE 时显式输出 decision_state=NO_TRADE、new_position_limit=0，并将 change/persistence 标记为 unavailable。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json SUMMARY=.ai/work-items/active/trading-day-snapshot-contract.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trading-day-snapshot-contract.summary.json CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json SUMMARY=.ai/work-items/active/trading-day-snapshot-contract.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trading-day-snapshot-contract.contract.json SUMMARY=.ai/work-items/active/trading-day-snapshot-contract.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
