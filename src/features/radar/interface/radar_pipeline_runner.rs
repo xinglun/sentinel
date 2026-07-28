@@ -101,14 +101,16 @@ pub(crate) async fn run_pipeline(
     let runtime_services = build_radar_runtime_services(save_dir);
     let evidence_store = build_radar_evidence_store(save_dir);
 
-    let previous_trading_date = previous_valid_trading_date(radar_context.date);
     let previous_snapshot_resolution = runtime_services
         .persistence
-        .resolve_previous_snapshot(radar_context.date, previous_trading_date)
+        .resolve_previous_snapshot_from_history(radar_context.date)
         .unwrap_or_else(|_| crate::features::radar::infrastructure::persistence::PreviousSnapshotResolution {
             status: crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable,
             current_market_date: radar_context.date,
             previous_market_date: None,
+            previous_snapshot_id: None,
+            gap_type: None,
+            is_same_cycle: false,
             snapshot: None,
             reason: Some("previous trading-day snapshot resolution failed".to_string()),
         });
@@ -565,6 +567,55 @@ pub(crate) async fn run_pipeline(
                 )?;
         }
 
+        if should_persist_history {
+            runtime_services.persistence.save_trading_day_snapshot(
+                &crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
+                    schema_version: "1".to_string(),
+                    market_date: packet.date,
+                    generated_at: radar_context.timestamp.clone(),
+                    run_id: radar_context.timestamp.clone(),
+                    cycle_id: "default".to_string(),
+                    snapshot_id: format!("default-{}", packet.date),
+                    is_valid_trading_day: true,
+                    source_status: if safe_downgrade {
+                        "degraded"
+                    } else {
+                        "complete"
+                    }
+                    .to_string(),
+                    market_state: format!("{:?}", packet.market_regime.market_state),
+                    decision_state: if safe_downgrade {
+                        "NO_TRADE"
+                    } else {
+                        "OBSERVE"
+                    }
+                    .to_string(),
+                    breadth: if packet.market_features.total_count == 0 {
+                        0.0
+                    } else {
+                        packet.market_features.up_count as f64
+                            / packet.market_features.total_count as f64
+                            * 100.0
+                    },
+                    confidence: packet.market_features.system_confidence,
+                    supply_phase: pres_packet.signal_summary.supply_phase_value.clone(),
+                    risk_state: format!("{:?}", packet.market_regime.risk_overlay),
+                    primary_leader: (!current_leadership_snapshot.primary_leader_value.is_empty())
+                        .then_some(current_leadership_snapshot.primary_leader_value.clone()),
+                    secondary_leaders: current_leadership_snapshot.secondary_leaders_values.clone(),
+                    breakouts: serde_json::json!({}),
+                    stability: 0.0,
+                    continuity: history_after.len(),
+                    cycle_length_days: history_after.len(),
+                    reset_event: None,
+                    data_quality: serde_json::json!({
+                        "trend": if safe_downgrade { "DEGRADED" } else { "HEALTHY" },
+                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" }
+                    }),
+                },
+            )?;
+        }
+
         let default_trading_config = config::TradingConfig {
             enabled: false,
             global_budget: 0.0,
@@ -745,13 +796,6 @@ fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
     }
     dates.sort_unstable();
     dates
-}
-
-fn previous_valid_trading_date(current: chrono::NaiveDate) -> Option<chrono::NaiveDate> {
-    recent_trading_dates(current)
-        .into_iter()
-        .filter(|date| *date < current)
-        .max()
 }
 
 #[allow(clippy::too_many_arguments)]

@@ -20,8 +20,37 @@ pub struct PreviousSnapshotResolution {
     pub status: PreviousSnapshotStatus,
     pub current_market_date: chrono::NaiveDate,
     pub previous_market_date: Option<chrono::NaiveDate>,
+    pub previous_snapshot_id: Option<String>,
+    pub gap_type: Option<String>,
+    pub is_same_cycle: bool,
     pub snapshot: Option<DecisionPacket>,
     pub reason: Option<String>,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct TradingDaySnapshot {
+    pub schema_version: String,
+    pub market_date: chrono::NaiveDate,
+    pub generated_at: String,
+    pub run_id: String,
+    pub cycle_id: String,
+    pub snapshot_id: String,
+    pub is_valid_trading_day: bool,
+    pub source_status: String,
+    pub market_state: String,
+    pub decision_state: String,
+    pub breadth: f64,
+    pub confidence: f64,
+    pub supply_phase: String,
+    pub risk_state: String,
+    pub primary_leader: Option<String>,
+    pub secondary_leaders: Vec<String>,
+    pub breakouts: serde_json::Value,
+    pub stability: f64,
+    pub continuity: usize,
+    pub cycle_length_days: usize,
+    pub reset_event: Option<String>,
+    pub data_quality: serde_json::Value,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -205,6 +234,39 @@ impl PersistenceLayer {
         Ok(Some(value))
     }
 
+    pub fn save_trading_day_snapshot(&self, snapshot: &TradingDaySnapshot) -> Result<()> {
+        let dir = self.save_dir.join("snapshots");
+        std::fs::create_dir_all(&dir).context("Failed to create trading-day snapshot directory")?;
+        let path = dir.join(format!(
+            "{}_{}.json",
+            snapshot.cycle_id, snapshot.market_date
+        ));
+        let json = serde_json::to_string_pretty(snapshot)
+            .context("Failed to serialize trading-day snapshot")?;
+        std::fs::write(path, json).context("Failed to write trading-day snapshot")?;
+        Ok(())
+    }
+
+    pub fn load_trading_day_snapshots(&self) -> Result<Vec<TradingDaySnapshot>> {
+        let dir = self.save_dir.join("snapshots");
+        if !dir.exists() {
+            return Ok(Vec::new());
+        }
+        let mut snapshots = std::collections::BTreeMap::new();
+        for entry in std::fs::read_dir(dir).context("Failed to read trading-day snapshots")? {
+            let path = entry?.path();
+            if path.extension().and_then(|value| value.to_str()) != Some("json") {
+                continue;
+            }
+            let snapshot: TradingDaySnapshot = serde_json::from_str(
+                &std::fs::read_to_string(path).context("Failed to read trading-day snapshot")?,
+            )
+            .context("Failed to deserialize trading-day snapshot")?;
+            snapshots.insert((snapshot.cycle_id.clone(), snapshot.market_date), snapshot);
+        }
+        Ok(snapshots.into_values().collect())
+    }
+
     pub fn save_observation_history_state(&self, state: &ObservationHistoryState) -> Result<()> {
         let path = self.save_dir.join("observation_history_state.json");
         let json = serde_json::to_string_pretty(state)
@@ -270,6 +332,66 @@ impl PersistenceLayer {
                 status: PreviousSnapshotStatus::BaselineUnavailable,
                 current_market_date,
                 previous_market_date: None,
+                previous_snapshot_id: None,
+                gap_type: None,
+                is_same_cycle: false,
+                snapshot: None,
+                reason: Some("previous trading date is unavailable".to_string()),
+            });
+        };
+        let snapshot = self
+            .load_all_packets()?
+            .into_iter()
+            .find(|packet| packet.date == previous_market_date);
+        Ok(PreviousSnapshotResolution {
+            status: if snapshot.is_some() {
+                PreviousSnapshotStatus::Available
+            } else {
+                PreviousSnapshotStatus::BaselineUnavailable
+            },
+            current_market_date,
+            previous_market_date: Some(previous_market_date),
+            previous_snapshot_id: None,
+            gap_type: Some("TRADING_DAY_GAP".to_string()),
+            is_same_cycle: false,
+            reason: snapshot
+                .as_ref()
+                .is_none()
+                .then(|| "previous trading-day snapshot is unavailable".to_string()),
+            snapshot,
+        })
+    }
+
+    pub fn resolve_previous_snapshot_from_history(
+        &self,
+        current_market_date: chrono::NaiveDate,
+    ) -> Result<PreviousSnapshotResolution> {
+        let snapshot_history = self.load_trading_day_snapshots()?;
+        let previous_snapshot = snapshot_history
+            .iter()
+            .filter(|snapshot| {
+                snapshot.is_valid_trading_day && snapshot.market_date < current_market_date
+            })
+            .max_by_key(|snapshot| snapshot.market_date);
+        let previous_market_date = previous_snapshot
+            .map(|snapshot| snapshot.market_date)
+            .or_else(|| {
+                self.load_all_packets().ok().and_then(|packets| {
+                    packets
+                        .into_iter()
+                        .map(|packet| packet.date)
+                        .filter(|date| *date < current_market_date)
+                        .max()
+                })
+            });
+        let Some(previous_market_date) = previous_market_date else {
+            return Ok(PreviousSnapshotResolution {
+                status: PreviousSnapshotStatus::BaselineUnavailable,
+                current_market_date,
+                previous_market_date: None,
+                previous_snapshot_id: None,
+                gap_type: None,
+                is_same_cycle: false,
                 snapshot: None,
                 reason: Some("previous trading date is unavailable".to_string()),
             });
@@ -291,6 +413,9 @@ impl PersistenceLayer {
             status,
             current_market_date,
             previous_market_date: Some(previous_market_date),
+            previous_snapshot_id: previous_snapshot.map(|snapshot| snapshot.snapshot_id.clone()),
+            gap_type: Some("TRADING_DAY_GAP".to_string()),
+            is_same_cycle: previous_snapshot.is_some_and(|snapshot| snapshot.cycle_id == "default"),
             snapshot,
             reason,
         })
@@ -804,6 +929,51 @@ mod tests {
             history.last().unwrap().date,
             start + chrono::Duration::days(7)
         );
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn trading_day_snapshot_is_upserted_by_cycle_and_market_date() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_trading_day_snapshot_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: date,
+            generated_at: "2026-07-28T05:30:00+09:00".to_string(),
+            run_id: "run-1".to_string(),
+            cycle_id: "default".to_string(),
+            snapshot_id: "default-2026-07-27".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "STARTUP".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            breadth: 35.0,
+            confidence: 56.7,
+            supply_phase: "ACCUMULATING".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: Some("TSLA".to_string()),
+            secondary_leaders: vec!["ISRG".to_string()],
+            breakouts: serde_json::json!({}),
+            stability: 1.1,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+        };
+        layer.save_trading_day_snapshot(&snapshot).unwrap();
+        let mut revised = snapshot.clone();
+        revised.generated_at = "2026-07-28T05:31:00+09:00".to_string();
+        layer.save_trading_day_snapshot(&revised).unwrap();
+
+        let loaded = layer.load_trading_day_snapshots().unwrap();
+        assert_eq!(loaded.len(), 1);
+        assert_eq!(loaded[0].generated_at, "2026-07-28T05:31:00+09:00");
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }
