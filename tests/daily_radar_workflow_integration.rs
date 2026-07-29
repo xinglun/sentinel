@@ -149,3 +149,17 @@ enable = true
     assert_eq!(status["reason"], "FINNHUB_API_KEY is not configured");
     assert_eq!(status["symbols"][0], "GOOG");
 }
+
+#[test]
+fn daily_radar_restores_and_validates_formal_history_without_reimplementing_migration() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(workflow.contains("RESTORED_SNAPSHOT_COUNT"));
+    assert!(workflow.contains("Legacy decision history exists but formal trading-day snapshots"));
+    assert!(workflow.contains("make radar-release"));
+    assert!(workflow.contains("formal snapshot history did not append across the new market date"));
+    assert!(!workflow.contains("packet-to-snapshot"));
+    assert!(!workflow.contains("MIGRATED_LEGACY"));
+}
