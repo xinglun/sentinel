@@ -1416,6 +1416,38 @@ mod tests {
     }
 
     #[test]
+    fn migrate_legacy_history_rejects_malformed_packet_without_publishing_outputs() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_malformed_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&packet).unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-29.json"),
+            "{ malformed packet",
+        )
+        .unwrap();
+
+        assert!(layer.migrate_legacy_history().is_err());
+        assert!(!temp_dir.join("snapshots").exists());
+        assert!(layer.load_trading_day_snapshots().unwrap().is_empty());
+        assert!(layer.load_observation_history_state().unwrap().is_none());
+        assert!(!temp_dir.join("observation_history_state.json").exists());
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn migrate_legacy_history_reuses_identical_snapshot_and_existing_state_cycle() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_migrate_legacy_history_idempotent_{}",
@@ -1475,6 +1507,57 @@ mod tests {
             original_snapshot
         );
         assert_eq!(fs::read_to_string(&state_path).unwrap(), original_state);
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn migrate_legacy_history_rejects_semantic_conflict_without_changing_existing_history() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_conflict_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&packet).unwrap(),
+        )
+        .unwrap();
+        let expected_state = ObservationHistoryState {
+            count: 7,
+            last_market_date: NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            cycle_id: "existing-cycle".to_string(),
+        };
+        layer
+            .save_observation_history_state(&expected_state)
+            .unwrap();
+        let mut conflicting_snapshot =
+            layer.project_legacy_packet_snapshot(packet, &expected_state.cycle_id);
+        conflicting_snapshot.market_state = "CONFLICTING_MARKET_STATE".to_string();
+        layer
+            .save_trading_day_snapshot(&conflicting_snapshot)
+            .unwrap();
+
+        let error = layer.migrate_legacy_history().unwrap_err();
+        assert!(error.to_string().contains("SNAPSHOT_CONFLICT"));
+        let state_after = layer
+            .load_observation_history_state()
+            .unwrap()
+            .expect("conflict must preserve the existing state");
+        assert_eq!(state_after.count, expected_state.count);
+        assert_eq!(
+            state_after.last_market_date,
+            expected_state.last_market_date
+        );
+        assert_eq!(state_after.cycle_id, expected_state.cycle_id);
+        let snapshots = layer.load_trading_day_snapshots().unwrap();
+        assert_eq!(snapshots.len(), 1);
+        assert_eq!(snapshots[0].market_state, "CONFLICTING_MARKET_STATE");
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }
