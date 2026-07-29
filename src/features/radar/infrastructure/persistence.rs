@@ -1542,9 +1542,16 @@ mod tests {
         layer
             .save_trading_day_snapshot(&conflicting_snapshot)
             .unwrap();
+        let snapshot_path = temp_dir.join("snapshots/existing-cycle_2026-07-28.json");
+        let original_snapshot = fs::read_to_string(&snapshot_path).unwrap();
 
         let error = layer.migrate_legacy_history().unwrap_err();
-        assert!(error.to_string().contains("SNAPSHOT_CONFLICT"));
+        let error_chain = format!("{error:#}");
+        let error_contract = error_chain
+            .rsplit(": ")
+            .next()
+            .expect("anyhow error chain must have a final error contract");
+        assert_eq!(error_contract, "SNAPSHOT_CONFLICT");
         let state_after = layer
             .load_observation_history_state()
             .unwrap()
@@ -1558,6 +1565,10 @@ mod tests {
         let snapshots = layer.load_trading_day_snapshots().unwrap();
         assert_eq!(snapshots.len(), 1);
         assert_eq!(snapshots[0].market_state, "CONFLICTING_MARKET_STATE");
+        assert_eq!(
+            fs::read_to_string(&snapshot_path).unwrap(),
+            original_snapshot
+        );
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }

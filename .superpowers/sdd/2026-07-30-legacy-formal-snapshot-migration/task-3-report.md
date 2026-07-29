@@ -12,7 +12,7 @@ key: legacy-formal-snapshot-migration-task-3-report
 - `src/features/radar/infrastructure/persistence.rs` の inline test
   - 正常 packet と壊れた dated packet が共存する場合、migration が失敗し、`snapshots/` と `observation_history_state.json` を公開しないことを実ファイルと Persistence API で確認した。
   - 既存 snapshot の冪等性 test で、2 回目の migration が generated timestamp を含む既存 snapshot JSON を保持し、state の count と cycle を変えないことを確認した。
-  - migration key に異なる `market_state` の snapshot が存在する場合、`SNAPSHOT_CONFLICT` を含む error を返し、既存 snapshot と state が変化しないことを確認した。
+  - migration key に異なる `market_state` の snapshot が存在する場合、anyhow error chain の最終契約が厳密に `SNAPSHOT_CONFLICT` になることを確認した。migration 前後で既存 snapshot file の原始 JSON が完全に一致し、state も変化しないことを確認した。
 
 production logic、runner、workflow、既存 document は変更していない。
 
