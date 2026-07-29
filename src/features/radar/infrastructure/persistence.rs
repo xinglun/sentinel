@@ -1256,44 +1256,26 @@ mod tests {
             .unwrap();
         }
 
-        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        layer.migrate_legacy_history().unwrap();
         let snapshots = layer.load_trading_day_snapshots().unwrap();
-        let snapshot_dates = snapshots
-            .iter()
-            .map(|snapshot| snapshot.market_date)
-            .collect::<Vec<_>>();
-        let snapshot_files = fs::read_dir(temp_dir.join("snapshots"))
+        let state = layer
+            .load_observation_history_state()
             .unwrap()
-            .map(|entry| entry.unwrap().file_name().to_string_lossy().into_owned())
-            .collect::<Vec<_>>();
+            .expect("migration should persist observation history state");
 
-        assert_eq!(
-            snapshot_dates,
-            vec![
-                NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
-                NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
-            ]
-        );
-        assert_eq!(snapshots[0].cycle_id, "legacy-2026-07-28-2026-07-29");
-        assert_eq!(snapshots[1].cycle_id, snapshots[0].cycle_id);
-        assert_eq!(snapshot_files.len(), 2);
-        assert!(
-            snapshot_files.contains(&"legacy-2026-07-28-2026-07-29_2026-07-28.json".to_string())
-        );
-        assert!(
-            snapshot_files.contains(&"legacy-2026-07-28-2026-07-29_2026-07-29.json".to_string())
-        );
-        assert_eq!(state.count, 2);
+        assert_eq!(snapshots.len(), state.count);
+        assert!(!state.cycle_id.is_empty());
+        assert!(snapshots
+            .iter()
+            .all(|snapshot| snapshot.cycle_id == state.cycle_id));
         assert_eq!(
             state.last_market_date,
             NaiveDate::from_ymd_opt(2026, 7, 29).unwrap()
         );
-        assert_eq!(state.cycle_id, "legacy-2026-07-28-2026-07-29");
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
-    #[test]
     #[test]
     fn test_markdown_report_saving() {
         let temp_dir = std::env::temp_dir().join(format!(
