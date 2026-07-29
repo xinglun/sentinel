@@ -127,7 +127,12 @@ pub(crate) async fn run_pipeline(
             radar_context.date,
             cycle_id_for_resolution.as_deref(),
         )?;
-    let baseline_packet = previous_snapshot_resolution.snapshot.clone();
+    let resolved_baseline_packet = previous_snapshot_resolution.snapshot.clone();
+    let baseline_packet = previous_snapshot_resolution
+        .formal_snapshot
+        .as_ref()
+        .filter(|snapshot| snapshot.source_status == "complete")
+        .and(resolved_baseline_packet);
     let previous_trading_date = previous_snapshot_resolution.previous_market_date;
     let history = runtime_services
         .persistence

@@ -935,6 +935,19 @@ impl PersistenceLayer {
             }
             packets.entry(packet.date).or_insert(packet);
         }
+        if packets.is_empty() && self.history_path.exists() {
+            let file = File::open(&self.history_path)
+                .context("Failed to open legacy decision history JSONL")?;
+            for line in BufReader::new(file).lines() {
+                let line = line.context("Failed to read legacy decision history JSONL")?;
+                if line.trim().is_empty() {
+                    continue;
+                }
+                let packet: DecisionPacket = serde_json::from_str(&line)
+                    .context("Failed to deserialize legacy decision history JSONL")?;
+                packets.entry(packet.date).or_insert(packet);
+            }
+        }
         Ok(packets)
     }
 
@@ -1866,6 +1879,36 @@ mod tests {
         assert_eq!(packets[0].date, packet.date);
         assert!(temp_dir.join("decision_snapshots/2026-07-28.json").exists());
         assert!(temp_dir.join("decision_history.jsonl").exists());
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn migrate_legacy_history_accepts_jsonl_only_input() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_jsonl_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_history.jsonl"),
+            format!("{}\n", serde_json::to_string(&packet).unwrap()),
+        )
+        .unwrap();
+
+        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        assert_eq!(state.count, 1);
+        assert_eq!(layer.load_trading_day_snapshots().unwrap().len(), 1);
+        let loaded_packets = layer
+            .load_recent_packets_before(packet.date.succ_opt().unwrap(), 1)
+            .unwrap();
+        assert_eq!(loaded_packets.len(), 1);
+        assert_eq!(loaded_packets[0].date, packet.date);
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }
