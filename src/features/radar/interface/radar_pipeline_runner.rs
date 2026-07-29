@@ -109,17 +109,23 @@ pub(crate) async fn run_pipeline(
     }
     let history_state_for_resolution = runtime_services
         .persistence
-        .load_observation_history_state()
-        .unwrap_or(None);
+        .load_observation_history_state()?;
+    let state_cycle_id = history_state_for_resolution
+        .as_ref()
+        .filter(|state| !state.cycle_id.is_empty())
+        .map(|state| state.cycle_id.clone());
+    let cycle_id_for_resolution = match state_cycle_id {
+        Some(cycle_id) => Some(cycle_id),
+        None => runtime_services
+            .persistence
+            .latest_cycle_id_before(radar_context.date)?,
+    };
 
     let previous_snapshot_resolution = runtime_services
         .persistence
         .resolve_previous_snapshot_from_history(
             radar_context.date,
-            history_state_for_resolution
-                .as_ref()
-                .filter(|state| !state.cycle_id.is_empty())
-                .map(|state| state.cycle_id.as_str()),
+            cycle_id_for_resolution.as_deref(),
         )?;
     let baseline_packet = previous_snapshot_resolution.snapshot.clone();
     let previous_trading_date = previous_snapshot_resolution.previous_market_date;
@@ -470,10 +476,8 @@ pub(crate) async fn run_pipeline(
             .persistence
             .load_observation_history_entries()?;
         let history_state_before = history_state_for_resolution.clone();
-        let cycle_id = history_state_before
-            .as_ref()
-            .filter(|state| !state.cycle_id.is_empty())
-            .map(|state| state.cycle_id.clone())
+        let cycle_id = cycle_id_for_resolution
+            .clone()
             .unwrap_or_else(|| Uuid::new_v4().to_string());
         if should_persist_history
             && history_state_would_regress(

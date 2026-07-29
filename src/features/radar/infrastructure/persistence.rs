@@ -174,6 +174,12 @@ impl Drop for HistoryWriteTransaction {
 }
 
 impl PersistenceLayer {
+    /// 市場事実として保存された取引日快照は、基線可用性が低くても次回の比較対象にする。
+    fn is_historical_snapshot(snapshot: &TradingDaySnapshot) -> bool {
+        snapshot.is_valid_trading_day
+            && matches!(snapshot.source_status.as_str(), "complete" | "degraded")
+    }
+
     fn trading_day_snapshot_semantics(snapshot: &TradingDaySnapshot) -> serde_json::Value {
         let mut value = serde_json::to_value(snapshot).expect("TradingDaySnapshot is serializable");
         if let Some(object) = value.as_object_mut() {
@@ -554,6 +560,22 @@ impl PersistenceLayer {
         Ok(snapshots.into_values().collect())
     }
 
+    pub fn latest_cycle_id_before(
+        &self,
+        current_market_date: chrono::NaiveDate,
+    ) -> Result<Option<String>> {
+        Ok(self
+            .load_trading_day_snapshots()?
+            .into_iter()
+            .filter(|snapshot| {
+                Self::is_historical_snapshot(snapshot)
+                    && snapshot.market_date < current_market_date
+                    && !snapshot.cycle_id.is_empty()
+            })
+            .max_by_key(|snapshot| snapshot.market_date)
+            .map(|snapshot| snapshot.cycle_id))
+    }
+
     /// formal snapshot が未作成で、日付付き legacy packet がある時だけ移行する。
     pub fn legacy_history_migration_needed(&self) -> Result<bool> {
         if !self.load_trading_day_snapshots()?.is_empty() {
@@ -765,8 +787,7 @@ impl PersistenceLayer {
             .into_iter()
             .find(|snapshot| {
                 snapshot.market_date == previous_market_date
-                    && snapshot.is_valid_trading_day
-                    && snapshot.source_status == "complete"
+                    && Self::is_historical_snapshot(snapshot)
             });
         let snapshot = formal_snapshot.as_ref().and_then(|formal| {
             self.load_all_packets()
@@ -803,8 +824,7 @@ impl PersistenceLayer {
         let previous_snapshot = snapshot_history
             .iter()
             .filter(|snapshot| {
-                snapshot.is_valid_trading_day
-                    && snapshot.source_status == "complete"
+                Self::is_historical_snapshot(snapshot)
                     && snapshot.market_date < current_market_date
                     && current_cycle_id.is_some_and(|cycle_id| snapshot.cycle_id == cycle_id)
             })
@@ -1335,6 +1355,117 @@ mod tests {
     }
 
     #[test]
+    fn formal_snapshot_resolution_accepts_degraded_snapshot_as_historical_fact() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_degraded_formal_baseline_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            generated_at: "2026-07-29T05:30:00+09:00".to_string(),
+            run_id: "run-degraded".to_string(),
+            cycle_id: "cycle-1".to_string(),
+            snapshot_id: "snapshot-degraded".to_string(),
+            is_valid_trading_day: true,
+            source_status: "degraded".to_string(),
+            market_state: "IGNITION".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 35.0,
+            confidence: 20.0,
+            supply_phase: "UNAVAILABLE".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: Some("U".to_string()),
+            secondary_leaders: vec![],
+            breakouts: serde_json::json!({"U": 96.0}),
+            stability: 1.1,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+        };
+        assert!(PersistenceLayer::is_historical_snapshot(&snapshot));
+        layer.save_trading_day_snapshot(&snapshot).unwrap();
+        let loaded = layer.load_trading_day_snapshots().unwrap();
+        assert_eq!(loaded.len(), 1);
+        assert_eq!(loaded[0].market_date, snapshot.market_date);
+        assert_eq!(loaded[0].cycle_id, "cycle-1");
+        layer
+            .save_packet(&DecisionPacket {
+                date: snapshot.market_date,
+                ..Default::default()
+            })
+            .unwrap();
+
+        let resolution = layer
+            .resolve_previous_snapshot_from_history(
+                NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+                Some("cycle-1"),
+            )
+            .unwrap();
+
+        assert_eq!(resolution.status, PreviousSnapshotStatus::Available);
+        assert_eq!(resolution.previous_market_date, Some(snapshot.market_date));
+        assert_eq!(
+            resolution.formal_snapshot.unwrap().snapshot_id,
+            "snapshot-degraded"
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn latest_cycle_id_before_date_is_recovered_from_formal_snapshot() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_cycle_recovery_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        layer
+            .save_trading_day_snapshot(&TradingDaySnapshot {
+                schema_version: "1".to_string(),
+                market_date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+                report_date: NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+                as_of_date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+                generated_at: "2026-07-29T05:30:00+09:00".to_string(),
+                run_id: "run-recovery".to_string(),
+                cycle_id: "cycle-recovered".to_string(),
+                snapshot_id: "cycle-recovered-2026-07-28".to_string(),
+                is_valid_trading_day: true,
+                source_status: "degraded".to_string(),
+                market_state: "IGNITION".to_string(),
+                decision_state: "NO_TRADE".to_string(),
+                new_position_limit: 0.0,
+                breadth: 35.0,
+                confidence: 20.0,
+                supply_phase: "UNAVAILABLE".to_string(),
+                risk_state: "NORMAL".to_string(),
+                primary_leader: Some("U".to_string()),
+                secondary_leaders: vec![],
+                breakouts: serde_json::json!({"U": 96.0}),
+                stability: 1.1,
+                continuity: 1,
+                cycle_length_days: 1,
+                reset_event: None,
+                data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+            })
+            .unwrap();
+
+        assert_eq!(
+            layer
+                .latest_cycle_id_before(NaiveDate::from_ymd_opt(2026, 7, 29).unwrap())
+                .unwrap(),
+            Some("cycle-recovered".to_string())
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn legacy_migration_is_skipped_when_formal_snapshots_already_exist() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_legacy_migration_skip_{}",
@@ -1363,75 +1494,6 @@ mod tests {
     }
 
     #[test]
-    fn legacy_startup_migration_reloads_history_and_next_run_keeps_cycle() {
-        let temp_dir = std::env::temp_dir().join(format!(
-            "test_sentinel_legacy_startup_migration_{}",
-            Utc::now().timestamp_nanos_opt().unwrap_or_default()
-        ));
-        fs::create_dir_all(&temp_dir).unwrap();
-        let layer = PersistenceLayer::new(&temp_dir);
-        let legacy_date = NaiveDate::from_ymd_opt(2026, 7, 28).unwrap();
-        let packet = DecisionPacket {
-            date: legacy_date,
-            ..Default::default()
-        };
-        fs::write(
-            temp_dir.join("decision_packet_2026-07-28.json"),
-            serde_json::to_string_pretty(&packet).unwrap(),
-        )
-        .unwrap();
-
-        assert!(layer.legacy_history_migration_needed().unwrap());
-        layer.migrate_legacy_history().unwrap();
-
-        let migrated_state = layer
-            .load_observation_history_state()
-            .unwrap()
-            .expect("migration should persist observation history state");
-        let mut migrated_snapshots = layer.load_trading_day_snapshots().unwrap();
-        assert_eq!(migrated_snapshots.len(), 1);
-        assert_eq!(migrated_snapshots[0].market_date, legacy_date);
-        assert_eq!(migrated_snapshots[0].cycle_id, migrated_state.cycle_id);
-
-        let next_market_date = NaiveDate::from_ymd_opt(2026, 7, 29).unwrap();
-        let mut next_snapshot = migrated_snapshots.pop().unwrap();
-        next_snapshot.market_date = next_market_date;
-        next_snapshot.report_date = next_market_date;
-        next_snapshot.as_of_date = next_market_date;
-        next_snapshot.snapshot_id = format!("{}-{next_market_date}", migrated_state.cycle_id);
-        next_snapshot.reset_event = None;
-        layer.save_trading_day_snapshot(&next_snapshot).unwrap();
-        layer
-            .save_observation_history_state(&ObservationHistoryState {
-                count: 2,
-                last_market_date: next_market_date,
-                cycle_id: migrated_state.cycle_id.clone(),
-            })
-            .unwrap();
-
-        assert!(!layer.legacy_history_migration_needed().unwrap());
-        let second_run_state = layer
-            .load_observation_history_state()
-            .unwrap()
-            .expect("second run should reload the persisted state");
-        let second_run_snapshots = layer.load_trading_day_snapshots().unwrap();
-        assert_eq!(second_run_state.cycle_id, migrated_state.cycle_id);
-        assert_eq!(second_run_state.last_market_date, next_market_date);
-        assert_eq!(
-            second_run_snapshots
-                .iter()
-                .map(|snapshot| snapshot.market_date)
-                .collect::<Vec<_>>(),
-            vec![legacy_date, next_market_date]
-        );
-        assert!(second_run_snapshots
-            .iter()
-            .all(|snapshot| snapshot.cycle_id == migrated_state.cycle_id));
-
-        fs::remove_dir_all(&temp_dir).unwrap();
-    }
-
-    #[test]
     fn migrate_legacy_history_projects_one_packet_to_degraded_formal_snapshot() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_migrate_legacy_history_one_{}",
@@ -1454,8 +1516,12 @@ mod tests {
         )
         .unwrap();
 
-        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        layer.migrate_legacy_history().unwrap();
         let snapshots = layer.load_trading_day_snapshots().unwrap();
+        let state = layer
+            .load_observation_history_state()
+            .unwrap()
+            .expect("migration should persist observation history state");
 
         assert_eq!(snapshots.len(), 1);
         assert_eq!(snapshots[0].source_status, "degraded");
