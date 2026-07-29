@@ -558,8 +558,130 @@ impl PersistenceLayer {
         let path = self.save_dir.join("observation_history_state.json");
         let json = serde_json::to_string_pretty(state)
             .context("Failed to serialize observation history state")?;
-        std::fs::write(path, json).context("Failed to write observation history state")?;
+        write_file_atomically(&path, json.as_bytes())
+            .context("Failed to write observation history state")?;
         Ok(())
+    }
+
+    /// 日付付き legacy packet を formal snapshot と観測履歴 state へ安全に移行する。
+    pub fn migrate_legacy_history(&self) -> Result<Option<ObservationHistoryState>> {
+        let packets = self.load_dated_legacy_packets()?;
+        let Some((&first_date, _)) = packets.first_key_value() else {
+            return Ok(None);
+        };
+        let (&last_date, _) = packets
+            .last_key_value()
+            .expect("legacy packet map is not empty");
+        let state_before = self.load_observation_history_state()?;
+        let cycle_id = state_before
+            .as_ref()
+            .filter(|state| !state.cycle_id.is_empty())
+            .map(|state| state.cycle_id.clone())
+            .unwrap_or_else(|| format!("legacy-{first_date}-{last_date}"));
+        let snapshots = packets
+            .into_values()
+            .map(|packet| self.project_legacy_packet_snapshot(packet, &cycle_id))
+            .collect::<Vec<_>>();
+
+        for snapshot in &snapshots {
+            self.validate_trading_day_snapshot_conflict(snapshot)?;
+        }
+        for snapshot in &snapshots {
+            self.save_trading_day_snapshot(snapshot)?;
+        }
+
+        let state = ObservationHistoryState {
+            count: snapshots.len(),
+            last_market_date: last_date,
+            cycle_id,
+        };
+        self.save_observation_history_state(&state)?;
+        Ok(Some(state))
+    }
+
+    /// save_dir 直下の dated legacy packet を日付ごとに一意に読み込む。
+    fn load_dated_legacy_packets(
+        &self,
+    ) -> Result<std::collections::BTreeMap<chrono::NaiveDate, DecisionPacket>> {
+        let mut packets = std::collections::BTreeMap::new();
+        if !self.save_dir.exists() {
+            return Ok(packets);
+        }
+
+        let mut paths = std::fs::read_dir(&self.save_dir)
+            .context("Failed to read legacy decision packet directory")?
+            .map(|entry| {
+                entry
+                    .context("Failed to read legacy decision packet entry")
+                    .map(|entry| entry.path())
+            })
+            .collect::<Result<Vec<_>>>()?;
+        paths.sort();
+
+        for path in paths {
+            let Some(filename) = path.file_name().and_then(|name| name.to_str()) else {
+                continue;
+            };
+            let Some(date) = filename
+                .strip_prefix("decision_packet_")
+                .and_then(|name| name.strip_suffix(".json"))
+            else {
+                continue;
+            };
+            let filename_date = chrono::NaiveDate::parse_from_str(date, "%Y-%m-%d")
+                .with_context(|| format!("Invalid legacy decision packet date in {filename}"))?;
+            let packet: DecisionPacket = serde_json::from_str(
+                &std::fs::read_to_string(&path)
+                    .with_context(|| format!("Failed to read legacy decision packet: {path:?}"))?,
+            )
+            .with_context(|| format!("Failed to deserialize legacy decision packet: {path:?}"))?;
+            if packet.date != filename_date {
+                bail!("Legacy decision packet date does not match filename: {path:?}");
+            }
+            packets.entry(packet.date).or_insert(packet);
+        }
+        Ok(packets)
+    }
+
+    /// legacy packet の確認可能な市場事実だけを安全側の formal snapshot へ写像する。
+    fn project_legacy_packet_snapshot(
+        &self,
+        packet: DecisionPacket,
+        cycle_id: &str,
+    ) -> TradingDaySnapshot {
+        let breadth = if packet.market_features.total_count == 0 {
+            0.0
+        } else {
+            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                * 100.0
+        };
+        TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: packet.date,
+            report_date: packet.date,
+            as_of_date: packet.date,
+            generated_at: "UNAVAILABLE".to_string(),
+            run_id: "UNAVAILABLE".to_string(),
+            cycle_id: cycle_id.to_string(),
+            snapshot_id: format!("{cycle_id}-{}", packet.date),
+            is_valid_trading_day: true,
+            source_status: "degraded".to_string(),
+            market_state: format!("{:?}", packet.market_regime.market_state),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth,
+            confidence: packet.market_features.system_confidence,
+            supply_phase: "UNAVAILABLE".to_string(),
+            risk_state: format!("{:?}", packet.market_regime.risk_overlay),
+            primary_leader: None,
+            secondary_leaders: Vec::new(),
+            breakouts: serde_json::json!({}),
+            stability: packet.market_features.stability_score,
+            continuity: 0,
+            cycle_length_days: 0,
+            reset_event: Some("MIGRATED_LEGACY".to_string()),
+            data_quality: serde_json::json!({"history": "MIGRATED_LEGACY"}),
+        }
     }
 
     pub fn load_latest_packet(&self) -> Result<Option<DecisionPacket>> {
