@@ -101,6 +101,12 @@ pub(crate) async fn run_pipeline(
 
     let runtime_services = build_radar_runtime_services(save_dir);
     let evidence_store = build_radar_evidence_store(save_dir);
+    if runtime_services
+        .persistence
+        .legacy_history_migration_needed()?
+    {
+        runtime_services.persistence.migrate_legacy_history()?;
+    }
     let history_state_for_resolution = runtime_services
         .persistence
         .load_observation_history_state()
@@ -114,29 +120,14 @@ pub(crate) async fn run_pipeline(
                 .as_ref()
                 .filter(|state| !state.cycle_id.is_empty())
                 .map(|state| state.cycle_id.as_str()),
-        )
-        .unwrap_or_else(|_| crate::features::radar::infrastructure::persistence::PreviousSnapshotResolution {
-            status: crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable,
-            current_market_date: radar_context.date,
-            previous_market_date: None,
-            previous_snapshot_id: None,
-            gap_type: None,
-            is_same_cycle: false,
-            snapshot: None,
-            reason: Some("previous trading-day snapshot resolution failed".to_string()),
-            formal_snapshot: None,
-        });
+        )?;
     let baseline_packet = previous_snapshot_resolution.snapshot.clone();
     let previous_trading_date = previous_snapshot_resolution.previous_market_date;
     let history = runtime_services
         .persistence
-        .load_recent_packets_before(radar_context.date, 20)
-        .unwrap_or_default();
+        .load_recent_packets_before(radar_context.date, 20)?;
     let pipeline_history = baseline_packet.iter().cloned().collect::<Vec<_>>();
-    let leader_observations = runtime_services
-        .persistence
-        .load_leader_observations()
-        .unwrap_or_default();
+    let leader_observations = runtime_services.persistence.load_leader_observations()?;
     let all_evidence = evidence_store
         .load_all()
         .unwrap_or_default()

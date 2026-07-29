@@ -554,6 +554,14 @@ impl PersistenceLayer {
         Ok(snapshots.into_values().collect())
     }
 
+    /// formal snapshot が未作成で、日付付き legacy packet がある時だけ移行する。
+    pub fn legacy_history_migration_needed(&self) -> Result<bool> {
+        if !self.load_trading_day_snapshots()?.is_empty() {
+            return Ok(false);
+        }
+        Ok(!self.load_dated_legacy_packets()?.is_empty())
+    }
+
     pub fn save_observation_history_state(&self, state: &ObservationHistoryState) -> Result<()> {
         let path = self.save_dir.join("observation_history_state.json");
         let json = serde_json::to_string_pretty(state)
@@ -1323,6 +1331,103 @@ mod tests {
             resolution.formal_snapshot.unwrap().snapshot_id,
             "snapshot-formal"
         );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn legacy_migration_is_skipped_when_formal_snapshots_already_exist() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_legacy_migration_skip_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&packet).unwrap(),
+        )
+        .unwrap();
+        layer
+            .save_trading_day_snapshot(
+                &layer.project_legacy_packet_snapshot(packet, "formal-cycle"),
+            )
+            .unwrap();
+
+        assert!(!layer.legacy_history_migration_needed().unwrap());
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn legacy_startup_migration_reloads_history_and_next_run_keeps_cycle() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_legacy_startup_migration_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let legacy_date = NaiveDate::from_ymd_opt(2026, 7, 28).unwrap();
+        let packet = DecisionPacket {
+            date: legacy_date,
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&packet).unwrap(),
+        )
+        .unwrap();
+
+        assert!(layer.legacy_history_migration_needed().unwrap());
+        layer.migrate_legacy_history().unwrap();
+
+        let migrated_state = layer
+            .load_observation_history_state()
+            .unwrap()
+            .expect("migration should persist observation history state");
+        let mut migrated_snapshots = layer.load_trading_day_snapshots().unwrap();
+        assert_eq!(migrated_snapshots.len(), 1);
+        assert_eq!(migrated_snapshots[0].market_date, legacy_date);
+        assert_eq!(migrated_snapshots[0].cycle_id, migrated_state.cycle_id);
+
+        let next_market_date = NaiveDate::from_ymd_opt(2026, 7, 29).unwrap();
+        let mut next_snapshot = migrated_snapshots.pop().unwrap();
+        next_snapshot.market_date = next_market_date;
+        next_snapshot.report_date = next_market_date;
+        next_snapshot.as_of_date = next_market_date;
+        next_snapshot.snapshot_id = format!("{}-{next_market_date}", migrated_state.cycle_id);
+        next_snapshot.reset_event = None;
+        layer.save_trading_day_snapshot(&next_snapshot).unwrap();
+        layer
+            .save_observation_history_state(&ObservationHistoryState {
+                count: 2,
+                last_market_date: next_market_date,
+                cycle_id: migrated_state.cycle_id.clone(),
+            })
+            .unwrap();
+
+        assert!(!layer.legacy_history_migration_needed().unwrap());
+        let second_run_state = layer
+            .load_observation_history_state()
+            .unwrap()
+            .expect("second run should reload the persisted state");
+        let second_run_snapshots = layer.load_trading_day_snapshots().unwrap();
+        assert_eq!(second_run_state.cycle_id, migrated_state.cycle_id);
+        assert_eq!(second_run_state.last_market_date, next_market_date);
+        assert_eq!(
+            second_run_snapshots
+                .iter()
+                .map(|snapshot| snapshot.market_date)
+                .collect::<Vec<_>>(),
+            vec![legacy_date, next_market_date]
+        );
+        assert!(second_run_snapshots
+            .iter()
+            .all(|snapshot| snapshot.cycle_id == migrated_state.cycle_id));
+
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
