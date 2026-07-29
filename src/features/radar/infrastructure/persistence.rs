@@ -1202,6 +1202,99 @@ mod tests {
     }
 
     #[test]
+    fn migrate_legacy_history_projects_one_packet_to_degraded_formal_snapshot() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_one_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            temp_dir.join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&packet).unwrap(),
+        )
+        .unwrap();
+
+        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        let snapshots = layer.load_trading_day_snapshots().unwrap();
+
+        assert_eq!(snapshots.len(), 1);
+        assert_eq!(snapshots[0].source_status, "degraded");
+        assert_eq!(snapshots[0].decision_state, "NO_TRADE");
+        assert_eq!(snapshots[0].data_quality["history"], "MIGRATED_LEGACY");
+        assert_eq!(state.count, 1);
+        assert_eq!(state.last_market_date, packet.date);
+        assert_eq!(state.cycle_id, "legacy-2026-07-28-2026-07-28");
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn migrate_legacy_history_sorts_dates_and_reuses_one_stable_cycle() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_order_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        for date in [
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+        ] {
+            let packet = DecisionPacket {
+                date,
+                ..Default::default()
+            };
+            fs::write(
+                temp_dir.join(format!("decision_packet_{date}.json")),
+                serde_json::to_string_pretty(&packet).unwrap(),
+            )
+            .unwrap();
+        }
+
+        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        let snapshots = layer.load_trading_day_snapshots().unwrap();
+        let snapshot_dates = snapshots
+            .iter()
+            .map(|snapshot| snapshot.market_date)
+            .collect::<Vec<_>>();
+        let snapshot_files = fs::read_dir(temp_dir.join("snapshots"))
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name().to_string_lossy().into_owned())
+            .collect::<Vec<_>>();
+
+        assert_eq!(
+            snapshot_dates,
+            vec![
+                NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+                NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            ]
+        );
+        assert_eq!(snapshots[0].cycle_id, "legacy-2026-07-28-2026-07-29");
+        assert_eq!(snapshots[1].cycle_id, snapshots[0].cycle_id);
+        assert_eq!(snapshot_files.len(), 2);
+        assert!(
+            snapshot_files.contains(&"legacy-2026-07-28-2026-07-29_2026-07-28.json".to_string())
+        );
+        assert!(
+            snapshot_files.contains(&"legacy-2026-07-28-2026-07-29_2026-07-29.json".to_string())
+        );
+        assert_eq!(state.count, 2);
+        assert_eq!(
+            state.last_market_date,
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap()
+        );
+        assert_eq!(state.cycle_id, "legacy-2026-07-28-2026-07-29");
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    #[test]
     fn test_markdown_report_saving() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_report_{}",
