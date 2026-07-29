@@ -1263,11 +1263,11 @@ mod tests {
             .unwrap()
             .expect("migration should persist observation history state");
 
-        assert_eq!(snapshots.len(), state.count);
+        assert_eq!(state.count, 2);
+        assert_eq!(snapshots.len(), 2);
         assert!(!state.cycle_id.is_empty());
-        assert!(snapshots
-            .iter()
-            .all(|snapshot| snapshot.cycle_id == state.cycle_id));
+        assert_eq!(snapshots[0].cycle_id, state.cycle_id);
+        assert_eq!(snapshots[1].cycle_id, state.cycle_id);
         assert_eq!(
             state.last_market_date,
             NaiveDate::from_ymd_opt(2026, 7, 29).unwrap()

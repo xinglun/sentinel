@@ -47,3 +47,4 @@ cargo fmt --all -- --check
 - `load_observation_history_state` で state JSON の実際の読み戻しを確認するようにした。
 - cycle の具体的な命名形式と snapshot file 名の断言を削除し、非空かつ全 snapshot と state が同一 cycle であることだけを検証するようにした。
 - テスト属性の重複がないことを確認した。
+- 双 packet テストで `state.count == 2` と snapshot 読み戻し件数 `2` を明示し、読み戻した 2 件それぞれの cycle_id が state の cycle_id と一致することを検証するようにした。
