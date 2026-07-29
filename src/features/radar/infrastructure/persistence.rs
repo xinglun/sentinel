@@ -608,6 +608,11 @@ impl PersistenceLayer {
             .filter(|state| !state.cycle_id.is_empty())
             .map(|state| state.cycle_id.clone())
             .unwrap_or_else(|| format!("legacy-{first_date}-{last_date}"));
+        let expected_trading_dates = packets.keys().copied().collect::<Vec<_>>();
+        let timeline_entries = packets
+            .values()
+            .map(|packet| self.project_legacy_packet_timeline_entry(packet))
+            .collect::<Vec<_>>();
         let snapshots = packets
             .into_values()
             .map(|packet| self.project_legacy_packet_snapshot(packet, &cycle_id))
@@ -621,6 +626,9 @@ impl PersistenceLayer {
             if disposition == TradingDaySnapshotWriteDisposition::Created {
                 self.save_trading_day_snapshot(snapshot)?;
             }
+        }
+        for entry in timeline_entries {
+            self.save_observation_timeline_entry(entry, &expected_trading_dates)?;
         }
 
         let state = ObservationHistoryState {
@@ -714,6 +722,32 @@ impl PersistenceLayer {
             cycle_length_days: 0,
             reset_event: Some("MIGRATED_LEGACY".to_string()),
             data_quality: serde_json::json!({"history": "MIGRATED_LEGACY"}),
+        }
+    }
+
+    /// legacy packet から証明できる観測履歴だけを安全側の timeline entry へ写像する。
+    fn project_legacy_packet_timeline_entry(
+        &self,
+        packet: &DecisionPacket,
+    ) -> ObservationTimelineEntry {
+        let breadth_score = if packet.market_features.total_count == 0 {
+            0.0
+        } else {
+            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                * 100.0
+        };
+        ObservationTimelineEntry {
+            date: packet.date,
+            primary_leader: String::new(),
+            secondary_leaders: Vec::new(),
+            breadth_score,
+            concentration_score: 0.0,
+            rotation_score: 0.0,
+            confidence_index: 0.0,
+            market_state: "UNAVAILABLE".to_string(),
+            supply_phase: "UNAVAILABLE".to_string(),
+            risk_state: "UNAVAILABLE".to_string(),
+            day_type: "UNAVAILABLE".to_string(),
         }
     }
 
@@ -1568,6 +1602,7 @@ mod tests {
 
         layer.migrate_legacy_history().unwrap();
         let snapshots = layer.load_trading_day_snapshots().unwrap();
+        let entries = layer.load_observation_history_entries().unwrap();
         let state = layer
             .load_observation_history_state()
             .unwrap()
@@ -1575,6 +1610,14 @@ mod tests {
 
         assert_eq!(state.count, 2);
         assert_eq!(snapshots.len(), 2);
+        assert_eq!(entries.len(), state.count);
+        assert_eq!(
+            entries.iter().map(|entry| entry.date).collect::<Vec<_>>(),
+            vec![
+                NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+                NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            ]
+        );
         assert_eq!(state.cycle_id, "legacy-2026-07-28-2026-07-29");
         assert_eq!(snapshots[0].cycle_id, state.cycle_id);
         assert_eq!(snapshots[1].cycle_id, state.cycle_id);
@@ -1582,6 +1625,55 @@ mod tests {
             state.last_market_date,
             NaiveDate::from_ymd_opt(2026, 7, 29).unwrap()
         );
+
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn migrate_legacy_history_writes_safe_timeline_entries_for_every_packet() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_migrate_legacy_history_timeline_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        for date in [
+            NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+        ] {
+            let packet = DecisionPacket {
+                date,
+                ..Default::default()
+            };
+            fs::write(
+                temp_dir.join(format!("decision_packet_{date}.json")),
+                serde_json::to_string_pretty(&packet).unwrap(),
+            )
+            .unwrap();
+        }
+
+        let state = layer.migrate_legacy_history().unwrap().unwrap();
+        let entries = layer.load_observation_history_entries().unwrap();
+
+        assert_eq!(entries.len(), state.count);
+        assert_eq!(
+            entries.iter().map(|entry| entry.date).collect::<Vec<_>>(),
+            vec![
+                NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+                NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            ]
+        );
+        assert!(entries.iter().all(|entry| {
+            entry.primary_leader.is_empty()
+                && entry.secondary_leaders.is_empty()
+                && entry.concentration_score == 0.0
+                && entry.rotation_score == 0.0
+                && entry.confidence_index == 0.0
+                && entry.market_state == "UNAVAILABLE"
+                && entry.supply_phase == "UNAVAILABLE"
+                && entry.risk_state == "UNAVAILABLE"
+                && entry.day_type == "UNAVAILABLE"
+        }));
 
         fs::remove_dir_all(&temp_dir).unwrap();
     }
