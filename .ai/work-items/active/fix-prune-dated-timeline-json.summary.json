@@ -1,0 +1,208 @@
+{
+  "workItemId": "fix-prune-dated-timeline-json",
+  "contractPath": ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+  "changedFiles": [
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "整形済み dated timeline JSON をファイル単位で読む helper と分岐を追加した。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "複数行 JSON の正常系回帰テストを追加した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 状態を Cockpit の生成物へ反映した。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "reason": "実装範囲、受入条件、検証、Actions 未確認リスクを確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "reason": "実装結果と検証証跡を記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    "src/features/radar/infrastructure/persistence.rs",
+    "https://github.com/xinglun/sentinel/actions/runs/30588919514"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test-data-history-retention",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "本地格式与 retention の検証は完了。Actions hosted cleanup は修正後の再実行まで未確認。"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "整形済み dated observation timeline JSON を履歴清理できる",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    },
+    {
+      "scenario": "不正な dated timeline JSON はエラーとして拒否される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    },
+    {
+      "scenario": "実際の GitHub Actions cleanup が hosted runner で成功する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "修正後の develop Actions 再実行待ち。"
+    }
+  ],
+  "unverifiedScenarios": [
+    "実際の GitHub Actions cleanup が hosted runner で成功する"
+  ],
+  "followUps": [
+    "develop に push 後、daily_radar.yml を再実行し prune-data-history の成功を確認する。"
+  ],
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Actions run 30588919514 は observation_timeline_2026-07-30.json の line 1 を invalid JSON と誤判定して失敗した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract を実データ形式、Actions failure、scope、scenario coverage に更新した。",
+      "contractHash": "768849de23b1295c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD の failing regression test を追加する前の実装境界を確認した。",
+      "contractHash": "768849de23b1295c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "Local regression test は red から green になり、hosted scenario のみ未確認。",
+      "contractHash": "768849de23b1295c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Local required checks は通過し、hosted Actions 再実行のみ未確認。",
+      "contractHash": "768849de23b1295c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope、sources、acceptance、scenario coverage を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "変更対象は清理 script と回帰 test に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "ローカル検証は通過。hosted Actions cleanup は未確認。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全 required checks と Actions hosted evidence 待ち。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "hosted_actions",
+      "detail": "GitHub Actions runner 上で data branch の restore、prune、commit/push までの統合経路は未再実行。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "ローカル required checks は通過したが、hosted Actions の再実行証跡が残っている。",
+    "expectedReviewFocus": [
+      "dated JSON と JSONL の読み取り単位",
+      "Actions hosted cleanup の成功",
+      "既存 cutoff と latest timeline 除外の非回帰"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "旧データを無理に互換せず、新規蓄積を開始する方針を維持する。今回のエラーは新規生成データの cleanup parser defect として別途修正する。",
+      "solidifiedTo": "contract",
+      "reason": "Contract の outOfScope、problemStatement、acceptance、observedIssues と整形済み dated timeline JSON の regression test に固化した。"
+    }
+  ]
+}

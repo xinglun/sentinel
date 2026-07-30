@@ -81,6 +81,18 @@ def read_records(path: Path) -> list[Record]:
     return records
 
 
+def read_json_record(path: Path) -> list[Record]:
+    """整形済みの単一 JSON snapshot をファイル単位で読み取る。"""
+    payload = path.read_bytes()
+    if not payload.strip():
+        raise ValueError(f"{path}: no dated JSON record found")
+    try:
+        value = json.loads(payload)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"{path}: line 1 is invalid JSON") from exc
+    return [Record(_market_date(value, path=path, line_number=1), payload)]
+
+
 def _group_size(records: Iterable[Record]) -> dict[date, int]:
     sizes: dict[date, int] = defaultdict(int)
     for record in records:
@@ -225,7 +237,14 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
     missing = [str(path) for path in file_paths if not path.is_file()]
     if missing:
         raise ValueError("required history file is missing: " + ", ".join(missing))
-    records_by_file = {path: read_records(path) for path in file_paths}
+    records_by_file = {
+        path: (
+            read_json_record(path)
+            if path.name.startswith("observation_timeline_") and path.suffix == ".json"
+            else read_records(path)
+        )
+        for path in file_paths
+    }
     records_by_file.update(
         {
             path: records

@@ -157,6 +157,31 @@ class PruneDataHistoryTest(unittest.TestCase):
             ):
                 prune_reports(directory, max_bytes=10, min_days=1, dry_run=False)
 
+    def test_accepts_pretty_printed_dated_observation_timeline_json(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_dir:
+            directory = Path(raw_dir)
+            write_history(directory, "decision_history.jsonl", [{"date": "2026-07-01"}])
+            write_history(directory, "state_transitions.jsonl", [{"date": "2026-07-01"}])
+            timeline = {
+                "entries": [{"date": "2026-07-01", "value": "timeline"}],
+                "summary": "formatted JSON",
+            }
+            (directory / "observation_timeline_2026-07-01.json").write_text(
+                json.dumps(timeline, ensure_ascii=False, indent=2), encoding="utf-8"
+            )
+
+            result = prune_reports(directory, max_bytes=10_000, min_days=1, dry_run=False)
+
+            self.assertEqual(result["action"], "none")
+            self.assertEqual(
+                json.loads(
+                    (directory / "observation_timeline_2026-07-01.json").read_text(
+                        encoding="utf-8"
+                    )
+                ),
+                timeline,
+            )
+
     def test_prunes_jsonl_and_formal_snapshot_directories_with_one_cutoff(self) -> None:
         with tempfile.TemporaryDirectory() as raw_dir:
             directory = Path(raw_dir)

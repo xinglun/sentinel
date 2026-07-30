@@ -10,12 +10,12 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T21:24:18.909373+00:00`
-- Task: `none`
-- Mode: `none`
-- State: `no_active_work_item`
-- Contract Path: ``
-- Summary Path: ``
+- Generated At: `2026-07-30T23:16:07.283955+00:00`
+- Task: `fix-prune-dated-timeline-json`
+- Mode: `code`
+- State: `ready_with_risks`
+- Contract Path: `.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`
+- Summary Path: `.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`
 
 ## Blocking
 
@@ -23,16 +23,61 @@ generated: true
 
 ## Required Checks
 
-- none
+- `make check-ai-contract CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
+- `make test-data-history-retention`: passed
+- `make fmt-check`: passed
+- `make check-ai-guards CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
+- `make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
+- `make check-ai-coverage-guard`: passed
+- `make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
 
 ## Changed Files
 
-- none
+- `scripts/prune_data_history.py`: 整形済み dated timeline JSON をファイル単位で読む helper と分岐を追加した。
+- `scripts/test_prune_data_history.py`: 複数行 JSON の正常系回帰テストを追加した。
+- `.ai/cockpit/current_status.md`: Work Item 状態を Cockpit の生成物へ反映した。
+- `.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: 実装範囲、受入条件、検証、Actions 未確認リスクを確定した。
+- `.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: 実装結果と検証証跡を記録した。
+
+## Preflight Review
+
+- Status: `needs_human_confirmation`
+- Recommendation: Document the open questions that are currently implicit in the risk assessment.
+- Decision Drivers:
+  - Unknowns: riskAssessment.level is medium but unknowns is empty
+  - Acceptance: 1 acceptance item(s) are broad or underspecified
+  - Scenario Coverage: 1 required scenario(s) remain unverified
+  - riskAssessment.level is medium
+- Pause Rule:
+  Policy gate is enabled: pause implementation when the review is needs_human_confirmation or not_ready.
+
+## Review Readiness
+
+- Status: `ready_with_risks`
+- Reason: ローカル required checks は通過したが、hosted Actions の再実行証跡が残っている。
+- Expected Review Focus:
+  - dated JSON と JSONL の読み取り単位
+  - Actions hosted cleanup の成功
+  - 既存 cutoff と latest timeline 除外の非回帰
+
+## Scenario Coverage
+
+- State: `incomplete`
+
+## Residual Risks
+
+- `medium` `hosted_actions`: GitHub Actions runner 上で data branch の restore、prune、commit/push までの統合経路は未再実行。
 
 ## Backtrack
 
-- Status: `not_run`
+- Status: `none`
+- Report: `target/ai_backtrack_report.json`
+- Items: none
 
 ## Next Action
 
-- create a Work Item with `make ai-start TASK=<task>`
+- human review / commit decision

@@ -1,0 +1,186 @@
+{
+  "contractVersion": 2,
+  "workItemId": "fix-prune-dated-timeline-json",
+  "mode": "code",
+  "title": "修复 dated timeline JSON 清理解析",
+  "baseCommit": "41b134dfe39e840fe3828a03d311a53c8dbee3e7",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "generated-by-ai-start"
+    },
+    {
+      "path": ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "status": "??",
+      "fingerprint": "created-by-ai-start"
+    },
+    {
+      "path": ".ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "status": "??",
+      "fingerprint": "created-by-ai-start"
+    }
+  ],
+  "problemStatement": "GitHub Actions の data history cleanup が、Rust が保存した整形済みの observation_timeline_YYYY-MM-DD.json を JSONL として逐行解析し、先頭行を invalid JSON と誤判定して失敗する。",
+  "intent": {
+    "problem": "dated observation timeline JSON をファイル単位の JSON として読み取り、JSONL 履歴の逐行解析と区別する。",
+    "constraints": [
+      "取引判断、Gate、execution、position sizing、report の意味論は変更しない。",
+      "旧履歴の削除やデータ branch の再初期化は行わない。",
+      "新しい運用入口は追加せず、既存の make test-data-history-retention を検証入口として使う。"
+    ],
+    "rationale": "Actions の失敗はデータ形式と清理器の読み取り単位の不一致であり、生成側の整形 JSON を保持したまま清理器を実データ形式に合わせるのが最小修正である。"
+  },
+  "scope": [
+    "scripts/prune_data_history.py",
+    "scripts/test_prune_data_history.py",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+    ".ai/work-items/active/fix-prune-dated-timeline-json.summary.json"
+  ],
+  "outOfScope": [
+    "src/**",
+    ".github/workflows/**",
+    "reports/**",
+    "data branch の履歴削除",
+    "取引判断と action matrix"
+  ],
+  "sources": [
+    {
+      "path": "scripts/prune_data_history.py",
+      "reason": "dated timeline JSON を JSONL として read_records に渡している失敗経路。"
+    },
+    {
+      "path": "scripts/test_prune_data_history.py",
+      "reason": "既存の dated timeline テストが一行 JSON のみで、整形 JSON の回帰を検証していない。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "observation_timeline_YYYY-MM-DD.json が serde_json::to_string_pretty で保存される生成側の証拠。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/30588919514",
+      "reason": "Actions 実行で line 1 is invalid JSON が発生した hosted failure evidence。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "整形済み dated observation timeline JSON を履歴清理できる",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    },
+    {
+      "scenario": "不正な dated timeline JSON はエラーとして拒否される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-data-history-retention"
+      ]
+    },
+    {
+      "scenario": "実際の GitHub Actions cleanup が hosted runner で成功する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "修正後に develop の Actions を再実行して確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "ci"
+    ],
+    "reason": "清理器が保持・削除する履歴の境界に影響するため、JSON 単位の回帰テストと既存 retention test が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "失敗ログ、生成側、清理器、既存テストから実装範囲と検証方法が確定している。"
+  },
+  "preReviewWarnings": [
+    "JSONL とファイル単位 JSON の読み書き単位を混同しないこと。",
+    "修正後も不正 JSON の拒否と既存の retention cutoff を維持すること。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "observation_timeline_YYYY-MM-DD.json は全体を一つの JSON object として読み取り、JSONL ファイルは従来どおり逐行で読み取る。",
+    "整形済み dated timeline JSON の正常系と不正 JSON の拒否を回帰テストで固定する。",
+    "既存の cutoff、最小 trading day 数、latest timeline 除外、snapshot directory 処理を変更しない。",
+    "Gate / execution / trader / action matrix / position sizing には影響しない。",
+    "Telegram / Markdown / CLI / audit daily / weekly review の出力は変更しない。",
+    "保存対象は reports の履歴清理処理だけで、data branch の履歴削除は行わない。",
+    "i18n と snapshot contract test の追加は不要である。",
+    "検証は既存の make test-data-history-retention と必須 Cockpit checks を make 経由で実行する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make test-data-history-retention",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、関連 test を元に戻す。"
+}
