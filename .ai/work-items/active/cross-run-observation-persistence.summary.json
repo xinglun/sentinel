@@ -164,10 +164,13 @@
     "2026-07-30 の再開時 make ai-preflight は high risk、unknowns 空、required scenario 未検証を理由に needs_human_confirmation で exit 2 となった。ユーザーは同じ turn で BLOCKED 状態と失敗時境界を認識した上で修正続行を明示している。",
     "既存 Task 4 test は snapshot clone と二回目 state の手動保存を行っていたため、実 runner 二回実行回帰を追加した。",
     "review findings file は存在せず、ユーザーが会話で提示した完全 findings を使用した。",
-    "read-only 調査で run_pipeline の Local::now 依存は入口の report date/timestamp 生成だけと確認し、production entrypoint を維持した private date injection で二回実行を検証可能と判断した。"
+    "read-only 調査で run_pipeline の Local::now 依存は入口の report date/timestamp 生成だけと確認し、production entrypoint を維持した private date injection で二回実行を検証可能と判断した。",
+    "origin/data には legacy decision_packet_*.json は存在するが、formal reports/snapshots と observation_history_state.json は存在しない。修正後の workflow/code も origin/main へ未反映のため、hosted Actions の正式復元は未検証。",
+    "AI Cockpit の close lifecycle は template の Makefile には存在するが、本 repository の installed entrypoint には ai-close-work-item と template の hosted verification target が存在しない。"
   ],
   "followUps": [
-    "実 GitHub Actions runner で data branch の正式 snapshot/state 復元を別途確認する。"
+    "push と workflow dispatch の明示許可後、修正後 commit を remote main/data の hosted Actions で検証する。",
+    "別 Work Item として installed AI Cockpit の template version parity と ai-close-work-item lifecycle を補完する。"
   ],
   "unverifiedScenarios": [
     "実 GitHub Actions runner の data branch 復元"

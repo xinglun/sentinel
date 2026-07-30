@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T04:21:25.219887+00:00`
+- Generated At: `2026-07-30T04:39:16.875310+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
