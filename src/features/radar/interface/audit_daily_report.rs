@@ -220,6 +220,9 @@ pub(crate) fn build_audit_daily_report_with_formal_baseline(
     >,
 ) -> String {
     let text = audit_text(language);
+    let complete_formal_baseline = formal_baseline
+        .flatten()
+        .is_some_and(|snapshot| snapshot.source_status == "complete");
     let today = &days[target_idx];
     let today_latest = today.latest();
     let window_start = target_idx.saturating_sub(window_days.saturating_sub(1));
@@ -366,12 +369,15 @@ pub(crate) fn build_audit_daily_report_with_formal_baseline(
 
     let audit_sentence = build_audit_sentence(
         language,
-        gate_status,
-        gate_streak,
-        &blocker_text,
-        &breakout_text,
-        mainline_text,
-        no_trade_mode,
+        AuditSentenceContext {
+            gate_status,
+            gate_streak,
+            blocker_text: &blocker_text,
+            breakout_text: &breakout_text,
+            mainline_text,
+            no_trade_mode,
+            complete_formal_baseline,
+        },
     );
 
     let mut out = String::new();
@@ -540,7 +546,9 @@ fn build_market_interpretation_audit_snapshot(
     >,
 ) -> String {
     let latest = day.latest();
-    let formal_snapshot = formal_baseline.flatten();
+    let formal_snapshot = formal_baseline
+        .flatten()
+        .filter(|snapshot| snapshot.source_status == "complete");
     let trend_recognition = latest.log.trend_recognition.as_ref();
     let leadership_snapshot =
         crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_transition_log(&latest.log, language);
@@ -1587,15 +1595,42 @@ fn is_consecutive_trading_day(prev: NaiveDate, curr: NaiveDate) -> bool {
     true
 }
 
-fn build_audit_sentence(
-    language: Language,
-    gate_status: &str,
+struct AuditSentenceContext<'a> {
+    gate_status: &'a str,
     gate_streak: usize,
-    blocker_text: &str,
-    breakout_text: &str,
-    mainline_text: &str,
-    no_trade_mode: &str,
-) -> String {
+    blocker_text: &'a str,
+    breakout_text: &'a str,
+    mainline_text: &'a str,
+    no_trade_mode: &'a str,
+    complete_formal_baseline: bool,
+}
+
+fn build_audit_sentence(language: Language, context: AuditSentenceContext<'_>) -> String {
+    let AuditSentenceContext {
+        gate_status,
+        gate_streak,
+        blocker_text,
+        breakout_text,
+        mainline_text,
+        no_trade_mode,
+        complete_formal_baseline,
+    } = context;
+    if !complete_formal_baseline {
+        return match language {
+            Language::ZhCn => format!(
+                "当前状态：{}；主因：{}；今日突破：{}；主线状态：{}。",
+                gate_status, blocker_text, breakout_text, mainline_text
+            ),
+            Language::EnUs => format!(
+                "Current state: {}; primary blockers: {}; today's breakout: {}; mainline status: {}.",
+                gate_status, blocker_text, breakout_text, mainline_text
+            ),
+            Language::JaJp => format!(
+                "現在の状態：{}；主因：{}；本日のブレイクアウト：{}；主線状態：{}。",
+                gate_status, blocker_text, breakout_text, mainline_text
+            ),
+        };
+    }
     match language {
         Language::ZhCn => format!(
             "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日突破：{}；主线状态：{}。",
@@ -1854,6 +1889,25 @@ mod tests {
 
         assert!(snapshot.contains("rotationType: BASELINE_UNAVAILABLE"));
         assert!(snapshot.contains("  - from: []"));
+    }
+
+    #[test]
+    fn audit_sentence_reports_current_state_without_complete_baseline() {
+        let sentence = build_audit_sentence(
+            Language::ZhCn,
+            AuditSentenceContext {
+                gate_status: "NO TRADE",
+                gate_streak: 1,
+                blocker_text: "无主线",
+                breakout_text: "U（新增）",
+                mainline_text: "未形成",
+                no_trade_mode: "Scout",
+                complete_formal_baseline: false,
+            },
+        );
+
+        assert!(sentence.contains("当前状态：NO TRADE"));
+        assert!(!sentence.contains("连续第 1 天"));
     }
 
     #[test]

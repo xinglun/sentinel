@@ -4152,7 +4152,7 @@ mod tests {
         let leader_persistence =
             crate::features::radar::interface::presentation::LeaderPersistenceViewModel {
                 title: "Leader Persistence".to_string(),
-                primary_leader_label: "Primary Leader".to_string(),
+                primary_leader_label: "Composite Leader".to_string(),
                 primary_leader_value: "GOOG".to_string(),
                 persistence_label: "Leader Persistence".to_string(),
                 persistence_value: "5 days".to_string(),
@@ -4194,7 +4194,7 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("Leader Persistence"));
-        assert!(report.markdown_body.contains("Primary Leader: GOOG"));
+        assert!(report.markdown_body.contains("Composite Leader: GOOG"));
         assert!(report.markdown_body.contains("Leadership Score: 82.4"));
         assert!(report
             .markdown_body

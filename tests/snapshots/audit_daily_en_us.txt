@@ -35,7 +35,7 @@
 - Methodology: streaks are calculated by log continuity (weekends auto-bridged)
 
 6. Audit One-liner
-- NO TRADE day 2 in a row; primary blockers: Low continuity / Low stability / No mainline; NO TRADE tier: Scout (signal unverified); today's breakout: GOOG (new); mainline status: Not formed.
+- Current state: NO TRADE; primary blockers: Low continuity / Low stability / No mainline; today's breakout: GOOG (new); mainline status: Not formed.
 
 7. Market Interpretation Snapshot
 - decision_weight: 0%

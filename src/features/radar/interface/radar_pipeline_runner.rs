@@ -87,6 +87,20 @@ pub(crate) async fn run_pipeline(
     .await
 }
 
+fn apply_history_baseline_downgrade(
+    pres_packet: &mut crate::features::radar::interface::presentation::PresentationPacket,
+) {
+    if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
+        persistence.persistence_days = 0;
+        persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.leadership_score = 0.0;
+    }
+}
+
 /// テスト時だけ基準日を注入し、通常の CLI 実行では現在日付を使う。
 pub(crate) async fn run_pipeline_for_report_date(
     app_config: config::AppConfig,
@@ -460,18 +474,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 formal_baseline: previous_snapshot_resolution.formal_snapshot.as_ref(),
             });
         if baseline_packet.is_none() {
-            if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
-                persistence.persistence_days = 0;
-                persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.leadership_score = 0.0;
-            }
-            for item in &mut pres_packet.breakout_summary.items {
-                item.status_label = "BASELINE_UNAVAILABLE".to_string();
-            }
+            apply_history_baseline_downgrade(&mut pres_packet);
         }
         pres_packet.market_change_log = Some(build_market_change_log_view_model(
             prev_packet,
@@ -769,18 +772,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                         .to_string(),
                 ];
             }
-            if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
-                persistence.persistence_days = 0;
-                persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
-                persistence.leadership_score = 0.0;
-            }
-            for item in &mut pres_packet.breakout_summary.items {
-                item.status_label = "BASELINE_UNAVAILABLE".to_string();
-            }
+            apply_history_baseline_downgrade(&mut pres_packet);
         }
         if history_blocked {
             if let Some(change_log) = pres_packet.market_change_log.as_mut() {
@@ -2129,5 +2121,32 @@ Boundary: context only; no Gate input or trade instruction.
             2,
             chrono::NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
         ));
+    }
+
+    #[test]
+    fn history_baseline_downgrade_preserves_current_breakout_status() {
+        let mut presentation =
+            crate::features::radar::interface::presentation::PresentationPacket::default();
+        presentation.breakout_summary.items.push(
+            crate::features::radar::interface::presentation::BreakoutItemViewModel {
+                symbol: "U".to_string(),
+                status_label: "Emerging Breakout (Day 1)".to_string(),
+                ..Default::default()
+            },
+        );
+
+        super::apply_history_baseline_downgrade(&mut presentation);
+
+        assert_eq!(
+            presentation.breakout_summary.items[0].status_label,
+            "Emerging Breakout (Day 1)"
+        );
+        assert_eq!(
+            presentation
+                .leader_persistence
+                .as_ref()
+                .map(|value| value.persistence_value.as_str()),
+            None
+        );
     }
 }

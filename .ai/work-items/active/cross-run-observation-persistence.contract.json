@@ -22,10 +22,17 @@
   "scope": [
     "src/features/radar/infrastructure/persistence.rs",
     "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
     "src/cli.rs",
     "tests/daily_radar_workflow_integration.rs",
     "Makefile",
     ".github/workflows/daily_radar.yml",
+    "tests/snapshots/audit_daily_zh_cn.txt",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
     "docs/superpowers/plans/2026-07-30-legacy-formal-snapshot-migration.md",
     "docs/superpowers/specs/2026-07-30-legacy-formal-snapshot-migration-design.md",
     ".superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-report.md",
@@ -54,7 +61,12 @@
     {"scenario": "observation history state 読込エラーを runner が呼出元へ伝播する", "required": true, "status": "verified", "evidence": ["make test-radar-state-load-error", "make test"], "reason": "壊れた observation_history_state.json を実 runner に渡し、deserialize error の伝播を検証済み。"},
     {"scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline", "make test"], "reason": "注入した report date と日付対応 mock provider で、同一 reports directory の cycle 維持と新日付 append を検証済み。"},
     {"scenario": "CI 恢复并检查正式 snapshot/state 文件", "required": true, "status": "unverified", "evidence": [], "reason": "尚未执行真实 GitHub Actions runner。"},
-    {"scenario": "交易执行门控和 NO TRADE 安全策略不变", "required": true, "status": "verified", "evidence": ["make test", "make clippy"], "reason": "full Rust tests と clippy が通過し、gate/action matrix/position sizing は変更していない。"}
+    {"scenario": "交易执行门控和 NO TRADE 安全策略不变", "required": true, "status": "verified", "evidence": ["make test", "make clippy"], "reason": "full Rust tests と clippy が通過し、gate/action matrix/position sizing は変更していない。"},
+    {"scenario": "baseline unavailable 时当前 breakout status 与 cross-day continuity 分离显示", "required": true, "status": "verified", "evidence": ["make test-radar-degraded-report-semantics", "make test"], "reason": "degraded baseline downgrade test confirms current breakout label is preserved while persistence remains unavailable."},
+    {"scenario": "baseline unavailable 时 audit daily 不断言 NO TRADE 跨日持续", "required": true, "status": "verified", "evidence": ["make test-radar-degraded-report-semantics", "make test"], "reason": "audit sentence test confirms current-state wording without a complete formal baseline."},
+    {"scenario": "Primary Leader label 明确表达综合排名语义", "required": true, "status": "verified", "evidence": ["make test-radar-degraded-report-semantics", "make test"], "reason": "leader label regression confirms Composite Leader semantics."},
+    {"scenario": "workflow 首次 legacy 回填检查 formal snapshot 数量超过 legacy packet 数量", "required": true, "status": "verified", "evidence": ["cargo test --test daily_radar_workflow_integration"], "reason": "workflow contract test confirms legacy count and backfill failure gate are present."},
+    {"scenario": "JSONL-only legacy history 在 startup runner 中自动迁移并追加当前日 snapshot", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline", "make test"], "reason": "real runner startup test uses JSONL-only legacy input and verifies migrated plus current-day snapshots."}
   ],
   "unknowns": [],
   "notCodable": false,
@@ -81,6 +93,11 @@
     "Given Task 4 の report / When verification evidence を記録する / Then make fmt-check、make test、make clippy の実際の exit result だけを記載する。",
     "Given CI data branch の reports restore / When hosted runner を実行する / Then formal snapshot/state の復元確認は local test と区別して記録する。",
     "Given 本 Work Item / When report と snapshot contract を確認する / Then i18n 文言と end-user report の言語契約は変更されない。"
+    ,"Given baseline が unavailable / When breakout summary を出力する / Then 現在の breakout status と cross-day continuity unavailable を別々に表示する。"
+    ,"Given baseline が unavailable / When audit daily sentence を生成する / Then NO TRADE の cross-day 継続を断定せず、現在状態として表示する。"
+    ,"Given Primary Leader が総合 leadership ranking を表す / When leader persistence report を生成する / Then label は Composite Leader 相当で、trend breakout leader と混同しない。"
+    ,"Given data branch に legacy packet のみがある / When workflow 初回 migration を検証する / Then formal snapshot count は legacy packet count より増加し、state count と一致する。"
+    ,"Given JSONL-only legacy history / When startup runner migration 判定と実行を行う / Then formal snapshot/state が生成され、現在日の snapshot が追加される。"
   ],
   "verification": [
     {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
@@ -89,6 +106,8 @@
     {"command": "make test-radar-legacy-history-migration", "required": true},
     {"command": "make test-radar-cross-run-pipeline", "required": true},
     {"command": "make test-radar-state-load-error", "required": true},
+    {"command": "make test-radar-degraded-report-semantics", "required": true},
+    {"command": "make test-radar-workflow-contract", "required": true},
     {"command": "make test", "required": true},
     {"command": "make clippy", "required": true},
     {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},

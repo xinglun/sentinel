@@ -578,9 +578,9 @@ fn leader_persistence_title(language: Language) -> &'static str {
 
 fn leader_persistence_primary_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "当前 Leader",
-        Language::EnUs => "Primary Leader",
-        Language::JaJp => "現在の Leader",
+        Language::ZhCn => "综合主导者",
+        Language::EnUs => "Composite Leader",
+        Language::JaJp => "総合 Leader",
     }
 }
 
@@ -896,9 +896,9 @@ fn leadership_snapshot_title(language: Language) -> &'static str {
 
 fn primary_leader_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Primary Leader",
-        Language::EnUs => "Primary Leader",
-        Language::JaJp => "Primary Leader",
+        Language::ZhCn => "综合主导者",
+        Language::EnUs => "Composite Leader",
+        Language::JaJp => "総合 Leader",
     }
 }
 
@@ -2439,5 +2439,14 @@ mod tests {
         assert_eq!(view_model.history_coverage_value, "BASELINE_UNAVAILABLE");
         assert_eq!(view_model.previous_leader_value, None);
         assert!(view_model.switch_history_values.is_empty());
+    }
+
+    #[test]
+    fn leader_labels_identify_composite_ranking_semantics() {
+        assert_eq!(primary_leader_label(Language::EnUs), "Composite Leader");
+        assert_eq!(
+            leader_persistence_primary_label(Language::EnUs),
+            "Composite Leader"
+        );
     }
 }

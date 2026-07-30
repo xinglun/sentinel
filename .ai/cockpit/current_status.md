@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T04:39:16.875310+00:00`
+- Generated At: `2026-07-30T05:21:17.016410+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -29,6 +29,8 @@ generated: true
 - `make test-radar-legacy-history-migration`: passed
 - `make test-radar-cross-run-pipeline`: passed
 - `make test-radar-state-load-error`: passed
+- `make test-radar-degraded-report-semantics`: passed
+- `make test-radar-workflow-contract`: passed
 - `make test`: passed
 - `make clippy`: passed
 - `make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: passed
@@ -44,8 +46,17 @@ generated: true
 
 - `src/features/radar/infrastructure/persistence.rs`: Task 4 review で指摘された degraded baseline と migration persistence の修正対象。
 - `src/features/radar/interface/radar_pipeline_runner.rs`: Task 4 review で指摘された state error 伝播と実 pipeline 二回実行の修正対象。
+- `src/features/radar/interface/audit_daily_report.rs`: baseline unavailable 時の current-state wording と formal baseline filtering。
+- `src/features/radar/interface/market_interpretation_read_model.rs`: Primary Leader を Composite Leader として表示する label 修正。
+- `src/features/radar/interface/report_ui_tests.rs`: Composite Leader label の report fixture 回帰を更新。
+- `src/features/radar/interface/weekly_state_report.rs`: weekly report fixture の composite leader label を更新。
 - `src/cli.rs`: 異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。
+- `.github/workflows/daily_radar.yml`: 初回 legacy backfill の formal snapshot 数量 gate。
+- `tests/daily_radar_workflow_integration.rs`: workflow legacy backfill gate の契約回帰。
 - `Makefile`: migration persistence の focused regression を make 経由で実行する入口。
+- `tests/snapshots/audit_daily_zh_cn.txt`: baseline unavailable 時の中国語 current-state wording snapshot。
+- `tests/snapshots/audit_daily_en_us.txt`: baseline unavailable 時の英語 current-state wording snapshot。
+- `tests/snapshots/audit_daily_ja_jp.txt`: baseline unavailable 時の日本語 current-state wording snapshot。
 - `.superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-report.md`: 実装内容と実際に実行した make gate の結果を記録する。
 - `.superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-timeline-report.md`: migration timeline 整合性の実装内容と focused verification を記録する。
 - `.ai/work-items/active/cross-run-observation-persistence.contract.json`: review findings、scope、acceptance、required verification を固化した。

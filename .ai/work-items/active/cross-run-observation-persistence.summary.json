@@ -11,12 +11,48 @@
       "reason": "Task 4 review で指摘された state error 伝播と実 pipeline 二回実行の修正対象。"
     },
     {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "baseline unavailable 時の current-state wording と formal baseline filtering。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Primary Leader を Composite Leader として表示する label 修正。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Composite Leader label の report fixture 回帰を更新。"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "reason": "weekly report fixture の composite leader label を更新。"
+    },
+    {
       "path": "src/cli.rs",
       "reason": "異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。"
     },
     {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "初回 legacy backfill の formal snapshot 数量 gate。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "workflow legacy backfill gate の契約回帰。"
+    },
+    {
       "path": "Makefile",
       "reason": "migration persistence の focused regression を make 経由で実行する入口。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "baseline unavailable 時の中国語 current-state wording snapshot。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "baseline unavailable 時の英語 current-state wording snapshot。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "baseline unavailable 時の日本語 current-state wording snapshot。"
     },
     {
       "path": ".superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-report.md",
@@ -84,6 +120,41 @@
       "status": "verified",
       "evidence": ["make test", "make clippy"],
       "reason": "full Rust tests and clippy passed; gate/action matrix/position sizing files were not changed."
+    },
+    {
+      "scenario": "baseline unavailable 时当前 breakout status 与 cross-day continuity 分离显示",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "reason": "degraded baseline downgrade test confirms current breakout label is preserved while persistence remains unavailable。"
+    },
+    {
+      "scenario": "baseline unavailable 时 audit daily 不断言 NO TRADE 跨日持续",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "reason": "audit sentence test confirms current-state wording without a complete formal baseline。"
+    },
+    {
+      "scenario": "Primary Leader label 明确表达综合排名语义",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "reason": "leader label regression confirms Composite Leader semantics。"
+    },
+    {
+      "scenario": "workflow 首次 legacy 回填检查 formal snapshot 数量超过 legacy packet 数量",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --test daily_radar_workflow_integration"],
+      "reason": "workflow contract test confirms legacy count and backfill failure gate are present。"
+    },
+    {
+      "scenario": "JSONL-only legacy history 在 startup runner 中自动迁移并追加当前日 snapshot",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-cross-run-pipeline", "make test"],
+      "reason": "real runner startup test uses JSONL-only legacy input and verifies migrated plus current-day snapshots。"
     }
   ],
   "verification": [
@@ -109,6 +180,14 @@
     },
     {
       "command": "make test-radar-state-load-error",
+      "result": "passed"
+    },
+    {
+      "command": "make test-radar-degraded-report-semantics",
+      "result": "passed"
+    },
+    {
+      "command": "make test-radar-workflow-contract",
       "result": "passed"
     },
     {
@@ -180,41 +259,41 @@
       "stage": "contract_start",
       "recorded": true,
       "detail": "Task 4 brief、ユーザー提供 review findings、Contract の scope / acceptance / verification を確認した。",
-      "contractHash": "23b91c09b7a10eba",
-      "acceptanceCount": 11,
+      "contractHash": "3aac27acb0e03b05",
+      "acceptanceCount": 16,
       "unknownCount": 0,
-      "requiredChecks": 16,
+      "requiredChecks": 18,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_edit",
       "recorded": true,
       "detail": "production edit 前に runner/persistence/test/report の範囲と outOfScope の gate/threshold/position sizing 非変更を確認した。Preflight Review の needs_human_confirmation とユーザーの明示続行指示を記録し、read-only 調査で private date injection による real runner harness が安全に実装可能と確認した。",
-      "contractHash": "23b91c09b7a10eba",
-      "acceptanceCount": 11,
+      "contractHash": "3aac27acb0e03b05",
+      "acceptanceCount": 16,
       "unknownCount": 0,
-      "requiredChecks": 16,
+      "requiredChecks": 18,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_ready",
-      "recorded": false,
-      "detail": "実装と required checks の完了後に記録する。",
-      "contractHash": "23b91c09b7a10eba",
-      "acceptanceCount": 11,
+      "recorded": true,
+      "detail": "追加された report semantics、workflow backfill gate、JSONL-only startup 回帰を実装し、required checks 実行前の境界を確認した。",
+      "contractHash": "3aac27acb0e03b05",
+      "acceptanceCount": 16,
       "unknownCount": 0,
-      "requiredChecks": 16,
+      "requiredChecks": 18,
       "requiredChecksPassed": 0
     },
     {
       "stage": "after_verification",
       "recorded": true,
       "detail": "focused regression、Rust quality gates、Contract/guard/summary/status checks の実結果を同期した。hosted Actions restore は未実行として residual risk に残した。",
-      "contractHash": "23b91c09b7a10eba",
-      "acceptanceCount": 11,
+      "contractHash": "3aac27acb0e03b05",
+      "acceptanceCount": 16,
       "unknownCount": 0,
-      "requiredChecks": 16,
-      "requiredChecksPassed": 16
+      "requiredChecks": 18,
+      "requiredChecksPassed": 18
     }
   ],
   "checkpointReview": [

@@ -1785,7 +1785,7 @@ mod tests {
             leader_persistence: Some(
                 crate::features::radar::interface::presentation::LeaderPersistenceViewModel {
                     title: "Leader Persistence".to_string(),
-                    primary_leader_label: "Primary Leader".to_string(),
+                    primary_leader_label: "Composite Leader".to_string(),
                     primary_leader_value: "SPY".to_string(),
                     persistence_label: "Leader Persistence".to_string(),
                     persistence_value: "3 days".to_string(),

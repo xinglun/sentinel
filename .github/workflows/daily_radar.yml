@@ -109,8 +109,35 @@ jobs:
           )"
           echo "RESTORED_SNAPSHOT_COUNT=${RESTORED_SNAPSHOT_COUNT}" >> $GITHUB_ENV
           echo "RESTORED_LAST_SNAPSHOT_DATE=${RESTORED_LAST_SNAPSHOT_DATE}" >> $GITHUB_ENV
+          RESTORED_LEGACY_PACKET_COUNT="$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          dates = set()
+          for path in Path("reports").glob("decision_packet_*.json"):
+              try:
+                  value = json.loads(path.read_text(encoding="utf-8"))
+              except (OSError, json.JSONDecodeError):
+                  continue
+              market_date = value.get("date")
+              if isinstance(market_date, str):
+                  dates.add(market_date)
+          history = Path("reports/decision_history.jsonl")
+          if history.exists():
+              for line in history.read_text(encoding="utf-8").splitlines():
+                  try:
+                      value = json.loads(line)
+                  except json.JSONDecodeError:
+                      continue
+                  market_date = value.get("date")
+                  if isinstance(market_date, str):
+                      dates.add(market_date)
+          print(len(dates))
+          PY
+          )"
+          echo "RESTORED_LEGACY_PACKET_COUNT=${RESTORED_LEGACY_PACKET_COUNT}" >> $GITHUB_ENV
           if [ "${RESTORED_SNAPSHOT_COUNT}" -eq 0 ] && [ -s reports/decision_history.jsonl ]; then
-            echo "⚠️ Legacy decision history exists but formal trading-day snapshots were not restored."
+            echo "⚠️ Legacy decision history exists but formal trading-day snapshots were not restored; expected legacy dates=${RESTORED_LEGACY_PACKET_COUNT}."
           else
             echo "✅ Restored formal trading-day snapshots: count=${RESTORED_SNAPSHOT_COUNT}, last_date=${RESTORED_LAST_SNAPSHOT_DATE:-none}"
           fi
@@ -367,6 +394,14 @@ jobs:
             CURRENT_SNAPSHOT_COUNT="$(find reports/snapshots -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
             if [ "${CURRENT_SNAPSHOT_COUNT}" -le "${RESTORED_SNAPSHOT_COUNT}" ]; then
               echo "❌ CRITICAL: formal snapshot history did not append across the new market date"
+              exit 1
+            fi
+          fi
+          if [ "${RESTORED_SNAPSHOT_COUNT:-0}" -eq 0 ] \
+            && [ "${RESTORED_LEGACY_PACKET_COUNT:-0}" -gt 0 ]; then
+            CURRENT_SNAPSHOT_COUNT="$(find reports/snapshots -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
+            if [ "${CURRENT_SNAPSHOT_COUNT}" -le "${RESTORED_LEGACY_PACKET_COUNT}" ]; then
+              echo "❌ CRITICAL: legacy history was not fully backfilled into formal snapshots"
               exit 1
             fi
           fi
