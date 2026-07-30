@@ -119,6 +119,7 @@
     "Actions run 30588919514 は observation_timeline_2026-07-30.json の line 1 を invalid JSON と誤判定して失敗した。",
     "修正後の run 30590113974 でも hosted の dated timeline は単一 JSON ではなく連結 JSON 文書として扱われ、Extra data 相当の解析失敗が継続した。"
     ,"run 30590720979 でも同じ 486 bytes の dated/latest 文件が解析不能だったため、同日 observation_timeline.jsonl からの再生成を追加した。"
+    ,"恢复源的日期可能与 dated filename 不一致，恢复逻辑改为优先同日、否则采用 JSONL 最后一个有效 record。"
   ],
   "checkpointEvidence": [
     {

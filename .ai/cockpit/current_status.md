@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T23:39:07.889120+00:00`
+- Generated At: `2026-07-30T23:48:06.957332+00:00`
 - Task: `fix-prune-dated-timeline-json`
 - Mode: `code`
 - State: `ready_with_risks`

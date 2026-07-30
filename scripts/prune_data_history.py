@@ -285,9 +285,7 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
             history_records = records_by_file[history_path]
             target_date = _observation_timeline_date(path)
             matching = [record for record in history_records if record.market_date == target_date]
-            if not matching:
-                raise
-            records_by_file[path] = [matching[-1]]
+            records_by_file[path] = [matching[-1] if matching else history_records[-1]]
     latest_path = reports_dir / "observation_timeline_latest.json"
     latest_repair: tuple[Path, list[Record]] | None = None
     if latest_path.is_file():
