@@ -3,6 +3,10 @@
   "contractPath": ".ai/work-items/archive/2026/cross-run-observation-persistence.contract.json",
   "changedFiles": [
     {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "生成された Cockpit status の preflight humanReview evidence。"
+    },
+    {
       "path": "src/features/radar/infrastructure/persistence.rs",
       "reason": "Task 4 review で指摘された degraded baseline と migration persistence の修正対象。"
     },
