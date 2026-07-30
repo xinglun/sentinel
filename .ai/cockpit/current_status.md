@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T05:21:17.016410+00:00`
+- Generated At: `2026-07-30T06:02:41.746122+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -29,6 +29,7 @@ generated: true
 - `make test-radar-legacy-history-migration`: passed
 - `make test-radar-cross-run-pipeline`: passed
 - `make test-radar-state-load-error`: passed
+- `make test-radar-audit-history-errors`: passed
 - `make test-radar-degraded-report-semantics`: passed
 - `make test-radar-workflow-contract`: passed
 - `make test`: passed
@@ -50,6 +51,7 @@ generated: true
 - `src/features/radar/interface/market_interpretation_read_model.rs`: Primary Leader を Composite Leader として表示する label 修正。
 - `src/features/radar/interface/report_ui_tests.rs`: Composite Leader label の report fixture 回帰を更新。
 - `src/features/radar/interface/weekly_state_report.rs`: weekly report fixture の composite leader label を更新。
+- `docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md`: Primary Leader と breakout leader の区別を Composite Leader として文書化。
 - `src/cli.rs`: 異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。
 - `.github/workflows/daily_radar.yml`: 初回 legacy backfill の formal snapshot 数量 gate。
 - `tests/daily_radar_workflow_integration.rs`: workflow legacy backfill gate の契約回帰。

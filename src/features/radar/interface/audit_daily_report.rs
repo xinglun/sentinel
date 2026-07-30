@@ -153,8 +153,7 @@ pub(crate) async fn build_daily_calibration_context(
                     );
                 let cycle_id = persistence
                     .load_observation_history_state()
-                    .ok()
-                    .flatten()
+                    .context("failed to load observation_history_state.json for audit daily")?
                     .filter(|state| !state.cycle_id.is_empty())
                     .map(|state| state.cycle_id);
                 let formal_baseline = persistence
@@ -162,8 +161,8 @@ pub(crate) async fn build_daily_calibration_context(
                         days[target_idx].date,
                         cycle_id.as_deref(),
                     )
-                    .ok()
-                    .and_then(|resolution| resolution.formal_snapshot);
+                    .context("failed to resolve previous snapshot for audit daily")?
+                    .formal_snapshot;
                 build_audit_daily_report_with_formal_baseline(
                     &days,
                     target_idx,
@@ -1722,7 +1721,7 @@ mod tests {
     use super::*;
     use crate::features::shared::application::run_status::DeliveryStatus;
     use std::fs;
-    use tempfile::NamedTempFile;
+    use tempfile::{tempdir, NamedTempFile};
 
     fn sample_transition_json(
         timestamp: &str,
@@ -1769,6 +1768,29 @@ mod tests {
                 }
             }
         })
+    }
+
+    #[tokio::test]
+    async fn daily_calibration_propagates_corrupt_history_state() {
+        let directory = tempdir().unwrap();
+        let transition = sample_transition_json("2026-04-22T15:00:00+00:00", false, "Dispersed");
+        fs::write(
+            directory.path().join("state_transitions.jsonl"),
+            format!("{}\n", serde_json::to_string(&transition).unwrap()),
+        )
+        .unwrap();
+        fs::write(
+            directory.path().join("observation_history_state.json"),
+            "{not valid json",
+        )
+        .unwrap();
+
+        let error =
+            build_daily_calibration_context(directory.path(), None, 7, 3, 3, Language::ZhCn)
+                .await
+                .expect_err("损坏的历史状态必须传播给审计调用方");
+
+        assert!(error.to_string().contains("observation_history_state"));
     }
 
     fn sample_audit_days() -> Vec<TransitionAuditDay> {

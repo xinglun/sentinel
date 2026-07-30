@@ -4195,6 +4195,7 @@ mod tests {
 
         assert!(report.markdown_body.contains("Leader Persistence"));
         assert!(report.markdown_body.contains("Composite Leader: GOOG"));
+        assert!(!report.markdown_body.contains("Primary Leader: GOOG"));
         assert!(report.markdown_body.contains("Leadership Score: 82.4"));
         assert!(report
             .markdown_body

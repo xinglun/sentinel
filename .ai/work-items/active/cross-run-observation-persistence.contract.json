@@ -27,6 +27,7 @@
     "src/features/radar/interface/report_ui_tests.rs",
     "src/features/radar/interface/weekly_state_report.rs",
     "src/cli.rs",
+    "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
     "tests/daily_radar_workflow_integration.rs",
     "Makefile",
     ".github/workflows/daily_radar.yml",
@@ -66,7 +67,8 @@
     {"scenario": "baseline unavailable 时 audit daily 不断言 NO TRADE 跨日持续", "required": true, "status": "verified", "evidence": ["make test-radar-degraded-report-semantics", "make test"], "reason": "audit sentence test confirms current-state wording without a complete formal baseline."},
     {"scenario": "Primary Leader label 明确表达综合排名语义", "required": true, "status": "verified", "evidence": ["make test-radar-degraded-report-semantics", "make test"], "reason": "leader label regression confirms Composite Leader semantics."},
     {"scenario": "workflow 首次 legacy 回填检查 formal snapshot 数量超过 legacy packet 数量", "required": true, "status": "verified", "evidence": ["cargo test --test daily_radar_workflow_integration"], "reason": "workflow contract test confirms legacy count and backfill failure gate are present."},
-    {"scenario": "JSONL-only legacy history 在 startup runner 中自动迁移并追加当前日 snapshot", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline", "make test"], "reason": "real runner startup test uses JSONL-only legacy input and verifies migrated plus current-day snapshots."}
+    {"scenario": "JSONL-only legacy history 在 startup runner 中自动迁移并追加当前日 snapshot", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline", "make test"], "reason": "real runner startup test uses JSONL-only legacy input and verifies migrated plus current-day snapshots."},
+    {"scenario": "audit daily 历史状态损坏时向调用方传播错误", "required": true, "status": "verified", "evidence": ["make test-radar-audit-history-errors", "make test"], "reason": "audit daily regression confirms corrupt observation history state is not silently downgraded."}
   ],
   "unknowns": [],
   "notCodable": false,
@@ -106,6 +108,7 @@
     {"command": "make test-radar-legacy-history-migration", "required": true},
     {"command": "make test-radar-cross-run-pipeline", "required": true},
     {"command": "make test-radar-state-load-error", "required": true},
+    {"command": "make test-radar-audit-history-errors", "required": true},
     {"command": "make test-radar-degraded-report-semantics", "required": true},
     {"command": "make test-radar-workflow-contract", "required": true},
     {"command": "make test", "required": true},

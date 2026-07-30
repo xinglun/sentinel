@@ -26,7 +26,7 @@ Leadership Snapshot 是当前日和历史日的唯一事实源。输出字段固
 - `leadership_score`
 - `leadership_state`
 
-`current_leadership_streak_days` 只统计连续担任 Primary Leader 的交易日，不与 `breakout_continuity_days` 混用。
+`current_leadership_streak_days` 只统计连续担任 Composite Leader（综合排名第一）的交易日，不与 `breakout_continuity_days` 混用；Composite Leader 不等同于单资产突破 Leader。
 
 状态规则固定如下：`NEW` 为 1 日，`EARLY` 为 2--3 日，`ESTABLISHED` 为 4--7 日；`DOMINANT` 要求连续领导至少 8 个交易日，且 `breadth_score >= 60`、`relative_strength >= 60`；`FADING` 要求当前仍为 Leader，且 `leadership_score` 或 `relative_strength` 每日至少下降 2 分并连续 3 日，或三日累计下降至少 5 分；冲突或无法形成历史时为 `UNAVAILABLE`。
 
@@ -34,7 +34,7 @@ Leadership Snapshot 是当前日和历史日的唯一事实源。输出字段固
 
 ## Observation Timeline
 
-时间轴按最近七个交易日保存每日结构化记录，至少包含日期、Primary / Secondary Leaders、breadth、concentration、rotation、confidence、market state、supply phase、risk state 与 day type。
+时间轴按最近七个交易日保存每日结构化记录，至少包含日期、Composite / Secondary Leaders、breadth、concentration、rotation、confidence、market state、supply phase、risk state 与 day type。
 
 主报告只显示压缩摘要；完整记录独立保存为 latest JSON、按日 JSON 与 JSONL，不写入单日 decision packet。重复且无结构变化的内容在主报告中静默压缩为“过去 7 个交易日未出现结构性变化”。
 
@@ -43,7 +43,7 @@ Leadership Snapshot 是当前日和历史日的唯一事实源。输出字段固
 比较维度分为核心维度和辅助维度。变化等级按 `MAJOR > MODERATE > MINOR > NONE` 取最高级别：
 
 - `MAJOR`：Market State、Risk State、Day Type 任一变化，或多个核心维度同时变化。
-- `MODERATE`：Primary Leader、Breadth Classification、Supply Phase 任一变化。
+- `MODERATE`：Composite Leader、Breadth Classification、Supply Phase 任一变化。
 - `MINOR`：只发生 confidence / score 变化，或局部排序变化不超过 1 位且分数绝对变化小于 5。
 - `NONE`：没有核心维度变化。
 
