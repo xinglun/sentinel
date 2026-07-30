@@ -1,0 +1,216 @@
+{
+  "workItemId": "daily-radar-restore-missing-directory",
+  "contractPath": ".ai/work-items/archive/2026/daily-radar-restore-missing-directory.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "reason": "原因、scope、受入条件、残余リスクを確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "reason": "修正と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item の Cockpit status を生成した。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "欠落した reports/snapshots directory を空集合として初期化する。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "欠落 directory の workflow 回帰契約を追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
+    "https://github.com/xinglun/sentinel/actions/runs/30559748694"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "legacy-only reports restore without reports/snapshots",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-radar-workflow-contract"
+      ],
+      "reason": "workflow now creates the directory before find."
+    },
+    {
+      "scenario": "formal snapshots and legacy history coexist during restore",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-radar-workflow-contract"
+      ],
+      "reason": "existing formal snapshot statistics remain in the workflow contract."
+    },
+    {
+      "scenario": "hosted GitHub Actions executes the fixed restore step",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "requires the post-push Actions run."
+    }
+  ],
+  "unverifiedScenarios": [
+    "hosted GitHub Actions executes the fixed restore step"
+  ],
+  "followUps": [
+    "确认修复后的 GitHub Actions run 能通过 restore step，并完成 formal snapshot/state 回填。"
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "Hosted GitHub Actions 的下一次真实运行尚未验证；本地契约测试覆盖缺失目录与既有 workflow 统计结构。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "GitHub Actions run 30559748694 在 reports/ 恢复成功后因缺失 reports/snapshots 导致 find 返回 1。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract created and preflight reviewed",
+      "contractHash": "c0205937b8f009dd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope and acceptance confirmed before workflow edit",
+      "contractHash": "c0205937b8f009dd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "local implementation and quality checks passed",
+      "contractHash": "c0205937b8f009dd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit checks passed with hosted runner follow-up risk",
+      "contractHash": "c0205937b8f009dd",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "原因、scope、sources、acceptance、verification を確定し preflight ready。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "workflow と回帰テストだけを変更対象とした。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "blocked",
+      "note": "最終 required checks 待ち。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "blocked",
+      "note": "最終 Cockpit checks 待ち。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "hosted_ci",
+      "detail": "修正後の GitHub Actions 実行は未確認。push 後に run を確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "local required checks are passing; hosted runner verification remains open.",
+    "expectedReviewFocus": [
+      "修正後の Actions run が restore step を通過すること",
+      "legacy-only から formal snapshot/state が生成されること"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "Restore step が reports/snapshots 欠落時に find の終了コードで停止した。",
+      "solidifiedTo": "contract",
+      "reason": "欠落 directory の回帰条件を workflow 契約と scenarioCoverage に固定した。"
+    }
+  ]
+}

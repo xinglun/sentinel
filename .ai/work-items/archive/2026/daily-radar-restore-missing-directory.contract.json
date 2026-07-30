@@ -1,0 +1,169 @@
+{
+  "contractVersion": 2,
+  "workItemId": "daily-radar-restore-missing-directory",
+  "mode": "code",
+  "title": "修复 Daily Radar 历史报告恢复的缺失目录失败",
+  "baseCommit": "630931e9459292532f0740300916372fc496b603",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Daily Decision Radar の CI が data branch から reports/ を復元した後、formal snapshot 用ディレクトリが存在しない場合に set -euo pipefail で停止し、Radar 実行と legacy history の移行へ到達できない。",
+  "intent": {
+    "problem": "formal snapshot directory が data branch に無い初回 legacy 回填時、find の終了コードが workflow を停止させる。",
+    "constraints": [
+      "Restore Historical Reports Context と workflow 契約テストだけを変更し、市場判断ロジックを変更しない。",
+      "legacy decision_history.jsonl の復元・統計と formal snapshot の増分 gate は維持する。"
+    ],
+    "rationale": "欠落ディレクトリを空の snapshot 集合として扱えば、legacy migration が実行される安全な初期状態を CI 上でも維持できる。"
+  },
+  "scope": [
+    ".ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+    ".ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "Restore Historical Reports Context の失敗する find コマンドと set -euo pipefail の実装。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "Daily Radar workflow の復元・snapshot 増分に関する既存契約テスト。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/30559748694",
+      "reason": "5627 files の復元直後に Restore Historical Reports Context が exit code 1 で終了した実行ログ。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "data branch に reports はあるが reports/snapshots が無い状態で restore step を実行する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-workflow-contract"],
+      "reason": "workflow 契約テストで欠落 directory の安全な初期化を確認した。"
+    },
+    {
+      "scenario": "data branch に formal snapshots と legacy history の両方がある状態で restore step を実行する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-radar-workflow-contract"],
+      "reason": "workflow 契約テストで既存の formal snapshot 統計文字列を保護した。"
+    },
+    {
+      "scenario": "修正後の hosted GitHub Actions が固定された restore step を実行する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "push 後の hosted runner 実行が必要。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "ci",
+      "data_integrity"
+    ],
+    "reason": "変更対象は Daily Radar の復元統計とその契約テストに限定される。市場判断ロジックや data branch の内容は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_unverified_external_scenario",
+    "openQuestions": [
+      "修复后的 hosted GitHub Actions run 尚未执行，formal snapshot/state 的真实恢复仍需由下一次运行确认。"
+    ],
+    "reason": "用户已明确要求继续修改并推送；接受 hosted runner 场景在本地验证之外保留为残余风险。"
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "原因、変更範囲、受入条件、検証方法が確定している。"
+  },
+  "preReviewWarnings": [
+    "GitHub Actions 上の data branch 復元状態で formal snapshots が無いケースを重点レビューする。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Given data branch に reports はあるが reports/snapshots が無い / When Restore Historical Reports Context を実行する / Then step は exit code 0 で後続の legacy migration に進む。",
+    "Given reports/snapshots が無い / When restored snapshot count を計算する / Then count は 0、last date は空として扱う。",
+    "Given reports/decision_history.jsonl が存在する / When legacy date count を計算する / Then JSONL の有効な日付数を従来どおり記録する。",
+    "Given formal snapshots が存在する / When restore statistics を計算する / Then formal snapshot count と最新日付の統計を維持する。",
+    "Given この Work Item の diff / When review する / Then 市場判断、snapshot schema、data branch の保存内容は変更されない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily-radar-restore-missing-directory.contract.json SUMMARY=.ai/work-items/active/daily-radar-restore-missing-directory.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

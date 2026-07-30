@@ -90,6 +90,8 @@ jobs:
             echo "⚠️ Created empty telemetry.csv with headers to prevent Rust panic."
           fi
 
+          # 初回 legacy 回填では formal snapshot directory がまだ存在しないため、空集合として扱う。
+          mkdir -p reports/snapshots
           RESTORED_SNAPSHOT_COUNT="$(find reports/snapshots -maxdepth 1 -type f -name '*.json' 2>/dev/null | wc -l | tr -d ' ')"
           RESTORED_LAST_SNAPSHOT_DATE="$(python - <<'PY'
           import json
