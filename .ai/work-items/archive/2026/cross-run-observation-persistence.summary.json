@@ -1,6 +1,6 @@
 {
   "workItemId": "cross-run-observation-persistence",
-  "contractPath": ".ai/work-items/active/cross-run-observation-persistence.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/cross-run-observation-persistence.contract.json",
   "changedFiles": [
     {
       "path": "src/features/radar/infrastructure/persistence.rs",
@@ -99,91 +99,129 @@
       "scenario": "移行で生成した degraded formal snapshot を次の取引日の historical baseline として解決する",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-legacy-history-migration", "make test"],
+      "evidence": [
+        "make test-radar-legacy-history-migration",
+        "make test"
+      ],
       "reason": "degraded baseline、packet publication、JSONL-only input、cycle recovery を含む migration tests と full test が通過。"
     },
     {
       "scenario": "移行直後の observation history state と timeline/history entry が一致し、初回 runner が HISTORY_REGRESSION を生成しない",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-legacy-history-migration", "make test"],
+      "evidence": [
+        "make test-radar-legacy-history-migration",
+        "make test"
+      ],
       "reason": "migration が merged timeline entries と state.count を一致させることを persistence 回帰で検証し、実 runner 二回実行でも追加日付を確認。"
     },
     {
       "scenario": "observation history state 読込エラーを runner が呼出元へ伝播する",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-state-load-error", "make test"],
+      "evidence": [
+        "make test-radar-state-load-error",
+        "make test"
+      ],
       "reason": "壊れた observation_history_state.json を実 runner に渡し、deserialize error の伝播を検証済み。"
     },
     {
       "scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-cross-run-pipeline", "make test"],
+      "evidence": [
+        "make test-radar-cross-run-pipeline",
+        "make test"
+      ],
       "reason": "注入した report date と日付対応 mock provider で同一 reports directory を二回実行し、cycle 維持と新日付 append を確認。"
     },
     {
       "scenario": "CI 恢復并检查正式 snapshot/state 文件",
       "required": true,
       "status": "unverified",
-      "evidence": ["cargo test --test daily_radar_workflow_integration", "YAML.load_file"],
+      "evidence": [
+        "cargo test --test daily_radar_workflow_integration",
+        "YAML.load_file"
+      ],
       "reason": "workflow contract と YAML は local 検証済みだが hosted Actions restore は未実行。"
     },
     {
       "scenario": "交易执行门控和 NO TRADE 安全策略不变",
       "required": true,
       "status": "verified",
-      "evidence": ["make test", "make clippy"],
+      "evidence": [
+        "make test",
+        "make clippy"
+      ],
       "reason": "full Rust tests and clippy passed; gate/action matrix/position sizing files were not changed."
     },
     {
       "scenario": "baseline unavailable 时当前 breakout status 与 cross-day continuity 分离显示",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "evidence": [
+        "make test-radar-degraded-report-semantics",
+        "make test"
+      ],
       "reason": "degraded baseline downgrade test confirms current breakout label is preserved while persistence remains unavailable。"
     },
     {
       "scenario": "baseline unavailable 时 audit daily 不断言 NO TRADE 跨日持续",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "evidence": [
+        "make test-radar-degraded-report-semantics",
+        "make test"
+      ],
       "reason": "audit sentence test confirms current-state wording without a complete formal baseline。"
     },
     {
       "scenario": "Primary Leader label 明确表达综合排名语义",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-degraded-report-semantics", "make test"],
+      "evidence": [
+        "make test-radar-degraded-report-semantics",
+        "make test"
+      ],
       "reason": "leader label regression confirms Composite Leader semantics。"
     },
     {
       "scenario": "workflow 首次 legacy 回填检查 formal snapshot 数量超过 legacy packet 数量",
       "required": true,
       "status": "verified",
-      "evidence": ["cargo test --test daily_radar_workflow_integration"],
+      "evidence": [
+        "cargo test --test daily_radar_workflow_integration"
+      ],
       "reason": "workflow contract test confirms legacy count and backfill failure gate are present。"
     },
     {
       "scenario": "JSONL-only legacy history 在 startup runner 中自动迁移并追加当前日 snapshot",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-cross-run-pipeline", "make test"],
+      "evidence": [
+        "make test-radar-cross-run-pipeline",
+        "make test"
+      ],
       "reason": "real runner startup test uses JSONL-only legacy input and verifies migrated plus current-day snapshots。"
     },
     {
       "scenario": "audit daily 历史状态损坏时向调用方传播错误",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-radar-audit-history-errors", "make test"],
+      "evidence": [
+        "make test-radar-audit-history-errors",
+        "make test"
+      ],
       "reason": "audit daily regression confirms corrupt observation history state is not silently downgraded。"
     },
     {
       "scenario": "required scenario remains externally unverified 时记录人工风险接受并允许 preflight continuation",
       "required": true,
       "status": "verified",
-      "evidence": ["make test-ai-preflight-review", "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json"],
+      "evidence": [
+        "make test-ai-preflight-review",
+        "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json"
+      ],
       "reason": "humanReview confirmation allows continuation without changing the hosted scenario to verified。"
     }
   ],
