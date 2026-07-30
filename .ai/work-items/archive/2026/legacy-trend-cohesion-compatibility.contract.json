@@ -1,0 +1,144 @@
+{
+  "contractVersion": 2,
+  "workItemId": "legacy-trend-cohesion-compatibility",
+  "mode": "code",
+  "title": "兼容 legacy decision packet 的 NotFormed 状态",
+  "baseCommit": "e9b6048612086b6bca6c7dbf464342ad84e1725c",
+  "baselineDirtyPaths": [],
+  "problemStatement": "data branch の legacy decision packet に残る trend_cohesion.status=NotFormed を現行 Rust enum が読めず、歴史回填前の radar 実行が停止する。",
+  "intent": {
+    "problem": "旧 schema の明示的な NotFormed 値が現行の Dispersed / Forming / Formed enum と互換でない。",
+    "constraints": ["NotFormed だけを Dispersed に後方互換マッピングし、未知の別値は引き続き拒否する。", "取引 gate、threshold、action matrix、position sizing は変更しない。"],
+    "rationale": "NotFormed はトレンド未形成を表す旧名称であり、現行の安全側状態 Dispersed へ限定 alias することで legacy migration を再開できる。"
+  },
+  "scope": [
+    ".ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json",
+    ".ai/work-items/active/legacy-trend-cohesion-compatibility.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": ["交易执行、Gate、仓位计算、市场阈值和 data branch 内容。"],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/trend_cohesion.rs",
+      "reason": "TrendCohesionStatus enum 的现行序列化契约。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "legacy decision packet 的反序列化与 migration 入口。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/30581617236",
+      "reason": "hosted runner 在旧 packet 2026-04-15 的 NotFormed 值处失败。"
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario": "legacy packet 的 NotFormed status 可被读取并映射为 Dispersed", "required": true, "status": "verified", "evidence": ["make test-radar-legacy-history-migration", "make test"], "reason": "legacy packet 反序列化回归和 migration 测试通过。"},
+    {"scenario": "现行 Dispersed / Forming / Formed status 的既有行为不变", "required": true, "status": "verified", "evidence": ["make test"], "reason": "完整 Rust 测试通过。"},
+    {"scenario": "其他未知 status 仍被拒绝", "required": true, "status": "verified", "evidence": ["make test"], "reason": "UnknownStatus 负向回归测试通过。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "migration",
+      "data_integrity"
+    ],
+    "reason": "仅兼容一个已确认的历史枚举值，未知枚举仍 fail closed。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_unverified_external_scenario",
+    "openQuestions": ["修复后的 hosted Daily Decision Radar run 需在 push 后再次确认。"],
+    "reason": "用户已提交 hosted runner 的具体失败日志并要求继续修复。"
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "失败值、兼容映射、负向边界和验证范围均已明确。"
+  },
+  "preReviewWarnings": [
+    "兼容 alias 必须限定为 NotFormed，不能使用 serde other 吞掉未知历史值。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "legacy packet 中的 NotFormed 能被成功反序列化并映射为 Dispersed。",
+    "未知 trend cohesion status 仍会返回反序列化错误。",
+    "现行状态与交易决策行为不变。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-radar-legacy-history-migration",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json SUMMARY=.ai/work-items/active/legacy-trend-cohesion-compatibility.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/legacy-trend-cohesion-compatibility.summary.json CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json SUMMARY=.ai/work-items/active/legacy-trend-cohesion-compatibility.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/legacy-trend-cohesion-compatibility.contract.json SUMMARY=.ai/work-items/active/legacy-trend-cohesion-compatibility.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

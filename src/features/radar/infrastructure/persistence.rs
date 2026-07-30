@@ -1605,6 +1605,35 @@ mod tests {
     }
 
     #[test]
+    fn legacy_packet_not_formed_status_is_read_as_dispersed() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_legacy_not_formed_status_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 4, 15).unwrap();
+        let mut value = serde_json::to_value(DecisionPacket {
+            date,
+            ..Default::default()
+        })
+        .unwrap();
+        value["trend_cohesion"]["status"] = serde_json::json!("NotFormed");
+        fs::write(
+            temp_dir.join("decision_packet_2026-04-15.json"),
+            serde_json::to_string_pretty(&value).unwrap(),
+        )
+        .unwrap();
+
+        let packets = layer.load_dated_legacy_packets().unwrap();
+        assert_eq!(
+            packets.get(&date).unwrap().trend_cohesion.status,
+            crate::features::radar::domain::trend_cohesion::TrendCohesionStatus::Dispersed
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
     fn formal_snapshot_resolution_exposes_the_formal_snapshot_as_baseline() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_formal_snapshot_object_{}",

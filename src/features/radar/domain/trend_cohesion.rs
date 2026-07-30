@@ -12,6 +12,7 @@ const STRUCTURAL_PERSISTENCE_CONVICTION_THRESHOLD: f64 = 3.0;
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum TrendCohesionStatus {
     #[default]
+    #[serde(alias = "NotFormed")]
     Dispersed,
     Forming,
     Formed,
@@ -447,6 +448,18 @@ mod tests {
         let mut p = mock_packet(symbols);
         p.trend_cohesion.continuity_streak = streak;
         p
+    }
+
+    #[test]
+    fn legacy_not_formed_status_deserializes_as_dispersed() {
+        let status: TrendCohesionStatus = serde_json::from_str("\"NotFormed\"").unwrap();
+        assert_eq!(status, TrendCohesionStatus::Dispersed);
+    }
+
+    #[test]
+    fn unknown_trend_cohesion_status_is_still_rejected() {
+        let result = serde_json::from_str::<TrendCohesionStatus>("\"UnknownStatus\"");
+        assert!(result.is_err());
     }
 
     #[test]
