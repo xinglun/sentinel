@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T00:22:05.019828+00:00`
+- Generated At: `2026-07-30T04:03:01.252758+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `blocked`
@@ -29,6 +29,7 @@ generated: true
 - `make fmt-check`: passed
 - `make test-radar-legacy-history-migration`: passed
 - `make test-radar-cross-run-pipeline`: passed
+- `make test-radar-state-load-error`: passed
 - `make test`: passed
 - `make clippy`: passed
 - `make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: passed
@@ -54,12 +55,11 @@ generated: true
 ## Review Readiness
 
 - Status: `ready_with_risks`
-- Reason: 核心 persistence/CI contract 与 Rust quality gates 已通过；真实 runner 二回実行、hosted Actions restore、Cockpit resolver 仍有残余风险。
+- Reason: 核心 persistence/CI contract 与 Rust quality gates 已通过；hosted Actions restore、Cockpit resolver 仍有残余风险。
 - Expected Review Focus:
   - degraded baseline の historical fact semantics
   - migration state と timeline/history entry の整合性
   - Local::now() を使う production entrypoint と test-only report date 注入境界
-  - state load error の伝播
 
 ## Scenario Coverage
 

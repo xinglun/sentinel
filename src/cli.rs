@@ -2058,6 +2058,47 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         );
     }
 
+    #[tokio::test]
+    async fn pipeline_propagates_corrupt_observation_history_state() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join("observation_history_state.json"),
+            "{\"count\":",
+        )
+        .unwrap();
+
+        let error = run_pipeline_for_report_date(
+            mock_config(tmp.path()),
+            Arc::new(AlwaysFailProvider),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+        )
+        .await
+        .expect_err("corrupt observation history state must fail closed");
+
+        assert!(error
+            .to_string()
+            .contains("deserialize observation history state"));
+    }
+
+    #[test]
+    fn persistence_loader_rejects_corrupt_observation_history_state() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join("observation_history_state.json"),
+            "{\"count\":",
+        )
+        .unwrap();
+
+        let error = PersistenceLayer::new(tmp.path())
+            .load_observation_history_state()
+            .expect_err("corrupt state must be rejected by the persistence loader");
+
+        assert!(error
+            .to_string()
+            .contains("deserialize observation history state"));
+    }
+
     #[test]
     fn parse_transition_audit_entry_supports_legacy_and_v2_lines() {
         let legacy = serde_json::json!({
