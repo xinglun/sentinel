@@ -279,10 +279,10 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
             if not (
                 path.name.startswith("observation_timeline_")
                 and path.suffix == ".json"
-                and history_path in records_by_file
+                and history_path.is_file()
             ):
                 raise
-            history_records = records_by_file[history_path]
+            history_records = read_records(history_path)
             target_date = _observation_timeline_date(path)
             matching = [record for record in history_records if record.market_date == target_date]
             records_by_file[path] = [matching[-1] if matching else history_records[-1]]
