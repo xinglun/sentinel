@@ -1,0 +1,102 @@
+{
+  "contractVersion": 2,
+  "workItemId": "cross-run-observation-persistence",
+  "mode": "code",
+  "title": "跨运行交易日观测历史持久化修复",
+  "baseCommit": "bacfc595",
+  "baselineDirtyPaths": [
+    {"path": ".github/workflows/daily_radar.yml", "status": "M", "fingerprint": "70ba330aef3440fb62bb3a10b5c76527ca2be7407902c72da198ba28daf49daa"},
+    {"path": "docs/superpowers/plans/2026-07-30-legacy-formal-snapshot-migration.md", "status": "??", "fingerprint": "78c0e97cb0c7573466391f82488872bf7c3c8e39e3cb0189eef9a40bbfeb3bc3"},
+    {"path": "docs/superpowers/specs/2026-07-30-legacy-formal-snapshot-migration-design.md", "status": "??", "fingerprint": "09361808833b8c5e8633cb2fc48771241b7f6541907bca3386d3d97e140dc43a"}
+  ],
+  "problemStatement": "首日安全降级后生成的交易日观测无法成为下一交易日基线，且 CI data branch 未验证正式 snapshot/state 是否被恢复。",
+  "intent": {
+    "problem": "修复跨日 snapshot 基线读取与 cycle 生命周期，确保安全降级不再导致永久 BASELINE_UNAVAILABLE。",
+    "constraints": [
+      "保持事实不足时 NO TRADE、安全降级和低置信度策略不变。",
+      "不改变交易门控、仓位计算或市场事实阈值。",
+      "跨运行数据只通过 reports/data branch 恢复，不引入临时本地缓存。"
+    ],
+    "rationale": "当前代码把历史基线不可用与市场源数据 degraded 混为同一 source_status，导致下一交易日拒绝读取上一日快照。"
+  },
+  "scope": [
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "Makefile",
+    ".github/workflows/daily_radar.yml",
+    "docs/superpowers/plans/2026-07-30-legacy-formal-snapshot-migration.md",
+    "docs/superpowers/specs/2026-07-30-legacy-formal-snapshot-migration-design.md",
+    ".superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-report.md",
+    ".superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-timeline-report.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/cross-run-observation-persistence.contract.json",
+    ".ai/work-items/active/cross-run-observation-persistence.summary.json"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "config.toml",
+    "Telegram 文案、市场阈值和仓位规则"
+  ],
+  "sources": [
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "正式 trading-day snapshot 的写入、读取和基线筛选。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "cycle_id 生命周期与安全降级 snapshot 生成。"},
+    {"path": ".github/workflows/daily_radar.yml", "reason": "CI reports 恢复、输出校验与 data branch 提交链路。"},
+    {"path": "scripts/prune_data_history.py", "reason": "确认历史清理不会删除正式 snapshot/state。"},
+    {"path": ".superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-brief.md", "reason": "Task 4 の起動時移行、エラー伝播、再読込、二回実行要件。"},
+    {"path": "user-provided-task-4-review-findings", "reason": "review findings file が存在しないため、2026-07-30 の会話で提示された degraded baseline、timeline 整合性、state load エラー伝播、実 runner 二回実行、make gate の指摘と、Preflight Review 後も修正を続行する明示指示を実装根拠とする。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "移行で生成した degraded formal snapshot を次の取引日の historical baseline として解決する", "required": true, "status": "unverified", "evidence": [], "reason": "Task 4 review 修正の回帰試験と full test gate を未実行。"},
+    {"scenario": "移行直後の observation history state と timeline/history entry が一致し、初回 runner が HISTORY_REGRESSION を生成しない", "required": true, "status": "unverified", "evidence": [], "reason": "実 runner を通す二回実行回帰試験を未実行。"},
+    {"scenario": "observation history state 読込エラーを runner が呼出元へ伝播する", "required": true, "status": "unverified", "evidence": [], "reason": "state load error の runner 回帰試験を未実行。"},
+    {"scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する", "required": true, "status": "unverified", "evidence": [], "reason": "手動 clone/write を使わない runner test を未実行。"},
+    {"scenario": "CI 恢复并检查正式 snapshot/state 文件", "required": true, "status": "unverified", "evidence": [], "reason": "尚未执行真实 GitHub Actions runner。"},
+    {"scenario": "交易执行门控和 NO TRADE 安全策略不变", "required": true, "status": "unverified", "evidence": [], "reason": "full test gate を未実行。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "high", "riskTypes": ["migration", "data_integrity", "ci", "review_debt"], "reason": "欠陥の影響は高いが、ユーザーが Task 4 の必須修正、対象 file、禁止対象、実 runner test、make gate を明示しており、実装判断に残る unknown はない。誤った historical baseline または state/timeline 不整合は HISTORY_REGRESSION を発生させるため、回帰試験と full gate を必須とする。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "2026-07-30 のユーザー指示は BLOCKED 済み report を前提に critical 修正の続行、対象 file、実 runner test、実現不能時の BLOCKED 境界を明示している。read-only 調査で Local::now の使用は runner 冒頭の report date/timestamp 生成に限定され、production entrypoint を変えず private date-injected runner を追加して検証可能と確認した。"},
+  "preReviewWarnings": [
+    "移行 snapshot の source_status=degraded を historical baseline として resolver が受理することを重点確認する。",
+    "移行 state.count と timeline/history entry の実データ整合性を重点確認する。",
+    "load_observation_history_state の全 error が ? で伝播され、unwrap_or(None) が残らないことを重点確認する。",
+    "二回実行 test が手動 clone/state write ではなく実 pipeline runner を呼ぶことを重点確認する。",
+    "data branch 中の formal snapshot/state と旧 JSONL の保存境界を重点確認する。"
+  ],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance 或 verification 变化时先更新 Contract。"},
+  "acceptance": [
+    "Given source_status=degraded の migration snapshot / When 次取引日の resolver を実行する / Then 同一 cycle の historical baseline として受理する。",
+    "Given migration 後の formal snapshot 群 / When observation history state を保存する / Then count、last_market_date、cycle_id は同一 cycle の snapshot 群と一致する。",
+    "Given migration 後の初回 pipeline run / When history progression を検証する / Then state count と timeline/history entry の差で HISTORY_REGRESSION を生成しない。",
+    "Given observation_history_state.json の read または deserialize failure / When pipeline runner が state を読み込む / Then error を ? で呼出元へ返す。",
+    "Given legacy packet のある temporary reports directory / When 実 pipeline runner を異なる market date で二回呼ぶ / Then cycle_id を維持して二日目 snapshot を追加する。",
+    "Given 上記二回実行 test / When 二回目 run を準備する / Then snapshot clone または state の手動保存を使用しない。",
+    "Given formal snapshot が一件以上存在する reports directory / When startup migration 判定を行う / Then legacy migration を再実行しない。",
+    "Given Task 4 の source diff / When review する / Then execution gate、threshold、action matrix、trader、position sizing の file は変更されない。",
+    "Given Task 4 の report / When verification evidence を記録する / Then make fmt-check、make test、make clippy の実際の exit result だけを記載する。",
+    "Given CI data branch の reports restore / When hosted runner を実行する / Then formal snapshot/state の復元確認は local test と区別して記録する。",
+    "Given 本 Work Item / When report と snapshot contract を確認する / Then i18n 文言と end-user report の言語契約は変更されない。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test-radar-legacy-history-migration", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "回滚本 Work Item 的 source、workflow、test 与 evidence diff。"
+}
