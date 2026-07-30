@@ -22,6 +22,7 @@
   "scope": [
     "src/features/radar/infrastructure/persistence.rs",
     "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/cli.rs",
     "tests/daily_radar_workflow_integration.rs",
     "Makefile",
     ".github/workflows/daily_radar.yml",
@@ -48,12 +49,12 @@
     {"path": "user-provided-task-4-review-findings", "reason": "review findings file が存在しないため、2026-07-30 の会話で提示された degraded baseline、timeline 整合性、state load エラー伝播、実 runner 二回実行、make gate の指摘と、Preflight Review 後も修正を続行する明示指示を実装根拠とする。"}
   ],
   "scenarioCoverage": [
-    {"scenario": "移行で生成した degraded formal snapshot を次の取引日の historical baseline として解決する", "required": true, "status": "unverified", "evidence": [], "reason": "Task 4 review 修正の回帰試験と full test gate を未実行。"},
-    {"scenario": "移行直後の observation history state と timeline/history entry が一致し、初回 runner が HISTORY_REGRESSION を生成しない", "required": true, "status": "unverified", "evidence": [], "reason": "実 runner を通す二回実行回帰試験を未実行。"},
+    {"scenario": "移行で生成した degraded formal snapshot を次の取引日の historical baseline として解決する", "required": true, "status": "verified", "evidence": ["make test-radar-legacy-history-migration", "make test"], "reason": "migration の degraded baseline、packet publication、JSONL-only input、cycle recovery を検証済み。"},
+    {"scenario": "移行直後の observation history state と timeline/history entry が一致し、初回 runner が HISTORY_REGRESSION を生成しない", "required": true, "status": "verified", "evidence": ["make test-radar-legacy-history-migration", "make test-radar-cross-run-pipeline"], "reason": "migration の state/timeline 整合性と実 runner の二回実行を検証済み。"},
     {"scenario": "observation history state 読込エラーを runner が呼出元へ伝播する", "required": true, "status": "unverified", "evidence": [], "reason": "state load error の runner 回帰試験を未実行。"},
-    {"scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する", "required": true, "status": "unverified", "evidence": [], "reason": "手動 clone/write を使わない runner test を未実行。"},
+    {"scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline", "make test"], "reason": "注入した report date と日付対応 mock provider で、同一 reports directory の cycle 維持と新日付 append を検証済み。"},
     {"scenario": "CI 恢复并检查正式 snapshot/state 文件", "required": true, "status": "unverified", "evidence": [], "reason": "尚未执行真实 GitHub Actions runner。"},
-    {"scenario": "交易执行门控和 NO TRADE 安全策略不变", "required": true, "status": "unverified", "evidence": [], "reason": "full test gate を未実行。"}
+    {"scenario": "交易执行门控和 NO TRADE 安全策略不变", "required": true, "status": "verified", "evidence": ["make test", "make clippy"], "reason": "full Rust tests と clippy が通過し、gate/action matrix/position sizing は変更していない。"}
   ],
   "unknowns": [],
   "notCodable": false,
@@ -86,6 +87,7 @@
     {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
     {"command": "make fmt-check", "required": true},
     {"command": "make test-radar-legacy-history-migration", "required": true},
+    {"command": "make test-radar-cross-run-pipeline", "required": true},
     {"command": "make test", "required": true},
     {"command": "make clippy", "required": true},
     {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},

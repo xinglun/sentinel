@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T00:01:08.581765+00:00`
+- Generated At: `2026-07-30T00:22:05.019828+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `blocked`
@@ -19,39 +19,32 @@ generated: true
 
 ## Blocking
 
-- required check not passed: make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json
-- required check not passed: make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json
-- required check not passed: make test
-- required check not passed: make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json
-- required check not passed: make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json
-- required check not passed: make check-ai-coverage-guard
-- required check not passed: make check-ai-scenario-coverage
 - required check not passed: make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json
-- required check not passed: make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json
 - required check not passed: make check-ai-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json
-- required check not passed: make check-ai-status-consistency
 
 ## Required Checks
 
-- `make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: not_run
-- `make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: not_run
+- `make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: passed
 - `make fmt-check`: passed
 - `make test-radar-legacy-history-migration`: passed
-- `make test`: passed: 636 tests
+- `make test-radar-cross-run-pipeline`: passed
+- `make test`: passed
 - `make clippy`: passed
-- `make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: not_run
-- `make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: not_run
-- `make check-ai-coverage-guard`: not_run
-- `make check-ai-scenario-coverage`: not_run
-- `make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: not_run
-- `make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: not_run
-- `make check-ai-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: not_run
-- `make check-ai-status-consistency`: not_run
+- `make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: passed
+- `make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: passed
+- `make check-ai-coverage-guard`: passed
+- `make check-ai-scenario-coverage`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json`: failed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json`: failed
+- `make check-ai-status-consistency`: passed
 
 ## Changed Files
 
 - `src/features/radar/infrastructure/persistence.rs`: Task 4 review で指摘された degraded baseline と migration persistence の修正対象。
 - `src/features/radar/interface/radar_pipeline_runner.rs`: Task 4 review で指摘された state error 伝播と実 pipeline 二回実行の修正対象。
+- `src/cli.rs`: 異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。
 - `Makefile`: migration persistence の focused regression を make 経由で実行する入口。
 - `.superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-report.md`: 実装内容と実際に実行した make gate の結果を記録する。
 - `.superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-timeline-report.md`: migration timeline 整合性の実装内容と focused verification を記録する。
@@ -65,7 +58,7 @@ generated: true
 - Expected Review Focus:
   - degraded baseline の historical fact semantics
   - migration state と timeline/history entry の整合性
-  - 実 pipeline runner 二回実行の未検証と Local::now() 注入境界
+  - Local::now() を使う production entrypoint と test-only report date 注入境界
   - state load error の伝播
 
 ## Scenario Coverage

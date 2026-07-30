@@ -11,6 +11,10 @@
       "reason": "Task 4 review で指摘された state error 伝播と実 pipeline 二回実行の修正対象。"
     },
     {
+      "path": "src/cli.rs",
+      "reason": "異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。"
+    },
+    {
       "path": "Makefile",
       "reason": "migration persistence の focused regression を make 経由で実行する入口。"
     },
@@ -51,7 +55,7 @@
       "required": true,
       "status": "verified",
       "evidence": ["make test-radar-legacy-history-migration", "make test"],
-      "reason": "migration が merged timeline entries と state.count を一致させることを persistence 回帰で検証。実 runner 二回実行は別途未検証。"
+      "reason": "migration が merged timeline entries と state.count を一致させることを persistence 回帰で検証し、実 runner 二回実行でも追加日付を確認。"
     },
     {
       "scenario": "observation history state 読込エラーを runner が呼出元へ伝播する",
@@ -63,9 +67,9 @@
     {
       "scenario": "実 pipeline runner の二回実行で cycle_id を維持し、新しい market date を追加する",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "reason": "Local::now() に依存する既存 runner に対する異なる market date の実二回実行 test は未実装。"
+      "status": "verified",
+      "evidence": ["make test-radar-cross-run-pipeline", "make test"],
+      "reason": "注入した report date と日付対応 mock provider で同一 reports directory を二回実行し、cycle 維持と新日付 append を確認。"
     },
     {
       "scenario": "CI 恢復并检查正式 snapshot/state 文件",
@@ -85,11 +89,11 @@
   "verification": [
     {
       "command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make fmt-check",
@@ -100,8 +104,12 @@
       "result": "passed"
     },
     {
+      "command": "make test-radar-cross-run-pipeline",
+      "result": "passed"
+    },
+    {
       "command": "make test",
-      "result": "passed: 636 tests"
+      "result": "passed"
     },
     {
       "command": "make clippy",
@@ -109,49 +117,48 @@
     },
     {
       "command": "make check-ai-guards CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-coverage-guard",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-scenario-coverage",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json",
-      "result": "not_run"
+      "result": "failed"
     },
     {
       "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json",
-      "result": "not_run"
+      "result": "passed"
     },
     {
       "command": "make check-ai-status CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json SUMMARY=.ai/work-items/active/cross-run-observation-persistence.summary.json",
-      "result": "not_run"
+      "result": "failed"
     },
     {
       "command": "make check-ai-status-consistency",
-      "result": "not_run"
+      "result": "passed"
     }
   ],
   "unknownsRemaining": [],
   "risk": {
-    "level": "high",
-    "detail": "migration baseline と state/timeline の不整合は跨日履歴を誤って HISTORY_REGRESSION に降格させるため、実 runner の回帰試験が完了するまで ready にしない。"
+    "level": "medium",
+    "detail": "核心の migration、state/timeline 整合性、実 runner 二回実行は検証済み。state load error 専用回帰、hosted Actions restore、Cockpit lifecycle は残余リスク。"
   },
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [
     "初回 make ai-preflight は Summary の required verification 不足と no_active status の不整合で失敗した。",
     "2026-07-30 の再開時 make ai-preflight は high risk、unknowns 空、required scenario 未検証を理由に needs_human_confirmation で exit 2 となった。ユーザーは同じ turn で BLOCKED 状態と失敗時境界を認識した上で修正続行を明示している。",
-    "既存 Task 4 test は snapshot clone と二回目 state の手動保存を行い、pipeline runner を呼んでいない。",
-    "migration state count と observation timeline/history entry の一致を保証する証拠がない。",
+    "既存 Task 4 test は snapshot clone と二回目 state の手動保存を行っていたため、実 runner 二回実行回帰を追加した。",
     "review findings file は存在せず、ユーザーが会話で提示した完全 findings を使用した。",
     "read-only 調査で run_pipeline の Local::now 依存は入口の report date/timestamp 生成だけと確認し、production entrypoint を維持した private date injection で二回実行を検証可能と判断した。"
   ],
@@ -159,10 +166,7 @@
     "実 GitHub Actions runner で data branch の正式 snapshot/state 復元を別途確認する。"
   ],
   "unverifiedScenarios": [
-    "degraded formal snapshot の runner baseline 解決",
-    "migration state と timeline/history entry の初回整合性",
     "state load error の runner 伝播",
-    "実 pipeline runner の二回実行",
     "実 GitHub Actions runner の data branch 復元"
   ],
   "checkpointEvidence": [
@@ -170,41 +174,41 @@
       "stage": "contract_start",
       "recorded": true,
       "detail": "Task 4 brief、ユーザー提供 review findings、Contract の scope / acceptance / verification を確認した。",
-      "contractHash": "2194a8ddefc52502",
+      "contractHash": "e2c4b83158516fff",
       "acceptanceCount": 11,
       "unknownCount": 0,
-      "requiredChecks": 13,
+      "requiredChecks": 15,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_edit",
       "recorded": true,
       "detail": "production edit 前に runner/persistence/test/report の範囲と outOfScope の gate/threshold/position sizing 非変更を確認した。Preflight Review の needs_human_confirmation とユーザーの明示続行指示を記録し、read-only 調査で private date injection による real runner harness が安全に実装可能と確認した。",
-      "contractHash": "2194a8ddefc52502",
+      "contractHash": "e2c4b83158516fff",
       "acceptanceCount": 11,
       "unknownCount": 0,
-      "requiredChecks": 13,
+      "requiredChecks": 15,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_ready",
       "recorded": false,
       "detail": "実装と required checks の完了後に記録する。",
-      "contractHash": "2194a8ddefc52502",
+      "contractHash": "e2c4b83158516fff",
       "acceptanceCount": 11,
       "unknownCount": 0,
-      "requiredChecks": 13,
-      "requiredChecksPassed": 0
+      "requiredChecks": 15,
+      "requiredChecksPassed": 11
     },
     {
       "stage": "after_verification",
       "recorded": false,
       "detail": "required checks の実結果を同期した後に記録する。",
-      "contractHash": "2194a8ddefc52502",
+      "contractHash": "e2c4b83158516fff",
       "acceptanceCount": 11,
       "unknownCount": 0,
-      "requiredChecks": 13,
-      "requiredChecksPassed": 0
+      "requiredChecks": 15,
+      "requiredChecksPassed": 11
     }
   ],
   "checkpointReview": [
@@ -244,7 +248,7 @@
     "expectedReviewFocus": [
       "degraded baseline の historical fact semantics",
       "migration state と timeline/history entry の整合性",
-      "実 pipeline runner 二回実行の未検証と Local::now() 注入境界",
+      "Local::now() を使う production entrypoint と test-only report date 注入境界",
       "state load error の伝播"
     ]
   },

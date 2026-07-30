@@ -1037,10 +1037,13 @@ mod tests {
     use crate::features::radar::application::provider::MarketDataProvider;
     use crate::features::radar::application::provider::{DailyBar, TickerHistory};
     use crate::features::radar::application::runtime_mode::ExecutionMode;
+    use crate::features::radar::domain::decision::DecisionPacket;
+    use crate::features::radar::infrastructure::persistence::PersistenceLayer;
     use crate::features::radar::interface::audit_daily_report::{
         build_audit_daily_report, build_audit_daily_report_with_evidence_status,
         consecutive_streak, parse_transition_audit_entry, TransitionAuditDay, TransitionAuditEntry,
     };
+    use crate::features::radar::interface::radar_pipeline_runner::run_pipeline_for_report_date;
     use crate::features::shared::acl::notification_factory::telegram_delivery_precheck;
     use crate::features::shared::application::run_status::DeliveryStatus;
     use crate::features::shared::infrastructure::run_status_reader::{
@@ -1353,6 +1356,10 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
 
     struct PartialSuccessProvider;
 
+    struct DateAwareProvider {
+        latest_date: NaiveDate,
+    }
+
     #[async_trait::async_trait]
     impl MarketDataProvider for AlwaysFailProvider {
         async fn fetch_history(
@@ -1375,6 +1382,27 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         ) -> Result<crate::features::radar::application::provider::TickerHistory<'static>> {
             match symbol {
                 "AAA" => Ok(create_mock_history(symbol, 100.0, 60, 0.002)),
+                _ => Err(anyhow!("synthetic partial fetch failure")),
+            }
+        }
+    }
+
+    #[async_trait::async_trait]
+    impl MarketDataProvider for DateAwareProvider {
+        async fn fetch_history(
+            &self,
+            symbol: &str,
+            _start_date: Option<OffsetDateTime>,
+            _end_date: Option<OffsetDateTime>,
+        ) -> Result<crate::features::radar::application::provider::TickerHistory<'static>> {
+            match symbol {
+                "AAA" => Ok(create_mock_history_ending(
+                    symbol,
+                    100.0,
+                    60,
+                    0.002,
+                    self.latest_date,
+                )),
                 _ => Err(anyhow!("synthetic partial fetch failure")),
             }
         }
@@ -1405,6 +1433,42 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
             total_trading_days: count,
             latest_quote_timestamp: Some(Utc::now().timestamp()),
         }
+    }
+
+    fn create_mock_history_ending(
+        symbol: &str,
+        start_price: f64,
+        count: usize,
+        daily_change: f64,
+        latest_date: NaiveDate,
+    ) -> TickerHistory<'static> {
+        let start_date = latest_date - chrono::Duration::days((count - 1) as i64);
+        let mut bars = Vec::with_capacity(count);
+        let mut current_price = start_price;
+
+        for i in 0..count {
+            bars.push(DailyBar {
+                date: start_date + chrono::Duration::days(i as i64),
+                close: current_price,
+                volume: Some(1000.0),
+            });
+            current_price *= 1.0 + daily_change;
+        }
+
+        TickerHistory {
+            symbol: symbol.to_string(),
+            bars: Cow::Owned(bars),
+            total_trading_days: count,
+            latest_quote_timestamp: Some(Utc::now().timestamp()),
+        }
+    }
+
+    #[test]
+    fn date_aware_mock_history_ends_on_requested_date() {
+        let latest_date = NaiveDate::from_ymd_opt(2026, 7, 30).unwrap();
+        let history = create_mock_history_ending("AAA", 100.0, 3, 0.002, latest_date);
+
+        assert_eq!(history.bars.last().map(|bar| bar.date), Some(latest_date));
     }
 
     fn mock_config(save_to: &Path) -> AppConfig {
@@ -1918,6 +1982,80 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(weekly_review.contains("## 认知校准快照"));
         assert!(weekly_review.contains("边界: 仅为快照"));
         assert!(weekly_review.contains("不生成交易信号"));
+    }
+
+    #[tokio::test]
+    async fn injected_pipeline_dates_preserve_cycle_and_append_migrated_history() {
+        let tmp = tempdir().unwrap();
+        let legacy_packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            ..Default::default()
+        };
+        fs::write(
+            tmp.path().join("decision_packet_2026-07-28.json"),
+            serde_json::to_string_pretty(&legacy_packet).unwrap(),
+        )
+        .unwrap();
+        fs::write(
+            tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
+            r#"{"status":"succeeded","reason":null}"#,
+        )
+        .unwrap();
+
+        let mut first_config = mock_config(tmp.path());
+        first_config.watchlist.truncate(1);
+        run_pipeline_for_report_date(
+            first_config,
+            Arc::new(DateAwareProvider {
+                latest_date: NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            }),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+        )
+        .await
+        .unwrap();
+        let persistence = PersistenceLayer::new(tmp.path());
+        let first_state = persistence
+            .load_observation_history_state()
+            .unwrap()
+            .expect("first injected run should persist history state");
+
+        let mut second_config = mock_config(tmp.path());
+        second_config.watchlist.truncate(1);
+        run_pipeline_for_report_date(
+            second_config,
+            Arc::new(DateAwareProvider {
+                latest_date: NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+            }),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+        )
+        .await
+        .unwrap();
+        let second_state = persistence
+            .load_observation_history_state()
+            .unwrap()
+            .expect("second injected run should preserve history state");
+        let snapshots = persistence.load_trading_day_snapshots().unwrap();
+
+        assert_eq!(second_state.cycle_id, first_state.cycle_id);
+        assert!(
+            second_state.count > first_state.count,
+            "first={first_state:?} second={second_state:?} snapshots={snapshots:?} files={:?}",
+            fs::read_dir(tmp.path())
+                .unwrap()
+                .filter_map(Result::ok)
+                .map(|entry| entry.file_name())
+                .collect::<Vec<_>>()
+        );
+        assert!(second_state.last_market_date > first_state.last_market_date);
+        assert!(
+            snapshots
+                .iter()
+                .filter(|snapshot| snapshot.cycle_id == second_state.cycle_id)
+                .count()
+                >= second_state.count
+        );
     }
 
     #[test]

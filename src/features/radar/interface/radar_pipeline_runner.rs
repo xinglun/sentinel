@@ -76,7 +76,23 @@ use crate::features::shared::interface::threshold_format::format_threshold_value
 pub(crate) async fn run_pipeline(
     app_config: config::AppConfig,
     provider: Arc<dyn MarketDataProvider>,
+    mode: crate::features::radar::application::runtime_mode::ExecutionMode,
+) -> Result<()> {
+    run_pipeline_for_report_date(
+        app_config,
+        provider,
+        mode,
+        chrono::Local::now().date_naive(),
+    )
+    .await
+}
+
+/// テスト時だけ基準日を注入し、通常の CLI 実行では現在日付を使う。
+pub(crate) async fn run_pipeline_for_report_date(
+    app_config: config::AppConfig,
+    provider: Arc<dyn MarketDataProvider>,
     _mode: crate::features::radar::application::runtime_mode::ExecutionMode,
+    report_date: chrono::NaiveDate,
 ) -> Result<()> {
     let parsed_rules = app_config.get_parsed_rules();
     let domain_rules = DomainParsedRules::from(&parsed_rules);
@@ -84,7 +100,6 @@ pub(crate) async fn run_pipeline(
     let domain_rules_arc = Arc::new(domain_rules);
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
     let now = chrono::Local::now();
-    let report_date = now.date_naive();
     let market_date = recent_trading_dates(report_date)
         .into_iter()
         .filter(|date| *date <= report_date)
