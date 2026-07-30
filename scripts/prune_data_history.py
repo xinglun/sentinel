@@ -176,6 +176,14 @@ def _write_records(path: Path, records: list[Record], cutoff: date) -> int:
     return sum(len(payload) for payload in kept)
 
 
+def _observation_timeline_date(path: Path) -> date:
+    raw = path.stem.removeprefix("observation_timeline_")
+    try:
+        return date.fromisoformat(raw)
+    except ValueError as exc:
+        raise ValueError(f"{path}: filename has no trading-day date") from exc
+
+
 def _write_transition_csv(path: Path, records: list[Record], cutoff: date, lines: list[str]) -> int:
     if not lines or not lines[0].strip():
         raise ValueError(f"{path}: CSV header is missing")
@@ -258,14 +266,42 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
     missing = [str(path) for path in file_paths if not path.is_file()]
     if missing:
         raise ValueError("required history file is missing: " + ", ".join(missing))
-    records_by_file = {
-        path: (
-            read_json_record(path)
-            if path.name.startswith("observation_timeline_") and path.suffix == ".json"
-            else read_records(path)
-        )
-        for path in file_paths
-    }
+    records_by_file: dict[Path, list[Record]] = {}
+    for path in file_paths:
+        try:
+            records_by_file[path] = (
+                read_json_record(path)
+                if path.name.startswith("observation_timeline_") and path.suffix == ".json"
+                else read_records(path)
+            )
+        except ValueError:
+            history_path = reports_dir / "observation_timeline.jsonl"
+            if not (
+                path.name.startswith("observation_timeline_")
+                and path.suffix == ".json"
+                and history_path in records_by_file
+            ):
+                raise
+            history_records = records_by_file[history_path]
+            target_date = _observation_timeline_date(path)
+            matching = [record for record in history_records if record.market_date == target_date]
+            if not matching:
+                raise
+            records_by_file[path] = [matching[-1]]
+    latest_path = reports_dir / "observation_timeline_latest.json"
+    latest_repair: tuple[Path, list[Record]] | None = None
+    if latest_path.is_file():
+        try:
+            read_json_record(latest_path)
+        except ValueError:
+            dated_records = [
+                records
+                for path, records in records_by_file.items()
+                if path.name.startswith("observation_timeline_") and path.suffix == ".json"
+            ]
+            if not dated_records:
+                raise
+            latest_repair = (latest_path, max(dated_records, key=lambda records: records[0].market_date))
     records_by_file.update(
         {
             path: records
@@ -283,6 +319,8 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
             for record, line in zip(transition_records, transition_data_lines)
         ]
     cutoff = choose_cutoff(records_by_file, max_bytes=max_bytes, min_days=min_days)
+    if latest_repair is not None and not dry_run:
+        _write_records(latest_repair[0], latest_repair[1], latest_repair[1][0].market_date)
     before = {
         str(path): (
             path.stat().st_size

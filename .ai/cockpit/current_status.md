@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T23:29:54.765513+00:00`
+- Generated At: `2026-07-30T23:39:07.889120+00:00`
 - Task: `fix-prune-dated-timeline-json`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -37,7 +37,7 @@ generated: true
 
 ## Changed Files
 
-- `scripts/prune_data_history.py`: 整形済みおよび連結された dated timeline JSON をファイル単位で読み、最後の完全な snapshot へ規範化する。
+- `scripts/prune_data_history.py`: 整形済み、連結、破損した dated/latest timeline JSON を読み、最後の完全な snapshot または同日 JSONL record へ規範化する。
 - `scripts/test_prune_data_history.py`: 複数行 JSON の正常系回帰テストを追加した。
 - `.ai/cockpit/current_status.md`: Work Item 状態を Cockpit の生成物へ反映した。
 - `.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: 実装範囲、受入条件、検証、Actions 未確認リスクを確定した。

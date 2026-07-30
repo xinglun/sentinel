@@ -201,6 +201,24 @@ class PruneDataHistoryTest(unittest.TestCase):
             self.assertEqual(result["action"], "none")
             self.assertEqual(json.loads(timeline_path.read_text(encoding="utf-8")), latest)
 
+    def test_repairs_malformed_timeline_snapshots_from_jsonl_history(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_dir:
+            directory = Path(raw_dir)
+            write_history(directory, "decision_history.jsonl", [{"date": "2026-07-01"}])
+            write_history(directory, "state_transitions.jsonl", [{"date": "2026-07-01"}])
+            timeline = {"entries": [{"date": "2026-07-01", "value": "history"}]}
+            write_history(directory, "observation_timeline.jsonl", [timeline])
+            dated_path = directory / "observation_timeline_2026-07-01.json"
+            latest_path = directory / "observation_timeline_latest.json"
+            dated_path.write_text("{\n", encoding="utf-8")
+            latest_path.write_text("{\n", encoding="utf-8")
+
+            result = prune_reports(directory, max_bytes=10_000, min_days=1, dry_run=False)
+
+            self.assertEqual(result["action"], "none")
+            self.assertEqual(json.loads(dated_path.read_text(encoding="utf-8")), timeline)
+            self.assertEqual(json.loads(latest_path.read_text(encoding="utf-8")), timeline)
+
     def test_prunes_jsonl_and_formal_snapshot_directories_with_one_cutoff(self) -> None:
         with tempfile.TemporaryDirectory() as raw_dir:
             directory = Path(raw_dir)
