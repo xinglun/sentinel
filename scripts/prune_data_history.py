@@ -87,10 +87,31 @@ def read_json_record(path: Path) -> list[Record]:
     if not payload.strip():
         raise ValueError(f"{path}: no dated JSON record found")
     try:
-        value = json.loads(payload)
+        text = payload.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{path}: line 1 is invalid JSON") from exc
+    decoder = json.JSONDecoder()
+    records: list[Record] = []
+    offset = 0
+    try:
+        while offset < len(text):
+            while offset < len(text) and text[offset].isspace():
+                offset += 1
+            if offset == len(text):
+                break
+            start = offset
+            value, offset = decoder.raw_decode(text, offset)
+            records.append(
+                Record(
+                    _market_date(value, path=path, line_number=1),
+                    text[start:offset].encode("utf-8"),
+                )
+            )
     except json.JSONDecodeError as exc:
         raise ValueError(f"{path}: line 1 is invalid JSON") from exc
-    return [Record(_market_date(value, path=path, line_number=1), payload)]
+    if not records:
+        raise ValueError(f"{path}: no dated JSON record found")
+    return [records[-1]]
 
 
 def _group_size(records: Iterable[Record]) -> dict[date, int]:
@@ -283,6 +304,14 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
                 "before_bytes": before,
                 "after_bytes": after,
             }
+        if not dry_run:
+            for path, records in records_by_file.items():
+                if (
+                    path.name.startswith("observation_timeline_")
+                    and path.suffix == ".json"
+                    and path.read_bytes() != records[0].payload
+                ):
+                    _write_records(path, records, records[0].market_date)
         return {"action": "none", "cutoff": None, "before_bytes": before, "after_bytes": before}
 
     after = (

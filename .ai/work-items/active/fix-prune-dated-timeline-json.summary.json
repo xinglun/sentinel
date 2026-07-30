@@ -4,7 +4,7 @@
   "changedFiles": [
     {
       "path": "scripts/prune_data_history.py",
-      "reason": "整形済み dated timeline JSON をファイル単位で読む helper と分岐を追加した。"
+      "reason": "整形済みおよび連結された dated timeline JSON をファイル単位で読み、最後の完全な snapshot へ規範化する。"
     },
     {
       "path": "scripts/test_prune_data_history.py",
@@ -114,15 +114,16 @@
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [
-    "Actions run 30588919514 は observation_timeline_2026-07-30.json の line 1 を invalid JSON と誤判定して失敗した。"
+    "Actions run 30588919514 は observation_timeline_2026-07-30.json の line 1 を invalid JSON と誤判定して失敗した。",
+    "修正後の run 30590113974 でも hosted の dated timeline は単一 JSON ではなく連結 JSON 文書として扱われ、Extra data 相当の解析失敗が継続した。"
   ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",
       "recorded": true,
       "detail": "Contract を実データ形式、Actions failure、scope、scenario coverage に更新した。",
-      "contractHash": "768849de23b1295c",
-      "acceptanceCount": 8,
+      "contractHash": "efedf04551c90366",
+      "acceptanceCount": 9,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -131,8 +132,8 @@
       "stage": "before_edit",
       "recorded": true,
       "detail": "TDD の failing regression test を追加する前の実装境界を確認した。",
-      "contractHash": "768849de23b1295c",
-      "acceptanceCount": 8,
+      "contractHash": "efedf04551c90366",
+      "acceptanceCount": 9,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -141,8 +142,8 @@
       "stage": "before_ready",
       "recorded": true,
       "detail": "Local regression test は red から green になり、hosted scenario のみ未確認。",
-      "contractHash": "768849de23b1295c",
-      "acceptanceCount": 8,
+      "contractHash": "efedf04551c90366",
+      "acceptanceCount": 9,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -151,8 +152,8 @@
       "stage": "after_verification",
       "recorded": true,
       "detail": "Local required checks は通過し、hosted Actions 再実行のみ未確認。",
-      "contractHash": "768849de23b1295c",
-      "acceptanceCount": 8,
+      "contractHash": "efedf04551c90366",
+      "acceptanceCount": 9,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 11

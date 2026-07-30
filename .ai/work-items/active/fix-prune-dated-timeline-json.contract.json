@@ -61,6 +61,10 @@
     {
       "path": "https://github.com/xinglun/sentinel/actions/runs/30588919514",
       "reason": "Actions 実行で line 1 is invalid JSON が発生した hosted failure evidence。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/30590113974",
+      "reason": "初回修正後も hosted cleanup が dated timeline JSON の連結文書で失敗した追加 evidence。"
     }
   ],
   "scenarioCoverage": [
@@ -123,6 +127,7 @@
   },
   "acceptance": [
     "observation_timeline_YYYY-MM-DD.json は全体を一つの JSON object として読み取り、JSONL ファイルは従来どおり逐行で読み取る。",
+    "dated timeline に連結された複数の完全な JSON object が存在しても最後の完全な snapshot を保持し、後続 run のために一つの JSON object へ規範化する。",
     "整形済み dated timeline JSON の正常系と不正 JSON の拒否を回帰テストで固定する。",
     "既存の cutoff、最小 trading day 数、latest timeline 除外、snapshot directory 処理を変更しない。",
     "Gate / execution / trader / action matrix / position sizing には影響しない。",
