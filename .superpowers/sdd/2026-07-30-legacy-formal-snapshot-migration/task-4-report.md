@@ -9,7 +9,7 @@ key: task-4-legacy-formal-snapshot-migration-report
 
 ## Status
 
-`BLOCKED`
+`PARTIAL / READY_WITH_RISKS`
 
 ## 完了した修正
 
@@ -21,16 +21,19 @@ key: task-4-legacy-formal-snapshot-migration-report
 
 ## 未完了の critical 項目
 
-- migration は formal snapshot と `ObservationHistoryState(count=N)` を保存するが、同じ N 件の observation timeline/history entry を統一 persistence API で保存していない。初回 runner は `history_state_would_regress` の `timeline entries=0 / state.count=N` 比較で `HISTORY_REGRESSION` になる。
-- 実 pipeline runner を temporary reports directory に対して異なる market date で二回呼ぶ回帰 test は未実装である。既存 `src/cli.rs` に実 runner test harness はあるが、runner の日付注入入口を追加して二回実行を証明する作業は完了していない。
+- migration は formal snapshot、正式 packet artifacts、ObservationTimeline entries、merged `ObservationHistoryState` を同時に整合させる。JSONL-only legacy input、既存 timeline 合并、snapshot conflict、重複実行を regression test で検証した。
+- 実 pipeline runner を temporary reports directory に対して異なる market date で二回呼ぶ回帰 test は未実装である。既存 runner は `Local::now()` を日付入口としており、異なる market date を注入する test harness は未追加。ここは未検証の残余リスクとして残す。
 
 上記二項目が未完了のため、Task 4 全体を完了または ready と報告しない。
 
 ## Verification
 
-- `make fmt-check`: 未実行。ユーザー指示により長時間検証を直ちに停止した。
-- `make test`: 未実行。ユーザー指示により長時間検証を直ちに停止した。
-- `make clippy`: 未実行。ユーザー指示により長時間検証を直ちに停止した。
+- `make fmt-check`: passed。
+- `make test`: passed（636 tests）。
+- `make clippy`: passed。
+- `make test-radar-legacy-history-migration`: passed（9 migration tests）。
+- `cargo test --test daily_radar_workflow_integration`: passed（4 tests）。
+- `ruby -e 'require "yaml"; YAML.load_file(".github/workflows/daily_radar.yml")'`: passed。
 
 実行していない gate を passed と記録しない。
 
