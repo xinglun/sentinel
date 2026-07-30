@@ -37,6 +37,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "riskAssessment",
     "agentCapability",
     "executionDecision",
+    "humanReview",
     "preReviewWarnings",
     "checkpointPolicy",
 }
@@ -285,6 +286,23 @@ def validate_optional_execution_decision(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_optional_human_review(data: dict[str, Any]) -> list[str]:
+    if "humanReview" not in data:
+        return []
+    value = data.get("humanReview")
+    if not isinstance(value, dict):
+        return ["humanReview は object にしてください。"]
+    issues: list[str] = []
+    if value.get("status") not in {"pending", "confirmed"}:
+        issues.append("humanReview.status は pending または confirmed にしてください。")
+    if not non_empty_string(value.get("decision")):
+        issues.append("humanReview.decision は必須です。")
+    open_questions = value.get("openQuestions")
+    if not isinstance(open_questions, list) or not open_questions or not all(non_empty_string(item) for item in open_questions):
+        issues.append("humanReview.openQuestions は空でない string の list にしてください。")
+    return issues
+
+
 def validate_optional_checkpoint_policy(data: dict[str, Any]) -> list[str]:
     if "checkpointPolicy" not in data:
         if data.get("mode") == "code":
@@ -340,6 +358,7 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_optional_risk_assessment(data))
     issues.extend(validate_optional_agent_capability(data))
     issues.extend(validate_optional_execution_decision(data))
+    issues.extend(validate_optional_human_review(data))
     issues.extend(validate_optional_checkpoint_policy(data))
     issues.extend(validate_code_gate_verification(data))
     if "preReviewWarnings" in data:

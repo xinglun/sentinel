@@ -585,6 +585,54 @@ def agent_capability_signal(contract: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def human_review_signal(contract: dict[str, Any]) -> dict[str, Any]:
+    value = contract.get("humanReview")
+    if value is None:
+        return {
+            "name": "Human Review",
+            "value": "Not Applicable",
+            "evidence": ["no human review override is recorded"],
+            "sources": ["contract.humanReview"],
+        }
+    if not isinstance(value, dict):
+        return {
+            "name": "Human Review",
+            "value": "Inconsistent",
+            "evidence": ["contract.humanReview must be an object"],
+            "sources": ["contract.humanReview"],
+        }
+    status = value.get("status")
+    if status != "confirmed":
+        return {
+            "name": "Human Review",
+            "value": "Partial",
+            "evidence": [f"humanReview.status is {status!r}, expected 'confirmed'"],
+            "sources": ["contract.humanReview.status"],
+        }
+    decision = value.get("decision")
+    open_questions = string_list(value.get("openQuestions"))
+    if not non_empty_string(decision) or not open_questions:
+        return {
+            "name": "Human Review",
+            "value": "Inconsistent",
+            "evidence": ["confirmed human review requires decision and openQuestions"],
+            "sources": ["contract.humanReview"],
+        }
+    return {
+        "name": "Human Review",
+        "value": "Ready",
+        "evidence": [
+            f"human review confirmed: {decision.strip()}",
+            f"open questions recorded: {len(open_questions)}",
+        ],
+        "sources": [
+            "contract.humanReview.status",
+            "contract.humanReview.decision",
+            "contract.humanReview.openQuestions",
+        ],
+    }
+
+
 def execution_decision_signal(contract: dict[str, Any]) -> dict[str, Any]:
     value = contract.get("executionDecision")
     if not isinstance(value, dict):
@@ -642,6 +690,8 @@ def overall_status(signals: list[dict[str, Any]]) -> str:
     values = {str(signal.get("value")) for signal in signals}
     if "Inconsistent" in values or "Missing" in values:
         return "not_ready"
+    if any(signal.get("name") == "Human Review" and signal.get("value") == "Ready" for signal in signals):
+        return "ready"
     if values.intersection({"Partial", "Weak", "Broad", "Suspiciously Empty"}):
         return "needs_human_confirmation"
     return "ready"
@@ -706,6 +756,7 @@ def derive_report(contract: dict[str, Any], *, contract_path: Path, policy_path:
         scenario_coverage_signal(contract),
         not_codable_signal(contract),
         agent_capability_signal(contract),
+        human_review_signal(contract),
         execution_decision_signal(contract),
         verification_signal(contract),
     ]
@@ -778,6 +829,7 @@ def validate_report_structure(report: dict[str, Any]) -> list[str]:
         "Scenario Coverage",
         "Not Codable",
         "Agent Capability",
+        "Human Review",
         "Execution Decision",
         "Verification",
     }

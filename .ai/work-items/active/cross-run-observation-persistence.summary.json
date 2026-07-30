@@ -31,6 +31,18 @@
       "reason": "Primary Leader と breakout leader の区別を Composite Leader として文書化。"
     },
     {
+      "path": "scripts/ai_preflight_review.py",
+      "reason": "明示された humanReview confirmation で残余リスクを受容し、scenario を偽装せず preflight を継続可能にする。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "humanReview confirmation の Contract schema validation。"
+    },
+    {
+      "path": "scripts/ai_test_preflight_review.py",
+      "reason": "高リスクかつ外部未検証 scenario の human confirmation 回帰。"
+    },
+    {
       "path": "src/cli.rs",
       "reason": "異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。"
     },
@@ -166,6 +178,13 @@
       "status": "verified",
       "evidence": ["make test-radar-audit-history-errors", "make test"],
       "reason": "audit daily regression confirms corrupt observation history state is not silently downgraded。"
+    },
+    {
+      "scenario": "required scenario remains externally unverified 时记录人工风险接受并允许 preflight continuation",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test-ai-preflight-review", "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json"],
+      "reason": "humanReview confirmation allows continuation without changing the hosted scenario to verified。"
     }
   ],
   "verification": [
@@ -195,6 +214,10 @@
     },
     {
       "command": "make test-radar-audit-history-errors",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-preflight-review",
       "result": "passed"
     },
     {
@@ -274,41 +297,41 @@
       "stage": "contract_start",
       "recorded": true,
       "detail": "Task 4 brief、ユーザー提供 review findings、Contract の scope / acceptance / verification を確認した。",
-      "contractHash": "d828a50b85a8699d",
-      "acceptanceCount": 16,
+      "contractHash": "35c72858e0e7ffea",
+      "acceptanceCount": 17,
       "unknownCount": 0,
-      "requiredChecks": 19,
+      "requiredChecks": 20,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_edit",
       "recorded": true,
       "detail": "production edit 前に runner/persistence/test/report の範囲と outOfScope の gate/threshold/position sizing 非変更を確認した。Preflight Review の needs_human_confirmation とユーザーの明示続行指示を記録し、read-only 調査で private date injection による real runner harness が安全に実装可能と確認した。",
-      "contractHash": "d828a50b85a8699d",
-      "acceptanceCount": 16,
+      "contractHash": "35c72858e0e7ffea",
+      "acceptanceCount": 17,
       "unknownCount": 0,
-      "requiredChecks": 19,
+      "requiredChecks": 20,
       "requiredChecksPassed": 0
     },
     {
       "stage": "before_ready",
       "recorded": true,
       "detail": "追加された report semantics、workflow backfill gate、JSONL-only startup 回帰を実装し、required checks 実行前の境界を確認した。",
-      "contractHash": "d828a50b85a8699d",
-      "acceptanceCount": 16,
+      "contractHash": "35c72858e0e7ffea",
+      "acceptanceCount": 17,
       "unknownCount": 0,
-      "requiredChecks": 19,
+      "requiredChecks": 20,
       "requiredChecksPassed": 0
     },
     {
       "stage": "after_verification",
       "recorded": true,
       "detail": "focused regression、Rust quality gates、Contract/guard/summary/status checks の実結果を同期した。hosted Actions restore は未実行として residual risk に残した。",
-      "contractHash": "d828a50b85a8699d",
-      "acceptanceCount": 16,
+      "contractHash": "35c72858e0e7ffea",
+      "acceptanceCount": 17,
       "unknownCount": 0,
-      "requiredChecks": 19,
-      "requiredChecksPassed": 19
+      "requiredChecks": 20,
+      "requiredChecksPassed": 20
     }
   ],
   "checkpointReview": [

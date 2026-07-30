@@ -267,6 +267,39 @@ def test_check_blocks_when_gate_enabled(root: Path) -> None:
     assert_equal(code, 1, "gate-enabled check should fail for not-ready report")
 
 
+def test_confirmed_human_review_allows_explicit_risk_acceptance(root: Path) -> None:
+    contract_path = root / ".ai/work-items/active/preflight-confirmed.contract.json"
+    policy_path = root / ".ai/guards/preflight_review_policy.yaml"
+    contract = base_contract("preflight-confirmed", ready=True)
+    contract["riskAssessment"]["level"] = "high"
+    contract["scenarioCoverage"] = [
+        {
+            "scenario": "hosted external verification",
+            "required": True,
+            "status": "unverified",
+            "evidence": [],
+            "reason": "requires a hosted runner",
+        }
+    ]
+    contract["humanReview"] = {
+        "status": "confirmed",
+        "decision": "continue_with_unverified_external_scenario",
+        "openQuestions": ["hosted runner restore remains unverified"],
+    }
+    write_json(contract_path, contract)
+    write_policy(policy_path, gate_enabled=True)
+    report = ai_preflight_review.derive_report(
+        contract,
+        contract_path=contract_path,
+        policy_path=policy_path,
+    )
+    assert_equal(report["status"], "ready", "confirmed human review should clear advisory pause")
+    assert_true(
+        any(signal["name"] == "Human Review" and signal["value"] == "Ready" for signal in report["signals"]),
+        "report should expose the human review decision",
+    )
+
+
 def test_status_renderer_includes_preflight_section(root: Path) -> None:
     contract_path, policy_path, report_path, report = ready_report(root)
     contract = base_contract("preflight-ready", ready=True)
@@ -509,9 +542,10 @@ def main() -> int:
             test_readiness_blockers_are_not_ready(temp_root)
             test_generate_does_not_write_markdown(temp_root)
             test_check_blocks_when_gate_enabled(temp_root)
-            test_status_renderer_includes_preflight_section(temp_root)
-            test_preflight_main_runs_review_targets(temp_root)
-            test_ai_start_runs_post_skeleton_preflight(temp_root)
+        test_status_renderer_includes_preflight_section(temp_root)
+        test_confirmed_human_review_allows_explicit_risk_acceptance(temp_root)
+        test_preflight_main_runs_review_targets(temp_root)
+        test_ai_start_runs_post_skeleton_preflight(temp_root)
         test_preflight_review_templates_exist(REPO_ROOT)
         print("✅ preflight_review tests passed")
         return 0

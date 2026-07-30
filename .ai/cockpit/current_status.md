@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-30T06:02:41.746122+00:00`
+- Generated At: `2026-07-30T06:37:21.136294+00:00`
 - Task: `cross-run-observation-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -30,6 +30,7 @@ generated: true
 - `make test-radar-cross-run-pipeline`: passed
 - `make test-radar-state-load-error`: passed
 - `make test-radar-audit-history-errors`: passed
+- `make test-ai-preflight-review`: passed
 - `make test-radar-degraded-report-semantics`: passed
 - `make test-radar-workflow-contract`: passed
 - `make test`: passed
@@ -52,6 +53,9 @@ generated: true
 - `src/features/radar/interface/report_ui_tests.rs`: Composite Leader label の report fixture 回帰を更新。
 - `src/features/radar/interface/weekly_state_report.rs`: weekly report fixture の composite leader label を更新。
 - `docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md`: Primary Leader と breakout leader の区別を Composite Leader として文書化。
+- `scripts/ai_preflight_review.py`: 明示された humanReview confirmation で残余リスクを受容し、scenario を偽装せず preflight を継続可能にする。
+- `scripts/ai_check_work_item.py`: humanReview confirmation の Contract schema validation。
+- `scripts/ai_test_preflight_review.py`: 高リスクかつ外部未検証 scenario の human confirmation 回帰。
 - `src/cli.rs`: 異なる report date で実 runner を二回実行する回帰 test と日付対応 mock provider。
 - `.github/workflows/daily_radar.yml`: 初回 legacy backfill の formal snapshot 数量 gate。
 - `tests/daily_radar_workflow_integration.rs`: workflow legacy backfill gate の契約回帰。
@@ -63,6 +67,17 @@ generated: true
 - `.superpowers/sdd/2026-07-30-legacy-formal-snapshot-migration/task-4-timeline-report.md`: migration timeline 整合性の実装内容と focused verification を記録する。
 - `.ai/work-items/active/cross-run-observation-persistence.contract.json`: review findings、scope、acceptance、required verification を固化した。
 - `.ai/work-items/active/cross-run-observation-persistence.summary.json`: Task 4 review 修正の進捗と検証事実を過大表現せず記録する。
+
+## Preflight Review
+
+- Status: `ready`
+- Recommendation: Implementation may begin once the reviewer confirms the evidence is sufficient.
+- Decision Drivers:
+  - Unknowns: riskAssessment.level is high but unknowns is empty
+  - Scenario Coverage: 1 required scenario(s) remain unverified
+  - riskAssessment.level is high
+- Pause Rule:
+  Policy gate is enabled: pause implementation when the review is needs_human_confirmation or not_ready.
 
 ## Review Readiness
 

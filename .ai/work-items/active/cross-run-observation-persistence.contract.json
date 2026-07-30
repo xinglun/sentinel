@@ -41,6 +41,9 @@
     ".ai/cockpit/current_status.md",
     ".ai/work-items/active/cross-run-observation-persistence.contract.json",
     ".ai/work-items/active/cross-run-observation-persistence.summary.json"
+    ,"scripts/ai_preflight_review.py"
+    ,"scripts/ai_check_work_item.py"
+    ,"scripts/ai_test_preflight_review.py"
   ],
   "outOfScope": [
     "src/features/radar/domain/action_matrix.rs",
@@ -74,6 +77,12 @@
   "notCodable": false,
   "riskAssessment": {"level": "high", "riskTypes": ["migration", "data_integrity", "ci", "review_debt"], "reason": "欠陥の影響は高いが、ユーザーが Task 4 の必須修正、対象 file、禁止対象、実 runner test、make gate を明示しており、実装判断に残る unknown はない。誤った historical baseline または state/timeline 不整合は HISTORY_REGRESSION を発生させるため、回帰試験と full gate を必須とする。"},
   "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_unverified_external_scenario",
+    "openQuestions": ["hosted GitHub Actions data branch restore remains unverified"],
+    "reason": "用户明确确认接受 high-risk 与 hosted restore 未验证的残余风险。"
+  },
   "executionDecision": {"status": "continue", "reason": "2026-07-30 のユーザー指示は BLOCKED 済み report を前提に critical 修正の続行、対象 file、実 runner test、実現不能時の BLOCKED 境界を明示している。read-only 調査で Local::now の使用は runner 冒頭の report date/timestamp 生成に限定され、production entrypoint を変えず private date-injected runner を追加して検証可能と確認した。"},
   "preReviewWarnings": [
     "移行 snapshot の source_status=degraded を historical baseline として resolver が受理することを重点確認する。",
@@ -100,9 +109,11 @@
     ,"Given Primary Leader が総合 leadership ranking を表す / When leader persistence report を生成する / Then label は Composite Leader 相当で、trend breakout leader と混同しない。"
     ,"Given data branch に legacy packet のみがある / When workflow 初回 migration を検証する / Then formal snapshot count は legacy packet count より増加し、state count と一致する。"
     ,"Given JSONL-only legacy history / When startup runner migration 判定と実行を行う / Then formal snapshot/state が生成され、現在日の snapshot が追加される。"
+    ,"Given required scenario remains externally unverified / When a human explicitly accepts the residual risk / Then preflight records the decision and permits continuation without changing scenario status to verified."
   ],
   "verification": [
     {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
+    {"command": "make test-ai-preflight-review", "required": true},
     {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/cross-run-observation-persistence.contract.json", "required": true},
     {"command": "make fmt-check", "required": true},
     {"command": "make test-radar-legacy-history-migration", "required": true},
