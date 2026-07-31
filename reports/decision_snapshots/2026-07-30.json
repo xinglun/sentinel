@@ -10,7 +10,7 @@
     "flat_weight": 0.0,
     "down_weight": 6.0,
     "total_weight": 19.0,
-    "gravity_strength": 0.10617852822404056,
+    "gravity_strength": 0.10617852822404059,
     "potential_energy": 1.4389846191327351,
     "dominance_margin": 0.48787741993877304,
     "system_confidence": 54.710860597429686,
@@ -40802,6 +40802,186 @@
             "symbol": "SPY",
             "source_url": "https://finnhub.io/api/news?id=03f59e2d9a71b788984f43170d3164cd4fddc160d27e060b009375b12855840a",
             "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-25:https://finnhub.io/api/news?id=03f59e2d9a71b788984f43170d3164cd4fddc160d27e060b009375b12855840a"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in TSLA ()",
+            "event_date": "2026-07-30",
+            "symbol": "TSLA",
+            "source_url": "https://finnhub.io/api/news?id=1b3e13f3b018db56d7b830dd12817b9c3d25f7ed4b4b8757c8aacea447ba6507",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-30:https://finnhub.io/api/news?id=1b3e13f3b018db56d7b830dd12817b9c3d25f7ed4b4b8757c8aacea447ba6507"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=724a6c0e2a89db9e82c6cca3c7ed3357354a05f06786ab4f4263a3cd910f26cf",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=724a6c0e2a89db9e82c6cca3c7ed3357354a05f06786ab4f4263a3cd910f26cf"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=1e21b6c07544f113b90562c70d31d73f50eb35ee04c3574a695b647780f3273f",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=1e21b6c07544f113b90562c70d31d73f50eb35ee04c3574a695b647780f3273f"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=25b927cc0693ac1619745ecabf651ec8b41c2f2681a0f01de0e86f676e745dfb",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=25b927cc0693ac1619745ecabf651ec8b41c2f2681a0f01de0e86f676e745dfb"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=71934ada4f7c8c9a96238a0cc56f52dcb288aebb3fb019a6fc0b500346e32d09",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=71934ada4f7c8c9a96238a0cc56f52dcb288aebb3fb019a6fc0b500346e32d09"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=60601651f410028f46ba3aedb7b11d51fc90ab3d39cb70678dfdac2e9461c539",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=60601651f410028f46ba3aedb7b11d51fc90ab3d39cb70678dfdac2e9461c539"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=805ee6d4384797187a484e8e14002167153bfdead009ccc8c107b84a6bbe104a",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=805ee6d4384797187a484e8e14002167153bfdead009ccc8c107b84a6bbe104a"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=de2329e12711396367c995fad5f2ecb2db0d5b3c80924bd89dc8f8d6a1fd7ba1",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=de2329e12711396367c995fad5f2ecb2db0d5b3c80924bd89dc8f8d6a1fd7ba1"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=f9f2f52eb3eca6bb3ba474e9293f9bcb2ff890154c0c7930c213c67023fe6346",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=f9f2f52eb3eca6bb3ba474e9293f9bcb2ff890154c0c7930c213c67023fe6346"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=b02a0752419956229b81bdb9aa759357faf6f329913b7b32f5c6d95acafd8817",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=b02a0752419956229b81bdb9aa759357faf6f329913b7b32f5c6d95acafd8817"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in NVDA ()",
+            "event_date": "2026-07-30",
+            "symbol": "NVDA",
+            "source_url": "https://finnhub.io/api/news?id=261932e3ebbdd041a966c25676a160d768776c789a7e56a4e3ebdd60e55e5a08",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=261932e3ebbdd041a966c25676a160d768776c789a7e56a4e3ebdd60e55e5a08"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=88181d45e4b261c801b805d8e539ca6e29c91cbd55bcbea3d61eb154726ea1ac",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=88181d45e4b261c801b805d8e539ca6e29c91cbd55bcbea3d61eb154726ea1ac"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=5f6d5cebcdd9c02ead7fd0f8025f6cc9d6172e18159f87d8c4ccc34b359b5239",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=5f6d5cebcdd9c02ead7fd0f8025f6cc9d6172e18159f87d8c4ccc34b359b5239"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=c99dd5bf7f8a0c42fe94a3cf8bd6c0838820bd3b9e92e4f69a4754b64ece8729",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=c99dd5bf7f8a0c42fe94a3cf8bd6c0838820bd3b9e92e4f69a4754b64ece8729"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=7584e214773e27fb5872ec136849dd837a412d0e72c37ac235db5c6619511d89",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=7584e214773e27fb5872ec136849dd837a412d0e72c37ac235db5c6619511d89"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "CapexPayoff",
+            "confidence": 0.8,
+            "description": "Detected CAPEX related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925",
+            "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-30:https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925"
+          },
+          {
+            "source": "NewsMedia",
+            "evidence_type": "EarningsValidation",
+            "confidence": 0.7,
+            "description": "Detected earnings related keywords in MSFT ()",
+            "event_date": "2026-07-30",
+            "symbol": "MSFT",
+            "source_url": "https://finnhub.io/api/news?id=b8639cecaafb02a66d1464db7a809916cb8b2de031c0f5a0195e38ecd253516d",
+            "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=b8639cecaafb02a66d1464db7a809916cb8b2de031c0f5a0195e38ecd253516d"
           }
         ],
         "capex_payoff_signal": true,
@@ -80959,6 +81139,186 @@
           "symbol": "SPY",
           "source_url": "https://finnhub.io/api/news?id=03f59e2d9a71b788984f43170d3164cd4fddc160d27e060b009375b12855840a",
           "dedupe_key": "AUTO:NewsMedia:CapexPayoff:SPY:2026-07-25:https://finnhub.io/api/news?id=03f59e2d9a71b788984f43170d3164cd4fddc160d27e060b009375b12855840a"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in TSLA ()",
+          "event_date": "2026-07-30",
+          "symbol": "TSLA",
+          "source_url": "https://finnhub.io/api/news?id=1b3e13f3b018db56d7b830dd12817b9c3d25f7ed4b4b8757c8aacea447ba6507",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:TSLA:2026-07-30:https://finnhub.io/api/news?id=1b3e13f3b018db56d7b830dd12817b9c3d25f7ed4b4b8757c8aacea447ba6507"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=724a6c0e2a89db9e82c6cca3c7ed3357354a05f06786ab4f4263a3cd910f26cf",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=724a6c0e2a89db9e82c6cca3c7ed3357354a05f06786ab4f4263a3cd910f26cf"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=1e21b6c07544f113b90562c70d31d73f50eb35ee04c3574a695b647780f3273f",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=1e21b6c07544f113b90562c70d31d73f50eb35ee04c3574a695b647780f3273f"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=25b927cc0693ac1619745ecabf651ec8b41c2f2681a0f01de0e86f676e745dfb",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=25b927cc0693ac1619745ecabf651ec8b41c2f2681a0f01de0e86f676e745dfb"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=71934ada4f7c8c9a96238a0cc56f52dcb288aebb3fb019a6fc0b500346e32d09",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=71934ada4f7c8c9a96238a0cc56f52dcb288aebb3fb019a6fc0b500346e32d09"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=60601651f410028f46ba3aedb7b11d51fc90ab3d39cb70678dfdac2e9461c539",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=60601651f410028f46ba3aedb7b11d51fc90ab3d39cb70678dfdac2e9461c539"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=805ee6d4384797187a484e8e14002167153bfdead009ccc8c107b84a6bbe104a",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=805ee6d4384797187a484e8e14002167153bfdead009ccc8c107b84a6bbe104a"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=de2329e12711396367c995fad5f2ecb2db0d5b3c80924bd89dc8f8d6a1fd7ba1",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=de2329e12711396367c995fad5f2ecb2db0d5b3c80924bd89dc8f8d6a1fd7ba1"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=f9f2f52eb3eca6bb3ba474e9293f9bcb2ff890154c0c7930c213c67023fe6346",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=f9f2f52eb3eca6bb3ba474e9293f9bcb2ff890154c0c7930c213c67023fe6346"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=b02a0752419956229b81bdb9aa759357faf6f329913b7b32f5c6d95acafd8817",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=b02a0752419956229b81bdb9aa759357faf6f329913b7b32f5c6d95acafd8817"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in NVDA ()",
+          "event_date": "2026-07-30",
+          "symbol": "NVDA",
+          "source_url": "https://finnhub.io/api/news?id=261932e3ebbdd041a966c25676a160d768776c789a7e56a4e3ebdd60e55e5a08",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:NVDA:2026-07-30:https://finnhub.io/api/news?id=261932e3ebbdd041a966c25676a160d768776c789a7e56a4e3ebdd60e55e5a08"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=88181d45e4b261c801b805d8e539ca6e29c91cbd55bcbea3d61eb154726ea1ac",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=88181d45e4b261c801b805d8e539ca6e29c91cbd55bcbea3d61eb154726ea1ac"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=5f6d5cebcdd9c02ead7fd0f8025f6cc9d6172e18159f87d8c4ccc34b359b5239",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=5f6d5cebcdd9c02ead7fd0f8025f6cc9d6172e18159f87d8c4ccc34b359b5239"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=c99dd5bf7f8a0c42fe94a3cf8bd6c0838820bd3b9e92e4f69a4754b64ece8729",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=c99dd5bf7f8a0c42fe94a3cf8bd6c0838820bd3b9e92e4f69a4754b64ece8729"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=7584e214773e27fb5872ec136849dd837a412d0e72c37ac235db5c6619511d89",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=7584e214773e27fb5872ec136849dd837a412d0e72c37ac235db5c6619511d89"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "CapexPayoff",
+          "confidence": 0.8,
+          "description": "Detected CAPEX related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925",
+          "dedupe_key": "AUTO:NewsMedia:CapexPayoff:MSFT:2026-07-30:https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=fc5ca4b7db778521c5db7eb4648f9cd820bb8526fb5f8efbd4ee003e2fb6c925"
+        },
+        {
+          "source": "NewsMedia",
+          "evidence_type": "EarningsValidation",
+          "confidence": 0.7,
+          "description": "Detected earnings related keywords in MSFT ()",
+          "event_date": "2026-07-30",
+          "symbol": "MSFT",
+          "source_url": "https://finnhub.io/api/news?id=b8639cecaafb02a66d1464db7a809916cb8b2de031c0f5a0195e38ecd253516d",
+          "dedupe_key": "AUTO:NewsMedia:EarningsValidation:MSFT:2026-07-30:https://finnhub.io/api/news?id=b8639cecaafb02a66d1464db7a809916cb8b2de031c0f5a0195e38ecd253516d"
         }
       ],
       "capex_payoff_signal": true,
