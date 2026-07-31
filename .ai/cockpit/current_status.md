@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-31T00:12:24.407339+00:00`
+- Generated At: `2026-07-31T00:20:20.923488+00:00`
 - Task: `fix-prune-dated-timeline-json`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -56,11 +56,11 @@ generated: true
 
 ## Scenario Coverage
 
-- State: `incomplete`
+- State: `complete`
 
 ## Residual Risks
 
-- `medium` `hosted_actions`: GitHub Actions runner 上で data branch の restore、prune、commit/push までの統合経路は未再実行。
+- `medium` `hosted_actions`: GitHub Actions runner 上の restore、prune、commit/push は通過したが、今回の data branch は観測 record が 1 件であり、異なる市場日の連続追加は未確認。
 
 ## Backtrack
 

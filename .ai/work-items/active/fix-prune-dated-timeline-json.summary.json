@@ -92,7 +92,7 @@
   "unknownsRemaining": [],
   "risk": {
     "level": "medium",
-    "detail": "本地格式与 retention の検証は完了。develop 起動でも workflow が main を checkout する経路を確認し、ref 修正を追加した。"
+    "detail": "本地格式与 retention の検証は完了。develop 起動で workflow が起動 ref を checkout し、hosted cleanup と data branch push まで成功した。"
   },
   "scenarioCoverage": [
     {
@@ -114,16 +114,17 @@
     {
       "scenario": "実際の GitHub Actions cleanup が hosted runner で成功する",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "reason": "workflow ref 修正後の develop Actions 再実行待ち。"
+      "status": "verified",
+      "evidence": [
+        "https://github.com/xinglun/sentinel/actions/runs/30592882615",
+        "data branch commit f1125608"
+      ],
+      "reason": "develop 起動 ref と checkout commit の一致、prune-data-history 成功、data branch push を hosted runner で確認した。"
     }
   ],
-  "unverifiedScenarios": [
-    "実際の GitHub Actions cleanup が hosted runner で成功する"
-  ],
+  "unverifiedScenarios": [],
   "followUps": [
-    "develop に push 後、daily_radar.yml を再実行し prune-data-history の成功を確認する。"
+    "次の新しい市場日で data branch の observation_timeline.jsonl が 2 record 以上になり、previous baseline が復元されることを確認する。"
   ],
   "generatedFiles": [],
   "destructiveChanges": [],
@@ -168,7 +169,7 @@
     {
       "stage": "after_verification",
       "recorded": true,
-      "detail": "Local required checks は通過し、workflow ref 修正後の hosted Actions 再実行のみ未確認。",
+      "detail": "Local required checks と workflow ref 修正後の hosted Actions cleanup は通過。次の市場日での 2 record 連続性のみ継続確認。",
       "contractHash": "1502c21ec050928b",
       "acceptanceCount": 12,
       "unknownCount": 0,
@@ -195,14 +196,14 @@
     {
       "checkpoint": "after_verification",
       "status": "confirmed",
-      "note": "全 required checks は通過。workflow ref 修正後の hosted evidence 待ち。"
+      "note": "全 required checks と hosted cleanup は通過。次の市場日での履歴追加を継続確認する。"
     }
   ],
   "residualRisks": [
     {
       "level": "medium",
       "area": "hosted_actions",
-      "detail": "GitHub Actions runner 上で data branch の restore、prune、commit/push までの統合経路は未再実行。",
+      "detail": "GitHub Actions runner 上の restore、prune、commit/push は通過したが、今回の data branch は観測 record が 1 件であり、異なる市場日の連続追加は未確認。",
       "reviewRecommended": true,
       "followUpCandidate": true
     }
