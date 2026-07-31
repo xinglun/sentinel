@@ -49,6 +49,37 @@ fn extract_collect_evidence_script() -> String {
     script
 }
 
+fn extract_step_script(workflow_path: &Path, step_name: &str) -> String {
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read workflow");
+    let lines: Vec<&str> = workflow.lines().collect();
+    let step_idx = lines
+        .iter()
+        .position(|line| line.trim() == format!("- name: {step_name}"))
+        .expect("workflow step is missing");
+    let run_idx = lines[step_idx..]
+        .iter()
+        .position(|line| line.trim() == "run: |")
+        .map(|idx| step_idx + idx)
+        .expect("workflow step run block is missing");
+
+    let mut script = String::new();
+    for line in lines.iter().skip(run_idx + 1) {
+        if line.starts_with("      - name:") {
+            break;
+        }
+        if line.trim().is_empty() {
+            script.push('\n');
+        } else {
+            let stripped = line
+                .strip_prefix("          ")
+                .expect("run block line must keep workflow indentation");
+            script.push_str(stripped);
+            script.push('\n');
+        }
+    }
+    script
+}
+
 fn write_script(dir: &Path) -> std::path::PathBuf {
     let script_path = dir.join("collect_evidence_step.sh");
     fs::write(&script_path, extract_collect_evidence_script()).expect("failed to write script");
@@ -112,6 +143,33 @@ fn daily_radar_collect_evidence_bad_config_writes_failed_status_without_blocking
 }
 
 #[test]
+fn data_branch_write_back_steps_have_valid_shell_syntax() {
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    for (workflow_name, step_name) in [
+        ("daily_radar.yml", "Commit and Push to Data Worktree"),
+        ("weekly_backtest.yml", "Commit and Push to Data Worktree"),
+    ] {
+        let workflow_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join(".github/workflows")
+            .join(workflow_name);
+        let script_path = tmp.path().join(format!("{workflow_name}.sh"));
+        fs::write(&script_path, extract_step_script(&workflow_path, step_name))
+            .expect("failed to write extracted workflow script");
+
+        let output = Command::new("bash")
+            .arg("-n")
+            .arg(&script_path)
+            .output()
+            .expect("failed to run bash -n");
+        assert!(
+            output.status.success(),
+            "{workflow_name} write-back shell syntax failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+    }
+}
+
+#[test]
 fn daily_radar_collect_evidence_missing_key_writes_skipped_status_without_blocking() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     let script_path = write_script(tmp.path());
@@ -165,6 +223,125 @@ fn daily_radar_restores_and_validates_formal_history_without_reimplementing_migr
     assert!(workflow.contains("formal snapshot history did not append across the new market date"));
     assert!(!workflow.contains("packet-to-snapshot"));
     assert!(!workflow.contains("MIGRATED_LEGACY"));
+}
+
+#[test]
+fn daily_radar_fails_closed_when_existing_data_branch_history_cannot_be_restored() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(
+        workflow.contains("REMOTE_DATA_BRANCH_EXISTS"),
+        "restore step must distinguish an absent data branch from a failed restore"
+    );
+    assert!(
+        workflow.contains("refusing to continue with empty reports"),
+        "existing data history must not be replaced by an empty reports directory"
+    );
+    assert!(
+        workflow.contains("Fetched data branch has no reports tree"),
+        "a branch that appears during restore must also fail closed when it has no reports tree"
+    );
+    assert!(
+        workflow.contains("git ls-remote --exit-code --heads origin data"),
+        "restore failure handling must verify whether the remote data branch exists"
+    );
+    assert!(
+        workflow.contains("REMOTE_DATA_BRANCH_LOOKUP_STATUS"),
+        "restore step must preserve the remote branch lookup exit status"
+    );
+    assert!(
+        workflow.contains("refusing to bootstrap or overwrite data"),
+        "commit step must not bootstrap after an indeterminate remote branch lookup"
+    );
+    assert!(
+        workflow.contains("RESTORED_HISTORY_COUNT"),
+        "daily validation must remember the restored observation history count"
+    );
+    assert!(
+        workflow.contains("observation history state count did not append"),
+        "daily validation must reject a snapshot-only append without state count growth"
+    );
+    assert!(
+        workflow.contains("type(history_count) is not int"),
+        "daily validation must reject boolean or otherwise non-integer history counts"
+    );
+    assert!(
+        workflow.contains("Remote data branch persistence verified"),
+        "daily write-back must verify the persisted remote history state"
+    );
+    assert!(
+        workflow.contains("remote observation history count is behind"),
+        "daily write-back must reject a remote state that lost observations"
+    );
+    assert!(
+        workflow.contains("2)"),
+        "only the explicit no-ref status may be treated as an absent data branch"
+    );
+}
+
+#[test]
+fn weekly_backtest_fails_closed_when_existing_data_branch_history_cannot_be_restored() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/weekly_backtest.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read weekly_backtest.yml");
+
+    assert!(
+        workflow.contains("REMOTE_DATA_BRANCH_EXISTS"),
+        "weekly restore step must distinguish an absent data branch from a failed restore"
+    );
+    assert!(
+        workflow.contains("refusing to continue with empty reports"),
+        "weekly backtest must not replace existing data history with an empty reports directory"
+    );
+    assert!(
+        workflow.contains("Fetched data branch has no reports tree"),
+        "weekly restore must fail closed for a branch created during the lookup race"
+    );
+    assert!(
+        workflow.contains("refusing to bootstrap or overwrite data"),
+        "weekly backtest must not bootstrap after an indeterminate remote branch lookup"
+    );
+    assert!(
+        workflow.contains("REMOTE_DATA_BRANCH_LOOKUP_STATUS"),
+        "weekly restore must preserve the remote branch lookup exit status"
+    );
+    assert!(
+        workflow.contains("2)"),
+        "only the explicit no-ref status may be treated as an absent data branch"
+    );
+    assert!(
+        workflow.contains("Remote data branch persistence verified"),
+        "weekly write-back must verify the persisted remote history state when present"
+    );
+    assert!(
+        workflow.contains("No observation history state carried by weekly backtest"),
+        "weekly bootstrap without history must explicitly record the verification skip"
+    );
+}
+
+#[test]
+fn data_branch_writers_share_one_concurrency_group() {
+    let daily_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let weekly_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/weekly_backtest.yml");
+    let daily = fs::read_to_string(daily_path).expect("failed to read daily_radar.yml");
+    let weekly = fs::read_to_string(weekly_path).expect("failed to read weekly_backtest.yml");
+
+    assert!(
+        daily.contains("group: sentinel-data-branch"),
+        "daily radar must serialize writes to the shared data branch"
+    );
+    assert!(
+        weekly.contains("group: sentinel-data-branch"),
+        "weekly backtest must serialize writes to the shared data branch"
+    );
+    assert!(
+        daily.contains("cancel-in-progress: false") && weekly.contains("cancel-in-progress: false"),
+        "data branch writers must finish in order instead of cancelling a history write"
+    );
 }
 
 #[test]

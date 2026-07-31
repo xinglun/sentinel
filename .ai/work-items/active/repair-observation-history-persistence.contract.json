@@ -1,0 +1,109 @@
+{
+  "contractVersion": 2,
+  "workItemId": "repair-observation-history-persistence",
+  "mode": "code",
+  "title": "観測履歴の跨日永続化を修復",
+  "baseCommit": "0eb23ce71af2659184c3bf9636e6efaed9000208",
+  "baselineDirtyPaths": [
+    {"path": ".ai/cockpit/current_status.md", "status": "M", "fingerprint": "generated-by-ai-start"},
+    {"path": ".ai/work-items/active/repair-observation-history-persistence.contract.json", "status": "??", "fingerprint": "created-by-ai-start"},
+    {"path": ".ai/work-items/active/repair-observation-history-persistence.summary.json", "status": "??", "fingerprint": "created-by-ai-start"}
+  ],
+  "problemStatement": "Daily Radar は毎回現在日の snapshot を生成するが、fresh runner が data branch から復元した reports/ を同じ永続化境界として読めず、observation_count=1、cycle_length=1d、history unavailable が新しい取引日ごとに再発する。",
+  "intent": {
+    "problem": "同じ reports/ データ境界を fresh process と連続する workflow run で再利用し、正式な観測履歴と cycle_id を次の取引日へ追加できるようにする。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing、NO TRADE 判定の意味論は変更しない。",
+      "履歴が存在しない、復元できない、または壊れている場合は既存の安全な unavailable/degraded 降格を維持する。",
+      "旧履歴の削除、data branch の再初期化、既存データの捏造は行わない。",
+      "新しい運用入口は追加せず、既存の make target と regression test を検証入口として使う。"
+    ],
+    "rationale": "連続日付の persistence、読み取り域、cycle 初期化のどこで断絶するかを実ファイル境界で固定し、原因が再発しても観測できる回帰契約を先に作る。"
+  },
+  "scope": [
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/cli.rs",
+    "tests/pipeline_integration.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    ".github/workflows/daily_radar.yml",
+    ".github/workflows/weekly_backtest.yml",
+    "docs/superpowers/plans/2026-07-31-repair-observation-history-persistence.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/repair-observation-history-persistence.contract.json",
+    ".ai/work-items/active/repair-observation-history-persistence.summary.json"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/research/**",
+    "reports/**",
+    "S-16 过热证据分类",
+    "S-17 Supply 429 数据质量分级",
+    "历史 data branch 的人工修复或删除"
+  ],
+  "sources": [
+    {"path": "user-report: S-12/S-15", "reason": "连续多个交易日 observation_count=1、cycle_length=1d、history unavailable 的现实证据。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "reports/ 内 observation history state、formal snapshots、timeline 与 transaction 的读写边界。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "启动时读取 history、解析 cycle_id、写入 snapshot/state 的 runtime 组合顺序。"},
+    {"path": "src/cli.rs", "reason": "现有注入日期的跨运行历史 persistence regression test 与 fail-closed test。"},
+    {"path": "tests/pipeline_integration.rs", "reason": "Radar pipeline persistence policy 的集成测试入口。"},
+    {"path": "tests/daily_radar_workflow_integration.rs", "reason": "Daily Radar workflow 的 restore/mirror 静态契约与 fail-closed 回归测试。"},
+    {"path": ".github/workflows/daily_radar.yml", "reason": "fresh runner 从 data branch 恢复 reports/ 并将结果 mirror 回 data branch 的边界。"},
+    {"path": ".github/workflows/weekly_backtest.yml", "reason": "weekly backtest 同样恢复并以 rsync --delete mirror data branch，必须共享 fail-closed 历史保护。"},
+    {"path": ".ai/work-items/archive/2026/fix-prune-dated-timeline-json.summary.json", "reason": "前一 WI 已验证 cleanup 与 workflow checkout，但明确留下下一交易日跨日追加的 follow-up。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "同一 reports 目录的两个不同市场日运行保持 cycle_id 并追加 count", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline"]},
+    {"scenario": "fresh process 重新加载已有 state 与 formal snapshot 后可解析前一交易日", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline"]},
+    {"scenario": "已有 data branch 的 restore 失败时 workflow fail-closed，不以空 reports/ 覆盖历史", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "Daily/Weekly 的 data branch bootstrap 只在明确 no-ref 状态发生", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "Daily/Weekly 的 data branch writer 使用同一 concurrency group 串行化写回", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "Daily workflow 在跨市场日时同时验证 formal snapshot 与 observation_history_state.count 增长", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "Daily 写回后重新读取远端 data branch，确认 count 未倒退且 cycle_id 一致", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "restore lookup 与 fetch 之间出现新建空 data branch 时仍 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "Weekly 写回在携带历史时重新读取远端 state，确认 count 未倒退且 cycle_id 一致", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "weekly backtest 的 restore/bootstrap 在 data branch 不确定时 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "workflow 的 reports restore/mirror 边界不会把历史缩减为当前日", "required": false, "status": "not_applicable", "evidence": [], "reason": "hosted runner 的连续市场日结果属于合并后的外部 follow-up；本地 WI 通过 fail-closed contract 防止静默覆盖。"},
+    {"scenario": "无历史或历史读取失败时继续安全降级且不生成跨日结论", "required": true, "status": "verified", "evidence": ["cargo test --lib cli::tests::pipeline_propagates_corrupt_observation_history_state", "cargo test --lib features::radar::domain::transition_log::tests::baseline_unavailable_does_not_emit_structural_changes"]}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["data_integrity", "evidence_insufficient", "ci"], "reason": "変更は历史数据的读写边界和 workflow restore/mirror 相关，但不改变交易决策；必须用跨日、fresh process 和 workflow 场景验证。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "问题边界、源码证据、scope、acceptance 和 make 验证入口已明确；未知根因通过回归场景验证，不以假设直接修改交易逻辑。"},
+  "preReviewWarnings": [
+    "先确认 reports/ 的真实读写路径和 fresh process 行为，再修改 production code。",
+    "不可把单次 run 的 snapshot 数量误当作跨日 persistence 成功；必须断言不同 market_date、相同 cycle_id 和 count 增长。",
+    "workflow 只负责恢复和 mirror 数据，不得在 code branch 中保存 reports/ 运行产物。"
+  ],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification 或 agentCapability 发生变化时，先更新 Contract 和 Summary 再继续。"},
+  "acceptance": [
+    "连续两个不同 market_date 写入同一 reports/ 目录后，observation_history_state.count 增加、last_market_date 前进、cycle_id 保持不变。",
+    "新的进程实例只通过 reports/ 中的持久化文件启动时，能够读取正式 snapshot/state 并解析前一交易日 baseline；不能依赖当前进程内存。",
+    "正式 snapshots、observation timeline、decision history 和 observation_history_state 使用同一明确的 reports/ persistence boundary，并在 transaction 失败时保持既有 rollback 语义。",
+    "daily workflow 的 restore 与 mirror 契约能够保留已有 reports/ 历史，并在新市场日之后验证历史确实追加，而不是只存在当前日文件。",
+    "无历史、损坏 state、full fetch failure 或 restore 失败时，系统继续输出安全的 unavailable/degraded 结果，不伪造 persistence、continuity、leader persistence 或跨日 change。",
+    "Gate / execution / trader / action matrix / position sizing / NO TRADE 的现有行为不变。",
+    "Telegram、Markdown、CLI、audit daily、weekly review 只在历史证据真实可用时获得跨日信息；本 WI 不新增 i18n 文案。",
+    "不删除、不重写、不人工修复既有 data branch 历史；只修复生成/读取/恢复边界和对应 regression tests。",
+    "所有新增验证均通过既有 make target 执行，Contract 中不记录裸 cargo、python、bash 或 git command 作为 required verification。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json", "required": true},
+    {"command": "make test-radar-cross-run-pipeline", "required": true},
+    {"command": "make test-radar-workflow-contract", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "仅 revert 本 WI 的 code/test/workflow diff；不删除 data branch 历史。"
+}

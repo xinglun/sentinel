@@ -92,9 +92,12 @@
     {
       "scenario": "実際の GitHub Actions cleanup が hosted runner で成功する",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
-      "reason": "修正後に develop の Actions を再実行して確認する。"
+      "status": "verified",
+      "evidence": [
+        "https://github.com/xinglun/sentinel/actions/runs/30592882615",
+        "data branch commit f1125608"
+      ],
+      "reason": "develop 起動 ref と checkout commit の一致、prune-data-history 成功、data branch push を hosted runner で確認した。"
     }
   ],
   "unknowns": [],

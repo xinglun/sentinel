@@ -1,6 +1,6 @@
 {
   "workItemId": "fix-prune-dated-timeline-json",
-  "contractPath": ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/fix-prune-dated-timeline-json.contract.json",
   "changedFiles": [
     {
       "path": "scripts/prune_data_history.py",
@@ -37,11 +37,11 @@
     ".github/workflows/daily_radar.yml",
     "tests/daily_radar_workflow_integration.rs",
     "src/features/radar/infrastructure/persistence.rs",
-    "https://github.com/xinglun/sentinel/actions/runs/30588919514"
-    ,"https://github.com/xinglun/sentinel/actions/runs/30590113974"
-    ,"https://github.com/xinglun/sentinel/actions/runs/30590720979"
-    ,"https://github.com/xinglun/sentinel/actions/runs/30592012945"
-    ,"https://github.com/xinglun/sentinel/actions/runs/30592474629"
+    "https://github.com/xinglun/sentinel/actions/runs/30588919514",
+    "https://github.com/xinglun/sentinel/actions/runs/30590113974",
+    "https://github.com/xinglun/sentinel/actions/runs/30590720979",
+    "https://github.com/xinglun/sentinel/actions/runs/30592012945",
+    "https://github.com/xinglun/sentinel/actions/runs/30592474629"
   ],
   "verification": [
     {
@@ -130,17 +130,17 @@
   "destructiveChanges": [],
   "observedIssues": [
     "Actions run 30588919514 は observation_timeline_2026-07-30.json の line 1 を invalid JSON と誤判定して失敗した。",
-    "修正後の run 30590113974 でも hosted の dated timeline は単一 JSON ではなく連結 JSON 文書として扱われ、Extra data 相当の解析失敗が継続した。"
-    ,"run 30590720979 でも同じ 486 bytes の dated/latest 文件が解析不能だったため、同日 observation_timeline.jsonl からの再生成を追加した。"
-    ,"恢复源的日期可能与 dated filename 不一致，恢复逻辑改为优先同日、否则采用 JSONL 最后一个有效 record。"
-    ,"run 30592474629 は develop から起動したが workflow が ref: main を固定 checkout していたため、develop の修正検証になっていなかった。"
+    "修正後の run 30590113974 でも hosted の dated timeline は単一 JSON ではなく連結 JSON 文書として扱われ、Extra data 相当の解析失敗が継続した。",
+    "run 30590720979 でも同じ 486 bytes の dated/latest 文件が解析不能だったため、同日 observation_timeline.jsonl からの再生成を追加した。",
+    "恢复源的日期可能与 dated filename 不一致，恢复逻辑改为优先同日、否则采用 JSONL 最后一个有效 record。",
+    "run 30592474629 は develop から起動したが workflow が ref: main を固定 checkout していたため、develop の修正検証になっていなかった。"
   ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",
       "recorded": true,
       "detail": "Contract を実データ形式、Actions failure、workflow checkout 境界、scope、scenario coverage に更新した。",
-      "contractHash": "1502c21ec050928b",
+      "contractHash": "53d3271f2ddef688",
       "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
@@ -150,7 +150,7 @@
       "stage": "before_edit",
       "recorded": true,
       "detail": "TDD の failing regression test と workflow ref 境界を追加する前の実装範囲を確認した。",
-      "contractHash": "1502c21ec050928b",
+      "contractHash": "53d3271f2ddef688",
       "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
@@ -160,7 +160,7 @@
       "stage": "before_ready",
       "recorded": true,
       "detail": "Local regression test は red から green になり、workflow ref の回帰テストも追加。hosted scenario のみ未確認。",
-      "contractHash": "1502c21ec050928b",
+      "contractHash": "53d3271f2ddef688",
       "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
@@ -170,7 +170,7 @@
       "stage": "after_verification",
       "recorded": true,
       "detail": "Local required checks と workflow ref 修正後の hosted Actions cleanup は通過。次の市場日での 2 record 連続性のみ継続確認。",
-      "contractHash": "1502c21ec050928b",
+      "contractHash": "53d3271f2ddef688",
       "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,

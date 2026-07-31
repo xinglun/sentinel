@@ -2020,6 +2020,8 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
             .unwrap()
             .expect("first injected run should persist history state");
 
+        drop(persistence);
+
         let mut second_config = mock_config(tmp.path());
         second_config.watchlist.truncate(1);
         run_pipeline_for_report_date(
@@ -2032,6 +2034,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         )
         .await
         .unwrap();
+        let persistence = PersistenceLayer::new(tmp.path());
         let second_state = persistence
             .load_observation_history_state()
             .unwrap()

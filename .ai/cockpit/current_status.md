@@ -10,12 +10,12 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-31T00:20:20.923488+00:00`
-- Task: `fix-prune-dated-timeline-json`
+- Generated At: `2026-07-31T01:57:28.873928+00:00`
+- Task: `repair-observation-history-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
-- Contract Path: `.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`
-- Summary Path: `.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`
+- Contract Path: `.ai/work-items/active/repair-observation-history-persistence.contract.json`
+- Summary Path: `.ai/work-items/active/repair-observation-history-persistence.summary.json`
 
 ## Blocking
 
@@ -23,36 +23,42 @@ generated: true
 
 ## Required Checks
 
-- `make check-ai-contract CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
-- `make check-ai-scope CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
-- `make test-data-history-retention`: passed
+- `make check-ai-contract CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json`: passed
+- `make test-radar-cross-run-pipeline`: passed
+- `make test-radar-workflow-contract`: passed
 - `make fmt-check`: passed
-- `make check-ai-guards CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
-- `make check-ai-backtrack CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
+- `make test`: passed
+- `make clippy`: passed
+- `make check-ai-guards CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json`: passed
+- `make check-ai-backtrack CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json`: passed
 - `make check-ai-coverage-guard`: passed
-- `make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
-- `make check-ai-change-summary SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: passed
-- `make generate-cockpit-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
-- `make check-ai-status CONTRACT=.ai/work-items/active/fix-prune-dated-timeline-json.contract.json SUMMARY=.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: passed
+- `make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json`: passed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json`: passed
 
 ## Changed Files
 
-- `scripts/prune_data_history.py`: 整形済み、連結、破損した dated/latest timeline JSON を読み、最後の完全な snapshot または同日 JSONL record へ規範化する。
-- `scripts/test_prune_data_history.py`: 複数行 JSON の正常系回帰テストを追加した。
-- `.github/workflows/daily_radar.yml`: workflow の main 固定 checkout を起動 ref checkout に変更し、commit 一致を検査する。
-- `tests/daily_radar_workflow_integration.rs`: 起動 ref と checkout commit の一致契約を回帰テストで固定する。
-- `.ai/cockpit/current_status.md`: Work Item 状態を Cockpit の生成物へ反映した。
-- `.ai/work-items/active/fix-prune-dated-timeline-json.contract.json`: 実装範囲、受入条件、検証、Actions 未確認リスクを確定した。
-- `.ai/work-items/active/fix-prune-dated-timeline-json.summary.json`: 実装結果と検証証跡を記録した。
+- `.github/workflows/daily_radar.yml`: 已有 data branch 但 restore 失败时，禁止以空 reports/ 继续运行并覆盖历史。
+- `.github/workflows/weekly_backtest.yml`: weekly backtest 的 restore/bootstrap 同样 fail-closed，避免 rsync --delete 覆盖历史。
+- `tests/daily_radar_workflow_integration.rs`: 新增 restore failure fail-closed regression test。
+- `src/cli.rs`: 跨市场日测试在第二次运行前重建 PersistenceLayer，固定 fresh process 的磁盘恢复契约。
+- `docs/superpowers/plans/2026-07-31-repair-observation-history-persistence.md`: 记录调查结论、TDD 顺序和 workflow 边界。
+- `.ai/cockpit/current_status.md`: 同步当前 Work Item 状态。
+- `.ai/work-items/active/repair-observation-history-persistence.contract.json`: 记录 S-12/S-15 scope、acceptance、verification 和风险边界。
+- `.ai/work-items/active/repair-observation-history-persistence.summary.json`: 记录实现和验证证据。
 
 ## Review Readiness
 
 - Status: `ready_with_risks`
-- Reason: ローカル required checks は通過したが、hosted Actions の再実行証跡が残っている。
+- Reason: 本地 Rust、workflow regression 和 Cockpit required checks 已通过；hosted 连续市场日追加仍需外部运行确认。
 - Expected Review Focus:
-  - dated JSON と JSONL の読み取り単位
-  - Actions hosted cleanup の成功
-  - 既存 cutoff と latest timeline 除外の非回帰
+  - 已有 data branch restore/fetch 竞态是否 fail closed
+  - Daily/Weekly writer 是否共用 concurrency group
+  - push 后远端 state count/cycle_id 校验
+  - fresh PersistenceLayer 的跨市场日追加
+  - hosted run 是否出现 observation_count=2 或更高
 
 ## Scenario Coverage
 
@@ -60,7 +66,7 @@ generated: true
 
 ## Residual Risks
 
-- `medium` `hosted_actions`: GitHub Actions runner 上の restore、prune、commit/push は通過したが、今回の data branch は観測 record が 1 件であり、異なる市場日の連続追加は未確認。
+- `medium` `hosted_workflow`: 尚未在新的 hosted workflow run 中确认两个不同 market date 的 reports/ 追加；本地测试不能替代该外部证据。
 
 ## Backtrack
 

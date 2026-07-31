@@ -10,7 +10,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: daily-radar-data-branch
+  group: sentinel-data-branch
   cancel-in-progress: false
 
 jobs:
@@ -75,6 +75,22 @@ jobs:
           
           # Restore the full reports/ tree from the data branch so runtime history,
           # append-only logs, and daily snapshots remain continuous across fresh CI runs.
+          set +e
+          git ls-remote --exit-code --heads origin data >/dev/null 2>&1
+          REMOTE_DATA_BRANCH_LOOKUP_STATUS=$?
+          set -e
+          case "${REMOTE_DATA_BRANCH_LOOKUP_STATUS}" in
+            0)
+              REMOTE_DATA_BRANCH_EXISTS=true
+              ;;
+            2)
+              REMOTE_DATA_BRANCH_EXISTS=false
+              ;;
+            *)
+              echo "❌ Could not determine whether the remote data branch exists; refusing to continue with empty reports."
+              exit 1
+              ;;
+          esac
           if git fetch --depth=1 origin refs/heads/data:refs/remotes/origin/data; then
             echo "Data branch exists. Restoring reports/ context..."
             if git cat-file -e origin/data:reports 2>/dev/null; then
@@ -82,10 +98,14 @@ jobs:
               REPORT_FILE_COUNT="$(find reports -type f | wc -l | tr -d ' ')"
               echo "✅ reports/ restored from data branch (${REPORT_FILE_COUNT} files)"
             else
-              echo "⚠️ reports/ not found in data branch"
+              echo "❌ Fetched data branch has no reports tree; refusing to continue with empty reports."
+              exit 1
             fi
+          elif [ "${REMOTE_DATA_BRANCH_EXISTS}" = "true" ]; then
+            echo "❌ Existing data branch could not be fetched; refusing to continue with empty reports."
+            exit 1
           else
-            echo "⚠️ Could not fetch data branch (branch missing OR auth/network issue). Will continue with empty reports/ context."
+            echo "⚠️ Data branch is absent. Will continue with empty reports/ context for bootstrap."
           fi
 
           # Fail-safe: if telemetry.csv still doesn't exist, create a dummy header so Rust doesn't panic.
@@ -113,8 +133,22 @@ jobs:
           print(max(dates) if dates else "")
           PY
           )"
+          RESTORED_HISTORY_COUNT="$(python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path("reports/observation_history_state.json")
+          try:
+              value = json.loads(path.read_text(encoding="utf-8"))
+          except (OSError, json.JSONDecodeError):
+              value = {}
+          count = value.get("count")
+          print(count if type(count) is int and count >= 0 else 0)
+          PY
+          )"
           echo "RESTORED_SNAPSHOT_COUNT=${RESTORED_SNAPSHOT_COUNT}" >> $GITHUB_ENV
           echo "RESTORED_LAST_SNAPSHOT_DATE=${RESTORED_LAST_SNAPSHOT_DATE}" >> $GITHUB_ENV
+          echo "RESTORED_HISTORY_COUNT=${RESTORED_HISTORY_COUNT}" >> $GITHUB_ENV
           RESTORED_LEGACY_PACKET_COUNT="$(python - <<'PY'
           import json
           from pathlib import Path
@@ -411,19 +445,32 @@ jobs:
               exit 1
             fi
           fi
-          python - "${HISTORY_STATE}" "${CURRENT_SNAPSHOT}" "${DATE_JST}" <<'PY'
+          python - "${HISTORY_STATE}" "${CURRENT_SNAPSHOT}" "${DATE_JST}" "${RESTORED_HISTORY_COUNT:-0}" "${RESTORED_SNAPSHOT_COUNT:-0}" "${RESTORED_LAST_SNAPSHOT_DATE:-}" <<'PY'
           import json
           import sys
 
           state = json.load(open(sys.argv[1], encoding="utf-8"))
           snapshot = json.load(open(sys.argv[2], encoding="utf-8"))
           expected_date = sys.argv[3]
+          restored_history_count = int(sys.argv[4])
+          restored_snapshot_count = int(sys.argv[5])
+          restored_last_snapshot_date = sys.argv[6]
           if not state.get("cycle_id"):
               raise SystemExit("observation history state has no cycle_id")
+          history_count = state.get("count")
+          if type(history_count) is not int or history_count < 1:
+              raise SystemExit("observation history state has no valid count")
           if state["cycle_id"] != snapshot.get("cycle_id"):
               raise SystemExit("current snapshot cycle_id does not match observation history state")
           if snapshot.get("market_date") != expected_date:
               raise SystemExit("current snapshot market_date does not match report date")
+          if (
+              restored_snapshot_count > 0
+              and restored_last_snapshot_date
+              and expected_date != restored_last_snapshot_date
+              and history_count <= restored_history_count
+          ):
+              raise SystemExit("observation history state count did not append across the new market date")
           print(f"✅ Formal snapshot/state continuity verified: cycle_id={state['cycle_id']}")
           PY
 
@@ -475,7 +522,23 @@ jobs:
           mkdir -p "$(dirname "${DATA_DIR}")"
 
           # 1. ensure data branch exists; if not, create & push once
-          if ! git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+          set +e
+          git ls-remote --exit-code --heads origin data >/dev/null 2>&1
+          REMOTE_DATA_BRANCH_LOOKUP_STATUS=$?
+          set -e
+          case "${REMOTE_DATA_BRANCH_LOOKUP_STATUS}" in
+            0)
+              REMOTE_DATA_BRANCH_EXISTS=true
+              ;;
+            2)
+              REMOTE_DATA_BRANCH_EXISTS=false
+              ;;
+            *)
+              echo "❌ Could not determine whether the remote data branch exists; refusing to bootstrap or overwrite data."
+              exit 1
+              ;;
+          esac
+          if [ "${REMOTE_DATA_BRANCH_EXISTS}" = "false" ]; then
             echo "Remote data branch not found. Bootstrapping..."
 
             git worktree add --detach "${DATA_DIR}"
@@ -534,6 +597,30 @@ jobs:
           else
             echo "No changes to commit in data branch."
           fi
+
+          # Verify the persisted branch, not only the local worktree and push exit code.
+          git fetch origin refs/heads/data:refs/remotes/origin/data
+          LOCAL_HISTORY_STATE="$(mktemp)"
+          REMOTE_HISTORY_STATE="$(mktemp)"
+          trap 'rm -f "${LOCAL_HISTORY_STATE}" "${REMOTE_HISTORY_STATE}"' EXIT
+          cp "${ROOT_DIR}/reports/observation_history_state.json" "${LOCAL_HISTORY_STATE}"
+          git show origin/data:reports/observation_history_state.json > "${REMOTE_HISTORY_STATE}"
+          python - "${LOCAL_HISTORY_STATE}" "${REMOTE_HISTORY_STATE}" <<'PY'
+          import json
+          import sys
+
+          with open(sys.argv[1], encoding="utf-8") as handle:
+              local = json.load(handle)
+          with open(sys.argv[2], encoding="utf-8") as handle:
+              remote = json.load(handle)
+          if type(local.get("count")) is not int or local["count"] < 1:
+              raise SystemExit("local observation history state has no valid count")
+          if type(remote.get("count")) is not int or remote["count"] < local["count"]:
+              raise SystemExit("remote observation history count is behind the local persisted state")
+          if not local.get("cycle_id") or remote.get("cycle_id") != local["cycle_id"]:
+              raise SystemExit("remote observation history cycle_id does not match the local persisted state")
+          print(f"✅ Remote data branch persistence verified: count={remote['count']}, cycle_id={remote['cycle_id']}")
+          PY
 
       - name: Notify on Failure
         if: failure()
