@@ -1,18 +1,18 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-07-16
+- 截至: 2026-07-30
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
-- 分析天数: 7
-- 平均置信度: 55.7
-- 平均稳定度: 43.0
-- 趋势凝聚 ready 天数: 7
+- 分析天数: 1
+- 平均置信度: 54.7
+- 平均稳定度: 1.0
+- 趋势凝聚 ready 天数: 0
 
 ## 市场状态计数
-- IGNITION: 7
+- IGNITION: 1
 
 ## 风险覆盖计数
-- NORMAL: 7
+- NORMAL: 1
 
 ## 状态机周度汇总
 - 有状态摘要的天数: 7
@@ -21,19 +21,19 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-07-08: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-09: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-10: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-15: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-07-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
 - 趋势广度模式: NarrowLeadership
 - 市场周期位置: CrowdedExpectation
-- 持仓效率: Neutral
+- 持仓效率: TimeCostRising
 - 战略上下文行:
   - 市场结构模式: 核心资产主导期
   - 长期方向: 长期结构趋势增强
@@ -44,7 +44,7 @@
   - 宏观重力: 只解释折现率与流动性环境，不生成交易信号
   - 证据持续性: 持续累积
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
-  - 战术状态: READY，等待执行层确认
+  - 战术状态: NO TRADE，等待结构扩散
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
@@ -62,45 +62,42 @@
 - reason: trend_continuation
 - exceptionalFactors: []
 - Narrative:
-  - 市场继续由 SPY 主导，U 保持较强延续，GOOG 今日重新出现突破萌芽，为窄幅主线增加了一个局部支撑点。但市场广度仍未扩展，整体仍属于少数资产领导下的正常趋势延续。
-  - No major event today. Current monitoring remains idle.
-  - 没有结构性恶化证据。
-- Leadership Confidence: HIGH
+  - Cross-day narrative cannot be determined from the current history status.
+- Leadership Confidence: LOW
 - Leadership Metrics:
-  - Primary Leader: [SPY]
-  - Secondary Leaders: [U, GOOG]
-  - Leadership Watch Candidates: [ISRG, SPCX, TSLA]
+  - 综合主导者: [TSLA]
+  - Secondary Leaders: [MSFT, ISRG]
+  - Leadership Watch Candidates: [U]
   - leadershipBreadth: rotation
 - very_narrow:
   - breadthScore: 35
   - concentrationScore: 82
   - rotationScore: 18
 - Rotation Observation:
-  - rotationType: sector_or_index_rotation
-  - from: [ISRG, SPCX, TSLA]
-  - to: [SPY, U, GOOG]
-  - interpretation: 不是全面撤退，而是行业 / 资产组内部的轮动。
+  - rotationType: UNAVAILABLE
+  - from: []
+  - to: []
+  - interpretation: Rotation cannot be determined without a valid baseline.
   - observationOnly: true
 - Observation Confidence:
-  - trend: HIGH
+  - trend: LOW
   - macro: LOW
   - supply: HIGH
   - expectation: UNAVAILABLE
   - gravity: UNAVAILABLE
-  - flow: MEDIUM
-  - overall: MEDIUM
+  - flow: UNAVAILABLE
+  - overall: LOW
 - Interpretation Priority:
-  - Trend: ★★★★★
+  - Trend: ★★★
   - Supply: ★★
   - Macro: ★
-  - Flow: ☆
   - Expectation: ☆
 - Leader Persistence:
-  - 当前 Leader: SPY
-  - 连续领导天数: 5 天
-  - 领导评分: 50.8
-  - 领导状态: ESTABLISHED
-  - 较昨日变化: +1 天，评分上升
+  - 综合主导者: TSLA
+  - 连续领导天数: BASELINE_UNAVAILABLE
+  - 领导评分: BASELINE_UNAVAILABLE
+  - 领导状态: UNAVAILABLE
+  - 较昨日变化: BASELINE_UNAVAILABLE
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.
 
@@ -120,7 +117,7 @@
 - 最新观测日: 2026-07-16
 - 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 2
-- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 7 日 Future Queue 最小值 / 最大值: 2 / 2
 - 已报道 / 已确认: 2 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
@@ -135,7 +132,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-17
+- 观测日: 2026-07-31
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16
