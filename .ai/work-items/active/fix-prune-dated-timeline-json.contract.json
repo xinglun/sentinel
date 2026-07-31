@@ -34,13 +34,14 @@
   "scope": [
     "scripts/prune_data_history.py",
     "scripts/test_prune_data_history.py",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
     ".ai/cockpit/current_status.md",
     ".ai/work-items/active/fix-prune-dated-timeline-json.contract.json",
     ".ai/work-items/active/fix-prune-dated-timeline-json.summary.json"
   ],
   "outOfScope": [
     "src/**",
-    ".github/workflows/**",
     "reports/**",
     "data branch の履歴削除",
     "取引判断と action matrix"
@@ -138,6 +139,8 @@
     "Gate / execution / trader / action matrix / position sizing には影響しない。",
     "Telegram / Markdown / CLI / audit daily / weekly review の出力は変更しない。",
     "保存対象は reports の履歴清理処理だけで、data branch の履歴削除は行わない。",
+    "Daily Decision Radar は workflow 起動時の ref を checkout し、develop からの手動実行が main のコードへ暗黙に降格しない。",
+    "workflow の runtime context は checkout 済み commit が起動 ref と一致することを検査する。",
     "i18n と snapshot contract test の追加は不要である。",
     "検証は既存の make test-data-history-retention と必須 Cockpit checks を make 経由で実行する。"
   ],

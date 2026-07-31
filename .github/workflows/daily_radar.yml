@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ github.token }}
-          ref: main # 确保在 main 分支运行并提交
+          ref: ${{ github.ref_name }} # 运行触发时的分支代码；schedule 使用默认分支
 
       - name: "Debug: Show runtime context"
         run: |
@@ -34,6 +34,10 @@ jobs:
           echo "workflow=${GITHUB_WORKFLOW}"
           echo "ref=${GITHUB_REF}"
           echo "sha=${GITHUB_SHA}"
+          echo "checkout_ref=${GITHUB_REF_NAME}"
+          CHECKED_OUT_SHA="$(git rev-parse HEAD)"
+          echo "checked_out_sha=${CHECKED_OUT_SHA}"
+          test "${CHECKED_OUT_SHA}" = "${GITHUB_SHA}"
           echo "actor=${GITHUB_ACTOR}"
           echo "workspace=${GITHUB_WORKSPACE}"
           pwd

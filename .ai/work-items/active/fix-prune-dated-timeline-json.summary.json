@@ -11,6 +11,14 @@
       "reason": "複数行 JSON の正常系回帰テストを追加した。"
     },
     {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "workflow の main 固定 checkout を起動 ref checkout に変更し、commit 一致を検査する。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "起動 ref と checkout commit の一致契約を回帰テストで固定する。"
+    },
+    {
       "path": ".ai/cockpit/current_status.md",
       "reason": "Work Item 状態を Cockpit の生成物へ反映した。"
     },
@@ -26,10 +34,14 @@
   "sourcesUsed": [
     "scripts/prune_data_history.py",
     "scripts/test_prune_data_history.py",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
     "src/features/radar/infrastructure/persistence.rs",
     "https://github.com/xinglun/sentinel/actions/runs/30588919514"
     ,"https://github.com/xinglun/sentinel/actions/runs/30590113974"
     ,"https://github.com/xinglun/sentinel/actions/runs/30590720979"
+    ,"https://github.com/xinglun/sentinel/actions/runs/30592012945"
+    ,"https://github.com/xinglun/sentinel/actions/runs/30592474629"
   ],
   "verification": [
     {
@@ -80,7 +92,7 @@
   "unknownsRemaining": [],
   "risk": {
     "level": "medium",
-    "detail": "本地格式与 retention の検証は完了。Actions hosted cleanup は修正後の再実行まで未確認。"
+    "detail": "本地格式与 retention の検証は完了。develop 起動でも workflow が main を checkout する経路を確認し、ref 修正を追加した。"
   },
   "scenarioCoverage": [
     {
@@ -104,7 +116,7 @@
       "required": true,
       "status": "unverified",
       "evidence": [],
-      "reason": "修正後の develop Actions 再実行待ち。"
+      "reason": "workflow ref 修正後の develop Actions 再実行待ち。"
     }
   ],
   "unverifiedScenarios": [
@@ -120,14 +132,15 @@
     "修正後の run 30590113974 でも hosted の dated timeline は単一 JSON ではなく連結 JSON 文書として扱われ、Extra data 相当の解析失敗が継続した。"
     ,"run 30590720979 でも同じ 486 bytes の dated/latest 文件が解析不能だったため、同日 observation_timeline.jsonl からの再生成を追加した。"
     ,"恢复源的日期可能与 dated filename 不一致，恢复逻辑改为优先同日、否则采用 JSONL 最后一个有效 record。"
+    ,"run 30592474629 は develop から起動したが workflow が ref: main を固定 checkout していたため、develop の修正検証になっていなかった。"
   ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",
       "recorded": true,
-      "detail": "Contract を実データ形式、Actions failure、scope、scenario coverage に更新した。",
-      "contractHash": "3870868d07668013",
-      "acceptanceCount": 10,
+      "detail": "Contract を実データ形式、Actions failure、workflow checkout 境界、scope、scenario coverage に更新した。",
+      "contractHash": "1502c21ec050928b",
+      "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -135,9 +148,9 @@
     {
       "stage": "before_edit",
       "recorded": true,
-      "detail": "TDD の failing regression test を追加する前の実装境界を確認した。",
-      "contractHash": "3870868d07668013",
-      "acceptanceCount": 10,
+      "detail": "TDD の failing regression test と workflow ref 境界を追加する前の実装範囲を確認した。",
+      "contractHash": "1502c21ec050928b",
+      "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -145,9 +158,9 @@
     {
       "stage": "before_ready",
       "recorded": true,
-      "detail": "Local regression test は red から green になり、hosted scenario のみ未確認。",
-      "contractHash": "3870868d07668013",
-      "acceptanceCount": 10,
+      "detail": "Local regression test は red から green になり、workflow ref の回帰テストも追加。hosted scenario のみ未確認。",
+      "contractHash": "1502c21ec050928b",
+      "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 0
@@ -155,9 +168,9 @@
     {
       "stage": "after_verification",
       "recorded": true,
-      "detail": "Local required checks は通過し、hosted Actions 再実行のみ未確認。",
-      "contractHash": "3870868d07668013",
-      "acceptanceCount": 10,
+      "detail": "Local required checks は通過し、workflow ref 修正後の hosted Actions 再実行のみ未確認。",
+      "contractHash": "1502c21ec050928b",
+      "acceptanceCount": 12,
       "unknownCount": 0,
       "requiredChecks": 11,
       "requiredChecksPassed": 11
@@ -172,17 +185,17 @@
     {
       "checkpoint": "before_edit",
       "status": "confirmed",
-      "note": "変更対象は清理 script と回帰 test に限定した。"
+      "note": "変更対象は清理 script、workflow checkout 境界、各回帰 test に限定した。"
     },
     {
       "checkpoint": "before_ready",
       "status": "confirmed",
-      "note": "ローカル検証は通過。hosted Actions cleanup は未確認。"
+      "note": "ローカル検証は通過。workflow が main を固定 checkout することを確認した。"
     },
     {
       "checkpoint": "after_verification",
       "status": "confirmed",
-      "note": "全 required checks と Actions hosted evidence 待ち。"
+      "note": "全 required checks は通過。workflow ref 修正後の hosted evidence 待ち。"
     }
   ],
   "residualRisks": [
@@ -208,6 +221,11 @@
       "correction": "旧データを無理に互換せず、新規蓄積を開始する方針を維持する。今回のエラーは新規生成データの cleanup parser defect として別途修正する。",
       "solidifiedTo": "contract",
       "reason": "Contract の outOfScope、problemStatement、acceptance、observedIssues と整形済み dated timeline JSON の regression test に固化した。"
+    },
+    {
+      "correction": "develop 起動なのに workflow が main のコードを checkout している可能性を確認する。",
+      "solidifiedTo": "contract",
+      "reason": "workflow の固定 ref を起動 ref に変更し、checkout commit と GITHUB_SHA の一致検査および integration test に固化した。"
     }
   ]
 }

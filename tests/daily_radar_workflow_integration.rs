@@ -166,3 +166,14 @@ fn daily_radar_restores_and_validates_formal_history_without_reimplementing_migr
     assert!(!workflow.contains("packet-to-snapshot"));
     assert!(!workflow.contains("MIGRATED_LEGACY"));
 }
+
+#[test]
+fn daily_radar_checks_out_the_triggered_ref_and_commit() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(workflow.contains("ref: ${{ github.ref_name }}"));
+    assert!(workflow.contains("CHECKED_OUT_SHA=\"$(git rev-parse HEAD)\""));
+    assert!(workflow.contains("test \"${CHECKED_OUT_SHA}\" = \"${GITHUB_SHA}\""));
+}
