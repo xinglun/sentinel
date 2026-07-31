@@ -50,6 +50,7 @@
     {"path": "tests/daily_radar_workflow_integration.rs", "reason": "Daily Radar workflow 的 restore/mirror 静态契约与 fail-closed 回归测试。"},
     {"path": ".github/workflows/daily_radar.yml", "reason": "fresh runner 从 data branch 恢复 reports/ 并将结果 mirror 回 data branch 的边界。"},
     {"path": ".github/workflows/weekly_backtest.yml", "reason": "weekly backtest 同样恢复并以 rsync --delete mirror data branch，必须共享 fail-closed 历史保护。"},
+    {"path": "https://github.com/xinglun/sentinel/actions/runs/30598915677", "reason": "main 上的 hosted Daily Radar run 已验证 restore、跨日检查逻辑和 push 后远端 state 校验实际执行成功。"},
     {"path": ".ai/work-items/archive/2026/fix-prune-dated-timeline-json.summary.json", "reason": "前一 WI 已验证 cleanup 与 workflow checkout，但明确留下下一交易日跨日追加的 follow-up。"}
   ],
   "scenarioCoverage": [
@@ -63,6 +64,7 @@
     {"scenario": "restore lookup 与 fetch 之间出现新建空 data branch 时仍 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
     {"scenario": "Weekly 写回在携带历史时重新读取远端 state，确认 count 未倒退且 cycle_id 一致", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
     {"scenario": "weekly backtest 的 restore/bootstrap 在 data branch 不确定时 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "hosted Daily Radar 在 main 上完成 restore、验证与 push 后远端 state 校验", "required": true, "status": "verified", "evidence": ["https://github.com/xinglun/sentinel/actions/runs/30598915677", "data commit 1cae96bc"]},
     {"scenario": "workflow 的 reports restore/mirror 边界不会把历史缩减为当前日", "required": false, "status": "not_applicable", "evidence": [], "reason": "hosted runner 的连续市场日结果属于合并后的外部 follow-up；本地 WI 通过 fail-closed contract 防止静默覆盖。"},
     {"scenario": "无历史或历史读取失败时继续安全降级且不生成跨日结论", "required": true, "status": "verified", "evidence": ["cargo test --lib cli::tests::pipeline_propagates_corrupt_observation_history_state", "cargo test --lib features::radar::domain::transition_log::tests::baseline_unavailable_does_not_emit_structural_changes"]}
   ],

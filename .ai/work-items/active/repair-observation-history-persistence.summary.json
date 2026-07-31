@@ -11,7 +11,7 @@
     {"path": ".ai/work-items/active/repair-observation-history-persistence.contract.json", "reason": "记录 S-12/S-15 scope、acceptance、verification 和风险边界。"},
     {"path": ".ai/work-items/active/repair-observation-history-persistence.summary.json", "reason": "记录实现和验证证据。"}
   ],
-  "sourcesUsed": ["user-report: S-12/S-15", "src/features/radar/infrastructure/persistence.rs", "src/features/radar/interface/radar_pipeline_runner.rs", "src/cli.rs", "tests/pipeline_integration.rs", ".github/workflows/daily_radar.yml", ".github/workflows/weekly_backtest.yml", ".ai/work-items/archive/2026/fix-prune-dated-timeline-json.summary.json"],
+  "sourcesUsed": ["user-report: S-12/S-15", "src/features/radar/infrastructure/persistence.rs", "src/features/radar/interface/radar_pipeline_runner.rs", "src/cli.rs", "tests/pipeline_integration.rs", ".github/workflows/daily_radar.yml", ".github/workflows/weekly_backtest.yml", "https://github.com/xinglun/sentinel/actions/runs/30598915677", ".ai/work-items/archive/2026/fix-prune-dated-timeline-json.summary.json"],
   "scenarioCoverage": [
     {"scenario": "同一 reports 目录的两个不同市场日运行保持 cycle_id 并追加 count", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline"]},
     {"scenario": "fresh process 重新加载已有 state 与 formal snapshot 后可解析前一交易日", "required": true, "status": "verified", "evidence": ["make test-radar-cross-run-pipeline"]},
@@ -23,6 +23,7 @@
     {"scenario": "restore lookup 与 fetch 之间出现新建空 data branch 时仍 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
     {"scenario": "Weekly 写回在携带历史时重新读取远端 state，确认 count 未倒退且 cycle_id 一致", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
     {"scenario": "weekly backtest 的 restore/bootstrap 在 data branch 不确定时 fail-closed", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"]},
+    {"scenario": "hosted Daily Radar 在 main 上完成 restore、验证与 push 后远端 state 校验", "required": true, "status": "verified", "evidence": ["https://github.com/xinglun/sentinel/actions/runs/30598915677", "data commit 1cae96bc"]},
     {"scenario": "workflow 的 reports restore/mirror 边界不会把历史缩减为当前日", "required": false, "status": "not_applicable", "evidence": [], "reason": "hosted runner 的连续市场日结果属于合并后的外部 follow-up；本地 WI 通过 fail-closed contract 防止静默覆盖。"},
     {"scenario": "无历史或历史读取失败时继续安全降级且不生成跨日结论", "required": true, "status": "verified", "evidence": ["make test"]}
   ],
@@ -43,31 +44,32 @@
     {"command": "make check-ai-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "result": "passed"}
   ],
   "unknownsRemaining": [],
-  "risk": {"level": "medium", "detail": "本地测试确认 persistence boundary 可跨进程追加；hosted workflow 的真实 restore/push 仍需后续 Actions run 确认。"},
+  "risk": {"level": "medium", "detail": "hosted Daily Radar 已在 main 上真实完成 restore、validation、push 后远端 state 校验；本次运行解析到同一 market date 2026-07-30，因此跨交易日 count 增长仍需下一交易日观察。"},
   "generatedFiles": [],
   "destructiveChanges": [],
   "observedIssues": [
     "远端 data branch 当前只有一个 market date 的 snapshot，无法仅凭本地静态检查证明连续多日 hosted run 已成功。",
     "原 workflow 在已有 data branch restore 失败时继续使用空 reports/，可能通过 rsync --delete 覆盖历史。",
     "原 workflow 将 git ls-remote 的网络、权限和认证错误与 branch 不存在混为一谈；Daily Radar 与 Weekly Backtest 现已改为仅允许明确的 no-ref 状态 bootstrap。",
-    "Daily Radar 与 Weekly Backtest 原先使用不同 concurrency group，存在同时写入同一 data branch 的风险；现已统一为 sentinel-data-branch。"
+    "Daily Radar 与 Weekly Backtest 原先使用不同 concurrency group，存在同时写入同一 data branch 的风险；现已统一为 sentinel-data-branch。",
+    "main hosted run 30598915677 成功，但报告日期仍为 2026-07-30；这是同日重跑，不能替代跨交易日追加证据。"
   ],
   "checkpointEvidence": [
-    {"stage": "contract_start", "recorded": true, "detail": "Contract 已从 skeleton 收敛为 S-12/S-15 的 persistence boundary、workflow restore 和场景覆盖。", "contractHash": "9cbd85250ccab213", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "before_edit", "recorded": true, "detail": "已确认现有跨运行测试通过，新增 workflow restore failure regression test 并观察到 red。", "contractHash": "9cbd85250ccab213", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "before_ready", "recorded": false, "detail": "等待 Summary 与 status checks。", "contractHash": "9cbd85250ccab213", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "after_verification", "recorded": true, "detail": "本地实现、Rust quality、workflow contract、并发写回保护、state count 跨日验证、Daily/Weekly push 后远端校验和空 branch 竞态保护已完成；hosted 连续市场日作为 residual risk 保留。", "contractHash": "9cbd85250ccab213", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 14}
+    {"stage": "contract_start", "recorded": true, "detail": "Contract 已从 skeleton 收敛为 S-12/S-15 的 persistence boundary、workflow restore 和场景覆盖。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "before_edit", "recorded": true, "detail": "已确认现有跨运行测试通过，新增 workflow restore failure regression test 并观察到 red。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "before_ready", "recorded": false, "detail": "等待 Summary 与 status checks。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "after_verification", "recorded": true, "detail": "本地实现、Rust quality、workflow contract、并发写回保护、state count 跨日验证、Daily/Weekly push 后远端校验、空 branch 竞态保护和 main hosted run 已完成；下一交易日追加作为 residual risk 保留。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 14}
   ],
   "checkpointReview": [
     {"checkpoint": "contract_start", "status": "confirmed", "note": "Contract、scope、sources 和场景覆盖已固定。"},
     {"checkpoint": "before_edit", "status": "confirmed", "note": "TDD red 已观察到 workflow restore failure 契约缺失。"},
     {"checkpoint": "before_ready", "status": "updated", "note": "本地 focused、full test、fmt、clippy 和 workflow restore checks 已完成。"},
-    {"checkpoint": "after_verification", "status": "updated", "note": "第二轮状态码边界修复后的 full test、clippy、workflow test 和 Cockpit checks 已完成；hosted 连续市场日仍为 residual risk。"}
+    {"checkpoint": "after_verification", "status": "updated", "note": "第二轮状态码边界修复后的 full test、clippy、workflow test、main hosted run 和 Cockpit checks 已完成；下一交易日追加仍为 residual risk。"}
   ],
   "residualRisks": [
-    {"level": "medium", "area": "hosted_workflow", "detail": "尚未在新的 hosted workflow run 中确认两个不同 market date 的 reports/ 追加；本地测试不能替代该外部证据。", "reviewRecommended": true, "followUpCandidate": true}
+    {"level": "medium", "area": "hosted_workflow", "detail": "main hosted run 已真实验证同日 restore/push 后远端 state 校验；尚未出现第二个 market date，因此 observation_count 增长仍需下一交易日确认。", "reviewRecommended": true, "followUpCandidate": true}
   ],
   "followUps": ["下一次 hosted Daily Radar run 需确认已有 data branch 上 observation_count 增加到 2 或更高，并保持同一 cycle_id。"],
-  "reviewReadiness": {"status": "ready_with_risks", "reason": "本地 Rust、workflow regression 和 Cockpit required checks 已通过；hosted 连续市场日追加仍需外部运行确认。", "expectedReviewFocus": ["已有 data branch restore/fetch 竞态是否 fail closed", "Daily/Weekly writer 是否共用 concurrency group", "push 后远端 state count/cycle_id 校验", "fresh PersistenceLayer 的跨市场日追加", "hosted run 是否出现 observation_count=2 或更高"]},
-  "userCorrectionSolidification": [{"correction": "先归档已有 WI，再创建新的历史持久化 WI；实现前必须经过 preflight 人工确认。", "solidifiedTo": "contract", "reason": "本 WI 的 active Contract、checkpointPolicy 和 preReviewWarnings 已记录该边界。"}]
+  "reviewReadiness": {"status": "ready_with_risks", "reason": "本地 Rust、workflow regression、Cockpit required checks 和 main hosted run 已通过；下一交易日追加仍需外部观察。", "expectedReviewFocus": ["已有 data branch restore/fetch 竞态是否 fail closed", "Daily/Weekly writer 是否共用 concurrency group", "push 后远端 state count/cycle_id 校验", "main hosted run 30598915677 的同日重跑边界", "下一交易日 hosted run 是否出现 observation_count=2 或更高"]},
+  "userCorrectionSolidification": [{"correction": "先归档已有 WI，再创建新的历史持久化 WI；实现前必须经过 preflight 人工确认。", "solidifiedTo": "contract", "reason": "本 WI 的 active Contract、checkpointPolicy 和 preReviewWarnings 已记录该边界。"}, {"correction": "按 Codex 分支提交推送，先合并 develop，再同步 main，最后清理远端和本地多余工作分支。", "solidifiedTo": "summary", "reason": "本 Summary 记录了 2b7386eb 已同步到 develop/main、hosted run 已执行、Codex 分支已删除的实际流程证据。"}]
 }

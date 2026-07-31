@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-31T01:57:28.873928+00:00`
+- Generated At: `2026-07-31T02:35:21.167730+00:00`
 - Task: `repair-observation-history-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -52,13 +52,13 @@ generated: true
 ## Review Readiness
 
 - Status: `ready_with_risks`
-- Reason: 本地 Rust、workflow regression 和 Cockpit required checks 已通过；hosted 连续市场日追加仍需外部运行确认。
+- Reason: 本地 Rust、workflow regression、Cockpit required checks 和 main hosted run 已通过；下一交易日追加仍需外部观察。
 - Expected Review Focus:
   - 已有 data branch restore/fetch 竞态是否 fail closed
   - Daily/Weekly writer 是否共用 concurrency group
   - push 后远端 state count/cycle_id 校验
-  - fresh PersistenceLayer 的跨市场日追加
-  - hosted run 是否出现 observation_count=2 或更高
+  - main hosted run 30598915677 的同日重跑边界
+  - 下一交易日 hosted run 是否出现 observation_count=2 或更高
 
 ## Scenario Coverage
 
@@ -66,7 +66,7 @@ generated: true
 
 ## Residual Risks
 
-- `medium` `hosted_workflow`: 尚未在新的 hosted workflow run 中确认两个不同 market date 的 reports/ 追加；本地测试不能替代该外部证据。
+- `medium` `hosted_workflow`: main hosted run 已真实验证同日 restore/push 后远端 state 校验；尚未出现第二个 market date，因此 observation_count 增长仍需下一交易日确认。
 
 ## Backtrack
 
