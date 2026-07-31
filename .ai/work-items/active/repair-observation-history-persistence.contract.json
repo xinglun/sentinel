@@ -70,8 +70,14 @@
   ],
   "unknowns": [],
   "notCodable": false,
-  "riskAssessment": {"level": "medium", "riskTypes": ["data_integrity", "evidence_insufficient", "ci"], "reason": "変更は历史数据的读写边界和 workflow restore/mirror 相关，但不改变交易决策；必须用跨日、fresh process 和 workflow 场景验证。"},
+  "riskAssessment": {"level": "low", "riskTypes": ["data_integrity", "evidence_insufficient", "ci"], "reason": "实现和本地跨日、fresh process、workflow 及 hosted 同日验证均已完成，不改变交易决策；下一交易日 count 增长属于已记录的外部 follow-up，不是实现阻塞未知。"},
   "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_unverified_external_scenario",
+    "openQuestions": ["尚未有新的 hosted market date 运行证明远端 observation_history_state.count 从 1 增长到 2。"],
+    "reason": "用户已确认继续修复并授权 push、合并 develop、同步 main 及运行 hosted Actions；跨交易日追加证据保留为下一交易日观察项。"
+  },
   "executionDecision": {"status": "continue", "reason": "问题边界、源码证据、scope、acceptance 和 make 验证入口已明确；未知根因通过回归场景验证，不以假设直接修改交易逻辑。"},
   "preReviewWarnings": [
     "先确认 reports/ 的真实读写路径和 fresh process 行为，再修改 production code。",
@@ -84,7 +90,7 @@
     "新的进程实例只通过 reports/ 中的持久化文件启动时，能够读取正式 snapshot/state 并解析前一交易日 baseline；不能依赖当前进程内存。",
     "正式 snapshots、observation timeline、decision history 和 observation_history_state 使用同一明确的 reports/ persistence boundary，并在 transaction 失败时保持既有 rollback 语义。",
     "daily workflow 的 restore 与 mirror 契约能够保留已有 reports/ 历史，并在新市场日之后验证历史确实追加，而不是只存在当前日文件。",
-    "无历史、损坏 state、full fetch failure 或 restore 失败时，系统继续输出安全的 unavailable/degraded 结果，不伪造 persistence、continuity、leader persistence 或跨日 change。",
+    "无历史、损坏 state、full data retrieval failure 或 restore 失败时，系统输出 unavailable/degraded 结果，并且 persistence、continuity、leader persistence、跨日 change 均保持 unavailable 或不生成。",
     "Gate / execution / trader / action matrix / position sizing / NO TRADE 的现有行为不变。",
     "Telegram、Markdown、CLI、audit daily、weekly review 只在历史证据真实可用时获得跨日信息；本 WI 不新增 i18n 文案。",
     "不删除、不重写、不人工修复既有 data branch 历史；只修复生成/读取/恢复边界和对应 regression tests。",

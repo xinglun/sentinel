@@ -10,7 +10,7 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-07-31T02:35:21.167730+00:00`
+- Generated At: `2026-07-31T02:51:13.289567+00:00`
 - Task: `repair-observation-history-persistence`
 - Mode: `code`
 - State: `ready_with_risks`
@@ -48,6 +48,15 @@ generated: true
 - `.ai/cockpit/current_status.md`: 同步当前 Work Item 状态。
 - `.ai/work-items/active/repair-observation-history-persistence.contract.json`: 记录 S-12/S-15 scope、acceptance、verification 和风险边界。
 - `.ai/work-items/active/repair-observation-history-persistence.summary.json`: 记录实现和验证证据。
+
+## Preflight Review
+
+- Status: `ready`
+- Recommendation: Implementation may begin once the reviewer confirms the evidence is sufficient.
+- Decision Drivers:
+  - riskAssessment.level is low
+- Pause Rule:
+  Policy gate is enabled: pause implementation when the review is needs_human_confirmation or not_ready.
 
 ## Review Readiness
 

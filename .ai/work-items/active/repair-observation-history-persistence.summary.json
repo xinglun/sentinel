@@ -43,7 +43,9 @@
     {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "result": "passed"},
     {"command": "make check-ai-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "result": "passed"}
   ],
-  "unknownsRemaining": [],
+  "unknownsRemaining": [
+    "尚未有新的 hosted market date 运行证明远端 observation_history_state.count 从 1 增长到 2；本地跨日测试与 main 同日 hosted run 已通过。"
+  ],
   "risk": {"level": "medium", "detail": "hosted Daily Radar 已在 main 上真实完成 restore、validation、push 后远端 state 校验；本次运行解析到同一 market date 2026-07-30，因此跨交易日 count 增长仍需下一交易日观察。"},
   "generatedFiles": [],
   "destructiveChanges": [],
@@ -55,10 +57,10 @@
     "main hosted run 30598915677 成功，但报告日期仍为 2026-07-30；这是同日重跑，不能替代跨交易日追加证据。"
   ],
   "checkpointEvidence": [
-    {"stage": "contract_start", "recorded": true, "detail": "Contract 已从 skeleton 收敛为 S-12/S-15 的 persistence boundary、workflow restore 和场景覆盖。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "before_edit", "recorded": true, "detail": "已确认现有跨运行测试通过，新增 workflow restore failure regression test 并观察到 red。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "before_ready", "recorded": false, "detail": "等待 Summary 与 status checks。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
-    {"stage": "after_verification", "recorded": true, "detail": "本地实现、Rust quality、workflow contract、并发写回保护、state count 跨日验证、Daily/Weekly push 后远端校验、空 branch 竞态保护和 main hosted run 已完成；下一交易日追加作为 residual risk 保留。", "contractHash": "78d9816b90045c21", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 14}
+    {"stage": "contract_start", "recorded": true, "detail": "Contract 已从 skeleton 收敛为 S-12/S-15 的 persistence boundary、workflow restore 和场景覆盖。", "contractHash": "bae02d80e77c38f6", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "before_edit", "recorded": true, "detail": "已确认现有跨运行测试通过，新增 workflow restore failure regression test 并观察到 red。", "contractHash": "bae02d80e77c38f6", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "before_ready", "recorded": false, "detail": "等待 Summary 与 status checks。", "contractHash": "bae02d80e77c38f6", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 0},
+    {"stage": "after_verification", "recorded": true, "detail": "本地实现、Rust quality、workflow contract、并发写回保护、state count 跨日验证、Daily/Weekly push 后远端校验、空 branch 竞态保护和 main hosted run 已完成；下一交易日追加作为 residual risk 保留。", "contractHash": "bae02d80e77c38f6", "acceptanceCount": 9, "unknownCount": 0, "requiredChecks": 14, "requiredChecksPassed": 14}
   ],
   "checkpointReview": [
     {"checkpoint": "contract_start", "status": "confirmed", "note": "Contract、scope、sources 和场景覆盖已固定。"},
