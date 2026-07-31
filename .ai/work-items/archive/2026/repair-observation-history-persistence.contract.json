@@ -112,6 +112,6 @@
     {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true},
     {"command": "make check-ai-status CONTRACT=.ai/work-items/active/repair-observation-history-persistence.contract.json SUMMARY=.ai/work-items/active/repair-observation-history-persistence.summary.json", "required": true}
   ],
-  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "destructiveChangePolicy": {"allowed": true, "requiresHumanApproval": true, "allowPatterns": [".ai/work-items/active/repair-observation-history-persistence.contract.json", ".ai/work-items/active/repair-observation-history-persistence.summary.json"]},
   "rollbackNote": "仅 revert 本 WI 的 code/test/workflow diff；不删除 data branch 历史。"
 }
