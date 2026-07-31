@@ -268,6 +268,14 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
         raise ValueError("required history file is missing: " + ", ".join(missing))
     records_by_file: dict[Path, list[Record]] = {}
     for path in file_paths:
+        if path.name.startswith("observation_timeline_") and path.suffix == ".json":
+            history_path = reports_dir / "observation_timeline.jsonl"
+            if history_path.is_file():
+                history_records = read_records(history_path)
+                target_date = _observation_timeline_date(path)
+                matching = [record for record in history_records if record.market_date == target_date]
+                records_by_file[path] = [matching[-1] if matching else history_records[-1]]
+                continue
         try:
             records_by_file[path] = (
                 read_json_record(path)
@@ -276,11 +284,7 @@ def prune_reports(reports_dir: Path, *, max_bytes: int, min_days: int, dry_run: 
             )
         except ValueError:
             history_path = reports_dir / "observation_timeline.jsonl"
-            if not (
-                path.name.startswith("observation_timeline_")
-                and path.suffix == ".json"
-                and history_path.is_file()
-            ):
+            if not (path.name.startswith("observation_timeline_") and path.suffix == ".json" and history_path.is_file()):
                 raise
             history_records = read_records(history_path)
             target_date = _observation_timeline_date(path)
