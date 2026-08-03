@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's first-ever earnings report comes as stock hits new all-time low: Q2 preview
+  summary: SpaceX will report highly anticipated second quarter results on Tuesday after the bell, its first report as a public company.
+  url: https://finnhub.io/api/news?id=1bb284d3239794ac3742f2a35034ba6cbef7bc43e7f4d5f1a5ff5c6a9b6571a2

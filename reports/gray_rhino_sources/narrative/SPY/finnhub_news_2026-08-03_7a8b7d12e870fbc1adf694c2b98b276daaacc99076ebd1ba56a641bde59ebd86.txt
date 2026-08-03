@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh Says Cross The Street By Yourself
+  summary: Fed Chair Warsh has shifted policy communication, ending forward guidance and emphasizing market-driven price discovery. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=54ba81c2e1aba966169d85975237da15741216a18063f1cfd461da5f5a784b29

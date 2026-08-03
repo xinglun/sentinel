@@ -1,0 +1,33 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-08-03",
+  "report_date": "2026-08-04",
+  "as_of_date": "2026-08-03",
+  "generated_at": "2026-08-04T02:01:28.452784447+09:00",
+  "run_id": "a1fae35e-e85d-4bfc-bd31-a0d22c6147b8",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-08-03",
+  "is_valid_trading_day": true,
+  "source_status": "degraded",
+  "market_state": "IGNITION",
+  "decision_state": "NO_TRADE",
+  "new_position_limit": 0.0,
+  "breadth": 40.0,
+  "confidence": 53.15221010018105,
+  "supply_phase": "IDLE",
+  "risk_state": "NORMAL",
+  "primary_leader": "TSLA",
+  "secondary_leaders": [
+    "SPY",
+    "ISRG"
+  ],
+  "breakouts": {},
+  "stability": 0.9470841892195788,
+  "continuity": 2,
+  "cycle_length_days": 2,
+  "reset_event": null,
+  "data_quality": {
+    "history": "UNAVAILABLE",
+    "trend": "DEGRADED"
+  }
+}

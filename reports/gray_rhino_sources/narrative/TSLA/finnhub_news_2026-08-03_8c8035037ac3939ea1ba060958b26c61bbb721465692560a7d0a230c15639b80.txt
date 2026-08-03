@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Could Be Giving Up More Than a Business
+  summary: Tesla denied reports that it may sell, spin off or close its China operations.
+  url: https://finnhub.io/api/news?id=e7e9e6d69ff5e6ebfc150c22c8728d41baf1c0c4bb984637d26bc386197873f4

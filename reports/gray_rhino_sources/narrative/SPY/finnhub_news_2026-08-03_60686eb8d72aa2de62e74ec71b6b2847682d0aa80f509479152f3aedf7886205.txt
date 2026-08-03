@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Index Gains Conceal Renewed Breadth Weakness
+  summary: SPY and QQQ advanced, but weaker participation, rising new lows and sub-50% moving-average breadth kept the market trend cautious
+  url: https://finnhub.io/api/news?id=b697821efd3c15664f5ee4384751629fbf6111912f41a1667b40a6c4aaaada03

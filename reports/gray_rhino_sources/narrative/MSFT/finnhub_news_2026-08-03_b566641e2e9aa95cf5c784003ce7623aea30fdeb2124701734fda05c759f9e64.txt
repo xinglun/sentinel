@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft joins, Broadcom exits Goldman’s top-stocks list
+  summary: Investing.com -- Goldman Sachs reshuffled its U.S. Conviction List in its August update, adding Microsoft and five other names while removing Broadcom and three others.
+  url: https://finnhub.io/api/news?id=6d5dea5d514acf65b00583fd0a8cc0080a09578686e11220b95315049c260bed

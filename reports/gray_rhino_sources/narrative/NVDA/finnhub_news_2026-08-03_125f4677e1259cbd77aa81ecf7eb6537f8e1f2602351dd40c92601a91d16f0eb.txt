@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From App Disaster to Growth Engine: How Sonos Found Its Groove Again
+  summary: A botched app nearly destroyed Sonos, and the CEO brought in to fix it faced a company bleeding revenue and credibility. Whether his turnaround holds depends on some uncomfortable questions the numbers alone cannot answer.
+  url: https://finnhub.io/api/news?id=336a53405f8d8c979a765ea5635cec1877d113b399b677b9a1f0efa570531ece

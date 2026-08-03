@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan Semiconductor Just Reclaimed a $2 Trillion Market Cap. It Still Trades at About 20 Times Forward Earnings.
+  summary: The chip foundry giant is back at a milestone valuation with a market-average multiple attached. That combination deserves a closer look.
+  url: https://finnhub.io/api/news?id=de978978b71e29daab171459f19bc416d80e6afea4f88887e25273d66d50c871

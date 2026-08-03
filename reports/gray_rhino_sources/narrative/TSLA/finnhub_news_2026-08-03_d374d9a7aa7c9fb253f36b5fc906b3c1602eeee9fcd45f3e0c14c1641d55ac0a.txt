@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Market Edge Highlights:  Space Exploration Technologies and Tesla
+  summary: Space Exploration Technologies and Tesla have been highlighted in this Market Edge article.
+  url: https://finnhub.io/api/news?id=fc312ad25980b935589cbf27c8b2feb9242191304feca95c45a2f3b49bb8749a

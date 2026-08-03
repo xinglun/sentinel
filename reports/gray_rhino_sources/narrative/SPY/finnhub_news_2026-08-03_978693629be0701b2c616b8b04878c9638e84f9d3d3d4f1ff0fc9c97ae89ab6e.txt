@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More Unbelievable
+  summary: The S&P 500 recovered 1.0% (up 9.4% y-t-d), and the Dow gained 1.0% (up 9.2%). The Utilities dropped 4.0% (up 4.7%).
+  url: https://finnhub.io/api/news?id=3e51bf542e7053ef9124bbdd861d60a7300616bfd0d8ba6f9ba6228ade9806cb

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett's Successor, Greg Abel, Started His Tenure With a Bang by Slashing Berkshire's Chevron Stake and Making a Virtual Monopoly the New No. 5 Holding
+  summary: The Oracle of Omaha's understudy cut Berkshire Hathaway's Chevron stake by 35% in favor of a company with a foundational sustainable moat and serious artificial intelligence (AI) ambitions.
+  url: https://finnhub.io/api/news?id=0dd7659df568a45fd31c256ea4026875f113877b8bb9a437bcff667274e8ee1b

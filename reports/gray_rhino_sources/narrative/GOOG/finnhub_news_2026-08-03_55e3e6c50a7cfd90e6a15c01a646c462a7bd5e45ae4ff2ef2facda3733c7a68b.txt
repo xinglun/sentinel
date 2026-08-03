@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Absolutely the right time’ for geothermal – Q&A with Baker Hughes Geothermal VP
+  summary: Increasing global energy demand and improvements in drilling technology have driven oil and gas majors to invest in geothermal.
+  url: https://finnhub.io/api/news?id=0b7e382067ff8f78e2a422c799c0c24bdd2f184be9730cf13c3a2811bbaae699

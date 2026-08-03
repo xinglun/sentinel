@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Earnings Will Show If the Software Rocket Is Running Out of Fuel
+  summary: Palantir saw sales growth of 85% last quarter. The Wall Street consensus is that both sales growth and margin will begin to fall off when it reports earnings Monday.
+  url: https://finnhub.io/api/news?id=3aabc8230dbf1e25107b60c50f5ec44c2e9359ec0c392ad67a623ad6b37b8ba0

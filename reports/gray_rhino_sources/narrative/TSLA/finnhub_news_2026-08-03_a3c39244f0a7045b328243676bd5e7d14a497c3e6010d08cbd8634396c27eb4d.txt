@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Goes For 3 Gains in a Row as It Shrugs Off Safety Inquiry
+  summary: Tesla  stock rose early Monday, going for three gains in a row after a brutal stretch following the company’s second-quarter earnings report.  If Tesla can rise on Monday, it will be three consecutive gains.  Weaker-than-expected second-quarter earnings reported on July 22 contributed to a six-day losing streak, sending Tesla stock down more than 20%.
+  url: https://finnhub.io/api/news?id=a8564fe52deb75efe4a6d4fcea908c7097d766593cd0e79eac92314eb365b825

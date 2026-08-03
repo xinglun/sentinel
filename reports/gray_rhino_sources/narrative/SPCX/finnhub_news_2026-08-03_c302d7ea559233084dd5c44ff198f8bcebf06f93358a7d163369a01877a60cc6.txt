@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings live updates: Marriott stock falls as Middle East drags, Trump brothers-backed American Bitcoin swings to loss
+  summary: Earnings continue to be the market's engine, and a series of results this week from Palantir, SpaceX, and AMD are set to rev up stocks again.
+  url: https://finnhub.io/api/news?id=1b7f67d905968762fe06abb5ed353b12be96ae19f775222c482ad3e6e92ed4ac

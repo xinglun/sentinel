@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernstein Identifies Four Key Drivers Behind SpaceX’s Long-Term Valuation
+  summary: Ahead of Space Exploration Technologies Corp’s (NASDAQ:SPCX) first quarterly earnings release on August 4, analysts at Bernstein said investors should focus less on the financial results themselves and more on management’s confidence in the company’s long-term growth strategy. According to the brokerage, several strategic milestones will ultimately determine whether SpaceX can justify its current valuation.
+  url: https://finnhub.io/api/news?id=7fa0c686ad9b89344d870c1548ce774967f4310ee1bb1cab0d50b0d540e81b9c

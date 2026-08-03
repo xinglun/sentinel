@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle: I See 64% Upside And A Whole Lot Of Fear
+  summary: Oracle Corporation initiated Strong Buy with a $212 target: OCI cloud surges 93% y/y, 18% EPS growth and undervalued 16x multipleâclick for ORCL upside and risks.
+  url: https://finnhub.io/api/news?id=caee490f70734b98a7ba4db1a43f018625dbdaaae13bfd6aefb9cec774593cc6

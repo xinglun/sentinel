@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Alphabet Can Absorb an AI Shock. Oracle Is the One to Watch.
+  summary: Which hyperscaler's balance sheet could ride out a rough stretch, and which couldn't? The gap between Microsoft and Oracle is wider than their spending suggests.
+  url: https://finnhub.io/api/news?id=a154dfcbf04da8f356a1f1449c4df8889bfad38530523a7d1b990b25b0e262e7

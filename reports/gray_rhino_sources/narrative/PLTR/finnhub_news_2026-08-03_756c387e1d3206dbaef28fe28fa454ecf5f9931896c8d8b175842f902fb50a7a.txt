@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Letter to Surf Air Mobility Inc. Shareholders from Chairman of the Board
+  summary: LOS ANGELES, August 03, 2026--The following is a letter to Surf Air Mobility Inc. shareholders from Shawn Pelsinger, Chairman of the Board:
+  url: https://finnhub.io/api/news?id=92faf487be00a391e4d8a8ff0d431be9bb009ec14e26fdab3d026bb6745ce3a1

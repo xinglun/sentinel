@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Don't Buy This Market, Someone Else Will
+  summary: AI selloff driven by deleveragingânot weak demandâmay be bottoming. Click for our look at the factors moving the market and where we now see opportunity.
+  url: https://finnhub.io/api/news?id=359a643ff197f5bb04c4a3c144c7a0e3d6c9a228daea1fc05e098e70bec1c140

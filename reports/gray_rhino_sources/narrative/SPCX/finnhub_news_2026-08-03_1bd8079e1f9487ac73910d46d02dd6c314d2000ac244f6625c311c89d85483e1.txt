@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget AI – This Macro Risk May Be The Biggest Threat To Bitcoin's Rally Right Now, Says Analyst
+  summary: Analyst points to increasing concerns over Federal Reserve credibility, rising long-term Treasury yields, and the potential unwinding of yen carry trades as major risks for Bitcoin.
+  url: https://finnhub.io/api/news?id=a904b8978477bdde501634229e12c3b50f791f4f3d538ca0aeb1684911385f62

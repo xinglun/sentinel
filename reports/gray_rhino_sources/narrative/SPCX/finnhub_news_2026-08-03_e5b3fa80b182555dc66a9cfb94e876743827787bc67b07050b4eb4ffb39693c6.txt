@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech stocks today: Investors eye SpaceX's first earnings report
+  summary: Tech stocks coverage for the week of Aug. 3.
+  url: https://finnhub.io/api/news?id=29d44dce1111f32d44ef75c50f706f725885602a9b957ebf400e082af441e8b0

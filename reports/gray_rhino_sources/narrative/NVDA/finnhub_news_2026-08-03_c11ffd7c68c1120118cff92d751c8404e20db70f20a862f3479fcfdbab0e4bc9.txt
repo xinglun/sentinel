@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Adds Financial Giant to the August Conviction List of Top Stock Picks
+  summary: Goldman Sachs just refreshed its August Conviction List with a financial services name analysts say the market is sleeping on, and two other picks in the sector that could quietly outperform through year-end.
+  url: https://finnhub.io/api/news?id=96cb816abcad94b848927a20aedb08b2a1231ec8b2d65277cd0596f18318acbc

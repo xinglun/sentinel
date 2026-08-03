@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Rise, Oil Tumbles On Iran Relief Hopes: Why PLTR, BABA, TSLA, SPCX, USO Are In Focus
+  summary: Despite the risk-on mood, Stocktwits retail sentiment remained bearish on both the SPY and QQQ ETFs.
+  url: https://finnhub.io/api/news?id=ceab390cb083b5ec5fb6da217da3dcbc7f06a3ea1f54716ce7b0df4360d67ef0

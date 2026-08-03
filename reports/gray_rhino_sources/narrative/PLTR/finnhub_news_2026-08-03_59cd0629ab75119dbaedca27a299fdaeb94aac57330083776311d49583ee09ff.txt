@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mercury Partners with Palantir to Enhance Factory Automation and Accelerate Production Timelines
+  summary: ANDOVER, Mass., Aug. 03, 2026 (GLOBE NEWSWIRE) -- Mercury Systems, Inc. (NASDAQ: MRCY, www.mrcy.com), and Palantir (NASDAQ: PLTR, www.palantir.com), a leading provider of AI software bringing commercial approaches to aerospace and defense, today announced a strategic agreement to enhance the automation of material planning and factory operations to accelerate the delivery of processing technologies for U.S. military programs. In support of the U.S. Department of War, Palantir is working with key
+  url: https://finnhub.io/api/news?id=e948dab76942cd0efee8a67e792caa1aa8260b9b919d36a457465c6a9d6e6829

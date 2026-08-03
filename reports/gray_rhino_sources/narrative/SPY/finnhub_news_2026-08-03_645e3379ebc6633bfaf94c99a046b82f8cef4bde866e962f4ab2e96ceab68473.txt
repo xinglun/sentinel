@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Despite The Headwinds, Earnings Are Exploding To The Upside
+  summary: Market volatility eased on strong Microsoft & Amazon earnings; Fed holds rates, disinflation resumes.
+  url: https://finnhub.io/api/news?id=ab225924e77572d7b5a9e6b2cfbb88aa702f2c9f1a81a0d209f935ea41210ddf

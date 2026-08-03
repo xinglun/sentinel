@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Record Deliveries Do Not Fix The Return On Capital Problem
+  summary: Tesla's revenue beat masks deteriorating operating income, with margins dropping to 1.4% and FCF turning negative. See why I rate TSLA stock a Sell now.
+  url: https://finnhub.io/api/news?id=b343c3e13fad31d93f38a78cec9fb834b0b969b57d6a83c0b824551d1b6fe195

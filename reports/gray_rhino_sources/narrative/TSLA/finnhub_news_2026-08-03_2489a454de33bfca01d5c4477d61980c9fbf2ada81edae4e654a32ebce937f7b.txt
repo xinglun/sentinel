@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Missed Earnings by 38%, but Elon Musk Isn't Worried. Here's What Investors Should Make of That.
+  summary: Execution matters more than one disappointing quarter.
+  url: https://finnhub.io/api/news?id=1aced7d059f9f606da8797d4f25c04b9383b0679060c023e370af25c976b413b

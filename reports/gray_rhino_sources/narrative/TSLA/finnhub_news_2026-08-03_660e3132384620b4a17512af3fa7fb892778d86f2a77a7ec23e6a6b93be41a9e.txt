@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Automotive Stock Asks The Market's Price For Sales That Do Not Yet Pay
+  summary: The stock changes hands at about the same price per dollar of sales as the broad market, while its own sales still arrive with a deep operating loss attached.
+  url: https://finnhub.io/api/news?id=c774efc2cac98637bde9769b83610437410458fb422013e43836a457cc49ec6e

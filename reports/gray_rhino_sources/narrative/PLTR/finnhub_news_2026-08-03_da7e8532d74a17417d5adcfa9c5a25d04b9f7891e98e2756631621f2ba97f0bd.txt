@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Could Swing 10% After Today's Earnings
+  summary: Palantir Stock Is Down Nearly One-Third. Earnings Could Spark a Major Rebound
+  url: https://finnhub.io/api/news?id=6d5b6f5b5633fd7a9bf1a30c41178c9893288196944f7412c51a4ee3c85403fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: School dropout’s AI start-up valued at £2.5bn
+  summary: A British start-up founded by a 25-year-old school dropout has been valued at £2.5bn as it develops new chips for the AI boom.
+  url: https://finnhub.io/api/news?id=6b458e09c8050c0aeb9ea99a8e30045d57406a4cfe3746d1319d531ad542dca1

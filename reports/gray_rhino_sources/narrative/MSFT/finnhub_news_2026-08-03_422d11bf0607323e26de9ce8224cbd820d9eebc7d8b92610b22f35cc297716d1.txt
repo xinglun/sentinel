@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Has Stark Message for AI Stock Investors
+  summary: Goldman Sachs Says Strong Earnings Could Rescue the AI Trade
+  url: https://finnhub.io/api/news?id=5c8903ddd1a5959a65e22484b4733b31e69afaa3f544120570fb33b6dfcad0c4

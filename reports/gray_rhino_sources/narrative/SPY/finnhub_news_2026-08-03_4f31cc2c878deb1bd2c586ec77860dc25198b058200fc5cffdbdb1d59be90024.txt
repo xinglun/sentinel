@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Gains As Big Tech Stocks Deliver Mixed Returns
+  summary: The direction the S&P 500 takes is shaping up a lot like playing a game that has a 50% chance of winning or a 50% chance of losing.
+  url: https://finnhub.io/api/news?id=99a3e4ab53563fddcc174f38cbe185268951e0693b1d8feceeb8261cf51b7842

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: CoreWeave Will Trade at This Price in 2027
+  summary: CoreWeave's revenue backlog just hit nearly $100 billion while its stock trades near a 52-week low, and that gap between signal and price is exactly where the opportunity or the trap lives.
+  url: https://finnhub.io/api/news?id=11ee75d2533b7723bb2dc578a97a9b0d4c827314e961b519bf39760f79aa9057

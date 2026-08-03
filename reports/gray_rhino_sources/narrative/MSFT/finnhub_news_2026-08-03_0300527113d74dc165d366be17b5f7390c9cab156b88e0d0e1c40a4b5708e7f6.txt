@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD to report Q2 earnings as chip stocks continue to waver
+  summary: AMD will report its Q2 earnings Tuesday.
+  url: https://finnhub.io/api/news?id=467c343225360885a09b574c58b89903aad0fc22e44e99ac50535b941e2155ac

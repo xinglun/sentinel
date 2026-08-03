@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Top Dividend Stocks to Buy Before Their Next Payout
+  summary: Your portfolio could be paying you quarterly income right now from three companies that have raised their dividends for decades straight, but the next ex-dates are approaching fast and missing them means waiting another quarter to collect.
+  url: https://finnhub.io/api/news?id=295300f8195581d504cda12b4ff55830b229bb2bd3b6d33c887afd23ad24ee10

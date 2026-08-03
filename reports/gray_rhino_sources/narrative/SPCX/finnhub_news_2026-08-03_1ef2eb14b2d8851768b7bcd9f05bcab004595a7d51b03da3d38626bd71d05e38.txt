@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $5K in the SpaceX IPO, How Much Do You Have Now?
+  summary: SpaceX began trading on June 12, 2026, with an IPO price of $135 per share, giving retail investors an opportunity to buy into one of the world’s most closely watched aerospace companies. A $5,000 investment at the IPO price would have purchased about 37.04 shares. By June 16, those shares had climbed to $225.64, increasing […] The post If You Invested $5K in the SpaceX IPO, How Much Do You Have Now? appeared first on SmartReads by SmartAsset.
+  url: https://finnhub.io/api/news?id=ee7683b4f75c7b8fc4106d6b023a6a9b6db17b1377354aa9c5fe2e4511d2ec32

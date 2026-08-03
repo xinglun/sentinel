@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN (NasdaqGS:IREN) Lands Microsoft And Nvidia AI Cloud Deals Covering Most Revenue Target
+  summary: IREN (NasdaqGS:IREN) has expanded its AI Cloud business with new multi-year contracts from major technology companies. These contracts include agreements with Microsoft and NVIDIA and cover a large share of IREN's targeted year-end revenue. The company has raised its year-end revenue target and reports that most of this figure is now contracted. Customer prepayments and firmer contractual pricing are part of the new deal structure. IREN has been building out its AI Cloud offering as demand...
+  url: https://finnhub.io/api/news?id=784384020d5f62a00d5d4c8ce40c11dbfec69233789ad075085b07304e7b8de6

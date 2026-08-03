@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's Record Quarter Ran Into A Memory Bill
+  summary: Revenue, iPhone, and Mac all set June quarter records; what sent the stock down was the September quarter guide and an open-ended memory cost.
+  url: https://finnhub.io/api/news?id=e45c8f3a8750e2afb05a87e7d36386172afeb040efe661c12b5d6b29e26e8d15

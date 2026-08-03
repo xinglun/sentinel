@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buoyant BYD has Tesla in it's rear view mirror. Musk needs to put his foot down
+  summary: The headline number in BYD's July sales, announced over the weekend, is not the one that should worry Tesla. BYD, the Chinese carmaker that overtook Tesla Inc (NASDAQ:TSLA) as the world's largest seller of battery-electric vehicles last year, lifted global sales 21.8% to 419,211 vehicles, a...
+  url: https://finnhub.io/api/news?id=0c808a8aad930f68eb27f92eafb6b10874ee854c7212aba36a096030b05a2b48

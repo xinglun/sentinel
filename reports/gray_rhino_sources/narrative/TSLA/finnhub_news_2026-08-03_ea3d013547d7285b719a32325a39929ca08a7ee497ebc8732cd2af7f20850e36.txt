@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Apple's AI Strategy Looks Different From Everyone Else's
+  summary: The consumer technology enterprise isn't taking part in the spending spree.
+  url: https://finnhub.io/api/news?id=eb298db7bee5577b99556614d03ce2aff126a8dd1922c2bf10c5d6665e88eca0

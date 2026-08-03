@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar's Order Backlog Hit a Record $63 Billion. Will Tuesday's Report Show AI Power Demand Still Filling It?
+  summary: The maker of bulldozers and mining trucks has become a power supplier to the AI build-out. Tuesday tests how long the orders can keep coming.
+  url: https://finnhub.io/api/news?id=f36255955fdc71047b563c0f8d9d70cdb04841ceb6cd935c610cd0a8240e342d

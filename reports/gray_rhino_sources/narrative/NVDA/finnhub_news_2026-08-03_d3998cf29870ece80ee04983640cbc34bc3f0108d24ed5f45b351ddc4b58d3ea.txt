@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pantera Capital Just Launched a New Index to Track the Crypto Market. Here's What Crypto Investors Need to Know.
+  summary: The crypto index takes a unique approach to selecting its holdings.
+  url: https://finnhub.io/api/news?id=f0e804d4835cb8d0bf9832fe737e8177509ddaa3ff090f622f2c67a8809f2129

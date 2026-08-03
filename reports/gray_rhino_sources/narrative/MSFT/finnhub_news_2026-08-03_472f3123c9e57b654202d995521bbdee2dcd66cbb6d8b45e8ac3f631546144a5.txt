@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy the SOXX Down 23% From Its Highs? Amazon, Alphabet, Meta Platforms, Microsoft, and Oracle Just Gave Investors 830 Billion Reasons to Do So.
+  summary: Major cloud companies all reported stellar growth, paving the way for more AI spending.
+  url: https://finnhub.io/api/news?id=61865c3c9fb311f6aec4a4164e14bb86118e0013b0e4953cab3ce5f77114279f

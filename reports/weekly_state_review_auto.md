@@ -1,10 +1,10 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-07-30
+- 截至: 2026-08-03
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 2
-- 平均置信度: 54.7
+- 平均置信度: 53.9
 - 平均稳定度: 1.0
 - 趋势凝聚 ready 天数: 0
 
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-07-09: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-10: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-15: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-08-03: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -66,8 +66,8 @@
 - Leadership Confidence: LOW
 - Leadership Metrics:
   - 综合主导者: [TSLA]
-  - Secondary Leaders: [MSFT, ISRG]
-  - Leadership Watch Candidates: [U]
+  - Secondary Leaders: [SPY, ISRG]
+  - Leadership Watch Candidates: [MSFT, U]
   - leadershipBreadth: rotation
 - very_narrow:
   - breadthScore: 35
@@ -96,9 +96,9 @@
   - 综合主导者: TSLA
   - 连续领导天数: BASELINE_UNAVAILABLE
   - 领导评分: BASELINE_UNAVAILABLE
-  - 领导状态: UNAVAILABLE
+  - 领导状态: DECAYING
   - 较昨日变化: BASELINE_UNAVAILABLE
-  - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。
+  - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.
 
 ## 宏观引力快照
@@ -132,7 +132,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-07-31
+- 观测日: 2026-08-04
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

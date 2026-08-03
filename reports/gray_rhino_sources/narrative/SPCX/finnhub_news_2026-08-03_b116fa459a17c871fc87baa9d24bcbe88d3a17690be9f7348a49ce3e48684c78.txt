@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tom Lee Predicts 2027 Will Be One Of Stock Market's ‘Best Years’ As SpaceX, Fed Risks Fade
+  summary: He reiterated his forecast for the S&P 500 to reach 7,800 before a roughly 10% pullback and finish the year above 8,000.
+  url: https://finnhub.io/api/news?id=7c123e6fbf1cee911b1a920d7542441aca0ab19c40e99bdd0a676d5507e13e31

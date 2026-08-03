@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: It's Worse Than I Thought (Rating Downgrade)
+  summary: Tesla's valuation remains unjustifiably high given modest growth, eroding profitability, and even worse credibility of Elon Musk. Click for more on TSLA stock.
+  url: https://finnhub.io/api/news?id=e90fe125c558ff33543ada42c27d2d6a2e44adfed47ad65265ded92de5e2f274

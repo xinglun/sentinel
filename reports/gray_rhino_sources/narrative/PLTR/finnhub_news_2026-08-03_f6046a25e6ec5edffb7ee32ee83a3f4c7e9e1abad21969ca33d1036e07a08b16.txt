@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Micron, SK Hynix, Alibaba, and More Stocks That Explain Today’s Market
+  summary: Software stocks help power the market higher after President Donald Trump says he will restart talks with Iran.
+  url: https://finnhub.io/api/news?id=ab695570e3c7538f2c0f84a4f8457e0bb511f26cb49493c5658cad1d5b52ac38

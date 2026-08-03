@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RWE Inks 15-Year Power Purchase Agreement With Google For Its Oklahoma Solar Project
+  summary: https://www.rwe.com/en/press/rwe-americas/2026-08-03-rwe-and-google-sign-ppa-for-oklahoma-solar-project/
+  url: https://finnhub.io/api/news?id=2653a8c5b14782661d3b5d5cb9fbb59937abdf50fb7d9f4d6456870d66e13d96

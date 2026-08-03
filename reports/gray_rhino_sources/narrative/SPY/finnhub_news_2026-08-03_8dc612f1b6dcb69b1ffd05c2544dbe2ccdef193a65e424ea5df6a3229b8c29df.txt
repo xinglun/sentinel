@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CIO Weekly: The Rising Threat Of Real Yields
+  summary: At todayâs levels, long-end rates carry more uncertainty, tied closely to unresolved fiscal questions, and we remain more cautious there.
+  url: https://finnhub.io/api/news?id=dbbee43a51b3df3b3b700f8cf21e06ef65d32c8af1b0e462c43e3d4125de2e8a

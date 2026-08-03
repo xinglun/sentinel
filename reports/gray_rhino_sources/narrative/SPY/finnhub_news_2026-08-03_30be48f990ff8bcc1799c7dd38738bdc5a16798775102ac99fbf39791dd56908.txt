@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Safety & Inflation Engines For Protecting Your Portfolio
+  summary: No Heirs Retirement Portfolio: growth, income, safety & inflation engines for resilient retirement investing.
+  url: https://finnhub.io/api/news?id=27eccc9d898247a9ddf9932f49c588015412c33b54bf465b514876aba1dd1d2a

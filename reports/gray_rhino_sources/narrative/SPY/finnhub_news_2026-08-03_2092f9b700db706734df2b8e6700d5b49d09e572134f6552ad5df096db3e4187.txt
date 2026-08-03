@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chart Of The Day: Seasonality Is No Longer Providing A Tailwind
+  summary: Seasonality is no longer giving your portfolio an extra shove. The MoneyShow Chart of the Day shows average monthly returns for the S&P 500 Index (SPX) going back three-quarters of a century
+  url: https://finnhub.io/api/news?id=6e2f1c6cdb10c0299b66f0f08c5c1b7fc4d230e6af7031d625496e03b1791578

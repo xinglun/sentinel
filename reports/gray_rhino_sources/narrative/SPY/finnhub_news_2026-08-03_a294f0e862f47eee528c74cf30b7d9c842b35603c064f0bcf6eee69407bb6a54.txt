@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Treasury Sell-Off May Be Just Getting Started
+  summary: Long-term interest rates have surged at a pace not seen since the late 1970s and early 1980s. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=78000662c6f4bb69ee0d869b0886bf77ab2c1e15f8feec552c05921c61940f91

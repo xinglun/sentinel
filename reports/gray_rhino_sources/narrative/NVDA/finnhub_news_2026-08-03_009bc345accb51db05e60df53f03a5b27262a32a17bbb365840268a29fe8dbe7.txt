@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Aims For 12th Straight Revenue Acceleration, But U.S. Growth Is Key
+  summary: With Q2 earnings due for Palantir stock, analysts are eying U.S. commercial growth and international performance as wild cards.
+  url: https://finnhub.io/api/news?id=69e0292b61fe1edc4ce8f242d2e99e5f019a0cfda5d297b820619619363634df

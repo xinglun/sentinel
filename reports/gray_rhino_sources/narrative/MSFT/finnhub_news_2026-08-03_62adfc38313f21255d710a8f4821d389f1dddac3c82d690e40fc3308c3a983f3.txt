@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software catches a bid as investors rotate ahead of Palantir earnings
+  summary: Investing.com -- The software sector is catching a major tailwind today, fueled by a noticeable rotation out of semiconductor stocks and into high-growth enterprise tech. Microsoft’s (NASDAQ: MSFT) strong pre-market rally—driven by a massive $90 billion Q4 print and 43% Azure growth—has ignited a broader bid across the iShares Expanded Tech-Software Sector ETF.
+  url: https://finnhub.io/api/news?id=a1dcd14ee268fb033aff25433dde958a4efff07d46ff653d540f321071cac9ea

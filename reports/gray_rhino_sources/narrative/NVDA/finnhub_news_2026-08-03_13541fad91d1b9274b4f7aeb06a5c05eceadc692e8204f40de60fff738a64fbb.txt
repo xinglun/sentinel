@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 678 Billion Reasons to Invest in Microsoft Stock
+  summary: The tech giant is getting its mojo back.
+  url: https://finnhub.io/api/news?id=73b4101a3a6a5ff9b9f2e641b8b05eae5c2cb6a0eeda4e32891f12eef21a9f90

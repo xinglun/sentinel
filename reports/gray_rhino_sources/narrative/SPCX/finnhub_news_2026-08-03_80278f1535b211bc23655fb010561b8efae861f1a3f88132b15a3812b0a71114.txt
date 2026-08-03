@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Wall Street expects from SpaceX's first earnings report
+  summary: SpaceX has operated as a private company for more than two decades. On August 4, that changes. The company reports Q2 2026 results after market close, its first earnings release since listing on the Nasdaq in June. Wall Street will see the actual financials behind one of the most closely watched ...
+  url: https://finnhub.io/api/news?id=bd4460d02cd99376e833e6744ed16488adaf6a1eb9385390e6a35aba409c5588

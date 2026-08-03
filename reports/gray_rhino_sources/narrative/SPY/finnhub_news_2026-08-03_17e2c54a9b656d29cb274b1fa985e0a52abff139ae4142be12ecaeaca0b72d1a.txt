@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Al Arabiya Reported Earlier, Iran Foreign Ministry Spokesperson Said No Current US Talks; Working With Oman On Temporary Safe Route Through Strait Of Hormuz, But Says Agreement Alone Will Not Reopen Strait
+  summary: https://x.com/AlArabiya_Eng/status/2084180198447010231?s=20
+  url: https://finnhub.io/api/news?id=bd1a76ae95964038c7a43a840715c09cb8c3a9b44f2a898383dd911c9136caa9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: The Market Isn't Ready For This
+  summary: Alphabet's Q2 revenues grew 24.2% Y/Y to $119.8B, with Google Cloud revenues up 82% Y/Y and a cloud backlog exceeding $514B. Read why GOOG stock is a Buy.
+  url: https://finnhub.io/api/news?id=454c4d888a6a2a709a45e7aebba6ada292bec71be9d7c53ae5167c0e5db828f9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'White House to Host AI Companies on Tuesday to Review AI Framework' - The Information
+  summary: https://www.theinformation.com/articles/white-house-host-ai-companies-tuesday-review-ai-framework
+  url: https://finnhub.io/api/news?id=1b7b063e8726eb64b5c62a0dfb35849055db97c649eb4666d757871f19f51c96

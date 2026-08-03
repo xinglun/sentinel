@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Middle East Diplomacy Optimism, Oil Price Decline Lift US Equity Futures Pre-Bell
+  summary: (Updates with economic data, recent oil price movement, world markets' overview and corporate stock
+  url: https://finnhub.io/api/news?id=b46de72b5e232979612974ad806909a54b55d5c4d3a86936432f3aa3470eadc5

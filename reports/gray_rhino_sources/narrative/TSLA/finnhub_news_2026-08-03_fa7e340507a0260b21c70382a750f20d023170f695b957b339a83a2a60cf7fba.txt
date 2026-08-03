@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's $1 Trillion Pay Package Requires Tesla Stock to Grow Roughly Sixfold to an $8.5 Trillion Market Cap
+  summary: The fortune being put on the table here is admittedly outrageous. So are the goals that must be met to earn it.
+  url: https://finnhub.io/api/news?id=dc2e599be203e0e170eaa625d01db6874106ffe53f2362f03d0f2a73c0d1cd10

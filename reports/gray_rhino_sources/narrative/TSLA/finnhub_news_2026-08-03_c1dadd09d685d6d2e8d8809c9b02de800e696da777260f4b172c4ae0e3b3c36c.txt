@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Steady as July Registrations Split Europe in Half
+  summary: France and Denmark rose sharply while Norway and Sweden collapsed
+  url: https://finnhub.io/api/news?id=e97eabe12dcccfc55732a4630be6df7c566f1bb7e5010913285491ba3a3e514c

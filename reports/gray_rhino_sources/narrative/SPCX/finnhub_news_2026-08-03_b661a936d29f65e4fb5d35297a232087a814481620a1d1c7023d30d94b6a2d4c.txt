@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Middle East Diplomacy Optimism, Oil Price Decline Lift US Equity Futures Pre-Bell
+  summary: US equity futures were higher pre-bell Monday as the US moved toward diplomacy in its war with Iran
+  url: https://finnhub.io/api/news?id=015764f465a109d28c3bae83c7179033e4550a032bc8d1df7615a77638a8adf6

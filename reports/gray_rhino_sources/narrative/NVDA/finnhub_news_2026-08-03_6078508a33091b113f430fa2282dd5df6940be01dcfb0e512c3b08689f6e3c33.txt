@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SoundHound AI in Play? The Acquisition Case for This Voice-AI Specialist
+  summary: SoundHound AI has built something rare in the voice-AI space: a platform that major automakers, restaurant chains, banks, and smart TV brands all depend on. Now, with shares down sharply and a transformative merger pending, several trillion-dollar companies have real reasons to consider writing a check.
+  url: https://finnhub.io/api/news?id=22465cd8f4fcaeafe999c238756f5c686ef0a9a9aa67592eae5aca37264bfaa2

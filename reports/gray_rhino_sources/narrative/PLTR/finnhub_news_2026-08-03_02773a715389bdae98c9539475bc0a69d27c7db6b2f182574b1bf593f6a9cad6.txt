@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Things to Know Before the Stock Market Opens on Monday
+  summary: News of the day for Monday, August 3
+  url: https://finnhub.io/api/news?id=bd059b22ffca472aec375ae4881ac5c5c3a539be5192b12a15e0753c5cde4ee2

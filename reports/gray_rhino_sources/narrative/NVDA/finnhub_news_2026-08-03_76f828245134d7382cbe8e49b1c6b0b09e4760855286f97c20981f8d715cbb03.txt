@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Drops 6%, AMC Rallies 6% in Meme Stock Divergence
+  summary: GameStop and AMC used to rise and fall together, but Monday's tape tells a different story, with a billion-dollar debt deal pulling one name lower while a record-shattering box office sends the other surging.
+  url: https://finnhub.io/api/news?id=e3ffef1ab6918cbc271e4df1bf9b461b9854d8db02d4eefd122976125d421991

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Saylor Says SpaceX, Google and Meta's AI Spending Is a 'Headwind' for Bitcoin
+  summary: The artificial intelligence boom has powered some of Wall Street’s biggest winners this year. But Strategy Inc Executive Chairman Michael Saylor believes it is also creating an overlooked challenge for Bitcoin. Speaking on Strategy’s second-quarter earnings call, Saylor argued that...
+  url: https://finnhub.io/api/news?id=6638737f19993540ece8f25a0144f14c46fda798cecf6e49e555a7ae8b07c95d

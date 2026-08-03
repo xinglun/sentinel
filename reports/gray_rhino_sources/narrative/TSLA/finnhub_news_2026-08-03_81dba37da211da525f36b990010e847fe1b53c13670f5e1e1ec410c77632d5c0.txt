@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s (TSLA) AI Driven Future Beyond Cars
+  summary: Rowan Street Capital, an investment management company, released its Q1 2026 investor letter. A copy of the letter can be downloaded here. The Fund’s performance remained stable in the second quarter, with the portfolio declining about 1$ from the first quarter, resulting in a net return of -21% for the second half of 2026. Despite the […]
+  url: https://finnhub.io/api/news?id=e4555bdf9d8d429bf2980eb4f0dab9178b1b8257d7b1f854c515a8375fa6d40f

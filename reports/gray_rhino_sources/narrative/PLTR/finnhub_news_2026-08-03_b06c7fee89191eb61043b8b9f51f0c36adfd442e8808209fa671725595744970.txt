@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR, MRCY Stocks Gain After Announcing Partnership To Automate US Defense Manufacturing
+  summary: Wall Street is expecting Palantir to report earnings per share of $0.35 on revenue of $1.8 billion in its Q2 report scheduled after the bell.
+  url: https://finnhub.io/api/news?id=02e21c22132f611b48c0035337efba1a64c9084aa03d7a874ddb4cf4021047b4

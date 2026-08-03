@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Market Predictions For August
+  summary: The month of July saw the NASDAQ fall just over 3% as semiconductors had their worst month since 2008. Check out the predictions for the month of August.
+  url: https://finnhub.io/api/news?id=e399e6a42b1a5c1f0dc0bf83e85d22803e0c9b7c9bb2ec9023f7a80c96e01b2d

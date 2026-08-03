@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock market today: Dow, S&P 500, Nasdaq futures rise as Trump calls off Iran attack, oil and bond yields ease
+  summary: Stocks rose to begin the week as oil prices eased and investors geared up for Palantir earnings.
+  url: https://finnhub.io/api/news?id=4286f1b38f29c068fe1362b22b26a0c00c7d3207d7e7649631e62ab81eac37a4

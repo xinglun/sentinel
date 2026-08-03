@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is QQQ Worth Buying Now That SpaceX Has Joined the Nasdaq-100? Here's My Honest Take.
+  summary: SpaceX may be getting a lot of media attention, but it has a relatively small impact on the Nasdaq-100 at the moment.
+  url: https://finnhub.io/api/news?id=df1bfe3ff730d42449db1e5fde5f2627e687a40e5798b03fccbe7c8dd573ff06

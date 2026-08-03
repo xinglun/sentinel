@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Oracle Go Bankrupt - Really?
+  summary: Is it truly possible that artificial intelligence, the very technological wave promised to unlock trillions in enterprise productivity, could end up upending Oracle (ORCL), the staid, unshakeable, fifty-year-old titan of relational enterprise databases? The company that has quietly powered global banking, enterprise logistics, and government administration for half a century is now carrying a very different kind of balance sheet, one built on server racks, liquid cooling pipes, and high-interest
+  url: https://finnhub.io/api/news?id=d1408b8fe0963e7fc6e9e649a5dea552664db7d7ee7ca9c02136696d0a92ffd0

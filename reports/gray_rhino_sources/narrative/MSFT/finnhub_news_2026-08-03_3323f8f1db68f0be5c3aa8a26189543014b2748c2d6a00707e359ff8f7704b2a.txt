@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dip Buyers Need to Heed the Market’s Warning Signs
+  summary: (Bloomberg) -- The momentum trade just gave investors a taste of the pronounced profit-and-loss swings they can expect if they fail to hedge or diversify, a warning that’s reinforced by growing inflation risks. Most Read from BloombergTrump Says US to Hold Off Iran Attack If Deal AgreedSaudi Prince Concerned Over Trump’s Iran Strike Plan: AxiosTrump Says Iran Talks to Begin Monday After Scrapping AttackSingapore's Gated Island for the Rich Is Marred by Decayed HomesAlibaba Adds to China AI Break
+  url: https://finnhub.io/api/news?id=b53e9a598848c91eeaecc4a3690d32799e8fa909102d332290467479e050ddd9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jumps 600 Points On Trump Strikes Reversal; Oil Prices Plunge (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rallies 600 points Monday as Trump calls off new U.S. strikes on Iran. Oil prices plunge.
+  url: https://finnhub.io/api/news?id=ad9d450feda6978d6c374b0689e9bc8e63f8464d5cc0bfbb4f8587674ef3c471

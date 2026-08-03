@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Exports Boost BYD Sales as Chinese EV Stocks Suffer
+  summary: Chinese EV leader  BYD  delivered strong July sales, sending its shares higher in overseas trading.  In China, BYD sold about 239,000 vehicles, including commercial vehicles, down 22% year over year.  BYD shares were up 0.8% in overseas trading on Monday.
+  url: https://finnhub.io/api/news?id=b1f45bc446ec22ae5a94a82724f51a72567e3acba3e30021fe044a791e72c861

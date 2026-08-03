@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ZoomInfo Connector Provides GTM Context Layer for Buyer Intent with Gemini Enterprise
+  summary: VANCOUVER, Wash., August 03, 2026--ZoomInfo (NASDAQ: GTM), the all-in-one GTM platform, has confirmed a native connector between Gemini Enterprise, Google Cloud's enterprise AI platform, and ZoomInfo's headless GTM context layer. The connector gives mutual customers verified account, contact, and buyer intent data directly inside Gemini Enterprise, in natural language.
+  url: https://finnhub.io/api/news?id=78b9f8080db4550cd8c5944d5977d41889ffb65f018e02fe08aae9ce518fb193

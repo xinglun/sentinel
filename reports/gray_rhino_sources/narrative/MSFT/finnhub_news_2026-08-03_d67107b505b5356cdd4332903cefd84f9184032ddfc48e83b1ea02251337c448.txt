@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Pays Cash. Amazon Borrows. Here's How Big Tech Funds Its AI Boom.
+  summary: Same enormous AI bill, five very different wallets. Here's who's paying cash, who's borrowing heavily, and who's talking others into covering some of the tab.
+  url: https://finnhub.io/api/news?id=5e06ee97125bca7aeb7a499acac54eeba3fcd1efb1aabefde22c0bf4637f5fe3

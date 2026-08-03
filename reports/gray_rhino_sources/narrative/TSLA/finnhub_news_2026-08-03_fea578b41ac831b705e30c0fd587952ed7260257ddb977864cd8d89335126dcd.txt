@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Heads Into First Earnings: Musk Hints At Tesla-Sized Revenue, Jefferies Downplays Governance Risks
+  summary: Investors will focus on Starlink profits, AI revenue, and the company’s rapidly rising AI spending.
+  url: https://finnhub.io/api/news?id=9f15ca7fdae7cdf0688a4a942aa95c2316278e4b653003291f243055e778428b

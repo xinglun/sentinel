@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Alphabet Lead 'AI Debt Tsunami' Now Blamed for 20-Year-High Rates
+  summary: Long-term interest rates reach a 20-year high due to hyperscaler issuance along with inflation and fiscal deficits, led by Amazon, and others.
+  url: https://finnhub.io/api/news?id=e1988d9374007fc3addaadb9715f86feb6ceec93d152abed95a931f8d4e5e113

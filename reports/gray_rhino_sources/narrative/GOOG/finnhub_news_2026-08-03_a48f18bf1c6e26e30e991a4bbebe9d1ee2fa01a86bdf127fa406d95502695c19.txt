@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Faces Wrongful Death Lawsuit Over YouTube Claims About Targeting Minors
+  summary: A new wrongful death lawsuit has been filed against several tech companies, including Alphabet's YouTube. The complaint alleges that social media platforms knowingly targeted minors and concealed risks linked to child deaths. The case focuses on internal company behavior and platform oversight rather than typical shareholder or privacy issues. Alphabet, which trades on the NasdaqGS under the ticker NasdaqGS:GOOGL, is under fresh scrutiny as this lawsuit raises questions about YouTube's...
+  url: https://finnhub.io/api/news?id=22d66454fae935f9a8761590182e9fa5a65076e9476039bff89e6d83df1e7cbf

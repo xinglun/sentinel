@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Unstoppable Stock to Buy Before It Joins Nvidia, Alphabet, Apple, and Microsoft in the $3 Trillion Club
+  summary: Artificial intelligence is carrying this tech giant into a new era.
+  url: https://finnhub.io/api/news?id=bc9e85dafd3898ada322a78d8e7d81f7721660eeba7a88767abd2590e4b8f4a9

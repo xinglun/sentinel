@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk wants engineers and trade talent: All you need is 3 bullet points, a resume, and a desire to create the best data centers ‘off Earth’
+  summary: Future work at SpaceX, the company has indicated, includes establishing a lunar economy, mining asteroids, and energy production on Mars.
+  url: https://finnhub.io/api/news?id=a5eebcff05219dfd9fffb9a09ddff456fe78c49c7a66ee0e21cb8b05efe0c270
