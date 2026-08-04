@@ -44,12 +44,12 @@
 - exceptionalFactors: [unusual_rotation]
 - Market Interpretation:
   - 今天属于例外驱动日。
-  - 当前主导资产：GOOG；突破观察：GOOG。
+  - 当前主导资产：UNAVAILABLE；突破观察：GOOG。
 - Leadership Classification: very_narrow
 - Leadership Metrics:
-  - Breadth label: Narrow
-  - Breadth score: 18
-  - Concentration score: 82
+  - Breadth label: Very Narrow
+  - Breadth score: 0
+  - Concentration score: 100
   - Rotation score: 66
 - Rotation Observation:
   - rotationType: BASELINE_UNAVAILABLE

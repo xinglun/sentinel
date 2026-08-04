@@ -271,55 +271,10 @@ pub(crate) fn build_leadership_snapshot_view_model_from_transition_log(
     log: &crate::features::radar::domain::transition_log::StateTransitionLog,
     language: Language,
 ) -> LeadershipSnapshotViewModel {
-    let trend_recognition = log.trend_recognition.as_ref();
-    let substantive_records = trend_recognition
-        .and_then(|e| e.substantive.as_ref())
-        .map(|substantive| {
-            substantive
-                .records
-                .iter()
-                .filter_map(|record| record.symbol.as_ref().map(|symbol| symbol.to_string()))
-                .collect::<Vec<_>>()
-        })
-        .unwrap_or_default();
-
-    let mut primary_values = unique_symbols(&substantive_records);
-    if primary_values.is_empty() {
-        primary_values = unique_symbols(
-            &log
-                .breakout_changes
-                .iter()
-                .filter(|change| {
-                    !matches!(
-                        change.to_status,
-                        crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
-                    )
-                })
-                .map(|change| change.symbol.clone())
-                .collect::<Vec<_>>(),
-        );
-    }
-    let secondary_values = primary_values
-        .iter()
-        .skip(1)
-        .take(2)
-        .cloned()
-        .collect::<Vec<_>>();
-    let weakening_values = unique_symbols(
-        &log.breakout_changes
-            .iter()
-            .filter(|change| change.status_changed)
-            .map(|change| change.symbol.clone())
-            .collect::<Vec<_>>(),
-    )
-    .into_iter()
-    .filter(|symbol| !primary_values.contains(symbol))
-    .collect::<Vec<_>>();
-
     build_leadership_snapshot_view_model_from_components(
-        primary_values,
-        secondary_values,
-        weakening_values,
+        log.observed_leader.iter().cloned().collect(),
+        Vec::new(),
+        Vec::new(),
         true,
         language,
     )
@@ -2232,8 +2187,33 @@ fn rotation_interpretation_withdrawal(language: Language) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::radar::domain::trend_cohesion::TrendCohesionTopology;
     use chrono::{Duration, NaiveDate};
     use std::fs;
+
+    #[test]
+    fn transition_log_keeps_a_stable_single_leader_without_a_new_breakout() {
+        let previous = DecisionPacket {
+            top_tier_symbols: vec!["GOOG".to_string()],
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                topology: TrendCohesionTopology::SingleLeader,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut current = previous.clone();
+        current.assets.clear();
+
+        let log = crate::features::radar::domain::transition_log::StateTransitionLog::compare(
+            Some(&previous),
+            &current,
+        );
+        let snapshot =
+            build_leadership_snapshot_view_model_from_transition_log(&log, Language::EnUs);
+
+        assert_eq!(snapshot.primary_leader_value, "GOOG");
+    }
 
     #[test]
     fn normal_narrative_mentions_new_goog_breakout_without_promoting_structure() {

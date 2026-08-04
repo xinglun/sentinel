@@ -44,12 +44,12 @@
 - exceptionalFactors: [unusual_rotation]
 - Market Interpretation:
   - 今日は例外駆動の日です。
-  - 現在の主導銘柄：GOOG；ブレイクアウト観察：GOOG。
+  - 現在の主導銘柄：UNAVAILABLE；ブレイクアウト観察：GOOG。
 - Leadership Classification: very_narrow
 - Leadership Metrics:
-  - Breadth label: Narrow
-  - Breadth score: 18
-  - Concentration score: 82
+  - Breadth label: Very Narrow
+  - Breadth score: 0
+  - Concentration score: 100
   - Rotation score: 66
 - Rotation Observation:
   - rotationType: BASELINE_UNAVAILABLE

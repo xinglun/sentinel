@@ -1,0 +1,140 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-observation-ssot-fix",
+  "mode": "code",
+  "title": "Leader 観測事実の SSOT 修正",
+  "baseCommit": "46483b0c6a5e39e2af665ddebc291ffe1ecf26bf",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader Snapshot が Action Matrix 由来の transition change を読むため、安定した Leader を none と誤認し、Leader Ended の偽陽性を出す問題を修正する。",
+  "intent": {
+    "problem": "S-03 の Leader Ended と S-20 の Observation SSOT が、Action Matrix 由来の breakout / substantive records に依存している。",
+    "constraints": [
+      "observed_leader は Action Matrix 前に決まる top_tier_symbols と TrendCohesionTopology::SingleLeader から計算する。",
+      "Transition Log と各 report consumer は observed_leader だけを Leader fact として読む。",
+      "Action Matrix、execution gate、trader、position sizing の振る舞いは変更しない。"
+    ],
+    "rationale": "安定日を Leader Ended と誤表示せず、Leader の source-of-truth を Observation fact に戻すため。"
+  },
+  "scope": [
+    ".ai/work-items/active/leader-observation-ssot-fix.contract.json",
+    ".ai/work-items/active/leader-observation-ssot-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/transition_log.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": ["src/features/radar/domain/action_matrix.rs", "src/features/radar/application/execution_gate.rs", "src/features/trading/**", "config.toml", ".github/workflows/**"],
+  "sources": [
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "top_tier_symbols と TrendCohesion は Action Matrix より前に構築される。"
+    },
+    {
+      "path": "src/features/radar/domain/transition_log.rs",
+      "reason": "日次 Observation fact を持続化して audit/report consumer に渡す。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader Snapshot は transition log の observed_leader だけを読む。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "migration"
+    ],
+    "reason": "既存 JSONL は serde default で互換を保ち、表示用 Observation fact だけを追加する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "独立 code review で再現条件と source boundary を確認した。"
+  },
+  "preReviewWarnings": [
+    "既存 transition log に observed_leader がない場合は Leader を捏造しないことを review で確認する。",
+    "Audit Daily snapshot は Observation SSOT への切替に伴う表示差分だけを更新する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "差分のない安定 Leader が observed_leader として保持され、Snapshot は none に降格しない。",
+    "NoLeader / FragmentedLeaders は observed_leader を持たず、Leader = none のままとする。",
+    "Leader Snapshot は substantive records と breakout_changes を Leader source として読まない。",
+    "Action Matrix、execution gate、trader、position sizing 配下の production file diff は 0 件とする。",
+    "Audit Daily の zh / en / ja snapshot は古い log で Leader を捏造しない表示を固定する。",
+    "make fmt-check、make test、make clippy、Cockpit required checks が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-ssot-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-observation-ssot-fix.summary.json CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-ssot-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-observation-ssot-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-ssot-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
