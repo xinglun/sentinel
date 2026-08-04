@@ -65,6 +65,8 @@ pub struct StateTransitionLog {
     pub breakout_active_count: usize,
     #[serde(default)]
     pub trend_recognition: Option<TrendRecognitionEvidence>,
+    #[serde(default)]
+    pub observed_leader: Option<String>,
 }
 
 impl StateTransitionLog {
@@ -273,6 +275,10 @@ impl StateTransitionLog {
             scout_reset_triggered,
             breakout_active_count,
             trend_recognition: curr.trend_recognition.clone(),
+            observed_leader: (curr.trend_cohesion.topology == TrendCohesionTopology::SingleLeader)
+                .then(|| curr.top_tier_symbols.first().cloned())
+                .flatten()
+                .filter(|symbol| !symbol.trim().is_empty()),
         }
     }
 
@@ -321,6 +327,17 @@ mod tests {
         assert!(log.no_trade_persists);
         assert!(!log.market_state.changed);
         assert!(!log.trend_cohesion_gate.to);
+    }
+
+    #[test]
+    fn observed_leader_requires_single_leader_topology() {
+        let mut curr = mock_packet(MarketState::ESTABLISHED, true);
+        curr.top_tier_symbols = vec!["GOOG".to_string()];
+        curr.trend_cohesion.topology = TrendCohesionTopology::NoLeader;
+
+        let log = StateTransitionLog::compare(None, &curr);
+
+        assert_eq!(log.observed_leader, None);
     }
 
     #[test]

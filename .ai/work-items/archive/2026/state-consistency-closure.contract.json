@@ -1,0 +1,174 @@
+{
+  "contractVersion": 2,
+  "workItemId": "state-consistency-closure",
+  "mode": "code",
+  "title": "状態整合性と説明可能性の閉ループ",
+  "baseCommit": "a15117fa8a64c6df0adaf04d6893999833b5c041",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader の観測責務、Action Matrix の消費責務、Confidence の根拠、Risk の意味、および Leader 終了の履歴遷移を同一の事実源へ収束させる。",
+  "intent": {
+    "problem": "観測結果と行動制約、履歴表示の責務が一部で混在し、Leader 終了や NO TRADE の理由を監査可能に説明できない。",
+    "constraints": [
+      "Leader は Observation Layer が決定し、Action Matrix はその結果だけを消費する。",
+      "実行可否と既存ポジション管理を混同せず、売買指示を新設しない。",
+      "履歴、Markdown、Telegram、CLI の表示は同じ事実を示す。"
+    ],
+    "rationale": "市場が Leader 不在である状態を正しく表現し、NO TRADE と説明・履歴の整合性を保つため。"
+  },
+  "scope": [
+    ".ai/work-items/active/state-consistency-closure.contract.json",
+    ".ai/work-items/active/state-consistency-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.md"
+    ,"src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.md"
+    ,"src/features/radar/interface/snapshots/no_trade_en_us.html.txt"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.md"
+    ,"src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "user_request",
+      "reason": "S-03、S-20、S-21、S-22 と、Leader 不在を含む市場状態の一貫した説明を要求する。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Leader の継続・終了状態を算出する domain source。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader 観測・履歴の ViewModel を組み立てる read model 境界。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown / Telegram の表示契約。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar pipeline の回帰検証入口。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "前日に Leader があり当日に Leader がない時、履歴は Leader Ended を示す。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "NO TRADE の根拠となる Confidence と各構成要素が同一レポートで確認できる。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "Execution Risk と Portfolio Risk が別の行動意味として表示される。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot"
+    ],
+    "reason": "execution gate と Action Matrix は変更せず、既存の観測・read model・表示契約だけを対象にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、事実源、受入条件、検証方法を確定し、ユーザーから実装・検証・Contract 更新の継続権限を受けた。"
+  },
+  "preReviewWarnings": [
+    "Leader 判定が Action Matrix または execution path から逆流していないことを review で確認する。",
+    "Risk の新しい分類が既存ポジションへの自動売買を示唆しないことを review で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Observation Layer が Leader の有無と終了を独立に決定し、Action Matrix や execution gate を変更しない。",
+    "前日の Leader から当日の none への遷移が BASELINE_UNAVAILABLE ではなく Leader Ended として履歴とレポートに表示される。",
+    "Confidence の総合値と構成要素が Markdown / Telegram / CLI report で監査可能に表示される。",
+    "Execution Risk と Portfolio Risk の文言・表示が分離され、新規実行制限と既存保有の管理を混同しない。",
+    "data branch、reports、JSONL、snapshot、weekly metrics には既存の観測 snapshot 以外の新規保存経路を追加しない。",
+    "中英日 レポート と pipeline test が状態遷移・説明・実行境界を回帰検証する。",
+    "make quality と make ai-finish が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json SUMMARY=.ai/work-items/active/state-consistency-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/state-consistency-closure.summary.json CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json SUMMARY=.ai/work-items/active/state-consistency-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/state-consistency-closure.contract.json SUMMARY=.ai/work-items/active/state-consistency-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

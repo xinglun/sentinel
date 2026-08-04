@@ -760,6 +760,10 @@ fn render_post_actions_sections(
                 s.flow_label,
                 s.flow_value
             ));
+            out.push_str(&format!(
+                "> {}: {}\n",
+                s.confidence_breakdown_label, s.confidence_breakdown_value
+            ));
         }
         RenderMode::Html => {
             out.push_str(&format!("<b>{}</b>\n\n", dict.headers.monitoring_signals));
@@ -777,6 +781,10 @@ fn render_post_actions_sections(
                 s.regime_age_value,
                 s.flow_label,
                 s.flow_value
+            ));
+            out.push_str(&format!(
+                "<i>{}: {}</i>\n",
+                s.confidence_breakdown_label, s.confidence_breakdown_value
             ));
         }
     }
@@ -819,6 +827,13 @@ fn render_post_actions_sections(
                     pres.risk_opportunity_summary.risk_label,
                     pres.risk_opportunity_summary.risk_value
                 ));
+                out.push_str(&format!(
+                    "> **{}**: {}\n> **{}**: {}\n",
+                    pres.risk_opportunity_summary.execution_risk_label,
+                    pres.risk_opportunity_summary.execution_risk_value,
+                    pres.risk_opportunity_summary.portfolio_risk_label,
+                    pres.risk_opportunity_summary.portfolio_risk_value
+                ));
             } else {
                 out.push_str(&format!(
                     "- **{}**: {}\n- **{}**: {}\n",
@@ -826,6 +841,13 @@ fn render_post_actions_sections(
                     pres.risk_opportunity_summary.opportunity_value,
                     pres.risk_opportunity_summary.risk_label,
                     pres.risk_opportunity_summary.risk_value
+                ));
+                out.push_str(&format!(
+                    "- **{}**: {}\n- **{}**: {}\n",
+                    pres.risk_opportunity_summary.execution_risk_label,
+                    pres.risk_opportunity_summary.execution_risk_value,
+                    pres.risk_opportunity_summary.portfolio_risk_label,
+                    pres.risk_opportunity_summary.portfolio_risk_value
                 ));
             }
             if !pres.risk_opportunities.is_empty() && !is_no_trade {
@@ -850,6 +872,13 @@ fn render_post_actions_sections(
                     pres.risk_opportunity_summary.risk_label,
                     pres.risk_opportunity_summary.risk_value
                 ));
+                out.push_str(&format!(
+                    "<i><b>{}</b>: {}\n<b>{}</b>: {}</i>\n",
+                    pres.risk_opportunity_summary.execution_risk_label,
+                    pres.risk_opportunity_summary.execution_risk_value,
+                    pres.risk_opportunity_summary.portfolio_risk_label,
+                    pres.risk_opportunity_summary.portfolio_risk_value
+                ));
             } else {
                 out.push_str(&format!(
                     "• <b>{}</b>: {}\n• <b>{}</b>: {}\n",
@@ -857,6 +886,13 @@ fn render_post_actions_sections(
                     pres.risk_opportunity_summary.opportunity_value,
                     pres.risk_opportunity_summary.risk_label,
                     pres.risk_opportunity_summary.risk_value
+                ));
+                out.push_str(&format!(
+                    "• <b>{}</b>: {}\n• <b>{}</b>: {}\n",
+                    pres.risk_opportunity_summary.execution_risk_label,
+                    pres.risk_opportunity_summary.execution_risk_value,
+                    pres.risk_opportunity_summary.portfolio_risk_label,
+                    pres.risk_opportunity_summary.portfolio_risk_value
                 ));
             }
             if !pres.risk_opportunities.is_empty() && !is_no_trade {

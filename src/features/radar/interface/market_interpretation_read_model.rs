@@ -271,55 +271,10 @@ pub(crate) fn build_leadership_snapshot_view_model_from_transition_log(
     log: &crate::features::radar::domain::transition_log::StateTransitionLog,
     language: Language,
 ) -> LeadershipSnapshotViewModel {
-    let trend_recognition = log.trend_recognition.as_ref();
-    let substantive_records = trend_recognition
-        .and_then(|e| e.substantive.as_ref())
-        .map(|substantive| {
-            substantive
-                .records
-                .iter()
-                .filter_map(|record| record.symbol.as_ref().map(|symbol| symbol.to_string()))
-                .collect::<Vec<_>>()
-        })
-        .unwrap_or_default();
-
-    let mut primary_values = unique_symbols(&substantive_records);
-    if primary_values.is_empty() {
-        primary_values = unique_symbols(
-            &log
-                .breakout_changes
-                .iter()
-                .filter(|change| {
-                    !matches!(
-                        change.to_status,
-                        crate::features::radar::domain::breakout_detection::BreakoutStatus::NoBreakout
-                    )
-                })
-                .map(|change| change.symbol.clone())
-                .collect::<Vec<_>>(),
-        );
-    }
-    let secondary_values = primary_values
-        .iter()
-        .skip(1)
-        .take(2)
-        .cloned()
-        .collect::<Vec<_>>();
-    let weakening_values = unique_symbols(
-        &log.breakout_changes
-            .iter()
-            .filter(|change| change.status_changed)
-            .map(|change| change.symbol.clone())
-            .collect::<Vec<_>>(),
-    )
-    .into_iter()
-    .filter(|symbol| !primary_values.contains(symbol))
-    .collect::<Vec<_>>();
-
     build_leadership_snapshot_view_model_from_components(
-        primary_values,
-        secondary_values,
-        weakening_values,
+        log.observed_leader.iter().cloned().collect(),
+        Vec::new(),
+        Vec::new(),
         true,
         language,
     )
@@ -329,7 +284,7 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
     primary_values: Vec<String>,
     secondary_values: Vec<String>,
     watchlist_values: Vec<String>,
-    action_matrix_available: bool,
+    observation_available: bool,
     language: Language,
 ) -> LeadershipSnapshotViewModel {
     let secondary_count = secondary_values.len();
@@ -342,7 +297,7 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
         &primary_values,
         &secondary_values,
         &watchlist_values,
-        action_matrix_available,
+        observation_available,
         language,
     );
     LeadershipSnapshotViewModel {
@@ -392,7 +347,7 @@ pub(crate) fn build_leader_persistence_view_model(
 ) -> Option<LeaderPersistenceViewModel> {
     let current_snapshot = input.current_presentation.leadership_snapshot.as_ref()?;
     let current_leader = current_snapshot.primary_leader_value.trim();
-    if current_leader.is_empty() || current_leader == leadership_missing_value(input.language) {
+    if current_leader.is_empty() {
         return None;
     }
 
@@ -469,13 +424,7 @@ pub(crate) fn build_leader_persistence_view_model(
         persistence_days: result.persistence_days,
         observed_days_label: leader_persistence_observed_days_label(input.language).to_string(),
         observed_days_value: leader_persistence_value(
-            observations
-                .iter()
-                .filter(|observation| {
-                    observation.date >= lookback_start
-                        && observation.leader == result.current_leader
-                })
-                .count(),
+            result.observed_leadership_days,
             input.language,
         ),
         breakout_continuity_label: leader_persistence_breakout_continuity_label(input.language)
@@ -810,7 +759,7 @@ fn leadership_conflict_value(
     primary: &[String],
     secondary: &[String],
     watchlist: &[String],
-    action_matrix_available: bool,
+    observation_available: bool,
     language: Language,
 ) -> String {
     let mut conflicts = Vec::new();
@@ -842,11 +791,11 @@ fn leadership_conflict_value(
             ),
         });
     }
-    if !action_matrix_available {
+    if !observation_available {
         conflicts.push(match language {
-            Language::ZhCn => "Action Matrix 未提供 leader".to_string(),
-            Language::EnUs => "Action Matrix did not provide a leader".to_string(),
-            Language::JaJp => "Action Matrix は leader を提供していない".to_string(),
+            Language::ZhCn => "Observation Layer 未提供 leader".to_string(),
+            Language::EnUs => "Observation Layer did not provide a leader".to_string(),
+            Language::JaJp => "Observation Layer は leader を提供していない".to_string(),
         });
     }
     if conflicts.is_empty() {
@@ -2238,8 +2187,33 @@ fn rotation_interpretation_withdrawal(language: Language) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::radar::domain::trend_cohesion::TrendCohesionTopology;
     use chrono::{Duration, NaiveDate};
     use std::fs;
+
+    #[test]
+    fn transition_log_keeps_a_stable_single_leader_without_a_new_breakout() {
+        let previous = DecisionPacket {
+            top_tier_symbols: vec!["GOOG".to_string()],
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                topology: TrendCohesionTopology::SingleLeader,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+
+        let mut current = previous.clone();
+        current.assets.clear();
+
+        let log = crate::features::radar::domain::transition_log::StateTransitionLog::compare(
+            Some(&previous),
+            &current,
+        );
+        let snapshot =
+            build_leadership_snapshot_view_model_from_transition_log(&log, Language::EnUs);
+
+        assert_eq!(snapshot.primary_leader_value, "GOOG");
+    }
 
     #[test]
     fn normal_narrative_mentions_new_goog_breakout_without_promoting_structure() {
@@ -2368,6 +2342,104 @@ mod tests {
                 .contains(switch_marker));
             assert!(view_model.boundary.contains(boundary_marker));
         }
+    }
+
+    #[test]
+    fn read_model_renders_leader_ended_from_a_prior_observation() {
+        let date = NaiveDate::from_ymd_opt(2026, 7, 15).unwrap();
+        let previous = LeaderObservation {
+            date: date - Duration::days(1),
+            leader: "GOOG".to_string(),
+            confidence: Some(90.0),
+            breadth: Some(70.0),
+            relative_strength: Some(70.0),
+            rotation_stability: Some(70.0),
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leadership_confidence_value: "LOW".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: std::slice::from_ref(&previous),
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(previous.date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.primary_leader_value, "none");
+        assert_eq!(view_model.leader_state_value, "ENDED");
+        assert_eq!(view_model.observed_days_value, "0 days");
+        assert!(view_model
+            .change_from_yesterday_value
+            .contains("GOOG -> none"));
+    }
+
+    #[test]
+    fn read_model_does_not_count_none_observations_as_leadership_days() {
+        let date = NaiveDate::from_ymd_opt(2026, 7, 15).unwrap();
+        let observations = vec![
+            LeaderObservation {
+                date: date - Duration::days(2),
+                leader: "GOOG".to_string(),
+                confidence: Some(90.0),
+                breadth: Some(70.0),
+                relative_strength: Some(70.0),
+                rotation_stability: Some(70.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            },
+            LeaderObservation {
+                date: date - Duration::days(1),
+                leader: "none".to_string(),
+                confidence: Some(0.0),
+                breadth: Some(0.0),
+                relative_strength: Some(0.0),
+                rotation_stability: Some(0.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            },
+        ];
+        let packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leadership_confidence_value: "LOW".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &observations,
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(observations[0].date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.primary_leader_value, "none");
+        assert_eq!(view_model.observed_days_value, "0 days");
     }
 
     #[test]

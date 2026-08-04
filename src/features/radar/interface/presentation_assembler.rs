@@ -130,12 +130,45 @@ impl PresentationAssembler {
         };
         let continuity_state =
             Self::map_continuity_state(packet.trend_cohesion.continuity_streak, &dict);
+        let inverse_potential =
+            (1.0 / (1.0 + packet.market_features.potential_energy) * 50.0).clamp(0.0, 50.0);
+        let trend_allocation =
+            (packet.market_features.system_confidence - inverse_potential).clamp(0.0, 50.0);
+        let (confidence_breakdown_label, confidence_breakdown_value) = match lang {
+            Language::ZhCn => (
+                "置信度构成".to_string(),
+                format!(
+                    "趋势配置 {:.1} + 逆势能 {:.1}",
+                    trend_allocation, inverse_potential
+                ),
+            ),
+            Language::EnUs => (
+                "Confidence breakdown".to_string(),
+                format!(
+                    "Trend allocation {:.1} + inverse potential {:.1}",
+                    trend_allocation, inverse_potential
+                ),
+            ),
+            Language::JaJp => (
+                "Confidence 内訳".to_string(),
+                format!(
+                    "トレンド配分 {:.1} + 逆ポテンシャル {:.1}",
+                    trend_allocation, inverse_potential
+                ),
+            ),
+        };
         let signal_summary = SignalSummaryViewModel {
             confidence_label: dict.signals.confidence.clone(),
             confidence_value: if is_data_missing {
                 "N/A".to_string()
             } else {
                 format!("{:.0}", packet.market_features.system_confidence)
+            },
+            confidence_breakdown_label,
+            confidence_breakdown_value: if is_data_missing {
+                "N/A".to_string()
+            } else {
+                confidence_breakdown_value
             },
             stability_label: dict.signals.stability.clone(),
             stability_value: if is_data_missing {
@@ -402,21 +435,79 @@ impl PresentationAssembler {
             .filter(|item| item.kind == dict.decision.risk)
             .collect::<Vec<_>>();
         let risk_value = Self::summarize_primary_risk(&risk_items, &dict);
+        let battleboard = BattleboardSnapshot {
+            watch_count: watch_refs.len(),
+            hold_count: hold_refs.len(),
+            defend_count: defend_refs.len(),
+            opportunity_snapshot_value: opportunity_value.clone(),
+            risk_snapshot_value: risk_value.clone(),
+        };
+        let decision_summary =
+            Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
+        let final_execution_decision =
+            Self::build_final_execution_decision(&decision_summary, state, lang);
+        let (
+            execution_risk_label,
+            execution_risk_value,
+            portfolio_risk_label,
+            portfolio_risk_value,
+        ) = match lang {
+            Language::ZhCn => (
+                "执行风险".to_string(),
+                if matches!(
+                    final_execution_decision.execution_window,
+                    crate::features::radar::interface::presentation::ExecutionWindow::Open
+                        | crate::features::radar::interface::presentation::ExecutionWindow::Limited
+                ) {
+                    "允许按规则执行"
+                } else {
+                    "暂停新增主动进攻"
+                }
+                .to_string(),
+                "组合风险".to_string(),
+                risk_value.clone(),
+            ),
+            Language::EnUs => (
+                "Execution Risk".to_string(),
+                if matches!(
+                    final_execution_decision.execution_window,
+                    crate::features::radar::interface::presentation::ExecutionWindow::Open
+                        | crate::features::radar::interface::presentation::ExecutionWindow::Limited
+                ) {
+                    "Execution permitted by rules"
+                } else {
+                    "Pause new active entries"
+                }
+                .to_string(),
+                "Portfolio Risk".to_string(),
+                risk_value.clone(),
+            ),
+            Language::JaJp => (
+                "執行リスク".to_string(),
+                if matches!(
+                    final_execution_decision.execution_window,
+                    crate::features::radar::interface::presentation::ExecutionWindow::Open
+                        | crate::features::radar::interface::presentation::ExecutionWindow::Limited
+                ) {
+                    "ルールに従う執行を許可"
+                } else {
+                    "新規の積極的エントリーを停止"
+                }
+                .to_string(),
+                "ポートフォリオリスク".to_string(),
+                risk_value.clone(),
+            ),
+        };
         let risk_opportunity_summary = RiskOpportunitySummaryViewModel {
             opportunity_label: dict.decision.opportunity.clone(),
             opportunity_value,
             risk_label: dict.decision.risk.clone(),
             risk_value,
+            execution_risk_label,
+            execution_risk_value,
+            portfolio_risk_label,
+            portfolio_risk_value,
         };
-        let battleboard = BattleboardSnapshot {
-            watch_count: watch_refs.len(),
-            hold_count: hold_refs.len(),
-            defend_count: defend_refs.len(),
-            opportunity_snapshot_value: risk_opportunity_summary.opportunity_value.clone(),
-            risk_snapshot_value: risk_opportunity_summary.risk_value.clone(),
-        };
-        let decision_summary =
-            Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
         let exit_summary = Self::build_exit_summary(
             packet,
             positions,
@@ -454,8 +545,6 @@ impl PresentationAssembler {
             top_vms.push(vm);
         }
 
-        let final_execution_decision =
-            Self::build_final_execution_decision(&decision_summary, state, lang);
         PresentationPacket {
             date_str,
             language: lang,

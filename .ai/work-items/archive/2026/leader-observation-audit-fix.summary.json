@@ -1,0 +1,165 @@
+{
+  "workItemId": "leader-observation-audit-fix",
+  "contractPath": ".ai/work-items/archive/2026/leader-observation-audit-fix.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "reason": "自己監査で確認した表示矛盾の scope と検証を記録した。"
+    },
+    {
+      "path": ".ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "reason": "修正、検証、review readiness を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を同期する。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Observed Days が domain result を直接表示するように修正し、回帰テストを追加した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示用 read model だけを変更し、execution path は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Leader = none の場合に Read Model が raw observation を数え、Observed Days を 1 と表示していた。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "自己監査で確認した domain / read model の表示不整合を Contract に記録した。",
+      "contractHash": "0af1b3af88373bce",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "追加した回帰テストが 1 days を返して失敗することを確認した。",
+      "contractHash": "0af1b3af88373bce",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "make test、make fmt-check、make clippy の通過後に Cockpit checks を実行する。",
+      "contractHash": "0af1b3af88373bce",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "すべての required checks が通過した。",
+      "contractHash": "0af1b3af88373bce",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope と evidence を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TDD の失敗を確認してから read model を最小修正した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks の実行前に scope と verification を再確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks の通過を確認した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "TDD の失敗・修正・全 required checks の通過を記録した。",
+    "expectedReviewFocus": [
+      "none の Observed Days が domain result と一致すること"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "ユーザーが継続的な自己監査を要求した。",
+      "solidifiedTo": "summary",
+      "reason": "Leader Persistence の domain result を Read Model が再計算せず直接表示する回帰テストを追加した。"
+    }
+  ]
+}
