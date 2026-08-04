@@ -582,6 +582,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                         / packet.market_features.total_count as f64
                         * 100.0
                 },
+                breadth_classification: Some(
+                    pres_packet.signal_summary.breadth_semantic_value.clone(),
+                ),
                 confidence: packet.market_features.system_confidence,
                 supply_phase: pres_packet.signal_summary.supply_phase_value.clone(),
                 risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -849,6 +852,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                             / packet.market_features.total_count as f64
                             * 100.0
                     },
+                    breadth_classification: Some(
+                        pres_packet.signal_summary.breadth_semantic_value.clone(),
+                    ),
                     confidence: packet.market_features.system_confidence,
                     supply_phase: pres_packet.signal_summary.supply_phase_value.clone(),
                     risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -1534,18 +1540,9 @@ fn build_market_change_log_view_model(
         .unwrap_or_else(|| current_leader.clone());
 
     let breadth_value = pres_packet.signal_summary.breadth_semantic_value.clone();
-    let previous_breadth_value = formal_baseline
-        .map(|snapshot| format!("{:.1}", snapshot.breadth))
-        .or_else(|| {
-            previous_presentation.and_then(|previous| {
-                if previous.signal_summary.breadth_semantic_value.is_empty() {
-                    None
-                } else {
-                    Some(previous.signal_summary.breadth_semantic_value.clone())
-                }
-            })
-        })
-        .unwrap_or_else(|| breadth_value.clone());
+    let current_breadth_classification = Some(breadth_value.clone());
+    let previous_breadth_classification =
+        formal_baseline.and_then(|snapshot| snapshot.breadth_classification.clone());
     let previous_risk_state = formal_baseline
         .map(|snapshot| snapshot.risk_state.as_str())
         .or_else(|| {
@@ -1643,7 +1640,7 @@ fn build_market_change_log_view_model(
     let change = build_market_change_driver(
         &MarketChangeSnapshot {
             primary_leader: previous_leader.clone(),
-            breadth_classification: previous_breadth_value.clone(),
+            breadth_classification: previous_breadth_classification.clone(),
             supply_phase: previous_supply_phase_value.clone(),
             supply_pressure: if formal_baseline.is_some() {
                 "UNAVAILABLE".to_string()
@@ -1670,7 +1667,7 @@ fn build_market_change_log_view_model(
         },
         &MarketChangeSnapshot {
             primary_leader: current_leader.clone(),
-            breadth_classification: breadth_value.clone(),
+            breadth_classification: current_breadth_classification.clone(),
             supply_phase: supply_phase_value.clone(),
             supply_pressure: current_supply_snapshot.pressure.clone(),
             market_state: format!("{:?}", packet.market_regime.market_state),
@@ -1711,11 +1708,10 @@ fn build_market_change_log_view_model(
     } else {
         summary_values.push(format!("Leader remains {current_leader}."));
     }
-    summary_values.push(if breadth_value != previous_breadth_value {
-        format!("Breadth shifted from {previous_breadth_value} to {breadth_value}.")
-    } else {
-        format!("Breadth remains {breadth_value}.")
-    });
+    summary_values.push(breadth_comparison_summary(
+        previous_breadth_classification.as_deref(),
+        &breadth_value,
+    ));
     summary_values.push(match risk_value.as_str() {
         "upgraded" => "Risk upgraded.".to_string(),
         "downgraded" => "Risk downgraded.".to_string(),
@@ -1760,6 +1756,16 @@ fn build_market_change_log_view_model(
         summary_label: "Summary".to_string(),
         summary_values,
         boundary: "Boundary: observation only; this log does not change trading, Gate, Execution, Trader, or Position Sizing.".to_string(),
+    }
+}
+
+fn breadth_comparison_summary(previous: Option<&str>, current: &str) -> String {
+    match previous {
+        Some(previous) if previous == current => format!("Breadth remains {current}."),
+        Some(previous) => format!("Breadth shifted from {previous} to {current}."),
+        None => {
+            "Breadth classification comparison unavailable for the previous snapshot.".to_string()
+        }
     }
 }
 
@@ -2147,6 +2153,24 @@ Boundary: context only; no Gate input or trade instruction.
                 .as_ref()
                 .map(|value| value.persistence_value.as_str()),
             None
+        );
+    }
+
+    #[test]
+    fn equal_persisted_breadth_classification_does_not_render_raw_value_as_label() {
+        let summary = super::breadth_comparison_summary(Some("Very Narrow"), "Very Narrow");
+
+        assert_eq!(summary, "Breadth remains Very Narrow.");
+        assert!(!summary.contains("35.0"));
+    }
+
+    #[test]
+    fn missing_persisted_breadth_classification_is_explicitly_unavailable() {
+        let summary = super::breadth_comparison_summary(None, "Very Narrow");
+
+        assert_eq!(
+            summary,
+            "Breadth classification comparison unavailable for the previous snapshot."
         );
     }
 }

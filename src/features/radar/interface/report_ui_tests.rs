@@ -6033,4 +6033,43 @@ mod tests {
             }
         }
     }
+
+    #[test]
+    fn market_change_log_never_renders_raw_breadth_as_a_classification_in_any_language() {
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let presentation =
+                crate::features::radar::interface::presentation::PresentationPacket {
+                    language,
+                    market_change_log: Some(
+                        crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+                            baseline_status: "AVAILABLE".to_string(),
+                            change_status: "DETERMINED".to_string(),
+                            title: "Market Change Log".to_string(),
+                            breadth_label: "Breadth".to_string(),
+                            breadth_value: "Very Narrow".to_string(),
+                            summary_values: vec!["Breadth remains Very Narrow.".to_string()],
+                            ..Default::default()
+                        },
+                    ),
+                    ..Default::default()
+                };
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            assert!(report
+                .markdown_body
+                .contains("Breadth remains Very Narrow."));
+            assert!(!report
+                .markdown_body
+                .contains("Breadth shifted from 35.0 to Very Narrow."));
+        }
+    }
 }

@@ -1,0 +1,252 @@
+{
+  "workItemId": "baseline-comparison-contract",
+  "contractPath": ".ai/work-items/archive/2026/baseline-comparison-contract.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/baseline-comparison-contract.contract.json",
+      "reason": "S-18/S-11 の実装境界、受入条件、検証を確定する。"
+    },
+    {
+      "path": ".ai/work-items/active/baseline-comparison-contract.summary.json",
+      "reason": "Work Item の検証証跡とユーザー訂正の固化先を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の現在状態を生成結果で更新する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-04-baseline-comparison-contract-design.md",
+      "reason": "比較口径と後方互換性の設計根拠を記録する。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-04-baseline-comparison-contract.md",
+      "reason": "実装と検証の実行計画を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "移行済み履歴が分類値を追加保存することを検証する。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "同一の保存済み breadth classification だけを比較対象にする。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式 snapshot に分類値を後方互換で保存する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Change Log と snapshot 保存を同じ分類値へ接続する。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "三言語 report で raw 値と分類値を混同しないことを回帰検証する。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "比較対象を保存済み classification に限定し、旧 snapshot は比較不能として安全に降格する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "id": "S-18",
+      "detail": "Change Log は前日 raw breadth と当日 classification を比較し、Evolution raw series と矛盾する。"
+    },
+    {
+      "id": "S-11",
+      "detail": "Change Driver が異なる表示口径を比較し、虚偽の MODERATE を生成し得る。"
+    },
+    {
+      "id": "S-20",
+      "detail": "Cockpit resolver は ai-close-work-item を要求するが、Makefile に target がない。自動 PR cleanup Work Item で fail-closed lifecycle を補完する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "前日 raw breadth=35.0、当日 raw breadth=35.0、保存済み classification=Very Narrow",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs::equal_persisted_breadth_classification_does_not_render_raw_value_as_label",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "raw breadth は不変だが保存済み classification が変化する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/domain/market_change_driver.rs::persisted_breadth_classification_change_is_moderate",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "正式前日基線なし",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs::build_market_change_log_view_model",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "旧 formal snapshot に breadth classification field がない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/infrastructure/persistence.rs::formal_snapshot_without_breadth_classification_remains_readable",
+        "src/features/radar/domain/market_change_driver.rs::missing_previous_breadth_classification_does_not_create_a_driver",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "zh/en/ja report が raw 値と分類を混同しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs::market_change_log_never_renders_raw_breadth_as_a_classification_in_any_language",
+        "make test"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope と acceptance を確定した。",
+      "contractHash": "22fbaa59a9537666",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope、sources、verification、agentCapability を再確認した。",
+      "contractHash": "22fbaa59a9537666",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "S-18、legacy field、classification change、三言語 rendering の evidence を確認した。",
+      "contractHash": "22fbaa59a9537666",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "quality、guard、scenario coverage の結果を Summary に記録した。",
+      "contractHash": "22fbaa59a9537666",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "observation-only scope と受入条件を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "updated",
+      "note": "semantic classification は raw breadth から再構成できないため snapshot 保存へ設計を更新した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "classification change と三言語 report の直接 evidence を追加した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "未実行の Cockpit status checks 以外の required evidence を記録した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required checks の実行結果と scenario evidence を記録し、archive 前の最終検証へ進む。",
+    "expectedReviewFocus": []
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "同じ breadth 基線をモジュールごとに異なる口径で読む矛盾を指摘された。",
+      "solidifiedTo": "contract",
+      "reason": "snapshot field、Change Driver regression、scenarioCoverage に比較口径の境界を固定する。"
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "contractVersion": 2,
+  "workItemId": "baseline-comparison-contract",
+  "mode": "code",
+  "title": "统一基线比较口径并消除 Breadth 伪变化",
+  "baseCommit": "2f4a0c2fdb215ad5a0b559a8dc7cd8879e0bb297",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Market Change Log は正式前日 snapshot の raw breadth と当日表示用 breadth 分類を直接比較しており、Evolution の raw 時系列と矛盾する MODERATE 変更を生成する。",
+  "intent": {
+    "problem": "前日と当日の raw breadth と classification を同一の型付き比較文脈から投影し、比較口径の混在を禁止する。",
+    "constraints": [
+      "変更は observation / report read model に限定し、Gate、Execution、Trader、Action Matrix、Position Sizing を変更しない。",
+      "Markdown、CLI、Telegram の既存表示は同一比較文脈を使用し、i18n snapshot で回帰を固定する。",
+      "formal snapshot の後方互換な optional field だけを追加し、JSONL と週次 metrics の schema は変更しない。"
+    ],
+    "rationale": "S-18 と再発した S-11 を、表示文字列ではなく型付きの基線比較境界で防止する。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/baseline-comparison-contract.contract.json",
+    ".ai/work-items/active/baseline-comparison-contract.summary.json",
+    "docs/superpowers/specs/2026-08-04-baseline-comparison-contract-design.md",
+    "docs/superpowers/plans/2026-08-04-baseline-comparison-contract.md",
+    "src/cli.rs",
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "tests/audit_daily_cli_integration.rs",
+    "tests/snapshots/audit_daily_zh_cn.txt",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/trading/**",
+    "config.toml",
+    "reports/**",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "正式基線、Change Log、Evolution timeline の現在の投影経路。"},
+    {"path": "src/features/radar/domain/market_change_driver.rs", "reason": "Change Level と driver 優先度の決定規則。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "TradingDaySnapshot の保存、load、legacy migration と後方互換性。"},
+    {"path": "src/cli.rs", "reason": "日跨ぎ pipeline が formal snapshot に current classification を保存する integration evidence。"},
+    {"path": "src/features/radar/interface/report.rs", "reason": "Markdown / Telegram の表示契約。"},
+    {"path": "src/features/radar/domain/observation_timeline.rs", "reason": "Evolution raw breadth 時系列の既存事実契約。"},
+    {"path": "AGENTS.md", "reason": "AI Cockpit、言語、品質 gate と Work Item 境界。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "前日 raw breadth=35.0、当日 raw breadth=35.0、保存済み classification=Very Narrow", "reason": "S-18 の再現。classification driver と MODERATE を生成しない。", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "raw breadth は不変だが保存済み classification が変化する", "reason": "分類変更は同一 formal snapshot 比較文脈に基づく MODERATE driver として残す。", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "正式前日基線なし", "reason": "現在の BASELINE_UNAVAILABLE 安全降格を維持する。", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "旧 formal snapshot に breadth classification field がない", "reason": "previous classification comparison だけを unavailable とし、偽の変化や全体基線の無効化をしない。", "required": true, "status": "unverified", "evidence": []},
+    {"scenario": "zh/en/ja report が raw 値と分類を混同しない", "reason": "可視化された矛盾の再発を防ぐ。", "required": true, "status": "unverified", "evidence": []}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["data_integrity", "i18n_snapshot"], "reason": "取引経路には触れないが、日次 report の変化理由と信頼性表示を変更する。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "根因、scope、acceptance、観測専用境界、検証方法を確定した。"},
+  "preReviewWarnings": ["review では formal snapshot raw breadth と当日 raw breadth が同一比較文脈から来ることを確認する。", "classification が実際に変化した場合だけ breadth_classification を MODERATE driver にすることを確認する。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability が変化した場合は Contract と Summary を更新してから続行する。"},
+  "acceptance": [
+    "Change Log、Change Driver、Evolution が同じ formal baseline の raw breadth を比較し、semantic classification は同じ snapshot に保存した値を比較する。",
+    "35.0 -> 35.0 と Very Narrow -> Very Narrow では breadth_classification を driver にせず、Change Level は confidence 等の実変化だけで決まる。",
+    "保存済み classification が真に変化した場合だけ、その分類変更を MODERATE driver として記録する。",
+    "旧 formal snapshot に classification がない場合、Breadth driver を生成せず、他の比較可能な次元を維持する。",
+    "baseline unavailable 時は現在の安全降格を保ち、execution / trading policy を変更しない。",
+    "zh / en / ja report regression と CLI integration が上記境界を検証する。",
+    "Contract、Summary、Cockpit status に S-18/S-11 の固化先と検証結果を残す。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/baseline-comparison-contract.contract.json SUMMARY=.ai/work-items/active/baseline-comparison-contract.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の diff を revert し、report と test を前の比較契約へ戻す。"
+}
