@@ -13,6 +13,7 @@ pub enum LeaderState {
     Established,
     Dominant,
     Fading,
+    Ended,
     Unavailable,
     Decaying,
     Rotating,
@@ -26,6 +27,7 @@ impl LeaderState {
             LeaderState::Established => "ESTABLISHED",
             LeaderState::Dominant => "DOMINANT",
             LeaderState::Fading => "FADING",
+            LeaderState::Ended => "ENDED",
             LeaderState::Unavailable => "UNAVAILABLE",
             LeaderState::Decaying => "DECAYING",
             LeaderState::Rotating => "ROTATING",
@@ -74,10 +76,7 @@ pub fn build_leader_persistence(
     observations: &[LeaderObservation],
 ) -> Option<LeaderPersistenceResult> {
     let mut by_date = std::collections::BTreeMap::new();
-    for observation in observations
-        .iter()
-        .filter(|observation| !observation.leader.trim().is_empty())
-    {
+    for observation in observations {
         by_date.insert(observation.date, observation);
     }
     let observations = by_date.into_values().collect::<Vec<_>>();
@@ -110,17 +109,27 @@ pub fn build_leader_persistence(
     let previous = observations.iter().rev().nth(1).copied();
 
     let current_index = observations.len() - 1;
-    let current_persistence_days = qualified_streak(observations.as_slice(), current_index);
+    let current_persistence_days = if is_no_leader(&current.leader) {
+        0
+    } else {
+        qualified_streak(observations.as_slice(), current_index)
+    };
     let observed_leadership_days = observations
         .iter()
-        .filter(|observation| observation.leader == current.leader)
+        .filter(|observation| {
+            !is_no_leader(&current.leader) && observation.leader == current.leader
+        })
         .count();
     let first_observed_at = (observations.len() > 1)
         .then(|| {
-            observations
-                .iter()
-                .find(|observation| observation.leader == current.leader)
-                .map(|observation| observation.date)
+            (!is_no_leader(&current.leader))
+                .then(|| {
+                    observations
+                        .iter()
+                        .find(|observation| observation.leader == current.leader)
+                        .map(|observation| observation.date)
+                })
+                .flatten()
         })
         .flatten();
     let history_coverage_complete = observations.len() >= LEADERSHIP_LOOKBACK_DAYS
@@ -165,7 +174,7 @@ pub fn build_leader_persistence(
     };
 
     Some(LeaderPersistenceResult {
-        current_leader: current.leader.clone(),
+        current_leader: normalized_leader(&current.leader),
         previous_leader,
         persistence_days: current_persistence_days,
         observed_leadership_days,
@@ -202,6 +211,18 @@ fn qualified_streak(observations: &[&LeaderObservation], current_index: usize) -
     streak
 }
 
+fn normalized_leader(value: &str) -> String {
+    if is_no_leader(value) {
+        "none".to_string()
+    } else {
+        value.trim().to_string()
+    }
+}
+
+fn is_no_leader(value: &str) -> bool {
+    value.trim().is_empty() || value.trim().eq_ignore_ascii_case("none")
+}
+
 fn recent_switch_count(observations: &[&LeaderObservation]) -> usize {
     let window = observations
         .iter()
@@ -230,7 +251,9 @@ fn build_switch_history(observations: &[&LeaderObservation]) -> Vec<String> {
             }
             Some(format!(
                 "{}: {} -> {}",
-                current.date, previous.leader, current.leader
+                current.date,
+                normalized_leader(&previous.leader),
+                normalized_leader(&current.leader)
             ))
         })
         .collect()
@@ -247,6 +270,13 @@ fn determine_state(
     current: &LeaderObservation,
     previous: Option<&LeaderObservation>,
 ) -> LeaderState {
+    if is_no_leader(&current.leader) {
+        return previous
+            .filter(|previous| !is_no_leader(&previous.leader))
+            .map(|_| LeaderState::Ended)
+            .unwrap_or(LeaderState::Unavailable);
+    }
+
     if recent_switches >= 2 {
         return LeaderState::Rotating;
     }
@@ -497,6 +527,25 @@ mod tests {
             .switch_history
             .iter()
             .any(|item| item.contains("GOOG -> MSFT")));
+    }
+
+    #[test]
+    fn no_leader_after_a_prior_leader_marks_the_leader_as_ended() {
+        let observations = vec![
+            observation((2026, 7, 1), "GOOG", 90.0, 72.0, 71.0, 84.0),
+            observation((2026, 7, 2), "", 0.0, 0.0, 0.0, 0.0),
+        ];
+
+        let result = build_leader_persistence(&observations).unwrap();
+
+        assert_eq!(result.current_leader, "none");
+        assert_eq!(result.previous_leader.as_deref(), Some("GOOG"));
+        assert_eq!(result.persistence_days, 0);
+        assert_eq!(result.leader_state, LeaderState::Ended);
+        assert!(result
+            .switch_history
+            .iter()
+            .any(|item| item.contains("GOOG -> none")));
     }
 
     #[test]

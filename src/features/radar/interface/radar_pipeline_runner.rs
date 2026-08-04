@@ -25,7 +25,7 @@ use crate::features::radar::interface::interpretation_read_model::{
 };
 use crate::features::radar::interface::market_interpretation_read_model::{
     build_leader_observation, build_leader_persistence_view_model,
-    build_leadership_snapshot_view_model, LeaderPersistenceReadModelInput,
+    build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
@@ -345,9 +345,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                 &dict,
             ));
         }
-        let previous_leadership_snapshot = previous_presentation
-            .as_ref()
-            .map(|previous| build_leadership_snapshot_view_model(previous, lang));
+        let previous_leadership_snapshot = prev_packet
+            .and_then(|previous| previous.transition_log.as_ref())
+            .map(|log| build_leadership_snapshot_view_model_from_transition_log(log, lang));
         let future_calendar = std::thread::spawn(move || {
             crate::features::research::interface::macro_event_calendar_adapter::load_macro_event_calendar_from_env(packet.date)
         })
@@ -424,8 +424,19 @@ pub(crate) async fn run_pipeline_for_report_date(
                 dict: &dict,
             },
         ));
-        let mut current_leadership_snapshot =
-            build_leadership_snapshot_view_model(&pres_packet, lang);
+        let mut current_leadership_snapshot = packet
+            .transition_log
+            .as_ref()
+            .map(|log| build_leadership_snapshot_view_model_from_transition_log(log, lang))
+            .unwrap_or_else(|| {
+                crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_components(
+                    Vec::new(),
+                    Vec::new(),
+                    Vec::new(),
+                    false,
+                    lang,
+                )
+            });
         if baseline_packet.is_none() {
             current_leadership_snapshot.leadership_confidence_value = "LOW".to_string();
         }

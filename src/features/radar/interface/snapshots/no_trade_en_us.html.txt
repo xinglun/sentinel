@@ -51,6 +51,7 @@ No trim or exit conditions were triggered.
 • <b>Cohesion</b>: Not Ready · Streak emerging
 • <b>Stability</b>: 1.1
 <i>Confidence 52 · Streak emerging · Regime Age 1d · Net Flow Stable ·</i>
+<i>Confidence breakdown: Trend allocation 2.0 + inverse potential 50.0</i>
 
 <b>🧭 Tactical Buckets</b>
 
@@ -60,5 +61,7 @@ No trim or exit conditions were triggered.
 
 <i><b>Opportunity</b>: No clear opportunity
 <b>Risk</b>: No immediate risk</i>
+<i><b>Execution Risk</b>: Pause new active entries
+<b>Portfolio Risk</b>: No immediate risk</i>
 
 ⚠️ Ignition phase: Candidates only, await continuity.

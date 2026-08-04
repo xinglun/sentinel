@@ -211,6 +211,22 @@ mod tests {
         .unwrap()
     }
 
+    #[test]
+    fn no_trade_report_explains_confidence_and_separates_execution_from_portfolio_risk() {
+        let report =
+            build_no_trade_report(crate::features::shared::interface::i18n::Language::EnUs);
+
+        assert!(report.markdown_body.contains("Confidence breakdown"));
+        assert!(report.markdown_body.contains("Trend allocation"));
+        assert!(report.markdown_body.contains("inverse potential"));
+        assert!(report.markdown_body.contains("Execution Risk"));
+        assert!(report.markdown_body.contains("Pause new active entries"));
+        assert!(report.markdown_body.contains("Portfolio Risk"));
+        assert!(report.telegram_html_body.contains("Confidence breakdown"));
+        assert!(report.telegram_html_body.contains("Execution Risk"));
+        assert!(report.telegram_html_body.contains("Portfolio Risk"));
+    }
+
     fn no_trade_transition_order_packet() -> DecisionPacket {
         let prev = no_trade_snapshot_packet();
         let mut curr = no_trade_snapshot_packet();

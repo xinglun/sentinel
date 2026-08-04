@@ -329,7 +329,7 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
     primary_values: Vec<String>,
     secondary_values: Vec<String>,
     watchlist_values: Vec<String>,
-    action_matrix_available: bool,
+    observation_available: bool,
     language: Language,
 ) -> LeadershipSnapshotViewModel {
     let secondary_count = secondary_values.len();
@@ -342,7 +342,7 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
         &primary_values,
         &secondary_values,
         &watchlist_values,
-        action_matrix_available,
+        observation_available,
         language,
     );
     LeadershipSnapshotViewModel {
@@ -392,7 +392,7 @@ pub(crate) fn build_leader_persistence_view_model(
 ) -> Option<LeaderPersistenceViewModel> {
     let current_snapshot = input.current_presentation.leadership_snapshot.as_ref()?;
     let current_leader = current_snapshot.primary_leader_value.trim();
-    if current_leader.is_empty() || current_leader == leadership_missing_value(input.language) {
+    if current_leader.is_empty() {
         return None;
     }
 
@@ -810,7 +810,7 @@ fn leadership_conflict_value(
     primary: &[String],
     secondary: &[String],
     watchlist: &[String],
-    action_matrix_available: bool,
+    observation_available: bool,
     language: Language,
 ) -> String {
     let mut conflicts = Vec::new();
@@ -842,11 +842,11 @@ fn leadership_conflict_value(
             ),
         });
     }
-    if !action_matrix_available {
+    if !observation_available {
         conflicts.push(match language {
-            Language::ZhCn => "Action Matrix 未提供 leader".to_string(),
-            Language::EnUs => "Action Matrix did not provide a leader".to_string(),
-            Language::JaJp => "Action Matrix は leader を提供していない".to_string(),
+            Language::ZhCn => "Observation Layer 未提供 leader".to_string(),
+            Language::EnUs => "Observation Layer did not provide a leader".to_string(),
+            Language::JaJp => "Observation Layer は leader を提供していない".to_string(),
         });
     }
     if conflicts.is_empty() {
@@ -2368,6 +2368,50 @@ mod tests {
                 .contains(switch_marker));
             assert!(view_model.boundary.contains(boundary_marker));
         }
+    }
+
+    #[test]
+    fn read_model_renders_leader_ended_from_a_prior_observation() {
+        let date = NaiveDate::from_ymd_opt(2026, 7, 15).unwrap();
+        let previous = LeaderObservation {
+            date: date - Duration::days(1),
+            leader: "GOOG".to_string(),
+            confidence: Some(90.0),
+            breadth: Some(70.0),
+            relative_strength: Some(70.0),
+            rotation_stability: Some(70.0),
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leadership_confidence_value: "LOW".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: std::slice::from_ref(&previous),
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(previous.date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.primary_leader_value, "none");
+        assert_eq!(view_model.leader_state_value, "ENDED");
+        assert!(view_model
+            .change_from_yesterday_value
+            .contains("GOOG -> none"));
     }
 
     #[test]

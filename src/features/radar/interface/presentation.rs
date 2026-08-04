@@ -28,6 +28,8 @@ pub struct DataAlertViewModel {
 pub struct SignalSummaryViewModel {
     pub confidence_label: String,
     pub confidence_value: String,
+    pub confidence_breakdown_label: String,
+    pub confidence_breakdown_value: String,
     pub stability_label: String,
     pub stability_value: String,
     pub cohesion_label: String,
@@ -198,6 +200,10 @@ pub struct RiskOpportunitySummaryViewModel {
     pub opportunity_value: String,
     pub risk_label: String,
     pub risk_value: String,
+    pub execution_risk_label: String,
+    pub execution_risk_value: String,
+    pub portfolio_risk_label: String,
+    pub portfolio_risk_value: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]

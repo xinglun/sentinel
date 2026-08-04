@@ -52,6 +52,7 @@
 - **Cohesion**: Not Ready · Streak emerging
 - **Stability**: 1.1
 > Confidence 52 · Streak emerging · Regime Age 1d · Net Flow Stable ·
+> Confidence breakdown: Trend allocation 2.0 + inverse potential 50.0
 
 **🧭 Tactical Buckets**
 
@@ -61,5 +62,7 @@
 
 > **Opportunity**: No clear opportunity
 > **Risk**: No immediate risk
+> **Execution Risk**: Pause new active entries
+> **Portfolio Risk**: No immediate risk
 
 ⚠️ Ignition phase: Candidates only, await continuity.
