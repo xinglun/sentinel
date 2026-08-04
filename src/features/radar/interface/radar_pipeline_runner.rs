@@ -101,6 +101,15 @@ fn apply_history_baseline_downgrade(
     }
 }
 
+fn should_downgrade_leader_history(
+    status: &crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus,
+) -> bool {
+    matches!(
+        status,
+        crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable
+    )
+}
+
 /// テスト時だけ基準日を注入し、通常の CLI 実行では現在日付を使う。
 pub(crate) async fn run_pipeline_for_report_date(
     app_config: config::AppConfig,
@@ -473,7 +482,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 },
                 formal_baseline: previous_snapshot_resolution.formal_snapshot.as_ref(),
             });
-        if baseline_packet.is_none() {
+        if should_downgrade_leader_history(&previous_snapshot_resolution.status) {
             apply_history_baseline_downgrade(&mut pres_packet);
         }
         pres_packet.market_change_log = Some(build_market_change_log_view_model(
@@ -749,7 +758,8 @@ pub(crate) async fn run_pipeline_for_report_date(
                 history_blocked |= state_regressed;
             }
         }
-        let safe_downgrade = history_blocked || baseline_packet.is_none();
+        let safe_downgrade = history_blocked
+            || should_downgrade_leader_history(&previous_snapshot_resolution.status);
         if history_blocked {
             outcome.date = packet.date.to_string();
             outcome.decisioning = DeliveryStatus::Failed {
@@ -2172,5 +2182,15 @@ Boundary: context only; no Gate input or trade instruction.
             summary,
             "Breadth classification comparison unavailable for the previous snapshot."
         );
+    }
+
+    #[test]
+    fn available_formal_snapshot_does_not_downgrade_leader_history() {
+        assert!(!super::should_downgrade_leader_history(
+            &crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::Available
+        ));
+        assert!(super::should_downgrade_leader_history(
+            &crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable
+        ));
     }
 }
