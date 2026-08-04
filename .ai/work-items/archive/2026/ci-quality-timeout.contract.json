@@ -1,0 +1,109 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ci-quality-timeout",
+  "mode": "code",
+  "title": "CI品質ゲートのtimeoutと可観測性",
+  "baseCommit": "d03b58501871b956a069d8e6f416807ed2f05752",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR #4 の CI が make check-rust に無期限で滞留し、失敗箇所を特定できない。",
+  "intent": {"problem":"CI quality gate を timeout と分割 step で可観測にする。","constraints":["ユーザーが CI 変更を明示承認した。","検証 command は既存 Make target のみを使う。"],"rationale":"無期限の running job を merge blocker として残さない。"},
+  "scope": [
+    ".ai/work-items/active/ci-quality-timeout.contract.json",
+    ".ai/work-items/active/ci-quality-timeout.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".github/workflows/develop_checks.yml"
+  ],
+  "outOfScope": ["production Rust code、trading behavior、workflow の権限変更"],
+  "sources": [
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "PR #4 で停滞した quality gate の定義。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "ci",
+      "external_dependency"
+    ],
+    "reason": "CI timeout は job の完了時間を制限するため、既存 gate と同等の target を保持する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、approval、verification を確定した。"
+  },
+  "preReviewWarnings": [
+    "45 分 timeout は hang を fail-closed にする。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "validate job に 45 分の timeout-minutes が設定される。",
+    "format、docs、architecture、test、clippy が個別の CI step として表示される。",
+    "各 step は既存 Make target を実行する。",
+    "Gate / execution / trader / position sizing を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json SUMMARY=.ai/work-items/active/ci-quality-timeout.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ci-quality-timeout.summary.json CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json SUMMARY=.ai/work-items/active/ci-quality-timeout.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ci-quality-timeout.contract.json SUMMARY=.ai/work-items/active/ci-quality-timeout.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

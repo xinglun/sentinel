@@ -14,6 +14,7 @@ jobs:
   validate:
     name: Build, Lint & Test
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -37,8 +38,20 @@ jobs:
       - name: Install Coverage Tool
         uses: taiki-e/install-action@cargo-llvm-cov
 
-      - name: Run Repository Rust Quality Gates
-        run: make check-rust
+      - name: Check Rust Format
+        run: make fmt-check
+
+      - name: Check Documentation
+        run: make check-docs-metadata
+
+      - name: Check Architecture
+        run: make check-architecture-all
+
+      - name: Run Rust Tests
+        run: make test
+
+      - name: Run Clippy
+        run: make clippy
 
       - name: Run AI Governance Checks
         env:
