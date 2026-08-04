@@ -1,0 +1,115 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr-lifecycle-cleanup",
+  "mode": "code",
+  "title": "PRライフサイクルと分岐清掃の自動化",
+  "baseCommit": "2f4a0c2fdb215ad5a0b559a8dc7cd8879e0bb297",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-20: PR 作成、merge、branch cleanup の受管入口がなく、GitHub API 失敗時の停止条件も一貫していない。",
+  "intent": {"problem": "fail-closed な PR lifecycle command を提供する。", "constraints": ["ユーザーは commit、push、PR、merge、cleanup を明示承認した。", "GitHub API または required check を検証できない場合は merge/cleanup を実行しない。"], "rationale": "branch cleanup は merge 成功後に限る。"},
+  "scope": [
+    ".ai/work-items/active/pr-lifecycle-cleanup.contract.json",
+    ".ai/work-items/active/pr-lifecycle-cleanup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "Makefile",
+    "scripts/ai_pr_lifecycle.py",
+    "scripts/ai_test_pr_lifecycle.py"
+  ],
+  "outOfScope": ["GitHub repository settings、production trading code、強制 push"],
+  "sources": [
+    {
+      "path": "scripts/ai_finish.py",
+      "reason": "archive 後 lifecycle の既存入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "destructive_change",
+      "external_dependency"
+    ],
+    "reason": "remote branch 削除を伴うため、GitHub 状態の検証を hard gate にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、承認、fail-closed 条件を確定した。"
+  },
+  "preReviewWarnings": [
+    "remote deletion は PR merged と required checks 成功の後だけ許可する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "make ai-pr-lifecycle が Make 経由で実行できる。",
+    "dry-run は状態を変更しない。",
+    "GitHub API、PR 状態、required checks のいずれかを検証できない場合は fail-closed する。",
+    "merge 成功後だけ remote branch を削除し、local branch/worktree の cleanup は明示 flag を要求する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json SUMMARY=.ai/work-items/active/pr-lifecycle-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr-lifecycle-cleanup.summary.json CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json SUMMARY=.ai/work-items/active/pr-lifecycle-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr-lifecycle-cleanup.contract.json SUMMARY=.ai/work-items/active/pr-lifecycle-cleanup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-pr-lifecycle",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
