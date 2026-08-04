@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 131 Poisoned AI Packages Hit Microsoft’s (MSFT) npm. CrowdStrike (CRWD) Couldn’t Ask for a Better Sales Pitch
+  summary: CrowdStrike Holdings, Inc. (NASDAQ:CRWD) said on August 3 that a North Korea-linked adversary injected a malicious dependency into at least 131 Mastra AI framework packages on npm (Node Package Manager). Microsoft Corporation (NASDAQ:MSFT) owns GitHub, which acquired npm in 2020 and operates the registry at the center of the attack chain. This was a developer-supply-chain […]
+  url: https://finnhub.io/api/news?id=abe7bf1e08aaec83aeb68bcf4c97b0e714cef1d492f334a7eb197b06d33d2671

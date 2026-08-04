@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “Most Exciting Moment I’ve Ever Been In”: Jim Cramer on the $1 Trillion Boom Driving Stocks to Record Highs
+  summary: Jim Cramer called it the most exciting moment of his career on live television, pointing to a trillion-dollar spending wave that sent two very different stocks surging in real time. What exactly is driving the frenzy, and which companies are cashing in?
+  url: https://finnhub.io/api/news?id=774a959e5430c81f55de6b77129ce024899fd0df6e752b26c81bfbd0bd39fde9

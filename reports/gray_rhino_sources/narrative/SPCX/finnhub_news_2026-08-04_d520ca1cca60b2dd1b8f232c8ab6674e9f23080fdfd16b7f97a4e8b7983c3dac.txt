@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On Hormuz Hopes; Palantir Leaps As Data Storage Name Soars 50% (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rallies Tuesday on U.S.-Iran hopes. Caterpillar and Palantir spike on earnings.
+  url: https://finnhub.io/api/news?id=0cb246d1131fa202506fec0ff3bbe909ea4157602254d71036ac86416b5a3084

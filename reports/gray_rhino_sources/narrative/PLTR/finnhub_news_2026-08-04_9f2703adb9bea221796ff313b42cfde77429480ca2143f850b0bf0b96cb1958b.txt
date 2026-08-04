@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's 16% Rally Is Putting Its Biggest Bets to the Test
+  summary: Second-quarter revenue jumped 93% to about $1.94 billion.
+  url: https://finnhub.io/api/news?id=178a83a596982cd092625f9cb1506a7940fd65cc9440f3874b3d0eca135e3474

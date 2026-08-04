@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Stock Is Adding Over 500 Points to Dow Futures
+  summary: The Dow is on track to open at a fresh record high for the second day in a row after Caterpillar crushed earnings.  Dow futures were up 1.2%, or 622 points.  Caterpillar stock gained more than 11% in premarket trading, adding over 564 points to the blue chip index.
+  url: https://finnhub.io/api/news?id=fd1fa27495c1d41c331b4fd56df7f21d59d6a1012abb4e054524160463131754

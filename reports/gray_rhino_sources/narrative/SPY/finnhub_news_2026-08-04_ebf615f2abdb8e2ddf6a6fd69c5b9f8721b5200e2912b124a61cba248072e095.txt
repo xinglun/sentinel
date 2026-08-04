@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What SCHD's Own History Suggests About Its Price Today
+  summary: The popular dividend fund is more expensive than its own recent past, but the earnings inside haven't kept pace.
+  url: https://finnhub.io/api/news?id=79d67c8e7d181506dea29c832fa9d152a5ff4fd2d9e966b76f3f06f52db08b71

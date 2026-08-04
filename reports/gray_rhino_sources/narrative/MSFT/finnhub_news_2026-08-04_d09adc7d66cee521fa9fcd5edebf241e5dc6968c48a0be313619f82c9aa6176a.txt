@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Stock Is Adding Over 400 Points to the Dow
+  summary: The Dow opened at a fresh record high for the second day in a row. Today's gains were driven by Caterpillar stock after the company crushed earnings. The blue chip index was up 1.1%, or 583 points. Caterpillar stock gained 9%, adding over 445 points to the blue chip index.
+  url: https://finnhub.io/api/news?id=6fd3c1ddaafc37eb7aa9bb6afe2200f0ea8d5f0c239fe74b1102a416d6df90b7

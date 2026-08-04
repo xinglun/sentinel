@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tenable Advances Exposure Management with Coverage Across Every Major AI Platform and Developer Tool
+  summary: Tenable now delivers greater risk visibility and governance across an expanded AI attack surface created by increased adoption of LLMs, MCPs and AI toolsLAS VEGAS, Aug. 04, 2026 (GLOBE NEWSWIRE) -- Black Hat USA Booth #2639 — Tenable® Holdings, Inc. (NASDAQ: TENB), the exposure management company, today announced enhanced AI security capabilities within the Tenable One Exposure Management Platform. Tenable One AI Exposure now delivers expanded platform coverage with support for Google Gemini, ex
+  url: https://finnhub.io/api/news?id=afa8ecbee179533dc0d97ad19d21ef37cf781b7a0a1b0a98b2aeb55a54395931

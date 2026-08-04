@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What IJR's Own History Says About Its Price Today
+  summary: This popular small-cap fund is trading at a premium to its own history, forcing a hard look at whether the growth inside is enough to justify the price.
+  url: https://finnhub.io/api/news?id=474556a7c26a5292bdb170313da539f61d1566e96af5b0d1dcc3625f2e5fa01c

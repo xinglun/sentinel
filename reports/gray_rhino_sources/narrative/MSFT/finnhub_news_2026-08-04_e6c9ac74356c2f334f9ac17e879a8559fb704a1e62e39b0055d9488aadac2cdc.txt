@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Most Profitable Company in America Right Now (It’s Not Apple or Microsoft)
+  summary: The five most valuable companies in America just reported earnings, and the profit rankings will surprise you. One name sits at the top for reasons that have almost nothing to do with its actual business.
+  url: https://finnhub.io/api/news?id=e775f86f0550f6612a4274f535b8c74741c6ad70d3475b549eb8c67ecdfc0798

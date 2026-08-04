@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intel Stock Fell 35% Last Month
+  summary: Investors are increasingly concerned that AI spending won't pay off.
+  url: https://finnhub.io/api/news?id=922bc31fd6e1f437268d4e16cb3538cee8fdf140f4572b9ada65992fd37fedca

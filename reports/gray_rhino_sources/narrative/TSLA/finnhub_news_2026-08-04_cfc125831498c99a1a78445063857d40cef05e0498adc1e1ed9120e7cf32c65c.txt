@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Gas Prices Could Save Tesla
+  summary: Tesla's stock has cratered 30% this year while rivals like BYD eat into its European market share, but an unexpected geopolitical crisis may be handing the company a lifeline that no amount of AI hype ever could.
+  url: https://finnhub.io/api/news?id=f699b1c0a30f1e67770e05fcbfe04be41316b6d4c9f50e98cd9075487f78af98

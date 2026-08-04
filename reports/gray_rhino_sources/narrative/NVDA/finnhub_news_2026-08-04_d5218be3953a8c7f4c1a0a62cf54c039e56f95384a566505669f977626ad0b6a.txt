@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitdeer Lands $4.7B AI Data Center Deal, Expands Beyond Bitcoin Mining
+  summary: Bitdeer Technologies Group (NASDAQ:BTDR) said it has entered the artificial intelligence infrastructure colocation market through a 16-year data center lease and services agreement at its Tydal campus in Norway. The agreement, executed with Volta Tydal AS, a subsidiary of AI infrastructure platform
+  url: https://finnhub.io/api/news?id=8359e9d89b6b7612ae4f62a390118cfd8b1d260de33e677a76d34b884d4be6ac

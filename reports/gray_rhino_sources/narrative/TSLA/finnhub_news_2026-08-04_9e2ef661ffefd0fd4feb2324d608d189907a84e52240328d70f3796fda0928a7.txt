@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian's Improving Quarter Leaned On Help That Is Running Out
+  summary: The revenue beat and the raised outlook are real, and so is the company's own account of what paid for them.
+  url: https://finnhub.io/api/news?id=c42a233456f151517f1b388ed556413a71706e87bbc24f55391c7efadf033c5f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: The Summer Correction, Chip Valuation, And The KOSPI Warning
+  summary: Welcome to the SAâs The Macro Brief! This official SA Profile will highlight our analysts' latest economic and market analysis to help investors gauge the...
+  url: https://finnhub.io/api/news?id=ad77ca480176ee05d6c643d051beec4b547489938d6183516cf01cb7be152b98

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Corning Dropped 25% Over a Month: A Major U.S. Bank Expects 66% Gains Over The Near Term
+  summary: Corning just handed investors one of the steepest single-stock declines in its peer group, yet at least one major Wall Street bank is responding by raising its price target to levels that would shock most bears right now.
+  url: https://finnhub.io/api/news?id=e83a99bfbf2175f4b9fd06fba28b7584d72451653e2660912a54adb8e02fb1ad

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The IPO Lockup Lurks. Remember, It's All About Supply and Demand.
+  summary: "While still active, our conversations overall have been quieter than we would have expected," wrote Morgan Stanley analyst Adam Jonas in a preview report.  About 912 million shares become available for trading on Thursday, two days after today's earnings report, on Aug. 6.
+  url: https://finnhub.io/api/news?id=3a2cfaaec1527b549e0f8282f916a7a99fb842b35192ccc08dc23b01b86855f3

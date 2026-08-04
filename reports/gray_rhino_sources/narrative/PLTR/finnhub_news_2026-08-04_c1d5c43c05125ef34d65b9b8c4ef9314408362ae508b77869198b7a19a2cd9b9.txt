@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Q2 Earnings Call Spotlights Sovereign AI Demand
+  summary: Palantir's sovereign AI strategy, surging U.S. commercial growth and raised 2026 outlook spotlight expanding demand and customer control.
+  url: https://finnhub.io/api/news?id=8dab47ee39a081ad661f57fe0ade5061d6953260e1b23eb7209ed06bdd942adb

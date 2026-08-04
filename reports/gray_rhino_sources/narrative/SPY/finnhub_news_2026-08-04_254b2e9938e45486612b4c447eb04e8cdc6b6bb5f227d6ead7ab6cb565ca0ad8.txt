@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EWY: This Volatile Stock Market Is Now The Most Attractive
+  summary: EWY offers a compelling Korea ETF entry after a deleveraging selloff. Samsung & SK hynix lead HBM/DRAM despite the China risk. Click here to read more.
+  url: https://finnhub.io/api/news?id=827a880485f7aef18bec27098a48e323149d09eca5f4b075bed158f619970d70

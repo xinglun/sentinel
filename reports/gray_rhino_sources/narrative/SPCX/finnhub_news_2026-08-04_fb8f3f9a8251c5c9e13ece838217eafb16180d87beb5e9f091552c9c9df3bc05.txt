@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: All Eyes Are on SpaceX's Aug. 4 Earnings Report. But These 3 Unstoppable Growth Stocks Are Better Buys Hiding in Plain Sight.
+  summary: These stocks could all make big moves as they report earnings.
+  url: https://finnhub.io/api/news?id=5589db8b2ac35a10e61a44e2c95ba253c22e412576d3d587b9dc4f6e29dbbfeb

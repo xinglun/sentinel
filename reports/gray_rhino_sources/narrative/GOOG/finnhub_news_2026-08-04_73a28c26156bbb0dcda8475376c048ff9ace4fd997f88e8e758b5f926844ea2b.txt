@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford, Google, and BlackRock Say America Needs Millions More Tradespeople. A 63-Year-Old Electrician Should Know the Overtime Catch.
+  summary: Ford, BlackRock, and Google just pledged hundreds of millions to pull experienced tradespeople back into the workforce, and a 63-year-old electrician in Ohio is answering that call without realizing the bigger paychecks could trigger two separate federal penalties at once.
+  url: https://finnhub.io/api/news?id=848c60cc55f3ba559d6fa66499e58f0c3b40ff84359703862c5df6d463223c1b

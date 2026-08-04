@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX or Palantir Expected to Have a Better August?
+  summary: Palantir just delivered one of the most jaw-dropping software quarters in recent memory, while SpaceX enters August weighed down by lock-up pressure and a skeptical prediction market. Two NASDAQ giants, two radically different risk profiles, and only one looks built for a strong month.
+  url: https://finnhub.io/api/news?id=ebe313c610b455258d6781edcd1b91ee088a27993c77a6212113cfa167ff3e55

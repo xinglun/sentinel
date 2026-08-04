@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Bubble Burst To Resume: Sell The Rally
+  summary: AI stock bounce may be short-covering as token spending drops 41% and Q3 hyperscaler earnings loom. Click here to read more on why it is a good time to sell.
+  url: https://finnhub.io/api/news?id=4f7a3892be2cc9d9538689ba3fc8fcfde308ffb305c0e63da29f9aa1703fb3c5

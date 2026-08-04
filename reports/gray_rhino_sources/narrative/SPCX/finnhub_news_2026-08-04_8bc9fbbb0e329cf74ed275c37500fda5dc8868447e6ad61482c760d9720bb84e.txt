@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Earnings Call Today: Top 3 Scenarios Investors Are Watching
+  summary: SpaceX reports earnings today in its first quarter as a public company. Here are the three scenarios to watch.
+  url: https://finnhub.io/api/news?id=5d9b146f0465af7aa6cc6526b44797c5410e6433cb839098b6bd2d8c9531f43b

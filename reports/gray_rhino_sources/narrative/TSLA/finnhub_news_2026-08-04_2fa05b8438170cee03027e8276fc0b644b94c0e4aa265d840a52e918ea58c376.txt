@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Investors Shouldn't 'Fall in Love' With TSLA Stock, Calls Out 'Cult' Mentality for Attacking Those Who Questions Elon Musk-Led Company
+  summary: Tesla Inc. investor Gary Black criticized what he called a "polarized" debate around the stock, arguing that bulls attack anyone who questions the company’s valuation or performance. Black Rebukes Tesla Bulls Over Online Attacks "Many $TSLA bulls resort to attacking...
+  url: https://finnhub.io/api/news?id=81f99c99639cc44c06c3465e011d25db3eb69965adee4f8cd9e1ca804386e313

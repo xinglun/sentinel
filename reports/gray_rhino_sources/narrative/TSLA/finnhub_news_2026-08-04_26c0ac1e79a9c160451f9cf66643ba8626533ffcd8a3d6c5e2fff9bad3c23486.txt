@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Advantage Renewables Boosts Michigan Grid With Battery Projects
+  summary: Advantage Renewables has acquired three early-stage battery energy storage system (BESS) projects in Michigan from 5 Rivers Energy, emphasizing the critical role of energy storage in the ongoing energy transition. This strategic acquisition highlights Advantage Renewables' commitment to enhancing grid resilience and integrating renewable resources in the Midwest. As Michigan aims for 100% carbon neutrality by 2050, the development of these BESS projects is expected to significantly contribute...
+  url: https://finnhub.io/api/news?id=18f3904deae7146ab59bba72286d5296dd24a5e0a1f1c2050f7b06678a138758

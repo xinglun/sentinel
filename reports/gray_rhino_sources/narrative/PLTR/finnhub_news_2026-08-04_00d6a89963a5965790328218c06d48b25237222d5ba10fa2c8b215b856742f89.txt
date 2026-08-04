@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies' AI Strategy Drives Improving Financial Results, BofA Securities Says
+  summary: Palantir Technologies' (PLTR) artificial intelligence strategy is driving its improving financial re
+  url: https://finnhub.io/api/news?id=d3370c9c0def54250050f66465191620ff29139d38b7a71b54494c74c89a95a6

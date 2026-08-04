@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Wall Street Is Watching For
+  summary: It's SpaceX's first earnings report. Investors can't be exactly sure what to expect. Wall Street is helping out with a slew of preview reports. It's been a "bumpy ride" into earnings, wrote Deutsche Bank analyst Edison Yu in a recent report.
+  url: https://finnhub.io/api/news?id=2a0345334e6a75effc9144ab26303271cbfc40dc5a8e409d7dd16be0c52885d0

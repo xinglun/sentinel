@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blackstone Has Pitched Mega Debt Package for Anthropic Chip Deal
+  summary: (Bloomberg) -- Blackstone Inc. has held early discussions with investors to gauge interest in a second mega debt package to finance Anthropic PBC’s use of chips from Alphabet Inc.’s Google.Most Read from BloombergBeer Dynasty Families Sell €731 Million Stake in AB InBevTaco Bell Met With Michigan on Parasite Weeks Before RecallChina’s AI Blitz Creates ‘Death Zone’ for Rival US Model MakersApple’s New CEO Taps Retired Hardware Executive for Management TeamMamdani Dismisses Business Leaders Advisi
+  url: https://finnhub.io/api/news?id=bf0da1071492fe1b8b345a0a76006aa01a2ad1030b41c14f9005d1f2e85a872e

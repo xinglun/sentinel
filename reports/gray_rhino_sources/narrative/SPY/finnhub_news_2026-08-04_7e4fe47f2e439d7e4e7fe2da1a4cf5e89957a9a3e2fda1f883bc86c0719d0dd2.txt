@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Top 12 Most-Searched Tickers in July on Benzinga Pro – SpaceX, Tesla, Micron Stay Hot, Nebius Rejoins List
+  summary: A look at the most-searched tickers on Benzinga Pro for the month of July. Some changes from the month of June for popularity.
+  url: https://finnhub.io/api/news?id=d0e0309b67f9cd6ac4e022cdf7dd6ed5df4373fe1e1464c5c1c784f3e3e494b9

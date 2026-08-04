@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Climbs 4%, AST SpaceMobile Rallies 9%, Rocket Lab Rises 5% as Traders Position for SpaceX’s Debut Earnings Report
+  summary: Space stocks are surging ahead of SpaceX's first-ever public earnings report, but with prediction markets flagging a 70% chance of a miss and a 911-million-share lockup expiry days away, traders face a tense setup that could cut either way.
+  url: https://finnhub.io/api/news?id=65ea333322fb432205b2dded0c2f56bea0abb98b28d34dcc33bfa15fd570a977

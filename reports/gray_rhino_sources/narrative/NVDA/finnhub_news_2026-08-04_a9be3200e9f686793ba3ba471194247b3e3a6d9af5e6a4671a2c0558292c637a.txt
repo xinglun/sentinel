@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 1 Number That Shows Why Palantir’s Critics Are Completely Wrong
+  summary: Palantir has lost nearly 40% of its value as critics dismissed it as just another AI middleman, but one obscure software metric buried in its latest earnings report tells a strikingly different story about where this company actually stands.
+  url: https://finnhub.io/api/news?id=254dd37ae5014c9179f8ebc2791c6178165b63bc7f1528fe9bfef254d1e6aed4

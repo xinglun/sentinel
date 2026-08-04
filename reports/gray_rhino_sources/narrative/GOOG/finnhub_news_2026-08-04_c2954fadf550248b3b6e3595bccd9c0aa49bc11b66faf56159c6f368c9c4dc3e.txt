@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Web Services' Q2 Was Good. Google Cloud's Was Better. Here's Why It Matters.
+  summary: They're competitors, but they're decreasingly alike. This is going to make a difference sooner or later.
+  url: https://finnhub.io/api/news?id=052e6a3c547339b865860ca74af0eb509cb298fe6d8fc73889162815ce7f444c

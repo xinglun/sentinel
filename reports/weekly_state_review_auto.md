@@ -1,33 +1,35 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-08-03
+- 截至: 2026-08-04
 - 状态: 使用当前市场判断
-- 最新摘要: 启动期 | 无交易窗口
-- 分析天数: 2
-- 平均置信度: 53.9
-- 平均稳定度: 1.0
+- 最新摘要: 结构整理期 | 无交易窗口
+- 分析天数: 3
+- 平均置信度: 52.1
+- 平均稳定度: 0.9
 - 趋势凝聚 ready 天数: 0
 
 ## 市场状态计数
+- DEFENSIVE: 1
 - IGNITION: 2
 
 ## 风险覆盖计数
+- DEFENSIVE: 1
 - NORMAL: 2
 
 ## 状态机周度汇总
 - 有状态摘要的天数: 7
 - 重置确认 / 阻止: 0 / 0
-- 软重置 / duration lock / 防御覆盖: 0 / 0 / 0
+- 软重置 / duration lock / 防御覆盖: 0 / 0 / 1
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-07-10: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-15: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-03: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-08-04: IGNITION -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -62,43 +64,36 @@
 - reason: trend_continuation
 - exceptionalFactors: []
 - Narrative:
-  - Cross-day narrative cannot be determined from the current history status.
+  - Cross-day narrative cannot be determined without a valid baseline.
 - Leadership Confidence: LOW
 - Leadership Metrics:
-  - 综合主导者: [TSLA]
-  - Secondary Leaders: [SPY, ISRG]
-  - Leadership Watch Candidates: [MSFT, U]
+  - 综合主导者: [none]
+  - Secondary Leaders: []
+  - Leadership Watch Candidates: [MSFT, U, PLTR]
   - leadershipBreadth: rotation
 - very_narrow:
   - breadthScore: 35
   - concentrationScore: 82
   - rotationScore: 18
 - Rotation Observation:
-  - rotationType: UNAVAILABLE
+  - rotationType: BASELINE_UNAVAILABLE
   - from: []
   - to: []
   - interpretation: Rotation cannot be determined without a valid baseline.
   - observationOnly: true
 - Observation Confidence:
-  - trend: LOW
+  - trend: MEDIUM
   - macro: LOW
   - supply: HIGH
   - expectation: UNAVAILABLE
   - gravity: UNAVAILABLE
   - flow: UNAVAILABLE
-  - overall: LOW
+  - overall: MEDIUM
 - Interpretation Priority:
   - Trend: ★★★
   - Supply: ★★
   - Macro: ★
   - Expectation: ☆
-- Leader Persistence:
-  - 综合主导者: TSLA
-  - 连续领导天数: BASELINE_UNAVAILABLE
-  - 领导评分: BASELINE_UNAVAILABLE
-  - 领导状态: DECAYING
-  - 较昨日变化: BASELINE_UNAVAILABLE
-  - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.
 
 ## 宏观引力快照
@@ -114,11 +109,11 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-07-16
+- 最新观测日: 2026-08-04
 - 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 2
-- 7 日 Future Queue 最小值 / 最大值: 2 / 2
-- 已报道 / 已确认: 2 / 0
+- 最新 Future Queue 数量: 1
+- 7 日 Future Queue 最小值 / 最大值: 1 / 1
+- 已报道 / 已确认: 1 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -132,7 +127,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-08-04
+- 观测日: 2026-08-05
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

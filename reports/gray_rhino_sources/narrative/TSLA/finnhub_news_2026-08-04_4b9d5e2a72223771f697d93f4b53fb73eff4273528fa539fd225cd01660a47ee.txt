@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla China wholesale EV sales rise 38% in July 2026
+  summary: BYD posted its highest monthly sales of the year, and Leapmotor topped 100,000 units for the second straight month, beating Tesla China
+  url: https://finnhub.io/api/news?id=95e2e9a1a74a62022fd56c7205906e7f7759535e4780a08e20a6ccc81d4024a9

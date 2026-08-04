@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Amazon, Microsoft, Alphabet and Meta
+  summary: Amazon, Microsoft, Alphabet and Meta have been highlighted in this Investment Ideas article.
+  url: https://finnhub.io/api/news?id=d375e0d45e3ab86f6fe7b30dbeb15abb3c3470d0c54662a6ff02e9a7d40963ea

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Worst July Since 2014 Could Have Triggered The Best Buy Opportunity Since 2022
+  summary: The Magnificent Seven now trade at their lowest valuations since mid-2022, offering a compelling risk-reward entry point. Read more here.
+  url: https://finnhub.io/api/news?id=4a814606c9d6154aaab06ebf55f808ed16c9f7957f8c3dda16734fe149c383d2

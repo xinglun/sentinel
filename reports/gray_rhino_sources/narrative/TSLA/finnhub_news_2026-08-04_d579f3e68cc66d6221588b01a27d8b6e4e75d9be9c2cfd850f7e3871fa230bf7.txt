@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk spends half his time talking robots and AI on Tesla earnings calls
+  summary: An analysis of the last seven years of Tesla earnings calls shows just little attention Musk pays to Tesla's car business.
+  url: https://finnhub.io/api/news?id=7f8e13f1e7412ce34198a5cbcd6d17f9125f845f15a2efdd5acdd256f5bcf8ec

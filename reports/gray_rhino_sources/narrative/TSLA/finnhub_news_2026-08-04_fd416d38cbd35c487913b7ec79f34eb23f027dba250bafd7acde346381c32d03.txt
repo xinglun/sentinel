@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX profitability will come down to Starlink's success: Lee Munson
+  summary: As SpaceX (SPCX) prepares to release its first-ever earnings report after Tuesday's market close, investors are beginning to wonder whether Elon Musk's space venture is overvalued or not. Portfolio Wealth Advisors president and CIO Lee Munson and Yahoo Finance Senior Reporter Brooke DiPalma join the Opening Bid panel to weigh in on Wall Street investor sentiments surrounding SpaceX ahead of its first earnings release.
+  url: https://finnhub.io/api/news?id=962216102835a117239fe1b080f4015e941c57126c1aff78062fca57ef3e815a

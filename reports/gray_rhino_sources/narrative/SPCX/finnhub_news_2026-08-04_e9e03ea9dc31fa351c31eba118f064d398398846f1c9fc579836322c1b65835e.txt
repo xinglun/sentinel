@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Might Be the Better Elon Musk Stock to Buy on the Way Down
+  summary: Tesla and SpaceX are both bleeding cash to chase Elon Musk's most audacious bets, but one of them gives investors a far clearer shot at riding the physical AI revolution before the other ever gets off the ground.
+  url: https://finnhub.io/api/news?id=1fed83d7f3166c4a0856270a7738358ca0c7fa893b98c243c06eabd986f1ee44

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eli Lilly Ripe for Stock Split After Obesity Drug-Fueled Rally
+  summary: (Bloomberg) -- Wall Street’s appetite for weight-loss drug stocks over the past four years has powered Eli Lilly & Co. to consistently trade above $1,000 per share. Now, some see the pharma giant’s stock as primed for a split.Most Read from BloombergBeer Dynasty Families Sell €731 Million Stake in AB InBevApple’s New CEO Taps Retired Hardware Executive for Management TeamTaco Bell Met With Michigan on Parasite Weeks Before RecallMamdani Dismisses Business Leaders Advising NYC’s Mayor’s FundS&P 5
+  url: https://finnhub.io/api/news?id=9e012f62b1fb29e0685464b4dc8c218668bf7dd232dc8e96486b97019d07400a

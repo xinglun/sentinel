@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Correction: US Equity Markets End Higher Monday as Crude Oil Falls on US-Iran's New Round of Talks
+  summary: (Corrects the direction of Microsoft's stock move in the sixth paragraph.) US equity indexes ende
+  url: https://finnhub.io/api/news?id=c0c0ff3c5061d9371356a591155aea86286c3772c3dd169ec66cf347b9fd8abc

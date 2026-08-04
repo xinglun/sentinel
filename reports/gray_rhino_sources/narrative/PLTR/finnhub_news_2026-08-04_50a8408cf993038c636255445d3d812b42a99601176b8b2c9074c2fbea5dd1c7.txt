@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Incredible Quarter Breaks the Sell-the-News Curse
+  summary: After a year in which the business kept compounding while the stock kept sliding, the market finally paid.
+  url: https://finnhub.io/api/news?id=dffaa3d2ed6fffaaf993b1b0a2c69e4b7afc2252622b1125792c482b8a88fc65

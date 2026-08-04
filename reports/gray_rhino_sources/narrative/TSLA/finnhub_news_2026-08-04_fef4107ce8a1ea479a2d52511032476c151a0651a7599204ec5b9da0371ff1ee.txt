@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Could Burn Through Billions More as Elon Musk Ramps Up AI Spending With Tesla: Analyst Says Free Cash Flow is 'Just Not Part of the Story'
+  summary: Space Exploration Technologies Corp. is expected to significantly increase spending, partly driven by joint projects with Tesla Inc., with analysts forecasting negative free cash flow. Bill Birmingham, MD of exchange-traded product provider Rex Shares, told MarketWatch, “They’re going to be...
+  url: https://finnhub.io/api/news?id=475a1b7b75759e93dac299feb856febc3cdffe0ce57d45dbc9cf26e7101e8278

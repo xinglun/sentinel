@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Amazon Hits $3 Trillion, Here’s Where It’ll End The Year
+  summary: Amazon just crossed a milestone that puts it in rare company, but the real question is whether the forces driving that surge can hold through year-end or whether a $200 billion spending gamble quietly undermines everything.
+  url: https://finnhub.io/api/news?id=158c1fb9c4a1f2b0258371949d8d44eb49a5964d382086d6d3937469306accb6

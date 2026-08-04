@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Buy Quality ETFs Now
+  summary: Quality ETFs are back in focus as strong earnings, sector rotation and market volatility favor companies with resilient fundamentals over AI momentum plays.
+  url: https://finnhub.io/api/news?id=3361250ca3bdc187aa93919acd3634f275930ec9060d2d6f698d2cb02d207bcb

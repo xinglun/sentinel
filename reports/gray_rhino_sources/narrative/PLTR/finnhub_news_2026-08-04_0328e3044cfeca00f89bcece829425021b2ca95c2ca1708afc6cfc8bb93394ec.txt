@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart downgraded, Palantir upgraded: Wall Street's top analyst calls
+  summary: Walmart downgraded, Palantir upgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=5f13f756291bdcc43c1198510198464e164415b23e81ce700849d95df7000a00

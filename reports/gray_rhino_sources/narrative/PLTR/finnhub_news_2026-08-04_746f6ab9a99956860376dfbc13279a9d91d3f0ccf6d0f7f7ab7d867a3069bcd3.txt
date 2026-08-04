@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir looks 'a bit unstoppable' after overwhelming Q2 commercial growth
+  summary: Palantir Technologies stock (PLTR) tears higher on Tuesday since releasing blowout second quarter earnings yesterday. Portfolio Wealth Advisors president and CIO Lee Munson and Schwab Asset Management CEO and CIO Omar Aguilar come on Opening Bid to share their takeaways from Palantir's earnings results, which CEO Alex Karp has called "otherworldly."
+  url: https://finnhub.io/api/news?id=4f710c639baeec5952b34ebb0c6535f6286c79214e92877c91a0709ff16aec73

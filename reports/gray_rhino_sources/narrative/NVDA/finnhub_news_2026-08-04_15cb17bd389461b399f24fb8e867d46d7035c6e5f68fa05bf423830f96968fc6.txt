@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Circular Deal-Making a Deal-Breaker for NVIDIA Stock?
+  summary: NVIDIA's rapid-fire investments in frontier AI labs look suspiciously similar to the circular deals that preceded the dot-com collapse, and investors are already tuning them out. The real question is whether that fatigue is a warning sign or the most overlooked opportunity in the stock right now.
+  url: https://finnhub.io/api/news?id=33bf13a34cda1db69332d26506a8c49e61e2c521b3b6d7b0c9762264129f6bff

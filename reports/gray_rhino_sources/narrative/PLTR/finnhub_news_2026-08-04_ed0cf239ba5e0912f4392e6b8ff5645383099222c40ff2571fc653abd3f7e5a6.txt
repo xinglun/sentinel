@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Spending is Only 15% Through, Says Dan Ives. If He’s Right, These Stocks Win Big
+  summary: Dan Ives thinks the AI spending wave has barely started, and the hyperscalers are finally proving the skeptics wrong. The question now is which stocks stand to benefit most before the rest of the market catches on.
+  url: https://finnhub.io/api/news?id=06fe247b54c61f8e1b35c394ef845efc1060e3551ea373fa265c78f101fecdab

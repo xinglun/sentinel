@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Palantir’s Blowout Earnings, Here’s Where The Stock Could Head Next
+  summary: Palantir just delivered a software quarter that left analysts scrambling for new benchmarks, yet the stock sits far below its peak and the market seems unmoved. Here is what the numbers actually suggest about where shares go from here.
+  url: https://finnhub.io/api/news?id=9f59801a68b7a25d1b597588d40a276fef2ca9dc0d9994015a1a331dde8124a7

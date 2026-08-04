@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why SpaceX Earnings Could Affect Tesla Stock
+  summary: Elon Musk is tying SpaceX and Tesla closer together, amid speculation of an eventual merger. Both stocks are up on Tuesday morning.
+  url: https://finnhub.io/api/news?id=c7143cda530c09ecd5f1dbace9d052554f21231b696eca554aad1538d56bbcbb

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle's AI Build-Out Is Squeezing Gross Margin, Not Its Valuation
+  summary: The earnings multiple has come all the way down to the market's, while the build-out behind the story keeps pushing gross margin lower.
+  url: https://finnhub.io/api/news?id=57192391847906ae738e47da16bccec8257039ca13f3c2ea965d124bf06a9413

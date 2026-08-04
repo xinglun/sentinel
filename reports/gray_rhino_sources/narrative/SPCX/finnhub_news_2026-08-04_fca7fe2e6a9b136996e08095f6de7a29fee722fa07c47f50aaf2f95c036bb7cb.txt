@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Rises in Early Trading
+  summary: SpaceX stock opened at $118.50 and was at $118.44, up 3.4%, in early trading on Tuesday. Shares of Elon Musk's rocket and AI company hit an all-time low of $104.83 on Monday before rallying to close at $114.
+  url: https://finnhub.io/api/news?id=547d229afd7d6b449991ce4359312b30f4df8adfac2753222a6ac4ab8e3bf88f

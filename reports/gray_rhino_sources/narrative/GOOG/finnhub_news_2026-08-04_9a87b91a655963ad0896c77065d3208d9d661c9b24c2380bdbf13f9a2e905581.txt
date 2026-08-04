@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DeepSeek Matched Gemini 3.6 Flash at 3 Cents Per Benchmark Test. Alibaba (BABA) Is Turning Alphabet’s (GOOGL) China Problem Into a Price War
+  summary: DeepSeek gave Alibaba Group Holding Limited (NYSE:BABA) and Alphabet Inc. (NASDAQ:GOOGL) a revealing price comparison on August 3. Artificial Analysis estimated that DeepSeek’s V4-Flash averaged just $0.03 to complete each test in its benchmark suite while scoring 50 on its Intelligence Index, matching Google’s Gemini 3.6 Flash. Three cents is the average cost of completing […]
+  url: https://finnhub.io/api/news?id=a685345f03853ee8de27023253c2f834b1b15a3eb706ce9cfc0c5425057a6fdb

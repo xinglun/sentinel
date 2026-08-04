@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Today's Trade Is to Buy Chips and Sell the Magnificent 7
+  summary: The tech stock rally continued, extending yesterday's gains, but today's rise looks a little different. The tech-heavy Nasdaq Composite was up 1.1%. The tech sector led the S&P 500, up 3.1%. Unlike yesterday, it wasn't the Magnificent Seven stocks doing the heavy lifting.
+  url: https://finnhub.io/api/news?id=750f78c191af08c83a561d9cd3eb893699100373d0559f226160fb8a60faaedf

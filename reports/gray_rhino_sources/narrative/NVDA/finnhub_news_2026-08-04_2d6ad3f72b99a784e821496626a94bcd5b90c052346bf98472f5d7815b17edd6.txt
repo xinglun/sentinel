@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coca-Cola and PepsiCo Both Saw the Health Trend Coming. Only One of Them Actually Got Ahead of It.
+  summary: Coca-Cola and PepsiCo are taking very different paths through the health-conscious-beverage boom, and one is pulling away in a big way.
+  url: https://finnhub.io/api/news?id=db3023e287a57c78f0617fe303d0529a513fa0ba0f8d4954f099021dc85a16fe

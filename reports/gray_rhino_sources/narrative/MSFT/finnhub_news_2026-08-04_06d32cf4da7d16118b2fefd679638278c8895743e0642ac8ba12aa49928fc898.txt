@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Just Added Microsoft to Its Closely Watched ‘Conviction List.’ Broadcom and ServiceNow Were Removed.
+  summary: Goldman Sachs just handed Microsoft its most coveted endorsement while cutting three other tech giants loose, and the reasoning behind that trade reveals exactly where Wall Street thinks the AI money flows next.
+  url: https://finnhub.io/api/news?id=8ce88e961b0924b0f3f80fe5fb0fbe0d5f55dcbe323228953f67ca2d1a242c9b

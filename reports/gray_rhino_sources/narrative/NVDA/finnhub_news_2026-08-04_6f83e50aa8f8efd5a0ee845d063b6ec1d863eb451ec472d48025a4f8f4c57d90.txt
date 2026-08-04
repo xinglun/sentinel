@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Direxion Daily Semiconductor Bull 3X ETF Jumped Today
+  summary: Some of SOXL's favorite semiconductor stocks are very popular this morning.
+  url: https://finnhub.io/api/news?id=32a85c10613c8cc042e4bed9eb50a3f034d55b7868a1f5a692f67de197f839b5

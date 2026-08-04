@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blackstone reportedly mulls second debt package for Anthropic chip deal
+  summary: Investing.com -- Blackstone Inc. has begun early talks with investors about a second large debt package to finance Anthropic PBC's use of chips from Alphabet Inc.'s Google, Bloomberg reported Tuesday.
+  url: https://finnhub.io/api/news?id=564c6e01298b29dd46d4f68dd4ccf2db2bd5aa9842fd30f3f08c18eb4dae13c2

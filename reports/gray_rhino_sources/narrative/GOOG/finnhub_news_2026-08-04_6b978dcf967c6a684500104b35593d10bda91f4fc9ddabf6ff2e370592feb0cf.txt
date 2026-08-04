@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom (AVGO) And Google’s $200 Billion AI Build Put Its Chip Role In Focus
+  summary: Google is arranging up to $200b in Wall Street financing to expand AI infrastructure in partnership with Anthropic. Broadcom (NasdaqGS:AVGO) is identified as a key AI chip supplier within this build out. The financing plan signals large scale demand for specialized hardware that supports AI training and inference. Broadcom sits at the center of this story as a core supplier to one of the largest AI infrastructure programs currently reported. The stock trades at $392.23 and has returned...
+  url: https://finnhub.io/api/news?id=a4b086f7c5835e04553d4fc41ad844eedfcf25717dfaed084edeaf066890c1cf

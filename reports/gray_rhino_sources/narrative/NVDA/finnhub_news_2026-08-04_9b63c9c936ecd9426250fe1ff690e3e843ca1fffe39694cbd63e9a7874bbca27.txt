@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Says Palantir’s 149% Growth Is a Glimpse of What’s Next for Elon Musk’s SpaceX
+  summary: Palantir just posted numbers that a top Liontrust strategist calls proof that AI value is migrating up the stack, and she believes one private aerospace giant is about to force investors to rethink how they price a very different kind of flywheel.
+  url: https://finnhub.io/api/news?id=2f03ed251321ab47d203e305ea15369ac69647a5d380e94bc9bbd378c0a8e62f

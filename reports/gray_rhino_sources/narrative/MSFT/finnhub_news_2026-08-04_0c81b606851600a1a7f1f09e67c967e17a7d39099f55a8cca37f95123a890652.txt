@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the "Magnificent Seven" Trade Is Starting to Fracture, and Where You Should Invest Instead
+  summary: The Magnificent Seven was never a durable investment approach, destined to stop working like earlier versions of the same theme.
+  url: https://finnhub.io/api/news?id=7e5df4ba7f86e8cde07d0f3ae712e178841771a2c036c45846a195765c9b0780

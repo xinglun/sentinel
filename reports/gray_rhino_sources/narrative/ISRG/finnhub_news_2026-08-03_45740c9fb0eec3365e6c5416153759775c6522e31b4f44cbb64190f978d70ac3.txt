@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mobia Medical Appoints Myriam Curet, M.D., to its Board of Directors
+  summary: AUSTIN, Texas, Aug. 03, 2026 (GLOBE NEWSWIRE) -- Mobia Medical, Inc. (Nasdaq: MOBI), a commercial-stage medical device company redefining stroke recovery for survivors living with life-altering motor impairments, today announced the appointment of Myriam Curet, M.D., to the Board as an independent director, effective July 30, 2026. “We are thrilled Myriam will be joining the Mobia Medical Board of Directors,” said Richard Foust, President and Chief Executive Officer of Mobia Medical. “Her decade
+  url: https://finnhub.io/api/news?id=1ec9eb996c5f635a3525ec7831a0846524e7b6eba43e21fe9b6dda28d32530b5

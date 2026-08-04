@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon.com Stock Is Cheaper Than The Market On Earnings And Pricier On Cash
+  summary: Free cash flow is negative while the cloud build runs, and that is the whole question for anyone weighing the stock today.
+  url: https://finnhub.io/api/news?id=99c620daa4a943530d1e19ae62aa1c6cefa61f6c9bd6922d7d989af49636ce49

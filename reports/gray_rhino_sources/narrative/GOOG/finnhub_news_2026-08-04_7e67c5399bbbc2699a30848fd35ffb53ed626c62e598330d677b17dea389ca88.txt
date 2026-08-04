@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Price Prediction: After a 25% Three-Day Rally, Here’s Where The Stock is Headed
+  summary: Microsoft just posted its biggest post-earnings surge in recent mega-cap history, and the move happened so fast it raises a serious question about what comes next for investors still eyeing the stock.
+  url: https://finnhub.io/api/news?id=b41e0cd192c3f3a57b410190b48873c1c801ba524b9a3ab131f3b366e9b365d4

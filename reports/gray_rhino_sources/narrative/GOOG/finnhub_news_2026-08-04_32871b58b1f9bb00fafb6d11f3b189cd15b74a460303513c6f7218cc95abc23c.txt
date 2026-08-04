@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Upside Can ADBE Stock's Growth Deliver?
+  summary: The company long defined by its professional-grade creative tools is now pursuing a radically different customer. It is retooling its entire user acquisition model to serve billions of consumers through a freemium funnel. This strategic pivot is already showing results, nearly doubling its Creative Freemium monthly active users in the last year alone. The goal is no longer just power and precision for experts but mass adoption.
+  url: https://finnhub.io/api/news?id=9fb4a9e4d36850c75f59c4965f0553e8a137874232508b46ce8bd512a91b52b2

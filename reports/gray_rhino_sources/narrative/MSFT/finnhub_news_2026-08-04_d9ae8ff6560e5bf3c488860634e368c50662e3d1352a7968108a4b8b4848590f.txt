@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Ranked Big Tech's AI Spending Four Ways. The Order Never Changed.
+  summary: Which big tech giants can actually sustain their AI spending? Four separate analyses kept producing the same order, and my favorite hyperscaler didn't finish first.
+  url: https://finnhub.io/api/news?id=b4e3142d95a2461de6c447878b9355d43ada6e8fb46c534a5aa68a0cf6f11945

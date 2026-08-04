@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir incomparable? Valuation remains a key question despite the big earnings beat
+  summary: Palantir's (PLTR) second quarter earnings results beat Wall Street's estimates. Morning Brief host Julie Hyman chats with Business Insider executive editor Dan DeFrancesco and Yahoo Finance Breaking Business News Reporter Jake Conley about the results and the valuation.
+  url: https://finnhub.io/api/news?id=40624f171ae5199b9f93cb470366b1a5d4a544cbb5b7f12e5802e78342745ce1

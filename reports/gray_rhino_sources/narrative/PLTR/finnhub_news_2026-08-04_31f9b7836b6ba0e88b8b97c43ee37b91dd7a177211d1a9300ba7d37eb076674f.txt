@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow and S&P 500 Are on Track for Record Highs
+  summary: The S&P 500 and the Dow Jones Industrial Average opened Tuesday's trading session on pace to set fresh record highs. All three major indexes opened higher. The Dow was up 1.2%, or 641 points. The S&P 500 rose 0.
+  url: https://finnhub.io/api/news?id=42e85d5e91a861eb1fdba963934653d5fbd53c7be705b8f574bb2075e0b435dd

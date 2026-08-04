@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Unstoppable Growth ETFs Worth Buying and Holding Through Every Market Cycle
+  summary: Both ETFs have stood the test of time and track world-class companies.
+  url: https://finnhub.io/api/news?id=74807ccf40e3cc97e142dc22c3018c142644aff827996f399c014e17829ce7ee

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Got $5,000? The Smartest Way to Invest in the Nuclear Boom.
+  summary: BWX Technologies is one of the most well-rounded plays in the nuclear market.
+  url: https://finnhub.io/api/news?id=aa0993a47dc783008bc3ef968adc0c87fdb2a5e6b0d60bfb32dd585a933941da

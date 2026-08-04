@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir shares surge after earnings beat
+  summary: Palantir Technologies Inc (NYSE:PLTR) shares jumped 20% to about $152 in early trade on Tuesday the company reported second quarter 2026 results that exceeded Wall Street expectations for both earnings and revenue. The company reported adjusted earnings per share of $0.41, compared with the...
+  url: https://finnhub.io/api/news?id=9e5af29f090b79ce82e5eff9feadf5de4863a21fee865915478aa8b3863b0004

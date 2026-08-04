@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broad Rebound Pulls Market Breadth Back to Neutral
+  summary: U.S. breadth rebounded sharply as 71% of stocks advanced, but mixed medium-term participation keeps the overall trend neutral.
+  url: https://finnhub.io/api/news?id=4947fb0956c9800b44a9715c0cda5381893094101800ac1400398f880df6345d

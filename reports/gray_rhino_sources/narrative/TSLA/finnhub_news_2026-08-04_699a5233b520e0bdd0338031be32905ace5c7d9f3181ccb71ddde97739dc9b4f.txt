@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Increased My Tesla Position By 50%
+  summary: Tesla long-term buy after selloff: why margin pressure is temporary, growth catalysts ahead, and $500 target. Click for more on TSLA stock.
+  url: https://finnhub.io/api/news?id=dbd94ed36bec7fc980f02813ed05540dff9f60414ab56924e9911ea6068f756e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Build-Out Now Costs More Cash Than The Business Generates
+  summary: A capital program set to keep growing for years has already turned free cash flow negative, and it is funding the product Tesla itself calls the hardest it has ever had to scale.
+  url: https://finnhub.io/api/news?id=2a935e35d0d8c2fcd2dce572a2b2140a228536457765b2c5a928c3cf311f99ad

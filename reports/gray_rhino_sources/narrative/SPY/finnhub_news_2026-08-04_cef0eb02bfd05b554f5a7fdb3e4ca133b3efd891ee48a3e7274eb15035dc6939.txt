@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Total Return Forecasts: Major Asset Classes - August 4, 2026
+  summary: The expected total return for the Global Market Index continued to edge higher in July, extending the recent run of upward revisions.
+  url: https://finnhub.io/api/news?id=04819c443ec06e201ff871f85d9db05befb46e0f265e3e3aab0a339133310d4a

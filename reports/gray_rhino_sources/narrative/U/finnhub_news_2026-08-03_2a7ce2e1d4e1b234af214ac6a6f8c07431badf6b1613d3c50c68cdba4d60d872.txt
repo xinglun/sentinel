@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RBRK stock has given up its prior gain. Rubrik shares were trading higher after the company reproted better-than-expected Q4 financial results and issued strong FY27 guidance. Also, the company issued Q1 guidance above estimates.
+  summary: 
+  url: https://finnhub.io/api/news?id=56b21efaeb0b6d4cda1a51cd3cbc59be86e5ca5049364aed572fbea308161147

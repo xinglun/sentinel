@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baron Capital Sees Years of Mid-Teens Growth for Intuitive Surgical (ISRG)
+  summary: Baron Capital, an investment management company, released its Q2 2026 investor letter for the “Baron Health Care Fund”. A copy of the letter is available to download here. The Fund gained 11.99% during the quarter, compared with the 10.48% gain for the Russell 3000 Health Care Index and the 15.44% gain for the Russell 3000 Index. Since inception, […]
+  url: https://finnhub.io/api/news?id=4fe4ef47ee8d0ea3c3d14d0fe0020cccbff09471a7d97f02b2722b5a659adcbb

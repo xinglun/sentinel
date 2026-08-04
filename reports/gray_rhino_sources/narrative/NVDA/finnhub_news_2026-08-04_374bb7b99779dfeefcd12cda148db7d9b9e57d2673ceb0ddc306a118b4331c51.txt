@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE Vernova Set to Be Biggest Winner From AI Data Center’s Massive Power Shortfall
+  summary: Building faster chips turned out to be the easy part of the AI buildout. The real bottleneck has sent investors hunting for a winner in a completely different industry, and one company already controls the market for the solution Morgan Stanley says matters most.
+  url: https://finnhub.io/api/news?id=589763a447c06b70e3160418c6e1817ac9d9596451d33ac0577b0a2ffa41b202

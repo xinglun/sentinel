@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Easy Way To Get The Inflation Rate To 2%
+  summary: Fed Chair Warsh backs the 2% inflation target and Core PCE metric, warning that switching to Trimmed Mean PCE now could hurt credibility. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=ae59f6b3fe9b0573a359490cc469355048e1a48045c6dbdfe3338b916923e421

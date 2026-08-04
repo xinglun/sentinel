@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mystery Buyer Just Bet $20 Million SpaceX Could Nearly Triple by Friday. One Analyst Thinks It Could Be a Big Wall Street Bank.
+  summary: Someone quietly accumulated nearly $20 million in SpaceX call options at a strike price no rational speculator would touch, and analysts say the identity of the buyer could reshape how Wall Street reads the entire post-IPO setup.
+  url: https://finnhub.io/api/news?id=d4023c3eb5d4e392d5c37351ed024774c61adf91957221ac6acc2a377fba7d34

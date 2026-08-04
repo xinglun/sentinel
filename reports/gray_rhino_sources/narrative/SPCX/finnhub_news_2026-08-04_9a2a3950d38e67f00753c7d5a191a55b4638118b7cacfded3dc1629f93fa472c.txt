@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, AMD, Coherent, SpaceX, Caterpillar, Wayfair, and More Stocks That Explain Today’s Market
+  summary: Palantir leads the S&P 500. Coherent and more AI names are rising sharply. SpaceX will issue its first earnings report after the closing bell Tuesday.
+  url: https://finnhub.io/api/news?id=2bbdf8d49bedf8ca0229a3bfb7bdc0cda1c09c290793f42f22a62c8695944bb1

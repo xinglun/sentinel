@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights SpaceX, United Health, The Goldman Sachs and Industrial and Commercial Bank
+  summary: South Korea's KOSPI swings highlight mounting AI stock volatility as investors brace for U.S. jobs data, Middle East tensions and India's rate decision.
+  url: https://finnhub.io/api/news?id=a8dc58fd4ac660943937bc0aefd5d0b7007bd0ba89d18c6cf769b922dc9891c3

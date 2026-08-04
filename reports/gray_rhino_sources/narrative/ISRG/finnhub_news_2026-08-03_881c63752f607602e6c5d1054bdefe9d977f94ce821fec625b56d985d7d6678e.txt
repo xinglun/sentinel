@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FTSE 100 Live: London lagging as AstraZeneca offsets gains from oil drop
+  summary: FTSE 100 flat at 10,868 Housebuilders, airlines climb as oil and bonds fall AstraZeneca drops on reports of Bristol-Myers merger talks 9.55am: Housebuilders build gains Housebuilders are surging this morning, which looks like it could be to do with falling gilt yields brightening the...
+  url: https://finnhub.io/api/news?id=8ab246737b34fba3547638739cc07520ba40769ada45368f31bde05f68764763

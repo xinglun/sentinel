@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 28% Revenue Growth Ignored: Why Panic-Selling Meta Stock Over Infrastructure Spend Is a Mistake
+  summary: Meta just posted 28% revenue growth and investors sold the stock hard anyway, spooked by soaring infrastructure spend and a murky AI strategy. Before you join the panic, consider what Wall Street may be getting badly wrong about where Meta is actually headed.
+  url: https://finnhub.io/api/news?id=c16d1849f7373431bbb1e081523a5ff4c748d8233241176c324568f1c8a6506d
