@@ -3,12 +3,60 @@
   "contractPath": ".ai/work-items/archive/2026/state-consistency-closure.contract.json",
   "changedFiles": [
     {
-      "path": ".ai/work-items/active/state-consistency-closure.contract.json",
-      "reason": "実装範囲と検証契約を確定した。"
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 完了後の Cockpit 状態を同期した。"
     },
     {
-      "path": ".ai/work-items/active/state-consistency-closure.summary.json",
-      "reason": "実装・検証・review readiness を記録する。"
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Leader Ended 状態と履歴遷移を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Observation Layer の Leader read model と Ended 表示を修正した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Confidence と Risk の表示契約を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Confidence 分解と FinalExecutionDecision ベースの Risk を組み立てた。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Leader source を Transition Log に分離した。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown と Telegram の表示を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Confidence と Risk 分離の回帰テストを追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "English Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "reason": "English Markdown snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "Japanese Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "Japanese Markdown snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "Chinese Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "Chinese Markdown snapshot を更新した。"
     }
   ],
   "sourcesUsed": [
