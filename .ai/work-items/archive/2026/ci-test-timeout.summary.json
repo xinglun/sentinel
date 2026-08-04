@@ -1,0 +1,168 @@
+{
+  "workItemId": "ci-test-timeout",
+  "contractPath": ".ai/work-items/archive/2026/ci-test-timeout.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ci-test-timeout.contract.json",
+      "reason": "CI test timeout の承認と境界。"
+    },
+    {
+      "path": ".ai/work-items/active/ci-test-timeout.summary.json",
+      "reason": "検証証跡。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状態。"
+    },
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "test step timeout。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".github/workflows/develop_checks.yml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json SUMMARY=.ai/work-items/active/ci-test-timeout.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ci-test-timeout.summary.json CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json SUMMARY=.ai/work-items/active/ci-test-timeout.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ci-test-timeout.contract.json SUMMARY=.ai/work-items/active/ci-test-timeout.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "test hang を20分で fail-closed にする。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "id": "CI-02",
+      "detail": "Run Rust Tests がCIで停滞した。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "test step hang",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "timeout-minutes: 20"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope と approval。",
+      "contractHash": "e4bc003021918418",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "CI evidence を確認。",
+      "contractHash": "e4bc003021918418",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "YAML guard。",
+      "contractHash": "e4bc003021918418",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required checks。",
+      "contractHash": "e4bc003021918418",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "YAML。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "checks。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "checks 実行。",
+    "expectedReviewFocus": []
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "test hang を個別 timeout で識別する。",
+      "solidifiedTo": "contract",
+      "reason": "acceptance に固定。"
+    }
+  ]
+}
