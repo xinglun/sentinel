@@ -1,0 +1,133 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-observation-audit-fix",
+  "mode": "code",
+  "title": "Leader 観測整合性の再監査修正",
+  "baseCommit": "42879e62efb0a8c26b6a66fb68c28b62acc88dc9",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader が存在しない状態で Observed Days が 1 日と表示される、domain result と read model の矛盾を修正する。",
+  "intent": {
+    "problem": "Leader Persistence の Observed Days が domain の observed_leadership_days と一致しない。",
+    "constraints": [
+      "既存の Leader source は Action Matrix の出力を読まない。",
+      "execution gate、Action Matrix、trader、position sizing を変更しない。"
+    ],
+    "rationale": "S-03 の自己監査で見つかった表示値の矛盾を閉じるため。"
+  },
+  "scope": [
+    ".ai/work-items/active/leader-observation-audit-fix.contract.json",
+    ".ai/work-items/active/leader-observation-audit-fix.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/engine.rs",
+    "config.toml",
+    ".github/workflows/**"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "none の observed_leadership_days を 0 と定義する domain source。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Leader Snapshot と Persistence ViewModel の組み立て境界。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot"
+    ],
+    "reason": "read model と pipeline の Observation contract だけを変更し、売買実行経路には触れない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "事実源、scope、受入条件、検証方法を確定し、ユーザーから継続権限を受けている。"
+  },
+  "preReviewWarnings": [
+    "Leader source の変更は含めず、observed days の表示だけを修正する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leader = none の時、Persistence と Observed Days はともに 0 を表示する。",
+    "Action Matrix、execution gate、trader、position sizing 配下の production file diff は 0 件とする。",
+    "対象 unit test、make fmt-check、make test、make clippy、Cockpit required checks が通る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-observation-audit-fix.contract.json SUMMARY=.ai/work-items/active/leader-observation-audit-fix.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

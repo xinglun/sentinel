@@ -469,13 +469,7 @@ pub(crate) fn build_leader_persistence_view_model(
         persistence_days: result.persistence_days,
         observed_days_label: leader_persistence_observed_days_label(input.language).to_string(),
         observed_days_value: leader_persistence_value(
-            observations
-                .iter()
-                .filter(|observation| {
-                    observation.date >= lookback_start
-                        && observation.leader == result.current_leader
-                })
-                .count(),
+            result.observed_leadership_days,
             input.language,
         ),
         breakout_continuity_label: leader_persistence_breakout_continuity_label(input.language)
@@ -2409,9 +2403,63 @@ mod tests {
 
         assert_eq!(view_model.primary_leader_value, "none");
         assert_eq!(view_model.leader_state_value, "ENDED");
+        assert_eq!(view_model.observed_days_value, "0 days");
         assert!(view_model
             .change_from_yesterday_value
             .contains("GOOG -> none"));
+    }
+
+    #[test]
+    fn read_model_does_not_count_none_observations_as_leadership_days() {
+        let date = NaiveDate::from_ymd_opt(2026, 7, 15).unwrap();
+        let observations = vec![
+            LeaderObservation {
+                date: date - Duration::days(2),
+                leader: "GOOG".to_string(),
+                confidence: Some(90.0),
+                breadth: Some(70.0),
+                relative_strength: Some(70.0),
+                rotation_stability: Some(70.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            },
+            LeaderObservation {
+                date: date - Duration::days(1),
+                leader: "none".to_string(),
+                confidence: Some(0.0),
+                breadth: Some(0.0),
+                relative_strength: Some(0.0),
+                rotation_stability: Some(0.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            },
+        ];
+        let packet = DecisionPacket {
+            date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leadership_confidence_value: "LOW".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &observations,
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(observations[0].date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.primary_leader_value, "none");
+        assert_eq!(view_model.observed_days_value, "0 days");
     }
 
     #[test]
