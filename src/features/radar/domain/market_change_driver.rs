@@ -14,7 +14,7 @@ pub enum ChangeLevel {
 #[derive(Debug, Clone, PartialEq)]
 pub struct MarketChangeSnapshot {
     pub primary_leader: String,
-    pub breadth_classification: String,
+    pub breadth_classification: Option<String>,
     pub supply_phase: String,
     pub supply_pressure: String,
     pub market_state: String,
@@ -71,13 +71,18 @@ pub fn build_market_change_driver(
         &previous.primary_leader,
         &current.primary_leader,
     );
-    compare_dimension(
-        &mut moderate,
-        &mut unchanged,
-        "breadth_classification",
-        &previous.breadth_classification,
-        &current.breadth_classification,
-    );
+    if let (Some(previous), Some(current)) = (
+        previous.breadth_classification.as_deref(),
+        current.breadth_classification.as_deref(),
+    ) {
+        compare_dimension(
+            &mut moderate,
+            &mut unchanged,
+            "breadth_classification",
+            previous,
+            current,
+        );
+    }
     compare_dimension(
         &mut moderate,
         &mut unchanged,
@@ -199,7 +204,7 @@ mod tests {
     fn snapshot() -> MarketChangeSnapshot {
         MarketChangeSnapshot {
             primary_leader: "SPY".to_string(),
-            breadth_classification: "NARROW".to_string(),
+            breadth_classification: Some("NARROW".to_string()),
             supply_phase: "WATCH".to_string(),
             supply_pressure: "LOW".to_string(),
             market_state: "RANGE".to_string(),
@@ -225,6 +230,34 @@ mod tests {
         assert!(change
             .unchanged_dimensions
             .contains(&"primary_leader".to_string()));
+    }
+
+    #[test]
+    fn missing_previous_breadth_classification_does_not_create_a_driver() {
+        let mut previous = snapshot();
+        previous.breadth_classification = None;
+        let current = snapshot();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert!(!change
+            .change_drivers
+            .contains(&"breadth_classification".to_string()));
+        assert!(!change
+            .unchanged_dimensions
+            .contains(&"breadth_classification".to_string()));
+    }
+
+    #[test]
+    fn persisted_breadth_classification_change_is_moderate() {
+        let previous = snapshot();
+        let mut current = previous.clone();
+        current.breadth_classification = Some("Very Narrow".to_string());
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert_eq!(change.change_level, ChangeLevel::Moderate);
+        assert_eq!(change.change_drivers, vec!["breadth_classification"]);
     }
 
     #[test]

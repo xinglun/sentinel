@@ -2059,6 +2059,13 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
                 .count()
                 >= second_state.count
         );
+        assert!(snapshots
+            .iter()
+            .filter(|snapshot| {
+                snapshot.cycle_id == second_state.cycle_id
+                    && snapshot.market_date > NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
+            })
+            .all(|snapshot| snapshot.breadth_classification.is_some()));
     }
 
     #[tokio::test]

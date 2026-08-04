@@ -51,6 +51,8 @@ pub struct TradingDaySnapshot {
     pub decision_state: String,
     pub new_position_limit: f64,
     pub breadth: f64,
+    #[serde(default)]
+    pub breadth_classification: Option<String>,
     pub confidence: f64,
     pub supply_phase: String,
     pub risk_state: String,
@@ -978,6 +980,7 @@ impl PersistenceLayer {
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
             breadth,
+            breadth_classification: None,
             confidence: packet.market_features.system_confidence,
             supply_phase: "UNAVAILABLE".to_string(),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -1656,6 +1659,7 @@ mod tests {
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
             breadth: 35.0,
+            breadth_classification: Some("Very Narrow".to_string()),
             confidence: 56.7,
             supply_phase: "ACCUMULATING".to_string(),
             risk_state: "NORMAL".to_string(),
@@ -1685,6 +1689,47 @@ mod tests {
     }
 
     #[test]
+    fn formal_snapshot_without_breadth_classification_remains_readable() {
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 7, 24).unwrap(),
+            generated_at: "2026-07-24T00:00:00+00:00".to_string(),
+            run_id: "run-legacy".to_string(),
+            cycle_id: "cycle-1".to_string(),
+            snapshot_id: "snapshot-legacy".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "RANGE".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 35.0,
+            breadth_classification: Some("Very Narrow".to_string()),
+            confidence: 53.2,
+            supply_phase: "IDLE".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: Some("TSLA".to_string()),
+            secondary_leaders: Vec::new(),
+            breakouts: serde_json::json!({}),
+            stability: 0.9,
+            continuity: 2,
+            cycle_length_days: 2,
+            reset_event: None,
+            data_quality: serde_json::json!({}),
+        };
+        let mut encoded = serde_json::to_value(snapshot).unwrap();
+        encoded
+            .as_object_mut()
+            .unwrap()
+            .remove("breadth_classification");
+
+        let restored: TradingDaySnapshot = serde_json::from_value(encoded).unwrap();
+
+        assert_eq!(restored.breadth_classification, None);
+    }
+
+    #[test]
     fn formal_snapshot_resolution_accepts_degraded_snapshot_as_historical_fact() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_degraded_formal_baseline_{}",
@@ -1707,6 +1752,7 @@ mod tests {
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
             breadth: 35.0,
+            breadth_classification: None,
             confidence: 20.0,
             supply_phase: "UNAVAILABLE".to_string(),
             risk_state: "NORMAL".to_string(),
@@ -1772,6 +1818,7 @@ mod tests {
                 decision_state: "NO_TRADE".to_string(),
                 new_position_limit: 0.0,
                 breadth: 35.0,
+                breadth_classification: None,
                 confidence: 20.0,
                 supply_phase: "UNAVAILABLE".to_string(),
                 risk_state: "NORMAL".to_string(),
@@ -2525,6 +2572,7 @@ mod tests {
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
             breadth: 35.0,
+            breadth_classification: Some("Very Narrow".to_string()),
             confidence: 56.7,
             supply_phase: "ACCUMULATING".to_string(),
             risk_state: "NORMAL".to_string(),
