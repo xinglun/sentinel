@@ -48,6 +48,7 @@ jobs:
         run: make check-architecture-all
 
       - name: Run Rust Tests
+        timeout-minutes: 20
         run: make test
 
       - name: Run Clippy
