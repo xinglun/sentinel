@@ -1,0 +1,116 @@
+{
+  "contractVersion": 2,
+  "workItemId": "leader-history-status",
+  "mode": "code",
+  "title": "Leader Persistenceと履歴状態の階層化",
+  "baseCommit": "2f4a0c2fdb215ad5a0b559a8dc7cd8879e0bb297",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-03/S-19: 前日 formal snapshot が AVAILABLE でも、baseline packet が復元不能な場合に Leader Persistence が一律 BASELINE_UNAVAILABLE へ消去される。昨日基線、短期 leadership history、7日 coverage を混同しない。",
+  "intent": {"problem": "S-03/S-19 の history status 混同を修正する。", "constraints": ["表示・監査専用で、Gate、execution、trader、position sizing を変更しない。", "ユーザーは実装、検証、commit、push、PR/merge/cleanup の自動実行を明示承認した。"], "rationale": "previous snapshot の事実を短期・7日 history 不足と混同して消去しない。"},
+  "scope": [
+    ".ai/work-items/active/leader-history-status.contract.json",
+    ".ai/work-items/active/leader-history-status.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": ["execution gate、position sizing、trader、価格判断、data branch"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "formal snapshot resolution と誤った persistence downgrade の接続点。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "i18n_snapshot"
+    ],
+    "reason": "表示専用の history status だが、利用可能な前日事実を消去しないことが必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、受入条件、検証、ユーザー承認を確定した。"
+  },
+  "preReviewWarnings": [
+    "AVAILABLE は previous snapshot の可用性を表し、7日 coverage を意味しない。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "formal snapshot AVAILABLE、baseline packet なし", "required": true, "status": "verified", "evidence": ["available_formal_snapshot_does_not_downgrade_leader_history"]},
+    {"scenario": "formal snapshot unavailable", "required": true, "status": "verified", "evidence": ["available_formal_snapshot_does_not_downgrade_leader_history"]}
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "previous_snapshot_status が AVAILABLE の場合、baseline packet が欠けても Leader Persistence を BASELINE_UNAVAILABLE に消去しない。",
+    "2点の同一 leader history は persistence_days=2 と leadership history PARTIAL を表示する。",
+    "previous snapshot、短期 history、7日 coverage の表示を混同しない。",
+    "基線が真に unavailable の場合は従来どおり安全に downgrade する。",
+    "zh/en/ja report の表示契約を回帰検証する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/leader-history-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/leader-history-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/leader-history-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/leader-history-status.contract.json SUMMARY=.ai/work-items/active/leader-history-status.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/leader-history-status.summary.json CONTRACT=.ai/work-items/active/leader-history-status.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/leader-history-status.contract.json SUMMARY=.ai/work-items/active/leader-history-status.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/leader-history-status.contract.json SUMMARY=.ai/work-items/active/leader-history-status.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
