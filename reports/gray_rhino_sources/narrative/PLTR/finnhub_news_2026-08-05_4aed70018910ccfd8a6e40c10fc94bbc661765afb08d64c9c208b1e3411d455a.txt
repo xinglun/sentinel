@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Crushes Earnings in Q2. Is the Stock Heading Back to $200?
+  summary: The analytics company posted 93% revenue growth last quarter, which was an acceleration from the previous period.
+  url: https://finnhub.io/api/news?id=15162733188611019a5130eb1dd64b2d29e49c26e03ff3de2c14f883017b5a61

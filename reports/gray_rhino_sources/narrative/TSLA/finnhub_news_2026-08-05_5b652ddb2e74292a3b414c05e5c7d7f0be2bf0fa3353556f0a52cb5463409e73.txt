@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry warns of 1987-style crash, holds Nvidia shorts
+  summary: The "Big Short" investor said all his short positions remain profitable except his bet against Nvidia stock
+  url: https://finnhub.io/api/news?id=b6411eb28cc7a0b70b75de020557733a601e7f9e98462402c71a0aa527f19367

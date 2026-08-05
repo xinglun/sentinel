@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Dives. Analysts React To Earnings Beat, Shift Price Targets.
+  summary: Analysts shift price targets on SpaceX stock after Q2 beat, detail highs and lows of first public report. SPCX stock dives.
+  url: https://finnhub.io/api/news?id=db2cfda4f78b9b2783f361863a9b4bfe66a232970c7935839d048f6d4fed1f97

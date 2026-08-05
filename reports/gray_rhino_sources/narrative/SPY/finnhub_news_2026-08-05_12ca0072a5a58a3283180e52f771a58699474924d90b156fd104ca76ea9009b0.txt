@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow Futures Gain After Scott Bessent Signals Strait of Hormuz Deal With Iran in Sight— AMD, SpaceX, SanDisk in Focus (UPDATED)
+  summary: Dow and S&amp;P 500 indices hit new all-time highs, Treasury Sec. Bessent says Iran deal may reopen Strait of Hormuz.
+  url: https://finnhub.io/api/news?id=6b5f81855f363feff13020cf56c2bf744b82737b0ddb1b34c2a20a608fb00ce7

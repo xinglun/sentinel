@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market News for Aug 5, 2026
+  summary: U.S. stock markets closed sharply higher on Tuesday buoyed by a gradual decline in crude oil prices.
+  url: https://finnhub.io/api/news?id=07eac89bda988a7c1934ade827b713277d289a143d3464f4587cf768fd2bcfb3

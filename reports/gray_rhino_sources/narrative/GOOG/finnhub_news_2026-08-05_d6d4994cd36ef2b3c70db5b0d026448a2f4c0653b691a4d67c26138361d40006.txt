@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SHOPLINE Partners with Papermap to Give Merchants Plain-English Answers from Their Business Data
+  summary: SHOPLINE, a leading global commerce platform powering more than 700,000 merchants worldwide, today announced a partnership with Papermap, the AI-native data platform for high-growth, mid-market merchants. The integration gives SHOPLINE merchants one place to query their business data in plain English and automate the reporting that normally requires a full data team.
+  url: https://finnhub.io/api/news?id=7b2c08c1de086bea8c77e4c58fb82ea6ea10a8ca1452ef921245e7687f8f797a

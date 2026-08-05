@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dow Just Gained 1000 Points for the 27th Day Ever. 25 of These Days Happened Under Donald Trump.
+  summary: Twenty-five of the 27 biggest single-day point gains in Dow history share a surprising common thread, but the full picture behind that stat challenges almost everything the headline implies.
+  url: https://finnhub.io/api/news?id=c682f61c8ad809d1aa9b75accab98f9b8c90c6e657aea7115979f66f547ad5f2

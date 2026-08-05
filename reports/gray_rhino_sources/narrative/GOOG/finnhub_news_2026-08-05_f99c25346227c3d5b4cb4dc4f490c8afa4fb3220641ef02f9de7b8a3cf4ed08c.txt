@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic is hiring an AI chip design team
+  summary: Anthropic is building a team for designing its own custom AI chips. The Claude maker said it would co-design hardware and models to help its technology run faster and more efficiently.
+  url: https://finnhub.io/api/news?id=15553353249c7f68d92cd3be0ef77da4ed9f34a3d2006ab01a4f2e01941be536

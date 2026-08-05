@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Just Landed a Big Win in the Race Against Tesla and Waymo
+  summary: Tesla and Waymo were just put on notice, with Amazon's Zoox receiving federal approval for its driverless vehicles. It will begin charging for its service soon.
+  url: https://finnhub.io/api/news?id=4fe501670ac22cb4f92ee4eee95eb364307a05c6281f54271e31c0c5ac3d62de

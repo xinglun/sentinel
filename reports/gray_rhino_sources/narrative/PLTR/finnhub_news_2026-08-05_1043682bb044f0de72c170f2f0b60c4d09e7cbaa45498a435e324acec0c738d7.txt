@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Palantir Future Is Inevitable
+  summary: Palantir delivered another blowout quarter, beating expectations and raising guidance, with the stock surging nearly 30%. Learn why PLTR stock is a strong buy.
+  url: https://finnhub.io/api/news?id=442e13ef33d19b28846461edd784a57e935c623588e1249380852757860cb1eb

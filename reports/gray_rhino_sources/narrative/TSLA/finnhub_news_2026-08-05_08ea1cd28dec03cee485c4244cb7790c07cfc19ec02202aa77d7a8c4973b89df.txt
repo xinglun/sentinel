@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs. Rocket Lab: Which Is the Better Innovation Stock to Own for the Next 10 Years?
+  summary: Tesla has the bigger name, but I think Rocket Lab is the smarter long-term innovation stock to own today.
+  url: https://finnhub.io/api/news?id=79fb0531318cac2f0ae5a1557bbe9d0727bac54ccfd9faa2e4dbc5ee8652c73c

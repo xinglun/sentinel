@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: A Star Is Born - Q2 Earnings And The Post-IPO Base
+  summary: Space Exploration Technologies Corp. aka SpaceX post-IPO shows selloff then basing; despite 19% QoQ revenue, cash burn persists. Click for more on SPCX.
+  url: https://finnhub.io/api/news?id=15ed95aafb80d945dee3ecb38c6fff55e4b3dcc477da7ac17265c61fc22e1f52

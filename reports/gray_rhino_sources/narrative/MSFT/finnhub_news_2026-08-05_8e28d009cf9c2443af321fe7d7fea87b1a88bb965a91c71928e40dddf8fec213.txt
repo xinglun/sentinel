@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Bill Ackman Poured $2 Billion Into a Stock His Peers Were Fleeing
+  summary: While seasoned hedge fund managers were quietly offloading their Microsoft shares, Bill Ackman made one of his biggest bets in years going the opposite direction, and he funded it by selling a stock that had nearly doubled.
+  url: https://finnhub.io/api/news?id=b2811d88cc760a76d92ab70bfc423fa94d7fbdcacab42e551e31f5da1e428048

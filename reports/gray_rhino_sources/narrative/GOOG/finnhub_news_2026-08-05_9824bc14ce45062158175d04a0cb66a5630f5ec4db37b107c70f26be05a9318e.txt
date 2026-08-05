@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon CEO Andy Jassy's AI Spending Pitch Won Wall Street Over, Jim Cramer Says— While Meta and Alphabet Are Still Struggling to Explain Theirs: 'The Same Numbers...'
+  summary: CNBC’s Jim Cramer said Monday that Amazon.Com Inc CEO Andy Jassy’s explanation of the company’s artificial intelligence (AI) spending during its latest earnings call changed how Wall Street views Big Tech’s multibillion-dollar AI investments. AI Spending Strategy Cramer said investors...
+  url: https://finnhub.io/api/news?id=6118a340ba5ac55dac2762653e6658cf701b8d266a5bdf9ba896e39029bd516f

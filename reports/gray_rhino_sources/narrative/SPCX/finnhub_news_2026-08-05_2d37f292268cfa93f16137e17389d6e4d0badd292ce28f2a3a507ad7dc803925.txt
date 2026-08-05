@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX lock-up expiry set to become the next major test for shareholders
+  summary: Attention is shifting to SpaceX (NASDAQ:SPCX) as the company’s first post-IPO lock-up period expires on Thursday, allowing as many as 912 million shares owned by employees, early investors and other pre-listing stakeholders to become eligible for sale. The event follows the company’s first earnings report as a public company and is expected to provide fresh insight into investor confidence after the stock has fallen 49% from the record high reached shortly after its June listing.
+  url: https://finnhub.io/api/news?id=b73676a04443251ad36f145e5146295d61a119460be9ded6339fe5a0c144dff7

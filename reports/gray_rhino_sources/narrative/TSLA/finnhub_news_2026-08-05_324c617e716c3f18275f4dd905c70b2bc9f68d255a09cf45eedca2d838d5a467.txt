@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD falls after Musk says SpaceX will exclusively use Nvidia AI chips
+  summary: Advanced Micro Devices (NASDAQ:AMD) shares dropped more than 6% in early trading on Wednesday after Elon Musk revealed that SpaceX plans to source its artificial intelligence processors exclusively from Nvidia, overshadowing AMD’s stronger-than-expected quarterly earnings. The announcement weighed heavily on investor sentiment despite another quarter of record revenue and upbeat guidance from the semiconductor company.
+  url: https://finnhub.io/api/news?id=3cc69a3353587ab0f22b3b89005c203bf5d03ff9623cccf5c1d521aed80cecd9

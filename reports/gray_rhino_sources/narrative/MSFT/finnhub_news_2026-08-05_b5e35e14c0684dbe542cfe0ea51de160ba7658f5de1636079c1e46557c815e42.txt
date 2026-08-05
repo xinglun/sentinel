@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Surges 310% in a Year: Should You Buy, Hold or Sell?
+  summary: NBIS has surged 310% in a year as AI expansion accelerates, but rising spending, financing needs and margin pressure raise questions about its next move.
+  url: https://finnhub.io/api/news?id=1c68e4d6b99add00e69e179ff46fe7e983e46d4505942bb1093a236db531e946

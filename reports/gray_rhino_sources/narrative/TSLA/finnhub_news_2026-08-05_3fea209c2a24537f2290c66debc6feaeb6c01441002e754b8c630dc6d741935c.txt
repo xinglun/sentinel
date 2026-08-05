@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber stock drops as bookings guidance disappoints; CEO bets on robotaxi push to grow overall business
+  summary: Uber reported second-quarter results on Wednesday that beat on bookings and profit, but shares fell as the ride-hailing giant's bookings guidance missed analyst projections. Uber says its robotaxi push is still well underway, with investments set to grow.
+  url: https://finnhub.io/api/news?id=21b3e5e5a22f405d58d8fbc51049ca3f3d32dc56315988949bde76f36cb98999

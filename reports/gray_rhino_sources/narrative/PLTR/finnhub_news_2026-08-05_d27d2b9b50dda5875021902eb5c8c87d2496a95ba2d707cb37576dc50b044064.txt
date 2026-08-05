@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's 30% Surge Just Crushed the Short Trade
+  summary: A 30% surge left short sellers facing about $3 billion in paper losses.
+  url: https://finnhub.io/api/news?id=30663cc617d9fa004d8007dab21cfdcd9f490102855c999cb2492542d0050cc2

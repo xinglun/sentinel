@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Q2 Fuels AI Growth Optimism, But Lock-Up Overhang Keeps Wall Street Split
+  summary: Analysts were divided over SPCX stock’s trajectory, with Bulls praising its AI growth while Bears warned that rising capex and the upcoming lock-up expiry could trigger a selloff.
+  url: https://finnhub.io/api/news?id=5ed397bf3849aff54ccb75b66637055b07bab637ad7b3fe657925aa4c794f93a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Azure Fiscal 2026 Sales Exceed $100B: Hold the Stock Now?
+  summary: MSFT's Azure tops $100B in annual revenues as AI and cloud growth accelerate, but can strong fundamentals outweigh valuation and spending concerns?
+  url: https://finnhub.io/api/news?id=3d0b49b77c67a489dc289720bbf66eda4761b236aad359d5e4b2d39a2e54f9c5

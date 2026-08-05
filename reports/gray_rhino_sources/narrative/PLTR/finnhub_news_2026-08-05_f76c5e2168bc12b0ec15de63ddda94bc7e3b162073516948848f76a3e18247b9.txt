@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Jumps 30% as AI Revenue Forecast Soars
+  summary: Palantir's government and commercial businesses accelerated as quarterly revenue increased 93% and exceeded expectations.
+  url: https://finnhub.io/api/news?id=22bc19e8089714bd8c80e10fb0bcd6680380ea96fa15d8c9ff30cfa848a87405

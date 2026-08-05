@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX options playbook: Why owning the stock outright can be 'a little difficult'
+  summary: YieldMax ETFs chief strategist Mike Khouw explains why investors should consider options funds for SpaceX (SPCX), such as YieldMax's fund (YSPC), rather than owning the stock outright.
+  url: https://finnhub.io/api/news?id=0a4cb0ad7851474e3e32ec5b22ea25c32a46ece6682f31ae8b0150ddb26ac960

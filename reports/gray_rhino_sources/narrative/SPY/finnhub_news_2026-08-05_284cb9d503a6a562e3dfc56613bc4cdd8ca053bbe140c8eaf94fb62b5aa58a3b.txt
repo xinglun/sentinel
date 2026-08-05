@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Parsing The Relationship Between Demographics And Inflation
+  summary: This Macroblog post highlights some recent evidence on demographics as a low-frequency driver of trend inflation. Read more here.
+  url: https://finnhub.io/api/news?id=4164c7053db80f34aa1299b5c85621959c81ccdaeb3b80bde53c4a7cd94e8de2

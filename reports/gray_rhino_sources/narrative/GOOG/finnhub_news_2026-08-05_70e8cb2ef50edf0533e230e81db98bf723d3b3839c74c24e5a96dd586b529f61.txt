@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Morgan Stanley-Led Group Plans $15 Billion Bond Sale for Google-Backed Anthropic Data Center
+  summary: Morgan Stanley (MS) is leading a consortium of banks planning to refinance through bond sales $15 bi
+  url: https://finnhub.io/api/news?id=7995791a47281072c595b1ca58c9e2d7654c9b303abff55ed0b03f0b874d9bb7

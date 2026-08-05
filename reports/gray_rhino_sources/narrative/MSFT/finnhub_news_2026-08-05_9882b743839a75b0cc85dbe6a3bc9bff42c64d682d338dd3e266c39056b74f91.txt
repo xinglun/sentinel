@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VEIR Announces Key Leadership Appointments as it Prepares to Scale Superconducting Power Delivery for Data Centers
+  summary: WOBURN, Mass., August 05, 2026--VEIR announces addition of Ulrich Spiesshofer and Jennifer Vigreux to board of directors and appointment of Greg Mongeau as COO.
+  url: https://finnhub.io/api/news?id=37acaab2b96e3fe20c2dcf816e2369a242935475e5139d08ba255bc48a976f5c

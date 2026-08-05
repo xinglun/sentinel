@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robust Earnings Help Boost Markets
+  summary: Eli Lilly shares move higher after strong weight-loss drug sales. Toy Story 5 was a big hit for Walt Disney. SpaceX shares coast lower. Read more here.
+  url: https://finnhub.io/api/news?id=3aa51d21eb40ed51aa53d03540345edf2927ee018ae20509a7738a45c1fd04fe

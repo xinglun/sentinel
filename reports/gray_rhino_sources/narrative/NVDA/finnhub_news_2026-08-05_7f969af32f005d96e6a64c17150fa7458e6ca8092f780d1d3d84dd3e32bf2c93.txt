@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I've Been Wrong About Coca-Cola Stock for 5 Years. Here's Why I'm Finally Changing My Mind.
+  summary: I spent years overlooking Coca-Cola, but its latest results convinced me that this "boring" dividend stock deserves a place on any long-term investor's watch list.
+  url: https://finnhub.io/api/news?id=b2d6a547c069ba80999e706bbfbf7f20127ae5a2548b4a3ea70ad8e6150c1024

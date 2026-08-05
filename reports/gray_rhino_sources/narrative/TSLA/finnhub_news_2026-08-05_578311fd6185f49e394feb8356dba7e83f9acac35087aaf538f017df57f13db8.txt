@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EVgo Expands Fast Charging in the U.S. with Supercharger Deployment
+  summary: EVgo plans to install “EVgo Superchargers” across the country to make fast charging even more accessible and widen NACS charging options EVgo Expands Fast Charging in the U.S. with Supercharger Deployment EVgo plans to install “EVgo Superchargers” across the country to make fast charging even more accessible and widen NACS charging options LOS ANGELES, Aug. 05, 2026 (GLOBE NEWSWIRE) -- EVgo Inc. (NASDAQ: EVGO) (“EVgo” or the “Company”), one of the nation’s largest providers of public fast chargi
+  url: https://finnhub.io/api/news?id=753877f68ebd8701daedf69c33283a964ae8ce1b8670a54ab47e0eaa5ee8196e

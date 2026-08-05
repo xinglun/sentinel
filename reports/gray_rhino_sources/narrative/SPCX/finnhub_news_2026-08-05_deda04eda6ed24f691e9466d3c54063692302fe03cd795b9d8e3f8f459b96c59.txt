@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Potential Strait of Hormuz Deal Buoys US Equity Futures Pre-Bell
+  summary: US equity futures were edging higher pre-bell Wednesday on optimism for a potential deal to reopen t
+  url: https://finnhub.io/api/news?id=e9c4eba92f49a5a06c3f8c330b3e843e232c7d5061071ee1aa58e76476c2bb3a

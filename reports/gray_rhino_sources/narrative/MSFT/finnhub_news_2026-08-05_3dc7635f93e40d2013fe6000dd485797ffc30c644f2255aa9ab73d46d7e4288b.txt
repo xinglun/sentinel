@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Canada's Shopify forecasts revenue above estimates, shares surge
+  summary: Canada's Shopify projected current-quarter revenue growth above Wall Street estimates on Wednesday, signaling the company's AI efforts were drawing more merchants ‌to its suite of e-commerce services, sending its U.S.-listed shares up 26% ‌premarket.  The company's solid outlook and a second-quarter revenue beat are set to quell investor concerns about growing ​competition from new AI tools targeting small businesses that have dented Shopify's shares.  If premarket gains hold, Shopify shares are set to recoup all losses this year.
+  url: https://finnhub.io/api/news?id=5c77e3476944fd6c1106dfa3edcc2428305b321a04d8ef5973b55ab8cd81b21f

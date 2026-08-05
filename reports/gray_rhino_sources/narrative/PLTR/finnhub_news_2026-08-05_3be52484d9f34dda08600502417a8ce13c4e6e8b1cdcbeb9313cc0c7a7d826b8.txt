@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Rallies 30% and Its CEO Climbs Forbes Billionaire Ranking
+  summary: Palantir's CEO climbed the Forbes ranking as the stock rally hit 30%. Here is what changed for Alex Karp today.
+  url: https://finnhub.io/api/news?id=4cb67d172dfd1472f9d39d709f75d41ba3308061226f6e83031933d0378cbfe9

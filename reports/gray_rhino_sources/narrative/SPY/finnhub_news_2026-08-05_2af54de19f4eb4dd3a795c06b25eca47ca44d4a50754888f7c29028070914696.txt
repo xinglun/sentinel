@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Back From My Japan Vacation: On-The-Ground Economic Insights And Favorite Stocks
+  summary: Japan's weak Yen creates compelling value for global travelers and investors, with brands like Nintendo, Asics, Toyota, Panasonic, and Uniqlo standing out.
+  url: https://finnhub.io/api/news?id=de303eb4d4c6e365ca8640efe5a46463a30c8be203dfcb4de354cfd483479a1f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Confirms It Will Participate in Limited-Run California EV Program Touted By Gavin Newsom— Here’s What You Need To Know
+  summary: Tesla Inc. will participate in Gov. Gavin Newsom‘s (D-CA) EV rebate program aimed at first-time EV buyers in the state amid the White House’s pro-fossil fuel stance. Limited Funds Available According to Tesla’s official website on Tuesday, eligible buyers in...
+  url: https://finnhub.io/api/news?id=adc89d807b7dd227f18e1e0ec8ed2f57328cfab8c4c5ae6fc39629cc662cff1e

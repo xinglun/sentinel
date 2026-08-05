@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wells Fargo’s CEO Says AI Will Erase Tens of Thousands of Jobs. Here’s Why He’s Still Not Worried About Your Wallet
+  summary: Wells Fargo's Charlie Scharf just admitted AI will eliminate tens of thousands of bank jobs, then turned around and called the American consumer stronger than ever. Whether those two statements can coexist depends on a timing problem Scharf himself admitted no one has solved yet.
+  url: https://finnhub.io/api/news?id=4ddaf498443ffefc9b36d4c7983ead3fa8d939ef266f197d47925fde82d54cf6

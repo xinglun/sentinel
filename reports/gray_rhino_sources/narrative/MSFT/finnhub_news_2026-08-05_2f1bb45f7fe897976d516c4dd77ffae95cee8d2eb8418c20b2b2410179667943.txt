@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Channelscaler Brings AI-Powered Partner Relationship Management to Microsoft Marketplace
+  summary: Enterprises can now easily acquire Channelscaler's AI-driven PRM and channel automation platform, using their Microsoft Azure Consumption Commitment (MACC) to fund their investmentSAN MATEO, Calif., Aug. 05, 2026 (GLOBE NEWSWIRE) -- Channelscaler, the category-defining platform for modern partner ecosystems, announced today that it is now available in the Microsoft Marketplace. The listing offers enterprises a strategic advantage by enabling them to seamlessly acquire, deploy, and pay for Channe
+  url: https://finnhub.io/api/news?id=1c02b9990c2471d2dc8135f91cecb79ee4496db824265c5b427f17031dd0ba27

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KODE OS Achieves FedRAMP® High Authorization Through Palantir FedStart
+  summary: The operating system for the built world is now cleared for the U.S. government's most sensitive environments, bringing secure, vendor-neutral building intelligence to federal agencies and other high-compliance organizations DETROIT, Aug. 05, 2026 (GLOBE NEWSWIRE) -- KODE Labs, the company building the intelligence infrastructure for the physical world, today announced that KODE OS has achieved FedRAMP® High authorization through Palantir Technologies' FedStart program. The authorization clears
+  url: https://finnhub.io/api/news?id=7e3f18151d8b42031f2e8188befa27da2af87d0d7038f8d58c0cf10271179207

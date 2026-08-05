@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock declines post-earnings. Are investors worried about AI spending?
+  summary: SpaceX stock (SPCX) is losing altitude and shedding yesterday's stock gains over the AI spending forecasts reported in its first-ever earnings release. Morning Brief Host Julie Hyman is joined by Yahoo Finance Senior Reporter Pras Subramanian and Breaking News Reporter Jake Conley to break down SpaceX's negative stock moves.
+  url: https://finnhub.io/api/news?id=eaa417701afd13fbdf194c394a65513a4f7625483e2e2cff7941bbe1b199f9a7

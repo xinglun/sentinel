@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $5 Billion Leveraged Tesla ETF That Doubles Every Move
+  summary: Tesla's wild 2026 swings have been brutal enough for ordinary shareholders, but a $5 billion leveraged fund is engineered to feel every move at twice the intensity, and the math of how it actually works exposes a trap most traders never see coming.
+  url: https://finnhub.io/api/news?id=33ae253554df3bb08e7a937d5aca98ce5ea7740955d3ff5da1fc1bda687ad6d9

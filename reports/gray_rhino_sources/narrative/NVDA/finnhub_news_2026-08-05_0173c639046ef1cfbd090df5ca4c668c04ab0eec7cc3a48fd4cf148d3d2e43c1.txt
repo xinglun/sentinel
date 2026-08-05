@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Glencore Turns Middle East Chaos Into a Trading Jackpot
+  summary: The miner’s first-half earnings surged as oil, LNG, freight and commodity volatility gave its marketing machine exactly the market it was built for.
+  url: https://finnhub.io/api/news?id=0bd7003d51b835ffcc8b9e0b70825f71d0994a4c35d1e6e1010f5daf7342d2d4

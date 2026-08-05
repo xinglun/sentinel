@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: August Market Digest
+  summary: The U.S. economy remained on solid footing through July as continued business investment, supported in part by ongoing spending on artificial intelligence infrastructure
+  url: https://finnhub.io/api/news?id=1483e8a52117a06c62ae5663a6dafcd70cb73d8a644b60bc15dba2b181f50fac

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Novo Nordisk Swallows the Bitter Pill
+  summary: The Wegovy maker raised its outlook, but investors focused on pricing pressure, a pill sales miss and another pipeline stumble.
+  url: https://finnhub.io/api/news?id=8299593b2535219dc21e8aa943661e86e6fcc479cf9b0b64eefd0462dd9202fe

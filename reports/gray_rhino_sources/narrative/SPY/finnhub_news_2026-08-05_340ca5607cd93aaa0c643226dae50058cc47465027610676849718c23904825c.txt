@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two 8% Yielding Retirement Holdings Just Got Cheaper
+  summary: The S&P 500âs 37% technology weighting and additional indirect AI exposure heighten risk if sentiment reverses. Read more on the two 8%+ yielding picks here.
+  url: https://finnhub.io/api/news?id=a9171cd420f7235d86f547516e5e8fe6d281ae79870e835526ba91fcfd024968

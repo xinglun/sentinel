@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EVgo Q2 Earnings Call Highlights
+  summary: EVgo (NASDAQ:EVGO) reported second-quarter 2026 revenue of $83 million, down 16% from a year earlier, as growth in its core charging network was offset by declines in its eXtend and autonomous-vehicle-related businesses. The company posted an adjusted EBITDA loss of $10.6 million, in line with its p
+  url: https://finnhub.io/api/news?id=7ebbed1596e425c4d9204ae8812cc35248bf8d123dabf6f034b2a0215041afe2

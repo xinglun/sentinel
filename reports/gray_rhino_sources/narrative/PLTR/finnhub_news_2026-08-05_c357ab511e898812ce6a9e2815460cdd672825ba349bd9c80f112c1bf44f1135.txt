@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Premium Finally Has A Stronger Case
+  summary: Palantir delivered 93% revenue growth, a 155% Rule of 40, and its largest full-year guidance increase in company history. U.S.
+  url: https://finnhub.io/api/news?id=40547aceb63dbc6956954130fe2a83e17680d868d64788a32dec6f82b14df40a

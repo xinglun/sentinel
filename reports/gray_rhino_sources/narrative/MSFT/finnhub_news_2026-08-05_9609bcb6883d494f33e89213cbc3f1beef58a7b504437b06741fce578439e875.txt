@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Microsoft, Bloom and EMCOR
+  summary: Microsoft, Bloom and EMCOR have been highlighted in this Investment Ideas article.
+  url: https://finnhub.io/api/news?id=d339980cb1a53148678b26d50751decc62a5073e793dbae4a81722a8b0c39937

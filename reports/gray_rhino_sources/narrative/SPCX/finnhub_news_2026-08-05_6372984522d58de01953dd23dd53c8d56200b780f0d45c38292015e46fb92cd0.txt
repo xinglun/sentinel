@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 hits record high on Disney, Eli Lilly earnings
+  summary: The S&P 500 climbed 0.6% on Wednesday, while SpaceX stock slumped more than 10% on its first quarterly report since going public
+  url: https://finnhub.io/api/news?id=783c24647d487f174faa5946263b1ee40b64c2e2ce980f43986b7f57ae0e7bf6

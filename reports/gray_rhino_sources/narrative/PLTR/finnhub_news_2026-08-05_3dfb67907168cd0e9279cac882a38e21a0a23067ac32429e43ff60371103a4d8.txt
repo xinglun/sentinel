@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Massive Jump Wipes Out $3 Billion in Short-Seller Gains
+  summary: Palantir's Huge Rally Turns the Tables on Short Sellers: $3 Billion Loss
+  url: https://finnhub.io/api/news?id=d49472b4df30fbbcb3b85d825b2599b968194ffaf851eebc80ff1171b51dedd8

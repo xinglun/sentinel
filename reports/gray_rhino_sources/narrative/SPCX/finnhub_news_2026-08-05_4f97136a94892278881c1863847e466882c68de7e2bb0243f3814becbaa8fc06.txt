@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst: If SpaceX Delivers Even a Quarter of Elon Musk’s Promised Compute, Nvidia Could Hit $1 Trillion in Revenue
+  summary: SpaceX's first-ever earnings call gave Nvidia bulls a number so large that one top analyst ran the math and came back with a scenario that rewrites the entire revenue ceiling for the AI chip giant.
+  url: https://finnhub.io/api/news?id=69e44202ebc6714bd80f83c6f698d65ca3a63bbd7a6daf74d55f8dd5b5d616e0

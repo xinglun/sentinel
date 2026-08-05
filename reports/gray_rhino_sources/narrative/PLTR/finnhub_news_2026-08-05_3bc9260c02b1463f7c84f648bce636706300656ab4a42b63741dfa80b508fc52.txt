@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Veteran analyst rethinks Palantir stock after earnings
+  summary: Palantir stock has struggled for months, but the company may have just given investors some hope again. Shares of Palantir surged 29.45% on Aug. 4, the trading day after Palantir reported second-quarter results that topped Wall Street's expectations. The company posted adjusted earnings of 41 cents ...
+  url: https://finnhub.io/api/news?id=d816bb69b51255f99ffc4048d8c90da09ee7dc6d2f3606539b135cbc2ab1ebdf

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Chipotle a Buy, Sell, or Hold After 2 Years of Volatility?
+  summary: Chipotle's share price has swung wildly for two years, and now management is buying back stock aggressively near current levels while Wall Street eyes a 27% upside. The real question is whether the operational recovery has enough traction to survive margin pressure, a fragile consumer, and fresh food safety concerns.
+  url: https://finnhub.io/api/news?id=0077c8cf439b27ca68e08471a70562184c0981e395534c3ec786520b91d9644a

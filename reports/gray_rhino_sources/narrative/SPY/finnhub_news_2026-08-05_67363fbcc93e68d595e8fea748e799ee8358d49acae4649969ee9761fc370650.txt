@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Samsung, SK Hynix Test Chinese Chip Tools As Hedge Against US Risks' - Reuters Exclusive
+  summary: Korean memory-chip leaders test AMEC equipment at their China plantsFirms seek a contingency option if US curbs hit Western-tool servicingTests are not a commitment to deploy Chinese tools at scaleA win would give
+  url: https://finnhub.io/api/news?id=e4b774fd6bfde9da707e55881731100efdf912ea2bf8e2926d5ea153a327a8af

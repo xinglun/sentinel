@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: A $5,000 Investment in Broadcom Could Be Worth This Much by Late-2028
+  summary: Can the company keep the momentum going?
+  url: https://finnhub.io/api/news?id=b76afab58bb5b3498f66c802fd3ddbbb5020671d42cf5390cfbcf67c476536b0

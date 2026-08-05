@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX Stock Crashed After Earnings
+  summary: SpaceX is on course to burn $50 billion this year. That's a surprise.
+  url: https://finnhub.io/api/news?id=e84c30def286d6878dc21dee8c2806b7760715445a704caa717c4c42f038514c

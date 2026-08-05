@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Melt-Up Drives $3.5 Trillion Nasdaq 100 Gain in Four Days
+  summary: (Bloomberg) -- A dramatic turnaround in technology stocks has powered a $3.5 trillion increase in the Nasdaq 100’s market capitalization in just four days, driven by strong earnings that have emboldened investors about the AI outlook.Most Read from BloombergTrump Says Iran Talks Going Well as Hopes Rise for Hormuz DealTaco Bell Met With Michigan on Parasite Weeks Before RecallBeer Dynasty Families Sell €731 Million Stake in AB InBevChina’s AI Blitz Creates ‘Death Zone’ for Rival US Model MakersS
+  url: https://finnhub.io/api/news?id=03d7e5015e221657c227889bd0f29a549b82000b750f0e8954cf4b3a49aa045b

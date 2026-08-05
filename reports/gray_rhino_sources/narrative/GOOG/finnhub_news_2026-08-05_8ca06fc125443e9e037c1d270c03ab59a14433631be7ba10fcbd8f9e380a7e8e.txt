@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Bulls Look Optimistic About Alphabet (GOOGL): Should You Buy?
+  summary: According to the average brokerage recommendation (ABR), one should invest in Alphabet (GOOGL). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recommendations tend to be overly optimistic. Would it be worth investing in the stock?
+  url: https://finnhub.io/api/news?id=635833d1988f54d12e6fe27817d61ab38f0b1bfa39542bb3206cccde678082f4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Lucid Stock Crashed After Earnings
+  summary: Lucid slams the brakes on cash burn -- but is it too late?
+  url: https://finnhub.io/api/news?id=428f17660442fce807050e2b38f7f5419406070b06ad836f2de51dd64f3d3e4d

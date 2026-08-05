@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Sees AI Bubble Deflate As Index Regresses Toward Its Mean Trend
+  summary: Two months ago, S&P 500 was rising so quickly it raised the prospect the index could see a down in the relative period of order the index established since the end of 2023. Read more here.
+  url: https://finnhub.io/api/news?id=e1f9a0813c5f7546bdd0cb1f98ef9db768df3c185f15657b0788e43c6ad2c345

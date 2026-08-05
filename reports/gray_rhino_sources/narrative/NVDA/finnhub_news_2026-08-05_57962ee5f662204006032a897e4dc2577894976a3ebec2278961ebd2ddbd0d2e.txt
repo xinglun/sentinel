@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jared Kushner and The Saudis Just Bought Madden
+  summary: The $55 billion leveraged buyout is the largest on record, and takes Electronic Arts private after 36 years
+  url: https://finnhub.io/api/news?id=191ee58f3c68f0504839ca533cca69eef01b7daa75f645e5a29196ab4f83c38e

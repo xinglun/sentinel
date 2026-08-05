@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETY: Discount Widening Presents Opportunity For This Monthly Payer
+  summary: ETY's lagging returns stem from both a widened discount and active management choices that diverge from the S&P 500 composition. See why ETY is a Buy.
+  url: https://finnhub.io/api/news?id=178f1a9f87313e10c484101e45479bde43fff64d9286f3e8294bbcfd0be079d6

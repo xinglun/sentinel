@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Holds, But Bond Volatility Breaks Higher
+  summary: Implied volatilities were mixed across asset classes last week as investors weighed stronger-than-expected corporate earnings against rising yields and persistent geopolitical risks.
+  url: https://finnhub.io/api/news?id=d57d773bd6f256297b0292ea6e34242b1ae0ccbbff9725a3f9b1117e2205109d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Note Of Caution About September
+  summary: Geopolitical easing and lower oil prices have fueled a surge in major indexes, with the S&P 500 reaching new all-time highs. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=9632260295ce90cfd9948da4269a848a143484687f876ccb0890da378621e773

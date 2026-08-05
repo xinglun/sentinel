@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DoorDash Gets FAA Green Light for Commercial Drone Deliveries
+  summary: The same-day delivery firm will manufacture and operate in-house drones after securing Part 135 certification, as Walmart and Amazon continue expanding their airborne delivery networks.
+  url: https://finnhub.io/api/news?id=39e02c18e4cab6e9e0c66cd30315fd864640ebe2bd7178d35ba25854a2977d3e

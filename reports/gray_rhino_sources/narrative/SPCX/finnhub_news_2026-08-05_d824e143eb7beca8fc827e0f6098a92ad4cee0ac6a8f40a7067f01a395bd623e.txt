@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Beat Expectations in Its First Earnings Report Since Going Public. Here's Why the Market Still Isn't Thrilled
+  summary: The company's capital expenditures soared like a rocket this past quarter, and investors weren't impressed.
+  url: https://finnhub.io/api/news?id=872278b5be068931fac30a40d1349aebed0b2edb591c90a87dbd13a9edeb6446

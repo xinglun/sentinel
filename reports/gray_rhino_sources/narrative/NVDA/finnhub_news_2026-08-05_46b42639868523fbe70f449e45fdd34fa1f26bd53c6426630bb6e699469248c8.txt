@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Dividend Stocks Paying Out This Month – But There’s a Catch
+  summary: Five dividend payments hit accounts this month, but a Friday deadline separates investors who collect from those who wait another quarter. Not every yield on this list is what it appears to be.
+  url: https://finnhub.io/api/news?id=ba0806ada9b51cf68c48b39eeee47c784b63c425c46f15ccb772cb86c626b678

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Palantir
+  summary: Palantir have been highlighted in this Investment Ideas article.
+  url: https://finnhub.io/api/news?id=1e1c5f1a54b8ae308523a17f12c77586af52746ce30556f0c45fa27505b3b880

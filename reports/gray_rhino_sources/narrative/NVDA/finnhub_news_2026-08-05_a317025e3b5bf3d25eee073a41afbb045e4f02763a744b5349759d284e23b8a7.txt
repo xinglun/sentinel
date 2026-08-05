@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Things to Do if the Stock Market Crashes as Soon as You Retire
+  summary: It may seem like a nightmare scenario, but there are ways to salvage it.
+  url: https://finnhub.io/api/news?id=efa9a25d76571518415cadac651f0dcbf56ac0d893d4f60a4733d3f454a9b8d4

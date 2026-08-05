@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broad Rally Lifts Market Breadth to a Positive Bias
+  summary: Broad participation lifts U.S. market breadth to a positive bias as SPY hits a record and QQQ and IWM rebound sharply.
+  url: https://finnhub.io/api/news?id=b98c065549930709ebaa54f9d148d82d77651af191c54b266a1f7fbf414fcad6

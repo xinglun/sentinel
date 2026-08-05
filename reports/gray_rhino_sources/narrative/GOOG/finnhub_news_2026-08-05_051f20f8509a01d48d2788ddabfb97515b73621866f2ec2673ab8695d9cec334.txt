@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blackstone pitches $36 billion debt deal for Anthropic AI chips
+  summary: One early proposal put the package at $36 billion, which would exceed the $35 billion deal closed roughly two months ago
+  url: https://finnhub.io/api/news?id=faf4154bc5d5ddffcdc508cb31bbf946aefac832a471788ee72f350c8ecdc572

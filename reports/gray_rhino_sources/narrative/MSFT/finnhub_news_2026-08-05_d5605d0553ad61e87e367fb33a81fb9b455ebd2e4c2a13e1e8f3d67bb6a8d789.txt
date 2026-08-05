@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has Already Lost AI Race
+  summary: SpaceX is pouring billions into AI while renting out its data centers to rivals, yet its models trail the competition and its consumer apps barely register. Something does not add up.
+  url: https://finnhub.io/api/news?id=f13f7f706d99b4bbedf91e6f38ce570be4f8ee36c79f0a4f59d711eeeee2b8bc

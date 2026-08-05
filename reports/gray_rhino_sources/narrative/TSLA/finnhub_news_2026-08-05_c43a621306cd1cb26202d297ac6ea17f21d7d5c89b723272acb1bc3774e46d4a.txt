@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Electric Vehicles - Battery Market's Billion-Dollar Surge Powers Global Growth
+  summary: The global electric vehicle (EV) battery market is poised for significant growth, with projections indicating an increase from USD 103.04 billion in 2026 to USD 168.95 billion by 2035, driven by a compound annual growth rate of 5.6%. This expansion is fueled by the rising adoption of battery electric vehicles (BEVs), decreased battery pack prices, investments in local manufacturing, and advancements in fast-charging technologies and battery architectures. The 50-110 kWh battery capacity...
+  url: https://finnhub.io/api/news?id=f42bfd23d73b86eb3ec07414374e451b09df115ef578546edaeaf37fad3f6dfe

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Novavax (NVDA) Could Be 44% Undervalued Following Its Licensing Pivot And Cyclospora Focus
+  summary: Why Novavax’s Licensing Pivot and Cyclospora Focus Matter Now Novavax (NVAX) is in the spotlight after shifting away from direct COVID-19 vaccine sales toward licensing its Matrix-M adjuvant, while investors also weigh Cyclospora outbreak headlines and the upcoming second-quarter earnings release. See our latest analysis for Novavax. At a share price of $7.66, Novavax has seen a 3.37% 1 day share price return and a 4.36% 7 day share price return, although the 30 day share price return is down...
+  url: https://finnhub.io/api/news?id=59abcd7bfb4146f921185a2d01aba09430addad62ae76074e1de7e9fc482c465

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 'Problem' With AMD's Guidance
+  summary: Advanced Micro Devices, Inc.âs Q2 beat shows Data Center revenue up 107% and margins at 56%. Click for this AMD stock update following earnings.
+  url: https://finnhub.io/api/news?id=4373aeabded311e13367c67e6c25317b82727cb359b1588ff6e71e5305ca40ba

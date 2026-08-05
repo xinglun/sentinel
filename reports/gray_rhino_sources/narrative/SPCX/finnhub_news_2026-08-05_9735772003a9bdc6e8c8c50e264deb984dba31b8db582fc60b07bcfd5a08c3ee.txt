@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Crypto Holdings Drop $539M Despite Blowout Earnings, Raising Questions Over Bitcoin Strategy
+  summary: SpaceX’s digital asset holdings fell by $539 million, declining 33% from $1.637 billion in December to $1.098 billion at the end of June. The company ...
+  url: https://finnhub.io/api/news?id=f59a99a7b95c6d9f0265c58e77b94306112e33aaad0ada85eda90ff3ffd6d37f

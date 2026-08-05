@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta, Google Online Child Safety Rules Advance in US Senate
+  summary: (Bloomberg) -- A key Senate committee on Wednesday advanced a package of bills aimed at improving children’s safety online, teeing up a showdown with the House over whether to hold Meta Platforms Inc. and Alphabet Inc.’s Google liable for harms done to minors on their social media platforms. Most Read from BloombergSpaceX’s AI Splurge Puts a Damper on First Earnings After IPOTrump Says Iran Talks Going Well as Hopes Rise for Hormuz DealChina’s AI Blitz Creates ‘Death Zone’ for Rival US Model Mak
+  url: https://finnhub.io/api/news?id=8aff1939f8ae5a011244152b2e0adc8656933288690c4d0c9a5c135edf33e658

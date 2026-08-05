@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD, Nvidia, Intel, Booking, and More Stocks That Explain Today’s Market
+  summary: FEATURE  Stock futures were rising on Wednesday, putting both the and the on track to notch record highs.  SpaceX slumped 11% in premarket trading after the rockets, telecom, and AI company beat analysts’ second-quarter earnings target but reported higher capital expenditure than Wall Street was expecting.
+  url: https://finnhub.io/api/news?id=4c0007494da3c705739bc7d1b8f7a6e1036b20e0ac8fdc00a72560e8f94a26bf

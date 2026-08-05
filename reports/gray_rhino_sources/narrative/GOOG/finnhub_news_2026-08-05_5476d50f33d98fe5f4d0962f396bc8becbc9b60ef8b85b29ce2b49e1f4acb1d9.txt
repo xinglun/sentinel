@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This SpaceX number is spooking already skittish investors
+  summary: SpaceX bears have taken over, with good reason.
+  url: https://finnhub.io/api/news?id=039508ed510f42fe9af9c543299902a4c3dd2659c64bbac815ab184bc6175348

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's Zoox to start paid robotaxi rides in Vegas next week
+  summary: Amazon's Zoox will begin paid rides in Las Vegas next week, the company said on Wednesday, days after the U.S. ‌road safety agency allowed commercial deployment of its robotaxis that run without human ‌controls.  Zoox, whose electric carriage-style vehicle has two rows of inward-facing seats, has been carrying passengers in Las Vegas, ​San Francisco, Austin and Miami for free as part of testing.  Zoox will ‌start charging passengers in Las ⁠Vegas from Monday, with pricing similar to the "comfort" tier offered by other ride-hailing companies, it said in a statement.
+  url: https://finnhub.io/api/news?id=686f3f8102280b391a8021bbe23efdb7da3156ca07d89cee556f0de6d284bb65

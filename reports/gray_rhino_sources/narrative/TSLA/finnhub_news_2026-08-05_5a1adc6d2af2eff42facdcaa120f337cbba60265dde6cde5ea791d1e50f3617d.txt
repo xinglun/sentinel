@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs BYD: Only One Leader in The EV Race
+  summary: Tesla just posted record deliveries while its operating income collapsed and free cash flow went negative, yet BYD keeps selling more electrified vehicles than any company on earth. Which bet actually wins the next twelve months depends on one question neither company can fully answer yet.
+  url: https://finnhub.io/api/news?id=868a5481d76efada9d18244b3671045f666151ada39dd618ac7236f4738834d2

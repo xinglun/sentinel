@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Ultimate Bull Case for NVIDIA Is Here: Their Powerful B200 Systems Are Sold Out
+  summary: NVIDIA just delivered its loudest quarter of the AI era, yet shares sit nearly 30% below their peak while B200 systems vanish from shelves faster than they ship. The bull case for a run to $300 hinges on three things that still need to break right.
+  url: https://finnhub.io/api/news?id=49b49177eb351dc1c9db003e2f219634922510e6aaa63f4ee72ebb3b3c53173e

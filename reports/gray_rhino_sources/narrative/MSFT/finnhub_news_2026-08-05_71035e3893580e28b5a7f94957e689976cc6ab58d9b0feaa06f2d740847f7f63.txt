@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Who Might Buy Snap If Its Founders Ever Decide to Sell
+  summary: Snap's stock has cratered while nearly a billion users keep scrolling, and that gap between price and audience has a handful of tech giants quietly doing the math. The catch is a pair of founders who may have no intention of answering the phone.
+  url: https://finnhub.io/api/news?id=f9b5535c33bb15ef1d0fa0a96514ac4727c4616a401d7ab5d78068baa49cfa7d

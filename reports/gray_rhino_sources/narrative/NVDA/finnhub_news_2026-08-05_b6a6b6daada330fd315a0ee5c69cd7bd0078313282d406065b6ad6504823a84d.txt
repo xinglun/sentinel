@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy's Pullback Is the Entry Point Long-Term Investors Wanted
+  summary: Bloom Energy just delivered its biggest quarter ever.
+  url: https://finnhub.io/api/news?id=4ae74cbad8962403306c33ec195ed9b1f6a7f8feb570aefbab09b8c8d717b995

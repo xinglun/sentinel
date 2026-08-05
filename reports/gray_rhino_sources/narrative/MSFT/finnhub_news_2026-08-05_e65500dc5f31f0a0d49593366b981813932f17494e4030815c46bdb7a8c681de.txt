@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Winning Without FCF/Debt Pains - Reiterated Strong Buy
+  summary: Microsoft is a Strong Buy on pullback: strong FCF, fast Azure growth and efficient AI stack support upside to a $797 bull case. Click for more on MSFT stock.
+  url: https://finnhub.io/api/news?id=3eda8ffbb3a6a15bb755e80a94e679d5d60fecfbfd7ba784ea2fe2b4034a5b15

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Q2 2026 Earnings Call Transcript
+  summary: Record vehicle deliveries and robotaxi expansion drive capital spending surge.
+  url: https://finnhub.io/api/news?id=e2838acecc96fa012100691f04a750336c0a8bd97aeaf0b68bdbb3b3989ae96f

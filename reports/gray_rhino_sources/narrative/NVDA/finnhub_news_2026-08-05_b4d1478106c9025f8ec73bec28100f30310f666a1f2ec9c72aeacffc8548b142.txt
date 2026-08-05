@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Bitcoin Be in 3 Years?
+  summary: The world's top cryptocurrency still has a bright future.
+  url: https://finnhub.io/api/news?id=c7d17639fa5dd14b2abeada6191441383a628f1eca86290b51638153b4449280

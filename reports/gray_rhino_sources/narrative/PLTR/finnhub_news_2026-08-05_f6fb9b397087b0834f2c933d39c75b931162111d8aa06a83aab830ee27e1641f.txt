@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Wednesday’s Top Wall Street Analyst Research Calls: Archer-Daniels Midland, Best Buy, Burlington Stores, Dell Technologies, e.l.f. Beauty, Humana, Transdigm, Vale, and More
+  summary: Wall Street analysts reshuffled their ratings on Wednesday, sending some familiar names higher while punishing others with sharp target cuts. Find out which stocks got surprise upgrades and which ones analysts are now walking away from.
+  url: https://finnhub.io/api/news?id=5698cf584578f1ab4444f8c59972b66ece84d0b5b8b2f53b293b58b22d52468d

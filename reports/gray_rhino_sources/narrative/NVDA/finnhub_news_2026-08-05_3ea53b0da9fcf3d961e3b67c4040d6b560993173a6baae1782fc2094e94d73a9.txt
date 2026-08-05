@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Heavily Shorted Stocks to Buy and 1 to Avoid
+  summary: SoundHound and RH look like potential buys, while I'd avoid Supermicro.
+  url: https://finnhub.io/api/news?id=eae2290230873fe3e638609bfd5a248c0bb6ebf14fddfbdf08b97f8863c8a0ea

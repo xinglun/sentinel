@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Sovereign AI Is Exactly What Bursts The AI Bubble
+  summary: Palantir AIS powers sovereign AI, pressuring hyperscalers as token prices fall and S&P 500 hits Shiller PE 42.2.
+  url: https://finnhub.io/api/news?id=7049356575d1f173357faf6b12fe5cfcf220e2dd17d2940743a195227be2c945

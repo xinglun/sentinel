@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's Buyback Is Retiring Less Stock Just As The Memory Bill Grows
+  summary: The payout is comfortably funded, but each dollar of buyback retires less stock as the price climbs, and the three-year scoreboard shows what the engine alone can do.
+  url: https://finnhub.io/api/news?id=b907524d7e08dd61f9e465a96150b8dc03ee9bf6d7220dcc0490516feb97cc2c

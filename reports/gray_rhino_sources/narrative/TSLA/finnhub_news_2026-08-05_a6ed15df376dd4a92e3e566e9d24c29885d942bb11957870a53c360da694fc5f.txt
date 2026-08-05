@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Falls Along With SpaceX. Chinese Sales Aren’t Helping.
+  summary: Tesla sold almost 94,000 cars from its China plant in July, up 38% year over year. It was the ninth consecutive year-over-year rise.
+  url: https://finnhub.io/api/news?id=95c69460e7d07151f6f779d25aabcaa8b5c8fd692b31976749d10d7b6c1fa24e

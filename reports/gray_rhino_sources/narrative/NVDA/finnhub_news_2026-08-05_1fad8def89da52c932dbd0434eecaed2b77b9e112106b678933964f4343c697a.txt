@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy's AI Data Center Backlog Just Grew Again -- Here's What It's Worth
+  summary: Bloom Energy's backlog increased in the second quarter, but the real power in the backlog isn't product sales.
+  url: https://finnhub.io/api/news?id=2c708e654fac8c5ec6629ac2492f0d5e43b90b155155d61b4afb5a8c990f6103

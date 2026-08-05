@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Signing Work Faster Than It Can Bill It
+  summary: The reported quarter was strong, yet management added far more to its full-year outlook than the quarter itself beat its own guidance by, and the contract book explains why.
+  url: https://finnhub.io/api/news?id=e618e70c73f96b4dabeb10e620e96711f32110bf36f3b204d8223e89d8db92ed

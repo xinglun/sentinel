@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Retires Assistant On Android As Gemini Shifts Ad Landscape
+  summary: The move opens contextual opportunities for advertisers by providing a smooth transition into serving real-time content based on personal context when the rollout is complete.
+  url: https://finnhub.io/api/news?id=558234bbf6ae7005b9cdce9806e95b344e9379f8dee3544e7a2693fac4ee36bb

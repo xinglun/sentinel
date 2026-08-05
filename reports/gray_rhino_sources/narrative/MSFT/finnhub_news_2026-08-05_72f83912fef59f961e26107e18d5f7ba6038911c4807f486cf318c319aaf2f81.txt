@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Entegris: Great Business, Same Valuation Problem
+  summary: Entegris Q2 beats: Revenue +11%, EPS +42%, stronger margins & FCF. Learn why semiconductor tailwinds help, but valuation looks rich.
+  url: https://finnhub.io/api/news?id=214ea68ffe1b796feae3c406c833ff430d05cb10263ea942f55155200413a6fd

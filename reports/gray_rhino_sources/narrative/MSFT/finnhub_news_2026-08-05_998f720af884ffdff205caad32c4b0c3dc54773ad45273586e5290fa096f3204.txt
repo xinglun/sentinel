@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Extends Winning Streak Amid Earnings Surge; Is The Stock A Buy Now?
+  summary: Microsoft stock is on a four-day winning streak after breaking out of a cup base at a pivot of 466.32 amid an earnings beat.
+  url: https://finnhub.io/api/news?id=bc90f8281b6668273a857bac9119d294c6e3ae17d250d080108f7d43889de6b3

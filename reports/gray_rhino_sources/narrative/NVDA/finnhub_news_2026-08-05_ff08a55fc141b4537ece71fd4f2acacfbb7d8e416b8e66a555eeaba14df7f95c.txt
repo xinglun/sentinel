@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Poor Are Spending Less At McDonald’s
+  summary: Fast-food giants built their empires on budget-conscious customers, but a troubling shift in spending habits is forcing McDonald's to rethink who actually shows up at the counter.
+  url: https://finnhub.io/api/news?id=81796ed75cd0497bfc514cb1f936471e032c899e83532ed11c7d8dfd00cd7c6d

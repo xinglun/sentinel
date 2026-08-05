@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Soars on Blowout Q2 Results: ETFs to Benefit
+  summary: Palantir soared nearly 30% after crushing Q2 estimates on booming AI demand. These ETFs could ride the momentum despite valuation concerns.
+  url: https://finnhub.io/api/news?id=194155c8ecbd817b1771343a52e3cb04efce9df70a39edf0a72560cd87eb7cb0

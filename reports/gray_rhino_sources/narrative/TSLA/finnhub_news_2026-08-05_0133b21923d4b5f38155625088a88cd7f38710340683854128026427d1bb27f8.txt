@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Base Power CEO on $1B funding, AI's soaring energy demand, and taking on Tesla
+  summary: Base Power founder & CEO Zach Dell joins Yahoo Finance Executive Editor Brian Sozzi on Opening Bid to discuss how the AI boom is reshaping energy demand and what differentiates Base Power from competitors, including Tesla (TSLA). This following company's $1 billion Series D funding round, which values the company at $13 billion post-money.
+  url: https://finnhub.io/api/news?id=d3ba2da6885d85e693c0804293c089b1316e8a1960580a545688b5a28f6b5c70

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stack Capital Group Inc. Reports Q2-2026 Financial Results
+  summary: TORONTO, Aug. 05, 2026 (GLOBE NEWSWIRE) -- Stack Capital Group Inc., (“Stack Capital” or the “Company”) (TSX:STCK) today announced its financial results for the period ended June 30, 2026. Stack Capital reports all amounts in Canadian Dollars unless otherwise stated. FINANCIAL SUMMARY Book Value per Share (BVpS): $20.25, compared to $16.57 as at March 31, 2026 (+22% increase)Total Book Value: $313 million The quarter reflected meaningful value creation across the portfolio, led by SpaceX, Fluids
+  url: https://finnhub.io/api/news?id=425ce204922789631cd5b4cad4484ac0c83bb6841ccab7dfb6e0840f257c5e72

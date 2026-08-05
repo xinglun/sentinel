@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “A Possible 1987-Type Fall”: Why Michael Burry Refuses to Cover His Bets as Stocks Hit New Highs
+  summary: While the S&P 500 just hit a record high and the AI trade roars back to life, one famous short seller is keeping his bearish bets intact and warning that the market's own mechanics could turn a celebration into a collapse.
+  url: https://finnhub.io/api/news?id=b830d3e6189c7c93d13db4a84362516506cbaf719de173d500e10513c09668d9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Nvidia Stock Is the Big Winner From SpaceX Earnings
+  summary: Nvidia  stock was gaining early Wednesday after the chip maker got a vote of confidence from Elon Musk’s  SpaceX  It might not be hurting that its chief artificial-intelligence processor rival  Advanced Micro Devices  looks set for a bad day.  Nvidia shares were up 2% at $216.16 in the premarket.  The move comes after SpaceX said it would exclusively use Nvidia AI chips.
+  url: https://finnhub.io/api/news?id=d69ddac07d912d6c007f0b0494bb2ad669cad1d1d869cd700864d3af6c31f83c

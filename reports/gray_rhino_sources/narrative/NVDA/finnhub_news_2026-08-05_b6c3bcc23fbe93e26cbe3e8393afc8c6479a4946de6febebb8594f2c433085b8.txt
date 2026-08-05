@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is Nvidia CEO Jensen Huang's Favorite Biotech Stock -- and You've Probably Never Heard of It
+  summary: Generate Biomedicines focuses on AI-enabled drug discovery.
+  url: https://finnhub.io/api/news?id=5a45fde2af96800187cc1ec7f154f1beaf09c3ee96cdd40d48e7a860ba80c1eb

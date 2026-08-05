@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Just Overtook the 200-Day Moving Average
+  summary: When a stock breaks out above the 200-day simple moving average, good things could be on the horizon. How should investors react?
+  url: https://finnhub.io/api/news?id=189b0e0f9edbe80604929913a3c9ad9677a26b96694e2e24955e5cace3fbe226

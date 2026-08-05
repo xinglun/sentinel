@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chart Of The Day: One Index, Two ETFs, One Important Story
+  summary: The MoneyShow Charts of the Day show the Invesco S&P 500 Equal Weight ETF and the more widely followed SPDR S&P 500 ETF. We arenât in a megacap-only market anymore. Read more here...
+  url: https://finnhub.io/api/news?id=144eda8cd44f806c0a949eb0edccfdce248750da786fb3a2de25f75f7bc55052

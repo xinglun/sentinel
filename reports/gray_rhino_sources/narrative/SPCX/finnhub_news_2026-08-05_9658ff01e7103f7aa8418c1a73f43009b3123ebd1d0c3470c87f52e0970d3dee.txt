@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Craters 12% on Soaring AI Costs as Other Space Stocks Decline
+  summary: SpaceX's debut earnings report crushed revenue expectations, yet the stock is cratering while every other space name barely flinches. The reason traces back to a spending figure that is alarming even Wall Street's biggest bulls.
+  url: https://finnhub.io/api/news?id=24ec179eacfb318416c15c57c2dec804a5e6ffe417f7b36baef6f27bb9be8e22

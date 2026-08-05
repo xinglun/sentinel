@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arista Networks Stock Surges as Earnings Prove AI Demand Is Real
+  summary: Arista Networks  stock soared Tuesday after the network infrastructure company reported better-than-expected second-quarter earnings.  The results provided further evidence that demand for artificial-intelligence services is accelerating, with hardware suppliers like Arista among the main beneficiaries.  Arista reported adjusted earnings of $1.02 a share for the second quarter, up from 73 cents last year and above analysts’ call for 89 cents, per FactSet.
+  url: https://finnhub.io/api/news?id=755ab502cc1a612beaa2201d0c3c78d9c83c604d398c11004b90fa522db0a9e8
