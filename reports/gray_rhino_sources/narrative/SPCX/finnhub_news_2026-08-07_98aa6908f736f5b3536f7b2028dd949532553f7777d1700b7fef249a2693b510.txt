@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: T-Mobile's CEO Just Dismantled SpaceX's Starlink Mobile Ambitions as Musk's Firm Pours Billions Into Buying Spectrum: 'What's Their Differentiation?'
+  summary: T-Mobile CEO Srini Gopalan dismisses Elon Musk&#39;s Starlink Mobile as exaggerated and questions consumer appeal.
+  url: https://finnhub.io/api/news?id=a17d054d98eca1f828d00537d1cbd277b070d7aaf058519974f1fefc28df3c55

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fastly shares are trading lower. The company announced it teamed up with LALIGA to develop technical solutions to address the illegal streaming of live sports.
+  summary: 
+  url: https://finnhub.io/api/news?id=455811527f9e9ddefa5d7c027efb324a2a0859a0b18ae29c4b1cd19e54bc1a43

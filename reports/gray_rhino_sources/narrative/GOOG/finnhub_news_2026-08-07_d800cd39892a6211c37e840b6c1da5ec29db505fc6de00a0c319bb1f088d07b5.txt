@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Shares 'Three Great Charts' That Show Big AI Capex Could Unwind As Badly As Housing Did In 2008
+  summary: Cloud companies’ capex would run at roughly 3% of the U.S. GDP every year from 2027 to 2029, up from 0.3% of GDP in 2019 and 1.4% in 2025, according to a top economist.
+  url: https://finnhub.io/api/news?id=ace76c22af42fc5516268dd0f9a0a2bfce4c87a2ca22404fd54b8594cd824027

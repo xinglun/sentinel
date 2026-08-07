@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Diversifies Your Portfolio, But It Will Not Calm It
+  summary: Its correlation to the index leaves real room for its own story, and its up-day and down-day readings show what that story costs in swings.
+  url: https://finnhub.io/api/news?id=0cce1eeca38a6f6c4f9f6ee185331d7e9a391607c4e87fdd698d76cfb1cdc19c

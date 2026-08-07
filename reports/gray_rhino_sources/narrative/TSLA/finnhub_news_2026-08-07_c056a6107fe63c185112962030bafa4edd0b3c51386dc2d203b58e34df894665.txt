@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises to End Good Week. Thank the Usual Suspects.
+  summary: FEATURE   Tesla stock rose early Friday, giving shares a chance to snap a three-week losing streak. Retails traders, as usual, are helping.  Shares of the EV maker were up 0.7% at $321.59, while and futures were up 0.
+  url: https://finnhub.io/api/news?id=f98715d3f63069f4958569334df805fe1f64c906f3b1ecc3ca1deffaecbd641f

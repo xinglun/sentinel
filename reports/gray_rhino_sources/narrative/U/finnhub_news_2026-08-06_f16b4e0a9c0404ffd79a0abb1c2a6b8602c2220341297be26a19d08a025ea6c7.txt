@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BTIG Maintains Buy on Unity Software, Raises Price Target to $51
+  summary: BTIG  analyst Clark Lampen   maintains Unity Software (NYSE:U) with a Buy and raises the price target from $43 to $51.
+  url: https://finnhub.io/api/news?id=6ffdfd4cbca13114ced7a02b246e0d83aa87bbff86cc113df203ee65f28f1b6d

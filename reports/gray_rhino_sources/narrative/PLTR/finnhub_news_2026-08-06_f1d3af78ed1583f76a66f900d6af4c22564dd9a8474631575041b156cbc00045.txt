@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Curious about the most active S&P500 stocks in today's session?
+  summary: Let's have a look at what is happening on the US markets on Thursday. Below you can find the most active S&P500 stocks in today's session.
+  url: https://finnhub.io/api/news?id=1baa164f5b5a34580123a837cb4c226634687b4219d9917685e1740b006dfa56

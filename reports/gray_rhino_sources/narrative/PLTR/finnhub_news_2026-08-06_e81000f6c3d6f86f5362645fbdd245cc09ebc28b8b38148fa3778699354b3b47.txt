@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Dumps $11.4 Million in Palantir Stock
+  summary: Cathie Wood Offloads More Palantir Stock Despite AI Boom
+  url: https://finnhub.io/api/news?id=77ed9010f1c3e7bc594c923a4e12e3e63a1caf0ecdfca5155d0e0e3d44e50e46

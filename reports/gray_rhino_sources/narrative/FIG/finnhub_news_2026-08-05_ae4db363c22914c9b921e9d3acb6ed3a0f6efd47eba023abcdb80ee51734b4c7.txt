@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Q2 Adj. EPS $0.08 Beats $0.04 Estimate, Sales $370.083M Beat $351.560M Estimate
+  summary: Figma (NYSE:FIG) reported quarterly earnings of $0.08 per share which beat the analyst consensus estimate of $0.04 by 100 percent.  The company reported quarterly sales of $370.083 million which beat the analyst
+  url: https://finnhub.io/api/news?id=1b479579dc8d5351332e9cf17a558977ee6c635fa58520ed56cd04f5bddfab24

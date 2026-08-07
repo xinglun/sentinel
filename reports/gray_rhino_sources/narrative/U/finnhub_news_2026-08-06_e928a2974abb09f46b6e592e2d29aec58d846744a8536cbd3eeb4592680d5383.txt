@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Inc. (U) Q2 2026 Earnings Call Transcript
+  summary: Unity Software Inc. (U) Q2 2026 Earnings Call August 6, 2026 8:30 AM EDTCompany ParticipantsAlex Giaimo - Head of Investor RelationsMatthew Bromberg - CEO,...
+  url: https://finnhub.io/api/news?id=433b9ba502546265659105bb16f30ba886e9b99371608b9c600c94e55f68410a

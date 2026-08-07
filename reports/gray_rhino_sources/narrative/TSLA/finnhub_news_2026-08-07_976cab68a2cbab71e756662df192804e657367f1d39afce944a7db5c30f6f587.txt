@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Eyes Weekly Comeback As Elon Musk Touts Terafab’s Colossal Scale — Analyst Flags A Big Intel Question Mark
+  summary: Musk said the completed complex would be 50 times the Pentagon’s size and can support over one terawatt of compute demand.
+  url: https://finnhub.io/api/news?id=5215e0c1734e04b8ac41968eb99ffe1e513af36b6a61881065ff6115b6fd605e

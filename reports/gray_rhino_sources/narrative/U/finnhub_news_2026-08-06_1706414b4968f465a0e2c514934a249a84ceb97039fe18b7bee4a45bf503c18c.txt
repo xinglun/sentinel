@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Motorola Solutions Posts Upbeat Q2 Earnings, Joins Insmed, Diodes, Parker-Hannifin And Other Big Stocks Moving Higher On Thursday
+  summary: US stocks mixed on Thurs. Dow Jones down 50 pts. Motorola Solutions Inc shares up 9.5% after reporting strong Q2 results &amp; raised guidance.
+  url: https://finnhub.io/api/news?id=8f96fc1beaeba310d419ac409d971111c5e8b4a4fc5d27b53b8e8d5471268b44

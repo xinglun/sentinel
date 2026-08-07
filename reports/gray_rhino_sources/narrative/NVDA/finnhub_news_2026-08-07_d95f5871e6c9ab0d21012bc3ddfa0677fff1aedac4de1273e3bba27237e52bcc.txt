@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data Center Solutions Market to Reach US$1.33 Trillion by 2031 as AI and Hyperscale Investments Accelerate - Dell Technologies, Broadcom, NVIDIA, HPE, and Super Micro Computer Dominate
+  summary: Liquid cooling will be the fastest-growing segment, while Tier 3 data centers will hold the largest share Data Center Solutions Market Data Center Solutions Market Dublin, Aug. 07, 2026 (GLOBE NEWSWIRE) -- The "Data Center Solutions Market by Infrastructure, Software - Forecast to 2031" has been added to ResearchAndMarkets.com's offering. The global data center solutions market is projected to grow from USD 535.45 billion in 2026 to USD 1.33 trillion by 2031, registering a compound annual growth
+  url: https://finnhub.io/api/news?id=8af7de367e1a4816a5a35d07546be5919128f3370d18e10e49b00a509916d64e

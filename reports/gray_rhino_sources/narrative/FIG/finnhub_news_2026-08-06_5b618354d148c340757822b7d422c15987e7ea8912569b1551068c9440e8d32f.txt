@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Figma Stock Falling on Thursday?
+  summary: Figma Inc delivered second-quarter revenue and earnings that beat estimates and raised its full-year outlook, but FIG stock faced selling pressure in after-hours trading.
+  url: https://finnhub.io/api/news?id=4efddde826b5e8781591876c57d7e804a926690ef54b3f6fe8ae0330e1804302

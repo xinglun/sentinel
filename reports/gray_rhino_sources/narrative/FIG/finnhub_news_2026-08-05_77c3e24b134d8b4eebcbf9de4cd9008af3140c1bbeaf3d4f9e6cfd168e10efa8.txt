@@ -1,0 +1,7 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 12 Information Technology Stocks Moving In Wednesday's After-Market Session
+  summary: Gainers
+
+Aeva Technologies (NASDAQ:AEVA) shares rose 17.3% to $23.0 during Wednesday&#39;s after-market session. The company&#39;s market cap stands at $1.3 billion. As per the press release, Q2 earnings came out today.
+  url: https://finnhub.io/api/news?id=f649b6c9fb6b342ebf5a659bbef4b332b10e3e020121b62f33b03538d299498e

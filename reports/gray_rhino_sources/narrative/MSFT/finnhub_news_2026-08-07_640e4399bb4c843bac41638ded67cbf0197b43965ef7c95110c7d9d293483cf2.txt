@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Update - Fortude Revolutionizes ERP with AI-Driven Delivery Model
+  summary: Fortude has launched an innovative AI-driven delivery model for ERP implementations using Infor CloudSuite. This model integrates industry accelerators with AI agents and human oversight to streamline and expedite the ERP implementation process, reducing costs and enhancing efficiency. By utilizing AI to automate repetitive tasks and organized project knowledge, Fortude aims to provide faster and more affordable ERP solutions, thereby allowing businesses to concentrate on data, automation,...
+  url: https://finnhub.io/api/news?id=0a94d36d20efed6f057e959b2548b02b0c6f181b7c8572cb703625795715ab22

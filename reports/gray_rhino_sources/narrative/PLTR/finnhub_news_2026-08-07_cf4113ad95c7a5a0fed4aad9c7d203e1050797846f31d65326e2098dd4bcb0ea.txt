@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The AI Bottleneck Has Moved In Its Favor
+  summary: Palantir (PLTR) Q2 2026 revenue +93% YoY, 47% GAAP margin, strong FY26 outlook and $185â$205 target.
+  url: https://finnhub.io/api/news?id=8d1a8eab62b67de0735dfe31a815549672a7f3a6439f76febee1a6e7309008da

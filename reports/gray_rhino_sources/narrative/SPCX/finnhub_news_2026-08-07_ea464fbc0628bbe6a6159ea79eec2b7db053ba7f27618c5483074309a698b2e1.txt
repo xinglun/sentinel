@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Just Heating Up (Rating Upgrade)
+  summary: Space Exploration Technologies Corp., aka SpaceX, is a Buy due to Starlink profitability, AI monetization and $100B liquidity. Click for this SPCX stock update.
+  url: https://finnhub.io/api/news?id=139b899d2b35a4ae5690ae90abcd4ba75e7a400610e36853b9bc3cf3ecfab889

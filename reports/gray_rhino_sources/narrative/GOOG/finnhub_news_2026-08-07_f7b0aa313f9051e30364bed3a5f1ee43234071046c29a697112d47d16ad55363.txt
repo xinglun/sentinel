@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon CEO Andy Jassy Just Gave Investors 220 Billion Reasons to Buy Micron Stock
+  summary: Amazon just raised its artificial intelligence (AI) budget to $220 billion, up from a prior estimate of $200 billion.
+  url: https://finnhub.io/api/news?id=a25c345a2bf581d92f29fbaf7cd5d7a98754e33684e5a86739134b34e9233be1

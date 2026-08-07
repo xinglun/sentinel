@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD: Buy The Dip - Market Is Mispricing Its Supply Leverage
+  summary: Advanced Micro Devices, Inc. beat Q2 earnings & raised targets as data center momentum accelerates. Find out why AMD stock is a buy.
+  url: https://finnhub.io/api/news?id=b6c0e20f791a8fefc10daa30a579f9ab3f7bd0a51b036b3374ac42872bcb74a4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: An Early Bet on SpaceX Led to a 30% Gain for This College Endowment
+  summary: (Bloomberg) -- The University of North Carolina’s endowment management company made an initial investment in SpaceX more than 15 years ago.Most Read from BloombergOpenAI’s New Device Will Be Hockey Puck-Sized and Cost Over $300Iran Wants to Bar US, Israeli Ships From Hormuz in Peace AccordIran Says Agreement on Hormuz Shipping Reached With OmanTrump Administration Considers Order on Autism and VaccinesIshbia’s Mortgage Firm Suffers Record Drop on Dividend HaltEarly wagers through venture capital
+  url: https://finnhub.io/api/news?id=9375ea80002309a29a20d471731424a2e4ff967201a6e6a42c0b8d7f98c28380

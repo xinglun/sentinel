@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Risk-Reward Ratio Is Not Attractive. Here's Why.
+  summary: The high valuation of PLTR stock, competition concerns, and a potential threat to revenue all make shares unattractive.
+  url: https://finnhub.io/api/news?id=f37e19f0f43411b9b41f48166e7a24606ccd1a7eb95456cdeb3bc7a0d1c6def6

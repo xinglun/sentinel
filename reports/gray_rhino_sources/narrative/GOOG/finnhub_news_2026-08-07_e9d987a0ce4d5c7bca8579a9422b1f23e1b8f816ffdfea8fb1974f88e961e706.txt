@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech Stocks Under Pressure: 1 Magnificent ETF to Buy on the Dip
+  summary: The share prices of even the most valuable businesses can be highly volatile during earnings season.
+  url: https://finnhub.io/api/news?id=57c2d7e0e7d8d3ac0f97689890a2a38a03e8fc6079ea60f2c480bebac2e06c64

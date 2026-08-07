@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: This Rally Is A Gift, Sell It
+  summary: Palantir delivered a standout Q2, with 94% Y/Y revenue growth and strong EPS, but valuation has become even more stretched. Learn more about PLTR stock here.
+  url: https://finnhub.io/api/news?id=cde1813f2a2d4ef2958ac5400d01a9c90baab611c58407033b26d2ea69988e11

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can MU Stock Compound Its Way Higher?
+  summary: A company known for cyclicality is locking in its future. Micron has signed strategic agreements with customers that include take-or-pay commitments. These 14 contracts alone represent approximately $100 billion in cumulative revenue at a minimum price. This move attempts to build a floor under a historically volatile business.
+  url: https://finnhub.io/api/news?id=d8ad9cb22ed7cabb93b64f2a636ab6a2a31f87786103b7cf4d0dcd921f6aa1e9

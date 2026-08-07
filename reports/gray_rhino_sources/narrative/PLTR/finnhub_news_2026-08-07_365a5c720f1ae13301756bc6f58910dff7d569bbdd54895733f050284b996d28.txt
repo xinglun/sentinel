@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Spiffy-Pop: Long-Term Holders' Reward
+  summary: A spiffy-pop is when a stock rises more in a single day than you paid for it.
+  url: https://finnhub.io/api/news?id=203da205ccb54456af7d585317ba31bcc70582d75ed54786f32fca227119d64e

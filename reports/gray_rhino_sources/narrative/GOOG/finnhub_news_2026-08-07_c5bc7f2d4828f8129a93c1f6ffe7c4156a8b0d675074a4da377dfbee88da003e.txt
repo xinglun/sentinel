@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings Have Been Excellent. Why Stocks Aren’t Showing It.
+  summary: A mix of high expectations, profit-taking, and a slight dip in valuations has sent S&P 500 stocks sputtering even after solid earnings reports.
+  url: https://finnhub.io/api/news?id=c5d21850e45b332b8a9f633b2086e774a8eee721923745bc549ddc740937164a

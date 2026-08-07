@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip Stocks Find Buyers After Earnings Shock Shakes Out AI Trade
+  summary: Chip stocks attempt to stabilize after AI trade volatility. Rate pause hopes and strong AI demand offset recent earnings guidance jitters.
+  url: https://finnhub.io/api/news?id=8e7fbc035dd720e744a130949fa23f87fbc91716d85b7b9fb7693b77133d3b8e

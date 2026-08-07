@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Steve Eisman Pushes Back on Michael Burry's Market Top Call: 'I Think It's Premature'
+  summary: Two investors who called the 2008 housing collapse agree the artificial intelligence trade has a dangerous weak spot. They disagree on whether it is time to bet against it. Michael Burry said Tuesday he is maintaining bearish positions against Nvidia...
+  url: https://finnhub.io/api/news?id=8b6acbbb8e37c153e6a205b4ae67202579f5ec4ee7f332f883b12c9dfe2d06a8

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla's Share Price Dip Will Prove an Excellent Buying Opportunity
+  summary: Investors were focused on the robotaxi rollout in terms of fleet size and the number of cities, but management has hopefully reset expectations now.
+  url: https://finnhub.io/api/news?id=1982c5bf89e8796ff590a2776d739c0d3115380f06fd6965fdf7a5732b35a7d9

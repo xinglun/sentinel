@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RedCloud Signs Open Weights and American AI Leadership Letter Alongside Microsoft, NVIDIA and OpenAI
+  summary: RedCloud joins Microsoft, NVIDIA, Meta, OpenAI and others in backing open-weight AI — allowing the Company to specialise advanced models on FMCG trading data inside its own infrastructure, and deliver market-level intelligence without customer data leaving that environmentLondon, Aug. 06, 2026 (GLOBE NEWSWIRE) -- RedCloud Holdings plc (Nasdaq: RCT) (“RedCloud” or the “Company”), the company building intelligent infrastructure for global trade, today announced that it has joined as a co-signatory
+  url: https://finnhub.io/api/news?id=68d93bca4fd3ac6e10d698d54a256aab5c56b5b9df8c82d11d8e85d6c1ec5824

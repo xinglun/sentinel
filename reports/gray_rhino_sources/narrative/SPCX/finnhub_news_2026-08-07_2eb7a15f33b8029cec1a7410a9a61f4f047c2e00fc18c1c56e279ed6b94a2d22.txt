@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX initiation, Apple downgrade among today's top calls on Wall Street
+  summary: SpaceX initiation, Apple downgrade among today's top calls on Wall Street
+  url: https://finnhub.io/api/news?id=e93d39adac500f864dcddfcbf0ab8b2e460896114110468e7c9022761f1367b4

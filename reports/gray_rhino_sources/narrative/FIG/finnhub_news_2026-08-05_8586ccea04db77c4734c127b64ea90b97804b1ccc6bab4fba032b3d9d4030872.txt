@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma, Inc. 2026 Q2 - Results - Earnings Call Presentation
+  summary: 2026-08-05. The following slide deck was published by Figma, Inc.
+  url: https://finnhub.io/api/news?id=f90608f99a406d81b49e77ec6095edc6d1b703e8482f911f4927fb936e605459

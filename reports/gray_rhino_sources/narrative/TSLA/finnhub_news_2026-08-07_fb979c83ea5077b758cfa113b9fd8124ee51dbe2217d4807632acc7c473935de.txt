@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Terafab Will Be Earth’s Most Valuable Building, 50x the Size of the Pentagon
+  summary: Elon Musk says his Terafab chip factory will become Earth's most valuable building, spanning 9 million square meters.
+  url: https://finnhub.io/api/news?id=b47145f70e62b17276f9181ca852b98ffbb25245cc81a8d4158e3d65e6b8a385

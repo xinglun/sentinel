@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Chips Update - AMD Advances AI Strategy With Taalas Acquisition
+  summary: Advanced Micro Devices (AMD) has announced a definitive agreement to acquire Taalas, a specialist in AI inference silicon, aiming to enhance its compute solutions in the dynamic AI inference market. Taalas’ technology, which optimizes inference dataflows to reduce compute and memory bottlenecks, is set to bolster AMD’s AI roadmap by improving inference performance and efficiency. The acquisition will enable AMD to integrate Taalas’ solutions with its existing hardware and software platforms,...
+  url: https://finnhub.io/api/news?id=14470c7fe676a501eb55e25a464e454ea42ad2fcf7ed94d61e2717b1eb0b071b

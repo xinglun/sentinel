@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Core Bull Thesis Around Microsoft Remains Very Strong at $500
+  summary: Microsoft just reported a blockbuster quarter with Azure crossing milestones few saw coming, yet the stock sits flat on the year and prediction markets give it a coin-flip chance of holding $500 through the week. Here is what the numbers reveal about who is right.
+  url: https://finnhub.io/api/news?id=6af61f4149856b962e7d5a269047765664d6164a15d4b600309cd9bb1cd14333

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Looms Large. These Are the Best Telecom Dividends.
+  summary: Declines in AT&T, Verizon, and T-Mobile have left their dividend yields up by roughly one percentage point from a year ago.
+  url: https://finnhub.io/api/news?id=df5078623f79e2ae30b9463ee64ca7a7418b362841b0b68c52edd7963531e0bb

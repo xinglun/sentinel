@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Space Stocks to Buy in August
+  summary: The space economy is heating up, and with these two space stocks down about 50% from their highs, now could be an excellent time for investors to scoop up shares.
+  url: https://finnhub.io/api/news?id=177452f580e4cfda37e8c73dfc04faf13ee8c23ec4e390d7ad9ddbcae9d7ca69

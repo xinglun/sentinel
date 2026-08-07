@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Rivian's R2 EV could be its new star vehicle
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian explains what you need to know about Rivian's (RIVN) R2 electric vehicle (EV).
+  url: https://finnhub.io/api/news?id=096ae27e4d2f140b09c0bc767d26cebef28dd783ee2acf94f54cba7cf10e6f60

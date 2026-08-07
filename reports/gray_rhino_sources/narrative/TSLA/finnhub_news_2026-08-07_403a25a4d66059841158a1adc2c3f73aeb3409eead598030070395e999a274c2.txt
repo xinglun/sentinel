@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Stock Hasn’t Bottomed Out Yet, But It’s ‘A Really Great Time To Buy,’ Says This Asset Manager
+  summary: Alex Morris, CEO and CIO of F/m Investments, told CNBC that while the stock could face near-term volatility as options and ETFs come online, it is a great time to buy SPCX shares from a long-term perspective.
+  url: https://finnhub.io/api/news?id=295906ea47a038cd9159424e8cdb8c1673912a2e3f940160571b1bed12845007

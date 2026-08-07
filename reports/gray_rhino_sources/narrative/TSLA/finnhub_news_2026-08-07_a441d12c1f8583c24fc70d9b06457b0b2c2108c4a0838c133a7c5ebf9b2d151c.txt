@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford's first $30,000 shot at increasing U.S. EV demand has a name
+  summary: Ford has been losing billions on its electric vehicle ambitions for years, so the company has switched gears. Instead of making high-end EVs that cost a lot more than its gas-powered and hybrid offerings, Ford decided to go the other way and target EVs that are affordable. It's a strategy that has ...
+  url: https://finnhub.io/api/news?id=15e79e1f6e244256b5514528c7052c7b1f2e1f20ccbe2513d71cca13bfc74e3f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Tesla and SpaceX
+  summary: SpaceX tops Tesla as the preferred Musk-led investment, backed by faster revenue growth, broader market exposure and long-term growth opportunities.
+  url: https://finnhub.io/api/news?id=604f2f2338730b57fbf13b6ec3f38c0e74a89bf7252628dda05114464a3e6735

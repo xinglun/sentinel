@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This SpaceX Analyst Turns Bullish; Here Are Top 5 Upgrades For Friday
+  summary: Wall Street analysts upgraded AVITA, Etsy, Unity, and raised target prices for these stocks. See what others think before buying Unity.
+  url: https://finnhub.io/api/news?id=b19b7df7a57f5e474ffb58581775cbfe3692142a491b02671f9837d651308125

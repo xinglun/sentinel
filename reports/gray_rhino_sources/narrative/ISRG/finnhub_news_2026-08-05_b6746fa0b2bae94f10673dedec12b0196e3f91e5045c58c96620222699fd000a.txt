@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Beaten-Down Stocks to Hold for the Next 10 Years
+  summary: Don't let their recent poor performances chase you away.
+  url: https://finnhub.io/api/news?id=bf04b6bced41486ba7faeb835b3795378209987970ede42f12393727acad20c1

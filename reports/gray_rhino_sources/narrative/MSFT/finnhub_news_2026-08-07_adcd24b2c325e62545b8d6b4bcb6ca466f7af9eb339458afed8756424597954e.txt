@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Energy Stocks With More Hype Than Fundamentals Right Now
+  summary: High expectations leave little room for disappointment.
+  url: https://finnhub.io/api/news?id=fc20dcbede2ce6d6d8d22727379e746dbfa504ebe3f6374be94d023d79177a23

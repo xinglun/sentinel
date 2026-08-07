@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Electric Vehicles Today - LiDAR Market Growth Driven By Automated Driving Systems
+  summary: The global automotive LiDAR market is projected to experience significant growth, reaching $11.26 billion by 2033, driven by the adoption of advanced Level 2+ and Level 3 automated driving systems in electric vehicles. This growth is supported by the push towards integrating solid-state LiDAR and semiconductor technologies to enhance intelligent vehicle production. The Asia-Pacific region leads in LiDAR adoption, aided by strong intelligent vehicle production and a concentrated supplier...
+  url: https://finnhub.io/api/news?id=a4c4f66d80409f06e90946e43bc7db82f85e838b1a8c58c0ec2c12fe4233595d

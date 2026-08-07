@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Price Spoils the Party on Wall Street, Memory Chips Take a Hard Hit
+  summary: A nearly 5 percent jump in Brent crude pushed U.S. yields higher and put the recent rally on pause. Memory chip stocks corrected sharply despite better-than-expected quarterly results.
+  url: https://finnhub.io/api/news?id=c42e3831622718b4f9a1ba0e6c62cc5085b39b425b74d855b0adf96ae23b213e

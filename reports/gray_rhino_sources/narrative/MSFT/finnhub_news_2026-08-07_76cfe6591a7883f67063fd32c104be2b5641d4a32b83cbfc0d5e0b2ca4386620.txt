@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft makes a controversial decision that changes its AI story
+  summary: Microsoft spends billions building its own AI models every year. Internally, though, the company just told its own developers to reach for someone else's technology first. The instruction came from deep inside Microsoft's engineering organization, and it says as much about the economics of AI ...
+  url: https://finnhub.io/api/news?id=c86551dad7d60c2183d9858f8626ea2e37df7846738b2c0672a016cf89b32bd0

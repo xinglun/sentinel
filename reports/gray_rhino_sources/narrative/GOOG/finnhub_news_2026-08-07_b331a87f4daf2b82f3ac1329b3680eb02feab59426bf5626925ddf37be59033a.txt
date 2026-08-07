@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Thryve.Earth Announces First Corporate Offtake Commitments to Restore 6,000 Hectares in Sulawesi, Indonesia
+  summary: Thryve.Earth announced its first corporate offtake commitments with Symbiosis Coalition, a buyers' coalition for nature-based carbon removal, and Tencent, a global internet and technology company.
+  url: https://finnhub.io/api/news?id=6d1f7125d9a32d17f69c01cbf8e53441dc02566c0a93e731d2a4cffd53888977

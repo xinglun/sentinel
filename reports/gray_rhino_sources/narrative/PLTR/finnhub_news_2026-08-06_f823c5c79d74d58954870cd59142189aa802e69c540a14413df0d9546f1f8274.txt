@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's Ark Invest Makes SpaceX, Circle Top Holdings After Latest Buying Spree
+  summary: SpaceX and Circle rank among the 10 largest positions in Ark's flagship innovation fund after the firm continued buying both companies following their second-quarter earnings.
+  url: https://finnhub.io/api/news?id=47ab8daad98b268fa63c9bde254cbbad34a2214a0f688f38254a1f86548a5b47

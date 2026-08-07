@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Stock Falls Despite Beat-and-Raise Quarter
+  summary: Figma Inc (NYSE:FIG) shares are falling in extended trading Wednesday after the company reports financial results for the second quarter.
+  url: https://finnhub.io/api/news?id=66289f6f7304a10e9eb221c3691f2fb35c50e2bd3c9b26ca1bf391f6b954a48d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Buys AI Chip Startup Taalas—Here's Why It Matters To NVDA Investors
+  summary: Advanced Micro Devices (NASDAQ:AMD) said Thursday it will acquire Taalas, a Toronto startup that hardwires entire AI models directly into silicon, for an undisclosed amount. The deal targets inference, the business of running trained models, which AMD projects may grow...
+  url: https://finnhub.io/api/news?id=b8cd12a80a0cfbab131f06af9535aa84f77246034875dec8c288a597e06147e7

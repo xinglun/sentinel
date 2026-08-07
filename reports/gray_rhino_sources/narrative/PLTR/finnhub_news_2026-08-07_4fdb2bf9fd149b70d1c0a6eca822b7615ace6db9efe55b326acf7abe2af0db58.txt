@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Stocks Are a Hot Mess. So Is the Whole AI Trade.
+  summary: The Fed’s next rate move might actually be a cut, the Clarity Act crypto bill is in doubt, and more news to start your day.
+  url: https://finnhub.io/api/news?id=4ba04669d4804b864662aee49fadb9f4b6bce682fd865913b2d07ddcf52a1810

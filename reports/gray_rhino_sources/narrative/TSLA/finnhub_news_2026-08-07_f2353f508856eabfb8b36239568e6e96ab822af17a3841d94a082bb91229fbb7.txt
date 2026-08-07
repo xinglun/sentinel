@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Unveils Orbital AI Network And $16.8 Billion Chip Factory Plans
+  summary: Space Exploration Technologies (NasdaqGS: SPCX) unveils Starmind, an orbital AI data center network built with Nvidia, targeting space based compute and data services. Tesla and SpaceX announce plans for a US$16.8b Terafab AI chip factory in Texas to expand AI hardware production capacity. SpaceX outlines intentions to build a terrestrial mobile network that would compete with major U.S. wireless carriers. These moves push SpaceX deeper into AI infrastructure and telecom, so it can be...
+  url: https://finnhub.io/api/news?id=858e27613e37dd146ee55524d56f32bb0369f30ff9b7e0888035133686e0a2e7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Cools, but the Rebound Structure Remains Intact
+  summary: Daily breadth weakened again Thursday, but moving-average participation and weekly breadth remain constructive. The trend stays neutral with a positive bias.
+  url: https://finnhub.io/api/news?id=4966beaf912517f9125a2cb0f33b8d50545242b74870cd4f10f018faef89382c

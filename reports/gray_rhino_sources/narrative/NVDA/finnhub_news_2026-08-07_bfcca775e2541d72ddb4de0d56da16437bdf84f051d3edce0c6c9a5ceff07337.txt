@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why The iShares Semiconductor ETF (SOXX) Plunged 21% in July
+  summary: The semiconductor sector plunged amid short-selling, forced selling, and the introduction of a new highly capable Chinese model.
+  url: https://finnhub.io/api/news?id=5dbc55aaad22bb704d1aec5f2abc5b862be7346d5e6dc58c3d5acde97efdc819

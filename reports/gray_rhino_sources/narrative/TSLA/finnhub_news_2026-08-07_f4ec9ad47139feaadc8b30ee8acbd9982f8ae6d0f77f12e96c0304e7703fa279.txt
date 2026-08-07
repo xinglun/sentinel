@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX and Tesla Merger Talks Are Heating Up. Here's Why Investors Should Pay Attention.
+  summary: Elon Musk has a lot to gain from a potential megamerger.
+  url: https://finnhub.io/api/news?id=9580dfc476605b944309badbd7ef5621f279037e47107f6a7d4e333a5d10ef65

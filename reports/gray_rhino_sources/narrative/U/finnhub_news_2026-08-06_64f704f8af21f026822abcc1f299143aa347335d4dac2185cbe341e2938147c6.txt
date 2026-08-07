@@ -1,0 +1,8 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 12 Information Technology Stocks Moving In Thursday's Pre-Market Session
+  summary: Gainers
+
+ClearOne (NASDAQ:CLRO) stock rose 198.1% to $10.97 during Thursday&#39;s pre-market session. The company&#39;s market cap stands at $9.8 million. 
+Aeva Technologies (NASDAQ:AEVA) stock increased by 31.25% to
+  url: https://finnhub.io/api/news?id=aaa5b94a9b0a0d2db231a140d4306ce7495a09b4d8f70b2dcbee08908fd22e7b

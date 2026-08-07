@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July Jobs Report: A Mixed Showing As Payrolls Decline But Employers Retain
+  summary: The Labor Department reported that payrolls declined 23K in July, well below expectations of growth of nearly 100K. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=6d648bd4421d63e8ed7c1f8d3161a89c650992eca670d061f097c7f4b8dcb7f8

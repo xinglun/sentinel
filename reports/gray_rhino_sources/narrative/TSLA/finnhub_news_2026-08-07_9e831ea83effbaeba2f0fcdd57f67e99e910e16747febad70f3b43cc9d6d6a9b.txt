@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software-Defined Vehicle Market to Reach $1.70 Trillion by 2035, Driven by Centralized Computing, AI and OTA Updates - Insights by SDV Type, E/E Architecture, Vehicle Type, Offering, Application, and Region
+  summary: Hardware remains the largest offering, while North America is accelerating adoption through OEM software investment Software Defined Vehicle Market Software Defined Vehicle Market Dublin, Aug. 07, 2026 (GLOBE NEWSWIRE) -- The "Software Defined Vehicle Market by SDV Type, E/E Architecture, Vehicle Type, Offering, Application, and Region - Global Forecast to 2035" has been added to ResearchAndMarkets.com's offering.The global software-defined vehicle (SDV) market is projected to grow from USD 447.
+  url: https://finnhub.io/api/news?id=afde1ccd4ed0d7ebcbfdc9dde70ece747d614f2685a4678ce0210af18e6c8d46

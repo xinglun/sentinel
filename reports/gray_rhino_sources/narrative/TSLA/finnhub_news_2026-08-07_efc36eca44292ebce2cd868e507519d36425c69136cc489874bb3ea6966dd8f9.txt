@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX and Tesla Are Building Their Own $119 Billion Chip Factory — and the Compute Landlord Thesis Just Got Its Most Expensive Chapter
+  summary: On August 5-6, 2026, the joint venture between SpaceX, Tesla, and Intel was formalized in Grimes County, Texas, following the signing of a JETI tax abatement agreement and a $10 million non-refundable payment. The project, centered at the former Gibbons Creek coal-fired power plant site, marks a definitive step toward the construction of what Elon […]
+  url: https://finnhub.io/api/news?id=8b1554d302732370914dfd3d8b12bcb2421c5036e2f749de1c93d134c1430565

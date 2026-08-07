@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Q2 Shows Why Bigger Isn't Always Better
+  summary: SpaceX (SPCX) Q2 review: 92% revenue growth, Starlink gains, and AI sales surgeâbut $25B cash burn and capex weigh on valuation.
+  url: https://finnhub.io/api/news?id=1c084e4a0dffb181a6c13485cd00c642ab3cbed6c7b5843bf3ede27d258d9378

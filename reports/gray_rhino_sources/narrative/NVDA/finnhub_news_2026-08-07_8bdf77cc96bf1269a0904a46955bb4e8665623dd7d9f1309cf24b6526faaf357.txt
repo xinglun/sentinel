@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Cheers Disney’s Report. Here’s Our New Price Target
+  summary: Disney just posted its fifth straight earnings beat and sent streaming profits soaring, but the stock still sits nearly 10% in the red for the year. Our model puts a specific number on where shares go from here and why Wall Street's celebration may still be underselling the real opportunity.
+  url: https://finnhub.io/api/news?id=1e3c7a8ba24e08e898ed4d2f26a7a8b65cfc07dd5788eea6442b923a4839387b

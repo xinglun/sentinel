@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: AI Disruption Can't Be Ruled Out (Rating Downgrade)
+  summary: Figma stock is downgraded to Sell as growth slows, margins contract, and valuation stays high. Click here to read more about FIG.
+  url: https://finnhub.io/api/news?id=6f4851541ed08ef899b2cc18ce35945595c8e4415192bfbcab2eaa54a834b066

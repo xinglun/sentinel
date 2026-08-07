@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PTIR: The Window Closed After Q2
+  summary: GraniteShares 2x Long PLTR Daily ETF is strictly a short- to medium-term trading vehicle, not a long-term Palantir bullish expression. Learn more about the PTIR ETF here.
+  url: https://finnhub.io/api/news?id=2580d116a1aa406d91c22c4af7ab8ea74ec9b327770b95e36d5eda637ee1fb59

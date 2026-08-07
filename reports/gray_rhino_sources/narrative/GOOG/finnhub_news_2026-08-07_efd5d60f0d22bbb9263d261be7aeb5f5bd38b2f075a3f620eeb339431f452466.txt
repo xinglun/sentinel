@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Broadcom the Best Chip Stock to Own Now? Maybe
+  summary: Broadcom sits at a tollbooth on the AI buildout, and one look at its order book raises a question worth asking: why are so many chip investors still looking elsewhere?
+  url: https://finnhub.io/api/news?id=3c8475d010eeb292a5a164fa8c3070047dec1571403aafb605fc20afb8feacd3

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Innodata Q2 Earnings Call Highlights
+  summary: Innodata (NASDAQ:INOD) reported record second-quarter results for 2026, with revenue, adjusted gross profit, adjusted EBITDA and cash reaching new highs as the company continued to expand its work with AI model developers and large technology customers. Revenue for the quarter was $92.1 million, up
+  url: https://finnhub.io/api/news?id=82ad20a023480b9ef6e3f07b278676653d32730c71f9b87dba842daa68229570

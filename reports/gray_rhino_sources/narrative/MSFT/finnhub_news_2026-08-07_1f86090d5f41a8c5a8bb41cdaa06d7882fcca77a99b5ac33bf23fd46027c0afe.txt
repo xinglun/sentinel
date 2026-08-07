@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Five9 Q2 Earnings Call Highlights
+  summary: Five9 (NASDAQ:FIVN) reported second-quarter 2026 revenue of $312 million, up 10% from a year earlier and above the high end of its guidance range, as accelerating artificial intelligence revenue helped drive subscription growth. Subscription revenue rose 14% year over year, marking a third consecut
+  url: https://finnhub.io/api/news?id=cdb6022ea065ec85d1ffe6c237d8032c30a5d9e3eaab02be4c99c0561954f22d

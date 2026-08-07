@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Q2 Adj. EPS $0.28 Beats $(0.09) Estimate, Sales $546.468M Beat $514.613M Estimate
+  summary: Unity Software (NYSE:U) reported quarterly earnings of $0.28 per share which beat the analyst consensus estimate of $(0.09) by 450 percent. This is a 55.56 percent increase over earnings of $0.18 per share from the same
+  url: https://finnhub.io/api/news?id=0d40037c81b7bf5b773270d99f50fc8b853d7c86c33078eab7d5a54c4c775f53

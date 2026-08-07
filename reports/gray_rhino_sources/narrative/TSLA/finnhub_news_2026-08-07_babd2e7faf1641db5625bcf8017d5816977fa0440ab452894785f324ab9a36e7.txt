@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Shark Tank’ Judge Kevin O’Leary Passed On SpaceX IPO, But May Buy Soon: ‘The Bigger Opportunity Is…’
+  summary: SPCX stock climbed 6% on Thursday despite 911.5 million shares becoming eligible for sale after a lockup expired.
+  url: https://finnhub.io/api/news?id=cc3152641383d86483619bb675b5044935bba39a50e92232999cc8789a73fa3c

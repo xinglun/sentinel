@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why SpaceX Stock Can Break Its Brutal 4-Week Slump Today
+  summary: SpaceX  stock rose early Friday, raising the possibility that shares will end a brutal four-week losing streak that has taken its toll on retail investors.  Shares of Elon Musk’s rocket and AI company were up 1.7% at $116.82, while  and  futures were flat and up 0.1%, respectively.  On Tuesday evening, SpaceX reported sales of $7.8 billion and earnings before interest, taxes, depreciation, and amortization, or Ebitda, of $3.5 billion.
+  url: https://finnhub.io/api/news?id=8d63f7dc7d91be74d689a5a344d4b26c5f68b182bb313fc00b5876bd8d37ae72

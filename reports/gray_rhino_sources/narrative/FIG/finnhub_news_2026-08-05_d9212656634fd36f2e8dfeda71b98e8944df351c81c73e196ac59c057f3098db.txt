@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk, Western Digital, AppLovin Corp., SoundHound AI and Figma: Why These 5 Stocks Are on Investors' Radars Today
+  summary: Major U.S. indices ended Wednesday on a mixed note, with the Dow Jones Industrial Average rising 0.49% to 54,349.12.
+  url: https://finnhub.io/api/news?id=11abefb9be3a17c99bd03aaee75e946798b8404369335bcb5a65678e95bfd01a

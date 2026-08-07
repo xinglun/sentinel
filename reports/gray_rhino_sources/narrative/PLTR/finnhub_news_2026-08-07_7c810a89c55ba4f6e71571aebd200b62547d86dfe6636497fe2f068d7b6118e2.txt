@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood sells $17 million of popular AI stock
+  summary: Cathie Wood, head of Ark Investment Management, often trades around earnings, taking advantage of sharp moves in some of her favorite tech stocks. That's exactly what she's doing with Palantir, trimming her position after the stock rallied following its latest earnings report. In 2025, the flagship ...
+  url: https://finnhub.io/api/news?id=ede36a9dd8497b23f87192486443f0addfa8a24e222f82e81a4609c479ed5dc6

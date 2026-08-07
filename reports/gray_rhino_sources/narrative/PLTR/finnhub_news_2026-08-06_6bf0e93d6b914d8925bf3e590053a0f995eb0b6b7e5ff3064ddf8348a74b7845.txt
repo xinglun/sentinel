@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Thiel Still Owns Roughly 3% of Palantir, a Stake Worth More Than $10 Billion. Here's Why His Continued Conviction Matters for Shareholders.
+  summary: The top Silicon Valley investor is sticking with the high-growth data mining company.
+  url: https://finnhub.io/api/news?id=5a292e32d262018945ef912ed59dcb423cdeeaea37fbfc613fe18b696b944c5c

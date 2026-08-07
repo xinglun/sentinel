@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TCW Concentrated Large Cap Growth Fund Q2 2026 Portfolio Update
+  summary: The Fund generated a net return of +15.24% during the second quarter, underperforming the Russell 1000 Growth Index return of +16.74%. Read more here.
+  url: https://finnhub.io/api/news?id=a4be55e268c5a2f7a9605bc2cc25490523542cfe4ce6f261641d0211a5aa0a3c

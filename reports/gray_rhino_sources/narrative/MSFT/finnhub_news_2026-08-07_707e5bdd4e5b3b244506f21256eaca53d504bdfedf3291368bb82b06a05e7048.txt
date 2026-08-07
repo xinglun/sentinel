@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft opens fourth Azure data center region in India
+  summary: The Hyderabad facility is part of Microsoft's $20.5 billion cloud and AI investment commitment to India
+  url: https://finnhub.io/api/news?id=c9d59c1bf36ddaf617217540c7d77ad3df68b1ec344f3ba53ac71064b0669913

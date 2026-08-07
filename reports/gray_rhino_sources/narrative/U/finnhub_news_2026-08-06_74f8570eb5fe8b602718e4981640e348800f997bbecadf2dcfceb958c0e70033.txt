@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Stock Surges as Q2 Earnings Top Wall Street Estimates
+  summary: Unity Software Inc (NYSE: U) shares are trading higher Thursday afternoon after the company delivered impressive second-quarter 2026 financial results that surpassed Wall Street expectations, paired with third-quarter guidance that exceeded analyst forecasts.
+  url: https://finnhub.io/api/news?id=c49866170d3b61106847007e4060c6948e4dc22e4f05d104352aadbed018bf56

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: USA Today Co Inc (TDAY) (Q2 2026) Earnings Call Highlights: AI Partnerships and Record ARPU ...
+  summary: Despite a dip in total revenue, USA Today Co Inc (TDAY) posts its second consecutive profitable quarter, fueled by surging digital subscription ARPU and a transformative Palantir partnership.
+  url: https://finnhub.io/api/news?id=25bd16d14adf26c8b54c7e169e8a7ed88f11b07a89db45c688457788c33dcbb7

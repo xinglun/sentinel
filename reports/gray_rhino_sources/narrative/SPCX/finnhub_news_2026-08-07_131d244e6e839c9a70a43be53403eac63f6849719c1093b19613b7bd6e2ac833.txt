@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Millions of 401(k) Investors Own SpaceX Like It or Not. It’s Already Cost Them $1.4 Billion.
+  summary: SpaceX's lightning-fast entry into the Nasdaq-100 triggered billions in automatic buying by index funds, and the retirement savers who got swept along had no say in the matter. What happened next reveals an uncomfortable truth about passive investing that most 401(k) holders never consider.
+  url: https://finnhub.io/api/news?id=c6e90f554b32771a87c3a352f0b737ba71fc8479762f464cf8090286c74b3f13

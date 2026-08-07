@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Western Digital, Applovin, Zillow Group And Other Big Stocks Moving Lower In Thursday’s Pre-Market Session
+  summary: U.S. stock futures mixed, Dow up 100+ points. Western Digital falls after earnings beat expectations but lowers guidance. Other stocks dip in pre-market.
+  url: https://finnhub.io/api/news?id=80f64d5500045deb30573a88b7bf2a5caf425e0c8781efc83e3570703809b054

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Just How Wide Is the Risk Priced Into Adobe Stock?
+  summary: The options market is pricing a vast range of outcomes for the creative software giant, and if you hold the shares, you are already exposed to the full ride.
+  url: https://finnhub.io/api/news?id=a6db8a164cc7fdc44fc8087fa2990e971edf8365914efdd10c32b490e6f1ac2b

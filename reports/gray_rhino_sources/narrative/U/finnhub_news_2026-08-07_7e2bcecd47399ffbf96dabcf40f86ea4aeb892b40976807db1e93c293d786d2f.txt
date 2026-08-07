@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Atlassian To Rally More Than 63%? Here Are 10 Top Analyst Forecasts For Friday
+  summary: Wall Street analysts changed ratings &amp; price targets for top stocks. Check out all changes including upgrades &amp; downgrades on Benzinga analyst ratings page.
+  url: https://finnhub.io/api/news?id=647db69d7fe33ecdc99dd1f3f11f4f30c4dfd3b707bfde67346763dd248e6afb

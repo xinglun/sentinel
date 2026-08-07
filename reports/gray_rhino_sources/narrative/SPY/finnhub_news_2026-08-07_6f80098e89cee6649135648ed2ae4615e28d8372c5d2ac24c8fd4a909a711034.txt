@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Canada discussing trade concessions with the U.S. in return for some tariff relief, sources say'- The Globe And Mail
+  summary: https://www.theglobeandmail.com/business/article-canada-and-us-discussing-trade-concessions-in-return-for-partial/
+  url: https://finnhub.io/api/news?id=50220eb59bdd7bc76c93aa783f7b47b954fc90cacf98249bd4d5b3617481b294

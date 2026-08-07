@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apollo's Torsten Slok Says AI Capex Boom Is Growing Nearly Twice as Fast as the Mid-2000s Housing Bubble
+  summary: Apollo&#39;s Torsten Slok warns the AI capex boom is building twice as fast as the housing bubble, posing severe macro risks if demand falters.
+  url: https://finnhub.io/api/news?id=85fda2eb3b7f47b5ea200ed475e187013a06b0cf46913bff67eb2637b46c7e27

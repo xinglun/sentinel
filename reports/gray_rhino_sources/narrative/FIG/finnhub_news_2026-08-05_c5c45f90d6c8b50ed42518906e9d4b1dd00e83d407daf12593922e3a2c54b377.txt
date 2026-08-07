@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Sees Q3 Sales $373.000M-$375.000M vs $364.868M Est
+  summary: Figma (NYSE:FIG) sees Q3 sales of $373.000 million-$375.000 million vs $364.868 million analyst estimate.
+  url: https://finnhub.io/api/news?id=560ee5a7eb6b5fd516d9540ed1fc3a9d84682231855566b0daf521703882f1e2

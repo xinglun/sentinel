@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: This Week's Dodged Supply More Than Doubles December's Unlock
+  summary: I ran the lock-up's own price test over the ten sessions to August 4. Zero of ten, and that pushes December's release to 797.6 million shares from 328.4 million.
+  url: https://finnhub.io/api/news?id=f67003a16edd1bb0971a4fc81e331b64837e9ad1ea59541590515dec77518b8e

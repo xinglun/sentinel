@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Q2 Was Exceptional, But Something More Important Changed
+  summary: Palantirâs blowout growth (93% revenue, 149% US commercial), 62% margin, and 157% retention support a Buy despite ~40x valuation. Click for more on PLTR stock.
+  url: https://finnhub.io/api/news?id=d971bf8431a3c092e3a49b0bfb736d8cc63df40a1226b88b69c680de95a6b2c7

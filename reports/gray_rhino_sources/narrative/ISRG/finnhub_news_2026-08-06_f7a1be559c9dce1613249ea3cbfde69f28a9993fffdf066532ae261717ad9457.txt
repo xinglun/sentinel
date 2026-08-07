@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: STE Q1 Earnings Beat, Revenues Miss, Stock Dips in Aftermarket Trading
+  summary: STERIS beats fiscal Q1 earnings estimates as sales rise 7.3%, but a modest revenue miss sends shares 2.4% lower after hours.
+  url: https://finnhub.io/api/news?id=93ed2f326bd23efeabfa6448df1dc7e90b08fe15b5e30db3db486a67c99e3e92

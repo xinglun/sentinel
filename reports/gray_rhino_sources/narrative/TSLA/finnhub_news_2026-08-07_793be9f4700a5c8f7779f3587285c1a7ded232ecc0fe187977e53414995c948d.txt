@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The New Wild West: Texas Experiments With Raw Capitalism
+  summary: The state’s light requlation and low taxes are luring dozens of big companies. It’s also setting up a water crisis and a “race to the bottom” in shareholder protections.
+  url: https://finnhub.io/api/news?id=150ab5c274f50f32ba7dc1d0b62589d098a4a241ab233f45d9d41f8e6740aed8

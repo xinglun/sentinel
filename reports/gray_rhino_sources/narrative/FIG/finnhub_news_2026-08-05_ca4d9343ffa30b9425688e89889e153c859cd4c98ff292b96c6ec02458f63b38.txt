@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Raises FY2026 Sales Guidance from $1.422B-$1.428B to $1.463B-$1.467B vs $1.437B Est
+  summary: Figma (NYSE:FIG) raises FY2026 sales outlook from $1.422 billion-$1.428 billion to $1.463 billion-$1.467 billion vs $1.437 billion estimate.
+  url: https://finnhub.io/api/news?id=88a1cae67fbda44aae6b4cf570c59b972cc71f69b2f3493592d581e48ffed786

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma (NYSE:FIG) Beats Q2 Estimates but Shares Slide on Growth Deceleration Concerns
+  summary: Figma Q2 revenue up 48%, EPS beats, yet stock slides 15% on decelerating guidance. AI monetization ramps with strong enterprise expansion.
+  url: https://finnhub.io/api/news?id=cfbe89828fefb91943d604764691e84d4edd52743dbeb6a7c2bbc1a94d92c5b9

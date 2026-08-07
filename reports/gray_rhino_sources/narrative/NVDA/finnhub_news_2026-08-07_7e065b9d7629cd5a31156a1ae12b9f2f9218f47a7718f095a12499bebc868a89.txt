@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: After a Blowout Quarter, Shopify Will End The Year at This Price
+  summary: Shopify just posted its biggest single-day earnings pop in recent memory, and the rally may not be finished. Here is where the stock could land before December and what threatens to knock it off course.
+  url: https://finnhub.io/api/news?id=0e41d834879a0544c3539a2f87449a513cd03b7b28384759988db045686169e0

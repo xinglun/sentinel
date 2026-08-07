@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Michael Burry Wrong About Everything?
+  summary: Michael Burry called the 2008 housing collapse and became a legend, but his string of bearish bets against AI and the current market rally raises a question he keeps dodging: what does his actual track record look like when you demand proof?
+  url: https://finnhub.io/api/news?id=780063c42156307e444aa6923923776d185c48419cbb3ef9b080aad7db206671

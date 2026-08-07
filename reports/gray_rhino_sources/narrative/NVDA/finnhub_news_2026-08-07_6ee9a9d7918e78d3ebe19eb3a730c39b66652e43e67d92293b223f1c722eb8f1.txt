@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Safest Dividend ETFs Retirees Can Buy in August and Hold Forever
+  summary: Cash yields look attractive right now, but retirees who park everything there risk watching inflation quietly erode their purchasing power for decades. These five dividend ETFs offer a different path, though each one comes with a hidden trade-off most investors overlook.
+  url: https://finnhub.io/api/news?id=5fe19559f9d1e45e21cebe1df56fd30905886d747344df8b2034c80c3a89ec51

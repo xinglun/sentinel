@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Lands An Upgrade, Rocket Lab Surges After Electron Mission
+  summary: Analyst upgrades SpaceX stock to buy on its AI investment payback timeline. Rocket Lab jumps near key line after 92nd Electron mission.
+  url: https://finnhub.io/api/news?id=47f73670bdfccfa0015c1e05b5b85f4a1b51a355ec2927320a03cda64f98ced4

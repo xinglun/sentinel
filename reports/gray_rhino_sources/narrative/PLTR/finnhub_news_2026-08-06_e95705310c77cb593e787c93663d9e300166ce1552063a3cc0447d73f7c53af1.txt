@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Invests $17.6 Million in Major AI Stock
+  summary: ARK's latest rotation reveals where Wood sees greater upside
+  url: https://finnhub.io/api/news?id=8811a24e4edb586fbb0efaeea45ab6d26bcd7f496f3ec5519b9e343bec420555

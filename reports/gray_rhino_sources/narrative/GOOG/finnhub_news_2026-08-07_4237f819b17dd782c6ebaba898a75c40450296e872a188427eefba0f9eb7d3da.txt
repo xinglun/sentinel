@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jane Street Eyes $11 Billion Private Credit Refinance to Support AI Investments: Report
+  summary: Jane Street is reportedly seeking an $11 billion private credit deal with Pimco and other investors to expand its AI investments.
+  url: https://finnhub.io/api/news?id=917ac20f384c26ab56029ed049665c2e54aab110ed0e58f15de2cf6871b79ccb

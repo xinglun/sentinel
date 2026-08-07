@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tom Lee Thinks 2027 Will Be “One of the Best Years” for Stocks—Why He’s Got a Strong Case
+  summary: Tom Lee is doubling down on a bold call for stocks just as Michael Burry invokes the 1987 crash and Jamie Dimon warns about dangerous levels of market leverage. The bull and bear cases have rarely been this far apart.
+  url: https://finnhub.io/api/news?id=c73526055ee9f51bb70dcf1d2b033e7a5aa4be0dcf8f44556c88019fbb41b2c9

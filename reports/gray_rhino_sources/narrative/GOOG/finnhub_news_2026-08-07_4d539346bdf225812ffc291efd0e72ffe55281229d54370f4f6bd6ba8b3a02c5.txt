@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Debt Indigestion Forces Wall Street to Rethink Bond Sales
+  summary: (Bloomberg) -- When BlackRock Inc. sought to raise billions in debt financing for a Meta Platforms Inc. data center, there was one type of investor the asset management giant wanted to avoid: those looking for a quick profit.Most Read from BloombergOpenAI’s New Device Will Be Hockey Puck-Sized and Cost Over $300Iran Wants to Bar US, Israeli Ships From Hormuz in Peace AccordIran Says Agreement on Hormuz Shipping Reached With OmanTrump Administration Considers Order on Autism and VaccinesIshbia’s
+  url: https://finnhub.io/api/news?id=c6e47cf7f7cfbde61b8e0078877c32146c6b8f3cfdc026c4a9ce571b12569e9b

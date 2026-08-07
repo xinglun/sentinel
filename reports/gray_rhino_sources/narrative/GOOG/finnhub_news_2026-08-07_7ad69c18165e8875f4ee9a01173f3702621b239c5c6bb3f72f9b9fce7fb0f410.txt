@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Not Micron, Not Nvidia. This Artificial Intelligence (AI) Giant Could Be the Ultimate Winner of the AI Arms Race.
+  summary: Alphabet's recurring revenue businesses will boost its stock over the next decade.
+  url: https://finnhub.io/api/news?id=bc0a385eddec39e6454a77f77ef1a753d42a583e89598823d20e8e2c09297652

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says SpaceX Will Consume Three Times More Terafab AI Compute Than Tesla
+  summary: Tesla Inc. (NASDAQ:TSLA) and Space Exploration Technologies Corp. (NASDAQ:SPCX) CEO Elon Musk says that the new Terafab semiconductor manufacturing facility in Grimes County, Texas, will serve both the Optimus robot and SpaceX’s “AI spacecraft”. Elon Musk’s Approximate Guesses On Thursday, the Tesla Owners Silicon Valley handle on X shared a promotional video of the Terafab facility, saying that the site will “produce over 1 terawatt of AI compute capacity per year” and that it would be a crucia
+  url: https://finnhub.io/api/news?id=ee07a0dc5c37e5e33cfb11a5528f2365ff1010010fa18ccfbe0dd390a44732e5

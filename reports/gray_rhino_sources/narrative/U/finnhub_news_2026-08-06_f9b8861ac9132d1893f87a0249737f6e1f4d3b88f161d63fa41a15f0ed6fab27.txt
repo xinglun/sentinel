@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Sees Q3 Sales $540.000M-$550.000M vs $538.787M Est
+  summary: Unity Software (NYSE:U) sees Q3 sales of $540.000 million-$550.000 million vs $538.787 million analyst estimate.
+  url: https://finnhub.io/api/news?id=a08e74dd064a9c452b0d5347d9d875040ffeb964052ae8e79c289e5317d03e37

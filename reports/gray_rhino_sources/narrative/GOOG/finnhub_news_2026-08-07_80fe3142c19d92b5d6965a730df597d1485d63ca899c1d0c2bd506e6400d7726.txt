@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where to Invest in AI in 2026: A Guide for Advisors
+  summary: Where to invest in AI in 2026? Experts from J.P. Morgan, Pictet & Chantico break down AI stocks, ETFs, capex trends, and portfolio strategies for advisors.
+  url: https://finnhub.io/api/news?id=6d6227310610ca8d6a194360bb69536371e69bf30e11cffb51d577b3879fb1f5

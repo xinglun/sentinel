@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bad AI Vs. Good AI: Why Cybersecurity Became A Crucial Tech Battlefield
+  summary: Cybersecurity faces a new era as hackers automate attacks. The troubling trend brings serious implications for AI stocks.
+  url: https://finnhub.io/api/news?id=f20092961ed1f4bca4df14606100558016cfa1e6010cae0c0cfdd379a815a6d0

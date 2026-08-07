@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Overlooked Chip Stock Poised to Lead the AI Memory Boom
+  summary: Silicon Motion Technology operates in a little-known but important part of memory chip infrastructure.
+  url: https://finnhub.io/api/news?id=e040ff950dbc645030a7dfa8bc7ea81285c9d0fc81f41b2dea61975ae89fa201

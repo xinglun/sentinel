@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July CPI Likely To Come 'Hot,' Could Accelerate The AI Bubble Burst
+  summary: The Fed might be forced to hike in September, with more aggressive tightening policy to be priced in. Read why the AI bubble burst could accelerate.
+  url: https://finnhub.io/api/news?id=cca40f96b31d36130ec4a94edad124df82a17a16ec7e96822544d3a4e02f43aa

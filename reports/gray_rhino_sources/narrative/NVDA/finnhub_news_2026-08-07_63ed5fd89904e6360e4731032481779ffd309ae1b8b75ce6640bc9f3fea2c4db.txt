@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is XRP a Millionaire-Maker Cryptocurrency?
+  summary: Don't bet on it.
+  url: https://finnhub.io/api/news?id=78ed9706a582add503bc3ec856a7ff5b68812cff736b38552b2f8c263460aa39

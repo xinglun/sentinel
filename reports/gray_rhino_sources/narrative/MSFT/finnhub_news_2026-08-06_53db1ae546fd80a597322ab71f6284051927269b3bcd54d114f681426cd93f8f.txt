@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Data Center Boom Is Powering Utility Earnings. Here Is My Favorite Way to Play the Trend.
+  summary: Utility companies are increasingly benefiting from the AI data center boom, and here is my favorite way to gain exposure to this investment theme.
+  url: https://finnhub.io/api/news?id=67c07b29c4f732167c4b24d4f3f40141f62eb17e87fecfaf2b765b5274507819

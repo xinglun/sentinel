@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: AI Credit Sales Bolster Growth, 'Buy' The Dip
+  summary: Figma stock is a contrarian "Buy" amid strong revenue growth and 85% gross margins. Here's what investors need to know about FIG stock.
+  url: https://finnhub.io/api/news?id=d4f5cae45aff61218c32b87c0f189d6f4dcdbefaa1d42708a93b6e27bd23242f

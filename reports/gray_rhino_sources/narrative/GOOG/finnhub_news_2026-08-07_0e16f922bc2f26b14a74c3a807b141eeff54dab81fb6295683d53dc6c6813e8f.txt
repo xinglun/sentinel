@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Block (SQ)'s Buyback Completion And Google AI Tie-Up Means For Shareholders
+  summary: In early August 2026, Block reported second-quarter revenue of US$6,617.69 million with net income of US$88.52 million, while also completing a multi-year US$4.43 billion share repurchase program that retired 11.03% of its stock. A day later, Google announced an expanded collaboration with Square that plugs food and beverage sellers directly into Ask Maps and Order by Cash App, tying Block’s payments ecosystems more tightly into everyday AI-driven restaurant discovery and ordering. Next,...
+  url: https://finnhub.io/api/news?id=127ccb6ff769aa61f0abcc7f3154d9301e12d8393f032da162e3156c689a49f8

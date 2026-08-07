@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 20 Years on Wall Street Taught Me to Buy and Hold 5 High-Yield Energy Giants
+  summary: Two decades at Bear Stearns, Lehman Brothers, and Morgan Stanley taught one veteran exactly which energy companies survive market collapses and keep paying shareholders through every cycle. Here are the five he trusts with his own money.
+  url: https://finnhub.io/api/news?id=41bac1f0a40b48b8fc7264c24e57bb810d3c9595ac7e7b3560e2d001f6070ff7

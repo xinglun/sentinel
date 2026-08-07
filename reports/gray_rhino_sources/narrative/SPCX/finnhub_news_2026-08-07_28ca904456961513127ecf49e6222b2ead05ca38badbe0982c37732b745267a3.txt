@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Wants Starlink To Take On T-Mobile, Verizon, AT&T—Here's Why That's Easier Said Than Done
+  summary: SpaceX says Starlink Mobile can challenge T-Mobile, Verizon and AT&amp;T, but its plan still depends on building terrestrial cellular infrastructure.
+  url: https://finnhub.io/api/news?id=281d0bd14feffab1c62e2c2db984aaeb4ec34485b618e115436e60ddf514031a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Bullish On AI But Not Every AI Stock
+  summary: Amazon, Microsoft, Alphabet and Meta could invest roughly $700â725 billion in AI infrastructure during 2026. Read why I feel AI demand is producing real profits.
+  url: https://finnhub.io/api/news?id=2a8f7c66f237beffbb8f8a417974a0964fe417160be947a74eb8ac5b7401007b

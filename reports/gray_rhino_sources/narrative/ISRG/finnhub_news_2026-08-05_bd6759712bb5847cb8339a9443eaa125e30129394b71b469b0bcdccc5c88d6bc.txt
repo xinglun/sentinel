@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRL Q2 Earnings and Revenues Top, '26 View Up, Stock Up in Pre-Market
+  summary: Charles River beats Q2 earnings and revenue estimates, raises 2026 outlook and gains 7.9% in pre-market trading.
+  url: https://finnhub.io/api/news?id=1a7aca0e8c71ebda7f8740f1654c8f7408da5ed6d32912134eb3c869c199bc06

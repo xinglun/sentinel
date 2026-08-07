@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet and Tesla: A Single Divergence Tells Us So Much About Current Reality
+  summary: Alphabet and Tesla both reported earnings the same day, both burned billions on AI, and both are chasing the same future. So why did the market punish one and reward the other?
+  url: https://finnhub.io/api/news?id=98721180ef16b1b076d6ff39557b71f273fddf371e4f5415691ae9e49f5a44aa

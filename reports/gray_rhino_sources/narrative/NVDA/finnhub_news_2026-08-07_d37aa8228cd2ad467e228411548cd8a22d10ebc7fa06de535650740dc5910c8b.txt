@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Gains but AMD Is Coming for More of the AI Chip Market
+  summary: Nvidia stock has been on a roll ahead of its earnings but AMD's most recent deal could sharpen AI chip competition.
+  url: https://finnhub.io/api/news?id=af1b8734ae89e668a41a61ed86eaff1673c7c4796e3efee380fd6c561ad8f785

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SharonAI Holdings, Inc. Class A Common Stock Q2 Earnings Call Highlights
+  summary: SharonAI Holdings, Inc. Class A Common Stock (NASDAQ:SHAZ) said it expanded its secured AI factory capacity, contract backlog and funding during the second quarter, as the company works to deploy GPU infrastructure across Australia and New Zealand. Chief Executive Officer and co-founder James Manni
+  url: https://finnhub.io/api/news?id=8253e72dc8e6bc52dfd0462242c24dd5330dfd6a50875a0645bf86f2d046a3cc

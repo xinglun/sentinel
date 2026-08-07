@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloomberg Reported US Reviews China's Offshore Nvidia Chip Access After AI Gains
+  summary: https://www.bloomberg.com/news/articles/2026-08-07/us-reviews-china-s-offshore-access-to-nvidia-chips-after-ai-breakthroughs
+  url: https://finnhub.io/api/news?id=8b8d683cc5aefe97f0dcb1d7e3fe3c8cf3bdacbaf7650484d3b4a02f11fa8590

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba's Next Qwen AI Model May No Longer Be Free for Large Enterprises as It Eyes Moonshot Kimi K3-Like Revenue-Sharing Strategy: Report
+  summary: Alibaba may require large commercial users to share revenue as Chinese AI firms shift toward monetizing open-source models.
+  url: https://finnhub.io/api/news?id=73c118d6995bb2d0b2a0f0cdbbd62edb521dc09699ed6edc10a9ac046e7a548f

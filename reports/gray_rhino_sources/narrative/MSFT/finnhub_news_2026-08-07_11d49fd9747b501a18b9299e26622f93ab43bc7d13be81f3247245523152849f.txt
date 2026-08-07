@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Credit Says The Capital Goods Recession Story Doesn't Hold Up
+  summary: Every market shock produces a story fast enough to explain it, and the story that formed around Julyâs selloff was a good one
+  url: https://finnhub.io/api/news?id=f1f73534cf7e3e40d71b94d7296363b4b05826a2d9014c0ad6219c7b224551b1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QumulusAI Signs Agreement With Agentic Hedge Fund To Provide NVIDIA Blackwell GPU Capacity
+  summary: ATLANTA, August 07, 2026--QumulusAI (Nasdaq: QMLS), a neocloud infrastructure provider purpose-built for the AI computing era, today announced an agreement with an agentic hedge fund. QumulusAI negotiated market-rate compute pricing for the fund’s usage along with a share of its quarterly trading profits, with no exposure to trading losses.
+  url: https://finnhub.io/api/news?id=07b5eaefa6c592444a02ca7a0d516990862ce2ae938d6832f87bcea5ac8a78fe

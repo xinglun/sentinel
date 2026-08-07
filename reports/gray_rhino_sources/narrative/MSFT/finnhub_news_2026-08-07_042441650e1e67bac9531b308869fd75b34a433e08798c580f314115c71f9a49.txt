@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Digital Twins in Healthcare Global Market Report 2026 | Profiles Microsoft, Siemens Healthineers, Philips, AWS, and 21 Other Players
+  summary: Digital Twins in Healthcare Market Digital Twins in Healthcare Market Dublin, Aug. 07, 2026 (GLOBE NEWSWIRE) -- The "Digital Twins in Healthcare Market by Component, Application, End User, and Region - Global Forecast to 2031" has been added to ResearchAndMarkets.com's offering. The global digital twin in healthcare market is entering a period of substantial expansion, supported by increasing adoption across clinical care, medical research, surgical planning and healthcare facility management. T
+  url: https://finnhub.io/api/news?id=2eed0e22d6951bd85db5cebef1c6701a751b22f0fa594db103b10d052ba3f5e6

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can da Vinci 5 Drive Intuitive Surgical's Next Multi-Year Upgrade Cycle?
+  summary: Intuitive Surgical's da Vinci 5 is gaining rapid adoption, fueling hospital upgrades as software enhancements build a potential multi-year capital cycle.
+  url: https://finnhub.io/api/news?id=262782447449ff61a7c3702f9cf92ea2613dbee793882d07196dcd81e31db6ba
