@@ -1,0 +1,207 @@
+{
+  "workItemId": "s-28-10-price-volume-completeness-repair",
+  "contractPath": ".ai/work-items/archive/2026/s-28-10-price-volume-completeness-repair.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "reason": "S-28 完全性修正の境界と検証を固定した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "reason": "実装と検証証跡を記録した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "明示的な corporate action / split 可比性イベントを追加した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "429 の日報・JSONL 観測経路を統合テストで固定した。"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "429 symbol 抽出を Clippy 準拠で維持した。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "可比性低下を DEGRADED / UNAVAILABLE に固定した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "ACCUMULATION_FAILED と連続取引日だけを数える履歴判定を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "供給、価格位置、価格挙動、失敗解釈を日報へ表示した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "429 失敗 symbol を日報と JSONL 観測へ接続した。"
+    },
+    {
+      "path": "src/features/shared/domain/supply_event_context.rs",
+      "reason": "供給イベント事実と観測専用境界を表現した。"
+    }
+  ],
+  "sourcesUsed": [
+    "用户提供的 Sentinel Price-Volume Structure 增强开发指示",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "明示事実だけを観測へ接続し、取引経路は変更していない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "429 が成功履歴のみを走査するため日報へ届かない実行時断点を修正した。",
+    "欠損取引日を連続とみなす余地を、日次連番または金曜から月曜に限定して修正した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope と非取引境界を確定した。",
+      "contractHash": "e394b9dd1ae2bb32",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "429、可比性、報告、履歴のデータ経路を確認した。",
+      "contractHash": "e394b9dd1ae2bb32",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "Cockpit checks の最終結果を記録する。",
+      "contractHash": "e394b9dd1ae2bb32",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "最終 status 生成前の検証結果。",
+      "contractHash": "e394b9dd1ae2bb32",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope と acceptance を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "根因を成功履歴への限定と確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "Cockpit checks の完了を記録する。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "最終 status 生成を残す。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "external_data",
+      "detail": "実市場での provider 429 / corporate action 事実入力は運用時に観測継続が必要。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "必須の product checks は通過し、実市場の provider 429 は継続観測する。",
+    "expectedReviewFocus": [
+      "429 failure report entry",
+      "observation-only boundary",
+      "explicit data-quality event"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "运行质量门禁以外，还要检查遗漏。",
+      "solidifiedTo": "contract",
+      "reason": "遗漏项已写入 acceptance，并由运行时与持久化测试固定。"
+    },
+    {
+      "correction": "完成以后自检，有问题对应，循环到闭环为止。",
+      "solidifiedTo": "summary",
+      "reason": "自检发现的缺损交易日连续性问题已修复，并在归档前重跑全套验证。"
+    }
+  ]
+}

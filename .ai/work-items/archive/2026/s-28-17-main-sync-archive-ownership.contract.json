@@ -1,0 +1,92 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-17-main-sync-archive-ownership",
+  "mode": "code",
+  "title": "Main sync archive ownership evidence",
+  "baseCommit": "d02c209f87fbc47517c9450e7d379d7af18e3310",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR #14 が main との diff に含む src/features/radar/interface/mod.rs を、新規 archive evidence pair が ownership として記録していないため AI PR Guard が失敗する。",
+  "intent": {
+    "problem": "既存 archive を改変せず、main 同期 PR のための append-only evidence pair に interface module registration の ownership を記録する。",
+    "constraints": [
+      "既存 archive は変更しない。受監査 archive repair exception は適用しない。",
+      "production code、取引判断、Gate、Execution、Trader、Action Matrix、Position Sizing は変更しない。",
+      "本 Work Item は CI archive ownership evidence のみを追加する。"
+    ],
+    "rationale": "AI PR Guard は本 PR で新規追加された archive Contract と Summary の scope / changedFiles による所有権を要求するため。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json",
+    ".ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json",
+    ".ai/work-items/archive/2026/s-28-17-main-sync-archive-ownership.contract.json",
+    ".ai/work-items/archive/2026/s-28-17-main-sync-archive-ownership.summary.json",
+    "src/features/radar/interface/mod.rs"
+  ],
+  "outOfScope": [
+    ".ai/work-items/archive/2026/s-28-01-*.json",
+    ".ai/work-items/archive/2026/s-28-02-*.json",
+    ".ai/work-items/archive/2026/s-28-03-*.json",
+    ".ai/work-items/archive/2026/s-28-04-*.json",
+    ".ai/work-items/archive/2026/s-28-05-*.json",
+    ".ai/work-items/archive/2026/s-28-06-*.json",
+    ".ai/work-items/archive/2026/s-28-07-*.json",
+    ".ai/work-items/archive/2026/s-28-08-*.json",
+    ".ai/work-items/archive/2026/s-28-09-*.json",
+    ".ai/work-items/archive/2026/s-28-10-*.json",
+    ".ai/work-items/archive/2026/s-28-11-*.json",
+    ".ai/work-items/archive/2026/s-28-12-*.json",
+    ".ai/work-items/archive/2026/s-28-13-*.json",
+    ".ai/work-items/archive/2026/s-28-14-*.json",
+    ".ai/work-items/archive/2026/s-28-15-*.json",
+    ".ai/work-items/archive/2026/s-28-16-*.json",
+    "src/**",
+    "tests/**",
+    "docs/**",
+    ".github/**",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing"
+  ],
+  "sources": [
+    {"path": "GitHub Actions run 31259259875 / job 93107389159", "reason": "AI PR Guard failure の直接証拠。"},
+    {"path": "scripts/ai_check_pr.py", "reason": "archive pair の新規追加時だけ ownership が判定されることを確認する。"},
+    {"path": ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.contract.json", "reason": "既存 evidence pair が module path を scope に含まないことを確認する。"},
+    {"path": ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.summary.json", "reason": "既存 evidence の changedFiles と current PR ownership の差異を確認する。"},
+    {"path": "src/features/radar/interface/mod.rs", "reason": "main 同期 PR で ownership を記録すべき既存 module registration path。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "main base からの PR diff が interface module を含む場合、新規 archive pair が scope と changedFiles の両方で ownership を示す", "required": true, "status": "verified", "evidence": ["make check-ai-pr AI_BASE_COMMIT=faca6678c1e8461ba88b179485c4f5f7c0d1fbd0"]}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci", "governance_process"],
+    "reason": "append-only archive evidence の追加だけで、既存 archive と product behavior を変更しない。"
+  },
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "CI log、PR diff、guard implementation により不足している evidence scope が一意に確定している。"},
+  "preReviewWarnings": ["既存 archive evidence を変更せず、新規 pair が current PR diff の ownership を明示すること。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新してから進める。"},
+  "acceptance": [
+    "新規 archive Contract と Summary の pair が src/features/radar/interface/mod.rs を scope と changedFiles の両方で記録する。",
+    "既存 archive file と production code を変更しない。",
+    "make check-ai-pr AI_BASE_COMMIT=faca6678c1e8461ba88b179485c4f5f7c0d1fbd0 が通る。",
+    "active Work Item は required checks 後に archive され、Cockpit が no_active_work_item になる。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-17-main-sync-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-17-main-sync-archive-ownership.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この append-only evidence commit を revert する。"
+}

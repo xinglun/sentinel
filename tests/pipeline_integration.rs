@@ -29,6 +29,9 @@ fn create_mock_history(
     for i in 0..count {
         bars.push(DailyBar {
             date: start_date + chrono::Duration::days(i as i64),
+            open: None,
+            high: None,
+            low: None,
             close: current_price,
             volume: Some(1000.0),
         });
@@ -198,6 +201,9 @@ async fn test_pipeline_bearish_path() {
     for i in 0..40 {
         bars.push(DailyBar {
             date: start_date + chrono::Duration::days(i as i64),
+            open: None,
+            high: None,
+            low: None,
             close: 100.0, // Flat
             volume: Some(1000.0),
         });
@@ -207,6 +213,9 @@ async fn test_pipeline_bearish_path() {
         let last_close = bars.last().unwrap().close;
         bars.push(DailyBar {
             date: start_date + chrono::Duration::days(i as i64),
+            open: None,
+            high: None,
+            low: None,
             close: last_close * 0.90, // 10% daily drop
             volume: Some(1000.0),
         });

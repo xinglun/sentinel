@@ -4,7 +4,12 @@ use crate::features::radar::domain::leader_persistence::LeaderObservation;
 use crate::features::radar::domain::observation_timeline::{
     ObservationTimeline, ObservationTimelineEntry,
 };
+use crate::features::radar::domain::price_volume_structure::{
+    PriceVolumeAssessment, PriceVolumeStructure,
+};
+use crate::features::shared::domain::supply_event_context::SupplyEventContext;
 use anyhow::{bail, Context, Result};
+use chrono::Datelike;
 use std::collections::HashSet;
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
@@ -72,6 +77,20 @@ pub struct ObservationHistoryState {
     pub last_market_date: chrono::NaiveDate,
     #[serde(default)]
     pub cycle_id: String,
+}
+
+/// 価格・出来高構造の観測を取引判断と分離して保存する record。
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq)]
+pub(crate) struct PriceVolumeObservationRecord {
+    pub market_date: chrono::NaiveDate,
+    pub symbol: String,
+    pub assessment: PriceVolumeAssessment,
+    #[serde(default)]
+    pub supply_context: Option<SupplyEventContext>,
+    #[serde(default)]
+    pub price_position: Option<String>,
+    #[serde(default)]
+    pub accumulation_failed: bool,
 }
 
 #[derive(Clone)]
@@ -176,6 +195,109 @@ impl Drop for HistoryWriteTransaction {
 }
 
 impl PersistenceLayer {
+    /// 同じ構造が相隣取引日に続く日数だけを数え、欠損や構造変更は継続とみなさない。
+    pub(crate) fn next_price_volume_persistence_days(
+        &self,
+        market_date: chrono::NaiveDate,
+        symbol: &str,
+        structure: PriceVolumeStructure,
+    ) -> Result<u8> {
+        let mut records = self
+            .load_price_volume_observations()?
+            .into_iter()
+            .filter(|record| record.symbol == symbol && record.market_date < market_date)
+            .collect::<Vec<_>>();
+        records.sort_by_key(|record| std::cmp::Reverse(record.market_date));
+        let mut previous_date = market_date;
+        let mut days = 1_u8;
+        for record in records {
+            if !follows_previous_trading_day(record.market_date, previous_date) {
+                break;
+            }
+            if record.assessment.structure != structure {
+                break;
+            }
+            days = days.saturating_add(1);
+            previous_date = record.market_date;
+        }
+        Ok(days)
+    }
+
+    /// 直近の吸収観測の翌取引日に分配構造へ移った場合だけ、吸収失敗を解釈として残す。
+    pub(crate) fn is_accumulation_failed(
+        &self,
+        market_date: chrono::NaiveDate,
+        symbol: &str,
+        structure: PriceVolumeStructure,
+    ) -> Result<bool> {
+        if structure != PriceVolumeStructure::Distribution {
+            return Ok(false);
+        }
+        Ok(self
+            .load_price_volume_observations()?
+            .into_iter()
+            .filter(|record| record.symbol == symbol && record.market_date < market_date)
+            .max_by_key(|record| record.market_date)
+            .is_some_and(|record| {
+                follows_previous_trading_day(record.market_date, market_date)
+                    && record.assessment.structure == PriceVolumeStructure::Accumulation
+            }))
+    }
+
+    pub(crate) fn load_price_volume_observations(
+        &self,
+    ) -> Result<Vec<PriceVolumeObservationRecord>> {
+        let path = self.save_dir.join("price_volume_observations.jsonl");
+        if !path.exists() {
+            return Ok(Vec::new());
+        }
+        let mut records = std::collections::BTreeMap::new();
+        for line in
+            BufReader::new(File::open(path).context("Failed to open price volume observations")?)
+                .lines()
+                .map_while(Result::ok)
+        {
+            if line.trim().is_empty() {
+                continue;
+            }
+            let record: PriceVolumeObservationRecord = serde_json::from_str(&line)
+                .context("Failed to deserialize price volume observation")?;
+            records.insert((record.market_date, record.symbol.clone()), record);
+        }
+        Ok(records.into_values().collect())
+    }
+
+    pub(crate) fn save_price_volume_observations(
+        &self,
+        observations: &[PriceVolumeObservationRecord],
+    ) -> Result<()> {
+        let mut records = self
+            .load_price_volume_observations()?
+            .into_iter()
+            .map(|record| ((record.market_date, record.symbol.clone()), record))
+            .collect::<std::collections::BTreeMap<_, _>>();
+        for observation in observations {
+            records.insert(
+                (observation.market_date, observation.symbol.clone()),
+                observation.clone(),
+            );
+        }
+        let content = records
+            .into_values()
+            .map(|record| serde_json::to_string(&record))
+            .collect::<std::result::Result<Vec<_>, _>>()?
+            .join("\n");
+        let content = if content.is_empty() {
+            content
+        } else {
+            format!("{content}\n")
+        };
+        write_file_atomically(
+            &self.save_dir.join("price_volume_observations.jsonl"),
+            content.as_bytes(),
+        )
+        .context("Failed to save price volume observations")
+    }
     /// 市場事実として保存された取引日快照は、基線可用性が低くても次回の比較対象にする。
     fn is_historical_snapshot(snapshot: &TradingDaySnapshot) -> bool {
         snapshot.is_valid_trading_day
@@ -1342,6 +1464,15 @@ impl PersistenceLayer {
     }
 }
 
+/// 連続とは暦日連番、または金曜日の次の月曜日だけを指す。
+fn follows_previous_trading_day(previous: chrono::NaiveDate, current: chrono::NaiveDate) -> bool {
+    let elapsed_days = (current - previous).num_days();
+    elapsed_days == 1
+        || (previous.weekday() == chrono::Weekday::Fri
+            && current.weekday() == chrono::Weekday::Mon
+            && elapsed_days == 3)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1351,6 +1482,11 @@ mod tests {
         LifecycleState, MarketRegimeSnapshot, MarketState, RiskOverlay,
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
+    use crate::features::radar::domain::price_volume_structure::{
+        ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
+        PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
+    };
+    use crate::features::shared::domain::supply_event_context::ObservationEffect;
     use chrono::NaiveDate;
     use chrono::Utc;
     use std::fs;
@@ -1373,6 +1509,209 @@ mod tests {
         );
         assert_eq!(fs::read_dir(&temp_dir).unwrap().count(), 1);
         fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn price_volume_observations_upsert_by_market_date_and_symbol() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_price_volume_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let date = NaiveDate::from_ymd_opt(2026, 8, 7).unwrap();
+        let assessment = |structure| PriceVolumeAssessment {
+            structure,
+            participation: ParticipationQuality::Neutral,
+            supply_absorption: SupplyAbsorption::None,
+            quality: VolumeDataQuality::Healthy,
+            persistence: StructurePersistence::Candidate,
+            persistence_days: 1,
+            metrics: None,
+            boundary: PriceVolumeObservationBoundary {
+                decision_weight_percent: 0,
+                trade_signal: false,
+                gate_effect: ObservationEffect::None,
+                execution_effect: ObservationEffect::None,
+                position_sizing_effect: ObservationEffect::None,
+            },
+        };
+        layer
+            .save_price_volume_observations(&[PriceVolumeObservationRecord {
+                market_date: date,
+                symbol: "MSFT".to_string(),
+                assessment: assessment(PriceVolumeStructure::Neutral),
+                supply_context: None,
+                price_position: None,
+                accumulation_failed: false,
+            }])
+            .unwrap();
+        layer
+            .save_price_volume_observations(&[PriceVolumeObservationRecord {
+                market_date: date,
+                symbol: "MSFT".to_string(),
+                assessment: assessment(PriceVolumeStructure::ExhaustedAdvance),
+                supply_context: None,
+                price_position: None,
+                accumulation_failed: false,
+            }])
+            .unwrap();
+        let records = layer.load_price_volume_observations().unwrap();
+        assert_eq!(records.len(), 1);
+        assert_eq!(
+            records[0].assessment.structure,
+            PriceVolumeStructure::ExhaustedAdvance
+        );
+        assert_eq!(records[0].supply_context, None);
+        assert_eq!(records[0].price_position, None);
+        assert!(!records[0].accumulation_failed);
+        assert_eq!(records[0].assessment.boundary.decision_weight_percent, 0);
+        assert!(!records[0].assessment.boundary.trade_signal);
+        assert_eq!(
+            records[0].assessment.boundary.gate_effect,
+            ObservationEffect::None
+        );
+        assert_eq!(
+            records[0].assessment.boundary.execution_effect,
+            ObservationEffect::None
+        );
+        assert_eq!(
+            records[0].assessment.boundary.position_sizing_effect,
+            ObservationEffect::None
+        );
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn price_volume_persistence_counts_only_adjacent_same_structure_days() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let layer = PersistenceLayer::new(temp_dir.path());
+        let assessment = |structure| PriceVolumeAssessment {
+            structure,
+            participation: ParticipationQuality::Neutral,
+            supply_absorption: SupplyAbsorption::None,
+            quality: VolumeDataQuality::Healthy,
+            persistence: StructurePersistence::Candidate,
+            persistence_days: 1,
+            metrics: None,
+            boundary: PriceVolumeObservationBoundary {
+                decision_weight_percent: 0,
+                trade_signal: false,
+                gate_effect: ObservationEffect::None,
+                execution_effect: ObservationEffect::None,
+                position_sizing_effect: ObservationEffect::None,
+            },
+        };
+        let date = |day| NaiveDate::from_ymd_opt(2026, 8, day).unwrap();
+        layer
+            .save_price_volume_observations(&[
+                PriceVolumeObservationRecord {
+                    market_date: date(3),
+                    symbol: "MSFT".to_string(),
+                    assessment: assessment(PriceVolumeStructure::ExhaustedAdvance),
+                    supply_context: None,
+                    price_position: None,
+                    accumulation_failed: false,
+                },
+                PriceVolumeObservationRecord {
+                    market_date: date(4),
+                    symbol: "MSFT".to_string(),
+                    assessment: assessment(PriceVolumeStructure::ExhaustedAdvance),
+                    supply_context: None,
+                    price_position: None,
+                    accumulation_failed: false,
+                },
+            ])
+            .unwrap();
+        assert_eq!(
+            layer
+                .next_price_volume_persistence_days(
+                    date(5),
+                    "MSFT",
+                    PriceVolumeStructure::ExhaustedAdvance
+                )
+                .unwrap(),
+            3
+        );
+        assert_eq!(
+            layer
+                .next_price_volume_persistence_days(date(5), "MSFT", PriceVolumeStructure::Neutral)
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            layer
+                .next_price_volume_persistence_days(
+                    date(10),
+                    "MSFT",
+                    PriceVolumeStructure::ExhaustedAdvance
+                )
+                .unwrap(),
+            1
+        );
+        assert_eq!(
+            layer
+                .next_price_volume_persistence_days(
+                    date(6),
+                    "MSFT",
+                    PriceVolumeStructure::ExhaustedAdvance
+                )
+                .unwrap(),
+            1
+        );
+    }
+
+    #[test]
+    fn accumulation_followed_by_distribution_is_recorded_as_failed_observation() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let layer = PersistenceLayer::new(temp_dir.path());
+        let assessment = |structure| PriceVolumeAssessment {
+            structure,
+            participation: ParticipationQuality::Neutral,
+            supply_absorption: SupplyAbsorption::None,
+            quality: VolumeDataQuality::Healthy,
+            persistence: StructurePersistence::Candidate,
+            persistence_days: 1,
+            metrics: None,
+            boundary: PriceVolumeObservationBoundary {
+                decision_weight_percent: 0,
+                trade_signal: false,
+                gate_effect: ObservationEffect::None,
+                execution_effect: ObservationEffect::None,
+                position_sizing_effect: ObservationEffect::None,
+            },
+        };
+        layer
+            .save_price_volume_observations(&[PriceVolumeObservationRecord {
+                market_date: NaiveDate::from_ymd_opt(2026, 8, 6).unwrap(),
+                symbol: "SPCX".to_string(),
+                assessment: assessment(PriceVolumeStructure::Accumulation),
+                supply_context: None,
+                price_position: None,
+                accumulation_failed: false,
+            }])
+            .unwrap();
+
+        assert!(layer
+            .is_accumulation_failed(
+                NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+                "SPCX",
+                PriceVolumeStructure::Distribution,
+            )
+            .unwrap());
+        assert!(!layer
+            .is_accumulation_failed(
+                NaiveDate::from_ymd_opt(2026, 8, 10).unwrap(),
+                "SPCX",
+                PriceVolumeStructure::Distribution,
+            )
+            .unwrap());
+    }
+
+    #[test]
+    fn price_volume_record_schema_accepts_missing_supply_context() {
+        let value: PriceVolumeObservationRecord = serde_json::from_str(r#"{"market_date":"2026-08-07","symbol":"X","assessment":{"structure":"Neutral","participation":"Neutral","supply_absorption":"None","quality":"Healthy","persistence":"Candidate","persistence_days":1,"metrics":null,"boundary":{"decision_weight_percent":0,"trade_signal":false,"gate_effect":"None","execution_effect":"None","position_sizing_effect":"None"}}}"#).unwrap();
+        assert!(value.supply_context.is_none());
     }
 
     #[test]

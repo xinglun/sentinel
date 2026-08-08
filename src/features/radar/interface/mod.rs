@@ -5,6 +5,7 @@ pub(crate) mod interpretation_read_model;
 pub(crate) mod market_interpretation_read_model;
 pub mod presentation;
 pub mod presentation_assembler;
+pub(crate) mod price_volume_structure_report;
 pub mod radar_pipeline_runner;
 pub mod report;
 pub(crate) mod risk_taxonomy_read_model;

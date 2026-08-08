@@ -1,0 +1,175 @@
+{
+  "workItemId": "s-28-12-price-volume-append-only-evidence",
+  "contractPath": ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item status を生成する。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+      "reason": "append-only archive evidence repair の境界を固定する。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json",
+      "reason": "修正と検証証跡を記録する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json",
+      "reason": "append-only policy に従い誤った archive modification を取り消す。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "Price-Volume Structure report module の既存 S-28 change ownership を補足 archive evidence として記録する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.contract.json",
+      "reason": "新規 append-only archive evidence Contract を保存する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.summary.json",
+      "reason": "src/features/radar/interface/mod.rs の S-28 ownership を新規 archive evidence として保存する。"
+    }
+  ],
+  "sourcesUsed": [
+    "GitHub Actions run 31253579612 log",
+    "scripts/ai_check_pr.py",
+    ".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=052d12fa9679a0e74ef6f94f851d696e0efeadf8",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "append-only archive evidence の修正のみ。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "PR #8 の AI PR Guard が既存 archive Summary modification を append-only 違反として拒否した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "CI log と append-only policy を確認した。",
+      "contractHash": "d6b5097b64ffe40e",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "新規 archive pair のみを追加する方式を確認した。",
+      "contractHash": "d6b5097b64ffe40e",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "required verification を実行する。",
+      "contractHash": "d6b5097b64ffe40e",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "commit snapshot で PR guard を再現する。",
+      "contractHash": "d6b5097b64ffe40e",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "failure root cause を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "append-only evidence boundary を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks を実行する。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "commit snapshot で PR guard を再現する。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "append-only evidence repair の verification を記録した。",
+    "expectedReviewFocus": [
+      "append-only archive evidence",
+      "AI PR Guard"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "合并，然后清理。走完wi流程。",
+      "solidifiedTo": "summary",
+      "reason": "archive mutation failure を append-only evidence pair と PR guard verification で閉じる。"
+    }
+  ]
+}

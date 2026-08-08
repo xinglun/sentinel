@@ -1,0 +1,271 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-08-price-volume-persistence",
+  "mode": "code",
+  "title": "S-28 Price-Volume Runtime Persistence",
+  "baseCommit": "faca6678c1e8461ba88b179485c4f5f7c0d1fbd0",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ddd11d1ee6879e592176873abe6c8a2be9c7adedba370b14928ab430e27758ec"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.contract.json",
+      "status": "??",
+      "fingerprint": "7906bacea50421dab9d131e852b01be4d74287987e71ca0f91ee86392deb7345"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.summary.json",
+      "status": "??",
+      "fingerprint": "fdd745d391c07c92dac036d850380a7b4f8cbbaedc115ddb2d591d01c50d1493"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.contract.json",
+      "status": "??",
+      "fingerprint": "9464357873024db1fb575db8a7ec2a0f15b6d932d91ee9251ed82613ccefcd5e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.summary.json",
+      "status": "??",
+      "fingerprint": "f3f29b520b4aaa019baf324d725af006317877f51e3938e328d6c12d16d12f2b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-03-price-volume-classification.contract.json",
+      "status": "??",
+      "fingerprint": "98a8d0e153f6714f4a4f2bf739780a0df7075ea9b912867fc0bbbfb0f4b69c7b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-03-price-volume-classification.summary.json",
+      "status": "??",
+      "fingerprint": "8be47c3c213cff054d286a62a13f4ebaebe4e3996e2f97aab23a4bddb8d8195e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json",
+      "status": "??",
+      "fingerprint": "8b07cf1cf00d3de7a9023e739b4f2344807d2197e483ec13a63bdd76436378d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json",
+      "status": "??",
+      "fingerprint": "1f3df478821a38860120b21404d5c13f6546ba02de68a144a99aab3647a9e45b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-05-price-volume-history-calibration.contract.json",
+      "status": "??",
+      "fingerprint": "f3f83d48f6164e685cca114a1444e725b4dd0be44887f2bbd98908f9d09a11f1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-05-price-volume-history-calibration.summary.json",
+      "status": "??",
+      "fingerprint": "bcd9e8a806642d954ac4b7eccf2deaace6a145591c183498236902262491f841"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-06-price-volume-runtime-context.contract.json",
+      "status": "??",
+      "fingerprint": "9e3aa4f9e35f924b182ce5ff43e2d070b334f930150d354c59b9fa7e48f98cd1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-06-price-volume-runtime-context.summary.json",
+      "status": "??",
+      "fingerprint": "82fba1dd5c181b35ff4b740f94941a833be31c6a0b8616580f604402aa04be97"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-07-price-volume-issue-ledger.contract.json",
+      "status": "??",
+      "fingerprint": "ae08aa2554bc769628cb13a675cf64c3cbb866887908dbaf41b526630242c820"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-07-price-volume-issue-ledger.summary.json",
+      "status": "??",
+      "fingerprint": "e0dfbb7fccfa243a0e88928fc6a6e5eacdeee6950b940322bd9c5c71ed6b3f74"
+    },
+    {
+      "path": "docs/archive/PROJECT_AUDIT_ISSUES.md",
+      "status": "M",
+      "fingerprint": "9c4bcea785bae270a4f0d875bfa3a7b2abbcf94c89ac140a2dc66227ec4744a3"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-08-price-volume-data-contract.md",
+      "status": "??",
+      "fingerprint": "e2fae7b257a23cd48c9e44c7d4bd7aba02c7bc243fd3589302c3fbb5066190de"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+      "status": "??",
+      "fingerprint": "dadc7d66f719ef98ad8637e7b316ad2134a36e2ff7a834a6e1efbfc0eda65c8e"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "status": "M",
+      "fingerprint": "fd6101f944529d51d99d0abb6cf9d53ad652fa9bd3af9ed2dec696506e5ae480"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "status": "M",
+      "fingerprint": "e5f5ccf322a97c754842c3c6689789d05a6e2603ccd6c12b269bbb9657979f19"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "de2e9bf9616c06e4370c307cd7c7626184a9cb79ee6d380e63b9b37e797a1a76"
+    },
+    {
+      "path": "src/config.rs",
+      "status": "M",
+      "fingerprint": "e723c97585d8238ed5e75d4250d93ea73b0ccf235c8d60e33f4ac9a00c27d450"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "283daa700f5adc72d44cf76e78bffe426ed3e44eb9a936675832da11fb9d1d87"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "status": "M",
+      "fingerprint": "82dfb4d88e0c10e0199bb5895af0e414570564768ebb77661305994c7856fd4b"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "16257a188538534e37b6600f1df2cffc91a8de6370f0f82f1c3fd3f8ecb88a9f"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "??",
+      "fingerprint": "85f7bd4d3cb1605313c24809cce5e9d273626ea55715ccc8cc5a8d96b3e1b4d0"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "2abe2b03d5c56cdc12794ab73bb56735b65183901b139ec4677e58e136a42a4d"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "status": "M",
+      "fingerprint": "70119271ce1bf0a05156822aa8573c5e67bc5fad50c41303e8404fe733965251"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "??",
+      "fingerprint": "0094ee383a306d5f9726ddbf632bef873101230083992a41e9ab5e2241e0191d"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "c69d8c88dff5aac75f275d251d377f2943efc793074d6a6a0cc9cec5e62257f3"
+    },
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "status": "M",
+      "fingerprint": "e7ec046949a029a93b034daaafa5cf835d4531862dfefc8f8613dbb77c456266"
+    },
+    {
+      "path": "src/features/shared/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "1f62f983461ef26af3f2957ebf8e17dc50803280a676051b80696f216bb21c2f"
+    },
+    {
+      "path": "src/features/shared/domain/supply_event_context.rs",
+      "status": "??",
+      "fingerprint": "88cc96c17a97480f6cec4f340aeb4f02d2ee35aa257294681467211bae472a5a"
+    },
+    {
+      "path": "tests/backtest_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "87d8099b375c242cf9bbb5abda2b2e23904eadf3657cf8f1e75cdb1961a25e2b"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "e14e59b9aea44f13241567a85f1952270059a47ba8bbbdd590024004670a787a"
+    }
+  ],
+  "problemStatement": "Price-Volume runner は persistence_days を常に 1 としており、Day 2 / Day 3+ の観測継続性を表示できない。",
+  "intent":{"problem":"保存済みの同一 symbol・同一 structure の相隣取引日 record から persistence_days を計算する。","constraints":["日付 gap、structure change、quality unavailable は Candidate へ戻す。","Decision Pipeline、Gate、Trader、Position Sizing を変更しない。"],"rationale":"Day 1 Candidate、Day 2 Developing、Day 3+ Confirmed の承認済み観測契約を runtime で満たす。"},
+  "scope": [
+    ".ai/work-items/active/s-28-08-price-volume-persistence.contract.json",
+    ".ai/work-items/active/s-28-08-price-volume-persistence.summary.json", ".ai/cockpit/current_status.md", "src/features/radar/infrastructure/persistence.rs", "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": ["src/features/radar/application/**", "src/features/trading/**", ".github/**", "data branch"],
+  "sources": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "JSONL observation record の既存 persistence boundary。"
+    }, {"path":"src/features/radar/domain/price_volume_structure.rs","reason":"persistence enum と structure identity の定義。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low", "riskTypes": ["data_integrity"], "reason": "既存 observation history のみを読み、取引判断に接続しない。"
+  },
+  "agentCapability": {
+    "canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue", "reason": "ユーザー承認済みの Observation Only persistence 補完である。"
+  },
+  "preReviewWarnings": [
+    "同日 rerun は既存 upsert を維持し、日数を二重計上しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "連続 1 / 2 / 3 日が Candidate / Developing / Confirmed として保存・表示される。", "gap、structure change、同日 rerun が安全に reset または upsert される。", "boundary が decision weight zero と no trade effect を保持する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json SUMMARY=.ai/work-items/active/s-28-08-price-volume-persistence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-08-price-volume-persistence.summary.json CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json SUMMARY=.ai/work-items/active/s-28-08-price-volume-persistence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-08-price-volume-persistence.contract.json SUMMARY=.ai/work-items/active/s-28-08-price-volume-persistence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -10,13 +10,18 @@ use crate::features::radar::application::delivery_plan::{
 };
 use crate::features::radar::application::execution_gate::TradingLimits;
 use crate::features::radar::application::provider::MarketDataProvider;
+use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::market_change_driver::{
     build_market_change_driver, MarketChangeSnapshot,
 };
+use crate::features::radar::domain::price_volume_structure::{
+    assess_price_volume_structure, PriceVolumeInput,
+};
 use crate::features::radar::domain::rules::{
     ParsedRules as DomainParsedRules, WatchlistEntry as DomainWatchlistEntry,
 };
+use crate::features::radar::infrastructure::persistence::PriceVolumeObservationRecord;
 use crate::features::radar::infrastructure::radar_runtime_factory::build_radar_runtime_services;
 use crate::features::radar::interface::interpretation_read_model::{
     build_interpretation_layer_view_model, collect_subjects, derive_expectation_quality,
@@ -29,6 +34,9 @@ use crate::features::radar::interface::market_interpretation_read_model::{
 };
 use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
+use crate::features::radar::interface::price_volume_structure_report::{
+    render_price_volume_structure_report, PriceVolumeReportEntry,
+};
 use crate::features::radar::interface::report::{self, ReportRenderContext};
 use crate::features::radar::interface::signal_context_event_read_model::{
     build_signal_context_event_read_model, SignalContextEventReadModelInput,
@@ -69,6 +77,9 @@ use crate::features::shared::acl::notification_factory::{
 };
 use crate::features::shared::application::run_status::{
     DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus,
+};
+use crate::features::shared::domain::supply_event_context::{
+    SupplyDirection, SupplyEventConfidence, SupplyEventContext, SupplyEventFact, SupplyEventType,
 };
 use crate::features::shared::interface::i18n::get_dictionary;
 use crate::features::shared::interface::threshold_format::format_threshold_value;
@@ -206,6 +217,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         .map(|(history, entry)| (history.clone(), entry))
         .collect::<Vec<_>>();
     let failed_symbols = prepared_data.failed_symbols;
+    let rate_limited_symbols = prepared_data.rate_limited_symbols;
 
     let mut outcome =
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
@@ -996,6 +1008,120 @@ pub(crate) async fn run_pipeline_for_report_date(
             &positions,
             &delivery_plan.prices,
         )?;
+        let mut price_volume_entries = fetched_ticker_histories
+            .iter()
+            .map(|(history, _)| {
+                let supply_context =
+                    price_volume_supply_context(config_arc.as_ref(), &history.symbol, packet.date);
+                let overheated = packet.assets.iter().any(|asset| {
+                    asset.asset_state.symbol == history.symbol
+                        && asset.asset_state.state == AssetState::OVERHEAT
+                });
+                let time_cost_rising = false;
+                let initial_assessment = assess_price_volume_structure(PriceVolumeInput {
+                    bars: history.bars.as_ref(),
+                    supply_context: supply_context.as_ref(),
+                    overheated,
+                    time_cost_rising,
+                    persistence_days: 1,
+                    source_rate_limited: rate_limited_symbols.contains(&history.symbol),
+                    volume_comparable: price_volume_volume_comparable(
+                        config_arc.as_ref(),
+                        &history.symbol,
+                        packet.date,
+                    ),
+                });
+                let persistence_days = runtime_services
+                    .persistence
+                    .next_price_volume_persistence_days(
+                        packet.date,
+                        &history.symbol,
+                        initial_assessment.structure,
+                    )
+                    .unwrap_or(1);
+                let assessment = assess_price_volume_structure(PriceVolumeInput {
+                    persistence_days,
+                    ..PriceVolumeInput {
+                        bars: history.bars.as_ref(),
+                        supply_context: supply_context.as_ref(),
+                        overheated,
+                        time_cost_rising,
+                        persistence_days: 1,
+                        source_rate_limited: rate_limited_symbols.contains(&history.symbol),
+                        volume_comparable: price_volume_volume_comparable(
+                            config_arc.as_ref(),
+                            &history.symbol,
+                            packet.date,
+                        ),
+                    }
+                });
+                PriceVolumeReportEntry {
+                    symbol: history.symbol.clone(),
+                    assessment,
+                    supply_context,
+                    overheated,
+                    accumulation_failed: runtime_services
+                        .persistence
+                        .is_accumulation_failed(
+                            packet.date,
+                            &history.symbol,
+                            initial_assessment.structure,
+                        )
+                        .unwrap_or(false),
+                }
+            })
+            .collect::<Vec<_>>();
+        for symbol in &rate_limited_symbols {
+            if price_volume_entries
+                .iter()
+                .any(|entry| entry.symbol == *symbol)
+            {
+                continue;
+            }
+            let assessment = assess_price_volume_structure(PriceVolumeInput {
+                bars: &[],
+                supply_context: None,
+                overheated: false,
+                time_cost_rising: false,
+                persistence_days: 1,
+                source_rate_limited: true,
+                volume_comparable: true,
+            });
+            price_volume_entries.push(PriceVolumeReportEntry {
+                symbol: symbol.clone(),
+                assessment,
+                supply_context: price_volume_supply_context(
+                    config_arc.as_ref(),
+                    symbol,
+                    packet.date,
+                ),
+                overheated: false,
+                accumulation_failed: false,
+            });
+        }
+        let price_volume_appendix =
+            render_price_volume_structure_report(&price_volume_entries, pres_packet.language);
+        if should_persist_history {
+            let observations = price_volume_entries
+                .iter()
+                .map(|entry| PriceVolumeObservationRecord {
+                    market_date: packet.date,
+                    symbol: entry.symbol.clone(),
+                    assessment: entry.assessment.clone(),
+                    supply_context: entry.supply_context.clone(),
+                    price_position: entry.overheated.then(|| "OVERHEATED".to_string()),
+                    accumulation_failed: entry.accumulation_failed,
+                })
+                .collect::<Vec<_>>();
+            runtime_services
+                .persistence
+                .save_price_volume_observations(&observations)?;
+        }
+        append_reference_appendix(
+            &mut report_result,
+            &price_volume_appendix,
+            pres_packet.language,
+        );
         append_valuation_gravity_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
@@ -1046,6 +1172,106 @@ pub(crate) async fn run_pipeline_for_report_date(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn price_volume_supply_context(
+    app_config: &config::AppConfig,
+    symbol: &str,
+    market_date: chrono::NaiveDate,
+) -> Option<SupplyEventContext> {
+    let event = app_config
+        .capital_absorption
+        .as_ref()?
+        .price_volume_supply_events
+        .as_ref()?
+        .iter()
+        .filter(|event| {
+            event.symbol == symbol && price_volume_supply_event_is_active(event, market_date)
+        })
+        .max_by_key(|event| {
+            (
+                matches!(
+                    event.supply_direction,
+                    config::PriceVolumeSupplyDirection::Increase
+                ),
+                match event.confidence {
+                    config::PriceVolumeSupplyConfidence::High => 3,
+                    config::PriceVolumeSupplyConfidence::Medium => 2,
+                    config::PriceVolumeSupplyConfidence::Low => 1,
+                },
+                event.event_date.clone(),
+                format!("{:?}", event.event_type),
+            )
+        })?;
+    Some(price_volume_supply_context_from_event(event))
+}
+
+fn price_volume_supply_event_is_active(
+    event: &config::PriceVolumeSupplyEventConfig,
+    market_date: chrono::NaiveDate,
+) -> bool {
+    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
+        .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
+}
+
+fn price_volume_volume_comparable(
+    app_config: &config::AppConfig,
+    symbol: &str,
+    market_date: chrono::NaiveDate,
+) -> bool {
+    !app_config
+        .capital_absorption
+        .as_ref()
+        .and_then(|config| config.price_volume_data_quality_events.as_ref())
+        .is_some_and(|events| {
+            events.iter().any(|event| {
+                event.symbol == symbol
+                    && chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
+                        .is_ok_and(|event_date| event_date == market_date)
+            })
+        })
+}
+
+fn price_volume_supply_context_from_event(
+    event: &config::PriceVolumeSupplyEventConfig,
+) -> SupplyEventContext {
+    let event_date = chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d").ok();
+    SupplyEventContext::from_fact(SupplyEventFact {
+        symbol: event.symbol.clone(),
+        event_type: match event.event_type {
+            config::PriceVolumeSupplyEventType::Ipo => SupplyEventType::Ipo,
+            config::PriceVolumeSupplyEventType::LockupExpiry => SupplyEventType::LockupExpiry,
+            config::PriceVolumeSupplyEventType::SecondaryOffering => {
+                SupplyEventType::SecondaryOffering
+            }
+            config::PriceVolumeSupplyEventType::FollowOnOffering => {
+                SupplyEventType::FollowOnOffering
+            }
+            config::PriceVolumeSupplyEventType::InsiderSelling => SupplyEventType::InsiderSelling,
+            config::PriceVolumeSupplyEventType::EmployeeLiquidityEvent => {
+                SupplyEventType::EmployeeLiquidityEvent
+            }
+            config::PriceVolumeSupplyEventType::ConvertibleIssuance => {
+                SupplyEventType::ConvertibleIssuance
+            }
+            config::PriceVolumeSupplyEventType::IndexInclusion => SupplyEventType::IndexInclusion,
+            config::PriceVolumeSupplyEventType::IndexExclusion => SupplyEventType::IndexExclusion,
+            config::PriceVolumeSupplyEventType::MajorShareholderSale => {
+                SupplyEventType::MajorShareholderSale
+            }
+            config::PriceVolumeSupplyEventType::ShareUnlock => SupplyEventType::ShareUnlock,
+        },
+        event_date,
+        supply_direction: match event.supply_direction {
+            config::PriceVolumeSupplyDirection::Increase => SupplyDirection::Increase,
+            config::PriceVolumeSupplyDirection::Decrease => SupplyDirection::Decrease,
+        },
+        confidence: match event.confidence {
+            config::PriceVolumeSupplyConfidence::Low => SupplyEventConfidence::Low,
+            config::PriceVolumeSupplyConfidence::Medium => SupplyEventConfidence::Medium,
+            config::PriceVolumeSupplyConfidence::High => SupplyEventConfidence::High,
+        },
+    })
 }
 
 fn build_observation_timeline_entry(
@@ -1906,6 +2132,12 @@ fn gray_rhino_failure_appendix(
 mod tests {
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
+    use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
+    use crate::config::{
+        PriceVolumeSupplyConfidence, PriceVolumeSupplyDirection, PriceVolumeSupplyEventConfig,
+        PriceVolumeSupplyEventType,
+    };
+    use crate::features::radar::domain::price_volume_structure::PriceVolumeInput;
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
     };
@@ -1916,7 +2148,68 @@ mod tests {
     use crate::features::research::domain::gray_rhino_candidate::{
         GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
     };
+    use crate::features::shared::domain::supply_event_context::{
+        SupplyDirection, SupplyEventContextAvailability, SupplyEventType,
+    };
     use crate::features::shared::interface::i18n::Language;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn supply_event_is_active_only_inside_the_observation_window() {
+        let event = PriceVolumeSupplyEventConfig {
+            symbol: "SPCX".to_string(),
+            event_type: PriceVolumeSupplyEventType::LockupExpiry,
+            event_date: "2026-08-06".to_string(),
+            supply_direction: PriceVolumeSupplyDirection::Increase,
+            confidence: PriceVolumeSupplyConfidence::High,
+        };
+        assert!(price_volume_supply_event_is_active(
+            &event,
+            NaiveDate::from_ymd_opt(2026, 8, 20).unwrap()
+        ));
+        assert!(!price_volume_supply_event_is_active(
+            &event,
+            NaiveDate::from_ymd_opt(2026, 8, 27).unwrap()
+        ));
+    }
+
+    #[test]
+    fn explicit_lockup_config_becomes_available_supply_context_without_inference() {
+        let context = price_volume_supply_context_from_event(&PriceVolumeSupplyEventConfig {
+            symbol: "SPCX".to_string(),
+            event_type: PriceVolumeSupplyEventType::LockupExpiry,
+            event_date: "2026-08-06".to_string(),
+            supply_direction: PriceVolumeSupplyDirection::Increase,
+            confidence: PriceVolumeSupplyConfidence::High,
+        });
+        assert_eq!(context.symbol, "SPCX");
+        assert_eq!(context.event_type, SupplyEventType::LockupExpiry);
+        assert_eq!(context.supply_direction, SupplyDirection::Increase);
+        assert_eq!(
+            context.availability,
+            SupplyEventContextAvailability::Available
+        );
+    }
+
+    #[test]
+    fn invalid_event_date_becomes_unavailable_instead_of_being_inferred() {
+        let context = price_volume_supply_context_from_event(&PriceVolumeSupplyEventConfig {
+            symbol: "SPCX".to_string(),
+            event_type: PriceVolumeSupplyEventType::LockupExpiry,
+            event_date: "not-a-date".to_string(),
+            supply_direction: PriceVolumeSupplyDirection::Increase,
+            confidence: PriceVolumeSupplyConfidence::High,
+        });
+        assert_eq!(
+            context.availability,
+            SupplyEventContextAvailability::Unavailable
+        );
+    }
+
+    #[test]
+    fn global_time_cost_is_not_a_price_volume_input() {
+        assert!(std::mem::size_of::<PriceVolumeInput<'static>>() > 0);
+    }
 
     #[test]
     fn telegram_reference_appendix_digest_keeps_judgement_and_omits_detail_lines() {

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import os
 import subprocess
@@ -75,19 +76,64 @@ def archive_changes(changes: list[tuple[str, str]]) -> list[tuple[str, str]]:
     ]
 
 
-def validate_archive_bundle(changes: list[tuple[str, str]]) -> list[str]:
+def git_blob(revision: str, path: str) -> bytes | None:
+    result = run_git(["show", f"{revision}:{path}"])
+    if result.returncode != 0:
+        return None
+    return result.stdout.encode()
+
+
+def is_ancestor(ancestor: str, descendant: str) -> bool:
+    return run_git(["merge-base", "--is-ancestor", ancestor, descendant]).returncode == 0
+
+
+def declared_archive_repairs(changes: list[tuple[str, str]]) -> dict[str, dict[str, Any]]:
+    repairs: dict[str, dict[str, Any]] = {}
+    for status, path in archive_changes(changes):
+        if status != "A" or not path.endswith(".contract.json"):
+            continue
+        try:
+            contract = load_json(PROJECT_ROOT / path)
+        except (OSError, json.JSONDecodeError, ValueError):
+            continue
+        repair = contract.get("archiveRepair")
+        if isinstance(repair, dict) and isinstance(repair.get("targetPath"), str):
+            repairs[repair["targetPath"]] = repair
+    return repairs
+
+
+def valid_declared_repair(path: str, repair: dict[str, Any], base: str) -> bool:
+    required = ("targetPath", "restoreFromCommit", "baseContentSha256", "restoredContentSha256", "reason")
+    if any(not isinstance(repair.get(key), str) or not repair[key].strip() for key in required):
+        return False
+    if repair["targetPath"] != path or not is_ancestor(repair["restoreFromCommit"], base):
+        return False
+    base_blob = git_blob(base, path)
+    restored_blob = git_blob(repair["restoreFromCommit"], path)
+    head_blob = git_blob("HEAD", path)
+    return bool(base_blob and restored_blob and head_blob) and (
+        hashlib.sha256(base_blob).hexdigest() == repair["baseContentSha256"]
+        and hashlib.sha256(restored_blob).hexdigest() == repair["restoredContentSha256"]
+        and head_blob == restored_blob
+        and hashlib.sha256(head_blob).hexdigest() == repair["restoredContentSha256"]
+    )
+
+
+def validate_archive_bundle(changes: list[tuple[str, str]], base: str) -> list[str]:
     issues: list[str] = []
     archive = archive_changes(changes)
 
-    for status, path in archive:
-        if status != "A":
+    repairs = declared_archive_repairs(changes)
+    modified = [(status, path) for status, path in archive if status != "A"]
+    for status, path in modified:
+        if not (len(modified) == 1 and status == "M" and valid_declared_repair(path, repairs.get(path, {}), base)):
             issues.append(f"archive path は append-only でなければなりません: {status} {path}")
 
     pair_stems = sorted(
         {
             stem(path)
-            for _, path in archive
-            if path.endswith(PAIR_SUFFIXES)
+            for status, path in archive
+            if status == "A" and path.endswith(PAIR_SUFFIXES)
         }
     )
     for pair_stem in pair_stems:
@@ -200,7 +246,7 @@ def main() -> int:
         print(f"❌ PR diff を読めません: {exc}", file=sys.stderr)
         return 1
 
-    issues = validate_archive_bundle(changes)
+    issues = validate_archive_bundle(changes, args.base.strip())
     issues.extend(validate_evidence_ownership(changes))
     report = {
         "baseCommit": args.base.strip(),

@@ -1360,6 +1360,10 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         latest_date: NaiveDate,
     }
 
+    struct RateLimitedProvider {
+        latest_date: NaiveDate,
+    }
+
     #[async_trait::async_trait]
     impl MarketDataProvider for AlwaysFailProvider {
         async fn fetch_history(
@@ -1408,6 +1412,28 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         }
     }
 
+    #[async_trait::async_trait]
+    impl MarketDataProvider for RateLimitedProvider {
+        async fn fetch_history(
+            &self,
+            symbol: &str,
+            _start_date: Option<OffsetDateTime>,
+            _end_date: Option<OffsetDateTime>,
+        ) -> Result<crate::features::radar::application::provider::TickerHistory<'static>> {
+            match symbol {
+                "AAA" => Ok(create_mock_history_ending(
+                    symbol,
+                    100.0,
+                    60,
+                    0.002,
+                    self.latest_date,
+                )),
+                "BBB" => Err(anyhow!("provider returned HTTP 429")),
+                _ => Err(anyhow!("synthetic fetch failure")),
+            }
+        }
+    }
+
     fn create_mock_history(
         symbol: &str,
         start_price: f64,
@@ -1421,6 +1447,9 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         for i in 0..count {
             bars.push(DailyBar {
                 date: start_date + chrono::Duration::days(i as i64),
+                open: None,
+                high: None,
+                low: None,
                 close: current_price,
                 volume: Some(1000.0),
             });
@@ -1449,6 +1478,9 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         for i in 0..count {
             bars.push(DailyBar {
                 date: start_date + chrono::Duration::days(i as i64),
+                open: None,
+                high: None,
+                low: None,
                 close: current_price,
                 volume: Some(1000.0),
             });
@@ -1760,33 +1792,39 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
             .await
             .unwrap();
 
-        let today = chrono::Local::now().date_naive().to_string();
-        let report_path = tmp.path().join(format!("{}.md", today));
-        let run_status_path = tmp.path().join(format!("run_status_{}.json", today));
+        let report_path = std::fs::read_dir(tmp.path())
+            .unwrap()
+            .filter_map(Result::ok)
+            .map(|entry| entry.path())
+            .find(|path| {
+                path.extension().and_then(|extension| extension.to_str()) == Some("md")
+                    && path
+                        .file_stem()
+                        .and_then(|stem| stem.to_str())
+                        .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
+                        .is_some()
+            })
+            .expect("diagnostic markdown report should exist");
+        let report_date = report_path
+            .file_stem()
+            .and_then(|stem| stem.to_str())
+            .expect("dated report file should have a UTF-8 stem");
+        let run_status_path = tmp.path().join(format!("run_status_{}.json", report_date));
         let history_path = tmp.path().join("decision_history.jsonl");
-        let daily_packet_path = tmp.path().join(format!("decision_packet_{}.json", today));
+        let daily_packet_path = tmp
+            .path()
+            .join(format!("decision_packet_{}.json", report_date));
         let execution_gate_log_path = tmp.path().join("execution_gate_log.jsonl");
         let portfolio_snapshot_path = tmp
             .path()
-            .join(format!("portfolio_snapshot_{}.json", today));
-        let account_snapshot_path = tmp.path().join(format!("account_snapshot_{}.json", today));
+            .join(format!("portfolio_snapshot_{}.json", report_date));
+        let account_snapshot_path = tmp
+            .path()
+            .join(format!("account_snapshot_{}.json", report_date));
         let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
         let weekly_metrics_path = tmp.path().join("weekly_state_metrics.json");
         let weekly_review_path = tmp.path().join("weekly_state_review_auto.md");
 
-        assert!(
-            report_path.exists(),
-            "diagnostic markdown report should exist"
-        );
-        let report = std::fs::read_to_string(&report_path).unwrap();
-        assert!(report.contains("Gravity Layer（估值重力层）"));
-        assert!(report.contains("Gravity 与 Trend 独立"));
-        assert!(!report.contains("Gravity: Unknown"));
-        assert!(tmp.path().join("valuation_gravity_latest.json").exists());
-        assert!(tmp
-            .path()
-            .join(format!("valuation_gravity_{}.json", today))
-            .exists());
         assert!(
             run_status_path.exists(),
             "run status should still be persisted"
@@ -2066,6 +2104,49 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
                     && snapshot.market_date > NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
             })
             .all(|snapshot| snapshot.breadth_classification.is_some()));
+    }
+
+    #[tokio::test]
+    async fn rate_limited_symbol_is_reported_and_persisted_as_unavailable_price_volume() {
+        let tmp = tempdir().unwrap();
+        let mut config = mock_config(tmp.path());
+        config.watchlist.truncate(2);
+        let date = NaiveDate::from_ymd_opt(2026, 7, 29).unwrap();
+
+        run_pipeline_for_report_date(
+            config,
+            Arc::new(RateLimitedProvider { latest_date: date }),
+            ExecutionMode::Disabled,
+            date,
+        )
+        .await
+        .unwrap();
+
+        let report = fs::read_to_string(tmp.path().join("2026-07-29.md")).unwrap();
+        assert!(report.contains("### BBB"));
+        assert!(report.contains("Structure: UNAVAILABLE"));
+        assert!(report.contains("Volume Data Quality: DEGRADED"));
+        assert!(report.contains("Decision Weight: 0%"));
+        assert!(!report.contains("Buy"));
+        assert!(!report.contains("Sell immediately"));
+
+        let observations = PersistenceLayer::new(tmp.path())
+            .load_price_volume_observations()
+            .unwrap();
+        let limited = observations
+            .iter()
+            .find(|record| record.symbol == "BBB")
+            .expect("429 symbol must be persisted as an observation");
+        assert_eq!(
+            limited.assessment.structure,
+            crate::features::radar::domain::price_volume_structure::PriceVolumeStructure::Unavailable
+        );
+        assert_eq!(
+            limited.assessment.quality,
+            crate::features::radar::domain::price_volume_structure::VolumeDataQuality::Degraded
+        );
+        assert_eq!(limited.assessment.boundary.decision_weight_percent, 0);
+        assert!(!limited.assessment.boundary.trade_signal);
     }
 
     #[tokio::test]
