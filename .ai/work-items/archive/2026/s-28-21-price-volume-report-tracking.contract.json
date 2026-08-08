@@ -1,0 +1,150 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-21-price-volume-report-tracking",
+  "mode": "code",
+  "title": "Price-Volume report tracking repair",
+  "baseCommit": "a4706814a4276e52d307a3463a09470e0783580f",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "3e6ba610ac62751875fe8996b6157ed4577cca26b815f599562f26c7d069f677"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-20-price-volume-delivery-report.contract.json",
+      "status": "??",
+      "fingerprint": "0af711e4158157e4149352ab28f969e4c5669b79276267c3999f13d2697ee8e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-20-price-volume-delivery-report.summary.json",
+      "status": "??",
+      "fingerprint": "6ed97ef095b3a9070ff8c6dd4f3217ff15a24432a4e5be9e7cc3cc0facf60130"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-09-price-volume-delivery-report.md",
+      "status": "??",
+      "fingerprint": "02ad3ec94b71c1e491a9bbc21f441a2057a0eee5a28baa7d97297a020ea690e0"
+    }
+  ],
+  "problemStatement": "圧縮交付報告が global reports ignore により Git 追跡外となったため、内容を変えず repository artifact として追跡する。",
+  "intent": {
+    "problem": "S-28 の交付報告を protected PR で配布可能な tracked document にする。",
+    "constraints": [
+      "report の本文、product code、test、config は変更しない。",
+      "既存 S-28-20 archive と plan は完成済み delivery evidence として内容を変更せず記録する。",
+      "Git tracking のみを修復し、売買判断への影響を持たない。"
+    ],
+    "rationale": "ignored untracked file は merge されないため、交付要件を満たせない。"
+  },
+  "scope": [
+    ".ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json",
+    ".ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/reports/S28_PRICE_VOLUME_DELIVERY_REPORT.md",
+    ".ai/work-items/archive/2026/s-28-20-price-volume-delivery-report.contract.json",
+    ".ai/work-items/archive/2026/s-28-20-price-volume-delivery-report.summary.json",
+    "docs/superpowers/plans/2026-08-09-price-volume-delivery-report.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "config.toml",
+    ".github/**",
+    "docs/superpowers/specs/**",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing"
+  ],
+  "sources": [
+    {
+      "path": "docs/reports/S28_PRICE_VOLUME_DELIVERY_REPORT.md",
+      "reason": "S-28 の approved compressed delivery report。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-20-price-volume-delivery-report.summary.json",
+      "reason": "report content と full-quality completion evidence。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "tracking-only repair であり、report content と product behavior は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "対象 artifact と source、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "report の本文を変更せず、Git tracking のみを修復する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "docs/reports/S28_PRICE_VOLUME_DELIVERY_REPORT.md が Git tracked artifact として scope guard に含まれる。",
+    "report の front matter、五節構成、Observation-only boundary の本文を変更しない。",
+    "product code、test、config、既存 archive を変更せず、S-28 の decision_weight 及び trade behavior に影響しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json SUMMARY=.ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json SUMMARY=.ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json SUMMARY=.ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-21-price-volume-report-tracking.contract.json SUMMARY=.ai/work-items/active/s-28-21-price-volume-report-tracking.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
