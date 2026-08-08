@@ -1,0 +1,58 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-12-price-volume-append-only-evidence",
+  "mode": "code",
+  "title": "Price-Volume append-only archive evidence",
+  "baseCommit": "e2b298644cc959b2060c8e53e780fb3a2d2136d1",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR #8 の AI PR Guard は既存 archive Summary の変更を append-only 違反として拒否した。S-28 code change の ownership evidence を新規 archive pair として追加する必要がある。",
+  "intent": {
+    "problem": "既存 archive を改変せず、新規の補足 archive Contract と Summary に src/features/radar/interface/mod.rs の S-28 ownership を記録する。",
+    "constraints": ["既存 archive Summary の修正を取り消す。", "production code、取引判断、Gate、Execution、Position Sizing は変更しない。"],
+    "rationale": "append-only archive policy と CI PR guard ownership requirement を同時に満たす。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json",
+    ".ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json",
+    ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json",
+    ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.contract.json",
+    ".ai/work-items/archive/2026/s-28-12-price-volume-append-only-evidence.summary.json"
+  ],
+  "outOfScope": ["src/**", "tests/**", "docs/**", ".github/**", "Gate / Execution / Trader / Action Matrix / Position Sizing"],
+  "sources": [
+    {"path":"GitHub Actions run 31253579612 log","reason":"append-only と evidence pair failure の直接原因。"},
+    {"path":"scripts/ai_check_pr.py","reason":"archive ownership と append-only policy の実装。"},
+    {"path":".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json","reason":"S-28 report module scope の事実。"},
+    {"path":".ai/work-items/archive/2026/s-28-11-price-volume-archive-ownership.summary.json","reason":"誤った archive evidence repair を回退し append-only repair へ置き換える。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level":"low","riskTypes":["ci","governance_process"],"reason":"archive evidence の append-only 修正だけで product behavior を変更しない。"},
+  "agentCapability": {"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":""},
+  "executionDecision": {"status":"continue","reason":"CI log と archive policy から修正方式が一意に確定している。"},
+  "preReviewWarnings":["CI workflow が古い base SHA から PR guard を実行するため、同じ base で再現する。"],
+  "checkpointPolicy":{"requiredCheckpoints":["contract_start","before_edit","before_ready","after_verification"],"reminder":"scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新する。"},
+  "acceptance":[
+    "s-28-04 archive Summary は append-only policy に従う元の内容へ復帰する。",
+    "新規 archive Contract と Summary の pair が src/features/radar/interface/mod.rs の S-28 ownership を記録する。",
+    "make check-ai-pr AI_BASE_COMMIT=052d12fa9679a0e74ef6f94f851d696e0efeadf8 が通る。",
+    "active Work Item は required checks 後に archive され、Cockpit が no_active_work_item になる。",
+    "production code と trading decision path は変更しない。"
+  ],
+  "verification":[
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.contract.json SUMMARY=.ai/work-items/active/s-28-12-price-volume-append-only-evidence.summary.json","required":true},
+    {"command":"make check-ai-pr AI_BASE_COMMIT=052d12fa9679a0e74ef6f94f851d696e0efeadf8","required":true}
+  ],
+  "destructiveChangePolicy":{"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
+  "rollbackNote":"この evidence-only repair commit を revert する。"
+}
