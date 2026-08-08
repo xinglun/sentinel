@@ -32,7 +32,7 @@ use crate::features::radar::interface::market_interpretation_read_model::{
     build_leader_observation, build_leader_persistence_view_model,
     build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
-use crate::features::radar::interface::presentation::{HoldingEfficiency, PresentationPacket};
+use crate::features::radar::interface::presentation::PresentationPacket;
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
@@ -1017,13 +1017,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     asset.asset_state.symbol == history.symbol
                         && asset.asset_state.state == AssetState::OVERHEAT
                 });
-                let time_cost_rising =
-                    pres_packet
-                        .transition_evidence
-                        .as_ref()
-                        .is_some_and(|evidence| {
-                            price_volume_time_cost_rising(evidence.holding_efficiency)
-                        });
+                let time_cost_rising = false;
                 let initial_assessment = assess_price_volume_structure(PriceVolumeInput {
                     bars: history.bars.as_ref(),
                     supply_context: supply_context.as_ref(),
@@ -1114,10 +1108,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     market_date: packet.date,
                     symbol: entry.symbol.clone(),
                     assessment: entry.assessment.clone(),
-                    supply_context: entry
-                        .supply_context
-                        .as_ref()
-                        .map(|context| format!("{:?}", context.event_type)),
+                    supply_context: entry.supply_context.clone(),
                     price_position: entry.overheated.then(|| "OVERHEATED".to_string()),
                     accumulation_failed: entry.accumulation_failed,
                 })
@@ -1194,8 +1185,23 @@ fn price_volume_supply_context(
         .price_volume_supply_events
         .as_ref()?
         .iter()
-        .find(|event| {
+        .filter(|event| {
             event.symbol == symbol && price_volume_supply_event_is_active(event, market_date)
+        })
+        .max_by_key(|event| {
+            (
+                matches!(
+                    event.supply_direction,
+                    config::PriceVolumeSupplyDirection::Increase
+                ),
+                match event.confidence {
+                    config::PriceVolumeSupplyConfidence::High => 3,
+                    config::PriceVolumeSupplyConfidence::Medium => 2,
+                    config::PriceVolumeSupplyConfidence::Low => 1,
+                },
+                event.event_date.clone(),
+                format!("{:?}", event.event_type),
+            )
         })?;
     Some(price_volume_supply_context_from_event(event))
 }
@@ -1206,10 +1212,6 @@ fn price_volume_supply_event_is_active(
 ) -> bool {
     chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
         .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
-}
-
-fn price_volume_time_cost_rising(holding_efficiency: HoldingEfficiency) -> bool {
-    holding_efficiency == HoldingEfficiency::TimeCostRising
 }
 
 fn price_volume_volume_comparable(
@@ -2130,15 +2132,12 @@ fn gray_rhino_failure_appendix(
 mod tests {
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
-    use super::{
-        price_volume_supply_context_from_event, price_volume_supply_event_is_active,
-        price_volume_time_cost_rising,
-    };
+    use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
     use crate::config::{
         PriceVolumeSupplyConfidence, PriceVolumeSupplyDirection, PriceVolumeSupplyEventConfig,
         PriceVolumeSupplyEventType,
     };
-    use crate::features::radar::interface::presentation::HoldingEfficiency;
+    use crate::features::radar::domain::price_volume_structure::PriceVolumeInput;
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
     };
@@ -2154,14 +2153,6 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
-
-    #[test]
-    fn price_volume_time_cost_context_uses_existing_transition_observation() {
-        assert!(price_volume_time_cost_rising(
-            HoldingEfficiency::TimeCostRising
-        ));
-        assert!(!price_volume_time_cost_rising(HoldingEfficiency::Neutral));
-    }
 
     #[test]
     fn supply_event_is_active_only_inside_the_observation_window() {
@@ -2213,6 +2204,11 @@ mod tests {
             context.availability,
             SupplyEventContextAvailability::Unavailable
         );
+    }
+
+    #[test]
+    fn global_time_cost_is_not_a_price_volume_input() {
+        assert!(std::mem::size_of::<PriceVolumeInput<'static>>() > 0);
     }
 
     #[test]

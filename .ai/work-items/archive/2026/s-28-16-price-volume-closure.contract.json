@@ -1,0 +1,112 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-16-price-volume-closure",
+  "mode": "code",
+  "title": "S-28 Price-Volume Closure",
+  "baseCommit": "8798bc64a7295a2bd692ecd1d61c647a42fea2d1",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-28 の Observation 専用 Price-Volume Layer に残る supply evidence、欠損 OHLCV、個別 context、runtime acceptance の閉路を修正する。",
+  "intent": {
+    "problem": "監査で確認された 8 件の未閉路要件により、供給吸収観測の根拠とデータ品質が実運用で過大表示され得る。",
+    "constraints": [
+      "decision_weight は 0%、trade_signal は false、Gate、Execution、Trader、Action Matrix、Position Sizing への effect は none のまま固定する。",
+      "米国祝日 calendar は導入せず、価格履歴の連続性は月曜から金曜規則を維持する。",
+      "機関買い、買い、売り、天井、暴落を事実または指示として出力しない。",
+      "Supply Event は明示設定された fact のみを消費し、推測しない。",
+      "archive 配下の過去 Work Item は変更しない。"
+    ],
+    "rationale": "SpaceX 型の供給吸収と Microsoft 型の参加度低下を、観測根拠を失わず、比較不能な入力からの分類を避けて記録する。"
+  },
+  "scope": [
+    ".ai/work-items/active/s-28-16-price-volume-closure.contract.json",
+    ".ai/work-items/active/s-28-16-price-volume-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-08-price-volume-closure-design.md",
+    "docs/superpowers/plans/2026-08-08-price-volume-closure.md",
+    "config.toml",
+    "src/features/shared/domain/supply_event_context.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/cli.rs"
+  ],
+  "outOfScope": [
+    "src/features/trading/**",
+    "src/features/radar/application/**",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/position_intent.rs",
+    "src/features/radar/application/execution_gate.rs",
+    ".github/**",
+    ".ai/work-items/archive/**"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md", "reason": "S-28 の観測境界、品質、分類の原設計。"},
+    {"path": "docs/superpowers/specs/2026-08-08-price-volume-functional-completion-design.md", "reason": "runtime context、20 calendar day event window、価格行動条件の設計。"},
+    {"path": "src/features/radar/domain/price_volume_structure.rs", "reason": "分類、metrics、品質判定の現行実装。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "symbol ごとの runtime context、report、JSONL の接続。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "同日 rerun、persistence、ACCUMULATION_FAILED の永続化。"},
+    {"path": "用户提供的 Sentinel Price-Volume Structure 增强开发指示", "reason": "SpaceX、Microsoft、データ品質、Observation only の原始受入条件。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "SpaceX 型: HIGH confidence lock-up supply、high RVOL、limited downside、no new low が runtime report と JSONL で ACCUMULATION / ACTIVE になり、0% boundary を保つ", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "Microsoft 型: symbol-specific OVERHEATED context を持つ rising price / declining RVOL が EXHAUSTED_ADVANCE / WEAKENING になり、sell instruction を作らない", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "PARTIAL volume、欠損 OHLC、21 bar 未満は分類せず UNAVAILABLE になる", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "同日 rerun は supply event の date、direction、confidence を含む JSONL record を 1 件だけ更新する", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "429、corporate action、weekday gap は DEGRADED / UNAVAILABLE を維持する", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "複数の active supply events は Increase と最高 confidence を優先して deterministic に選ぶ", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "米国祝日 calendar を追加せず月曜から金曜連続性を維持する", "required": true, "status": "verified", "evidence": ["make test"]}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["data_integrity", "migration", "architecture_boundary"],
+    "reason": "Observation-only 境界を壊さずに quality fail-closed と supply evidence schema を強化する。既存 JSONL の backward compatibility を保持する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "監査で問題、対象 file、期待動作、検証可能な regression scenario が確定している。"
+  },
+  "preReviewWarnings": [
+    "Supply Event evidence を JSONL schema に追加しても既存 record を serde default で読めること。",
+    "TIME_COST_RISING は global presentation context ではなく symbol-specific asset state だけを使うこと。",
+    "config.toml は実在する供給 event を断定せず、disabled-by-default の入力例だけを示すこと。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "SupplyEventContext の event_type、event_date、supply_direction、confidence が report と JSONL に構造化して保存される。",
+    "ACCUMULATION は Available、Increase、High confidence の supply fact がある時だけ Supply Absorption ACTIVE を出力する。",
+    "PARTIAL volume、欠損 OHLC、21 bar 未満、429、corporate action、volume split adjustment、weekday gap は UNAVAILABLE structure を返し補推しない。",
+    "TIME_COST_RISING は個別銘柄の Overheated asset state と混同せず、global market observation を全 symbol に転用しない。",
+    "SpaceX と Microsoft の runtime end-to-end test は Markdown、JSONL、Observation boundary を固定する。",
+    "複数の同時 supply event は deterministic な優先規則で選び、config.toml に audit-only の入力例を持つ。",
+    "Gate、execution、trader、action matrix、position sizing は未変更で、decision_weight=0%、trade_signal=false、effect=none を維持する。",
+    "Markdown、Telegram、JSONL を確認し、weekly metrics、CLI 専用出力、i18n snapshot は本 Work Item では追加しない理由を Summary に記録する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json SUMMARY=.ai/work-items/active/s-28-16-price-volume-closure.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json SUMMARY=.ai/work-items/active/s-28-16-price-volume-closure.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-16-price-volume-closure.summary.json CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json SUMMARY=.ai/work-items/active/s-28-16-price-volume-closure.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-16-price-volume-closure.contract.json SUMMARY=.ai/work-items/active/s-28-16-price-volume-closure.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の commit を revert し、JSONL の追加 field は serde default により旧 record の可読性を保つ。"
+}

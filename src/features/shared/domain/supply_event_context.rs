@@ -3,7 +3,7 @@
 use chrono::NaiveDate;
 
 /// 個別銘柄に結び付く供給イベントの事実種別。
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum SupplyEventType {
     Ipo,
     LockupExpiry,
@@ -20,7 +20,7 @@ pub(crate) enum SupplyEventType {
 }
 
 /// 確認済みイベントが潜在的な株式供給に与える向き。
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum SupplyDirection {
     Increase,
     Decrease,
@@ -28,7 +28,7 @@ pub(crate) enum SupplyDirection {
 }
 
 /// 供給イベントの根拠強度。投資主体の行動を表すものではない。
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum SupplyEventConfidence {
     Low,
     Medium,
@@ -37,7 +37,7 @@ pub(crate) enum SupplyEventConfidence {
 }
 
 /// 個別供給イベントの事実が利用可能かどうかを表す。
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum SupplyEventContextAvailability {
     Available,
     Unavailable,
@@ -50,7 +50,7 @@ pub(crate) enum ObservationEffect {
 }
 
 /// Price-Volume Observation の固定された非取引境界。
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) struct ObservationBoundary {
     pub decision_weight_percent: u8,
     pub trade_signal: bool,
@@ -82,7 +82,7 @@ pub(crate) struct SupplyEventFact {
 }
 
 /// Price-Volume Structure が消費する個別銘柄の供給背景。
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) struct SupplyEventContext {
     pub symbol: String,
     pub event_type: SupplyEventType,
@@ -155,6 +155,7 @@ mod tests {
             context.boundary.position_sizing_effect,
             ObservationEffect::None
         );
+        assert!(serde_json::to_string(&context).is_ok());
     }
 
     #[test]
@@ -176,6 +177,12 @@ mod tests {
         assert_eq!(context.event_date, None);
         assert_eq!(context.supply_direction, SupplyDirection::Unknown);
         assert_eq!(context.confidence, SupplyEventConfidence::Unknown);
+    }
+
+    #[test]
+    fn available_context_is_serializable() {
+        let context = SupplyEventContext::unavailable("X".to_string());
+        assert!(serde_json::to_string(&context).is_ok());
     }
 
     #[test]

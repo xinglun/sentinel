@@ -58,6 +58,9 @@ pub(crate) fn render_price_volume_structure_report(
         }
         if let Some(context) = entry.supply_context.as_ref().filter(|context| context.availability == crate::features::shared::domain::supply_event_context::SupplyEventContextAvailability::Available) {
             out.push_str(&format!("- Supply Context: {}\n", supply_event_label(context.event_type)));
+            out.push_str(&format!("- Supply Date: {}\n", context.event_date.map(|date| date.to_string()).unwrap_or_else(|| "UNAVAILABLE".to_string())));
+            out.push_str(&format!("- Supply Direction: {:?}\n", context.supply_direction));
+            out.push_str(&format!("- Supply Confidence: {:?}\n", context.confidence));
         } else {
             out.push_str("- Supply Context: UNAVAILABLE\n");
         }
@@ -201,6 +204,7 @@ mod tests {
         assert!(report.contains("Price Behavior: UNAVAILABLE"));
         assert!(report.contains("Supply Context: UNAVAILABLE"));
         assert!(report.contains("Decision Weight: 0%"));
+        assert!(report.contains("Supply Context: UNAVAILABLE"));
         assert!(!report.contains("机构买入确认"));
         assert!(!report.contains("买入指令"));
     }
@@ -224,5 +228,11 @@ mod tests {
         assert!(report.contains("WEAKENING"));
         assert!(report.contains("Price Position: OVERHEATED"));
         assert!(!report.contains("卖出指令"));
+    }
+
+    #[test]
+    fn unavailable_context_remains_explicit() {
+        let report = render_price_volume_structure_report(&[], Language::ZhCn);
+        assert!(report.contains("Price-Volume Structure"));
     }
 }
