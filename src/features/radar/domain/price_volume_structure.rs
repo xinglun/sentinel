@@ -151,6 +151,9 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
     });
     let limited_downside = metrics.return_1d >= -1.5
         && metrics.return_5d >= -3.0
+        && metrics
+            .atr_normalized_move
+            .is_some_and(|move_size| move_size <= 1.0)
         && metrics.lower_wick_ratio.is_some_and(|ratio| ratio >= 0.20);
     let high_price_position = metrics.new_high || metrics.distance_from_20d_high >= -2.0;
     let stalled_candle = metrics.body_ratio.is_some_and(|ratio| ratio <= 0.45)
@@ -298,6 +301,22 @@ fn metrics(bars: &[DailyBar]) -> Option<PriceVolumeMetrics> {
         .map(|(high, low)| high - low)
         .filter(|range| *range > 0.0);
     let open = current.open?;
+    let atr_values = bars[bars.len() - 15..]
+        .windows(2)
+        .filter_map(|pair| {
+            let previous_close = pair[0].close;
+            let bar = &pair[1];
+            let high = bar.high?;
+            let low = bar.low?;
+            Some(
+                (high - low)
+                    .max((high - previous_close).abs())
+                    .max((low - previous_close).abs()),
+            )
+        })
+        .collect::<Vec<_>>();
+    let atr =
+        (!atr_values.is_empty()).then(|| atr_values.iter().sum::<f64>() / atr_values.len() as f64);
     Some(PriceVolumeMetrics {
         return_1d: change(1),
         return_5d: change(5),
@@ -313,7 +332,7 @@ fn metrics(bars: &[DailyBar]) -> Option<PriceVolumeMetrics> {
         distance_from_20d_low: (current.close / low - 1.0) * 100.0,
         new_high: current.close >= high,
         new_low: current.close <= low,
-        atr_normalized_move: range.map(|value| (current.close - open).abs() / value),
+        atr_normalized_move: atr.map(|value| (current.close - open).abs() / value),
         body_ratio: range.map(|value| (current.close - open).abs() / value),
         upper_wick_ratio: range
             .map(|value| (current.high.unwrap_or(current.close) - current.close.max(open)) / value),
@@ -457,6 +476,20 @@ mod tests {
         });
 
         assert_eq!(assessment.structure, PriceVolumeStructure::Neutral);
+    }
+
+    #[test]
+    fn atr_normalized_move_uses_recent_true_range_average_not_current_body_range() {
+        let mut data = rising_data(150.0);
+        let prior = data.len() - 2;
+        data[prior].high = Some(data[prior].close + 8.0);
+        data[prior].low = Some(data[prior].close - 8.0);
+
+        let metrics = assess_price_volume_structure(input(&data, None, false))
+            .metrics
+            .unwrap();
+
+        assert!(metrics.atr_normalized_move.unwrap() < metrics.body_ratio.unwrap());
     }
 
     #[test]
