@@ -1,0 +1,240 @@
+{
+  "workItemId": "s-28-05-price-volume-history-calibration",
+  "contractPath": ".ai/work-items/archive/2026/s-28-05-price-volume-history-calibration.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json",
+      "reason": "履歴・校正 Work Item の scope と acceptance を記録した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-05-price-volume-history-calibration.summary.json",
+      "reason": "実装、検証、残余リスクを記録した。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "観測専用 boundary を完全化し、19 の価格・出来高場面を固定した。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "symbol と market_date を key に Price-Volume Observation を JSONL upsert 保存した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "日報生成時に Observation record を保存した。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "持続化 boundary の report fixture を更新した。"
+    },
+    {
+      "path": "src/features/research/domain/supply_event_context.rs",
+      "reason": "Radar Domain の禁止依存を解消するため Shared Domain へ移した。"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "reason": "移動済み SupplyEventContext module の公開を削除した。"
+    },
+    {
+      "path": "src/features/shared/domain/mod.rs",
+      "reason": "共有の供給 event context module を公開した。"
+    },
+    {
+      "path": "src/features/shared/domain/supply_event_context.rs",
+      "reason": "価格・出来高と research の双方が消費できる中立の Observation Only 契約を配置した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/research/domain/supply_event_context.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json SUMMARY=.ai/work-items/active/s-28-05-price-volume-history-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-05-price-volume-history-calibration.summary.json CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json SUMMARY=.ai/work-items/active/s-28-05-price-volume-history-calibration.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-05-price-volume-history-calibration.contract.json SUMMARY=.ai/work-items/active/s-28-05-price-volume-history-calibration.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "同日再実行が一 record に upsert される",
+      "reason": "persistence unit test が同一 market_date と symbol の最新 assessment を確認する。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "SpaceX 型の供給吸収",
+      "reason": "lock-up と secondary offering の明示 context で ACCUMULATION / ACTIVE を確認する。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Microsoft 型の弱い参加",
+      "reason": "高値圏の縮量上昇を EXHAUSTED_ADVANCE / WEAKENING として確認する。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "18 件以上の価格量場面",
+      "reason": "放量上下、横ばい、縮量、gap、event noise、欠損、429、短期 IPO、持続性を 19 test で確認する。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "architecture guard の指摘により、SupplyEventContext を Shared Domain へ移してから再検証する。live source integration は別 Work Item で行う。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "high",
+      "detail": "architecture guard が Radar Domain から Research Domain への依存を拒否した。SupplyEventContext を Shared Domain に移す。",
+      "followUpCandidate": false
+    },
+    {
+      "severity": "medium",
+      "detail": "runner が supply_context: None、overheated: false、time_cost_rising: false を渡しており、実市場 event source をまだ消費しない。",
+      "followUpCandidate": true
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract が code mode、unknowns 空、executionDecision continue を満たす。",
+      "contractHash": "f3f83d48f6164e68",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope を persistence、runner、classifier、report fixture、supply boundary に限定した。",
+      "contractHash": "f3f83d48f6164e68",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "局部 19 test と fmt/test/clippy が通過した。",
+      "contractHash": "f3f83d48f6164e68",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit verification を通過した。",
+      "contractHash": "f3f83d48f6164e68",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Observation Only boundary と scope を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Decision Pipeline、Trader、data branch を scope 外に維持した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "局部と品質 check を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "Cockpit check 後に更新する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "source_integration",
+      "detail": "供給 event と過熱 context の live source 接続はこの history/calibration Work Item の scope 外であり、後続 S-28 Work Item で扱う。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "history、same-day upsert、scenario coverage は検証済みだが、live source integration は未完了である。",
+    "expectedReviewFocus": [
+      "JSONL record が decision history と混同されないこと",
+      "次 Work Item の supply/overheated context 接続"
+    ]
+  }
+}

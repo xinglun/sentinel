@@ -320,6 +320,64 @@ pub struct CapitalAbsorptionEventConfig {
     pub source_url: Option<String>,
 }
 
+/// 価格・出来高観測へ明示的に渡す個別銘柄の供給イベント。
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct PriceVolumeSupplyEventConfig {
+    pub symbol: String,
+    pub event_type: PriceVolumeSupplyEventType,
+    pub event_date: String,
+    pub supply_direction: PriceVolumeSupplyDirection,
+    pub confidence: PriceVolumeSupplyConfidence,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum PriceVolumeSupplyEventType {
+    Ipo,
+    LockupExpiry,
+    SecondaryOffering,
+    FollowOnOffering,
+    InsiderSelling,
+    EmployeeLiquidityEvent,
+    ConvertibleIssuance,
+    IndexInclusion,
+    IndexExclusion,
+    MajorShareholderSale,
+    ShareUnlock,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum PriceVolumeSupplyDirection {
+    Increase,
+    Decrease,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum PriceVolumeSupplyConfidence {
+    Low,
+    Medium,
+    High,
+}
+
+/// 価格・出来高の比較可能性を明示的に下げる企業行動イベント。
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct PriceVolumeDataQualityEventConfig {
+    pub symbol: String,
+    pub event_type: PriceVolumeDataQualityEventType,
+    pub event_date: String,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum PriceVolumeDataQualityEventType {
+    CorporateAction,
+    VolumeSplitAdjustment,
+}
+
 #[derive(Debug, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct CapitalDemandConfig {
@@ -365,6 +423,8 @@ pub struct CapitalAbsorptionConfig {
     pub upgrade_to_stressed: Option<Vec<String>>,
     pub auto_enable: Option<bool>,
     pub enable: Option<bool>,
+    pub price_volume_supply_events: Option<Vec<PriceVolumeSupplyEventConfig>>,
+    pub price_volume_data_quality_events: Option<Vec<PriceVolumeDataQualityEventConfig>>,
 }
 
 #[derive(Debug, Deserialize, Clone)]

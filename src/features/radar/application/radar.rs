@@ -31,6 +31,7 @@ pub struct RadarPipelinePlan {
 pub struct RadarPreparedData<T> {
     pub successful_items: Vec<T>,
     pub failed_symbols: Vec<String>,
+    pub rate_limited_symbols: Vec<String>,
     pub summary: DataAcquisitionSummary,
     pub plan: RadarPipelinePlan,
 }
@@ -116,6 +117,7 @@ impl RadarPipelineUseCase {
         RadarPreparedData {
             successful_items,
             failed_symbols,
+            rate_limited_symbols: Vec::new(),
             summary,
             plan,
         }
@@ -155,7 +157,20 @@ impl RadarPipelineUseCase {
             })
             .buffer_unordered(10);
 
-        self.prepare_from_fetch_results(fetches.collect::<Vec<_>>().await)
+        let results = fetches.collect::<Vec<_>>().await;
+        let rate_limited_symbols = results
+            .iter()
+            .filter(|(result, _)| {
+                result
+                    .as_ref()
+                    .err()
+                    .is_some_and(|error| is_rate_limited_message(&error.to_string()))
+            })
+            .map(|(_, symbol)| symbol.clone())
+            .collect::<Vec<_>>();
+        let mut prepared = self.prepare_from_fetch_results(results);
+        prepared.rate_limited_symbols = rate_limited_symbols;
+        prepared
     }
 
     /// 取得済みの market data から日次判定 outcome を構築する。
@@ -190,6 +205,10 @@ impl RadarPipelineUseCase {
         )
         .map(build_successful_decision_outcome)
     }
+}
+
+fn is_rate_limited_message(message: &str) -> bool {
+    message.contains("429")
 }
 
 impl DataAcquisitionSummary {
@@ -537,6 +556,13 @@ mod tests {
         assert!(plan.should_persist_history);
         assert!(plan.should_enter_pipeline_body);
         assert_eq!(plan.data_quality_status, DataQualityStatus::Warning);
+    }
+
+    #[test]
+    fn rate_limit_classification_requires_explicit_429_fact() {
+        assert!(is_rate_limited_message("provider returned HTTP 429"));
+        assert!(!is_rate_limited_message("provider returned HTTP 500"));
+        assert!(!is_rate_limited_message("network timeout"));
     }
 
     #[test]

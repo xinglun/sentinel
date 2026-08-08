@@ -64,6 +64,9 @@ mod tests {
                 symbol: "NVDA".to_string(),
                 bars: Cow::Owned(vec![DailyBar {
                     date: NaiveDate::from_ymd_opt(2026, 5, 1).unwrap(),
+                    open: None,
+                    high: None,
+                    low: None,
                     close: 100.0,
                     volume: Some(10.0),
                 }]),

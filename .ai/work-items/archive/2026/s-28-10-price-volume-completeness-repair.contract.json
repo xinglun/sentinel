@@ -1,0 +1,377 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-10-price-volume-completeness-repair",
+  "mode": "code",
+  "title": "S-28 Price-Volume Completeness Repair",
+  "baseCommit": "faca6678c1e8461ba88b179485c4f5f7c0d1fbd0",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "9dbfa487de0ea3dfce76b207f9df96448b01efe19eb41722efd5364825547868"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.contract.json",
+      "status": "??",
+      "fingerprint": "7906bacea50421dab9d131e852b01be4d74287987e71ca0f91ee86392deb7345"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.summary.json",
+      "status": "??",
+      "fingerprint": "fdd745d391c07c92dac036d850380a7b4f8cbbaedc115ddb2d591d01c50d1493"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.contract.json",
+      "status": "??",
+      "fingerprint": "9464357873024db1fb575db8a7ec2a0f15b6d932d91ee9251ed82613ccefcd5e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.summary.json",
+      "status": "??",
+      "fingerprint": "f3f29b520b4aaa019baf324d725af006317877f51e3938e328d6c12d16d12f2b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-03-price-volume-classification.contract.json",
+      "status": "??",
+      "fingerprint": "98a8d0e153f6714f4a4f2bf739780a0df7075ea9b912867fc0bbbfb0f4b69c7b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-03-price-volume-classification.summary.json",
+      "status": "??",
+      "fingerprint": "8be47c3c213cff054d286a62a13f4ebaebe4e3996e2f97aab23a4bddb8d8195e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json",
+      "status": "??",
+      "fingerprint": "8b07cf1cf00d3de7a9023e739b4f2344807d2197e483ec13a63bdd76436378d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json",
+      "status": "??",
+      "fingerprint": "1f3df478821a38860120b21404d5c13f6546ba02de68a144a99aab3647a9e45b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-05-price-volume-history-calibration.contract.json",
+      "status": "??",
+      "fingerprint": "f3f83d48f6164e685cca114a1444e725b4dd0be44887f2bbd98908f9d09a11f1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-05-price-volume-history-calibration.summary.json",
+      "status": "??",
+      "fingerprint": "bcd9e8a806642d954ac4b7eccf2deaace6a145591c183498236902262491f841"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-06-price-volume-runtime-context.contract.json",
+      "status": "??",
+      "fingerprint": "9e3aa4f9e35f924b182ce5ff43e2d070b334f930150d354c59b9fa7e48f98cd1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-06-price-volume-runtime-context.summary.json",
+      "status": "??",
+      "fingerprint": "82fba1dd5c181b35ff4b740f94941a833be31c6a0b8616580f604402aa04be97"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-07-price-volume-issue-ledger.contract.json",
+      "status": "??",
+      "fingerprint": "ae08aa2554bc769628cb13a675cf64c3cbb866887908dbaf41b526630242c820"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-07-price-volume-issue-ledger.summary.json",
+      "status": "??",
+      "fingerprint": "e0dfbb7fccfa243a0e88928fc6a6e5eacdeee6950b940322bd9c5c71ed6b3f74"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-08-price-volume-persistence.contract.json",
+      "status": "??",
+      "fingerprint": "d008f207b2a7e89332bc6dd6713834365dd28e4ee06c088d7094c568e4b9232e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-08-price-volume-persistence.summary.json",
+      "status": "??",
+      "fingerprint": "03ce3dd26cbcc547dea947b68910163dbd360511fb50f8ea68ffd220b8cf1cc0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-09-price-volume-rate-limit.contract.json",
+      "status": "??",
+      "fingerprint": "6ae03b855a043572ce545be5d151ce8f083efc60d2957c5e8b3656c1f0662e1d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-09-price-volume-rate-limit.summary.json",
+      "status": "??",
+      "fingerprint": "a8fe6d2825d9d87a3794399d3c090678fe80b1cfc48c113db821c9d3834bd4d9"
+    },
+    {
+      "path": "docs/archive/PROJECT_AUDIT_ISSUES.md",
+      "status": "M",
+      "fingerprint": "9c4bcea785bae270a4f0d875bfa3a7b2abbcf94c89ac140a2dc66227ec4744a3"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-08-price-volume-data-contract.md",
+      "status": "??",
+      "fingerprint": "e2fae7b257a23cd48c9e44c7d4bd7aba02c7bc243fd3589302c3fbb5066190de"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+      "status": "??",
+      "fingerprint": "dadc7d66f719ef98ad8637e7b316ad2134a36e2ff7a834a6e1efbfc0eda65c8e"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "status": "M",
+      "fingerprint": "fd6101f944529d51d99d0abb6cf9d53ad652fa9bd3af9ed2dec696506e5ae480"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "status": "M",
+      "fingerprint": "e5f5ccf322a97c754842c3c6689789d05a6e2603ccd6c12b269bbb9657979f19"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "de2e9bf9616c06e4370c307cd7c7626184a9cb79ee6d380e63b9b37e797a1a76"
+    },
+    {
+      "path": "src/config.rs",
+      "status": "M",
+      "fingerprint": "e723c97585d8238ed5e75d4250d93ea73b0ccf235c8d60e33f4ac9a00c27d450"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "283daa700f5adc72d44cf76e78bffe426ed3e44eb9a936675832da11fb9d1d87"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "30db394eb7e18d84228dfe0650115ceaf178de52bfcc4cc9fe07611b71e03bf7"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "status": "M",
+      "fingerprint": "82dfb4d88e0c10e0199bb5895af0e414570564768ebb77661305994c7856fd4b"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "16257a188538534e37b6600f1df2cffc91a8de6370f0f82f1c3fd3f8ecb88a9f"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "??",
+      "fingerprint": "85f7bd4d3cb1605313c24809cce5e9d273626ea55715ccc8cc5a8d96b3e1b4d0"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "bcc06796b867bc2c52b2c0e71ecc925f2b0c24366427c3dacab7c34df6571880"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "status": "M",
+      "fingerprint": "70119271ce1bf0a05156822aa8573c5e67bc5fad50c41303e8404fe733965251"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "??",
+      "fingerprint": "0094ee383a306d5f9726ddbf632bef873101230083992a41e9ab5e2241e0191d"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "68cfc1a9877c8c24552e4c654d331b2d38ae67af56d1f3b7705a1253c3a873b7"
+    },
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "status": "M",
+      "fingerprint": "e7ec046949a029a93b034daaafa5cf835d4531862dfefc8f8613dbb77c456266"
+    },
+    {
+      "path": "src/features/shared/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "1f62f983461ef26af3f2957ebf8e17dc50803280a676051b80696f216bb21c2f"
+    },
+    {
+      "path": "src/features/shared/domain/supply_event_context.rs",
+      "status": "??",
+      "fingerprint": "88cc96c17a97480f6cec4f340aeb4f02d2ee35aa257294681467211bae472a5a"
+    },
+    {
+      "path": "tests/backtest_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "87d8099b375c242cf9bbb5abda2b2e23904eadf3657cf8f1e75cdb1961a25e2b"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "e14e59b9aea44f13241567a85f1952270059a47ba8bbbdd590024004670a787a"
+    }
+  ],
+  "problemStatement": "S-28 の自検で確認した、429 失敗銘柄が価格・出来高観測と日報へ届かないこと、供給・価格位置の事実と吸収失敗記録が不足することを修正する。",
+  "intent": {
+    "problem": "価格・出来高の観測結果がデータ品質・供給文脈・履歴から欠落し、観測専用という契約を完全に報告できない。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing は変更しない。",
+      "decision weight は 0%、trade signal は false の観測専用境界を維持する。",
+      "供給イベントと corporate action は明示設定された事実だけを使い、機関買い・売買指示を出さない。"
+    ],
+    "rationale": "価格方向だけでなく、参加品質・供給吸収・データ可比性を日報で検証可能にする。"
+  },
+  "scope": [
+    ".ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+    ".ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/config.rs",
+    "src/cli.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+    ,"src/features/shared/domain/supply_event_context.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/application/trader.rs",
+    "Position sizing、Gate、Action Matrix、取引シグナルの変更",
+    "S-26 Macro Event Detection Bug"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "取得失敗、供給文脈、日報、JSONL の実行時接続点。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "品質降格、構造判定、観測専用境界の契約。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "日次観測履歴と吸収失敗の比較根拠。"
+    },
+    {
+      "path": "用户提供的 Sentinel Price-Volume Structure 增强开发指示",
+      "reason": "S-28 の受入条件と非取引境界。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "429 で失敗した銘柄を DEGRADED / UNAVAILABLE として日報と JSONL に保存する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "明示的 corporate action / split 可比性低下を DEGRADED として分類し、価格構造を補推しない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "SpaceX と Microsoft の文言が観測に留まり、売買指示を出さない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary"
+    ],
+    "reason": "取得失敗と供給・可比性の事実をレポートまで運ぶ限定的な観測修正であり、取引判断へ接続しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザー仕様、既存実装、失敗経路を確認し、scope と受入条件を確定した。"
+  },
+  "preReviewWarnings": [
+    "429 が成功履歴から除外される実行時経路と、明示イベントの当日照合を重点確認する。",
+    "TIME_COST_RISING は銘柄別の事実源がない限り銘柄別に投影しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "429 で失敗した watchlist symbol は、DEGRADED 品質かつ UNAVAILABLE 構造の観測として日報と JSONL に残り、設定済みの供給事実を失わない。",
+    "明示的な corporate action / volume split adjustment の当日事実は、DEGRADED 品質かつ UNAVAILABLE 構造として日報に残り、補推しない。",
+    "日報は Supply Context、Price Behavior、Price Position、RVOL_5 / RVOL_20、品質、persistence を事実として表示する。",
+    "過去の ACCUMULATION の直後に DISTRIBUTION を観測した時だけ、ACCUMULATION_FAILED を interpretation として記録する。正式な構造 enum は増やさない。",
+    "ACCUMULATION の解釈は institutional buying confirmed を含まない。",
+    "EXHAUSTED_ADVANCE の解釈は Sell immediately、Top confirmed、Crash expected を含まない。",
+    "HEALTHY_ADVANCE の解釈は Buy または Add position を含まない。",
+    "Gate / execution / trader / action matrix / position sizing は未変更で、全 observation boundary は 0% / false / none のままである。"
+    ,"市場全体の TIME_COST_RISING を個別銘柄の Exhausted Advance 判定へ転用しない。",
+    "Each JSONL observation record stores supply context, price position, and ACCUMULATION_FAILED evidence fields."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-10-price-volume-completeness-repair.contract.json SUMMARY=.ai/work-items/active/s-28-10-price-volume-completeness-repair.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

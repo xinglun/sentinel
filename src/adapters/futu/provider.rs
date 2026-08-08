@@ -121,6 +121,9 @@ impl MarketDataProvider for FutuProvider {
 
             bars.push(DailyBar {
                 date: dt.date(),
+                open: kline.open_price,
+                high: kline.high_price,
+                low: kline.low_price,
                 close: kline.close_price.unwrap_or(0.0),
                 volume: kline.volume.map(|v| v as f64),
             });

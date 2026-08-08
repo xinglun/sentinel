@@ -508,6 +508,35 @@ P0-2
 
 P0-3
 
+## 確認済みイシュー
+
+### S-28: Price-Volume Structure の欠落
+
+**状態:** CONFIRMED  
+**優先度:** HIGH
+
+**定義**
+
+Sentinel は価格方向を観測できても、相対出来高、価格位置、供給イベント、参加品質を結び付け、供給吸収・縮量上昇・分配などの Price-Volume Structure として説明できなかった。
+
+**影響**
+
+1. Trend Layer だけでは、上昇が実際の参加に支えられているかを説明できない。
+2. Supply Layer だけでは、新規供給が価格に与える吸収状況を確認できない。
+3. SpaceX 型の供給吸収と Microsoft 型の弱い参加を、取引シグナルにせず観測する必要がある。
+
+**実施方針**
+
+1. `ACCUMULATION`、`HEALTHY_ADVANCE`、`EXHAUSTED_ADVANCE`、`DISTRIBUTION`、`NEUTRAL`、`UNAVAILABLE` の観測専用分類を提供する。
+2. RVOL、OHLC、価格位置、明示的な銘柄別供給イベント、既存の過熱・time-cost 観測を消費する。
+3. decision weight は 0%、trade signal は false、Gate・Execution・Position Sizing の effect は none に固定する。
+4. S-26 Macro Event Detection Bug は別イシューとして扱い、本イシューへ混在させない。
+
+**完了証拠**
+
+1. S-28-01 から S-28-06 の Work Item により、データ契約、供給 event context、分類、日報、履歴校正、runtime context を実装した。
+2. SpaceX 型の供給吸収、Microsoft 型の弱い参加、event noise、欠損、429、短い IPO history を自動テストで固定した。
+
 ## 推奨される実行順序
 
 1. P0-1

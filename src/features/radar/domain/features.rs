@@ -680,6 +680,9 @@ mod tests {
                     .enumerate()
                     .map(|(index, date)| DailyBar {
                         date: *date,
+                        open: None,
+                        high: None,
+                        low: None,
                         close: if index == 0 { 100.0 } else { 120.0 },
                         volume: None,
                     })
@@ -696,6 +699,9 @@ mod tests {
                     .enumerate()
                     .map(|(index, date)| DailyBar {
                         date: *date,
+                        open: None,
+                        high: None,
+                        low: None,
                         close: if index == 0 { 100.0 } else { 110.0 },
                         volume: None,
                     })
