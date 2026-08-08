@@ -1,0 +1,48 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-18-main-sync-module-ownership",
+  "mode": "code",
+  "title": "Main sync module ownership evidence",
+  "baseCommit": "d02c209f87fbc47517c9450e7d379d7af18e3310",
+  "baselineDirtyPaths": [
+    {"path": ".ai/cockpit/current_status.md", "status": "M", "fingerprint": "f846e85cad62ce165780314342659de85c25949c987ec3a34296d54f1b959845"},
+    {"path": ".ai/work-items/archive/2026/s-28-17-main-sync-archive-ownership.contract.json", "status": "??", "fingerprint": "541296b8d39f81f8a074b828200245b04c82ea4708438aada5d54230c389fa06"},
+    {"path": ".ai/work-items/archive/2026/s-28-17-main-sync-archive-ownership.summary.json", "status": "??", "fingerprint": "4f75ce4f35e0a9bbbb3d7bd4700079d982a05d29704b5d0c5a8892b611676240"}
+  ],
+  "problemStatement": "S-28-17 の ownership Contract は src/features/radar/interface/mod.rs を scope に含む一方で outOfScope の src/** がこれを除外した。main sync PR の CI guard を通すには、当該 path を outOfScope と重複しない新規 evidence pair が必要である。",
+  "intent": {"problem": "append-only archive Contract と Summary に interface module registration の ownership を正しく記録する。", "constraints": ["既存 archive を変更しない。", "production code と交易判断を変更しない。"], "rationale": "PR guard の ownership predicate は scope 内かつ outOfScope ではない path を要求する。"},
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json",
+    ".ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json",
+    ".ai/work-items/archive/2026/s-28-18-main-sync-module-ownership.contract.json",
+    ".ai/work-items/archive/2026/s-28-18-main-sync-module-ownership.summary.json",
+    "src/features/radar/interface/mod.rs"
+  ],
+  "outOfScope": ["src/adapters/**", "src/cli.rs", "src/config.rs", "src/features/radar/application/**", "src/features/radar/domain/**", "src/features/radar/infrastructure/**", "src/features/radar/interface/price_volume_structure_report.rs", "src/features/radar/interface/radar_pipeline_runner.rs", "src/features/shared/**", "src/features/trading/**", "tests/**", "docs/**", ".github/**", ".ai/work-items/archive/2026/s-28-01-*.json", ".ai/work-items/archive/2026/s-28-02-*.json", ".ai/work-items/archive/2026/s-28-03-*.json", ".ai/work-items/archive/2026/s-28-04-*.json", ".ai/work-items/archive/2026/s-28-05-*.json", ".ai/work-items/archive/2026/s-28-06-*.json", ".ai/work-items/archive/2026/s-28-07-*.json", ".ai/work-items/archive/2026/s-28-08-*.json", ".ai/work-items/archive/2026/s-28-09-*.json", ".ai/work-items/archive/2026/s-28-10-*.json", ".ai/work-items/archive/2026/s-28-11-*.json", ".ai/work-items/archive/2026/s-28-12-*.json", ".ai/work-items/archive/2026/s-28-13-*.json", ".ai/work-items/archive/2026/s-28-14-*.json", ".ai/work-items/archive/2026/s-28-15-*.json", ".ai/work-items/archive/2026/s-28-16-*.json", "Gate / Execution / Trader / Action Matrix / Position Sizing"],
+  "sources": [{"path": "GitHub Actions run 31259259875 / job 93107389159", "reason": "direct CI failure evidence。"}, {"path": "scripts/ai_check_pr.py", "reason": "ownership predicate evidence。"}, {"path": ".ai/work-items/archive/2026/s-28-17-main-sync-archive-ownership.contract.json", "reason": "scope / outOfScope overlap root cause。"}, {"path": "src/features/radar/interface/mod.rs", "reason": "PR diff path needing ownership。"}],
+  "scenarioCoverage": [{"scenario": "main sync PR module ownership is in scope and not in outOfScope", "required": true, "status": "verified", "evidence": ["make check-ai-pr AI_BASE_COMMIT=faca6678c1e8461ba88b179485c4f5f7c0d1fbd0"]}],
+  "unknowns": [], "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["ci", "governance_process"], "reason": "append-only evidence only。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "root cause is isolated to one contract predicate conflict。"},
+  "preReviewWarnings": ["src/features/radar/interface/mod.rs は scope にのみ含め、src/** のような重複 exclusion を置かない。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新する。"},
+  "acceptance": ["new archive pair owns src/features/radar/interface/mod.rs without an outOfScope conflict。", "existing archive and production code are unchanged。", "make check-ai-pr AI_BASE_COMMIT=faca6678c1e8461ba88b179485c4f5f7c0d1fbd0 passes after archive。", "active Work Item is archived after required checks。"],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-18-main-sync-module-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-18-main-sync-module-ownership.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "append-only evidence commits を revert する。"
+}
