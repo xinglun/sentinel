@@ -40,6 +40,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "humanReview",
     "preReviewWarnings",
     "checkpointPolicy",
+    "archiveRepair",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 REQUIRED_VERIFICATION_COMMANDS = ("make fmt-check",)
@@ -142,6 +143,16 @@ def validate_optional_intent(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_archive_repair(data: dict[str, Any]) -> list[str]:
+    if "archiveRepair" not in data:
+        return []
+    repair = data["archiveRepair"]
+    if not isinstance(repair, dict):
+        return ["archiveRepair は object にしてください。"]
+    required = ("targetPath", "restoreFromCommit", "baseContentSha256", "restoredContentSha256", "reason")
+    return [f"archiveRepair.{key} は空でない string にしてください。" for key in required if not isinstance(repair.get(key), str) or not repair[key].strip()]
+
+
 def validate_optional_v2_fields(data: dict[str, Any]) -> list[str]:
     if data.get("contractVersion") != 2:
         return []
@@ -167,6 +178,7 @@ def validate_optional_v2_fields(data: dict[str, Any]) -> list[str]:
                 issues.append(f"baselineDirtyPaths[{index}].fingerprint は空でない string にしてください。")
     issues.extend(validate_optional_problem_statement(data))
     issues.extend(validate_optional_intent(data))
+    issues.extend(validate_archive_repair(data))
     issues.extend(validate_scenario_coverage(data.get("scenarioCoverage")))
     return issues
 
