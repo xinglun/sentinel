@@ -1,0 +1,94 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-11-price-volume-archive-ownership",
+  "mode": "code",
+  "title": "Price-Volume archive ownership repair",
+  "baseCommit": "052d12fa9679a0e74ef6f94f851d696e0efeadf8",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-28 の PR が src/features/radar/interface/mod.rs の archive Summary ownership を欠くため、AI PR Guard で失敗した。",
+  "intent": {
+    "problem": "Price-Volume report Work Item の archive evidence へ interface module の実変更を記録し、CI guard を通す。",
+    "constraints": ["証跡のみを修正し、production code、取引判断、Gate、Execution、Position Sizing は変更しない。"],
+    "rationale": "CI が検証する Work Item ownership と実際の変更を一致させる。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json",
+    ".ai/work-items/active/s-28-11-price-volume-archive-ownership.summary.json",
+    ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    ".github/**",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/code_quality.yml",
+      "reason": "PR guard の実行経路を確認する。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "archive ownership 判定の契約を確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json",
+      "reason": "interface module が当該 Work Item scope に含まれる事実を確認する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-04-price-volume-report.summary.json",
+      "reason": "不足している changedFiles evidence を補正する。"
+    },
+    {
+      "path": "GitHub Actions run 31253265510 log",
+      "reason": "CI failure の直接原因を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["ci", "governance_process"],
+    "reason": "archive Summary の missing ownership を補う限定的な evidence repair であり、product behavior を変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "失敗ログ、対象 path、既存 Work Item scope が一致し、修正対象が一意に確定している。"
+  },
+  "preReviewWarnings": [
+    "既に merge 済みの PR に対する CI evidence repair のため、修正 PR では check-ai-pr を base commit 052d12fa で再現する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新する。"
+  },
+  "acceptance": [
+    "s-28-04 archive Summary の changedFiles が src/features/radar/interface/mod.rs を Price-Volume report module registration として記録する。",
+    "make check-ai-pr AI_BASE_COMMIT=052d12fa9679a0e74ef6f94f851d696e0efeadf8 が通る。",
+    "active Work Item は全 required checks 後に archive され、Cockpit が no_active_work_item になる。",
+    "production code と trading decision path は変更しない。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-11-price-volume-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-11-price-volume-archive-ownership.summary.json CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-11-price-volume-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-11-price-volume-archive-ownership.contract.json SUMMARY=.ai/work-items/active/s-28-11-price-volume-archive-ownership.summary.json", "required": true},
+    {"command": "make check-ai-pr AI_BASE_COMMIT=052d12fa9679a0e74ef6f94f851d696e0efeadf8", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の evidence-only commit を revert する。"
+}

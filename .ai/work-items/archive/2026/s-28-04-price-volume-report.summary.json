@@ -9,6 +9,10 @@
     {
       "path": ".ai/work-items/active/s-28-04-price-volume-report.summary.json",
       "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "Price-Volume Structure report module を interface layer に登録した。"
     }
   ],
   "sourcesUsed": [
