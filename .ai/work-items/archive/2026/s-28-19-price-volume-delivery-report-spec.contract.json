@@ -1,0 +1,44 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-19-price-volume-delivery-report-spec",
+  "mode": "code",
+  "title": "Price-Volume delivery report specification",
+  "baseCommit": "286ce5370da899a70830b9f63e5a4b7cbe53a6f8",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-28 の実装、観測境界、検証、release status を、詳細な Work Item と CI log を複製せずに読むための圧縮総覧がない。",
+  "intent": {
+    "problem": "圧縮総覧の目的、含める事実、除外する運用詳細、検証境界を設計文書に固定する。",
+    "constraints": ["実装、交易判断、Gate、Execution、Trader、Action Matrix、Position Sizing は変更しない。", "設計文書は日本語、front matter 付きにする。", "report 本文は user review 後の別 Work Item で作成する。"],
+    "rationale": "主報告を意思決定可能な長さに保ち、詳細証拠は archive Work Item と Pull Request を SSOT として残す。"
+  },
+  "scope": [".ai/cockpit/current_status.md", ".ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json", ".ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json", "docs/superpowers/specs/2026-08-09-price-volume-delivery-report-design.md"],
+  "outOfScope": ["docs/reports/**", "src/**", "tests/**", "config.toml", ".github/**", ".ai/work-items/archive/**", "Gate / Execution / Trader / Action Matrix / Position Sizing"],
+  "sources": [
+    {"path": "用户关于压缩整体报告的指示", "reason": "主報告の圧縮方針。"},
+    {"path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md", "reason": "S-28 の機能と Observation-only boundary。"},
+    {"path": ".ai/work-items/archive/2026/s-28-16-price-volume-closure.summary.json", "reason": "最終機能 acceptance と検証証跡。"},
+    {"path": "Pull Request #14 and #15", "reason": "同期、CI、merge status の事実。"}
+  ],
+  "scenarioCoverage": [{"scenario": "主報告が S-28 の能力、0% decision boundary、SpaceX/Microsoft acceptance、governance、release status を一頁に限定する", "required": true, "status": "verified", "evidence": ["manual specification review"]}],
+  "unknowns": [], "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["review_debt", "governance_process"], "reason": "設計文書のみで product behavior を変更しない。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "報告対象、除外対象、証拠 source、user-approved design が確定している。"},
+  "preReviewWarnings": ["SpaceX / Microsoft を予測または売買指示として表現しない。", "CI retry と account switching の時系列を主報告に含めない。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新する。"},
+  "acceptance": ["設計文書が『交付範囲』『安全境界』『受入証拠』『Governance』『Release status』の五節と、S-28-16 / PR #14 / PR #15 を source of truth として明記する。", "設計文書の除外対象に CI retry 時系列、account switching、command 全出力、archive ownership repair の逐次作業を列挙する。", "設計文書が `decision_weight = 0%`、`trade_signal = false`、Gate / Execution / Trader / Action Matrix / Position Sizing effect none を必須記載として明記する。", "設計文書が report 本文の作成先 `docs/reports/` と、user review 後に別 Work Item で作成する境界を明記する。"],
+  "verification": [
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json SUMMARY=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json SUMMARY=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json SUMMARY=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.contract.json SUMMARY=.ai/work-items/active/s-28-19-price-volume-delivery-report-spec.summary.json","required":true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この documentation-only Work Item の commit を revert する。"
+}
