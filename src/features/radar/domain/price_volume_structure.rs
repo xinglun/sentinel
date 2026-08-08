@@ -149,20 +149,29 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
         context.availability == SupplyEventContextAvailability::Available
             && context.supply_direction == SupplyDirection::Increase
     });
+    let limited_downside = metrics.return_1d >= -1.5
+        && metrics.return_5d >= -3.0
+        && metrics.lower_wick_ratio.is_some_and(|ratio| ratio >= 0.20);
+    let high_price_position = metrics.new_high || metrics.distance_from_20d_high >= -2.0;
+    let stalled_candle = metrics.body_ratio.is_some_and(|ratio| ratio <= 0.45)
+        || metrics.upper_wick_ratio.is_some_and(|ratio| ratio >= 0.30);
+    let downside_breakdown = metrics.new_low || metrics.gap_percent.is_some_and(|gap| gap <= -1.0);
     let accumulation =
-        supply_increase && metrics.rvol_20 >= 1.3 && metrics.return_5d >= -3.0 && !metrics.new_low;
+        supply_increase && metrics.rvol_20 >= 1.3 && limited_downside && !metrics.new_low;
     let exhausted = metrics.return_5d > 2.0
-        && metrics.distance_from_20d_high >= -2.0
+        && high_price_position
         && metrics.rvol_20 < 1.0
         && metrics.rvol_5 < 1.0
+        && stalled_candle
         && (input.overheated || input.time_cost_rising);
     let healthy = metrics.return_5d > 2.0
+        && high_price_position
         && metrics.rvol_20 >= 1.0
         && metrics.up_day_average_volume > metrics.down_day_average_volume;
     let distribution = metrics.return_5d < -2.0
         && metrics.rvol_20 >= 1.3
         && metrics.down_day_average_volume > metrics.up_day_average_volume
-        && (metrics.new_low || metrics.return_1d < -1.0);
+        && downside_breakdown;
     let (structure, participation, supply_absorption) = if accumulation {
         (
             PriceVolumeStructure::Accumulation,
@@ -431,6 +440,23 @@ mod tests {
         assert_eq!(assessment.structure, PriceVolumeStructure::ExhaustedAdvance);
         assert_eq!(assessment.participation, ParticipationQuality::Weakening);
         assert!(!assessment.boundary.trade_signal);
+    }
+
+    #[test]
+    fn low_volume_advance_with_time_cost_needs_a_stalling_candle() {
+        let mut data = rising_data(60.0);
+        let current = data.last_mut().unwrap();
+        current.open = Some(current.close - 0.9);
+        current.high = Some(current.close + 0.05);
+        current.low = Some(current.open.unwrap() - 0.05);
+
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            overheated: false,
+            time_cost_rising: true,
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(assessment.structure, PriceVolumeStructure::Neutral);
     }
 
     #[test]
