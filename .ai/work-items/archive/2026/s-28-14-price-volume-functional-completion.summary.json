@@ -1,0 +1,233 @@
+{
+  "workItemId": "s-28-14-price-volume-functional-completion",
+  "contractPath": ".ai/work-items/archive/2026/s-28-14-price-volume-functional-completion.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+      "reason": "観測専用の修復境界、window、verification を固定した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json",
+      "reason": "実装、検証、review risk の証跡を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item status を生成した。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-functional-completion-design.md",
+      "reason": "runtime context、event window、price behavior の設計を固定した。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-08-price-volume-functional-completion.md",
+      "reason": "test-first の実装順序を記録した。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "price location と candle behavior を四分類の confirmation に接続した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "TIME_COST_RISING と date-aware Supply Event Context を runtime へ接続した。"
+    }
+  ],
+  "sourcesUsed": [
+    "用户提供的 Sentinel Price-Volume Structure 增强开发指示",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/transition_evidence_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json",
+      "result": "passed"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "TIME_COST_RISING が低参加の高値上昇を EXHAUSTED_ADVANCE にする",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "有効期間内の lock-up supply event が限定的 downside の ACCUMULATION を支える",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "期間外の supply event が ACCUMULATION を支えない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "既存 price behavior が四分類の confirmation に使われる",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "米国祝日 calendar を使用しない",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "ユーザーが固定月曜から金曜の既存規則を要求した。"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "market-level TIME_COST_RISING を observation context として使う。Gate、execution、position sizing は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "TIME_COST_RISING が runtime で常に false だった。",
+    "Supply Event が event_date 後も stale context になった。",
+    "candle と price location metrics が分類に使われていなかった。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope、非取引境界、20 calendar days window を確定した。",
+      "contractHash": "e3ed925a47531a7b",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "domain classifier と runner context の断点を確認した。",
+      "contractHash": "e3ed925a47531a7b",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "TDD red failure と Rust test/fmt/clippy の結果を確認した。",
+      "contractHash": "e3ed925a47531a7b",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "final Cockpit verification と Rust quality results を記録した。",
+      "contractHash": "e3ed925a47531a7b",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "ユーザー指定の三つの機能不足と非取引境界を Contract に固定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TIME_COST_RISING、event_date、price behavior metrics の既存経路を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "TDD failure の後に実装し、Rust quality checks を通過させた。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "Cockpit final checks と Rust quality results を記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "observation calibration",
+      "detail": "20 calendar days window と candle thresholds は実市場の継続観測で校正するが、取引判断には接続しない。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "必須 verification は完了し、20 calendar days window と threshold は実市場観測で継続校正する。",
+    "expectedReviewFocus": [
+      "market-level TIME_COST_RISING context",
+      "20 calendar days Supply Event window",
+      "observation-only boundary"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "交易日无需判断美国节假日，固定周一到周五。",
+      "solidifiedTo": "contract",
+      "reason": "outOfScope と acceptance と設計書に、米国祝日 calendar を追加しないことを固定した。"
+    }
+  ]
+}

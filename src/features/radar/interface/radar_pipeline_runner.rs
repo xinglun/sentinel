@@ -32,7 +32,7 @@ use crate::features::radar::interface::market_interpretation_read_model::{
     build_leader_observation, build_leader_persistence_view_model,
     build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
-use crate::features::radar::interface::presentation::PresentationPacket;
+use crate::features::radar::interface::presentation::{HoldingEfficiency, PresentationPacket};
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
@@ -1012,13 +1012,18 @@ pub(crate) async fn run_pipeline_for_report_date(
             .iter()
             .map(|(history, _)| {
                 let supply_context =
-                    price_volume_supply_context(config_arc.as_ref(), &history.symbol);
+                    price_volume_supply_context(config_arc.as_ref(), &history.symbol, packet.date);
                 let overheated = packet.assets.iter().any(|asset| {
                     asset.asset_state.symbol == history.symbol
                         && asset.asset_state.state == AssetState::OVERHEAT
                 });
-                // 市場全体の保有効率は個別銘柄の事実ではないため、価出来高構造へ転用しない。
-                let time_cost_rising = false;
+                let time_cost_rising =
+                    pres_packet
+                        .transition_evidence
+                        .as_ref()
+                        .is_some_and(|evidence| {
+                            price_volume_time_cost_rising(evidence.holding_efficiency)
+                        });
                 let initial_assessment = assess_price_volume_structure(PriceVolumeInput {
                     bars: history.bars.as_ref(),
                     supply_context: supply_context.as_ref(),
@@ -1091,7 +1096,11 @@ pub(crate) async fn run_pipeline_for_report_date(
             price_volume_entries.push(PriceVolumeReportEntry {
                 symbol: symbol.clone(),
                 assessment,
-                supply_context: price_volume_supply_context(config_arc.as_ref(), symbol),
+                supply_context: price_volume_supply_context(
+                    config_arc.as_ref(),
+                    symbol,
+                    packet.date,
+                ),
                 overheated: false,
                 accumulation_failed: false,
             });
@@ -1177,6 +1186,7 @@ pub(crate) async fn run_pipeline_for_report_date(
 fn price_volume_supply_context(
     app_config: &config::AppConfig,
     symbol: &str,
+    market_date: chrono::NaiveDate,
 ) -> Option<SupplyEventContext> {
     let event = app_config
         .capital_absorption
@@ -1184,8 +1194,22 @@ fn price_volume_supply_context(
         .price_volume_supply_events
         .as_ref()?
         .iter()
-        .find(|event| event.symbol == symbol)?;
+        .find(|event| {
+            event.symbol == symbol && price_volume_supply_event_is_active(event, market_date)
+        })?;
     Some(price_volume_supply_context_from_event(event))
+}
+
+fn price_volume_supply_event_is_active(
+    event: &config::PriceVolumeSupplyEventConfig,
+    market_date: chrono::NaiveDate,
+) -> bool {
+    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
+        .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
+}
+
+fn price_volume_time_cost_rising(holding_efficiency: HoldingEfficiency) -> bool {
+    holding_efficiency == HoldingEfficiency::TimeCostRising
 }
 
 fn price_volume_volume_comparable(
@@ -2106,11 +2130,15 @@ fn gray_rhino_failure_appendix(
 mod tests {
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
-    use super::price_volume_supply_context_from_event;
+    use super::{
+        price_volume_supply_context_from_event, price_volume_supply_event_is_active,
+        price_volume_time_cost_rising,
+    };
     use crate::config::{
         PriceVolumeSupplyConfidence, PriceVolumeSupplyDirection, PriceVolumeSupplyEventConfig,
         PriceVolumeSupplyEventType,
     };
+    use crate::features::radar::interface::presentation::HoldingEfficiency;
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
     };
@@ -2125,6 +2153,34 @@ mod tests {
         SupplyDirection, SupplyEventContextAvailability, SupplyEventType,
     };
     use crate::features::shared::interface::i18n::Language;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn price_volume_time_cost_context_uses_existing_transition_observation() {
+        assert!(price_volume_time_cost_rising(
+            HoldingEfficiency::TimeCostRising
+        ));
+        assert!(!price_volume_time_cost_rising(HoldingEfficiency::Neutral));
+    }
+
+    #[test]
+    fn supply_event_is_active_only_inside_the_observation_window() {
+        let event = PriceVolumeSupplyEventConfig {
+            symbol: "SPCX".to_string(),
+            event_type: PriceVolumeSupplyEventType::LockupExpiry,
+            event_date: "2026-08-06".to_string(),
+            supply_direction: PriceVolumeSupplyDirection::Increase,
+            confidence: PriceVolumeSupplyConfidence::High,
+        };
+        assert!(price_volume_supply_event_is_active(
+            &event,
+            NaiveDate::from_ymd_opt(2026, 8, 20).unwrap()
+        ));
+        assert!(!price_volume_supply_event_is_active(
+            &event,
+            NaiveDate::from_ymd_opt(2026, 8, 27).unwrap()
+        ));
+    }
 
     #[test]
     fn explicit_lockup_config_becomes_available_supply_context_without_inference() {

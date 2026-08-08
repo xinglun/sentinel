@@ -1,0 +1,66 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-14-price-volume-functional-completion",
+  "mode": "code",
+  "title": "S-28 Price-Volume Functional Completion",
+  "baseCommit": "3a2b0ba2901147ae16618f652483e97bf80dd012",
+  "baselineDirtyPaths": [],
+  "problemStatement": "S-28 の Price-Volume Structure は TIME_COST_RISING を runtime で消費せず、供給 event の有効期間を限定せず、既に算出する価格行動を分類へ使っていない。",
+  "intent": {"problem":"TIME_COST_RISING、Supply Event の有効期間、price behavior confirmation の三つが Price-Volume runtime で未充足である。","constraints":["Observation Layer に限定する。","米国祝日 calendar は導入しない。","Decision Weight を 0% のままにする。"],"rationale":"ユーザーが最初の S-28 指摘に対する機能的な不足として三点を明示した。"},
+  "scope": [
+    ".ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json",
+    ".ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-08-price-volume-functional-completion-design.md",
+    "docs/superpowers/plans/2026-08-08-price-volume-functional-completion.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": ["src/features/**/trader/**","src/features/**/execution/**","position sizing","NO TRADE / Probe / READY / EXECUTE Gate","米国市場祝日 calendar"],
+  "sources": [
+    {"path":"docs/superpowers/specs/2026-08-08-price-volume-structure-design.md","reason":"S-28 の観測専用境界、六状態、RVOL、Supply Context の設計根拠。"},
+    {"path":"src/features/radar/domain/price_volume_structure.rs","reason":"分類器、価格行動 metrics、既存 unit test。"},
+    {"path":"src/features/radar/interface/radar_pipeline_runner.rs","reason":"runtime context と supply event config の投影点。"},
+    {"path":"src/features/radar/interface/presentation.rs","reason":"既存 TIME_COST_RISING observation の型。"},
+    {"path":"src/features/radar/interface/transition_evidence_read_model.rs","reason":"presentation packet への TIME_COST_RISING 生成経路。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario":"TIME_COST_RISING が低参加の高値上昇を EXHAUSTED_ADVANCE にする","required":true,"status":"unverified","evidence":[],"reason":"実装前。"},
+    {"scenario":"有効期間内の lock-up supply event が限定的 downside の ACCUMULATION を支える","required":true,"status":"unverified","evidence":[],"reason":"実装前。"},
+    {"scenario":"期間外の supply event が ACCUMULATION を支えない","required":true,"status":"unverified","evidence":[],"reason":"実装前。"},
+    {"scenario":"既存 price behavior が四分類の confirmation に使われる","required":true,"status":"unverified","evidence":[],"reason":"実装前。"},
+    {"scenario":"米国祝日 calendar を使用しない","required":false,"status":"not_applicable","evidence":[],"reason":"ユーザーが固定月曜から金曜の既存規則を要求した。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level":"medium","riskTypes":["architecture_boundary","data_integrity"],"reason":"観測分類を変えるが、decision boundary は固定の 0% とする。Supply Event は event_date の前後 20 calendar days だけ有効とする。"},
+  "agentCapability": {"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":null},
+  "humanReview": {"status":"confirmed","decision":"ユーザーは Price-Volume の三つの機能不足を同一 Work Item で修復し、途中停止なしで完全な Work Item flow を実行するよう指示した。","openQuestions":["Supply Event の stale-context 防止 window は、既存 20 日 metrics と整合する前後 20 calendar days を採用する。これは observation classification のみへ作用する。"]},
+  "executionDecision": {"status":"continue","reason":"ユーザーが三つの不足を明示し、観測専用の修復範囲と非対象を確定している。"},
+  "preReviewWarnings": ["TIME_COST_RISING は市場文脈であり、個別銘柄の事実または取引 signal として表示・保存しない。","Supply Event 有効期間の 20 calendar days は observation の stale-context 防止用であり、event の実現を推論しない。"],
+  "checkpointPolicy": {"requiredCheckpoints":["contract_start","before_edit","before_ready","after_verification"],"reminder":"scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新する。"},
+  "acceptance": [
+    "runtime は既存 StateTransitionViewModel の TIME_COST_RISING を Price-Volume input へ渡し、過熱なしでも既存 Exhausted Advance 条件の context として消費する。",
+    "Supply Event Context は event_date の前後 20 calendar days だけ有効で、期間外 event は ACCUMULATION の supply context に使わない。",
+    "既存 metrics の price location と candle behavior が ACCUMULATION、HEALTHY_ADVANCE、EXHAUSTED_ADVANCE、DISTRIBUTION の各分類条件に明示的に寄与する。",
+    "SpaceX 型の有効期間内 supply absorption、Microsoft 型の TIME_COST_RISING exhaustion、期間外 event の非分類を regression test で検証する。",
+    "decision_weight=0%、trade_signal=false、gate/execution/position sizing effect=none を維持する。",
+    "米国祝日 calendar を追加せず、既存の月曜から金曜連続性規則を変更しない。"
+  ],
+  "verification": [
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make test","required":true},
+    {"command":"make clippy","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/s-28-14-price-volume-functional-completion.contract.json SUMMARY=.ai/work-items/active/s-28-14-price-volume-functional-completion.summary.json","required":true}
+  ],
+  "destructiveChangePolicy": {"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
+  "rollbackNote":"この Work Item の commit を revert し、Price-Volume Structure の観測分類を baseCommit 時点へ戻す。"
+}
