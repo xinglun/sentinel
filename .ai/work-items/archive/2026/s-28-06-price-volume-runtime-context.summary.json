@@ -1,0 +1,187 @@
+{
+  "workItemId": "s-28-06-price-volume-runtime-context",
+  "contractPath": ".ai/work-items/archive/2026/s-28-06-price-volume-runtime-context.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json",
+      "reason": "runtime context の scope と受入条件を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-06-price-volume-runtime-context.summary.json",
+      "reason": "実装と検証結果を記録した。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "明示的な銘柄別供給 event の optional config 契約を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "供給、過熱、time-cost の observation facts を Price-Volume classifier へ渡した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+    "src/config.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/shared/domain/supply_event_context.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json SUMMARY=.ai/work-items/active/s-28-06-price-volume-runtime-context.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-06-price-volume-runtime-context.summary.json CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json SUMMARY=.ai/work-items/active/s-28-06-price-volume-runtime-context.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-06-price-volume-runtime-context.contract.json SUMMARY=.ai/work-items/active/s-28-06-price-volume-runtime-context.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "明示 lock-up event + 高 RVOL + 限定的下落が runtime ACCUMULATION を生む",
+      "reason": "config-to-context test と既存 classifier test が明示 event の supply absorption を確認する。",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "既存の過熱事実を与えた縮量上昇が EXHAUSTED_ADVANCE を生む",
+      "reason": "runner は AssetState OVERHEAT と HoldingEfficiency TimeCostRising を入力に渡し、classifier test が結果を確認する。",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "event fact 不在時は推測せず NEUTRAL/UNAVAILABLE を維持する",
+      "reason": "invalid date conversion test と classifier tests が補推なしを確認する。",
+      "required": false,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "risk": {
+    "level": "low",
+    "detail": "供給 event は設定の明示 facts だけを消費し、Decision Pipeline への接続はない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Observation Only scope を確認した。",
+      "contractHash": "9e3aa4f9e35f924b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "明示 config fact 以外を補推しない方針を確認した。",
+      "contractHash": "9e3aa4f9e35f924b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "conversion tests と品質 check を確認した。",
+      "contractHash": "9e3aa4f9e35f924b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit verification を通過した。",
+      "contractHash": "9e3aa4f9e35f924b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "user authorization を Contract に記録した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "trade boundary を維持した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "tests を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Cockpit checks を確認した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "runtime context は明示 facts のみを渡し、全 required verification が通過した。",
+    "expectedReviewFocus": [
+      "supply event config の運用入力"
+    ]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-01-price-volume-data-contract",
+  "mode": "code",
+  "title": "S-28 価格出来高データ契約",
+  "baseCommit": "faca6678c1e8461ba88b179485c4f5f7c0d1fbd0",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Sentinel の DailyBar は終値と出来高だけであり、Price-Volume Structure に必要な OHLC、Gap、実体、影、ATR とデータ比較可能性を観測できない。",
+  "intent": {
+    "problem": "Price-Volume Structure の Observation Layer が必要とする市場データ契約と出来高データ品質の基礎を提供する。",
+    "constraints": [
+      "Gate、Execution、Trader、Action Matrix、Position Sizing、NO TRADE / Probe / READY / EXECUTE の判定を変更しない。",
+      "trade_signal は生成せず、decision_weight は 0% のままとする。",
+      "OHLC または出来高が欠ける場合は補推せず、後続 layer が UNAVAILABLE / PARTIAL / DEGRADED を選べる事実だけを渡す。",
+      "手書き Rust comment と repository Markdown 本文は日本語で記述する。"
+    ],
+    "rationale": "価格方向だけでなく参加度と供給吸収を観測する S-28 の最初の安全な基礎層であり、取引判断に接続しない。"
+  },
+  "scope": [
+    "src/features/shared/domain/market_data.rs",
+    "src/adapters/yahoo_provider.rs",
+    "src/adapters/futu/provider.rs",
+    "src/cli.rs",
+    "src/features/radar/domain/features.rs",
+    "src/features/backtest/interface/backtest_mapper.rs",
+    "src/features/radar/application/radar.rs",
+    "tests/pipeline_integration.rs",
+    "tests/backtest_cli_integration.rs",
+    "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+    "docs/superpowers/plans/2026-08-08-price-volume-data-contract.md",
+    ".ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+    ".ai/work-items/active/s-28-01-price-volume-data-contract.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/rules.rs",
+    "src/features/radar/domain/position_sizing.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/trader",
+    "Makefile",
+    ".github/workflows"
+  ],
+  "sources": [
+    {"path": "src/features/shared/domain/market_data.rs", "reason": "現在の DailyBar / TickerHistory 契約と既存利用者を確認する一次実装根拠。"},
+    {"path": "src/adapters/yahoo_provider.rs", "reason": "Yahoo の OHLCV 取得経路を新しい市場データ契約へ投影する。"},
+    {"path": "src/adapters/futu/provider.rs", "reason": "Futu の日足 OHLCV 取得経路を新しい市場データ契約へ投影する。"},
+    {"path": "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md", "reason": "既存 Supply Observation の事実・仮説・非取引境界との整合を取る。"},
+    {"path": "user-request: Sentinel Price-Volume Structure 増強開発指示", "reason": "S-28 の状態、データ品質、零 decision weight、禁止事項、受入条件の一次要求。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Yahoo と Futu の日足が open/high/low/close/volume を保持する", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "OHLC または volume が欠ける日足を表現でき、値を補推しない", "required": true, "status": "verified", "evidence": ["make test"]},
+    {"scenario": "既存 Radar / Backtest の close-only 利用が回帰しない", "required": true, "status": "verified", "evidence": ["make test", "make clippy"]},
+    {"scenario": "429、取引日欠落、IPO 履歴不足、corporate action の品質分類", "required": false, "status": "not_applicable", "evidence": [], "reason": "S-28-03 の Price-Volume Layer が分類し、S-28-01 は欠損を表現する契約だけを提供する。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "low", "riskTypes": ["api_change", "data_integrity"], "reason": "共有 Market Data 契約を拡張するが、変更は欠損可能な観測 field の追加と provider projection に限定し、既存の取引決定経路は scope 外として固定する。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "ユーザーは全確認を授権済みであり、scope、根拠、受入条件、零取引影響が確定している。"},
+  "preReviewWarnings": ["DailyBar の field 追加は全 struct literal を更新する必要がある。", "データ品質の最終分類と Price-Volume 状態判定は後続 Work Item の責務である。"],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新してから進める。"},
+  "acceptance": [
+    "DailyBar が open、high、low、close、volume を欠損可能な観測値として保持し、既存 close 消費者の意味を変更しない。",
+    "Yahoo と Futu adapter が取得可能な OHLCV を DailyBar に投影する。",
+    "欠損値は補推されず、後続 Price-Volume Layer が UNAVAILABLE / PARTIAL / DEGRADED を選べる。",
+    "S-28 の市場データ基礎が Gate、Execution、Trader、Action Matrix、Position Sizing に接続されない。",
+    "設計と実装計画が日本語 Markdown と必須 front matter で保存され、将来の S-28 Work Item の境界を定義する。",
+    "対象 unit / integration tests と Rust quality gate が make 経由で通過する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の diff を revert し、DailyBar の追加 field と adapter mapping を元に戻す。"
+}

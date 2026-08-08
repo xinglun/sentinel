@@ -4,6 +4,9 @@ use std::borrow::Cow;
 #[derive(Debug, Clone)]
 pub struct DailyBar {
     pub date: NaiveDate,
+    pub open: Option<f64>,
+    pub high: Option<f64>,
+    pub low: Option<f64>,
     pub close: f64,
     pub volume: Option<f64>,
 }
@@ -25,6 +28,9 @@ mod tests {
     fn ticker_history_fields_remain_constructible() {
         let bar = DailyBar {
             date: NaiveDate::from_ymd_opt(2026, 5, 25).unwrap(),
+            open: Some(238.0),
+            high: Some(245.0),
+            low: Some(236.0),
             close: 241.5,
             volume: Some(12_345_678.0),
         };
@@ -40,5 +46,25 @@ mod tests {
         assert_eq!(history.total_trading_days, 1_200);
         assert_eq!(history.latest_quote_timestamp, Some(1_725_000_000));
         assert_eq!(history.bars[0].date, bar.date);
+        assert_eq!(history.bars[0].open, Some(238.0));
+        assert_eq!(history.bars[0].high, Some(245.0));
+        assert_eq!(history.bars[0].low, Some(236.0));
+    }
+
+    #[test]
+    fn daily_bar_preserves_missing_ohlcv_observations() {
+        let bar = DailyBar {
+            date: NaiveDate::from_ymd_opt(2026, 5, 26).unwrap(),
+            open: None,
+            high: None,
+            low: None,
+            close: 241.5,
+            volume: None,
+        };
+
+        assert_eq!(bar.open, None);
+        assert_eq!(bar.high, None);
+        assert_eq!(bar.low, None);
+        assert_eq!(bar.volume, None);
     }
 }

@@ -1,0 +1,247 @@
+{
+  "contractVersion": 2,
+  "workItemId": "s-28-03-price-volume-classification",
+  "mode": "code",
+  "title": "S-28 Price-Volume Classification",
+  "baseCommit": "faca6678c1e8461ba88b179485c4f5f7c0d1fbd0",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "459da8faa22f2dfa6408aeaae001595e0fd5263c8cf010b0468c7c7b5a9abb0f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.contract.json",
+      "status": "??",
+      "fingerprint": "7906bacea50421dab9d131e852b01be4d74287987e71ca0f91ee86392deb7345"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.summary.json",
+      "status": "??",
+      "fingerprint": "fdd745d391c07c92dac036d850380a7b4f8cbbaedc115ddb2d591d01c50d1493"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.contract.json",
+      "status": "??",
+      "fingerprint": "9464357873024db1fb575db8a7ec2a0f15b6d932d91ee9251ed82613ccefcd5e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/s-28-02-supply-event-context.summary.json",
+      "status": "??",
+      "fingerprint": "f3f29b520b4aaa019baf324d725af006317877f51e3938e328d6c12d16d12f2b"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-08-price-volume-data-contract.md",
+      "status": "??",
+      "fingerprint": "e2fae7b257a23cd48c9e44c7d4bd7aba02c7bc243fd3589302c3fbb5066190de"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+      "status": "??",
+      "fingerprint": "dadc7d66f719ef98ad8637e7b316ad2134a36e2ff7a834a6e1efbfc0eda65c8e"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "status": "M",
+      "fingerprint": "fd6101f944529d51d99d0abb6cf9d53ad652fa9bd3af9ed2dec696506e5ae480"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "status": "M",
+      "fingerprint": "e5f5ccf322a97c754842c3c6689789d05a6e2603ccd6c12b269bbb9657979f19"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "de2e9bf9616c06e4370c307cd7c7626184a9cb79ee6d380e63b9b37e797a1a76"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "283daa700f5adc72d44cf76e78bffe426ed3e44eb9a936675832da11fb9d1d87"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "status": "M",
+      "fingerprint": "82dfb4d88e0c10e0199bb5895af0e414570564768ebb77661305994c7856fd4b"
+    },
+    {
+      "path": "src/features/research/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "fcd69d21a793e89a9f85639d74444b948ba5583cd60c9ac117e1646bc060fb3b"
+    },
+    {
+      "path": "src/features/research/domain/supply_event_context.rs",
+      "status": "??",
+      "fingerprint": "e6e69135ee743bb3fc476e606039aae0f77be6ea85bf396077df7490851d1946"
+    },
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "status": "M",
+      "fingerprint": "e7ec046949a029a93b034daaafa5cf835d4531862dfefc8f8613dbb77c456266"
+    },
+    {
+      "path": "tests/backtest_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "87d8099b375c242cf9bbb5abda2b2e23904eadf3657cf8f1e75cdb1961a25e2b"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "e14e59b9aea44f13241567a85f1952270059a47ba8bbbdd590024004670a787a"
+    }
+  ],
+  "problemStatement": "S-28 では価格変化の参加品質、供給吸収、価格位置を説明する Price-Volume Structure が存在せず、Trend と Supply の間に観測上の盲点がある。",
+  "intent": {
+    "problem": "OHLCV、RVOL、価格位置、明示的な SupplyEventContext を入力に、六つの Price-Volume Structure を分類する純粋な Observation domain を追加する。",
+    "constraints": [
+      "decision_weight=0%、trade_signal=false、gate_effect=none、execution_effect=none、position_sizing_effect=none を保持する。",
+      "単日出来高異常だけで ACCUMULATION または DISTRIBUTION を確定しない。",
+      "EXHAUSTED_ADVANCE を sell、top confirmed、crash expected として扱わない。",
+      "ACCUMULATION を institutional buying confirmed または buy として扱わない。",
+      "Gate、Trader、Action Matrix、Position Sizing、S-26 macro event は変更しない。"
+    ],
+    "rationale": "価格方向だけでなく参加品質と供給吸収を説明できるようにし、実際の売買判断は変更しない。"
+  },
+  "scope": [
+    ".ai/work-items/active/s-28-03-price-volume-classification.contract.json",
+    ".ai/work-items/active/s-28-03-price-volume-classification.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/mod.rs",
+    "src/features/radar/domain/price_volume_structure.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/position_intent.rs",
+    "src/features/trading/**",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "CLI、Telegram、Markdown report、history persistence、data branch"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+      "reason": "S-28 の状態、RVOL、価格位置、持続性、Observation Only の承認済み設計。"
+    },
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "reason": "OHLCV を欠損値として明示的に保持する入力契約。"
+    },
+    {
+      "path": "src/features/research/domain/supply_event_context.rs",
+      "reason": "個別標的の供給イベントを事実と UNKNOWN / UNAVAILABLE に分離する入力契約。"
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario":"放量上昇は HEALTHY_ADVANCE を候補にする","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"高位の縮量上昇と過熱は EXHAUSTED_ADVANCE を候補にする","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"供給イベント中の低位放量不落は ACCUMULATION を候補にする","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"高値圏の放量下落は DISTRIBUTION を候補にする","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"単日異常、欠損 volume、短い IPO history、非連続日付は強制分類しない","required":true,"status":"verified","evidence":["make test"]}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary",
+      "evidence_insufficient"
+    ],
+    "reason": "価量の観測を意思決定、予測、または確認済みの機関投資家行動に誤投影しない必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "入力契約、分類状態、禁止事項、検証場面が明確であり、純粋 domain 関数として実装できる。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーは必要な確認を事前承認し、S-28 を Observation Only かつ decision weight zero で実装することを承認した。",
+    "openQuestions": ["実市場の閾値校正は後続の calibration Work Item で扱い、この Work Item は明示した deterministic rule と fixture scenario に限定する。"]
+  },
+  "preReviewWarnings": [
+    "Price-Volume Structure は既存 Decision Pipeline の入力にしない。",
+    "SupplyEventContext が UNAVAILABLE のとき供給吸収を補推しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "PriceVolumeStructure unit test は ACCUMULATION HEALTHY_ADVANCE EXHAUSTED_ADVANCE DISTRIBUTION NEUTRAL UNAVAILABLE の六状態を固定する。",
+    "metrics unit test は RVOL_5 RVOL_20 up_day down_day average volume と価格位置の値を固定する。",
+    "quality unit test は HEALTHY PARTIAL DEGRADED UNAVAILABLE を欠損、短い IPO history、非連続日付に対応付ける。",
+    "persistence unit test は Day 1 candidate Day 2 developing Day 3 confirmed を構造状態と分離して固定する。",
+    "SpaceX fixture test は supply event high RVOL limited downside no new low から ACCUMULATION と ACTIVE absorption を固定する。",
+    "Microsoft fixture test は rising price declining RVOL overheated から EXHAUSTED_ADVANCE と WEAKENING participation を固定する。",
+    "ObservationBoundary unit test は decision weight zero trade signal false gate execution sizing none を固定する。",
+    "scope check は Decision Pipeline と report persistence に変更がないことを確認する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json SUMMARY=.ai/work-items/active/s-28-03-price-volume-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-03-price-volume-classification.summary.json CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json SUMMARY=.ai/work-items/active/s-28-03-price-volume-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-03-price-volume-classification.contract.json SUMMARY=.ai/work-items/active/s-28-03-price-volume-classification.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

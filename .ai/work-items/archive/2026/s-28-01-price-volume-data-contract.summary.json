@@ -1,0 +1,201 @@
+{
+  "workItemId": "s-28-01-price-volume-data-contract",
+  "contractPath": ".ai/work-items/archive/2026/s-28-01-price-volume-data-contract.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/shared/domain/market_data.rs",
+      "reason": "DailyBar に欠損可能な open/high/low 観測値と契約 test を追加した。"
+    },
+    {
+      "path": "src/adapters/yahoo_provider.rs",
+      "reason": "Yahoo の取得済み OHLCV を DailyBar に投影した。"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "reason": "Futu の取得済み OHLCV を DailyBar に投影した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "既存 DailyBar fixture を更新し、非取引日に壊れない全取得失敗 report test の責務を固定した。"
+    },
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "reason": "close-only fixture に欠損 OHLC を明示した。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest_mapper.rs",
+      "reason": "Backtest fixture に欠損 OHLC を明示した。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar integration fixture に欠損 OHLC を明示した。"
+    },
+    {
+      "path": "tests/backtest_cli_integration.rs",
+      "reason": "Backtest CLI fixture に欠損 OHLC を明示した。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-08-price-volume-structure-design.md",
+      "reason": "S-28 の観測専用境界と後続 Work Item を記録した。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-08-price-volume-data-contract.md",
+      "reason": "S-28-01 のテスト先行実装手順を記録した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "reason": "ユーザー承認済みの scope、acceptance、verification、零取引影響を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/s-28-01-price-volume-data-contract.summary.json",
+      "reason": "実装、検証、review focus を記録した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item 状態を自動生成した。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/shared/domain/market_data.rs",
+    "src/adapters/yahoo_provider.rs",
+    "src/adapters/futu/provider.rs",
+    "docs/specs/CAPITAL_ABSORPTION_OBSERVATION.md",
+    "user-request: Sentinel Price-Volume Structure 増強開発指示"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/s-28-01-price-volume-data-contract.contract.json SUMMARY=.ai/work-items/active/s-28-01-price-volume-data-contract.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "共有市場データ契約に field を追加する。取引 decision への接続はなく、既存 close-only fixture は明示的な欠損値に更新した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "AI Cockpit resolver skill は Makefile lifecycle target を検出できなかったが、repository Makefile の ai-start target は直接確認済みである。",
+    "全取得失敗 report test は非取引日に local calendar date と market date を混同していたため、実際に生成された dated report を検証対象として固定した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "ユーザー承認済み Contract を確定した。",
+      "contractHash": "7906bacea50421da",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "preflight と scope check 後に TDD を開始した。",
+      "contractHash": "7906bacea50421da",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "required verification 前に scope と acceptance を再確認した。",
+      "contractHash": "7906bacea50421da",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification の通過結果を確認した。",
+      "contractHash": "7906bacea50421da",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "ユーザーは全確認を授権し、S-28-01 の scope、outOfScope、acceptance、verification、agent capability を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Contract check と preflight を通過後、TDD で OHLC field の失敗 test から開始した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required verification の結果を Summary に記録する前に scope と acceptance を再確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification の再実行結果を確認する。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required verification と checkpoint 記録を確認し、取引決定経路への接続がないことを guard で確認した。",
+    "expectedReviewFocus": [
+      "DailyBar 互換性",
+      "adapter OHLCV mapping",
+      "零取引影響",
+      "非取引日 report test"
+    ]
+  }
+}

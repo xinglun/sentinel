@@ -21,6 +21,9 @@ impl MarketDataProvider for OutOfRangeProvider {
             symbol: symbol.to_string(),
             bars: Cow::Owned(vec![DailyBar {
                 date: chrono::NaiveDate::from_ymd_opt(2020, 1, 1).unwrap(),
+                open: None,
+                high: None,
+                low: None,
                 close: 100.0,
                 volume: None,
             }]),

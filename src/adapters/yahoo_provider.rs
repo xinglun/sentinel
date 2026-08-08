@@ -99,6 +99,9 @@ async fn fetch_once(
 
             Some(DailyBar {
                 date: d,
+                open: Some(q.open),
+                high: Some(q.high),
+                low: Some(q.low),
                 close: q.close,
                 volume: Some(q.volume as f64),
             })
