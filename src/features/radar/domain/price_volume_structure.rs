@@ -2,7 +2,8 @@
 
 use crate::features::shared::domain::market_data::DailyBar;
 use crate::features::shared::domain::supply_event_context::{
-    ObservationEffect, SupplyDirection, SupplyEventContext, SupplyEventContextAvailability,
+    ObservationEffect, SupplyDirection, SupplyEventConfidence, SupplyEventContext,
+    SupplyEventContextAvailability,
 };
 use chrono::Datelike;
 
@@ -148,6 +149,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
     let supply_increase = input.supply_context.is_some_and(|context| {
         context.availability == SupplyEventContextAvailability::Available
             && context.supply_direction == SupplyDirection::Increase
+            && context.confidence == SupplyEventConfidence::High
     });
     let limited_downside = metrics.return_1d >= -1.5
         && metrics.return_5d >= -3.0
@@ -226,19 +228,24 @@ fn volume_quality(
     if rate_limited || !volume_comparable || !continuous_dates(bars) {
         return VolumeDataQuality::Degraded;
     }
-    if bars.len() < 20 {
+    if bars.len() < 21 {
         return VolumeDataQuality::Unavailable;
     }
     let present = bars
         .iter()
         .filter(|bar| bar.volume.is_some_and(|value| value > 0.0))
         .count();
-    if present < 20 {
+    if present < bars.len() {
         VolumeDataQuality::Unavailable
-    } else if present < bars.len() {
-        VolumeDataQuality::Partial
     } else {
-        VolumeDataQuality::Healthy
+        let complete_ohlc = bars
+            .iter()
+            .all(|bar| bar.open.is_some() && bar.high.is_some() && bar.low.is_some());
+        if complete_ohlc {
+            VolumeDataQuality::Healthy
+        } else {
+            VolumeDataQuality::Unavailable
+        }
     }
 }
 
@@ -316,7 +323,7 @@ fn metrics(bars: &[DailyBar]) -> Option<PriceVolumeMetrics> {
         })
         .collect::<Vec<_>>();
     let atr =
-        (!atr_values.is_empty()).then(|| atr_values.iter().sum::<f64>() / atr_values.len() as f64);
+        (atr_values.len() == 14).then(|| atr_values.iter().sum::<f64>() / atr_values.len() as f64);
     Some(PriceVolumeMetrics {
         return_1d: change(1),
         return_5d: change(5),
@@ -645,8 +652,8 @@ mod tests {
         volumes[3] = None;
         let assessment =
             assess_price_volume_structure(input(&bars(vec![100.0; 26], volumes), None, false));
-        assert_eq!(assessment.quality, VolumeDataQuality::Partial);
-        assert_eq!(assessment.structure, PriceVolumeStructure::Neutral);
+        assert_eq!(assessment.quality, VolumeDataQuality::Unavailable);
+        assert_eq!(assessment.structure, PriceVolumeStructure::Unavailable);
     }
 
     #[test]
@@ -688,5 +695,13 @@ mod tests {
             });
             assert_eq!(assessment.persistence, expected);
         }
+    }
+
+    #[test]
+    fn incomplete_history_is_fail_closed() {
+        assert_eq!(
+            assess_price_volume_structure(input(&rising_data(150.0)[..20], None, false)).structure,
+            PriceVolumeStructure::Unavailable
+        );
     }
 }

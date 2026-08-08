@@ -7,6 +7,7 @@ use crate::features::radar::domain::observation_timeline::{
 use crate::features::radar::domain::price_volume_structure::{
     PriceVolumeAssessment, PriceVolumeStructure,
 };
+use crate::features::shared::domain::supply_event_context::SupplyEventContext;
 use anyhow::{bail, Context, Result};
 use chrono::Datelike;
 use std::collections::HashSet;
@@ -85,7 +86,7 @@ pub(crate) struct PriceVolumeObservationRecord {
     pub symbol: String,
     pub assessment: PriceVolumeAssessment,
     #[serde(default)]
-    pub supply_context: Option<String>,
+    pub supply_context: Option<SupplyEventContext>,
     #[serde(default)]
     pub price_position: Option<String>,
     #[serde(default)]
@@ -1705,6 +1706,12 @@ mod tests {
                 PriceVolumeStructure::Distribution,
             )
             .unwrap());
+    }
+
+    #[test]
+    fn price_volume_record_schema_accepts_missing_supply_context() {
+        let value: PriceVolumeObservationRecord = serde_json::from_str(r#"{"market_date":"2026-08-07","symbol":"X","assessment":{"structure":"Neutral","participation":"Neutral","supply_absorption":"None","quality":"Healthy","persistence":"Candidate","persistence_days":1,"metrics":null,"boundary":{"decision_weight_percent":0,"trade_signal":false,"gate_effect":"None","execution_effect":"None","position_sizing_effect":"None"}}}"#).unwrap();
+        assert!(value.supply_context.is_none());
     }
 
     #[test]
