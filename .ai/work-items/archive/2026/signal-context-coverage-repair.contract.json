@@ -1,0 +1,116 @@
+{
+  "contractVersion": 2,
+  "workItemId": "signal-context-coverage-repair",
+  "mode": "code",
+  "title": "Signal Context 事实覆盖修复",
+  "baseCommit": "69805ea1",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Signal Context 将官方宏观日历错误等同于整体市场信息环境，遗漏就业、地缘政治、商品、利率、信用、企业和市场结构事件。",
+  "intent": {
+    "problem": "让 Observation / Interpretation 正确识别今天发生的市场信息事件，同时保持交易决策边界冻结。",
+    "constraints": [
+      "decision_weight=0、trade_signal=false、gate/effect/execution/position sizing 均为 none。",
+      "不修改 Gate、Trader、Action Matrix、Price-Volume、Supply、Gravity、Expectation 等现有交易和观察层。",
+      "HIGH/MEDIUM 必须绑定 EvidenceRecord；事件事实与市场反应分开。",
+      "America/New_York 决定美股 market_date；source failure 不得降级为 LOW。"
+    ],
+    "rationale": "连续真实案例证明单一 Scheduled Macro Calendar Detector 不能代表整体 Market Information Context。"
+  },
+  "scope": [
+    "Makefile",
+    "scripts/ai_close_work_item.py",
+    "scripts/ai_test_close_work_item.py",
+    "scripts/check_signal_context_consistency.py",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_time.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/interface/macro_event_calendar_adapter.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/fixtures/signal_context/**",
+    "tests/**",
+    "docs/archive/PROJECT_AUDIT_ISSUES.md",
+    "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+    "docs/superpowers/plans/2026-08-11-signal-context-coverage.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/signal-context-coverage-repair.contract.json",
+    ".ai/work-items/active/signal-context-coverage-repair.summary.json"
+  ],
+  "outOfScope": [
+    "NO TRADE / READY / EXECUTE",
+    "Action Matrix / Leader / Breadth / Confidence",
+    "Position Sizing / Trader",
+    "Price-Volume Structure",
+    "Supply Absorption / Gravity / Expectation"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md", "reason": "批准后的 v1 设计与边界。"},
+    {"path": "docs/superpowers/plans/2026-08-11-signal-context-coverage.md", "reason": "任务分解与文件级实现计划。"},
+    {"path": "src/features/radar/interface/signal_context_read_model.rs", "reason": "当前 Signal Context 判定与输出契约。"},
+    {"path": "src/features/radar/interface/signal_context_event_read_model.rs", "reason": "当前事件读取槽位与证据来源。"},
+    {"path": "src/features/research/interface/macro_event_observation.rs", "reason": "当前宏观事件、source health 和 lifecycle 类型。"},
+    {"path": "AGENTS.md", "reason": "仓库语言、Cockpit、质量 gate 和边界规则。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "8/7 US employment weak surprise with rates and growth reaction", "required": true, "status": "verified", "evidence": ["make check-signal-context-consistency", "make test"], "reason": "Payroll fixture 与聚合单元测试已通过。"},
+    {"scenario": "8/10 geopolitical escalation with oil shock and equity reaction", "required": true, "status": "verified", "evidence": ["make check-signal-context-consistency", "make test"], "reason": "地缘政治与商品 fixture 已通过。"},
+    {"scenario": "source failure, API 429, partial coverage and no-event wording", "required": true, "status": "verified", "evidence": ["make check-signal-context-consistency"], "reason": "失败源与 absence wording fixture 已通过。"},
+    {"scenario": "America/New_York timezone, weekend, holiday, pre/post-market and lifecycle", "required": true, "status": "verified", "evidence": ["make check-signal-context-consistency", "make test"], "reason": "时区、生命周期与场景矩阵已通过。"},
+    {"scenario": "decision boundary remains observation-only", "required": true, "status": "verified", "evidence": ["make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "make test"], "reason": "边界字段与 scope guard 已通过。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": ["data_integrity", "api_change", "i18n_snapshot", "architecture_boundary", "governance_process"],
+    "reason": "该修复扩展事实输入与序列化契约，错误的 coverage/lifecycle 映射会产生事实性误报；所有阈值、来源和兼容映射由本 contract 授权并写入设计文档。"
+  },
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "humanReview": {"status": "confirmed", "decision": "用户已授权在本 Work Item 内补全来源、阈值、coverage 真值表、兼容映射与生命周期；保留实时 provider wiring 风险并进入 review focus。", "openQuestions": ["非日历六类实时 provider 的接入点由现有 provider wiring 约束，需后续 review 确认。", "外部证据源的运行时 freshness 与降级策略需在 provider 接入时继续验证。"]},
+  "executionDecision": {"status": "continue", "reason": "用户已授权补全来源、阈值、状态真值表、兼容映射和生命周期；scope/acceptance/verification 已固化。"},
+  "preReviewWarnings": [
+    "重点检查六类 source status 与 overall coverage 真值表。",
+    "重点检查 EvidenceRecord 与 MarketReaction 是否严格分离。",
+    "重点检查 Signal Context 没有进入任何交易决策层。",
+    "重点检查旧 UNKNOWN/旧 lifecycle 的 serde 与 snapshot 迁移。"
+  ],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability 或授权决策变化时先更新 Contract/Summary。"},
+  "acceptance": [
+    "六类 Context 有统一类型化 schema，包含 source status、EvidenceRecord、market reaction、timestamps、market_date、lifecycle。",
+    "8/7 fixture 输出 HIGH、Payroll primary、Context Quality HIGH；8/10 fixture 输出 Geopolitical/Commodity primary 且禁止 Primary None。",
+    "LOW 仅在六类扫描完成、Overall Coverage HEALTHY 且无 HIGH/MEDIUM 时输出；UNAVAILABLE/PARTIAL/DEGRADED 禁止绝对 absence wording。",
+    "Primary/Secondary 选择确定性、可去重，并按证据质量和新鲜度排序。",
+    "事件事实与市场反应分开，解释不使用未经证据支持的强因果句。",
+    "America/New_York 正确归属交易日，旧事件按 AFTERMATH/EXPIRED 处理，不跨日重复升级。",
+    "日报、Markdown、Telegram、weekly traceability 与 zh/en/ja 输出使用同一 read model。",
+    "decision_weight=0、trade_signal=false、gate/effect/execution/position sizing=none，且 Price-Volume/Supply/Trader 等边界未改变。",
+    "signal_context_consistency_check 覆盖 C-01 至 C-06，且 22 个验收场景有可运行 fixture/断言。",
+    "AI Cockpit lifecycle entrypoint 提供 ai-close-work-item，resolver 与 lifecycle checks 可通过。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-signal-context-consistency", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make ai-preflight", "required": true},
+    {"command": "make quality", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "按 Work Item commit 反向还原；不删除既有 fixture 或 archive evidence。"
+}

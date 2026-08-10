@@ -3457,7 +3457,7 @@ mod tests {
             .contains("quarter-end"));
         assert_eq!(
             vm.interpretation_value,
-            "No major event today. See Market Interpretation for the main narrative."
+            "No high-information event identified from available sources. See Market Interpretation for the main narrative."
         );
     }
 
@@ -3814,7 +3814,7 @@ mod tests {
         let signal_context = pres.interpretation_layer.unwrap();
         assert_eq!(
             signal_context.signal_context_primary_context_value,
-            "Macro Event"
+            "Macro Event: CPI Release"
         );
         assert_eq!(
             signal_context.signal_context_information_content_value,
@@ -4405,7 +4405,7 @@ mod tests {
     }
 
     #[test]
-    fn test_none_primary_context_and_loaded_context_is_low() {
+    fn test_none_primary_context_and_loaded_context_is_unavailable_without_full_scan() {
         use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
         use crate::features::radar::interface::presentation::{
             SignalContextInformationContent, SignalContextPrimaryContext,
@@ -4437,7 +4437,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 

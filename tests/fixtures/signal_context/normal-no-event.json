@@ -1,0 +1,3 @@
+{
+  "case_id": "normal-no-event", "market_date": "2026-08-06", "scheduled_macro": [], "corporate_events": [], "geopolitical_events": [], "commodity_events": [], "rates_credit_events": [], "market_structure_events": [], "primary_context": null, "overall_information_content": "LOW", "context_quality": "HIGH", "coverage": {"scheduled_macro": "HEALTHY", "corporate": "HEALTHY", "geopolitical": "HEALTHY", "commodity": "HEALTHY", "rates_credit": "HEALTHY", "market_structure": "HEALTHY", "overall": "HEALTHY"}, "decision_weight": 0, "trade_signal": false, "gate_effect": "none", "execution_effect": "none", "position_sizing_effect": "none", "interpretation": "No high-information event identified from available sources."
+}

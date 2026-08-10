@@ -1,7 +1,9 @@
 use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
+use crate::features::radar::interface::presentation::SignalContextV1;
 use crate::features::radar::interface::presentation::{
     SignalContextInformationContent, SignalContextPrimaryContext, SignalContextQuality,
 };
+use crate::features::radar::interface::signal_context_coverage::build_v1_from_event_context;
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::shared::interface::i18n::Language;
@@ -17,6 +19,7 @@ pub(crate) struct SignalContextReadModelInput {
 
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) struct SignalContextAssessment {
+    pub v1: SignalContextV1,
     pub information_content: SignalContextInformationContent,
     pub primary_context: SignalContextPrimaryContext,
     pub context_quality: SignalContextQuality,
@@ -35,10 +38,17 @@ pub(crate) fn build_signal_context_assessment(
     let primary_context = derive_primary_context(input.as_of_date, &input.future_context);
     let information_content = derive_information_content(primary_context, &input.future_context);
     let context_quality = derive_context_quality(primary_context, &input.future_context);
+    let v1 = build_v1_from_event_context(input.as_of_date, &input.future_context);
     let event_fact = compose_event_fact(&input.future_context);
     let source_health = input.future_context.source_health;
-    let (source_diagnostics_summary, source_diagnostics_appendix) =
+    let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, input.language);
+    let coverage_line = format!("Coverage: {:?}", v1.coverage.overall).to_uppercase();
+    if source_diagnostics_appendix.is_empty() {
+        source_diagnostics_appendix = coverage_line;
+    } else {
+        source_diagnostics_appendix = format!("{coverage_line}\n{source_diagnostics_appendix}");
+    }
     let interpretation = compose_interpretation(
         primary_context,
         information_content,
@@ -55,6 +65,7 @@ pub(crate) fn build_signal_context_assessment(
     );
 
     SignalContextAssessment {
+        v1,
         information_content,
         primary_context,
         context_quality,
@@ -74,7 +85,7 @@ pub(crate) fn signal_context_information_content_label(
         SignalContextInformationContent::High => "HIGH",
         SignalContextInformationContent::Medium => "MEDIUM",
         SignalContextInformationContent::Low => "LOW",
-        SignalContextInformationContent::Unknown => "UNKNOWN",
+        SignalContextInformationContent::Unknown => "UNAVAILABLE",
     }
 }
 
@@ -153,11 +164,10 @@ fn derive_information_content(
             SignalContextInformationContent::Medium
         }
         SignalContextPrimaryContext::None => {
-            if future_context.has_loaded_context() {
-                SignalContextInformationContent::Low
-            } else {
-                SignalContextInformationContent::Unknown
-            }
+            // 公式日历が成功しても、企業・地政学・商品・金利/信用・市場構造を
+            // 全て走査した証拠がない限り、LOW や「無事件」には降格しない。
+            let _ = future_context;
+            SignalContextInformationContent::Unknown
         }
     }
 }
@@ -184,11 +194,8 @@ fn derive_context_quality(
                 }
             }),
         SignalContextPrimaryContext::None => {
-            if future_context.has_loaded_context() {
-                SignalContextQuality::Low
-            } else {
-                SignalContextQuality::Unavailable
-            }
+            let _ = future_context;
+            SignalContextQuality::Unavailable
         }
     }
 }
@@ -263,10 +270,10 @@ fn compose_source_diagnostics(
             },
             _ => match language {
                 Language::ZhCn => {
-                    "No major event today. Current monitoring remains idle.".to_string()
+                    "No high-information event identified from available sources. Current monitoring remains idle.".to_string()
                 }
                 Language::EnUs => {
-                    "No major event today. Current monitoring remains idle.".to_string()
+                    "No high-information event identified from available sources. Current monitoring remains idle.".to_string()
                 }
                 Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
             },
@@ -339,8 +346,8 @@ fn compose_next_observation(
                 Language::JaJp => "中重要度イベントの次回公表を観察し、結果が出たら期待修正を再評価する。".to_string(),
             },
             (_, SignalContextInformationContent::Low, _) => match language {
-                Language::ZhCn => "No major event today. Current monitoring remains idle.".to_string(),
-                Language::EnUs => "No major event today. Current monitoring remains idle.".to_string(),
+                Language::ZhCn => "No high-information event identified from available sources. Current monitoring remains idle.".to_string(),
+                Language::EnUs => "No high-information event identified from available sources. Current monitoring remains idle.".to_string(),
                 Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
             },
             _ => match language {
@@ -358,8 +365,8 @@ fn compose_next_observation(
         timeline_lines[0].clone()
     } else {
         match language {
-            Language::ZhCn => format!("No major event today. {}", timeline_lines[0]),
-            Language::EnUs => format!("No major event today. {}", timeline_lines[0]),
+            Language::ZhCn => format!("Available event context: {}", timeline_lines[0]),
+            Language::EnUs => format!("Available event context: {}", timeline_lines[0]),
             Language::JaJp => format!("本日は主要イベントなし。{}", timeline_lines[0]),
         }
     };
@@ -467,16 +474,16 @@ fn none_text(
         SignalContextQuality::Unavailable => match language {
             Language::ZhCn => {
                 let _ = (information_content, future_context);
-                "官方来源暂时无法确认今天是否存在高信息量事件，Signal Context 只能标记为 UNKNOWN。"
+                "当前来源无法确认今天是否存在高信息量事件，Signal Context 标记为 UNAVAILABLE。"
                     .to_string()
             }
             Language::EnUs => {
                 let _ = (information_content, future_context);
-                "Official sources cannot confirm whether today has a high-information event, so Signal Context is UNKNOWN.".to_string()
+                "Available sources cannot confirm whether today has a high-information event, so Signal Context is UNAVAILABLE.".to_string()
             }
             Language::JaJp => {
                 let _ = (information_content, future_context);
-                "公式ソースでは今日は高情報量イベントの有無を確認できず、Signal Context は UNKNOWN でしか扱えない。".to_string()
+                "利用可能なソースでは今日は高情報量イベントの有無を確認できず、Signal Context は UNAVAILABLE とする。".to_string()
             }
         },
         SignalContextQuality::Low => match language {
@@ -486,7 +493,7 @@ fn none_text(
             }
             Language::EnUs => {
                 let _ = (information_content, future_context);
-                "Today no high-information macro event was identified. The official economic calendar did not match CPI, FOMC, jobs, GDP, or similar events. Price changes are more likely driven by company news, sector rotation, or technical action."
+                "No high-information event identified from available sources. Macro, corporate, geopolitical, commodity, rates/credit, and market-structure scans found no HIGH or MEDIUM event; price changes are more likely driven by ordinary rotation or technical structure."
                     .to_string()
             }
             Language::JaJp => {
@@ -612,28 +619,28 @@ fn macro_event_text(
             let info = signal_context_information_content_label(information_content);
             if event_fact.is_empty() {
                 format!(
-                    "今天识别到高信息量宏观事件，市场正在重新定价新的宏观信息。信息含量: {info}。"
+                    "今天识别到高信息量宏观事件；如有同步市场反应，该反应可能与新的宏观信息重新定价一致。信息含量: {info}。"
                 )
             } else {
-                format!("今天识别到高信息量宏观事件: {event_fact}。市场正在重新定价新的宏观信息。信息含量: {info}。")
+                format!("今天识别到高信息量宏观事件: {event_fact}。观察到的市场反应可能与新的宏观信息重新定价一致。信息含量: {info}。")
             }
         }
         Language::EnUs => {
             let _ = context_quality;
             let info = signal_context_information_content_label(information_content);
             if event_fact.is_empty() {
-                format!("A high-information macro event was identified today, and the market is repricing the new macro information. Information content: {info}.")
+                format!("A high-information macro event was identified today. Observed market reactions, when available, are consistent with repricing the new macro information. Information content: {info}.")
             } else {
-                format!("A high-information macro event was identified today: {event_fact}. The market is repricing the new macro information. Information content: {info}.")
+                format!("A high-information macro event was identified today: {event_fact}. Observed market reactions may be consistent with repricing the new macro information. Information content: {info}.")
             }
         }
         Language::JaJp => {
             let _ = context_quality;
             let info = signal_context_information_content_label(information_content);
             if event_fact.is_empty() {
-                format!("今日は高情報量のマクロイベントが識別され、市場は新しいマクロ情報を再価格付けしている。情報含量: {info}。")
+                format!("今日は高情報量のマクロイベントが識別された。観測された市場反応があれば、新しいマクロ情報の再価格付けと整合的である可能性がある。情報含量: {info}。")
             } else {
-                format!("今日は高情報量のマクロイベントが識別され: {event_fact}。市場は新しいマクロ情報を再価格付けしている。情報含量: {info}。")
+                format!("今日は高情報量のマクロイベントが識別された: {event_fact}。観測された市場反応は新しいマクロ情報の再価格付けと整合的である可能性がある。情報含量: {info}。")
             }
         }
     }
@@ -641,7 +648,7 @@ fn macro_event_text(
 
 fn signal_context_source_health_label(value: MacroEventSourceHealth) -> &'static str {
     match value {
-        MacroEventSourceHealth::Succeeded => "SUCCEEDED",
+        MacroEventSourceHealth::Succeeded => "HEALTHY",
         MacroEventSourceHealth::Partial => "PARTIAL",
         MacroEventSourceHealth::Unavailable => "UNAVAILABLE",
     }
@@ -844,10 +851,11 @@ mod tests {
             assessment.primary_context,
             SignalContextPrimaryContext::None
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::Low);
-        assert!(assessment
-            .interpretation
-            .contains("no high-information macro event"));
+        assert_eq!(
+            assessment.context_quality,
+            SignalContextQuality::Unavailable
+        );
+        assert!(assessment.interpretation.contains("UNAVAILABLE"));
     }
 
     #[test]
@@ -1132,7 +1140,9 @@ mod tests {
         assert_eq!(assessment.context_quality, SignalContextQuality::High);
         assert_eq!(assessment.event_fact, "CPI Release / 2026-06-18 / BLS");
         assert!(assessment.source_diagnostics_summary.is_empty());
-        assert!(assessment.source_diagnostics_appendix.is_empty());
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("COVERAGE: UNAVAILABLE"));
         assert!(assessment
             .interpretation
             .contains("high-information macro event"));
@@ -1168,7 +1178,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
@@ -1200,7 +1210,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
@@ -1292,11 +1302,11 @@ mod tests {
             assessment.context_quality,
             SignalContextQuality::Unavailable
         );
-        assert!(assessment.interpretation.contains("UNKNOWN"));
+        assert!(assessment.interpretation.contains("UNAVAILABLE"));
     }
 
     #[test]
-    fn no_context_with_loaded_inputs_returns_unknown_low() {
+    fn no_context_with_loaded_inputs_returns_unavailable_without_full_scan() {
         let assessment = build_signal_context_assessment(SignalContextReadModelInput {
             as_of_date: NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
             signal: signal(
@@ -1316,11 +1326,12 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::Low);
-        assert!(assessment
-            .interpretation
-            .contains("no high-information macro event"));
+        assert_eq!(
+            assessment.context_quality,
+            SignalContextQuality::Unavailable
+        );
+        assert!(assessment.interpretation.contains("UNAVAILABLE"));
     }
 }

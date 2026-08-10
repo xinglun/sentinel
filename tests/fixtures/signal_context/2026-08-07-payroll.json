@@ -1,0 +1,9 @@
+{
+  "case_id": "2026-08-07-payroll",
+  "market_date": "2026-08-07",
+  "scheduled_macro": [{"type": "NONFARM_PAYROLLS", "title": "US Employment Report", "information_content": "HIGH", "evidence": [{"source": "BLS", "timestamp": "2026-08-07T12:30:00Z", "event_type": "EMPLOYMENT", "subject": "Payrolls", "importance": "HIGH"}]}],
+  "corporate_events": [], "geopolitical_events": [], "commodity_events": [], "rates_credit_events": [{"type": "RATES", "title": "Treasury yield repricing", "information_content": "HIGH", "evidence": [{"source": "UST", "timestamp": "2026-08-07T15:00:00Z", "event_type": "RATES", "subject": "10Y", "importance": "HIGH"}]}], "market_structure_events": [],
+  "primary_context": {"type": "NONFARM_PAYROLLS", "title": "US Employment Report", "information_content": "HIGH"}, "overall_information_content": "HIGH", "context_quality": "HIGH",
+  "coverage": {"scheduled_macro": "HEALTHY", "corporate": "HEALTHY", "geopolitical": "HEALTHY", "commodity": "HEALTHY", "rates_credit": "HEALTHY", "market_structure": "HEALTHY", "overall": "HEALTHY"},
+  "observed_market_reactions": [{"observed_at": "2026-08-07T16:00:00Z", "subject": "Nasdaq", "observation": "growth stocks stronger", "evidence": []}], "decision_weight": 0, "trade_signal": false, "gate_effect": "none", "execution_effect": "none", "position_sizing_effect": "none", "interpretation": "Employment data was weaker than expected; rate expectations repriced and growth stocks reacted."
+}

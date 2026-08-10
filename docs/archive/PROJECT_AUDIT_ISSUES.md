@@ -510,6 +510,29 @@ P0-3
 
 ## 確認済みイシュー
 
+### S-26: Market Signal Context Coverage Defect
+
+**状態:** CONFIRMED
+**優先度:** P0 / HIGH
+
+**定義**
+
+Sentinel の Signal Context は公式マクロ経済カレンダーを市場全体の情報環境と同一視し、雇用、企業、地政学、商品、金利/信用、市場構造の事実を取りこぼしていた。
+
+**影響**
+
+1. 高情報量の雇用イベントが存在しても `LOW` / `Primary Context: None` となる。
+2. 地政学リスク、原油、利回りや信用スプレッドのショックが、通常の輪動として誤って表示される。
+3. これは取引判断の差ではなく、Observation / Interpretation の事実欠落である。
+
+**修正境界**
+
+六類型の Context、EvidenceRecord、Market Reaction、source coverage、America/New_York の market date、lifecycle と consistency check を追加する。`decision_weight=0`、`trade_signal=false`、Gate、Execution、Trader、Action Matrix、Position Sizing、Price-Volume、Supply、Gravity、Expectation は変更しない。
+
+**完了証拠**
+
+8/7 Payroll、8/10 Geopolitical/Oil、正常無事件、429/部分失敗、タイムゾーン/ライフサイクルを含む fixture と consistency gate が通過し、日報、Markdown、Telegram、weekly traceability が同一 read model を表示する。
+
 ### S-28: Price-Volume Structure の欠落
 
 **状態:** CONFIRMED  

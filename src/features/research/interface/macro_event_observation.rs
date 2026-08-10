@@ -1,6 +1,69 @@
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
+/// 追跡可能なイベント事実の最小証拠レコード。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct EvidenceRecord {
+    pub source: String,
+    #[serde(default)]
+    pub source_url: String,
+    pub timestamp: String,
+    #[serde(default)]
+    pub source_published_at: String,
+    pub event_type: String,
+    pub subject: String,
+    pub importance: String,
+}
+
+/// 事件事实与市场反应分离后的观测结果。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct MarketReaction {
+    pub observed_at: String,
+    #[serde(default)]
+    pub source_published_at: String,
+    #[serde(default)]
+    pub market_date: String,
+    pub subject: String,
+    pub observation: String,
+    pub evidence: Vec<EvidenceRecord>,
+}
+
+#[cfg(test)]
+mod signal_context_v1_tests {
+    use super::{EvidenceRecord, MarketReaction};
+
+    #[test]
+    fn evidence_record_serializes_traceability_fields() {
+        let evidence = EvidenceRecord {
+            source: "official_calendar".to_string(),
+            source_url: "https://example.test/employment".to_string(),
+            timestamp: "2026-08-07T12:30:00Z".to_string(),
+            source_published_at: "2026-08-07T12:30:00Z".to_string(),
+            event_type: "EMPLOYMENT".to_string(),
+            subject: "US Employment Report".to_string(),
+            importance: "HIGH".to_string(),
+        };
+        let value = serde_json::to_value(evidence).unwrap();
+        assert_eq!(value["event_type"], "EMPLOYMENT");
+        assert_eq!(value["importance"], "HIGH");
+    }
+
+    #[test]
+    fn market_reaction_keeps_evidence_as_a_separate_observation() {
+        let reaction = MarketReaction {
+            observed_at: "2026-08-07T16:00:00Z".to_string(),
+            source_published_at: "2026-08-07T16:00:00Z".to_string(),
+            market_date: "2026-08-07".to_string(),
+            subject: "Nasdaq".to_string(),
+            observation: "growth stocks stronger".to_string(),
+            evidence: Vec::new(),
+        };
+        let value = serde_json::to_value(reaction).unwrap();
+        assert!(value.get("observation").is_some());
+        assert!(value.get("event_fact").is_none());
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub(crate) enum FutureCalendarKind {

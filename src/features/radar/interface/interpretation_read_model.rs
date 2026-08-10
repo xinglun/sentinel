@@ -122,10 +122,20 @@ pub(crate) fn build_interpretation_layer_view_model(
         signal_context_primary_context_label: interpretation
             .signal_context_primary_context_label
             .clone(),
-        signal_context_primary_context_value: signal_context_primary_context_label(
-            signal_context.primary_context,
-        )
-        .to_string(),
+        signal_context_primary_context_value: signal_context
+            .v1
+            .primary_context
+            .as_ref()
+            .map(|item| {
+                format!(
+                    "{}: {}",
+                    signal_context_primary_context_label(signal_context.primary_context),
+                    item.title
+                )
+            })
+            .unwrap_or_else(|| {
+                signal_context_primary_context_label(signal_context.primary_context).to_string()
+            }),
         signal_context_quality_label: interpretation.signal_context_quality_label.clone(),
         signal_context_quality_value: signal_context_quality_label(signal_context.context_quality)
             .to_string(),
@@ -1073,9 +1083,9 @@ fn compose_interpretation_value(
         }
         crate::features::radar::interface::presentation::SignalContextInformationContent::Low => {
             match language {
-                Language::ZhCn => "今天没有重大事件。".to_string(),
-                Language::EnUs => "No major event today.".to_string(),
-                Language::JaJp => "今日は重要イベントなし。".to_string(),
+                Language::ZhCn => "基于可用来源，今天未识别到高信息量事件。".to_string(),
+                Language::EnUs => "No high-information event identified from available sources.".to_string(),
+                Language::JaJp => "利用可能なソースから高情報量イベントは識別されていない。".to_string(),
             }
         }
         crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown => {
