@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Strategists Raise S&P 500 Target as AI Capex Pays Off
+  summary: (Bloomberg) -- JPMorgan Chase & Co. strategists raised their S&P 500 Index forecast for a second time in two months, citing strong corporate earnings and the payoff from massive artificial intelligence spending. Most Read from BloombergIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’China Unleashes $28 Trillion Capital Markets to Challenge US in AIStocks Hold Near Record Highs, Oil Ticks Higher: Markets WrapTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaIran Says
+  url: https://finnhub.io/api/news?id=9b3b40e6c9c7f9bcbfb95bb22942c5e34ce410b02a047edf8656e7f2c4f3029b

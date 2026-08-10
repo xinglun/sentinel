@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Explainer-What is Unitree and why are China’s humanoid robot makers racing to list?
+  summary: Chinese robot maker Unitree has priced its Shanghai initial public offering at 150.8 yuan per share, with subscriptions to start on ‌Monday, as it seeks to raise 6.1 billion yuan ($904 million) in a deal that ‌would see it become the first mainland-listed humanoid robot manufacturer. Below are some facts about Unitree, and why it is leading ​several Chinese robotics companies towards public listings. WHAT IS UNITREE?
+  url: https://finnhub.io/api/news?id=d3e2a6c6cfa6e081e469e0ebaf431879b0dfea1c1ee624a0f84ec675c5bcae9f

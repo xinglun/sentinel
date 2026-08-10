@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kevin O'Leary Sat Out SpaceX's IPO— Now He's Plotting His Entry as Elon Musk's Empire Takes Shape: 'As the Stock Settles... I'll Be Watching Closely...'
+  summary: Investor and television personality Kevin O’Leary said he may begin buying SpaceX shares once post-IPO volatility settles, arguing that the bigger long-term opportunity lies in Elon Musk potentially connecting SpaceX with Tesla Inc., artificial intelligence, robotics and autonomous driving. O’Leary...
+  url: https://finnhub.io/api/news?id=e618867eec08a034f8aa3fbbbaf5551982df55ecb56081e9b8a959f0803cd6b3

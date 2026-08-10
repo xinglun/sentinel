@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Microsoft Out-AI OpenAI And Anthropic? SemiAnalysis Says Yes,  Points To $100B-Per-GW Inference Opportunity
+  summary: Microsoft is in a comfortable position to gain as AI inference demand booms, challenging frontier AI labs.
+  url: https://finnhub.io/api/news?id=e76a3627c2825d7000ac6ea6296f4ea6b74165f3035d280df09d7c7e62c41355

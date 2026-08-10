@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Skyrocketed This Past Week
+  summary: CEO Alex Karp said the AI titan delivered an "otherworldly" performance in the second quarter.
+  url: https://finnhub.io/api/news?id=65447c5fba4dff974820b6107b86eb9c3a78fb4abe2e7252b174a42c141951c2

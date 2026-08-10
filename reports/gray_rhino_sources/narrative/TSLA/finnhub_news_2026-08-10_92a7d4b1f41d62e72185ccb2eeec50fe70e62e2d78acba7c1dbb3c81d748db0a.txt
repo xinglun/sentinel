@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Plans to Spend $119 Billion to Construct the World’s Largest Building, Just Outside Houston
+  summary: SpaceX and Tesla just announced a semiconductor megafactory in Texas that would dwarf every building on Earth, but the gap between what is legally committed and what Elon Musk is promising raises a question worth asking before the groundbreaking.
+  url: https://finnhub.io/api/news?id=77ef213bcf56053f800453d9053edbf50951309c99e066474edd991edfe30e1c

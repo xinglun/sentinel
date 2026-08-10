@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should Rocketlab or SpaceX Provide Better August Returns?
+  summary: Rocket Lab just ripped 27% in a single week and has a packed August catalyst stack, while SpaceX trades on a scale narrative with almost no near-term triggers. These two space names are playing completely different games right now.
+  url: https://finnhub.io/api/news?id=18df36baeefed5a6ba217a527dcf84c9cdb96f3aef3b867b57e2cc3f1c31a2fd

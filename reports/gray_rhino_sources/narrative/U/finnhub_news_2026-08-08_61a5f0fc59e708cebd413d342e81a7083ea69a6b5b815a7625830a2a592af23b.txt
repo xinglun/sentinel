@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HSBC Upgrades Unity Software (U)
+  summary: 
+  url: https://finnhub.io/api/news?id=5373ecece780fb375c9357ed28809239df775947c78631780019f3edfd99e300

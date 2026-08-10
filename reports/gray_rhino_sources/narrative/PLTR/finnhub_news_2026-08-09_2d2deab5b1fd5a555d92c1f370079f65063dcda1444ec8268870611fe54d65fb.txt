@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Competition Is For Losers (Rating Upgrade)
+  summary: Palantir raised guidance and US commercial outlook, signaling confidence in sustained acceleration and AI-driven tailwinds. See why I rate PLTR stock a Buy.
+  url: https://finnhub.io/api/news?id=6179f715ec155d23912b0454b3012b789cf2f8e7b65d6d6d609d1965c7369625

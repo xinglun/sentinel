@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic, Macquarie and GIC Form Venture for AI Data Centers
+  summary: (Bloomberg) -- Anthropic PBC has formed a strategic partnership with Macquarie Asset Management and Singaporean wealth fund GIC to build data centers for the Claude developer. Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’Stocks Waver Near Record Highs, Crude Oil Advances: Markets WrapTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaIran Says Hormuz Deal Close But Its Condit
+  url: https://finnhub.io/api/news?id=1d110bedb3d993b1cede23a9f33de46722a36162685da41b8fe5e457368b2f98

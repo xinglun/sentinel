@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China's Economic Slowdown Is Getting Harder To Ignore
+  summary: Chinaâs economy is experiencing a pronounced slowdown, with GDP growth decelerating to 4.3% in Q2, the weakest since 2022âs lockdowns.
+  url: https://finnhub.io/api/news?id=5cf36683ebb9cdd26581898da5176b1df4cd6133fbea9d30af7799c191bb04b0

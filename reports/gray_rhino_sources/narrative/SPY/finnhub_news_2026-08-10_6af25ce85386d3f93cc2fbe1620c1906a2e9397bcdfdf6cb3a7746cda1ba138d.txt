@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Super Micro Computer Continues Its 3-Month Fall: One Wall Street Bull’s Thesis Predicts 55% Upside From Here
+  summary: SMCI has shed a third of its value over the past year while AI server peers rip to record highs, yet one Wall Street bull is doubling down with a target that implies massive recovery. Here is what has to go right, and what could go very wrong.
+  url: https://finnhub.io/api/news?id=e75d148fb2a23b8597f9a83ccf923ce8cefb9679498790bb97e953e619cfb7d6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DraftKings After Earnings: Buy, Hold, or Run?
+  summary: DraftKings just posted its worst margin quarter in years while simultaneously launching a business growing five times faster than its core sportsbook ever did. One of those stories is going to dominate the next 90 days, and the NFL season will decide which.
+  url: https://finnhub.io/api/news?id=4feec4fc49285c9089ee636c516ede7f687e47a3d8d0981a5c99aa2c8c1e1239

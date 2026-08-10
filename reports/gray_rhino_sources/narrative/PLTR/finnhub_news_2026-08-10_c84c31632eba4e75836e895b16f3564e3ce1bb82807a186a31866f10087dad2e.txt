@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vitalhub Q2 Earnings Call Highlights
+  summary: Vitalhub (TSE:VHI) reported second-quarter 2026 revenue of CAD 31.7 million, up 33% from the prior-year period, while annual recurring revenue surpassed CAD 100 million for the first time. Chief Financial Officer Brian Goffenberg said the company ended June with CAD 101.5 million in annual recurrin
+  url: https://finnhub.io/api/news?id=6541e7d8c7fe3cec2f4d78dfa5c90e946690bdcb04a9d236fd1eed5559f07d35

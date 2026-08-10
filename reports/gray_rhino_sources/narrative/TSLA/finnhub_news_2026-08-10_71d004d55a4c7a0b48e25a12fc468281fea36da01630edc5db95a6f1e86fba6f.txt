@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Starlink Will Be in Every Car, Calls It the ‘Only Way’ To Connect Billions of Vehicles
+  summary: Elon Musk predicts all future vehicles will have Starlink connectivity, calling it the only way to get high bandwidth.
+  url: https://finnhub.io/api/news?id=dd3bbe3dbe4b41ad90a8f126746236fb542e9d844ce6ae5aafaa48db9c31db90

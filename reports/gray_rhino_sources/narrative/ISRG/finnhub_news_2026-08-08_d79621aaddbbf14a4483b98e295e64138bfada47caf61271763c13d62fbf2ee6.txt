@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Competition Is Heating Up, but Here's Why Intuitive Surgical Might Still Be the Smartest Bet in MedTech
+  summary: Intuitive Surgical is a leader in the surgical robotics space, with a large installed base and strong recurring revenues.
+  url: https://finnhub.io/api/news?id=e886dd9a371b1193cc20166cfff1c8eb46fbec57659ce18470ef42e953cbf51c

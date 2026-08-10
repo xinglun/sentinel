@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: USA Today Q2 Earnings Call Highlights
+  summary: USA Today (NYSE:TDAY) reported second-quarter 2026 revenue of $536.3 million, down 8.3% from a year earlier, as lower digital advertising revenue and quarter-to-quarter variability in content licensing offset gains in digital-only subscriptions and other digital revenue streams. The company generat
+  url: https://finnhub.io/api/news?id=a79093d5406b0a63bb4ccab4c5b908c2882ac5ec9a76cb8f64d681b07e39fffc

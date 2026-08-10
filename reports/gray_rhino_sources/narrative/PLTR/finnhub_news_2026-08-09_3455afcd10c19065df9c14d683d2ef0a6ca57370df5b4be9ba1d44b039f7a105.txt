@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: USA Today Partners With Palantir to Gain “Actionable Intelligence” On Its Audiences
+  summary: "Every visit, every session, and every moment of attention creates a signal."
+  url: https://finnhub.io/api/news?id=2924d64c2d603f07bcf03f9ce4729aed346f0cd5375b69ad2c89d7ce77376fb0

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Mark Cuban Just Warned Nvidia's AI Financing Could "Crumble" the Market. Should Investors Be Worried?
+  summary: AI's biggest opportunity could also be its biggest hidden risk. Here's what investors need to know before the next shakeout.
+  url: https://finnhub.io/api/news?id=43ac90d09c3202da1e1f0e047e3fa38be9b83ba2d3a2c001522f8fa03ba0a770

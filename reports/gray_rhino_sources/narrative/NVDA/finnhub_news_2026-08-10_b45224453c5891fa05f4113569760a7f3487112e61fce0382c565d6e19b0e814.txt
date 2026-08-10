@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Who Really Benefits as Sovereign AI Infrastructure Spending Explodes?
+  summary: Governments are pouring billions into national AI compute capacity, and the race is minting winners across silicon, real estate, and power infrastructure. But the benefits are not spread evenly, and knowing which layer captures the biggest dollar share changes the investment calculus entirely.
+  url: https://finnhub.io/api/news?id=3ae7fb1f873d77913ba2f06beddeeaf3c3f7c67c24400c22f799361200f5795b

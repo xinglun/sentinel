@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Many High-Yield Financial Stocks Does an Income Portfolio Actually Need?
+  summary: If you are buying stocks with 10% yields, you have to make sure you appreciate the risks you are taking on.
+  url: https://finnhub.io/api/news?id=f56be2b566654dcba299052ae54121b80ecad33d0319914edeaa99446fb5196c

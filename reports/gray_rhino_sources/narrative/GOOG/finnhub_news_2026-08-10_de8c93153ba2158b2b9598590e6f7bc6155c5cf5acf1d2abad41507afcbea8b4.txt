@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PubMatic Appoints Megan Ramm as Global Chief Revenue Officer to Accelerate Growth as AI Transforms Digital Advertising
+  summary: NO-HEADQUARTERS/REDWOOD CITY, Calif., August 10, 2026--Veteran revenue leader from Uber Advertising, Google to lead global revenue strategy and execution at PubMatic
+  url: https://finnhub.io/api/news?id=8709ea02feaa161410d182c1407d799e44ef6e83fa1c2bb3de9684febae82a96

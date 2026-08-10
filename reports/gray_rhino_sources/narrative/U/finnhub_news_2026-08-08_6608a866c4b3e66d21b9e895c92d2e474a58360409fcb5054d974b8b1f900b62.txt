@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Benchmark Upgrades Unity Software (U)
+  summary: 
+  url: https://finnhub.io/api/news?id=181467230f54b8ed2ad2bc314a3980418c7bcdf1b07f315bb5dec6b45b1730e2

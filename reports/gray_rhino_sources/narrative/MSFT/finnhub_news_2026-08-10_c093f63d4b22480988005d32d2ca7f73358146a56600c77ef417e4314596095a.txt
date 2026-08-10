@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Microsoft Plans to Ramp Up Homegrown AI Chip Production Next Year
+  summary: Microsoft (MSFT) intends to greatly increase production of its internally designed artificial intell
+  url: https://finnhub.io/api/news?id=c4591d44d88d103b97e114749816e8c4d6fabb8ce0f6c07dd5e989f103c059e6

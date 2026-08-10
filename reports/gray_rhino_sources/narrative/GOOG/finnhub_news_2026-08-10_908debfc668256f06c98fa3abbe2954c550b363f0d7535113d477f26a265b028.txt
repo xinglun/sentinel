@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Berkshire Hathaway (BRK.B) Deploying Cash More Aggressively Under Greg Abel?
+  summary: Berkshire Hathaway (NYSE:BRK.B) under new CEO Greg Abel carried out its largest quarterly share repurchase since 2021, alongside major new equity investments. The company used a sizable portion of its cash reserves for substantial buybacks and fresh positions in stocks such as Alphabet. This capital deployment marks a clear shift from Berkshire Hathaway's prior pattern of net selling and more cautious use of cash. For readers looking to compare Berkshire Hathaway's capital decisions with...
+  url: https://finnhub.io/api/news?id=73b5ca151e8c7eb30d0363c15bb92285b15b84afa9318d0b51426b04dae6f70a

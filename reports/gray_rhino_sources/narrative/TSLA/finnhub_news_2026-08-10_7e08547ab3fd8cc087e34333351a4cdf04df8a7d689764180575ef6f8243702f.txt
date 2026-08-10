@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Falls 5% on Proposed $15B Share Sale as AMD, NVIDIA, Broadcom Hold Steady
+  summary: Intel just rattled its own shareholders with a massive equity raise while every other major chipmaker barely flinched, and the gap between Intel's selloff and the flat sector tells a story about where this company is actually headed.
+  url: https://finnhub.io/api/news?id=927f79fb8197c08718fbf9047d543896d51722a6794ed50f2089efd239681b44

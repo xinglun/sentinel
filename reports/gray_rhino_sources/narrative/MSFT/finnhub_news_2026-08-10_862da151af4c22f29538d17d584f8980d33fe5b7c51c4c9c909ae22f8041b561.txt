@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Cut at Jefferies on iPhone Worries as Sell Ratings Pile Up
+  summary: (Bloomberg) -- Apple Inc. was downgraded to an underperform rating at Jefferies, in the latest example of growing bearishness toward the company.Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’Stocks Waver Near Record Highs, Crude Oil Advances: Markets WrapTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaIran Says Hormuz Deal Close But Its Conditions Must Be MetAnalyst Edison
+  url: https://finnhub.io/api/news?id=cd1d4ef57dc1235a6377046c17eadab527861b3f53eb6a05047bf5d22ac5f918

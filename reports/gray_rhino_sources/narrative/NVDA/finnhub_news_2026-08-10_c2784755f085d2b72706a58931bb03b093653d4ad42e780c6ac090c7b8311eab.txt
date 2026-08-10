@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much of the S&P 500's Return Actually Came From Dividends vs. Price Appreciation, by Decade
+  summary: Dividends have become a smaller component of the S&P 500's total return, but that hasn't always been the case.
+  url: https://finnhub.io/api/news?id=555953fe29c92a229d390a283c320ee54ec377ac1f666ae88a3c35b0d71cf098

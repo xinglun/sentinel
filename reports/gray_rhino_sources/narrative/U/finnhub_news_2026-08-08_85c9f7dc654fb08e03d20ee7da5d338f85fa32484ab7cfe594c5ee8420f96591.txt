@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Deutsche Bank Upgrades Unity Software (U)
+  summary: 
+  url: https://finnhub.io/api/news?id=4e3eee615a00e13d97646b637b1fe80530996c8489934ff39d4315a40d7c5f09

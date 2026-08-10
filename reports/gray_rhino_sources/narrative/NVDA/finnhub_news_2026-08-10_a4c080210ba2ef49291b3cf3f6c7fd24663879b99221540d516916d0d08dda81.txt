@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC Sales Jumps 45% as Nvidia-Driven AI Boom Powers Chip Demand
+  summary: TSMC Sales Soar to $14.5 Billion as AI Spending Keeps Accelerating
+  url: https://finnhub.io/api/news?id=eb0f78710829c44b71394e052790e24fde0035260668364844fd71206c3b68f1

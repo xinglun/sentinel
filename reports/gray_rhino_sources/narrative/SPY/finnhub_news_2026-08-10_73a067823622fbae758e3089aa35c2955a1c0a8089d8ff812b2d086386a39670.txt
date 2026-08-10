@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The First Negative NFP In Years Just Hit Market - And $1.5 Trillion In Margin Debt Amplifies Every Move
+  summary: S&P 500 hits 7,757 as $1.5T margin debt and top-10 concentration fuel risk.
+  url: https://finnhub.io/api/news?id=f1b1d6f235f7b4925042c286a7e7e90533e31e8a5520ecf38fbc5ad4421d592e

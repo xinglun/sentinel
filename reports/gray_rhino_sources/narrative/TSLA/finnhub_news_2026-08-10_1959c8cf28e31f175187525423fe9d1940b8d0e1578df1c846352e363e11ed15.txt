@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is on a Roll as Retail Traders Buy In
+  summary: FEATURE   Tesla stock was rising again Monday, putting the electric vehicle maker on track to extend a recent good run during which it has clawed back some of its losses for the year. Shares climbed 1% to $332 ahead of the opening bell.
+  url: https://finnhub.io/api/news?id=1cdd846df8e0525d68738a80c58a72a3c8ea3cc0b563af1034b81accc796fbcd

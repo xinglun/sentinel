@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Mostly Up Pre-Bell as Traders Assess Middle East Developments, Await Key Inflation Data
+  summary: The benchmark US stock measures were mostly pointing higher before the opening bell Monday as trader
+  url: https://finnhub.io/api/news?id=9273470f1c28199053583483cbf4314c9d12dcfb25852f4ee074e25f25140a9b

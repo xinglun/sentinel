@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Just Found Another Way to Grow Without Selling a Car
+  summary: Elon Musk’s Robotaxi business went backward in Q2, but Tesla’s app and services ecosystem is helping it monetize its massive vehicle base.
+  url: https://finnhub.io/api/news?id=ea090f9f25509ee5f92b82e2567936bc416f8daf7d947c226bac8657b836ac1c

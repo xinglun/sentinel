@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Can't Agree on Palantir. Here's What Investors Should Do Next
+  summary: Palantir's blockbuster Q2 results has Wall Street divided with valuation fears and growth bulls tussling.
+  url: https://finnhub.io/api/news?id=e66b9a647dc23065a50b2ee03bcbc76c2a408d50ffbb4e0be40663f0e3c0d5e9

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Market Chatter: BlackRock Signs Deal With Unions for AI Construction Jobs
+  summary: (Updates with NABTU and BlackRock statements from press release in the last two paragraphs.) Blac
+  url: https://finnhub.io/api/news?id=8924a85b73733d98977f7b85d0f1cedce984c29c82804423dbfe7d8436f0d9a6

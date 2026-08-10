@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Burns Through Funds Allocated for Gavin Newsom’s EV Rebate Within Days—California Governor Hails Clean Energy Bet
+  summary: Gavin Newsom&#39;s MyFirstEV program offers discounts for EV buyers, but Tesla has already run out of allocated funds in just 4 days.
+  url: https://finnhub.io/api/news?id=d070905f3988ddbff3599c72aa904f17b721dc41231d549df5bfdf0cfcf405af

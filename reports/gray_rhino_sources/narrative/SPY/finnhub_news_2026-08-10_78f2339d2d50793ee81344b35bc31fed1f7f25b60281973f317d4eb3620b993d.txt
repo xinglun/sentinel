@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Companies' Second-Quarter Profit Boomed — What's Next?
+  summary: Investors have braced for the second-quarter earnings for months — hoping for signs of how the S&P 500 is absorbing inflation. So far the answer is — very well.
+  url: https://finnhub.io/api/news?id=ebec49802c598ad2dc49fbd65fece1e29e64062763fb790baf9dd9a41b651fc5

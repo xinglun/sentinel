@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: A $13.1 Billion Backlog And Investors Are Just Starting To Catch On
+  summary: Palantir Technologies Inc. gets a Strong Buy as revenue jumps 93% and backlog hits $13.1B. Click for this updated look at PLTR stock following its Q2 earnings.
+  url: https://finnhub.io/api/news?id=33973e1b9a2b96096ff706b82fc9129eb9d9e81e8c0252ab00ff4a232ff2ab9a

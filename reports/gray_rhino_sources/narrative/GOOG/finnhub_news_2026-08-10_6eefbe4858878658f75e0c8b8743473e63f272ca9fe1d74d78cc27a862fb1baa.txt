@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tencent AI Spending Key After Magnificent 7 Rout
+  summary: (Bloomberg) -- Tencent Holdings Ltd.’s spending plans will draw investor scrutiny as investors cool on lavish outlays on artificial intelligence.Most Read from BloombergTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’Iran Says Hormuz Deal Close But Its Conditions Must Be MetOpenAI’s New Device Will Be Hockey Puck-Sized and Cost Over $300China Unleashes $28 Trillion Capital Markets to Challenge US in AILast month, the
+  url: https://finnhub.io/api/news?id=9f0336e9a13dcb13c445781053bcc7b246239f7778716329e3a27089b32d6ec8

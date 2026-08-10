@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China uses capital markets to fund AI and chip race against U.S.
+  summary: Chinese tech firms raised $217 billion through IPOs and bond sales over two years, but still trail U.S. peers by more than 6-to-1
+  url: https://finnhub.io/api/news?id=f3e46eec3893ff37f71fd97b87fefec73a88f59361eb49ad374333d6f6870344

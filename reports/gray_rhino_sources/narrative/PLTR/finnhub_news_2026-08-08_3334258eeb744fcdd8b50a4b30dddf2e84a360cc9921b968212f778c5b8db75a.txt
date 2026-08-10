@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Week Ahead: Bullish Signals Amid 'Dirty' Volume
+  summary: The market rides some bullish signals into the coming week, but sorting the signals required some careful detective work.
+  url: https://finnhub.io/api/news?id=47a727c516e807157b4e059d81f60520c37aa8abb3f5f0b6e5201ab1dd1d2f4e

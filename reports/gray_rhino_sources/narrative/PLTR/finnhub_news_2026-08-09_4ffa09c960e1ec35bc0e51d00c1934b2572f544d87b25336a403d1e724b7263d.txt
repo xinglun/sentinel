@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings beats ease concerns over record U.S. stock rally - WSJ
+  summary: Investing.com -- Strong second-quarter earnings from major U.S. companies have pushed stock indexes to fresh highs and eased concerns that the rally relies too heavily on a small group of artificial intelligence companies, the Wall Street Journal reported.
+  url: https://finnhub.io/api/news?id=dc5b1f3df9fd34ca061fc97816b99d46bbe40b24e9d6e0a40ed048a5e17c8ca4

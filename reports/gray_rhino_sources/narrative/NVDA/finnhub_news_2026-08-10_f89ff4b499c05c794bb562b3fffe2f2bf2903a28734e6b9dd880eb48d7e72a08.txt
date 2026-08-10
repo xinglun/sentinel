@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says This Is One of the Biggest Challenges for Public Companies
+  summary: Both Tesla and SpaceX have achieved considerable growth in recent years, but their stocks carry significant risk and uncertainty.
+  url: https://finnhub.io/api/news?id=fa9ffcec91b6188b538f8565e497f3a73aa956166d9a5c768a8a8217b72869e6

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir vs. Salesforce: Two Visions of Enterprise AI, One Clear Winner
+  summary: Palantir just posted growth numbers that made Wall Street question its own spreadsheets, while Salesforce quietly handed billions back to shareholders. Picking between them means choosing which version of enterprise AI actually survives contact with reality.
+  url: https://finnhub.io/api/news?id=430b8af128c0c7e986ebabd2d830669153ec4475c6a641bccdbe70a743e66214

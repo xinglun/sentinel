@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Do Intuitive Surgical (ISRG) Bylaw Changes Mean For Shareholders?
+  summary: Intuitive Surgical (NasdaqGS: ISRG) has approved amendments to its bylaws, updating shareholder voting rules, nomination processes, and procedural requirements in line with recent SEC universal proxy regulations. The revised bylaws clarify how proxy solicitations are conducted and what shareholders must disclose when putting forward director nominees or other proposals. The changes affect how investors can engage with the company on governance matters and may influence future proxy contests...
+  url: https://finnhub.io/api/news?id=7cbd53db13a7cfee031498f91e806bf8146cd2a88785a2f6119eb9100f4fe04c

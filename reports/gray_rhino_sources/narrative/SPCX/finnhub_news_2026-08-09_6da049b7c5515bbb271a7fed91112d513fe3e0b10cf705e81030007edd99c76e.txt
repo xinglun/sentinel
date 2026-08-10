@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Compares SpaceX Stock to 100-Year Railroad Bonds: Asks Investors to Think of Their Children and Grandchildren
+  summary: On Wednesday, Jim Cramer urged investors to look beyond Space Exploration Technologies Corp.’s post-earnings sell-off, arguing that Elon Musk’s aerospace company should be viewed as a multigenerational investment. Cramer Says SpaceX Is a Long-Term Bet On the Future During Wednesday’s...
+  url: https://finnhub.io/api/news?id=8b164ba9b6c632afc107ffe57a03898d5094af780e609bbdccbedd68c62baabc

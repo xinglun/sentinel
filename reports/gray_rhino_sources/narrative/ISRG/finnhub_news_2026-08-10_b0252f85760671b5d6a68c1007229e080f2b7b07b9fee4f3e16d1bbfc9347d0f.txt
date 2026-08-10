@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Johnson & Johnson (JNJ) Challenge Intuitive Surgical (ISRG) After Ottava’s FDA Approval?
+  summary: Johnson & Johnson (NYSE:JNJ) has officially entered the U.S. soft-tissue robotic surgery market after receiving FDA De Novo authorization for its OTTAVA robotic surgical system. The authorization represents an important milestone for J&J’s MedTech ambitions, but the company is entering a market in which Intuitive Surgical (NASDAQ:ISRG) already has an extensive installed base, established surgeon […]
+  url: https://finnhub.io/api/news?id=c8b0be6128448ed6517a29d353ee86a9af7c0598f9d11c7fcacb0a597f3ab561

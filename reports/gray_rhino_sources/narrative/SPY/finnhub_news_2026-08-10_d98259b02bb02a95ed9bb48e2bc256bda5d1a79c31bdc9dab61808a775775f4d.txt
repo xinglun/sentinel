@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Beaten-Down Healthcare Stocks to Buy in August
+  summary: Healthcare just posted the best three-month run of any S&P 500 sector, yet two of the three biggest pharma names by market cap are still trailing the broader market. That gap between performance and fundamentals is creating a window that income and growth investors rarely see at the mega-cap level.
+  url: https://finnhub.io/api/news?id=cdede5a86a1a9c715bcc2916ec012ef4f51f2e1958b7fa818b04daf0ff357e39

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The World's Largest AI Companies Built Deployment Arms This Year. Harbor Built One for Law
+  summary: CHICAGO, August 10, 2026--Harbor, the leading provider of professional and technology services to the legal industry, today launched Harbor Deploy, a dedicated offering that puts AI to work inside law firms and corporate legal departments. Harbor Deploy embeds specialist teams, including forward-deployed engineers and delivery leads, directly inside client organizations to move AI from pilot into daily use that delivers measurable value.
+  url: https://finnhub.io/api/news?id=317a155dc67c693e885c50185d7ffff54385d88fb740eee15d334481cbcf1fe8

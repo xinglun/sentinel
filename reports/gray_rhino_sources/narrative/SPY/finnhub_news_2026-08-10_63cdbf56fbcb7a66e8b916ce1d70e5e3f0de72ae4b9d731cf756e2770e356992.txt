@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: GameStop CEO Ryan Cohen Reconsiders EBay Takeover: Bloomberg
+  summary: 
+  url: https://finnhub.io/api/news?id=cd78b672196eaacf4cb74969abf72be58eb756d046aea5dc722f3341cb58f877

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Cites Data to Make a Point: Take Out Alphabet and Amazon, S&P 500 Earnings Growth Looks Far Less Impressive
+  summary: Alphabet Inc. (NASDAQ:GOOG) (NASDAQ:GOOGL) and Amazon.com, Inc. (NASDAQ:AMZN) are responsible for a large share of the S&P 500’s second-quarter earnings growth, a concentration highlighted by investor Ross Gerber using FactSet (NYSE:FDS) data. Alphabet, Amazon Drive 71% of Earnings Increase Gerber highlighted FactSet data cited by the Wall Street Journal showing that Alphabet and Amazon account for about 71% of the dollar increase in S&P 500 blended earnings since July. ‘Alphabet and Amazon alon
+  url: https://finnhub.io/api/news?id=d298a5220b40641c678eff9604c5eb557105f440d0bcf084ce2449bc3259ba43

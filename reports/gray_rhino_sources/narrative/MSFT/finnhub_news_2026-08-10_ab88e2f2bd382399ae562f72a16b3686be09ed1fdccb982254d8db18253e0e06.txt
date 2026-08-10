@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LegalZoom.com (LZ) Could Be 32% Undervalued Following Copilot Launch And Guidance Cut
+  summary: Why LegalZoom.com Stock Is Back In Focus LegalZoom.com (LZ) is drawing fresh attention after launching an agent inside Microsoft 365 Copilot while cutting its full year revenue outlook, a combination that has sharpened investor focus on the stock. See our latest analysis for LegalZoom.com. LegalZoom.com’s launch inside Microsoft 365 Copilot and interest in M&A comes after a period of weak momentum. The stock’s 7 day share price return is down 30.06% and its 1 year total shareholder return is...
+  url: https://finnhub.io/api/news?id=8008e6a860b6290b1a60b3f584b206a72a5fc30c8a11a7f3044bdc67df91c7aa

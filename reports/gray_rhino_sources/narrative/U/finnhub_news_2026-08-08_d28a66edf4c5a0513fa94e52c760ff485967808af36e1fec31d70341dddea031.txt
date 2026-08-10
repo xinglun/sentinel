@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: B of A Securities Upgrades Unity Software (U)
+  summary: 
+  url: https://finnhub.io/api/news?id=3ec43432cc1eba05f526b7f16126193bc1b6cdedac0d53968154bea9d5131a17

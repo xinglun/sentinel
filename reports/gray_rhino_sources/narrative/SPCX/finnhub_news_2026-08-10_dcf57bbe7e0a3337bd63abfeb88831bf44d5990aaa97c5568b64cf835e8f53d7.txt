@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX retail investors turn sellers for first time since IPO
+  summary: Investing.com -- Retail investors sold SpaceX stock on a net basis Friday for the first time since the company's June initial public offering, according to Vanda Research data.
+  url: https://finnhub.io/api/news?id=d28a9b65cc5b7d8f80113b4cfaf9def0e711d18a7653f5604d67b9f870c21b6e

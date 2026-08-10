@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Humanoid Makers Hold 97% of Global Shipments, Report Says
+  summary: (Bloomberg) -- China’s humanoid robot makers commanded more than 97% of global shipments in the first half of 2026, according to new industry data affirming the country’s early lead against US rivals in the burgeoning field.Most Read from BloombergIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’China Unleashes $28 Trillion Capital Markets to Challenge US in AITrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaGlobal Stock Rally Extends, Oil Advances on Iran: Markets
+  url: https://finnhub.io/api/news?id=3ccad50df219cff8e876f7d8388a0aed738af2d1e248203152928ec57b772fc6

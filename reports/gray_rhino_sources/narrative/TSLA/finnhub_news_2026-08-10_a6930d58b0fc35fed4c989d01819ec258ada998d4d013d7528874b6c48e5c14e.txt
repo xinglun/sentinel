@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Rises as Army of Fans Help Claw Back Losses
+  summary: FEATURE   Tesla stock was rising again Monday, putting the electric vehicle maker on track to extend a recent good run during which it has clawed back some of its losses for the year. Shares climbed 1% to $332 ahead of the opening bell.
+  url: https://finnhub.io/api/news?id=505f76b9506180522ff474c4cde2f20bc157373893120eb324f525644fbfe97e

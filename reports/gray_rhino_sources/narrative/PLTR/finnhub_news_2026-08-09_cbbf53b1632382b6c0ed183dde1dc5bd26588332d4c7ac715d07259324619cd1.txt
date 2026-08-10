@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is the Worst Finally Over for Palantir Stock?
+  summary: For months, every piece of good news seemed to push Palantir stock lower. Then came its latest earnings report -- and something changed.
+  url: https://finnhub.io/api/news?id=f815733acf70c7a31bac16167b222c022344d6d774450f570bf9b90d916d73bb

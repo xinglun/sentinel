@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paul Graham Says His Wife’s First Tesla FSD Experience Was Like a ‘Religious Revelation’— and AI Chief Ashok Elluswamy Had One Request When He Heard It
+  summary: Y Combinator co-founder Paul Graham said a new Tesla Inc. left his wife Jessica stunned by its self-driving capabilities, calling her reaction the "usual religious revelation" and praising the 23-year-old automaker for still generating that level of excitement. Graham Praises...
+  url: https://finnhub.io/api/news?id=4a3ea1ed3b7c009ed581eb2afef64c5c4fb2fc0913ec5a6b6c6015c1e239c83a

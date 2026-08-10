@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA, JPMorgan, Oppenheimer Name Their 3 Favorite AI Stocks, One Has a $255 Target
+  summary: BofA, JPMorgan & Oppenheimer name their top 3 AI stocks. See the $255 Palantir target, $365 Amazon call and $400 Lam Research price target.
+  url: https://finnhub.io/api/news?id=031a2815a3a9cee38e8e064c7400c6fe54cc1bad5cad4660a8dd73efc719d12b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Will Fly the Same Falcon 9 Booster for an 18th Time Monday: Why Reusability Is Its Biggest Advantage
+  summary: SpaceX (NASDAQ:SPCX) is set to launch 29 Starlink satellites from Cape Canaveral on Monday using a Falcon 9 booster that has already flown 17 times. Liftoff is scheduled for 10:49 a.m. ET. If all goes well, booster B1085 will land...
+  url: https://finnhub.io/api/news?id=073de08188d5cfe1dc8f8fa219e70ab598f34daff5b910f006ac218f142744ed

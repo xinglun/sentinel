@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Price Prediction: Archer Aviation Will Trade at $10 on This Date
+  summary: Archer Aviation holds an Olympic air taxi contract, a stack of blue-chip AI partnerships, and a clear FAA certification timeline, yet its shares sit closer to a 52-week low than a high. Something has to give, and the catalyst timeline is tighter than most investors realize.
+  url: https://finnhub.io/api/news?id=b6d1a111b06605784e964b165c8dfde17783b6b94bc989a4b95d7831cf7d8fdf

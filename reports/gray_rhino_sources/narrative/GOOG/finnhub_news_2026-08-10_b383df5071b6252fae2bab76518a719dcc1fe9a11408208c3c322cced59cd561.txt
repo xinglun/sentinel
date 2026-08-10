@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle’s Rebound Is All But Assured So I Keep Buying
+  summary: Oracle shares have shed a third of their value since last December, yet something in the company's latest earnings report has one investor hitting the buy button harder than ever before.
+  url: https://finnhub.io/api/news?id=57244ca2b8e728e60e6dde28bb296029af9883adc4d6e0e409e8af0ee409a565

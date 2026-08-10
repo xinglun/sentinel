@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 40-something founders say they have something the AI kids don't
+  summary: Y Combinator CEO Garry Tan declared the "age of the unc." We asked founders in their 40s whether what's old is new again.
+  url: https://finnhub.io/api/news?id=9abc740031b336d05461d7588de9bc72856634edbcb966928b62bda8adc6b04f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Windfall Leads Ontario Teachers’ to 9.5% First-Half Gain
+  summary: (Bloomberg) -- Ontario Teachers’ Pension Plan earned 9.5% in the first half of the year, driven by the initial public offering of Elon Musk’s SpaceX. Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’Stocks Waver Near Record Highs, Crude Oil Advances: Markets WrapTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaIran Says Hormuz Deal Close But Its Conditions Must Be MetInvestment
+  url: https://finnhub.io/api/news?id=0696157c683fc5f1007f9ff9c4d500840c6d794c7bb08660196de273db051795

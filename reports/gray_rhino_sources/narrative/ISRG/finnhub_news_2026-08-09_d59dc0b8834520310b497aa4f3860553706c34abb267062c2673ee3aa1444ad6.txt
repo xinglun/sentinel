@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Stock Looks Fairly Valued Despite Its 33% Slide
+  summary: Intuitive Surgical stock has had a difficult start to 2026, with the share price down 32.6% year to date, while the Discounted Cash Flow (DCF) intrinsic value estimate now points to a level that is broadly in line with where the market is pricing the company. The year to date decline of 32.6% raises the question of whether recent weakness is now fully reflected in the share price. Management commentary around durable demand for platforms like da Vinci 5 can support longer term cash flow...
+  url: https://finnhub.io/api/news?id=d2317de655bbe9049b1e6c799ed3a0c71d3b83931654cecd4b996611ac38f945

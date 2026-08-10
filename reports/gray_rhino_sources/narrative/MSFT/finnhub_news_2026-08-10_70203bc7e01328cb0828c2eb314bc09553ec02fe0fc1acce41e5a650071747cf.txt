@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5-Star Analyst Revamps Microsoft Stock Price Target for 2027
+  summary: Analyst Issues Bullish Microsoft Stock Call as AI Spending Pays Off
+  url: https://finnhub.io/api/news?id=a71ae7f46507ed704e8a34f9deea605f4f16bfbaa194f7918e321ea5181c20f1

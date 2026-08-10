@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia investing up to $3 billion in Lancium for Stargate
+  summary: The deal values Lancium, which owns the first operational Stargate site in Abilene, Texas, at around $10 billion
+  url: https://finnhub.io/api/news?id=259e4639219df0b720556b00ff19e8c4dfe014935b296e6be9a0cf6f7ca257fe

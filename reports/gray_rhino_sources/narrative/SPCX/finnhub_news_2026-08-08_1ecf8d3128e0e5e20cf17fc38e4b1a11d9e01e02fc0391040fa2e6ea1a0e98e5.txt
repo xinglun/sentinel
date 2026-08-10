@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Stock Stuck in a Bear Market as Short Interest Rises Ahead of Earnings
+  summary: CoreWeave stock price is stuck in a bear market as the Nvidia-backed company prepares for its second-quarter earnings report.
+  url: https://finnhub.io/api/news?id=fc970b99dc9e8ceba41a4dd19027adc5d37e81fea343b824a16f3f64a1cb81a4

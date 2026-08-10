@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta shares rise on Muse Glimmer launch and a radical AI vision
+  summary: Investing.com -- Meta’s stock popped 2.4% this morning following the launch of Muse Glimmer, a highly efficient, 30-billion-parameter AI model capable of running on a single GPU. Positioned as a lightweight, distilled version of the more powerful Muse Spark 1.2, Glimmer is tailor-made for "agent-like" tasks—think schedule management, rapid prototyping, and file organization. By releasing the model weights for free on Hugging Face, Meta is directly countering the permissive licensing strategies o
+  url: https://finnhub.io/api/news?id=237d496bea6bff611d38c5b172c48f1466348288c62b5b6a7583ebe3f0ab6e89

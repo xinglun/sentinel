@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CIO Weekly: Earnings Growth Moves Beyond The U.S.
+  summary: Strong U.S. earnings are powering equities higher, but donât lose sight of earnings growth elsewhere offering a diversification opportunity.
+  url: https://finnhub.io/api/news?id=fcc0603455745d881e6764230c6b9ee32c7389df3b2ea75fbd456b7f2e5febff

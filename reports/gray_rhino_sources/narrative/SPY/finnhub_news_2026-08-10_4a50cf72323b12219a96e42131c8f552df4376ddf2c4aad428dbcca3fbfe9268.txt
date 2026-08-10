@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market Rotation Failed Its First Real Test
+  summary: Recent market action suggests technology regained leadership after a brief rotation into equal-weight and small caps.
+  url: https://finnhub.io/api/news?id=3ba4455b3a2ded004fbc8d0fb06fc9bd1c4c2725a2a73f9cfe05d42260b350ac

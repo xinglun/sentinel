@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Energy Stocks With Dividends That Have Never Been Cut
+  summary: Past performance is no guarantee of future results, but it certainly suggests what's likely.
+  url: https://finnhub.io/api/news?id=00cdaf70549a008550140bdeedd1181ce0acf16e0d9a874ee67a16612f33913b

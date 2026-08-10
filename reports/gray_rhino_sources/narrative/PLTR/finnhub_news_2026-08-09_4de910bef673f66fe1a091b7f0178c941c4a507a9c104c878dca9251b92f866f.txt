@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Worth $413 Billion. The $500 Billion Line Sits Almost Exactly at Its Record High.
+  summary: A half-trillion-dollar valuation works out to about $208 a share. Shares have already traded within about 55 cents of it.
+  url: https://finnhub.io/api/news?id=6bea3e9c531ae06c293b7b043f6b3a91a9330c08f3a1ec5fd197c34108f038a9

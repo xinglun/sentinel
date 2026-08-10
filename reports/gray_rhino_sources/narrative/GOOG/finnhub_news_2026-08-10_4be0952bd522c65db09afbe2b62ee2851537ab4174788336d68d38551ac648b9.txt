@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC Revenue Surges as AI Chip Demand Hold
+  summary: Revenue up 44.7%, high-performance computing at 66% of sales, and capex guidance lifted to as much as $64 billion
+  url: https://finnhub.io/api/news?id=119a903cb9c10c1a7bddf51ab9a115e05fc4f0a5b69628d48f532c5da1edd90c

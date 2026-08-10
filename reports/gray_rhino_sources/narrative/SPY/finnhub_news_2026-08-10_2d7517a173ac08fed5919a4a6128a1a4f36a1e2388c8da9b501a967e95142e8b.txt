@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will The Bond Market Verify The Stock Market's Revived Optimism?
+  summary: Last weekâs stock market surge sends a message that all is well, but thatâs only half a loaf until the bond market confirms the recovery in expectations. Read more here...
+  url: https://finnhub.io/api/news?id=20be71e839063888c2d2d3d78b94081c025355bad225fd0edb50bd37c8c940c5

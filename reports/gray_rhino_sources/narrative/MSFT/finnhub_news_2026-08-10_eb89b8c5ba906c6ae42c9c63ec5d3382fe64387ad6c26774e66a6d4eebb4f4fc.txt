@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: The $34 Billion Execution Test Starts Now
+  summary: Nebius Group N.V.âs growing backlog boosts demand visibility, but Q2 must prove scalable conversion to revenue amid high capex & cash burn. Click for a NBIS update.
+  url: https://finnhub.io/api/news?id=39f1f2ba0b24c02730f824406d4752ea6e928856b6e7a0c53d26ce0a7788baf0

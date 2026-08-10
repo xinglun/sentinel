@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What TSMC Sales Growth Means for Apple and Nvidia Stocks
+  summary: Taiwan Semiconductor Manufacturing reported monthly sales which were ahead of its annual growth forecast.
+  url: https://finnhub.io/api/news?id=c60cadc436eabc9263ab721f8b08f898c97e7c343aa5688551daf44df448fee4

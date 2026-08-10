@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Is Telling Investors to Accumulate SpaceX for the Long Term
+  summary: During CNBC’s Mad Money episode aired on August 5, Jim Cramer addressed investor concerns surrounding Space Exploration Technologies Corp. (NASDAQ:SPCX) and its immense capital requirements. Explaining why he remains bullish on SpaceX’s long-term trajectory despite the massive expenditures involved, Cramer stated: I want to take this moment to explain why the stock might be valuable […]
+  url: https://finnhub.io/api/news?id=bf86e9afd88cf05e66ec2be59ae7170d7f3cb3e7d6a5a9b02a9a041d6ae964a2

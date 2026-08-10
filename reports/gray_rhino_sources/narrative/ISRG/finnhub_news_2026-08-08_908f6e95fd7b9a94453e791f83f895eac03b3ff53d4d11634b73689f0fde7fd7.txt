@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Robotic Surgery Leader: Intuitive Surgical Slides Further But One Wall Street Bull Pegs Returns at 85%
+  summary: Intuitive Surgical has shed a third of its value while its robotic surgery peers barely flinched, and Wall Street's most bullish analyst sees an outcome that would leave anyone who sold near the bottom regretting it.
+  url: https://finnhub.io/api/news?id=c0352c42a3ef8e0c8c3348709ded75f12dd8c95242bad3e9a9ae7d785e605ddc

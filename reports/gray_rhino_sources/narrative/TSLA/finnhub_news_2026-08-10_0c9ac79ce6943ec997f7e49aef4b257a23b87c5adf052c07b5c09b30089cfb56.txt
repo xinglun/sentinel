@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How to Deploy $1000 Across Tesla and Ford for Growth and Optionality
+  summary: Tesla is burning cash on AI moonshots while Ford Pro quietly mints commercial profits, and the gap between them creates a tension that changes how you should think about splitting a growth bet between the two.
+  url: https://finnhub.io/api/news?id=47f241406a740ed8a19f95b77973ffc6e31bd45bbf9b3d49dbb6ce5446da2d5f

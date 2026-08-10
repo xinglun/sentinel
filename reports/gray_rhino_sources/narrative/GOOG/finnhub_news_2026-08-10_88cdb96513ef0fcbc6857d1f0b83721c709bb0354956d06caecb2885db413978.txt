@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starlink 'Unbelievable Juggernaut Cash Machine,' Says VC David Friedberg; SpaceX CEO Elon Musk Responds With $1 Trillion+ Annual Revenue Projection
+  summary: Space Exploration Technologies Corp. (NASDAQ:SPCX) CEO Elon Musk believes Starlink could become a massive business, with AI and robotics driving bandwidth demand and potentially pushing annual revenue above $1 trillion. Starlink Could Become a Cash Machine Earlier this week, former Alphabet Inc. (NASDAQ:GOOG) (NASDAQ:GOOGL) executive and venture capitalist David Friedberg made a bullish case on the latest episode of the All-In podcast, citing Starlink’s rapid subscriber growth and strong financi
+  url: https://finnhub.io/api/news?id=d12d1885a0a3063bbe956ccb55513f28f2be38d7dc8a421137af06f9f57a3e6b

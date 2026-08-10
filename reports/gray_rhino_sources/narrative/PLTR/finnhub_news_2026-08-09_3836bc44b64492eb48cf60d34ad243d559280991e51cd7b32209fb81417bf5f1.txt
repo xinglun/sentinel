@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global Q2 Earnings Call Highlights
+  summary: Zeta Global (NYSE:ZETA) reported second-quarter 2026 revenue of $443 million, up 44% from a year earlier, or 28% excluding revenue from mergers and acquisitions. The company said the result marked its 20th consecutive quarter of beating and raising its outlook. Adjusted EBITDA rose 56% year over ye
+  url: https://finnhub.io/api/news?id=86ef5f9eac9e40a2966ba3485599db91f077a332c4a0d2ee0031bafef27f5667

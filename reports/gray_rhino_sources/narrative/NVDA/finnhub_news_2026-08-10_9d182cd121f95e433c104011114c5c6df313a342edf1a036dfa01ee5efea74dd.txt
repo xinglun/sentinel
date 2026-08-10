@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Stock Hits a New All-Time High: Is It Still a Buy?
+  summary: The tech giant got a huge boost from earnings recently.
+  url: https://finnhub.io/api/news?id=e4fcea5790160e45333e7c53a8ea21946571465a6e71cd68adb7e720c578312e

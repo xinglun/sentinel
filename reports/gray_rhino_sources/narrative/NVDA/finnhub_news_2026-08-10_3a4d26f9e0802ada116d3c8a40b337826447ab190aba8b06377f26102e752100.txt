@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel plans $15 billion share sale as turnaround rally lifts stock
+  summary: Intel said on Monday it was planning to raise $15 billion through a share sale, as it looks to fund the costly build-out ‌of its chip contract manufacturing business by cashing in on a stock surge fueled ‌by its turnaround efforts.  Once a dominant force in the global chip industry, Intel is investing heavily in new facilities and ​advanced packaging capabilities as it seeks to challenge industry leaders such as TSMC in contract chip manufacturing.  As of last close, the stock has nearly tripled this year, outperforming rivals AMD and Nvidia and the Philadelphia Semiconductor Index's nearly 75% rise.
+  url: https://finnhub.io/api/news?id=e8c839c9b77aabdbb756887955589c552ff8d98b6cf296f1a59cdabe45da02f3

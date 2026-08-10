@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says Big Tech Earnings Were The 'Wow Moment' For AI Monetization — 'It's All Starting To Come Together'
+  summary: During an interview with CNBC, Ives said that to some extent, earnings of big tech companies have “almost” caught up with valuation.
+  url: https://finnhub.io/api/news?id=9c1c8205490c74caf8fa2a8df573318f76a8fade3fbd3c8d815d08c2a5bfac0d

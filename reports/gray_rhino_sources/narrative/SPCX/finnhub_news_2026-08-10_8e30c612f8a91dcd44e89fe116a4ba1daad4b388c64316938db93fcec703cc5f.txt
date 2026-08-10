@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla or SpaceX: Who Benefits More From Terafab and How
+  summary: Tesla and SpaceX both have skin in the same Austin semiconductor fab, but their reasons for needing it could not be more different, and that gap quietly determines which company wins the next leg of the AI race.
+  url: https://finnhub.io/api/news?id=ba75bb50c83959b3dcee0f04e5b7d8c4dac0ae160c7ca173031774f56c9d6d73

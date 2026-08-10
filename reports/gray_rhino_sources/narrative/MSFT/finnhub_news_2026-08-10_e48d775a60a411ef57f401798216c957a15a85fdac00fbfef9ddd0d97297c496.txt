@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top economist warns that the AI math doesn’t make sense: ‘Profits are currently being funded by investors rather than earned from customers’
+  summary: The AI boom has turned the standard profit margin model on its head, according to Apollo Chief Economist Torsten Slok—and it’s making the industry’s growth unsustainable.
+  url: https://finnhub.io/api/news?id=e8a43147e8f52ffc0d87d515f8678cb00cecf41dbbac947175a3027304eaec22

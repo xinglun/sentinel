@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 48% of Google Cloud Revenue Next Year Could Come From Just 2 Companies That Have Still Never Turned a Profit
+  summary: A prominent AI skeptic is making the case that the explosive revenue growth powering Google Cloud, AWS, and Azure traces back to just two companies that have never turned a profit, and that the math holding it all together is starting to crack.
+  url: https://finnhub.io/api/news?id=c4850ef1efb39f4b0971e18e6c4b001c66613a10f13b47d07a2080b23900b2a2

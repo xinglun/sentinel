@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Tightened Without Hiking
+  summary: Fed likely wonât hike in September as energy-driven inflation cools and jobs soften.
+  url: https://finnhub.io/api/news?id=fb715695cb4e29ddd7e20abf4a7099588366c136074384d7bd91555b940ec916

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Wants Elon Musk To Build a Starlink AI Phone With ‘No Apps:' ‘Just Does What You Tell It To’
+  summary: Ross Gerber suggests Starlink should create a Starlink-enabled smartphone without any apps and be able to connect anywhere in the world.
+  url: https://finnhub.io/api/news?id=abbe1ce0928576ecfda40e4c7eb30b13838091dc11dbfe0cd584d050cb8f7084

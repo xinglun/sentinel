@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has Reached the Moon, Just Not How Elon Musk Might Have Planned It
+  summary: Space Exploration Technologies Corp. may have achieved one of CEO Elon Musk‘s long-standing goals of reaching the lunar surface, but not in the way the commercial spaceflight giant would have envisioned, after a rocket crashed into the moon on Wednesday....
+  url: https://finnhub.io/api/news?id=cbf887a218504f386eeafb42ea7724e547dd26c0a1391b510b8f1131cfb2e041

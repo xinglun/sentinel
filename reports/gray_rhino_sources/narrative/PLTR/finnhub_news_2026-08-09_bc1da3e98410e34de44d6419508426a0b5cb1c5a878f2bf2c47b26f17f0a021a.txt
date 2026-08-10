@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Wall Street analysts like these 3 stocks for their solid growth potential
+  summary: Investors are closely monitoring earnings releases of AI companies amid concerns about the durability of high spending and demand.
+  url: https://finnhub.io/api/news?id=c2b222ecaa8ffbe904d435362e77574607c39521f1c503abb054e68b4d15d480

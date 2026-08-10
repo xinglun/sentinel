@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Had A Winning Week: 3 Stocks I'm Buying
+  summary: Software stocks surged 8.57% on earningsâPalantir, Zeta & Axon lead.
+  url: https://finnhub.io/api/news?id=6f8a43c423139d4aa5c5acb0b42021ea7c79f2a847a19d123f097e75c210c24a

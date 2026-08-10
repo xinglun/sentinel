@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Much You'd Have If You Invested $1000 in Nvidia a Decade Ago
+  summary: Why investing for the long run, especially if you buy certain popular stocks, could reap huge rewards.
+  url: https://finnhub.io/api/news?id=e51204f8480c260fa715e23e39e23027ed61fd6b9773fb0e4b1ad349aceab88f

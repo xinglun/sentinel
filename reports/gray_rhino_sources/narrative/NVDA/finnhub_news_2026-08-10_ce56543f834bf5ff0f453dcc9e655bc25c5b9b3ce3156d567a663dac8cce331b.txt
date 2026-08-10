@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This Investor Just Bought Nvidia (NVDA)
+  summary: Brown Advisory, an investment management company, released its “Brown Advisory Global Leaders Strategy” for the second quarter of 2026 investor letter. A copy of the letter can be downloaded here. Brown Advisory’s Global Leaders Strategy delivered a net return of 4.6% in the second quarter of 2026, underperforming its benchmark, the MSCI ACWI Net Index, […]
+  url: https://finnhub.io/api/news?id=9036e31b954a519136986f615662f6d04fd8967ed60a83684d0ee4f5027102ba

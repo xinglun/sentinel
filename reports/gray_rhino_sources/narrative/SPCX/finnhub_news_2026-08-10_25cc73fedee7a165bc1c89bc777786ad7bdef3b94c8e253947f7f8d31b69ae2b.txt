@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Looks To Reclaim IPO Price After Earnings, Share Unlock
+  summary: SpaceX stock eyes its third straight gain, looks to rebound above 135 listing price. Cathie Wood, ARK Invest buy $15 mil of SPCX.
+  url: https://finnhub.io/api/news?id=c494c048c4d7cb424c02e1f61e572fc9e94d8004027b1e37fc6436adc54f149c

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medtronic vs. Intuitive Surgical: Which MedTech Stock Is the Better Buy Right Now?
+  summary: They are going through a rough patch, but it's too early to give up on them.
+  url: https://finnhub.io/api/news?id=3c5b80e1d6367d6c3134d7ed2dbab5b1d0b0d318b656d268af63da5b1b6a3785
