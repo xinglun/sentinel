@@ -1740,15 +1740,18 @@ mod tests {
         });
 
         assert_eq!(view_model.current_decision_weight_value, "0%");
-        assert_eq!(view_model.signal_context_information_content_value, "LOW");
+        assert_eq!(
+            view_model.signal_context_information_content_value,
+            "UNAVAILABLE"
+        );
         assert_eq!(
             view_model.signal_context_primary_context_value,
             "Month-end Rebalancing"
         );
-        assert_eq!(view_model.signal_context_quality_value, "HIGH");
+        assert_eq!(view_model.signal_context_quality_value, "UNAVAILABLE");
         assert!(view_model
             .signal_context_interpretation_value
-            .contains("month-end"));
+            .contains("Available source coverage is incomplete"));
         assert_eq!(
             view_model.expectation_quality_reason_value,
             "Market consensus available"

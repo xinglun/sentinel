@@ -135,14 +135,6 @@ fn derive_primary_context(
     future_context: &SignalContextEventReadModel,
     v1: &SignalContextV1,
 ) -> SignalContextPrimaryContext {
-    if is_quarter_end(as_of_date) {
-        return SignalContextPrimaryContext::QuarterEndRebalancing;
-    }
-
-    if is_month_end(as_of_date) {
-        return SignalContextPrimaryContext::MonthEndRebalancing;
-    }
-
     if let Some(context) = future_context.detected_primary_context() {
         return context;
     }
@@ -156,6 +148,14 @@ fn derive_primary_context(
         }
     }
 
+    if is_quarter_end(as_of_date) {
+        return SignalContextPrimaryContext::QuarterEndRebalancing;
+    }
+
+    if is_month_end(as_of_date) {
+        return SignalContextPrimaryContext::MonthEndRebalancing;
+    }
+
     SignalContextPrimaryContext::None
 }
 
@@ -165,12 +165,18 @@ fn derive_information_content(
     v1: &SignalContextV1,
 ) -> SignalContextInformationContent {
     match primary_context {
-        // 機械性コンテキストは公式ソースの状態に依存せず LOW とする。
+        // 機械性コンテキストも六つのソースが HEALTHY である場合だけ LOW とする。
         SignalContextPrimaryContext::QuarterEndRebalancing
         | SignalContextPrimaryContext::MonthEndRebalancing
         | SignalContextPrimaryContext::IndexReconstitution
         | SignalContextPrimaryContext::EtfRebalance
-        | SignalContextPrimaryContext::HolidayLiquidity => SignalContextInformationContent::Low,
+        | SignalContextPrimaryContext::HolidayLiquidity => {
+            if v1.coverage.overall == crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy {
+                SignalContextInformationContent::Low
+            } else {
+                SignalContextInformationContent::Unknown
+            }
+        }
         SignalContextPrimaryContext::MacroEvent => {
             if future_context.detected_primary_context()
                 == Some(SignalContextPrimaryContext::MacroEvent)
@@ -209,7 +215,15 @@ fn derive_context_quality(
 ) -> SignalContextQuality {
     match primary_context {
         SignalContextPrimaryContext::QuarterEndRebalancing
-        | SignalContextPrimaryContext::MonthEndRebalancing => SignalContextQuality::High,
+        | SignalContextPrimaryContext::MonthEndRebalancing => {
+            if v1.coverage.overall
+                == crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
+            {
+                SignalContextQuality::High
+            } else {
+                SignalContextQuality::Unavailable
+            }
+        }
         SignalContextPrimaryContext::IndexReconstitution
         | SignalContextPrimaryContext::EtfRebalance
         | SignalContextPrimaryContext::HolidayLiquidity
@@ -217,7 +231,9 @@ fn derive_context_quality(
         | SignalContextPrimaryContext::MajorEventWaiting
         | SignalContextPrimaryContext::MacroEvent => {
             if external_primary_item(future_context, v1).is_some() {
-                return v1.context_quality;
+                return v1
+                    .context_quality
+                    .map_high_quality_to_medium(v1.coverage.overall);
             }
             future_context
                 .evidence_quality_for(primary_context)
@@ -228,10 +244,34 @@ fn derive_context_quality(
                         SignalContextQuality::Unavailable
                     }
                 })
+                .map_high_quality_to_medium(v1.coverage.overall)
         }
         SignalContextPrimaryContext::None => {
             let _ = future_context;
             SignalContextQuality::Unavailable
+        }
+    }
+}
+
+trait CoverageQualityGuard {
+    fn map_high_quality_to_medium(
+        self,
+        coverage: crate::features::radar::interface::presentation::SignalContextSourceStatus,
+    ) -> SignalContextQuality;
+}
+
+impl CoverageQualityGuard for SignalContextQuality {
+    fn map_high_quality_to_medium(
+        self,
+        coverage: crate::features::radar::interface::presentation::SignalContextSourceStatus,
+    ) -> SignalContextQuality {
+        if coverage
+            != crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
+            && self == SignalContextQuality::High
+        {
+            SignalContextQuality::Medium
+        } else {
+            self
         }
     }
 }
@@ -282,7 +322,11 @@ fn compose_interpretation(
         | SignalContextPrimaryContext::HolidayLiquidity => mechanical_context_text(
             primary_context,
             future_context,
-            information_content,
+            if context_quality == SignalContextQuality::Unavailable {
+                SignalContextInformationContent::Unknown
+            } else {
+                information_content
+            },
             language,
         ),
         SignalContextPrimaryContext::None => none_text(
@@ -320,7 +364,7 @@ fn compose_source_diagnostics(
                 Language::EnUs => {
                     "Official Calendar unavailable; current monitoring remains idle.".to_string()
                 }
-                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+                Language::JaJp => "利用可能なソース上では高情報量イベントを特定できず、監視は待機中。".to_string(),
             },
             _ => match language {
                 Language::ZhCn => {
@@ -329,7 +373,7 @@ fn compose_source_diagnostics(
                 Language::EnUs => {
                     "No high-information event identified from available sources. Current monitoring remains idle.".to_string()
                 }
-                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+                Language::JaJp => "利用可能なソース上では高情報量イベントを特定できず、監視は待機中。".to_string(),
             },
         }
     } else {
@@ -402,7 +446,7 @@ fn compose_next_observation(
             (_, SignalContextInformationContent::Low, _) => match language {
                 Language::ZhCn => "No high-information event identified from available sources. Current monitoring remains idle.".to_string(),
                 Language::EnUs => "No high-information event identified from available sources. Current monitoring remains idle.".to_string(),
-                Language::JaJp => "本日は主要イベントなし。監視は待機中。".to_string(),
+            Language::JaJp => "利用可能なソース上では高情報量イベントを特定できず、監視は待機中。".to_string(),
             },
             _ => match language {
                 Language::ZhCn => "等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。".to_string(),
@@ -421,7 +465,7 @@ fn compose_next_observation(
         match language {
             Language::ZhCn => format!("Available event context: {}", timeline_lines[0]),
             Language::EnUs => format!("Available event context: {}", timeline_lines[0]),
-            Language::JaJp => format!("本日は主要イベントなし。{}", timeline_lines[0]),
+            Language::JaJp => format!("利用可能なイベント文脈: {}", timeline_lines[0]),
         }
     };
     if timeline_lines.len() == 1 {
@@ -585,7 +629,20 @@ fn mechanical_context_text(
     information_content: SignalContextInformationContent,
     language: Language,
 ) -> String {
-    let _ = (future_context, information_content);
+    let _ = future_context;
+    if information_content == SignalContextInformationContent::Unknown {
+        return match language {
+            Language::ZhCn => {
+                "当前来源覆盖不完整，无法确认机械性再平衡是否为主要驱动。".to_string()
+            }
+            Language::EnUs => {
+                "Available source coverage is incomplete; the mechanical context cannot be confirmed as the primary driver.".to_string()
+            }
+            Language::JaJp => {
+                "利用可能なソースのカバレッジが不完全なため、機械的要因を主要ドライバーとして確認できない。".to_string()
+            }
+        };
+    }
     match (primary_context, language) {
         (SignalContextPrimaryContext::QuarterEndRebalancing, Language::ZhCn) => {
             "近期价格波动更可能来自季度末的机械性再平衡。当前价格的信息含量较低，建议等资金流恢复常态后再重新评估趋势。".to_string()
@@ -918,7 +975,7 @@ mod tests {
     }
 
     #[test]
-    fn quarter_end_returns_low_high() {
+    fn quarter_end_with_incomplete_coverage_is_unavailable() {
         let assessment = build_signal_context_assessment(SignalContextReadModelInput {
             as_of_date: NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             signal: signal(
@@ -938,10 +995,15 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::High);
-        assert!(assessment.interpretation.contains("quarter-end"));
+        assert_eq!(
+            assessment.context_quality,
+            SignalContextQuality::Unavailable
+        );
+        assert!(assessment
+            .interpretation
+            .contains("Available source coverage is incomplete"));
     }
 
     #[test]
@@ -973,7 +1035,7 @@ mod tests {
     }
 
     #[test]
-    fn index_reconstitution_returns_low() {
+    fn index_reconstitution_with_incomplete_coverage_is_unavailable() {
         let fact = future_calendar_fact(
             NaiveDate::from_ymd_opt(2026, 6, 26).unwrap(),
             FutureCalendarKind::IndexReconstitution,
@@ -1003,13 +1065,13 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::High);
+        assert_eq!(assessment.context_quality, SignalContextQuality::Medium);
     }
 
     #[test]
-    fn holiday_liquidity_returns_low() {
+    fn holiday_liquidity_with_incomplete_coverage_is_unavailable() {
         let fact = future_calendar_fact(
             NaiveDate::from_ymd_opt(2026, 12, 24).unwrap(),
             FutureCalendarKind::HolidayLiquidity,
@@ -1039,7 +1101,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
@@ -1078,7 +1140,7 @@ mod tests {
     }
 
     #[test]
-    fn etf_rebalance_returns_low() {
+    fn etf_rebalance_with_incomplete_coverage_is_unavailable() {
         let fact = future_calendar_fact(
             NaiveDate::from_ymd_opt(2026, 9, 18).unwrap(),
             FutureCalendarKind::EtfRebalance,
@@ -1107,12 +1169,12 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
     #[test]
-    fn month_end_returns_low_high() {
+    fn month_end_with_incomplete_coverage_is_unavailable() {
         let assessment = build_signal_context_assessment(SignalContextReadModelInput {
             as_of_date: NaiveDate::from_ymd_opt(2026, 5, 31).unwrap(),
             signal: signal(
@@ -1132,10 +1194,15 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::High);
-        assert!(assessment.interpretation.contains("month-end"));
+        assert_eq!(
+            assessment.context_quality,
+            SignalContextQuality::Unavailable
+        );
+        assert!(assessment
+            .interpretation
+            .contains("Available source coverage is incomplete"));
     }
 
     #[test]
@@ -1196,7 +1263,7 @@ mod tests {
             assessment.information_content,
             SignalContextInformationContent::High
         );
-        assert_eq!(assessment.context_quality, SignalContextQuality::High);
+        assert_eq!(assessment.context_quality, SignalContextQuality::Medium);
         assert_eq!(assessment.event_fact, "CPI Release / 2026-06-18 / BLS");
         assert!(assessment.source_diagnostics_summary.is_empty());
         assert!(assessment
@@ -1303,14 +1370,15 @@ mod tests {
     }
 
     #[test]
-    fn quarter_end_still_wins_over_macro_event_if_same_day() {
-        let observation = macro_event_observation(
+    fn high_information_macro_event_wins_over_quarter_end_if_same_day() {
+        let mut observation = macro_event_observation(
             NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             MacroEventImportance::Critical,
             MacroEventLifecycle::Released,
             MacroEventSourceHealth::Succeeded,
             MacroEventInformationContent::High,
         );
+        observation.as_of_date = NaiveDate::from_ymd_opt(2026, 6, 30).unwrap();
         let assessment = build_signal_context_assessment(SignalContextReadModelInput {
             as_of_date: NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             signal: signal(
@@ -1326,11 +1394,11 @@ mod tests {
 
         assert_eq!(
             assessment.primary_context,
-            SignalContextPrimaryContext::QuarterEndRebalancing
+            SignalContextPrimaryContext::MacroEvent
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::High
         );
     }
 
