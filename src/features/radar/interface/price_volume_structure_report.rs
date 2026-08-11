@@ -133,6 +133,7 @@ fn supply_event_label(value: SupplyEventType) -> &'static str {
 fn structure_label(value: PriceVolumeStructure) -> &'static str {
     match value {
         PriceVolumeStructure::Accumulation => "ACCUMULATION",
+        PriceVolumeStructure::AccumulationCandidate => "ACCUMULATION_CANDIDATE",
         PriceVolumeStructure::HealthyAdvance => "HEALTHY_ADVANCE",
         PriceVolumeStructure::ExhaustedAdvance => "EXHAUSTED_ADVANCE",
         PriceVolumeStructure::Distribution => "DISTRIBUTION",
@@ -212,12 +213,14 @@ fn interpretation(
     }
     match (assessment.structure, language) {
         (PriceVolumeStructure::Accumulation, Language::ZhCn) => "潜在供给增加后成交量放大而价格未明显走弱，当前观察到供给吸收增强；这不确认机构买入。",
+        (PriceVolumeStructure::AccumulationCandidate, Language::ZhCn) => "价量显示潜在供给吸收特征，但缺少 Supply Context，当前仅为候选观察。",
         (PriceVolumeStructure::ExhaustedAdvance, Language::ZhCn) => "价格仍在高位，但参与度正在减弱，短期可能需要横盘或回撤消化。",
         (PriceVolumeStructure::Distribution, Language::ZhCn) => "卖方主动性增强，筹码结构正在恶化；这不是卖出指令。",
         (PriceVolumeStructure::HealthyAdvance, Language::ZhCn) => "上涨得到参与度支持，趋势质量较高；这不是买入指令。",
         (PriceVolumeStructure::Unavailable, Language::ZhCn) => "成交量或价格历史不足，无法可靠判断价量结构。",
         (_, Language::ZhCn) => "当前价量关系没有形成可确认结构。",
         (PriceVolumeStructure::Accumulation, _) => "Higher turnover without material price weakness is observing supply absorption; this does not confirm institutional buying.",
+        (PriceVolumeStructure::AccumulationCandidate, _) => "Price-volume behavior suggests potential absorption, but Supply Context is missing; this remains a candidate observation.",
         (PriceVolumeStructure::ExhaustedAdvance, _) => "Price remains elevated while participation is weakening; consolidation or a pullback may be needed.",
         (PriceVolumeStructure::Distribution, _) => "Seller initiative is strengthening; this is an observation, not a sell instruction.",
         (PriceVolumeStructure::HealthyAdvance, _) => "Participation supports the advance; this is not a buy instruction.",
@@ -231,7 +234,7 @@ mod tests {
     use super::*;
     use crate::features::radar::domain::price_volume_structure::{
         BaselineType, CandidateLifecycle, EligibilityStatus, PriceVolumeObservationBoundary,
-        StructurePersistence,
+        StructurePersistence, UnavailableReason,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
     fn assessment(
@@ -349,5 +352,34 @@ mod tests {
         assert!(
             report.contains("Next Eligibility Condition: Need 2 additional valid OHLCV sessions.")
         );
+    }
+
+    #[test]
+    fn report_discloses_accumulation_candidate_without_supply_context() {
+        let mut assessment = assessment(
+            PriceVolumeStructure::AccumulationCandidate,
+            ParticipationQuality::Improving,
+            SupplyAbsorption::None,
+        );
+        assessment.eligibility = EligibilityStatus::Partial;
+        assessment.primary_baseline = BaselineType::AvailableHistory;
+        assessment.lifecycle = CandidateLifecycle::Candidate;
+        assessment.unavailable_reason = Some(UnavailableReason::MissingSupplyContext);
+
+        let report = render_price_volume_structure_report(
+            &[PriceVolumeReportEntry {
+                symbol: "GENERIC_NEWCO".to_string(),
+                assessment,
+                supply_context: None,
+                overheated: false,
+                accumulation_failed: false,
+            }],
+            Language::ZhCn,
+        );
+
+        assert!(report.contains("Structure: ACCUMULATION_CANDIDATE"));
+        assert!(report.contains("Supply Context: UNAVAILABLE"));
+        assert!(report.contains("Unavailable Reason: SUPPLY_CONTEXT_MISSING"));
+        assert!(!report.contains("Supply Absorption: ACTIVE"));
     }
 }

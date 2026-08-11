@@ -1,6 +1,6 @@
 # Price-Volume Eligibility / Baseline Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** 让 Price-Volume Observation 在标准历史不足但局部证据可用时输出可解释的 PARTIAL 基线与候选生命周期，同时保持交易边界不变。
 
@@ -26,11 +26,11 @@
 - Extend `PriceVolumeMetrics` with selected baseline type/days and available-history RVOL fields while preserving old serde fields.
 - Extend `PriceVolumeAssessment` with eligibility, primary/secondary baseline, lifecycle, reason and next condition.
 
-- [ ] Write failing tests for 3/7/15-day IPO, mature 20-day, event baselines and unavailable reasons.
-- [ ] Run `cargo test price_volume_structure::tests --lib` and confirm the new assertions fail because short history is currently unavailable.
-- [ ] Implement minimal valid-session counting, event baseline selection and baseline-window metrics.
-- [ ] Preserve the existing classification predicates; only replace the hard 20-day availability gate and use selected RVOL fields.
-- [ ] Run the focused test module and confirm pass.
+- [x] Write failing tests for 3/7/15-day IPO, mature 20-day, event baselines and unavailable reasons.
+- [x] Run `cargo test price_volume_structure::tests --lib` and confirm the new assertions fail because short history is currently unavailable.
+- [x] Implement minimal valid-session counting, event baseline selection and baseline-window metrics.
+- [x] Preserve the existing classification predicates; only replace the hard 20-day availability gate and use selected RVOL fields.
+- [x] Run the focused test module and confirm pass.
 
 ### Task 2: Candidate lifecycle and boundary regression
 
@@ -41,9 +41,9 @@
 **Interfaces:**
 - Lifecycle derives from prior persistence count plus eligibility and never changes observation boundary.
 
-- [ ] Add failing tests for candidate/developing/confirmed eligibility combinations and one-day short squeeze/noise.
-- [ ] Implement the lifecycle guard, including `PARTIAL` prohibition on direct confirmation and invalidation on failed continuation.
-- [ ] Run focused tests and inspect boundary assertions.
+- [x] Add failing tests for candidate/developing/confirmed eligibility combinations and one-day short squeeze/noise.
+- [x] Implement the lifecycle guard, including `PARTIAL` prohibition on direct confirmation and invalidation on failed continuation.
+- [x] Run focused tests and inspect boundary assertions.
 
 ### Task 3: Report and runtime projection
 
@@ -55,9 +55,9 @@
 **Interfaces:**
 - Report consumes the extended `PriceVolumeAssessment`; runner passes `TickerHistory.total_trading_days` and existing event context without ticker special cases.
 
-- [ ] Add failing report tests for eligibility, primary/secondary baseline, days, reason and next condition in zh/en/ja-safe output.
-- [ ] Implement output labels and preserve Observation Only text.
-- [ ] Run focused report and runner tests.
+- [x] Add failing report tests for eligibility, primary/secondary baseline, days, reason and next condition in zh/en/ja-safe output.
+- [x] Implement output labels and preserve Observation Only text.
+- [x] Run focused report and runner tests.
 
 ### Task 4: Persistence compatibility and full scenarios
 
@@ -66,10 +66,10 @@
 - Modify: `tests/**` only where existing integration contracts need the new fields.
 - Test: domain/report/persistence tests and scenario fixtures.
 
-- [ ] Add failing serde round-trip tests for new fields and old records missing them.
-- [ ] Implement defaults/optional compatibility without changing append-only behavior.
-- [ ] Add all required scenario coverage and anti-overfitting assertions.
-- [ ] Run `make fmt-check`, `make test`, `make clippy` and all Contract AI gates.
+- [x] Add failing serde round-trip tests for new fields and old records missing them.
+- [x] Implement defaults/optional compatibility without changing append-only behavior.
+- [x] Add all required scenario coverage and anti-overfitting assertions.
+- [x] Run `make fmt-check`, `make test`, `make clippy` and all Contract AI gates.
 
 ### Task 5: Contract, Summary and closure
 
@@ -77,6 +77,6 @@
 - Modify: `.ai/work-items/active/price-volume-eligibility-baseline.summary.json`
 - Modify: `.ai/cockpit/current_status.md` via generator only
 
-- [ ] Record changed files, scenario evidence, residual risks and review focus.
-- [ ] Run `make ai-finish TASK=price-volume-eligibility-baseline` and confirm archive/no-active status.
-- [ ] Run an independent diff audit for forbidden paths and boundary invariants before reporting completion.
+- [x] Record changed files, scenario evidence, residual risks and review focus.
+- [x] Run `make ai-finish TASK=price-volume-eligibility-baseline` and confirm archive/no-active status.
+- [x] Run an independent diff audit for forbidden paths and boundary invariants before reporting completion.
