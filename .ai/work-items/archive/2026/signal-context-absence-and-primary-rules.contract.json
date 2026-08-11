@@ -1,0 +1,137 @@
+{
+  "contractVersion": 2,
+  "workItemId": "signal-context-absence-and-primary-rules",
+  "mode": "code",
+  "title": "Signal Context 缺失结论与主上下文规则收敛",
+  "baseCommit": "dc4c86c76c03e787ba8d621100fb930e168d572a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "机械月末/季度末 Context 目前可能绕过六类 coverage 规则，且 Primary 选择可能压过真实高信息事件；日文 absence 文案也可能做无证据的绝对断言。",
+  "intent": {"problem":"收敛 LOW、Context Quality、Primary Context 与 absence wording，使它们严格遵循六类扫描和全量 Context 排序。","constraints":["只修改 Observation/Interpretation；交易决策字段和 Price-Volume/Supply 等边界冻结。","LOW 只在六类 HEALTHY 且无 HIGH/MEDIUM 时允许；非 HEALTHY 不得 Context Quality HIGH。","高信息事件优先于月末/季度末机械 Context。"],"rationale":"完成运行时接线审计后发现旧兼容逻辑仍绕过新 v1 coverage 真值表。"},
+  "scope": [
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "tests/fixtures/signal_context/**",
+    ".ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+    ".ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": ["Gate / Execution / Trader / Action Matrix / Position Sizing","Price-Volume / Supply / Gravity / Expectation"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "当前 LOW、Quality、Primary 与 absence wording 规则。"
+    },
+    {"path":"src/features/radar/interface/signal_context_coverage.rs","reason":"v1 coverage 与 Primary 聚合器。"},
+    {"path":"docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md","reason":"已批准的 LOW/Coverage/Primary 设计。"},
+    {"path":"AGENTS.md","reason":"Cockpit 与边界质量规则。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary"
+    ],
+    "reason": "规则收敛可能改变旧日报断言，但仅修正事实观察契约。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权继续完成全部工单；规则和验证范围已明确。"
+  },
+  "preReviewWarnings": [
+    "重点检查机械 Context 不绕过 coverage，以及高信息事件 Primary 优先级。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "humanReview":{"status":"confirmed","decision":"用户已授权继续完成全部工单；本 Work Item 只修观察事实规则。","openQuestions":["旧日报 snapshot 需按新 absence wording 更新。"]},
+  "scenarioCoverage":[
+    {"scenario":"mechanical context with incomplete coverage is not LOW/HIGH quality","required":true,"status":"verified","evidence":["make test"],"reason":"read model 与 report UI 回归测试通过，非 HEALTHY coverage 下机械 Context 不再输出 LOW/HIGH quality。"},
+    {"scenario":"high-information event outranks month/quarter-end context","required":true,"status":"verified","evidence":["make test"],"reason":"quarter-end 同日高信息宏观事件 Primary selection 回归测试通过。"},
+    {"scenario":"absence wording is source-qualified in zh/en/ja","required":true,"status":"verified","evidence":["make test"],"reason":"多语言 report UI 回归测试通过，absence 文案限定为 available sources。"}
+  ],
+  "acceptance": [
+    "六类 coverage 非 HEALTHY 时机械 Context 不得输出 LOW；Context Quality 不得输出 HIGH。",
+    "存在 HIGH/MEDIUM 外部或宏观事件时，Primary Context 优先选择该事件而不是月末/季度末机械 Context。",
+    "zh/en/ja absence 文案均为 available-sources 限定，不输出绝对 No major event today 语义。",
+    "decision boundary 与交易层边界保持冻结，既有测试、scenario consistency、Clippy、quality 与 Cockpit checks 全部通过。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-signal-context-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "required": true
+    },
+    {"command":"make check-ai-status-consistency","required":true},
+    {"command":"make ai-preflight","required":true},
+    {"command":"make quality","required":true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

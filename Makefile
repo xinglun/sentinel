@@ -36,7 +36,7 @@ COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-unde
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight generate-ai-preflight-review check-ai-preflight-review ai-start ai-finish ai-checkpoint ai-pr-lifecycle check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr test-ai-pr-lifecycle
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr test-ai-pr-lifecycle ai-close-work-item test-ai-close-work-item check-signal-context-consistency
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -84,6 +84,7 @@ help:
 	@printf '%s\n' '  make test-ai-pr-check'
 
 	@printf '%s\n' '  make test-ai-pr-lifecycle'
+	@printf '%s\n' '  make test-ai-close-work-item'
 	@printf '%s\n' '  make test-ai-start'
 	@printf '%s\n' '  make test-ai-preflight-review'
 	@printf '%s\n' '  make test-ai-checkpoint'
@@ -107,6 +108,8 @@ help:
 	@printf '%s\n' '  make check-ai-preflight-review'
 	@printf '%s\n' '  make ai-start TASK=<task> TITLE="..."'
 	@printf '%s\n' '  make ai-finish TASK=<task>'
+	@printf '%s\n' '  make ai-close-work-item TASK=<task>'
+	@printf '%s\n' '  make check-signal-context-consistency'
 	@printf '%s\n' '  make ai-checkpoint CONTRACT=<contract.json> [SUMMARY=<summary.json>] [STAGE=<stage>]'
 	@printf '%s\n' '  make check-ai'
 	@printf '%s\n' '  make quality'
@@ -324,11 +327,20 @@ ai-checkpoint:
 ai-finish:
 	python3 scripts/ai_finish.py --task $(TASK)
 
+ai-close-work-item:
+	python3 scripts/ai_close_work_item.py --task $(TASK)
+
 ai-pr-lifecycle:
 	python3 scripts/ai_pr_lifecycle.py $(ARGS)
 
 test-ai-pr-lifecycle:
 	python3 scripts/ai_test_pr_lifecycle.py
+
+test-ai-close-work-item:
+	python3 scripts/ai_test_close_work_item.py
+
+check-signal-context-consistency:
+	python3 scripts/check_signal_context_consistency.py
 
 quality: check-rust check-ai
 

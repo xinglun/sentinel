@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "signal-context-runtime-provider-wiring",
+  "mode": "code",
+  "title": "Signal Context 实时结构化来源运行时接线",
+  "baseCommit": "f8da80a872c61a8532fb4882e42679d904a5ceb7",
+  "baselineDirtyPaths": [],
+  "problemStatement": "现有 Signal Context v1 仅在 fixture 与宏观日历路径聚合，企业、地缘政治、商品、利率/信用和市场结构事实没有运行时接入口，导致真实市场冲击仍可能被报告层遗漏。",
+  "intent": {
+    "problem": "将可追溯的结构化 SignalContextV1 来源接入现有 Observation/Interpretation read model，保留六类 coverage 与事件生命周期语义。",
+    "constraints": [
+      "只修改 Observation / Interpretation；decision_weight=0、trade_signal=false、gate/execution/position sizing=none。",
+      "外部 JSON 必须包含 market_date 与 EvidenceRecord；日期不匹配或解析失败时 fail-closed 为 UNAVAILABLE。",
+      "不修改 NO TRADE、READY、EXECUTE、Action Matrix、Price-Volume、Supply、Trader、Gravity、Expectation。"
+    ],
+    "rationale": "上一 Work Item 已完成 schema 与 fixture，但审计发现生产 read model 仍只从宏观日历构造 v1；本 Work Item 补齐结构化来源运行时接线。"
+  },
+  "scope": [
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/mod.rs",
+    "tests/fixtures/signal_context/**",
+    "docs/superpowers/specs/2026-08-11-signal-context-runtime-provider-wiring.md",
+    ".ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+    ".ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "交易 Gate / Execution / Trader / Action Matrix / Position Sizing",
+    "Price-Volume Structure / Supply Absorption / Gravity / Expectation",
+    "引入无 EvidenceRecord 的 AI 自由判断",
+    "联网抓取或新增未经批准的第三方 provider"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "现有六类聚合、coverage 与 v1 构造入口。"
+    },
+    {"path": "src/features/radar/interface/signal_context_read_model.rs", "reason": "当前日报 Observation/Interpretation 投影入口。"},
+    {"path": "src/features/radar/interface/presentation.rs", "reason": "SignalContextV1、EvidenceRecord 与边界字段 schema。"},
+    {"path": "tests/fixtures/signal_context/scenario-matrix.json", "reason": "22 类事实识别验收场景。"},
+    {"path": "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md", "reason": "已批准的来源、coverage、timezone 与生命周期设计。"},
+    {"path": "AGENTS.md", "reason": "Cockpit、边界与质量门禁。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "api_change",
+      "architecture_boundary"
+    ],
+    "reason": "运行时输入扩展可能影响事实显示，但不改变交易决策；日期、证据与 fail-closed 规则由本 Contract 固化。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权继续完成全部工单；本 Work Item 只补齐结构化事实来源的运行时接线，不扩展交易决策范围。",
+    "openQuestions": [
+      "生产环境实际 provider 仍通过既有结构化 JSON 接口提供，联网 provider 的选择不在本 Work Item 内。",
+      "外部来源的刷新频率由运行环境负责，read model 只校验 market_date、证据和生命周期。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权继续完成全部工单；结构化来源、日期校验、EvidenceRecord 与交易边界均已明确。"
+  },
+  "preReviewWarnings": [
+    "重点检查外部 JSON 的 market_date、EvidenceRecord、source failure 与生命周期过滤。",
+    "重点检查 v1 的外部 Context 是否优先进入 Primary/Secondary 且不修改交易层。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "scenarioCoverage": [
+    {"scenario": "8/7 Payroll and rates reaction through runtime JSON", "required": true, "status": "verified", "evidence": ["make test", "make check-signal-context-consistency"], "reason": "Runtime merge and Payroll fixture tests passed。"},
+    {"scenario": "8/10 geopolitical and commodity reaction through runtime JSON", "required": true, "status": "verified", "evidence": ["make test", "make check-signal-context-consistency"], "reason": "Runtime merge and geopolitical/oil fixture tests passed。"},
+    {"scenario": "missing, malformed, mismatched-date and stale external source", "required": true, "status": "verified", "evidence": ["make test", "make check-signal-context-consistency"], "reason": "Date/evidence validation and lifecycle fixture checks passed。"},
+    {"scenario": "observation-only boundary remains unchanged", "required": true, "status": "verified", "evidence": ["make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json", "make clippy"], "reason": "Boundary fields and guard checks passed。"}
+  ],
+  "acceptance": [
+    "运行时可从 SENTINEL_SIGNAL_CONTEXT_JSON_PATH 读取结构化 SignalContextV1，并在 market_date 匹配时合并六类 Context。",
+    "文件缺失、JSON 解析失败、market_date 不匹配或 EvidenceRecord 缺失时不生成 HIGH/MEDIUM，coverage 保持 UNAVAILABLE/PARTIAL。",
+    "外部 HIGH/Medium Context 可确定性地成为 v1 primary_context/secondary_contexts，并驱动日报 Information Content 与 Context Quality。",
+    "外部 Context 的 lifecycle=EXPIRED 或其他 market_date 不重复进入当日 primary；事件事实与 MarketReaction 仍分离。",
+    "决策边界字段保持零值，既有 22 场景、Rust 测试、Clippy、quality 与 Cockpit checks 全部通过。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-signal-context-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

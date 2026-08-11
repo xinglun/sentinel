@@ -1,0 +1,231 @@
+{
+  "workItemId": "signal-context-absence-and-primary-rules",
+  "contractPath": ".ai/work-items/archive/2026/signal-context-absence-and-primary-rules.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "收敛 LOW、Quality、Primary 与 absence wording。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "同步 UNAVAILABLE mechanical Context 的解释文案与边界断言。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "验证全量 Context Primary 排序。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/**",
+      "reason": "补充规则回归场景。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit 生成。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "reason": "active contract。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "reason": "验证摘要。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-signal-context-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-absence-and-primary-rules.contract.json SUMMARY=.ai/work-items/active/signal-context-absence-and-primary-rules.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "旧机械 Context 测试与日报文字可能需要同步，但交易层不受影响。"
+  },
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "report compatibility",
+      "detail": "旧版日报消费者仍可能依赖机械 Context 的历史英文句子，需在后续 snapshot review 中确认兼容性。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "规则、边界与验收已写入 Contract。",
+      "contractHash": "f8fe7e3ce090faa1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "实现前边界与验证入口已确认。",
+      "contractHash": "f8fe7e3ce090faa1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "实现、局部测试与 scope/guard 检查通过。",
+      "contractHash": "f8fe7e3ce090faa1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全量 required checks 通过。",
+      "contractHash": "f8fe7e3ce090faa1",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract confirmed."
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Implementation may proceed after preflight."
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "实现与局部验证通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 全部通过。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "mechanical context with incomplete coverage is not LOW/HIGH quality",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "read model 与 report UI 回归测试通过。"
+    },
+    {
+      "scenario": "high-information event outranks month/quarter-end context",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "高信息宏观事件 Primary selection 回归测试通过。"
+    },
+    {
+      "scenario": "absence wording is source-qualified in zh/en/ja",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "多语言 absence wording 回归测试通过。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "规则实现与全部 required checks 已通过；请复核 coverage truth table、Primary priority 与多语言 absence wording。",
+    "expectedReviewFocus": [
+      "coverage truth table",
+      "primary priority",
+      "localized absence wording"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "完成度审计发现机械 Context 与旧文案绕过新 coverage 规则。",
+      "solidifiedTo": "contract",
+      "reason": "本 Contract 固化 LOW、Quality、Primary 与多语言 absence 验收。"
+    }
+  ]
+}

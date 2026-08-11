@@ -1,0 +1,245 @@
+{
+  "workItemId": "signal-context-runtime-provider-wiring",
+  "contractPath": ".ai/work-items/archive/2026/signal-context-runtime-provider-wiring.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "读取并合并结构化外部 SignalContextV1。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "将外部 Primary Context 投影到 Observation/Interpretation。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/**",
+      "reason": "覆盖运行时 JSON、日期与失败源场景。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-runtime-provider-wiring.md",
+      "reason": "固化运行时输入与 fail-closed 契约。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit status generator 生成。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "reason": "active contract。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "reason": "本验证摘要。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+    "docs/superpowers/specs/2026-08-11-signal-context-runtime-provider-wiring.md",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-signal-context-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json SUMMARY=.ai/work-items/active/signal-context-runtime-provider-wiring.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "结构化来源接入已限定为 observation-only；实时 provider 具体刷新由现有环境入口负责。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已写入运行时来源、日期校验、EvidenceRecord 与边界。",
+      "contractHash": "809f16ae0c12b7a0",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract、scope 与 guard checks 已通过。",
+      "contractHash": "809f16ae0c12b7a0",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "实现、测试与场景检查已完成。",
+      "contractHash": "809f16ae0c12b7a0",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全部 required checks 已通过。",
+      "contractHash": "809f16ae0c12b7a0",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract scope and source boundary confirmed."
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Implementation may proceed after preflight."
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Implementation and scenario checks passed."
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "All required checks passed before archive."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "8/7 Payroll and rates reaction through runtime JSON",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make check-signal-context-consistency"
+      ],
+      "reason": "Runtime merge and Payroll fixture tests passed。"
+    },
+    {
+      "scenario": "8/10 geopolitical and commodity reaction through runtime JSON",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make check-signal-context-consistency"
+      ],
+      "reason": "Runtime merge and geopolitical/oil fixture tests passed。"
+    },
+    {
+      "scenario": "missing, malformed, mismatched-date and stale external source",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make check-signal-context-consistency"
+      ],
+      "reason": "Date/evidence validation and lifecycle fixture checks passed。"
+    },
+    {
+      "scenario": "observation-only boundary remains unchanged",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-runtime-provider-wiring.contract.json",
+        "make clippy"
+      ],
+      "reason": "Boundary fields and guard checks passed。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "运行时结构化来源、日期/证据校验与全部 required checks 已通过；仍需 review 关注生产 provider 刷新责任。",
+    "expectedReviewFocus": [
+      "external source validation",
+      "primary context projection",
+      "fail-closed boundary"
+    ]
+  },
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "provider refresh",
+      "detail": "实际生产 provider 的刷新频率与 JSON 生成由运行环境负责，本 Work Item 只负责 read model 校验与聚合。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "审计指出 schema/fixture 后仍缺少生产 read model 接线。",
+      "solidifiedTo": "contract",
+      "reason": "本 Contract 明确输入路径、日期校验、EvidenceRecord 与运行时验收。"
+    }
+  ]
+}
