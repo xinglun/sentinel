@@ -1,5 +1,6 @@
 use crate::features::radar::domain::price_volume_structure::{
-    ParticipationQuality, PriceVolumeAssessment, PriceVolumeStructure, SupplyAbsorption,
+    BaselineType, CandidateLifecycle, EligibilityStatus, ParticipationQuality,
+    PriceVolumeAssessment, PriceVolumeStructure, SupplyAbsorption, UnavailableReason,
     VolumeDataQuality,
 };
 use crate::features::shared::domain::supply_event_context::{SupplyEventContext, SupplyEventType};
@@ -36,6 +37,14 @@ pub(crate) fn render_price_volume_structure_report(
             structure_label(assessment.structure)
         ));
         out.push_str(&format!(
+            "- Eligibility: {}\n",
+            eligibility_label(assessment.eligibility)
+        ));
+        out.push_str(&format!(
+            "- Lifecycle: {}\n",
+            lifecycle_label(assessment.lifecycle)
+        ));
+        out.push_str(&format!(
             "- Participation Quality: {}\n",
             participation_label(assessment.participation)
         ));
@@ -43,11 +52,12 @@ pub(crate) fn render_price_volume_structure_report(
             "- Volume Data Quality: {}\n",
             quality_label(assessment.quality)
         ));
-        if let Some(metrics) = assessment.metrics {
+        if let Some(metrics) = assessment.metrics.as_ref() {
             out.push_str(&format!(
-                "- Relative Volume: {:.2}x (5d: {:.2}x)\n",
-                metrics.rvol_20, metrics.rvol_5
+                "- Relative Volume: {:.2}x ({})\n",
+                metrics.relative_volume, metrics.relative_volume_label
             ));
+            out.push_str(&format!("- Baseline Days: {}\n", metrics.baseline_days));
             out.push_str(&format!(
                 "- Price Behavior: 5d {:+.2}% · 20d high {:+.2}%\n",
                 metrics.return_5d, metrics.distance_from_20d_high
@@ -55,6 +65,25 @@ pub(crate) fn render_price_volume_structure_report(
         } else {
             out.push_str("- Relative Volume: UNAVAILABLE\n");
             out.push_str("- Price Behavior: UNAVAILABLE\n");
+        }
+        out.push_str(&format!(
+            "- Primary Baseline: {}\n",
+            baseline_label(assessment.primary_baseline)
+        ));
+        if let Some(secondary) = assessment.secondary_baseline {
+            out.push_str(&format!(
+                "- Secondary Baseline: {}\n",
+                baseline_label(secondary)
+            ));
+        }
+        if let Some(reason) = assessment.unavailable_reason {
+            out.push_str(&format!(
+                "- Unavailable Reason: {}\n",
+                unavailable_reason_label(reason)
+            ));
+        }
+        if let Some(condition) = assessment.next_eligibility_condition.as_deref() {
+            out.push_str(&format!("- Next Eligibility Condition: {condition}\n"));
         }
         if let Some(context) = entry.supply_context.as_ref().filter(|context| context.availability == crate::features::shared::domain::supply_event_context::SupplyEventContextAvailability::Available) {
             out.push_str(&format!("- Supply Context: {}\n", supply_event_label(context.event_type)));
@@ -67,11 +96,13 @@ pub(crate) fn render_price_volume_structure_report(
         if entry.overheated {
             out.push_str("- Price Position: OVERHEATED\n");
         }
-        if assessment.supply_absorption == SupplyAbsorption::Active {
-            out.push_str("- Supply Absorption: ACTIVE\n");
+        match assessment.supply_absorption {
+            SupplyAbsorption::Active => out.push_str("- Supply Absorption: ACTIVE\n"),
+            SupplyAbsorption::Candidate => out.push_str("- Supply Absorption: CANDIDATE\n"),
+            _ => {}
         }
         out.push_str(&format!(
-            "- Persistence: {:?} ({} days)\n",
+            "- Persistence Observation: {:?} ({} days)\n",
             assessment.persistence, assessment.persistence_days
         ));
         out.push_str(&format!(
@@ -107,6 +138,47 @@ fn structure_label(value: PriceVolumeStructure) -> &'static str {
         PriceVolumeStructure::Distribution => "DISTRIBUTION",
         PriceVolumeStructure::Neutral => "NEUTRAL",
         PriceVolumeStructure::Unavailable => "UNAVAILABLE",
+    }
+}
+
+fn eligibility_label(value: EligibilityStatus) -> &'static str {
+    match value {
+        EligibilityStatus::Full => "FULL",
+        EligibilityStatus::Partial => "PARTIAL",
+        EligibilityStatus::Insufficient => "INSUFFICIENT",
+        EligibilityStatus::Unavailable => "UNAVAILABLE",
+    }
+}
+
+fn lifecycle_label(value: CandidateLifecycle) -> &'static str {
+    match value {
+        CandidateLifecycle::Candidate => "CANDIDATE",
+        CandidateLifecycle::Developing => "DEVELOPING",
+        CandidateLifecycle::Confirmed => "CONFIRMED",
+        CandidateLifecycle::Invalidated => "INVALIDATED",
+    }
+}
+
+fn baseline_label(value: BaselineType) -> &'static str {
+    match value {
+        BaselineType::Standard20d => "STANDARD_20D",
+        BaselineType::AvailableHistory => "AVAILABLE_HISTORY",
+        BaselineType::PostIpo => "POST_IPO",
+        BaselineType::PostEvent => "POST_EVENT",
+        BaselineType::PostLockup => "POST_LOCKUP",
+        BaselineType::PostEarnings => "POST_EARNINGS",
+        BaselineType::Unavailable => "UNAVAILABLE",
+    }
+}
+
+fn unavailable_reason_label(value: UnavailableReason) -> &'static str {
+    match value {
+        UnavailableReason::InsufficientValidHistory => "INSUFFICIENT_VALID_HISTORY",
+        UnavailableReason::MissingVolume => "MISSING_VOLUME",
+        UnavailableReason::DataGap => "DATA_GAP",
+        UnavailableReason::CorporateActionConflict => "CORPORATE_ACTION_CONFLICT",
+        UnavailableReason::ApiFailure => "API_FAILURE",
+        UnavailableReason::MissingSupplyContext => "SUPPLY_CONTEXT_MISSING",
     }
 }
 fn participation_label(value: ParticipationQuality) -> &'static str {
@@ -158,7 +230,8 @@ fn interpretation(
 mod tests {
     use super::*;
     use crate::features::radar::domain::price_volume_structure::{
-        PriceVolumeObservationBoundary, StructurePersistence,
+        BaselineType, CandidateLifecycle, EligibilityStatus, PriceVolumeObservationBoundary,
+        StructurePersistence,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
     fn assessment(
@@ -181,6 +254,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         }
     }
     #[test]
@@ -234,5 +313,41 @@ mod tests {
     fn unavailable_context_remains_explicit() {
         let report = render_price_volume_structure_report(&[], Language::ZhCn);
         assert!(report.contains("Price-Volume Structure"));
+    }
+
+    #[test]
+    fn report_discloses_partial_lifecycle_baseline_reason_and_next_condition() {
+        let mut assessment = assessment(
+            PriceVolumeStructure::Unavailable,
+            ParticipationQuality::Unavailable,
+            SupplyAbsorption::Unavailable,
+        );
+        assessment.eligibility = EligibilityStatus::Partial;
+        assessment.primary_baseline = BaselineType::PostIpo;
+        assessment.secondary_baseline = Some(BaselineType::PostLockup);
+        assessment.lifecycle = CandidateLifecycle::Candidate;
+        assessment.unavailable_reason = Some(UnavailableReason::InsufficientValidHistory);
+        assessment.next_eligibility_condition =
+            Some("Need 2 additional valid OHLCV sessions.".to_string());
+
+        let report = render_price_volume_structure_report(
+            &[PriceVolumeReportEntry {
+                symbol: "NEWCO".to_string(),
+                assessment,
+                supply_context: None,
+                overheated: false,
+                accumulation_failed: false,
+            }],
+            Language::ZhCn,
+        );
+
+        assert!(report.contains("Eligibility: PARTIAL"));
+        assert!(report.contains("Lifecycle: CANDIDATE"));
+        assert!(report.contains("Primary Baseline: POST_IPO"));
+        assert!(report.contains("Secondary Baseline: POST_LOCKUP"));
+        assert!(report.contains("Unavailable Reason: INSUFFICIENT_VALID_HISTORY"));
+        assert!(
+            report.contains("Next Eligibility Condition: Need 2 additional valid OHLCV sessions.")
+        );
     }
 }

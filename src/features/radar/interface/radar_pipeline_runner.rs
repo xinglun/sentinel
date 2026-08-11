@@ -1011,8 +1011,12 @@ pub(crate) async fn run_pipeline_for_report_date(
         let mut price_volume_entries = fetched_ticker_histories
             .iter()
             .map(|(history, _)| {
-                let supply_context =
-                    price_volume_supply_context(config_arc.as_ref(), &history.symbol, packet.date);
+                let supply_contexts =
+                    price_volume_supply_contexts(config_arc.as_ref(), &history.symbol, packet.date);
+                let supply_context = supply_contexts.first().cloned();
+                let secondary_supply_context = supply_contexts.get(1).cloned();
+                let event_baseline =
+                    price_volume_event_baseline(config_arc.as_ref(), &history.symbol, packet.date);
                 let overheated = packet.assets.iter().any(|asset| {
                     asset.asset_state.symbol == history.symbol
                         && asset.asset_state.state == AssetState::OVERHEAT
@@ -1030,6 +1034,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                         &history.symbol,
                         packet.date,
                     ),
+                    total_trading_days: history.total_trading_days,
+                    event_baseline,
+                    secondary_supply_context: secondary_supply_context.as_ref(),
                 });
                 let persistence_days = runtime_services
                     .persistence
@@ -1053,6 +1060,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                             &history.symbol,
                             packet.date,
                         ),
+                        total_trading_days: history.total_trading_days,
+                        event_baseline,
+                        secondary_supply_context: secondary_supply_context.as_ref(),
                     }
                 });
                 PriceVolumeReportEntry {
@@ -1086,6 +1096,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                 persistence_days: 1,
                 source_rate_limited: true,
                 volume_comparable: true,
+                total_trading_days: 0,
+                event_baseline: None,
+                secondary_supply_context: None,
             });
             price_volume_entries.push(PriceVolumeReportEntry {
                 symbol: symbol.clone(),
@@ -1179,31 +1192,53 @@ fn price_volume_supply_context(
     symbol: &str,
     market_date: chrono::NaiveDate,
 ) -> Option<SupplyEventContext> {
-    let event = app_config
-        .capital_absorption
-        .as_ref()?
-        .price_volume_supply_events
-        .as_ref()?
+    price_volume_supply_contexts(app_config, symbol, market_date)
+        .into_iter()
+        .next()
+}
+
+fn price_volume_supply_contexts(
+    app_config: &config::AppConfig,
+    symbol: &str,
+    market_date: chrono::NaiveDate,
+) -> Vec<SupplyEventContext> {
+    let Some(capital_absorption) = app_config.capital_absorption.as_ref() else {
+        return Vec::new();
+    };
+    let Some(events) = capital_absorption.price_volume_supply_events.as_ref() else {
+        return Vec::new();
+    };
+    let mut events = events
         .iter()
         .filter(|event| {
             event.symbol == symbol && price_volume_supply_event_is_active(event, market_date)
         })
-        .max_by_key(|event| {
-            (
-                matches!(
-                    event.supply_direction,
-                    config::PriceVolumeSupplyDirection::Increase
-                ),
-                match event.confidence {
-                    config::PriceVolumeSupplyConfidence::High => 3,
-                    config::PriceVolumeSupplyConfidence::Medium => 2,
-                    config::PriceVolumeSupplyConfidence::Low => 1,
-                },
-                event.event_date.clone(),
-                format!("{:?}", event.event_type),
-            )
-        })?;
-    Some(price_volume_supply_context_from_event(event))
+        .collect::<Vec<_>>();
+    events.sort_by_key(|event| {
+        (
+            match event.event_type {
+                config::PriceVolumeSupplyEventType::Ipo => 5,
+                config::PriceVolumeSupplyEventType::LockupExpiry
+                | config::PriceVolumeSupplyEventType::ShareUnlock => 4,
+                _ => 2,
+            },
+            matches!(
+                event.supply_direction,
+                config::PriceVolumeSupplyDirection::Increase
+            ),
+            match event.confidence {
+                config::PriceVolumeSupplyConfidence::High => 3,
+                config::PriceVolumeSupplyConfidence::Medium => 2,
+                config::PriceVolumeSupplyConfidence::Low => 1,
+            },
+            event.event_date.clone(),
+        )
+    });
+    events
+        .into_iter()
+        .rev()
+        .map(price_volume_supply_context_from_event)
+        .collect()
 }
 
 fn price_volume_supply_event_is_active(
@@ -1212,6 +1247,41 @@ fn price_volume_supply_event_is_active(
 ) -> bool {
     chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
         .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
+}
+
+fn price_volume_event_baseline(
+    app_config: &config::AppConfig,
+    symbol: &str,
+    market_date: chrono::NaiveDate,
+) -> Option<(
+    crate::features::radar::domain::price_volume_structure::BaselineType,
+    chrono::NaiveDate,
+)> {
+    let event = app_config
+        .capital_absorption
+        .as_ref()?
+        .price_volume_event_baselines
+        .as_ref()?
+        .iter()
+        .filter(|event| event.symbol == symbol)
+        .filter_map(|event| {
+            let event_date =
+                chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d").ok()?;
+            ((market_date - event_date).num_days() >= 0
+                && (market_date - event_date).num_days() <= 20)
+                .then_some((event.baseline_type, event_date))
+        })
+        .max_by_key(|(_, event_date)| *event_date);
+    event.map(|(event_type, event_date)| {
+        (
+            match event_type {
+                config::PriceVolumeEventBaselineType::Earnings => {
+                    crate::features::radar::domain::price_volume_structure::BaselineType::PostEarnings
+                }
+            },
+            event_date,
+        )
+    })
 }
 
 fn price_volume_volume_comparable(
