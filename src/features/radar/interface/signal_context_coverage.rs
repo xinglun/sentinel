@@ -3,6 +3,7 @@ use crate::features::radar::interface::presentation::{
     SignalContextSourceStatus, SignalContextV1,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+use crate::features::research::interface::macro_event_observation::MacroEventImportance;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
 use chrono::NaiveDate;
@@ -46,12 +47,21 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
     all.extend(input.rates_credit_events.iter().cloned());
     all.extend(input.market_structure_events.iter().cloned());
 
-    let primary_context = all.iter().cloned().max_by(|left, right| {
-        item_rank(left)
-            .cmp(&item_rank(right))
-            .then_with(|| left.observed_at.cmp(&right.observed_at))
-            .then_with(|| left.title.cmp(&right.title))
-    });
+    let primary_context = all
+        .iter()
+        .filter(|item| {
+            matches!(
+                item.information_content,
+                SignalContextInformationLevel::High | SignalContextInformationLevel::Medium
+            )
+        })
+        .cloned()
+        .max_by(|left, right| {
+            item_rank(left)
+                .cmp(&item_rank(right))
+                .then_with(|| left.observed_at.cmp(&right.observed_at))
+                .then_with(|| left.title.cmp(&right.title))
+        });
     let primary_key = primary_context.as_ref().map(|item| item.title.clone());
     let secondary_contexts = all
         .iter()
@@ -118,16 +128,8 @@ fn build_macro_v1_from_event_context(
             context_type:
                 crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro,
             title: entry.event_name.clone(),
-            information_content: if entry.high_information {
-                SignalContextInformationLevel::High
-            } else {
-                SignalContextInformationLevel::Medium
-            },
-            market_relevance: if entry.high_information {
-                SignalContextInformationLevel::High
-            } else {
-                SignalContextInformationLevel::Medium
-            },
+            information_content: macro_information_level(entry),
+            market_relevance: macro_information_level(entry),
             evidence_quality: SignalContextInformationLevel::High,
             lifecycle:
                 crate::features::radar::interface::presentation::SignalContextLifecycle::Released,
@@ -171,6 +173,21 @@ fn build_macro_v1_from_event_context(
         coverage,
         ..SignalContextCoverageInput::default()
     })
+}
+
+fn macro_information_level(
+    entry: &crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry,
+) -> SignalContextInformationLevel {
+    if entry.high_information {
+        return SignalContextInformationLevel::High;
+    }
+    match entry.importance {
+        Some(MacroEventImportance::High | MacroEventImportance::Medium) => {
+            SignalContextInformationLevel::Medium
+        }
+        Some(MacroEventImportance::Low) | None => SignalContextInformationLevel::Low,
+        Some(MacroEventImportance::Critical) => SignalContextInformationLevel::High,
+    }
 }
 
 /// 構造化外部来源を読み込み、日期与证据不满足时 fail-closed。
@@ -527,6 +544,35 @@ mod tests {
             snapshot.context_quality,
             crate::features::radar::interface::presentation::SignalContextQuality::Unavailable
         );
+    }
+
+    #[test]
+    fn low_importance_macro_event_remains_low_information() {
+        let event_context = SignalContextEventReadModel {
+            source_health: MacroEventSourceHealth::Succeeded,
+            timeline_entries: vec![
+                crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry {
+                    event_date: NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+                    event_name: "Minor survey release".to_string(),
+                    event_type: "OTHER".to_string(),
+                    source: "official-calendar".to_string(),
+                    importance: Some(MacroEventImportance::Low),
+                    lifecycle: "Released".to_string(),
+                    summary: "Minor survey release".to_string(),
+                    high_information: false,
+                },
+            ],
+            ..Default::default()
+        };
+        let snapshot = build_macro_v1_from_event_context(
+            NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+            &event_context,
+        );
+        assert_eq!(
+            snapshot.scheduled_macro[0].information_content,
+            SignalContextInformationLevel::Low
+        );
+        assert!(snapshot.primary_context.is_none());
     }
 
     #[test]

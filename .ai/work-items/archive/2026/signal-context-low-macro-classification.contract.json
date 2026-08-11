@@ -1,0 +1,117 @@
+{
+  "contractVersion": 2,
+  "workItemId": "signal-context-low-macro-classification",
+  "mode": "code",
+  "title": "修复低重要性宏观事件分类",
+  "baseCommit": "999733f93822b20c95db0454e3ab6addda85744f",
+  "baselineDirtyPaths": [],
+  "problemStatement": "低重要度的官方宏观事件在 Signal Context 转换时被统一映射为 MEDIUM，可能错误升级 Primary Context 和 Overall Information Content。",
+  "intent": {"problem":"按原始宏观事件重要度映射 HIGH/MEDIUM/LOW，避免低重要度事件伪装成中信息量事件。","constraints":["只修改 Observation/Interpretation 的宏观事件分类。","不修改交易 Gate、Execution、Trader、Price-Volume、Supply、Position Sizing。"],"rationale":"自检发现 high_information=false 当前无条件映射 MEDIUM。"},
+  "scope": [
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    ".ai/work-items/active/signal-context-low-macro-classification.contract.json",
+    ".ai/work-items/active/signal-context-low-macro-classification.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": ["Gate / Execution / Trader / Action Matrix / Position Sizing","Price-Volume / Supply / Gravity / Expectation"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "宏观事件重要度字段来源。"
+    },
+    {"path":"src/features/radar/interface/signal_context_coverage.rs","reason":"宏观事件转换为 SignalContextItem 的分类逻辑。"},
+    {"path":"src/features/radar/interface/signal_context_read_model.rs","reason":"Primary/Information Content 聚合与回归测试。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity"
+    ],
+    "reason": "仅收敛宏观事件的信息等级映射，不改变交易边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification 已明确。"
+  },
+  "preReviewWarnings": [
+    "重点检查低重要度宏观事件不会被升级为 MEDIUM。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "scenarioCoverage":[
+    {"scenario":"low-importance macro event remains LOW and not Primary","required":true,"status":"verified","evidence":["make test"],"reason":"新增回归测试通过。"},
+    {"scenario":"high-information macro event remains HIGH","required":true,"status":"verified","evidence":["make test"],"reason":"既有 payroll/primary 测试通过。"}
+  ],
+  "acceptance": ["MacroEventImportance::Low 且 high_information=false 的同日事件映射为 LOW，且 build_signal_context_v1.primary_context 为 None。","同日 High/Critical 且 high_information=true 的事件映射为 HIGH，并保持为 Primary Context。","SignalContextV1 的 decision_weight 必须为 0，trade_signal 必须为 false，gate_effect、execution_effect、position_sizing_effect 必须为 none；Gate、Execution、Trader、Price-Volume、Supply 源码不得改动。","716 个测试、Clippy、Consistency、Scenario coverage、Quality 与 Cockpit checks 全部通过。"],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {"command":"make test","required":true},
+    {"command":"make clippy","required":true},
+    {"command":"make check-signal-context-consistency","required":true},
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json SUMMARY=.ai/work-items/active/signal-context-low-macro-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json SUMMARY=.ai/work-items/active/signal-context-low-macro-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-low-macro-classification.summary.json CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json SUMMARY=.ai/work-items/active/signal-context-low-macro-classification.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-low-macro-classification.contract.json SUMMARY=.ai/work-items/active/signal-context-low-macro-classification.summary.json",
+      "required": true
+    },
+    {"command":"make check-ai-status-consistency","required":true},
+    {"command":"make ai-preflight","required":true},
+    {"command":"make quality","required":true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
