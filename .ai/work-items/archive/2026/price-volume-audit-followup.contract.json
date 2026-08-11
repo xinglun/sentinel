@@ -1,0 +1,190 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-audit-followup",
+  "mode": "code",
+  "title": "价量审计追加遗漏修复",
+  "baseCommit": "31c6b63276c970f3371f0649f6441d1c019f64be",
+  "baselineDirtyPaths": [],
+  "problemStatement": "价量资格与比较基线在追加审计中仍有三个边界遗漏：成熟资产的事件基线可能错误地抢占主基线、缺量但可恢复的数据可能被标记为 FULL、以及缺少 Supply Context 时下一资格条件没有指向缺失的上下文。",
+  "intent": {
+    "problem": "修复成熟资产的 STANDARD_20D 主基线优先级、保证缺量数据不会晋级 FULL、并让 Accumulation Candidate 明确要求 Supply Event Context。",
+    "constraints": [
+      "仅修改价量领域分类、管线输入/输出和对应测试，不改变 Gate、execution、trader、action matrix 或 position sizing。",
+      "保持事件后有效 OHLCV 最少两根的既有事件基线规则，并将事件基线作为成熟资产的 Secondary。",
+      "缺量数据继续允许可审计的降级观察，但不得提供 FULL 或 RVOL_20 的完整历史语义。"
+    ],
+    "rationale": "这些遗漏会让报告把不完整证据表现为可确认的完整资格，或让事件基线掩盖成熟资产的标准主比较基线。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-audit-followup.contract.json",
+    ".ai/work-items/active/price-volume-audit-followup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/features/radar/price_volume_structure_test.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "docs/**",
+    "Gate、execution、trader、action matrix、position sizing 以及外部 Supply Event Context 数据源"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-12-price-volume-review-findings-design.md",
+      "reason": "前工单设计文档中的资格、基线、降级观察和事件上下文边界。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-12-price-volume-review-findings.md",
+      "reason": "前工单实现计划及已验证回归场景。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "本次审计确认基线选择、资格计算、缺量质量和下一条件的现状实现。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "本次审计确认 event_baseline 与 supply baseline 的输入优先级。"
+    },
+    {
+      "path": "tests/features/radar/price_volume_structure_test.rs",
+      "reason": "价量结构行为回归测试入口。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "成熟资产同时有标准历史和事件基线时，STANDARD_20D 为 Primary，事件基线为 Secondary",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要新增领域回归测试后确认主次基线和 RVOL 标签。"
+    },
+    {
+      "scenario": "存在缺量但仍有足够 OHLCV 时，资格最多为 DEGRADED，不能为 FULL 或 RVOL_20",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要新增领域回归测试后确认质量、资格和比较标签的一致性。"
+    },
+    {
+      "scenario": "缺少 Supply Context 的 Accumulation Candidate 给出明确的 Supply Event Context 下一条件",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要新增领域回归测试后确认候选观察的下一条件文案。"
+    },
+    {
+      "scenario": "既有价量资格、事件有效历史最少两根、future event 和可恢复缺量回归不被破坏",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "需要全量测试确认前一工单的边界行为未回归。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "基线主次和质量等级会改变报告语义；交易执行链路不在本次 scope 内，必须通过领域和管线回归确认边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "审计证据、scope、验收、场景和 make 验证命令已确定，可在价量领域范围内实现。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权 Agent 继续完成全部工单；本次追加修复采用保守语义：标准历史优先、缺量不晋级 FULL、缺少 Supply Context 不确认吸收。",
+    "openQuestions": [
+      "无待决策项；若现有数据无法证明完整历史或事件样本，必须保守降级并保留可解释 reason。"
+    ]
+  },
+  "preReviewWarnings": [
+    "成熟资产的主次基线和缺量 FULL 语义是 review 重点。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Contract、Summary 和 checkpoint 证据完整记录本次用户授权的审计修复。",
+    "给定至少 20 根有效 OHLCV 且存在事件基线时，输出 baseline_type=STANDARD_20D、secondary_baseline_type=事件类型；事件后有效样本少于 2 根时沿用既有 Available History fallback。",
+    "给定至少 20 根价格有效但包含缺量 bar 的输入，eligibility 不为 Full，baseline_type 不为 Standard20d/RVOL_20；仍有至少 5 根有效数据时保留降级观察。",
+    "给定 Accumulation Candidate 且无 Supply Context，next_eligibility_condition 明确要求 Supply Event Context，Supply Absorption 不为 Candidate/Active。",
+    "Gate、execution、trader、action matrix、position sizing 的既有交易边界字段和行为不发生变化。",
+    "既有 price-volume report 输出入口不增加；领域 baseline、eligibility、reason 字段的语义由回归测试覆盖。",
+    "不新增 data branch、reports、JSONL、snapshot、weekly metrics 持久化；Contract/Summary 和 Rust 测试构成本工单证据。",
+    "不新增运维 command；所有验证通过现有 make target 执行。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
