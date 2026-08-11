@@ -6,6 +6,11 @@ use crate::features::radar::interface::signal_context_event_read_model::SignalCo
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
 use chrono::NaiveDate;
+use serde_json;
+use std::env;
+use std::fs;
+
+const EXTERNAL_SIGNAL_CONTEXT_PATH_ENV: &str = "SENTINEL_SIGNAL_CONTEXT_JSON_PATH";
 
 #[derive(Debug, Clone, Default)]
 pub(crate) struct SignalContextCoverageInput {
@@ -81,6 +86,30 @@ pub(crate) fn build_v1_from_event_context(
     as_of_date: NaiveDate,
     event_context: &SignalContextEventReadModel,
 ) -> SignalContextV1 {
+    let macro_context = build_macro_v1_from_event_context(as_of_date, event_context);
+    let external = env::var(EXTERNAL_SIGNAL_CONTEXT_PATH_ENV)
+        .ok()
+        .and_then(|path| {
+            load_external_signal_context_from_path(&path, as_of_date)
+                .ok()
+                .flatten()
+        });
+    build_v1_from_event_context_with_external(macro_context, external)
+}
+
+fn build_v1_from_event_context_with_external(
+    macro_context: SignalContextV1,
+    external: Option<SignalContextV1>,
+) -> SignalContextV1 {
+    external
+        .map(|external| merge_external_context(macro_context.clone(), external))
+        .unwrap_or(macro_context)
+}
+
+fn build_macro_v1_from_event_context(
+    as_of_date: NaiveDate,
+    event_context: &SignalContextEventReadModel,
+) -> SignalContextV1 {
     let scheduled_macro = event_context
         .timeline_entries
         .iter()
@@ -141,6 +170,99 @@ pub(crate) fn build_v1_from_event_context(
         scheduled_macro,
         coverage,
         ..SignalContextCoverageInput::default()
+    })
+}
+
+/// 構造化外部来源を読み込み、日期与证据不满足时 fail-closed。
+pub(crate) fn load_external_signal_context_from_path(
+    path: &str,
+    as_of_date: NaiveDate,
+) -> Result<Option<SignalContextV1>, String> {
+    let raw = fs::read_to_string(path).map_err(|error| error.to_string())?;
+    let context =
+        serde_json::from_str::<SignalContextV1>(&raw).map_err(|error| error.to_string())?;
+    if context.market_date != as_of_date.to_string() {
+        return Err(format!(
+            "market_date mismatch: expected {}, got {}",
+            as_of_date, context.market_date
+        ));
+    }
+    let context = filter_external_context(context, as_of_date);
+    if all_context_items(&context).iter().any(|item| {
+        matches!(
+            item.information_content,
+            SignalContextInformationLevel::High | SignalContextInformationLevel::Medium
+        ) && (item.evidence.is_empty()
+            || item.evidence.iter().any(|evidence| {
+                evidence.source.trim().is_empty()
+                    || evidence.timestamp.trim().is_empty()
+                    || evidence.event_type.trim().is_empty()
+                    || evidence.subject.trim().is_empty()
+                    || evidence.importance.trim().is_empty()
+            }))
+    }) {
+        return Err("HIGH/MEDIUM context is missing EvidenceRecord fields".to_string());
+    }
+    Ok(Some(context))
+}
+
+fn all_context_items(context: &SignalContextV1) -> Vec<&SignalContextItem> {
+    context
+        .scheduled_macro
+        .iter()
+        .chain(context.corporate_events.iter())
+        .chain(context.geopolitical_events.iter())
+        .chain(context.commodity_events.iter())
+        .chain(context.rates_credit_events.iter())
+        .chain(context.market_structure_events.iter())
+        .collect()
+}
+
+fn filter_external_context(mut context: SignalContextV1, as_of_date: NaiveDate) -> SignalContextV1 {
+    let keep = |item: &SignalContextItem| {
+        item.market_date == as_of_date.to_string()
+            && !matches!(
+                item.lifecycle,
+                crate::features::radar::interface::presentation::SignalContextLifecycle::Expired
+            )
+    };
+    context.scheduled_macro.retain(keep);
+    context.corporate_events.retain(keep);
+    context.geopolitical_events.retain(keep);
+    context.commodity_events.retain(keep);
+    context.rates_credit_events.retain(keep);
+    context.market_structure_events.retain(keep);
+    context
+}
+
+fn merge_external_context(
+    macro_context: SignalContextV1,
+    mut external: SignalContextV1,
+) -> SignalContextV1 {
+    let mut scheduled_macro = external.scheduled_macro;
+    for item in macro_context.scheduled_macro {
+        if !scheduled_macro
+            .iter()
+            .any(|existing| existing.title == item.title)
+        {
+            scheduled_macro.push(item);
+        }
+    }
+    external.scheduled_macro = scheduled_macro;
+    external.coverage.scheduled_macro = macro_context.coverage.scheduled_macro;
+    build_signal_context_v1(SignalContextCoverageInput {
+        market_date: external.market_date,
+        scheduled_macro: external.scheduled_macro,
+        corporate_events: external.corporate_events,
+        geopolitical_events: external.geopolitical_events,
+        commodity_events: external.commodity_events,
+        rates_credit_events: external.rates_credit_events,
+        market_structure_events: external.market_structure_events,
+        coverage: external.coverage,
+        observed_market_reactions: external.observed_market_reactions,
+        event_time_utc: external.event_time_utc,
+        event_time_market_tz: external.event_time_market_tz,
+        report_generated_at: external.report_generated_at,
     })
 }
 
@@ -263,6 +385,7 @@ mod tests {
     use crate::features::radar::interface::presentation::{
         SignalContextInformationLevel, SignalContextType,
     };
+    use crate::features::research::interface::macro_event_observation::EvidenceRecord;
 
     fn item(title: &str, level: SignalContextInformationLevel) -> SignalContextItem {
         SignalContextItem {
@@ -275,8 +398,90 @@ mod tests {
             observed_at: "2026-08-07T12:30:00Z".to_string(),
             source_published_at: "2026-08-07T12:30:00Z".to_string(),
             market_date: "2026-08-07".to_string(),
+            lifecycle:
+                crate::features::radar::interface::presentation::SignalContextLifecycle::Released,
             ..Default::default()
         }
+    }
+
+    #[test]
+    fn external_context_requires_matching_market_date_and_traceable_evidence() {
+        let mut context = SignalContextV1 {
+            market_date: "2026-08-07".to_string(),
+            scheduled_macro: vec![item(
+                "US Employment Report",
+                SignalContextInformationLevel::High,
+            )],
+            ..Default::default()
+        };
+        context.scheduled_macro[0].evidence = vec![EvidenceRecord {
+            source: "official-employment-source".to_string(),
+            source_url: "https://example.invalid/payroll".to_string(),
+            timestamp: "2026-08-07T12:30:00Z".to_string(),
+            source_published_at: "2026-08-07T12:30:00Z".to_string(),
+            event_type: "EMPLOYMENT".to_string(),
+            subject: "US Employment Report".to_string(),
+            importance: "HIGH".to_string(),
+        }];
+        let path = std::env::temp_dir().join(format!(
+            "sentinel-signal-context-{}.json",
+            std::process::id()
+        ));
+        std::fs::write(&path, serde_json::to_vec(&context).unwrap()).unwrap();
+        let loaded = load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(loaded.scheduled_macro.len(), 1);
+        assert!(load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 8, 8).unwrap(),
+        )
+        .is_err());
+        std::fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn runtime_merge_promotes_external_geopolitical_context() {
+        let mut geopolitical = item("Hormuz shipping risk", SignalContextInformationLevel::High);
+        geopolitical.context_type = SignalContextType::Geopolitical;
+        geopolitical.evidence = vec![EvidenceRecord {
+            source: "official-shipping-source".to_string(),
+            source_url: String::new(),
+            timestamp: "2026-08-10T12:00:00Z".to_string(),
+            source_published_at: "2026-08-10T12:00:00Z".to_string(),
+            event_type: "GEOPOLITICAL".to_string(),
+            subject: geopolitical.title.clone(),
+            importance: "HIGH".to_string(),
+        }];
+        let external = SignalContextV1 {
+            market_date: "2026-08-10".to_string(),
+            geopolitical_events: vec![geopolitical],
+            coverage: healthy_coverage(),
+            ..Default::default()
+        };
+        let merged = build_v1_from_event_context_with_external(
+            SignalContextV1 {
+                market_date: "2026-08-10".to_string(),
+                ..Default::default()
+            },
+            Some(external),
+        );
+        assert_eq!(
+            merged
+                .primary_context
+                .as_ref()
+                .map(|item| item.title.as_str()),
+            Some("Hormuz shipping risk")
+        );
+        assert_eq!(
+            merged.overall_information_content,
+            SignalContextInformationLevel::High
+        );
+        assert_eq!(merged.decision_weight, 0);
+        assert!(!merged.trade_signal);
     }
 
     #[test]

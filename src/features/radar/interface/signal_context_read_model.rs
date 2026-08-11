@@ -1,7 +1,8 @@
 use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
 use crate::features::radar::interface::presentation::SignalContextV1;
 use crate::features::radar::interface::presentation::{
-    SignalContextInformationContent, SignalContextPrimaryContext, SignalContextQuality,
+    SignalContextInformationContent, SignalContextInformationLevel, SignalContextPrimaryContext,
+    SignalContextQuality,
 };
 use crate::features::radar::interface::signal_context_coverage::build_v1_from_event_context;
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
@@ -35,11 +36,12 @@ pub(crate) fn build_signal_context_assessment(
     input: SignalContextReadModelInput,
 ) -> SignalContextAssessment {
     let _signal = input.signal;
-    let primary_context = derive_primary_context(input.as_of_date, &input.future_context);
-    let information_content = derive_information_content(primary_context, &input.future_context);
-    let context_quality = derive_context_quality(primary_context, &input.future_context);
     let v1 = build_v1_from_event_context(input.as_of_date, &input.future_context);
-    let event_fact = compose_event_fact(&input.future_context);
+    let primary_context = derive_primary_context(input.as_of_date, &input.future_context, &v1);
+    let information_content =
+        derive_information_content(primary_context, &input.future_context, &v1);
+    let context_quality = derive_context_quality(primary_context, &input.future_context, &v1);
+    let event_fact = compose_event_fact(&input.future_context, &v1);
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, input.language);
@@ -131,6 +133,7 @@ pub(crate) fn signal_context_boundary(language: Language) -> &'static str {
 fn derive_primary_context(
     as_of_date: NaiveDate,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
 ) -> SignalContextPrimaryContext {
     if is_quarter_end(as_of_date) {
         return SignalContextPrimaryContext::QuarterEndRebalancing;
@@ -144,12 +147,22 @@ fn derive_primary_context(
         return context;
     }
 
+    if let Some(item) = external_primary_item(future_context, v1) {
+        if matches!(
+            item.information_content,
+            SignalContextInformationLevel::High | SignalContextInformationLevel::Medium
+        ) {
+            return SignalContextPrimaryContext::MacroEvent;
+        }
+    }
+
     SignalContextPrimaryContext::None
 }
 
 fn derive_information_content(
     primary_context: SignalContextPrimaryContext,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
 ) -> SignalContextInformationContent {
     match primary_context {
         // 機械性コンテキストは公式ソースの状態に依存せず LOW とする。
@@ -158,7 +171,24 @@ fn derive_information_content(
         | SignalContextPrimaryContext::IndexReconstitution
         | SignalContextPrimaryContext::EtfRebalance
         | SignalContextPrimaryContext::HolidayLiquidity => SignalContextInformationContent::Low,
-        SignalContextPrimaryContext::MacroEvent => SignalContextInformationContent::High,
+        SignalContextPrimaryContext::MacroEvent => {
+            if future_context.detected_primary_context()
+                == Some(SignalContextPrimaryContext::MacroEvent)
+            {
+                SignalContextInformationContent::High
+            } else {
+                match v1.overall_information_content {
+                    SignalContextInformationLevel::High => SignalContextInformationContent::High,
+                    SignalContextInformationLevel::Medium => {
+                        SignalContextInformationContent::Medium
+                    }
+                    SignalContextInformationLevel::Low => SignalContextInformationContent::Low,
+                    SignalContextInformationLevel::Unavailable => {
+                        SignalContextInformationContent::Unknown
+                    }
+                }
+            }
+        }
         SignalContextPrimaryContext::MajorEventWaiting
         | SignalContextPrimaryContext::PreEarningsWaiting => {
             SignalContextInformationContent::Medium
@@ -175,6 +205,7 @@ fn derive_information_content(
 fn derive_context_quality(
     primary_context: SignalContextPrimaryContext,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
 ) -> SignalContextQuality {
     match primary_context {
         SignalContextPrimaryContext::QuarterEndRebalancing
@@ -184,19 +215,42 @@ fn derive_context_quality(
         | SignalContextPrimaryContext::HolidayLiquidity
         | SignalContextPrimaryContext::PreEarningsWaiting
         | SignalContextPrimaryContext::MajorEventWaiting
-        | SignalContextPrimaryContext::MacroEvent => future_context
-            .evidence_quality_for(primary_context)
-            .unwrap_or_else(|| {
-                if future_context.has_loaded_context() {
-                    SignalContextQuality::Low
-                } else {
-                    SignalContextQuality::Unavailable
-                }
-            }),
+        | SignalContextPrimaryContext::MacroEvent => {
+            if external_primary_item(future_context, v1).is_some() {
+                return v1.context_quality;
+            }
+            future_context
+                .evidence_quality_for(primary_context)
+                .unwrap_or_else(|| {
+                    if future_context.has_loaded_context() {
+                        SignalContextQuality::Low
+                    } else {
+                        SignalContextQuality::Unavailable
+                    }
+                })
+        }
         SignalContextPrimaryContext::None => {
             let _ = future_context;
             SignalContextQuality::Unavailable
         }
+    }
+}
+
+fn external_primary_item<'a>(
+    future_context: &SignalContextEventReadModel,
+    v1: &'a SignalContextV1,
+) -> Option<&'a crate::features::radar::interface::presentation::SignalContextItem> {
+    let item = v1.primary_context.as_ref()?;
+    if item.context_type
+        != crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
+        || !future_context
+            .timeline_entries
+            .iter()
+            .any(|entry| entry.event_name == item.title)
+    {
+        Some(item)
+    } else {
+        None
     }
 }
 
@@ -458,9 +512,14 @@ fn last_day_of_month(date: NaiveDate) -> NaiveDate {
         .expect("previous day of first month day must exist")
 }
 
-fn compose_event_fact(future_context: &SignalContextEventReadModel) -> String {
-    future_context
-        .detected_primary_evidence_summary()
+fn compose_event_fact(
+    future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
+) -> String {
+    external_primary_item(future_context, v1)
+        .map(|item| item.event_fact.clone())
+        .filter(|value| !value.trim().is_empty())
+        .or_else(|| future_context.detected_primary_evidence_summary())
         .unwrap_or_default()
 }
 

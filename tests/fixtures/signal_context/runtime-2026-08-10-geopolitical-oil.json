@@ -1,0 +1,42 @@
+{
+  "market_date": "2026-08-10",
+  "geopolitical_events": [
+    {
+      "type": "GEOPOLITICAL",
+      "title": "Hormuz shipping risk",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "RELEASED",
+      "event_fact": "Geopolitical shipping risk increased.",
+      "observed_at": "2026-08-10T10:00:00Z",
+      "source_published_at": "2026-08-10T10:00:00Z",
+      "market_date": "2026-08-10",
+      "evidence": [{"source":"Official release","timestamp":"2026-08-10T10:00:00Z","event_type":"GEOPOLITICAL","subject":"Shipping risk","importance":"HIGH"}]
+    }
+  ],
+  "commodity_events": [
+    {
+      "type": "COMMODITY",
+      "title": "Oil shock",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "RELEASED",
+      "event_fact": "WTI moved materially higher.",
+      "observed_at": "2026-08-10T14:00:00Z",
+      "source_published_at": "2026-08-10T14:00:00Z",
+      "market_date": "2026-08-10",
+      "evidence": [{"source":"Market data","timestamp":"2026-08-10T14:00:00Z","event_type":"OIL","subject":"WTI","importance":"HIGH"}]
+    }
+  ],
+  "primary_context": {"type":"GEOPOLITICAL","title":"Hormuz shipping risk","information_content":"HIGH"},
+  "coverage": {"scheduled_macro":"HEALTHY","corporate":"HEALTHY","geopolitical":"HEALTHY","commodity":"HEALTHY","rates_credit":"HEALTHY","market_structure":"HEALTHY","overall":"HEALTHY"},
+  "overall_information_content": "HIGH",
+  "context_quality": "HIGH",
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none"
+}
