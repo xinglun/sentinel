@@ -337,7 +337,10 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
         lifecycle: lifecycle(eligibility, persistence_days, structure),
         unavailable_reason: accumulation_candidate
             .then_some(UnavailableReason::MissingSupplyContext),
-        next_eligibility_condition: next_eligibility_condition(eligibility, None),
+        next_eligibility_condition: next_eligibility_condition(
+            eligibility,
+            accumulation_candidate.then_some(UnavailableReason::MissingSupplyContext),
+        ),
     }
 }
 
@@ -410,7 +413,13 @@ fn baseline_selection(
             None,
         );
     }
-    let eligibility = if valid_days >= 20 {
+    let eligibility = if valid_days >= 20
+        && volume_quality(
+            input.bars,
+            input.source_rate_limited,
+            input.volume_comparable,
+        ) == VolumeDataQuality::Healthy
+    {
         EligibilityStatus::Full
     } else {
         EligibilityStatus::Partial
@@ -456,6 +465,9 @@ fn baseline_selection(
             .count();
         if event_valid_days < 2 && valid_days >= 5 {
             return (eligibility, BaselineType::AvailableHistory, None, None);
+        }
+        if eligibility == EligibilityStatus::Full {
+            return (eligibility, BaselineType::Standard20d, Some(baseline), None);
         }
         let secondary = secondary_supply_baseline
             .map(|(secondary, _)| secondary)
@@ -505,6 +517,9 @@ fn next_eligibility_condition(
     eligibility: EligibilityStatus,
     reason: Option<UnavailableReason>,
 ) -> Option<String> {
+    if reason == Some(UnavailableReason::MissingSupplyContext) {
+        return Some("Need Supply Event Context to evaluate absorption.".to_string());
+    }
     match (eligibility, reason) {
         (EligibilityStatus::Insufficient, _) => {
             Some("Need 2 additional valid OHLCV sessions for PARTIAL observation.".to_string())
@@ -1295,5 +1310,61 @@ mod tests {
 
         assert_eq!(full.lifecycle, CandidateLifecycle::Confirmed);
         assert_eq!(partial.lifecycle, CandidateLifecycle::Developing);
+    }
+
+    #[test]
+    fn mature_history_keeps_standard_baseline_primary_when_event_baseline_exists() {
+        let data = rising_data(150.0);
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            event_baseline: Some((
+                BaselineType::PostEarnings,
+                NaiveDate::from_ymd_opt(2026, 7, 20).unwrap(),
+            )),
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(assessment.eligibility, EligibilityStatus::Full);
+        assert_eq!(assessment.primary_baseline, BaselineType::Standard20d);
+        assert_eq!(
+            assessment.secondary_baseline,
+            Some(BaselineType::PostEarnings)
+        );
+        assert_eq!(assessment.metrics.unwrap().relative_volume_label, "RVOL_20");
+    }
+
+    #[test]
+    fn missing_volume_prevents_full_history_and_standard_rvol_label() {
+        let mut volumes = vec![Some(100.0); 26];
+        volumes[3] = None;
+        let assessment = assess_price_volume_structure(input(
+            &bars((0..26).map(|index| 100.0 + index as f64).collect(), volumes),
+            None,
+            false,
+        ));
+
+        assert_ne!(assessment.eligibility, EligibilityStatus::Full);
+        assert_ne!(assessment.primary_baseline, BaselineType::Standard20d);
+        assert_ne!(assessment.metrics.unwrap().relative_volume_label, "RVOL_20");
+    }
+
+    #[test]
+    fn accumulation_candidate_requires_supply_event_context_next_condition() {
+        let mut data = bars(vec![100.0; 26], vec![Some(100.0); 26]);
+        for (index, close) in [100.3, 99.8, 99.9, 99.8, 99.9, 100.0]
+            .into_iter()
+            .enumerate()
+        {
+            data[20 + index].close = close;
+        }
+        data[25].volume = Some(250.0);
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            persistence_days: 2,
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(
+            assessment.next_eligibility_condition.as_deref(),
+            Some("Need Supply Event Context to evaluate absorption.")
+        );
     }
 }

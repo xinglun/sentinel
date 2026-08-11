@@ -1,0 +1,214 @@
+{
+  "workItemId": "price-volume-audit-followup",
+  "contractPath": ".ai/work-items/archive/2026/price-volume-audit-followup.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/price-volume-audit-followup.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/price-volume-audit-followup.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "成熟资产基线主次、缺量资格和 Supply Context 下一条件的实现与回归测试。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 preflight/status make target 生成并与 active Contract 同步。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-12-price-volume-review-findings-design.md",
+    "docs/superpowers/plans/2026-08-12-price-volume-review-findings.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "成熟资产同时有标准历史和事件基线时，STANDARD_20D 为 Primary，事件基线为 Secondary",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "存在缺量但仍有足够 OHLCV 时，资格最多为 DEGRADED，不能为 FULL 或 RVOL_20",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "缺少 Supply Context 的 Accumulation Candidate 给出明确的 Supply Event Context 下一条件",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "既有价量资格、事件有效历史最少两根、future event 和可恢复缺量回归不被破坏",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-audit-followup.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-followup.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "userCorrectionSolidification": [
+    {
+      "correction": "追加审计发现成熟主次基线、缺量 FULL/RVOL 语义和 Supply Context 下一条件遗漏。",
+      "solidifiedTo": "contract",
+      "reason": "Contract 增加三项独立验收和场景覆盖，要求每项有 make test 证据。"
+    },
+    {
+      "correction": "追加审计发现成熟主次基线、缺量 FULL/RVOL 语义和 Supply Context 下一条件遗漏。",
+      "solidifiedTo": "summary",
+      "reason": "Summary 记录三个回归场景、验证结果和 review focus，防止只修代码不修证据。"
+    }
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "三个审计遗漏已通过领域回归、全量测试和静态质量门禁验证；外部 Supply Event Context 采集仍不在本工单范围内。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract updated and preflight passed",
+      "contractHash": "9892ae0d4f59e855",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "before implementation: RED tests recorded",
+      "contractHash": "9892ae0d4f59e855",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "implementation green and full verification in progress",
+      "contractHash": "9892ae0d4f59e855",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "all required local verification passed",
+      "contractHash": "9892ae0d4f59e855",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract scope、acceptance、scenario coverage 和 capability 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "RED 测试先于 production edit 运行并确认失败。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "领域测试、fmt、全量测试和 Clippy 已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "Cockpit required checks 已记录，工单可进入 finish。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_supply_context",
+      "detail": "Supply Event Context 外部采集仍是前工单明确的 S-29 residual risk，本工单只修正缺失时的观察语义。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required verification 已通过；外部 Supply Event Context 采集不在本工单范围内。",
+    "expectedReviewFocus": [
+      "成熟资产 STANDARD_20D Primary 与事件 Secondary 的语义",
+      "缺量数据不得晋级 FULL 或 RVOL_20",
+      "Supply Event Context 外部采集仍属于 S-29 residual risk"
+    ]
+  }
+}
