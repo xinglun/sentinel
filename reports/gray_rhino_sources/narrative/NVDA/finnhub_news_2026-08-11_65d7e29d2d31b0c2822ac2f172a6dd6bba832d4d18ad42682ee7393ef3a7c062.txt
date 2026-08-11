@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is the U.S. Army Buying $54 Billion Worth of Patriot Missiles From Lockheed Martin?
+  summary: The Iran war has highlighted a requirement for a lot more Patriot air defense missiles, both high- and low-end.
+  url: https://finnhub.io/api/news?id=4a7c8ab6d55422bbabcc2cbe3f0d63ac9b33153e409fb42e3a9d248613934889

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Picks CoreWeave (CRWV) as the Better Buy Over IREN
+  summary: When a caller asked about IREN Limited (NASDAQ:IREN) during the lightning round of the August 6 episode of Mad Money, Jim Cramer remarked, “If you like IREN… you got to go buy CoreWeave. CoreWeave is cheaper and better, okay?” Capital Models and Historical Commentary Examining past Mad Money commentary clarifies how these strategies evolved. On […]
+  url: https://finnhub.io/api/news?id=d542b567f610a6741c17323b7459ad6ee178b47913fbe01c5bd89edfd5fd1a8a

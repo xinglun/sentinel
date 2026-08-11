@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Behind AI Investment, U.S. Trade Deficit Grows 4th Consecutive Month
+  summary: One factor is the continuing multibillion-dollar AI investments by Google parent Alphabet, Facebook parent Meta, Microsoft, Amazon, Oracle and others.
+  url: https://finnhub.io/api/news?id=97266ac649cf852f084780ba4da523061c75fc6f30e2f3e68c46be61a81d018f

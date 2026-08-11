@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Foreign Stocks Lose Their Edge As U.S. Momentum Roars Back
+  summary: Foreign equities continue to outperform U.S. stocks this year, but there are signs that international leadership is faltering, based on a set of ETFs through Mondayâs close. Read more here.
+  url: https://finnhub.io/api/news?id=0984683926aac0e5e5ecb89969681a3a6ba7fddb55db45730de6022de12834cf

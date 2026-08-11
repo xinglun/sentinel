@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir AI Boosts Pentagon Capabilities but LMT, RTX May Be the Better Missile Shortage Plays
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) has helped the Pentagon dramatically accelerate the process of finding targets in Iran, but a defense analyst says America’s ability to build the missiles needed to hit them hasn’t kept pace. Speaking to LBC on Sunday,...
+  url: https://finnhub.io/api/news?id=984386233f826bd799f1237b7a24ef4c87a7bf7a6e3adec703d930b8cc8fbea9

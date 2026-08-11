@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Q2: Karp Takes On The Two AI Labs
+  summary: Palantir Technologies Inc. open-weight moat, Q2 guidance-driven re-rate & surging U.S. commercial growth. Click for this PLTR earnings update.
+  url: https://finnhub.io/api/news?id=5b67a505d847a7d55fd1d3bc14e54f0b3fbf8ea23b4c805cea09b347b1dc944b

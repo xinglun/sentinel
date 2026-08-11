@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Gold-S&P 500 Reset: Gold's Outperformance Has Far To Run
+  summary: We think the overcrowded gold trade of early 2026 has largely cleared, and the balance of evidence now tilts back toward gold outperforming equities.
+  url: https://finnhub.io/api/news?id=45bc65c25c61eb13ad8bc81cd9b0884e6edae6190b5f18da142a79504aa7a3ed

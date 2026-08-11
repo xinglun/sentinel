@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Diverging Fortunes For Older And Younger Teens In U.S. Summer Job Market
+  summary: Depending on how old they are, U.S. teens are having a very different summer job experience in Summer 2026.
+  url: https://finnhub.io/api/news?id=affd7101eba6628c435b56abda19a6b9c512b805115b01cc9d004bfd5c41623e

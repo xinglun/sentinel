@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cannae Q2 Earnings Call Highlights
+  summary: Cannae (NYSE:CNNE) outlined plans to continue repurchasing shares, monetize non-core assets and expand its sports and entertainment portfolio during its second-quarter 2026 earnings call, as the company reported lower operating revenue and significant impairment charges related to its restaurant gro
+  url: https://finnhub.io/api/news?id=6d7744cc5482f8b144076cdde40469f0ed07421a3f3d5b544c232ec6b52ad555

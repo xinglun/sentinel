@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Retail traders just drew a line under Tesla’s sell-off
+  summary: Tesla (TSLA) just reminded Wall Street that its retail investor base still has unusual power. Tesla shares surged about 6% last week, rebounding from three weeks of losses as retail investors aggressively bought the drop. Retail inflows were about $372 million during five trading days, compared ...
+  url: https://finnhub.io/api/news?id=834e7696cec2e7ddefb7c2257e6684a90082609d7d0356a37c89193fe7648c34

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: Palantir, SpaceX, Cerebras and NVIDIA
+  summary: A sharp July jobs miss could ease rate-hike fears, while Palantir, SpaceX, Cerebras and NVIDIA show signs of AI stock stabilization.
+  url: https://finnhub.io/api/news?id=347607a164e0d4ead26cc5b51c89e077b2a985a3547b1aa6f7164ae891a4a2d5

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everything’s bigger in Texas: Musk’s planned $16.8 billion chip factory is five times bigger than the world’s current largest building
+  summary: SpaceX and Tesla’s planned Terafab would span more than 100 million square feet and will assist humanity’s space colonization—according to Elon Musk.
+  url: https://finnhub.io/api/news?id=fcf803f62bd1a056a1e3261e1f5afda61b0127d7a35d2c114f82332d98d375e1

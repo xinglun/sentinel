@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Dividend-Paying Industrial Stocks to Buy in August
+  summary: These three companies have seen a lot over the years but still have each been able to increase their dividend payouts for 50-plus consecutive years.
+  url: https://finnhub.io/api/news?id=b498e09389afa1ae6d7a8e2dfb3c9c99c8943f3d5171a9b9f6a93d75086bb7bc

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitdeer: A 3-Layer Framework For Valuing Bitcoin Miners In The AI Era
+  summary: 
+  url: https://finnhub.io/api/news?id=670776e240833700f571f31c8360d1aa91197907cf5ce0880d984ad02211c34a

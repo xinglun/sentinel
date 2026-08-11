@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says SpaceX Will Consume Three Times More Terafab AI Compute Than Tesla
+  summary: Tesla Inc. and Space Exploration Technologies Corp. CEO Elon Musk says that the new Terafab semiconductor manufacturing facility in Grimes County, Texas, will serve both the Optimus robot and SpaceX’s “AI spacecraft”. Elon Musk’s Approximate Guesses On Thursday, the Tesla...
+  url: https://finnhub.io/api/news?id=d9e554d643827dcd4111de96db14c21e0f917d1d97272791a85650f7ef87e461

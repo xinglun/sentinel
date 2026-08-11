@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Titans Line Up $500 Billion Behind Nvidia's AI Buildout
+  summary: A rare coalition of Apollo, Blackstone, BlackRock, Brookfield, KKR and Goldman Sachs is reportedly readying a $500 billion package to finance Nvidia's AI infrastructure ambitions. Wall Street took a small step back, oil surged nearly 5 percent on renewed Hormuz stress, and Intel used its comeback story to launch a $15 billion capital raise.
+  url: https://finnhub.io/api/news?id=c8e195b822ea32983cfa7a7fe428a81691cad5177a141c8ab398bcb51d2e05a6

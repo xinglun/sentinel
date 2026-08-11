@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Earnings Will Test Its Speedrun to AI Hyperscale
+  summary: CoreWeave earnings are expected to show another quarter of triple-digit sales growth as the AI cloud company spends billions on data centers and inches toward profitability.
+  url: https://finnhub.io/api/news?id=991cbc370b43234ad34582a7289e019357f4e2e7f26a404b722295081c53512b

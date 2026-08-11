@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Pauses After Lockup Rally Ahead of the Next Share Unlock
+  summary: SpaceX  stock took a break Monday after surging 16% on Friday to its highest close in a month as a lockup period for shares expired.  The stock has had a torrid time since its closing high of $201.80 on June 16—reached shortly after its initial public offering on June 12.  Wall Street had widely braced for severe selling pressure on Thursday, when SpaceX’s first lockup expiration freed roughly 911 million restricted insider shares.
+  url: https://finnhub.io/api/news?id=4761e5b41cfec7d86f42a6c2de59c1c6d6d58c9fbb3d9644f5d1b630f6d35b41

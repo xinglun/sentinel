@@ -1,35 +1,35 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-08-10
+- 截至: 2026-08-11
 - 状态: 使用当前市场判断
 - 最新摘要: 结构整理期 | 无交易窗口
-- 分析天数: 6
-- 平均置信度: 50.2
-- 平均稳定度: 1.7
+- 分析天数: 7
+- 平均置信度: 50.0
+- 平均稳定度: 2.1
 - 趋势凝聚 ready 天数: 0
 
 ## 市场状态计数
-- DEFENSIVE: 4
+- DEFENSIVE: 5
 - IGNITION: 2
 
 ## 风险覆盖计数
-- DEFENSIVE: 4
+- DEFENSIVE: 5
 - NORMAL: 2
 
 ## 状态机周度汇总
 - 有状态摘要的天数: 7
 - 重置确认 / 阻止: 0 / 0
-- 软重置 / duration lock / 防御覆盖: 0 / 0 / 4
+- 软重置 / duration lock / 防御覆盖: 0 / 0 / 5
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-07-16: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-07-30: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-03: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-04: IGNITION -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-05: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-07: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-10: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
+- 2026-08-11: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -50,12 +50,12 @@
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
-- Information Content: LOW
+- Information Content: UNAVAILABLE
 - Primary Context: None
-- Context Quality: LOW
+- Context Quality: UNAVAILABLE
 - Event Fact: N/A
-- Source Diagnostics: No major event today. Current monitoring remains idle.
-- Interpretation: 今天未识别到高信息量宏观事件。官方经济日历未命中 CPI、FOMC、就业、GDP 等事件。今日价格变化更可能由企业消息、板块轮动、技术走势驱动。
+- Source Diagnostics: No high-information event identified from available sources. Current monitoring remains idle.
+- Interpretation: 当前来源无法确认今天是否存在高信息量事件，Signal Context 标记为 UNAVAILABLE。
 - 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
 ## Market Interpretation Snapshot
@@ -65,7 +65,7 @@
 - exceptionalFactors: []
 - Narrative:
   - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破萌芽，整体属于当前截面观察。
-  - No major event today. Current monitoring remains idle.
+  - 等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。
   - 没有结构性恶化证据。
 - Leadership Confidence: LOW
 - Leadership Metrics:
@@ -85,7 +85,7 @@
   - observationOnly: true
 - Observation Confidence:
   - trend: MEDIUM
-  - macro: LOW
+  - macro: UNAVAILABLE
   - supply: HIGH
   - expectation: UNAVAILABLE
   - gravity: UNAVAILABLE
@@ -94,7 +94,6 @@
 - Interpretation Priority:
   - Trend: ★★★
   - Supply: ★★
-  - Macro: ★
   - Flow: ☆
   - Expectation: ☆
 - Leader Persistence:
@@ -121,11 +120,11 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-08-10
+- 最新观测日: 2026-08-11
 - 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 1
-- 7 日 Future Queue 最小值 / 最大值: 0 / 1
-- 已报道 / 已确认: 1 / 0
+- 最新 Future Queue 数量: 2
+- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 已报道 / 已确认: 2 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -139,7 +138,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-08-11
+- 观测日: 2026-08-12
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

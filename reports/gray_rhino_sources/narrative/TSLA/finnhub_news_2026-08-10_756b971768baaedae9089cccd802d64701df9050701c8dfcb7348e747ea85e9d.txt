@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla in the spotlight as NFL's 49ers head coach says Autopilot may have been engaged during accident
+  summary: Tesla is in the spotlight after news that the company's self-driving software may have played a part in an accident involving the head coach of the NFL's San Francisco 49ers.
+  url: https://finnhub.io/api/news?id=2b017fb7b1f7b50ca2283b60be3c8cdaff7bbaf54ffcae45f5bb047f2e8d3189

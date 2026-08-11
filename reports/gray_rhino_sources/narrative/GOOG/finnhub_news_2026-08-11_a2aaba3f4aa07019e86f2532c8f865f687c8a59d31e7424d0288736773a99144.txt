@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloudflare Wants to Control the Identity and Money Layer for Agent Commerce
+  summary: A CDN giant is issuing per-agent wallets with spending caps and merchant allow-lists, betting it can own the settlement pipe before agents start spending real money. Cloudflare has entered the agent commerce race with a two-tier wallet architecture designed to give developers programmable control over how AI agents spend money. The company’s new AI Agents […]
+  url: https://finnhub.io/api/news?id=3cd6d0cb18a0a4fe691f1f4798303e5d327a04e9ae62f42f200a1ce189183a1d

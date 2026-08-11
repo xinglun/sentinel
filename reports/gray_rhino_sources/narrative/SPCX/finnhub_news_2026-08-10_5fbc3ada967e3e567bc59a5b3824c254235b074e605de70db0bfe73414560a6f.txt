@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SEC Alleges Fund Adviser Misled Investors in Pre-IPO Schemes
+  summary: (Bloomberg) -- Investment adviser Adit Ventures and co-founder Eric Munson were accused by the US Securities and Exchange Commission of making false claims about investments and overcharging clients with millions of dollars in undisclosed fees to buy shares of companies including SpaceX and Klarna before they were offered to the public.Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIStocks Churn as Hormuz Standoff Spurs Rally in Oil: Markets WrapIran Sha
+  url: https://finnhub.io/api/news?id=e10c0db14adca0061c94a889f1d53f6087dc7e5e9c57e295ee672953da3cea6e

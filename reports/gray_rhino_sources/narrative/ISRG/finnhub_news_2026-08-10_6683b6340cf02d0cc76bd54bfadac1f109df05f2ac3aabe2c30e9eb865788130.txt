@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Just Beat Earnings. Is the Stock Still Worth Paying a Premium?
+  summary: Intuitive Surgical (NASDAQ:ISRG) beat both top- and bottom-line consensus estimates in its fiscal Q2 2026 results, with revenue for the quarter growing 19% to $2.89 billion and adjusted EPS of $2.80 exceeding expectations by $0.30. Despite that, the stock plunged due to mounting concerns about slowing domestic procedure growth. Worldwide procedures, da Vinci and Ion […]
+  url: https://finnhub.io/api/news?id=2542d6ce7cd87669747b598ed75b3fe1d5f9d8ef0396d8f0ea6b587d4c26c78b

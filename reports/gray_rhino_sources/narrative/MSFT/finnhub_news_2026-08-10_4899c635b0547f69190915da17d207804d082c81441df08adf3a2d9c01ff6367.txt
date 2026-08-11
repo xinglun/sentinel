@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Windows 11 license fee hikes contributing to higher laptop prices, says report
+  summary: A new report claims Microsoft has raised the cost of the Windows license by up to 10% for certain OEMs, which is much higher than usual.
+  url: https://finnhub.io/api/news?id=31463ef4f7ad6129c343b5ac14b63b8274d8356a5f70094508428411eff32ea3

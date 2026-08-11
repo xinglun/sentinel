@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google’s AI Team Tells Job Seekers Its HR Filters Are Unreliable
+  summary: (Bloomberg) -- Alphabet Inc.’s Google pitches its artificial intelligence tools to corporate clients as a way to more quickly sift through a mountain of job applications to find the most promising candidates. Some of its own AI researchers don’t want to rely on these tools when recruiting.Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIStocks Churn as Hormuz Standoff Spurs Rally in Oil: Markets WrapIran Shakes Up Security Team After Saying Oman Deal ‘Ver
+  url: https://finnhub.io/api/news?id=abf09bbd667e0868667298a653e6269209ba9a1a4a30e0c99ebe75423db11402

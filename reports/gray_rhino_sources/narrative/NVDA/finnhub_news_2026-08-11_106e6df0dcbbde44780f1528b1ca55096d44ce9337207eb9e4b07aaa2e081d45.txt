@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Really Buy Stocks Right Now With the S&P 500 Near Its Record High? Warren Buffett Has Good Advice for Investors.
+  summary: The stock market has historically performed well from record highs.
+  url: https://finnhub.io/api/news?id=ce7d18ce98da7ab2d239b46479045ac991c3d566bec64b4051ead40727c00ca3

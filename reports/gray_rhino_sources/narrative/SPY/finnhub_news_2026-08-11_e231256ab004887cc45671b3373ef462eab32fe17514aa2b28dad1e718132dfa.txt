@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The S&P 500's Concentrated Rally Starting To Diversify?
+  summary: The Magnificent Seven peaked at 35% of S&P 500 market cap in early June 2026, the highest concentration in index history
+  url: https://finnhub.io/api/news?id=1c3a46095fe66e708482b564a149d0ad4945c1cb623813bb695d61524dc2db06

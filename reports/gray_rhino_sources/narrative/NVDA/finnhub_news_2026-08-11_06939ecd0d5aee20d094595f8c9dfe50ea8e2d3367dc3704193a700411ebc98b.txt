@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Zillow (Z) Stock a Buy After Falling Nearly 13% in 1 Day?
+  summary: It's also down about 60% over the past year, making the stock more attractive to many.
+  url: https://finnhub.io/api/news?id=abb4d5a6faa04f9bc2ebc54a75e339e60a86065ff11cd8e8891759afa5d199f5

@@ -1,0 +1,47 @@
+{
+  "date": "2026-08-11",
+  "timestamp": "2026-08-12T00:30:40.142422411+09:00",
+  "preflight": null,
+  "decisioning": "succeeded",
+  "evidence_collection": "succeeded",
+  "gray_rhino_collection": {
+    "status": "partial_failure",
+    "date": "2026-08-12",
+    "sec": {
+      "status": "succeeded",
+      "accepted": 0,
+      "rejected": 0
+    },
+    "finnhub": {
+      "status": "succeeded",
+      "accepted": 0,
+      "rejected": 0
+    },
+    "fred": {
+      "status": "skipped",
+      "accepted": 0,
+      "rejected": 0
+    },
+    "failed_providers": []
+  },
+  "gray_rhino_rendering": "succeeded",
+  "archival": "skipped",
+  "notification": "succeeded",
+  "execution": "skipped",
+  "reconciliation": "skipped",
+  "reconciliation_report": null,
+  "state_machine": {
+    "from_state": "DEFENSIVE",
+    "to_state": "DEFENSIVE",
+    "reset_confirmed": false,
+    "reset_blocked": false,
+    "soft_reset_applied": false,
+    "duration_locked": false,
+    "defensive_override": true,
+    "core_breakdown": false,
+    "reconciliation_mismatch_count": 0,
+    "preflight_failed": false
+  },
+  "data_quality": "",
+  "execution_details": null
+}

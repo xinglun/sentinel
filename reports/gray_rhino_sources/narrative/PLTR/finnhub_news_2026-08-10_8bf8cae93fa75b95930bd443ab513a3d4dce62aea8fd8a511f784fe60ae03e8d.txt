@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Refreshes Bearish Palantir Trade Even As AI Rally Strains Short Bets
+  summary: Famed "Big Short" investor Michael Burry buys new out-of-the-money puts on Palantir and adds to his Zoetis stake.
+  url: https://finnhub.io/api/news?id=f6e808a5c2a3a8662167c318bea15d0ecc65a47ebb68e5246616db7fea8f5bbc

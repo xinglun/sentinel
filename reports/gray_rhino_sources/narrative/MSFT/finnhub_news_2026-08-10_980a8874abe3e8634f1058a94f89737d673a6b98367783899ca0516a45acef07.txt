@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Rises 1.7% as JPMorgan Backs AI Payoff
+  summary: JPMorgan highlighted Microsoft's cloud growth and backlog while raising its S&P 500 earnings and year-end forecasts.
+  url: https://finnhub.io/api/news?id=eaec0ca9403e5d7c7f1381d26f60cd8dd620444f801dc833a690d1f9ffc68424

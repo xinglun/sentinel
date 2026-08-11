@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 No-Brainer Growth ETF to Buy Right Now for Less Than $1,000
+  summary: This ETF outperforms its benchmarks and large-cap growth ETFs.
+  url: https://finnhub.io/api/news?id=1ded5df88b9cb79d2ba44fa03f2d038ede67d4216632a74d425b1e3c4e9d8811

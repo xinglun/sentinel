@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron: How The Memory Supercycle Reaccelerates Right Now
+  summary: Micron Technology, Inc. outlook: AI-driven DRAM shortage through 2027 plus 5-year customer agreements boost earnings visibility. Click for this MU stock update.
+  url: https://finnhub.io/api/news?id=324f05b55bac0f4c884d1f49364d70ab9b97ced9337289a17b4e768db68ff6a9

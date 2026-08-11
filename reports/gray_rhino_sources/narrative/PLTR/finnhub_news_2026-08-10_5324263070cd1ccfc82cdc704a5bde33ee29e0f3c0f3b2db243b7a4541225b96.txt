@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Is Considered a Good Investment by Brokers: Is That True?
+  summary: According to the average brokerage recommendation (ABR), one should invest in Palantir Technologies (PLTR). It is debatable whether this highly sought-after metric is effective because Wall Street analysts' recommendations tend to be overly optimistic. Would it be worth investing in the stock?
+  url: https://finnhub.io/api/news?id=08d19e0a85db098d395114ddbc9bb28599a3eec77f4387f89ca0a8ed883667e6

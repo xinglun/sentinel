@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Puts $37 Million Into SpaceX
+  summary: Wood added shares during both the 13.6% selloff and Friday's rebound.
+  url: https://finnhub.io/api/news?id=7a4b0b74c23d81ef9fb1600c248c48854f61a9fbe55ef1ee515a701e413c15ce

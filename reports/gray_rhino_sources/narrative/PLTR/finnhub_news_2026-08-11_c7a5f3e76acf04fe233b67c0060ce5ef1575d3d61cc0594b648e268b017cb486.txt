@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Q2 2026 Earnings Call Transcript
+  summary: Revenue surged 93% year over year as AI demand accelerated across U.S. markets.
+  url: https://finnhub.io/api/news?id=c90e53c696cc2176575a2feb0eee1b07101e6cb07281dcfcf288649fa62b157b

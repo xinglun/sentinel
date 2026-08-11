@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Canopy Growth: Penny Stock Purgatory -- or Cannabis Rebound in the Making?
+  summary: The turnaround is becoming more believable.
+  url: https://finnhub.io/api/news?id=fc963e934b5b198b4f70787f85846bbf6aa80ef686b0bde27234fd87036096ff

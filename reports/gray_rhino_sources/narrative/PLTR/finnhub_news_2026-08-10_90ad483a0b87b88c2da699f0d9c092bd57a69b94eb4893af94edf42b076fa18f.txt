@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Palantir Reach $207 per Share to Claim a New All-Time High Before 2026 Is Over?
+  summary: Palantir's fantastic quarter wasn't enough to set a new all-time high.
+  url: https://finnhub.io/api/news?id=7b0d0b011dd7730958a89f0eb45327f9e296a366ca971b481f2d0646e5e6a808

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Tesla’s Terafab Texas Chip Bet Reshape Its AI Ambitions And Margin Story For TSLA?
+  summary: In late July 2026, the Wall Street Journal reported that Tesla was exploring options to separate its China business ahead of a potential merger with SpaceX, a story Elon Musk and Tesla representatives publicly rejected as false even as it highlighted Tesla’s heavy operational reliance on its Shanghai factory. At the same time, Tesla’s deepening ties with SpaceX and projects like the Terafab Texas chip facility are prompting investors to weigh how any future restructuring of its China...
+  url: https://finnhub.io/api/news?id=b34481b51aebb683f91e75ea4e3c10d2a90036ec69b9807eb7cfe9a9801cbe4a

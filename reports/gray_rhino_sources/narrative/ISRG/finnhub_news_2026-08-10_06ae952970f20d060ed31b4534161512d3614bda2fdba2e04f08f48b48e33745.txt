@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Trades at a Premium P/E: Buy, Sell or Hold the Stock Now?
+  summary: ISRG's premium valuation faces scrutiny as strong Q2 growth, higher margins and expanding robotic platforms support its 2026 outlook.
+  url: https://finnhub.io/api/news?id=651fb21e318bc41ddae43d10d7c2453b96582a7b566b22793ffdf458b66e5630

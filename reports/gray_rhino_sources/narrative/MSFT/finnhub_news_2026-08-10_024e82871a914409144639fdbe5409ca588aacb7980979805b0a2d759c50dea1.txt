@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Stock Rises as Bank Lifts S&P Target to 8,000
+  summary: Stronger earnings and improving AI returns persuaded JPMorgan strategists to raise their market forecast despite persistent valuation and geopolitical risks.
+  url: https://finnhub.io/api/news?id=33cc1e557a329b2c4f9e4c1012f7956483595d03a28c40cac09a742634571123

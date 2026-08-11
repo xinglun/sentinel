@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Spending Boom Isn’t Boosting Profit Margins—at Least Not Yet
+  summary: Economist Torsten Sløk points out that the AI capex boom is lifting profit margins for the Mag Seven, but not other companies.
+  url: https://finnhub.io/api/news?id=38f1a9c8abe60e3a8b845336a55facc20dbdf0b08589086cebc607e497709022

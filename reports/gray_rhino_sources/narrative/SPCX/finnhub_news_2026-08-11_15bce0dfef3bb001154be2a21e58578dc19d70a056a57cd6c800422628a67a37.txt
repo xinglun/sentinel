@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Does Super Micro Computer (SMCI) Winning A Gigawatt AI Data Center Mean?
+  summary: Super Micro Computer (NasdaqGS: SMCI) has announced a new collaboration to build a gigawatt-scale data center for SpaceX and xAI. The project is positioned as a major step in Super Micro Computer's AI infrastructure plans and deepens its ties with leading AI customers. The company indicates this initiative is distinct from recent product launches and reflects a broader push into large scale AI deployments. For readers tracking how large AI data center build outs are reshaping the hardware...
+  url: https://finnhub.io/api/news?id=d6530a03503abbad35fd45368be26a904e31a65de7d5430a6f5b225ccfd38d06

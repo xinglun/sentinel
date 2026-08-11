@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Futures Flat as Trump Rejects Iran Reparations, Intel Raises $20 Billion: Dow Jones, S&P, Nasdaq, Wall Street
+  summary: U. S. stock futures traded close to unchanged on Tuesday as investors monitored renewed Middle East tensions, higher oil prices and developments across the artificial intelligence sector ahead of key inflation data later this week.
+  url: https://finnhub.io/api/news?id=ccccc0331c233598bb3567f1306975e496ddbc3bac21b63370f4d648c2c8b71b

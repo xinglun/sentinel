@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's CEO just sent strong signal to stock market investors
+  summary: In early June 2026, AI and chip stocks lost roughly $1.3 trillion in combined market value in a matter of days. Investors who had been riding the AI wave suddenly started asking whether the trade had run too far ahead of reality. Nvidia shares had pulled back more than 15% from their May peak. ...
+  url: https://finnhub.io/api/news?id=997475d266bffb07257c750a8729944ed702f691597c54f19dc68375a626a437

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPY Charges 4.7x More Than Its Own Issuer’s Copy of the Same 500 Stocks
+  summary: State Street, the issuer of the world's most famous S&P 500 ETF, quietly sells a second version of the same fund at a dramatically lower cost. Before your next contribution lands, here is what the fee structure buried in the fine print actually costs you over time.
+  url: https://finnhub.io/api/news?id=104b1d0cf2ed94e37eae14dcfceb713ce0d96b0288f21520f28239fcf4275a44

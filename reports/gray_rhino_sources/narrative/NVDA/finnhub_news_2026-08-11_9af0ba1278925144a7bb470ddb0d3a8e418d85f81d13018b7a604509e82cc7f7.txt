@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Rate Hikes! Fed Chair Kevin Warsh Can Raise Interest Rates Using 2 Nontraditional Methods.
+  summary: The Fed chair and his Federal Open Market Committee (FOMC) colleagues can influence lending rates without formally changing the federal funds target rate.
+  url: https://finnhub.io/api/news?id=c4150e9624be73ada0cc819247c22c8a937faf00984bbe058b4061ba5805bf5a

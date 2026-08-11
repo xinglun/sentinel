@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SEC Accuses Adit Ventures, Munson of Investor Frauds
+  summary: The Securities and Exchange Commission accused investment adviser Adit Ventures and co-founder Eric
+  url: https://finnhub.io/api/news?id=e0091fca949363d606f8df7aa54c6d86474b298d09424cdc19508db0fdd4ebce

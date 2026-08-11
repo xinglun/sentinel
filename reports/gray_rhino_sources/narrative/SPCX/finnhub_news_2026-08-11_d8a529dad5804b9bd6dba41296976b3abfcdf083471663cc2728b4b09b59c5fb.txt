@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Stock Trades At A Premium Following Its 21% Rebound
+  summary: Space Exploration Technologies stock has rebounded sharply in the past week, yet the broader valuation checks currently lean expensive. This puts the recent move under closer scrutiny for investors who care about price versus fundamentals. The share price is up 21.1% over the past week, which quickly changes the entry point for anyone looking at Space Exploration Technologies after its post IPO pullback. Heavy spending on AI and telecom infrastructure can support long term revenue ambitions...
+  url: https://finnhub.io/api/news?id=52b5efb692a794059e701475ecd1c866cc12c8639c4306994cf3d8c9db411926

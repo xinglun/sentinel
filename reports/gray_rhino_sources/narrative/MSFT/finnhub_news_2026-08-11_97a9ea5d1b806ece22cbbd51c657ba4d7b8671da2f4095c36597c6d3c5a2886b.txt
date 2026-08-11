@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You're Underestimating Microsoft's Moat
+  summary: Microsoft (MSFT) remains a Buy after a 31% rally: accelerating Azure growth, AI moat, and fortress cash flows support a $600 target.
+  url: https://finnhub.io/api/news?id=76592cd33bd42112701d6c0f1bede71034fe11bd213aa9abe499149d00a47d99

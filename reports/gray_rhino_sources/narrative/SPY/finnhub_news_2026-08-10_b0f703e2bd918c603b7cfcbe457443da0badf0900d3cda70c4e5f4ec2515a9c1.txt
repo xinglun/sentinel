@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The SECURE 2.0 Rollover That Turns Leftover 529 Money Into Tax-Free Retirement Gold
+  summary: Most families with leftover 529 money face a painful choice between a tax penalty and a missed opportunity, but a little-known SECURE 2.0 provision opens a third path that almost nobody in the personal finance community talks about.
+  url: https://finnhub.io/api/news?id=d22b68c6a43fff23655bff7a8466f3d3ff8ca7868cb16c36a5c602d2139184e5

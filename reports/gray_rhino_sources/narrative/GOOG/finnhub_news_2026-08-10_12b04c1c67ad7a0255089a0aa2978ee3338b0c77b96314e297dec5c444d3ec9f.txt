@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Pull Back for Incoming Inflation Data: Stock Market Today
+  summary: Unease about negotiations to reopen the Strait of Hormuz boosted oil and yields but pressured stocks at the start of a big week for inflation data.
+  url: https://finnhub.io/api/news?id=15782172de0365a5dedbd09350e54b6807168a3cb82fd048d65238d2052241a4

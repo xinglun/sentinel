@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Bulls Remain High on Palantir As It Passes $170
+  summary: Palantir just posted numbers that forced analysts to rethink what kind of company they are actually valuing, but the metric that defines the bull case also sets the exact threshold where the entire thesis falls apart.
+  url: https://finnhub.io/api/news?id=7cca7b04732c794f024e596e822d43a9e3f6fd1d0ff0a85ace8fbbf1d66e308b

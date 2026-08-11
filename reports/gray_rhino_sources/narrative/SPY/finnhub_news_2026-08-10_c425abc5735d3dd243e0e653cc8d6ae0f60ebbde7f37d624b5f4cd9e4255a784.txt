@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wary Bulls Can Take Advantage Of This Spread On The S&P 500
+  summary: Weary bulls have a bull call spread as one option on the State Street SPDR S&P 500 exchange traded fund.
+  url: https://finnhub.io/api/news?id=ac143c36e33e21a7ae3778a1561cf0926648d55f5bfb8e95a3431c3fc3fdc183

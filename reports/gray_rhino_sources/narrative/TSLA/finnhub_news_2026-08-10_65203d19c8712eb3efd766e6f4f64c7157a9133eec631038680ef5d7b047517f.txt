@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Robotaxi Now Ships With Built-In Starlink—Musk Says It’s Coming to Every Car
+  summary: Tesla formally confirmed Starlink direct integration into the Cybercab—its purpose-built robotaxi—in late July.
+  url: https://finnhub.io/api/news?id=d7614c16db18eee30406bd3bffdf354c3f4c7fabf5e8bae58690849b354e699f

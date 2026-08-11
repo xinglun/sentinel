@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Robot ETF Actually Exists Now: Tesla, Hyundai, and the Companies Building the Joints
+  summary: Two robot ETFs now compete for the same investor thesis, but their portfolios tell completely different stories about where humanoid money actually flows when production lines start moving.
+  url: https://finnhub.io/api/news?id=94c2136896eee47c656eb55c7fd62b9e75d7c16e464545b21f9125ecb9ee7965

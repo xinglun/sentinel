@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Semis Surge, Michael Burry’s Shorts Feel the Pressure — But Don’t Expect Him to Run for Cover After His Latest “1987-Style” Crash Warning
+  summary: Michael Burry just doubled down on his bearish AI bets even as semiconductors roar back, but one short in his portfolio stands out as a head-scratcher that may reveal a flaw in his entire thesis.
+  url: https://finnhub.io/api/news?id=85c4b13cee6f02a51fd1a625137a37a9d47f916222269d0a1e78c0953dc28351

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Got $200 per Month? This ETF Could Turn It Into $455,865 With Minimal Effort on Your Part.
+  summary: Most ordinary people's investment wealth is built just a few dollars at a time. The key is committing to the process for years on end.
+  url: https://finnhub.io/api/news?id=067ce25bcd54c989024e92b4738c929564c5e2cdb826f3a7a8eb374d1a5706b9

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla and SpaceX want their own chip factory with 3,000 workers
+  summary: SpaceX plans a 100 million square foot chip factory as its computing ambitions push semiconductor demand to new extremes
+  url: https://finnhub.io/api/news?id=ea4817fc0a23cc58eaaa856b53a2adf9b2079d3caa6ee8a4871ed9abf2f14870

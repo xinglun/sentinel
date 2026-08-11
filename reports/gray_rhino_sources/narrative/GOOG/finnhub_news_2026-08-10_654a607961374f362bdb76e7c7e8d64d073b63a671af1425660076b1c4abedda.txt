@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The loneliness epidemic is growing — can FeedIRL help solve it?
+  summary: FeedIRL Founder Kris Mathis joins Josh Lipton on Asking for a Trend to discuss the growing loneliness epidemic and how FeedIRL is working to help people build meaningful connections.
+  url: https://finnhub.io/api/news?id=8419707567b9bfdc12926c96dcd6a061a5a51cf3e88528f29a8a3c41529419dc

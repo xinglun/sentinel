@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ontario Teachers Made Billions on SpaceX Through Wild Stock Price Swings
+  summary: Ontario Teachers' 2019 SpaceX bet delivered billions in gains, even as the stock spent time below its post-IPO value.
+  url: https://finnhub.io/api/news?id=4611c2971ffa386457db4ef6d6c4b441d159b3ce66d63a099c78a3495c19e0dc

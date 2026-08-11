@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX As Platform: What A Value Investor Found When He Did The Engineering Work
+  summary: WisdomTree Space Economy Fund gives investors exposure to companies building infrastructure of next space economy, including a 12.6% allocation to SpaceX as of July 24, 2026.
+  url: https://finnhub.io/api/news?id=a3b5e84f6eb3c7a8c6715ec9c7698c5030fcb4ed81b3110aff406c82b9ff5707

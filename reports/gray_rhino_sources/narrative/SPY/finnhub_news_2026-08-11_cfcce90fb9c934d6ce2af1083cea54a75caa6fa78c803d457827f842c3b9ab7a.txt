@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The One Chart That Tells Me It Is Time To Get Defensive
+  summary: There are numerous indicators that the market may be in a bubble.
+  url: https://finnhub.io/api/news?id=20b01937fef4209d351f6979b7b598d923e9f9cdfc9462119c32a5bb051f2968

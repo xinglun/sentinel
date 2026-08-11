@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Daily Breadth Cools, but the Broader Recovery Holds
+  summary: Daily breadth weakened Monday, but longer-term participation and index trends stayed constructive. ChartMill breadth remains Positive (6).
+  url: https://finnhub.io/api/news?id=0b8e90149084a8305f0af7015a2aa6b4837ab991c71e23cfa36705317984c09e

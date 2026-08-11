@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnite Sees CTV Growth Hit 36% as Sports and SMB Ad Demand Expands
+  summary: Magnite (NASDAQ:MGNI) is seeing accelerating growth in connected television advertising as demand broadens beyond large brands and agencies, according to Nick Kormeluk, the company’s senior vice president of investor relations, speaking at a KeyBanc event. Kormeluk said the company’s CTV business h
+  url: https://finnhub.io/api/news?id=9fbd4a1256b379d771e48c4497396a0a2ba6a327e99d96b555561f3bff340ada

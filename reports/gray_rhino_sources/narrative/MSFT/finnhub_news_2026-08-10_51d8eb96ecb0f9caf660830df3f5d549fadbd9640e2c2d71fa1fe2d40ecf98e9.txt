@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Set to Make a Whole Lot More of Its Own AI Chips
+  summary: Microsoft joins a growing field of tech companies scaling up production of their own chips to battle AI costs.
+  url: https://finnhub.io/api/news?id=6e36042dc6510cf4bb24baa8a42914286b949a57615c5ae5d43ec4dbfeff9101

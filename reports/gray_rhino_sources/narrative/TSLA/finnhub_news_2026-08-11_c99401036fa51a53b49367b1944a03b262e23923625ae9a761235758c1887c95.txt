@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Just Found Another Way to Grow Without Selling a Car
+  summary: Elon Musk wants Tesla Inc. (NASDAQ) to become an autonomous-driving powerhouse, , but the company’s Robotaxi service covered roughly 700,000 paid miles in the second quarter. That’s down about 36% from approximately 1.1 million miles in the first quarter, according...
+  url: https://finnhub.io/api/news?id=3699c9da2069f13acb5b56e6af14ca331da945737e72329b902ed0d1ade4ee4c

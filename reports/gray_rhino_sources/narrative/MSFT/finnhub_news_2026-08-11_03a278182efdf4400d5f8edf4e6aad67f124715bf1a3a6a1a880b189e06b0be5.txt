@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Vs. AMD: Investors May Be Watching The Wrong Variables (Panel Regression)
+  summary: Microsoft Corporation vs Advanced Micro Devices, Inc. arenât interchangeable AI trades: capex growth drives MSFT, AMDâs capex intensity is capped. Click for more.
+  url: https://finnhub.io/api/news?id=a24a7d56c556f48b1a8cbd2d78314b407eb377a74bd3fb38208b8a3d42e59030

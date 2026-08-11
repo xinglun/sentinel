@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rotation Away From Tech Lifts Moat Index In July
+  summary: The Moat Index gained 3.96%, outperforming the S&P 500 as its lower mega-cap technology exposure and financials tilt paid off.
+  url: https://finnhub.io/api/news?id=e4c287cbdc846d32459bf189d2db32e7a5889c8eed8899b4255e36ca7c625a24

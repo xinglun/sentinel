@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRM Stock Has Bounced From This Price Before. Now What?
+  summary: Salesforce stock has fallen to a price floor that has launched powerful rallies before, forcing investors to decide if the company's booming AI business can overcome its current challenges.
+  url: https://finnhub.io/api/news?id=1740958c32945d425837d62ff6e5bf09008ddbb9185957c7854da5fe65a2aa92

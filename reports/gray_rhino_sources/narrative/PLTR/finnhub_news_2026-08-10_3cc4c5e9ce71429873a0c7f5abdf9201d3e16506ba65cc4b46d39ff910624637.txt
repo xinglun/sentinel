@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Doubling Down On The Same Mistakes
+  summary: Palantir Q2â26 revenue nearly doubled on AIP and AI sovereignty demand, but PLTR trades at peak multiplesâlearn why risks rise and what to do next.
+  url: https://finnhub.io/api/news?id=308a89866ae558f8b53e88ca9941f7e02fecbd9aa02823625f9ca4f4d8368618

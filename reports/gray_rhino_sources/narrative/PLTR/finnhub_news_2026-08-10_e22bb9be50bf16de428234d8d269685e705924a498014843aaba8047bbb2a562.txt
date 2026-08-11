@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hot-Flash Drug Trial Result Sends AbCellera Up as Much as 41%
+  summary: (Bloomberg) -- Biotech company AbCellera Biologics Inc. jumped as much as 41%, giving it a market value of almost $3 billion, after it said a potential remedy for hot flashes was effective in a mid-stage trial.Most Read from BloombergChina Unleashes $28 Trillion Capital Markets to Challenge US in AIIran Shakes Up Security Team After Saying Oman Deal ‘Very Close’Stocks Churn as Oil Advance Boosts Treasury Yields: Markets WrapTrump Amps Up Pressure on Billionaire Sargeant to Exit VenezuelaBehind B
+  url: https://finnhub.io/api/news?id=ab7104a35da172d0d1cf1506ab089a9c56467e13b5519f323673af6473802860

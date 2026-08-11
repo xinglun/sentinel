@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: INTC Stock Gains Overnight: Chipmaker Raising Share Sale To Over $20B?
+  summary: Intel could price the offering at around $95 per share or above, according to Bloomberg’s sources, which would be a 6.5% discount from Friday’s stock price.
+  url: https://finnhub.io/api/news?id=5e29172080e17e9282980d67c7496fbcfc806b3084cdb528b7ad0f1fe2fee945

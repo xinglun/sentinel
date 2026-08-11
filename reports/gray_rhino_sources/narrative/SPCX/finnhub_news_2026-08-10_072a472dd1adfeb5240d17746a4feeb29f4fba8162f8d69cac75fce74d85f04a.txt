@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Has 'Believers, Not Investors,' Steve Eisman Says—Is That Why SPCX Pumped Into the 911 Million Share Unlock?
+  summary: Steve Eisman, the investor made famous by “The Big Short,” says SpaceX (NASDAQ:SPCX) is difficult to value like an ordinary company because Elon Musk has “believers, not investors.” The comment comes as SpaceX shares have remained remarkably resilient since lockup...
+  url: https://finnhub.io/api/news?id=5c065e933b87a630e171deb26d1163ad61206aa309d7e6bc4eef4c55f1377318

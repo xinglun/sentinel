@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Concludes $7 Billion Share Buyback Ahead of Potential IPO: Report
+  summary: OpenAI has reportedly completed a deal to help employees sell nearly $7 billion worth of the company’s shares ahead of its potential IPO. The Sam Altman-led company repurchased shares from existing as well as former employees rather than relying on...
+  url: https://finnhub.io/api/news?id=963e62bd789d4d723f591583a70ba057f5a52f767ae77cdc00812e2c54be4991

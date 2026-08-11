@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Autopilot under scrutiny after crash involving 49ers coach Kyle Shanahan
+  summary: Yahoo Finance Senior Autos Reporter Pras Subramanian joins Josh Lipton on Market Domination Overtime to discuss the Tesla (TSLA) Autopilot incident that may have played a role in a crash involving San Francisco 49ers head coach Kyle Shanahan and what it could mean for the carmaker going forward.
+  url: https://finnhub.io/api/news?id=aa0a54b9a09dac379316c7b326a0955a4ba882c53ebdaa46a5794e4ff4a7812a

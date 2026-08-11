@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Wall Street firms plan $500 billion AI infrastructure push
+  summary: Nvidia and major Wall Street firms plan to mobilize at least $500 billion to invest in artificial intelligence (AI) infrastructure, seeking to attract large amounts of investor capital for funds financing data centres equipped with Nvidia chips. The partnership includes Goldman Sachs and investment firms Apollo, BlackRock and KKR, Nvidia said on Monday, without providing details on the timeframe for raising more than $500 billion.
+  url: https://finnhub.io/api/news?id=ec30c87fc0de235dd20224c2abb5029f534e0b9f34206dd993e489fbf8a18924

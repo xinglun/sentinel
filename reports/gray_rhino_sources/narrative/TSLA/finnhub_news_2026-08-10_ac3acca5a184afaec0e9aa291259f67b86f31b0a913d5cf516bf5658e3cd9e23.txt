@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Is Facing a Perfect Storm as Child Safety and AI Strategy Concerns Pull Down META Stock
+  summary: Meta is facing scrutiny over child safety issues at a time when markets are questioning the company's AI strategy.
+  url: https://finnhub.io/api/news?id=34d241127ad2450104d47c56685bd74a202db625914f8874da00ae535a2c742a

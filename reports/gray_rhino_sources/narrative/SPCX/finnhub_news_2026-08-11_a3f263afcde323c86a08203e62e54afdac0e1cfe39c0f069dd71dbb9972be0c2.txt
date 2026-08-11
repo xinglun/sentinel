@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Slips Overnight After 3-Day Rally — Here's Why Ron Baron Sees 40x Upside And ‘Hundreds Of Billions’ In Gains
+  summary: Baron Capital’s $3 billion SpaceX investment was worth about $25 billion in June, and the firm wants to invest another $1 billion.
+  url: https://finnhub.io/api/news?id=46df4703b29d4670b3892d1a068fce14a7d161a4c9b1d96f4fd5e9b7699d0067

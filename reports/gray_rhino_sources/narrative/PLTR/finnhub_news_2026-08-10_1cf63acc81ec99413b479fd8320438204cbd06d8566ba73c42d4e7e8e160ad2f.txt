@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Why Growth Investors Shouldn't Overlook Palantir Technologies (PLTR)
+  summary: Palantir Technologies (PLTR) is well positioned to outperform the market, as it exhibits above-average growth in financials.
+  url: https://finnhub.io/api/news?id=d57f0d19d118bfbb2227682e739613291526c6874a9ed63468863d0edf28e09c

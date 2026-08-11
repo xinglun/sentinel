@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Jumps 3%, Yields Climb as Hormuz Hopes Fade: Stock Market Today
+  summary: Crude surges above $80 and the 10-year yield hits an August high as an Iran-US deal on the Strait of Hormuz slips away, stalling Wall Street&#39;s record run.
+  url: https://finnhub.io/api/news?id=b2c3d89e1ba544c6935e885ea50b18ce7f28457e2a8831917fca777a0ce13aa6

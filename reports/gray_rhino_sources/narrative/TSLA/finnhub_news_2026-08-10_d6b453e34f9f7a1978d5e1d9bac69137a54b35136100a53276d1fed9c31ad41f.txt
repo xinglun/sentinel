@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dear XPeng Stock Fans, Mark Your Calendars for August 24
+  summary: XPeng heads into its August 24 earnings with plenty to prove as investors look for signs of a potential turnaround in XPEV.
+  url: https://finnhub.io/api/news?id=4c0d5a69c50568269fc08a49ca51b74031567c5241b5a32d5877ca9d4dfc27da

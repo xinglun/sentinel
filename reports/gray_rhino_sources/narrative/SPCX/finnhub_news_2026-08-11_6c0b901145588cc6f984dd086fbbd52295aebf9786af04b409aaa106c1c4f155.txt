@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The IPO Hangover Is Real, But So Is The Next Sugar Rush
+  summary: SpaceX IPO delivered wild volatility, surging to $225.60 before retreating to $133. Click here to read more on SPCX stock and why it is a Hold.
+  url: https://finnhub.io/api/news?id=6afc82fea69a2e0c287e91f7694995907d2b51a4d7383002820305305755c9e9

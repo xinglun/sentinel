@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Has More to Prove Than Ever, But the Upside Could Be Huge
+  summary: Tesla just posted record deliveries while cratering its own profitability story, leaving investors to weigh a broken Q2 against a 2027 pipeline that could rewrite the entire valuation case.
+  url: https://finnhub.io/api/news?id=918307061f3263f2b8466fcf2e2a764fcef93807541023d2d2b7abc0a0310601

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Sends Stark Warning for Businesses Betting Big on AI
+  summary: Palantir CEO Sounds Alarm on AI Spending: Are Businesses Paying Too Much?
+  url: https://finnhub.io/api/news?id=0995b77e14fc7ef108e50850f5ed17563458505d79011df98d62373d8b90d863

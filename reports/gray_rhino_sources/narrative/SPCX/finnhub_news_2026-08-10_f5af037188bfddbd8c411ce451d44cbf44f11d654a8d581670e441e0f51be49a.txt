@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trolls hijack SpaceX's biggest investor event
+  summary: SpaceX (Nasdaq: SPCX) made its public-market debut on June 12, 2026, after pricing shares at $135 in what became the largest initial public offering in history. Shares surged as high as $225.64 during their first session before closing at $184. Less than two months later, Elon Musk’s space ...
+  url: https://finnhub.io/api/news?id=d7b86d99308af0104276aa4fe657888c35648f4e3d065f03c7cc9bdc8c4d810b
