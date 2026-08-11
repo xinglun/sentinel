@@ -1034,7 +1034,6 @@ pub(crate) async fn run_pipeline_for_report_date(
                         &history.symbol,
                         packet.date,
                     ),
-                    total_trading_days: history.total_trading_days,
                     event_baseline,
                     secondary_supply_context: secondary_supply_context.as_ref(),
                 });
@@ -1060,7 +1059,6 @@ pub(crate) async fn run_pipeline_for_report_date(
                             &history.symbol,
                             packet.date,
                         ),
-                        total_trading_days: history.total_trading_days,
                         event_baseline,
                         secondary_supply_context: secondary_supply_context.as_ref(),
                     }
@@ -1096,7 +1094,6 @@ pub(crate) async fn run_pipeline_for_report_date(
                 persistence_days: 1,
                 source_rate_limited: true,
                 volume_comparable: true,
-                total_trading_days: 0,
                 event_baseline: None,
                 secondary_supply_context: None,
             });
@@ -1245,8 +1242,10 @@ fn price_volume_supply_event_is_active(
     event: &config::PriceVolumeSupplyEventConfig,
     market_date: chrono::NaiveDate,
 ) -> bool {
-    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
-        .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
+    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d").is_ok_and(|event_date| {
+        let age_days = (market_date - event_date).num_days();
+        (0..=20).contains(&age_days)
+    })
 }
 
 fn price_volume_event_baseline(
@@ -2240,6 +2239,10 @@ mod tests {
         assert!(!price_volume_supply_event_is_active(
             &event,
             NaiveDate::from_ymd_opt(2026, 8, 27).unwrap()
+        ));
+        assert!(!price_volume_supply_event_is_active(
+            &event,
+            NaiveDate::from_ymd_opt(2026, 8, 1).unwrap()
         ));
     }
 
