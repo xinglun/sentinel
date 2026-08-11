@@ -25,7 +25,9 @@
     "src/features/radar/domain/price_volume_structure.rs",
     "src/features/radar/interface/price_volume_structure_report.rs",
     "src/features/radar/interface/radar_pipeline_runner.rs",
-    "src/features/radar/infrastructure/persistence.rs"
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/config.rs",
+    ".ai/cockpit/current_status.md"
   ],
   "outOfScope": [
     "src/features/radar/application/**",
@@ -48,22 +50,22 @@
     {"path":".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json","reason":"既有报告层的 Observation Only 约束。"}
   ],
   "scenarioCoverage": [
-    {"scenario":"成熟股 20 日完整历史使用 STANDARD_20D/FULL","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"IPO 第 3 日为 INSUFFICIENT，不伪造基线","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"IPO 第 7 日和第 15 日使用 POST_IPO/PARTIAL","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"Lock-up 第 1/3/5 日生成 POST_LOCKUP secondary baseline","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"Earnings 第 1/3 日生成 POST_EARNINGS secondary baseline","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"缩量上涨、放量抗跌、放量下跌维持既有经济定义","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"一日 short squeeze、二日修复失败、三日持续结构只推进候选生命周期","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"API 429、Volume gap、Supply Context missing 输出结构化原因","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"SPCX 型 recent IPO + lockup + high turnover 支持 PARTIAL/CANDIDATE 或 DEVELOPING，不硬编码 ticker","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"MSFT/PLTR 型事件后弱参与候选不直接 CONFIRMED","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"所有 assessment 的 decision_weight=0%、trade_signal=false、effects=None","required":true,"status":"unverified","evidence":[]},
-    {"scenario":"Markdown/Telegram 输出显示 eligibility、baseline、days、reason、next condition","required":true,"status":"unverified","evidence":[]}
+    {"scenario":"成熟股 20 日完整历史使用 STANDARD_20D/FULL","required":true,"status":"unverified","evidence":[],"reason":"实现前待 Rust regression test。"},
+    {"scenario":"IPO 第 3 日为 INSUFFICIENT，不伪造基线","required":true,"status":"unverified","evidence":[],"reason":"实现前待 Rust regression test。"},
+    {"scenario":"IPO 第 7 日和第 15 日使用 POST_IPO/PARTIAL","required":true,"status":"unverified","evidence":[],"reason":"实现前待 Rust regression test。"},
+    {"scenario":"Lock-up 第 1/3/5 日生成 POST_LOCKUP secondary baseline","required":true,"status":"unverified","evidence":[],"reason":"实现前待 Rust regression test。"},
+    {"scenario":"Earnings 第 1/3 日生成 POST_EARNINGS secondary baseline","required":true,"status":"unverified","evidence":[],"reason":"实现前待 Rust regression test。"},
+    {"scenario":"缩量上涨、放量抗跌、放量下跌维持既有经济定义","required":true,"status":"unverified","evidence":[],"reason":"实现前待既有 domain tests。"},
+    {"scenario":"一日 short squeeze、二日修复失败、三日持续结构只推进候选生命周期","required":true,"status":"unverified","evidence":[],"reason":"实现前待 anti-overfitting tests。"},
+    {"scenario":"API 429、Volume gap、Supply Context missing 输出结构化原因","required":true,"status":"unverified","evidence":[],"reason":"实现前待 failure-path tests。"},
+    {"scenario":"SPCX 型 recent IPO + lockup + high turnover 支持 PARTIAL/CANDIDATE 或 DEVELOPING，不硬编码 ticker","required":true,"status":"unverified","evidence":[],"reason":"实现前待 ticker-independent test。"},
+    {"scenario":"MSFT/PLTR 型事件后弱参与候选不直接 CONFIRMED","required":true,"status":"unverified","evidence":[],"reason":"实现前待 event-baseline lifecycle test。"},
+    {"scenario":"所有 assessment 的 decision_weight=0%、trade_signal=false、effects=None","required":true,"status":"unverified","evidence":[],"reason":"实现前待 observation boundary tests。"},
+    {"scenario":"Markdown/Telegram 输出显示 eligibility、baseline、days、reason、next condition","required":true,"status":"unverified","evidence":[],"reason":"实现前待 report contract test。"}
   ],
   "unknowns": [],
   "notCodable": false,
-  "riskAssessment": {"level":"medium","riskTypes":["observation_trade_boundary","domain_semantics","i18n_snapshot","persistence_compatibility","scenario_coverage"],"reason":"短历史放宽若没有独立 eligibility、baseline 和 lifecycle 字段，可能把候选误读为确认或改变既有交易边界；因此所有输出和 JSONL 兼容性必须有回归证据。"},
+  "riskAssessment": {"level":"medium","riskTypes":["architecture_boundary","evidence_insufficient","i18n_snapshot","data_integrity","review_debt"],"reason":"短历史放宽若没有独立 eligibility、baseline 和 lifecycle 字段，可能把候选误读为确认或改变既有交易边界；因此所有输出和 JSONL 兼容性必须有回归证据。"},
   "agentCapability": {"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":""},
   "executionDecision": {"status":"continue","reason":"用户提供了完整需求并授权必要确认；现有 domain、report、runner、persistence 接点已定位，unknowns 已清空。"},
   "humanReview": {"status":"confirmed","decision":"用户授权 Agent 对实现所需确认事项作出保守决定并写入本 Contract。授权确认：使用结构化枚举而非文案推断；PARTIAL 只能形成候选/Developing；Supply Context 缺失不确认吸收；交易边界固定；事件映射继续由现有 context 提供，不在本工单硬编码。","openQuestions":["无待决策项；若实现发现事件日期、数据质量或既有经济定义无法由现有证据判定，必须保守输出 UNAVAILABLE/PARTIAL 并记录 reason，不得自行扩展交易边界。"]},
@@ -96,8 +98,7 @@
     {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json","required":true},
     {"command":"make check-ai-status CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json","required":true},
     {"command":"make check-ai-status-consistency","required":true},
-    {"command":"make ai-preflight","required":true},
-    {"command":"make ai-finish TASK=price-volume-eligibility-baseline","required":true}
+    {"command":"make ai-preflight","required":true}
   ],
   "destructiveChangePolicy": {"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
   "rollbackNote":"在归档前回退本分支的实现、测试、spec/plan 和 active evidence；不删除既有 archive evidence。"

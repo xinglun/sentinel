@@ -1483,8 +1483,9 @@ mod tests {
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use crate::features::radar::domain::price_volume_structure::{
-        ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
-        PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
+        BaselineType, CandidateLifecycle, EligibilityStatus, ParticipationQuality,
+        PriceVolumeAssessment, PriceVolumeObservationBoundary, PriceVolumeStructure,
+        StructurePersistence, SupplyAbsorption, VolumeDataQuality,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
     use chrono::NaiveDate;
@@ -1535,6 +1536,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -1601,6 +1608,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         let date = |day| NaiveDate::from_ymd_opt(2026, 8, day).unwrap();
         layer
@@ -1680,6 +1693,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
