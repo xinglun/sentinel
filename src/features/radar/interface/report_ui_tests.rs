@@ -3372,7 +3372,7 @@ mod tests {
         assert!(report
             .telegram_html_body
             .contains("Quarter-end Rebalancing"));
-        assert!(report.telegram_html_body.contains("LOW"));
+        assert!(report.telegram_html_body.contains("UNAVAILABLE"));
         assert!(report.telegram_html_body.contains("HIGH"));
         assert!(report
             .telegram_html_body
@@ -3446,18 +3446,18 @@ mod tests {
             language: Language::EnUs,
             dict: &dict,
         });
-        assert_eq!(vm.signal_context_information_content_value, "LOW");
+        assert_eq!(vm.signal_context_information_content_value, "UNAVAILABLE");
         assert_eq!(
             vm.signal_context_primary_context_value,
             "Quarter-end Rebalancing"
         );
-        assert_eq!(vm.signal_context_quality_value, "HIGH");
+        assert_eq!(vm.signal_context_quality_value, "UNAVAILABLE");
         assert!(vm
             .signal_context_interpretation_value
-            .contains("quarter-end"));
+            .contains("Available source coverage is incomplete"));
         assert_eq!(
             vm.interpretation_value,
-            "No major event today. See Market Interpretation for the main narrative."
+            "Signal context unavailable today. See Market Interpretation for the main narrative."
         );
     }
 
@@ -3814,7 +3814,7 @@ mod tests {
         let signal_context = pres.interpretation_layer.unwrap();
         assert_eq!(
             signal_context.signal_context_primary_context_value,
-            "Macro Event"
+            "Macro Event: CPI Release"
         );
         assert_eq!(
             signal_context.signal_context_information_content_value,
@@ -4333,7 +4333,7 @@ mod tests {
     }
 
     #[test]
-    fn test_quarter_end_and_official_source_unavailable_is_low() {
+    fn test_quarter_end_and_official_source_unavailable_is_unavailable() {
         use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
         use crate::features::radar::interface::presentation::{
             SignalContextInformationContent, SignalContextPrimaryContext,
@@ -4364,12 +4364,12 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
     #[test]
-    fn test_month_end_and_official_source_unavailable_is_low() {
+    fn test_month_end_and_official_source_unavailable_is_unavailable() {
         use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
         use crate::features::radar::interface::presentation::{
             SignalContextInformationContent, SignalContextPrimaryContext,
@@ -4400,12 +4400,12 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
     #[test]
-    fn test_none_primary_context_and_loaded_context_is_low() {
+    fn test_none_primary_context_and_loaded_context_is_unavailable_without_full_scan() {
         use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
         use crate::features::radar::interface::presentation::{
             SignalContextInformationContent, SignalContextPrimaryContext,
@@ -4437,7 +4437,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::Low
+            SignalContextInformationContent::Unknown
         );
     }
 
@@ -4600,10 +4600,10 @@ mod tests {
             dict: &dict,
         });
 
-        assert_eq!(view_model.expectation_lifecycle_value, "LOW");
+        assert_eq!(view_model.expectation_lifecycle_value, "UNAVAILABLE");
         assert!(view_model
             .expectation_next_observation_value
-            .contains("No high-information events currently"));
+            .contains("Official source is currently unavailable"));
     }
 
     #[test]

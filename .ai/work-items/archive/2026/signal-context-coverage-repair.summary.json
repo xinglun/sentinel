@@ -1,0 +1,312 @@
+{
+  "workItemId": "signal-context-coverage-repair",
+  "contractPath": ".ai/work-items/archive/2026/signal-context-coverage-repair.contract.json",
+  "changedFiles": [
+    {
+      "path": "Makefile",
+      "reason": "新增 ai-close-work-item 与 check-signal-context-consistency 入口。"
+    },
+    {
+      "path": "scripts/ai_close_work_item.py",
+      "reason": "补齐 fail-closed close lifecycle。"
+    },
+    {
+      "path": "scripts/ai_test_close_work_item.py",
+      "reason": "固定 resolver 与 close lifecycle 回归。"
+    },
+    {
+      "path": "scripts/check_signal_context_consistency.py",
+      "reason": "实现 C-01 至 C-06 观测一致性 gate。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "新增六类 Context、Coverage、Evidence/Reaction 投影与决策冻结字段。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "实现确定性聚合、Primary/Secondary、coverage 与 lifecycle。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_time.rs",
+      "reason": "实现 America/New_York market date 转换与边界测试。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "接入 v1 snapshot、Coverage 输出、UNAVAILABLE 与无绝对 absence 文案。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "展示 Context category/title，弱化事件到价格的因果表述。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "更新日报/Telegram 的事实缺失与 primary context 回归。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_observation.rs",
+      "reason": "新增 EvidenceRecord、MarketReaction 可追溯字段。"
+    },
+    {
+      "path": "src/features/radar/interface/mod.rs",
+      "reason": "注册 v1 coverage/time read model。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/**",
+      "reason": "固定 8/7、8/10、无事件、失败/时区及 22 类场景。"
+    },
+    {
+      "path": "docs/archive/PROJECT_AUDIT_ISSUES.md",
+      "reason": "将 S-26 升级为 Market Signal Context Coverage Defect。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+      "reason": "固化设计与授权决策。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-11-signal-context-coverage.md",
+      "reason": "固化实现计划。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit status generator 生成。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-coverage-repair.contract.json",
+      "reason": "active contract。"
+    },
+    {
+      "path": ".ai/work-items/active/signal-context-coverage-repair.summary.json",
+      "reason": "本验证摘要。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-signal-context-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json SUMMARY=.ai/work-items/active/signal-context-coverage-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "六类 Context 的结构化输入、聚合、证据、coverage、timezone、lifecycle 与 report projection 已实现；外部实时 provider 的逐类接入仍依赖现有 provider wiring，当前以可追溯 fixture contract 验证。"
+  },
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "实时数据源接入",
+      "detail": "非日历六类 Context 的实时 provider wiring 仍依赖现有 provider 接口，当前以可追溯结构化输入与 fixture contract 验证。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "初始 Cockpit resolver 因缺少 ai-close-work-item fail-closed，已在本 Work Item 中补齐并通过 resolver/lifecycle 测试。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "用户授权的阈值、source fallback、coverage truth table、兼容映射已写入 contract/spec。",
+      "contractHash": "b01879b8724b9b46",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "contract/scope/guards passed before production edits。",
+      "contractHash": "b01879b8724b9b46",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "实现、测试与一致性检查已完成，进入最终验证。",
+      "contractHash": "b01879b8724b9b46",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全部 Cockpit required checks 已通过。",
+      "contractHash": "b01879b8724b9b46",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract readiness confirmed."
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Scope and guard checks passed."
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "Required checks and summary are recorded."
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Final required checks are recorded before archive."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "CPI / Payroll / FOMC / GDP / Fed speech",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-signal-context-consistency",
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Major and normal earnings",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-signal-context-consistency"
+      ]
+    },
+    {
+      "scenario": "Geopolitical escalation/easing and commodity shock",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-signal-context-consistency",
+        "cargo test signal_context_coverage --lib"
+      ]
+    },
+    {
+      "scenario": "Treasury / credit / VIX / sector rotation shocks",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-signal-context-consistency"
+      ]
+    },
+    {
+      "scenario": "No-event, 429, partial failure",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-signal-context-consistency"
+      ]
+    },
+    {
+      "scenario": "America/New_York timezone, weekend, holiday, pre/post-market",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test signal_context_time --lib",
+        "make check-signal-context-consistency"
+      ]
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "本地 Rust、fixture、consistency 与 Cockpit required checks 已通过；非日历六类实时 provider wiring 仍需 review 关注。",
+    "residualRisks": [
+      "real-time provider wiring for non-calendar categories remains an integration follow-up"
+    ],
+    "expectedReviewFocus": [
+      "coverage aggregation and absence wording",
+      "EvidenceRecord/MarketReaction separation",
+      "Signal Context boundary from trading layers",
+      "timezone/lifecycle migration"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "审查指出 source、threshold、coverage、schema 和 acceptance 不足。",
+      "solidifiedTo": "contract",
+      "reason": "已写入设计、plan、contract、fixture matrix 与 consistency gate。"
+    }
+  ]
+}

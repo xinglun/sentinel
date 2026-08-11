@@ -1,6 +1,9 @@
 use crate::features::radar::interface::display::{
     RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel,
 };
+use crate::features::research::interface::macro_event_observation::{
+    EvidenceRecord, MarketReaction,
+};
 use crate::features::shared::interface::i18n::Language;
 use serde::{Deserialize, Serialize};
 
@@ -8,7 +11,7 @@ fn default_language() -> Language {
     Language::ZhCn
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Default)]
 pub struct MacroDisplayContext {
     pub headline: String,
     pub summary: String,
@@ -369,7 +372,154 @@ pub enum SignalContextInformationContent {
     Medium,
     Low,
     #[default]
+    #[serde(rename = "UNAVAILABLE", alias = "UNKNOWN")]
     Unknown,
+}
+
+/// Signal Context v1 のイベント分類。
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SignalContextType {
+    #[default]
+    ScheduledMacro,
+    Corporate,
+    Geopolitical,
+    Commodity,
+    RatesCredit,
+    MarketStructure,
+}
+
+/// 市場情報量の判定値。データ未取得時は LOW と区別する。
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SignalContextInformationLevel {
+    High,
+    Medium,
+    Low,
+    #[default]
+    Unavailable,
+}
+
+/// Context ソースの健全度。
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SignalContextSourceStatus {
+    #[default]
+    Healthy,
+    Partial,
+    Degraded,
+    Unavailable,
+}
+
+/// イベントの市場影響ライフサイクル。
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum SignalContextLifecycle {
+    Upcoming,
+    Released,
+    ActiveRepricing,
+    Aftermath,
+    #[default]
+    Expired,
+}
+
+/// 六つのイベント源を個別に監査可能にするカバレッジ。
+#[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq)]
+pub struct SignalContextCoverage {
+    pub scheduled_macro: SignalContextSourceStatus,
+    pub corporate: SignalContextSourceStatus,
+    pub geopolitical: SignalContextSourceStatus,
+    pub commodity: SignalContextSourceStatus,
+    pub rates_credit: SignalContextSourceStatus,
+    pub market_structure: SignalContextSourceStatus,
+    pub overall: SignalContextSourceStatus,
+}
+
+impl Default for SignalContextCoverage {
+    fn default() -> Self {
+        Self {
+            scheduled_macro: SignalContextSourceStatus::Unavailable,
+            corporate: SignalContextSourceStatus::Unavailable,
+            geopolitical: SignalContextSourceStatus::Unavailable,
+            commodity: SignalContextSourceStatus::Unavailable,
+            rates_credit: SignalContextSourceStatus::Unavailable,
+            market_structure: SignalContextSourceStatus::Unavailable,
+            overall: SignalContextSourceStatus::Unavailable,
+        }
+    }
+}
+
+/// Event Fact の一次表現。MarketReaction は別フィールドで保持する。
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq, Default)]
+#[serde(default)]
+pub struct SignalContextItem {
+    #[serde(rename = "type")]
+    pub context_type: SignalContextType,
+    pub title: String,
+    pub information_content: SignalContextInformationLevel,
+    pub market_relevance: SignalContextInformationLevel,
+    pub evidence_quality: SignalContextInformationLevel,
+    pub lifecycle: SignalContextLifecycle,
+    pub event_fact: String,
+    pub observed_at: String,
+    pub source_published_at: String,
+    pub market_date: String,
+    pub evidence: Vec<EvidenceRecord>,
+}
+
+/// Signal Context v1 の読み取りモデル。取引判断への影響は常にゼロ。
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[serde(default)]
+pub struct SignalContextV1 {
+    pub market_date: String,
+    pub scheduled_macro: Vec<SignalContextItem>,
+    pub corporate_events: Vec<SignalContextItem>,
+    pub geopolitical_events: Vec<SignalContextItem>,
+    pub commodity_events: Vec<SignalContextItem>,
+    pub rates_credit_events: Vec<SignalContextItem>,
+    pub market_structure_events: Vec<SignalContextItem>,
+    pub primary_context: Option<SignalContextItem>,
+    pub secondary_contexts: Vec<SignalContextItem>,
+    pub overall_information_content: SignalContextInformationLevel,
+    pub context_quality: SignalContextQuality,
+    pub coverage: SignalContextCoverage,
+    pub observed_market_reactions: Vec<MarketReaction>,
+    pub event_time_utc: Option<String>,
+    pub event_time_market_tz: Option<String>,
+    pub report_generated_at: Option<String>,
+    pub decision_weight: u8,
+    pub trade_signal: bool,
+    pub gate_effect: String,
+    pub execution_effect: String,
+    pub position_sizing_effect: String,
+}
+
+impl Default for SignalContextV1 {
+    fn default() -> Self {
+        Self {
+            market_date: String::new(),
+            scheduled_macro: Vec::new(),
+            corporate_events: Vec::new(),
+            geopolitical_events: Vec::new(),
+            commodity_events: Vec::new(),
+            rates_credit_events: Vec::new(),
+            market_structure_events: Vec::new(),
+            primary_context: None,
+            secondary_contexts: Vec::new(),
+            overall_information_content: SignalContextInformationLevel::Unavailable,
+            context_quality: SignalContextQuality::Unavailable,
+            coverage: SignalContextCoverage::default(),
+            observed_market_reactions: Vec::new(),
+            event_time_utc: None,
+            event_time_market_tz: None,
+            report_generated_at: None,
+            decision_weight: 0,
+            trade_signal: false,
+            gate_effect: "none".to_string(),
+            execution_effect: "none".to_string(),
+            position_sizing_effect: "none".to_string(),
+        }
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
@@ -719,6 +869,35 @@ pub struct TerminalRowViewModel {
 #[cfg(test)]
 mod tests {
     use super::BreakoutItemViewModel;
+
+    #[test]
+    fn signal_context_v1_serializes_all_context_groups_and_zero_decision_weight() {
+        let context = super::SignalContextV1::default();
+        let value = serde_json::to_value(context).unwrap();
+        assert!(value.get("scheduled_macro").is_some());
+        assert!(value.get("corporate_events").is_some());
+        assert!(value.get("geopolitical_events").is_some());
+        assert!(value.get("commodity_events").is_some());
+        assert!(value.get("rates_credit_events").is_some());
+        assert!(value.get("market_structure_events").is_some());
+        assert_eq!(value["decision_weight"], 0);
+        assert_eq!(value["trade_signal"], false);
+    }
+
+    #[test]
+    fn signal_context_v1_keeps_event_fact_and_market_reaction_separate() {
+        let item = super::SignalContextItem::default();
+        let reaction = super::MarketReaction::default();
+        let context = super::SignalContextV1 {
+            primary_context: Some(item),
+            observed_market_reactions: vec![reaction],
+            ..Default::default()
+        };
+        let value = serde_json::to_value(context).unwrap();
+        assert!(value["primary_context"].is_object());
+        assert!(value["observed_market_reactions"].is_array());
+        assert!(value["primary_context"].get("market_reaction").is_none());
+    }
 
     #[test]
     fn breakout_item_keeps_consecutive_days_in_serialized_read_model() {

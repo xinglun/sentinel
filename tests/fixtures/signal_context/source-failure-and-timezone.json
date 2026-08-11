@@ -1,0 +1,22 @@
+{
+  "case_id": "source-failure-and-timezone",
+  "market_date": "2026-08-07",
+  "event_time_utc": "2026-08-08T01:00:00Z",
+  "event_time_market_tz": "2026-08-07T21:00:00-04:00",
+  "scheduled_macro": [],
+  "corporate_events": [],
+  "geopolitical_events": [],
+  "commodity_events": [],
+  "rates_credit_events": [],
+  "market_structure_events": [],
+  "primary_context": null,
+  "overall_information_content": "UNAVAILABLE",
+  "context_quality": "UNAVAILABLE",
+  "coverage": {"scheduled_macro": "DEGRADED", "corporate": "UNAVAILABLE", "geopolitical": "PARTIAL", "commodity": "HEALTHY", "rates_credit": "HEALTHY", "market_structure": "HEALTHY", "overall": "DEGRADED"},
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none",
+  "interpretation": "No major event conclusion is withheld because source coverage is incomplete."
+}
