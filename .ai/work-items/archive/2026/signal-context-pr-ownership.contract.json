@@ -1,0 +1,130 @@
+{
+  "contractVersion": 2,
+  "workItemId": "signal-context-pr-ownership",
+  "mode": "code",
+  "title": "补充 Signal Context fixture 的 PR 审计归属",
+  "baseCommit": "08b886021c0ffe5282c9a807072504af2ced5515",
+  "baselineDirtyPaths": [],
+  "problemStatement": "PR #19 の Signal Context fixture 変更が既存 archive evidence の Summary に記録されておらず、AI PR Guard が所有者不明として拒否する。",
+  "intent": {
+    "problem": "Signal Context fixture の変更が既存 archive evidence の Summary に記録されず、AI PR Guard が所有者不明として拒否する。",
+    "constraints": ["既存 archive evidence と fixture 内容を変更せず、補足 pair のみ追加する。", "Observation / Interpretation の監査メタデータだけを扱い、交易 Gate、価格量構造、Supply Layer、runtime behavior は変更しない。"],
+    "rationale": "補足 Contract / Summary に変更 path と理由を固定し、PR diff の追跡可能性を回復する。"
+  },
+  "scope": [
+    ".ai/work-items/active/signal-context-pr-ownership.contract.json",
+    ".ai/work-items/active/signal-context-pr-ownership.summary.json",
+    ".ai/cockpit/current_status.md",
+    "tests/fixtures/signal_context/2026-08-07-payroll.json",
+    "tests/fixtures/signal_context/2026-08-10-geopolitical-oil.json",
+    "tests/fixtures/signal_context/normal-no-event.json",
+    "tests/fixtures/signal_context/runtime-2026-08-07-payroll.json",
+    "tests/fixtures/signal_context/runtime-2026-08-10-geopolitical-oil.json",
+    "tests/fixtures/signal_context/scenario-matrix.json",
+    "tests/fixtures/signal_context/source-failure-and-timezone.json"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "PR diff の archive Contract / Summary ownership 判定を定義する checker。"
+    },
+    {
+      "path": "tests/fixtures/signal_context",
+      "reason": "PR #19 で追加された Signal Context の検証 fixture 群。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-coverage-repair.summary.json",
+      "reason": "Signal Context 実装の既存 archive evidence と変更範囲を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci",
+      "governance_process"
+    ],
+    "reason": "archive evidence の追加のみで、製品挙動と既存 archive を変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "補足 archive evidence の scope と検証条件を確定した。"
+  },
+  "preReviewWarnings": [
+    "既存 archive evidence は append-only とし、補足 pair のみ追加する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "補足 archive Contract と Summary が追加され、7 つの Signal Context fixture path の ownership を記録する。",
+    "既存 archive evidence、fixture 内容、production code、交易 Gate は変更しない。",
+    "make check-ai-pr が PR の全 diff に対して archive evidence ownership を通過させる。"
+  ],
+  "scenarioCoverage": [
+    {"scenario":"Signal Context fixture path ownership","reason":"各 fixture path が補足 pair の scope と Summary changedFiles に一致することを確認する。","required":true,"status":"verified","evidence":["make check-ai-pr"]},
+    {"scenario":"archive pair integrity","reason":"Contract / Summary が同一 Work Item ID と contractPath を持つことを確認する。","required":true,"status":"verified","evidence":["make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json"]}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json SUMMARY=.ai/work-items/active/signal-context-pr-ownership.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/signal-context-pr-ownership.summary.json CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json SUMMARY=.ai/work-items/active/signal-context-pr-ownership.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/signal-context-pr-ownership.contract.json SUMMARY=.ai/work-items/active/signal-context-pr-ownership.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
