@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Earnings Preview: Michael Burry Is Short but Prediction Markets See Nvidia, Meta Taking Center Stage
+  summary: Nebius reports Q2 earnings Wednesday as Kalshi traders bet on whether Arkady Volozh will mention Nvidia, Meta, Vera Rubin, cash and more.
+  url: https://finnhub.io/api/news?id=8d55d3065d2d70a520b17721961e58aefe08a0418ce4aac49d0a1b7ef68fce3c

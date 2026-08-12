@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Chip Boom Is Spreading: JPMorgan Says These 6 Stocks Could Ride It
+  summary: JPMorgan predicts a $2.25 trillion global semiconductor industry by 2027, with growth now spreading beyond memory chips and AI to other categories.
+  url: https://finnhub.io/api/news?id=9eaece3b92d74dffd216e24bf0ac115c08ba97f25b2a6a9ea8ae468759897284

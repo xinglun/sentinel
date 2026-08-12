@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The Market Is In Disbelief, But You Shouldn't
+  summary: SpaceX (SPCX) pivots to AI compute: $2.6B Q2 AI revenue (+247% YoY), 10GW by 2027, upside vs valuation.
+  url: https://finnhub.io/api/news?id=694bc520e2588863dc90911c693083187c322201bc8910818fc32f5d17fe51e3

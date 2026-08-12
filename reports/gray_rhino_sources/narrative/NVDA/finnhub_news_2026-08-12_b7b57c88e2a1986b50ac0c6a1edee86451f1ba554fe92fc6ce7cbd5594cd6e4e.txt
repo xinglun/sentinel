@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Intends To Make AI Compute An Asset Class Of Its Own (Rating Upgrade)
+  summary: Nvidia is positioned as a durable, differentiated AI compute leader, with new $500B funding platforms set to deepen its CUDA moat. See why NVDA stock is a Buy.
+  url: https://finnhub.io/api/news?id=d4b7a735bf88bd4570e5d719f20843dd127119f7008d5cc9b8d58b084a4ab2f6

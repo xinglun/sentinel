@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Terafab Construction Plan: A Semiconductor Factory Bigger Than The World’s Largest Building
+  summary: Elon Musk&#39;s upcoming semiconductor facility in Texas, aimed at addressing chip supply issues, will be 5x larger than current record-holder.
+  url: https://finnhub.io/api/news?id=29520e26e485ccc3e8baa2af61ca8a7d6fbe4896e72b56db3a1e8fe2c40f0406

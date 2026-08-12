@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Net Worth Rebounds on SpaceX Bounce — Now Nearly 800,000x the Average American
+  summary: Elon Musk is worth almost three times the next richest person in the world. Here&#39;s how he compares to the average U.S. household.
+  url: https://finnhub.io/api/news?id=00a70dc5c3034ba626c5fd1bb5098a8e2aa7322bae1fda48ec5fdd5d51e3659f

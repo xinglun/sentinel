@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple: A Rare Downgrade That Has Nothing To Do With AI
+  summary: Apple Inc.âs record June quarter canât offset looming margin erosion from rising memory costs and supply constraints. Click for this AAPL update.
+  url: https://finnhub.io/api/news?id=4171a74fc19d28a8575737b467c005c20981a5be33b08b5a610d02a9b3954457

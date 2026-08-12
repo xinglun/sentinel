@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Labor Force Participation Rate Drop Not That Big A Deal
+  summary: The 10-year U.S. Treasury yield has been drifting higher, although it remains within a broad range that it settled into after the post-COVID Bond Apocalypse. Read more here.
+  url: https://finnhub.io/api/news?id=8e65e17f27d23f11b3707e1f20a1f3d4ab416aabd2d84f3546c120076261d530

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: Priced For Precision
+  summary: Intuitive Surgical (ISRG) stock analysis: Hold rating with $426.65 price target (+9% upside).
+  url: https://finnhub.io/api/news?id=357ca417d488522e729cb4788731a4e9c2bf02f33e056d92c95bfe0f40e34f92

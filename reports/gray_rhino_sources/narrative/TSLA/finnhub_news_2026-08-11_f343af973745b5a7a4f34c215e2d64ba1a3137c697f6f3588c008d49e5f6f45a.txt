@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says China is 'Awesome' as Cathie Wood's Ark Expects Hurdles but Sees Tesla-SpaceX Deal Coming in 2026
+  summary: Elon Musk said China is “awesome” as Tesla’s China operations remain a key question in speculation over a potential Tesla-SpaceX merger.
+  url: https://finnhub.io/api/news?id=b77e57d2bf55e2c10e02ea0466070d9dc4f4ddbe7f0c1b8d752f92d562313883

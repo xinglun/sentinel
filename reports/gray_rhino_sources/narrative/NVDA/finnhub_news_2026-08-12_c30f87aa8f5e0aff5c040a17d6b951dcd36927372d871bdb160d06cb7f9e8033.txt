@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Great Robotics Divergence: AI-Native Names Surge, Legacy Vendors Stall
+  summary: Robotics & automation stocks split: AI-driven names like UiPath, Teradyne, NVIDIA surge while legacy Rockwell lags. Theme up 18% but weighted P/E 67.
+  url: https://finnhub.io/api/news?id=ef451f9499af34533ae30d3e1b54e0a34473a1f1ddc55357686b7e270ffc3249

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Job Apocalypse Debunked? BofA Presents Nuanced Data — And Warning Signs
+  summary: Citrini&#39;s AI job apocalypse warned of 10.2% unemployment. Six months later, BofA finds little evidence of mass job destruction.
+  url: https://finnhub.io/api/news?id=6e3fd4446c083d4e075ec7627513cbd7a684c7a2e0c6d005017a2c79be2cf70c

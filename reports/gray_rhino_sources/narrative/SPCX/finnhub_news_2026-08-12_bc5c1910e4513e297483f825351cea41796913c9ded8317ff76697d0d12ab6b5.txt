@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Makes Bold Promise on Flying Cars: ‘You Will Get...’
+  summary: Tesla CEO Elon Musk teases flying cars with a short social media comment, reigniting speculation about the long-awaited Roadster.
+  url: https://finnhub.io/api/news?id=4f815141465b9383d76445575bab8474183df1abb7ab3ca10a290e6b29638021

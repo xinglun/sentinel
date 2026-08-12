@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Bombshell Earnings Path Continues, Risks Are Spreading
+  summary: Palantir Technologies (PLTR) delivered Q2 results far above expectations, with revenue of $1.94 billion (+94% YoY) and EPS of $0.41, both beating consensus,...
+  url: https://finnhub.io/api/news?id=4a212fb1c5f6693cf1016e676ca9c08a884ec3e61852fc120bee19389dfbc227

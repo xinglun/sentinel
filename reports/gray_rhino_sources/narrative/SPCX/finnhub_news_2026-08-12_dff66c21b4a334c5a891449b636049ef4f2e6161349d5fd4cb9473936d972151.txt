@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Capex Roars On After Hours as Hormuz Stress Keeps Traders on Edge
+  summary: Super Micro and CoreWeave delivered blockbuster after-hours prints that reinforced the AI-infrastructure spending cycle, even as Wall Street eased back for a second session ahead of Wednesday's CPI report. Oil climbed for a fourth straight day on hardening Hormuz rhetoric, Intel scaled its capital raise to $20 billion, and Ukraine agreed to pause drone attacks on Russian oil tankers at the request of Vice President Vance.
+  url: https://finnhub.io/api/news?id=2fda3972ef45894d8aea037ab08da77b91763a6b420e109649ec7014c5596eec

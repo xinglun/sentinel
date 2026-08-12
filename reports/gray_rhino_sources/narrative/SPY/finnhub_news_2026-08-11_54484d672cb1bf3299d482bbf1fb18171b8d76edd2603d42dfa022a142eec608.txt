@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Small‑Cap Stocks Got a Payrolls Boost — But CPI Is the Real Test
+  summary: Small‑cap stocks rallied after a surprise payrolls drop eased near‑term rate‑hike pressure, but Wednesday’s CPI will determine whether the rebound can last.
+  url: https://finnhub.io/api/news?id=f279ac1ee39ea4a5cc35c275eb24c8f36a762b9c0a97bf24be1a9eca52f01bdb

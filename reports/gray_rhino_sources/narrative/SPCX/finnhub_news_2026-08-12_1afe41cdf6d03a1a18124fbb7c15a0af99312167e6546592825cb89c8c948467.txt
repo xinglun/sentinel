@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: To Infinity And Beyond?
+  summary: The lending market treated SpaceX less like a conventional new issue and more like the sectorâs central risk-transfer vehicle. Read more here.
+  url: https://finnhub.io/api/news?id=e7e78becb3610a484bbc3517459d48c98115cd30c71c42ba7cac4e50c2c4b7ba

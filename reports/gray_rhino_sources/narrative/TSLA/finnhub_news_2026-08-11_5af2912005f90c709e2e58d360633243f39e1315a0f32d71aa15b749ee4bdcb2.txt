@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Vs. Tesla: Let's See Which Musk Stock Wins
+  summary: Initiated Buy on SpaceX vs. Tesla, Inc.: launch/satellite/AI growth to $300B by 2030, 30%+ return potential. Click for a comparison of SPCX and TSLA.
+  url: https://finnhub.io/api/news?id=d8f811a02501691f9e6ec2b5c01502e041f08d57123bf106c63fb103e6268106

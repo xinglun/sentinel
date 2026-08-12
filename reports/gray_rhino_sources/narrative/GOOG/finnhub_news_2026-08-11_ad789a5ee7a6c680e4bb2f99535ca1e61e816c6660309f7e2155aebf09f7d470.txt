@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Irrational Exuberance On Overdrive
+  summary: Markets show âirrational exuberanceâ as AI capex drives record debt and weak FCF at tech giants like Alphabet.
+  url: https://finnhub.io/api/news?id=57152f925c17d4fffcfdb1b14a93076bffaf0e62424e3cc274a2a3c7fd6cf1b5

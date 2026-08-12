@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantinuum Strikes Oracle Deal as Quantum Cloud Race Heats Up: ‘Next Phase of Enterprise Computing’
+  summary: Quantinuum and Oracle announced a multi-year deal bringing Helios quantum computing to Oracle Cloud, alongside GPU and HPC infrastructure
+  url: https://finnhub.io/api/news?id=22aa240f54a202d18a701589ae11d3cc64385d6f83e41a447c68b041e86befd6

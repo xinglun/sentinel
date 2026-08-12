@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July CPI: Rangebound Inflation Likely Creates Breathing Room For Policymakers
+  summary: The Labor Department reported that inflation rose 3.4% in July, down from the 3.5% reported in June, and in line with expectations. Read the full analysis now.
+  url: https://finnhub.io/api/news?id=4a63e4fb4a52cd07cb3297aa5f18d3ec6e85d20d976e988e7979ed7a8a419803

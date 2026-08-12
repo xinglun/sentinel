@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Asks if Wall Street's 'Long Knives' for Nvidia Should Stay Sheathed as CoreWeave Powers Neocloud Optimism
+  summary: Jim Cramer said CoreWeave&#39;s strength is lifting the broader neocloud group, questioning whether bearish sentiment toward Nvidia can hold.
+  url: https://finnhub.io/api/news?id=9dd53535fdd3460af0414c73a58896da7cd9bbc9888b633b139ddb1d2b312a9f

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Market Summary And Commentary
+  summary: U.S. equity markets rebounded strongly this week, with gains led by technology and growth-oriented sectors.
+  url: https://finnhub.io/api/news?id=512cb5e3c45f8dd23e0f741191a2f85925d30cb818018ad7e2e80ee8846b5488

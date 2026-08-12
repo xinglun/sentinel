@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Profits And Rates: Could We Be In For A New Round Of Hikes?
+  summary: 
+  url: https://finnhub.io/api/news?id=b79c2eb8949f1a9363bd93fa0a0f1982099d0377111390cd2d234a2c5dcd8939

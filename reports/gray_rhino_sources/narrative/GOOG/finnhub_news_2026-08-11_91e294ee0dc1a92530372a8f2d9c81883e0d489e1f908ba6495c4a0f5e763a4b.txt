@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking AMG's Yacktman Asset Management Portfolio - Q2 2026 Update
+  summary: 
+  url: https://finnhub.io/api/news?id=6122dcbbe887770943e505b8e118b1a6814c928f257ef65b6a02dcccc21b63a2

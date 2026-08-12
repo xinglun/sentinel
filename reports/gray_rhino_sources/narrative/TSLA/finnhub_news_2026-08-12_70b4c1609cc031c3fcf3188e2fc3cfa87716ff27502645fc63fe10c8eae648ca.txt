@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's iTruck Moment
+  summary: Tesla, Inc. Q2 earnings signal EV rebound: deliveries recover, Robotaxi on track, Semi âiTruck momentâ next yearâbut DCF says overvalued. Click for a TSLA update.
+  url: https://finnhub.io/api/news?id=f7208f251ae2887df7a53ad2db263a02ff76d34efa9c96248f56cd6cf3e1bdee

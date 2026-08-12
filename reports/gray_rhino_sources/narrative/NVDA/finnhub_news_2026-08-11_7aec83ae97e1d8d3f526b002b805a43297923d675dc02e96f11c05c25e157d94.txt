@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is A Market Of High Expectations
+  summary: Equity markets are driven by high expectations for sustained earnings growth and resilient economic conditions. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=77a17cf085007c2f59ce02c92c370eab249e7c2d62c46567ca172b98b368bc4e

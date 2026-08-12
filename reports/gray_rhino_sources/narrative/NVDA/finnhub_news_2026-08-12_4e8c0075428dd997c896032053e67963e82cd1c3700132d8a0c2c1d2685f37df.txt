@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's $500 Billion Deal Changes AI Story
+  summary: Nvidia secures a $500B financing deal with top financial firms, offloading credit risk and enabling AI infrastructure expansion. Read more on NVDA stock here.
+  url: https://finnhub.io/api/news?id=58dc2dd6bfeea65c2ceaf36455009b4e9ac024684092e5c7ba66f30ef21800c0

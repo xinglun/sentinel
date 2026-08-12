@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Banking Risk Monthly Outlook: August 2026
+  summary: Slowing credit growth will prompt the Peopleâs Bank of China to lower the reserve requirement ratio for banks by the end of the year. Read more here.
+  url: https://finnhub.io/api/news?id=a70823b9e57fdcd508c38f126e82c25177ebbd23100d89c9482f8b03b76a2b0b

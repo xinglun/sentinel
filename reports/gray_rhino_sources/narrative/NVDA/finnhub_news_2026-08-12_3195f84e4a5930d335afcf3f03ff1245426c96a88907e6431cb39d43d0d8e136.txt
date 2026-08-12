@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It's The Best Time In Years To Retire
+  summary: Current market conditions present a rare opportunity for investors to retire in excellent shape. Click here to read what investors need to know.
+  url: https://finnhub.io/api/news?id=65d9d95ddd0e58d1ff69831cfaaf02580505080a94c7839a62c83239db5c10ba

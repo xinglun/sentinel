@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Big Deal Expands The AI Horizon Once Again (Rating Upgrade)
+  summary: Nvidia is spearheading a $500B compute financing platform with major financiers, marking a next step in infrastructure finance. Click for more on NVDA stock.
+  url: https://finnhub.io/api/news?id=7d04f3c38184512a87b9b527202ee954e42a83656b8f5ffbe1904a428c3e5b53

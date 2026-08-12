@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Comparative Study: Palantir Technologies And Industry Competitors In Software Industry
+  summary: In the fast-paced and highly competitive business world of today, conducting thorough company analysis is essential for investors and industry observers. In this article, we will conduct an extensive industry
+  url: https://finnhub.io/api/news?id=54ca110a49a968016a935b5cb0a0753251474f61448e8e40279b6248aefa4127

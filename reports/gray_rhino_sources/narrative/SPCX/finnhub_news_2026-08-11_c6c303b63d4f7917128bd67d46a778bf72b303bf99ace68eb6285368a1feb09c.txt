@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab: 36x Forward P/S Looks Like A Valuation Trap
+  summary: 
+  url: https://finnhub.io/api/news?id=c02e7f20046de3b53525af8c3eb9310d6a15eef29c1bef1e8539a04cd614f4b7

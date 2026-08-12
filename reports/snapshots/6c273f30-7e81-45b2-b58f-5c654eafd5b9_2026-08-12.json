@@ -1,0 +1,31 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-08-12",
+  "report_date": "2026-08-13",
+  "as_of_date": "2026-08-12",
+  "generated_at": "2026-08-13T00:31:30.733989392+09:00",
+  "run_id": "41d8c4ac-a407-4d50-89e9-80676a2886e0",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-08-12",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "IGNITION",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 40.0,
+  "breadth_classification": "Very Narrow",
+  "confidence": 51.862022178465445,
+  "supply_phase": "IDLE",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {},
+  "stability": 5.295448758802792,
+  "continuity": 8,
+  "cycle_length_days": 8,
+  "reset_event": null,
+  "data_quality": {
+    "history": "HEALTHY",
+    "trend": "HEALTHY"
+  }
+}

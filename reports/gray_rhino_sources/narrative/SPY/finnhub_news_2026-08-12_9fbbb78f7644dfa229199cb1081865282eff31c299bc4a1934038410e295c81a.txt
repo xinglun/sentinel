@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadening The Base
+  summary: Despite recent declines upon renewed geopolitical concerns, the S&P 500 hit two all-time closing highs last week. Read more here.
+  url: https://finnhub.io/api/news?id=179a36c4c38fbc9768b2591f77fb022a6dd806c915168d4ea4c1f89ef52c950f

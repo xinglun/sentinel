@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Could Score $824 Billion Payday in Tesla-SpaceX Merger—Ross Gerber Says ‘Fantastical Abundance!’
+  summary: Ross Gerber comments on Elon Musk&#39;s Tesla compensation package that could result in a $824B payday if Tesla merges with SpaceX.
+  url: https://finnhub.io/api/news?id=022c01877d025375bea0bbbf5f30d6dd89a44c202141755e5cd92b710434f6f8

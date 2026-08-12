@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With SpaceX Stock Today?
+  summary: SpaceX shares are pulling back further Tuesday, extending Monday&#39;s slide, pressured by risk-off sentiment and a Falcon 9 launch.
+  url: https://finnhub.io/api/news?id=881b4ba0040f235a0ee312ddb49149f9a654834e9a41c02b1819c9bf1189440f

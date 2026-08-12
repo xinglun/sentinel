@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is CoreWeave Stock Soaring Wednesday?
+  summary: CoreWeave (CRWV) stock jumped in premarket trading after raising 2026 revenue guidance to $13.2B on strong AI demand and higher prices.
+  url: https://finnhub.io/api/news?id=977459f1c54e09943ed7e15afb0440d48c349c276eec74e45506f60882840641

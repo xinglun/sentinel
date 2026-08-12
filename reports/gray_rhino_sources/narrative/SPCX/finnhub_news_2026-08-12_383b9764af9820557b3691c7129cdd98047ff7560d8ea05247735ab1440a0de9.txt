@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Lands $1.22 Billion Investment From Norway’s $2.3 Trillion Sovereign Wealth Fund
+  summary: SpaceX secures a $1.22 billion investment from Norway’s $2.3 trillion sovereign wealth fund, marking its first-ever disclosed stake.
+  url: https://finnhub.io/api/news?id=2a50269c6e35b49bb49729fea8b708e15ace63ddce8404522c29690389b2748f

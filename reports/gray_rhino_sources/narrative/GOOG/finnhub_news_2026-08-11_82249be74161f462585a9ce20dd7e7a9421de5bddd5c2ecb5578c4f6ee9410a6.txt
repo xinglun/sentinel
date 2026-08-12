@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Is Poised to Be an AI Winner, Analyst Says
+  summary: Alphabet stock dipped on Tuesday. BNP Paribas keeps an Outperform rating &amp; $420 price forecast, citing long-term AI &amp; Cloud growth.
+  url: https://finnhub.io/api/news?id=4fdcf24aa820c3eab3735e7e23db01551d8b1f85b4f2f07b05dd3fa803eaf540

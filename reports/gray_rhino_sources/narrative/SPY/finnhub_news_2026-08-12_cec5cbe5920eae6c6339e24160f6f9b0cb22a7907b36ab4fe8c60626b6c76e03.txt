@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trade Between U.S. And China Increases
+  summary: The value of goods exchanged between the U.S. and China increased in June 2026. Both outgoing exports to China and incoming imports from China increased month-over-month. Read more here...
+  url: https://finnhub.io/api/news?id=3fa0a0239ad61d1cd3fea67faf51bb4921d31c92b616ab328f86af841c70c5c9

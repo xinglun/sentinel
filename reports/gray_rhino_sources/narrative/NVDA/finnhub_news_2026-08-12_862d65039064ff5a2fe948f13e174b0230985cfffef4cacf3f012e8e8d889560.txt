@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang’s $500 Billion Nvidia AI Financing Bet Faces a China Problem—Could Cheaper Chinese Chips Sink GPU Values?
+  summary: Cheaper Chinese AI chips could threaten Nvidia’s GPU values and Jensen Huang’s $500 billion financing bet.
+  url: https://finnhub.io/api/news?id=932ba6a6dbc95f6be0c92fdc398a6c58f339341e3df651dba3ecab25c0583abe

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Old World's Bill
+  summary: By the middle of the 2030s, the number of people aged 80 and above is projected to exceed the number of infants worldwide.
+  url: https://finnhub.io/api/news?id=3f43722c6866efeafe41a751fb9525b38bbe304250ca0da70faf9900b63090bd

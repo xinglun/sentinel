@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Steady CPI Report Calms Inflation Fears
+  summary: Markets swung into positive territory in early trading and stayed there after the CPI soothed some inflation fears. Read more here.
+  url: https://finnhub.io/api/news?id=a2dd7979f5668c6d10a4f88b6c647f900a86903e76b02940d1a3998c2483191a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Recalls 20,349 Model 3 And Model Y Vehicles As Overly Bright Low Beams Reduce Oncoming Driver Visibility, Risking Crashes
+  summary: -National Highway Traffic Safety Administration
+  url: https://finnhub.io/api/news?id=5daa5237d50eaa1f66ab3cac1bfe142a2e2c5f14d82ddac11a1e0ae253651b1b

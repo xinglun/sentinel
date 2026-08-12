@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rates Spark: The Fiscal Number Can Eclipse CPI
+  summary: While the transition to higher US yields is linked with the war and higher energy prices, in fact the market discount for inflation is quite relaxed.
+  url: https://finnhub.io/api/news?id=2766b889e959a9e88652c4a8374d6d06f0760da7c579c2103305e79417246cef

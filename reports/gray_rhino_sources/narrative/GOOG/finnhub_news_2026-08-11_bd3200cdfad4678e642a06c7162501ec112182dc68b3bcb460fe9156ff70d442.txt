@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Abbott Partners With Google Health To Combine Glucose Insights From Abbott's Lingo Biowearable With Google's Expertise In AI To Make Personalized Metabolic Insights More Actionable
+  summary: The collaboration is designed to bring metabolic health insights into people&#39;s daily routines through a seamless, AI-powered experience. Through the Google Health app, Lingo users will be able to view glucose trends
+  url: https://finnhub.io/api/news?id=8e3ec80fd74ce35e77aac90235b0e7d528c318608293f82275d21fffb259acf7

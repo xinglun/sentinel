@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Blowout Q2 Confirmed The AI Stack Thesis And Shares Are Still Undervalued
+  summary: Alphabet (GOOGL) delivered a historic Q2 2026, with 24% YoY revenue growth to $119.8B and 82% YoY Cloud growth, affirming its AI leadership.
+  url: https://finnhub.io/api/news?id=474f30d67a4381a747b36f49fd82f9d885c2b82d2eae50b7a01db0d0185115e1

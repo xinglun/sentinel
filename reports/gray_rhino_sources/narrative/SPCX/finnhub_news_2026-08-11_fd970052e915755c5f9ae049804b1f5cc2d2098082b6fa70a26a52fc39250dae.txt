@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Posts On X "We Will Widen Grok Bot Beta After We Fix Basic Issues With Early Beta And Release Grok 4.6 Later This Week"
+  summary: Elon Musk on X: &#34;We will widen the Grok Bot beta after we fix basic issues with the early beta and release Grok 4.6 later this week&#34; / X
+  url: https://finnhub.io/api/news?id=ed1b69bef1e51a964eef3fde1b0fac4f7f86b1ed5655dd94e29f682c47fc3025

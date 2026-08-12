@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Vs. Unity: Buy The Former, The Market Got It Wrong On Earnings
+  summary: AppLovin vs. Unity Q2: why AppLovinâs sell-off may be overdone and its valuation more compelling than Unityâs. Click here to read my latest analysis.
+  url: https://finnhub.io/api/news?id=a103070b7a887e800bcfb4b7f8cf34584d49f9de1ff6498483ca680b494f794d

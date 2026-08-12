@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Wants Moon Travel to Become Something ‘Anyone’ Can Do as Starship Targets 100-Ton Deliveries to the Lunar Surface
+  summary: Elon Musk aims for accessible Moon travel for all through Starship&#39;s refueling system, allowing 100 tons of cargo to reach surface.
+  url: https://finnhub.io/api/news?id=b4eddaea2f722df74497fb4ab10e208149d74a01ab97958ec0a0564b34446426

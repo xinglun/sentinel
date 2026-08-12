@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FTEC: Fidelity's IT ETF Is A Fantastic Long-Term Core Tech Holding
+  summary: Fidelity MSCI Information Technology ETF has delivered exceptional long-term outperformance. Click to know why FTEC is a good long-term tech holding.
+  url: https://finnhub.io/api/news?id=4d376b0daec0833082a3f94df50421b15d71ffd4e490fc7fc8b298c1325ad346

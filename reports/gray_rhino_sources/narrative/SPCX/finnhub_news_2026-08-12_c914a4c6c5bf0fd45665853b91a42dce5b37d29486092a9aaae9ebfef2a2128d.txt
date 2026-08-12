@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starlink Will Help Spain’s Flag Carrier Livestream the Total Solar Eclipse With Scientists as Airlines Charge Up to $1,200 For Special Seats
+  summary: Elon Musk&#39;s Starlink internet service will livestream the Solar Eclipse on a dedicated flight with Iberia airline.
+  url: https://finnhub.io/api/news?id=87f383f212cdbec8e79185b08438dd49030cd3e480a3596e4777809f11e0296b

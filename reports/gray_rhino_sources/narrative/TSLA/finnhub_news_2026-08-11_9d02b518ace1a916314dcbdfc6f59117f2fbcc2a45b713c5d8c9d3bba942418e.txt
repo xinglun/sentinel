@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: CPI Lands Tomorrow and Could Send PLTR, TSLA Surging—But Only if It's A 'Serious Shock,' Cato Economist Says
+  summary: July CPI lands Wednesday with high-beta stocks in focus, but Cato economist Jai Kedia says only a serious inflation surprise is likely to drive a sustained market move.
+  url: https://finnhub.io/api/news?id=14dd1da43a70f5b6bde30da16b0032ac42dd0025deb8c5370a9fb60af4edcb50

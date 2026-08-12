@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI ETF AGIX: Introducing The New Class Of Private Investments And Performance Update
+  summary: AGIX has outperformed both its public market benchmark and the Nasdaq 100 Index, which is a widely recognized and accepted technology benchmark. Read more here.
+  url: https://finnhub.io/api/news?id=41fd81f85838708ffd2f24194d28dbdeace0b550f69268f217d2c3e528a013be

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave or Nebius? Analyst Says the Risk-Reward Now Favors One AI Stock
+  summary: BNP Paribas favors CoreWeave over Nebius as AI data center execution creates a key divide. Get price forecasts and stock updates.
+  url: https://finnhub.io/api/news?id=a4b9b0fbf9777dc1e5cb21fb347ddcc98e66b7a562fb88c5dc5b552e5a4f3e55

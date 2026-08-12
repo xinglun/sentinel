@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: License To Chase The AI Frontier
+  summary: The top model developers except one all have one thing in common: they are all currently founder-led companies. Alphabet is the sole exception.
+  url: https://finnhub.io/api/news?id=b1a2e8841528ae00e7dceba325d39891075080c09e04ef766673d256990c7664

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lockheed Martin, Verizon, Nvidia, Keysight Technologies, ODC And Astris AI Demonstrate Using Commercial Off-The-Shelf Tech To Detect And Track UAS
+  summary: In a July demonstration in the Miami area, the NetSense™ Airspace Awareness-as-a-Service™ system demonstrated an AI-enabled system capable of identifying, tracking and monitoring UAS utilizing existing 5G networks.The
+  url: https://finnhub.io/api/news?id=0efeb7bed60aef80d81169fb47de55814afb2decf4a85b0afa149e77e11cadcc

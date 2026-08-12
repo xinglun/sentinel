@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividends Are Sending A Signal
+  summary: S&P 500 dividend yield near historic lows: what it means for total return, valuations, and risk. Click for the implications and likely market reaction.
+  url: https://finnhub.io/api/news?id=babcb957e3abfc410a56107bc201d36b4dd81deae6a09eb74764ea2ad4a90095

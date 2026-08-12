@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: Guess Who Backstops The $500 Billion (Rating Downgrade)
+  summary: Nvidia Corporationâs residual-value guarantees may back $500B AI credit, boosting semis near term but risking long-term sustainability. Click for NVDA takeaways.
+  url: https://finnhub.io/api/news?id=f847afba36db398499a2001b95b9eb0a543bb254217d503204ec6c0eca665057

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Helping AST SpaceMobile Chase Its $1 Billion Revenue Goal
+  summary: SpaceX is launching AST SpaceMobile&#39;s BlueBird satellites as ASTS builds toward commercial service and a nearly $1 billion revenue goal.
+  url: https://finnhub.io/api/news?id=4d72460869155878291aaddf07cc1a76a31b2e36a94ff3e3ada3234c05102e9f

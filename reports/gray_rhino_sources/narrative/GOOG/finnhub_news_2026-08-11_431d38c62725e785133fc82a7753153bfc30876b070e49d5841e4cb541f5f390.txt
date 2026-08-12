@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Announces Video-On-Demand To Google TV Freeplay
+  summary: https://blog.google/products-and-platforms/platforms/google-tv/google-freeplay-free-on-demand-tv-shows-movies/
+  url: https://finnhub.io/api/news?id=409e4eeceaa02af789275f2093c4ea269153a0047c3b59e52683f730a21c17c2

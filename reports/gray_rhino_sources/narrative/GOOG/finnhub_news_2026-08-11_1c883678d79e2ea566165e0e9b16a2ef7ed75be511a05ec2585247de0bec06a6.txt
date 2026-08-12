@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moving Past Buffett: Berkshire Successor Puts Stamp on Portfolio With $1.2 Billion Gain on Three New Stocks
+  summary: Warren Buffett&#39;s successor appears to be doing quite well with his first three stock picks on his own all up since the first quarter.
+  url: https://finnhub.io/api/news?id=61e0bcc5b017522c686a760b60b7bc5d84ad96ad6280cf752fb4675c81ef3315

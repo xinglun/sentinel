@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Navigating AI Waves: How Capital Rotation Will Propel SPY And QQQ
+  summary: Buy SPY and QQQ on dips as AI investing rotates from chipmakers to Big Tech and CapEx cools. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=d48f8d5ed24b3a324376539de786b6e3b8d0518e5d4c8ee2820437b78ebea300

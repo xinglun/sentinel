@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Stock Stories That Bolstered QGRW In July
+  summary: TheÂ WisdomTree U.S. Quality Growth Fund fell just 1.6% in July, compared to a 6.6% decline in theÂ NASDAQ 100 IndexÂ and a 4.8% drop in theÂ Russell 1000 Growth Index. Read more here.
+  url: https://finnhub.io/api/news?id=21b84a0552ec6347d5597f26887da0e5f738d5ea42afc573bbaa8d2402033c0e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ZoomInfo Launches GTM MCP Connector For Microsoft Copilot, Bringing B2B Intelligence Into Dynamics 365, Excel And Word
+  summary: ZoomInfo&#39;s headless GTM context layer now connects to Microsoft 365 Copilot, surfacing 500M contacts, 100M companies, and billions of signals inside Dynamics 365, Excel, and Word without a tab switchZoomInfo
+  url: https://finnhub.io/api/news?id=5847e1f2d60a48e282b5f4bbd14d2a5a42c1bd61d9ec0b7d8a2650438991bc23

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Don't Get Too Excited (Rating Downgrade)
+  summary: Microsoft Corporation stock analysis: cloud competition, Azure vs. AWS/Google, strong free cash flow, and valuation risks. Click for this MSFT update.
+  url: https://finnhub.io/api/news?id=383b148d809392fba2c65840e1db42886431b183a7e1be340b1012550da54a8c

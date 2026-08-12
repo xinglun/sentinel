@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's AI Future Is Starting to Look a Lot Less Electric
+  summary: Tesla&#39;s $16.8 billion Terafab will use natural gas and batteries for power, underscoring the energy demands of its AI and robotics ambitions.
+  url: https://finnhub.io/api/news?id=1c42119d19b41e8ea183a98d7b7baceb619f5524c17dd7cbfdd73163527d7c18

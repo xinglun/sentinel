@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Payroll Revisions Reveal About The Economy
+  summary: Fridayâs July employment report offered an unusually good occasion to revisit something I wrote about: the widespread misunderstanding of revisions to the monthly jobs numbers.
+  url: https://finnhub.io/api/news?id=94e6ee18781c8bcf8aa6a7e85c3ceff157d3cc5411c665490dd95d5c0121857b
