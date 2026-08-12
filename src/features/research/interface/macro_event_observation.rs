@@ -101,6 +101,9 @@ pub(crate) enum MacroEventLifecycle {
     #[default]
     Upcoming,
     Released,
+    ActiveRepricing,
+    Aftermath,
+    Expired,
     Compared,
     Archived,
 }
@@ -174,6 +177,52 @@ pub(crate) struct FutureCalendarObservation {
     pub information_content: MacroEventInformationContent,
     pub source_health: MacroEventSourceHealth,
     pub observed_at: NaiveDate,
+}
+
+/// 既知イベントの発見事実。実績値の取得可否とは独立して保持する。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub(crate) struct EventDiscovery {
+    pub event_id: String,
+    pub event_name: String,
+    pub event_date: NaiveDate,
+    pub event_time: Option<String>,
+    pub importance: MacroEventImportance,
+}
+
+/// イベント発生後に取得できた観測事実。欠損しても Discovery を消去しない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub(crate) struct EventObservation {
+    pub expected_value: Option<String>,
+    pub actual_value: Option<String>,
+    pub surprise_state: MacroEventSurpriseState,
+    pub status: String,
+}
+
+impl FutureCalendarObservation {
+    pub(crate) fn discovery(&self) -> EventDiscovery {
+        EventDiscovery {
+            event_id: self.event_id.clone(),
+            event_name: self.event_name.clone(),
+            event_date: self.event_date,
+            event_time: self.event_time.clone(),
+            importance: self.importance,
+        }
+    }
+
+    pub(crate) fn observation(&self) -> EventObservation {
+        EventObservation {
+            expected_value: self.expected_value.clone(),
+            actual_value: self.actual_value.clone(),
+            surprise_state: self.surprise_state,
+            status: if self.actual_value.is_some() {
+                "AVAILABLE".to_string()
+            } else if self.lifecycle == MacroEventLifecycle::Released {
+                "UNAVAILABLE".to_string()
+            } else {
+                "PENDING".to_string()
+            },
+        }
+    }
 }
 
 impl From<MacroEventObservation> for FutureCalendarObservation {

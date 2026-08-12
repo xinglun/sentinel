@@ -422,6 +422,7 @@ pub(crate) fn build_leader_persistence_view_model(
         persistence_label: leader_persistence_persistence_label(input.language).to_string(),
         persistence_value: leader_persistence_value(result.persistence_days, input.language),
         persistence_days: result.persistence_days,
+        leader_absence_duration: result.leader_absence_duration,
         observed_days_label: leader_persistence_observed_days_label(input.language).to_string(),
         observed_days_value: leader_persistence_value(
             result.observed_leadership_days,
@@ -2345,7 +2346,7 @@ mod tests {
     }
 
     #[test]
-    fn read_model_renders_leader_ended_from_a_prior_observation() {
+    fn read_model_renders_leader_absence_from_a_prior_observation() {
         let date = NaiveDate::from_ymd_opt(2026, 7, 15).unwrap();
         let previous = LeaderObservation {
             date: date - Duration::days(1),
@@ -2382,7 +2383,8 @@ mod tests {
         .unwrap();
 
         assert_eq!(view_model.primary_leader_value, "none");
-        assert_eq!(view_model.leader_state_value, "ENDED");
+        assert_eq!(view_model.leader_state_value, "ABSENT");
+        assert_eq!(view_model.leader_absence_duration, 1);
         assert_eq!(view_model.observed_days_value, "0 days");
         assert!(view_model
             .change_from_yesterday_value

@@ -1,0 +1,37 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-review-findings",
+  "mode": "code",
+  "title": "修复价量资格审计遗漏",
+  "baseCommit": "191ac7169e039fa702d6c30b3c3dbfbad53d774c",
+  "scope": [
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/shared/domain/market_data.rs"
+  ],
+  "outOfScope": [
+    "Gate、execution、trader、action matrix、position sizing、leader、breadth、confidence、market state。",
+    "S-29 外部 Supply Event Context 收集和 ticker-specific 特判。"
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["architecture_boundary", "data_integrity"],
+    "reason": "价量观察资格和事件基线的边界需要保持交易层隔离。"
+  },
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false},
+  "executionDecision": {"status": "continue", "reason": "审计修复已完成并归档。"},
+  "acceptance": [
+    "有效局部 OHLCV 可输出 PARTIAL/CANDIDATE。",
+    "Supply Context 缺失时保持观察但不确认吸收。",
+    "事件基线必须有真实事件后样本。",
+    "交易边界继续固定为 observation-only。"
+  ],
+  "verification": [],
+  "checkpointPolicy": {"requiredCheckpoints": [], "reminder": "归档证据只读保存。"},
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true},
+  "rollbackNote": "回滚本 Work Item 的 commit，并保留先前归档证据。"
+}
