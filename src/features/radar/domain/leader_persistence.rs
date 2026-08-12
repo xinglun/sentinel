@@ -17,6 +17,7 @@ pub enum LeaderState {
     Unavailable,
     Decaying,
     Rotating,
+    Absent,
 }
 
 impl LeaderState {
@@ -31,6 +32,7 @@ impl LeaderState {
             LeaderState::Unavailable => "UNAVAILABLE",
             LeaderState::Decaying => "DECAYING",
             LeaderState::Rotating => "ROTATING",
+            LeaderState::Absent => "ABSENT",
         }
     }
 }
@@ -52,6 +54,7 @@ pub struct LeaderPersistenceResult {
     pub current_leader: String,
     pub previous_leader: Option<String>,
     pub persistence_days: usize,
+    pub leader_absence_duration: usize,
     pub observed_leadership_days: usize,
     pub history_coverage_complete: bool,
     pub history_coverage: &'static str,
@@ -85,6 +88,7 @@ pub fn build_leader_persistence(
             current_leader: String::new(),
             previous_leader: None,
             persistence_days: 0,
+            leader_absence_duration: 0,
             observed_leadership_days: 0,
             history_coverage_complete: false,
             history_coverage: "UNAVAILABLE",
@@ -113,6 +117,11 @@ pub fn build_leader_persistence(
         0
     } else {
         qualified_streak(observations.as_slice(), current_index)
+    };
+    let leader_absence_duration = if is_no_leader(&current.leader) {
+        qualified_no_leader_streak(observations.as_slice(), current_index)
+    } else {
+        0
     };
     let observed_leadership_days = observations
         .iter()
@@ -177,6 +186,7 @@ pub fn build_leader_persistence(
         current_leader: normalized_leader(&current.leader),
         previous_leader,
         persistence_days: current_persistence_days,
+        leader_absence_duration,
         observed_leadership_days,
         history_coverage_complete,
         history_coverage,
@@ -209,6 +219,14 @@ fn qualified_streak(observations: &[&LeaderObservation], current_index: usize) -
         streak += 1;
     }
     streak
+}
+
+fn qualified_no_leader_streak(observations: &[&LeaderObservation], current_index: usize) -> usize {
+    observations[..=current_index]
+        .iter()
+        .rev()
+        .take_while(|observation| is_no_leader(&observation.leader))
+        .count()
 }
 
 fn normalized_leader(value: &str) -> String {
@@ -271,10 +289,7 @@ fn determine_state(
     previous: Option<&LeaderObservation>,
 ) -> LeaderState {
     if is_no_leader(&current.leader) {
-        return previous
-            .filter(|previous| !is_no_leader(&previous.leader))
-            .map(|_| LeaderState::Ended)
-            .unwrap_or(LeaderState::Unavailable);
+        return LeaderState::Absent;
     }
 
     if recent_switches >= 2 {
@@ -530,7 +545,7 @@ mod tests {
     }
 
     #[test]
-    fn no_leader_after_a_prior_leader_marks_the_leader_as_ended() {
+    fn one_day_without_a_leader_is_explicitly_absent() {
         let observations = vec![
             observation((2026, 7, 1), "GOOG", 90.0, 72.0, 71.0, 84.0),
             observation((2026, 7, 2), "", 0.0, 0.0, 0.0, 0.0),
@@ -541,11 +556,26 @@ mod tests {
         assert_eq!(result.current_leader, "none");
         assert_eq!(result.previous_leader.as_deref(), Some("GOOG"));
         assert_eq!(result.persistence_days, 0);
-        assert_eq!(result.leader_state, LeaderState::Ended);
+        assert_eq!(result.leader_state, LeaderState::Absent);
+        assert_eq!(result.leader_absence_duration, 1);
         assert!(result
             .switch_history
             .iter()
             .any(|item| item.contains("GOOG -> none")));
+    }
+
+    #[test]
+    fn six_consecutive_days_without_a_leader_report_absence_duration() {
+        let observations = (0..6)
+            .map(|index| observation((2026, 7, 1 + index), "", 0.0, 0.0, 0.0, 0.0))
+            .collect::<Vec<_>>();
+
+        let result = build_leader_persistence(&observations).unwrap();
+
+        assert_eq!(result.current_leader, "none");
+        assert_eq!(result.leader_state, LeaderState::Absent);
+        assert_eq!(result.leader_absence_duration, 6);
+        assert_eq!(result.persistence_days, 0);
     }
 
     #[test]

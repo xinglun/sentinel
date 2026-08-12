@@ -42,6 +42,7 @@ pub(crate) enum CandidateLifecycle {
     Candidate,
     Developing,
     Confirmed,
+    Unavailable,
     #[default]
     Invalidated,
 }
@@ -99,6 +100,7 @@ pub(crate) enum StructurePersistence {
     Candidate,
     Developing,
     Confirmed,
+    Unavailable,
 }
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
@@ -193,13 +195,19 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
         position_sizing_effect: ObservationEffect::None,
     };
     let persistence_days = input.persistence_days.max(1);
-    let persistence = match persistence_days {
+    let mut persistence = match persistence_days {
         1 => StructurePersistence::Candidate,
         2 => StructurePersistence::Developing,
         _ => StructurePersistence::Confirmed,
     };
     let (eligibility, primary_baseline, secondary_baseline, baseline_start) =
         baseline_selection(&input);
+    if matches!(
+        eligibility,
+        EligibilityStatus::Unavailable | EligibilityStatus::Insufficient
+    ) {
+        persistence = StructurePersistence::Unavailable;
+    }
     let unavailable_reason = unavailable_reason(&input, eligibility);
     if matches!(
         eligibility,
@@ -219,7 +227,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             eligibility,
             primary_baseline,
             secondary_baseline,
-            lifecycle: CandidateLifecycle::Invalidated,
+            lifecycle: CandidateLifecycle::Unavailable,
             unavailable_reason,
             next_eligibility_condition: next_eligibility_condition(eligibility, unavailable_reason),
         };
@@ -239,7 +247,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             eligibility,
             primary_baseline,
             secondary_baseline,
-            lifecycle: CandidateLifecycle::Invalidated,
+            lifecycle: CandidateLifecycle::Unavailable,
             unavailable_reason: Some(
                 unavailable_reason.unwrap_or(UnavailableReason::MissingVolume),
             ),
@@ -269,7 +277,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             eligibility,
             primary_baseline,
             secondary_baseline,
-            lifecycle: CandidateLifecycle::Invalidated,
+            lifecycle: CandidateLifecycle::Unavailable,
             unavailable_reason,
             next_eligibility_condition: next_eligibility_condition(eligibility, unavailable_reason),
         };
@@ -625,7 +633,7 @@ fn lifecycle(
     event_specific_evidence: bool,
 ) -> CandidateLifecycle {
     if structure == PriceVolumeStructure::Unavailable {
-        return CandidateLifecycle::Invalidated;
+        return CandidateLifecycle::Unavailable;
     }
     match (eligibility, persistence_days) {
         (EligibilityStatus::Full, 0..=1) => CandidateLifecycle::Candidate,
@@ -636,7 +644,7 @@ fn lifecycle(
             CandidateLifecycle::Confirmed
         }
         (EligibilityStatus::Partial, _) => CandidateLifecycle::Developing,
-        _ => CandidateLifecycle::Invalidated,
+        _ => CandidateLifecycle::Unavailable,
     }
 }
 
@@ -1018,6 +1026,21 @@ mod tests {
             assessment.unavailable_reason,
             Some(UnavailableReason::ApiFailure)
         );
+    }
+
+    #[test]
+    fn unavailable_structure_does_not_claim_confirmed_persistence() {
+        let data = bars(vec![100.0; 10], vec![Some(100.0); 10]);
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            source_rate_limited: true,
+            persistence_days: 3,
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(assessment.structure, PriceVolumeStructure::Unavailable);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Unavailable);
+        assert_eq!(assessment.persistence, StructurePersistence::Unavailable);
+        assert_eq!(assessment.persistence_days, 3);
     }
 
     #[test]

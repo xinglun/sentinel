@@ -567,10 +567,63 @@ impl PresentationAssembler {
             market_interpretation: None,
             leadership_snapshot: None,
             leader_persistence: None,
+            current_relative_strength: {
+                let value = Self::build_current_relative_strength(packet, lang);
+                (!value.items.is_empty()).then_some(value)
+            },
             market_change_log: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+        }
+    }
+
+    fn build_current_relative_strength(
+        packet: &DecisionPacket,
+        language: Language,
+    ) -> crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+        let mut items = packet
+            .current_relative_strength_observations
+            .iter()
+            .map(|observation| {
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: observation.symbol.clone(),
+                    status: format!("{:?}", observation.status).to_ascii_uppercase(),
+                    relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
+                    relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
+                    price_position: observation.price_position,
+                    volume_participation: observation.volume_participation,
+                }
+            })
+            .collect::<Vec<_>>();
+        items.sort_by(|left, right| {
+            right
+                .relative_5d_vs_benchmark
+                .partial_cmp(&left.relative_5d_vs_benchmark)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        let (title, confirmed_leader, boundary) = match language {
+            Language::ZhCn => (
+                "当前相对强度",
+                "无",
+                "相对强度仅用于观察，不改变 Leader、Gate、Action Matrix 或 Position Sizing。",
+            ),
+            Language::EnUs => (
+                "Current Relative Strength",
+                "none",
+                "Relative Strength is observation only and does not change Leader, Gate, Action Matrix or Position Sizing.",
+            ),
+            Language::JaJp => (
+                "現在の相対強度",
+                "なし",
+                "相対強度は観測専用であり、Leader、Gate、Action Matrix、Position Sizingを変更しない。",
+            ),
+        };
+        crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+            title: title.to_string(),
+            confirmed_leader: confirmed_leader.to_string(),
+            items,
+            boundary: boundary.to_string(),
         }
     }
 

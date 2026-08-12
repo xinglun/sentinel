@@ -131,9 +131,12 @@ fn build_macro_v1_from_event_context(
             information_content: macro_information_level(entry),
             market_relevance: macro_information_level(entry),
             evidence_quality: SignalContextInformationLevel::High,
-            lifecycle:
-                crate::features::radar::interface::presentation::SignalContextLifecycle::Released,
-            event_fact: entry.summary.clone(),
+            lifecycle: macro_lifecycle(entry),
+            event_fact: entry
+                .actual_value
+                .as_ref()
+                .map(|actual| format!("{}; Actual: {}", entry.summary, actual))
+                .unwrap_or_else(|| entry.summary.clone()),
             observed_at: format!("{}T00:00:00Z", as_of_date),
             source_published_at: format!("{}T00:00:00Z", as_of_date),
             market_date: as_of_date.to_string(),
@@ -148,6 +151,10 @@ fn build_macro_v1_from_event_context(
                     importance: format!("{:?}", entry.importance),
                 },
             ],
+            expected_value: entry.expected_value.clone(),
+            actual_value: entry.actual_value.clone(),
+            surprise: entry.surprise.clone(),
+            reason: entry.reason.clone(),
         })
         .collect::<Vec<_>>();
     let scheduled_status = match event_context.source_health {
@@ -178,8 +185,11 @@ fn build_macro_v1_from_event_context(
 fn macro_information_level(
     entry: &crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry,
 ) -> SignalContextInformationLevel {
-    if entry.high_information {
+    if entry.actual_value.is_some() || entry.high_information {
         return SignalContextInformationLevel::High;
+    }
+    if entry.lifecycle.eq_ignore_ascii_case("UPCOMING") {
+        return SignalContextInformationLevel::Medium;
     }
     match entry.importance {
         Some(MacroEventImportance::High | MacroEventImportance::Medium) => {
@@ -187,6 +197,26 @@ fn macro_information_level(
         }
         Some(MacroEventImportance::Low) | None => SignalContextInformationLevel::Low,
         Some(MacroEventImportance::Critical) => SignalContextInformationLevel::High,
+    }
+}
+
+fn macro_lifecycle(
+    entry: &crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry,
+) -> crate::features::radar::interface::presentation::SignalContextLifecycle {
+    match entry.lifecycle.to_ascii_uppercase().as_str() {
+        "UPCOMING" => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming
+        }
+        "RELEASED" | "COMPARED" => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Released
+        }
+        "ACTIVE_REPRICING" => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::ActiveRepricing
+        }
+        "AFTERMATH" => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Aftermath
+        }
+        _ => crate::features::radar::interface::presentation::SignalContextLifecycle::Expired,
     }
 }
 
@@ -532,6 +562,65 @@ mod tests {
     }
 
     #[test]
+    fn known_cpi_upcoming_is_not_collapsed_to_no_event() {
+        let mut cpi = item("US CPI", SignalContextInformationLevel::Medium);
+        cpi.lifecycle =
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming;
+        cpi.market_date = "2026-08-12".to_string();
+        cpi.expected_value = Some("2.9%".to_string());
+        let snapshot = build_signal_context_v1(SignalContextCoverageInput {
+            market_date: "2026-08-12".to_string(),
+            scheduled_macro: vec![cpi],
+            coverage: SignalContextCoverage {
+                scheduled_macro: SignalContextSourceStatus::Healthy,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        let primary = snapshot
+            .primary_context
+            .expect("known CPI must remain visible");
+        assert_eq!(primary.title, "US CPI");
+        assert_eq!(
+            primary.lifecycle,
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming
+        );
+        assert_eq!(
+            primary.information_content,
+            SignalContextInformationLevel::Medium
+        );
+        assert_eq!(snapshot.decision_weight, 0);
+        assert!(!snapshot.trade_signal);
+    }
+
+    #[test]
+    fn released_cpi_without_actual_is_degraded_but_keeps_event_fact() {
+        let mut cpi = item("US CPI", SignalContextInformationLevel::High);
+        cpi.actual_value = None;
+        cpi.reason = Some("EVENT_DATA_UNAVAILABLE".to_string());
+        let snapshot = build_signal_context_v1(SignalContextCoverageInput {
+            market_date: "2026-08-12".to_string(),
+            scheduled_macro: vec![cpi],
+            coverage: SignalContextCoverage {
+                scheduled_macro: SignalContextSourceStatus::Partial,
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        let primary = snapshot
+            .primary_context
+            .expect("released CPI must remain visible");
+        assert_eq!(primary.title, "US CPI");
+        assert_eq!(primary.reason.as_deref(), Some("EVENT_DATA_UNAVAILABLE"));
+        assert_eq!(
+            snapshot.context_quality,
+            crate::features::radar::interface::presentation::SignalContextQuality::Medium
+        );
+    }
+
+    #[test]
     fn partial_coverage_cannot_be_low_or_high_quality() {
         let mut input = SignalContextCoverageInput::default();
         input.coverage.overall = SignalContextSourceStatus::Partial;
@@ -560,6 +649,10 @@ mod tests {
                     lifecycle: "Released".to_string(),
                     summary: "Minor survey release".to_string(),
                     high_information: false,
+                    expected_value: None,
+                    actual_value: None,
+                    surprise: None,
+                    reason: None,
                 },
             ],
             ..Default::default()

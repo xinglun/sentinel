@@ -186,6 +186,7 @@ fn lifecycle_label(value: CandidateLifecycle) -> &'static str {
         CandidateLifecycle::Candidate => "CANDIDATE",
         CandidateLifecycle::Developing => "DEVELOPING",
         CandidateLifecycle::Confirmed => "CONFIRMED",
+        CandidateLifecycle::Unavailable => "UNAVAILABLE",
         CandidateLifecycle::Invalidated => "INVALIDATED",
     }
 }
