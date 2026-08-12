@@ -1,0 +1,211 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-observation-confidence",
+  "mode": "code",
+  "title": "补齐价量观察置信度输出",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a36b5f472de18d266e4fedee7894272653bf55855eddc839157d4d960984a6aa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.contract.json",
+      "status": "??",
+      "fingerprint": "69c04cfc2a6df83ac828cc2e32f5c7f4802c52b0117d12769646c7e5790d012b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.summary.json",
+      "status": "??",
+      "fingerprint": "ee690748ca334ba265dfa784a6b9f19f62eac983bbe2c57cfca767a5e13a9c20"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+      "status": "??",
+      "fingerprint": "70cfd20150d1e56059c4fdec6cbd46a321b988cf5160ec8c19e8502ca56adc37"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.summary.json",
+      "status": "??",
+      "fingerprint": "13b94446c09e636e9eae071a5c8ff6c9d8cedda586d7aeac9cd89d499deee060"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.contract.json",
+      "status": "??",
+      "fingerprint": "9db5d1ca95de9288cc13ed71e59f7cc604e4147d2c55b7f52ca67ade1c0e3ed4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.summary.json",
+      "status": "??",
+      "fingerprint": "34843ad24488259c343a46368feaf300029597af3327e1498d1c39c87c05b9dc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.contract.json",
+      "status": "??",
+      "fingerprint": "6ae70cef18be4f4216ca4ad15be202e5a5fe640c727a6260747789f8ea19d1b2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.summary.json",
+      "status": "??",
+      "fingerprint": "045f777ee7349af70709b1771298d8108e46cf7376898acbb4998629a37905d6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-context-baseline.contract.json",
+      "status": "??",
+      "fingerprint": "96bb4137043e88381dd4c4b2577caf89be1aa8ea6fdef44feb6277f524a6b8c5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-context-baseline.summary.json",
+      "status": "??",
+      "fingerprint": "17489fc6d9849e562e713428ee662f5379279ec48b16a56fa3853afe5fca45bb"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "b0d64be20141f39ad58cd69b7cdbb9de42153e442c8b976b562057bb36486e1d"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "47845fd79be4aed78f6477634ae005fb41049cc7178bf301f84ea41475e28829"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "048d23c5f1afaee2be34f08c9fab90ef85d6eb4dc6f1e5721f6ca8a9054f6b97"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "def744b898611afcca143b6e35d50e601099f3b5a8506765a33b5a08332d8785"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "status": "M",
+      "fingerprint": "1b6b0737c4a00c03a43823e7e1f2899da03c719aa680e05d7a9fc082506f1d25"
+    }
+  ],
+  "problemStatement": "原始验收示例要求短历史价量观察明确显示 Confidence: LOW / PARTIAL，但当前 PriceVolume 报告没有观察置信度字段。",
+  "intent": {
+    "problem": "Eligibility 和 baseline 已决定证据强度，但没有投影到价量报告和 JSONL 观察记录。",
+    "constraints": ["Confidence 仅表示价量观察证据强度，不接入交易 Confidence、Gate、Action Matrix 或 Position Sizing。","保持 observation boundary 为零权重和无交易信号。"],
+    "rationale": "PARTIAL 短历史必须显式标示 PARTIAL，避免把候选观察误读为成熟确认。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-observation-confidence.contract.json",
+    ".ai/work-items/active/price-volume-observation-confidence.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": ["交易层 Confidence、Gate、NO TRADE、READY、EXECUTE、Trader、Action Matrix、Position Sizing 的行为变更"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+      "reason": "原始短历史输出要求 Confidence: LOW / PARTIAL。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "现有 Eligibility、Baseline 和 PriceVolumeAssessment。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "现有价量 Markdown 报告输出。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "现有 JSONL 旧记录兼容测试。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary"
+    ],
+    "reason": "仅新增价量观察证据强度字段，不进入交易决策链。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权继续修改并将需确认事项写入 Contract。"
+  },
+  "humanReview": {"status":"confirmed","decision":"用户已授权继续修改并完成全部价量遗漏修复。","openQuestions":["Confidence 仅是观察证据强度，不得改变任何交易边界。"]},
+  "preReviewWarnings": ["不得把观察 Confidence 与交易层 Confidence 混用。"],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "PriceVolumeAssessment 增加 observation confidence，FULL=HIGH、PARTIAL=PARTIAL、INSUFFICIENT=LOW、UNAVAILABLE=UNAVAILABLE。",
+    "Markdown 价量报告逐项显示 Observation Confidence。",
+    "旧 JSONL 记录缺少 observation confidence 时仍可反序列化并使用默认值。",
+    "所有 observation boundary 保持零权重、无交易信号、无 Gate/execution/position sizing 效果。"
+  ],
+  "scenarioCoverage": [
+    {"scenario":"PARTIAL 事件基线短历史显示 Observation Confidence: PARTIAL","required":true,"status":"verified","evidence":["src/features/radar/domain/price_volume_structure.rs::partial_event_baseline_confirms_after_three_observations","src/features/radar/interface/price_volume_structure_report.rs::report_discloses_partial_lifecycle_baseline_reason_and_next_condition"],"reason":"领域映射与 Markdown 输出测试通过。"},
+    {"scenario":"FULL、INSUFFICIENT、UNAVAILABLE 显示 HIGH/LOW/UNAVAILABLE","required":true,"status":"verified","evidence":["src/features/radar/domain/price_volume_structure.rs::observation_confidence_tracks_eligibility_strength","src/features/radar/interface/price_volume_structure_report.rs::report_discloses_observation_confidence_without_changing_boundary"],"reason":"四级映射及 LOW 报告标签测试通过。"},
+    {"scenario":"旧 JSONL 兼容与 observation-only boundary 不回归","required":true,"status":"verified","evidence":["src/features/radar/infrastructure/persistence.rs::price_volume_record_schema_accepts_missing_supply_context","src/features/radar/interface/price_volume_structure_report.rs::report_discloses_observation_confidence_without_changing_boundary","make test"],"reason":"旧记录默认值、零权重和无交易信号测试通过。"}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

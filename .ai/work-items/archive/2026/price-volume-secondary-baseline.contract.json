@@ -1,0 +1,213 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-secondary-baseline",
+  "mode": "code",
+  "title": "补齐价量 secondary baseline 指标输出",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "7047782f10e7072fdb3d0eb4abef379bf28d7c75cfe0b82c17e0d5a7f85aa5b7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.contract.json",
+      "status": "??",
+      "fingerprint": "69c04cfc2a6df83ac828cc2e32f5c7f4802c52b0117d12769646c7e5790d012b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.summary.json",
+      "status": "??",
+      "fingerprint": "ee690748ca334ba265dfa784a6b9f19f62eac983bbe2c57cfca767a5e13a9c20"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+      "status": "??",
+      "fingerprint": "70cfd20150d1e56059c4fdec6cbd46a321b988cf5160ec8c19e8502ca56adc37"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.summary.json",
+      "status": "??",
+      "fingerprint": "13b94446c09e636e9eae071a5c8ff6c9d8cedda586d7aeac9cd89d499deee060"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.contract.json",
+      "status": "??",
+      "fingerprint": "9db5d1ca95de9288cc13ed71e59f7cc604e4147d2c55b7f52ca67ade1c0e3ed4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.summary.json",
+      "status": "??",
+      "fingerprint": "34843ad24488259c343a46368feaf300029597af3327e1498d1c39c87c05b9dc"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "465e7ba161e2b4484629a74ba44c1ca4910077d046bd78bb6517b0cd33ed17e2"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "def744b898611afcca143b6e35d50e601099f3b5a8506765a33b5a08332d8785"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "status": "M",
+      "fingerprint": "1b6b0737c4a00c03a43823e7e1f2899da03c719aa680e05d7a9fc082506f1d25"
+    }
+  ],
+  "problemStatement": "成熟资产存在 secondary baseline 时，当前报告只显示 secondary baseline 名称，没有计算或输出对应的 RVOL 与 baseline days，导致事件后观察证据不完整。",
+  "intent": {
+    "problem": "多 baseline 规则要求同时保留 primary 与 secondary 观察，但现有 PriceVolumeAssessment 只有 primary metrics。",
+    "constraints": [
+      "只增加观察指标和报告/序列化输出，不改变结构经济定义、lifecycle 或交易边界。",
+      "secondary baseline 没有足够有效比较样本时必须保持 None/UNAVAILABLE，不伪造 RVOL。",
+      "保留旧 JSON 记录的反序列化兼容性。"
+    ],
+    "rationale": "secondary baseline 只有标签而没有数值会让 POST_EARNINGS、POST_LOCKUP 等事件观察无法审计。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-secondary-baseline.contract.json",
+    ".ai/work-items/active/price-volume-secondary-baseline.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": [
+    "Gate、execution、trader、Action Matrix、Position Sizing、Decision Weight、Candidate Lifecycle 行为变更",
+    "为没有 secondary baseline 的资产强行生成第二组指标"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+      "reason": "原始多 baseline 并存及 RVOL 展示要求。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "PriceVolumeAssessment 和 metrics 的现有 primary-only 结构。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "现有报告只输出 secondary baseline 名称的实现。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "旧 PriceVolumeObservationRecord JSON 兼容性测试。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["architecture_boundary"],
+    "reason": "只扩展观察指标 DTO 与报告展示；交易边界和旧记录兼容性由测试保护。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权完成遗漏修复，scope、acceptance 和 verification 已确定。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权继续完成遗漏修复，并要求将需确认事项写入 Contract。",
+    "openQuestions": [
+      "secondary 指标只用于观察和审计，不得影响交易边界。"
+    ]
+  },
+  "preReviewWarnings": [
+    "secondary baseline 样本不足时必须显式 UNAVAILABLE。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "存在 secondary baseline 且有足够有效比较样本时，assessment 输出 secondary_metrics，包含对应 baseline_type、baseline_days、relative_volume 和 relative_volume_label。",
+    "报告同时输出 Secondary Relative Volume 与 Secondary Baseline Days，并明确 baseline label。",
+    "secondary baseline 样本不足时不输出伪造数值，secondary_metrics 保持 None。",
+    "旧 JSON 记录缺少 secondary_metrics 时仍可反序列化。",
+    "decision_weight_percent 为 0、trade_signal 为 false、gate_effect / execution_effect / position_sizing_effect 均为 none，且无交易行为变更。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "成熟资产存在 POST_EARNINGS secondary baseline 时输出独立 secondary RVOL",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "mature_event_baseline_exposes_independent_secondary_metrics 测试通过。"
+    },
+    {
+      "scenario": "secondary baseline 无足够有效样本时保持 UNAVAILABLE",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "secondary metric slot 和样本不足时 None 的路径通过测试。"
+    },
+    {
+      "scenario": "旧持久化 JSON 与 observation-only 边界不回归",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "旧 persistence JSON 反序列化与 observation boundary 全量测试通过。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-secondary-baseline.summary.json CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-secondary-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-baseline.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
