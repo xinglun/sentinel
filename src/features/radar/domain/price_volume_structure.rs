@@ -17,6 +17,15 @@ pub(crate) enum EligibilityStatus {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Serialize, serde::Deserialize)]
+pub(crate) enum ObservationConfidence {
+    High,
+    Partial,
+    Low,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Serialize, serde::Deserialize)]
 pub(crate) enum BaselineType {
     Standard20d,
     AvailableHistory,
@@ -41,6 +50,7 @@ pub(crate) enum CandidateLifecycle {
 pub(crate) enum UnavailableReason {
     InsufficientValidHistory,
     MissingVolume,
+    MissingOhlcv,
     DataGap,
     CorporateActionConflict,
     ApiFailure,
@@ -136,6 +146,10 @@ pub(crate) struct PriceVolumeAssessment {
     pub persistence: StructurePersistence,
     pub persistence_days: u8,
     pub metrics: Option<PriceVolumeMetrics>,
+    #[serde(default)]
+    pub secondary_metrics: Option<PriceVolumeMetrics>,
+    #[serde(default)]
+    pub observation_confidence: ObservationConfidence,
     pub boundary: PriceVolumeObservationBoundary,
     #[serde(default)]
     pub eligibility: EligibilityStatus,
@@ -161,6 +175,7 @@ pub(crate) struct PriceVolumeInput<'a> {
     pub volume_comparable: bool,
     pub event_baseline: Option<(BaselineType, NaiveDate)>,
     pub secondary_supply_context: Option<&'a SupplyEventContext>,
+    pub market_holidays: Option<&'a [NaiveDate]>,
 }
 
 pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> PriceVolumeAssessment {
@@ -168,6 +183,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
         input.bars,
         input.source_rate_limited,
         input.volume_comparable,
+        input.market_holidays,
     );
     let boundary = PriceVolumeObservationBoundary {
         decision_weight_percent: 0,
@@ -197,6 +213,8 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             persistence,
             persistence_days,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: observation_confidence(eligibility),
             boundary,
             eligibility,
             primary_baseline,
@@ -206,7 +224,7 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             next_eligibility_condition: next_eligibility_condition(eligibility, unavailable_reason),
         };
     }
-    let Some(metrics) = metrics(input.bars, primary_baseline, baseline_start) else {
+    let Some(primary_metrics) = metrics(input.bars, primary_baseline, baseline_start) else {
         return PriceVolumeAssessment {
             structure: PriceVolumeStructure::Unavailable,
             participation: ParticipationQuality::Unavailable,
@@ -215,12 +233,16 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             persistence,
             persistence_days,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: observation_confidence(eligibility),
             boundary,
             eligibility,
             primary_baseline,
             secondary_baseline,
             lifecycle: CandidateLifecycle::Invalidated,
-            unavailable_reason: Some(UnavailableReason::MissingVolume),
+            unavailable_reason: Some(
+                unavailable_reason.unwrap_or(UnavailableReason::MissingVolume),
+            ),
             next_eligibility_condition: Some(
                 "Need one valid OHLCV session before calculating a comparison.".to_string(),
             ),
@@ -234,7 +256,15 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             quality,
             persistence,
             persistence_days,
-            metrics: Some(metrics),
+            metrics: Some(primary_metrics),
+            secondary_metrics: secondary_baseline.and_then(|baseline| {
+                metrics(
+                    input.bars,
+                    baseline,
+                    secondary_baseline_start(&input, baseline),
+                )
+            }),
+            observation_confidence: observation_confidence(eligibility),
             boundary,
             eligibility,
             primary_baseline,
@@ -249,37 +279,48 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
             && context.supply_direction == SupplyDirection::Increase
             && context.confidence == SupplyEventConfidence::High
     });
-    let limited_downside = metrics.return_1d >= -1.5
-        && metrics.return_5d >= -3.0
-        && metrics
+    let limited_downside = primary_metrics.return_1d >= -1.5
+        && primary_metrics.return_5d >= -3.0
+        && primary_metrics
             .atr_normalized_move
             .is_some_and(|move_size| move_size <= 1.0)
-        && metrics.lower_wick_ratio.is_some_and(|ratio| ratio >= 0.20);
-    let high_price_position = metrics.new_high || metrics.distance_from_20d_high >= -2.0;
-    let stalled_candle = metrics.body_ratio.is_some_and(|ratio| ratio <= 0.45)
-        || metrics.upper_wick_ratio.is_some_and(|ratio| ratio >= 0.30);
-    let downside_breakdown = metrics.new_low || metrics.gap_percent.is_some_and(|gap| gap <= -1.0);
+        && primary_metrics
+            .lower_wick_ratio
+            .is_some_and(|ratio| ratio >= 0.20);
+    let high_price_position =
+        primary_metrics.new_high || primary_metrics.distance_from_20d_high >= -2.0;
+    let stalled_candle = primary_metrics
+        .body_ratio
+        .is_some_and(|ratio| ratio <= 0.45)
+        || primary_metrics
+            .upper_wick_ratio
+            .is_some_and(|ratio| ratio >= 0.30);
+    let downside_breakdown =
+        primary_metrics.new_low || primary_metrics.gap_percent.is_some_and(|gap| gap <= -1.0);
     let potential_accumulation =
-        metrics.relative_volume >= 1.3 && limited_downside && !metrics.new_low;
+        primary_metrics.relative_volume >= 1.3 && limited_downside && !primary_metrics.new_low;
     let accumulation = supply_increase && potential_accumulation;
-    let accumulation_candidate = input.supply_context.is_none()
+    let supply_context_missing = input
+        .supply_context
+        .is_none_or(|context| context.availability == SupplyEventContextAvailability::Unavailable);
+    let accumulation_candidate = supply_context_missing
         && input.persistence_days >= 2
         && potential_accumulation
-        && metrics.return_5d < 0.0
-        && !metrics.new_high;
-    let exhausted = metrics.return_5d > 2.0
+        && primary_metrics.return_5d < 0.0
+        && !primary_metrics.new_high;
+    let exhausted = primary_metrics.return_5d > 2.0
         && high_price_position
-        && metrics.relative_volume < 1.0
-        && metrics.rvol_5 < 1.0
+        && primary_metrics.relative_volume < 1.0
+        && primary_metrics.rvol_5 < 1.0
         && stalled_candle
         && (input.overheated || input.time_cost_rising);
-    let healthy = metrics.return_5d > 2.0
+    let healthy = primary_metrics.return_5d > 2.0
         && high_price_position
-        && metrics.relative_volume >= 1.0
-        && metrics.up_day_average_volume > metrics.down_day_average_volume;
-    let distribution = metrics.return_5d < -2.0
-        && metrics.relative_volume >= 1.3
-        && metrics.down_day_average_volume > metrics.up_day_average_volume
+        && primary_metrics.relative_volume >= 1.0
+        && primary_metrics.up_day_average_volume > primary_metrics.down_day_average_volume;
+    let distribution = primary_metrics.return_5d < -2.0
+        && primary_metrics.relative_volume >= 1.3
+        && primary_metrics.down_day_average_volume > primary_metrics.up_day_average_volume
         && downside_breakdown;
     let (structure, participation, supply_absorption) = if accumulation {
         (
@@ -329,12 +370,29 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
         quality,
         persistence,
         persistence_days,
-        metrics: Some(metrics),
+        metrics: Some(primary_metrics),
+        secondary_metrics: secondary_baseline.and_then(|baseline| {
+            metrics(
+                input.bars,
+                baseline,
+                secondary_baseline_start(&input, baseline),
+            )
+        }),
+        observation_confidence: observation_confidence(eligibility),
         boundary,
         eligibility,
         primary_baseline,
         secondary_baseline,
-        lifecycle: lifecycle(eligibility, persistence_days, structure),
+        lifecycle: lifecycle(
+            eligibility,
+            persistence_days,
+            structure,
+            baseline_start.is_some()
+                && !matches!(
+                    structure,
+                    PriceVolumeStructure::Neutral | PriceVolumeStructure::AccumulationCandidate
+                ),
+        ),
         unavailable_reason: accumulation_candidate
             .then_some(UnavailableReason::MissingSupplyContext),
         next_eligibility_condition: next_eligibility_condition(
@@ -344,12 +402,22 @@ pub(crate) fn assess_price_volume_structure(input: PriceVolumeInput<'_>) -> Pric
     }
 }
 
+fn observation_confidence(eligibility: EligibilityStatus) -> ObservationConfidence {
+    match eligibility {
+        EligibilityStatus::Full => ObservationConfidence::High,
+        EligibilityStatus::Partial => ObservationConfidence::Partial,
+        EligibilityStatus::Insufficient => ObservationConfidence::Low,
+        EligibilityStatus::Unavailable => ObservationConfidence::Unavailable,
+    }
+}
+
 fn volume_quality(
     bars: &[DailyBar],
     rate_limited: bool,
     volume_comparable: bool,
+    market_holidays: Option<&[NaiveDate]>,
 ) -> VolumeDataQuality {
-    if rate_limited || !volume_comparable || !continuous_dates(bars) {
+    if rate_limited || !volume_comparable || !continuous_dates(bars, market_holidays) {
         return VolumeDataQuality::Degraded;
     }
     if bars.len() < 5 {
@@ -384,7 +452,7 @@ fn volume_quality(
 fn observation_is_unavailable(input: &PriceVolumeInput<'_>, quality: VolumeDataQuality) -> bool {
     input.source_rate_limited
         || !input.volume_comparable
-        || !continuous_dates(input.bars)
+        || !continuous_dates(input.bars, input.market_holidays)
         || quality == VolumeDataQuality::Unavailable
 }
 
@@ -405,7 +473,7 @@ fn baseline_selection(
             None,
         );
     }
-    if !input.volume_comparable || !continuous_dates(input.bars) {
+    if !input.volume_comparable || !continuous_dates(input.bars, input.market_holidays) {
         return (
             EligibilityStatus::Unavailable,
             BaselineType::Unavailable,
@@ -418,6 +486,7 @@ fn baseline_selection(
             input.bars,
             input.source_rate_limited,
             input.volume_comparable,
+            input.market_holidays,
         ) == VolumeDataQuality::Healthy
     {
         EligibilityStatus::Full
@@ -502,10 +571,16 @@ fn unavailable_reason(
         Some(UnavailableReason::ApiFailure)
     } else if !input.volume_comparable {
         Some(UnavailableReason::CorporateActionConflict)
-    } else if !continuous_dates(input.bars) {
+    } else if !continuous_dates(input.bars, input.market_holidays) {
         Some(UnavailableReason::DataGap)
     } else if input.bars.iter().all(|bar| bar.volume.is_none()) {
         Some(UnavailableReason::MissingVolume)
+    } else if input
+        .bars
+        .iter()
+        .any(|bar| bar.open.is_none() || bar.high.is_none() || bar.low.is_none())
+    {
+        Some(UnavailableReason::MissingOhlcv)
     } else if eligibility == EligibilityStatus::Insufficient {
         Some(UnavailableReason::InsufficientValidHistory)
     } else {
@@ -530,6 +605,9 @@ fn next_eligibility_condition(
         (EligibilityStatus::Unavailable, Some(UnavailableReason::MissingVolume)) => {
             Some("Need one valid volume observation.".to_string())
         }
+        (EligibilityStatus::Unavailable, Some(UnavailableReason::MissingOhlcv)) => {
+            Some("Need one valid OHLCV observation.".to_string())
+        }
         (EligibilityStatus::Unavailable, Some(UnavailableReason::DataGap)) => {
             Some("Need a continuous comparable session sequence.".to_string())
         }
@@ -544,6 +622,7 @@ fn lifecycle(
     eligibility: EligibilityStatus,
     persistence_days: u8,
     structure: PriceVolumeStructure,
+    event_specific_evidence: bool,
 ) -> CandidateLifecycle {
     if structure == PriceVolumeStructure::Unavailable {
         return CandidateLifecycle::Invalidated;
@@ -553,21 +632,60 @@ fn lifecycle(
         (EligibilityStatus::Full, 2) => CandidateLifecycle::Developing,
         (EligibilityStatus::Full, _) => CandidateLifecycle::Confirmed,
         (EligibilityStatus::Partial, 0..=1) => CandidateLifecycle::Candidate,
+        (EligibilityStatus::Partial, 3..=u8::MAX) if event_specific_evidence => {
+            CandidateLifecycle::Confirmed
+        }
         (EligibilityStatus::Partial, _) => CandidateLifecycle::Developing,
         _ => CandidateLifecycle::Invalidated,
     }
 }
 
-fn continuous_dates(bars: &[DailyBar]) -> bool {
+fn continuous_dates(bars: &[DailyBar], market_holidays: Option<&[NaiveDate]>) -> bool {
     bars.windows(2).all(|pair| {
         let previous = pair[0].date;
         let current = pair[1].date;
-        let elapsed_days = (current - previous).num_days();
-        elapsed_days == 1
-            || (previous.weekday() == chrono::Weekday::Fri
-                && current.weekday() == chrono::Weekday::Mon
-                && elapsed_days == 3)
+        if current <= previous {
+            return false;
+        }
+        let mut date = previous + chrono::Duration::days(1);
+        while date < current {
+            let weekend = matches!(date.weekday(), chrono::Weekday::Sat | chrono::Weekday::Sun);
+            let holiday = market_holidays.is_some_and(|holidays| holidays.contains(&date));
+            if !weekend && !holiday {
+                return false;
+            }
+            date += chrono::Duration::days(1);
+        }
+        true
     })
+}
+
+fn secondary_baseline_start(
+    input: &PriceVolumeInput<'_>,
+    baseline: BaselineType,
+) -> Option<NaiveDate> {
+    input
+        .event_baseline
+        .filter(|(event_baseline, _)| *event_baseline == baseline)
+        .map(|(_, date)| date)
+        .or_else(|| {
+            [input.supply_context, input.secondary_supply_context]
+                .into_iter()
+                .flatten()
+                .find_map(|context| {
+                    let context_baseline = match context.event_type {
+                        crate::features::shared::domain::supply_event_context::SupplyEventType::Ipo => {
+                            BaselineType::PostIpo
+                        }
+                        crate::features::shared::domain::supply_event_context::SupplyEventType::LockupExpiry
+                        | crate::features::shared::domain::supply_event_context::SupplyEventType::ShareUnlock => {
+                            BaselineType::PostLockup
+                        }
+                        _ => BaselineType::PostEvent,
+                    };
+                    (context_baseline == baseline).then_some(context.event_date).flatten()
+                })
+        })
 }
 
 fn metrics(
@@ -594,7 +712,11 @@ fn metrics(
             }
         })
         .unwrap_or_else(|| bars.to_vec());
-    let prior = &baseline_bars[..baseline_bars.len().saturating_sub(1)];
+    let prior = baseline_bars[..baseline_bars.len().saturating_sub(1)]
+        .iter()
+        .filter(|bar| is_valid_ohlcv(bar))
+        .cloned()
+        .collect::<Vec<_>>();
     if prior.is_empty() {
         return None;
     }
@@ -741,6 +863,7 @@ mod tests {
             volume_comparable: true,
             event_baseline: None,
             secondary_supply_context: None,
+            market_holidays: None,
         }
     }
 
@@ -894,6 +1017,38 @@ mod tests {
         assert_eq!(
             assessment.unavailable_reason,
             Some(UnavailableReason::ApiFailure)
+        );
+    }
+
+    #[test]
+    fn missing_ohlcv_fields_have_an_explicit_unavailable_reason() {
+        let mut data = bars(vec![100.0; 10], vec![Some(100.0); 10]);
+        for bar in &mut data {
+            bar.open = None;
+            bar.high = None;
+            bar.low = None;
+        }
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.structure, PriceVolumeStructure::Unavailable);
+        assert_eq!(
+            assessment.unavailable_reason,
+            Some(UnavailableReason::MissingOhlcv)
+        );
+    }
+
+    #[test]
+    fn partial_ohlcv_gap_has_an_explicit_unavailable_reason() {
+        let mut data = bars(vec![100.0; 10], vec![Some(100.0); 10]);
+        data[3].open = None;
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.structure, PriceVolumeStructure::Unavailable);
+        assert_eq!(
+            assessment.unavailable_reason,
+            Some(UnavailableReason::MissingOhlcv)
         );
     }
 
@@ -1063,6 +1218,26 @@ mod tests {
     }
 
     #[test]
+    fn observation_confidence_tracks_eligibility_strength() {
+        assert_eq!(
+            observation_confidence(EligibilityStatus::Full),
+            ObservationConfidence::High
+        );
+        assert_eq!(
+            observation_confidence(EligibilityStatus::Partial),
+            ObservationConfidence::Partial
+        );
+        assert_eq!(
+            observation_confidence(EligibilityStatus::Insufficient),
+            ObservationConfidence::Low
+        );
+        assert_eq!(
+            observation_confidence(EligibilityStatus::Unavailable),
+            ObservationConfidence::Unavailable
+        );
+    }
+
+    #[test]
     fn twenty_sessions_are_enough_for_partial_observation() {
         assert_eq!(
             assess_price_volume_structure(input(&rising_data(150.0)[..20], None, false))
@@ -1092,7 +1267,7 @@ mod tests {
         let metrics = assessment.metrics.as_ref().unwrap();
         assert_eq!(metrics.baseline_days, 6);
         assert_ne!(metrics.relative_volume_label, "RVOL_20");
-        assert_ne!(assessment.lifecycle, CandidateLifecycle::Confirmed);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Developing);
     }
 
     #[test]
@@ -1146,7 +1321,7 @@ mod tests {
     }
 
     #[test]
-    fn earnings_event_baseline_is_explicit_and_partial_cannot_confirm() {
+    fn earnings_event_baseline_is_explicit_and_can_confirm_with_evidence() {
         let data = bars(
             vec![100.0, 101.0, 102.0, 101.5, 102.5, 103.0],
             vec![Some(100.0); 6],
@@ -1161,11 +1336,45 @@ mod tests {
 
         assert_eq!(assessment.primary_baseline, BaselineType::PostEarnings);
         assert_eq!(assessment.eligibility, EligibilityStatus::Partial);
-        assert_ne!(assessment.lifecycle, CandidateLifecycle::Confirmed);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Confirmed);
         assert_eq!(
             assessment.metrics.unwrap().relative_volume_label,
             "RVOL_POST_EARNINGS"
         );
+    }
+
+    #[test]
+    fn partial_event_baseline_confirms_after_three_observations() {
+        let data = bars(
+            vec![100.0, 101.0, 102.0, 103.0, 104.0, 105.0, 106.0],
+            vec![
+                Some(100.0),
+                Some(100.0),
+                Some(100.0),
+                Some(100.0),
+                Some(100.0),
+                Some(100.0),
+                Some(180.0),
+            ],
+        );
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            persistence_days: 3,
+            event_baseline: Some((
+                BaselineType::PostEarnings,
+                NaiveDate::from_ymd_opt(2026, 7, 1).unwrap(),
+            )),
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(assessment.eligibility, EligibilityStatus::Partial);
+        assert_eq!(
+            assessment.observation_confidence,
+            ObservationConfidence::Partial
+        );
+        assert_eq!(assessment.primary_baseline, BaselineType::PostEarnings);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Confirmed);
+        assert_eq!(assessment.boundary.decision_weight_percent, 0);
+        assert!(!assessment.boundary.trade_signal);
     }
 
     #[test]
@@ -1210,7 +1419,6 @@ mod tests {
         });
 
         assert_eq!(assessment.lifecycle, CandidateLifecycle::Candidate);
-        assert_ne!(assessment.lifecycle, CandidateLifecycle::Confirmed);
         assert_eq!(assessment.boundary.decision_weight_percent, 0);
         assert!(!assessment.boundary.trade_signal);
     }
@@ -1257,7 +1465,7 @@ mod tests {
             assessment.unavailable_reason,
             Some(UnavailableReason::MissingSupplyContext)
         );
-        assert_ne!(assessment.lifecycle, CandidateLifecycle::Confirmed);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Developing);
     }
 
     #[test]
@@ -1292,7 +1500,7 @@ mod tests {
 
         assert_eq!(assessment.eligibility, EligibilityStatus::Partial);
         assert_eq!(assessment.primary_baseline, BaselineType::PostIpo);
-        assert_ne!(assessment.lifecycle, CandidateLifecycle::Confirmed);
+        assert_eq!(assessment.lifecycle, CandidateLifecycle::Developing);
     }
 
     #[test]
@@ -1333,6 +1541,60 @@ mod tests {
     }
 
     #[test]
+    fn mature_event_baseline_exposes_independent_secondary_metrics() {
+        let data = rising_data(200.0);
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            event_baseline: Some((
+                BaselineType::PostEarnings,
+                NaiveDate::from_ymd_opt(2026, 7, 21).unwrap(),
+            )),
+            ..input(&data, None, false)
+        });
+
+        let primary = assessment.metrics.as_ref().unwrap();
+        let secondary = assessment.secondary_metrics.as_ref().unwrap();
+        assert_eq!(assessment.primary_baseline, BaselineType::Standard20d);
+        assert_eq!(
+            assessment.secondary_baseline,
+            Some(BaselineType::PostEarnings)
+        );
+        assert_eq!(primary.baseline_type, BaselineType::Standard20d);
+        assert_eq!(secondary.baseline_type, BaselineType::PostEarnings);
+        assert_eq!(secondary.relative_volume_label, "RVOL_POST_EARNINGS");
+        assert_eq!(secondary.baseline_days, 5);
+    }
+
+    #[test]
+    fn secondary_supply_context_is_used_when_primary_context_type_differs() {
+        let data = bars_start(
+            vec![100.0; 7],
+            vec![Some(100.0); 7],
+            NaiveDate::from_ymd_opt(2026, 7, 1).unwrap(),
+        );
+        let ipo = SupplyEventContext::from_fact(SupplyEventFact {
+            symbol: "NEWCO".to_string(),
+            event_type: SupplyEventType::Ipo,
+            event_date: Some(NaiveDate::from_ymd_opt(2026, 7, 1).unwrap()),
+            supply_direction: SupplyDirection::Increase,
+            confidence: SupplyEventConfidence::High,
+        });
+        let lockup = lockup_context(SupplyEventType::LockupExpiry);
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            secondary_supply_context: Some(&lockup),
+            ..input(&data, Some(&ipo), false)
+        });
+
+        assert_eq!(
+            assessment.secondary_baseline,
+            Some(BaselineType::PostLockup)
+        );
+        assert_eq!(
+            assessment.secondary_metrics.as_ref().unwrap().baseline_type,
+            BaselineType::PostLockup
+        );
+    }
+
+    #[test]
     fn missing_volume_prevents_full_history_and_standard_rvol_label() {
         let mut volumes = vec![Some(100.0); 26];
         volumes[3] = None;
@@ -1366,5 +1628,107 @@ mod tests {
             assessment.next_eligibility_condition.as_deref(),
             Some("Need Supply Event Context to evaluate absorption.")
         );
+    }
+
+    #[test]
+    fn declared_exchange_holiday_does_not_break_continuous_trading_sessions() {
+        let holiday = NaiveDate::from_ymd_opt(2026, 6, 19).unwrap();
+        let mut data = bars(vec![100.0; 20], vec![Some(100.0); 20]);
+        let mut date = NaiveDate::from_ymd_opt(2026, 6, 1).unwrap();
+        for bar in &mut data {
+            while matches!(date.weekday(), chrono::Weekday::Sat | chrono::Weekday::Sun)
+                || date == holiday
+            {
+                date += Duration::days(1);
+            }
+            bar.date = date;
+            date += Duration::days(1);
+        }
+
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            market_holidays: Some(&[holiday]),
+            ..input(&data, None, false)
+        });
+
+        assert_eq!(assessment.eligibility, EligibilityStatus::Full);
+        assert_ne!(
+            assessment.unavailable_reason,
+            Some(UnavailableReason::DataGap)
+        );
+    }
+
+    #[test]
+    fn baseline_days_count_only_valid_comparison_samples() {
+        let mut data = bars(vec![100.0; 8], vec![Some(100.0); 8]);
+        data[2].open = None;
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.metrics.unwrap().baseline_days, 6);
+    }
+
+    #[test]
+    fn unavailable_supply_context_remains_candidate_without_absorption_confirmation() {
+        let mut data = bars(vec![100.0; 26], vec![Some(100.0); 26]);
+        for (index, close) in [100.3, 99.8, 99.9, 99.8, 99.9, 100.0]
+            .into_iter()
+            .enumerate()
+        {
+            data[20 + index].close = close;
+        }
+        data[25].volume = Some(250.0);
+        let context = SupplyEventContext::unavailable("SPCX".to_string());
+
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            persistence_days: 2,
+            ..input(&data, Some(&context), false)
+        });
+
+        assert_eq!(
+            assessment.structure,
+            PriceVolumeStructure::AccumulationCandidate
+        );
+        assert_eq!(assessment.supply_absorption, SupplyAbsorption::None);
+        assert_eq!(
+            assessment.next_eligibility_condition.as_deref(),
+            Some("Need Supply Event Context to evaluate absorption.")
+        );
+    }
+
+    #[test]
+    fn short_squeeze_is_observation_only() {
+        let assessment = assess_price_volume_structure(input(&rising_data(500.0), None, false));
+        assert!(!assessment.boundary.trade_signal);
+    }
+
+    #[test]
+    fn meme_spike_is_observation_only() {
+        let mut data = rising_data(400.0);
+        data.last_mut().unwrap().close += 15.0;
+        let assessment = assess_price_volume_structure(input(&data, None, true));
+        assert!(!assessment.boundary.trade_signal);
+    }
+
+    #[test]
+    fn options_expiry_volume_spike_is_observation_only() {
+        let mut data = bars(vec![100.0; 26], vec![Some(100.0); 26]);
+        data.last_mut().unwrap().volume = Some(500.0);
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+        assert!(!assessment.boundary.trade_signal);
+    }
+
+    #[test]
+    fn index_rebalance_volume_expansion_is_observation_only() {
+        let assessment = assess_price_volume_structure(input(&rising_data(300.0), None, false));
+        assert!(!assessment.boundary.trade_signal);
+    }
+
+    #[test]
+    fn two_day_repair_failure_is_observation_only() {
+        let assessment = assess_price_volume_structure(PriceVolumeInput {
+            persistence_days: 2,
+            ..input(&falling_data(300.0), None, false)
+        });
+        assert!(!assessment.boundary.trade_signal);
     }
 }

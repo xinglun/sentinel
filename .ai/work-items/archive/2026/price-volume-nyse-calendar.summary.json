@@ -1,0 +1,201 @@
+{
+  "workItemId": "price-volume-nyse-calendar",
+  "contractPath": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/price-volume-nyse-calendar.contract.json",
+      "reason": "Contract 已固定 NYSE observed holiday 和 Good Friday 范围。"
+    },
+    {
+      "path": ".ai/work-items/active/price-volume-nyse-calendar.summary.json",
+      "reason": "记录本工单验证和 checkpoint。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit make target 生成。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "修正 NYSE 休市日计算并新增回归测试。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/price-volume-nyse-calendar.contract.json",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/price_volume_structure.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "周六/周日发生的固定节假日返回前一交易日 observed date",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "新增 observed weekday 测试通过。"
+    },
+    {
+      "scenario": "Good Friday 返回休市日期且普通周五不被误标",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "新增 Good Friday 边界测试通过。"
+    },
+    {
+      "scenario": "既有 MLK、Presidents、Memorial、Labor、Thanksgiving 和 Christmas 日期不回归",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "既有 NYSE calendar 测试和全量测试通过。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "只修正确定的 NYSE 休市日期集合。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract updated; tests pending",
+      "contractHash": "70cfd20150d1e560",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Failing observed holiday and Good Friday tests recorded",
+      "contractHash": "70cfd20150d1e560",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "Calendar implementation and full test suite passed",
+      "contractHash": "70cfd20150d1e560",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Required verification recorded as passed",
+      "contractHash": "70cfd20150d1e560",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "范围、验收和场景已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "updated",
+      "note": "两个新日历测试先失败，确认测试能捕获遗漏。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "observed holiday、Good Friday 和既有回归测试通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "required verification 已通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "calendar_scope",
+      "detail": "仅覆盖 NYSE 日历；其他交易所不在本工单范围。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "NYSE 日历修复、回归测试和 required verification 已通过。",
+    "expectedReviewFocus": [
+      "observed holiday",
+      "Good Friday",
+      "NYSE regression"
+    ]
+  }
+}

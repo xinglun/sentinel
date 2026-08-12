@@ -1,0 +1,164 @@
+{
+  "workItemId": "price-volume-partial-confirmation",
+  "contractPath": ".ai/work-items/archive/2026/price-volume-partial-confirmation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "reason": "审计遗漏、边界、验收与后续项已写入 Contract。"
+    },
+    {
+      "path": ".ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "reason": "记录本轮复核、实现与验证结果。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit 状态生成器维护。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "修复事件基线下 PARTIAL 生命周期确认条件并添加回归测试。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "仅调整事件基线下的 lifecycle 语义；交易边界保持观察专用。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "medium",
+      "detail": "secondary baseline 目前只有展示字段，未生成独立指标；已列为后续审计项，不在本次修复范围。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "复核确认的 Contract scope 与验收边界",
+      "contractHash": "9db5d1ca95de9288",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "修改前已确认仅触及价量域与 Contract/Summary",
+      "contractHash": "9db5d1ca95de9288",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "实现完成，744 个测试通过，待最终 Cockpit 收尾复核",
+      "contractHash": "9db5d1ca95de9288",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification 已记录为 passed",
+      "contractHash": "9db5d1ca95de9288",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "Contract 已完成 task-specific 定义。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "updated",
+      "note": "scope、sources、acceptance 已确认。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "实现完成，核心全量测试已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification 已通过并记录。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "contract_readiness",
+      "detail": "secondary baseline 独立指标仍是后续审计项，不影响本次生命周期修复。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "实现与 required verification 已完成；secondary baseline 独立指标仍作为后续审计项。",
+    "expectedReviewFocus": [
+      "PARTIAL event confirmation",
+      "observation-only boundary",
+      "secondary baseline follow-up"
+    ]
+  }
+}

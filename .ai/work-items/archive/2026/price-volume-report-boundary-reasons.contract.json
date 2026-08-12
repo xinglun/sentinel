@@ -1,0 +1,214 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-report-boundary-reasons",
+  "mode": "code",
+  "title": "补齐价量条目边界与不可用原因",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b23dc6166ba62910ebfd2e7c0415a55aae830ec481d6e5752bc479f5e2594833"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.contract.json",
+      "status": "??",
+      "fingerprint": "69c04cfc2a6df83ac828cc2e32f5c7f4802c52b0117d12769646c7e5790d012b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.summary.json",
+      "status": "??",
+      "fingerprint": "ee690748ca334ba265dfa784a6b9f19f62eac983bbe2c57cfca767a5e13a9c20"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+      "status": "??",
+      "fingerprint": "70cfd20150d1e56059c4fdec6cbd46a321b988cf5160ec8c19e8502ca56adc37"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.summary.json",
+      "status": "??",
+      "fingerprint": "13b94446c09e636e9eae071a5c8ff6c9d8cedda586d7aeac9cd89d499deee060"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-observation-confidence.contract.json",
+      "status": "??",
+      "fingerprint": "dc1aecf69f567e6e0e46cc98f08725ae4db8da9892e2ae364c0c6f8f96e95fbc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-observation-confidence.summary.json",
+      "status": "??",
+      "fingerprint": "2e24f152ebda6e95c57fe4f5a3957d15744f1add7ee167004a89d209727aa8a0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.contract.json",
+      "status": "??",
+      "fingerprint": "9db5d1ca95de9288cc13ed71e59f7cc604e4147d2c55b7f52ca67ade1c0e3ed4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.summary.json",
+      "status": "??",
+      "fingerprint": "34843ad24488259c343a46368feaf300029597af3327e1498d1c39c87c05b9dc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.contract.json",
+      "status": "??",
+      "fingerprint": "6ae70cef18be4f4216ca4ad15be202e5a5fe640c727a6260747789f8ea19d1b2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.summary.json",
+      "status": "??",
+      "fingerprint": "045f777ee7349af70709b1771298d8108e46cf7376898acbb4998629a37905d6"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-context-baseline.contract.json",
+      "status": "??",
+      "fingerprint": "96bb4137043e88381dd4c4b2577caf89be1aa8ea6fdef44feb6277f524a6b8c5"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-context-baseline.summary.json",
+      "status": "??",
+      "fingerprint": "17489fc6d9849e562e713428ee662f5379279ec48b16a56fa3853afe5fca45bb"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "13590138685ce885469cb264c8d7aaf6126908ea53403505db35e68d62ed7db3"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "c795d8ee5ac53ae96217606935cfcd799ed89675a7f82b03502da84a98847e90"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "929aeb537eeae6837ca4fccfc47db34fac05507a0ab2037538d1058e89faf644"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "def744b898611afcca143b6e35d50e601099f3b5a8506765a33b5a08332d8785"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "status": "M",
+      "fingerprint": "1b6b0737c4a00c03a43823e7e1f2899da03c719aa680e05d7a9fc082506f1d25"
+    }
+  ],
+  "problemStatement": "原始价量验收要求每个条目明确 Decision Weight: 0%，且 UNAVAILABLE 必须带有明确原因；当前报告只在顶部声明边界，部分 OHLCV 不可用分支也可能缺少原因。",
+  "intent": {
+    "problem": "逐条报告缺少可审计的零权重边界，且不可用观察可能只显示结构状态而不显示失败原因。",
+    "constraints": ["只修改价量观察报告和价量领域原因映射，不接入交易层。", "保持 decision weight 0%、trade signal false 及所有 gate/execution/position sizing effect 为 none。"],
+    "rationale": "逐条输出边界和原因，避免下游把观察结果误读为交易信号或把无原因 UNAVAILABLE 当作正常候选状态。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-report-boundary-reasons.contract.json",
+    ".ai/work-items/active/price-volume-report-boundary-reasons.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs"
+  ],
+  "outOfScope": ["交易层 Confidence、Gate、NO TRADE、READY、EXECUTE、Trader、Action Matrix、Position Sizing 的行为变更"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+      "reason": "原始验收要求逐项 Decision Weight 及 UNAVAILABLE 原因。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "现有质量、资格和不可用原因分支。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "现有价量 Markdown 报告输出及边界测试。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["architecture_boundary"],
+    "reason": "仅补齐观察输出和原因映射，不改变交易决策链。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户授权继续复核并修复价量遗漏，范围和边界已确认。"
+  },
+  "preReviewWarnings": ["逐条 Decision Weight 仅是观察边界，不得改变交易决策。"],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "每个价量条目明确输出 Decision Weight: 0% 和 Trade Signal: false。",
+    "OHLCV 不可用、数据源失败、数据间断、可比性冲突和缺失成交量等 UNAVAILABLE 观察均输出明确 Unavailable Reason。",
+    "价量报告继续输出 Observation Confidence、Eligibility、Primary/Secondary Baseline；旧 JSONL 缺省字段仍可反序列化，且 boundary 字段值保持零权重和无交易信号。",
+    "对 PriceVolumeObservationBoundary 的 gate_effect、execution_effect、position_sizing_effect 保持 ObservationEffect::None，decision_weight_percent 保持 0，trade_signal 保持 false。"
+  ],
+  "scenarioCoverage": [
+    {"scenario":"逐条报告显示 Decision Weight 0% 和 Trade Signal false","required":true,"status":"verified","evidence":["src/features/radar/interface/price_volume_structure_report.rs::report_discloses_observation_confidence_without_changing_boundary","make quality"],"reason":"逐条输出和边界断言通过。"},
+    {"scenario":"OHLCV 不可用时输出明确 Unavailable Reason","required":true,"status":"verified","evidence":["src/features/radar/domain/price_volume_structure.rs::missing_ohlcv_fields_have_an_explicit_unavailable_reason","make quality"],"reason":"MissingOhlcv 原因映射和测试通过。"},
+    {"scenario":"既有 Observation Confidence、旧 JSONL 和交易边界不回归","required":true,"status":"verified","evidence":["src/features/radar/interface/price_volume_structure_report.rs::report_discloses_partial_lifecycle_baseline_reason_and_next_condition","src/features/radar/infrastructure/persistence.rs::price_volume_record_schema_accepts_missing_supply_context","make quality"],"reason":"既有报告、旧 JSONL 和全量质量门禁通过。"}
+  ],
+  "humanReview": {"status":"confirmed","decision":"用户已授权继续复核并修复价量遗漏。","openQuestions":["逐条边界只用于观察审计，不得进入交易决策链。"]},
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json SUMMARY=.ai/work-items/active/price-volume-report-boundary-reasons.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-report-boundary-reasons.summary.json CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json SUMMARY=.ai/work-items/active/price-volume-report-boundary-reasons.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-report-boundary-reasons.contract.json SUMMARY=.ai/work-items/active/price-volume-report-boundary-reasons.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
