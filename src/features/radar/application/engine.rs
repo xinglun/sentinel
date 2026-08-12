@@ -99,6 +99,7 @@ impl Engine {
 
         // 8. アセット実行状態 ＆ アクションマトリックス
         let mut asset_decisions = Vec::new();
+        let mut current_relative_strength_observations = Vec::new();
         for f in &asset_features {
             let prev_asset_decision =
                 prev_packet.and_then(|p| p.assets.iter().find(|a| a.symbol == f.symbol));
@@ -263,6 +264,33 @@ impl Engine {
                         .find(|(history, _)| history.symbol == f.symbol)
                         .and_then(|(asset, _)| calculate_relative_strength(asset, benchmark, 63))
                 });
+            if let Some((benchmark, _)) = ticker_histories.iter().find(|(_, candidate)| {
+                candidate.symbol
+                    == rules
+                        .market_state_engine
+                        .market_benchmarks
+                        .get(&entry.market.to_ascii_uppercase())
+                        .or_else(|| rules.market_state_engine.market_benchmarks.get("US"))
+                        .map(String::as_str)
+                        .unwrap_or("SPY")
+            }) {
+                if let Some((asset, _)) = ticker_histories
+                    .iter()
+                    .find(|(history, _)| history.symbol == f.symbol)
+                {
+                    current_relative_strength_observations.push(
+                        crate::features::radar::domain::current_relative_strength::observe_current_relative_strength(
+                            crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthInput {
+                                symbol: f.symbol.clone(),
+                                relative_1d_vs_benchmark: calculate_relative_strength(asset, benchmark, 1),
+                                relative_5d_vs_benchmark: calculate_relative_strength(asset, benchmark, 5),
+                                price_position: recent_price_position(asset),
+                                volume_participation: recent_volume_participation(asset),
+                            },
+                        ),
+                    );
+                }
+            }
 
             asset_decisions.push(decision);
         }
@@ -298,6 +326,7 @@ impl Engine {
             None,
             None,
         );
+        packet.current_relative_strength_observations = current_relative_strength_observations;
 
         crate::features::radar::application::pipeline_steps::attach_transition_context(
             &mut packet,
@@ -309,4 +338,26 @@ impl Engine {
 
         Ok(packet)
     }
+}
+
+fn recent_price_position(history: &TickerHistory<'_>) -> Option<f64> {
+    let current = history.bars.last()?.close;
+    let recent = history.bars.iter().rev().take(20).map(|bar| bar.close);
+    let high = recent.fold(current, f64::max);
+    (high > 0.0).then_some(current / high)
+}
+
+fn recent_volume_participation(history: &TickerHistory<'_>) -> Option<f64> {
+    let current = history.bars.last()?.volume?;
+    let baseline = history
+        .bars
+        .iter()
+        .rev()
+        .skip(1)
+        .take(20)
+        .filter_map(|bar| bar.volume)
+        .filter(|volume| *volume > 0.0)
+        .collect::<Vec<_>>();
+    let average = baseline.iter().sum::<f64>() / baseline.len() as f64;
+    (average > 0.0).then_some(current / average)
 }

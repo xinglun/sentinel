@@ -670,6 +670,12 @@ fn push_weekly_market_interpretation_snapshot(
             "  - {}: {}\n",
             leader_persistence.leader_state_label, leader_persistence.leader_state_value
         ));
+        if leader_persistence.leader_absence_duration > 0 {
+            review.push_str(&format!(
+                "  - Leader Absence Duration: {} trading days\n",
+                leader_persistence.leader_absence_duration
+            ));
+        }
         review.push_str(&format!(
             "  - {}: {}\n",
             leader_persistence.change_from_yesterday_label,
@@ -1790,6 +1796,7 @@ mod tests {
                     persistence_label: "Leader Persistence".to_string(),
                     persistence_value: "3 days".to_string(),
                     persistence_days: 3,
+                    leader_absence_duration: 0,
                     observed_days_label: "Observed Leadership Days in Lookback".to_string(),
                     observed_days_value: "3 days".to_string(),
                     breakout_continuity_label: "Breakout Continuity".to_string(),

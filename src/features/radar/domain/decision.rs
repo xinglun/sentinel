@@ -18,6 +18,9 @@ pub struct DecisionPacket {
     pub market_state: Option<MarketStateOutput>,
     pub portfolio_policy: PortfolioPolicy,
     pub assets: Vec<AssetActionDecision>,
+    #[serde(default)]
+    pub current_relative_strength_observations:
+        Vec<crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation>,
     pub top_tier_symbols: Vec<String>,
     #[serde(default, alias = "participation_changed")]
     pub trend_gate_changed: bool,
@@ -37,6 +40,7 @@ impl Default for DecisionPacket {
             market_state: None,
             portfolio_policy: Default::default(),
             assets: Vec::new(),
+            current_relative_strength_observations: Vec::new(),
             top_tier_symbols: Vec::new(),
             trend_gate_changed: false,
             trend_cohesion: TrendCohesionSnapshot::default(),
@@ -68,6 +72,7 @@ impl DecisionPacket {
             market_state,
             portfolio_policy,
             assets,
+            current_relative_strength_observations: Vec::new(),
             top_tier_symbols,
             trend_gate_changed,
             trend_cohesion,
