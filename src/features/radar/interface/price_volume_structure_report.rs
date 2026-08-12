@@ -1,7 +1,7 @@
 use crate::features::radar::domain::price_volume_structure::{
-    BaselineType, CandidateLifecycle, EligibilityStatus, ParticipationQuality,
-    PriceVolumeAssessment, PriceVolumeStructure, SupplyAbsorption, UnavailableReason,
-    VolumeDataQuality,
+    BaselineType, CandidateLifecycle, EligibilityStatus, ObservationConfidence,
+    ParticipationQuality, PriceVolumeAssessment, PriceVolumeStructure, SupplyAbsorption,
+    UnavailableReason, VolumeDataQuality,
 };
 use crate::features::shared::domain::supply_event_context::{SupplyEventContext, SupplyEventType};
 use crate::features::shared::interface::i18n::Language;
@@ -41,6 +41,10 @@ pub(crate) fn render_price_volume_structure_report(
             eligibility_label(assessment.eligibility)
         ));
         out.push_str(&format!(
+            "- Observation Confidence: {}\n",
+            observation_confidence_label(assessment.observation_confidence)
+        ));
+        out.push_str(&format!(
             "- Lifecycle: {}\n",
             lifecycle_label(assessment.lifecycle)
         ));
@@ -52,6 +56,8 @@ pub(crate) fn render_price_volume_structure_report(
             "- Volume Data Quality: {}\n",
             quality_label(assessment.quality)
         ));
+        out.push_str("- Decision Weight: 0%\n");
+        out.push_str("- Trade Signal: false\n");
         if let Some(metrics) = assessment.metrics.as_ref() {
             out.push_str(&format!(
                 "- Relative Volume: {:.2}x ({})\n",
@@ -65,6 +71,21 @@ pub(crate) fn render_price_volume_structure_report(
         } else {
             out.push_str("- Relative Volume: UNAVAILABLE\n");
             out.push_str("- Price Behavior: UNAVAILABLE\n");
+        }
+        if assessment.secondary_baseline.is_some() {
+            if let Some(metrics) = assessment.secondary_metrics.as_ref() {
+                out.push_str(&format!(
+                    "- Secondary Relative Volume: {:.2}x ({})\n",
+                    metrics.relative_volume, metrics.relative_volume_label
+                ));
+                out.push_str(&format!(
+                    "- Secondary Baseline Days: {}\n",
+                    metrics.baseline_days
+                ));
+            } else {
+                out.push_str("- Secondary Relative Volume: UNAVAILABLE\n");
+                out.push_str("- Secondary Baseline Days: UNAVAILABLE\n");
+            }
         }
         out.push_str(&format!(
             "- Primary Baseline: {}\n",
@@ -151,6 +172,15 @@ fn eligibility_label(value: EligibilityStatus) -> &'static str {
     }
 }
 
+fn observation_confidence_label(value: ObservationConfidence) -> &'static str {
+    match value {
+        ObservationConfidence::High => "HIGH",
+        ObservationConfidence::Partial => "PARTIAL",
+        ObservationConfidence::Low => "LOW",
+        ObservationConfidence::Unavailable => "UNAVAILABLE",
+    }
+}
+
 fn lifecycle_label(value: CandidateLifecycle) -> &'static str {
     match value {
         CandidateLifecycle::Candidate => "CANDIDATE",
@@ -176,6 +206,7 @@ fn unavailable_reason_label(value: UnavailableReason) -> &'static str {
     match value {
         UnavailableReason::InsufficientValidHistory => "INSUFFICIENT_VALID_HISTORY",
         UnavailableReason::MissingVolume => "MISSING_VOLUME",
+        UnavailableReason::MissingOhlcv => "MISSING_OHLCV",
         UnavailableReason::DataGap => "DATA_GAP",
         UnavailableReason::CorporateActionConflict => "CORPORATE_ACTION_CONFLICT",
         UnavailableReason::ApiFailure => "API_FAILURE",
@@ -233,8 +264,8 @@ fn interpretation(
 mod tests {
     use super::*;
     use crate::features::radar::domain::price_volume_structure::{
-        BaselineType, CandidateLifecycle, EligibilityStatus, PriceVolumeObservationBoundary,
-        StructurePersistence, UnavailableReason,
+        BaselineType, CandidateLifecycle, EligibilityStatus, ObservationConfidence,
+        PriceVolumeObservationBoundary, StructurePersistence, UnavailableReason,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
     fn assessment(
@@ -250,6 +281,8 @@ mod tests {
             persistence: StructurePersistence::Confirmed,
             persistence_days: 3,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -326,6 +359,7 @@ mod tests {
             SupplyAbsorption::Unavailable,
         );
         assessment.eligibility = EligibilityStatus::Partial;
+        assessment.observation_confidence = ObservationConfidence::Partial;
         assessment.primary_baseline = BaselineType::PostIpo;
         assessment.secondary_baseline = Some(BaselineType::PostLockup);
         assessment.lifecycle = CandidateLifecycle::Candidate;
@@ -345,6 +379,7 @@ mod tests {
         );
 
         assert!(report.contains("Eligibility: PARTIAL"));
+        assert!(report.contains("Observation Confidence: PARTIAL"));
         assert!(report.contains("Lifecycle: CANDIDATE"));
         assert!(report.contains("Primary Baseline: POST_IPO"));
         assert!(report.contains("Secondary Baseline: POST_LOCKUP"));
@@ -352,6 +387,57 @@ mod tests {
         assert!(
             report.contains("Next Eligibility Condition: Need 2 additional valid OHLCV sessions.")
         );
+    }
+
+    #[test]
+    fn report_discloses_observation_confidence_without_changing_boundary() {
+        let mut assessment = assessment(
+            PriceVolumeStructure::Neutral,
+            ParticipationQuality::Neutral,
+            SupplyAbsorption::None,
+        );
+        assessment.observation_confidence = ObservationConfidence::Low;
+
+        let report = render_price_volume_structure_report(
+            &[PriceVolumeReportEntry {
+                symbol: "NEWCO".to_string(),
+                assessment,
+                supply_context: None,
+                overheated: false,
+                accumulation_failed: false,
+            }],
+            Language::ZhCn,
+        );
+
+        assert!(report.contains("Observation Confidence: LOW"));
+        assert!(report.contains("Decision Weight: 0%"));
+        assert!(report.contains("Trade Signal: false"));
+        assert_eq!(report.matches("Decision Weight: 0%").count(), 2);
+        assert_eq!(report.matches("Trade Signal: false").count(), 2);
+    }
+
+    #[test]
+    fn report_discloses_secondary_baseline_metric_slot() {
+        let mut assessment = assessment(
+            PriceVolumeStructure::HealthyAdvance,
+            ParticipationQuality::Healthy,
+            SupplyAbsorption::None,
+        );
+        assessment.secondary_baseline = Some(BaselineType::PostEarnings);
+
+        let report = render_price_volume_structure_report(
+            &[PriceVolumeReportEntry {
+                symbol: "MSFT".to_string(),
+                assessment,
+                supply_context: None,
+                overheated: false,
+                accumulation_failed: false,
+            }],
+            Language::ZhCn,
+        );
+
+        assert!(report.contains("Secondary Baseline: POST_EARNINGS"));
+        assert!(report.contains("Secondary Relative Volume: UNAVAILABLE"));
     }
 
     #[test]

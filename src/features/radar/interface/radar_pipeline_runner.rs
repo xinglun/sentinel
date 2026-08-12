@@ -1017,6 +1017,8 @@ pub(crate) async fn run_pipeline_for_report_date(
                 let secondary_supply_context = supply_contexts.get(1).cloned();
                 let event_baseline =
                     price_volume_event_baseline(config_arc.as_ref(), &history.symbol, packet.date);
+                let market_holidays =
+                    price_volume_market_holidays(history.bars.as_ref(), packet.date);
                 let overheated = packet.assets.iter().any(|asset| {
                     asset.asset_state.symbol == history.symbol
                         && asset.asset_state.state == AssetState::OVERHEAT
@@ -1036,6 +1038,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     ),
                     event_baseline,
                     secondary_supply_context: secondary_supply_context.as_ref(),
+                    market_holidays: Some(&market_holidays),
                 });
                 let persistence_days = runtime_services
                     .persistence
@@ -1061,6 +1064,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                         ),
                         event_baseline,
                         secondary_supply_context: secondary_supply_context.as_ref(),
+                        market_holidays: Some(&market_holidays),
                     }
                 });
                 PriceVolumeReportEntry {
@@ -1096,6 +1100,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 volume_comparable: true,
                 event_baseline: None,
                 secondary_supply_context: None,
+                market_holidays: None,
             });
             price_volume_entries.push(PriceVolumeReportEntry {
                 symbol: symbol.clone(),
@@ -1391,6 +1396,21 @@ fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
     }
     dates.sort_unstable();
     dates
+}
+
+fn price_volume_market_holidays(
+    bars: &[crate::features::shared::domain::market_data::DailyBar],
+    as_of: chrono::NaiveDate,
+) -> Vec<chrono::NaiveDate> {
+    let start_year = bars
+        .first()
+        .map(|bar| bar.date.year())
+        .unwrap_or(as_of.year());
+    (start_year..=as_of.year())
+        .flat_map(
+            crate::features::research::interface::macro_event_official_calendar_adapter::nyse_market_holidays,
+        )
+        .collect()
 }
 
 #[allow(clippy::too_many_arguments)]
