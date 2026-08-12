@@ -49,7 +49,17 @@
     {
       "path": "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json",
       "reason": "CPI actual unavailable fixture。"
-    }
+    },
+    {"path":".ai/cockpit/current_status.md","reason":"Cockpit status lifecycle output。"},
+    {"path":"src/features/radar/domain/decision.rs","reason":"DecisionPacket observation collection boundary。"},
+    {"path":"src/features/radar/domain/mod.rs","reason":"Observation domain module registration。"},
+    {"path":"src/features/radar/interface/market_interpretation_read_model.rs","reason":"Leader absence read model projection。"},
+    {"path":"src/features/radar/interface/presentation.rs","reason":"Observation presentation view models。"},
+    {"path":"src/features/radar/interface/presentation_assembler.rs","reason":"Observation presentation assembly。"},
+    {"path":"src/features/radar/interface/price_volume_structure_report.rs","reason":"Price-volume observation report output。"},
+    {"path":"src/features/radar/interface/report_ui_tests.rs","reason":"Observation report UI regression tests。"},
+    {"path":"src/features/radar/interface/weekly_state_report.rs","reason":"Weekly observation report output。"},
+    {"path":"src/features/research/interface/macro_event_observation.rs","reason":"Event discovery and observation domain projection。"}
   ],
   "sourcesUsed": [
     "/Users/sei-rinn/.codex/attachments/00430b60-0198-43bb-a1af-3b4d3bf3799c/pasted-text.txt",
