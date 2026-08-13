@@ -22,6 +22,8 @@
     "src/features/radar/domain/price_volume_structure.rs",
     "src/features/radar/interface/trend_recognition_read_model.rs",
     "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
     "tests/snapshots/audit_daily_en_us.txt",
     "tests/snapshots/audit_daily_ja_jp.txt",
     "tests/snapshots/audit_daily_zh_cn.txt"
