@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Biggest Chip Stocks All Yield Under 1%. Here's Where the Cash Actually Goes.
+  summary: The most profitable corner of the technology market pays income investors a pittance -- and each of these four companies has a different reason.
+  url: https://finnhub.io/api/news?id=8e5f063d0a9ac7519e8641eb906abfe19b61380b6837ad20c13bf8d9cb29e8c0

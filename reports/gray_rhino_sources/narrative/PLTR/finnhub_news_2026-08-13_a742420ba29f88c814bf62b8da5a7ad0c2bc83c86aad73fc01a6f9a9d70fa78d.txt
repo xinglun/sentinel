@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Would Fall by 12,152 Points in a ‘Black Monday’ Style Crash. Big Short Investor Says It’s Possible.
+  summary: Michael Burry is still short, still warning of a shock on the scale of 1987, and doing so while the Dow sits near all-time highs and the VIX barely stirs. His reasoning traces back to a single, rarely seen S&P 500 signal he says has only appeared three times since 1999.
+  url: https://finnhub.io/api/news?id=6969e537f6b9ebc7373c7c864388fa715168c2d9a39e8c7f00980299c634f5e4

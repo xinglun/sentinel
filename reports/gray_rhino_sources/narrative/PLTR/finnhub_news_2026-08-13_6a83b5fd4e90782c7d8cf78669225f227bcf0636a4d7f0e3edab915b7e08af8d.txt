@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Revenue at Palantir-Backed Ondas Rises 1,236%. Stock Falls as Losses Widen.
+  summary: Shares of  Ondas  declined Thursday after the autonomous drone maker  and  Palantir  partner posted a wider-than-expected second-quarter loss, overshadowing a more than 1,200% increase in revenue.  Ondas stock fell 4.2% to $9.36 in premarket trading on Thursday after ending Wednesday up 0.3%.  The West Palm Beach, Fla.,-based provider of artificial intelligence-powered autonomous drone systems posted second-quarter revenue of $83.77 million, increasing 1,236% from $6.27 million a year ago and above Wall Street’s call for $68 million.
+  url: https://finnhub.io/api/news?id=8db6d0ff44dcb457f06e508339db32c49e5b8974ef6a8ca78f53bb25264b5ff2

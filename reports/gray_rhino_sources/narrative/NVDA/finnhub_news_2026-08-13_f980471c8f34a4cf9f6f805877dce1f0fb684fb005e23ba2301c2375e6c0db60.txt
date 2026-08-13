@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Household Debt Just Fell for the First Time in 6 Years — Here’s Why That’s Bad News
+  summary: American households just posted their first debt decline in six years, and economists are calling it a warning sign rather than a milestone. The real numbers buried inside the Federal Reserve's latest report paint a picture that should worry anyone watching the consumer economy.
+  url: https://finnhub.io/api/news?id=978d1b2f4e506338e96bb5d120efe59df4ea414b0f88aefdc47f0963d7b80cb7

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Three Power Apps Myths That Keep Enterprises on Legacy Systems
+  summary: Myth: Power Apps can’t scale to support enterprise platforms. Truth: Power Apps carry enterprise volume when they're designed for it.Myth: Power Apps can’t meet enterprise security and governance requirements. Truth: A governed Power Apps environment passes enterprise compliance review.Myth: Legacy system modernization with Power Apps is too risky to succeed. Truth: Modernization runs in stages with PowerApps, so there’s no outage risk. New York, NY, Aug. 13, 2026 (GLOBE NEWSWIRE) -- eSoftware A
+  url: https://finnhub.io/api/news?id=be6898ff0cc05373cd77056bfbb45ca7e8b01802f21cb0643ca7356dac7e987d

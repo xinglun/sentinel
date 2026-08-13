@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Up With Tech?
+  summary: Sara Awad from Tech Contrarians talks semis, strong stocks and what's coming for tech in '27.
+  url: https://finnhub.io/api/news?id=b7712598b4feffec46ea5810425f208623f4da84db5c62630f2c0e39dbd4ee4e

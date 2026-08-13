@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia rival Cerebras stock plunges as company swings to quarterly loss
+  summary: Cerebras stock fell on Thursday after the chipmaker's latest quarterly results failed to impress investors.
+  url: https://finnhub.io/api/news?id=2f9acf0a4a69cd65d2c7408109f1fb1ba6530c96fe433ff58ee39232ecd9dab4

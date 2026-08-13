@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Budget Deficits Just Surged to $432.3 billion in July While Trump Weighs Brand-New Tax Cuts
+  summary: Washington is floating brand-new tax cuts at the exact moment the federal deficit is blowing past levels not seen since the pandemic, and bond markets are already reacting. Here is what the latest Treasury numbers reveal about where fiscal policy could push interest rates next.
+  url: https://finnhub.io/api/news?id=427532ae90cfdf6914189dad06ec6600b4eff4be4ad06ea64a0649feb7fccd0a

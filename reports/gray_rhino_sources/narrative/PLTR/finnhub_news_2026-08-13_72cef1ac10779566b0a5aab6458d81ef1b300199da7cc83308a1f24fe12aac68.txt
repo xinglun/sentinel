@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cool CPI Lights the Fuse Under AI Hardware as Software Takes a Beating
+  summary: A softer July inflation print gave the bulls license to sprint back into AI hardware, with Super Micro's blowout dragging chips, optical suppliers, and the neocloud crowd sharply higher.
+  url: https://finnhub.io/api/news?id=8e0b011a5673522bb64aecbf7ece47fbf08cd0f4aff0f5cdb8ff742812f72b7d

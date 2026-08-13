@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Disinflation Gains Traction, But The Bond Market Isn't Buying It
+  summary: Consumer inflation eased in July, providing the Federal Reserve with a fresh round of data to stay patient on the decision of whether to raise interest rates.
+  url: https://finnhub.io/api/news?id=f6b9dd2b576b2fa1cd66c4c1172731b4322bbef097c741c30bce61b71a84f777

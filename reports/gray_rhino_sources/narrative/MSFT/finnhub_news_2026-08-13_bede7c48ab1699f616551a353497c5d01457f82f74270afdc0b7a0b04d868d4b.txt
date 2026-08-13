@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why this analyst sees another 30% rip in Microsoft stock
+  summary: Microsoft shares could stay on fire.
+  url: https://finnhub.io/api/news?id=acccf41044c189af630c8b1bfbd4a29a69d5e3de86dec420b208f764689d38cd

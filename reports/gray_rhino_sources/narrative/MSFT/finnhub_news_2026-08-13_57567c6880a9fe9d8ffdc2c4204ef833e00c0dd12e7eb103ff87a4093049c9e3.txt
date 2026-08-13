@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ackman adds Netflix, Visa and Mastercard in portfolio revamp
+  summary: Investing.com -- Bill Ackman disclosed six new portfolio holdings on Thursday, including Netflix, Visa, and Mastercard, representing his largest portfolio restructuring in several years.
+  url: https://finnhub.io/api/news?id=d0a5094c6d7ae07aa3ed473b1f5aa92efcebd59cadd9ec2a2891a89026a84c3d

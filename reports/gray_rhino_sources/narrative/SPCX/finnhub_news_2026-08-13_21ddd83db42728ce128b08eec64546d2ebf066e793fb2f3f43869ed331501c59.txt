@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, Defense Contractors Progress On Orbital Interceptors, Pass Golden Dome Test
+  summary: SpaceX, RTX and 10 other defense contractors passed the first space-based interceptor test for the Golden Dome program. Citi hikes aerospace targets.
+  url: https://finnhub.io/api/news?id=886c283672f55efce0004fab4f0b36916e8005dd3d33fd7e0a91dc659f570146

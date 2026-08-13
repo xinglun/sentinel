@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Parent Alphabet Just Revealed How Many SpaceX Shares It Owns... and the Figure Is a Doozy
+  summary: Alphabet has turned into the Warren Buffett of Wall Street.
+  url: https://finnhub.io/api/news?id=ce6967c260aec8fb51291871ab3cdad4bb292e5d2f85d47a5d88713b41f0e60d

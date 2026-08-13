@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘The Big Short’ Investor Michael Burry Says Stock Market’s Unusually Long Stretch Without a Broad Selloff Could Be a Warning Sign — And He Has One Simple Message for Investors: ‘Avoid the Leverage’ (UPDATED)
+  summary: Michael Burry said the market&#39;s unusually long stretch without a broad selloff is a warning sign of a reversal.
+  url: https://finnhub.io/api/news?id=f524e2bc74e6f140604cc49c7f3bf6773f1c0a69dae071d4185e8fe5e6db25bb

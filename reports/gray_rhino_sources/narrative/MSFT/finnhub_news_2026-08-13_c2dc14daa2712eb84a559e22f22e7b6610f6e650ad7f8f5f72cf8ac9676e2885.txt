@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ackman unveils six new investments including Netflix, Visa, Mastercard in biggest portfolio overhaul in years
+  summary: Bill Ackman unveiled six new holdings including Netflix, Visa and Mastercard, marking the billionaire investor's biggest portfolio overhaul in years.  Ackman said on Thursday he acquired shares ‌starting in the second quarter that will be held in his investment funds including his newest offering ‌Pershing Square USA, which was listed on the New York Stock Exchange in April.  Along with Netflix, which Ackman held briefly in 2022 before selling ​at a loss, his funds are also investing in eye care firm Alcon, exchange operator Intercontinental Exchange and financial data provider S&P Global.
+  url: https://finnhub.io/api/news?id=a3e05b1849e26b5d4a7f2f6677b9b25468b013a4435cafdf971c233d080e5c71

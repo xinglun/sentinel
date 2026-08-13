@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, Nebius, Palantir, Super Micro, Quantinuum, Wendy’s, and More Stocks That Explain Today’s Market
+  summary: Nebius soared afted the so-called neocloud reports better-than-expected second-quarter results, while fellow neocloud company CoreWeave posted a narrower quarterly loss, sending the stock up sharply.
+  url: https://finnhub.io/api/news?id=2cf08bc92533d39c9845743db86aef5453c331f9f61feb93e955bc8e09be96b6

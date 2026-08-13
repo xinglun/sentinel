@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reasons To Roll Over Your Old 401k Sooner Than Later
+  summary: 
+  url: https://finnhub.io/api/news?id=21fe4d7acc39f2f66730b44b8c7bd7c09d9a1e034a414572f81a45e9733f2d2a

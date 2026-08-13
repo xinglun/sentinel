@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Warns of a 1987-Style Crash. Here Are 2 Index ETFs to Buy Anyway.
+  summary: A 1987 crash looks unlikely, but a dollar-cost averaging strategy still is most investors' best bet.
+  url: https://finnhub.io/api/news?id=c7fbddc4198c1cc976e4e7d6dc0c43b1f3d60461b8c03034092757fc45d07281

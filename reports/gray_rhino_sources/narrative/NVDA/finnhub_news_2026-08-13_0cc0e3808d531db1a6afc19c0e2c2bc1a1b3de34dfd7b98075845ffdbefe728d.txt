@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Sandisk Stock Keeps Falling and Whether It Is Worth Buying Now
+  summary: The market is worried about what's happening next. Should you be, too?
+  url: https://finnhub.io/api/news?id=0dc66121c911933cff9362523053dbe4b8339f37fcff52be1d749c7bb26ca8d3

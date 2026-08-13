@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July CPI Inflation - Not Low Enough
+  summary: With the inflation figure still much higher than the Fed's target of 2%, a rate hike later in the year can't be ruled out. Click here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=959dd45659e7dc8922c9670ded18586506fdbc03d9c047436f20cebae52917c9

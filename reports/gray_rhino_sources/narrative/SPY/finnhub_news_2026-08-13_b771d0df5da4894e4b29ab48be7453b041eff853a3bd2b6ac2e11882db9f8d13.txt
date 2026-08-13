@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Accurate Is Our Inflation Rate?
+  summary: 
+  url: https://finnhub.io/api/news?id=d6c05061f20a5a4dc039d61aa08b5c675b5804f5fddbe320f051e685a107b591

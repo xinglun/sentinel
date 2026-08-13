@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity: Stunning Reversal To Profitable Growth Meets Outsized Break Out
+  summary: 
+  url: https://finnhub.io/api/news?id=bfeff38033c922e476fbc133c4b805b833d51319b47aacd1a4c05ca2c1cb17f9

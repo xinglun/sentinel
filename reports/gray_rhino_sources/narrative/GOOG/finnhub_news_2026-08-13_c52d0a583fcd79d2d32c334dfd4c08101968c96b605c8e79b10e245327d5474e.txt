@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Priori Expands Client Advisory Board with New Members from Fortune 500 Corporate Legal Departments
+  summary: Legal operations and legal department leaders from Mastercard, Meta, Google, Uber, General Motors, U.S. Bank, Capital One and more will help shape the future of outside counsel managementNEW YORK, Aug. 13, 2026 (GLOBE NEWSWIRE) -- Priori, the legal technology company modernizing outside counsel management and hiring, today announced the members of its 2026–2027 Client Advisory Board (CAB), a group of senior legal operations and legal department leaders who provide strategic guidance on the compa
+  url: https://finnhub.io/api/news?id=51f516f429febf28f6c5e79007b051ac660b6822ab9a1b7d2ae3528af49000f7

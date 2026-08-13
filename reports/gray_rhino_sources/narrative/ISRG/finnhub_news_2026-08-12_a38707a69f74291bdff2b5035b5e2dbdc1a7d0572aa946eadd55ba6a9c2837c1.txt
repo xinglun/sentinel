@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oppenheimer Sees $500 for Intuitive Surgical as Rivals Stall
+  summary: Oppenheimer argues Ottava and Hugo pose no near-term threat to da Vinci
+  url: https://finnhub.io/api/news?id=24829641f332e3eb02dac53a3ed12233a7723a96315a57d782297c99b7e59aa1

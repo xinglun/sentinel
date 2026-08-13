@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG's US Procedure Growth Slows: Is ACA Headwind a Temporary Concern?
+  summary: ISRG's US procedure growth slows in Q2, but ACA-related care deferrals may prove temporary as underlying demand and da Vinci 5 adoption remain strong.
+  url: https://finnhub.io/api/news?id=baf1824d0df621f1aa28521c8191d0b9beb21127713aaf88a6893458e97b1369

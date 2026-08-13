@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside Latigo Biotherapeutics’ IPO: A Non-Opioid Pain Bet Goes Public
+  summary: A California biotech just raised $350 million promising to out-perform opioids without the addiction risk, and its auditors were still warning about survival just months ago. Here is what the science and the filings actually show.
+  url: https://finnhub.io/api/news?id=f9ed0860d21fac5b45889bb5f7d101977f12066b6c9bab95f6a065bf9ebbfa7a

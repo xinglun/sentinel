@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTU: Palantir Already Soared. Buying It With 2X Leverage Now Is a Different Bet Entirely
+  summary: Palantir has already handed investors an 800% gain over three years, and now a leveraged ETF promises to double every move the stock makes. But the mechanics of daily leverage introduce a hidden force that can quietly destroy returns even when you get the direction right.
+  url: https://finnhub.io/api/news?id=ccd52edba3e50583fc843806e2efed336f30a3dcd7809593a024449e40b678f2

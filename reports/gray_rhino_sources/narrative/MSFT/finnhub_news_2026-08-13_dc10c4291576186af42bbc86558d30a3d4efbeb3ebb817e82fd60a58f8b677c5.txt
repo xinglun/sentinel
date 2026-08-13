@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zacks Investment Ideas feature highlights: NVIDIA, Microsoft and Apple
+  summary: Apple's record June quarter and Microsoft's cloud growth set a strong tone as NVIDIA remains the lone Magnificent Seven member yet to report.
+  url: https://finnhub.io/api/news?id=e2555914e0a7f0832cce460a30b5f6cb05bf2994ab14719e71c19c2860131efb

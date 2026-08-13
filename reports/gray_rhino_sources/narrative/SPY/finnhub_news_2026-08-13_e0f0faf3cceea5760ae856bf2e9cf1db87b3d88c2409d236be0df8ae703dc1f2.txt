@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Strengthens as Small Caps Press Breakout Resistance
+  summary: Breadth strengthened as advancers led 59.7%, moving-average participation improved and IWM pressed resistance.
+  url: https://finnhub.io/api/news?id=1c7ff88a721f1ab6bd84173bd89748bb1ef8946710948726596968bbebb8d730

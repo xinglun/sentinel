@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive: Scott Bessent Says K-Shaped Economy Is Over, but Wall Street Veteran Says Wealth Divide Is Worsening: ‘50% of Americans Own No Stocks and Are Getting Left Behind’
+  summary: Treasury Secretary Scott Bessent recently declared the “K-shaped” economic divide dead, but market experts argue the wealth gap is actually accelerating, prompting Wall Street veteran Louis Navellier to advise Americans to “bet on a billionaire” to survive the enduring financial...
+  url: https://finnhub.io/api/news?id=4dc11c825b895c2c9e1bf37b05a0c32a091218e43f6549fcab0edb4cc0f639d2

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If Anthropic Stock Trades Like SpaceX, Investors May Wish They Owned Alphabet Instead
+  summary: With an investment in Alphabet, you get both an established AI player and exposure to Anthropic.
+  url: https://finnhub.io/api/news?id=686674c5eab0f4a09ae89422f6cc288883a017f183d65e5dcfd20e39468ebb06

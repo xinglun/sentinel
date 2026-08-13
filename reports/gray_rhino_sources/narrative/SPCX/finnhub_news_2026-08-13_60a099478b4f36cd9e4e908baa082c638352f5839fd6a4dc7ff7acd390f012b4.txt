@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Supplier Tumbles After First Earnings Report Since IPO
+  summary: Applied Aerospace & Defense fell about 10% on Wednesday after its first earnings report since going public in June.
+  url: https://finnhub.io/api/news?id=b0cf92b5006567c550d7428b1bf2c580e8c68f9a3bb89eaed967d9fc8b7c5061

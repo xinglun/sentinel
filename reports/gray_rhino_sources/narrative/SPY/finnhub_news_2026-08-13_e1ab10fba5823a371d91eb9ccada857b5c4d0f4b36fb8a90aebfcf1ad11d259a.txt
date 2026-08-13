@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What An All-Time High CAPE Ratio Implies For Investors
+  summary: S&P 500 valuations are stretched: Shiller CAPE ~42, yields ~1% and rates ~5% flip the equity risk premium negative.
+  url: https://finnhub.io/api/news?id=ed0b62fd8d92630c5e7ebd948937906f136427e565451e7c0759b9a2f6b5745e

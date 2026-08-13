@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Still Negative 1 Year Later: 76% Increase Lies Ahead According to This Analyst
+  summary: While its two biggest cloud rivals soared past the market this year, one hyperscaler kept beating earnings estimates and still watched its stock fall. Now a single analyst thinks the gap between perception and reality has grown wide enough to matter.
+  url: https://finnhub.io/api/news?id=73e8906f4232b8e426ae4d9a848a7235cd5ffdc441a69da44cf67a213e3af04d

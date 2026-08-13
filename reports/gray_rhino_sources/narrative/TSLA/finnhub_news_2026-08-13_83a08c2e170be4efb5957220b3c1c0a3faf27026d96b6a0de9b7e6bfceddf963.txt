@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Stock Is Struggling—and What Could Revive It
+  summary: Shares of the EV maker just snapped a four-session streak of gains, and they may struggle to return to winning ways anytime soon.
+  url: https://finnhub.io/api/news?id=215225068bc053cd9550eb350eb25d7ff738bfcc772579be6eee20a90ddb5435

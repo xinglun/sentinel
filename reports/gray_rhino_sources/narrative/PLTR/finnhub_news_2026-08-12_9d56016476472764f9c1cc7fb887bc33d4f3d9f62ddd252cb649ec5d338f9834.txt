@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congressman Violates Stock Act: Reports 22 Trades After Deadline, Including Some Nearly Two Years Old
+  summary: A member of Congress recently disclosed 32 stock trades, with many of the trades made more than 45 days ago.
+  url: https://finnhub.io/api/news?id=08dabffb5cbf4daeff6e8ef0dfa592ffb3fe4ca852fd2ab392a10424b337b543

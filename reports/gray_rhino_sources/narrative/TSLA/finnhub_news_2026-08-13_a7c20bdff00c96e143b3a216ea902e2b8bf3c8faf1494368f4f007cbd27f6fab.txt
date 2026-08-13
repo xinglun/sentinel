@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Questions Tesla’s Strategy As Robotaxi Fleet Stays ‘Stuck’ At 90-100 Vehicles: 'What’s Going To Change This?'
+  summary: Future Fund Managing Partner Gary Black said Tesla cannot depend on word-of-mouth and Elon Musk’s social-media posts to promote robotaxis and Optimus robots.
+  url: https://finnhub.io/api/news?id=4dd1d8f02641d36c1c9acfb61b64dd2c5abb0a44f3606d0b1a7ed4582d140ce2

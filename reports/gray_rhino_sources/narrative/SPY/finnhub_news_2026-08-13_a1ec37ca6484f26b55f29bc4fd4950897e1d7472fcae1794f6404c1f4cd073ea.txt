@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 ETF Dividends: IVV, VOO, SPY: DPS Forecast For Q3 2026
+  summary: Aggregate S&P 500 regular cash dividends are expected to reach approximately $740 billion in 2026.
+  url: https://finnhub.io/api/news?id=fd3e9ff06f12367a2af9101d074624af67cec2160ed33315a8a61c7b6714fa20

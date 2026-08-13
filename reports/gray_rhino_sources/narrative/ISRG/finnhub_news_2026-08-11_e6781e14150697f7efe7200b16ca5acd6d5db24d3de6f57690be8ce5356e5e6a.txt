@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Number One Reason I Keep Buying Intuitive Surgical Now For The Long Run
+  summary: Intuitive Surgical is down more than 30% this year, and one investor keeps buying anyway, convinced that a once-per-decade hardware cycle and an $8.6 billion cash fortress make the drawdown a gift rather than a warning.
+  url: https://finnhub.io/api/news?id=4ba66945287ede7c38fde16a98935405858b6db9f49f2a4e71fed2c0bc7079c8

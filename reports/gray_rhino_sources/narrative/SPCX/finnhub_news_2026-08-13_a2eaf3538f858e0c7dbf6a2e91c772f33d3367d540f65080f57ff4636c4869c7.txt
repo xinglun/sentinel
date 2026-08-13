@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Reported Earnings for the First Time as a Public Company. Here's the Most Shocking Piece of Guidance Issued by CEO Elon Musk
+  summary: The market seemed more interested in what CEO Elon Musk had to say on SpaceX's first earnings call.
+  url: https://finnhub.io/api/news?id=6833d899b1775ebad60f320478cd7ef8099ba097ccb57867f321787b5cc6b9e2

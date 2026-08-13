@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: Strong Fundamentals Support Today's Valuation
+  summary: Berkshire boosts GOOGL stake as Google Cloud demand and strong fundamentals drive growthâlearn the thesis, risks, and what to watch now.
+  url: https://finnhub.io/api/news?id=7212cbc564651b72c533103ff6e655248628ff7bb41a019661a3fbc7ca136b9a

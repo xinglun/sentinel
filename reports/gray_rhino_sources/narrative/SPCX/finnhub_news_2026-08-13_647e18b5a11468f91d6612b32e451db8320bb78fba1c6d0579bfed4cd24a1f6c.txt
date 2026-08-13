@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s New Texas Facility Will be 36 Times Bigger Than the Empire State Building. Here’s Everything We Know So Far.
+  summary: Elon Musk wants to build a chip factory so large it dwarfs every structure humans have ever assembled, on a dried-up reservoir outside Houston, for a purpose that sounds more like science fiction than a construction permit.
+  url: https://finnhub.io/api/news?id=0842a1e5ac1ebbf9696ce2d2f1cea955bbd61bb51188d64d449a8e7ef20509b6

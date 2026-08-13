@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Lost $400 Million on NFLX Stock in 2022 — Now He’s Back With a 3.15M-Share Bet, Saying Netflix Has ‘Won the Streaming Wars’ (UPDATED)
+  summary: Bill Ackman’s Pershing Square re-enters Netflix with a 3.15M share stake, declaring the streaming wars won after a historic 2022 loss.
+  url: https://finnhub.io/api/news?id=9b805c3baf0cde3eb7d11556bcdef48c569518d23a0ea6da7631ae6ac2ec0581

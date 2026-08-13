@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Palantir Fall as CPI Sends September Fed Hike Odds to 33%
+  summary: Tesla Inc. (NASDAQ:TSLA) and Palantir Technologies Inc. (NASDAQ:PLTR) fell Wednesday even as a benign July inflation report lifted the broader tech market and sent the odds of a September Federal Reserve rate hike to 33%. Headline CPI rose 0.1% in...
+  url: https://finnhub.io/api/news?id=b1463a6ba3c5278b5867b2f3def8ce8c18dc3a26f6068eec3abf31cead2ba542

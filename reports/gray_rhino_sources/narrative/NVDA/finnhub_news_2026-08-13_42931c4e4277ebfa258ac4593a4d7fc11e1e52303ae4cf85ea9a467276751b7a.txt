@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What the Coming 6G Trials With Nvidia, T-Mobile Could Mean for Nokia Investors
+  summary: Nokia stock has surged nearly 150% over the past year on the promise of AI-powered 6G, and now Nvidia and T-Mobile are putting that promise to a real-world test. What the trial results could mean for shareholders depends on a question Nokia has not yet answered.
+  url: https://finnhub.io/api/news?id=9ce56efcf6d8b0fac53aa54865ceb54624f6031ca39563c3d64e67c1f08436d5

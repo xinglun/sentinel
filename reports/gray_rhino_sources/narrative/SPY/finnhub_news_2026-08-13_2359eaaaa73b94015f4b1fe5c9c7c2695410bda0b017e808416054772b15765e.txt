@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: History Says This Surefire ETF Can Turn $200 per Month Into $1 Million -- With Next to No Effort on Your Part
+  summary: The right investment can build life-changing wealth over time.
+  url: https://finnhub.io/api/news?id=85f707cd50c7019a80132dec62bfb7c1e9fb869e314e3f7c5d7161afefffaf25

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN delivers first 50MW Microsoft AI cloud deployment at Childress
+  summary: Microsoft accepted the first of four liquid-cooled deployments under IREN’s $9.7 billion contract, while NVIDIA awarded the GB300 system Exemplar Cloud status after testing.
+  url: https://finnhub.io/api/news?id=f64d0ac44df59c406807357df430e61a417a29abab04024550febf58bc010c70

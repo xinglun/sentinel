@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive-Microsoft retreats in China, but AI boom helps it keep a window open
+  summary: Microsoft once regarded the idea of quitting China as unthinkable.  In the past five years, however, at least 15 Microsoft branch offices and joint ventures in China have been shut, corporate filings show, and Microsoft is pursuing what five company sources described as ‌a strategy of retreat.  The firm considered quitting the market in 2023 because some executives felt it took on too much geopolitical risk for too little economic return, one of them said, while stressing Microsoft has no current plans to exit.
+  url: https://finnhub.io/api/news?id=fadcf018122a49fb65ac69c9a82d1a14f714ecff2563b4832e916f06151de8db

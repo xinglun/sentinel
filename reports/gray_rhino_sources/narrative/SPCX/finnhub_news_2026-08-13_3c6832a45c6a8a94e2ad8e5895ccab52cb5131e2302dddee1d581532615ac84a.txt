@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Predicts 90% of Internet Traffic Will Flow Through His Company. That Would Be a Nightmare.
+  summary: Elon Musk just told SpaceX employees that Starlink could one day carry 90% of all internet traffic, and the implications for competitors, consumers, and pricing power are far more alarming than the headline suggests.
+  url: https://finnhub.io/api/news?id=107f3d523bf94506bf0ce2c7ca990278c7fff8e66f7c18cb654bc85c71876132

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inovio Pharmaceuticals Q2 Earnings Call Highlights
+  summary: Inovio Pharmaceuticals (NASDAQ:INO) said the U.S. Food and Drug Administration has completed several key steps in its review of the company’s biologics license application for INO-3107, an investigational treatment for recurrent respiratory papillomatosis, or RRP, while the company continues prepara
+  url: https://finnhub.io/api/news?id=fe67dfa7a11181a18380e8aa03b39befdbec5c3ad1d9969aa1719e3e4c15f30d

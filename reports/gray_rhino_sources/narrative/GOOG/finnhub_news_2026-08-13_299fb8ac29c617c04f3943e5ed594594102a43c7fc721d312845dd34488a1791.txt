@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fund Mounts Against Alphabet’s (GOOG) Aggressive AI Spending
+  summary: Alpha Wealth Funds, LLC, an investment management company, released its Q2 2026 letter for the “Insiders Fund”. A copy of the letter is available to download here. The Fund lost 1.45% in June, while it was up 8.43% for the 2nd quarter and 0.75% YTD. This compares to the S&P 500’s -0.95%, 15.2%, and 9.98% […]
+  url: https://finnhub.io/api/news?id=4ed36a1fd6380750e4665acdeb01463a161c7431b80587adcd298e2d256644a1

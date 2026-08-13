@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Engen Announces Wave of New Client Wins Including Arena Club and More as Brands Shift to Creative-Led Growth
+  summary: New engagements reflect growing demand for more distinctive creative – and the connected media and measurement systems that make it performSEATTLE, Aug. 13, 2026 (GLOBE NEWSWIRE) -- New Engen, a creator-led, performance-driven growth agency, today announced new engagements with Arena Club, Uber, MeUndies, Kate Farms, and other brands across consumer health, sports, travel, wellness, CPG, apparel, and lifestyle. The work spans creative strategy and production, creator marketing, UGC, paid amplifi
+  url: https://finnhub.io/api/news?id=11e9d34ed1c8de45ed6fe6446c9c4b0fd480588a37a37669da7b34d763234805

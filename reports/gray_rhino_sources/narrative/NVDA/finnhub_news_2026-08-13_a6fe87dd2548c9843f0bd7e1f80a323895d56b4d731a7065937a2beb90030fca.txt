@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA CEO Warns of ‘Horrible Outcome’ If China Optimizes AI Models for Huawei Hardware Instead of American Chips
+  summary: Jensen Huang rarely sounds rattled, but a recent exchange caught analysts off guard and revealed just how much one strategic shift by China's DeepSeek could reshape the entire foundation of American AI dominance.
+  url: https://finnhub.io/api/news?id=3a4b13bccc93c61daed59ec2b73355c2d029762a55bd467ae2b2d75cd7e42748

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Short Interest Falls to 11% From 34% Peak: Are Bears Capitulating?
+  summary: SpaceX short interest cratered from a 34% peak to 11% as shares rebound 41% off their August low, S3 Partners data shows.
+  url: https://finnhub.io/api/news?id=e163e5cac97bf71e6a17e518781b296abc9151d3131e6c9396dbf0a8e837ff4a

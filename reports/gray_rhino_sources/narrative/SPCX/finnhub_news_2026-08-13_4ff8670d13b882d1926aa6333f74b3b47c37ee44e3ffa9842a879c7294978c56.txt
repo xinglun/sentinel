@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AMD in Trouble as SpaceX Goes Exclusive With NVIDIA?
+  summary: SpaceX just pledged its AI chip loyalty to Nvidia, leaving AMD on the outside looking in. Whether Lisa Su has a smart counter-move or just a shrinking customer list depends on what happens next.
+  url: https://finnhub.io/api/news?id=edf38a5dec59b100c8b16ab47b04b325eeb7262b6979728a8357f4aa14327cf5

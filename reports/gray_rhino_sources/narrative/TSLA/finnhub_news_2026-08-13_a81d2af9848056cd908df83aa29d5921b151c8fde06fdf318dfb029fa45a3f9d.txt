@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alloy Robotics Raises $8M to Help Engineers Debug Robot Fleets With AI Agents
+  summary: Alloy Robotics, which builds AI agents that analyze robot data to identify the root causes of failures, has raised $8 million at an $80 million valuation, just over a year after its founding.
+  url: https://finnhub.io/api/news?id=b432cd7b492e1bfbfbc636036c52eda0938f800ce3d21e25a89c825198b16ffa

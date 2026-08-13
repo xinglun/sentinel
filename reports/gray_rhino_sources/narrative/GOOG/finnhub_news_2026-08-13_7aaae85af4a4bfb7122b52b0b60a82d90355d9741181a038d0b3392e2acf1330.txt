@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Blue-Chip Stocks That Could Double by 2030
+  summary: A 16% annualized return sounds ambitious for trillion-dollar companies, yet three Nasdaq giants have the earnings architecture and AI tailwinds to make that math surprisingly plausible before the decade ends.
+  url: https://finnhub.io/api/news?id=773cc8f3172386449e4d6a80f65cc7ab8061fe6d48765886937e58fce9e99734

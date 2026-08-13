@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Is Up 8.0% After Raising 2026 Revenue Guidance On Stronger Q2 Results
+  summary: In early August 2026, Palantir Technologies reported second-quarter results showing sales of US$1.94 billion and net income of US$1.06 billion, alongside stronger performance for the first half of the year and higher earnings per share than a year earlier. Management also raised full-year 2026 revenue guidance to between US$8.15–US$8.16 billion and reiterated expectations for GAAP profitability each quarter, underscoring confidence that demand for its AI platforms will support continued...
+  url: https://finnhub.io/api/news?id=dc30a7415ea22521e59a73d5d7dae547a99baa0f18b100140b0cdf3893663c4b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Makes Steve Ballmer’s Net Worth In A Week As SpaceX Soars
+  summary: SpaceX's post-earnings collapse wiped out a fortune most billionaires never accumulate, and then the rebound did something almost no one expected in the days that followed.
+  url: https://finnhub.io/api/news?id=de2fc123ce6d8f436199fa40cea12837ef47986f4e74e3820e6d41f2fb5fc9bb

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Markets Beware: AI Funding Plans Have Shades of the Financial Crisis
+  summary: Cisco benefits from AI demand, Musk is optimistic about Starlink, inflation hasn’t thrown cold water on stock market rally, and more news to start your day.
+  url: https://finnhub.io/api/news?id=03ee4e24d853b9d2c0eef4e779a2364486801e5d5e2a4be203e64f6b67b53f25

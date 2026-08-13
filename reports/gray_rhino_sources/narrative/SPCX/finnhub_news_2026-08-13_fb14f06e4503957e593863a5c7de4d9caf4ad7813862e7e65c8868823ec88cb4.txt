@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Risk-On Momentum in Bank Stocks Echoes Aftermath of Dot-Com Bust
+  summary: The recent weakness in artificial intelligence high-flyers has investors rotating into the less glamorous corner of the market: financial stocks.
+  url: https://finnhub.io/api/news?id=262a4cef5fefbcb222b7b81f083066fa341bf1e53e6de0947387f59e196852c2

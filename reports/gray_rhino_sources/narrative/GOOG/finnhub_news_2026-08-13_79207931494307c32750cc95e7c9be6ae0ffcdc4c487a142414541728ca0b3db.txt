@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Never Happened in History,’ Ex-Bridgewater Exec Warns AI Market Is Priced to Perfection
+  summary: Former Bridgewater exec Bob Elliott warns the AI stock rally is an &#34;expectations mania&#34; built on unrealistic growth assumptions.
+  url: https://finnhub.io/api/news?id=9ae31d19bc23b157e5c56e9a04b448bd3413a9b0d72479fb64ef46bddc5c5418

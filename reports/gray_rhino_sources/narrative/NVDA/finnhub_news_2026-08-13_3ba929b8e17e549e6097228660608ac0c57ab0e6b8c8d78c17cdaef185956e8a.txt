@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Sandisk Stock Keeps Falling?
+  summary: External factors have been weighing on Sandisk stock lately, but the memory specialist can still step on the gas.
+  url: https://finnhub.io/api/news?id=68addcc5b448b446f8c3047c5fadd06103429a908d652b85a67a5cab25e79e36

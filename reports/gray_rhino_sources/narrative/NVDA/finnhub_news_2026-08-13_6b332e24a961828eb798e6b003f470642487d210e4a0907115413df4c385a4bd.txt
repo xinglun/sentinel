@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Burry doubles down on Nebius short after stock surges 34% on earnings
+  summary: Nebius (NASDAQ: NBIS), the Nvidia-powered AI cloud provider spun out of Russian internet giant Yandex and now headquartered in Amsterdam, is the direct vehicle for Burry’s trade. Nvidia itself remains the dominant hardware supplier underpinning the AI cloud boom, and any meaningful deceleration in infrastructure spending at companies like Nebius would weigh on GPU demand across the sector.
+  url: https://finnhub.io/api/news?id=61a2b7569c0be000b4f364c35682bb27b929e9abdb6ec03ca7dd978f65c5d423

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Virtuix to Highlight Accelerating Consumer Growth and Expansion Across Defense, Robotics, and Healthcare at Sidoti Investor Conference
+  summary: AUSTIN, Texas, Aug. 13, 2026 (GLOBE NEWSWIRE) -- Virtuix Holdings Inc. (NASDAQ: VTIX), a leading developer of AI-driven, full-body simulation systems, today announced that Virtuix’s Founder, Chief Executive Officer, and Chairman, Jan Goetgeluk, will present at Sidoti’s Micro-Cap Virtual Investor Conference on Thursday, August 20, 2026, where he will discuss Virtuix’s recent growth and commercial milestones across consumer, defense, and enterprise markets. The presentation will highlight recent d
+  url: https://finnhub.io/api/news?id=45f85bf8ada6db053a761dd60b2ab0ec00ccbbc960f091734cb94499f790a6f9

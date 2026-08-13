@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla Weighs $10.1 Billion Solar Plant, Chamath Palihapitiya Calls It a Bet on Nuclear: Here's Why
+  summary: Venture capitalist Chamath Palihapitiya said Wednesday that Tesla Inc.‘s (NASDAQ:TSLA) expansion into solar manufacturing was essentially a bet on nuclear power, as the automaker weighs a $10.1 billion solar cell plant in Texas. ‘All in on Nuclear’ “Tesla is going all in on nuclear,” Palihapitiya said in a post on X. “Actually, it’s going all in on solar, but they are the same thing, the sun is a nuclear reactor, just farther away.” Palihapitiya has been a vocal supporter of Musk’s ventures, pre
+  url: https://finnhub.io/api/news?id=04cf38ca8a39abbb07b4d7660f15e5b5503724d1a4a655ac9c9b52ba57bc8203

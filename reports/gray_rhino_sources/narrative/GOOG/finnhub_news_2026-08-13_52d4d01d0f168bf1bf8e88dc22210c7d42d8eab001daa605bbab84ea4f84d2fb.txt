@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Converging Trade in Nansha, Connecting the Globe: The Heart of the GBA Shapes a New Landscape for the Global Cross-Border Trade Ecosystem
+  summary: GUANGZHOU, China, Aug. 13, 2026 (GLOBE NEWSWIRE) -- Recently, the Global Cross-Border Trade Industrial Cluster Ecosystem Conference, themed "Converging Trade in Nansha, Connecting the Globe," was held at the Guangzhou Nansha International Convention & Exhibition Center. Industry giants including Google, Midea, Guangzhou Port, and HSBC attended the event, drawing over 1,000 professionals. The conference officially launched the construction of the Global Cross-Border Trade Industrial Cluster and s
+  url: https://finnhub.io/api/news?id=285296b0175b681688276c4eed3640d9947ad3c19110631eecd353354ede0f46

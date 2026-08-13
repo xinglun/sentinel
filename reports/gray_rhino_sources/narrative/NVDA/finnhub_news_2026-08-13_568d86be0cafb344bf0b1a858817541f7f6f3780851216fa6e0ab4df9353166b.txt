@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ideal Power Reports Second Quarter 2026 Financial Results
+  summary: Ideal Power Inc. (Nasdaq: IPWR) ("Ideal Power," the "Company," "we," "us" or "our"), developer and provider of its innovative and widely patented B-TRAN® bidirectional semiconductor power switch, reports results for its second quarter ended June 30, 2026.
+  url: https://finnhub.io/api/news?id=610cfaa0a83d475f181dd2d2450f5ce1eb804bf15d84d576e3dc8755860ce440

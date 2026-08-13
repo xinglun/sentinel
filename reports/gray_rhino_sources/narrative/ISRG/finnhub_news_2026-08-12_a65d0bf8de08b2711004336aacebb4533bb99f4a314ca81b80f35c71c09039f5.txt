@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical's Competitors Face Challenges That Limit Long-Term Appeal, Oppenheimer Says
+  summary: Intuitive Surgical's (ISRG) competitors face unique workflow challenges and real estate issues that
+  url: https://finnhub.io/api/news?id=cd7e4ea45aa7804c7b09cc75a74143a70f5cc540a59e134b85ba0f714113cc4b

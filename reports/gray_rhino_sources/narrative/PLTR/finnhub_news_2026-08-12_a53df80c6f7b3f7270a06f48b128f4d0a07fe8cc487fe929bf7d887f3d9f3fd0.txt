@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) vs. BigBear.ai Holdings, Inc. (BBAI): Palantir’s “Otherworldly” Quarter Sends Shares Soaring 30%
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) stock jumped 29.5% Tuesday, which was its second-best day ever after the company posted what CEO Alex Karp called an “otherworldly” second quarter. Revenue beat estimates, and growth happened quickly instead of slowing. Palantir raised its full-year guidance again. Why This Beat Hit So Much Harder than Most Revenue rose 93% […]
+  url: https://finnhub.io/api/news?id=396f349592110e41c113de42684ab6a892bca57666381cc7ea1cb8c2b87d82a0

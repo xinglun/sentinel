@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical: Oppenheimer now bullish, sees competition being "crowded out"
+  summary: Investing.com -- Oppenheimer upgraded Intuitive Surgical to Outperform from Perform with a $500 price target in a note on Wednesday, arguing the company's strategy of "Crowding Out Competitors" is strategically smart.
+  url: https://finnhub.io/api/news?id=07b0a0bf7a9dcaaadfb74ca6213177c3075993d2885f8ca39092b204d4e913c8

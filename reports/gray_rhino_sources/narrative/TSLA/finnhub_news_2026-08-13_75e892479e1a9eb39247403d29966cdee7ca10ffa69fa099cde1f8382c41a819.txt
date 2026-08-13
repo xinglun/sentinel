@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - Europe's Largest Battery Powers Up In Scotland
+  summary: Copenhagen Infrastructure Partners (CIP) has announced the commercial operation of Coalburn 1, a significant milestone in Europe's energy transition. This 500 MW, two-hour lithium-ion battery energy storage system (BESS) located in South Lanarkshire, Scotland, is now the largest operational battery in Europe. The Coalburn 1 project, along with Coalburn 2 and Devilla, forms part of CIP's extensive energy infrastructure investments in the UK, providing a combined 1.5 GW of power capacity and 3...
+  url: https://finnhub.io/api/news?id=7b36873870b38cee0466606c291de9680a0a963c9066a7be67794b9ca8597393

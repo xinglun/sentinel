@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Wants SpaceX to ‘Win in AI.’ New Grok Release Is a Step on That Path.
+  summary: SpaceX  stock was falling in early Thursday trading after surging almost 10% the previous session after CEO Elon Musk told employees “We must win in AI because the future is overwhelmingly AI and robots.”  On that theme, the company launched Grok 4.6, the latest version of its artificial intelligence assistant to rival OpenAI’s ChatGPT and Anthropic’s Claude.  In a post on his X social-media platform Musk described the latest iteration as “Smart, fast & amazing bang for buck.”
+  url: https://finnhub.io/api/news?id=dd0fb1741f4ce0c57755450f8c04884a4d9390f55b15abc65f3d68603b9efc0c

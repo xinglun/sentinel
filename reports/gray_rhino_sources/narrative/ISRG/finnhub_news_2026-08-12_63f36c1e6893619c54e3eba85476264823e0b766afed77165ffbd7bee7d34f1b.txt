@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Wednesday’s Top Wall Street Analyst Research Calls: The Gap, Genmab, Hilton Worldwide, Intuitive Surgical, Marriott International, Merck, Novo Nordisk, Okta, and More
+  summary: With all eyes locked on this morning's CPI release and the Strait of Hormuz nearly shut down, Wall Street analysts are already repositioning across hospitality, pharma, and tech before the market even opens.
+  url: https://finnhub.io/api/news?id=c88d2e42a8dde3c0b51691dc7af23f87a7513e7b5293fd391162a3ce5b681d05

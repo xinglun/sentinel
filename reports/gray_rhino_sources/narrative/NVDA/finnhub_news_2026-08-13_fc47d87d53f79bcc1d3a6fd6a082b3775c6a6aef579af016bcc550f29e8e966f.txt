@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Brookfield Asset Management (TSX:BAM) Change Course With This $500 Billion AI Push?
+  summary: Brookfield Asset Management (TSX:BAM) is partnering with Nvidia and other major Wall Street firms on a planned US$500b AI infrastructure financing initiative. The partnership aims to mobilize large-scale private capital into data centers and related AI infrastructure projects. The initiative positions Brookfield alongside global technology and financial leaders in a high-profile push to fund the next wave of AI build out. This kind of financing role gives Brookfield Asset Management...
+  url: https://finnhub.io/api/news?id=f1797685c95da409512877765e547068e26cb4b51baabc6cbd91084886853a65

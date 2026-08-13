@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Sensational Stock-Split Stock to Buy Right Now, and 1 to Avoid
+  summary: Two high-flying industry leaders that recently completed their first-ever forward splits have vastly different outlooks.
+  url: https://finnhub.io/api/news?id=da43e48b2a5fc1e20fd3e3530e1a7d41cf3d3df73474d895a6b1cf9ec7df3886

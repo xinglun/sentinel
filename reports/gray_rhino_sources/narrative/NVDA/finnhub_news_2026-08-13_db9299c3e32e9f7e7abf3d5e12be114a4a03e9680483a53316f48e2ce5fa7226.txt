@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Financial Stocks I'd Buy First if I Were Starting a Portfolio Today
+  summary: One stock is built for market volatility, the other for long-term upside.
+  url: https://finnhub.io/api/news?id=917ec795cf8ad3a25da8b920260e6b920883ce75507d5b3ec213370f9dc6597a

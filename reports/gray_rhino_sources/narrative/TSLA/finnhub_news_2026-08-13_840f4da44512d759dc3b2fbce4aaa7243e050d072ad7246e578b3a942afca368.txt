@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EVgo Q2 2026 Review: The Good News, The Bad News (Rating Downgrade)
+  summary: EVgo's management is exploring new revenue streams, including leveraging battery infrastructure. Read why I remain long-term bullish on EVGO stock.
+  url: https://finnhub.io/api/news?id=716eac15cf3bb3afb4a585846aa11a039f9fcbb6aca5bcd51a3598d84c36ba56

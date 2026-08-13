@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG) Backs Long-Term Moat Amid Near-Term Volatility
+  summary: TCW Funds, an investment management firm, published its second-quarter 2026 investor letter for the ‘TCW Concentrated Large Cap Growth Fund.’ A copy of the letter can be downloaded here. During the second quarter, AI monetization, a fragile Middle East ceasefire, and a Federal Reserve leadership transition were the significant events. All major indices ended higher, […]
+  url: https://finnhub.io/api/news?id=8b3d14b96c2b523f4211f3fdfe35d97dd30bbc4de281096b86ccab3a09f148b9

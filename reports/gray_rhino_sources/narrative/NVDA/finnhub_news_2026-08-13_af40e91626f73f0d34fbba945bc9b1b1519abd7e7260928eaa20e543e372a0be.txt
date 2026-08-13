@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Artificial Intelligence (AI) Stock Is Going to Double by 2027
+  summary: Upstart stock is down almost 35% this year, but investors might be too pessimistic.
+  url: https://finnhub.io/api/news?id=0e27034dddb00e54ee04a1d90c4656f45608e2775303132cea9344ba1745252d

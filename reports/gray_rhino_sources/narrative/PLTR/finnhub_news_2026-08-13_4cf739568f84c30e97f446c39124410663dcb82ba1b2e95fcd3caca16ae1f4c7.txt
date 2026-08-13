@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Earnings Split: Accelerating Growers Rewarded, Cloud Bellwether Sells Off
+  summary: AI earnings split: Palantir and AMD surge on strong results, Amazon stumbles—investors now reward visible AI momentum.
+  url: https://finnhub.io/api/news?id=796cab26eda2f37b542b1500966dad0f169aac51f497d18acf126608798db5e0

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Is Short Nebius and Palantir. Both Are Now Soaring and His Short Thesis Looks Broken.
+  summary: Michael Burry bet against two of the hottest AI stocks on Wall Street, and this week their earnings reports delivered a direct challenge to the core of his short thesis.
+  url: https://finnhub.io/api/news?id=3f2b20ec5f93f798c5571ef772d7383da7e496dbbefc3d0fe336561c7c95541e

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Archer Aviation CEO Signals Strong Outlook for Investors
+  summary: Commercial progress is finally becoming tangible.
+  url: https://finnhub.io/api/news?id=96b861e1fb97a340117da82bfe92740ffc54d01097a83e4728f1a534a745a745

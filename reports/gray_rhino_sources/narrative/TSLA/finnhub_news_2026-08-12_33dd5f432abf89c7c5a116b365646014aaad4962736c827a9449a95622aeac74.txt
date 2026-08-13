@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Cars Facing More Demand Than Stock? Buyers Face Extended Waits For Base Model 3, Model Y And Cybertruck
+  summary: According to Tesla’s online configurator, new custom orders for the base Model 3 Rear-Wheel Drive now show estimated delivery in the first quarter of 2027, while the Cybertruck base variant shows a wait time until sometime next year.
+  url: https://finnhub.io/api/news?id=8b5e2734d9243bb92c22d194c32f91281fd0c2d4cd97e26ed50f66accf16216c

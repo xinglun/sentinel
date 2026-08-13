@@ -1,11 +1,11 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-08-12
+- 截至: 2026-08-13
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 49.6
-- 平均稳定度: 2.7
+- 平均置信度: 49.8
+- 平均稳定度: 3.4
 - 趋势凝聚 ready 天数: 0
 
 ## 市场状态计数
@@ -23,13 +23,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-08-03: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-04: IGNITION -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-05: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-07: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-10: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-11: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-12: DEFENSIVE -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-08-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -89,7 +89,7 @@
   - supply: HIGH
   - expectation: UNAVAILABLE
   - gravity: UNAVAILABLE
-  - flow: MEDIUM
+  - flow: HIGH
   - overall: MEDIUM
 - Interpretation Priority:
   - Trend: ★★★
@@ -120,7 +120,7 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-08-12
+- 最新观测日: 2026-08-13
 - 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 0
 - 7 日 Future Queue 最小值 / 最大值: 0 / 1
@@ -138,7 +138,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-08-13
+- 观测日: 2026-08-14
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

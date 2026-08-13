@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JQUA: A Quality ETF To Hold, Not Yet A Buy
+  summary: JPMorgan US Quality Factor ETF (JQUA) review: performance since 2017, risk vs IVV/IWB, and peers SPHQ/QUAL/FQALâsee if it fits you.
+  url: https://finnhub.io/api/news?id=6c358bc3ce4fc60c12395e3da8721ebf8dec86986ab29e6e0c5f3dbc533db19d

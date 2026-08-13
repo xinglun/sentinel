@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google, Meta, Reddit, Snap, and TikTok for Business Workspaces Expand StationOne™ by Kochava Ecosystem Momentum
+  summary: Teams can streamline campaign creation, audience and creative operations, and reporting across leading platforms through a governed StationOne experience StationOne by Kochava Google, Meta, Reddit, Snap, and TikTok for Business Workspaces Expand StationOne™ by Kochava Ecosystem Momentum SANDPOINT, Idaho, Aug. 13, 2026 (GLOBE NEWSWIRE) -- Kochava, the leading real-time data solutions company for omnichannel outcomes, announced continued ecosystem momentum for StationOne by Kochava with Workspaces
+  url: https://finnhub.io/api/news?id=b9a76a6ba7b18d632b4e8e48876af38edcdaee1e3e3fe9bacbef5b7df9982dd7

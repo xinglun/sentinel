@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry delivers brutal verdict on $420 billion AI giant
+  summary: I covered Michael Burry's first Palantir short thesis on June 4, when he called the stock a "sand castle" trading at 16 times intrinsic value. The stock dropped sharply the following day. Then Palantir reported one of the most extraordinary quarters in enterprise software history. On top of ...
+  url: https://finnhub.io/api/news?id=09ad88c49aef30bd8a04524a3f4dce9e8e37e1ec3f8264e5d1f67e1d78f40ca8

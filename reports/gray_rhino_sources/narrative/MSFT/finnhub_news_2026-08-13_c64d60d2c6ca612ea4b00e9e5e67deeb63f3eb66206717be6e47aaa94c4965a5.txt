@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Redesign Group Named No. 758 on the 2026 Inc. 5000 List, the Most Prestigious Ranking of America’s Fastest-Growing Private Companies
+  summary: EL SEGUNDO, Calif., August 13, 2026--The Redesign Group (Redesign) today announced it has been ranked No. 758 on the 2026 Inc. 5000 list, the annual list of the fastest-growing private companies in America. The list is the most prestigious ranking of the nation’s most successful independent and entrepreneurial businesses, recognizing companies that have achieved remarkable growth while driving innovation, creating jobs, and shaping the future of the economy. Past honorees include companies such
+  url: https://finnhub.io/api/news?id=fecca5319c0d884629ad2f88cdbcdd2e502dcb23dc3db3db2c1cedf0687000e9

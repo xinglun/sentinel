@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD’s 2027 Server Revenue Outlook Is Already 20% Bigger Than the Entire 2025 Market
+  summary: AMD details massive AI growth plans, targeting 80%+ server revenue growth in H2 2026 backed by major cloud commitments.
+  url: https://finnhub.io/api/news?id=115acf7152e5c5529f42d038f541abf462c80012436df492e48ef5c1cd8537c4

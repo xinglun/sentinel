@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Fixture Microsoft Breaks Out Along With These Stocks, But Datadog Triggers Sell Signals
+  summary: Dow Jones software giant Microsoft, Palantir and Twilio all broke out past new buy points in recent trading sessions.
+  url: https://finnhub.io/api/news?id=9a6fc3c0e4ee6fc76827e1fcec993a13517e0d8b57377d3a1e5f0cafcc8315ef

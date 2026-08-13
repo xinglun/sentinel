@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How the U.S. Is Trying to Copy China’s Supply Chain Playbook
+  summary: The chess game between Iran and the U.S. hit another stalemate this week.  In today’s issue I’m diving into a different geopolitical game: America’s bid to untangle its critical supply chains from China.  The U.S. is taking a cue or two from China’s strategy, but it’s having some trouble executing.
+  url: https://finnhub.io/api/news?id=71d75ada9e84c1b501598dd2c2b26a9bbaf7664dd7e28000be3850c40d35070c

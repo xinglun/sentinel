@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock SPCX rises above IPO price after Starlink launch
+  summary: CEO Elon Musk held an all-hands meeting where he outlined AI ambitions and cited 22 million Starlink mobile subscribers
+  url: https://finnhub.io/api/news?id=6cfa3276b15607accd3ed9ac917efd9a470f77547db7db87a61d3cead335bde1

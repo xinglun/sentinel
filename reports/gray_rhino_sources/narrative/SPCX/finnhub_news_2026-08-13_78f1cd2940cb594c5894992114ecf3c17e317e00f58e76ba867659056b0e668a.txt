@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Adds $500 Billion for an AI Unit That Lost $1.26 Billion
+  summary: SpaceX stock jumped 12% after Grok 4.6 shipped, yet its AI unit lost $1.26 billion and ate 86% of capex. Will it hold?
+  url: https://finnhub.io/api/news?id=dd85f04949a02b65af33d2a99ae657b12768d7f8615b56c2da3168317fb67122

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk’s Trillionaire Comeback: Why SpaceX Needs One More 20% Rally
+  summary: SpaceX's stunning 40% rebound in under two weeks put Elon Musk's trillionaire status back within reach, but the math reveals just how razor-thin the margin is and how much depends on a stock that has already defied expectations once.
+  url: https://finnhub.io/api/news?id=2316abc95dd5d2670a6448d067dce968af3ad3f816ad5cc90c186f62b8fd61d4

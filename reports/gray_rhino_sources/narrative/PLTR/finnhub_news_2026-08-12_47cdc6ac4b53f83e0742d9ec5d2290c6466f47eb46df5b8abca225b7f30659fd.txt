@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which S&P500 stocks are the most active on Wednesday?
+  summary: Let's have a look at what is happening on the US markets on Wednesday. Below you can find the most active S&P500 stocks in today's session.
+  url: https://finnhub.io/api/news?id=89440173c0d17d0687c2c2d7bfb0f562b83c3f2aa5af7ba97e4b1195b6f44021

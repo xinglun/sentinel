@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla files plans for proposed $10.1B Texas solar manufacturing plant
+  summary: Tesla, led by Elon Musk, is looking to build a massive solar panel factory just outside Houston, Texas, according to documents filed with the state.
+  url: https://finnhub.io/api/news?id=1866aa8c8def36dfc67ee2755d71f459b9285a8196fc8bbd9137f2ee39377be9

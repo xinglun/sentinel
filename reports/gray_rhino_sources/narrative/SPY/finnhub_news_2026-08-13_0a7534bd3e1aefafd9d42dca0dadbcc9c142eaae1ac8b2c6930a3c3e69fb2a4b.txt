@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lumentum Still Down Over 90 Days: A Respected Analyst Sees 22% Gains Ahead Following Sharp Upturn
+  summary: Lumentum blew past earnings estimates and still trades below where it was three months ago, leaving a respected semiconductor analyst convinced the selloff created an opening the market has not yet closed.
+  url: https://finnhub.io/api/news?id=9cf59cc650a8ac08275e10d2ffb6ceab1f7e83adffaf0dcd78438fc9a9fdfae3

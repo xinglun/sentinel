@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Churches Fume at $40,000 Bills to Scrap Antennas After Dish’s Bankruptcy
+  summary: More than 3,000 small property owners around the US agreed to install Dish antennas on their rooftops to generate extra income. They're now being told to shoulder the cost to take them down.
+  url: https://finnhub.io/api/news?id=857823ad0de3b2c887a61ed85d75d20c185a8a5f3c72021e4478287acbb90284

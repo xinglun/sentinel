@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strategus Celebrates Ninth Consecutive Year on the Inc. 5000 List, the Most Prestigious Ranking of America’s Fastest-Growing Private Companies for 2026
+  summary: Recognition reflects Strategus' successful evolution into a full service programmatic advertising partner focused on delivering measurable business resultsDENVER, Aug. 13, 2026 (GLOBE NEWSWIRE) -- Strategus today announced that it has been named to the 2026 Inc. 5000 list, marking its ninth consecutive year among America’s fastest growing private companies. Built on a decade of CTV leadership–including pioneering the first programmatic CTV campaign in 2015–Strategus has evolved into a full-servi
+  url: https://finnhub.io/api/news?id=be6378c4ebd6950d7cd1064ba66c3486f97a9547c4e178d10ca7f4513513d618

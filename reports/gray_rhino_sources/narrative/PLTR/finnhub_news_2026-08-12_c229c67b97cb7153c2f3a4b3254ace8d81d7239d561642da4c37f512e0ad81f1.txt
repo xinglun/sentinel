@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry adds to Nvidia and Palantir shorts while loading up on Molina Healthcare, which is down 54% from its high
+  summary: The investor made famous by The Big Short is doubling down on his bets against some of the biggest names in AI.
+  url: https://finnhub.io/api/news?id=e391292d166f86d9e88cecb8bc8d293498809f98de3120138b2cbd9067b9444d

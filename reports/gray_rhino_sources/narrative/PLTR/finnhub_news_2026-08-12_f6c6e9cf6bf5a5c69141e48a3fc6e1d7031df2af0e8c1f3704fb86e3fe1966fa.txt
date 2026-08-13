@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Microsoft Drop. Why the AI Revival Is Hitting Software Stocks.
+  summary: Palantir slid 2.2% and Microsoft dipped 2.3%.  Salesforce ServiceNow  and  Workday  were among the other software stocks trading in the red.  The moves came as shares of chip and optical networking companies rallied, following a strong batch of earnings reports that signaled to the market that demand for AI remains robust.
+  url: https://finnhub.io/api/news?id=bc93c40e2cdd2f59665dcdf89f95155e0de3e6c56cdcb9418a41d603a2dbeb6e

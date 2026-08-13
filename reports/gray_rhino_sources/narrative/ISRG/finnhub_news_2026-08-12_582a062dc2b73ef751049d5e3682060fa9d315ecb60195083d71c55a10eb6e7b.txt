@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Intuitive Surgical Analyst Turns Bullish; Here Are Top 4 Upgrades For Wednesday
+  summary: Top analysts upgraded IDEX and Entegris, raised price targets. Intuitive Surgical upgraded with $500 target.
+  url: https://finnhub.io/api/news?id=766c054c2c87fdcfe3bcfb135b5a4efcf6a4f8b3af6227a72b531691702e3392

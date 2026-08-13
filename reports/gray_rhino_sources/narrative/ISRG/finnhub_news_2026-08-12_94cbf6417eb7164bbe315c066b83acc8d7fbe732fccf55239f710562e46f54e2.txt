@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $1000 in Intuitive Surgical, Inc. 10 Years Ago, This Is How Much You'd Have Now
+  summary: Investing in certain stocks can pay off in the long run, especially if you hold on for a decade or more.
+  url: https://finnhub.io/api/news?id=73aab8ac5da889d7d480886e0355dc51fa33a934f6de805fb218b7b913f75a25

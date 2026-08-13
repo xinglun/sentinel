@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Global’s Q2 Earnings Call: Our Top 5 Analyst Questions
+  summary: Zeta Global's second quarter saw robust top-line growth, surpassing Wall Street’s revenue and profit expectations. Despite this, the market reacted negatively following the results. Management attributed the strong quarter to accelerated adoption of Zeta’s AI-powered Athena platform and deeper cross-industry partnerships, particularly with OpenAI, Palantir, and Snowflake. CEO David Steinberg emphasized that “Athena is fundamentally changing how customers interact with the Zeta platform,” highlig
+  url: https://finnhub.io/api/news?id=537d59923d3af263d49783e38bfa0791628451208844e5a2145b932946f5c84c
