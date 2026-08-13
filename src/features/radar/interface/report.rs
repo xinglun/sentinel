@@ -764,6 +764,17 @@ fn render_post_actions_sections(
                 "> {}: {}\n",
                 s.confidence_breakdown_label, s.confidence_breakdown_value
             ));
+            out.push_str(&format!(
+                "> {}: {} · {}: {} · {}: {} · {}: {}\n",
+                s.breadth_raw_label,
+                s.breadth_raw_value,
+                s.breadth_counts_label,
+                s.breadth_counts_value,
+                s.breadth_universe_label,
+                s.breadth_universe_value,
+                s.breadth_semantic_label,
+                s.breadth_semantic_value
+            ));
         }
         RenderMode::Html => {
             out.push_str(&format!("<b>{}</b>\n\n", dict.headers.monitoring_signals));
@@ -785,6 +796,17 @@ fn render_post_actions_sections(
             out.push_str(&format!(
                 "<i>{}: {}</i>\n",
                 s.confidence_breakdown_label, s.confidence_breakdown_value
+            ));
+            out.push_str(&format!(
+                "<i>{}: {} · {}: {} · {}: {} · {}: {}</i>\n",
+                s.breadth_raw_label,
+                s.breadth_raw_value,
+                s.breadth_counts_label,
+                s.breadth_counts_value,
+                s.breadth_universe_label,
+                s.breadth_universe_value,
+                s.breadth_semantic_label,
+                s.breadth_semantic_value
             ));
         }
     }

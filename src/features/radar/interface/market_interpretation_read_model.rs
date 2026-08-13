@@ -1655,9 +1655,9 @@ fn leadership_breadth_label(language: Language) -> &'static str {
 
 fn breadth_score_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "breadthScore",
-        Language::EnUs => "breadthScore",
-        Language::JaJp => "breadthScore",
+        Language::ZhCn => "breadthClassificationScore",
+        Language::EnUs => "breadthClassificationScore",
+        Language::JaJp => "breadthClassificationScore",
     }
 }
 
