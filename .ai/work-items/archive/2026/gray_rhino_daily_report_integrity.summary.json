@@ -35,14 +35,6 @@
       "reason": "Radar decision input と保存対象から非本番 evidence を排除した。"
     },
     {
-      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
-      "reason": "backfill / discovery ops の as_of_date 読み取りで無日付レコードを除外した。"
-    },
-    {
-      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
-      "reason": "backfill 実行記録に要求された as_of_date を保存し、過去日付の ops view を復元可能にした。"
-    },
-    {
       "path": "src/features/research/interface/cognitive_reports.rs",
       "reason": "Gray Rhino の daily-calibration セクションラベルを三語で追加した。"
     },
@@ -121,16 +113,12 @@
       "result": "passed"
     },
     {
-      "command": "make daily-calibration",
+      "command": "cargo run -- daily-calibration",
       "result": "passed"
     },
     {
-      "command": "make review",
+      "command": "cargo run -- review",
       "result": "failed"
-    },
-    {
-      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
-      "result": "passed"
     }
   ],
   "unknownsRemaining": [],
@@ -139,84 +127,10 @@
     "detail": "表示経路、evidence provenance、review command を同時に修正する。Gate と execution は scope 外として変更しない。config.toml は forbidden write のため手動追加片を提供する。"
   },
   "generatedFiles": [],
-  "destructiveChanges": [
-    {
-      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
-      "reason": "既存 WI を再開するため active へ移動した。履歴 evidence の削除ではない。"
-    },
-    {
-      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.summary.json",
-      "reason": "既存 WI を再開するため active へ移動した。履歴 evidence の削除ではない。"
-    }
-  ],
+  "destructiveChanges": [],
   "observedIssues": [
     "既存の reports/state_transitions.jsonl と reports/2026-05-22.md には、過去実行で生成された fixture evidence が履歴として残っている。新しい audit 表示は除外と注意を出し、review は当該日報を有効報告として拒否する。",
     "reports/evidence_records.jsonl の fixture record は runtime 清掃として除去し、/tmp/sentinel_evidence_records_before_fixture_cleanup_20260525.jsonl に退避した。",
-    "config.toml は AI guard で forbidden write に指定されているため自動変更せず、運用者が追加する設定片を仕様書へ記載した。",
-    "backfill / discovery の JSONL に無日付レコードがある場合、最新値として採用されると過去の有効な ops 記録が隠れる。さらに backfill 実行記録が要求された業務日を保存していなかったため、過去日付の日報で Backfill Ops View が消えていた。両方を修正した。"
-  ],
-  "checkpointEvidence": [
-    {
-      "stage": "contract_start",
-      "recorded": true,
-      "detail": "本轮非自动交易报告 provenance 修复已记录。",
-      "contractHash": "dbcf123b5c833d6b",
-      "acceptanceCount": 7,
-      "unknownCount": 0,
-      "requiredChecks": 14,
-      "requiredChecksPassed": 0
-    },
-    {
-      "stage": "before_edit",
-      "recorded": true,
-      "detail": "本轮非自动交易报告 provenance 修复已记录。",
-      "contractHash": "dbcf123b5c833d6b",
-      "acceptanceCount": 7,
-      "unknownCount": 0,
-      "requiredChecks": 14,
-      "requiredChecksPassed": 0
-    },
-    {
-      "stage": "before_ready",
-      "recorded": true,
-      "detail": "本轮非自动交易报告 provenance 修复已记录。",
-      "contractHash": "dbcf123b5c833d6b",
-      "acceptanceCount": 7,
-      "unknownCount": 0,
-      "requiredChecks": 14,
-      "requiredChecksPassed": 0
-    },
-    {
-      "stage": "after_verification",
-      "recorded": true,
-      "detail": "本轮非自动交易报告 provenance 修复已记录。",
-      "contractHash": "dbcf123b5c833d6b",
-      "acceptanceCount": 7,
-      "unknownCount": 0,
-      "requiredChecks": 14,
-      "requiredChecksPassed": 14
-    }
-  ],
-  "checkpointReview": [
-    {
-      "checkpoint": "contract_start",
-      "status": "confirmed",
-      "note": "同一既存报告完整性 WI 内处理。"
-    },
-    {
-      "checkpoint": "before_edit",
-      "status": "confirmed",
-      "note": "同一既存报告完整性 WI 内处理。"
-    },
-    {
-      "checkpoint": "before_ready",
-      "status": "confirmed",
-      "note": "同一既存报告完整性 WI 内处理。"
-    },
-    {
-      "checkpoint": "after_verification",
-      "status": "confirmed",
-      "note": "同一既存报告完整性 WI 内处理。"
-    }
+    "config.toml は AI guard で forbidden write に指定されているため自動変更せず、運用者が追加する設定片を仕様書へ記載した。"
   ]
 }
