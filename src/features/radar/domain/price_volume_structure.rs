@@ -124,9 +124,13 @@ pub(crate) struct PriceVolumeMetrics {
     pub upper_wick_ratio: Option<f64>,
     pub lower_wick_ratio: Option<f64>,
     pub gap_percent: Option<f64>,
+    #[serde(default)]
     pub baseline_days: usize,
+    #[serde(default)]
     pub baseline_type: BaselineType,
+    #[serde(default)]
     pub relative_volume: f64,
+    #[serde(default)]
     pub relative_volume_label: String,
 }
 

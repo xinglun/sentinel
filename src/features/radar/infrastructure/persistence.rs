@@ -2431,6 +2431,59 @@ mod tests {
     }
 
     #[test]
+    fn legacy_price_volume_metrics_without_baseline_fields_remain_readable() {
+        let value: PriceVolumeObservationRecord = serde_json::from_str(
+            r#"{
+                "market_date":"2026-08-07",
+                "symbol":"X",
+                "assessment":{
+                    "structure":"Neutral",
+                    "participation":"Neutral",
+                    "supply_absorption":"None",
+                    "quality":"Healthy",
+                    "persistence":"Candidate",
+                    "persistence_days":1,
+                    "metrics":{
+                        "return_1d":0.0,
+                        "return_5d":0.0,
+                        "return_10d":0.0,
+                        "return_20d":0.0,
+                        "rvol_5":1.0,
+                        "rvol_20":1.0,
+                        "average_volume_5":1.0,
+                        "average_volume_20":1.0,
+                        "up_day_average_volume":1.0,
+                        "down_day_average_volume":1.0,
+                        "distance_from_20d_high":0.0,
+                        "distance_from_20d_low":0.0,
+                        "new_high":false,
+                        "new_low":false,
+                        "atr_normalized_move":null,
+                        "body_ratio":null,
+                        "upper_wick_ratio":null,
+                        "lower_wick_ratio":null,
+                        "gap_percent":null
+                    },
+                    "boundary":{
+                        "decision_weight_percent":0,
+                        "trade_signal":false,
+                        "gate_effect":"None",
+                        "execution_effect":"None",
+                        "position_sizing_effect":"None"
+                    }
+                }
+            }"#,
+        )
+        .unwrap();
+
+        let metrics = value.assessment.metrics.unwrap();
+        assert_eq!(metrics.baseline_days, 0);
+        assert_eq!(metrics.baseline_type, BaselineType::Unavailable);
+        assert_eq!(metrics.relative_volume, 0.0);
+        assert!(metrics.relative_volume_label.is_empty());
+    }
+
+    #[test]
     fn migrate_legacy_history_sorts_dates_and_reuses_one_stable_cycle() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_migrate_legacy_history_order_{}",

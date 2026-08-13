@@ -1,0 +1,212 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-runtime-acceptance",
+  "mode": "code",
+  "title": "Observation Layer 真实运行验收与残余修正",
+  "baseCommit": "b228852f1a2c7926ee53a7197fce5c0bb47b8ae0",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Observation Layer の基礎実装は main に入ったが、実運用データでイベント発見、実測値欠損、短履歴の観測可否、Leader 不在期間、Breadth の実値表示が正しく証明されていない。交易ロジックは変更せず、観測事実と表示の残余不整合だけを修正する。",
+  "intent": {
+    "problem": "実際に起きた市場イベントと資産変化を欠落・固定値・過剰な UNAVAILABLE なしに観測できる状態を、runtime replay と回帰テストで証明する。",
+    "constraints": [
+      "Gate、NO_TRADE、READY、EXECUTE、Action Matrix、Position Sizing、Trader、Leader qualification threshold、Breakout threshold、Confidence threshold、Market State threshold は変更しない。",
+      "Observation の decision_weight は 0、trade_signal は false を維持する。",
+      "S-26 は既存 EventDiscovery / EventObservation の runtime wiring と事実保持だけを検証・修正し、イベントモデルを再設計しない。",
+      "S-31 は Breadth の実値、分子分母、Universe、分類の表示と保存を調査・修正するが、threshold と Gate 入力は変更しない。",
+      "自動交易は本 Work Item の対象外とする。"
+    ],
+    "rationale": "最新 main には Observation Layer の基礎修正があるため、同じ機能を再実装せず、実データで残る観測欠陥だけを閉じる。"
+  },
+  "scope": [
+    ".ai/work-items/active/observation-runtime-acceptance.contract.json",
+    ".ai/work-items/active/observation-runtime-acceptance.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "tests/fixtures/signal_context/2026-08-07-payroll.json",
+    "tests/fixtures/signal_context/runtime-2026-08-07-payroll.json",
+    "tests/fixtures/macro_events/cpi_2026-08-12_upcoming.json",
+    "tests/fixtures/macro_events/cpi_2026-08-12_released.json",
+    "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json",
+    "tests/fixtures/signal_context/scenario-matrix.json",
+    "tests/research_attention_cli_integration.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/trading/**",
+    "src/config.rs",
+    "data/**",
+    "reports/**",
+    "自動交易と任何 gate/threshold 调整"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-13-observation-layer-repair-design.md",
+      "reason": "既存 Observation Layer 設計、実装済み範囲、境界の根拠。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-13-observation-layer-repair.md",
+      "reason": "既存実装の受入シナリオと検証順序。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_observation.rs",
+      "reason": "EventDiscovery と EventObservation の既存分離契約。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "Primary Context、Lifecycle、Coverage、EVENT_DATA_UNAVAILABLE の投影。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Eligibility、Baseline、Lifecycle、短履歴の既存実装と回帰テスト。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Leader absence duration と Relative Strength の既存観測契約。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Breadth の実値保存、runtime coverage、snapshot 出力境界。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Breadth 分類と表示 read model の現行実装。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/2026-08-07-payroll.json",
+      "reason": "Payroll runtime/history 回帰ケース。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json",
+      "reason": "既知イベントと Actual 欠損を分離する回帰ケース。"
+    }
+  ],
+  "scenarioCoverage": [
+    {"scenario":"2026-08-07 Payroll fallback replay preserves primary context","required":true,"status":"verified","evidence":["make test (known schedule fallback coverage)"],"reason":"公式取得不能時の既知日付 fallback を deterministic replay で確認。"},
+    {"scenario":"2026-08-12 CPI upcoming/released/actual unavailable states remain distinct","required":true,"status":"verified","evidence":["make test (known schedule fallback coverage)","make test (macro event lifecycle fixtures)"],"reason":"CPI の既知日付を Discovery に保持し、actual 欠損を分離する既存 fixture/adapter 契約を確認。"},
+    {"scenario":"2026-08-13 PPI is discovered as US PPI in runtime replay","required":true,"status":"verified","evidence":["isolated stock-sentinel radar replay 2026-08-13 (exit 0)","make test (known schedule fallback coverage)"],"reason":"runtime report で Primary Context=US PPI、actual observation unavailable、NO_TRADE を確認。"},
+    {"scenario":"SPCX-like short history uses PARTIAL eligibility and event baseline without false confirmation","required":true,"status":"verified","evidence":["make test (price-volume short-history and event-baseline regression suite)"],"reason":"short-history の PARTIAL eligibility、dynamic baseline、lifecycle persistence の既存 regression を確認。"},
+    {"scenario":"Leader absent duration reports 1 and 6 trading days","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"Current Relative Strength can be strong while Leader remains none and NO_TRADE remains unchanged","required":true,"status":"verified","evidence":["make test"]},
+    {"scenario":"Breadth reports raw value, numerator/denominator, universe and classification without threshold changes","required":true,"status":"verified","evidence":["isolated stock-sentinel radar replay 2026-08-13 (report output)","make test-radar-breadth-label-integrity"],"reason":"runtime report は 50.0%、up/flat/down/total、100.0% integrity、Narrow を併記し、classification score と分離。"},
+    {"scenario":"same-day rerun and historical replay remain semantically stable","required":true,"status":"verified","evidence":["make test-radar-cross-run-pipeline","isolated stock-sentinel radar replay 2026-08-13 (exit 0)"],"reason":"既存 cross-run persistence regression と isolated historical replay を確認。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["external_dependency", "data_integrity", "i18n_snapshot"],
+    "reason": "外部 runtime provider の実測値可用性と既存 Breadth 表示の意味混同を検証する。交易判断層へ接続しないため、変更は観測・表示境界に限定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーは本ラウンドの Observation Layer 修正、必要な権限行使、Contract への記録を明示的に承認した。scope、outOfScope、acceptance、verification は確定済み。"
+  },
+  "preReviewWarnings": [
+    "ユーザー授权：必要な branch/PR/merge/cleanup 操作と Contract/Summary 更新を本 Work Item の scope 内で実行してよい。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "2026-08-07 Payroll、2026-08-12 CPI、2026-08-13 PPI の runtime/history replay で既知イベントが Primary Context から消えない。",
+    "Known event と Actual unavailable を分離し、Actual 欠損時は EVENT_DATA_UNAVAILABLE、Context Quality DEGRADED/PARTIAL として出力する。",
+    "SPCX-like short history は evidence が有効なら PARTIAL eligibility と動的 baseline を使い、Structure/Lifecycle/Observation Persistence を混同しない。",
+    "Leader none の連続日数を 1 日・6 日で正しく表示し、Leader score/persistence の擬似 +1 表示を出さない。",
+    "Current Relative Strength は observation-only で、Leader、Gate、Action Matrix、Position Sizing を変更しない。",
+    "Breadth は raw percent、up/valid counts、Universe、classification を区別して表示・保存し、固定分類値を実値として扱わない。",
+    "Payroll/CPI/PPI、short-history、Breadth の各 observation scenario で NO_TRADE、decision_weight=0、trade_signal=false が維持される。",
+    "same-day rerun、historical replay、snapshot persistence の意味が一致する。",
+    "Summary が変更ファイル、テスト、runtime replay、report output、data 非変更、Make guard の結果を記録し、required checks が全て make 経由で通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
