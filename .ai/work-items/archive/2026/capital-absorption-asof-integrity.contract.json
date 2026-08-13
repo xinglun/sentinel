@@ -1,0 +1,274 @@
+{
+  "contractVersion": 2,
+  "workItemId": "capital-absorption-asof-integrity",
+  "mode": "code",
+  "title": "限制 Capital Absorption 事实到业务日期",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "c15b32e536aac6ffc4d735ce7d8541c64d83b73d8062789345e2bc61b192cb3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7528faa4efc7f9d783de9d061cdf0d0d4d1201c982889771a7751134635075c8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "957a7edebc43af50a975b6e9ae4ebaf6e444f705110272c8ac500660994b9bc2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "e6fd70c3178b5fda5e27f9fd6335ef0123da50c55b93c1f69975fb5202ffd803"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "c92f4a84d31dbe764cdbf9898cb571d3fd8e4939ba852e913a73a7ad69e1032d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "9259bbaaddebf618d808a23da90703b3b1e37eb2343e172ffd08afa96dc2cf06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "217c0d789774f148a141cb581afe089ce8bb1d4962e1faec0c32430336f456ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "cf4361e6baa018760702f291b7f72b15c4332e927ca8dbbd821ec34af05181d3"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "05643089337d9244630dab33a68fc8e4297bd023265d1ba0ea5a605cd4a0ccd6"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "status": "M",
+      "fingerprint": "a36d13beeb8148d6ef2aef8888d182cfed04d6d048a1e7ef75af7da2fc487d0d"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    }
+  ],
+  "problemStatement": "Capital Absorption 的 market-news 读取当前最新新闻，历史回放未按 as_of_date 截止，未来事件会污染过去日期的供给与 IPO 队列。",
+  "intent": {
+    "problem": "历史 Capital Absorption snapshot 可能包含晚于请求业务日期的新闻事实。",
+    "constraints": ["只限制事实事件的日期范围，不改变事件分类、交易决策或报告结构。"],
+    "rationale": "所有历史回放事实必须满足 observed_at <= as_of_date，避免未来信息泄漏。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    ".ai/work-items/active/capital-absorption-asof-integrity.contract.json",
+    ".ai/work-items/active/capital-absorption-asof-integrity.summary.json"
+  ],
+  "outOfScope": ["Capital Absorption 事件分类规则、Gate/Execution/Trader/仓位规则"],
+  "sources": [
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "Finnhub 新闻拉取和事件组装路径。"
+    },
+    {
+      "path": "src/features/research/domain/capital_absorption.rs",
+      "reason": "Capital Absorption snapshot 对事件集合的消费边界。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "只增加历史事实日期上限，保持当前日期路径与既有分类不变。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "日期过滤边界与回归场景已明确。"
+  },
+  "preReviewWarnings": [
+    "需验证未来新闻不会进入历史 Capital Absorption snapshot。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "capital_absorption_source_adapter.rs 在构造 snapshot 前过滤所有 observed_at > as_of_date 的事件。",
+    "缺少可验证 datetime 的新闻不伪造为 as_of_date 事实，而是被排除。",
+    "cargo test 验证 future events excluded、same-day events retained、undated events excluded by as_of_date filter。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "请求历史业务日期且新闻返回未来事件",
+      "expected": "未来事件不进入 snapshot、供给计数或 IPO 队列。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Acceptance 明确要求过滤未来事件。"]
+    },
+    {
+      "scenario": "事件日期等于 as_of_date",
+      "expected": "当日事件保留。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Acceptance 明确要求保留 as_of_date 当日事件。"]
+    },
+    {
+      "scenario": "新闻缺少 datetime",
+      "expected": "事件不进入历史 snapshot，也不被赋予 fallback_date。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test excludes_news_without_datetime_instead_of_fabricating_as_of_date --lib"],
+      "reason": "缺少 datetime 的新闻已由回归测试确认被排除。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json SUMMARY=.ai/work-items/active/capital-absorption-asof-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/capital-absorption-asof-integrity.summary.json CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json SUMMARY=.ai/work-items/active/capital-absorption-asof-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/capital-absorption-asof-integrity.contract.json SUMMARY=.ai/work-items/active/capital-absorption-asof-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

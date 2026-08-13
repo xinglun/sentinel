@@ -1,0 +1,243 @@
+{
+  "contractVersion": 2,
+  "workItemId": "expectation-fallback-integrity",
+  "mode": "code",
+  "title": "禁止生产路径把 Expectation fixture 当作实时数据",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "7e1e52fda6f4ad7589f7708a8943ca1cd6d9d828fce9d7813dc22c4ec9a6439c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "e6fd70c3178b5fda5e27f9fd6335ef0123da50c55b93c1f69975fb5202ffd803"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "c92f4a84d31dbe764cdbf9898cb571d3fd8e4939ba852e913a73a7ad69e1032d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "da5e170f16fbce4883c91dac42f7944debba0699bd0abcf4f2653039262529e5"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e8abfb298036c66bb07fe707f7041c83caf90592f4a7492e66ef1a25915b4c1b"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "status": "M",
+      "fingerprint": "a36d13beeb8148d6ef2aef8888d182cfed04d6d048a1e7ef75af7da2fc487d0d"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    }
+  ],
+  "problemStatement": "Finnhub credential 缺失或 provider 初始化失败时，生产 Expectation 路径返回内置 fixture，可能把样例共识当成实时事实。",
+  "intent": {"problem": "生产 fallback 必须明确 unavailable；fixture 只能由测试显式调用。", "constraints": ["保留 fixture 测试入口。", "保持 report-only boundary，不改变交易决策。", "保留 unsupported metric 的明确 unavailable 语义。"], "rationale": "避免验收日报出现无来源的假实时共识。"},
+  "scope": [
+    ".ai/work-items/active/expectation-fallback-integrity.contract.json",
+    ".ai/work-items/active/expectation-fallback-integrity.summary.json",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": ["provider entitlement、外部 API、交易 gate/execution/trader、fixture 内容"],
+  "sources": [
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "reason": "生产 credential/provider fallback 入口。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "fixture 与 production snapshot builder 边界。"
+    },
+    {
+      "path": ".ai/work-items/active/expectation-fallback-integrity.contract.json",
+      "reason": "Work Item contract。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "仅改变无凭据/初始化失败的 report data status，不触及交易路径。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "fallback boundary、sources、acceptance 已明确。"
+  },
+  "preReviewWarnings": [
+    "Production fallback must not emit fixture consensus as live data."
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "missing Finnhub credential returns unavailable Expectation observations instead of fixture consensus",
+    "provider initialization failure returns unavailable Expectation observations instead of fixture consensus",
+    "explicit fixture builder continues rendering fixture-only tests",
+    "unavailable fallback keeps decision_weight zero and trade_signal false",
+    "make test covers production fallback and fixture boundary"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json SUMMARY=.ai/work-items/active/expectation-fallback-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-fallback-integrity.summary.json CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json SUMMARY=.ai/work-items/active/expectation-fallback-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-fallback-integrity.contract.json SUMMARY=.ai/work-items/active/expectation-fallback-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

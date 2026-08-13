@@ -1,0 +1,175 @@
+{
+  "workItemId": "gravity-market-date-runtime",
+  "contractPath": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "reason": "日期语义范围与历史回放边界已固定。"
+    },
+    {
+      "path": ".ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "reason": "Radar 使用最新交易日注入 Gravity current_date。"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "reason": "新增 market-date 注入 facade，保留 CLI 日历日期入口。"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "reason": "向 Radar 暴露 market-date Gravity builder。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "当前与上一交易日 Gravity 均按当前市场日选择采集/回放。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gravity-market-date-runtime.contract.json",
+    "src/features/research/application/valuation_gravity.rs",
+    "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Radar 日期注入修复只影响 Gravity source/replay 分支，不改变交易决策。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "当前本地 2026-08-12 报告因历史 valuation snapshot 缺失显示 UNAVAILABLE；该运行时修复使下一次真实市场日运行能够生成当日 snapshot。",
+    "Finnhub 凭据有效性仍是外部依赖，不在本 Work Item 内解决。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b3684684338179b5",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b3684684338179b5",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b3684684338179b5",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b3684684338179b5",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已明确并通过预检。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope、sources、acceptance 已确认。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "实现与定向 Gravity 测试已完成。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "最终质量门待归档时记录。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_dependency",
+      "detail": "有效 Finnhub 凭据仍决定当日 Gravity 是否能获得可用资产事实。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "市场日日期语义已修复；外部 provider 凭据风险保留。",
+    "expectedReviewFocus": [
+      "market_date 与 calendar_date 的分支选择",
+      "历史 snapshot replay 与未来日期拒绝"
+    ]
+  }
+}

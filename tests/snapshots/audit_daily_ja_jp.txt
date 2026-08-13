@@ -25,8 +25,8 @@
 4. 実体的な証拠サマリー
 - 履歴証拠ストック:
 - [GOOG] [2026-04-22] [EarningsValidation] (conf:0.95) [OfficialIR] 元の証拠説明は日本語で未提供 (https://example.com/ir/goog)
-- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] 元の証拠説明は日本語で未提供 (https://news.example.com/goog-cloud)
 - [GOOG] [2026-04-21] [EarningsValidation] (conf:0.90) [OfficialIR] 元の証拠説明は日本語で未提供 (https://example.com/ir/goog-followup)
+- [GOOG] [2026-04-21] [CapexPayoff] (conf:0.80) [NewsMedia] 元の証拠説明は日本語で未提供 (https://news.example.com/goog-cloud)
 
 5. 連続区間統計
 - 現在の NO TRADE 連続日数: 2 日

@@ -213,12 +213,7 @@ impl PresentationAssembler {
                 TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
             },
             breadth_semantic_label: "Breadth Label".to_string(),
-            breadth_semantic_value: match trend_breadth_mode {
-                TrendBreadthMode::BroadExpansion => "Broad Participation".to_string(),
-                TrendBreadthMode::NarrowLeadership => "Very Narrow".to_string(),
-                TrendBreadthMode::FragileRotation => "Healthy Expansion".to_string(),
-                TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
-            },
+            breadth_semantic_value: breadth_semantic_value_for_mode(trend_breadth_mode).to_string(),
             supply_phase_label: "Supply Phase".to_string(),
             supply_phase_value: String::new(),
         };
@@ -1489,6 +1484,32 @@ impl PresentationAssembler {
                 .replace("{count}", &same_reason_peers.to_string());
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
+    }
+}
+
+fn breadth_semantic_value_for_mode(mode: TrendBreadthMode) -> &'static str {
+    match mode {
+        TrendBreadthMode::BroadExpansion => "Broad Participation",
+        TrendBreadthMode::NarrowLeadership => "Very Narrow",
+        TrendBreadthMode::FragileRotation | TrendBreadthMode::StructuralDefense => "Narrow",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::breadth_semantic_value_for_mode;
+    use crate::features::radar::interface::presentation::TrendBreadthMode;
+
+    #[test]
+    fn breadth_semantic_label_does_not_overstate_fragile_rotation() {
+        assert_eq!(
+            breadth_semantic_value_for_mode(TrendBreadthMode::FragileRotation),
+            "Narrow"
+        );
+        assert_eq!(
+            breadth_semantic_value_for_mode(TrendBreadthMode::BroadExpansion),
+            "Broad Participation"
+        );
     }
 }
 

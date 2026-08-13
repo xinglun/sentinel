@@ -21,6 +21,7 @@ pub(crate) async fn build_automatic_capital_absorption_snapshot(
 ) -> CapitalAbsorptionAutoSnapshot {
     match fetch_finnhub_capital_absorption_events(app_config, as_of_date, lookback_days).await {
         Ok(events) => {
+            let events = filter_events_as_of_date(events, as_of_date);
             let mut snapshot = build_capital_absorption_snapshot_from_events(
                 events,
                 CapitalAbsorptionSourceStatus {
@@ -43,6 +44,16 @@ pub(crate) async fn build_automatic_capital_absorption_snapshot(
         }
         Err(err) => unavailable_capital_absorption_snapshot(err.to_string()),
     }
+}
+
+fn filter_events_as_of_date(
+    events: Vec<CapitalAbsorptionAutoEvent>,
+    as_of_date: NaiveDate,
+) -> Vec<CapitalAbsorptionAutoEvent> {
+    events
+        .into_iter()
+        .filter(|event| event.observed_at <= as_of_date)
+        .collect()
 }
 
 async fn fetch_finnhub_capital_absorption_events(
@@ -114,21 +125,21 @@ fn capital_absorption_symbols(_app_config: &config::AppConfig) -> Vec<String> {
 fn extract_capital_absorption_events(
     symbol: &str,
     raw_json: &str,
-    fallback_date: NaiveDate,
+    _fallback_date: NaiveDate,
 ) -> Result<Vec<CapitalAbsorptionAutoEvent>> {
     let items: Vec<serde_json::Value> =
         serde_json::from_str(raw_json).context("Failed to parse Finnhub news JSON")?;
     Ok(items
         .iter()
         .take(MAX_NEWS_PER_SYMBOL)
-        .filter_map(|item| event_from_news_item(symbol, item, fallback_date))
+        .filter_map(|item| event_from_news_item(symbol, item, _fallback_date))
         .collect())
 }
 
 fn event_from_news_item(
     symbol: &str,
     item: &serde_json::Value,
-    fallback_date: NaiveDate,
+    _fallback_date: NaiveDate,
 ) -> Option<CapitalAbsorptionAutoEvent> {
     let headline = item
         .get("headline")
@@ -142,8 +153,7 @@ fn event_from_news_item(
         .get("datetime")
         .and_then(|value| value.as_i64())
         .and_then(|timestamp| chrono::DateTime::from_timestamp(timestamp, 0))
-        .map(|datetime| datetime.date_naive())
-        .unwrap_or(fallback_date);
+        .map(|datetime| datetime.date_naive())?;
     let source_url = item
         .get("url")
         .and_then(|value| value.as_str())
@@ -156,9 +166,40 @@ fn event_from_news_item(
 mod tests {
     use super::*;
     use crate::features::research::application::capital_absorption::{
-        CapitalAbsorptionAutoEventCategory, CapitalAbsorptionObservationEventType,
-        CapitalAbsorptionSupplyKind,
+        CapitalAbsorptionAutoConfidence, CapitalAbsorptionAutoEventCategory,
+        CapitalAbsorptionObservationEventType, CapitalAbsorptionSupplyKind,
     };
+
+    fn sample_event(observed_at: NaiveDate) -> CapitalAbsorptionAutoEvent {
+        CapitalAbsorptionAutoEvent {
+            category: CapitalAbsorptionAutoEventCategory::IpoSupply,
+            supply_kind: CapitalAbsorptionSupplyKind::Potential,
+            event_type: CapitalAbsorptionObservationEventType::Reported,
+            subject: "SpaceX".to_string(),
+            description: "IPO discussion".to_string(),
+            amount_usd_b: None,
+            ai_capex_related: false,
+            source_url: None,
+            observed_at,
+            source_count: 1,
+            confidence: CapitalAbsorptionAutoConfidence::Low,
+        }
+    }
+
+    #[test]
+    fn historical_snapshot_excludes_future_news_but_keeps_same_day_news() {
+        let as_of_date = NaiveDate::from_ymd_opt(2026, 6, 10).unwrap();
+        let events = filter_events_as_of_date(
+            vec![
+                sample_event(NaiveDate::from_ymd_opt(2026, 6, 10).unwrap()),
+                sample_event(NaiveDate::from_ymd_opt(2026, 6, 11).unwrap()),
+            ],
+            as_of_date,
+        );
+
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].observed_at, as_of_date);
+    }
 
     #[test]
     fn extracts_offering_event_from_finnhub_news() {
@@ -198,6 +239,26 @@ mod tests {
 
         let events = extract_capital_absorption_events(
             "GOOG",
+            raw,
+            NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
+        )
+        .unwrap();
+
+        assert!(events.is_empty());
+    }
+
+    #[test]
+    fn excludes_news_without_datetime_instead_of_fabricating_as_of_date() {
+        let raw = r#"[
+          {
+            "headline": "SpaceX IPO discussion grows",
+            "summary": "Investors discuss a possible listing.",
+            "url": "https://example.com/undated-ipo"
+          }
+        ]"#;
+
+        let events = extract_capital_absorption_events(
+            "Market",
             raw,
             NaiveDate::from_ymd_opt(2026, 6, 3).unwrap(),
         )

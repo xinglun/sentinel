@@ -96,7 +96,10 @@ pub(crate) fn build_v1_from_event_context(
     as_of_date: NaiveDate,
     event_context: &SignalContextEventReadModel,
 ) -> SignalContextV1 {
-    let macro_context = build_macro_v1_from_event_context(as_of_date, event_context);
+    let macro_context = apply_runtime_source_coverage(
+        build_macro_v1_from_event_context(as_of_date, event_context),
+        event_context.runtime_coverage.as_ref(),
+    );
     let external = env::var(EXTERNAL_SIGNAL_CONTEXT_PATH_ENV)
         .ok()
         .and_then(|path| {
@@ -105,6 +108,30 @@ pub(crate) fn build_v1_from_event_context(
                 .flatten()
         });
     build_v1_from_event_context_with_external(macro_context, external)
+}
+
+fn apply_runtime_source_coverage(
+    mut snapshot: SignalContextV1,
+    runtime_coverage: Option<&SignalContextCoverage>,
+) -> SignalContextV1 {
+    let Some(runtime_coverage) = runtime_coverage else {
+        return snapshot;
+    };
+
+    snapshot.coverage.corporate = runtime_coverage.corporate;
+    snapshot.coverage.geopolitical = runtime_coverage.geopolitical;
+    snapshot.coverage.commodity = runtime_coverage.commodity;
+    snapshot.coverage.rates_credit = runtime_coverage.rates_credit;
+    snapshot.coverage.market_structure = runtime_coverage.market_structure;
+    snapshot.coverage.overall = aggregate_coverage([
+        snapshot.coverage.scheduled_macro,
+        snapshot.coverage.corporate,
+        snapshot.coverage.geopolitical,
+        snapshot.coverage.commodity,
+        snapshot.coverage.rates_credit,
+        snapshot.coverage.market_structure,
+    ]);
+    snapshot
 }
 
 fn build_v1_from_event_context_with_external(
@@ -706,6 +733,34 @@ mod tests {
             classify_lifecycle(event_date, market_date, false, 3),
             crate::features::radar::interface::presentation::SignalContextLifecycle::Expired
         );
+    }
+
+    #[test]
+    fn runtime_source_coverage_is_applied_without_inventing_events() {
+        let event_context = SignalContextEventReadModel {
+            runtime_coverage: Some(SignalContextCoverage {
+                corporate: SignalContextSourceStatus::Healthy,
+                rates_credit: SignalContextSourceStatus::Healthy,
+                ..SignalContextCoverage::default()
+            }),
+            ..Default::default()
+        };
+
+        let snapshot = build_v1_from_event_context(
+            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+            &event_context,
+        );
+
+        assert_eq!(
+            snapshot.coverage.corporate,
+            SignalContextSourceStatus::Healthy
+        );
+        assert_eq!(
+            snapshot.coverage.rates_credit,
+            SignalContextSourceStatus::Healthy
+        );
+        assert!(snapshot.corporate_events.is_empty());
+        assert!(snapshot.rates_credit_events.is_empty());
     }
 
     fn healthy_coverage() -> SignalContextCoverage {

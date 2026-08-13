@@ -1169,6 +1169,9 @@ fn gray_rhino_source_collection_dry_run_reports_boundary() {
     assert!(stdout.contains("Gray Rhino Source Collection"));
     assert!(stdout.contains("provider: Fred"));
     assert!(stdout.contains("dry_run: true"));
+    assert!(stdout.contains("machine_provider_status: skipped"));
+    assert!(stdout.contains("machine_accepted: 1"));
+    assert!(stdout.contains("machine_rejected: 0"));
     assert!(stdout.contains("FRED macro series fetch planned"));
     assert!(stdout.contains("source collection only"));
     assert!(!stdout.contains("BUY"));
@@ -1760,6 +1763,7 @@ fn gray_rhino_refresh_coverage_make_target_records_provider_coverage() {
     assert!(makefile.contains("gray_rhino_refresh_status.jsonl"));
     assert!(makefile.contains("gray_rhino_refresh_status_$$refresh_date.json"));
     assert!(makefile.contains("\"sec_accepted\":%s"));
+    assert!(makefile.contains("refresh_date_arg"));
 }
 
 #[test]
@@ -2400,6 +2404,25 @@ fn daily_calibration_rejects_future_date_without_writing_valuation_snapshot() {
         .path()
         .join("valuation_gravity_2999-01-01.json")
         .exists());
+}
+
+#[test]
+fn daily_calibration_expectation_uses_requested_market_date() {
+    let tmp = prepare_workspace("");
+
+    let output = run_cli(&tmp, &["daily-calibration", "--date", "2026-08-12"]);
+
+    assert!(output.status.success());
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let expectation = stdout
+        .split("## 9. Expectation Layer（市场预期观测）")
+        .last()
+        .expect("expectation section should be rendered");
+    assert!(expectation.contains("- As of: 2026-08-12"), "{expectation}");
+    assert!(
+        !expectation.contains("- As of: 2026-08-13"),
+        "{expectation}"
+    );
 }
 
 fn set_output_language(tmp: &TempDir, language: &str) {

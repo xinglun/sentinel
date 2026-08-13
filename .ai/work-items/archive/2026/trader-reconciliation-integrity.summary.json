@@ -1,0 +1,210 @@
+{
+  "workItemId": "trader-reconciliation-integrity",
+  "contractPath": ".ai/work-items/archive/2026/trader-reconciliation-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "local/broker 持仓数量在照合前进行有限且非負検証，并对异常值 fail-closed。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "雷达决策与预算路径使用严格账本读取，避免损坏行静默降级。"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "reason": "补充超时取消后部分成交的回归夹具。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/ledger.rs",
+      "reason": "保留 fractional qty / price 的持久化精度，并在照合读取时拒绝破损账本行。"
+    },
+    {
+      "path": ".ai/work-items/active/trader-reconciliation-integrity.contract.json",
+      "reason": "照合异常值的受入条件和边界を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/trader-reconciliation-integrity.summary.json",
+      "reason": "验证结果和剩余风险を記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/trader-reconciliation-integrity.contract.json",
+    "src/features/trading/infrastructure/trader_agent.rs",
+    "src/features/shared/infrastructure/ledger.rs",
+    "src/features/trading/domain/reconciliation.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json SUMMARY=.ai/work-items/active/trader-reconciliation-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trader-reconciliation-integrity.summary.json CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json SUMMARY=.ai/work-items/active/trader-reconciliation-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trader-reconciliation-integrity.contract.json SUMMARY=.ai/work-items/active/trader-reconciliation-integrity.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "账本保留 8 位小数，照合前拒绝异常数量，并聚合重复 broker 行。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "issue": "NaN の数量では差分が NaN となり、既存の diff.abs() > 0.001 判定をすり抜けて一致扱いになり得た。",
+      "resolution": "local ledger と broker の両方で有限かつ非負数量を検証し、違反時は明示的な Err を返すようにした。"
+    },
+    {
+      "issue": "同一 symbol の broker 持仓が複数行ある場合、HashMap 化で後続行が前行を上書きし数量が欠落した。",
+      "resolution": "symbol 単位で broker 数量を加算し、加算後の overflow も拒否するようにした。"
+    },
+    {
+      "issue": "ledger.csv 写入使用两位小数格式，fractional 成交数量和价格在照合/预算读取时失真。",
+      "resolution": "账本写入改为保留 8 位小数，并用回归测试验证读取后的数量、价格和交易金额。"
+    },
+    {
+      "issue": "成交后 ledger.record_trade 的错误被丢弃，账本写入失败仍可能返回交易成功。",
+      "resolution": "账本写入失败现在会标记 LedgerWriteFailed、加入 errors 并返回 ExecutionSummary.status=Err。"
+    },
+    {
+      "issue": "record_trade 对 qty、price 和 side 没有入口校验，非法值会写入 CSV 并在读取时静默变成 0。",
+      "resolution": "record_trade 现在拒绝非有限/非正 qty 与 price，以及非 BUY/SELL side。"
+    },
+    {
+      "issue": "破损 ledger 行的列数或数值解析失败会被静默跳过/转换为 0，照合可能把数据损坏误判为空仓。",
+      "resolution": "新增严格账本读取路径，reconcile_positions 对破损行、非法 side / symbol / qty / price 直接返回 Err。"
+    },
+    {
+      "issue": "雷达预算与决策路径仍调用宽松账本读取，损坏行可能被当成 0 并继续运行。",
+      "resolution": "雷达流水线改用严格持仓与当日成交金额读取，账本损坏时 fail-closed。"
+    },
+    {
+      "issue": "超时取消确认分支只更新 audit，不将已发生的部分成交写入 ledger，且可能返回成功。",
+      "resolution": "取消确认若含部分成交则校验并写入 ledger，同时将执行摘要标记为错误。"
+    },
+    {
+      "issue": "broker 持仓 symbol 为空或方向解析为 Unknown 时仍可能进入数量照合。",
+      "resolution": "照合前拒绝空 symbol 与 Unknown 方向，避免无效持仓污染结果。"
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "同一验收目标下的问题不要随意扩张或新开 WI，应在当前 WI 内解决。",
+      "solidifiedTo": "contract",
+      "reason": "本次 duplicate broker row 问题追加到同一照合 WI 的 scope/acceptance 内，没有另开 WI。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract を確定した。",
+      "contractHash": "28d1c7b97656e4d4",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope と acceptance を確認して実装した。",
+      "contractHash": "28d1c7b97656e4d4",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "local/broker 異常数量、重复 broker 行、fractional 账本、写入失败和非法账本输入回归测试が通過した。",
+      "contractHash": "28d1c7b97656e4d4",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required checks が通過した。",
+      "contractHash": "28d1c7b97656e4d4",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 確定済み。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "実装範囲は contract scope 内。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "定向回帰テスト通過。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 通過。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "账本精度、非法账本输入、破损账本行拒否、local/broker 異常数量拒否、同一 symbol の broker 行集约、写入失败传播を测试で确认した。",
+    "expectedReviewFocus": [
+      "異常数量が照合結果に混入しないこと",
+      "正常数量の許容差 0.001 が維持されること",
+      "同一 symbol の broker 行が上書きされず合計されること",
+      "fractional qty / price が読み取り後も保持されること",
+      "ledger 写入失败时不返回成功状态",
+      "非法 qty / price / side 不会写入账本",
+      "破损 ledger 行不会在照合、雷达决策或预算读取时被静默转换为空值",
+      "超时取消后的部分成交会保留在账本且不会返回成功状态",
+      "空 symbol / Unknown 方向不会进入正常照合"
+    ]
+  }
+}

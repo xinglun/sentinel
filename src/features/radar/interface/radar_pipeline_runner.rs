@@ -33,6 +33,9 @@ use crate::features::radar::interface::market_interpretation_read_model::{
     build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
 use crate::features::radar::interface::presentation::PresentationPacket;
+use crate::features::radar::interface::presentation::{
+    SignalContextCoverage, SignalContextSourceStatus,
+};
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
@@ -58,18 +61,22 @@ use crate::features::research::interface::capital_absorption_report_builder::{
 };
 use crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_phase_view_model_from_snapshot;
 use crate::features::research::interface::cognitive_reports::{
-    build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
+    build_expectation_layer_weekly_summary_with_config_for_market_date,
     build_flow_layer_weekly_summary, credit_stress_label, enabled_asset_thesis_count,
     enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
     macro_pressure_label, yield_curve_label,
 };
-use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
+use crate::features::research::interface::expectation_report_builder::{
+    build_expectation_layer_report_for_market_date,
+    build_expectation_layer_snapshot_for_market_date,
+};
 use crate::features::research::interface::gray_rhino_report::{
     build_gray_rhino_daily_report, build_gray_rhino_daily_report_view_model,
     render_gray_rhino_daily_report,
 };
 use crate::features::research::interface::valuation_gravity_report_builder::{
-    build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
+    build_valuation_gravity_observation_for_market_date_with_auto,
+    build_valuation_gravity_report_with_auto,
 };
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
@@ -104,7 +111,6 @@ fn apply_history_baseline_downgrade(
     if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
         persistence.persistence_days = 0;
         persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
-        persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
@@ -219,12 +225,16 @@ pub(crate) async fn run_pipeline_for_report_date(
     let failed_symbols = prepared_data.failed_symbols;
     let rate_limited_symbols = prepared_data.rate_limited_symbols;
 
-    let mut outcome =
-        radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
+    let mut outcome = radar_context.initial_run_outcome_with_data_quality(
+        load_latest_evidence_collection_status(save_dir),
+        pipeline_plan.data_quality_status,
+    );
     outcome.gray_rhino_collection = load_gray_rhino_collection_status(save_dir, radar_context.date);
 
     let ledger = Arc::new(build_ledger_adapter(save_dir.to_path_buf()));
-    let (realized_pl, positions) = ledger.get_portfolio_stats();
+    let (realized_pl, positions) = ledger
+        .get_portfolio_stats_checked()
+        .context("Failed to read ledger positions")?;
 
     if pipeline_plan.should_enter_pipeline_body {
         let mut packet =
@@ -272,9 +282,16 @@ pub(crate) async fn run_pipeline_for_report_date(
         );
         let dict = get_dictionary(lang);
         let expectation_snapshot =
-            build_expectation_layer_snapshot_from_config(config_arc.as_ref());
-        let gravity_observation =
-            build_valuation_gravity_observation_with_auto(config_arc.as_ref(), packet.date).await?;
+            build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), packet.date);
+        let previous_expectation_snapshot = prev_packet.map(|previous| {
+            build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), previous.date)
+        });
+        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
+            config_arc.as_ref(),
+            packet.date,
+            packet.date,
+        )
+        .await?;
         let capital_absorption_snapshot: Option<
             crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
         > = build_capital_absorption_auto_snapshot_with_config(
@@ -333,11 +350,13 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-            let previous_gravity_observation = build_valuation_gravity_observation_with_auto(
-                config_arc.as_ref(),
-                previous_packet_date,
-            )
-            .await?;
+            let previous_gravity_observation =
+                build_valuation_gravity_observation_for_market_date_with_auto(
+                    config_arc.as_ref(),
+                    previous_packet_date,
+                    packet.date,
+                )
+                .await?;
             let previous_gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
                 config_arc.as_ref(),
                 save_dir,
@@ -348,7 +367,9 @@ pub(crate) async fn run_pipeline_for_report_date(
             previous_pres.interpretation_layer = Some(build_packet_interpretation_layer(
                 previous_packet,
                 previous_pres,
-                &expectation_snapshot,
+                previous_expectation_snapshot
+                    .as_ref()
+                    .expect("previous expectation snapshot must exist with previous packet"),
                 &previous_gravity_observation,
                 previous_capital_absorption_snapshot.as_ref(),
                 previous_gray_rhino_daily_report.as_ref(),
@@ -370,7 +391,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-        let future_context =
+        let mut future_context =
             build_signal_context_event_read_model(SignalContextEventReadModelInput {
                 as_of_date: packet.date,
                 expectation_snapshot: Some(&expectation_snapshot),
@@ -383,6 +404,10 @@ pub(crate) async fn run_pipeline_for_report_date(
             GrayRhinoSnapshotPersistence::ReadOnly,
         )
         .ok();
+        future_context.runtime_coverage = Some(build_runtime_signal_context_coverage(
+            gray_rhino_daily_report.as_ref(),
+            &pres_packet,
+        ));
         let (expectation_quality, expectation_quality_reason) =
             derive_expectation_quality(&expectation_snapshot);
         let interpretation_signal = InterpretationNarrativeSignal {
@@ -550,6 +575,11 @@ pub(crate) async fn run_pipeline_for_report_date(
             return Ok(());
         }
         let same_market_date = history_before.iter().any(|entry| entry.date == packet.date);
+        let same_day_degraded_snapshot = same_market_date
+            && previous_snapshot_resolution
+                .formal_snapshot
+                .as_ref()
+                .is_some_and(|snapshot| snapshot.source_status == "degraded");
         let expected_history_count = history_before.len() + usize::from(!same_market_date);
         if should_persist_history {
             let preflight_progression =
@@ -635,8 +665,10 @@ pub(crate) async fn run_pipeline_for_report_date(
             }
         };
         if should_persist_history {
-            let snapshot_probe =
-                build_snapshot_probe(expected_history_count, baseline_packet.is_none());
+            let snapshot_probe = build_snapshot_probe(
+                expected_history_count,
+                baseline_packet.is_none() || same_day_degraded_snapshot,
+            );
             if let Err(error) = runtime_services
                 .persistence
                 .validate_trading_day_snapshot_conflict(&snapshot_probe)
@@ -782,7 +814,8 @@ pub(crate) async fn run_pipeline_for_report_date(
             }
         }
         let safe_downgrade = history_blocked
-            || should_downgrade_leader_history(&previous_snapshot_resolution.status);
+            || should_downgrade_leader_history(&previous_snapshot_resolution.status)
+            || same_day_degraded_snapshot;
         if history_blocked {
             outcome.date = packet.date.to_string();
             outcome.decisioning = DeliveryStatus::Failed {
@@ -958,7 +991,9 @@ pub(crate) async fn run_pipeline_for_report_date(
         let delivery_plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
             packet: &packet,
             trading_limits,
-            daily_traded: ledger.get_daily_traded_amount(),
+            daily_traded: ledger
+                .get_daily_traded_amount_checked()
+                .context("Failed to read daily traded amount from ledger")?,
             realized_pl,
             positions: &positions,
             failed_symbols: &failed_symbols,
@@ -999,7 +1034,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         let mut report_context = build_report_render_context(config_arc.as_ref());
         report_context.observation_timeline = runtime_services
             .persistence
-            .load_latest_observation_timeline()
+            .load_observation_timeline_as_of(packet.date)
             .unwrap_or_default();
         let mut report_result = report::generate_refined_report(
             &report_context,
@@ -1163,6 +1198,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         append_expectation_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
+            packet.date,
             pres_packet.language,
         );
 
@@ -1427,11 +1463,16 @@ fn build_packet_interpretation_layer(
     language: crate::features::shared::interface::i18n::Language,
     dict: &crate::features::shared::interface::i18n::DisplayDictionary,
 ) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
-    let future_context = build_signal_context_event_read_model(SignalContextEventReadModelInput {
-        as_of_date: packet.date,
-        expectation_snapshot: Some(expectation_snapshot),
-        future_calendar: Some(future_calendar),
-    });
+    let mut future_context =
+        build_signal_context_event_read_model(SignalContextEventReadModelInput {
+            as_of_date: packet.date,
+            expectation_snapshot: Some(expectation_snapshot),
+            future_calendar: Some(future_calendar),
+        });
+    future_context.runtime_coverage = Some(build_runtime_signal_context_coverage(
+        gray_rhino_daily_report,
+        pres_packet,
+    ));
     let (expectation_quality, expectation_quality_reason) =
         derive_expectation_quality(expectation_snapshot);
     let interpretation_signal = InterpretationNarrativeSignal {
@@ -1485,6 +1526,66 @@ fn build_packet_interpretation_layer(
     })
 }
 
+fn build_runtime_signal_context_coverage(
+    gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
+    pres_packet: &PresentationPacket,
+) -> SignalContextCoverage {
+    let mut coverage = SignalContextCoverage {
+        market_structure: pres_packet
+            .transition_evidence
+            .as_ref()
+            .map(|_| SignalContextSourceStatus::Healthy)
+            .unwrap_or(SignalContextSourceStatus::Unavailable),
+        ..SignalContextCoverage::default()
+    };
+
+    let Some(status) = gray_rhino_daily_report.and_then(|report| report.refresh_status.as_ref())
+    else {
+        return coverage;
+    };
+
+    let sec = gray_rhino_provider_coverage(&status.sec, status.sec_accepted, status.sec_rejected);
+    let finnhub = gray_rhino_provider_coverage(
+        &status.finnhub,
+        status.finnhub_accepted,
+        status.finnhub_rejected,
+    );
+    coverage.corporate = combine_signal_context_source_status(sec, finnhub);
+    coverage.rates_credit =
+        gray_rhino_provider_coverage(&status.fred, status.fred_accepted, status.fred_rejected);
+    coverage
+}
+
+fn gray_rhino_provider_coverage(
+    status: &str,
+    accepted: u64,
+    rejected: u64,
+) -> SignalContextSourceStatus {
+    if accepted > 0 && rejected > 0 {
+        SignalContextSourceStatus::Partial
+    } else if accepted > 0 || status.eq_ignore_ascii_case("succeeded") {
+        SignalContextSourceStatus::Healthy
+    } else {
+        SignalContextSourceStatus::Unavailable
+    }
+}
+
+fn combine_signal_context_source_status(
+    left: SignalContextSourceStatus,
+    right: SignalContextSourceStatus,
+) -> SignalContextSourceStatus {
+    use SignalContextSourceStatus::{Degraded, Healthy, Partial, Unavailable};
+    if left == Healthy && right == Healthy {
+        Healthy
+    } else if left == Degraded || right == Degraded {
+        Degraded
+    } else if left == Unavailable && right == Unavailable {
+        Unavailable
+    } else {
+        Partial
+    }
+}
+
 fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderContext {
     let rules = app_config.get_parsed_rules();
     ReportRenderContext {
@@ -1527,7 +1628,9 @@ fn build_weekly_report_context(
         capital_dynamics_flow_layer: build_flow_layer_weekly_summary(
             app_config.capital_dynamics.as_ref(),
         ),
-        expectation_layer: build_expectation_layer_weekly_summary_with_config(app_config),
+        expectation_layer: build_expectation_layer_weekly_summary_with_config_for_market_date(
+            app_config, as_of_date,
+        ),
     }
 }
 
@@ -1602,9 +1705,10 @@ fn append_gray_rhino_appendix(
 fn append_expectation_reference_appendix(
     report_result: &mut report::ReportResult,
     app_config: &config::AppConfig,
+    as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
 ) {
-    let appendix = build_expectation_layer_report_with_config(app_config, language);
+    let appendix = build_expectation_layer_report_for_market_date(app_config, as_of_date, language);
     append_reference_appendix(report_result, &appendix, language);
 }
 
@@ -2140,9 +2244,24 @@ fn load_gray_rhino_collection_status(
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
 ) -> GrayRhinoCollectionStatus {
-    let value = std::fs::read_to_string(save_dir.join("gray_rhino_refresh_status_latest.json"))
-        .ok()
-        .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok());
+    let date_path = save_dir.join(format!(
+        "gray_rhino_refresh_status_{}.json",
+        as_of_date.format("%Y-%m-%d")
+    ));
+    let value = [
+        date_path,
+        save_dir.join("gray_rhino_refresh_status_latest.json"),
+    ]
+    .into_iter()
+    .filter_map(|path| std::fs::read_to_string(path).ok())
+    .filter_map(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
+    .find(|value| {
+        value
+            .get("date")
+            .and_then(|value| value.as_str())
+            .and_then(|raw| chrono::NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
+            == Some(as_of_date)
+    });
     let Some(value) = value else {
         return GrayRhinoCollectionStatus {
             status: "skipped".to_string(),
@@ -2219,6 +2338,7 @@ fn gray_rhino_failure_appendix(
 
 #[cfg(test)]
 mod tests {
+    use super::build_weekly_report_context;
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
     use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
@@ -2242,6 +2362,71 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+    use std::fs;
+    use tempfile::tempdir;
+
+    #[test]
+    fn gray_rhino_collection_status_prefers_target_date_sidecar_over_latest() {
+        let directory = tempdir().unwrap();
+        fs::write(
+            directory.path().join("gray_rhino_refresh_status_2026-08-12.json"),
+            r#"{"date":"2026-08-12","status":"partial_failure","sec":"partial_failure","sec_accepted":9,"sec_rejected":1,"finnhub":"succeeded","finnhub_accepted":164,"fred":"succeeded","fred_accepted":1}"#,
+        )
+        .unwrap();
+        fs::write(
+            directory.path().join("gray_rhino_refresh_status_latest.json"),
+            r#"{"date":"2026-08-13","status":"succeeded","sec":"succeeded","sec_accepted":10,"finnhub":"succeeded","finnhub_accepted":162,"fred":"succeeded","fred_accepted":1}"#,
+        )
+        .unwrap();
+
+        let status = super::load_gray_rhino_collection_status(
+            directory.path(),
+            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+        );
+
+        assert_eq!(status.status, "partial_failure");
+        assert_eq!(status.date.as_deref(), Some("2026-08-12"));
+        assert_eq!(status.sec.accepted, 9);
+        assert_eq!(status.sec.rejected, 1);
+        assert_eq!(status.finnhub.accepted, 164);
+    }
+
+    #[test]
+    fn gray_rhino_collection_status_fails_closed_when_only_latest_is_other_date() {
+        let directory = tempdir().unwrap();
+        fs::write(
+            directory
+                .path()
+                .join("gray_rhino_refresh_status_latest.json"),
+            r#"{"date":"2026-08-13","status":"succeeded"}"#,
+        )
+        .unwrap();
+
+        let status = super::load_gray_rhino_collection_status(
+            directory.path(),
+            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+        );
+
+        assert_eq!(status.status, "skipped");
+        assert_eq!(status.date, None);
+    }
+
+    #[test]
+    fn weekly_report_context_uses_packet_market_date_for_expectation() {
+        let mut config = crate::config::AppConfig::load("config.toml").unwrap();
+        config.finnhub = None;
+        let context = build_weekly_report_context(
+            &config,
+            tempdir().unwrap().path(),
+            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+        );
+
+        assert_eq!(context.expectation_layer["as_of_date"], "2026-08-12");
+        assert_eq!(
+            context.expectation_layer["snapshot"]["as_of_date"],
+            "2026-08-12"
+        );
+    }
 
     #[test]
     fn supply_event_is_active_only_inside_the_observation_window() {
@@ -2589,5 +2774,21 @@ Boundary: context only; no Gate input or trade instruction.
         assert!(super::should_downgrade_leader_history(
             &crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable
         ));
+    }
+
+    #[test]
+    fn gray_rhino_source_health_maps_to_signal_context_without_event_inference() {
+        assert_eq!(
+            super::gray_rhino_provider_coverage("succeeded", 9, 0),
+            crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
+        );
+        assert_eq!(
+            super::gray_rhino_provider_coverage("partial_failure", 1, 2),
+            crate::features::radar::interface::presentation::SignalContextSourceStatus::Partial
+        );
+        assert_eq!(
+            super::gray_rhino_provider_coverage("failed", 0, 1),
+            crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable
+        );
     }
 }

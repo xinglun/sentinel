@@ -23,7 +23,9 @@ use crate::features::radar::interface::audit_daily_report::{
     build_audit_daily_report_with_formal_baseline, build_daily_calibration_context,
     load_transition_audit_days, resolve_audit_daily_formal_baseline, resolve_target_index,
 };
-use crate::features::radar::interface::radar_pipeline_runner::run_pipeline;
+use crate::features::radar::interface::radar_pipeline_runner::{
+    run_pipeline, run_pipeline_for_report_date,
+};
 use crate::features::research::interface::cli_command_handler::{
     run_asset_thesis_command, run_gray_rhino_escalation_command,
     run_official_calendar_smoke_command, run_research_attention_command,
@@ -64,6 +66,11 @@ pub async fn run() -> Result<()> {
     if options.command == CliCommand::AuditDaily {
         if let Some(err) = &options.audit_arg_error {
             return Err(anyhow!("{}\n\n{}", err, audit_daily_usage(audit_language)));
+        }
+    }
+    if options.command == CliCommand::Radar {
+        if let Some(err) = &options.audit_arg_error {
+            return Err(anyhow!("{}\n\n{}", err, cli_usage(audit_language)));
         }
     }
 
@@ -601,7 +608,13 @@ pub async fn run() -> Result<()> {
                 crate::features::radar::application::runtime_mode::ExecutionMode::DryRun
             };
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
-            run_pipeline(app_config, provider, mode).await?;
+            if let Some(raw_date) = options.audit_date_arg.as_deref() {
+                let report_date = NaiveDate::parse_from_str(raw_date, "%Y-%m-%d")
+                    .map_err(|_| anyhow!("--date 必须为 YYYY-MM-DD 日期"))?;
+                run_pipeline_for_report_date(app_config, provider, mode, report_date).await?;
+            } else {
+                run_pipeline(app_config, provider, mode).await?;
+            }
         }
     }
     Ok(())
@@ -901,7 +914,41 @@ fn load_latest_daily_report(config: &config::AppConfig) -> Result<String> {
             latest_path.display()
         ));
     }
+    validate_latest_report_run_status(
+        save_dir,
+        latest_path
+            .file_stem()
+            .and_then(|value| value.to_str())
+            .unwrap_or_default(),
+    )?;
     Ok(report)
+}
+
+fn validate_latest_report_run_status(save_dir: &std::path::Path, report_date: &str) -> Result<()> {
+    let status_path = save_dir.join(format!("run_status_{report_date}.json"));
+    let raw = std::fs::read_to_string(&status_path).with_context(|| {
+        format!(
+            "Latest daily report has no corresponding run status: {}",
+            status_path.display()
+        )
+    })?;
+    let outcome =
+        serde_json::from_str::<crate::features::shared::application::run_status::RunOutcome>(&raw)
+            .with_context(|| {
+                format!(
+                    "Failed to parse latest report run status: {}",
+                    status_path.display()
+                )
+            })?;
+    match outcome.decisioning {
+        crate::features::shared::application::run_status::DeliveryStatus::Succeeded => Ok(()),
+        crate::features::shared::application::run_status::DeliveryStatus::Failed { reason } => Err(
+            anyhow!("Latest daily report run failed and cannot be reviewed: {reason}"),
+        ),
+        crate::features::shared::application::run_status::DeliveryStatus::Skipped => Err(anyhow!(
+            "Latest daily report run was skipped and cannot be reviewed"
+        )),
+    }
 }
 
 async fn build_daily_calibration_report(
@@ -1051,6 +1098,25 @@ mod tests {
     };
     use crate::features::shared::interface::cli_args::{cli_usage, parse_cli_options, CliCommand};
     use crate::features::shared::interface::i18n::Language;
+
+    #[test]
+    fn radar_cli_preserves_explicit_report_date_for_pipeline_dispatch() {
+        let config = AppConfig::load("config.toml").unwrap();
+        let options = parse_cli_options(
+            &[
+                "stock-sentinel".to_string(),
+                "radar".to_string(),
+                "--date".to_string(),
+                "2026-08-12".to_string(),
+            ],
+            &config,
+            Language::ZhCn,
+        );
+
+        assert_eq!(options.command, CliCommand::Radar);
+        assert_eq!(options.audit_date_arg.as_deref(), Some("2026-08-12"));
+        assert_eq!(options.audit_arg_error, None);
+    }
     use anyhow::{anyhow, Result};
     use chrono::{NaiveDate, Utc};
     use std::borrow::Cow;
@@ -1071,6 +1137,17 @@ mod tests {
         )
         .unwrap();
         fs::write(tmp.path().join("2026-05-21.md"), "daily").unwrap();
+        fs::write(
+            tmp.path().join("run_status_2026-05-21.json"),
+            serde_json::to_string(
+                &crate::features::shared::application::run_status::RunOutcome {
+                    decisioning: DeliveryStatus::Succeeded,
+                    ..Default::default()
+                },
+            )
+            .unwrap(),
+        )
+        .unwrap();
 
         assert_eq!(super::load_latest_daily_report(&config).unwrap(), "daily");
     }
@@ -1138,8 +1215,54 @@ mod tests {
         fs::write(tmp.path().join("2026-05-20.md"), "old").unwrap();
         fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
         fs::write(tmp.path().join("weekly_state_review_auto.md"), "weekly").unwrap();
+        fs::write(
+            tmp.path().join("run_status_2026-05-21.json"),
+            serde_json::to_string(
+                &crate::features::shared::application::run_status::RunOutcome {
+                    decisioning:
+                        crate::features::shared::application::run_status::DeliveryStatus::Succeeded,
+                    ..Default::default()
+                },
+            )
+            .unwrap(),
+        )
+        .unwrap();
 
         assert_eq!(super::load_latest_daily_report(&config).unwrap(), "latest");
+    }
+
+    #[test]
+    fn review_rejects_latest_report_when_run_status_failed() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
+        fs::write(
+            tmp.path().join("run_status_2026-05-21.json"),
+            serde_json::to_string(
+                &crate::features::shared::application::run_status::RunOutcome {
+                    decisioning:
+                        crate::features::shared::application::run_status::DeliveryStatus::Failed {
+                            reason: "SNAPSHOT_CONFLICT".to_string(),
+                        },
+                    ..Default::default()
+                },
+            )
+            .unwrap(),
+        )
+        .unwrap();
+
+        let error = super::load_latest_daily_report(&config).unwrap_err();
+        assert!(error.to_string().contains("SNAPSHOT_CONFLICT"));
+    }
+
+    #[test]
+    fn review_rejects_latest_report_when_run_status_missing() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+        fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
+
+        let error = super::load_latest_daily_report(&config).unwrap_err();
+        assert!(error.to_string().contains("no corresponding run status"));
     }
 
     #[test]

@@ -4,7 +4,8 @@ use crate::features::research::domain::expectation::{
     RevisionDirection, SourceHealth, SurpriseState,
 };
 use crate::features::research::infrastructure::expectation_source_adapter::{
-    parse_period_date, FinnhubConsensusMetric, FinnhubExpectationSourceAdapter,
+    parse_period_date, ConsensusFetchResult, FinnhubConsensusMetric,
+    FinnhubExpectationSourceAdapter,
 };
 use chrono::{Datelike, NaiveDate};
 
@@ -14,18 +15,18 @@ use crate::features::research::interface::expectation_report_builder::{
 
 const PROVIDER: &str = "Finnhub";
 
-/// Expectation Layer の live source snapshot を組み立てる。
-pub(crate) fn build_expectation_layer_snapshot_from_config(
+/// Radar が指定した取引日を Expectation の観測日として source/replay 分岐に渡す。
+pub(crate) fn build_expectation_layer_snapshot_for_market_date(
     app_config: &config::AppConfig,
+    as_of_date: NaiveDate,
 ) -> ExpectationLayerSnapshot {
     if !FinnhubExpectationSourceAdapter::has_credential(app_config) {
-        return build_expectation_layer_fixture_snapshot();
+        return unavailable_snapshot(as_of_date, "Finnhub credential is not configured");
     }
 
-    let as_of_date = chrono::Local::now().date_naive();
     let current_period = quarter_label_from_date(as_of_date);
     let Some(adapter) = FinnhubExpectationSourceAdapter::new(app_config) else {
-        return build_expectation_layer_fixture_snapshot();
+        return unavailable_snapshot(as_of_date, "Finnhub provider initialization failed");
     };
 
     ExpectationLayerSnapshot {
@@ -186,6 +187,33 @@ pub(crate) fn build_expectation_layer_snapshot_from_config(
     }
 }
 
+fn unavailable_snapshot(as_of_date: NaiveDate, reason: &str) -> ExpectationLayerSnapshot {
+    let fixture = build_expectation_layer_fixture_snapshot();
+    let observations = fixture
+        .observations
+        .into_iter()
+        .map(|observation| {
+            unavailable_observation(
+                &observation.subject,
+                &observation.period,
+                observation.event_type,
+                &observation.unit,
+                reason,
+                as_of_date,
+            )
+        })
+        .collect();
+    ExpectationLayerSnapshot {
+        as_of_date,
+        decision_weight_percent: 0,
+        trade_signal: false,
+        gate_effect: "none".to_string(),
+        execution_effect: "none".to_string(),
+        position_sizing_effect: "none".to_string(),
+        observations,
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn consensus_observation(
     adapter: &FinnhubExpectationSourceAdapter<'_>,
@@ -194,25 +222,33 @@ fn consensus_observation(
     event_type: ExpectationEventType,
     metric: FinnhubConsensusMetric,
     unit_suffix: &str,
-    unavailable_reason: &str,
+    _not_applicable_reason: &str,
     period: &str,
     as_of_date: NaiveDate,
 ) -> ExpectationObservation {
-    adapter
-        .fetch_consensus_series(subject, metric, as_of_date)
-        .map(|series| {
+    match adapter.fetch_consensus_series(subject, metric, as_of_date) {
+        ConsensusFetchResult::Available(series) if has_consensus_center(&series) => {
             build_consensus_observation(subject, unit, event_type, series, unit_suffix, as_of_date)
-        })
-        .unwrap_or_else(|| {
+        }
+        ConsensusFetchResult::Available(_) | ConsensusFetchResult::NoConsensus => {
             unavailable_observation(
                 subject,
                 period,
                 event_type,
                 unit,
-                unavailable_reason,
+                &no_consensus_reason(event_type),
                 as_of_date,
             )
-        })
+        }
+        ConsensusFetchResult::ProviderUnavailable => unavailable_observation(
+            subject,
+            period,
+            event_type,
+            unit,
+            &provider_unavailable_reason(event_type),
+            as_of_date,
+        ),
+    }
 }
 
 fn consensus_margin_observation(
@@ -220,7 +256,7 @@ fn consensus_margin_observation(
     subject: &str,
     event_type: ExpectationEventType,
     unit: &str,
-    unavailable_reason: &str,
+    _not_applicable_reason: &str,
     period: &str,
     as_of_date: NaiveDate,
 ) -> ExpectationObservation {
@@ -230,18 +266,63 @@ fn consensus_margin_observation(
         adapter.fetch_consensus_series(subject, FinnhubConsensusMetric::GrossIncome, as_of_date);
 
     match (gross_income, revenue) {
-        (Some(gross_income), Some(revenue)) => {
+        (
+            ConsensusFetchResult::Available(gross_income),
+            ConsensusFetchResult::Available(revenue),
+        ) if has_consensus_center(&gross_income) && has_positive_consensus_center(&revenue) => {
             build_margin_observation(subject, event_type, gross_income, revenue, unit, as_of_date)
+        }
+        (gross_income, revenue)
+            if matches!(gross_income, ConsensusFetchResult::ProviderUnavailable)
+                || matches!(revenue, ConsensusFetchResult::ProviderUnavailable) =>
+        {
+            unavailable_observation(
+                subject,
+                period,
+                event_type,
+                unit,
+                &provider_unavailable_reason(event_type),
+                as_of_date,
+            )
         }
         _ => unavailable_observation(
             subject,
             period,
             event_type,
             unit,
-            unavailable_reason,
+            &no_consensus_reason(event_type),
             as_of_date,
         ),
     }
+}
+
+fn provider_unavailable_reason(event_type: ExpectationEventType) -> String {
+    format!(
+        "Finnhub の {} 提供元を利用できず、期待データを取得できない。",
+        metric_label(event_type)
+    )
+}
+
+fn no_consensus_reason(event_type: ExpectationEventType) -> String {
+    format!(
+        "市場に利用可能な {} consensus がない。",
+        metric_label(event_type)
+    )
+}
+
+fn has_consensus_center(
+    series: &crate::features::research::infrastructure::expectation_source_adapter::ConsensusSeries,
+) -> bool {
+    series.average.or(series.median).is_some()
+}
+
+fn has_positive_consensus_center(
+    series: &crate::features::research::infrastructure::expectation_source_adapter::ConsensusSeries,
+) -> bool {
+    series
+        .average
+        .or(series.median)
+        .is_some_and(|value| value > 0.0)
 }
 
 fn build_consensus_observation(
@@ -501,4 +582,88 @@ fn quarter_label_from_date(date: NaiveDate) -> String {
         _ => 4,
     };
     format!("{}Q{}", date.year(), quarter)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{
+        build_expectation_layer_snapshot_for_market_date, has_consensus_center,
+        has_positive_consensus_center, unavailable_snapshot,
+    };
+    use crate::config::AppConfig;
+    use crate::features::research::domain::expectation::SourceHealth;
+    use crate::features::research::infrastructure::expectation_source_adapter::ConsensusSeries;
+    use chrono::NaiveDate;
+
+    fn series(average: Option<f64>, median: Option<f64>) -> ConsensusSeries {
+        ConsensusSeries {
+            period: "2026-09-30".to_string(),
+            count: 3,
+            high: None,
+            low: None,
+            median,
+            average,
+            previous_average: None,
+        }
+    }
+
+    #[test]
+    fn missing_consensus_center_is_not_treated_as_zero() {
+        let missing = series(None, None);
+        assert!(!has_consensus_center(&missing));
+        assert!(!has_positive_consensus_center(&missing));
+    }
+
+    #[test]
+    fn margin_requires_positive_revenue_center() {
+        assert!(!has_positive_consensus_center(&series(Some(0.0), None)));
+        assert!(has_positive_consensus_center(&series(None, Some(1.0))));
+    }
+
+    #[test]
+    fn unavailable_snapshot_never_exposes_fixture_consensus() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 12).expect("valid market date");
+        let snapshot = unavailable_snapshot(market_date, "test unavailable");
+
+        assert_eq!(snapshot.as_of_date, market_date);
+        assert!(snapshot
+            .observations
+            .iter()
+            .all(|observation| observation.as_of_date == market_date
+                && observation.source_health == SourceHealth::Unavailable
+                && observation.estimate_count == 0
+                && observation.consensus_source.starts_with("unavailable:")));
+    }
+
+    #[test]
+    fn missing_credential_production_snapshot_is_unavailable() {
+        let mut config: AppConfig = toml::from_str(include_str!("../../../../config.toml"))
+            .expect("repository config should parse");
+        config.finnhub = None;
+        let snapshot = build_expectation_layer_snapshot_for_market_date(
+            &config,
+            NaiveDate::from_ymd_opt(2026, 8, 12).expect("valid market date"),
+        );
+
+        assert!(snapshot
+            .observations
+            .iter()
+            .all(|observation| observation.source_health == SourceHealth::Unavailable));
+        assert_eq!(snapshot.decision_weight_percent, 0);
+        assert!(!snapshot.trade_signal);
+        assert!(snapshot.observations.iter().all(|observation| observation
+            .interpretation
+            .contains("Finnhub credential is not configured")));
+    }
+
+    #[test]
+    fn provider_failure_reason_does_not_claim_successful_consensus_fetch() {
+        let reason = super::provider_unavailable_reason(
+            crate::features::research::domain::expectation::ExpectationEventType::EarningsConsensus,
+        );
+
+        assert!(reason.contains("Finnhub"));
+        assert!(reason.contains("提供元を利用できず"));
+        assert!(!reason.contains("取得される"));
+    }
 }
