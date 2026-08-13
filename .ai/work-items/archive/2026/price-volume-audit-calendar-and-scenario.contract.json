@@ -1,0 +1,80 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-audit-calendar-and-scenario",
+  "mode": "code",
+  "title": "价量审计：交易日基线与反过拟合场景修复",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [],
+  "problemStatement": "价量连续性把自然日间隔误当作交易日缺口，基线天数把无效 bar 计入有效样本，Unavailable Supply Context 未进入候选观察，且反过拟合场景没有独立回归证据。",
+  "intent": {
+    "problem": "使价量资格、基线天数和 Supply Context 缺失语义与有效交易日证据一致，并补齐反过拟合回归场景。",
+    "constraints": [
+      "仅影响价量观察层、交易日历输入和测试证据，不改变 Gate、execution、trader、action matrix 或 position sizing。",
+      "交易日历由调用方显式提供；没有日历证据时继续保守处理为 DataGap，不推断节假日。",
+      "Baseline Days 只统计用于比较的有效 OHLCV / volume 样本，不改变 RVOL 数值定义。",
+      "Unavailable Supply Context 仍不得确认 Supply Absorption，只能进入 Accumulation Candidate 观察路径。"
+    ],
+    "rationale": "当前实现会在 NYSE 节假日附近误报 DataGap、夸大可用基线长度，并漏掉明确的缺上下文候选语义；缺少短挤压、事件性放量和修复失败的独立测试会削弱反过拟合证据。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json",
+    ".ai/work-items/active/price-volume-audit-calendar-and-scenario.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/features/radar/price_volume_structure_test.rs"
+  ],
+  "outOfScope": [
+    "Gate、execution、trader、action matrix、position sizing",
+    "外部 Supply Event Context 数据源",
+    "新的持久化字段、data branch、reports、JSONL、snapshot、weekly metrics",
+    "与价量观察无关的宏观事件日历重构"
+  ],
+  "sources": [
+    {"path":"src/features/radar/domain/price_volume_structure.rs","reason":"确认连续日期、基线天数、候选条件和资格状态的现状实现。"},
+    {"path":"src/features/radar/interface/radar_pipeline_runner.rs","reason":"确认生产调用方可提供交易日历以及 Supply Context 输入。"},
+    {"path":"src/features/shared/domain/market_data.rs","reason":"确认 DailyBar / TickerHistory 的交易日数据边界。"},
+    {"path":"docs/superpowers/specs/2026-08-12-price-volume-review-findings-design.md","reason":"原始价量资格、基线、降级和观察边界设计。"},
+    {"path":"docs/superpowers/plans/2026-08-12-price-volume-review-findings.md","reason":"既有实现计划和场景基线。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario":"相邻有效交易日跨周末且跳过调用方声明的 NYSE 节假日时不误报 DataGap","required":true,"status":"verified","evidence":["make test"],"reason":"新增 declared_exchange_holiday_does_not_break_continuous_trading_sessions 测试通过。"},
+    {"scenario":"基线含无效 OHLCV 或缺量 bar 时 Baseline Days 只计有效比较样本","required":true,"status":"verified","evidence":["make test"],"reason":"新增 baseline_days_count_only_valid_comparison_samples 测试通过。"},
+    {"scenario":"Unavailable Supply Context 进入 Accumulation Candidate 但 Supply Absorption 不确认","required":true,"status":"verified","evidence":["make test"],"reason":"新增 unavailable_supply_context_remains_candidate_without_absorption_confirmation 测试通过。"},
+    {"scenario":"短挤压、meme spike、options expiry、index rebalance、two-day repair failure 均保持观察层且不产生交易信号","required":true,"status":"verified","evidence":["make test"],"reason":"五个独立命名场景测试均验证 trade_signal=false。"},
+    {"scenario":"既有成熟/IPO/Lock-up/Earnings、API 429、缺量、真实数据缺口和 future event 回归不被破坏","required":true,"status":"verified","evidence":["make test"],"reason":"全量 741 测试通过，包含既有领域和管线回归。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level":"medium","riskTypes":["data_integrity","architecture_boundary","review_debt"],"reason":"资格和报告基线语义会变化，但交易执行边界固定为 observation-only；主要风险通过领域测试和生产管线输入回归控制。"},
+  "agentCapability": {"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":""},
+  "executionDecision": {"status":"continue","reason":"用户已授权完成遗漏修复；范围、约束、场景和验证入口已确定。"},
+  "humanReview": {"status":"confirmed","decision":"用户已明确授权继续完成全部工单，并要求将需要确认的事项写入 Contract；本工单按 observation-only 边界执行。","openQuestions":["测试必须证明交易日历、有效基线样本、Unavailable Supply Context 和反过拟合场景的边界；在证据完成前不得报告 ready。"]},
+  "preReviewWarnings": ["交易日历必须显式来自调用方，不能从自然日间隔猜测节假日。","反过拟合场景只验证观察层分类和 trade_signal=false，不扩展到交易策略。"],
+  "checkpointPolicy": {"requiredCheckpoints":["contract_start","before_edit","before_ready","after_verification"],"reminder":"scope、acceptance、verification 或 capability 变化时先更新 Contract/Summary。"},
+  "acceptance": [
+    "跨周末和调用方声明节假日的有效交易日序列不因自然日间隔被标记 DataGap；未声明的工作日缺口仍保守标记 DataGap。",
+    "Baseline Days 仅计入 baseline comparison 中有效 OHLCV 且成交量为正的历史样本。",
+    "Supply Context availability=Unavailable 时可生成 Accumulation Candidate，但 Supply Absorption 必须为 None，且下一条件要求 Supply Event Context。",
+    "短挤压、meme spike、options expiry、index rebalance、two-day repair failure 有独立回归证据，且 observation boundary 的 trade_signal 永远为 false。",
+    "既有价量资格、基线、API 429、缺量、真实数据缺口、事件样本和 future event 测试全部通过。",
+    "不改变 Gate、execution、trader、action matrix、position sizing 或持久化契约。"
+  ],
+  "verification": [
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make test","required":true},
+    {"command":"make clippy","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-calendar-and-scenario.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-audit-calendar-and-scenario.summary.json CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-calendar-and-scenario.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/price-volume-audit-calendar-and-scenario.contract.json SUMMARY=.ai/work-items/active/price-volume-audit-calendar-and-scenario.summary.json","required":true},
+    {"command":"make quality","required":true}
+  ],
+  "destructiveChangePolicy": {"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
+  "rollbackNote": "回滚本 Work Item 的 commit 或 revert 其 scope 内 diff。"
+}

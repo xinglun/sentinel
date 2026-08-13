@@ -331,6 +331,21 @@ pub struct PriceVolumeSupplyEventConfig {
     pub confidence: PriceVolumeSupplyConfidence,
 }
 
+/// 価格・出来高観測へ渡す供給以外のイベント比較基線。
+#[derive(Debug, Deserialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct PriceVolumeEventBaselineConfig {
+    pub symbol: String,
+    pub baseline_type: PriceVolumeEventBaselineType,
+    pub event_date: String,
+}
+
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum PriceVolumeEventBaselineType {
+    Earnings,
+}
+
 #[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum PriceVolumeSupplyEventType {
@@ -424,6 +439,7 @@ pub struct CapitalAbsorptionConfig {
     pub auto_enable: Option<bool>,
     pub enable: Option<bool>,
     pub price_volume_supply_events: Option<Vec<PriceVolumeSupplyEventConfig>>,
+    pub price_volume_event_baselines: Option<Vec<PriceVolumeEventBaselineConfig>>,
     pub price_volume_data_quality_events: Option<Vec<PriceVolumeDataQualityEventConfig>>,
 }
 

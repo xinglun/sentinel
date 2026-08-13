@@ -1556,6 +1556,7 @@ mod tests {
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use crate::features::radar::domain::price_volume_structure::{
+        BaselineType, CandidateLifecycle, EligibilityStatus, ObservationConfidence,
         ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
         PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
     };
@@ -1601,6 +1602,8 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1608,6 +1611,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -1667,6 +1676,8 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1674,6 +1685,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         let date = |day| NaiveDate::from_ymd_opt(2026, 8, day).unwrap();
         layer
@@ -1746,6 +1763,8 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
+            secondary_metrics: None,
+            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1753,6 +1772,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            eligibility: EligibilityStatus::Full,
+            primary_baseline: BaselineType::Standard20d,
+            secondary_baseline: None,
+            lifecycle: CandidateLifecycle::Confirmed,
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -1785,6 +1810,10 @@ mod tests {
     fn price_volume_record_schema_accepts_missing_supply_context() {
         let value: PriceVolumeObservationRecord = serde_json::from_str(r#"{"market_date":"2026-08-07","symbol":"X","assessment":{"structure":"Neutral","participation":"Neutral","supply_absorption":"None","quality":"Healthy","persistence":"Candidate","persistence_days":1,"metrics":null,"boundary":{"decision_weight_percent":0,"trade_signal":false,"gate_effect":"None","execution_effect":"None","position_sizing_effect":"None"}}}"#).unwrap();
         assert!(value.supply_context.is_none());
+        assert_eq!(
+            value.assessment.observation_confidence,
+            ObservationConfidence::Unavailable
+        );
     }
 
     #[test]

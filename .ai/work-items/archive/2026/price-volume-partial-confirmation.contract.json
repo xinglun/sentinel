@@ -1,0 +1,200 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-partial-confirmation",
+  "mode": "code",
+  "title": "修复价量事件基线下 PARTIAL 确认生命周期遗漏",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "6d1f7e6172b3eab24372bed63bfca2e0420aa0173538f3026ccbceb2aba7bf4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.contract.json",
+      "status": "??",
+      "fingerprint": "69c04cfc2a6df83ac828cc2e32f5c7f4802c52b0117d12769646c7e5790d012b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.summary.json",
+      "status": "??",
+      "fingerprint": "ee690748ca334ba265dfa784a6b9f19f62eac983bbe2c57cfca767a5e13a9c20"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+      "status": "??",
+      "fingerprint": "70cfd20150d1e56059c4fdec6cbd46a321b988cf5160ec8c19e8502ca56adc37"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.summary.json",
+      "status": "??",
+      "fingerprint": "13b94446c09e636e9eae071a5c8ff6c9d8cedda586d7aeac9cd89d499deee060"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1f1192a34ce8cc248e2c0fbc7e76be81dcd5b8eba2f5645ea44823282dce7cde"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "def744b898611afcca143b6e35d50e601099f3b5a8506765a33b5a08332d8785"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "status": "M",
+      "fingerprint": "1b6b0737c4a00c03a43823e7e1f2899da03c719aa680e05d7a9fc082506f1d25"
+    }
+  ],
+  "problemStatement": "イベント固有の比較基線と十分な連続観測がある PARTIAL 資産を、実装上は常に DEVELOPING に留めており、仕様が許す event-specific confirmation に到達できない。",
+  "intent": {
+    "problem": "PARTIAL 且存在 event baseline 时，生命周期实现无条件限制为 DEVELOPING，遗漏了规格允许的 event-specific confirmation 分支。",
+    "constraints": [
+      "仅调整价量观察层的 lifecycle 判定，不改变 ACCUMULATION 等经济定义。",
+      "不改变 decision_weight、trade_signal、Gate、execution、trader、action matrix 或 position sizing。",
+      "无 event baseline 的 PARTIAL 资产仍不得 CONFIRMED。"
+    ],
+    "rationale": "事件后基线已经提供额外可比证据，满足最低连续观测后应能表达确认状态，同时保留交易执行完全关闭的边界。"
+  },
+  "scope": [
+    ".ai/work-items/active/price-volume-partial-confirmation.contract.json",
+    ".ai/work-items/active/price-volume-partial-confirmation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs"
+  ],
+  "outOfScope": [
+    "NO TRADE / READY / EXECUTE、Gate、Action Matrix、Trader、Position Sizing、Decision Weight 的行为变更",
+    "重新设计 secondary baseline 的指标模型；本次只记录为后续审计项"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+      "reason": "原始价量 Eligibility / Baseline / Candidate Lifecycle 开发指示。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "现有 lifecycle 实现与事件基线选择实现。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "现有报告输出和边界字段。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["architecture_boundary"],
+    "reason": "仅在已有 event baseline 且 persistence_days >= 3 的观察分支放宽 lifecycle 标签，不改变交易边界；无事件基线的 PARTIAL 仍不可 CONFIRMED。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification、agent capability 已确认，可在现有价量域内实施。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权继续完成遗漏修复，并要求将需确认事项写入 Contract。",
+    "openQuestions": [
+      "事件基线确认仅作用于 lifecycle 观察标签，不能改变交易边界。",
+      "secondary baseline 独立指标计算作为后续审计项处理。"
+    ]
+  },
+  "preReviewWarnings": [
+    "事件基线的确认条件必须保持为观察专用，不得改变 decision_weight、trade_signal 或 gate。",
+    "secondary baseline 同时计算不属于本工单，已记录为 follow-up。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "PARTIAL 且存在 event baseline、persistence_days >= 3 时，现有经济结构条件满足则 lifecycle 为 CONFIRMED。",
+    "PARTIAL 且无 event baseline 时，即使 persistence_days >= 3，lifecycle 仍不得为 CONFIRMED。",
+    "FULL 的既有 Candidate / Developing / Confirmed 行为不回归。",
+    "每个 assessment 的 decision_weight_percent 为 0、trade_signal 为 false、gate_effect / execution_effect / position_sizing_effect 均为 none。",
+    "新增回归测试分别覆盖事件基线允许确认和无事件基线禁止确认。",
+    "secondary baseline 独立指标计算不在本次范围，作为后续审计项记录。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "PARTIAL + event baseline + 三次以上有效连续观察可进入 CONFIRMED",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "新增 partial_event_baseline_confirms_after_three_observations 测试通过。"
+    },
+    {
+      "scenario": "PARTIAL 无 event baseline 即使连续观察三次以上仍不能 CONFIRMED",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "既有 full_history_can_confirm_after_three_observations_but_partial_cannot 测试通过。"
+    },
+    {
+      "scenario": "观察边界保持零权重且不产生交易信号",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "新增事件确认测试和既有 observation boundary 测试均通过。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-partial-confirmation.contract.json SUMMARY=.ai/work-items/active/price-volume-partial-confirmation.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

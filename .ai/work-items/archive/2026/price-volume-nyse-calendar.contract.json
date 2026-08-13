@@ -1,0 +1,53 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-nyse-calendar",
+  "mode": "code",
+  "title": "价量审计：补齐 NYSE observed holiday 日历",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [],
+  "problemStatement": "价量交易日连续性依赖的 NYSE 节假日列表没有覆盖周末节假日 observed date，也没有 Good Friday，生产历史可能在真实休市日被误判为 DataGap。",
+  "intent": {"problem":"提供准确的 NYSE non-trading date 集合给价量观察层。","constraints":["只修正日历事实和测试，不改变价量资格、交易执行或持久化契约。","保留现有公开函数和 observation-only 边界。"],"rationale":"交易日连续性必须基于交易所休市事实，不能把 observed holiday 或 Good Friday 当成缺失数据。"},
+  "scope":[
+    ".ai/work-items/active/price-volume-nyse-calendar.contract.json",
+    ".ai/work-items/active/price-volume-nyse-calendar.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/interface/macro_event_official_calendar_adapter.rs"
+  ],
+  "outOfScope":["价量资格算法、Gate、execution、trader、action matrix、position sizing","非 NYSE 交易所日历和外部数据源重构"],
+  "sources":[
+    {"path":"src/features/research/interface/macro_event_official_calendar_adapter.rs","reason":"当前 NYSE holiday 计算及其测试。"},
+    {"path":"src/features/radar/interface/radar_pipeline_runner.rs","reason":"确认生产价量管线使用该 NYSE 日历。"},
+    {"path":"src/features/radar/domain/price_volume_structure.rs","reason":"确认价量连续性消费 holiday 输入的边界。"}
+  ],
+  "scenarioCoverage":[
+    {"scenario":"周六/周日发生的固定节假日返回前一交易日 observed date","required":true,"status":"verified","evidence":["make test"],"reason":"新增 observed weekday 测试通过。"},
+    {"scenario":"Good Friday 返回休市日期且普通周五不被误标","required":true,"status":"verified","evidence":["make test"],"reason":"新增 Good Friday 边界测试通过。"},
+    {"scenario":"既有 MLK、Presidents、Memorial、Labor、Thanksgiving 和 Christmas 日期不回归","required":true,"status":"verified","evidence":["make test"],"reason":"既有 NYSE calendar 测试和全量测试通过。"}
+  ],
+  "unknowns":[],
+  "notCodable":false,
+  "riskAssessment":{"level":"low","riskTypes":["data_integrity"],"reason":"只修正确定的交易所休市日期集合，不改变交易决策行为。"},
+  "agentCapability":{"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":""},
+  "executionDecision":{"status":"continue","reason":"用户已授权继续完成遗漏修复，范围和验证场景明确。"},
+  "humanReview":{"status":"confirmed","decision":"用户已授权完成全部工单并将需确认事项写入 Contract。","openQuestions":["仅按 NYSE observed holiday 和 Good Friday 规则修复，不扩展到其他交易所。"]},
+  "preReviewWarnings":["日历事实必须保持确定性，不从价格数据推断休市日。"],
+  "checkpointPolicy":{"requiredCheckpoints":["contract_start","before_edit","before_ready","after_verification"],"reminder":"scope、acceptance 或 verification 变化时同步 Contract/Summary。"},
+  "acceptance":["周末固定节假日返回对应 observed weekday，且不重复返回周末原日期。","Good Friday 被包含，普通非节假日周五不被包含。","既有 NYSE 日历测试、全量测试、Clippy 和质量门禁通过。","不改变价量资格、trade_signal、Gate、execution、trader 或持久化契约。"],
+  "verification":[
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make test","required":true},
+    {"command":"make clippy","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/price-volume-nyse-calendar.contract.json SUMMARY=.ai/work-items/active/price-volume-nyse-calendar.summary.json","required":true},
+    {"command":"make quality","required":true}
+  ],
+  "destructiveChangePolicy":{"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
+  "rollbackNote":"回滚本 Work Item 的 commit 或 scope 内 diff。"
+}

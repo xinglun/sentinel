@@ -1,0 +1,182 @@
+{
+  "contractVersion": 2,
+  "workItemId": "price-volume-secondary-context-baseline",
+  "mode": "code",
+  "title": "修复多 Supply Context secondary 基线日期解析",
+  "baseCommit": "8d8d4a919ee5f5c6584c37c4c89664dd86e7e28c",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "9d811cf22c941bc70d7c0492939a04b9027a297e84607e94d3226809b73359a9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.contract.json",
+      "status": "??",
+      "fingerprint": "69c04cfc2a6df83ac828cc2e32f5c7f4802c52b0117d12769646c7e5790d012b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-audit-calendar-and-scenario.summary.json",
+      "status": "??",
+      "fingerprint": "ee690748ca334ba265dfa784a6b9f19f62eac983bbe2c57cfca767a5e13a9c20"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.contract.json",
+      "status": "??",
+      "fingerprint": "70cfd20150d1e56059c4fdec6cbd46a321b988cf5160ec8c19e8502ca56adc37"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-nyse-calendar.summary.json",
+      "status": "??",
+      "fingerprint": "13b94446c09e636e9eae071a5c8ff6c9d8cedda586d7aeac9cd89d499deee060"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.contract.json",
+      "status": "??",
+      "fingerprint": "9db5d1ca95de9288cc13ed71e59f7cc604e4147d2c55b7f52ca67ade1c0e3ed4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-partial-confirmation.summary.json",
+      "status": "??",
+      "fingerprint": "34843ad24488259c343a46368feaf300029597af3327e1498d1c39c87c05b9dc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.contract.json",
+      "status": "??",
+      "fingerprint": "6ae70cef18be4f4216ca4ad15be202e5a5fe640c727a6260747789f8ea19d1b2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-secondary-baseline.summary.json",
+      "status": "??",
+      "fingerprint": "045f777ee7349af70709b1771298d8108e46cf7376898acbb4998629a37905d6"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "d41e39a014c1b85531a58d15825ef8286c82e87249a92cf1210f4e5f290d7ab9"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "47845fd79be4aed78f6477634ae005fb41049cc7178bf301f84ea41475e28829"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "048d23c5f1afaee2be34f08c9fab90ef85d6eb4dc6f1e5721f6ca8a9054f6b97"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "def744b898611afcca143b6e35d50e601099f3b5a8506765a33b5a08332d8785"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "status": "M",
+      "fingerprint": "1b6b0737c4a00c03a43823e7e1f2899da03c719aa680e05d7a9fc082506f1d25"
+    }
+  ],
+  "problemStatement": "secondary baseline 日期解析在 primary Supply Context 存在但类型不匹配时不会继续检查 secondary Supply Context，导致 IPO + Lock-up 多基线场景缺少 secondary metrics。",
+  "intent": {"problem":"多 Supply Context 场景的 secondary 日期解析提前被 primary context 截断。","constraints":["只修正 secondary 基线日期选择，不改变指标定义或交易边界。"],"rationale":"secondary baseline 必须从匹配类型的 context 取得事件日期。"},
+  "scope": [
+    ".ai/work-items/active/price-volume-secondary-context-baseline.contract.json",
+    ".ai/work-items/active/price-volume-secondary-context-baseline.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs"
+  ],
+  "outOfScope": ["Gate、execution、trader、lifecycle、position sizing 和指标公式变更"],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+      "reason": "原始多 baseline 并存要求。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "secondary_baseline_start 的现有实现。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity"
+    ],
+    "reason": "初期 skeleton のため、実装前に scope / sources / acceptance / verification を確定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权完成遗漏修复。"
+  },
+  "humanReview": {"status":"confirmed","decision":"用户已授权继续完成遗漏修复并写入 Contract。","openQuestions":["仅修正多 context 日期匹配。"]},
+  "preReviewWarnings": [],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "primary context 类型与 secondary baseline 不匹配时，仍检查 secondary context 并取得匹配事件日期。",
+    "IPO + Lock-up 多 context 场景输出 POST_LOCKUP secondary metrics。",
+    "单 context、无匹配 context 和 observation-only boundary 不回归。"
+  ],
+  "scenarioCoverage": [{"scenario":"IPO + Lock-up 多 context secondary metrics","required":true,"status":"unverified","evidence":[],"reason":"待测试。"}],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-context-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-secondary-context-baseline.summary.json CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-context-baseline.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-secondary-context-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-secondary-context-baseline.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
