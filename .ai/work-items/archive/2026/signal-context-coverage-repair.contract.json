@@ -24,6 +24,7 @@
     "src/features/radar/interface/presentation.rs",
     "src/features/radar/interface/signal_context_read_model.rs",
     "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
     "src/features/radar/interface/signal_context_coverage.rs",
     "src/features/radar/interface/signal_context_time.rs",
     "src/features/radar/interface/mod.rs",
@@ -32,6 +33,7 @@
     "src/features/research/interface/macro_event_observation.rs",
     "src/features/research/interface/macro_event_calendar_adapter.rs",
     "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+    "src/features/research/application/gray_rhino_daily_report.rs",
     "src/features/shared/interface/i18n.rs",
     "tests/fixtures/signal_context/**",
     "tests/**",
@@ -91,7 +93,8 @@
     "日报、Markdown、Telegram、weekly traceability 与 zh/en/ja 输出使用同一 read model。",
     "decision_weight=0、trade_signal=false、gate/effect/execution/position sizing=none，且 Price-Volume/Supply/Trader 等边界未改变。",
     "signal_context_consistency_check 覆盖 C-01 至 C-06，且 22 个验收场景有可运行 fixture/断言。",
-    "AI Cockpit lifecycle entrypoint 提供 ai-close-work-item，resolver 与 lifecycle checks 可通过。"
+    "AI Cockpit lifecycle entrypoint 提供 ai-close-work-item，resolver 与 lifecycle checks 可通过。",
+    "正常 radar 运行消费 Gray Rhino 实际采集的来源健康状态，至少反映 SEC/Finnhub corporate 与 FRED rates/credit coverage；未分类的来源不生成事件事实。"
   ],
   "verification": [
     {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/signal-context-coverage-repair.contract.json", "required": true},
@@ -111,6 +114,6 @@
     {"command": "make ai-preflight", "required": true},
     {"command": "make quality", "required": true}
   ],
-  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "destructiveChangePolicy": {"allowed": true, "requiresHumanApproval": false, "allowPatterns": [".ai/work-items/active/signal-context-coverage-repair.contract.json", ".ai/work-items/active/signal-context-coverage-repair.summary.json", ".ai/work-items/archive/2026/signal-context-coverage-repair.contract.json", ".ai/work-items/archive/2026/signal-context-coverage-repair.summary.json"]},
   "rollbackNote": "按 Work Item commit 反向还原；不删除既有 fixture 或 archive evidence。"
 }

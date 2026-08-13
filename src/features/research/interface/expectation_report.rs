@@ -2,7 +2,7 @@ use std::collections::BTreeMap;
 
 use crate::config;
 use crate::features::research::domain::expectation::{
-    ExpectationLifecycleState, ExpectationObservation,
+    ExpectationEventType, ExpectationLifecycleState, ExpectationObservation,
 };
 use crate::features::shared::interface::i18n::Language;
 use serde::Serialize;
@@ -11,7 +11,7 @@ use serde_json::json;
 #[cfg(test)]
 use super::expectation_report_builder::build_expectation_layer_fixture_snapshot;
 use super::expectation_report_builder::{
-    build_expectation_layer_snapshot_from_config, ExpectationLayerSnapshot,
+    build_expectation_layer_snapshot_for_market_date, ExpectationLayerSnapshot,
 };
 
 const SILENT_PENDING_MIN_AGE_DAYS: i64 = 14;
@@ -23,15 +23,6 @@ pub(crate) fn build_expectation_layer_report(language: Language) -> String {
     build_expectation_layer_report_from_snapshot(&snapshot, language)
 }
 
-/// Expectation Layer の read-only report を live source を優先して組み立てる。
-pub(crate) fn build_expectation_layer_report_with_config(
-    app_config: &config::AppConfig,
-    language: Language,
-) -> String {
-    let snapshot = build_expectation_layer_snapshot_from_config(app_config);
-    build_expectation_layer_report_from_snapshot(&snapshot, language)
-}
-
 /// Expectation Layer の fixture 用 snapshot を weekly metrics / latest_context 用の JSON に変換する。
 #[cfg(test)]
 pub(crate) fn build_expectation_layer_weekly_summary() -> serde_json::Value {
@@ -40,10 +31,22 @@ pub(crate) fn build_expectation_layer_weekly_summary() -> serde_json::Value {
 }
 
 /// Expectation Layer の snapshot を weekly metrics / latest_context 用の JSON に変換する。
+#[allow(dead_code)]
 pub(crate) fn build_expectation_layer_weekly_summary_with_config(
     app_config: &config::AppConfig,
 ) -> serde_json::Value {
-    let snapshot = build_expectation_layer_snapshot_from_config(app_config);
+    build_expectation_layer_weekly_summary_with_config_for_market_date(
+        app_config,
+        chrono::Local::now().date_naive(),
+    )
+}
+
+/// 指定した取引日で weekly metrics 用の Expectation snapshot を組み立てる。
+pub(crate) fn build_expectation_layer_weekly_summary_with_config_for_market_date(
+    app_config: &config::AppConfig,
+    market_date: chrono::NaiveDate,
+) -> serde_json::Value {
+    let snapshot = build_expectation_layer_snapshot_for_market_date(app_config, market_date);
     expectation_layer_summary(&snapshot)
 }
 
@@ -177,7 +180,7 @@ fn is_silent_expectation_snapshot(snapshot: &ExpectationLayerSnapshot) -> bool {
 fn push_observation_block(
     out: &mut String,
     observation: &ExpectationObservation,
-    _language: Language,
+    language: Language,
 ) {
     out.push_str(&format!(
         "- Lifecycle Stage: {}\n",
@@ -185,8 +188,14 @@ fn push_observation_block(
     ));
     out.push_str(&format!("- Period: {}\n", observation.period));
     out.push_str(&format!("- As of: {}\n", observation.as_of_date));
-    out.push_str(&format!("- Expected: {}\n", observation.expected_value));
-    out.push_str(&format!("- Actual: {}\n", observation.actual_value));
+    out.push_str(&format!(
+        "- Expected: {}\n",
+        localized_observation_value(&observation.expected_value, language)
+    ));
+    out.push_str(&format!(
+        "- Actual: {}\n",
+        localized_observation_value(&observation.actual_value, language)
+    ));
     out.push_str(&format!(
         "- Result: {}\n",
         observation
@@ -225,7 +234,7 @@ fn push_observation_block(
     out.push_str(&format!("- Unit: {}\n", observation.unit));
     out.push_str(&format!(
         "- Consensus Source: {}\n",
-        observation.consensus_source
+        localized_consensus_source(observation, language)
     ));
     out.push_str(&format!(
         "- Estimate Count: {}\n",
@@ -263,8 +272,107 @@ fn push_observation_block(
     ));
     out.push_str(&format!(
         "- Interpretation: {}\n",
-        observation.interpretation
+        localized_observation_interpretation(observation, language)
     ));
+}
+
+fn localized_consensus_source(observation: &ExpectationObservation, language: Language) -> String {
+    let source = &observation.consensus_source;
+    if !source.starts_with("unavailable:") || matches!(language, Language::JaJp) {
+        return source.clone();
+    }
+
+    let provider_unavailable = source.contains("Finnhub");
+    match language {
+        Language::JaJp => source.clone(),
+        Language::EnUs if provider_unavailable => {
+            "unavailable: The source is unavailable because the Finnhub consensus provider cannot provide expectation data.".to_string()
+        }
+        Language::EnUs => {
+            "unavailable: No direct consensus endpoint is available for this observation.".to_string()
+        }
+        Language::ZhCn if provider_unavailable => {
+            "来源不可用：Finnhub 共识数据提供方不可用，当前无法取得预期数据。".to_string()
+        }
+        Language::ZhCn => {
+            "来源不可用：该观测没有可用的直接共识端点。".to_string()
+        }
+    }
+}
+
+fn localized_observation_value(value: &str, language: Language) -> String {
+    match (value, language) {
+        ("未対応", Language::ZhCn) => "未提供".to_string(),
+        ("未対応", Language::EnUs) => "Unavailable".to_string(),
+        ("未発表", Language::ZhCn) => "尚未发布".to_string(),
+        ("未発表", Language::EnUs) => "Not released".to_string(),
+        _ => value.to_string(),
+    }
+}
+
+fn localized_observation_interpretation(
+    observation: &ExpectationObservation,
+    language: Language,
+) -> String {
+    if matches!(
+        observation.source_health,
+        crate::features::research::domain::expectation::SourceHealth::Unavailable
+    ) {
+        return match language {
+            Language::ZhCn => "来源不可用，当前无法确认市场预期；数据发布后再比较实际结果。".to_string(),
+            Language::EnUs => {
+                "The source is unavailable, so the market expectation cannot be confirmed; compare the actual result when released.".to_string()
+            }
+            Language::JaJp => observation.interpretation.clone(),
+        };
+    }
+
+    match language {
+        Language::JaJp => observation.interpretation.clone(),
+        Language::EnUs if observation.interpretation.is_ascii() => {
+            observation.interpretation.clone()
+        }
+        Language::EnUs => format!(
+            "{}; compare the actual result with the market expectation when it is released.",
+            english_expectation_subject(observation.event_type)
+        ),
+        Language::ZhCn => format!(
+            "{}；数据发布后与实际结果比较。",
+            chinese_expectation_subject(observation.event_type)
+        ),
+    }
+}
+
+fn english_expectation_subject(event_type: ExpectationEventType) -> &'static str {
+    match event_type {
+        ExpectationEventType::DeliveryConsensus => "The market has a delivery baseline",
+        ExpectationEventType::EarningsConsensus => "The market has an earnings expectation",
+        ExpectationEventType::RevenueConsensus => "The market has a revenue expectation",
+        ExpectationEventType::MarginConsensus => "The market has a margin expectation",
+        ExpectationEventType::CloudGrowthConsensus => "The market has a cloud-growth expectation",
+        ExpectationEventType::CapexConsensus => "The market has a capital-expenditure expectation",
+        ExpectationEventType::ProductEventExpectation => {
+            "The market has a product-event expectation"
+        }
+        ExpectationEventType::UserGrowthConsensus => "The market has a user-growth expectation",
+        ExpectationEventType::ProcedureGrowthConsensus => {
+            "The market has a procedure-growth expectation"
+        }
+    }
+}
+
+fn chinese_expectation_subject(event_type: ExpectationEventType) -> &'static str {
+    match event_type {
+        ExpectationEventType::DeliveryConsensus => "市场已形成交付量基准",
+        ExpectationEventType::EarningsConsensus => "市场已形成盈利预期",
+        ExpectationEventType::RevenueConsensus => "市场已形成收入预期",
+        ExpectationEventType::MarginConsensus => "市场已形成利润率预期",
+        ExpectationEventType::CloudGrowthConsensus => "市场已形成云业务增长预期",
+        ExpectationEventType::CapexConsensus => "市场已形成资本开支预期",
+        ExpectationEventType::ProductEventExpectation => "市场已形成产品事件预期",
+        ExpectationEventType::UserGrowthConsensus => "市场已形成用户增长预期",
+        ExpectationEventType::ProcedureGrowthConsensus => "市场已形成业务流程增长预期",
+    }
 }
 
 fn expectation_layer_summary(snapshot: &ExpectationLayerSnapshot) -> serde_json::Value {
@@ -448,4 +556,25 @@ fn enum_code<T: Serialize>(value: &T) -> String {
         .ok()
         .and_then(|value| value.as_str().map(ToString::to_string))
         .unwrap_or_else(|| "UNKNOWN".to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::build_expectation_layer_weekly_summary_with_config_for_market_date;
+    use crate::config::AppConfig;
+    use chrono::NaiveDate;
+
+    #[test]
+    fn weekly_expectation_summary_uses_explicit_market_date() {
+        let mut config = AppConfig::load("config.toml").expect("config.toml should load");
+        config.finnhub = None;
+
+        let summary = build_expectation_layer_weekly_summary_with_config_for_market_date(
+            &config,
+            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+        );
+
+        assert_eq!(summary["as_of_date"], "2026-08-12");
+        assert_eq!(summary["snapshot"]["as_of_date"], "2026-08-12");
+    }
 }

@@ -35,6 +35,18 @@
       "reason": "接入 v1 snapshot、Coverage 输出、UNAVAILABLE 与无绝对 absence 文案。"
     },
     {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "将 Gray Rhino 真实采集的 SEC/Finnhub/FRED source health 接入 Signal Context coverage；不生成未分类事件。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "保留运行时外部 source coverage，并在 read model 构造时传递。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "固定 gray-rhino-refresh 的日期状态入口契约。"
+    },
+    {
       "path": "src/features/radar/interface/interpretation_read_model.rs",
       "reason": "展示 Context category/title，弱化事件到价格的因果表述。"
     },
@@ -102,7 +114,8 @@
     },
     {
       "command": "make test",
-      "result": "passed"
+      "result": "passed",
+      "evidence": "754 Rust tests passed; integration suite 93 passed"
     },
     {
       "command": "make clippy",
@@ -168,17 +181,30 @@
     }
   ],
   "generatedFiles": [],
-  "destructiveChanges": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-coverage-repair.contract.json",
+      "action": "move",
+      "reason": "同一 Work Item を再開するため archive から active へ lifecycle 移動した。旧 archive evidence の削除ではない。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-coverage-repair.summary.json",
+      "action": "move",
+      "reason": "同一 Work Item を再開するため archive から active へ lifecycle 移動した。旧 archive evidence の削除ではない。"
+    }
+  ],
   "observedIssues": [
-    "初始 Cockpit resolver 因缺少 ai-close-work-item fail-closed，已在本 Work Item 中补齐并通过 resolver/lifecycle 测试。"
+    "初始 Cockpit resolver 因缺少 ai-close-work-item fail-closed，已在本 Work Item 中补齐并通过 resolver/lifecycle 测试。",
+    "正常 radar 运行未消费 Gray Rhino source health；已接入 SEC/Finnhub 的 corporate coverage、FRED 的 rates/credit coverage 与现有 market-structure observation。",
+    "gray-rhino-refresh 的 --date 参数原先只传给 collector，状态文件日期仍取当前日期；已改为优先从 --date 推导。"
   ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",
       "recorded": true,
       "detail": "用户授权的阈值、source fallback、coverage truth table、兼容映射已写入 contract/spec。",
-      "contractHash": "b01879b8724b9b46",
-      "acceptanceCount": 10,
+      "contractHash": "8450cfa50e2f9450",
+      "acceptanceCount": 11,
       "unknownCount": 0,
       "requiredChecks": 16,
       "requiredChecksPassed": 0
@@ -187,8 +213,8 @@
       "stage": "before_edit",
       "recorded": true,
       "detail": "contract/scope/guards passed before production edits。",
-      "contractHash": "b01879b8724b9b46",
-      "acceptanceCount": 10,
+      "contractHash": "8450cfa50e2f9450",
+      "acceptanceCount": 11,
       "unknownCount": 0,
       "requiredChecks": 16,
       "requiredChecksPassed": 0
@@ -197,8 +223,8 @@
       "stage": "before_ready",
       "recorded": true,
       "detail": "实现、测试与一致性检查已完成，进入最终验证。",
-      "contractHash": "b01879b8724b9b46",
-      "acceptanceCount": 10,
+      "contractHash": "8450cfa50e2f9450",
+      "acceptanceCount": 11,
       "unknownCount": 0,
       "requiredChecks": 16,
       "requiredChecksPassed": 0
@@ -207,8 +233,8 @@
       "stage": "after_verification",
       "recorded": true,
       "detail": "全部 Cockpit required checks 已通过。",
-      "contractHash": "b01879b8724b9b46",
-      "acceptanceCount": 10,
+      "contractHash": "8450cfa50e2f9450",
+      "acceptanceCount": 11,
       "unknownCount": 0,
       "requiredChecks": 16,
       "requiredChecksPassed": 16
@@ -291,12 +317,12 @@
   ],
   "reviewReadiness": {
     "status": "ready_with_risks",
-    "reason": "本地 Rust、fixture、consistency 与 Cockpit required checks 已通过；非日历六类实时 provider wiring 仍需 review 关注。",
+    "reason": "SEC/Finnhub/FRED source health 已进入正常 radar 的 Signal Context coverage；未分类的地缘政治/商品事件仍保持 unavailable，避免事实推断。",
     "residualRisks": [
-      "real-time provider wiring for non-calendar categories remains an integration follow-up"
+      "Finnhub 新闻与 FRED 数值尚未形成可验证的地缘政治/商品事件事实，因此这些 category 仍为 UNAVAILABLE。"
     ],
     "expectedReviewFocus": [
-      "coverage aggregation and absence wording",
+      "runtime source coverage aggregation and absence wording",
       "EvidenceRecord/MarketReaction separation",
       "Signal Context boundary from trading layers",
       "timezone/lifecycle migration"

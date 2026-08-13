@@ -27,9 +27,8 @@ pub(crate) use super::daily_calibration_i18n::{
     daily_calibration_thesis_label, daily_calibration_title,
     daily_calibration_valuation_gravity_label,
 };
-pub(crate) use super::expectation_report::{
-    build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
-};
+pub(crate) use super::expectation_report::build_expectation_layer_weekly_summary_with_config_for_market_date;
+use super::expectation_report_builder::build_expectation_layer_report_for_market_date;
 use super::gray_rhino_report::build_gray_rhino_daily_report_read_only;
 pub(crate) use super::macro_gravity_report::{
     build_macro_gravity_report_from_config, credit_stress_label, growth_valuation_impact_label,
@@ -157,8 +156,10 @@ pub(crate) async fn build_daily_calibration_report_from_context(
     out.push_str("\n\n");
     out.push_str(daily_calibration_expectation_label(language));
     out.push_str("\n\n");
-    out.push_str(&build_expectation_layer_report_with_config(
-        app_config, language,
+    out.push_str(&build_expectation_layer_report_for_market_date(
+        app_config,
+        calibration_date,
+        language,
     ));
     out.push_str("\n\n");
     out.push_str(daily_calibration_boundary(language));

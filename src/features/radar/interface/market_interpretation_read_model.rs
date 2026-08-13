@@ -391,9 +391,6 @@ pub(crate) fn build_leader_persistence_view_model(
                     .any(|observation| observation.date == date)
             }),
         };
-    if !baseline_available {
-        observations.clear();
-    }
     let has_prior_history = baseline_available;
 
     let current_observation = build_current_observation(
@@ -1046,7 +1043,7 @@ fn breadth_semantic_value(
         (TrendBreadthMode::NarrowLeadership, _) => "Very Narrow",
         (TrendBreadthMode::StructuralDefense, _) => "Narrow",
         (TrendBreadthMode::FragileRotation, MarketCyclePosition::DistributionWarning) => "Narrow",
-        (TrendBreadthMode::FragileRotation, _) => "Healthy Expansion",
+        (TrendBreadthMode::FragileRotation, _) => "Narrow",
     }
 }
 
@@ -2472,7 +2469,7 @@ mod tests {
     }
 
     #[test]
-    fn read_model_does_not_use_older_observation_when_baseline_date_is_missing() {
+    fn read_model_retains_observation_count_when_baseline_date_is_missing() {
         let current_date = NaiveDate::from_ymd_opt(2026, 7, 14).unwrap();
         let older = LeaderObservation {
             date: current_date - Duration::days(2),
@@ -2509,8 +2506,50 @@ mod tests {
         .unwrap();
 
         assert_eq!(view_model.history_coverage_value, "BASELINE_UNAVAILABLE");
-        assert_eq!(view_model.previous_leader_value, None);
-        assert!(view_model.switch_history_values.is_empty());
+        assert_eq!(view_model.previous_leader_value, Some("GOOG".to_string()));
+        assert_eq!(view_model.observed_days_value, "1 days");
+    }
+
+    #[test]
+    fn read_model_reports_partial_observation_history_without_formal_baseline() {
+        let current_date = NaiveDate::from_ymd_opt(2026, 7, 14).unwrap();
+        let older = LeaderObservation {
+            date: current_date - Duration::days(1),
+            leader: "SPY".to_string(),
+            confidence: Some(80.0),
+            breadth: Some(40.0),
+            relative_strength: Some(12.0),
+            rotation_stability: Some(70.0),
+            sector_or_index_rotation: None,
+            supply_state: None,
+        };
+        let packet = DecisionPacket {
+            date: current_date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "SPY".to_string(),
+                leadership_confidence_value: "HIGH".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: std::slice::from_ref(&older),
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(current_date - Duration::days(1)),
+            baseline_status: "BASELINE_UNAVAILABLE",
+            formal_baseline: None,
+        })
+        .unwrap();
+
+        assert_eq!(view_model.history_coverage_value, "BASELINE_UNAVAILABLE");
+        assert_eq!(view_model.observed_days_value, "2 days");
+        assert_eq!(view_model.leader_state_value, "UNAVAILABLE");
     }
 
     #[test]
@@ -2519,6 +2558,28 @@ mod tests {
         assert_eq!(
             leader_persistence_primary_label(Language::EnUs),
             "Composite Leader"
+        );
+    }
+
+    #[test]
+    fn breadth_semantic_label_matches_fragile_rotation_state() {
+        assert_eq!(
+            breadth_semantic_value(
+                TrendBreadthMode::FragileRotation,
+                &LeadershipSnapshotViewModel::default(),
+                MarketCyclePosition::EarlyFormation,
+                Language::EnUs,
+            ),
+            "Narrow"
+        );
+        assert_eq!(
+            breadth_semantic_value(
+                TrendBreadthMode::BroadExpansion,
+                &LeadershipSnapshotViewModel::default(),
+                MarketCyclePosition::EarlyFormation,
+                Language::EnUs,
+            ),
+            "Broad Participation"
         );
     }
 }

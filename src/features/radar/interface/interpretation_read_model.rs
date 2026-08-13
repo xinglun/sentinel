@@ -1127,7 +1127,9 @@ fn decision_explanation_values(
                 decision_explanation_unavailable_reason(language),
                 language,
             )],
-            interpretation.decision_explanation_conclusion.clone(),
+            interpretation
+                .decision_explanation_fact_safe_conclusion
+                .clone(),
         );
     };
 
@@ -1140,7 +1142,9 @@ fn decision_explanation_values(
         (
             interpretation.decision_explanation_intro.clone(),
             reasons,
-            interpretation.decision_explanation_conclusion.clone(),
+            interpretation
+                .decision_explanation_fact_safe_conclusion
+                .clone(),
         )
     } else {
         (summary.summary.clone(), Vec::new(), String::new())

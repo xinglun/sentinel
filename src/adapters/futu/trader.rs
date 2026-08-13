@@ -191,7 +191,7 @@ impl TradeExecutor for FutuTrader {
             .ok_or_else(|| anyhow!("Missing payload in Trd_PlaceOrder response"))?;
 
         Ok(PlaceOrderResponse {
-            order_id: Some(s2c.order_id.unwrap_or(0).to_string()),
+            order_id: Some(required_order_id(s2c.order_id)?),
             failure_reason: OrderFailureReason::None,
         })
     }
@@ -477,6 +477,13 @@ fn build_trd_header_from_config(config: &crate::config::FutuConfig) -> Result<Tr
     })
 }
 
+fn required_order_id(order_id: Option<u64>) -> Result<String> {
+    let order_id = order_id
+        .filter(|order_id| *order_id > 0)
+        .ok_or_else(|| anyhow!("Futu の成功応答に有効な order_id がありません"))?;
+    Ok(order_id.to_string())
+}
+
 fn unlock_password_missing_notice() -> &'static str {
     "ℹ️  FUTU_UNLOCK_PASSWORD_MD5 が未設定です。読み取り専用接続または既に解除済みとして扱います。"
 }
@@ -559,5 +566,16 @@ mod tests {
     #[test]
     fn unlock_password_missing_notice_is_localized() {
         assert!(unlock_password_missing_notice().contains("未設定"));
+    }
+
+    #[test]
+    fn required_order_id_rejects_missing_or_zero_id() {
+        assert!(required_order_id(None).is_err());
+        assert!(required_order_id(Some(0)).is_err());
+    }
+
+    #[test]
+    fn required_order_id_preserves_positive_id() {
+        assert_eq!(required_order_id(Some(123)).unwrap(), "123");
     }
 }

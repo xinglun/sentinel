@@ -45,7 +45,7 @@ pub(crate) fn build_signal_context_assessment(
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, input.language);
-    let coverage_line = format!("Coverage: {:?}", v1.coverage.overall).to_uppercase();
+    let coverage_line = format_signal_context_coverage(&v1.coverage);
     if source_diagnostics_appendix.is_empty() {
         source_diagnostics_appendix = coverage_line;
     } else {
@@ -78,6 +78,22 @@ pub(crate) fn build_signal_context_assessment(
         interpretation,
         next_observation,
     }
+}
+
+fn format_signal_context_coverage(
+    coverage: &crate::features::radar::interface::presentation::SignalContextCoverage,
+) -> String {
+    format!(
+        "Coverage: {:?}; scheduled_macro={:?}, corporate={:?}, geopolitical={:?}, commodity={:?}, rates_credit={:?}, market_structure={:?}",
+        coverage.overall,
+        coverage.scheduled_macro,
+        coverage.corporate,
+        coverage.geopolitical,
+        coverage.commodity,
+        coverage.rates_credit,
+        coverage.market_structure,
+    )
+    .to_uppercase()
 }
 
 pub(crate) fn signal_context_information_content_label(
@@ -344,7 +360,15 @@ fn compose_source_diagnostics(
     language: Language,
 ) -> (String, String) {
     let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
-    if future_context.source_health == MacroEventSourceHealth::Succeeded {
+    let runtime_coverage_incomplete = future_context.runtime_coverage.as_ref().is_some_and(
+        |coverage| {
+            coverage.overall
+                != crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
+        },
+    );
+    if future_context.source_health == MacroEventSourceHealth::Succeeded
+        && !runtime_coverage_incomplete
+    {
         return (String::new(), String::new());
     }
     let detail = future_context
@@ -356,7 +380,20 @@ fn compose_source_diagnostics(
             Language::JaJp => "追加の診断情報はない",
         });
     let summary = if timeline_lines.is_empty() {
-        match future_context.source_health {
+        if runtime_coverage_incomplete {
+            match language {
+                Language::ZhCn => {
+                    "来源覆盖不完整，当前无法确认是否存在高信息量事件；不作无事件结论。".to_string()
+                }
+                Language::EnUs => {
+                    "Available source coverage is incomplete; whether a high-information event exists cannot be confirmed, so no absence conclusion is made.".to_string()
+                }
+                Language::JaJp => {
+                    "利用可能なソースのカバレッジが不完全なため、高情報量イベントの有無を確認できず、無イベントの結論は出さない。".to_string()
+                }
+            }
+        } else {
+            match future_context.source_health {
             MacroEventSourceHealth::Unavailable => match language {
                 Language::ZhCn => {
                     "Official Calendar unavailable; current monitoring remains idle.".to_string()
@@ -375,6 +412,7 @@ fn compose_source_diagnostics(
                 }
                 Language::JaJp => "利用可能なソース上では高情報量イベントを特定できず、監視は待機中。".to_string(),
             },
+            }
         }
     } else {
         let first = &timeline_lines[0];
@@ -1032,6 +1070,78 @@ mod tests {
         assert!(assessment
             .source_diagnostics_appendix
             .contains("Official calendar source health: UNAVAILABLE"));
+    }
+
+    #[test]
+    fn signal_context_incomplete_coverage_does_not_claim_absence() {
+        let mut future_context = future_context_unavailable();
+        future_context.source_health = MacroEventSourceHealth::Partial;
+        future_context.runtime_coverage = Some(
+            crate::features::radar::interface::presentation::SignalContextCoverage {
+                scheduled_macro: crate::features::radar::interface::presentation::SignalContextSourceStatus::Partial,
+                corporate: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                geopolitical: crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable,
+                commodity: crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable,
+                rates_credit: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                market_structure: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                overall: crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable,
+            },
+        );
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+            signal: signal(
+                InterpretationExpectationQuality::Unavailable,
+                InterpretationExpectationQualityReason::SystemUnavailable,
+                InterpretationGravityDataQuality::Unavailable,
+                false,
+                None,
+            ),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert!(assessment
+            .source_diagnostics_summary
+            .contains("coverage is incomplete"));
+        assert!(!assessment
+            .source_diagnostics_summary
+            .contains("No high-information event identified"));
+        assert!(!assessment
+            .source_diagnostics_summary
+            .contains("monitoring remains idle"));
+    }
+
+    #[test]
+    fn normal_no_event_with_healthy_coverage_preserves_absence() {
+        let mut future_context = future_context_unavailable();
+        future_context.source_health = MacroEventSourceHealth::Succeeded;
+        future_context.runtime_coverage = Some(
+            crate::features::radar::interface::presentation::SignalContextCoverage {
+                scheduled_macro: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                corporate: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                geopolitical: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                commodity: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                rates_credit: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                market_structure: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+                overall: crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy,
+            },
+        );
+
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
+            signal: signal(
+                InterpretationExpectationQuality::High,
+                InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                InterpretationGravityDataQuality::Ready,
+                false,
+                Some(0.08),
+            ),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert!(assessment.source_diagnostics_summary.is_empty());
     }
 
     #[test]

@@ -1,8 +1,13 @@
 {
-  "contractVersion": 1,
+  "contractVersion": 2,
   "workItemId": "gray_rhino_daily_report_integrity",
   "mode": "code",
   "title": "Gray Rhino 日報統合とレポート真正性修正",
+  "intent": {
+    "problem": "Gray Rhino の日報 ops view が実行業務日を復元できず、過去日付の読み取りで有効な backfill 状態を欠落させる。",
+    "constraints": ["観測・監査表示だけを修正し、Gate、Execution、Trader、Position Sizing は変更しない。"],
+    "rationale": "過去日付の report replay でも、実行記録の as_of_date と有効な provenance を維持する必要がある。"
+  },
   "scope": [
     ".ai/work-items/active/gray_rhino_daily_report_integrity.contract.json",
     ".ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
@@ -12,17 +17,20 @@
     "src/features/evidence/application/evidence_ingestion.rs",
     "src/features/radar/interface/audit_daily_report.rs",
     "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+    "src/features/research/interface/gray_rhino_cli_handler.rs",
     "src/features/research/interface/cognitive_reports.rs",
     "src/features/research/interface/gray_rhino_report.rs",
     "src/features/shared/domain/evidence.rs",
     "tests/evidence_ingestion_port_integration.rs",
-    "tests/research_attention_cli_integration.rs"
+    "tests/research_attention_cli_integration.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/trading/application/trade_executor.rs",
+    "src/features/trading/infrastructure/trader_agent.rs"
   ],
   "outOfScope": [
     "config.toml",
-    "src/features/radar/domain/**",
     "src/features/radar/application/execution_gate.rs",
-    "src/features/trading/**",
     ".ai/guards/**"
   ],
   "sources": [
@@ -53,13 +61,39 @@
   ],
   "unknowns": [],
   "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity", "evidence_insufficient"],
+    "reason": "backfill 実行記録の日付を明示し、無日付 JSONL を正式な最新値から除外するだけで、判断系の境界は変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
   "acceptance": [
     "Gray Rhino は daily-calibration の独立した只読セクションとして表示され、Gate、execution、Radar decision policy を変更しない。",
     "Gray Rhino の固定 UI 文言は zh-cn / en-us / ja-jp で単一言語として表示され、他言語の固定説明文を混入させない。",
     "review command は save_to 配下の最新かつ有効な日次 Markdown report を表示し、欠落または非本番 evidence 混入時は監査可能なエラーを返す。",
     "fixture または local-file 由来 evidence は永続化および新しい Radar decision の evidence input から除外され、audit_daily でも正式証拠として表示されない。",
     "config.toml は forbidden write 境界を維持し、利用者が手動追加できる Gray Rhino 設定片を仕様書に記載する。",
-    "追加した挙動は統合テストと全 quality gate で固定される。"
+    "gray_rhino_provider_registry_backfill_records_ops_status と無日付／finished_at の as_of 回帰テストが通過し、make quality CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json が成功する。",
+    "Gray Rhino backfill / discovery の JSONL は有効な日付を持つレコードだけを as_of_date の最新値として採用し、無日付レコードを正式な最新記録として扱わない。backfill 実行記録は要求された as_of_date を保存する。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "backfill を過去 as_of_date で実行して、その日付の日報を再表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test gray_rhino_provider_registry_backfill_records_ops_status --test research_attention_cli_integration"]
+    },
+    {
+      "scenario": "無日付または未解釈日付の ops record が最新値を隠す",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test undated_ops_record_is_not_treated_as_latest --lib", "cargo test backfill_finished_at_dates_are_usable_for_as_of_reads --lib"]
+    }
   ],
   "verification": [
     {
@@ -111,18 +145,61 @@
       "required": true
     },
     {
-      "command": "cargo run -- daily-calibration",
+      "command": "make daily-calibration",
       "required": true
     },
     {
-      "command": "cargo run -- review",
+      "command": "make review",
       "required": false
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/gray_rhino_daily_report_integrity.contract.json SUMMARY=.ai/work-items/active/gray_rhino_daily_report_integrity.summary.json",
+      "required": true
     }
   ],
   "destructiveChangePolicy": {
-    "allowed": false,
+    "allowed": true,
     "requiresHumanApproval": true,
-    "allowPatterns": []
+    "allowPatterns": [
+      ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
+      ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.summary.json"
+    ]
   },
-  "rollbackNote": "この Work Item の diff を revert する。"
+  "rollbackNote": "この Work Item の diff を revert する。",
+  "executionDecision": {
+    "status": "continue",
+    "reason": "既存の日報 provenance 境界内の補修。"
+  },
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification 变化时先更新 Contract 与 Summary。"
+  },
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "status": "M",
+      "fingerprint": "e6abdc6c2f28c41bd7c91ed0613fedd2d97f4f5cb6d67b7ae11122b11db557e3"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "status": "M",
+      "fingerprint": "b53ab72d68bd93f3ea2db67812c306edf988193f6177b72606b2836943fdcc68"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "67befff4f82243edc96db7d1021d3e1dd9622216c53b4934403f6de2f1e016bd"
+    }
+  ]
 }

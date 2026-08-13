@@ -1,0 +1,253 @@
+{
+  "contractVersion": 2,
+  "workItemId": "previous-expectation-date-integrity",
+  "mode": "code",
+  "title": "修正上一交易日 Expectation 使用当前快照",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "06dfc0c690db5ef6e8ede1a38933e9e86a5a518231976975f9b38358a88fb660"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7528faa4efc7f9d783de9d061cdf0d0d4d1201c982889771a7751134635075c8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "957a7edebc43af50a975b6e9ae4ebaf6e444f705110272c8ac500660994b9bc2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "e6fd70c3178b5fda5e27f9fd6335ef0123da50c55b93c1f69975fb5202ffd803"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "c92f4a84d31dbe764cdbf9898cb571d3fd8e4939ba852e913a73a7ad69e1032d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "da5e170f16fbce4883c91dac42f7944debba0699bd0abcf4f2653039262529e5"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "05643089337d9244630dab33a68fc8e4297bd023265d1ba0ea5a605cd4a0ccd6"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "status": "M",
+      "fingerprint": "a36d13beeb8148d6ef2aef8888d182cfed04d6d048a1e7ef75af7da2fc487d0d"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    }
+  ],
+  "problemStatement": "上一交易日的 presentation interpretation 误用当前交易日的 Expectation snapshot，导致历史对比展示跨日读取未来事实。",
+  "intent": {
+    "problem": "上一交易日 interpretation 误用当前交易日的 Expectation snapshot，造成历史展示跨日读取未来事实。",
+    "constraints": ["只修正历史展示所使用的 snapshot 日期，不改变交易决策、Gate、Execution 或 provider 映射。"],
+    "rationale": "当前日与上一交易日必须分别按各自 market date 构造事实快照，避免历史回放内容错位。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    ".ai/work-items/active/previous-expectation-date-integrity.contract.json",
+    ".ai/work-items/active/previous-expectation-date-integrity.summary.json"
+  ],
+  "outOfScope": ["交易决策规则与 Expectation provider 映射"],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "上一交易日 presentation 的 interpretation 组装路径。"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "reason": "按 market date 构造 Expectation snapshot 的现有入口。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "修改仅影响历史展示数据选择，不改变交易决策规则。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、回归场景与验证命令已明确。"
+  },
+  "preReviewWarnings": [
+    "需验证当前日与上一交易日 Expectation as_of_date 不同且各自对应。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "radar_pipeline_runner.rs 在 previous_packet 分支中按 previous_packet.date 构造并传入独立 Expectation snapshot。",
+    "回归验证确认上一交易日 interpretation 的 Expectation as_of_date 与 previous_packet.date 完全一致。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "当前日存在上一交易日 packet",
+      "expected": "上一交易日 interpretation 不读取当前日 Expectation snapshot。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test radar_pipeline_runner --lib"]
+    },
+    {
+      "scenario": "没有上一交易日 packet",
+      "expected": "当前日路径保持现有 Expectation 行为。",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test radar_pipeline_runner --lib"]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json SUMMARY=.ai/work-items/active/previous-expectation-date-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/previous-expectation-date-integrity.summary.json CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json SUMMARY=.ai/work-items/active/previous-expectation-date-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/previous-expectation-date-integrity.contract.json SUMMARY=.ai/work-items/active/previous-expectation-date-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -5,7 +5,7 @@ use crate::features::shared::domain::supply_event_context::{
     ObservationEffect, SupplyDirection, SupplyEventConfidence, SupplyEventContext,
     SupplyEventContextAvailability,
 };
-use chrono::Datelike;
+use chrono::{Datelike, Duration, NaiveDate, Weekday};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 pub(crate) enum PriceVolumeStructure {
@@ -225,7 +225,8 @@ fn volume_quality(
     rate_limited: bool,
     volume_comparable: bool,
 ) -> VolumeDataQuality {
-    if rate_limited || !volume_comparable || !continuous_dates(bars) {
+    let continuity_window_start = bars.len().saturating_sub(21);
+    if rate_limited || !volume_comparable || !continuous_dates(&bars[continuity_window_start..]) {
         return VolumeDataQuality::Degraded;
     }
     if bars.len() < 21 {
@@ -253,12 +254,91 @@ fn continuous_dates(bars: &[DailyBar]) -> bool {
     bars.windows(2).all(|pair| {
         let previous = pair[0].date;
         let current = pair[1].date;
-        let elapsed_days = (current - previous).num_days();
-        elapsed_days == 1
-            || (previous.weekday() == chrono::Weekday::Fri
-                && current.weekday() == chrono::Weekday::Mon
-                && elapsed_days == 3)
+        if current <= previous {
+            return false;
+        }
+        let mut missing = previous + Duration::days(1);
+        while missing < current {
+            if !is_us_market_holiday(missing) {
+                return false;
+            }
+            missing += Duration::days(1);
+        }
+        true
     })
+}
+
+fn is_us_market_holiday(date: NaiveDate) -> bool {
+    if matches!(date.weekday(), Weekday::Sat | Weekday::Sun) {
+        return true;
+    }
+    if observed_fixed_holiday(date, 1, 1)
+        || observed_fixed_holiday(date, 6, 19)
+        || observed_fixed_holiday(date, 7, 4)
+        || observed_fixed_holiday(date, 12, 25)
+    {
+        return true;
+    }
+    let year = date.year();
+    date == nth_weekday(year, 1, Weekday::Mon, 3)
+        || date == nth_weekday(year, 2, Weekday::Mon, 3)
+        || date == last_weekday(year, 5, Weekday::Mon)
+        || date == nth_weekday(year, 9, Weekday::Mon, 1)
+        || date == nth_weekday(year, 11, Weekday::Thu, 4)
+        || date == easter_sunday(year) - Duration::days(2)
+}
+
+fn observed_fixed_holiday(date: NaiveDate, month: u32, day: u32) -> bool {
+    (date.year() - 1..=date.year() + 1).any(|year| {
+        let Some(actual) = NaiveDate::from_ymd_opt(year, month, day) else {
+            return false;
+        };
+        let observed = match actual.weekday() {
+            Weekday::Sat => actual - Duration::days(1),
+            Weekday::Sun => actual + Duration::days(1),
+            _ => actual,
+        };
+        date == observed
+    })
+}
+
+fn nth_weekday(year: i32, month: u32, weekday: Weekday, ordinal: u32) -> NaiveDate {
+    let first = NaiveDate::from_ymd_opt(year, month, 1).expect("valid month start");
+    first
+        + Duration::days(
+            ((weekday.num_days_from_monday() + 7 - first.weekday().num_days_from_monday()) % 7
+                + 7 * (ordinal - 1)) as i64,
+        )
+}
+
+fn last_weekday(year: i32, month: u32, weekday: Weekday) -> NaiveDate {
+    let next_month = if month == 12 {
+        NaiveDate::from_ymd_opt(year + 1, 1, 1).expect("valid next year")
+    } else {
+        NaiveDate::from_ymd_opt(year, month + 1, 1).expect("valid next month")
+    };
+    let last = next_month - Duration::days(1);
+    last - Duration::days(
+        ((last.weekday().num_days_from_monday() + 7 - weekday.num_days_from_monday()) % 7) as i64,
+    )
+}
+
+fn easter_sunday(year: i32) -> NaiveDate {
+    let a = year % 19;
+    let b = year / 100;
+    let c = year % 100;
+    let d = b / 4;
+    let e = b % 4;
+    let f = (b + 8) / 25;
+    let g = (b - f + 1) / 3;
+    let h = (19 * a + b - d - g + 15) % 30;
+    let i = c / 4;
+    let k = c % 4;
+    let l = (32 + 2 * e + 2 * i - h - k) % 7;
+    let m = (a + 11 * h + 22 * l) / 451;
+    let month = (h + l - 7 * m + 114) / 31;
+    let day = (h + l - 7 * m + 114) % 31 + 1;
+    NaiveDate::from_ymd_opt(year, month as u32, day as u32).expect("valid Easter date")
 }
 
 fn metrics(bars: &[DailyBar]) -> Option<PriceVolumeMetrics> {
@@ -679,6 +759,59 @@ mod tests {
 
         assert_eq!(assessment.quality, VolumeDataQuality::Degraded);
         assert_eq!(assessment.structure, PriceVolumeStructure::Unavailable);
+    }
+
+    #[test]
+    fn old_history_gap_does_not_degrade_current_metric_window() {
+        let mut data = rising_data(150.0);
+        data.remove(1);
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.quality, VolumeDataQuality::Healthy);
+        assert_eq!(assessment.structure, PriceVolumeStructure::HealthyAdvance);
+    }
+
+    #[test]
+    fn holiday_long_weekend_does_not_degrade_trading_day_history() {
+        let mut data = rising_data(150.0);
+        let mut date = NaiveDate::from_ymd_opt(2026, 6, 1).unwrap();
+        for bar in &mut data {
+            while date.weekday() == chrono::Weekday::Sat
+                || date.weekday() == chrono::Weekday::Sun
+                || date == NaiveDate::from_ymd_opt(2026, 7, 3).unwrap()
+            {
+                date += Duration::days(1);
+            }
+            bar.date = date;
+            date += Duration::days(1);
+        }
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.quality, VolumeDataQuality::Healthy);
+        assert_eq!(assessment.structure, PriceVolumeStructure::HealthyAdvance);
+    }
+
+    #[test]
+    fn midweek_market_holiday_does_not_degrade_trading_day_history() {
+        let mut data = rising_data(150.0);
+        let mut date = NaiveDate::from_ymd_opt(2026, 11, 2).unwrap();
+        for bar in &mut data {
+            while date.weekday() == chrono::Weekday::Sat
+                || date.weekday() == chrono::Weekday::Sun
+                || date == NaiveDate::from_ymd_opt(2026, 11, 26).unwrap()
+            {
+                date += Duration::days(1);
+            }
+            bar.date = date;
+            date += Duration::days(1);
+        }
+
+        let assessment = assess_price_volume_structure(input(&data, None, false));
+
+        assert_eq!(assessment.quality, VolumeDataQuality::Healthy);
+        assert_eq!(assessment.structure, PriceVolumeStructure::HealthyAdvance);
     }
 
     #[test]

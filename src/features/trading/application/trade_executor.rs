@@ -226,13 +226,14 @@ impl TradeExecutor for MockTradeExecutor {
                     .get(order_id)
                     .cloned()
                     .unwrap_or(("UNKNOWN".to_string(), 0.0));
+                let is_partial_cancel = sym == "PARTIAL_CANCEL";
                 return Ok(OrderExecutionDetails {
                     order_id: order_id.to_string(),
                     symbol: sym,
                     status: OrderStatus::Cancelled,
                     qty_requested: qty,
-                    qty_filled: 0.0,
-                    avg_price: 0.0,
+                    qty_filled: if is_partial_cancel { qty * 0.5 } else { 0.0 },
+                    avg_price: if is_partial_cancel { 140.0 } else { 0.0 },
                     error_msg: None,
                     failure_reason: OrderFailureReason::None,
                 });

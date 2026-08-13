@@ -1,0 +1,174 @@
+{
+  "contractVersion": 2,
+  "workItemId": "run-status-data-quality",
+  "mode": "code",
+  "title": "运行状态补齐数据质量状态",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "1d1c84858da1209398347ce1151e6b27700f8f5d3af226fd5110f18e6dff2963"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "87e1dd3f2f8659d638a0fcf9436139d475072a8d198171df166b5f8827886e9d"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    }
+  ],
+  "problemStatement": "Radar 成功运行的 run_status.data_quality 为空，验收者无法从运行状态判断本次数据采集是 OK、WARNING 还是 CRITICAL。",
+  "intent": {
+    "problem": "采集计划已经计算 DataQualityStatus，但没有投影到 RunOutcome。",
+    "constraints": ["不改变数据采集、Gate、交易和仓位规则。", "失败原因仍保留原有具体错误。"],
+    "rationale": "运行状态是日报验收的事实入口，必须显示与采集结果一致的数据质量级别。"
+  },
+  "scope": [
+    ".ai/work-items/active/run-status-data-quality.contract.json",
+    ".ai/work-items/active/run-status-data-quality.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/application/radar.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": ["Signal Context、Expectation、Gravity 的 provider 数据", "架构重构", "交易执行与仓位计算"],
+  "sources": [
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "reason": "DataQualityStatus 的 OK/WARNING/CRITICAL 规则。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "RunOutcome 初始化与数据采集计划所在的运行时入口。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "采集成功、部分失败和全失败的运行状态契约测试。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "仅补齐运行状态字段投影，不改变决策或持久化规则。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围、来源、验收和验证已明确。"
+  },
+  "preReviewWarnings": [
+    "运行状态值必须与 DataQualityStatus.as_str() 一致。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "run_pipeline 初始化 RunOutcome 后立即将 RadarPipelinePlan.data_quality_status.as_str() 投影到 outcome.data_quality。",
+    "DataAcquisitionSummary::new(10, 0) 对应 outcome.data_quality=OK，DataAcquisitionSummary::new(9, 1) 对应 WARNING。",
+    "DataAcquisitionSummary::new(0, 10) 的 decisioning 状态为 failed，且 outcome.data_quality 不为 OK 或 WARNING。",
+    "HISTORY_REGRESSION 与 SNAPSHOT_CONFLICT 分支的 outcome.data_quality 分别等于对应 reason 字符串。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json SUMMARY=.ai/work-items/active/run-status-data-quality.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/run-status-data-quality.summary.json CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json SUMMARY=.ai/work-items/active/run-status-data-quality.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/run-status-data-quality.contract.json SUMMARY=.ai/work-items/active/run-status-data-quality.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

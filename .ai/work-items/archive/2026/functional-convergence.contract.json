@@ -1,0 +1,197 @@
+{
+  "contractVersion": 2,
+  "workItemId": "functional-convergence",
+  "mode": "code",
+  "title": "功能可用性收敛：日报、历史连续性与价量结构生产闭环",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [],
+  "problemStatement": "本番の Price-Volume Structure が、休日を含む正当な取引日履歴を欠損として扱い、10 銘柄すべてを UNAVAILABLE に落としているため、観測機能が実データで判定を返せない。",
+  "intent": {
+    "problem": "有効な取引日履歴を欠損履歴と区別し、Price-Volume Structure が実運用データで判定可能になるようにする。",
+    "constraints": [
+      "Gate、Execution、Trader、Action Matrix、Position Sizing には接続しない。",
+      "履歴に実際の平日欠損がある場合は fail-closed を維持する。",
+      "価格・出来高の意味論を変更せず、日付品質判定だけを修正する。"
+    ],
+    "rationale": "最新の data branch で Price-Volume Structure が全銘柄 UNAVAILABLE となっており、休日跨ぎの取引日履歴を欠損として扱っている可能性が高い。"
+  },
+  "scope": [
+    ".ai/work-items/active/functional-convergence.contract.json",
+    ".ai/work-items/active/functional-convergence.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/trend_recognition_read_model.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "outOfScope": [],
+  "sources": [
+    {
+      "path": "docs/specs/STATE_MACHINE_NEXT_PHASE_ROADMAP.md",
+      "reason": "観察期では実データの連続性と機能結果を優先する受入方針。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Price-Volume Structure の日付品質判定と既存回帰テスト。"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "reason": "主报告に表示する実体証拠の選択境界。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "監査日報が履歴証拠を無制限に展開しない表示境界。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    },
+    {
+      "path": "origin/data:reports/2026-08-10.md",
+      "reason": "本番サンプルで全銘柄の Structure が UNAVAILABLE となっている事実。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "休日跨ぎを許可しすぎると実際の平日欠損を見逃すため、日付パターンを限定して検証する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "日付品質判定の scope、受入条件、検証方法が確定している。"
+  },
+  "preReviewWarnings": [
+    "本番 data branch の再実行までは、production coverage の改善を未確認として扱う。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "平日連続の履歴は Healthy として判定できる",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "金曜から月曜の週末跨ぎは Healthy として判定できる",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "祝日想定の木曜から月曜の長い週末は Healthy として判定できる",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "平日の欠損は Degraded として fail-closed になる",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "data branch の最新実行で全銘柄の UNAVAILABLE が減ったことを確認する",
+      "required": false,
+      "status": "verified",
+      "evidence": ["isolated origin/data replay with current code"],
+      "reason": "origin/data の reports を一時 worktree に復元し、Yahoo provider で最新市場日を再実行した。"
+    },
+    {
+      "scenario": "履歴証拠が大量に存在しても日報表示は20件に制限され正式ソースを優先する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test daily_evidence_display_caps_details_and_prioritizes_formal_sources --lib", "isolated origin/data review" ]
+    }
+  ],
+  "acceptance": [
+    "The holiday_long_weekend regression test asserts elapsed_days=4 is VolumeDataQuality::Healthy.",
+    "The missing_weekday regression test asserts a weekday gap is VolumeDataQuality::Degraded.",
+    "Price-Volume Structure の observation boundary は decision_weight=0 かつ trade_signal=false のままである。",
+    "Accumulation / HealthyAdvance / ExhaustedAdvance / Distribution / Neutral の既存分類テストが通過する。",
+    "The test suite contains separate regression tests for holiday gaps and weekday gaps.",
+    "The daily report displays at most 20 substantive evidence details and prioritizes formal sources over NewsMedia details, including the audit daily evidence stock section.",
+    "The continuity classifier accepts weekends and recognized US market holidays while rejecting arbitrary weekday gaps."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/functional-convergence.summary.json CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

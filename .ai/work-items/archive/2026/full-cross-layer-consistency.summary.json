@@ -15,6 +15,10 @@
       "reason": "在发布前执行全量事实 Gate。"
     },
     {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "同日快照比较容忍浮点重算误差，并保持语义字段冲突检测。"
+    },
+    {
       "path": "src/features/radar/interface/market_interpretation_read_model.rs",
       "reason": "统一 Read Model 事实来源。"
     }
@@ -88,14 +92,25 @@
     "detail": "仅增加事实校验和安全降级，不改变交易阈值与仓位规则。"
   },
   "generatedFiles": [],
-  "destructiveChanges": [],
-  "observedIssues": [],
+  "destructiveChanges": [
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "reason": "既存 WI を再開するため active へ移動した。履歴 evidence の削除ではない。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "reason": "既存 WI を再開するため active へ移動した。履歴 evidence の削除ではない。"
+    }
+  ],
+  "observedIssues": [
+    "真实 2026-08-12 radar 重跑曾因 baseline 日付与同日 market snapshot 组合及浮点舍入差异误报 SNAPSHOT_CONFLICT；修正后 run status 成功且 make review 通过。"
+  ],
   "checkpointEvidence": [
     {
       "stage": "contract_start",
       "recorded": true,
       "detail": "范围与场景已确定。",
-      "contractHash": "801a4e3af66a4beb",
+      "contractHash": "391bd7e6f0a69350",
       "acceptanceCount": 5,
       "unknownCount": 0,
       "requiredChecks": 14,
@@ -105,7 +120,7 @@
       "stage": "before_edit",
       "recorded": true,
       "detail": "Contract 已通过结构检查。",
-      "contractHash": "801a4e3af66a4beb",
+      "contractHash": "391bd7e6f0a69350",
       "acceptanceCount": 5,
       "unknownCount": 0,
       "requiredChecks": 14,
@@ -115,7 +130,7 @@
       "stage": "before_ready",
       "recorded": true,
       "detail": "实现、测试与质量检查已完成。",
-      "contractHash": "801a4e3af66a4beb",
+      "contractHash": "391bd7e6f0a69350",
       "acceptanceCount": 5,
       "unknownCount": 0,
       "requiredChecks": 14,
@@ -125,7 +140,7 @@
       "stage": "after_verification",
       "recorded": true,
       "detail": "全部 required checks 已通过。",
-      "contractHash": "801a4e3af66a4beb",
+      "contractHash": "391bd7e6f0a69350",
       "acceptanceCount": 5,
       "unknownCount": 0,
       "requiredChecks": 14,

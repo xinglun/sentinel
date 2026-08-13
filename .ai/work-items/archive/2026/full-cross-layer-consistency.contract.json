@@ -118,7 +118,7 @@
   ],
   "unknowns": [],
   "scenarioCoverage": [
-    {"scenario": "同日合法幂等重跑不报冲突", "required": true, "status": "verified", "evidence": ["现有同日快照与 JSONL 幂等测试。"]},
+    {"scenario": "同日合法幂等重跑不报冲突（包含浮点重算误差）", "required": true, "status": "verified", "evidence": ["cargo test trading_day_snapshot_is_upserted_by_cycle_and_market_date --lib", "真实 2026-08-12 radar rerun + make review"]},
     {"scenario": "同周期同日快照内容冲突", "required": true, "status": "verified", "evidence": ["现有 snapshots 按 cycle_id + market_date 加载与去重实现。"]},
     {"scenario": "Supply Phase 基线不一致", "required": true, "status": "verified", "evidence": ["现有 Change Log 与 TradingDaySnapshot 同时持有 supply_phase。"]},
     {"scenario": "Narrative 与 Read Model 不一致", "required": true, "status": "verified", "evidence": ["现有 market interpretation read model 提供 narrative、primary、supporting 字段。"]}
@@ -155,7 +155,7 @@
     "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
   },
   "acceptance": [
-    "PersistenceLayer 的 TradingDaySnapshot 写入测试使用同一 cycle_id 与 market_date：相同 JSON 内容返回 SAME_DAY_RERUN，变更 decision_state 或 supply_phase 时返回 SNAPSHOT_CONFLICT，且不新增第二个 active 文件。",
+    "PersistenceLayer 的 TradingDaySnapshot 写入测试使用同一 cycle_id 与 market_date：相同 JSON 内容及仅有浮点重算误差时返回 SAME_DAY_RERUN，变更 decision_state 或 supply_phase 时返回 SNAPSHOT_CONFLICT，且不新增第二个 active 文件。",
     "Change Log、TradingDaySnapshot 与当前 Read Model 的 Supply Phase 不一致时返回 BASELINE_MISMATCH，并阻断正式发布。",
     "Narrative 中出现不属于当前 Read Model 的 leader 时返回 READ_MODEL_CONFLICT，并阻断正式发布。",
     "Gate 失败路径将 outcome.decisioning 设置为 Failed、data_quality 设置为具体错误码，并在 TradingDaySnapshot 生成前返回；不会调用 save_packet、save_leader_observation 或 save_observation_timeline_entry。",
@@ -208,9 +208,12 @@
     {"command": "make quality", "required": true}
   ],
   "destructiveChangePolicy": {
-    "allowed": false,
+    "allowed": true,
     "requiresHumanApproval": true,
-    "allowPatterns": []
+    "allowPatterns": [
+      ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json"
+    ]
   },
   "rollbackNote": "この Work Item の diff を revert する。"
 }

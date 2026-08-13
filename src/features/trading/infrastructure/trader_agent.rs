@@ -4,7 +4,7 @@ use crate::features::trading::application::trade_executor::{
     OrderSide, OrderType, PlaceOrderRequest, TradeExecutor,
 };
 use crate::features::trading::domain::reconciliation::{PositionMismatch, ReconciliationReport};
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use chrono::Local;
 use std::sync::Arc;
 use tokio::sync::Mutex;
@@ -69,6 +69,30 @@ impl TraderAgent {
         let mut first = true;
 
         for trade in gated_trades {
+            if (!trade.is_trim && (!trade.qty.is_finite() || trade.qty <= 0.0))
+                || !trade.price.is_finite()
+                || trade.price <= 0.0
+            {
+                let detail = format!(
+                    "{}: invalid order input qty={}, price={}",
+                    trade.symbol, trade.qty, trade.price
+                );
+                audits.push(TradeExecutionAudit {
+                    symbol: trade.symbol.clone(),
+                    side: format!("{:?}", trade.side),
+                    qty_requested: trade.qty,
+                    qty_filled: 0.0,
+                    price: trade.price,
+                    success: false,
+                    order_id: None,
+                    status: "OrderInputInvalid".to_string(),
+                    error: Some(detail.clone()),
+                    failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::InvalidQuantity,
+                });
+                errors.push(detail);
+                continue;
+            }
+
             // 2. レート制御: Moomoo の制限（15/30 秒）に合わせて注文間隔を 1 秒空ける。
             if !first {
                 tokio::time::sleep(std::time::Duration::from_secs(1)).await;
@@ -104,6 +128,30 @@ impl TraderAgent {
                     } else {
                         capacity.max_sell
                     };
+
+                    if !max_available.is_finite() || max_available < 0.0 {
+                        let detail = format!(
+                            "{}: invalid broker capacity {}",
+                            trade.symbol, max_available
+                        );
+                        audits.push(TradeExecutionAudit {
+                            symbol: trade.symbol.clone(),
+                            side: format!("{:?}", trade.side),
+                            qty_requested: trade.qty,
+                            qty_filled: 0.0,
+                            price: trade.price,
+                            success: false,
+                            order_id: None,
+                            status: "CapacityInvalid".to_string(),
+                            error: Some(detail.clone()),
+                            failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::Other(
+                                998,
+                                "ブローカー容量が不正です".to_string(),
+                            ),
+                        });
+                        errors.push(detail);
+                        continue;
+                    }
 
                     if trade.is_liquidation {
                         println!(
@@ -251,13 +299,51 @@ impl TraderAgent {
                             audit.status = format!("{:?}", details.status);
                             audit.failure_reason = details.failure_reason.clone();
 
+                            let fill_status = matches!(
+                                details.status,
+                                crate::features::trading::application::trade_executor::OrderStatus::Filled
+                                    | crate::features::trading::application::trade_executor::OrderStatus::PartiallyFilled
+                            );
+                            let valid_fill = details.qty_filled.is_finite()
+                                && details.qty_filled > 0.0
+                                && details.avg_price.is_finite()
+                                && details.avg_price > 0.0;
+                            if fill_status && !valid_fill {
+                                audit.success = false;
+                                audit.qty_filled = 0.0;
+                                audit.price = trade.price;
+                                audit.status = "FillDataInvalid".to_string();
+                                audit.error = Some(
+                                    "broker fill quantity or average price is invalid".to_string(),
+                                );
+                                audit.failure_reason = crate::features::trading::application::trade_executor::OrderFailureReason::Other(
+                                    997,
+                                    "約定数量または平均価格が不正です".to_string(),
+                                );
+                                errors.push(format!(
+                                    "{}: invalid fill data qty={}, avg_price={}",
+                                    trade.symbol, details.qty_filled, details.avg_price
+                                ));
+                            }
+
+                            if matches!(
+                                details.status,
+                                crate::features::trading::application::trade_executor::OrderStatus::Rejected
+                                    | crate::features::trading::application::trade_executor::OrderStatus::Failed
+                            ) {
+                                errors.push(format!(
+                                    "{}: broker terminal status {:?}",
+                                    trade.symbol, details.status
+                                ));
+                            }
+
                             if audit.qty_filled > 0.0 {
                                 let side_str = if trade.side == TradeSide::Buy {
                                     "BUY"
                                 } else {
                                     "SELL"
                                 };
-                                let _ = self.ledger.record_trade(TradeRecordAdapter {
+                                let ledger_result = self.ledger.record_trade(TradeRecordAdapter {
                                     date: Local::now().date_naive(),
                                     timestamp: Local::now().format("%Y-%m-%d %H:%M:%S").to_string(),
                                     symbol: trade.symbol.clone(),
@@ -266,6 +352,15 @@ impl TraderAgent {
                                     price: audit.price,
                                     signal: format!("{:?}", trade.side),
                                 });
+                                if let Err(error) = ledger_result {
+                                    audit.success = false;
+                                    audit.status = "LedgerWriteFailed".to_string();
+                                    audit.error = Some(format!("账本写入失败: {}", error));
+                                    errors.push(format!(
+                                        "{}: ledger write failed: {}",
+                                        trade.symbol, error
+                                    ));
+                                }
                             }
                         } else {
                             println!(
@@ -313,6 +408,57 @@ impl TraderAgent {
                                             } else {
                                                 trade.price
                                             };
+                                            if details.qty_filled > 0.0 || details.avg_price > 0.0 {
+                                                let valid_partial_fill = details.qty_filled.is_finite()
+                                                    && details.qty_filled > 0.0
+                                                    && details.avg_price.is_finite()
+                                                    && details.avg_price > 0.0;
+                                                if !valid_partial_fill {
+                                                    audit.status = "FillDataInvalid".to_string();
+                                                    audit.error = Some(
+                                                        "broker partial fill data is invalid after cancellation"
+                                                            .to_string(),
+                                                    );
+                                                    errors.push(format!(
+                                                        "{}: invalid partial fill after cancellation qty={}, avg_price={}",
+                                                        trade.symbol, details.qty_filled, details.avg_price
+                                                    ));
+                                                } else {
+                                                    let side_str = if trade.side == TradeSide::Buy {
+                                                        "BUY"
+                                                    } else {
+                                                        "SELL"
+                                                    };
+                                                    if let Err(error) = self.ledger.record_trade(
+                                                        TradeRecordAdapter {
+                                                            date: Local::now().date_naive(),
+                                                            timestamp: Local::now()
+                                                                .format("%Y-%m-%d %H:%M:%S")
+                                                                .to_string(),
+                                                            symbol: trade.symbol.clone(),
+                                                            side: side_str.to_string(),
+                                                            qty: details.qty_filled,
+                                                            price: details.avg_price,
+                                                            signal: format!("{:?}", trade.side),
+                                                        },
+                                                    ) {
+                                                        audit.status = "LedgerWriteFailed".to_string();
+                                                        audit.error = Some(format!(
+                                                            "账本写入失败: {}",
+                                                            error
+                                                        ));
+                                                        errors.push(format!(
+                                                            "{}: ledger write failed after cancellation: {}",
+                                                            trade.symbol, error
+                                                        ));
+                                                    } else {
+                                                        errors.push(format!(
+                                                            "{}: order cancelled after partial fill ({})",
+                                                            trade.symbol, details.qty_filled
+                                                        ));
+                                                    }
+                                                }
+                                            }
                                         }
                                         _ => {
                                             println!(
@@ -320,6 +466,10 @@ impl TraderAgent {
                                                 order_id
                                             );
                                             audit.status = "TimedOutCancelRequested".to_string();
+                                            errors.push(format!(
+                                                "{}: timeout cancellation status is unconfirmed",
+                                                trade.symbol
+                                            ));
                                         }
                                     }
                                 }
@@ -330,6 +480,10 @@ impl TraderAgent {
                                     );
                                     audit.status = "TimedOutCancellationFailed".to_string();
                                     audit.error = Some(format!("キャンセルに失敗しました: {}", e));
+                                    errors.push(format!(
+                                        "{}: timeout cancellation failed: {}",
+                                        trade.symbol, e
+                                    ));
                                 }
                             }
                         }
@@ -340,7 +494,11 @@ impl TraderAgent {
                             trade.symbol, res.failure_reason
                         );
                         audit.status = "Rejected".to_string();
-                        audit.failure_reason = res.failure_reason;
+                        audit.failure_reason = res.failure_reason.clone();
+                        errors.push(format!(
+                            "{}: broker rejected order: {:?}",
+                            trade.symbol, res.failure_reason
+                        ));
                     }
                 }
                 Err(e) => {
@@ -378,7 +536,10 @@ impl TraderAgent {
         println!("🔍 ポジション照合を開始します...");
 
         // 1. local position を取得する。
-        let (_, local_positions) = self.ledger.get_portfolio_stats();
+        let (_, local_positions) = self
+            .ledger
+            .get_portfolio_stats_checked()
+            .map_err(|error| anyhow!("local ledger is invalid: {error}"))?;
 
         // 2. broker position を取得する。
         let broker_positions = {
@@ -386,14 +547,56 @@ impl TraderAgent {
             exec.get_positions().await?
         };
 
+        // 数量が不正な状態で差分比較すると、NaN は比較をすり抜けて一致扱いになり、
+        // 無限大や負数は照合結果を壊すため、正常な照合として返さない。
+        for (symbol, (local_qty, _)) in &local_positions {
+            if !local_qty.is_finite() || *local_qty < 0.0 {
+                return Err(anyhow!(
+                    "local ledger position quantity is invalid: symbol={}, qty={}",
+                    symbol,
+                    local_qty
+                ));
+            }
+        }
+        for position in &broker_positions {
+            if position.symbol.trim().is_empty() {
+                return Err(anyhow!("broker position symbol is empty"));
+            }
+            if matches!(
+                position.side,
+                crate::features::trading::application::trade_executor::PositionSide::Unknown
+            ) {
+                return Err(anyhow!(
+                    "broker position side is unknown: symbol={}",
+                    position.symbol
+                ));
+            }
+            if !position.qty.is_finite() || position.qty < 0.0 {
+                return Err(anyhow!(
+                    "broker position quantity is invalid: symbol={}, qty={}",
+                    position.symbol,
+                    position.qty
+                ));
+            }
+        }
+
         let mut mismatches = Vec::new();
         let mut matching_count = 0;
 
         // 3. 比較ロジック
-        let mut broker_map: std::collections::HashMap<String, f64> = broker_positions
-            .into_iter()
-            .map(|p| (p.symbol, p.qty))
-            .collect();
+        let mut broker_map: std::collections::HashMap<String, f64> =
+            std::collections::HashMap::new();
+        for position in broker_positions {
+            let total = broker_map.entry(position.symbol.clone()).or_insert(0.0);
+            *total += position.qty;
+            if !total.is_finite() {
+                return Err(anyhow!(
+                    "broker position quantity overflowed: symbol={}, qty={}",
+                    position.symbol,
+                    total
+                ));
+            }
+        }
 
         // local と broker を比較する。
         for (symbol, (local_qty, _)) in local_positions {
@@ -474,6 +677,7 @@ mod tests {
     use crate::config::AppConfig;
     use crate::features::radar::domain::features::MarketFeatures;
     use crate::features::trading::application::trade_executor::MockTradeExecutor;
+    use crate::features::trading::application::trade_executor::{Position, PositionSide};
     use std::sync::atomic::Ordering;
 
     use tempfile::tempdir;
@@ -634,6 +838,554 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn test_trader_agent_rejected_order_returns_error_status() {
+        struct RejectExecutor;
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for RejectExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                Ok(crate::features::trading::application::trade_executor::PlaceOrderResponse {
+                    order_id: None,
+                    failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::InsufficientFunds,
+                })
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                unreachable!()
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                Ok(
+                    crate::features::trading::application::trade_executor::TradableCapacity {
+                        max_buy: 10.0,
+                        max_sell: 10.0,
+                    },
+                )
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                unreachable!()
+            }
+            async fn get_positions(
+                &self,
+            ) -> Result<Vec<crate::features::trading::application::trade_executor::Position>>
+            {
+                unreachable!()
+            }
+        }
+
+        let temp = tempdir().unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                temp.path().to_path_buf(),
+            ),
+        );
+        let agent = TraderAgent::new(Arc::new(Mutex::new(RejectExecutor)), ledger);
+        let summary = agent
+            .execute_signals(vec![
+                crate::features::radar::application::execution_gate::GatedTrade {
+                    symbol: "REJECT".to_string(),
+                    side: TradeSide::Buy,
+                    qty: 1.0,
+                    price: 100.0,
+                    reason: "rejection regression".to_string(),
+                    is_liquidation: false,
+                    is_trim: false,
+                },
+            ])
+            .await
+            .unwrap();
+
+        assert!(summary.status.is_err());
+        assert_eq!(summary.audits[0].status, "Rejected");
+        assert_eq!(
+            summary.audits[0].failure_reason,
+            crate::features::trading::application::trade_executor::OrderFailureReason::InsufficientFunds
+        );
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_terminal_rejection_and_failure_return_error_status() {
+        struct TerminalExecutor {
+            status: crate::features::trading::application::trade_executor::OrderStatus,
+        }
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for TerminalExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                Ok(crate::features::trading::application::trade_executor::PlaceOrderResponse { order_id: Some("terminal-1".to_string()), failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::None })
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                Ok(crate::features::trading::application::trade_executor::OrderExecutionDetails {
+                    order_id: "terminal-1".to_string(), symbol: "TERMINAL".to_string(), status: self.status.clone(), qty_requested: 1.0, qty_filled: 0.0, avg_price: 0.0, error_msg: None, failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::Other(9001, "terminal".to_string())
+                })
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                Ok(
+                    crate::features::trading::application::trade_executor::TradableCapacity {
+                        max_buy: 1.0,
+                        max_sell: 1.0,
+                    },
+                )
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                unreachable!()
+            }
+            async fn get_positions(
+                &self,
+            ) -> Result<Vec<crate::features::trading::application::trade_executor::Position>>
+            {
+                unreachable!()
+            }
+        }
+
+        for status in [
+            crate::features::trading::application::trade_executor::OrderStatus::Rejected,
+            crate::features::trading::application::trade_executor::OrderStatus::Failed,
+        ] {
+            let temp = tempdir().unwrap();
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let agent = TraderAgent::new(
+                Arc::new(Mutex::new(TerminalExecutor {
+                    status: status.clone(),
+                })),
+                ledger,
+            );
+            let summary = agent
+                .execute_signals(vec![
+                    crate::features::radar::application::execution_gate::GatedTrade {
+                        symbol: format!("{:?}_TERMINAL", status),
+                        side: TradeSide::Buy,
+                        qty: 1.0,
+                        price: 100.0,
+                        reason: "terminal regression".to_string(),
+                        is_liquidation: false,
+                        is_trim: false,
+                    },
+                ])
+                .await
+                .unwrap();
+            assert!(summary.status.is_err());
+            assert_eq!(summary.audits[0].status, format!("{:?}", status));
+        }
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_rejects_invalid_fill_data_without_ledger_write() {
+        struct InvalidFillExecutor {
+            qty_filled: f64,
+            avg_price: f64,
+        }
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for InvalidFillExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                Ok(crate::features::trading::application::trade_executor::PlaceOrderResponse { order_id: Some("fill-1".to_string()), failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::None })
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                Ok(crate::features::trading::application::trade_executor::OrderExecutionDetails { order_id: "fill-1".to_string(), symbol: "FILL".to_string(), status: crate::features::trading::application::trade_executor::OrderStatus::Filled, qty_requested: 1.0, qty_filled: self.qty_filled, avg_price: self.avg_price, error_msg: None, failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::None })
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                Ok(
+                    crate::features::trading::application::trade_executor::TradableCapacity {
+                        max_buy: 1.0,
+                        max_sell: 1.0,
+                    },
+                )
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                unreachable!()
+            }
+            async fn get_positions(
+                &self,
+            ) -> Result<Vec<crate::features::trading::application::trade_executor::Position>>
+            {
+                unreachable!()
+            }
+        }
+
+        for (qty_filled, avg_price) in [(f64::NAN, 100.0), (1.0, f64::INFINITY), (0.0, 100.0)] {
+            let temp = tempdir().unwrap();
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let agent = TraderAgent::new(
+                Arc::new(Mutex::new(InvalidFillExecutor {
+                    qty_filled,
+                    avg_price,
+                })),
+                ledger.clone(),
+            );
+            let summary = agent
+                .execute_signals(vec![
+                    crate::features::radar::application::execution_gate::GatedTrade {
+                        symbol: "FILL".to_string(),
+                        side: TradeSide::Buy,
+                        qty: 1.0,
+                        price: 100.0,
+                        reason: "fill regression".to_string(),
+                        is_liquidation: false,
+                        is_trim: false,
+                    },
+                ])
+                .await
+                .unwrap();
+            assert!(summary.status.is_err());
+            assert_eq!(summary.audits[0].status, "FillDataInvalid");
+            assert!(!summary.audits[0].success);
+            let (_, positions) = ledger.get_portfolio_stats();
+            assert!(positions.is_empty());
+        }
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_reports_ledger_write_failure_after_fill() {
+        let temp = tempdir().unwrap();
+        let blocked_path = temp.path().join("ledger-parent-file");
+        std::fs::write(&blocked_path, "not a directory").unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(blocked_path),
+        );
+        let executor = Arc::new(Mutex::new(MockTradeExecutor::new()));
+        let agent =
+            TraderAgent::new(executor, ledger).with_poll_settings(std::time::Duration::ZERO, 2);
+
+        let summary = agent
+            .execute_signals(vec![
+                crate::features::radar::application::execution_gate::GatedTrade {
+                    symbol: "LEDGER_FAIL".to_string(),
+                    side: TradeSide::Buy,
+                    qty: 1.0,
+                    price: 100.0,
+                    reason: "ledger failure regression".to_string(),
+                    is_liquidation: false,
+                    is_trim: false,
+                },
+            ])
+            .await
+            .unwrap();
+
+        assert!(summary.status.is_err());
+        assert_eq!(summary.audits[0].status, "LedgerWriteFailed");
+        assert!(!summary.audits[0].success);
+        assert!(summary.audits[0]
+            .error
+            .as_deref()
+            .unwrap_or_default()
+            .contains("账本写入失败"));
+    }
+
+    #[tokio::test]
+    async fn test_reconcile_positions_rejects_invalid_quantities() {
+        struct InvalidPositionExecutor {
+            positions: Vec<Position>,
+        }
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for InvalidPositionExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                unreachable!()
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                unreachable!()
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                unreachable!()
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                unreachable!()
+            }
+            async fn get_positions(&self) -> Result<Vec<Position>> {
+                Ok(self.positions.clone())
+            }
+        }
+
+        for qty in [f64::NAN, f64::INFINITY, -1.0] {
+            let temp = tempdir().unwrap();
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let executor = InvalidPositionExecutor {
+                positions: vec![Position {
+                    symbol: "INVALID".to_string(),
+                    side: PositionSide::Long,
+                    qty,
+                    can_sell_qty: 0.0,
+                    cost_price: 100.0,
+                    market_val: 0.0,
+                    pl_val: 0.0,
+                    pl_ratio: 0.0,
+                }],
+            };
+            let agent = TraderAgent::new(Arc::new(Mutex::new(executor)), ledger);
+            let error = agent.reconcile_positions().await.unwrap_err().to_string();
+            assert!(error.contains("broker position quantity is invalid"));
+            assert!(error.contains("INVALID"));
+        }
+
+        let temp = tempdir().unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                temp.path().to_path_buf(),
+            ),
+        );
+        let executor = InvalidPositionExecutor {
+            positions: vec![Position {
+                symbol: "UNKNOWN_SIDE".to_string(),
+                side: PositionSide::Unknown,
+                qty: 1.0,
+                can_sell_qty: 0.0,
+                cost_price: 100.0,
+                market_val: 100.0,
+                pl_val: 0.0,
+                pl_ratio: 0.0,
+            }],
+        };
+        let agent = TraderAgent::new(Arc::new(Mutex::new(executor)), ledger);
+        let error = agent.reconcile_positions().await.unwrap_err().to_string();
+        assert!(error.contains("broker position side is unknown"));
+        assert!(error.contains("UNKNOWN_SIDE"));
+
+        let temp = tempdir().unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                temp.path().to_path_buf(),
+            ),
+        );
+        use std::io::Write as _;
+        let mut file = std::fs::OpenOptions::new()
+            .append(true)
+            .open(temp.path().join("ledger.csv"))
+            .unwrap();
+        writeln!(
+            file,
+            "{},10:00:00,LOCAL_INVALID,BUY,NaN,100.00000000,TEST",
+            Local::now().date_naive()
+        )
+        .unwrap();
+        let agent = TraderAgent::new(
+            Arc::new(Mutex::new(InvalidPositionExecutor { positions: vec![] })),
+            ledger,
+        );
+        let error = agent.reconcile_positions().await.unwrap_err().to_string();
+        assert!(error.contains("local ledger is invalid"));
+        assert!(error.contains("LOCAL_INVALID"));
+    }
+
+    #[tokio::test]
+    async fn test_reconcile_positions_aggregates_duplicate_broker_rows() {
+        struct DuplicatePositionExecutor;
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for DuplicatePositionExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                unreachable!()
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                unreachable!()
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                unreachable!()
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                unreachable!()
+            }
+            async fn get_positions(&self) -> Result<Vec<Position>> {
+                Ok(vec![
+                    Position {
+                        symbol: "DUP".to_string(),
+                        side: PositionSide::Long,
+                        qty: 4.0,
+                        can_sell_qty: 4.0,
+                        cost_price: 100.0,
+                        market_val: 400.0,
+                        pl_val: 0.0,
+                        pl_ratio: 0.0,
+                    },
+                    Position {
+                        symbol: "DUP".to_string(),
+                        side: PositionSide::Long,
+                        qty: 6.0,
+                        can_sell_qty: 6.0,
+                        cost_price: 100.0,
+                        market_val: 600.0,
+                        pl_val: 0.0,
+                        pl_ratio: 0.0,
+                    },
+                ])
+            }
+        }
+
+        let temp = tempdir().unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                temp.path().to_path_buf(),
+            ),
+        );
+        ledger
+            .record_trade(TradeRecordAdapter {
+                date: Local::now().date_naive(),
+                timestamp: "10:00:00".to_string(),
+                symbol: "DUP".to_string(),
+                side: "BUY".to_string(),
+                qty: 10.0,
+                price: 100.0,
+                signal: "TEST".to_string(),
+            })
+            .unwrap();
+
+        let agent = TraderAgent::new(Arc::new(Mutex::new(DuplicatePositionExecutor)), ledger);
+        let report = agent.reconcile_positions().await.unwrap();
+        assert_eq!(report.matching_count, 1);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[tokio::test]
     async fn test_trader_agent_capping() {
         let temp = tempdir().unwrap();
         let save_dir = temp.path().to_path_buf();
@@ -670,6 +1422,97 @@ mod tests {
         // 5.0 に切り詰められること
         assert_eq!(audit.qty_requested, 5.0);
         assert_eq!(audit.qty_filled, 5.0); // モックは 2 回目の照会で Filled を返す。
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_rejects_invalid_capacity_without_submitting() {
+        for invalid_capacity in [f64::NAN, f64::INFINITY, -1.0] {
+            let temp = tempdir().unwrap();
+            let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
+            {
+                let exec = mock_exec.lock().await;
+                let mut capacity = exec.mock_capacity.lock().await;
+                capacity.max_buy = invalid_capacity;
+            }
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let agent = TraderAgent::new(mock_exec.clone(), ledger);
+            let summary = agent
+                .execute_signals(vec![
+                    crate::features::radar::application::execution_gate::GatedTrade {
+                        symbol: "INVALID_CAPACITY".to_string(),
+                        side: TradeSide::Buy,
+                        qty: 1.0,
+                        price: 100.0,
+                        reason: "capacity regression".to_string(),
+                        is_liquidation: false,
+                        is_trim: false,
+                    },
+                ])
+                .await
+                .unwrap();
+
+            assert!(summary.status.is_err());
+            assert_eq!(summary.audits[0].status, "CapacityInvalid");
+            assert_eq!(
+                mock_exec
+                    .lock()
+                    .await
+                    .placed_orders_count
+                    .load(Ordering::SeqCst),
+                0
+            );
+        }
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_rejects_invalid_order_input_before_capacity_query() {
+        for (qty, price) in [
+            (f64::NAN, 100.0),
+            (f64::INFINITY, 100.0),
+            (0.0, 100.0),
+            (-1.0, 100.0),
+            (1.0, f64::NAN),
+            (1.0, f64::INFINITY),
+            (1.0, 0.0),
+            (1.0, -1.0),
+        ] {
+            let temp = tempdir().unwrap();
+            let mock_exec = Arc::new(Mutex::new(MockTradeExecutor::new()));
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let agent = TraderAgent::new(mock_exec.clone(), ledger);
+            let summary = agent
+                .execute_signals(vec![
+                    crate::features::radar::application::execution_gate::GatedTrade {
+                        symbol: "INVALID_INPUT".to_string(),
+                        side: TradeSide::Buy,
+                        qty,
+                        price,
+                        reason: "input regression".to_string(),
+                        is_liquidation: false,
+                        is_trim: false,
+                    },
+                ])
+                .await
+                .unwrap();
+            assert!(summary.status.is_err());
+            assert_eq!(summary.audits[0].status, "OrderInputInvalid");
+            assert_eq!(
+                mock_exec
+                    .lock()
+                    .await
+                    .placed_orders_count
+                    .load(Ordering::SeqCst),
+                0
+            );
+        }
     }
 
     #[tokio::test]
@@ -826,6 +1669,9 @@ mod tests {
             .execute_signals(vec![trade])
             .await
             .expect("Execution should not fail");
+        summary
+            .status
+            .expect("confirmed cancellation should remain successful");
 
         assert!(!summary.audits.is_empty());
         let audit = &summary.audits[0];
@@ -843,6 +1689,135 @@ mod tests {
             "✅ Fast timeout cancellation verified for order {}",
             order_id
         );
+    }
+
+    #[tokio::test]
+    async fn test_timeout_cancellation_records_partial_fill_and_returns_error() {
+        let temp = tempdir().unwrap();
+        let ledger = Arc::new(
+            crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                temp.path().to_path_buf(),
+            ),
+        );
+        let executor = Arc::new(Mutex::new(MockTradeExecutor::new()));
+        let agent = TraderAgent::new(executor, ledger.clone())
+            .with_poll_settings(std::time::Duration::from_millis(0), 0);
+
+        let summary = agent
+            .execute_signals(vec![
+                crate::features::radar::application::execution_gate::GatedTrade {
+                    symbol: "PARTIAL_CANCEL".to_string(),
+                    side: TradeSide::Buy,
+                    qty: 10.0,
+                    price: 150.0,
+                    reason: "partial cancellation regression".to_string(),
+                    is_liquidation: false,
+                    is_trim: false,
+                },
+            ])
+            .await
+            .unwrap();
+
+        assert!(summary.status.is_err());
+        assert_eq!(summary.audits[0].status, "TimedOutCancelledConfirmed");
+        assert_eq!(summary.audits[0].qty_filled, 5.0);
+        let (_, positions) = ledger.get_portfolio_stats();
+        assert_eq!(positions.get("PARTIAL_CANCEL").unwrap().0, 5.0);
+    }
+
+    #[tokio::test]
+    async fn test_trader_agent_unconfirmed_timeout_is_error() {
+        struct TimeoutExecutor {
+            cancel_fails: bool,
+        }
+
+        #[async_trait::async_trait]
+        impl TradeExecutor for TimeoutExecutor {
+            async fn unlock_trade(&self) -> Result<()> {
+                Ok(())
+            }
+            async fn get_account_funds(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::AccountFunds>
+            {
+                unreachable!()
+            }
+            async fn place_order(
+                &self,
+                _: PlaceOrderRequest,
+            ) -> Result<crate::features::trading::application::trade_executor::PlaceOrderResponse>
+            {
+                Ok(crate::features::trading::application::trade_executor::PlaceOrderResponse { order_id: Some("timeout-1".to_string()), failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::None })
+            }
+            async fn get_order_status(
+                &self,
+                _: &str,
+            ) -> Result<crate::features::trading::application::trade_executor::OrderExecutionDetails>
+            {
+                Ok(crate::features::trading::application::trade_executor::OrderExecutionDetails { order_id: "timeout-1".to_string(), symbol: "TIMEOUT".to_string(), status: crate::features::trading::application::trade_executor::OrderStatus::Submitted, qty_requested: 1.0, qty_filled: 0.0, avg_price: 0.0, error_msg: None, failure_reason: crate::features::trading::application::trade_executor::OrderFailureReason::None })
+            }
+            async fn get_broker_permissions(
+                &self,
+            ) -> Result<crate::features::trading::application::trade_executor::BrokerPermissions>
+            {
+                unreachable!()
+            }
+            async fn get_tradable_capacity(
+                &self,
+                _: &str,
+                _: f64,
+            ) -> Result<crate::features::trading::application::trade_executor::TradableCapacity>
+            {
+                Ok(
+                    crate::features::trading::application::trade_executor::TradableCapacity {
+                        max_buy: 1.0,
+                        max_sell: 1.0,
+                    },
+                )
+            }
+            async fn cancel_order(&self, _: &str) -> Result<()> {
+                if self.cancel_fails {
+                    Err(anyhow::anyhow!("cancel failed"))
+                } else {
+                    Ok(())
+                }
+            }
+            async fn get_positions(
+                &self,
+            ) -> Result<Vec<crate::features::trading::application::trade_executor::Position>>
+            {
+                unreachable!()
+            }
+        }
+
+        for cancel_fails in [true, false] {
+            let temp = tempdir().unwrap();
+            let ledger = Arc::new(
+                crate::features::shared::acl::ledger_factory::build_ledger_adapter(
+                    temp.path().to_path_buf(),
+                ),
+            );
+            let agent = TraderAgent::new(
+                Arc::new(Mutex::new(TimeoutExecutor { cancel_fails })),
+                ledger,
+            )
+            .with_poll_settings(std::time::Duration::from_millis(0), 0);
+            let summary = agent
+                .execute_signals(vec![
+                    crate::features::radar::application::execution_gate::GatedTrade {
+                        symbol: "TIMEOUT".to_string(),
+                        side: TradeSide::Buy,
+                        qty: 1.0,
+                        price: 100.0,
+                        reason: "timeout regression".to_string(),
+                        is_liquidation: false,
+                        is_trim: false,
+                    },
+                ])
+                .await
+                .unwrap();
+            assert!(summary.status.is_err());
+        }
     }
 
     #[tokio::test]

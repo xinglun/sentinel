@@ -1,0 +1,541 @@
+{
+  "contractVersion": 2,
+  "workItemId": "expectation-report-i18n",
+  "mode": "code",
+  "title": "修复 Expectation observation 多语言输出",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "11a46d1dec810316f2fc55c2081fe396abded3a8761643cb1e73e8491d1117ec"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-asof-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7dc0adf5177809bce740e64cdfd472891cec1ea9a7f0da82c2d70083d0ede251"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-asof-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "f9761d6034217edc0a4b425cbe2c20e86b425cd4c3fff6b320657616229e310b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7528faa4efc7f9d783de9d061cdf0d0d4d1201c982889771a7751134635075c8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "957a7edebc43af50a975b6e9ae4ebaf6e444f705110272c8ac500660994b9bc2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "696904f72662d76b5434e1981371857ebaab2803e38e6e6743fbc261b3608dcf"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6a7af0489f4b34b36ed21b53f9fd7a7b4734994e2df24dac3b84659c1946ee3f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-source-diagnostic.contract.json",
+      "status": "??",
+      "fingerprint": "82442d27ad1dc123940b0063aa3a56a8d7407752d37998907d4a6a5ed517d277"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-source-diagnostic.summary.json",
+      "status": "??",
+      "fingerprint": "4e2230b9c03468239471c97ec02a5118b52246d72ed5045f93b061bccce10a4f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-weekly-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "47873500f69f8bea2ea2a7b1a439b0d930c3d18a4f9482ccc681732dd556599e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-weekly-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "641cff01c95a786c9088f98979d55cc98f855b848e7eded30615f07c8525371a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-zero-consensus-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "ed3576653f9fce4d4ebcec5d63a5c1d708d929ceee6330ec429a3b24ce36e03a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-zero-consensus-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "18a83f4b684587d7565ff53b850dc54b35c097006be828eccf438065dea80db4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.contract.json",
+      "status": "M",
+      "fingerprint": "391bd7e6f0a69350440b06482753cb57a9a0a886967e1471e1e800f90370a86d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/full-cross-layer-consistency.summary.json",
+      "status": "M",
+      "fingerprint": "cfaff08edf815a4f171c753cc4dc5fd6ad2b356f6fb485a222f139f8e32daa2a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "26a69ba1310daaf01374d8fc5debea79b2ad81418e3c9130a63a7219770f7fd9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "954265593ad7e08a358e94af102df321441394e0d45cc499fd610fdc2b6c947f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-invalid-kline-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "2b5954517d249429791b13e195650b9b22b2c99206fada926b57ba1a16ec0e70"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-invalid-kline-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "3e30f78cb1637770805986593346c7dd81ab184f2474b82a73749855030a870b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-order-id-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "1629ca553f7f493a839d392a322ba2d30dbf3666ba880b01a2f51d6fe085d65d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-order-id-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "788b6bb7c054556e8a04e6d920d84adbcdbf563f2c28dbfc89e0819e7f944461"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.contract.json",
+      "status": "M",
+      "fingerprint": "dbcf123b5c833d6b47b694dc419c73a9545d05ec1642c36632c7aeb5de3c8727"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gray_rhino_daily_report_integrity.summary.json",
+      "status": "M",
+      "fingerprint": "21fa059de9038c01ef014f31e78d2d4808afc8b6e1ad9955855a31ed3da5fdfd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-timeline-asof-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "88d60fc289d572ba07baf83e29bf214365abb2ebd63b2afbba84ab223d421b9f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-timeline-asof-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "d5ea62f040dfa2dd027199ef00d85121e1715897bf6f8ef86231a8855a8a69fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "9259bbaaddebf618d808a23da90703b3b1e37eb2343e172ffd08afa96dc2cf06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "217c0d789774f148a141cb581afe089ce8bb1d4962e1faec0c32430336f456ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-coverage-repair.contract.json",
+      "status": "M",
+      "fingerprint": "8450cfa50e2f9450c1a27f14b2af1f8bb315d8a0d99f0f76d37c9297d879fc8d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-coverage-repair.summary.json",
+      "status": "M",
+      "fingerprint": "6b6243fcb1c3dc6146af03e16843eadfb8d0a45377c0ccae8e96feb350c8973f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-diagnostic-consistency.contract.json",
+      "status": "??",
+      "fingerprint": "8daadaef2aa93aff20e6b62d35131bde84d3aea4d1c92c343563898134259bed"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/signal-context-diagnostic-consistency.summary.json",
+      "status": "??",
+      "fingerprint": "06b495e58d3ab9b65ca1949a62882dc69f48894dc6355bfa43c99044e8497f81"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-capacity-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7a2ff7d58363a87bd3090583034443c57f9dc5061d780c3831744cbe7cfbe8e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-capacity-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "a6de08c8449f9837071ffc8985e982f576c10ce38718ad25a0f1666566f38ce7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-fill-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "c49959bde4191ffde3a4ec6b2b5647efa7cbc1ce33efe56deb4d2c58dbcd6d1f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-fill-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "70ae5d4d48193c2c4e21849e9e1575b1cdd24f2d17cb30207f693fe797047e72"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-order-input-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "15eaaa667d3cdbf0643744c529371ef25d0f232c8456beadd9899287ee4c0372"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-order-input-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "42026f86c74f822beb73b7f467021b842ec2c69fc5231e8722181135b1cdef97"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-reconciliation-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "28d1c7b97656e4d4105ac0f75ff22af103e67e600a8946120c0f502c142cc654"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-reconciliation-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "0435a66df9b261c2ab2afb61aea10e584e4cb73dcbe2b271720417f0a5bd012c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-rejection-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "ea52fad2507389ac103e48bbdbe7dd97660f1054a1064be056a58e9205a7adb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-rejection-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "54b395e3ba1a9d29e1825a297ee42af6585063c54767d2449bc4c3e4dc98e6c0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-terminal-failure-status.contract.json",
+      "status": "??",
+      "fingerprint": "beb406af8468698123a4f81a08897f2a0bbac3b5ab84a8d527232dcda84d82e9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-terminal-failure-status.summary.json",
+      "status": "??",
+      "fingerprint": "89fd3e255475f6685213e4bb8093c085468621d3d48a8248e84304abd4f4f389"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-timeout-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "4762e31689245013dafde0eb8530e69642575262cf8b93bd1678ed0ada750faa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-timeout-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "053e49c8bc7fc479f6174b7a769d51c72e70d66e3547ee1c40d8c3b23a751872"
+    },
+    {
+      "path": "Makefile",
+      "status": "M",
+      "fingerprint": "e7949072ead11c24f2110bf9f00d41442538cfde8999adc8b1f5761a1d098b31"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "status": "M",
+      "fingerprint": "ca3d39bde405feff27c00821425ae1473ea9625ee48bd3b191da1386472b4c31"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "status": "M",
+      "fingerprint": "0d729796a0e81ee1275c93577766cc61ac81ae5b67329bba07a3b246a6672818"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "bc1cff490d5b379f06c25d6571f38494371118488686f3f28ed75f5420472791"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "status": "M",
+      "fingerprint": "85f3795a0afe7d61e08d40627e42287e9fc03b903558a23dbd76a8c300beca4f"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "1c2f013a3988ef8e6b10b3e667e0c623bc5315898b947cfababb3dfa40259141"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "status": "M",
+      "fingerprint": "2197593b09f09df57f4fbca32baca085cfeaa013c4b6808295f450359df51f1d"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "status": "M",
+      "fingerprint": "63d9661970e40f045b09df8e60840d88873eafa0f3be9226b60ac553d0add9f9"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "status": "M",
+      "fingerprint": "f04ca058a3ed6a4dad3564454056eee41acdf0628ceb5fdf524010ee94d55bea"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "4af42bcc24c4e80e9acc773679bd458e7b38573be663812b91dd1afeee31ffb8"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "status": "M",
+      "fingerprint": "13e3252948d4ae34110e228d8bea75e9bc25e8f81181a22e95a88e38854466dc"
+    },
+    {
+      "path": "src/features/research/infrastructure/expectation_source_adapter.rs",
+      "status": "M",
+      "fingerprint": "ea25e7c00edae45dbd203471f54b6658dc2754a3012c6104f2d40c01c3e778ac"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "status": "M",
+      "fingerprint": "de45ad0d4146a93deea6bbefd2631e1af0b63e5fc364440fb3f400d889654c45"
+    },
+    {
+      "path": "src/features/research/interface/cognitive_reports.rs",
+      "status": "M",
+      "fingerprint": "ab8e52a36730f5de57a9f3adc4efe16476498b1acbf5c982a448299474dbdd97"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "status": "M",
+      "fingerprint": "b6924e937c1c461bc4021de56fe9e346e0af063ed937b9a032218211310d5597"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "status": "M",
+      "fingerprint": "9c504e317333e9fec621ea082441239279c7a8cecb32ae7989fcdd920c72fc69"
+    },
+    {
+      "path": "src/features/research/interface/gray_rhino_cli_handler.rs",
+      "status": "M",
+      "fingerprint": "e4e6dbf68b601e74e65e3a058dd226c55700af0d332f4dbf1c7202762556caa4"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    },
+    {
+      "path": "src/features/shared/infrastructure/ledger.rs",
+      "status": "M",
+      "fingerprint": "d4da921b54eed73218bc287b788fe6af0dd9af50c9c769004a77a979988968dd"
+    },
+    {
+      "path": "src/features/trading/application/trade_executor.rs",
+      "status": "M",
+      "fingerprint": "e6abdc6c2f28c41bd7c91ed0613fedd2d97f4f5cb6d67b7ae11122b11db557e3"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "status": "M",
+      "fingerprint": "b53ab72d68bd93f3ea2db67812c306edf988193f6177b72606b2836943fdcc68"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "status": "M",
+      "fingerprint": "b5dcd3f734cde276132a2d7d8da719989ddb7f7b4afe8bb7f358342aa87280aa"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "status": "M",
+      "fingerprint": "65f873f106f0c5a644678ead8f9d0fe26ba70ef28bd07430d83e51441fba0f91"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "status": "M",
+      "fingerprint": "3839e05e44281094463bf838d2d8a7415b399f7dcc7c4430fc1b212decc0ae6a"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "status": "M",
+      "fingerprint": "844132eacf038d26e2bd225a89027a75ca7cbecd27a128405b5509512d49f52a"
+    }
+  ],
+  "problemStatement": "Expectation report 的 push_observation_block 忽略 language 参数，导致 zh-cn/en-us 日报的 observation interpretation 混入日文原文。",
+  "intent": {"problem": "单语言报告把日文 interpretation 直接输出给中文或英文用户", "constraints": ["不改变 observation 事实值", "不改变决策或交易边界", "仅修改 Expectation report presentation"], "rationale": "报告已具备三语标题和字段标签，但 observation interpretation 未遵守同一语言契约，属于用户可见功能缺口"},
+  "scope": [
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_tests.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/expectation-report-i18n.contract.json",
+    ".ai/work-items/active/expectation-report-i18n.summary.json"
+  ],
+  "outOfScope": ["Gate", "Execution", "Trader", "Action Matrix", "Position Sizing", "自动交易", "新增外部数据源", "修改 observation 事实值"],
+  "sources": [
+    {
+      "path": "src/features/research/interface/expectation_report.rs",
+      "reason": "Expectation observation presentation 与 language 参数的实际实现。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_tests.rs",
+      "reason": "现有 report 行为测试入口。"
+    },
+    {
+      "path": "reports/2026-08-12.md",
+      "reason": "中文日报中 observation interpretation 混入日文的真实证据。"
+    },
+    {
+      "path": "docs/specs/INTERPRETATION_LAYER.md",
+      "reason": "Interpretation Layer 的单语言输出契约。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["i18n_snapshot", "data_integrity"],
+    "reason": "仅翻译 observation interpretation 文案，不改变值、状态或 report-only 边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围与三语验收条件已明确。"
+  },
+  "preReviewWarnings": [
+    "只处理 observation interpretation 的多语言呈现，不改变数据事实。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "zh-cn Expectation report 的 observation interpretation 不包含日文原文，并使用中文说明。",
+    "en-us Expectation report 的 observation interpretation 不包含日文原文，并使用英文说明。",
+    "ja-jp Expectation report 保留日文说明；事实值、状态值、source health 与边界字段不变。",
+    "fixture 与 live unavailable observation 都经过同一 language-aware presentation 路径。",
+    "新增回归测试覆盖 zh-cn、en-us、ja-jp 三种语言，且不产生交易关键词。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json SUMMARY=.ai/work-items/active/expectation-report-i18n.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json SUMMARY=.ai/work-items/active/expectation-report-i18n.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-report-i18n.summary.json CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json SUMMARY=.ai/work-items/active/expectation-report-i18n.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-report-i18n.contract.json SUMMARY=.ai/work-items/active/expectation-report-i18n.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -513,6 +513,9 @@ pub(crate) async fn run_collect_gray_rhino_sources(
         gray_rhino_provider_status_label(language),
         gray_rhino_provider_status_value(language, provider_status)
     );
+    println!("machine_provider_status: {provider_status}");
+    println!("machine_accepted: {accepted}");
+    println!("machine_rejected: {rejected}");
     for outcome in &outcomes {
         println!(
             "- {} {}={} {}={} {}={} {}={} {}={} {}={}",
@@ -872,6 +875,9 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
     let raw = read_gray_rhino_text_file(file, "Failed to read Gray Rhino backfill manifest")?;
     let entries: Vec<serde_json::Value> = serde_json::from_str(&raw)
         .with_context(|| format!("Failed to parse Gray Rhino backfill manifest: {}", file))?;
+    let as_of_date = observed_date_arg
+        .and_then(|raw| NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
+        .unwrap_or_else(|| chrono::Local::now().date_naive());
     let started_at = chrono::Local::now().to_rfc3339();
     let run_id = format!(
         "gray-rhino-backfill-{:x}",
@@ -1017,6 +1023,7 @@ pub(crate) async fn run_collect_gray_rhino_backfill(
         &std::path::PathBuf::from(&app_config.output.save_to),
         &serde_json::json!({
             "run_id": run_id,
+            "as_of_date": as_of_date,
             "mode": "dry_run",
             "manifest": file,
             "categories": categories,

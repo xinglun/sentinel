@@ -1,0 +1,168 @@
+{
+  "workItemId": "review-run-status-integrity",
+  "contractPath": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/cli.rs",
+      "reason": "review 最新日报读取增加对应 run_status 成功校验，并拒绝失败或缺失状态。"
+    },
+    {
+      "path": ".ai/work-items/active/review-run-status-integrity.contract.json",
+      "reason": "记录 scope、验收条件与完整 make 验证入口。"
+    },
+    {
+      "path": ".ai/work-items/active/review-run-status-integrity.summary.json",
+      "reason": "记录实现、测试与审查残余风险。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit 状态生成流程更新。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/features/shared/application/run_status.rs",
+    "src/features/shared/infrastructure/run_status_reader.rs",
+    ".ai/work-items/active/review-run-status-integrity.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed",
+      "evidence": "723 tests passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json SUMMARY=.ai/work-items/active/review-run-status-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/review-run-status-integrity.summary.json CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json SUMMARY=.ai/work-items/active/review-run-status-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/review-run-status-integrity.contract.json SUMMARY=.ai/work-items/active/review-run-status-integrity.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "失败、缺失或格式错误的 run_status 均会安全拒绝 review；成功路径由既有回归测试覆盖。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已完成 task-specific 定义。",
+      "contractHash": "e8cbb8b5dd1bec2e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "实现前已完成 preflight。",
+      "contractHash": "e8cbb8b5dd1bec2e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "成功、失败、缺失状态测试均通过。",
+      "contractHash": "e8cbb8b5dd1bec2e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "完整 required checks 通过。",
+      "contractHash": "e8cbb8b5dd1bec2e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract scope 与验收已明确。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Preflight 允许继续。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "行为测试已覆盖成功、失败、缺失状态。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 已通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "report_integrity",
+      "detail": "历史目录中已有旧日报但没有 run_status 时，review 会拒绝读取，需要先完成一次成功运行。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "实现与验证完成；仅保留缺少运行状态时的安全拒绝行为作为运营注意事项。",
+    "expectedReviewFocus": [
+      "失败运行后不得展示旧日报",
+      "成功运行的既有 review 行为保持不变"
+    ]
+  }
+}
