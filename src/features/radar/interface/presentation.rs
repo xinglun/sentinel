@@ -45,6 +45,18 @@ pub struct SignalSummaryViewModel {
     pub flow_value: String,
     pub breadth_label: String,
     pub breadth_value: String,
+    #[serde(default)]
+    pub breadth_raw_label: String,
+    #[serde(default)]
+    pub breadth_raw_value: String,
+    #[serde(default)]
+    pub breadth_counts_label: String,
+    #[serde(default)]
+    pub breadth_counts_value: String,
+    #[serde(default)]
+    pub breadth_universe_label: String,
+    #[serde(default)]
+    pub breadth_universe_value: String,
     pub breadth_semantic_label: String,
     pub breadth_semantic_value: String,
     pub supply_phase_label: String,

@@ -212,6 +212,31 @@ impl PresentationAssembler {
                 TrendBreadthMode::FragileRotation => "Narrow".to_string(),
                 TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
             },
+            breadth_raw_label: "Breadth Raw".to_string(),
+            breadth_raw_value: if packet.market_features.total_count == 0 {
+                "UNAVAILABLE".to_string()
+            } else {
+                format!(
+                    "{:.1}%",
+                    packet.market_features.up_count as f64
+                        / packet.market_features.total_count as f64
+                        * 100.0
+                )
+            },
+            breadth_counts_label: "Breadth Counts".to_string(),
+            breadth_counts_value: format!(
+                "up={} flat={} down={} total={}",
+                packet.market_features.up_count,
+                packet.market_features.flat_count,
+                packet.market_features.down_count,
+                packet.market_features.total_count
+            ),
+            breadth_universe_label: "Breadth Universe".to_string(),
+            breadth_universe_value: format!(
+                "{:.1}% integrity / {} observed",
+                packet.market_features.universe_integrity * 100.0,
+                packet.market_features.total_count
+            ),
             breadth_semantic_label: "Breadth Label".to_string(),
             breadth_semantic_value: breadth_semantic_value_for_mode(trend_breadth_mode).to_string(),
             supply_phase_label: "Supply Phase".to_string(),
