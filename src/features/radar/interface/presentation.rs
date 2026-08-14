@@ -45,6 +45,18 @@ pub struct SignalSummaryViewModel {
     pub flow_value: String,
     pub breadth_label: String,
     pub breadth_value: String,
+    #[serde(default)]
+    pub breadth_raw_label: String,
+    #[serde(default)]
+    pub breadth_raw_value: String,
+    #[serde(default)]
+    pub breadth_counts_label: String,
+    #[serde(default)]
+    pub breadth_counts_value: String,
+    #[serde(default)]
+    pub breadth_universe_label: String,
+    #[serde(default)]
+    pub breadth_universe_value: String,
     pub breadth_semantic_label: String,
     pub breadth_semantic_value: String,
     pub supply_phase_label: String,
@@ -76,6 +88,7 @@ pub struct LeaderPersistenceViewModel {
     pub persistence_label: String,
     pub persistence_value: String,
     pub persistence_days: usize,
+    pub leader_absence_duration: usize,
     pub observed_days_label: String,
     pub observed_days_value: String,
     pub breakout_continuity_label: String,
@@ -96,6 +109,24 @@ pub struct LeaderPersistenceViewModel {
     pub score_change: f64,
     pub switch_history_label: String,
     pub switch_history_values: Vec<String>,
+    pub boundary: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct CurrentRelativeStrengthItemViewModel {
+    pub symbol: String,
+    pub status: String,
+    pub relative_1d_vs_benchmark: Option<f64>,
+    pub relative_5d_vs_benchmark: Option<f64>,
+    pub price_position: Option<f64>,
+    pub volume_participation: Option<f64>,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct CurrentRelativeStrengthViewModel {
+    pub title: String,
+    pub confirmed_leader: String,
+    pub items: Vec<CurrentRelativeStrengthItemViewModel>,
     pub boundary: String,
 }
 
@@ -465,6 +496,14 @@ pub struct SignalContextItem {
     pub source_published_at: String,
     pub market_date: String,
     pub evidence: Vec<EvidenceRecord>,
+    #[serde(default)]
+    pub expected_value: Option<String>,
+    #[serde(default)]
+    pub actual_value: Option<String>,
+    #[serde(default)]
+    pub surprise: Option<String>,
+    #[serde(default)]
+    pub reason: Option<String>,
 }
 
 /// Signal Context v1 の読み取りモデル。取引判断への影響は常にゼロ。
@@ -837,6 +876,8 @@ pub struct PresentationPacket {
     pub leadership_snapshot: Option<LeadershipSnapshotViewModel>,
     #[serde(default)]
     pub leader_persistence: Option<LeaderPersistenceViewModel>,
+    #[serde(default)]
+    pub current_relative_strength: Option<CurrentRelativeStrengthViewModel>,
     #[serde(default)]
     pub market_change_log: Option<MarketChangeLogViewModel>,
     #[serde(default)]

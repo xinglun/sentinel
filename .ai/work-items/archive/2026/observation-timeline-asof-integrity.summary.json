@@ -1,0 +1,150 @@
+{
+  "workItemId": "observation-timeline-asof-integrity",
+  "contractPath": ".ai/work-items/archive/2026/observation-timeline-asof-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "增加按 as_of_date 重建 observation timeline 的读取入口和未来条目回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "历史报告上下文改用 packet.date 截止的 observation timeline。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-timeline-asof-integrity.contract.json",
+      "reason": "记录历史 timeline 日期边界。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-timeline-asof-integrity.summary.json",
+      "reason": "记录实现和验证证据。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json SUMMARY=.ai/work-items/active/observation-timeline-asof-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-timeline-asof-integrity.summary.json CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json SUMMARY=.ai/work-items/active/observation-timeline-asof-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-timeline-asof-integrity.contract.json SUMMARY=.ai/work-items/active/observation-timeline-asof-integrity.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "历史报告不再读取未来 observation timeline 条目。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "定向 timeline 回归测试通过。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已定义 timeline 日期边界。",
+      "contractHash": "88d60fc289d572ba",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight ready。",
+      "contractHash": "88d60fc289d572ba",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "未来 timeline 条目过滤测试通过。",
+      "contractHash": "88d60fc289d572ba",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required checks 全部通过。",
+      "contractHash": "88d60fc289d572ba",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Scope、sources、acceptance 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Preflight 允许继续。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "日期过滤回归通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 待 ai-finish 执行。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "历史报告 timeline 已按 packet.date 截止并通过定向验证。",
+    "expectedReviewFocus": [
+      "确认历史 report context 不再调用 load_latest_observation_timeline"
+    ]
+  }
+}

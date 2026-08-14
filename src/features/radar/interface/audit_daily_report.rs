@@ -4,8 +4,67 @@ use std::collections::BTreeMap;
 use std::path::Path;
 
 use crate::features::shared::application::run_status::DeliveryStatus;
+use crate::features::shared::domain::evidence::{AutomatedEvidenceRecord, EvidenceSourceType};
 use crate::features::shared::infrastructure::run_status_reader::load_run_evidence_collection_status;
 use crate::features::shared::interface::i18n::Language;
+
+const MAX_DISPLAYED_SUBSTANTIVE_SUMMARIES: usize = 20;
+
+fn evidence_source_priority(source: EvidenceSourceType) -> u8 {
+    match source {
+        EvidenceSourceType::OfficialIR => 0,
+        EvidenceSourceType::Manual => 1,
+        EvidenceSourceType::PriceAction => 2,
+        EvidenceSourceType::NewsMedia => 3,
+    }
+}
+
+fn select_display_evidence_summaries(
+    mut summaries: Vec<(u8, String, String)>,
+) -> (Vec<String>, usize) {
+    summaries.sort_by(|left, right| {
+        left.0
+            .cmp(&right.0)
+            .then_with(|| right.1.cmp(&left.1))
+            .then_with(|| left.2.cmp(&right.2))
+    });
+    let truncated_count = summaries
+        .len()
+        .saturating_sub(MAX_DISPLAYED_SUBSTANTIVE_SUMMARIES);
+    summaries.truncate(MAX_DISPLAYED_SUBSTANTIVE_SUMMARIES);
+    (
+        summaries
+            .into_iter()
+            .map(|(_, _, summary)| summary)
+            .collect(),
+        truncated_count,
+    )
+}
+
+fn format_substantive_evidence_summary(
+    record: &AutomatedEvidenceRecord,
+    language: Language,
+) -> String {
+    let symbol_part = record
+        .symbol
+        .as_ref()
+        .map(|s| format!("[{}] ", s))
+        .unwrap_or_default();
+    let date_part = format!("[{}] ", record.event_date);
+    let type_part = format!("[{:?}] ", record.evidence_type);
+    let conf_part = format!("(conf:{:.2}) ", record.confidence);
+    let source_part = format!("[{:?}] ", record.source);
+    let url_part = record
+        .source_url
+        .as_deref()
+        .map(|u| format!(" ({})", u))
+        .unwrap_or_default();
+    let description = format_evidence_description(&record.description, language);
+    format!(
+        "- {}{}{}{}{}{}{}",
+        symbol_part, date_part, type_part, conf_part, source_part, description, url_part
+    )
+}
 
 #[derive(Debug, Clone)]
 pub(crate) struct TransitionAuditEntry {
@@ -303,7 +362,7 @@ pub(crate) fn build_audit_daily_report_with_formal_baseline(
     let breakout_text = summarize_breakout_sentence(&breakout_today, language);
     let mainline_text = trend_status_label(today_latest.log.trend_cohesion_status.to, language);
 
-    let (substantive_summaries, excluded_non_production_evidence) = {
+    let (substantive_summaries, excluded_non_production_evidence, truncated_evidence) = {
         let mut summaries = Vec::new();
         let mut seen_keys = std::collections::HashSet::new();
         let mut excluded_count = 0;
@@ -329,41 +388,18 @@ pub(crate) fn build_audit_daily_report_with_formal_baseline(
                             record.dedupe_key().to_string()
                         };
                         if seen_keys.insert(key) {
-                            let symbol_part = record
-                                .symbol
-                                .as_ref()
-                                .map(|s| format!("[{}] ", s))
-                                .unwrap_or_default();
-                            let date_part = format!("[{}] ", record.event_date);
-                            let type_part = format!("[{:?}] ", record.evidence_type);
-                            let conf_part = format!("(conf:{:.2}) ", record.confidence);
-                            let source_part = format!("[{:?}] ", record.source);
-
-                            let url_part = record
-                                .source_url
-                                .as_deref()
-                                .map(|u| format!(" ({})", u))
-                                .unwrap_or_default();
-
-                            let description =
-                                format_evidence_description(&record.description, language);
-
-                            summaries.push(format!(
-                                "- {}{}{}{}{}{}{}",
-                                symbol_part,
-                                date_part,
-                                type_part,
-                                conf_part,
-                                source_part,
-                                description,
-                                url_part
+                            summaries.push((
+                                evidence_source_priority(record.source),
+                                record.event_date.clone(),
+                                format_substantive_evidence_summary(record, language),
                             ));
                         }
                     }
                 }
             }
         }
-        (summaries, excluded_count)
+        let (summaries, truncated_count) = select_display_evidence_summaries(summaries);
+        (summaries, excluded_count, truncated_count)
     };
 
     let audit_sentence = build_audit_sentence(
@@ -474,6 +510,12 @@ pub(crate) fn build_audit_daily_report_with_formal_baseline(
             text.label_evidence_excluded,
             excluded_non_production_evidence,
             text.note_evidence_excluded
+        ));
+    }
+    if truncated_evidence > 0 {
+        out.push_str(&format!(
+            "- {}: {}. {}\n",
+            text.label_evidence_truncated, truncated_evidence, text.note_evidence_truncated
         ));
     }
 
@@ -690,15 +732,15 @@ fn audit_breadth_label(primary_count: usize, language: Language) -> &'static str
     match (primary_count, language) {
         (0, Language::ZhCn) => "Very Narrow",
         (1, Language::ZhCn) => "Narrow",
-        (2, Language::ZhCn) => "Healthy Expansion",
+        (2, Language::ZhCn) => "Narrow",
         (_, Language::ZhCn) => "Broad Participation",
         (0, Language::EnUs) => "Very Narrow",
         (1, Language::EnUs) => "Narrow",
-        (2, Language::EnUs) => "Healthy Expansion",
+        (2, Language::EnUs) => "Narrow",
         (_, Language::EnUs) => "Broad Participation",
         (0, Language::JaJp) => "Very Narrow",
         (1, Language::JaJp) => "Narrow",
-        (2, Language::JaJp) => "Healthy Expansion",
+        (2, Language::JaJp) => "Narrow",
         (_, Language::JaJp) => "Broad Participation",
     }
 }
@@ -1006,6 +1048,8 @@ struct AuditDailyText {
     label_evidence_stock: &'static str,
     label_evidence_excluded: &'static str,
     note_evidence_excluded: &'static str,
+    label_evidence_truncated: &'static str,
+    note_evidence_truncated: &'static str,
     label_no_trade_streak: &'static str,
     label_mainline_missing_streak: &'static str,
     label_recent_shape: &'static str,
@@ -1053,6 +1097,8 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_evidence_stock: "历史证据存量",
             label_evidence_excluded: "已排除非生产来源证据",
             note_evidence_excluded: "历史确信度快照可能包含该来源，请以重新运行后的记录为准",
+            label_evidence_truncated: "已压缩日报证据明细",
+            note_evidence_truncated: "仅保留 20 条明细，优先正式来源与较新记录；完整记录仍保留在审计数据中",
             label_no_trade_streak: "当前 NO TRADE 连续段长度",
             label_mainline_missing_streak: "当前主线缺失连续段长度",
             label_recent_shape: "最近一段 NO TRADE 形态",
@@ -1098,6 +1144,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_evidence_excluded: "Excluded non-production evidence",
             note_evidence_excluded:
                 "Stored historical conviction snapshots may contain this source; rely on newly generated records",
+            label_evidence_truncated: "Daily evidence details truncated",
+            note_evidence_truncated:
+                "Only 20 details are shown, prioritizing formal sources and recent records; full records remain in audit data.",
             label_no_trade_streak: "Current NO TRADE streak",
             label_mainline_missing_streak: "Current missing-mainline streak",
             label_recent_shape: "Recent NO TRADE segment type",
@@ -1144,6 +1193,9 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_evidence_excluded: "除外した非本番証拠",
             note_evidence_excluded:
                 "履歴の確信度スナップショットには当該ソースが含まれる可能性があるため、再実行後の記録を基準とする",
+            label_evidence_truncated: "日報証拠詳細を圧縮",
+            note_evidence_truncated:
+                "正式ソースと新しい記録を優先して20件だけ表示し、完全な記録は監査データに保持する",
             label_no_trade_streak: "現在の NO TRADE 連続日数",
             label_mainline_missing_streak: "現在の主線欠如連続日数",
             label_recent_shape: "直近 NO TRADE 区間の形態",
@@ -1720,6 +1772,7 @@ pub(crate) fn audit_daily_usage(language: Language) -> &'static str {
 mod tests {
     use super::*;
     use crate::features::shared::application::run_status::DeliveryStatus;
+    use crate::features::shared::domain::evidence::EvidenceType;
     use std::fs;
     use tempfile::{tempdir, NamedTempFile};
 
@@ -1768,6 +1821,50 @@ mod tests {
                 }
             }
         })
+    }
+
+    #[test]
+    fn daily_evidence_display_caps_details_and_prioritizes_formal_sources() {
+        let news = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::NewsMedia,
+            EvidenceType::EarningsValidation,
+            0.7,
+            "news".to_string(),
+            "2026-08-12".to_string(),
+            Some("TSLA".to_string()),
+            None,
+            "news".to_string(),
+        );
+        let formal = AutomatedEvidenceRecord::new(
+            EvidenceSourceType::OfficialIR,
+            EvidenceType::EarningsValidation,
+            0.9,
+            "formal".to_string(),
+            "2026-01-01".to_string(),
+            Some("TSLA".to_string()),
+            None,
+            "formal".to_string(),
+        );
+        let mut summaries = (0..25)
+            .map(|_| {
+                (
+                    evidence_source_priority(news.source),
+                    news.event_date.clone(),
+                    format_substantive_evidence_summary(&news, Language::ZhCn),
+                )
+            })
+            .collect::<Vec<_>>();
+        summaries.push((
+            evidence_source_priority(formal.source),
+            formal.event_date.clone(),
+            format_substantive_evidence_summary(&formal, Language::ZhCn),
+        ));
+
+        let (selected, truncated) = select_display_evidence_summaries(summaries);
+
+        assert_eq!(selected.len(), 20);
+        assert_eq!(truncated, 6);
+        assert!(selected[0].contains("[2026-01-01]"));
     }
 
     #[tokio::test]
@@ -2086,5 +2183,14 @@ mod tests {
         assert!(report.contains("dayType: normal"));
         assert!(report.contains("reason: trend_continuation"));
         assert!(report.contains("exceptionalFactors: []"));
+    }
+
+    #[test]
+    fn audit_breadth_label_does_not_call_two_leaders_healthy_expansion() {
+        assert_eq!(audit_breadth_label(2, Language::EnUs), "Narrow");
+        assert_eq!(
+            audit_breadth_label(3, Language::EnUs),
+            "Broad Participation"
+        );
     }
 }

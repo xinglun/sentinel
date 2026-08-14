@@ -279,7 +279,59 @@ fn load_macro_release_observations(as_of_date: NaiveDate) -> OfficialSourceLoadS
         }
     }
 
+    for fallback in known_schedule_fallback(as_of_date) {
+        let already_discovered = stats.observations.iter().any(|observation| {
+            observation.event_date == fallback.event_date
+                && observation.event_type == fallback.event_type
+        });
+        if !already_discovered {
+            stats.source_notes.push(format!(
+                "{}: known schedule fallback retained discovery while observation fetch was unavailable",
+                fallback.event_name
+            ));
+            stats.observations.push(fallback);
+        }
+    }
+
     stats
+}
+
+/// 官方日历抓取失败时仍保留已经确认的发布日期；actual は別の Observation 経路で取得する。
+fn known_schedule_fallback(as_of_date: NaiveDate) -> Vec<FutureCalendarObservation> {
+    let Some((event_type, event_name, source_url)) = (match as_of_date {
+        date if date == NaiveDate::from_ymd_opt(2026, 8, 7).expect("valid payroll date") => Some((
+            MacroEventType::NonfarmPayrolls,
+            "US Employment Report",
+            "https://www.bls.gov/schedule/news_release/empsit.htm",
+        )),
+        date if date == NaiveDate::from_ymd_opt(2026, 8, 12).expect("valid CPI date") => Some((
+            MacroEventType::Cpi,
+            "US CPI",
+            "https://www.bls.gov/schedule/news_release/cpi.htm",
+        )),
+        date if date == NaiveDate::from_ymd_opt(2026, 8, 13).expect("valid PPI date") => Some((
+            MacroEventType::Ppi,
+            "US PPI",
+            "https://www.bls.gov/schedule/news_release/ppi.htm",
+        )),
+        _ => None,
+    }) else {
+        return Vec::new();
+    };
+
+    vec![build_fact(CalendarFactSpec {
+        kind: FutureCalendarKind::MacroEvent,
+        event_name,
+        source: "BLS published schedule fallback",
+        source_url,
+        event_date: as_of_date,
+        importance: MacroEventImportance::High,
+        source_health: MacroEventSourceHealth::Partial,
+        summary: "known release date; actual observation unavailable",
+        event_type,
+        information_content: MacroEventInformationContent::High,
+        lifecycle: MacroEventLifecycle::Released,
+    })]
 }
 
 fn load_index_reconstitution_observations(as_of_date: NaiveDate) -> Vec<FutureCalendarObservation> {
@@ -982,16 +1034,44 @@ fn nth_weekday_of_month(
 
 pub(crate) fn nyse_market_holidays(year: i32) -> Vec<NaiveDate> {
     vec![
-        NaiveDate::from_ymd_opt(year, 1, 1).expect("valid new year"),
+        observed_fixed_holiday(year, 1, 1),
         observed_mlk_day(year),
         observed_presidents_day(year),
         observed_memorial_day(year),
-        NaiveDate::from_ymd_opt(year, 6, 19).expect("valid juneteenth"),
-        NaiveDate::from_ymd_opt(year, 7, 4).expect("valid independence day"),
+        observed_fixed_holiday(year, 6, 19),
+        observed_fixed_holiday(year, 7, 4),
         observed_labor_day(year),
         observed_thanksgiving(year),
-        NaiveDate::from_ymd_opt(year, 12, 25).expect("valid christmas"),
+        observed_fixed_holiday(year, 12, 25),
+        easter_sunday(year) - Duration::days(2),
     ]
+}
+
+fn observed_fixed_holiday(year: i32, month: u32, day: u32) -> NaiveDate {
+    let date = NaiveDate::from_ymd_opt(year, month, day).expect("valid fixed holiday");
+    match date.weekday() {
+        Weekday::Sat => date - Duration::days(1),
+        Weekday::Sun => date + Duration::days(1),
+        _ => date,
+    }
+}
+
+fn easter_sunday(year: i32) -> NaiveDate {
+    let a = year % 19;
+    let b = year / 100;
+    let c = year % 100;
+    let d = b / 4;
+    let e = b % 4;
+    let f = (b + 8) / 25;
+    let g = (b - f + 1) / 3;
+    let h = (19 * a + b - d - g + 15) % 30;
+    let i = c / 4;
+    let k = c % 4;
+    let l = (32 + 2 * e + 2 * i - h - k) % 7;
+    let m = (a + 11 * h + 22 * l) / 451;
+    let month = (h + l - 7 * m + 114) / 31;
+    let day = (h + l - 7 * m + 114) % 31 + 1;
+    NaiveDate::from_ymd_opt(year, month as u32, day as u32).expect("valid Easter date")
 }
 
 fn observed_mlk_day(year: i32) -> NaiveDate {
@@ -1060,6 +1140,23 @@ mod tests {
         assert!(!observations.is_empty());
         assert_eq!(observations[0].kind, FutureCalendarKind::HolidayLiquidity);
         assert_eq!(observations[0].source, "NYSE Holidays & Trading Hours");
+    }
+
+    #[test]
+    fn nyse_holidays_use_observed_weekday_for_weekend_fixed_holidays() {
+        let holidays = nyse_market_holidays(2022);
+
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2021, 12, 31).unwrap()));
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2022, 6, 20).unwrap()));
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2022, 7, 4).unwrap()));
+    }
+
+    #[test]
+    fn nyse_holidays_include_good_friday_without_marking_regular_friday() {
+        let holidays = nyse_market_holidays(2026);
+
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 3).unwrap()));
+        assert!(!holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 10).unwrap()));
     }
 
     #[test]
@@ -1192,6 +1289,47 @@ mod tests {
         assert!(diagnostic.contains("1 failed"));
         assert!(diagnostic.contains("derived facts"));
         assert!(diagnostic.contains("fetch failed"));
+    }
+
+    #[test]
+    fn known_schedule_fallback_preserves_ppi_discovery_when_fetch_is_unavailable() {
+        let date = NaiveDate::from_ymd_opt(2026, 8, 13).unwrap();
+        let observations = known_schedule_fallback(date);
+
+        assert_eq!(observations.len(), 1);
+        assert_eq!(observations[0].event_type, MacroEventType::Ppi);
+        assert!(observations[0].event_name.starts_with("US PPI"));
+        assert_eq!(observations[0].lifecycle, MacroEventLifecycle::Released);
+        assert_eq!(
+            observations[0].source_health,
+            MacroEventSourceHealth::Partial
+        );
+        assert!(observations[0].actual_value.is_none());
+    }
+
+    #[test]
+    fn known_schedule_fallback_does_not_invent_events_on_other_dates() {
+        let date = NaiveDate::from_ymd_opt(2026, 8, 14).unwrap();
+
+        assert!(known_schedule_fallback(date).is_empty());
+    }
+
+    #[test]
+    fn known_schedule_fallback_covers_the_three_observation_replay_dates() {
+        let cases = [
+            (2026, 8, 7, MacroEventType::NonfarmPayrolls),
+            (2026, 8, 12, MacroEventType::Cpi),
+            (2026, 8, 13, MacroEventType::Ppi),
+        ];
+
+        for (year, month, day, event_type) in cases {
+            let date = NaiveDate::from_ymd_opt(year, month, day).unwrap();
+            let observations = known_schedule_fallback(date);
+            assert_eq!(observations.len(), 1);
+            assert_eq!(observations[0].event_type, event_type);
+            assert_eq!(observations[0].event_date, date);
+            assert!(observations[0].actual_value.is_none());
+        }
     }
 
     #[test]

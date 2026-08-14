@@ -1,0 +1,181 @@
+{
+  "contractVersion": 2,
+  "workItemId": "gravity-market-date-runtime",
+  "mode": "code",
+  "title": "按最新交易日运行估值重力数据",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "96a20b030edc068b94f98e22a2ad210b9b3e755708a5c842f7c4e418601bf49c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "4aa6e95046037b5a88eae0ad410195ff9e16eb9a52ca1abc8ebc1f2e40e62f2c"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    }
+  ],
+  "problemStatement": "Radar 以最新交易日生成估值重力时，使用日历当前日判断历史，导致收盘后运行把最新交易日误判为历史并返回 Historical snapshot missing。",
+  "intent": {
+    "problem": "Radar 的市场日与日历日不同步时，Gravity 运行时日期语义错误。",
+    "constraints": ["CLI 未来日期保护必须保留。", "历史日期仍只能读取对应 snapshot，不允许用未来数据回填。", "Gravity 仍为 observation-only，不影响 Gate 或交易。"],
+    "rationale": "最新市场数据应在当次 Radar 运行中采集并保存，下一次运行再按历史快照回放。"
+  },
+  "scope": [
+    ".ai/work-items/active/gravity-market-date-runtime.contract.json",
+    ".ai/work-items/active/gravity-market-date-runtime.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/research/application/valuation_gravity.rs",
+    "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+    "src/features/research/interface/valuation_gravity_report_builder.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": ["Finnhub 凭据与 provider availability", "Signal Context、Expectation", "Gate、Execution、Trader、Position Sizing"],
+  "sources": [
+    {"path": "src/features/research/application/valuation_gravity.rs", "reason": "FutureValuationDateError 与 as_of/current_date 语义。"},
+    {"path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs", "reason": "Gravity use case 的 current_date 注入入口。"},
+    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "Radar packet.date 作为最新交易日的运行入口。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["external_dependency"],
+    "reason": "初期 skeleton のため、実装前に scope / sources / acceptance / verification を確定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "実装前に Contract を task に合わせて更新する。"
+  },
+  "preReviewWarnings": [
+    "初期 skeleton のため、このまま ready_for_review にしない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "current_day test asserts observation persistence_health equals Saved for market_date",
+    "historical_day test asserts observation persistence_health equals Replayed or Missing",
+    "future_day test asserts execute returns FutureValuationDateError before provider calls",
+    "make test reports 722 tests passed with zero failures"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gravity-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/gravity-market-date-runtime.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

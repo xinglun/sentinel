@@ -58,18 +58,22 @@ use crate::features::research::interface::capital_absorption_report_builder::{
 };
 use crate::features::research::interface::capital_absorption_supply_phase_read_model::build_supply_phase_view_model_from_snapshot;
 use crate::features::research::interface::cognitive_reports::{
-    build_expectation_layer_report_with_config, build_expectation_layer_weekly_summary_with_config,
+    build_expectation_layer_weekly_summary_with_config_for_market_date,
     build_flow_layer_weekly_summary, credit_stress_label, enabled_asset_thesis_count,
     enabled_research_attention_count, growth_valuation_impact_label, liquidity_condition_label,
     macro_pressure_label, yield_curve_label,
 };
-use crate::features::research::interface::expectation_report_builder::build_expectation_layer_snapshot_from_config;
+use crate::features::research::interface::expectation_report_builder::{
+    build_expectation_layer_report_for_market_date,
+    build_expectation_layer_snapshot_for_market_date,
+};
 use crate::features::research::interface::gray_rhino_report::{
     build_gray_rhino_daily_report, build_gray_rhino_daily_report_view_model,
     render_gray_rhino_daily_report,
 };
 use crate::features::research::interface::valuation_gravity_report_builder::{
-    build_valuation_gravity_observation_with_auto, build_valuation_gravity_report_with_auto,
+    build_valuation_gravity_observation_for_market_date_with_auto,
+    build_valuation_gravity_report_with_auto,
 };
 use crate::features::shared::acl::ledger_factory::build_ledger_adapter;
 use crate::features::shared::acl::notification_factory::{
@@ -272,9 +276,16 @@ pub(crate) async fn run_pipeline_for_report_date(
         );
         let dict = get_dictionary(lang);
         let expectation_snapshot =
-            build_expectation_layer_snapshot_from_config(config_arc.as_ref());
-        let gravity_observation =
-            build_valuation_gravity_observation_with_auto(config_arc.as_ref(), packet.date).await?;
+            build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), packet.date);
+        let previous_expectation_snapshot = prev_packet.map(|previous| {
+            build_expectation_layer_snapshot_for_market_date(config_arc.as_ref(), previous.date)
+        });
+        let gravity_observation = build_valuation_gravity_observation_for_market_date_with_auto(
+            config_arc.as_ref(),
+            packet.date,
+            packet.date,
+        )
+        .await?;
         let capital_absorption_snapshot: Option<
             crate::features::research::domain::capital_absorption::CapitalAbsorptionAutoSnapshot,
         > = build_capital_absorption_auto_snapshot_with_config(
@@ -333,11 +344,13 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-            let previous_gravity_observation = build_valuation_gravity_observation_with_auto(
-                config_arc.as_ref(),
-                previous_packet_date,
-            )
-            .await?;
+            let previous_gravity_observation =
+                build_valuation_gravity_observation_for_market_date_with_auto(
+                    config_arc.as_ref(),
+                    previous_packet_date,
+                    packet.date,
+                )
+                .await?;
             let previous_gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
                 config_arc.as_ref(),
                 save_dir,
@@ -348,7 +361,9 @@ pub(crate) async fn run_pipeline_for_report_date(
             previous_pres.interpretation_layer = Some(build_packet_interpretation_layer(
                 previous_packet,
                 previous_pres,
-                &expectation_snapshot,
+                previous_expectation_snapshot
+                    .as_ref()
+                    .expect("previous expectation snapshot must exist with previous packet"),
                 &previous_gravity_observation,
                 previous_capital_absorption_snapshot.as_ref(),
                 previous_gray_rhino_daily_report.as_ref(),
@@ -630,7 +645,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                 reset_event: None,
                 data_quality: serde_json::json!({
                     "trend": if degraded { "DEGRADED" } else { "HEALTHY" },
-                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" }
+                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" },
+                    "breadth_observation": {
+                        "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                        "up_count": packet.market_features.up_count,
+                        "flat_count": packet.market_features.flat_count,
+                        "down_count": packet.market_features.down_count,
+                        "total_count": packet.market_features.total_count,
+                        "universe_integrity": packet.market_features.universe_integrity,
+                        "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                    }
                 }),
             }
         };
@@ -903,7 +927,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                     reset_event: None,
                     data_quality: serde_json::json!({
                         "trend": if safe_downgrade { "DEGRADED" } else { "HEALTHY" },
-                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" }
+                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" },
+                        "breadth_observation": {
+                            "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                            "up_count": packet.market_features.up_count,
+                            "flat_count": packet.market_features.flat_count,
+                            "down_count": packet.market_features.down_count,
+                            "total_count": packet.market_features.total_count,
+                            "universe_integrity": packet.market_features.universe_integrity,
+                            "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                        }
                     }),
                 };
             if let Err(error) = runtime_services
@@ -1030,6 +1063,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                         &history.symbol,
                         packet.date,
                     ),
+                    event_baseline: None,
+                    secondary_supply_context: None,
+                    market_holidays: None,
                 });
                 let persistence_days = runtime_services
                     .persistence
@@ -1053,6 +1089,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                             &history.symbol,
                             packet.date,
                         ),
+                        event_baseline: None,
+                        secondary_supply_context: None,
+                        market_holidays: None,
                     }
                 });
                 PriceVolumeReportEntry {
@@ -1086,6 +1125,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                 persistence_days: 1,
                 source_rate_limited: true,
                 volume_comparable: true,
+                event_baseline: None,
+                secondary_supply_context: None,
+                market_holidays: None,
             });
             price_volume_entries.push(PriceVolumeReportEntry {
                 symbol: symbol.clone(),
@@ -1148,6 +1190,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         append_expectation_reference_appendix(
             &mut report_result,
             config_arc.as_ref(),
+            packet.date,
             pres_packet.language,
         );
 
@@ -1290,6 +1333,17 @@ fn build_observation_timeline_entry(
                 .breadth_score_value
                 .parse()
                 .unwrap_or_default(),
+            breadth_raw_percent: if packet.market_features.total_count == 0 {
+                0.0
+            } else {
+                packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                    * 100.0
+            },
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: interpretation
                 .concentration_score_value
                 .parse()
@@ -1438,7 +1492,9 @@ fn build_weekly_report_context(
         capital_dynamics_flow_layer: build_flow_layer_weekly_summary(
             app_config.capital_dynamics.as_ref(),
         ),
-        expectation_layer: build_expectation_layer_weekly_summary_with_config(app_config),
+        expectation_layer: build_expectation_layer_weekly_summary_with_config_for_market_date(
+            app_config, as_of_date,
+        ),
     }
 }
 
@@ -1513,9 +1569,10 @@ fn append_gray_rhino_appendix(
 fn append_expectation_reference_appendix(
     report_result: &mut report::ReportResult,
     app_config: &config::AppConfig,
+    as_of_date: chrono::NaiveDate,
     language: crate::features::shared::interface::i18n::Language,
 ) {
-    let appendix = build_expectation_layer_report_with_config(app_config, language);
+    let appendix = build_expectation_layer_report_for_market_date(app_config, as_of_date, language);
     append_reference_appendix(report_result, &appendix, language);
 }
 

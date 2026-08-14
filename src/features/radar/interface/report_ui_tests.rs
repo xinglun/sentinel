@@ -4173,6 +4173,7 @@ mod tests {
                 persistence_label: "Leader Persistence".to_string(),
                 persistence_value: "5 days".to_string(),
                 persistence_days: 5,
+                leader_absence_duration: 0,
                 observed_days_label: "Observed Leadership Days in Lookback".to_string(),
                 observed_days_value: "5 days".to_string(),
                 breakout_continuity_label: "Breakout Continuity".to_string(),
@@ -4297,6 +4298,7 @@ mod tests {
             interpretation_layer: Some(interpretation_layer.clone()),
             leadership_snapshot: None,
             leader_persistence: None,
+            current_relative_strength: None,
             market_change_log: None,
             market_interpretation: None,
             hypothesis_layer: None,
@@ -5954,6 +5956,7 @@ mod tests {
                         supply_phase: "WATCH".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                     crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
                         date: NaiveDate::from_ymd_opt(2026, 7, 14).unwrap(),
@@ -5967,6 +5970,7 @@ mod tests {
                         supply_phase: "WATCH".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                 ],
                 summary: "STRUCTURAL_CHANGE".to_string(),

@@ -1,0 +1,152 @@
+{
+  "workItemId": "trader-order-input-integrity",
+  "contractPath": ".ai/work-items/archive/2026/trader-order-input-integrity.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "reason": "非法 qty/price を下单前に拒否し、ExecutionSummary.errors へ伝播する。"
+    },
+    {
+      "path": ".ai/work-items/active/trader-order-input-integrity.contract.json",
+      "reason": "订单输入整合性的 scope 与受入条件を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/trader-order-input-integrity.summary.json",
+      "reason": "実装と検証結果を記録する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/trader-order-input-integrity.contract.json",
+    "src/features/trading/infrastructure/trader_agent.rs",
+    "src/features/trading/application/execution_signal.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "注文入口的输入验证のみを追加し、execution gate と broker 协议は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "functional",
+      "detail": "NaN/Infinity/0/negative qty or price が capacity/order path に進み得た。",
+      "resolution": "OrderInputInvalid として下单前に fail-closed し、8 组非法输入回归を追加した。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract を確定した。",
+      "contractHash": "15eaaa667d3cdbf0",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "OrderInputInvalid の fail-closed と回帰テストを実装した。",
+      "contractHash": "15eaaa667d3cdbf0",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "定向入力テストと required checks を実行した。",
+      "contractHash": "15eaaa667d3cdbf0",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required checks を通過した。",
+      "contractHash": "15eaaa667d3cdbf0",
+      "acceptanceCount": 2,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "非法 qty/price を下单前に拒否する実装とテストを完了した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "定向テストと format check が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全 required verification を通過した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "非法订单输入回归测试与 required checks 已通过。",
+    "expectedReviewFocus": [
+      "非法 qty/price 不调用 capacity/place_order",
+      "正数输入既有 Filled 路径"
+    ]
+  }
+}

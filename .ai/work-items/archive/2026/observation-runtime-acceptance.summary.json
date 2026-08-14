@@ -1,0 +1,311 @@
+{
+  "workItemId": "observation-runtime-acceptance",
+  "contractPath": ".ai/work-items/archive/2026/observation-runtime-acceptance.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "reason": "本轮用户授权、scope、outOfScope、验收和 required checks。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "reason": "本轮验证证据、残余风险和回归固化。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "官方抓取失败时保留 Payroll/CPI/PPI 已知发布日期，actual 仍保持 unavailable。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "legacy metrics 缺少新增 baseline 字段时使用兼容默认值。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "legacy price-volume metrics 反序列化回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "增加 Breadth raw/counts/universe 展示字段。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "从 MarketFeatures 组装 Breadth 原始百分比、涨平跌计数和 Universe 完整度。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "监控报告并列输出 Breadth 原始值、计数、Universe 与分类。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "将固定映射值明确标记为 Breadth classification score。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/",
+      "reason": "更新受影响的多语言 NO_TRADE 报告快照。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 完成后由 Cockpit 生成的无活动状态。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "Breadth 原始值输出导致的英文 HTML snapshot 更新。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "reason": "Breadth 原始值输出导致的英文 Markdown snapshot 更新。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "Breadth 原始值输出导致的日文 HTML snapshot 更新。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "Breadth 原始值输出导致的日文 Markdown snapshot 更新。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "Breadth 原始值输出导致的中文 HTML snapshot 更新。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "Breadth 原始值输出导致的中文 Markdown snapshot 更新。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-13-observation-layer-repair-design.md",
+    "docs/superpowers/plans/2026-08-13-observation-layer-repair.md",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-runtime-acceptance.contract.json SUMMARY=.ai/work-items/active/observation-runtime-acceptance.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Observation/表示境界の runtime replay と回帰テストを実行済み。外部 provider が将来再び取得不能でも既知发布日期は保持し、actual は unavailable として fail-closed する。交易判断層は scope 外。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "origin/develop は origin/main より古いため、本 Work Item は origin/main を基底に作成し、PR で develop に同期する。",
+    "S-26、Price-Volume、Leader absence、Current Relative Strength の基礎実装は main に既存するため、再実装せず runtime acceptance を優先する。",
+    "Breadth は分類参照値と raw up_count/total_count が別経路に存在するため、表示意味の混同を検証対象にする。",
+    "PPI runtime replay は exit 0 で Primary Context=US PPI、actual observation unavailable、NO_TRADE を確認した。",
+    "Breadth runtime report は raw 50.0%、up=5 flat=1 down=4 total=10、Universe integrity 100.0%、classification Narrow を併記した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "ユーザー授权、scope、outOfScope、acceptance、verification を Contract に記録した。",
+      "contractHash": "8845a918dd08104d",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "PPI runtime failure と Breadth 固定分類値の混同を確認し、scope 内の最小修正を開始した。",
+      "contractHash": "8845a918dd08104d",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "全実装変更と focused verification を確認し、全 required checks 前の状態を記録した。",
+      "contractHash": "8845a918dd08104d",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "make quality、全 required checks、runtime replay、snapshot regression を通過した。",
+      "contractHash": "8845a918dd08104d",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "本ラウンドの必要権限を Contract に固化した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "PPI runtime failure と Breadth 表示の意味混同を確認し、最小修正を実施した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "全実装変更と focused verification を確認し、全 required checks 前の状態を記録した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "make test と make clippy は通過。残りの AI guard/status checks 実行後に最終更新する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "2026-08-07 Payroll fallback replay",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test (known schedule fallback coverage)"
+      ]
+    },
+    {
+      "scenario": "2026-08-12 CPI three lifecycle/data states",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test (known schedule fallback and macro lifecycle coverage)"
+      ]
+    },
+    {
+      "scenario": "2026-08-13 PPI runtime discovery",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "isolated stock-sentinel radar replay 2026-08-13 (exit 0)",
+        "make test (known schedule fallback coverage)"
+      ]
+    },
+    {
+      "scenario": "short history and event baselines",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test (price-volume short-history and event-baseline regression suite)"
+      ]
+    },
+    {
+      "scenario": "Leader absence 1/6 days",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Current Relative Strength remains observation-only",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Breadth raw value and universe traceability",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "isolated stock-sentinel radar replay 2026-08-13 (report output)",
+        "make test-radar-breadth-label-integrity"
+      ]
+    },
+    {
+      "scenario": "same-day rerun and historical replay",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test-radar-cross-run-pipeline",
+        "isolated stock-sentinel radar replay 2026-08-13 (exit 0)"
+      ]
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "runtime_provider",
+      "detail": "外部 provider の実測値取得は hosted/runtime replay 完了まで未確定。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装、runtime evidence、全 required make checks が通過した。外部 provider 再取得不能時の将来挙動は fallback として残余リスクに記録する。",
+    "expectedReviewFocus": [
+      "PPI runtime wiring",
+      "Breadth raw value/universe",
+      "NO_TRADE invariance",
+      "main-to-develop synchronization"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "修改前先清理远端和本地残留分支，并将授权写入 Contract。",
+      "solidifiedTo": "contract",
+      "reason": "后续 Work Item 必须在专用分支、明确 base、Contract 授权和分支清理后开始。"
+    }
+  ]
+}

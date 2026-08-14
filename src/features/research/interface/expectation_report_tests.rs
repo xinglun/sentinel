@@ -27,6 +27,117 @@ fn report_renders_tsla_fixture_without_trade_signal_keywords() {
 }
 
 #[test]
+fn report_localizes_observation_interpretation_for_each_language() {
+    let snapshot = build_expectation_layer_snapshot();
+
+    let zh_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::ZhCn,
+    );
+    let en_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+    let ja_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::JaJp,
+    );
+
+    assert!(!zh_report.contains("市場は"));
+    assert!(zh_report.contains("市场"));
+    assert!(!en_report.contains("市場は"));
+    assert!(en_report.contains("market"));
+    assert!(ja_report.contains("市場は"));
+}
+
+#[test]
+fn report_localizes_unavailable_consensus_source_for_each_language() {
+    let mut snapshot = build_expectation_layer_snapshot();
+    snapshot.observations[0].consensus_source =
+        "unavailable: Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。"
+            .to_string();
+
+    let zh_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::ZhCn,
+    );
+    let en_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+    let ja_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::JaJp,
+    );
+
+    assert!(!zh_report.contains("Finnhub の"));
+    assert!(zh_report.contains("来源不可用"));
+    assert!(!en_report.contains("Finnhub の"));
+    assert!(en_report.contains("source is unavailable"));
+    assert!(ja_report.contains("Finnhub の"));
+}
+
+#[test]
+fn report_localizes_unavailable_expected_and_actual_sentinels() {
+    let mut snapshot = build_expectation_layer_snapshot();
+    snapshot.observations[0].expected_value = "未対応".to_string();
+    snapshot.observations[0].actual_value = "未発表".to_string();
+
+    let zh_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::ZhCn,
+    );
+    let en_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+    let ja_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::JaJp,
+    );
+
+    assert!(!zh_report.contains("未対応"));
+    assert!(!zh_report.contains("未発表"));
+    assert!(zh_report.contains("未提供") || zh_report.contains("尚未发布"));
+    assert!(!en_report.contains("未対応"));
+    assert!(!en_report.contains("未発表"));
+    assert!(en_report.contains("Not released"));
+    assert!(ja_report.contains("未対応"));
+    assert!(ja_report.contains("未発表"));
+}
+
+#[test]
+fn unavailable_source_interpretation_remains_fail_closed() {
+    let mut snapshot = build_expectation_layer_snapshot();
+    snapshot.observations[0].source_health =
+        crate::features::research::domain::expectation::SourceHealth::Unavailable;
+    snapshot.observations[0].consensus_source =
+        "unavailable: Finnhub の earnings consensus 提供元を利用できず、期待データを取得できない。"
+            .to_string();
+
+    let zh_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::ZhCn,
+    );
+    let en_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::EnUs,
+    );
+    let ja_report = super::expectation_report::build_expectation_layer_report_from_snapshot(
+        &snapshot,
+        Language::JaJp,
+    );
+
+    assert!(zh_report.contains("来源不可用"));
+    assert!(zh_report.contains("来源不可用，当前无法确认市场预期"));
+    assert!(!zh_report.contains("市场已形成交付量基准"));
+    assert!(en_report
+        .contains("The source is unavailable, so the market expectation cannot be confirmed"));
+    assert!(!en_report.contains("The market has a delivery baseline"));
+    assert!(ja_report.contains("市場は"));
+}
+
+#[test]
 fn report_silences_long_term_pending_snapshot() {
     let mut snapshot = build_expectation_layer_snapshot();
     snapshot.as_of_date = NaiveDate::from_ymd_opt(2026, 7, 20).unwrap();

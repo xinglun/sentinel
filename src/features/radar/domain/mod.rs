@@ -1,6 +1,7 @@
 pub mod action_matrix;
 pub mod asset_state;
 pub mod breakout_detection;
+pub(crate) mod current_relative_strength;
 pub mod decision;
 pub mod exit;
 pub mod features;

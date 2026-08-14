@@ -1133,6 +1133,12 @@ impl PersistenceLayer {
             primary_leader: String::new(),
             secondary_leaders: Vec::new(),
             breadth_score,
+            breadth_raw_percent: breadth_score,
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: 0.0,
             rotation_score: 0.0,
             confidence_index: 0.0,
@@ -1483,7 +1489,7 @@ mod tests {
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use crate::features::radar::domain::price_volume_structure::{
-        ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
+        BaselineType, ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
         PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
@@ -1535,6 +1541,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -1601,6 +1615,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         let date = |day| NaiveDate::from_ymd_opt(2026, 8, day).unwrap();
         layer
@@ -1680,6 +1702,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -2069,6 +2099,53 @@ mod tests {
     }
 
     #[test]
+    fn formal_snapshot_preserves_structured_breadth_observation() {
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            generated_at: "2026-08-13T00:00:00+00:00".to_string(),
+            run_id: "run-breadth".to_string(),
+            cycle_id: "cycle-breadth".to_string(),
+            snapshot_id: "snapshot-breadth".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "RANGE".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 50.0,
+            breadth_classification: Some("Narrow".to_string()),
+            confidence: 50.0,
+            supply_phase: "IDLE".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: None,
+            secondary_leaders: Vec::new(),
+            breakouts: serde_json::json!({}),
+            stability: 0.0,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({
+                "breadth_observation": {
+                    "raw_percent": 50.0,
+                    "up_count": 5,
+                    "flat_count": 1,
+                    "down_count": 4,
+                    "total_count": 10,
+                    "universe_integrity": 1.0,
+                    "classification": "Narrow"
+                }
+            }),
+        };
+        let value = serde_json::to_value(snapshot).unwrap();
+        assert_eq!(
+            value["data_quality"]["breadth_observation"]["total_count"],
+            serde_json::json!(10)
+        );
+    }
+
+    #[test]
     fn formal_snapshot_resolution_accepts_degraded_snapshot_as_historical_fact() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_degraded_formal_baseline_{}",
@@ -2329,6 +2406,59 @@ mod tests {
     }
 
     #[test]
+    fn legacy_price_volume_metrics_without_baseline_fields_remain_readable() {
+        let value: PriceVolumeObservationRecord = serde_json::from_str(
+            r#"{
+                "market_date":"2026-08-07",
+                "symbol":"X",
+                "assessment":{
+                    "structure":"Neutral",
+                    "participation":"Neutral",
+                    "supply_absorption":"None",
+                    "quality":"Healthy",
+                    "persistence":"Candidate",
+                    "persistence_days":1,
+                    "metrics":{
+                        "return_1d":0.0,
+                        "return_5d":0.0,
+                        "return_10d":0.0,
+                        "return_20d":0.0,
+                        "rvol_5":1.0,
+                        "rvol_20":1.0,
+                        "average_volume_5":1.0,
+                        "average_volume_20":1.0,
+                        "up_day_average_volume":1.0,
+                        "down_day_average_volume":1.0,
+                        "distance_from_20d_high":0.0,
+                        "distance_from_20d_low":0.0,
+                        "new_high":false,
+                        "new_low":false,
+                        "atr_normalized_move":null,
+                        "body_ratio":null,
+                        "upper_wick_ratio":null,
+                        "lower_wick_ratio":null,
+                        "gap_percent":null
+                    },
+                    "boundary":{
+                        "decision_weight_percent":0,
+                        "trade_signal":false,
+                        "gate_effect":"None",
+                        "execution_effect":"None",
+                        "position_sizing_effect":"None"
+                    }
+                }
+            }"#,
+        )
+        .unwrap();
+
+        let metrics = value.assessment.metrics.unwrap();
+        assert_eq!(metrics.baseline_days, 0);
+        assert_eq!(metrics.baseline_type, BaselineType::Unavailable);
+        assert_eq!(metrics.relative_volume, 0.0);
+        assert!(metrics.relative_volume_label.is_empty());
+    }
+
+    #[test]
     fn migrate_legacy_history_sorts_dates_and_reuses_one_stable_cycle() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_migrate_legacy_history_order_{}",
@@ -2453,6 +2583,7 @@ mod tests {
                     supply_phase: "WATCH".to_string(),
                     risk_state: "NORMAL".to_string(),
                     day_type: "NORMAL".to_string(),
+                    ..Default::default()
                 },
                 &[existing_date],
             )
@@ -2763,6 +2894,7 @@ mod tests {
                 supply_phase: "WATCH".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -2823,6 +2955,7 @@ mod tests {
                 supply_phase: "IDLE".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -2870,6 +3003,7 @@ mod tests {
                         supply_phase: "UNAVAILABLE".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                     &[date],
                 )

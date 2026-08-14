@@ -1,0 +1,342 @@
+{
+  "contractVersion": 2,
+  "workItemId": "trader-order-input-integrity",
+  "mode": "code",
+  "title": "拒绝非法订单数量与价格输入",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "913fb609ea84404d59b89de02f8c0184ed8545caf03475a37f9a913ad6e0491d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-asof-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "5423794d745a6cba1e0c670aa96bd90c821780e4900deeacf07608ec11e26c68"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/capital-absorption-asof-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "73a6866538344f06f7f4f0287a50bb2b5a7854aab12291effa7f31777a466d39"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7528faa4efc7f9d783de9d061cdf0d0d4d1201c982889771a7751134635075c8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-fallback-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "957a7edebc43af50a975b6e9ae4ebaf6e444f705110272c8ac500660994b9bc2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "e6fd70c3178b5fda5e27f9fd6335ef0123da50c55b93c1f69975fb5202ffd803"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "c92f4a84d31dbe764cdbf9898cb571d3fd8e4939ba852e913a73a7ad69e1032d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-zero-consensus-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "ed3576653f9fce4d4ebcec5d63a5c1d708d929ceee6330ec429a3b24ce36e03a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/expectation-zero-consensus-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "18a83f4b684587d7565ff53b850dc54b35c097006be828eccf438065dea80db4"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-invalid-kline-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "2b5954517d249429791b13e195650b9b22b2c99206fada926b57ba1a16ec0e70"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-invalid-kline-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "3e30f78cb1637770805986593346c7dd81ab184f2474b82a73749855030a870b"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-order-id-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "1629ca553f7f493a839d392a322ba2d30dbf3666ba880b01a2f51d6fe085d65d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/futu-order-id-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "788b6bb7c054556e8a04e6d920d84adbcdbf563f2c28dbfc89e0819e7f944461"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-timeline-asof-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "88d60fc289d572ba07baf83e29bf214365abb2ebd63b2afbba84ab223d421b9f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-timeline-asof-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "d5ea62f040dfa2dd027199ef00d85121e1715897bf6f8ef86231a8855a8a69fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "9259bbaaddebf618d808a23da90703b3b1e37eb2343e172ffd08afa96dc2cf06"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/previous-expectation-date-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "217c0d789774f148a141cb581afe089ce8bb1d4962e1faec0c32430336f456ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-capacity-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "7a2ff7d58363a87bd3090583034443c57f9dc5061d780c3831744cbe7cfbe8e1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-capacity-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "a6de08c8449f9837071ffc8985e982f576c10ce38718ad25a0f1666566f38ce7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-rejection-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "ea52fad2507389ac103e48bbdbe7dd97660f1054a1064be056a58e9205a7adb0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-rejection-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "54b395e3ba1a9d29e1825a297ee42af6585063c54767d2449bc4c3e4dc98e6c0"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-terminal-failure-status.contract.json",
+      "status": "??",
+      "fingerprint": "beb406af8468698123a4f81a08897f2a0bbac3b5ab84a8d527232dcda84d82e9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-terminal-failure-status.summary.json",
+      "status": "??",
+      "fingerprint": "89fd3e255475f6685213e4bb8093c085468621d3d48a8248e84304abd4f4f389"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-timeout-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "4762e31689245013dafde0eb8530e69642575262cf8b93bd1678ed0ada750faa"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/trader-timeout-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "053e49c8bc7fc479f6174b7a769d51c72e70d66e3547ee1c40d8c3b23a751872"
+    },
+    {
+      "path": "src/adapters/futu/provider.rs",
+      "status": "M",
+      "fingerprint": "ca3d39bde405feff27c00821425ae1473ea9625ee48bd3b191da1386472b4c31"
+    },
+    {
+      "path": "src/adapters/futu/trader.rs",
+      "status": "M",
+      "fingerprint": "0d729796a0e81ee1275c93577766cc61ac81ae5b67329bba07a3b246a6672818"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "status": "M",
+      "fingerprint": "e0e0fe62aa13cee6bd8b1fd310737c93758ab5db7776dd1e508fed65ae18eee7"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "89d844284c11bd3c83c42deab8bac64e882da60d7700beabb73b1f818e859e33"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "be2d7948dfd2ba8fe1beded79159260088251a08f304d5fbaa5cd1f9a7f93eb7"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "status": "M",
+      "fingerprint": "1e7cf2bd09284339072f96e32a8d1ec2e03d8ac3ec8cd4a06ded5c59005f0f2a"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "status": "M",
+      "fingerprint": "a36d13beeb8148d6ef2aef8888d182cfed04d6d048a1e7ef75af7da2fc487d0d"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    },
+    {
+      "path": "src/features/trading/infrastructure/trader_agent.rs",
+      "status": "M",
+      "fingerprint": "e92d2270007cf4213665b471f7c3ecd2cff5f56691690fd21dd40e4435d9518d"
+    }
+  ],
+  "problemStatement": "TraderAgent は GatedTrade の qty/price が NaN、無限大、または非正数でも容量照会・注文処理へ進み得る。",
+  "intent": {"problem": "非法订单数量和价格没有在交易入口 fail-closed。", "constraints": ["正常正数订单和既有容量检查不变。", "不改变 execution gate 的上游策略。"], "rationale": "订单输入无法证明有效时必须阻止请求并报告失败。"},
+  "scope": [".ai/cockpit/current_status.md", "src/features/trading/infrastructure/trader_agent.rs", ".ai/work-items/active/trader-order-input-integrity.contract.json", ".ai/work-items/active/trader-order-input-integrity.summary.json"],
+  "outOfScope": ["execution gate", "broker protocol", "position sizing"],
+  "sources": [{"path": "src/features/trading/infrastructure/trader_agent.rs", "reason": "execute_signals の初期 qty/price 検証がない。"}, {"path": "src/features/trading/application/execution_signal.rs", "reason": "GatedTrade の qty/price 契約。"}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "注文入口での数量・価格検証のみを追加する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "非法订单输入的 fail-closed 边界已明确。"
+  },
+  "preReviewWarnings": [
+    "NaN、Infinity、0、负数数量和价格必须阻止下单；正数成功路径保持。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": ["qty=NaN、+Infinity、0、-1 或 price=NaN、+Infinity、0、-1 时不调用 capacity/place_order，audit.status=OrderInputInvalid 且 ExecutionSummary.status=Err。", "qty=1 与 price=100 的正数输入保持既有 Filled 路径。"],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/trader-order-input-integrity.contract.json SUMMARY=.ai/work-items/active/trader-order-input-integrity.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

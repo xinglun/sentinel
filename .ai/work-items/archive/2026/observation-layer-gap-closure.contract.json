@@ -1,0 +1,195 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-layer-gap-closure",
+  "mode": "code",
+  "title": "Observation Layer 検証不足と表示・永続化の補完",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Observation Layer の受入れで確認された実行証拠不足、Supply Context の不可用理由不足、Breadth の永続化不足、イベント coverage の runtime 欠落を補完する。売買判断と実行経路は変更しない。",
+  "intent": {
+    "problem": "表示だけでなく、観測事実・不可用理由・coverage 状態を runtime と snapshot に一貫して残す。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing、automatic trading、既存閾値は変更しない。",
+      "同一の Observation Layer 問題をこの WI に集約し、別 WI や大規模な provider 枠組みへ拡張しない。",
+      "実運用データがない場合は unavailable/partial として記録し、推測で healthy を生成しない。"
+    ],
+    "rationale": "前回の受入れ監査で、runtime 証拠と表示・永続化の対応が未閉合であることが確認されたため。"
+  },
+  "scope": [
+    ".ai/work-items/active/observation-layer-gap-closure.contract.json",
+    ".ai/work-items/active/observation-layer-gap-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md",
+    "docs/superpowers/plans/2026-08-14-observation-layer-gap-closure.md",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "tests/research_attention_cli_integration.rs",
+    "Makefile"
+  ],
+  "outOfScope": [
+    "src/features/trading/**",
+    "src/adapters/futu/trader.rs",
+    "Gate / execution / action matrix / trader / position sizing",
+    "automatic trading and order submission",
+    "new external provider integrations",
+    "generic event schedule framework beyond the required replay evidence",
+    "configuration and threshold changes"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/b90c9f95-289a-4602-8134-d7fb97817840/pasted-text.txt",
+      "reason": "Observation Layer 修復指示と受入れ条件。"
+    },
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/00430b60-0198-43bb-a1af-3b4d3bf3799c/pasted-text.txt",
+      "reason": "Supply Context、RVOL、Breadth、runtime replay の追加明細。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "現行の Supply Context と RVOL の表示実装。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "現行 TradingDaySnapshot の保存契約。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "Signal Context 六分類 coverage の構築と状態変換。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "runtime packet と snapshot の組み立て。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Supply Context が利用不可の時に status と reason が表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test price_volume_structure_report --lib"],
+      "reason": "実装後に report unit test と snapshot で確認する。"
+    },
+    {
+      "scenario": "RVOL に baseline 名と baseline sessions が表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test price_volume_structure_report --lib"],
+      "reason": "実装後に primary/secondary baseline の report test で確認する。"
+    },
+    {
+      "scenario": "Breadth raw/counts/universe/classification が snapshot と timeline に保存される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test formal_snapshot_preserves_structured_breadth_observation --lib", "cargo test breadth_observation_fields_round_trip_separately_from_classification_score --lib"],
+      "reason": "serde compatibility test と pipeline persistence test で確認する。"
+    },
+    {
+      "scenario": "六分類の runtime coverage が unavailable/partial を隠さず表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test geopolitical_and_commodity_shocks_do_not_fall_back_to_none --lib"],
+      "reason": "coverage builder/read model test と replay output で確認する。"
+    },
+    {
+      "scenario": "Payroll/CPI/PPI の known event fallback が runtime replay で確認できる",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make ai-observation-replay"],
+      "reason": "日付を固定できる make target を実行して三日分の report を確認する。"
+    },
+    {
+      "scenario": "売買判断・実行経路が変更されない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["Contract outOfScope に trading 経路を明記", "make check-ai-scope"],
+      "reason": "差分と scope guard で再確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "evidence_insufficient",
+      "i18n_snapshot"
+    ],
+    "reason": "snapshot schema と replay 入口に互換性リスクがあるため、serde default、旧 fixture、実行証拠を必須にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "Observation Layer の四つの機能不足をこの WI で補完し、取引実行経路は凍結する。未検証シナリオは実装後の required checks と runtime replay で解消する。",
+    "openQuestions": [
+      "CLI replay が指定日を保持できる実装入口を既存 Make target と整合させる。",
+      "Breadth の raw/counts/universe を既存 snapshot schema と後方互換に追加する。",
+      "provider 未接続の Geopolitical/Commodity は unavailable/partial としてのみ表示する。"
+    ],
+    "reviewer": "user"
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、outOfScope、sources、acceptance、scenario coverage、verification を確定した。"
+  },
+  "preReviewWarnings": [
+    "runtime replay が実際の日付を保持するかを review で確認する。",
+    "Breadth の raw 値と classification score を混同していないかを review で確認する。",
+    "Supply Context unavailable の理由が report と structured record の双方に残るかを確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope、acceptance、verification、agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Supply Context unavailable は Status と Reason を Markdown/HTML の観測出力に明示し、SUPPLY_CONTEXT_MISSING 等の機械可読値を保持する。",
+    "RVOL は Primary/Secondary とも Baseline 名および Baseline Sessions を明示する。",
+    "Breadth は raw percent、up/flat/down/total、universe integrity、classification を snapshot と timeline の適切なフィールドに保存し、旧 JSON を読める。",
+    "六分類の runtime coverage は取得できない分類を Unavailable/Partial として保持し、coverage incomplete 時に healthy や no-major-event を偽装しない。",
+    "Payroll 2026-08-07、CPI 2026-08-12、PPI 2026-08-13 の known-event replay が日付を保持した make 入口で実行でき、actual unavailable と lifecycle を report に確認できる。",
+    "既存の NO_TRADE 不変条件と観測専用境界を維持し、trading/**、Futu trader、Gate、Action Matrix、Position Sizing を変更しない。",
+    "code/test/docs/i18n/report output/data persistence/Make guard の確認結果を Summary に記録する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json", "required": true},
+    {"command": "make ai-observation-replay", "required": true}
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この WI の diff を revert し、追加した snapshot field は serde default で旧データとの互換性を維持する。"
+}

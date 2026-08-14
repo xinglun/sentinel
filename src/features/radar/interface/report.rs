@@ -255,6 +255,11 @@ fn generate_markdown_report(
         pres.leader_persistence.as_ref(),
         RenderMode::Markdown,
     ));
+    card.push_str(&render_current_relative_strength_section(
+        pres.current_relative_strength.as_ref(),
+        pres.language,
+        RenderMode::Markdown,
+    ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
         card.push('\n');
         card.push_str(&transition_block);
@@ -472,6 +477,11 @@ fn generate_telegram_html_report(
     ));
     card.push_str(&render_leader_persistence_section(
         pres.leader_persistence.as_ref(),
+        RenderMode::Html,
+    ));
+    card.push_str(&render_current_relative_strength_section(
+        pres.current_relative_strength.as_ref(),
+        pres.language,
         RenderMode::Html,
     ));
     if compact_no_trade_presentation && !detailed_transition && !transition_block.is_empty() {
@@ -764,6 +774,17 @@ fn render_post_actions_sections(
                 "> {}: {}\n",
                 s.confidence_breakdown_label, s.confidence_breakdown_value
             ));
+            out.push_str(&format!(
+                "> {}: {} · {}: {} · {}: {} · {}: {}\n",
+                s.breadth_raw_label,
+                s.breadth_raw_value,
+                s.breadth_counts_label,
+                s.breadth_counts_value,
+                s.breadth_universe_label,
+                s.breadth_universe_value,
+                s.breadth_semantic_label,
+                s.breadth_semantic_value
+            ));
         }
         RenderMode::Html => {
             out.push_str(&format!("<b>{}</b>\n\n", dict.headers.monitoring_signals));
@@ -785,6 +806,17 @@ fn render_post_actions_sections(
             out.push_str(&format!(
                 "<i>{}: {}</i>\n",
                 s.confidence_breakdown_label, s.confidence_breakdown_value
+            ));
+            out.push_str(&format!(
+                "<i>{}: {} · {}: {} · {}: {} · {}: {}</i>\n",
+                s.breadth_raw_label,
+                s.breadth_raw_value,
+                s.breadth_counts_label,
+                s.breadth_counts_value,
+                s.breadth_universe_label,
+                s.breadth_universe_value,
+                s.breadth_semantic_label,
+                s.breadth_semantic_value
             ));
         }
     }
@@ -1857,6 +1889,12 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.leader_state_label, persistence.leader_state_value
             ));
+            if persistence.leader_absence_duration > 0 {
+                block.push_str(&format!(
+                    "  - Leader Absence Duration: {} trading days\n",
+                    persistence.leader_absence_duration
+                ));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 persistence.change_from_yesterday_label, persistence.change_from_yesterday_value
@@ -1917,6 +1955,58 @@ fn render_leader_persistence_section(
     }
     block.push('\n');
     block
+}
+
+fn render_current_relative_strength_section(
+    strength: Option<
+        &crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel,
+    >,
+    language: crate::features::shared::interface::i18n::Language,
+    mode: RenderMode,
+) -> String {
+    let Some(strength) = strength else {
+        return String::new();
+    };
+    let (heading, bullet, boundary) = match mode {
+        RenderMode::Markdown => (format!("### {}\n\n", strength.title), "  - ", "\n"),
+        RenderMode::Html => (format!("<h3>{}</h3>", strength.title), "<li>", "</li>\n"),
+    };
+    let (leader_label, day_1_label, day_5_label) = match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => {
+            ("确认 Leader", "1日相对 SPY", "5日相对 SPY")
+        }
+        crate::features::shared::interface::i18n::Language::EnUs => {
+            ("Confirmed Leader", "1d vs SPY", "5d vs SPY")
+        }
+        crate::features::shared::interface::i18n::Language::JaJp => {
+            ("確認済み Leader", "1日 SPY比", "5日 SPY比")
+        }
+    };
+    let mut out = heading;
+    out.push_str(&format!(
+        "{}{}: {}{}",
+        bullet, leader_label, strength.confirmed_leader, boundary
+    ));
+    for item in &strength.items {
+        out.push_str(&format!(
+            "{}{}: {}{}",
+            bullet, item.symbol, item.status, boundary
+        ));
+        if let Some(value) = item.relative_1d_vs_benchmark {
+            out.push_str(&format!(
+                "{}{day_1_label}: {value:+.2}%{}",
+                bullet, boundary
+            ));
+        }
+        if let Some(value) = item.relative_5d_vs_benchmark {
+            out.push_str(&format!(
+                "{}{day_5_label}: {value:+.2}%{}",
+                bullet, boundary
+            ));
+        }
+    }
+    out.push_str(&format!("{}{}{}", bullet, strength.boundary, boundary));
+    out
 }
 
 fn render_interpretation_section(

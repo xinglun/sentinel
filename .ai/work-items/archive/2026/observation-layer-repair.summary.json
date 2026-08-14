@@ -1,0 +1,277 @@
+{
+  "workItemId": "observation-layer-repair",
+  "contractPath": ".ai/work-items/archive/2026/observation-layer-repair.contract.json",
+  "changedFiles": [
+    {
+      "path": "docs/superpowers/specs/2026-08-13-observation-layer-repair-design.md",
+      "reason": "修复設計。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-13-observation-layer-repair.md",
+      "reason": "TDD 実装計画。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Eligibility/Baseline/短历史/Supply 与语义分离。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "Leader absence 计数。"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "reason": "Current Relative Strength observation-only domain。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "Known event、lifecycle、CPI 回归。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "Event fact 字段保留。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "1d/5d relative strength observation。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Observation report 输出。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_upcoming.json",
+      "reason": "CPI UPCOMING fixture。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_released.json",
+      "reason": "CPI RELEASED fixture。"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json",
+      "reason": "CPI actual unavailable fixture。"
+    },
+    {"path":".ai/cockpit/current_status.md","reason":"Cockpit status lifecycle output。"},
+    {"path":"src/features/radar/domain/decision.rs","reason":"DecisionPacket observation collection boundary。"},
+    {"path":"src/features/radar/domain/mod.rs","reason":"Observation domain module registration。"},
+    {"path":"src/features/radar/interface/market_interpretation_read_model.rs","reason":"Leader absence read model projection。"},
+    {"path":"src/features/radar/interface/presentation.rs","reason":"Observation presentation view models。"},
+    {"path":"src/features/radar/interface/presentation_assembler.rs","reason":"Observation presentation assembly。"},
+    {"path":"src/features/radar/interface/price_volume_structure_report.rs","reason":"Price-volume observation report output。"},
+    {"path":"src/features/radar/interface/report_ui_tests.rs","reason":"Observation report UI regression tests。"},
+    {"path":"src/features/radar/interface/weekly_state_report.rs","reason":"Weekly observation report output。"},
+    {"path":"src/features/research/interface/macro_event_observation.rs","reason":"Event discovery and observation domain projection。"}
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/00430b60-0198-43bb-a1af-3b4d3bf3799c/pasted-text.txt",
+    "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+    "docs/superpowers/specs/2026-08-08-price-volume-closure-design.md",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/domain/leader_persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json SUMMARY=.ai/work-items/active/observation-layer-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-repair.summary.json CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json SUMMARY=.ai/work-items/active/observation-layer-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-repair.contract.json SUMMARY=.ai/work-items/active/observation-layer-repair.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "外部 runtime provider 的真实数据可用性仍需市场观察；本地语义与边界已由回归测试覆盖。"
+  },
+  "generatedFiles": [
+    "tests/fixtures/macro_events/cpi_2026-08-12_upcoming.json",
+    "tests/fixtures/macro_events/cpi_2026-08-12_released.json",
+    "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "既有价量修复提交包含历史 archive evidence；已剔除无关 archive 文件，仅保留 scope 内生产代码与测试行为。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract scope/sources/acceptance fixed.",
+      "contractHash": "6d0a815ab09ac8b3",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Production edits stayed within declared Observation scope.",
+      "contractHash": "6d0a815ab09ac8b3",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "All required checks executed.",
+      "contractHash": "6d0a815ab09ac8b3",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "All required checks executed.",
+      "contractHash": "6d0a815ab09ac8b3",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract evidence fixed."
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Scope enforced."
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "All required checks executed."
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "All required checks executed."
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "CPI three states",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test features::radar::interface::signal_context_coverage --lib"
+      ]
+    },
+    {
+      "scenario": "short history and baseline",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib"
+      ]
+    },
+    {
+      "scenario": "structure unavailable and persistence separation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib"
+      ]
+    },
+    {
+      "scenario": "Leader absence 1/6 days",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test features::radar::domain::leader_persistence --lib"
+      ]
+    },
+    {
+      "scenario": "Current Relative Strength observation-only",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib"
+      ]
+    },
+    {
+      "scenario": "NO TRADE report invariant",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib"
+      ]
+    },
+    {
+      "scenario": "same-day rerun",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "runtime_provider",
+      "detail": "本地 fixture 不能证明外部实际数据源在真实市场日一定提供 Actual。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Required local checks passed; runtime provider availability remains a review risk.",
+    "expectedReviewFocus": [
+      "CPI runtime source wiring",
+      "Current Relative Strength 不进入 Gate",
+      "NO TRADE 快照边界",
+      "same-day rerun"
+    ]
+  }
+}

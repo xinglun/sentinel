@@ -210,7 +210,7 @@ fn load_latest_jsonl_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<V
         .rev()
         .filter(|line| !line.trim().is_empty())
         .filter_map(|line| serde_json::from_str::<Value>(line).ok())
-        .find(|value| value_date(value).is_none_or(|date| date <= as_of_date))
+        .find(|value| value_date(value).is_some_and(|date| date <= as_of_date))
 }
 
 fn load_latest_dated_jsonl_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Value> {
@@ -230,10 +230,10 @@ fn load_dated_json_value_as_of(path: &Path, as_of_date: NaiveDate) -> Option<Val
 }
 
 fn value_date(value: &Value) -> Option<NaiveDate> {
-    ["as_of_date", "date", "run_date"]
+    ["as_of_date", "date", "run_date", "finished_at"]
         .iter()
         .filter_map(|key| value.get(key).and_then(|value| value.as_str()))
-        .find_map(|raw| NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
+        .find_map(extract_date)
         .or_else(|| {
             value
                 .get("run_id")
@@ -257,4 +257,54 @@ fn string_field(value: &Value, key: &str) -> String {
 
 fn u64_field(value: &Value, key: &str) -> u64 {
     value.get(key).and_then(|value| value.as_u64()).unwrap_or(0)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::load_latest_jsonl_value_as_of;
+    use chrono::NaiveDate;
+    use serde_json::json;
+    use tempfile::tempdir;
+
+    #[test]
+    fn undated_ops_record_is_not_treated_as_latest() {
+        let temp = tempdir().unwrap();
+        let path = temp.path().join("ops.jsonl");
+        std::fs::write(
+            &path,
+            format!(
+                "{}\n{}\n",
+                serde_json::to_string(&json!({"run_id":"run-2026-08-12","source_count":2}))
+                    .unwrap(),
+                serde_json::to_string(&json!({"source_count":99})).unwrap()
+            ),
+        )
+        .unwrap();
+
+        let value =
+            load_latest_jsonl_value_as_of(&path, NaiveDate::from_ymd_opt(2026, 8, 13).unwrap())
+                .unwrap();
+        assert_eq!(value["source_count"], 2);
+    }
+
+    #[test]
+    fn backfill_finished_at_dates_are_usable_for_as_of_reads() {
+        let temp = tempdir().unwrap();
+        let path = temp.path().join("backfill.jsonl");
+        std::fs::write(
+            &path,
+            serde_json::to_string(&json!({
+                "run_id": "backfill-run",
+                "finished_at": "2026-08-12T15:48:19+09:00",
+                "source_count": 2
+            }))
+            .unwrap(),
+        )
+        .unwrap();
+
+        let value =
+            load_latest_jsonl_value_as_of(&path, NaiveDate::from_ymd_opt(2026, 8, 12).unwrap())
+                .unwrap();
+        assert_eq!(value["source_count"], 2);
+    }
 }

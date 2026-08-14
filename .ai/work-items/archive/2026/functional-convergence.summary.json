@@ -1,0 +1,192 @@
+{
+  "workItemId": "functional-convergence",
+  "contractPath": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/functional-convergence.contract.json",
+      "reason": "機能受入条件、scope、scenario coverage、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/functional-convergence.summary.json",
+      "reason": "本 Work Item の検証証跡を記録する。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "木曜から月曜の休日跨ぎを有効な取引日履歴として扱う。"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "reason": "主報告の実体証拠詳細を20件に制限し、正式ソースを優先する。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "監査日報の履歴証拠ストックも20件に制限し、正式ソースを優先する。大量履歴で日報が約1.2MBに膨張する実運用指摘を解消する。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "同一機能収束作業の解釈 read model 整合性を維持する。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "同一機能収束作業の runtime source coverage 投影を維持する。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_daily_report_repository.rs",
+      "reason": "同一機能収束作業の as-of 日付境界を維持する。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "正式ソース優先の監査日報表示順を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/specs/STATE_MACHINE_NEXT_PHASE_ROADMAP.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/trend_recognition_read_model.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "origin/data:reports/2026-08-10.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/functional-convergence.summary.json CONTRACT=.ai/work-items/active/functional-convergence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/functional-convergence.contract.json SUMMARY=.ai/work-items/active/functional-convergence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "休日跨ぎの許可は限定パターンに留め、平日欠損の fail-closed を回帰テストで固定した。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "origin/data の reports を一時 worktree に復元して review を実行すると、監査日報の履歴証拠ストックが 5,419 行、約 1.2MB に膨張した。Trend read model の20件上限が audit_daily_report 経路には適用されていなかった。",
+    "audit_daily_report に20件上限、正式ソース優先、圧縮件数の明示を追加した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract を機能受入条件、表示境界、米国市場休市日境界に更新した。",
+      "contractHash": "8c41cad282bb6599",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "休日跨ぎ、周中休市日、表示詳細過多の failing test を確認してから production code を変更した。",
+      "contractHash": "8c41cad282bb6599",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "isolated origin/data replay で 10/10 銘柄の構造分類と 20/20 の HEALTHY window を確認した。",
+      "contractHash": "8c41cad282bb6599",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "full local verification と isolated production-data replay が完了した。",
+      "contractHash": "8c41cad282bb6599",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope と受入条件を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "failing test で休日跨ぎの根因を再現した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "production-data replay の観測結果を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks と production-data replay を完了した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "local quality gates と isolated production-data replay が確認済み。",
+    "expectedReviewFocus": [
+      "米国市場休市日カレンダーの適用範囲",
+      "最近21日窓外の履歴欠損を無視する境界",
+      "正式ソース優先表示の上限"
+    ]
+  }
+}

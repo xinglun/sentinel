@@ -212,13 +212,33 @@ impl PresentationAssembler {
                 TrendBreadthMode::FragileRotation => "Narrow".to_string(),
                 TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
             },
-            breadth_semantic_label: "Breadth Label".to_string(),
-            breadth_semantic_value: match trend_breadth_mode {
-                TrendBreadthMode::BroadExpansion => "Broad Participation".to_string(),
-                TrendBreadthMode::NarrowLeadership => "Very Narrow".to_string(),
-                TrendBreadthMode::FragileRotation => "Healthy Expansion".to_string(),
-                TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
+            breadth_raw_label: "Breadth Raw".to_string(),
+            breadth_raw_value: if packet.market_features.total_count == 0 {
+                "UNAVAILABLE".to_string()
+            } else {
+                format!(
+                    "{:.1}%",
+                    packet.market_features.up_count as f64
+                        / packet.market_features.total_count as f64
+                        * 100.0
+                )
             },
+            breadth_counts_label: "Breadth Counts".to_string(),
+            breadth_counts_value: format!(
+                "up={} flat={} down={} total={}",
+                packet.market_features.up_count,
+                packet.market_features.flat_count,
+                packet.market_features.down_count,
+                packet.market_features.total_count
+            ),
+            breadth_universe_label: "Breadth Universe".to_string(),
+            breadth_universe_value: format!(
+                "{:.1}% integrity / {} observed",
+                packet.market_features.universe_integrity * 100.0,
+                packet.market_features.total_count
+            ),
+            breadth_semantic_label: "Breadth Label".to_string(),
+            breadth_semantic_value: breadth_semantic_value_for_mode(trend_breadth_mode).to_string(),
             supply_phase_label: "Supply Phase".to_string(),
             supply_phase_value: String::new(),
         };
@@ -567,10 +587,63 @@ impl PresentationAssembler {
             market_interpretation: None,
             leadership_snapshot: None,
             leader_persistence: None,
+            current_relative_strength: {
+                let value = Self::build_current_relative_strength(packet, lang);
+                (!value.items.is_empty()).then_some(value)
+            },
             market_change_log: None,
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+        }
+    }
+
+    fn build_current_relative_strength(
+        packet: &DecisionPacket,
+        language: Language,
+    ) -> crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+        let mut items = packet
+            .current_relative_strength_observations
+            .iter()
+            .map(|observation| {
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: observation.symbol.clone(),
+                    status: format!("{:?}", observation.status).to_ascii_uppercase(),
+                    relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
+                    relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
+                    price_position: observation.price_position,
+                    volume_participation: observation.volume_participation,
+                }
+            })
+            .collect::<Vec<_>>();
+        items.sort_by(|left, right| {
+            right
+                .relative_5d_vs_benchmark
+                .partial_cmp(&left.relative_5d_vs_benchmark)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        let (title, confirmed_leader, boundary) = match language {
+            Language::ZhCn => (
+                "当前相对强度",
+                "无",
+                "相对强度仅用于观察，不改变 Leader、Gate、Action Matrix 或 Position Sizing。",
+            ),
+            Language::EnUs => (
+                "Current Relative Strength",
+                "none",
+                "Relative Strength is observation only and does not change Leader, Gate, Action Matrix or Position Sizing.",
+            ),
+            Language::JaJp => (
+                "現在の相対強度",
+                "なし",
+                "相対強度は観測専用であり、Leader、Gate、Action Matrix、Position Sizingを変更しない。",
+            ),
+        };
+        crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+            title: title.to_string(),
+            confirmed_leader: confirmed_leader.to_string(),
+            items,
+            boundary: boundary.to_string(),
         }
     }
 
@@ -1436,6 +1509,32 @@ impl PresentationAssembler {
                 .replace("{count}", &same_reason_peers.to_string());
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
+    }
+}
+
+fn breadth_semantic_value_for_mode(mode: TrendBreadthMode) -> &'static str {
+    match mode {
+        TrendBreadthMode::BroadExpansion => "Broad Participation",
+        TrendBreadthMode::NarrowLeadership => "Very Narrow",
+        TrendBreadthMode::FragileRotation | TrendBreadthMode::StructuralDefense => "Narrow",
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::breadth_semantic_value_for_mode;
+    use crate::features::radar::interface::presentation::TrendBreadthMode;
+
+    #[test]
+    fn breadth_semantic_label_does_not_overstate_fragile_rotation() {
+        assert_eq!(
+            breadth_semantic_value_for_mode(TrendBreadthMode::FragileRotation),
+            "Narrow"
+        );
+        assert_eq!(
+            breadth_semantic_value_for_mode(TrendBreadthMode::BroadExpansion),
+            "Broad Participation"
+        );
     }
 }
 
