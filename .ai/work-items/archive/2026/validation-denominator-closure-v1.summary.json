@@ -1,0 +1,223 @@
+{
+  "workItemId": "validation-denominator-closure-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-denominator-closure-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Net Decision Horizon に adverse waiting sample count を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "BREADTH_TOO_NARROW、eligible Protection Maturity、adverse waiting denominator を修正した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "各 horizon の adverse waiting sample count を summary に表示した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-denominator-closure-v1.contract.json",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    ".ai/work-items/archive/2026/validation-horizon-alignment-v1.summary.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "BREADTH_TOO_NARROW を含む全 production reason が各 horizon の分母に現れる",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib reason_breakdown_includes_breadth_too_narrow"
+      ]
+    },
+    {
+      "scenario": "Protection Maturity が Protection Utility と同じ eligible blocked cohort を使う",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib protection_maturity_uses_the_eligible_protection_cohort"
+      ]
+    },
+    {
+      "scenario": "adverse waiting return が平均値と negative sample count の両方を表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib net_decision_value_preserves_negative_waiting_return_separately",
+        "cargo test --lib summary_contains_validation_sections_and_uppercase_decision_classes"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Backtest read model と Markdown summary に限定し、MAE/MFE の Net Value 合算や execution path は対象外。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract の scope、acceptance、scenario coverage を確定した。",
+      "contractHash": "04d7e45f7c2e2d4c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "failing tests を追加してから scope 内の Backtest 実装を修正した。",
+      "contractHash": "04d7e45f7c2e2d4c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "838 unit tests、fmt、clippy と三条业务回归を確認した。",
+      "contractHash": "04d7e45f7c2e2d4c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification complete。",
+      "contractHash": "04d7e45f7c2e2d4c",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope、acceptance、scenario coverage を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "failing test を追加し、scope 内の Backtest 実装を修正した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "838 unit tests、fmt、clippy が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "AI Cockpit required verification を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "metric_semantics",
+      "detail": "MAE/MFE は既存 Validation Utility に残し、Net Decision Value への合算は後続 Work Item とする。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装、回帰テスト、fmt、clippy、AI Cockpit required verification が完了した。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification",
+      "BREADTH_TOO_NARROW の reason 分母",
+      "Protection Utility と Protection Maturity の cohort 一致",
+      "adverse waiting sample count の解釈"
+    ]
+  },
+  "userCorrectionsCaptured": [
+    "再開監査で確認された BREADTH_TOO_NARROW の欠落、Protection Maturity 母集団汚染、adverse waiting denominator 不透明を修正した。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "reason breakdown は production reason 集合を漏れなく表示する。",
+      "solidifiedTo": "contract",
+      "reason": "BREADTH_TOO_NARROW を acceptance と回帰テストに固定した。"
+    },
+    {
+      "correction": "maturity と utility は同じ eligible cohort を使う。",
+      "solidifiedTo": "contract",
+      "reason": "Protection Maturity の母集団を Contract と regression test に固定した。"
+    }
+  ],
+  "knownGaps": [
+    "MAE/MFE を Net Decision Value に合算すること、金額 P&L、約定コスト、完全 Decision Gate は後続 Work Item。"
+  ],
+  "overclaimPrevention": "本 Work Item は Validation read model の reason coverage、Protection Maturity denominator、adverse waiting denominator の透明性だけを主張し、Sentinel 全体の収益性は主張しない。"
+}

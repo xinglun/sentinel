@@ -1,0 +1,266 @@
+{
+  "workItemId": "validation-utility-closure-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-utility-closure-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "reason": "Utility Closure の business boundary と acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "reason": "本 Work Item の evidence ledger。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "episode、multi-horizon utility、reason split、Net Decision Value の設計。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "episode-level utility/report facts を追加する。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "cohort-aware lifecycle と utility 集計を修正する。"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "reason": "horizon 別 utility 集計 helper を追加する。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "episode、horizon、reason、Net Decision Value を表示する。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "既存 decision contract の非回帰確認。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/validation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "Business KPI の sample unit と full Gate fact の境界を誤ると Utility が過大評価される。Trend Gate blocked として明示し、episode/censoring をテストで固定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "high",
+      "detail": "現行 confirmation cost は asset-day 重複と symbol-only lifecycle map により episode/cohort を混同している。"
+    },
+    {
+      "severity": "high",
+      "detail": "現行 report は T+20 utility のみで、Net Decision Value を数値計算していない。"
+    },
+    {
+      "severity": "medium",
+      "detail": "current gate_blocked は Trend Gate fact のみであり、完全な Decision Gate fact は別 Work Item とする。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "cohort_lifecycle_isolation",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs::lifecycle_state_isolated_by_cohort_and_net_value_is_unavailable_without_cost"
+      ]
+    },
+    {
+      "scenario": "episode_deduplication",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs::confirmation_cost_reports_all_lifecycle_latencies_and_price_costs"
+      ]
+    },
+    {
+      "scenario": "multi_horizon_utility",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs::utility_reports_all_horizons_reason_breakdown_and_net_value"
+      ]
+    },
+    {
+      "scenario": "reason_level_utility",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs::utility_reports_all_horizons_reason_breakdown_and_net_value"
+      ]
+    },
+    {
+      "scenario": "unavailable_net_value",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs::lifecycle_state_isolated_by_cohort_and_net_value_is_unavailable_without_cost"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "business boundary が確定し、preflight review を通過した。",
+      "contractHash": "7bd1bd616ef45090",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract、scope、preflight review が通過して実装を開始した。",
+      "contractHash": "7bd1bd616ef45090",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装、targeted tests、make test、fmt、clippy、AI guards、coverage guard が通過した。",
+      "contractHash": "7bd1bd616ef45090",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "make quality が coverage、824 tests、clippy、Cockpit checks を含めて通過した。",
+      "contractHash": "7bd1bd616ef45090",
+      "acceptanceCount": 10,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "business scope、out of scope、sources、acceptance を定義し、preflight review を通過した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Contract、scope、preflight review、TDD red test を確認して production edit を開始した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装、targeted tests、make test、fmt、clippy、AI guards、coverage guard が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "make quality が coverage、824 tests、clippy、Cockpit checks を含めて通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "high",
+      "area": "gate_fact_boundary",
+      "detail": "本 Work Item は Trend Gate blocked のみを測定し、完全な Decision Gate blocked は扱わない。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "medium",
+      "area": "strength_proxy",
+      "detail": "Strength は既存 Raw Top-3 初回観測 proxy のままで、新しい structure detector は導入しない。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "今回の business review を固化する。",
+      "solidifiedTo": "contract",
+      "reason": "Contract acceptance が design、episode-level tests、report wording の共通境界を固定するため。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "business correction と required verification が完了した。",
+    "expectedReviewFocus": [
+      "episode sample unit",
+      "cohort lifecycle isolation",
+      "multi-horizon utility",
+      "reason-level split",
+      "Net Decision Value semantics",
+      "Trend Gate/full Gate naming"
+    ]
+  }
+}

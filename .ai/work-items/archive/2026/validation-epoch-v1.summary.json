@@ -1,0 +1,313 @@
+{
+  "workItemId": "validation-epoch-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-epoch-v1.contract.json",
+      "reason": "Validation Epoch V1 の scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-epoch-v1.summary.json",
+      "reason": "Contract に対応する evidence と checkpoint を更新した。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status generator の出力。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "reason": "Decision Classification、Validation record、censoring、baseline の設計を記録した。"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "reason": "Radar Domain の DecisionClass と stable reason code を実装した。"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "reason": "DecisionPacket に classification と epoch metadata を追加した。"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "reason": "Decision Classification module を公開した。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Radar pipeline が production classification を packet に保存するようにした。"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "reason": "Backtest ACL が classification と metadata を再解釈せず透過するようにした。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "ValidationDecisionRecord、outcome、baseline の構造化 model を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "reason": "Validation helper module を application boundary に追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "reason": "trading session horizon、MFE/MAE、censoring の純粋な評価関数を実装した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "日次 simulation に validation record、class outcome、counterfactual baseline を統合した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "validation.json と summary の Decision Validation 区画を出力するようにした。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "production classification、version、universe、ACL 境界を回帰固定した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-epoch-v1.contract.json",
+    "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/application/delivery_plan.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs",
+    "tests/backtest_cli_integration.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Radar pipeline が classification と stable reason code を DecisionPacket に保存する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "tests/pipeline_integration.rs"
+      ],
+      "reason": "DecisionPacket の version、universe、classification、reason code を統合テストで確認した。"
+    },
+    {
+      "scenario": "Backtest ACL が production classification をそのまま Validation record に渡す",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/acl/radar_backtest_mapper.rs"
+      ],
+      "reason": "ACL mapping test で class、reasons、version、universe を確認した。"
+    },
+    {
+      "scenario": "Trading session horizon と PENDING / PARTIAL / COMPLETE の censoring",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/validation.rs"
+      ],
+      "reason": "session index と未到達 horizon の status を確認した。"
+    },
+    {
+      "scenario": "NO_TRADE の downside と missed upside を同時に集計する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/simulation.rs"
+      ],
+      "reason": "positive / negative outcome と MAE の双方向集計を確認した。"
+    },
+    {
+      "scenario": "Raw Top-3 without Gate と READY subset を固定 baseline として比較する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/simulation.rs",
+        "src/features/backtest/infrastructure/output.rs"
+      ],
+      "reason": "baseline の sample count、return、MAE 比較を確認した。"
+    },
+    {
+      "scenario": "decision snapshot version と universe id が report record に残る",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/acl/radar_backtest_mapper.rs",
+        "src/features/backtest/infrastructure/output.rs"
+      ],
+      "reason": "structured validation model と summary artifact の出力契約を確認した。"
+    },
+    {
+      "scenario": "多言語 user-facing report は変更しない",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "backtest artifact のみを変更し、Telegram / audit daily / weekly review は変更しない。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json SUMMARY=.ai/work-items/active/validation-epoch-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-epoch-v1.summary.json CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json SUMMARY=.ai/work-items/active/validation-epoch-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-epoch-v1.contract.json SUMMARY=.ai/work-items/active/validation-epoch-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "DecisionPacket schema と future outcome 集計を同一 Work Item で変更するため、schema compatibility、temporal leakage、selection bias を重点 review する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "info",
+      "detail": "初期 ai-start skeleton は preflight で not_ready となった。Contract と Summary を更新してから再度 preflight を実行する。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "設計・scope・acceptance を確定した。",
+      "contractHash": "6bfc5f53d073edef",
+      "acceptanceCount": 12,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "preflight、scope、guard の境界を確認して実装を開始した。",
+      "contractHash": "6bfc5f53d073edef",
+      "acceptanceCount": 12,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装、全量 test、fmt、clippy、scenario coverage を通過した。",
+      "contractHash": "6bfc5f53d073edef",
+      "acceptanceCount": 12,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required checks と status consistency を通過した。",
+      "contractHash": "6bfc5f53d073edef",
+      "acceptanceCount": 12,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract、設計文書、Summary の境界を同期した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "preflight、scope、guard を通過してから production code を変更した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装、全量 test、fmt、clippy、scenario coverage を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全 required checks と status consistency を通過した。ai-finish は archive 直前に再実行する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "high",
+      "area": "decision_semantics",
+      "detail": "既存 production semantics を分類へ写像する方法は実装時に integration test で固定する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "high",
+      "area": "validation_bias",
+      "detail": "Raw Top-3 baseline と READY subset の universe / censoring を一致させる必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装と全 required checks は通過した。残余 risk は review focus として保持し、ai-finish による archive を待つ。",
+    "expectedReviewFocus": [
+      "classification source of truth",
+      "legacy DecisionPacket compatibility",
+      "session-index censoring",
+      "counterfactual sample alignment",
+      "Net Decision Value composition"
+    ]
+  },
+  "userCorrectionSolidification": [
+    {
+      "correction": "ユーザーが追加した Decision Domain SSOT、entry_close の分離、固定 Counterfactual、version/cohort freeze。",
+      "solidifiedTo": "contract",
+      "reason": "次回の decision semantics 変更と validation bias を同じ Contract / spec boundary で検出するため。"
+    }
+  ]
+}

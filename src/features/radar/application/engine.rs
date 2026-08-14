@@ -11,6 +11,7 @@ use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
 use crate::features::radar::domain::action_matrix::ActionMatrix;
 use crate::features::radar::domain::breakout_detection::BreakoutEvaluator;
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::decision_class::DecisionClassification;
 use crate::features::radar::domain::trend_cohesion::TrendCohesionEvaluator;
 use anyhow::Result;
 
@@ -334,6 +335,20 @@ impl Engine {
             &asset_features,
             rules,
             evidence_history,
+        );
+
+        if let Some(transition_log) = packet.transition_log.as_ref() {
+            let classification = DecisionClassification::from_transition_log_with_confidence(
+                transition_log,
+                packet.market_features.system_confidence,
+            );
+            packet.decision_class = classification.class;
+            packet.decision_reasons = classification.reasons;
+        }
+        packet.universe_id = DecisionClassification::universe_id(
+            ticker_histories
+                .iter()
+                .map(|(history, _)| history.symbol.as_str()),
         );
 
         Ok(packet)

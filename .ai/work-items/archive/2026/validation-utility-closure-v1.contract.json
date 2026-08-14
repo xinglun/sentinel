@@ -1,0 +1,277 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-utility-closure-v1",
+  "mode": "code",
+  "title": "Validation Utility Closure V1：事件粒度与净决策价值",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "d10112590baa9133c7864323246b001ef0be85b61fe4def1f32e398da1df7057"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.contract.json",
+      "status": "??",
+      "fingerprint": "10246b03ac064ff1a6b4eb7ea35947fb7bc1b4999620884de55deb21b03473bb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.summary.json",
+      "status": "??",
+      "fingerprint": "4fd20b37fe3357f490b062a7cdb85e6ec35445e596313f15144602b9e4ba92d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "status": "??",
+      "fingerprint": "2f2e73b2dd6005db2f3d5777e66eadd441bc1780ea6b31866a1db84865198489"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "6cae63b9b2fc51ff0697f5ef81c3f3bb579fd14f7bd8b83f0eb5e184547d225e"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "948510ee6d5c130822d5e0b4d683133bf577d964c4c1559071fee8da861e7dfe"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "557078919b3e57d9d6ce4de6dba93f58f8530002b93e86187c6cd674e8e6e473"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "9d241f9e7b167b7a8c39f12af4068ffbb23fc805d8830ba9ed70423fec5e57c5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "26e30cfae41c092ec32d23ea1c0d0e5be73dc9741ef4fb82eb10ead5530c8cef"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "266874a35a77586d675bd8932b9feaabfd0d9a5cb9a9fca648fbeeb5ff27c12d"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "98598d10c2ecce4304ad616613898e879d6e14c357cfbf246739f258c6e6ef04"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "Validation Epoch の Decision Utility が asset-day の重複、cohort 横断の lifecycle 漏洩、T+20 だけの保護評価、reason 別内訳欠如、Net Decision Value 未計算により、待つ価値と避けた損失を同じ意思決定単位で比較できない問題を解決する。",
+  "intent": {
+    "problem": "Sentinel の NO_TRADE/PROBE/READY が候補 episode 単位でどれだけ損失を避け、どれだけ上昇を待たせたかを 5d/10d/20d で説明できない。",
+    "constraints": [
+      "DecisionPacket の構造は変更せず、Backtest ACL で既存 production facts を射影する。",
+      "完全な Decision Gate fact の追加は別 Work Item とする。",
+      "Strength は既存 Raw Top-3 初回観測 proxy を使用し、新しい detector は作成しない。"
+    ],
+    "rationale": "Validation Epoch の核心 KPI を asset-day の観測値から、候補 episode の Protection Benefit、Confirmation Cost、Net Decision Value へ収束させるため。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-utility-closure-v1.contract.json",
+    ".ai/work-items/active/validation-utility-closure-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/validation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "DecisionPacket の新規フィールド追加",
+    "Trend Gate を完全な Decision Gate fact に置き換えること",
+    "Gate / execution / trader / action matrix / position sizing の意味変更",
+    "portfolio、cash、position、fee、order simulation の追加",
+    "Telegram、weekly review、i18n の追加",
+    "新しい strength detector の作成。Strength は既存 Raw Top-3 観測を episode 開始の proxy とする"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "reason": "既存 Validation の母集団、cohort、censoring、utility 境界。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "現行 validation record/report の契約。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "現行 daily pipeline、lifecycle、cohort、utility 集計の実装。"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "reason": "forward horizon、censoring、quantile helper の実装。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Validation summary の表示契約。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Radar decision classification と既存 pipeline の統合境界。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt",
+      "architecture_boundary"
+    ],
+    "reason": "Utility の sample unit と Net Decision Value は business KPI であり、episode/censoring/Trend Gate の境界をテストで固定する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、business boundary、acceptance、verification が確定した。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "episode 粒度、cohort lifecycle isolation、multi-horizon utility、reason split、Net Decision Value を実装し、DecisionPacket と full Gate semantics は変更しない。",
+    "openQuestions": ["Protection/Confirmation の単位は候補 episode とし、asset-day は coverage 用に限定する。", "Trend Gate blocked は完全な Decision Gate blocked と表示しない。"]
+  },
+  "preReviewWarnings": [
+    "Utility は Trend Gate blocked を測定し、完全な Decision Gate blocked を主張しない。",
+    "episode 単位と asset-day coverage を別指標として表示し、混合しない。",
+    "Protection と Confirmation の比較不能な欠損は zero-fill せず unavailable と表示する。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "異なる cohort の同一 symbol が lifecycle を共有しない", "reason": "snapshot version/universe 境界の漏洩を防ぐ。", "required": true, "status": "verified", "evidence": ["src/features/backtest/application/simulation.rs"]},
+    {"scenario": "同一 episode の複数 asset-day が一度だけ utility に入る", "reason": "Confirmation Cost と baseline の時間長バイアスを防ぐ。", "required": true, "status": "verified", "evidence": ["src/features/backtest/application/simulation.rs"]},
+    {"scenario": "T+5/T+10/T+20 が独立に censoring 集計される", "reason": "早期保護価値を T+20 のみで失わない。", "required": true, "status": "verified", "evidence": ["src/features/backtest/application/simulation.rs"]},
+    {"scenario": "blocker reason 別 Utility が全体 episode を重複膨張させない", "reason": "どの克制が価値を持つかを校正する。", "required": true, "status": "verified", "evidence": ["src/features/backtest/application/simulation.rs"]},
+    {"scenario": "比較不能な Protection/Confirmation は Net Decision Value を unavailable にする", "reason": "欠損をゼロ価値と誤認しない。", "required": true, "status": "verified", "evidence": ["src/features/backtest/application/simulation.rs"]}
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "candidate episode の lifecycle state が snapshot version、universe、symbol の境界を跨いで漏洩しない。",
+    "Confirmation Cost が asset-day の重複ではなく episode 単位で集計され、episode sample count と coverage を出力する。",
+    "Protection Utility が T+5、T+10、T+20 の各 horizon で complete sample、downside、MAE、MFE、missed upside を保持する。",
+    "Protection Utility が TREND_GATE_BLOCKED、NO_LEADER、BREAKOUT_UNCONFIRMED、CONFIDENCE_INSUFFICIENT、RISK_OVERLAY_ACTIVE の reason 別に集計できる。",
+    "Net Decision Value が同一 episode 集計単位で Protection Benefit と Confirmation Cost から計算され、比較不能時は None/UNAVAILABLE になる。",
+    "Raw Top-3 baseline と READY subset の sample unit が明示され、asset-day と episode を混同しない。",
+    "Sample Maturity が総 record 数だけでなく complete horizon と lifecycle 有効サンプルを考慮する。",
+    "Trend Gate blocked と完全な Decision Gate blocked の境界が report 文言と design document に明記される。",
+    "DecisionPacket の既存 fixture literal を増やさず、既存 decision semantics と portfolio/trading semantics を変更しない。",
+    "5 つの required scenario（cohort lifecycle isolation、episode dedupe、multi-horizon utility、reason split、unavailable net value）がテストで検証される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-utility-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
