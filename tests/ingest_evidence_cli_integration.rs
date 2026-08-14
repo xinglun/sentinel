@@ -55,6 +55,8 @@ fn test_ingest_evidence_valid() {
     assert!(out.status.success());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("成功摄取 1 条自动证据记录。"));
+    // Evidence interface への dispatch 後も、既存の CLI 出力契約を保持する。
+    assert!(!stdout.contains("Dry-Run"));
 
     // Check if file exists and contains the record
     let record_file = tmp.path().join("evidence_records.jsonl");

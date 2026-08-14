@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "architecture-cli-command-boundary-v1",
+  "mode": "code",
+  "title": "拆分 CLI command boundary，保持行为不变",
+  "baseCommit": "eb0f3b3d46719b1f5534a6136ac20369dff0ed01",
+  "baselineDirtyPaths": [],
+  "problemStatement": "CLI の command dispatch と evidence command 実装が src/cli.rs に集中し、変更時の影響範囲と feature boundary が不必要に大きい。既存の CLI 出力、引数エラー、永続化、通知、終了 status を維持したまま evidence command boundary を interface module へ移す。",
+  "intent": {
+    "problem": "Evidence command の orchestration と presentation helper を evidence feature の interface に移し、src/cli.rs を composition / dispatch の薄い入口にする。",
+    "constraints": [
+      "DecisionClass、Gate、MarketState、portfolio policy、Action Matrix、Position Sizing、Trader、P&L の semantics を変更しない。",
+      "ingest-evidence、ingest-evidence-url、collect-evidence の出力、error、dry-run、deduplication、persistence contract を維持する。",
+      "新しい evidence source、signal、market intelligence は追加しない。"
+    ],
+    "rationale": "Validation Epoch 後の architecture hygiene として、CLI の変更爆発半径を縮小する。"
+  },
+  "scope": [
+    ".ai/work-items/active/architecture-cli-command-boundary-v1.contract.json",
+    ".ai/work-items/active/architecture-cli-command-boundary-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/evidence/interface/mod.rs",
+    "src/features/evidence/interface/cli_command_handler.rs",
+    "tests/ingest_evidence_cli_integration.rs",
+    "tests/collect_evidence_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/**",
+    "src/features/backtest/**",
+    "src/features/research/**",
+    "config.toml",
+    "CLI vocabulary、i18n 文言、snapshot、report format の意図的変更",
+    "新しい command、source、provider、decision rule の追加"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/architecture-debt-full-closure.summary.json",
+      "reason": "cli.rs の残存 command family 分割余地と既存 architecture debt を確認する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "現在の evidence dispatch、helper、既存 feature adapter 呼び出しを確認する。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence.rs",
+      "reason": "manual evidence ingestion の application port を維持する。"
+    },
+    {
+      "path": "src/features/evidence/application/evidence_ingestion.rs",
+      "reason": "URL / batch evidence collection の application port を維持する。"
+    },
+    {
+      "path": "src/features/evidence/acl/evidence_store_factory.rs",
+      "reason": "evidence adapter composition の既存境界を維持する。"
+    },
+    {
+      "path": "tests/ingest_evidence_cli_integration.rs",
+      "reason": "manual / URL command の既存 CLI contract を回帰する。"
+    },
+    {
+      "path": "tests/collect_evidence_cli_integration.rs",
+      "reason": "batch command の既存 CLI contract を回帰する。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "feature layer 依存境界を検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存 command contract と test evidence があり、behavior-preserving な interface 移動として検証可能。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、既存 CLI contract、verification が確定した。"
+  },
+  "preReviewWarnings": [
+    "既存 CLI の標準出力・標準エラー・終了 status を一字一句含めて回帰する。",
+    "新しい feature logic や source wiring を持ち込まず、interface boundary の移動だけに限定する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーの『再開』指示に基づき、Architecture Hygiene の次段として evidence CLI boundary の behavior-preserving 分割を許可する。Radar / Backtest の追加再編と新機能は許可しない。",
+    "openQuestions": ["实现后需确认既有 CLI integration tests 与 architecture checks 在新 interface boundary 下全部通过。"]
+  },
+  "acceptance": [
+    "evidence command の orchestration と presentation helper が src/features/evidence/interface/cli_command_handler.rs に移り、src/cli.rs は dispatch 呼び出しだけを保持する。",
+    "ingest-evidence、ingest-evidence-url、collect-evidence の success/error/dry-run/deduplication/persistence contract が既存 integration test で維持される。",
+    "public command vocabulary、i18n 文言、snapshot、Decision semantics、Gate、Trader に差分を作らない。",
+    "evidence interface の依存方向が application / ACL / shared interface に限定され、Radar domain や infrastructure への逆流を作らない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "manual evidence command keeps persistence and deduplication behavior",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/ingest_evidence_cli_integration.rs"],
+      "reason": "既存 integration tests が success、validation、deduplication を覆う。"
+    },
+    {
+      "scenario": "URL and batch evidence commands keep dry-run and failure boundaries",
+      "required": true,
+      "status": "verified",
+      "evidence": ["tests/ingest_evidence_cli_integration.rs", "tests/collect_evidence_cli_integration.rs"],
+      "reason": "既存 integration tests が URL source、missing configuration、batch dry-run を覆う。"
+    },
+    {
+      "scenario": "new evidence interface does not violate feature boundaries",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/check_architecture_boundaries.py", "src/features/evidence/interface/cli_command_handler.rs"],
+      "reason": "architecture checker と依存 import review で検証する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-command-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-cli-command-boundary-v1.summary.json CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-command-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-cli-command-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-command-boundary-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
