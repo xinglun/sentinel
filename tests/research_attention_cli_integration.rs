@@ -2912,6 +2912,8 @@ fallback_survivability_risk = "MODERATE"
     let out = run_cli(&tmp, &["daily-calibration"]);
 
     assert!(out.status.success());
+    // CLI composition を handler 境界へ移しても、通常実行は stdout に report を返す。
+    assert!(out.stderr.is_empty());
     let stdout = String::from_utf8_lossy(&out.stdout);
     assert!(stdout.contains("🧭 每日认知校准"));
     assert!(stdout.contains("## 1. 今日审计摘要"));

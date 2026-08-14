@@ -1,0 +1,197 @@
+{
+  "workItemId": "architecture-daily-calibration-cli-boundary-v1",
+  "contractPath": ".ai/work-items/archive/2026/architecture-daily-calibration-cli-boundary-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json",
+      "reason": "Daily Calibration CLI boundary の scope と acceptance を確定する。"
+    },
+    {
+      "path": ".ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.summary.json",
+      "reason": "実装と検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit の生成 status を更新する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Daily Calibration dispatch を handler 呼び出しへ限定する。"
+    },
+    {
+      "path": "src/lib.rs",
+      "reason": "Daily Calibration composition handler を crate root に登録する。"
+    },
+    {
+      "path": "src/daily_calibration_cli_handler.rs",
+      "reason": "Daily Calibration orchestration と Telegram digest を移動する。"
+    },
+    {
+      "path": "tests/research_attention_cli_integration.rs",
+      "reason": "Daily Calibration CLI contract の回帰証跡を維持・補強する。"
+    }
+  ],
+  "sourcesUsed": [
+    "src/cli.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/shared/acl/notification_factory.rs",
+    "tests/research_attention_cli_integration.rs",
+    "scripts/check_architecture_boundaries.py"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.summary.json CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-daily-calibration-cli-boundary-v1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "既存 Daily Calibration orchestration の behavior-preserving 移動に限定する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "Daily Calibration preserves report output and date/window semantics",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/cli.rs",
+        "src/features/radar/interface/audit_daily_report.rs",
+        "src/features/research/interface/cognitive_reports.rs",
+        "tests/research_attention_cli_integration.rs"
+      ]
+    },
+    {
+      "scenario": "Daily Calibration preserves Telegram digest and notification boundary",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/cli.rs",
+        "src/features/shared/acl/notification_factory.rs"
+      ]
+    },
+    {
+      "scenario": "new handler preserves feature dependency direction",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/check_architecture_boundaries.py",
+        "src/daily_calibration_cli_handler.rs"
+      ]
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract と scope を確定した。",
+      "contractHash": "50929f062a3db81b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "preflight 通過後に編集する。",
+      "contractHash": "50929f062a3db81b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装後、全 required checks 前に確認した。",
+      "contractHash": "50929f062a3db81b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required checks 後に確認した。",
+      "contractHash": "50929f062a3db81b",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope、acceptance、unknowns、executionDecision を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "preflight 通過後に編集する。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装後、全 required checks 前に確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 後に確認した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "全 required checks と Daily Calibration CLI regression が通過した。",
+    "expectedReviewFocus": [
+      "Daily Calibration output/error parity",
+      "Telegram digest and notification boundary",
+      "src/cli.rs dispatch boundary"
+    ]
+  }
+}
