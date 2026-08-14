@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lemonade Cut Its Adjusted EBITDA Loss From $41 Million to $19 Million. Now It Has Promised Breakeven by Q4.
+  summary: Its revenue spiked 79% in the latest quarter.
+  url: https://finnhub.io/api/news?id=7dbdb801dce0ecb8c07a167d6a5f1f2513951394850b4bf5ef3ee003aad0c14b

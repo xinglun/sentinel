@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla paid Elon Musk 2.5m times more as CEO than its average worker in 2025
+  summary: Tech billionaire’s $158.3bn deal an outlier in report showing widening gap of CEO to worker pay at top companies
+  url: https://finnhub.io/api/news?id=6298b20b8bc7cfb2e25971aa03f77f56e528abb8a47c862f8b94d805a773e4cf

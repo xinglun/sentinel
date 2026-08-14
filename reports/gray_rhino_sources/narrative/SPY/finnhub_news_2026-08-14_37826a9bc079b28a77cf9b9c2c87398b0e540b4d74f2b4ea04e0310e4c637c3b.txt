@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Older Workers Retire, Labor Costs Ease
+  summary: 
+  url: https://finnhub.io/api/news?id=27c0666f9c729c337c0b70c7f69b6543eab3c83ba7e019bd3970e9c0c465ffe4

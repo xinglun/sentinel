@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Bears Are Running Out Of Arguments
+  summary: Palantir (PLTR) Q2: 93% revenue growth, 62% operating margin and record $2.13B pipeline despite 54x sales valuation.
+  url: https://finnhub.io/api/news?id=a06ac29afd583ec34368562cc142d703883fbb808d6bb801af8619e518abcd1f

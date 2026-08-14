@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Best "Magnificent Seven" Stocks to Buy in August
+  summary: The Magnificent Seven have been mostly poor performers this year.
+  url: https://finnhub.io/api/news?id=9626c64080dfa8088c2f9a44ce471a290721c8066d3341f05a5074f67fff6107

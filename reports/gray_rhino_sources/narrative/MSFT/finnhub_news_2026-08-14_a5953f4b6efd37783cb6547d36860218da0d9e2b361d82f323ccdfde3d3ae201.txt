@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MetriStar Top Provider: Room Video Conferencing Report: Evaluating Customer Sentiment, Business Value, and Market Strategies of Cisco, Zoom, Microsoft, and Logitech
+  summary: Opportunities center on easy-to-use hybrid meeting systems, including all-in-one video bars, modular room kits, intelligent cameras and audio, and native Teams/Zoom support. Vendors can differentiate through reliability, user satisfaction, productivity gains and cost savings.Dublin, Aug. 14, 2026 (GLOBE NEWSWIRE) -- The "MetriStar Top Provider: Room Video Conferencing Systems" has been added to ResearchAndMarkets.com's offering As hybrid work continues to reshape enterprise collaboration, the 20
+  url: https://finnhub.io/api/news?id=42475d1b50ab94aa52a77b1dbedb5b2560c6348d07e58910b2085e6af9c98605

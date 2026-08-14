@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A September Lull Followed By October Surprise In Advance Of Midterms
+  summary: S&P 500 hits new highs on cooler inflation and benign PPI.
+  url: https://finnhub.io/api/news?id=7d4d2f1dad917debef058493bcb0fa04cbf31b58a684a5af9d3bad926aeec971

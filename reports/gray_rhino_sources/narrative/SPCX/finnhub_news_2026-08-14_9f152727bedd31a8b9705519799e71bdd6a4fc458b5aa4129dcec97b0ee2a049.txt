@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street's riskiest trades are suddenly back on top: Chart of the Day
+  summary: Investors are reaching for more risk — and getting paid for it.
+  url: https://finnhub.io/api/news?id=2b7da859851c5bb21ed7dd386c125bbafc2bf0c84f77d778064a993eeafd02d7

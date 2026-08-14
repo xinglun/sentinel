@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperscaler AI borrowing binge shakes up foreign credit markets
+  summary: A flood of foreign currency bond issuance by Big Tech groups is shaking up the world’s smaller credit markets, pushing borrowing costs higher...
+  url: https://finnhub.io/api/news?id=acc0bd21db448b853ef9a6f29346adbc722e4888cde15979b849d6d4a674b8ba

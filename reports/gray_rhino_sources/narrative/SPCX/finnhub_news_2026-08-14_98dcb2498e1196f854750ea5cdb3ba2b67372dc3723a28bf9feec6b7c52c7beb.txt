@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Said T-Mobile US Inc. (NASDAQ:TMUS)’s Shares Reflected A Fear Of The Future
+  summary: T-Mobile US Inc. (NASDAQ:TMUS)’s shares are down by 26% over the past year and by 8% year-to-date. As with other carriers, the firm’s narrative depends on its subscriber growth, and more recently, on its ability to compete with SpaceX. The rocket firm, which now also markets itself as an AI firm, also operates the largest […]
+  url: https://finnhub.io/api/news?id=2e5fecb158976ac5d0e5bae6235aeebff8025063b4416e963ad912b571ed37ef

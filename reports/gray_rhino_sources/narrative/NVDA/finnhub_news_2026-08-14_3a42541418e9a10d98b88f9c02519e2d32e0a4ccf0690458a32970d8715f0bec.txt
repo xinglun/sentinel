@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's the 1 Thing Every Dividend Investor Should Know About Building Passive Income That Lasts a Lifetime
+  summary: It all starts with identifying durable companies with a focus on capital returns.
+  url: https://finnhub.io/api/news?id=b234c936c7ac17f5ab375633ea572727b08d3c81911ea228cd6faead26abccff

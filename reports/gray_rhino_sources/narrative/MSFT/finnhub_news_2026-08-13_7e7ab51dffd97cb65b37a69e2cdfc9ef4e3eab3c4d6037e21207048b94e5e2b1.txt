@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Iren Stock Topped the Market on Thursday
+  summary: The company made its first deployment in a contract with an important client.
+  url: https://finnhub.io/api/news?id=f3dcfaefcbc426d97b0970d184501d8b76a023d2e0744254b75f45da24850b49

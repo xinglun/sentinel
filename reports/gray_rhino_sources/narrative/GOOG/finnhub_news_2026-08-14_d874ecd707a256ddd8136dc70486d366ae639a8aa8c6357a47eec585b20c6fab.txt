@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vornado, Related’s Chelsea Office Hits Special Servicing
+  summary: A $396M CMBS loan on Vornado and Related’s Google-anchored Chelsea office entered special servicing amid NYC office pressures.
+  url: https://finnhub.io/api/news?id=cafb2239a7dd58b12cf51a9222764d9674869d6ae0698fd1e32ab86958d356fa

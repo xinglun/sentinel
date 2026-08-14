@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AppLovin Stock Worth Holding as Growth Clashes With Valuation Risk?
+  summary: APP pairs rapid revenue growth and high margins with a forward earnings discount, while e-commerce execution and limited visibility remain key risks.
+  url: https://finnhub.io/api/news?id=d921a37c03aaaf6b76fc7c220b66365d043f907cea716573ff717e7a52941342

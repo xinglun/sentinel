@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk's Investor Day Puts NAND Center Stage as the 30-Year Quietly Prices In Fiscal Reality
+  summary: Cooler July producer prices let the Nasdaq rally, but Thursday's real story was a memory chipmaker sketching a 2028-2030 growth path that reset how investors think about NAND economics. Meanwhile the 30-year Treasury auction cleared at levels last seen in 2001, a much quieter but structurally louder signal.
+  url: https://finnhub.io/api/news?id=7722ba7b10658553902058a38ee09cf3e74aa22e4b2f2161092b7466a6c3db21

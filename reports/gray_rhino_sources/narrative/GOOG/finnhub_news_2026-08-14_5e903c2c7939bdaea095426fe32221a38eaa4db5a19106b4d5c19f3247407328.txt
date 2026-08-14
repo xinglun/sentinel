@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: This Is How YouTube Changes Business And Society
+  summary: 
+  url: https://finnhub.io/api/news?id=c74c828c3fb7888ed44178555ce5f18a8540a826b5af73f2248a0b602d2f0e27

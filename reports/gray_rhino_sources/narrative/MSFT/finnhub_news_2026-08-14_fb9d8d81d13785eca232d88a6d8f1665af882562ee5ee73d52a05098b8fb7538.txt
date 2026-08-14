@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron (CVX) Stock Looks Like A Bargain Below Fair Value
+  summary: Chevron has delivered a strong 154.0% return over the past five years, yet both a Discounted Cash Flow (DCF) intrinsic value estimate and market multiples currently point to the stock trading at a discount to those valuation checks. Over the last 5 years Chevron has returned 154.0%, which puts fresh focus on whether the current price still leaves room compared with its intrinsic value estimate. Chevron's growing role in powering AI data centers through projects like its long term Microsoft...
+  url: https://finnhub.io/api/news?id=53cd9ce6d9ee81956a1f7bb946ba149b7dc26db6d4e7dc37324afcc2e66e97e9

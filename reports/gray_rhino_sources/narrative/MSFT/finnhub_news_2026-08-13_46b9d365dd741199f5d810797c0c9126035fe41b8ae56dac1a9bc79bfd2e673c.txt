@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Is Winning On Price And Racing Its Own Interest Bill
+  summary: What changed against expectations was pricing power rather than the revenue line, and the open question is how fast scale turns into margin against the cost of the debt behind the build.
+  url: https://finnhub.io/api/news?id=b85e7b23e0231fb9d02c8eb65a31bf84cf89e0096fd1421f8036323170e16006

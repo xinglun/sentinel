@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China’s CSI 300 Set to Lose Appeal Before Adding CXMT, BI Says
+  summary: China’s CSI 300 Index risks losing its appeal as the nation’s key benchmark until it includes memory giant CXMT Corp., an event that’s unlikely to happen until the end of 2027, according to Bloomberg Intelligence.
+  url: https://finnhub.io/api/news?id=5b68eaeb8003d1e3202a0e0d27a0b4a04b9c6cd12c6f143d39ecefa61cbc4b6f

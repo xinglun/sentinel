@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bleeding-Edge AI Meets Cutting-Edge Finance. Is This Peak AI?
+  summary: These new futures contracts would allow investors to hedge and speculate on the cost of renting chips that machines need to train and run AI models.
+  url: https://finnhub.io/api/news?id=6ae65ea3fe426b1c62b7073d35dcead9146d50261ecaf7e18d41f245de7d008e

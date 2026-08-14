@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invested $10,000 in Palantir Before It Released Its AIP Platform, Here's What Your Stake Would Be Worth Today
+  summary: AIP is changing how businesses operate -- and opening new opportunities for Palantir.
+  url: https://finnhub.io/api/news?id=1972e3d1df27e1e4701b8949f06e26d472855b34ee930ad0a120c6345474afdd

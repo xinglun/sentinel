@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks See Support from Favorable PPI Report
+  summary: The S&P 500 Index ($SPX ) (SPY ) is up +0.57%, the Dow Jones Industrial Average ($DOWI ) (DIA ) is up +0.04%, and the Nasdaq 100 Index ($IUXX ) (QQQ ) is up +1.22%. September E-mini S&P futures (ESU26 ) are up +0.58%, and September E-mini Nasdaq futures (NQU26...
+  url: https://finnhub.io/api/news?id=1a08b00d0d81c7af85c81e7a0257ec6db18ffa247cdbaf3230ab0b0961f833e4

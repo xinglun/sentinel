@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit Stock Pops 11% on S&P 500 Inclusion Despite Google AI Traffic Concerns
+  summary: Reddit shares rose 11% on S&P 500 inclusion news, even as Google's AI Overviews pressure its search traffic.
+  url: https://finnhub.io/api/news?id=8779c6371be369a612911e24be9a229182268618d00f42c948bdb46e63729cd4

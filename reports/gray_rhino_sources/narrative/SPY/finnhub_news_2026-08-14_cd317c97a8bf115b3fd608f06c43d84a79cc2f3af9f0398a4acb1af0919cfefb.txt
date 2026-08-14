@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones Futures Slip, S&P 500, Nasdaq 100 Gains as US Says it Can Maintain Iran Blockade 'Indefinitely'—SanDisk, Workday, Applied Materials in Focus (UPDATED)
+  summary: U.S. stock futures were mixed on Friday, as the Dow Jones index slipped and the Nasdaq 100 and S&amp;P 500 indices rose.
+  url: https://finnhub.io/api/news?id=eb1ce52df6cd12d9bc77ff0842861e4d0991401c2594028d1c101454f46b8435

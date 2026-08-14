@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Has $27 Billion That Isn't On Its Balance Sheet
+  summary: Meta Platforms, Inc. stock update: Strong Buy case with WhatsApp monetization, AI ad upside, and capex risksâclick for key drivers and see if META is right for you.
+  url: https://finnhub.io/api/news?id=e6919246fd15524f9d0c5f6b3526eff0458092ffe4df69f9c4cc9173f35c3d16

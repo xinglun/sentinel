@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Q3 Guidance Signals Reacceleration After a Mixed Q2 Print
+  summary: APP expects third-quarter revenue growth to reaccelerate sequentially while maintaining an 83% margin despite continued investment in AI computing capacity.
+  url: https://finnhub.io/api/news?id=62d5d5bc6b4e5d88aa2570e22829ba3ef9d1361daee6c76ad53a299e572e2cb6

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Design Software Stocks Q2 Earnings: Unity (NYSE:U) Firing on All Cylinders
+  summary: As the Q2 earnings season wraps, let’s dig into this quarter’s best and worst performers in the design software industry, including Unity (NYSE:U) and its peers.
+  url: https://finnhub.io/api/news?id=4fa8ee5300975d8859797925116d35451031ef9f41d515771e9898bf075990be

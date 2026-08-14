@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Anthropic truly worth its $2T IPO target
+  summary: Yahoo Finance Tech Editor Dan Howley joins Market Domination to break down Anthropic’s (ANTH.PVT)reported $2 trillion IPO target and the math investors are using to get there. Howley explains how Anthropic's explosive revenue growth and projected run rate are fueling the valuation and why a potential blockbuster IPO could create another major hurdle for rival OpenAI.(OPAI.PVT).
+  url: https://finnhub.io/api/news?id=08e745d02e7777a2084a33aeca927093abad8af179de24c59a268d426d5c6d6c

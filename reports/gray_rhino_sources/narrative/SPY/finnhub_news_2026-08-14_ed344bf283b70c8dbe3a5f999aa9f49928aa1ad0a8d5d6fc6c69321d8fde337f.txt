@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Cuban Wants Investors Out of Health Insurers. That’s Tough If You Own These ETFs
+  summary: Mark Cuban is urging funds to divest from major health insurers. Here’s how broad-market ETFs remain exposed to the companies he’s targeting.
+  url: https://finnhub.io/api/news?id=8f90b1bf8a8ca0e19a08ee253d27540cd211eeea879286163b5557b466f1392d

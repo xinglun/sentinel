@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dara Khosrowshahi Hails Uber's Japan Robotaxi Expansion, Says Country Has Been a 'Terrific' Market for the Ride-Hailing Giant
+  summary: Uber CEO hails expansion of Robotaxi in Japan and partnership with Hinomaru Kotsu as global autonomous driving race heats up.
+  url: https://finnhub.io/api/news?id=086e9c6609ae69afde0313b0494206ccd28fb966bfa393e862bb31d5c49c4534

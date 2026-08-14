@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Millions of Americans Own Vanguard’s VFIAX and Have No Idea What They Actually Bought
+  summary: VFIAX carries the word "diversified" in its pitch, but what sits inside the fund tells a different story about concentration, risk, and how a handful of platform giants now shape the retirement savings of millions.
+  url: https://finnhub.io/api/news?id=629160cc8accb7191f2b98287dcbdaf523826e819e007d24e6b6e3ccd34aaebf

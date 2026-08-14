@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: The Moonshot Premium Is Dead As Waymo And China Pull Away
+  summary: Tesla, Inc. is priced for robotaxi and robotics dominance, but Waymo and China lead. Click for this TSLA update and see why I am bearish on the stock.
+  url: https://finnhub.io/api/news?id=2863a0a587d84b7d40ac1a5eff051d87da85990b18c96ed171d68b212b2c76bb

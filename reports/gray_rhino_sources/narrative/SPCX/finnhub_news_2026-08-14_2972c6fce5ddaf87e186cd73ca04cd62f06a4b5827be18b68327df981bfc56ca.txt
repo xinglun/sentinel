@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Ownership: How Much of the $2 Trillion Company Does Musk Own?
+  summary: Elon Musk owns 48.4% of SpaceX and over 82% of its votes, a new SEC filing shows. His stake tops $900 billion.
+  url: https://finnhub.io/api/news?id=44d38be826b0251cc37084f5931484e95fc2e5e93d3d50425e4380dcb2ff36c8

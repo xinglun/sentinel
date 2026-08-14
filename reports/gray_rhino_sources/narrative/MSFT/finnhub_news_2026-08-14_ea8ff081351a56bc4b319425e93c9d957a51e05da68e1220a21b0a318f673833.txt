@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Tesla Share a Common Concern, but Here's Why One Is Much More Justified
+  summary: Investors don't care as much about spending with a clear return on investment in sight.
+  url: https://finnhub.io/api/news?id=415abf44dc4a47333b87ea6ae2f3a8deb1ebb022422ec4a418617566f95f26f0

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX vs. Oklo: Which Disruptive Stock Has More Upside?
+  summary: SpaceX is the largest space company, while Oklo is an early-stage energy company.
+  url: https://finnhub.io/api/news?id=8624617a47c29b91eb2fe4cc1f0ebb8e51f2c2130d17d595af63c14468b29a69

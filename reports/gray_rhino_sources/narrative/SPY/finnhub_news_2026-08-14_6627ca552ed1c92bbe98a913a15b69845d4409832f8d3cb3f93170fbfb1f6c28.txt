@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: WTV: An Accidental Dividend Growth ETF
+  summary: Explore WisdomTree US Value Fund (WTV), a 5-star value ETF using shareholder yield, quality & momentum screensâsee yields, portfolio strengths, and buy now.
+  url: https://finnhub.io/api/news?id=77ec4e0f00c84917987eba8e4db6fcccb73591e45e4413546b1cef072ea1ea15

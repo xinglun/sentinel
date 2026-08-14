@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Vs. TSX - Which Leads Next?
+  summary: In this episode, Tom Bruni andÂ Sid Mokhtari break down the current market environment in the US and Canada - and where investors should focus next. Read more here.
+  url: https://finnhub.io/api/news?id=e0436276e98c9b66e027c3ff51d45ea6e50275ac7f11619d7d4804a59fae071f

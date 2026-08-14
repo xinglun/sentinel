@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Near-Perfect $1 Million Retirement Portfolio
+  summary: Seven-bucket retirement portfolio blueprint with specific picks for reliable income, attractive yield, and sustainable dividend growthâlearn the strategy...
+  url: https://finnhub.io/api/news?id=5e3541fccf1078926f97612ed0ac0f516a8515190945e8f6003a3f2f27e07619

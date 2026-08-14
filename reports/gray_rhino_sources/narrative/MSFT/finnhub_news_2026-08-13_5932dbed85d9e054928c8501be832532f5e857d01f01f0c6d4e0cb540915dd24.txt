@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Diversification You Think You Bought: How VGT’s Top 3 Holdings Put a $250,000 Position at Risk
+  summary: VGT holds hundreds of technology stocks, but the number of holdings tells a very different story than where your money actually ends up. Before putting a quarter million dollars into this fund, there is a concentration question most investors never think to ask.
+  url: https://finnhub.io/api/news?id=7f258291e7417cb92dc225c2998b2e295e9adb56784a9877c9dd5b6fdbb4b328

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla $10 Billion Solar Bet Could Change Its Energy Game
+  summary: Tesla seeks $10.1 billion Texas solar factory as Musk supercharges U.S. energy push
+  url: https://finnhub.io/api/news?id=90d73d119bd3db3cdc4e0bb2cc19c53b350da17f0a6ecb9a2493d456212c1f58

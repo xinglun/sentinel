@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s next iPhone battle just got more complicated
+  summary: Apple (AAPL) is preparing to undertake a pretty unpleasant AI test. Google has unveiled the Pixel 11 series. With Gemini Intelligence incorporated much more deeply into the smartphone experience, it offers customers an AI assistant that can comprehend what they're doing across messaging, calendars, ...
+  url: https://finnhub.io/api/news?id=95fe7aef1fb6fbcf3d9a5e828d0fccf54d2632551988d90ad4940d90d29485ee

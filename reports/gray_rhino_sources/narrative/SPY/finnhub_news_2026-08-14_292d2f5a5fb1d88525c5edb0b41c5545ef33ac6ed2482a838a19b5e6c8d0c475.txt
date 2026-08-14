@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This May Be One Of My Favorite Markets Ever
+  summary: S&P 500 concentration hits 40% as AI boosts Mag 7 profits, but breadth is improving. Click here to read more about the market.
+  url: https://finnhub.io/api/news?id=dba3d53223c4dd391a67589badc21f8e8c08fec435a056f780be7b725a5e0ddd

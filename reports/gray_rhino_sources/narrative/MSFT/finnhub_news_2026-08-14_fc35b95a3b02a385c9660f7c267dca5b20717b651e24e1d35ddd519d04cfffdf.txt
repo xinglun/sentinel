@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Killing Software? Analyst Says ‘I Don’t See a Software Apocalypse’
+  summary: Hyperscale AI spending is turning into real revenue. Dan Ives weighs in on MSFT, NVDA, and why software fears are overdone.
+  url: https://finnhub.io/api/news?id=73fdf8f40e95b99deb14f2966abb42e7046011fee2fa2d2a00d82c1b91124ee1

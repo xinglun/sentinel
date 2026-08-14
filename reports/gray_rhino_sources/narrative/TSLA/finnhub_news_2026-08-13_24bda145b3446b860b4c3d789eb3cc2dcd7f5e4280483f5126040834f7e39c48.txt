@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More Analysts Say Hold Than Buy on Tesla. The Price Target Went Up Anyway.
+  summary: Wall Street analysts lean neutral on Tesla, yet price targets keep climbing higher. Here is why the math behind the contradiction points in a direction most investors are not expecting.
+  url: https://finnhub.io/api/news?id=ef3c96470e4cc16bcaf8dcdabfef762ab3dbfa61e824d1aff4839ec2c4a078b4

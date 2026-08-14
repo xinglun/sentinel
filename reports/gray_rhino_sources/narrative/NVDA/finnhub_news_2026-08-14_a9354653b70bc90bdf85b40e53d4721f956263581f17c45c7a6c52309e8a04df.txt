@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Be Fooled: Despite Lower Odds of a September Fed Rate Hike, One Sinister Inflation Metric Remains Problematic
+  summary: Fed Chair Kevin Warsh and the Federal Open Market Committee (FOMC) have a "core" dilemma.
+  url: https://finnhub.io/api/news?id=b5cb74c495e88fa6186c20c952d5d0bfb91bfeae325bb27c5b37e0743e815368

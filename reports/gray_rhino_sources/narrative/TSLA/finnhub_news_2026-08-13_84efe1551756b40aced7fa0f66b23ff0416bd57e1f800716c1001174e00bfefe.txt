@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Valued Like The Company Is Doing Extremely Well, But It Isn't
+  summary: 
+  url: https://finnhub.io/api/news?id=b6b8ed0a452d6c40cc8019e8f1c4fcd1e0ea4fd5e8902396f3dc4ca0318798fe

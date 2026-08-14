@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Broadens Further as IWM Joins the Breakout
+  summary: Breadth strengthened again as 63% of stocks advanced, IWM broke higher and SPY reached fresh highs. The breadth trend remains positive at 6/7.
+  url: https://finnhub.io/api/news?id=06ef3fa7d26f3fe5517f9fbe82646f2d6b1e439ae36a318faa0cf6b05d726a2e

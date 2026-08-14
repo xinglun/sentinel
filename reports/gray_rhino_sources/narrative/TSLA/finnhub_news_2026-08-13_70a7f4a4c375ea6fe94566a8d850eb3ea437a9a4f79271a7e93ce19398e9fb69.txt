@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla Doesn't Need to Win China's Brutal EV Price War
+  summary: TSLA is sidestepping China's brutal EV price war by preserving its premium appeal at home while turning Shanghai into a record-setting export hub.
+  url: https://finnhub.io/api/news?id=4d0a78ea3ffa7b37e0408e28bce02277505a02476d154eae89a752371d2c9ebe

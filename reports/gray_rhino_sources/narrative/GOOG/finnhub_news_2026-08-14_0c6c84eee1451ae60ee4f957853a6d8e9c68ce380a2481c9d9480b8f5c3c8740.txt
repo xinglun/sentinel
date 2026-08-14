@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway: Finally Using Its Cash Pile
+  summary: 
+  url: https://finnhub.io/api/news?id=ed278a19d08e755240e6775a6c8725f0425884416b3ff148cf402192a0124d69

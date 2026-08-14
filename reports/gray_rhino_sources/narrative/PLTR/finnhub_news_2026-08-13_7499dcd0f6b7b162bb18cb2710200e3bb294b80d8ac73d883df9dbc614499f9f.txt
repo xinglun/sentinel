@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strength in Defense & Propulsion Unit Drives GE Aerospace: Can It Sustain?
+  summary: GE's defense momentum continues as rising demand, major contracts and a strong project pipeline lift revenues, orders and profit.
+  url: https://finnhub.io/api/news?id=3f8c9f7ac4afc0b5122ccdda91c0cbf2c0db83853f8a10d98412108fab0396d0

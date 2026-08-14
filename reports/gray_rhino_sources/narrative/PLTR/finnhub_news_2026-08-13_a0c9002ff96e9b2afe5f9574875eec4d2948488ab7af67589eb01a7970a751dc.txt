@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Guide to Investing in AI ETFs
+  summary: AI ETFs offer diversified exposure to a fast-growing sector, but wide performance gaps show why fund selection and strategy matter.
+  url: https://finnhub.io/api/news?id=94ac13e3d146daeabd5aa8fb3ef5d0ededfbcf822cee3e5370fce78da00c42f4

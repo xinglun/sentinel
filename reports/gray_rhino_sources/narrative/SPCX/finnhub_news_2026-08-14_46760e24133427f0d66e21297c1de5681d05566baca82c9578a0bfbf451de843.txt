@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's SpaceX Stake Worth $906.9 Billion As Filing Reveals 48.4% Ownership, But He Says 'Bunch of It' Vests Only On 'Crazy Good Outcomes'
+  summary: Elon Musk’s stake in Space Exploration Technologies Corp (NASDAQ:SPCX) is valued at nearly $906.9 billion based on the company’s latest share price. Elon Musk Holds 48.4% of SpaceX Musk held a 48.4% stake in SpaceX as of June 30, according to a regulatory filing on Thursday, giving him sole voting and dispositive power over 6.42 billion shares. However, Musk pushed back on X, pointing out that some of the shares included in the calculation are subject to vesting conditions. "A bunch of it only v
+  url: https://finnhub.io/api/news?id=f351bf2ed8d7cd565e64f67a88866f8cbc4a318705dfdf98bb7233662e800dd1

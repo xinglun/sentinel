@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Use This Zacks Tool to Find Strong Cloud Stocks
+  summary: Cloud computing refers to the on-demand seamless access of computing resources such as servers, storage, databases, networking, software, analytics, and intelligence over the Internet (the cloud) on a pay-per-use pricing model.
+  url: https://finnhub.io/api/news?id=23e70e36cf893ed54c9517901b90fabef22a2623634147e3c1f1e7004efd38d2

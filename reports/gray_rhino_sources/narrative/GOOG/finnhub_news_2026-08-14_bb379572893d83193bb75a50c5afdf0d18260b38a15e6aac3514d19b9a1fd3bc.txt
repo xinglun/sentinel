@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Stock Looks Cheap. Here’s Why.
+  summary: Its stock is down, but investors shouldn’t overreact to worries about the autonomous-vehicle business.
+  url: https://finnhub.io/api/news?id=b7e2aa9c450226c06bc3cb9d36cc876bc27e09d067f21cecf7479cfb022f7ac2

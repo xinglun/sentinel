@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surging 30 Year Bond Yields And Dwindling Social Security Will Force A Reckoning
+  summary: Rising 30-year Treasury yields hit 5.2% as fiscal risks grow. Click for what this may mean for the economy, Social Security, and markets.
+  url: https://finnhub.io/api/news?id=b30c423adc3bad5c8444b8a4f9828866e478b28cdbcea1841cb1e3b317001dd5

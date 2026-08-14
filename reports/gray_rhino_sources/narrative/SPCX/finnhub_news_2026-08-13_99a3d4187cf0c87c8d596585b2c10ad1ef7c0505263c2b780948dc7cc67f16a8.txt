@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX vs. MP Materials: 2 Very Different Ways to Bet on the Next Decade of Tech
+  summary: SpaceX and MP Materials offer different ways to invest in future technology infrastructure.
+  url: https://finnhub.io/api/news?id=e886fd07c5c5a2696d20ae8e3790ee6458779966a7b1226155e6513480837e46

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Insightful Analyst Questions From LegalZoom’s Q2 Earnings Call
+  summary: LegalZoom’s second quarter results reflected the impact of rapid changes in online search dynamics. Management attributed the quarter’s performance to a mix of solid subscription growth and the accelerating adoption of AI-powered services, but also acknowledged significant headwinds from declining Google-driven customer acquisition. CEO Jeffrey Stibel cited a “material change and a step down” in Google search, which pressured traditional traffic and business formation volumes. The company’s shif
+  url: https://finnhub.io/api/news?id=4fc19bfc2dc947121b6f55f8db6fd98f41bc10a0bbd5439aee79bb1694213c28

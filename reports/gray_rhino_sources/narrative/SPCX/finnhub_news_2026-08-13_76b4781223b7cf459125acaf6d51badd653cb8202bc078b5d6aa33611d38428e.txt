@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Rocket Lab Stock a Safer Option for Space Investors Than SpaceX?
+  summary: Both stocks have been on similar trajectories since SpaceX went public.
+  url: https://finnhub.io/api/news?id=1eef1780b4c89929cb78cd77550b5467dddf5b8e8928b4ef3afdcdf5cc514dc6

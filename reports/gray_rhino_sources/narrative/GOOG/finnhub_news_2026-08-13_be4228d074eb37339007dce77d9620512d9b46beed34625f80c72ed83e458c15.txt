@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk May Have a New AI Powerhouse on His Hands, Says Gene Munster as Grok Gets a New Update: 'This Model Is Going to Be a Monster'
+  summary: Gene Munster predicts Elon Musk’s Grok could become the AI leader by January as it rapidly closes the gap with OpenAI and Anthropic.
+  url: https://finnhub.io/api/news?id=9094ed67a99fcbfa286d5a25954cf208b7379e109a679abead59c4734a8a41cb

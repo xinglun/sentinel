@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflection Points: Mapping The Midterms
+  summary: Equity markets tend to take a breather leading up to midterm elections, but since 1990, they have done quite well in the 12 months following election day. Read more here.
+  url: https://finnhub.io/api/news?id=3c2c7e01d2e6bdbc45f4709d17a2a6449dd0a623880a82972ebe4bf72a04e456

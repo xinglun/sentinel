@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Most Loyal Buyers Blinked
+  summary: Retail investors were steadfast for nearly eight weeks after Space Exploration Technologies Corp (NASDAQ:SPCX) went public. Despite a 67% post-IPO rise, a sharp return to earth, and a stock that spent weeks trading below its debut price, mom-and-pop traders continued to buy. On August 7, that streak was finally broken. Profit-Taking at Debut Baseline According […]
+  url: https://finnhub.io/api/news?id=dbf4d13b6d620ad10afc8c047d697d227cdf9611427b64dc3531a717d6054882

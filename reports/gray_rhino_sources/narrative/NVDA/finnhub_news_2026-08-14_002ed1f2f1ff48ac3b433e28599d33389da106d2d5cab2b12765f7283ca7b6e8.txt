@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Stronger Career Learning And Capital Returns Altering The Investment Case For Stride (LRN)?
+  summary: In August 2026, Stride, Inc. reported fourth-quarter and full-year results showing higher annual revenue of US$2.52 billion and improved profitability, extended its share repurchase authorization through October 2027, and confirmed it is actively evaluating acquisitions alongside ongoing buybacks. The appointment of Robert E. Knowling Jr. as CEO, combined with strong growth in career learning programs and continued capital returns, signals a renewed emphasis on both educational outcomes and...
+  url: https://finnhub.io/api/news?id=75ea1ce65404d729b4d990e6a96dfdd70b5772dca6d5ebe2fdbb9775581ad12e

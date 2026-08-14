@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Two ETFs Are the 'No Hike' Scenario Winners
+  summary: Shifting Fed rate expectations boost XLC and XLRE. Discover why communication services and real estate ETFs are set for a breakout.
+  url: https://finnhub.io/api/news?id=51e5d8e26f98caa75d5e47e61b8f61c96ba0c150360f774b8e7e2bd4756bf866

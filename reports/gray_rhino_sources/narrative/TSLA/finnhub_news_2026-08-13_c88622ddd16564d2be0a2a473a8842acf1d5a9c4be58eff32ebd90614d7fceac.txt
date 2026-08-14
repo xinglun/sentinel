@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Shipping Crunch Is Getting Worse. What It Means for Walmart, Tesla, and More.
+  summary: Walmart and more stocks will feel the effects of the capacity constraints, delays, and higher prices reported by shipping giants Maersk and Hapag-Lloyd.
+  url: https://finnhub.io/api/news?id=482d348fe2a049aa69dbc768dfc1b42ac98abbe254121a4ffe6cc1f21084bdcf

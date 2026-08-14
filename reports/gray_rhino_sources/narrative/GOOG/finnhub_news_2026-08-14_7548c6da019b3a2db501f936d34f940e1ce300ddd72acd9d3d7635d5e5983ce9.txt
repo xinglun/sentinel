@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Wonders Whether AppLovin Corporation (NASDAQ:APP) Is Facing Off With Google
+  summary: AppLovin Corporation (NASDAQ:APP) is a software company that operates in the digital advertising space. Its shares are down by 27% over the past year and by 49% year-to-date. AppLovin Corporation (NASDAQ:APP) has been one of the more interesting firms in today’s AI-driven era due to its ability to enable businesses to run advertisements in platforms […]
+  url: https://finnhub.io/api/news?id=0d4ce33d4117b21d0c84f82a199fd139c3f466a47371fcbaff15031798b38312

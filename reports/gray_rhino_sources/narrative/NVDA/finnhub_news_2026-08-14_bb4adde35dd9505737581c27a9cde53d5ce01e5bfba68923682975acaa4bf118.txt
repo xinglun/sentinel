@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Under Armour Stock Was Underwater This Week
+  summary: An analyst downgraded her rating on the apparel company.
+  url: https://finnhub.io/api/news?id=a4a34d1aed07e5095257a6ef7255f3a3bd937f1cf033c59d68deaa78f0fd8f96

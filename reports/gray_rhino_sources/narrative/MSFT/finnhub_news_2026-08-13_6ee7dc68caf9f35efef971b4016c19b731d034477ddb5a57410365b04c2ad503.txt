@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Washington Mutual Investors Fund, AWSHX, Refuses to Buy Certain Stocks. That’s the Point
+  summary: Washington Mutual Investors Fund runs on a set of rules that permanently ban certain companies from its portfolio, no matter how attractive the price. Whether that constraint helps or hurts shareholders is a more complicated story than most screened-fund pitches suggest.
+  url: https://finnhub.io/api/news?id=08a9afa87625168a60ed8bd997ec76718406b29946f47275a0f1214dc6f432e2

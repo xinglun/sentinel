@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Tesla Needs to Work on Branding: ‘Without Great Marketing, Apple Would Not Be a $4.4T Market Cap Company’
+  summary: When it comes to Tesla Inc (NASDAQ:TSLA), the electric vehicle giant is notorious for not partaking in much traditional advertising, instead relying on word of mouth and strong sales and ratings to help spotlight the brand. Investor Gary Black believes the company needs a marketing plan for its upcoming new products. Gary Black on Tesla Marketing As Tesla pushes beyond electric vehicles into new products, Black believes the company needs to reset. "Despite a $1.3T market cap, TSLA has not invest
+  url: https://finnhub.io/api/news?id=0aadbd549abb948e74d16f585af1f14d3473f17ecb61a39bd7d6e84203f7bd66

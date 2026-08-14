@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors May Respond To Walmart (WMT) Earnings Countdown And New Exclusive Family-Focused Offerings
+  summary: In recent weeks, a stream of partner announcements has brought new exclusive products and wellness offerings to Walmart stores and Walmart.com, while the retailer also prepares to report its second-quarter earnings on August 20, 2026. These launches, alongside expanding health, frozen meals, pet treats, and safety categories, highlight Walmart’s effort to broaden its appeal to families across both physical and digital channels. We’ll examine how this earnings countdown, coupled with...
+  url: https://finnhub.io/api/news?id=0e67a1109fa4d34c4faa0b8e9e8a47582db7822a165578538c13baccbc2be6b6

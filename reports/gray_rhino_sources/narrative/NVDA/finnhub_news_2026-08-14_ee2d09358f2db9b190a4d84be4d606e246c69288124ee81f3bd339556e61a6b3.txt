@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Climbs Back Above Its $135 IPO Price -- Here's Where It Could Trade by August 2027
+  summary: Even after its recent rally, there could be more meaningful gains ahead for SpaceX.
+  url: https://finnhub.io/api/news?id=2024faaade906e4b5bf1c180a043798e0bf30694114bec81e07f6fc087511673

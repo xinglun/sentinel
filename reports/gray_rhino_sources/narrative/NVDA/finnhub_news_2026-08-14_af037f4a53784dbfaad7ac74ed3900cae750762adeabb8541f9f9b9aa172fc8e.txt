@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The next AI winners may look nothing like Nvidia or Micron: One Big Investment Idea
+  summary: The next AI winners may look nothing like Nvidia.
+  url: https://finnhub.io/api/news?id=5958f486c0c7755211c6c6308a6d1f60c1b65de72ee3d5c5f19164d67a5c1552

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity (U) Q2 2026 Earnings Call Transcript
+  summary: Strategic revenue surged 38% as Vector hit $1B run rate ahead of schedule.
+  url: https://finnhub.io/api/news?id=d84d92edb33589ac0576aa74ba2dcb6f7ac310ed3e0edfbcf4e96ff4070c0bf2

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New York Fed: No Reserve Management Purchases In The Month To Mid-September
+  summary: The New York Fed on Thursday announced that for the month from Friday (August 14) to September 14, it will not conduct any Treasury security purchases under the RMP program
+  url: https://finnhub.io/api/news?id=4b6b8ea8ee2188685eec49dd148b0195be22f227b17e624f313073ce7ad57dda

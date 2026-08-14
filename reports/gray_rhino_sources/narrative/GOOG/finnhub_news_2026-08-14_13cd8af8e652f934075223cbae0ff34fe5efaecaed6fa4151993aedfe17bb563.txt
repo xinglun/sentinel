@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bulls and Bears Are at Each Other’s Throats. Why the Bulls Have an Advantage.
+  summary: Both the yeas and the nays agree that earnings growth has been stellar. But what underpins that strength is a matter of debate.
+  url: https://finnhub.io/api/news?id=b5f2b15c59e2c6a5b9aa1eae02aa9871787026f1330c3c8a325c26b5ffacca68

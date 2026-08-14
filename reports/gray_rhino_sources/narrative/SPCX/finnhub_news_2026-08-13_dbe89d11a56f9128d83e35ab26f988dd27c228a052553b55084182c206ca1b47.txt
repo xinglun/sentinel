@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Rockets 10% on Grok 4.6 Release. What SPCX Stock Needs to Make a Real Comeback.
+  summary: The new model is focused on visual work but also handles coding tasks quite well.
+  url: https://finnhub.io/api/news?id=448193c406b4cc207f8dd2bccf66f26d3a4af5e2684f992d132820ca2ba96042

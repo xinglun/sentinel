@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SYK Worth Buying as Growth Improves but Execution Risks Persist?
+  summary: Stryker's stronger growth, margin gains and product pipeline support the case, but cyber costs, supply constraints and acquisition execution keep risks elevated.
+  url: https://finnhub.io/api/news?id=737ffddce8366578aefaee19d208a80c0b1b37e6ef4bbd6db91ed0a2937e91ac

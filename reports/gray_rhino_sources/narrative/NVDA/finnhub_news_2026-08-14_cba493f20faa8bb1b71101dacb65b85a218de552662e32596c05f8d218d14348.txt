@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Bitcoin Headed for a Breakdown or a Breakout? The Historical Evidence Is Just Too Overwhelming to Ignore.
+  summary: Bitcoin's breakdowns are typically followed by surprise breakout rallies.
+  url: https://finnhub.io/api/news?id=ed302dace8a472546acaac17b060f2d00841567ea9d118a3a03a5d75019c5bb0

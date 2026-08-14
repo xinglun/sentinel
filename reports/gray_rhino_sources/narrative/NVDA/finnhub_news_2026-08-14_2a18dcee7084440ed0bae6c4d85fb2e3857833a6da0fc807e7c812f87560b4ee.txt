@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everyone Thinks Crypto Is Over. Here's Why They're Wrong.
+  summary: Most top cryptos are down big this year. But new pockets of growth in crypto are quickly emerging.
+  url: https://finnhub.io/api/news?id=76c76342d21558a9fe871ae9d383861b76b5a1fec8dd2480375f57142a088f10

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: The $678 Billion Answer To The AI Skeptics
+  summary: Microsoftâs Q4/FY2026 shows Azure topping $100B, proven AI monetization, and undervalued shares. Learn more about MSFT stock here.
+  url: https://finnhub.io/api/news?id=0de4ce97b3a14e2181843abcfd980128c26fad223498122ddf85bb0ae67eb132

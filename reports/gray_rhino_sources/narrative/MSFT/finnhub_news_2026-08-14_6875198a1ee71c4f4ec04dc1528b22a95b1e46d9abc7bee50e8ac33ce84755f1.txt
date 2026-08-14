@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pershing Square Q2 Earnings Call Highlights
+  summary: Pershing Square (NYSE:PS) held its first earnings call as a public company, with Chairman and CEO Bill Ackman emphasizing the firm’s strategy of generating growth through the compounding value of its existing investment portfolios while selectively launching new vehicles. Ackman said the firm’s per
+  url: https://finnhub.io/api/news?id=e532bbbf86c65b345df3a222aead0b3329808b01a2e23fe82792e72a9b2f7f40

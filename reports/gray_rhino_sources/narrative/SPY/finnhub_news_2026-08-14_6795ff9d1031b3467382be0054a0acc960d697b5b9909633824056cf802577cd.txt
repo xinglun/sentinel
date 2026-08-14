@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Columbia Threadneedle Fixed-Income Monitor: August 2026
+  summary: U.S. economic growth remains resilient, despite persistent macroeconomic and geopolitical uncertainty. Read more here.
+  url: https://finnhub.io/api/news?id=5810250a1bfe265fbc2db4be15191ced37ecd6519506dc02341d7f6652a0ee2c

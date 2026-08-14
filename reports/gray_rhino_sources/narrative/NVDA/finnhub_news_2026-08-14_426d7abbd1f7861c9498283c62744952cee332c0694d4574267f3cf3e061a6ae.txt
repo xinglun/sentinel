@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Innovative Beverages Enough to Turn McDonald's Around?
+  summary: Part of the company's growth strategy is to add interesting menu items while simplifying operations.
+  url: https://finnhub.io/api/news?id=7a013fac1f2af7236392b993ca66ca524e584303776e566a10a255b2311eaf53

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Last U.S. Nuclear Boom Applied to Build 26 Reactors and Finished 2. NuScale Carries a $4 Billion Market Value on $10.7 Million of Sales.
+  summary: Nuclear demand is surging again. The last time that happened, proposed reactors outnumbered finished ones 13 to 1.
+  url: https://finnhub.io/api/news?id=d8051041411e83563b5e8cba9ec4e3096dbba4d8dc7282ff7d23e4ed1c8b1f9d
