@@ -1,6 +1,6 @@
 use crate::features::radar::domain::observation_timeline::ObservationTimeline;
 use crate::features::radar::interface::presentation::PresentationPacket;
-use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary};
+use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary, Language};
 use std::collections::HashMap;
 
 pub struct ReportResult {
@@ -266,6 +266,7 @@ fn generate_markdown_report(
     }
     card.push_str(&render_interpretation_section(
         pres.interpretation_layer.as_ref(),
+        pres.language,
         RenderMode::Markdown,
         detailed_transition,
     ));
@@ -490,6 +491,7 @@ fn generate_telegram_html_report(
     }
     card.push_str(&render_interpretation_section(
         pres.interpretation_layer.as_ref(),
+        pres.language,
         RenderMode::Html,
         detailed_transition,
     ));
@@ -2009,8 +2011,83 @@ fn render_current_relative_strength_section(
     out
 }
 
+fn context_coverage_status(
+    value: crate::features::radar::interface::presentation::SignalContextSourceStatus,
+) -> &'static str {
+    match value {
+        crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy => {
+            "HEALTHY"
+        }
+        crate::features::radar::interface::presentation::SignalContextSourceStatus::Partial => {
+            "PARTIAL"
+        }
+        crate::features::radar::interface::presentation::SignalContextSourceStatus::Degraded => {
+            "DEGRADED"
+        }
+        crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable => {
+            "UNAVAILABLE"
+        }
+    }
+}
+
+fn render_signal_context_coverage_markdown(
+    block: &mut String,
+    coverage: &crate::features::radar::interface::presentation::SignalContextCoverage,
+) {
+    block.push_str("  - Context Coverage:\n");
+    block.push_str(&format!(
+        "    - Scheduled Macro: {}\n    - Corporate: {}\n    - Geopolitical: {}\n    - Commodity: {}\n    - Rates/Credit: {}\n    - Market Structure: {}\n    - Overall: {}\n",
+        context_coverage_status(coverage.scheduled_macro),
+        context_coverage_status(coverage.corporate),
+        context_coverage_status(coverage.geopolitical),
+        context_coverage_status(coverage.commodity),
+        context_coverage_status(coverage.rates_credit),
+        context_coverage_status(coverage.market_structure),
+        context_coverage_status(coverage.overall),
+    ));
+}
+
+fn render_signal_context_coverage_html(
+    block: &mut String,
+    coverage: &crate::features::radar::interface::presentation::SignalContextCoverage,
+) {
+    block.push_str("  - Context Coverage:\n");
+    block.push_str(&format!(
+        "    - Scheduled Macro: {}\n    - Corporate: {}\n    - Geopolitical: {}\n    - Commodity: {}\n    - Rates/Credit: {}\n    - Market Structure: {}\n    - Overall: {}\n",
+        context_coverage_status(coverage.scheduled_macro),
+        context_coverage_status(coverage.corporate),
+        context_coverage_status(coverage.geopolitical),
+        context_coverage_status(coverage.commodity),
+        context_coverage_status(coverage.rates_credit),
+        context_coverage_status(coverage.market_structure),
+        context_coverage_status(coverage.overall),
+    ));
+}
+
+fn render_signal_context_facts_markdown(
+    block: &mut String,
+    layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+    language: Language,
+) {
+    let labels = match language {
+        Language::ZhCn => ["生命周期", "预期", "实际", "意外值", "原因"],
+        Language::EnUs => ["Lifecycle", "Expected", "Actual", "Surprise", "Reason"],
+        Language::JaJp => ["ライフサイクル", "予想", "実績", "サプライズ", "理由"],
+    };
+    for (label, value) in labels.into_iter().zip([
+        &layer.signal_context_lifecycle_value,
+        &layer.signal_context_expected_value,
+        &layer.signal_context_actual_value,
+        &layer.signal_context_surprise_value,
+        &layer.signal_context_reason_value,
+    ]) {
+        block.push_str(&format!("    - {label}: {value}\n"));
+    }
+}
+
 fn render_interpretation_section(
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
+    language: Language,
     mode: RenderMode,
     include_appendix: bool,
 ) -> String {
@@ -2086,6 +2163,8 @@ fn render_interpretation_section(
                 layer.signal_context_next_observation_value
             ));
             block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
+            render_signal_context_coverage_markdown(&mut block, &layer.signal_context_coverage);
+            render_signal_context_facts_markdown(&mut block, layer, language);
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.expectation_quality_label, layer.expectation_quality_value
@@ -2209,6 +2288,8 @@ fn render_interpretation_section(
                 layer.signal_context_next_observation_value
             ));
             block.push_str(&format!("  - {}\n", layer.signal_context_boundary));
+            render_signal_context_coverage_html(&mut block, &layer.signal_context_coverage);
+            render_signal_context_facts_markdown(&mut block, layer, language);
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.expectation_quality_label, layer.expectation_quality_value

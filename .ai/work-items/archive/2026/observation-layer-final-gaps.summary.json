@@ -1,0 +1,220 @@
+{
+  "workItemId": "observation-layer-final-gaps",
+  "contractPath": ".ai/work-items/archive/2026/observation-layer-final-gaps.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状态由 active WI 生成。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "reason": "最终验收缺口的范围与场景。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "reason": "记录实现和 required checks。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "将 Lifecycle/Expected/Actual/Surprise/Reason 投影到报告 VM。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "扩展 Signal Context 报告字段契约。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "提供稳定 Lifecycle label。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "渲染事件事实字段。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "明确 Primary Baseline 并区分 Supply Reason。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "新增 Lifecycle/事实字段和 Supply Reason 报告级回归。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/observation-layer-final-gaps.contract.json",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    ".ai/work-items/archive/2026/observation-layer-report-output.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Signal Context 报告显式输出 Lifecycle 与 Expected/Actual/Surprise",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib report_renders_signal_context_lifecycle_and_observation_facts -- --nocapture",
+        "cargo test --lib interpretation_layer_renders_macro_event_without_trade_language -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Price-Volume 报告显式输出 Primary Baseline，且支持 Post IPO 场景",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture",
+        "cargo test --lib report_keeps_named_symbol_baselines_explicit -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Supply Context unavailable 的 reason 按事实原因区分",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib report_distinguishes_unmapped_supply_context_reason -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Observation-only 边界不受影响",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "仅补充既有 observation fact 的报告投影。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "e25311d635fee356",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "e25311d635fee356",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "e25311d635fee356",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "e25311d635fee356",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "Contract scope 与 acceptance 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "仅修改 scope 内报告与测试文件。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "报告级测试已通过，等待全量质量门。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks 完成后更新。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "required checks 全部通过。",
+    "expectedReviewFocus": [
+      "Lifecycle 与事实字段来源",
+      "Primary Baseline 命名",
+      "Supply Reason 语义"
+    ]
+  }
+}

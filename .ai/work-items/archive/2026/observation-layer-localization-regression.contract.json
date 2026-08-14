@@ -1,0 +1,195 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-layer-localization-regression",
+  "mode": "code",
+  "title": "补齐 Observation Layer 多语言与 HTML 回归",
+  "baseCommit": "360219af0db4742df5ce7e847c69d1addbe999e4",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "4318bfc91427f4e28dba7fe97adbfe225f378d3def2b11affb763ee56c5a611d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-final-gaps.contract.json",
+      "status": "??",
+      "fingerprint": "e25311d635fee3567c22cf109be2bccee2bd58f871726527e59c614922f674a9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-final-gaps.summary.json",
+      "status": "??",
+      "fingerprint": "87f3fb6a6290427aa0a6cb18da1fe5d0b3144c347ed3e78d123c1cbc1d714b21"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-report-output.contract.json",
+      "status": "??",
+      "fingerprint": "2fdb5aeb7a8c7391786e4baeff06c6a21299a4b4a91164870b4e08a90924565a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-report-output.summary.json",
+      "status": "??",
+      "fingerprint": "0e970c33f5fea01e697f80670f1786e1d4e2d75b80ac363291f3e7571b3c58f8"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "feedae9a0982f1e1843b1a8acc0d66657b69d1acc2bf9908f2a5fc1c2a9ab832"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "017e61c923729c731cc550cc8bd70a21553a820e54da61424c3b4344e5a2cabd"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "89d129e54fcefa16a35e74009d38668775aaedc78758234f5d7ad2770f7e2fdf"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "47360ba53bc2c47b34048c574704c40222a81c8e4f9bdf9de3d6604df3da7965"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "24a315e59055e8d954bcd56c33394ae136720829b3e3bd5bc6ad7e2d1b4e3945"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "status": "M",
+      "fingerprint": "c108f3edd527f8bd2a345e09f75944099308a3e9f390c036a5a5ec868101b159"
+    }
+  ],
+  "problemStatement": "Observation Layer 新增事实字段目前固定显示英文，且 HTML/Telegram 缺少对应字段的报告级回归证据。",
+  "intent": {
+    "problem": "让 Lifecycle、Expected、Actual、Surprise、Reason 在 zh/en/ja 报告中使用对应语言标签，并固定 Markdown 与 HTML/Telegram 的输出契约。",
+    "constraints": [
+      "只修改报告展示和测试，不修改 Gate、execution、trader、action matrix、position sizing 或自动交易。",
+      "事实值仍使用既有 read model，不新增推测或评分。",
+      "保留当前工作树中前序 Observation Layer 差分与 archive 文件。"
+    ],
+    "rationale": "复核发现主功能已完成，但多语言标签与 HTML 回归证据仍不完整。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/observation-layer-localization-regression.contract.json",
+    ".ai/work-items/active/observation-layer-localization-regression.summary.json",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/trader/**",
+    "src/features/gate/**",
+    "src/features/execution/**",
+    "data/**",
+    "自动交易与交易决策行为"
+  ],
+  "sources": [
+    {"path": "src/features/radar/interface/report.rs", "reason": "Signal Context Markdown 与 HTML/Telegram 渲染入口。"},
+    {"path": "src/features/radar/interface/report_ui_tests.rs", "reason": "多语言与报告级回归测试。"},
+    {"path": "src/features/radar/interface/presentation.rs", "reason": "Observation Layer view model 字段契约。"},
+    {"path": "src/features/radar/interface/interpretation_read_model.rs", "reason": "事实字段投影来源。"},
+    {"path": ".ai/work-items/archive/2026/observation-layer-final-gaps.summary.json", "reason": "前序验收结果与残留风险。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "仅调整报告标签与回归测试，不改变事实来源和交易边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "展示范围、语言场景和验证命令已确定。"
+  },
+  "preReviewWarnings": [
+    "确认三语言标签、Markdown/HTML 输出和 observation-only 边界。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "report.rs::render_signal_context_facts_markdown 对 ZhCn 输出 生命周期、预期、实际、意外值、原因；EnUs 输出 Lifecycle、Expected、Actual、Surprise、Reason；JaJp 输出 ライフサイクル、予想、実績、サプライズ、理由。",
+    "report_ui_tests.rs::report_localizes_signal_context_fact_labels_in_markdown_and_html 对 ZhCn、EnUs、JaJp 各执行一次 Markdown 和 telegram_html_body 标签断言。",
+    "Test report_localizes_signal_context_fact_labels_in_markdown_and_html asserts values RELEASED 2.9% 3.1% +0.2% EVENT_DATA_UNAVAILABLE remain unchanged.",
+    "make test 与 make clippy 均退出码 0，且既有 Observation-only 报告测试通过。",
+    "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json 与 make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json 均退出码 0。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json SUMMARY=.ai/work-items/active/observation-layer-localization-regression.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-localization-regression.summary.json CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json SUMMARY=.ai/work-items/active/observation-layer-localization-regression.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-localization-regression.contract.json SUMMARY=.ai/work-items/active/observation-layer-localization-regression.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
