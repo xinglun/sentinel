@@ -1,0 +1,167 @@
+{
+  "workItemId": "observation-layer-gap-closure",
+  "contractPath": ".ai/work-items/active/observation-layer-gap-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/observation-layer-gap-closure.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-layer-gap-closure.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/b90c9f95-289a-4602-8134-d7fb97817840/pasted-text.txt",
+    "/Users/sei-rinn/.codex/attachments/00430b60-0198-43bb-a1af-3b4d3bf3799c/pasted-text.txt",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json",
+      "result": "not_run"
+    },
+    {
+      "command": "make test",
+      "result": "not_run"
+    },
+    {
+      "command": "make clippy",
+      "result": "not_run"
+    },
+    {
+      "command": "make ai-observation-replay",
+      "result": "not_run"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "snapshot schema、runtime replay、coverage 表示に review risk があるため、required checks と replay evidence を確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "59137177d580bc31",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "59137177d580bc31",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "59137177d580bc31",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "59137177d580bc31",
+      "acceptanceCount": 0,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "blocked",
+      "note": "初期 skeleton のため Contract 確定が必要。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "blocked",
+      "note": "scope / sources / acceptance 未確定のため編集不可。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "blocked",
+      "note": "required checks 未実行のため ready 不可。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "blocked",
+      "note": "verification 結果未記録。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "contract_readiness",
+      "detail": "初期 skeleton は scope / sources / acceptance 未確定のため review 不可。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Contract は確定したが、実装と required checks が未完了。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification"
+    ]
+  }
+}
