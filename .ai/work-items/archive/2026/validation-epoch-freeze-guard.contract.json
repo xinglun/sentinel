@@ -1,0 +1,214 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-epoch-freeze-guard",
+  "mode": "code",
+  "title": "固化 Validation Epoch 语义冻结边界",
+  "baseCommit": "75f831ea36017987ba8ec48ab4169ef56a261c2d",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "eb797da2df811c5436b92d3309a6d2031159275e7aaefd724b10c0e6dc2c3136"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-episode-integrity-closure.contract.json",
+      "status": "??",
+      "fingerprint": "bbea2fdea04e270c4edb0eb3e365b9893739853fd9acdb61f738bd25a58209f3"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-episode-integrity-closure.summary.json",
+      "status": "??",
+      "fingerprint": "1f17c4682116714e52f734091e07b6d0a8966618ab65ab46d349ab0d61ba6bce"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "status": "M",
+      "fingerprint": "219c903138d30eba3db598eceed0e59b8dc1509febfbc1861e2621a5f5946c53"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "b41634695833389126d40015b42eb7ea19f131fd73d8cc69ffa36d3ec25213f5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "9096420494768def0b85e28445b9e7567b87b6a5b2a1f868cf5e228c567c93e2"
+    }
+  ],
+  "problemStatement": "Validation Epoch の freeze が設計文書だけに留まり、decision semantics を変更しても同じ decision_snapshot_version を使い続けられるため、異なるルールの cohort が混在する。",
+  "intent": {
+    "problem": "Decision semantics の変更を同一 Validation Epoch に混入させず、V2 への明示的な切替を required Make guard で検査する。",
+    "constraints": [
+      "既存の decision semantics、DecisionPacket、Trend Gate、Backtest KPI の値は変更しない。",
+      "data correctness、wiring、serialization、event ingestion の修正は同一 epoch に許可し、semantics 変更だけを V2 requirement とする。",
+      "新しい Market Layer、macro intelligence、金額 P&L は対象外とする。"
+    ],
+    "rationale": "snapshot version を手動で書き換え忘れると、Validation の比較可能性が失われるため。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-epoch-freeze-guard.contract.json",
+    ".ai/work-items/active/validation-epoch-freeze-guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/guards/validation_epoch_policy.yaml",
+    "scripts/check_validation_epoch_freeze.py",
+    "scripts/ai_test_validation_epoch_freeze.py",
+    "Makefile",
+    "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md"
+  ],
+  "outOfScope": [
+    "DecisionClass、DecisionPacket、Gate semantics、portfolio policy、trading execution の変更",
+    "新しい Market Layer、macro intelligence、strength detector の追加",
+    "金額 P&L、fee、slippage、約定シミュレーション"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item と Make verification の repository 境界。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "reason": "Validation Epoch V1 の freeze semantics と V2 境界。"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "reason": "Decision semantics と snapshot version の production source。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "Decision classification の production wiring。"
+    },
+    {
+      "path": ".ai/guards/validation_epoch_policy.yaml",
+      "reason": "Radar Domain 全体の semantic boundary と同 epoch 許可境界を定義する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "新しい verification entrypoint は make target を正とする。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["governance_process", "data_integrity", "review_debt"],
+    "reason": "guard が semantics change と許可された wiring 修正を誤分類しないことが重要である。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "guard、policy、Make entrypoint、test の scope と acceptance が確定している。"
+  },
+  "preReviewWarnings": [
+    "guard は Radar Domain semantic paths の diff と epoch metadata を検査し、Backtest / Interface の wiring-only 修正を過剰に V2 化しない。",
+    "V1 の既存 decision semantics は変更しない。"
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーは最初の業務指摘に対する自検を継続し、検出した Epoch freeze の未固定を guard と test に固化することを承認した。",
+    "openQuestions": [
+      "semantic change は Radar Domain の decision class、reason、threshold、gate、market state、portfolio policy、breakout、price-volume、leadership を含み、これらの diff は epoch version change を要求する。"
+    ]
+  },
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "V1 の Radar Domain decision semantics を変更する diff は、epoch version の更新または V2 宣言なしでは Make guard が失敗する。",
+    "wiring、serialization、event ingestion、report-only wording の修正は semantics diff と誤分類しない。",
+    "guard が V1 epoch version と semantic path policy を machine-readable policy から読み取る。",
+    "新しい guard と regression test は make target 経由で実行できる。",
+    "DecisionPacket、DecisionClass、Trend Gate、Backtest KPI の値を変更しない。",
+    "保存先は policy / script / test / Make / design doc に限定し、data branch、JSONL、snapshot、weekly metrics、i18n は変更しない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "decision semantics path の変更を同じ epoch version で行う",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "guard regression test で fail を確認する。"
+    },
+    {
+      "scenario": "report-only / wiring-only の変更は同じ epoch で許可する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "guard regression test で pass を確認する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-validation-epoch-freeze",
+      "required": true
+    },
+    {
+      "command": "make test-validation-epoch-freeze",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json SUMMARY=.ai/work-items/active/validation-epoch-freeze-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-epoch-freeze-guard.summary.json CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json SUMMARY=.ai/work-items/active/validation-epoch-freeze-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-epoch-freeze-guard.contract.json SUMMARY=.ai/work-items/active/validation-epoch-freeze-guard.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

@@ -36,7 +36,7 @@ COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-unde
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight generate-ai-preflight-review check-ai-preflight-review ai-start ai-finish ai-checkpoint ai-pr-lifecycle check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
-	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr test-ai-pr-lifecycle ai-close-work-item test-ai-close-work-item check-signal-context-consistency
+	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr test-ai-pr-lifecycle ai-close-work-item test-ai-close-work-item check-signal-context-consistency check-validation-epoch-freeze test-validation-epoch-freeze
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
@@ -139,6 +139,12 @@ check-architecture:
 
 check-gray-rhino-evidence-contract:
 	python3 scripts/check_gray_rhino_evidence_contract.py
+
+check-validation-epoch-freeze:
+	python3 scripts/check_validation_epoch_freeze.py --base "$(AI_DIFF_BASE)"
+
+test-validation-epoch-freeze:
+	python3 scripts/ai_test_validation_epoch_freeze.py
 
 test:
 	cargo test

@@ -1,0 +1,173 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-episode-integrity-closure",
+  "mode": "code",
+  "title": "Validation episode 生命周期与 Epoch 边界闭合",
+  "baseCommit": "75f831ea36017987ba8ec48ab4169ef56a261c2d",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Validation の候補 episode が同一 symbol の再登場後も過去 episode と結合され、Confirmation Cost、Protection Utility、Net Decision Value の分母と lifecycle が壊れる。さらに Raw Top-3 strength proxy を正式な強度観測と誤読しない表示境界を固定する。",
+  "intent": {
+    "problem": "候補が消失して再登場した場合に新しい episode を開始し、Strength の実体が Raw Top-3 初回観測 proxy であることを report と契約で明示する。",
+    "constraints": [
+      "Validation read model のみを変更する。Radar の decision semantics、Gate、portfolio policy、trading execution、DecisionPacket の構造は変更しない。"
+    ],
+    "rationale": "episode の再登場境界を曖昧にすると、旧 lifecycle が新候補へ漏洩し、Confirmation Cost と Net Decision Value を過大または過小評価する。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-episode-integrity-closure.contract.json",
+    ".ai/work-items/active/validation-episode-integrity-closure.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md"
+  ],
+  "outOfScope": [
+    "DecisionPacket schema、DecisionClass mapping、Gate semantics、portfolio policy、trader、position sizing の変更",
+    "新しい strength detector、Market Layer、macro intelligence の追加",
+    "金額 P&L、fee、slippage、約定シミュレーションの追加",
+    "Validation Epoch の snapshot version 自動管理をこの Work Item に実装すること"
+  ],
+  "sources": [
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "候補観測、lifecycle 起点、episode merge、forward outcome の実装。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Confirmation Cost と Validation summary の business wording。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "episode 単位、Raw Top-3 strength proxy、Validation report boundary の既存契約。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.summary.json",
+      "reason": "直前の Validation correction の既知 residual risk と overclaim prevention。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["data_integrity", "evidence_insufficient", "review_debt"],
+    "reason": "episode の再登場境界を誤ると複数 KPI が同時に歪む。変更は Backtest validation read model に限定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、verification、scenario coverage が確定しており、既存 business boundary 内で実装・検証できる。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーは最初の業務指摘に対する自検を継続し、検出した Validation episode の遗漏を修正して再監査することを承認した。",
+    "openQuestions": [
+      "episode の終了境界は Raw Top-3 から一日でも離脱した時点とし、再登場を新 episode とする。Strength detector の追加は行わない。"
+    ]
+  },
+  "preReviewWarnings": [
+    "Strength は新しい detector ではなく Raw Top-3 初回観測 proxy のまま扱う。",
+    "Trend Gate-only の Validation 境界と金額 P&L 非対応を維持する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一 cohort・同一 symbol が Raw Top-3 から離脱した後に再登場した場合、再登場は新しい episode key と lifecycle 起点を持つ。",
+    "旧 episode の Breakout / Ready fact が新 episode の Confirmation Cost、baseline、Net Decision Value に漏洩しない。",
+    "離脱していない同一 episode の複数 asset-day は従来どおり一つの episode に集約される。",
+    "Strength 起点と report wording が Raw Top-3 初回観測 proxy であることを明示し、実際の Relative Strength detector と誤認させない。",
+    "Decision semantics、DecisionPacket、Trend Gate-only の境界、金額 P&L 非対応を変更しない。",
+    "Gate / execution / trader / position sizing には接続せず、Backtest の監査・研究出力だけを変更する。",
+    "出力先は既存の backtest summary と validation artifact に限定し、Telegram、audit daily、weekly review、i18n は変更しない。",
+    "data branch、JSONL、snapshot、weekly metrics は変更せず、既存の test と make quality で検証する。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "候補が一度離脱してから同一 symbol が再登場する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "episode reset の回帰テストで確認する。"
+    },
+    {
+      "scenario": "旧 episode の Ready が新 episode の lifecycle に混入しない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "episode merge と confirmation cost の回帰テストで確認する。"
+    },
+    {
+      "scenario": "同一 episode の連続観測は重複計上されない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/backtest/application/simulation.rs"],
+      "reason": "既存 episode 集約ロジックを維持し、reset 追加後も regression で確認する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

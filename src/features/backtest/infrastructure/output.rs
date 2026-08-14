@@ -228,7 +228,7 @@ fn render_validation_cohort(
 
     let cost = &cohort.confirmation_cost;
     summary.push_str(&format!(
-        "\n#### Confirmation Cost\n\n- Episodes: {} (lifecycle complete: {})\n- Strength → Breakout: {} sessions\n- Breakout → Ready: {} sessions\n- Strength → Ready: {} sessions\n- Strength → Ready signed return (raw fact): {}\n- Return lost before Ready (positive waiting-upside only): {}\n- Breakout → Ready return: {}\n- Strength → Ready maximum move: {}\n",
+        "\n#### Confirmation Cost\n\n- Episodes: {} (lifecycle complete: {})\n- Raw Top-3 strength proxy → Breakout: {} sessions\n- Breakout → Ready: {} sessions\n- Raw Top-3 strength proxy → Ready: {} sessions\n- Raw Top-3 strength proxy → Ready signed return (raw fact): {}\n- Return lost before Ready (positive waiting-upside only): {}\n- Breakout → Ready return: {}\n- Raw Top-3 strength proxy → Ready maximum move: {}\n",
         cost.episode_sample_count,
         cost.lifecycle_complete_episode_count,
         scalar(cost.average_strength_to_breakout_sessions),
@@ -609,6 +609,7 @@ mod tests {
         assert!(summary.contains("P95 MAE"));
         assert!(summary.contains("Top-decile missed upside"));
         assert!(summary.contains("Breakout → Ready"));
+        assert!(summary.contains("Raw Top-3 strength proxy → Breakout"));
         assert!(summary.contains("Return lost before Ready (positive waiting-upside only)"));
         assert!(summary.contains("Raw Top-3 NO_TRADE Trend Gate blocked candidates"));
         assert!(summary.contains("Episodes:"));
