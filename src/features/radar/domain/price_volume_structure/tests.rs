@@ -171,10 +171,9 @@ fn one_day_volume_noise_without_context_is_neutral() {
 #[test]
 fn short_history_is_partial_but_missing_volume_and_rate_limit_are_unavailable() {
     let short = bars(vec![100.0; 10], vec![Some(100.0); 10]);
-    assert_eq!(
-        assess_price_volume_structure(input(&short, None, false)).eligibility,
-        EligibilityStatus::Partial
-    );
+    let short_assessment = assess_price_volume_structure(input(&short, None, false));
+    assert_eq!(short_assessment.eligibility, EligibilityStatus::Partial);
+    assert!(short_assessment.metrics.is_some());
     let missing = bars(vec![100.0; 26], vec![None; 26]);
     assert_eq!(
         assess_price_volume_structure(input(&missing, None, false)).quality,
@@ -199,6 +198,18 @@ fn short_history_is_partial_but_missing_volume_and_rate_limit_are_unavailable() 
         assessment.unavailable_reason,
         Some(UnavailableReason::ApiFailure)
     );
+}
+
+#[test]
+fn price_volume_refactor_preserves_raw_metrics() {
+    let assessment = assess_price_volume_structure(input(&rising_data(300.0), None, false));
+    let metrics = assessment
+        .metrics
+        .expect("valid OHLCV must preserve metrics");
+
+    assert!(metrics.return_1d > 0.0);
+    assert_eq!(metrics.average_volume_5, 100.0);
+    assert!(metrics.relative_volume > 1.0);
 }
 
 #[test]

@@ -4239,6 +4239,111 @@ mod tests {
     }
 
     #[test]
+    fn absent_leader_renderer_omits_leader_only_metrics() {
+        let config = mock_config_with_language(Language::EnUs);
+        let leader_persistence =
+            crate::features::radar::interface::presentation::LeaderPersistenceViewModel {
+                title: "Leader Persistence".to_string(),
+                primary_leader_label: "Composite Leader".to_string(),
+                primary_leader_value: "none".to_string(),
+                persistence_label: "Leader Persistence".to_string(),
+                persistence_value: "0 days".to_string(),
+                persistence_days: 0,
+                leader_absence_duration: 3,
+                observed_days_label: "Observed Leadership Days in Lookback".to_string(),
+                observed_days_value: "0 days".to_string(),
+                breakout_continuity_label: "Breakout Continuity".to_string(),
+                breakout_continuity_value: "UNAVAILABLE".to_string(),
+                history_coverage_label: "History Coverage".to_string(),
+                history_coverage_value: "PARTIAL".to_string(),
+                first_observed_at_value: None,
+                previous_leader_value: Some("GOOG".to_string()),
+                history_note: Some("History coverage is partial.".to_string()),
+                leadership_score_label: "Leadership Score".to_string(),
+                leadership_score_value: "0.0".to_string(),
+                leadership_score: 0.0,
+                leader_state_label: "Leader State".to_string(),
+                leader_state_value: "ABSENT".to_string(),
+                change_from_yesterday_label: "Change from Yesterday".to_string(),
+                change_from_yesterday_value: "GOOG -> none".to_string(),
+                persistence_change_days: 0,
+                score_change: 0.0,
+                switch_history_label: "Switch History".to_string(),
+                switch_history_values: vec![],
+                boundary: "Boundary: observation only".to_string(),
+            };
+        let pres = crate::features::radar::interface::presentation::PresentationPacket {
+            leader_persistence: Some(leader_persistence),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("Leader State: ABSENT"));
+            assert!(body.contains("Leader Absence Duration: 3 trading days"));
+            assert!(body.contains("Previous Leader: GOOG"));
+            assert!(body.contains("Last Transition: GOOG -> none"));
+            assert!(body.contains("History Coverage: PARTIAL"));
+            assert!(!body.contains("Leader Persistence: 0 days"));
+            assert!(!body.contains("Observed Leadership Days in Lookback"));
+            assert!(!body.contains("Leadership Score: 0.0"));
+            assert!(!body.contains("Change from Yesterday"));
+        }
+    }
+
+    #[test]
+    fn relative_strength_renderers_keep_markdown_and_html_boundaries() {
+        let config = mock_config_with_language(Language::EnUs);
+        let pres = crate::features::radar::interface::presentation::PresentationPacket {
+            current_relative_strength: Some(
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                    title: "Current Relative Strength".to_string(),
+                    confirmed_leader: "none".to_string(),
+                    items: vec![crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                        symbol: "NVDA".to_string(),
+                        status: "IMPROVING".to_string(),
+                        relative_1d_vs_benchmark: Some(1.2),
+                        relative_5d_vs_benchmark: Some(4.5),
+                        price_position: None,
+                        volume_participation: None,
+                    }],
+                    boundary: "Observation only".to_string(),
+                },
+            ),
+            ..Default::default()
+        };
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report
+            .markdown_body
+            .contains("### Current Relative Strength"));
+        assert!(!report.markdown_body.contains("<h3>"));
+        assert!(!report.markdown_body.contains("<li>"));
+        assert!(!report
+            .telegram_html_body
+            .contains("### Current Relative Strength"));
+        assert!(!report.telegram_html_body.contains("  - Confirmed Leader"));
+        assert!(report
+            .telegram_html_body
+            .contains("<h3>Current Relative Strength</h3>"));
+    }
+
+    #[test]
     fn market_interpretation_conflict_suppresses_leadership_lists() {
         let config = mock_config_with_language(Language::EnUs);
         let packet = DecisionPacket {
@@ -5965,6 +6070,7 @@ mod tests {
                         primary_leader: "SPY".to_string(),
                         secondary_leaders: vec![],
                         breadth_score: 50.0,
+                        breadth_raw_percent: 70.0,
                         concentration_score: 50.0,
                         rotation_score: 50.0,
                         confidence_index: 50.0,
@@ -5979,6 +6085,7 @@ mod tests {
                         primary_leader: "MSFT".to_string(),
                         secondary_leaders: vec![],
                         breadth_score: 60.0,
+                        breadth_raw_percent: 80.0,
                         concentration_score: 55.0,
                         rotation_score: 45.0,
                         confidence_index: 65.0,
@@ -5997,7 +6104,7 @@ mod tests {
                 Language::ZhCn,
                 "市场演化观察",
                 "主导者序列",
-                "市场广度序列",
+                "市场广度原始值序列",
                 "置信度序列",
                 "供给阶段序列",
             ),
@@ -6005,7 +6112,7 @@ mod tests {
                 Language::EnUs,
                 "Observation Timeline",
                 "Leader sequence",
-                "Breadth sequence",
+                "Breadth Raw sequence",
                 "Confidence sequence",
                 "Supply sequence",
             ),
@@ -6013,7 +6120,7 @@ mod tests {
                 Language::JaJp,
                 "市場進化観測",
                 "主導銘柄の推移",
-                "市場の広がりの推移",
+                "市場広度Rawの推移",
                 "確信度の推移",
                 "供給局面の推移",
             ),
@@ -6036,6 +6143,13 @@ mod tests {
             assert!(report.markdown_body.contains("PARTIAL"));
             assert!(report.markdown_body.contains(leader_label));
             assert!(report.markdown_body.contains(breadth_label));
+            assert!(
+                report
+                    .markdown_body
+                    .contains("Breadth Classification Score sequence")
+                    || report.markdown_body.contains("广度分类分数序列")
+                    || report.markdown_body.contains("市場広度分類スコアの推移")
+            );
             assert!(report.markdown_body.contains(confidence_label));
             assert!(report.markdown_body.contains(supply_label));
             assert!(report.markdown_body.contains("SPY → MSFT"));

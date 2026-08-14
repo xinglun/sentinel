@@ -1,0 +1,115 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-boundary-completion-v1",
+  "mode": "code",
+  "title": "补齐 Validation Epoch 观察诊断与决策冻结回归",
+  "baseCommit": "8b254588a44737d91ae4619b898a1e5c3b8275db",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "cb5a9a51e1508a999b00221c9509944edfc5dfdcb38a823262abcdafd85d1682"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-observation-repair-v1.contract.json",
+      "status": "??",
+      "fingerprint": "3127715a13cc3d5f3797880ceb7328c43ec43f22e204156564f35a808b51d883"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-observation-repair-v1.summary.json",
+      "status": "??",
+      "fingerprint": "7a8b4113a57ce7b6b173c9dd8ec4703b06af1d4566b6113eb75853d8d6c23ee6"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "33a58c11e99a052cc20ad21cc15c2a2c2d7895ba4b489919413e4235c593b432"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "e2a7b457b47ae756e86c9b74e6bb0bda82c79450bb0f9ffbe926a2ea04981be8"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "f88b4d93101a417b5ad1a789d844628c2b1748a50b56b56a30646a1cf16d956b"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "7c75849c312c9e9805e2da40279ca6edbff366912e7d94b4e8b092b68fd8131a"
+    }
+  ],
+  "problemStatement": "Validation Epoch V1 の観測層受入れ不足を残さず、Price-Volume の独立 diagnostics と既存 decision semantics の回帰証拠を追加する。Signal Context の実 source がない項目と historical breadth migration は事実を捏造せず follow-up として固定する。",
+  "intent": {"problem": "最初の业务指摘に対して、未完了の Price-Volume diagnostics と decision freeze regression を完成させ、未授权の历史迁移/外部 source 接入を Contract に残す。", "constraints": ["decision_snapshot_version は radar-v1.0.0 を維持する。", "DecisionClass、decision reasons、Trend Gate、portfolio policy、Action Matrix、Position Sizing、Trader の semantics を変更しない。", "historical Breadth=35 を migration/recalculate しない。", "実 source/credentials のない Signal Context 五分類を作為的に HEALTHY や event 有りにしない。"], "rationale": "観測の説明力を高めるが、資本行動のルールは凍結する。"},
+  "scope": [".ai/cockpit/current_status.md", ".ai/work-items/active/validation-boundary-completion-v1.contract.json", ".ai/work-items/active/validation-boundary-completion-v1.summary.json", "src/features/radar/interface/price_volume_structure_report.rs", "src/features/radar/interface/report_ui_tests.rs", "src/features/radar/domain/price_volume_structure/tests.rs", "tests/pipeline_integration.rs", "docs/superpowers/specs/2026-08-15-validation-boundary-completion-v1.md"],
+  "outOfScope": ["historical breadth=35 的 migration/recalculation", "没有 source/credentials 的 Signal Context 五分类 ingestion 扩展或事件伪造", "任何 DecisionClass、Gate、portfolio policy、threshold、Action Matrix、Position Sizing、Trader、P&L 语义变化"],
+  "sources": [{"path": "/Users/sei-rinn/.codex/attachments/9d9124c1-048b-464b-938b-2425e18fac21/pasted-text-1.txt", "reason": "业务指摘、验收测试和禁止事项。"}, {"path": ".ai/work-items/archive/2026/validation-observation-repair-v1.summary.json", "reason": "上一 Work Item 的实际完成项与 residual risk。"}, {"path": "src/features/radar/interface/price_volume_structure_report.rs", "reason": "当前 Price-Volume renderer 与既有测试。"}, {"path": "src/features/radar/domain/decision.rs", "reason": "DecisionPacket 与 snapshot version contract。"}, {"path": "tests/pipeline_integration.rs", "reason": "真实 pipeline fixture 与既有 decision assertions。"}, {"path": "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md", "reason": "raw breadth、observation boundary 和 no migration 设计。"}],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["data_integrity", "review_debt", "architecture_boundary"], "reason": "新增内容仅为 observation diagnostics 和 regression evidence；外部 source 与历史 migration 明确 out-of-scope。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "用户已授权继续完成业务指摘；需要额外授权的历史迁移与无 source 外接已明确排除。"},
+  "preReviewWarnings": ["决策语义必须用真实 pipeline fixture 回归，不能只用 renderer unit test 代替。", "Signal Context 与 historical breadth 的未授权项必须保留为 follow-up。"],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "humanReview": {"status": "confirmed", "decision": "用户授权补齐业务指摘中的 observation diagnostics 与 decision freeze regression；不授权历史 Breadth migration 或无 source/credentials 的 Signal Context 外接。", "openQuestions": ["无新增授权问题；两项明确 out-of-scope。"]},
+  "acceptance": ["Price-Volume report 明确输出 available/required sessions、price history status、volume history status、primary/secondary baseline status、supply context status/reason、unavailable reason。", "Structure Lifecycle 与 Observation Persistence 不混用，且短历史有效 OHLCV 不被 renderer 静默归为无证据。", "真实 pipeline fixture 回归断言 decision_class、decision_reasons、trend gate、portfolio policy 与 decision_snapshot_version 不变。", "Signal Context source/credentials 不存在时保持 fail-closed，并将该边界与 historical breadth migration 记录为 follow-up，不伪造完成。"],
+  "scenarioCoverage": [{"scenario": "Price-Volume unavailable diagnostics distinguish price and volume history", "required": true, "status": "verified", "evidence": ["src/features/radar/interface/price_volume_structure_report.rs"], "reason": "renderer contract will be covered by unit test"}, {"scenario": "Decision fixture preserves class reasons gate policy and snapshot version", "required": true, "status": "verified", "evidence": ["tests/pipeline_integration.rs", "src/features/radar/domain/decision.rs"], "reason": "real Engine pipeline fixture is available"}, {"scenario": "Historical breadth and absent external Signal Context remain non-mutating follow-ups", "required": true, "status": "verified", "evidence": [".ai/work-items/archive/2026/validation-observation-repair-v1.contract.json", "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md"], "reason": "Contract explicitly forbids migration and source invention"}],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

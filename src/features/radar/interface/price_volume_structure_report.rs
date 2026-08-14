@@ -61,6 +61,16 @@ pub(crate) fn render_price_volume_structure_report(
             lifecycle_label(assessment.lifecycle)
         ));
         if let Some(metrics) = assessment.metrics.as_ref() {
+            let volume_history_status =
+                if matches!(assessment.quality, VolumeDataQuality::Unavailable) {
+                    "UNAVAILABLE"
+                } else {
+                    "AVAILABLE"
+                };
+            out.push_str("- Price History Status: AVAILABLE\n");
+            out.push_str(&format!(
+                "- Volume History Status: {volume_history_status}\n"
+            ));
             out.push_str(&format!(
                 "- Relative Volume: {:.2}x\n",
                 metrics.relative_volume
@@ -70,6 +80,14 @@ pub(crate) fn render_price_volume_structure_report(
                 baseline_label(assessment.primary_baseline)
             ));
             out.push_str(&format!("- Baseline Sessions: {}\n", metrics.baseline_days));
+            out.push_str(&format!(
+                "- Primary Baseline Status: {}\n",
+                baseline_status_label(assessment.primary_baseline)
+            ));
+            out.push_str(&format!(
+                "- History Sessions: available={} required=5\n",
+                metrics.baseline_days
+            ));
             if let Some(secondary) = assessment.secondary_metrics.as_ref() {
                 out.push_str(&format!(
                     "- Secondary Relative Volume: {:.2}x\n",
@@ -87,28 +105,41 @@ pub(crate) fn render_price_volume_structure_report(
                     "- Secondary Baseline Sessions: {}\n",
                     secondary.baseline_days
                 ));
+                out.push_str(&format!(
+                    "- Secondary Baseline Status: {}\n",
+                    baseline_status_label(
+                        assessment
+                            .secondary_baseline
+                            .unwrap_or(secondary.baseline_type)
+                    )
+                ));
             } else {
                 out.push_str("- Secondary Relative Volume: UNAVAILABLE\n");
                 out.push_str("- Secondary Baseline: UNAVAILABLE\n");
                 out.push_str("- Secondary Baseline Sessions: UNAVAILABLE\n");
+                out.push_str("- Secondary Baseline Status: UNAVAILABLE\n");
             }
             out.push_str(&format!(
                 "- Price Behavior: 5d {:+.2}% · 20d high {:+.2}%\n",
                 metrics.return_5d, metrics.distance_from_20d_high
             ));
         } else {
+            out.push_str("- Price History Status: UNAVAILABLE\n");
+            out.push_str("- Volume History Status: UNAVAILABLE\n");
             out.push_str("- Relative Volume: UNAVAILABLE\n");
             out.push_str("- Primary Baseline: UNAVAILABLE\n");
             out.push_str("- Baseline Sessions: UNAVAILABLE\n");
+            out.push_str("- Primary Baseline Status: UNAVAILABLE\n");
             out.push_str("- Secondary Relative Volume: UNAVAILABLE\n");
             out.push_str("- Secondary Baseline: UNAVAILABLE\n");
             out.push_str("- Secondary Baseline Sessions: UNAVAILABLE\n");
+            out.push_str("- Secondary Baseline Status: UNAVAILABLE\n");
             out.push_str("- Price Behavior: UNAVAILABLE\n");
+            out.push_str("- History Sessions: available=UNAVAILABLE required=5\n");
         }
         out.push_str(&format!(
-            "- Structure Persistence: {} ({} days)\n",
-            persistence_label(assessment.persistence),
-            assessment.persistence_days
+            "- Structure Lifecycle: {}\n",
+            lifecycle_label(assessment.lifecycle)
         ));
         out.push_str(&format!(
             "- Observation Persistence: {} days\n",
@@ -186,6 +217,13 @@ fn baseline_label(value: BaselineType) -> &'static str {
     }
 }
 
+fn baseline_status_label(value: BaselineType) -> &'static str {
+    match value {
+        BaselineType::Unavailable => "UNAVAILABLE",
+        _ => "AVAILABLE",
+    }
+}
+
 fn lifecycle_label(value: CandidateLifecycle) -> &'static str {
     match value {
         CandidateLifecycle::Candidate => "CANDIDATE",
@@ -193,17 +231,6 @@ fn lifecycle_label(value: CandidateLifecycle) -> &'static str {
         CandidateLifecycle::Confirmed => "CONFIRMED",
         CandidateLifecycle::Unavailable => "UNAVAILABLE",
         CandidateLifecycle::Invalidated => "INVALIDATED",
-    }
-}
-
-fn persistence_label(
-    value: crate::features::radar::domain::price_volume_structure::StructurePersistence,
-) -> &'static str {
-    match value {
-        crate::features::radar::domain::price_volume_structure::StructurePersistence::Candidate => "CANDIDATE",
-        crate::features::radar::domain::price_volume_structure::StructurePersistence::Developing => "DEVELOPING",
-        crate::features::radar::domain::price_volume_structure::StructurePersistence::Confirmed => "CONFIRMED",
-        crate::features::radar::domain::price_volume_structure::StructurePersistence::Unavailable => "UNAVAILABLE",
     }
 }
 
@@ -355,6 +382,10 @@ mod tests {
         assert!(report.contains("Supply Context Reason: SUPPLY_CONTEXT_MISSING"));
         assert!(report.contains("Primary Baseline: UNAVAILABLE"));
         assert!(report.contains("Baseline Sessions: UNAVAILABLE"));
+        assert!(report.contains("Price History Status: UNAVAILABLE"));
+        assert!(report.contains("Volume History Status: UNAVAILABLE"));
+        assert!(report.contains("Primary Baseline Status: UNAVAILABLE"));
+        assert!(report.contains("Secondary Baseline Status: UNAVAILABLE"));
         assert!(report.contains("Decision Weight: 0%"));
         assert!(report.contains("Supply Context: UNAVAILABLE"));
         assert!(!report.contains("机构买入确认"));
@@ -474,11 +505,17 @@ mod tests {
         assert!(report.contains("Observation Confidence: PARTIAL"));
         assert!(report.contains("Primary Baseline: POST_IPO"));
         assert!(report.contains("Baseline Sessions: 8"));
+        assert!(report.contains("Price History Status: AVAILABLE"));
+        assert!(report.contains("Volume History Status: AVAILABLE"));
+        assert!(report.contains("Primary Baseline Status: AVAILABLE"));
         assert!(report.contains("Secondary Baseline: AVAILABLE_HISTORY"));
         assert!(report.contains("Secondary Baseline Sessions: 3"));
+        assert!(report.contains("Secondary Baseline Status: AVAILABLE"));
         assert!(report.contains("Candidate Lifecycle: DEVELOPING"));
-        assert!(report.contains("Structure Persistence: CANDIDATE (2 days)"));
+        assert!(report.contains("Structure Lifecycle: DEVELOPING"));
+        assert!(!report.contains("Structure Persistence:"));
         assert!(report.contains("Observation Persistence: 2 days"));
+        assert!(report.contains("History Sessions: available=8 required=5"));
         assert!(report.contains("Unavailable Reason: INSUFFICIENT_VALID_HISTORY"));
         assert!(report.contains("Next Eligibility Condition: 2 more valid sessions"));
         assert!(report.contains("Secondary Relative Volume: 1.20x"));
