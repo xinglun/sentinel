@@ -1,0 +1,230 @@
+{
+  "workItemId": "validation-boundary-completion-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-boundary-completion-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "reason": "业务边界、授权与 out-of-scope 已固化。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "reason": "记录本 Work Item 的证据与验证结果。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "补齐 Price/Volume history status、baseline status 与会话诊断。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure/tests.rs",
+      "reason": "证明短历史有效 OHLCV 不静默丢失 metrics，并锁定 raw metrics 保留。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "增加真实 pipeline fixture 的 decision semantics 重复运行回归。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/9d9124c1-048b-464b-938b-2425e18fac21/pasted-text-1.txt",
+    ".ai/work-items/archive/2026/validation-observation-repair-v1.summary.json",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/domain/decision.rs",
+    "tests/pipeline_integration.rs",
+    "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-boundary-completion-v1.contract.json SUMMARY=.ai/work-items/active/validation-boundary-completion-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Price-Volume unavailable diagnostics distinguish price and volume history",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/price_volume_structure_report.rs",
+        "src/features/radar/domain/price_volume_structure/tests.rs"
+      ],
+      "reason": "renderer diagnostics and short-history/raw-metrics domain regressions are covered by unit tests"
+    },
+    {
+      "scenario": "Decision fixture preserves class reasons gate policy and snapshot version",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/pipeline_integration.rs",
+        "src/features/radar/domain/decision.rs"
+      ],
+      "reason": "real Engine pipeline fixture is executed twice"
+    },
+    {
+      "scenario": "Historical breadth and absent external Signal Context remain non-mutating follow-ups",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/work-items/archive/2026/validation-observation-repair-v1.contract.json",
+        "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md"
+      ],
+      "reason": "Contract explicitly forbids migration and source invention"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "Price-Volume diagnostics and deterministic decision regression are covered; historical breadth migration and external Signal Context sources remain explicit follow-ups."
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "area": "Price-Volume",
+      "finding": "Previous output had only merged history sessions and generic UNAVAILABLE. This Work Item adds independent price history status, volume history status, primary/secondary baseline status, and preserves supply/unavailable diagnostics.",
+      "evidence": [
+        "src/features/radar/interface/price_volume_structure_report.rs"
+      ],
+      "boundary": "Presentation/diagnostic only; classification rules and thresholds unchanged."
+    },
+    {
+      "area": "Decision freeze",
+      "finding": "The real bearish pipeline fixture is executed twice and compares decision class, reasons, gate result, portfolio policy fields, and radar-v1.0.0 snapshot version.",
+      "evidence": [
+        "tests/pipeline_integration.rs",
+        "src/features/radar/domain/decision.rs"
+      ],
+      "boundary": "Determinism regression evidence; no decision logic change."
+    },
+    {
+      "area": "Signal Context and historical Breadth",
+      "finding": "No new external source/credentials are present and historical Breadth=35 provenance is not proven. Both remain explicit follow-ups; no event or historical value is invented.",
+      "evidence": [
+        ".ai/work-items/archive/2026/validation-observation-repair-v1.contract.json",
+        "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md"
+      ],
+      "boundary": "Out-of-scope by Contract and user authorization."
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract updated from skeleton; only codable diagnostics and regression scope authorized.",
+      "contractHash": "2304f07bdbb5d927",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Preflight ready; scope, sources, acceptance and authorization boundaries confirmed.",
+      "contractHash": "2304f07bdbb5d927",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "Implementation is ready for final verification; residual risks are explicit follow-ups.",
+      "contractHash": "2304f07bdbb5d927",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "All required checks passed; no untracked business omission remains inside this Work Item scope.",
+      "contractHash": "2304f07bdbb5d927",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已固化业务范围和授权边界。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Preflight ready，允许实现 scope 内的 diagnostics 与 regression。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "实现和 required checks 已完成，残余风险已显式记录。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "所有 required checks 已通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "follow_up_boundaries",
+      "detail": "历史 Breadth=35 provenance 与 Signal Context 外部 source/credentials 仍未获得证据；本 Work Item 明确不迁移、不伪造。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "所有 required checks 已通过；历史 Breadth provenance 与外部 Signal Context source 仍按 Contract 保留为 follow-up。",
+    "expectedReviewFocus": [
+      "Price-Volume independent status lines",
+      "decision fixture preservation",
+      "historical Breadth migration remains forbidden",
+      "Signal Context source absence remains fail-closed"
+    ]
+  }
+}

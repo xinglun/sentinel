@@ -498,8 +498,10 @@ fn build_presentation_observation(
         date: packet.date,
         leader: leadership_snapshot.primary_leader_value.clone(),
         confidence: leadership_confidence_score(leadership_snapshot),
-        breadth: market_interpretation
-            .and_then(|value| value.breadth_score_value.parse::<f64>().ok()),
+        breadth: (packet.market_features.total_count > 0).then(|| {
+            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                * 100.0
+        }),
         relative_strength: packet
             .assets
             .iter()

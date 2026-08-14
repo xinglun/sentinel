@@ -1607,7 +1607,8 @@ fn render_observation_timeline_section(
         coverage_label,
         summary_label,
         leader_label,
-        breadth_label,
+        breadth_raw_label,
+        breadth_classification_label,
         confidence_label,
         supply_label,
         change_summary,
@@ -1618,7 +1619,8 @@ fn render_observation_timeline_section(
             "历史覆盖",
             "7日摘要",
             "主导者序列",
-            "市场广度序列",
+            "市场广度原始值序列",
+            "广度分类分数序列",
             "置信度序列",
             "供给阶段序列",
             if timeline.has_structural_change() {
@@ -1633,7 +1635,8 @@ fn render_observation_timeline_section(
             "History Coverage",
             "7-Day Summary",
             "Leader sequence",
-            "Breadth sequence",
+            "Breadth Raw sequence",
+            "Breadth Classification Score sequence",
             "Confidence sequence",
             "Supply sequence",
             if timeline.has_structural_change() {
@@ -1648,7 +1651,8 @@ fn render_observation_timeline_section(
             "履歴カバレッジ",
             "7日間サマリー",
             "主導銘柄の推移",
-            "市場の広がりの推移",
+            "市場広度Rawの推移",
+            "市場広度分類スコアの推移",
             "確信度の推移",
             "供給局面の推移",
             if timeline.has_structural_change() {
@@ -1752,7 +1756,11 @@ fn render_observation_timeline_section(
                 sequence(&|entry| entry.primary_leader.clone())
             ));
             block.push_str(&format!(
-                "  - {breadth_label}: {}\n",
+                "  - {breadth_raw_label}: {}\n",
+                sequence(&|entry| format!("{:.1}", entry.breadth_raw_percent))
+            ));
+            block.push_str(&format!(
+                "  - {breadth_classification_label}: {}\n",
                 sequence(&|entry| format!("{:.1}", entry.breadth_score))
             ));
             block.push_str(&format!(
@@ -1856,6 +1864,7 @@ fn render_leader_persistence_section(
     let Some(persistence) = persistence else {
         return block;
     };
+    let absent = persistence.leader_state_value == "ABSENT";
 
     match mode {
         RenderMode::Markdown => {
@@ -1864,18 +1873,20 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.primary_leader_label, persistence.primary_leader_value
             ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.persistence_label, persistence.persistence_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.observed_days_label, persistence.observed_days_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.breakout_continuity_label, persistence.breakout_continuity_value
-            ));
+            if !absent {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.persistence_label, persistence.persistence_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.observed_days_label, persistence.observed_days_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.breakout_continuity_label, persistence.breakout_continuity_value
+                ));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 persistence.history_coverage_label, persistence.history_coverage_value
@@ -1885,23 +1896,32 @@ fn render_leader_persistence_section(
             }
             block.push_str(&format!(
                 "  - {}: {}\n",
-                persistence.leadership_score_label, persistence.leadership_score_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
                 persistence.leader_state_label, persistence.leader_state_value
             ));
-            if persistence.leader_absence_duration > 0 {
+            if absent {
                 block.push_str(&format!(
                     "  - Leader Absence Duration: {} trading days\n",
                     persistence.leader_absence_duration
                 ));
+                if let Some(previous) = &persistence.previous_leader_value {
+                    block.push_str(&format!("  - Previous Leader: {previous}\n"));
+                }
+                block.push_str(&format!(
+                    "  - Last Transition: {}\n",
+                    persistence.change_from_yesterday_value
+                ));
+            } else {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.leadership_score_label, persistence.leadership_score_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.change_from_yesterday_label,
+                    persistence.change_from_yesterday_value
+                ));
             }
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.change_from_yesterday_label, persistence.change_from_yesterday_value
-            ));
-            if !persistence.switch_history_values.is_empty() {
+            if !absent && !persistence.switch_history_values.is_empty() {
                 block.push_str(&format!("  - {}:\n", persistence.switch_history_label));
                 for value in &persistence.switch_history_values {
                     block.push_str(&format!("    - {}\n", value));
@@ -1915,18 +1935,20 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.primary_leader_label, persistence.primary_leader_value
             ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.persistence_label, persistence.persistence_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.observed_days_label, persistence.observed_days_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.breakout_continuity_label, persistence.breakout_continuity_value
-            ));
+            if !absent {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.persistence_label, persistence.persistence_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.observed_days_label, persistence.observed_days_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.breakout_continuity_label, persistence.breakout_continuity_value
+                ));
+            }
             block.push_str(&format!(
                 "  - {}: {}\n",
                 persistence.history_coverage_label, persistence.history_coverage_value
@@ -1936,17 +1958,32 @@ fn render_leader_persistence_section(
             }
             block.push_str(&format!(
                 "  - {}: {}\n",
-                persistence.leadership_score_label, persistence.leadership_score_value
-            ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
                 persistence.leader_state_label, persistence.leader_state_value
             ));
-            block.push_str(&format!(
-                "  - {}: {}\n",
-                persistence.change_from_yesterday_label, persistence.change_from_yesterday_value
-            ));
-            if !persistence.switch_history_values.is_empty() {
+            if absent {
+                block.push_str(&format!(
+                    "  - Leader Absence Duration: {} trading days\n",
+                    persistence.leader_absence_duration
+                ));
+                if let Some(previous) = &persistence.previous_leader_value {
+                    block.push_str(&format!("  - Previous Leader: {previous}\n"));
+                }
+                block.push_str(&format!(
+                    "  - Last Transition: {}\n",
+                    persistence.change_from_yesterday_value
+                ));
+            } else {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.leadership_score_label, persistence.leadership_score_value
+                ));
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.change_from_yesterday_label,
+                    persistence.change_from_yesterday_value
+                ));
+            }
+            if !absent && !persistence.switch_history_values.is_empty() {
                 block.push_str(&format!("  - {}:\n", persistence.switch_history_label));
                 for value in &persistence.switch_history_values {
                     block.push_str(&format!("    - {}\n", value));
