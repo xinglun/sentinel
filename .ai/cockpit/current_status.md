@@ -10,68 +10,57 @@ generated: true
 
 このファイルは `make generate-cockpit-status` で生成する。内部実装の `scripts/ai_generate_status.py` を直接運用入口にしない。
 
-- Generated At: `2026-08-14T00:02:46.865075+00:00`
+- Generated At: `2026-08-14T00:42:09.899925+00:00`
 - Task: `observation-layer-gap-closure`
 - Mode: `code`
-- State: `blocked`
+- State: `ready_with_risks`
 - Contract Path: `.ai/work-items/active/observation-layer-gap-closure.contract.json`
 - Summary Path: `.ai/work-items/active/observation-layer-gap-closure.summary.json`
 
 ## Blocking
 
-- notCodable: true
-- unknowns: 1
-- required check not passed: make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json
-- required check not passed: make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json
-- required check not passed: make fmt-check
-- required check not passed: make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json
-- required check not passed: make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json
-- required check not passed: make check-ai-coverage-guard
-- required check not passed: make check-ai-scenario-coverage
-- required check not passed: make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json
-- required check not passed: make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json
-- required check not passed: make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json
+- none
 
 ## Required Checks
 
-- `make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: not_run
-- `make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: not_run
-- `make fmt-check`: not_run
-- `make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: not_run
-- `make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: not_run
-- `make check-ai-coverage-guard`: not_run
-- `make check-ai-scenario-coverage`: not_run
-- `make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: not_run
-- `make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: not_run
-- `make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: not_run
+- `make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: passed
+- `make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: passed
+- `make fmt-check`: passed
+- `make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: passed
+- `make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: passed
+- `make check-ai-coverage-guard`: passed
+- `make check-ai-scenario-coverage`: passed
+- `make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json`: passed
+- `make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: passed
+- `make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json SUMMARY=.ai/work-items/active/observation-layer-gap-closure.summary.json`: passed
+- `make test`: passed
+- `make clippy`: passed
+- `make ai-observation-replay`: passed
 
 ## Changed Files
 
-- `.ai/work-items/active/observation-layer-gap-closure.contract.json`: Work Item Contract skeleton を作成した。
-- `.ai/work-items/active/observation-layer-gap-closure.summary.json`: AI Change Summary skeleton を作成した。
+- `src/features/radar/interface/price_volume_structure_report.rs`: Supply Context と RVOL の観測理由を明示。
+- `src/features/radar/infrastructure/persistence.rs`: Breadth structured observation と legacy compatibility を保存。
+- `src/features/radar/domain/observation_timeline.rs`: Breadth raw/counts/universe を classification score と分離。
+- `src/features/radar/interface/radar_pipeline_runner.rs`: Breadth 実値を snapshot/timeline に投影。
+- `src/features/radar/interface/report_ui_tests.rs`: 追加フィールド付き timeline fixture を検証。
+- `src/features/radar/interface/snapshots`: Breadth unavailable 表示の snapshot を更新。
+- `Makefile`: 三日分 observation replay の make 入口を追加。
 
 ## Preflight Review
 
-- Status: `not_ready`
-- Recommendation: Resolve contradictory or missing contract evidence before implementation.
+- Status: `ready`
+- Recommendation: Implementation may begin once the reviewer confirms the evidence is sufficient.
 - Decision Drivers:
-  - Intent: contract.intent has no meaningful content
-  - Unknowns: 1 unknown(s) remain open
-  - Sources: only one source of evidence is declared
-  - Scenario Coverage: scenario coverage is missing for medium risk
-  - Not Codable: notCodable is true
-  - Agent Capability: canImplement=False
-  - Agent Capability: canVerify=False
-  - Agent Capability: needsHumanDecision=True
-  - Execution Decision: executionDecision.status is contract_update_required
+  - Unknowns: riskAssessment.level is medium but unknowns is empty
   - riskAssessment.level is medium
 - Pause Rule:
   Policy gate is enabled: pause implementation when the review is needs_human_confirmation or not_ready.
 
 ## Review Readiness
 
-- Status: `not_ready`
-- Reason: Contract 未確定で required checks も未実行。
+- Status: `ready_with_risks`
+- Reason: required checks と quality は通過。replay は date-preserving harness と fallback test であり、外部市場 provider runtime は残余リスク。
 - Expected Review Focus:
   - scope
   - sources
@@ -80,11 +69,11 @@ generated: true
 
 ## Scenario Coverage
 
-- State: `incomplete`
+- State: `complete`
 
 ## Residual Risks
 
-- `medium` `contract_readiness`: 初期 skeleton は scope / sources / acceptance 未確定のため review 不可。
+- `medium` `contract_readiness`: 実装と required checks は完了。外部 provider を使う実市場 runtime は未実行。
 
 ## Backtrack
 

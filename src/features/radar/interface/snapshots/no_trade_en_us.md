@@ -53,7 +53,7 @@
 - **Stability**: 1.1
 > Confidence 52 · Streak emerging · Regime Age 1d · Net Flow Stable ·
 > Confidence breakdown: Trend allocation 2.0 + inverse potential 50.0
-> Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Narrow
+> Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Healthy Expansion
 
 **🧭 Tactical Buckets**
 

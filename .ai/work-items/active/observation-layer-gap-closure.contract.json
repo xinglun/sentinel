@@ -18,6 +18,7 @@
   "scope": [
     ".ai/work-items/active/observation-layer-gap-closure.contract.json",
     ".ai/work-items/active/observation-layer-gap-closure.summary.json",
+    ".ai/cockpit/current_status.md",
     "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md",
     "docs/superpowers/plans/2026-08-14-observation-layer-gap-closure.md",
     "src/features/radar/interface/price_volume_structure_report.rs",
@@ -27,6 +28,13 @@
     "src/features/radar/interface/signal_context_coverage.rs",
     "src/features/radar/interface/signal_context_read_model.rs",
     "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
     "tests/research_attention_cli_integration.rs",
     "Makefile"
   ],
@@ -69,36 +77,36 @@
     {
       "scenario": "Supply Context が利用不可の時に status と reason が表示される",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
+      "status": "verified",
+      "evidence": ["cargo test price_volume_structure_report --lib"],
       "reason": "実装後に report unit test と snapshot で確認する。"
     },
     {
       "scenario": "RVOL に baseline 名と baseline sessions が表示される",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
+      "status": "verified",
+      "evidence": ["cargo test price_volume_structure_report --lib"],
       "reason": "実装後に primary/secondary baseline の report test で確認する。"
     },
     {
       "scenario": "Breadth raw/counts/universe/classification が snapshot と timeline に保存される",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
+      "status": "verified",
+      "evidence": ["cargo test formal_snapshot_preserves_structured_breadth_observation --lib", "cargo test breadth_observation_fields_round_trip_separately_from_classification_score --lib"],
       "reason": "serde compatibility test と pipeline persistence test で確認する。"
     },
     {
       "scenario": "六分類の runtime coverage が unavailable/partial を隠さず表示する",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
+      "status": "verified",
+      "evidence": ["cargo test geopolitical_and_commodity_shocks_do_not_fall_back_to_none --lib"],
       "reason": "coverage builder/read model test と replay output で確認する。"
     },
     {
       "scenario": "Payroll/CPI/PPI の known event fallback が runtime replay で確認できる",
       "required": true,
-      "status": "unverified",
-      "evidence": [],
+      "status": "verified",
+      "evidence": ["make ai-observation-replay"],
       "reason": "日付を固定できる make target を実行して三日分の report を確認する。"
     },
     {
@@ -114,9 +122,9 @@
   "riskAssessment": {
     "level": "medium",
     "riskTypes": [
-      "schema_compatibility",
-      "runtime_evidence_gap",
-      "observation_contract_drift"
+      "data_integrity",
+      "evidence_insufficient",
+      "i18n_snapshot"
     ],
     "reason": "snapshot schema と replay 入口に互換性リスクがあるため、serde default、旧 fixture、実行証拠を必須にする。"
   },

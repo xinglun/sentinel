@@ -1133,6 +1133,12 @@ impl PersistenceLayer {
             primary_leader: String::new(),
             secondary_leaders: Vec::new(),
             breadth_score,
+            breadth_raw_percent: breadth_score,
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: 0.0,
             rotation_score: 0.0,
             confidence_index: 0.0,
@@ -1483,7 +1489,7 @@ mod tests {
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use crate::features::radar::domain::price_volume_structure::{
-        ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
+        BaselineType, ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
         PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
@@ -1535,6 +1541,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -1601,6 +1615,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         let date = |day| NaiveDate::from_ymd_opt(2026, 8, day).unwrap();
         layer
@@ -1680,6 +1702,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         };
         layer
             .save_price_volume_observations(&[PriceVolumeObservationRecord {
@@ -2553,6 +2583,7 @@ mod tests {
                     supply_phase: "WATCH".to_string(),
                     risk_state: "NORMAL".to_string(),
                     day_type: "NORMAL".to_string(),
+                    ..Default::default()
                 },
                 &[existing_date],
             )
@@ -2863,6 +2894,7 @@ mod tests {
                 supply_phase: "WATCH".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -2923,6 +2955,7 @@ mod tests {
                 supply_phase: "IDLE".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -2970,6 +3003,7 @@ mod tests {
                         supply_phase: "UNAVAILABLE".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                     &[date],
                 )

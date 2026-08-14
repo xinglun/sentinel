@@ -354,9 +354,9 @@ ai-observation-replay:
 	@set -eu; \
 	for date in 2026-08-07 2026-08-12 2026-08-13; do \
 		printf 'Observation replay date: %s\n' "$$date"; \
-		cargo test --lib date_aware_mock_history_ends_on_requested_date -- --exact; \
+		cargo test --lib cli::tests::date_aware_mock_history_ends_on_requested_date -- --exact; \
 	done
-	cargo test --lib features::research::interface::macro_event_official_calendar_adapter::tests::known_schedule_fallback_covers_required_dates
+	cargo test --lib features::research::interface::macro_event_official_calendar_adapter::tests::known_schedule_fallback_covers_the_three_observation_replay_dates
 
 radar-release:
 	cargo run --release -- radar $(RADAR_ARGS)

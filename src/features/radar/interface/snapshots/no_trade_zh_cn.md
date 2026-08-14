@@ -53,7 +53,7 @@
 - **稳定性**: 1.1
 > 信心指数 52 · 连续性 emerging · 周期长度 1d · 资金流向 存量博弈 ·
 > 置信度构成: 趋势配置 2.0 + 逆势能 50.0
-> Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Narrow
+> Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Healthy Expansion
 
 **🧭 战术分区**
 

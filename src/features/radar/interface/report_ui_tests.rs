@@ -5954,6 +5954,7 @@ mod tests {
                         supply_phase: "WATCH".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                     crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
                         date: NaiveDate::from_ymd_opt(2026, 7, 14).unwrap(),
@@ -5967,6 +5968,7 @@ mod tests {
                         supply_phase: "WATCH".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                 ],
                 summary: "STRUCTURAL_CHANGE".to_string(),

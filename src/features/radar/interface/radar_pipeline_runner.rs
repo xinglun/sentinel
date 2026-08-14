@@ -1048,6 +1048,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                         &history.symbol,
                         packet.date,
                     ),
+                    event_baseline: None,
+                    secondary_supply_context: None,
+                    market_holidays: None,
                 });
                 let persistence_days = runtime_services
                     .persistence
@@ -1071,6 +1074,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                             &history.symbol,
                             packet.date,
                         ),
+                        event_baseline: None,
+                        secondary_supply_context: None,
+                        market_holidays: None,
                     }
                 });
                 PriceVolumeReportEntry {
@@ -1104,6 +1110,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                 persistence_days: 1,
                 source_rate_limited: true,
                 volume_comparable: true,
+                event_baseline: None,
+                secondary_supply_context: None,
+                market_holidays: None,
             });
             price_volume_entries.push(PriceVolumeReportEntry {
                 symbol: symbol.clone(),
@@ -1308,6 +1317,17 @@ fn build_observation_timeline_entry(
                 .breadth_score_value
                 .parse()
                 .unwrap_or_default(),
+            breadth_raw_percent: if packet.market_features.total_count == 0 {
+                0.0
+            } else {
+                packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                    * 100.0
+            },
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: interpretation
                 .concentration_score_value
                 .parse()

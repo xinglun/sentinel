@@ -43,11 +43,8 @@ pub(crate) fn render_price_volume_structure_report(
             "- Volume Data Quality: {}\n",
             quality_label(assessment.quality)
         ));
-        if let Some(metrics) = assessment.metrics {
-            out.push_str(&format!(
-                "- Relative Volume: {:.2}x\n",
-                metrics.rvol_20
-            ));
+        if let Some(metrics) = assessment.metrics.as_ref() {
+            out.push_str(&format!("- Relative Volume: {:.2}x\n", metrics.rvol_20));
             out.push_str("- Baseline: STANDARD_20D\n");
             out.push_str("- Baseline Sessions: 20\n");
             out.push_str(&format!(
@@ -114,6 +111,7 @@ fn supply_event_label(value: SupplyEventType) -> &'static str {
 fn structure_label(value: PriceVolumeStructure) -> &'static str {
     match value {
         PriceVolumeStructure::Accumulation => "ACCUMULATION",
+        PriceVolumeStructure::AccumulationCandidate => "ACCUMULATION_CANDIDATE",
         PriceVolumeStructure::HealthyAdvance => "HEALTHY_ADVANCE",
         PriceVolumeStructure::ExhaustedAdvance => "EXHAUSTED_ADVANCE",
         PriceVolumeStructure::Distribution => "DISTRIBUTION",
@@ -193,6 +191,14 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
+            secondary_baseline: None,
+            lifecycle: Default::default(),
+            unavailable_reason: None,
+            next_eligibility_condition: None,
         }
     }
     #[test]
