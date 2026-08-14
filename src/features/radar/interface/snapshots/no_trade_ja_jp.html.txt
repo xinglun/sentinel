@@ -52,7 +52,7 @@
 • <b>安定性</b>: 1.1
 <i>信頼指数 52 · 継続性 emerging · サイクル期間 1d · 資金フロー 均衡状態 ·</i>
 <i>Confidence 内訳: トレンド配分 2.0 + 逆ポテンシャル 50.0</i>
-<i>Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Healthy Expansion</i>
+<i>Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Narrow</i>
 
 <b>🧭 戦術的区分</b>
 
