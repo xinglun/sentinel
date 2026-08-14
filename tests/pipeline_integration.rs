@@ -272,10 +272,43 @@ async fn test_pipeline_bearish_path() {
 
     let packet = Engine::run_daily_pipeline(&histories, &rules, &[], &[], &HashMap::new())
         .expect("Pipeline should run");
+    let repeated_packet = Engine::run_daily_pipeline(&histories, &rules, &[], &[], &HashMap::new())
+        .expect("Repeated pipeline should run");
 
     assert_eq!(packet.market_regime.market_state, MarketState::DEFENSIVE);
     assert_eq!(packet.decision_class, DecisionClass::NoTrade);
     assert!(!packet.decision_reasons.is_empty());
+
+    // 同一 fixture の再実行で、観測表示の修正が decision semantics を変えないことを確認する。
+    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.0");
+    assert_eq!(
+        packet.decision_snapshot_version,
+        repeated_packet.decision_snapshot_version
+    );
+    assert_eq!(packet.decision_class, repeated_packet.decision_class);
+    assert_eq!(packet.decision_reasons, repeated_packet.decision_reasons);
+    assert_eq!(
+        packet.trend_cohesion.gate_passed,
+        repeated_packet.trend_cohesion.gate_passed
+    );
+    assert_eq!(
+        (
+            packet.portfolio_policy.target_exposure_min,
+            packet.portfolio_policy.target_exposure_max,
+            packet.portfolio_policy.allow_chase,
+            packet.portfolio_policy.allow_pullback_buy,
+            packet.portfolio_policy.allow_new_risk,
+            packet.portfolio_policy.risk_assets_mode,
+        ),
+        (
+            repeated_packet.portfolio_policy.target_exposure_min,
+            repeated_packet.portfolio_policy.target_exposure_max,
+            repeated_packet.portfolio_policy.allow_chase,
+            repeated_packet.portfolio_policy.allow_pullback_buy,
+            repeated_packet.portfolio_policy.allow_new_risk,
+            repeated_packet.portfolio_policy.risk_assets_mode,
+        )
+    );
 
     assert_eq!(packet.assets[0].action, AssetAction::AVOID);
 }
