@@ -49,6 +49,8 @@ fn audit_daily_cli_rejects_missing_date_value_zh_cn() {
         "command should fail on invalid --date"
     );
     let stderr = String::from_utf8_lossy(&out.stderr);
+    // Handler 境界移動後も、引数エラーは stderr と usage の既存契約を保持する。
+    assert!(out.stdout.is_empty());
     assert!(stderr.contains("--date 需要 YYYY-MM-DD 参数"));
     assert!(stderr.contains("用法:"));
 }

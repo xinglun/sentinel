@@ -7,10 +7,9 @@ use crate::features::evidence::interface::cli_command_handler::run_evidence_comm
 use crate::features::radar::acl::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
+use crate::features::radar::interface::audit_cli_handler::run_audit_daily;
 use crate::features::radar::interface::audit_daily_report::{
-    audit_daily_usage, audit_empty_log_message, audit_error_parse_date,
-    build_audit_daily_report_with_formal_baseline, build_daily_calibration_context,
-    load_transition_audit_days, resolve_audit_daily_formal_baseline, resolve_target_index,
+    audit_daily_usage, audit_error_parse_date, build_daily_calibration_context,
 };
 use crate::features::radar::interface::radar_pipeline_runner::{
     run_pipeline, run_pipeline_for_report_date,
@@ -30,9 +29,7 @@ use crate::features::research::interface::gray_rhino_cli_handler::{
     run_ingest_gray_rhino_governance, run_ingest_gray_rhino_institutional,
     run_ingest_gray_rhino_redundancy,
 };
-use crate::features::shared::acl::notification_factory::{
-    load_run_evidence_collection_status, send_required_telegram_notification,
-};
+use crate::features::shared::acl::notification_factory::send_required_telegram_notification;
 use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
@@ -100,7 +97,7 @@ pub async fn run() -> Result<()> {
         }
         CliCommand::AuditDaily => {
             run_audit_daily(
-                &app_config,
+                std::path::Path::new(&app_config.output.save_to),
                 options.audit_date_arg.as_deref(),
                 options.audit_days,
                 audit_language,
@@ -337,46 +334,6 @@ fn market_data_provider_kind(provider: CliProviderKind) -> ProviderType {
     }
 }
 
-fn run_audit_daily(
-    app_config: &config::AppConfig,
-    target_date_arg: Option<&str>,
-    window_days: usize,
-    language: Language,
-) -> Result<()> {
-    let save_dir = std::path::PathBuf::from(&app_config.output.save_to);
-    let path = save_dir.join("state_transitions.jsonl");
-    let days = load_transition_audit_days(&path, language)?;
-    if days.is_empty() {
-        println!("{}", audit_empty_log_message(language));
-        return Ok(());
-    }
-
-    let target_date = match target_date_arg {
-        Some(raw) => Some(
-            NaiveDate::parse_from_str(raw, "%Y-%m-%d")
-                .with_context(|| format!("{}: {}", audit_error_parse_date(language), raw))?,
-        ),
-        None => None,
-    };
-
-    let target_idx = resolve_target_index(&days, target_date, language)?;
-    let evidence_collection_status =
-        load_run_evidence_collection_status(&save_dir, days[target_idx].date)
-            .unwrap_or(crate::features::shared::application::run_status::DeliveryStatus::Skipped);
-    let formal_baseline =
-        resolve_audit_daily_formal_baseline(&save_dir, days[target_idx].date).unwrap_or(None);
-    let report = build_audit_daily_report_with_formal_baseline(
-        &days,
-        target_idx,
-        window_days.max(1),
-        language,
-        Some(&evidence_collection_status),
-        Some(formal_baseline.as_ref()),
-    );
-    println!("{}", report);
-    Ok(())
-}
-
 fn run_review_command(config: &config::AppConfig) -> Result<()> {
     println!("{}", load_latest_daily_report(config)?);
     Ok(())
@@ -570,8 +527,7 @@ fn is_noisy_digest_detail(trimmed: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_daily_calibration_report, build_daily_calibration_telegram_digest,
-        resolve_audit_daily_formal_baseline, run_pipeline,
+        build_daily_calibration_report, build_daily_calibration_telegram_digest, run_pipeline,
     };
     use crate::config::{
         AppConfig, DeviationBasis, OutputConfig, RulesConfig, TelegramConfig, TrendConfig,
@@ -583,8 +539,10 @@ mod tests {
     use crate::features::radar::domain::decision::DecisionPacket;
     use crate::features::radar::infrastructure::persistence::PersistenceLayer;
     use crate::features::radar::interface::audit_daily_report::{
-        build_audit_daily_report, build_audit_daily_report_with_evidence_status,
-        consecutive_streak, parse_transition_audit_entry, TransitionAuditDay, TransitionAuditEntry,
+        audit_empty_log_message, build_audit_daily_report,
+        build_audit_daily_report_with_evidence_status, consecutive_streak,
+        parse_transition_audit_entry, resolve_audit_daily_formal_baseline, TransitionAuditDay,
+        TransitionAuditEntry,
     };
     use crate::features::radar::interface::radar_pipeline_runner::run_pipeline_for_report_date;
     use crate::features::shared::acl::notification_factory::telegram_delivery_precheck;
@@ -889,7 +847,7 @@ mod tests {
 
             assert!(report.contains("🧭 每日认知校准"));
             assert!(report.contains("本日报只校准系统理解"));
-            assert!(report.contains(super::audit_empty_log_message(Language::ZhCn)));
+            assert!(report.contains(audit_empty_log_message(Language::ZhCn)));
         });
     }
 
