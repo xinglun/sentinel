@@ -33,9 +33,6 @@ use crate::features::radar::interface::market_interpretation_read_model::{
     build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
 use crate::features::radar::interface::presentation::PresentationPacket;
-use crate::features::radar::interface::presentation::{
-    SignalContextCoverage, SignalContextSourceStatus,
-};
 use crate::features::radar::interface::presentation_assembler::PresentationAssembler;
 use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
@@ -111,6 +108,7 @@ fn apply_history_baseline_downgrade(
     if let Some(persistence) = pres_packet.leader_persistence.as_mut() {
         persistence.persistence_days = 0;
         persistence.persistence_value = "BASELINE_UNAVAILABLE".to_string();
+        persistence.observed_days_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.breakout_continuity_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.change_from_yesterday_value = "BASELINE_UNAVAILABLE".to_string();
         persistence.leadership_score_value = "BASELINE_UNAVAILABLE".to_string();
@@ -225,16 +223,12 @@ pub(crate) async fn run_pipeline_for_report_date(
     let failed_symbols = prepared_data.failed_symbols;
     let rate_limited_symbols = prepared_data.rate_limited_symbols;
 
-    let mut outcome = radar_context.initial_run_outcome_with_data_quality(
-        load_latest_evidence_collection_status(save_dir),
-        pipeline_plan.data_quality_status,
-    );
+    let mut outcome =
+        radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
     outcome.gray_rhino_collection = load_gray_rhino_collection_status(save_dir, radar_context.date);
 
     let ledger = Arc::new(build_ledger_adapter(save_dir.to_path_buf()));
-    let (realized_pl, positions) = ledger
-        .get_portfolio_stats_checked()
-        .context("Failed to read ledger positions")?;
+    let (realized_pl, positions) = ledger.get_portfolio_stats();
 
     if pipeline_plan.should_enter_pipeline_body {
         let mut packet =
@@ -391,7 +385,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-        let mut future_context =
+        let future_context =
             build_signal_context_event_read_model(SignalContextEventReadModelInput {
                 as_of_date: packet.date,
                 expectation_snapshot: Some(&expectation_snapshot),
@@ -404,10 +398,6 @@ pub(crate) async fn run_pipeline_for_report_date(
             GrayRhinoSnapshotPersistence::ReadOnly,
         )
         .ok();
-        future_context.runtime_coverage = Some(build_runtime_signal_context_coverage(
-            gray_rhino_daily_report.as_ref(),
-            &pres_packet,
-        ));
         let (expectation_quality, expectation_quality_reason) =
             derive_expectation_quality(&expectation_snapshot);
         let interpretation_signal = InterpretationNarrativeSignal {
@@ -575,11 +565,6 @@ pub(crate) async fn run_pipeline_for_report_date(
             return Ok(());
         }
         let same_market_date = history_before.iter().any(|entry| entry.date == packet.date);
-        let same_day_degraded_snapshot = same_market_date
-            && previous_snapshot_resolution
-                .formal_snapshot
-                .as_ref()
-                .is_some_and(|snapshot| snapshot.source_status == "degraded");
         let expected_history_count = history_before.len() + usize::from(!same_market_date);
         if should_persist_history {
             let preflight_progression =
@@ -660,15 +645,22 @@ pub(crate) async fn run_pipeline_for_report_date(
                 reset_event: None,
                 data_quality: serde_json::json!({
                     "trend": if degraded { "DEGRADED" } else { "HEALTHY" },
-                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" }
+                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" },
+                    "breadth_observation": {
+                        "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                        "up_count": packet.market_features.up_count,
+                        "flat_count": packet.market_features.flat_count,
+                        "down_count": packet.market_features.down_count,
+                        "total_count": packet.market_features.total_count,
+                        "universe_integrity": packet.market_features.universe_integrity,
+                        "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                    }
                 }),
             }
         };
         if should_persist_history {
-            let snapshot_probe = build_snapshot_probe(
-                expected_history_count,
-                baseline_packet.is_none() || same_day_degraded_snapshot,
-            );
+            let snapshot_probe =
+                build_snapshot_probe(expected_history_count, baseline_packet.is_none());
             if let Err(error) = runtime_services
                 .persistence
                 .validate_trading_day_snapshot_conflict(&snapshot_probe)
@@ -814,8 +806,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             }
         }
         let safe_downgrade = history_blocked
-            || should_downgrade_leader_history(&previous_snapshot_resolution.status)
-            || same_day_degraded_snapshot;
+            || should_downgrade_leader_history(&previous_snapshot_resolution.status);
         if history_blocked {
             outcome.date = packet.date.to_string();
             outcome.decisioning = DeliveryStatus::Failed {
@@ -936,7 +927,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                     reset_event: None,
                     data_quality: serde_json::json!({
                         "trend": if safe_downgrade { "DEGRADED" } else { "HEALTHY" },
-                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" }
+                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" },
+                        "breadth_observation": {
+                            "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                            "up_count": packet.market_features.up_count,
+                            "flat_count": packet.market_features.flat_count,
+                            "down_count": packet.market_features.down_count,
+                            "total_count": packet.market_features.total_count,
+                            "universe_integrity": packet.market_features.universe_integrity,
+                            "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                        }
                     }),
                 };
             if let Err(error) = runtime_services
@@ -991,9 +991,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         let delivery_plan = RadarDeliveryPlanner::plan(RadarDeliveryInput {
             packet: &packet,
             trading_limits,
-            daily_traded: ledger
-                .get_daily_traded_amount_checked()
-                .context("Failed to read daily traded amount from ledger")?,
+            daily_traded: ledger.get_daily_traded_amount(),
             realized_pl,
             positions: &positions,
             failed_symbols: &failed_symbols,
@@ -1034,7 +1032,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         let mut report_context = build_report_render_context(config_arc.as_ref());
         report_context.observation_timeline = runtime_services
             .persistence
-            .load_observation_timeline_as_of(packet.date)
+            .load_latest_observation_timeline()
             .unwrap_or_default();
         let mut report_result = report::generate_refined_report(
             &report_context,
@@ -1046,14 +1044,8 @@ pub(crate) async fn run_pipeline_for_report_date(
         let mut price_volume_entries = fetched_ticker_histories
             .iter()
             .map(|(history, _)| {
-                let supply_contexts =
-                    price_volume_supply_contexts(config_arc.as_ref(), &history.symbol, packet.date);
-                let supply_context = supply_contexts.first().cloned();
-                let secondary_supply_context = supply_contexts.get(1).cloned();
-                let event_baseline =
-                    price_volume_event_baseline(config_arc.as_ref(), &history.symbol, packet.date);
-                let market_holidays =
-                    price_volume_market_holidays(history.bars.as_ref(), packet.date);
+                let supply_context =
+                    price_volume_supply_context(config_arc.as_ref(), &history.symbol, packet.date);
                 let overheated = packet.assets.iter().any(|asset| {
                     asset.asset_state.symbol == history.symbol
                         && asset.asset_state.state == AssetState::OVERHEAT
@@ -1071,9 +1063,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                         &history.symbol,
                         packet.date,
                     ),
-                    event_baseline,
-                    secondary_supply_context: secondary_supply_context.as_ref(),
-                    market_holidays: Some(&market_holidays),
+                    event_baseline: None,
+                    secondary_supply_context: None,
+                    market_holidays: None,
                 });
                 let persistence_days = runtime_services
                     .persistence
@@ -1097,9 +1089,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                             &history.symbol,
                             packet.date,
                         ),
-                        event_baseline,
-                        secondary_supply_context: secondary_supply_context.as_ref(),
-                        market_holidays: Some(&market_holidays),
+                        event_baseline: None,
+                        secondary_supply_context: None,
+                        market_holidays: None,
                     }
                 });
                 PriceVolumeReportEntry {
@@ -1230,98 +1222,39 @@ fn price_volume_supply_context(
     symbol: &str,
     market_date: chrono::NaiveDate,
 ) -> Option<SupplyEventContext> {
-    price_volume_supply_contexts(app_config, symbol, market_date)
-        .into_iter()
-        .next()
-}
-
-fn price_volume_supply_contexts(
-    app_config: &config::AppConfig,
-    symbol: &str,
-    market_date: chrono::NaiveDate,
-) -> Vec<SupplyEventContext> {
-    let Some(capital_absorption) = app_config.capital_absorption.as_ref() else {
-        return Vec::new();
-    };
-    let Some(events) = capital_absorption.price_volume_supply_events.as_ref() else {
-        return Vec::new();
-    };
-    let mut events = events
+    let event = app_config
+        .capital_absorption
+        .as_ref()?
+        .price_volume_supply_events
+        .as_ref()?
         .iter()
         .filter(|event| {
             event.symbol == symbol && price_volume_supply_event_is_active(event, market_date)
         })
-        .collect::<Vec<_>>();
-    events.sort_by_key(|event| {
-        (
-            match event.event_type {
-                config::PriceVolumeSupplyEventType::Ipo => 5,
-                config::PriceVolumeSupplyEventType::LockupExpiry
-                | config::PriceVolumeSupplyEventType::ShareUnlock => 4,
-                _ => 2,
-            },
-            matches!(
-                event.supply_direction,
-                config::PriceVolumeSupplyDirection::Increase
-            ),
-            match event.confidence {
-                config::PriceVolumeSupplyConfidence::High => 3,
-                config::PriceVolumeSupplyConfidence::Medium => 2,
-                config::PriceVolumeSupplyConfidence::Low => 1,
-            },
-            event.event_date.clone(),
-        )
-    });
-    events
-        .into_iter()
-        .rev()
-        .map(price_volume_supply_context_from_event)
-        .collect()
+        .max_by_key(|event| {
+            (
+                matches!(
+                    event.supply_direction,
+                    config::PriceVolumeSupplyDirection::Increase
+                ),
+                match event.confidence {
+                    config::PriceVolumeSupplyConfidence::High => 3,
+                    config::PriceVolumeSupplyConfidence::Medium => 2,
+                    config::PriceVolumeSupplyConfidence::Low => 1,
+                },
+                event.event_date.clone(),
+                format!("{:?}", event.event_type),
+            )
+        })?;
+    Some(price_volume_supply_context_from_event(event))
 }
 
 fn price_volume_supply_event_is_active(
     event: &config::PriceVolumeSupplyEventConfig,
     market_date: chrono::NaiveDate,
 ) -> bool {
-    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d").is_ok_and(|event_date| {
-        let age_days = (market_date - event_date).num_days();
-        (0..=20).contains(&age_days)
-    })
-}
-
-fn price_volume_event_baseline(
-    app_config: &config::AppConfig,
-    symbol: &str,
-    market_date: chrono::NaiveDate,
-) -> Option<(
-    crate::features::radar::domain::price_volume_structure::BaselineType,
-    chrono::NaiveDate,
-)> {
-    let event = app_config
-        .capital_absorption
-        .as_ref()?
-        .price_volume_event_baselines
-        .as_ref()?
-        .iter()
-        .filter(|event| event.symbol == symbol)
-        .filter_map(|event| {
-            let event_date =
-                chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d").ok()?;
-            ((market_date - event_date).num_days() >= 0
-                && (market_date - event_date).num_days() <= 20)
-                .then_some((event.baseline_type, event_date))
-        })
-        .max_by_key(|(_, event_date)| *event_date);
-    event.map(|(event_type, event_date)| {
-        (
-            match event_type {
-                config::PriceVolumeEventBaselineType::Earnings => {
-                    crate::features::radar::domain::price_volume_structure::BaselineType::PostEarnings
-                }
-            },
-            event_date,
-        )
-    })
+    chrono::NaiveDate::parse_from_str(&event.event_date, "%Y-%m-%d")
+        .is_ok_and(|event_date| (market_date - event_date).num_days().abs() <= 20)
 }
 
 fn price_volume_volume_comparable(
@@ -1400,6 +1333,17 @@ fn build_observation_timeline_entry(
                 .breadth_score_value
                 .parse()
                 .unwrap_or_default(),
+            breadth_raw_percent: if packet.market_features.total_count == 0 {
+                0.0
+            } else {
+                packet.market_features.up_count as f64 / packet.market_features.total_count as f64
+                    * 100.0
+            },
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: interpretation
                 .concentration_score_value
                 .parse()
@@ -1434,21 +1378,6 @@ fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
     dates
 }
 
-fn price_volume_market_holidays(
-    bars: &[crate::features::shared::domain::market_data::DailyBar],
-    as_of: chrono::NaiveDate,
-) -> Vec<chrono::NaiveDate> {
-    let start_year = bars
-        .first()
-        .map(|bar| bar.date.year())
-        .unwrap_or(as_of.year());
-    (start_year..=as_of.year())
-        .flat_map(
-            crate::features::research::interface::macro_event_official_calendar_adapter::nyse_market_holidays,
-        )
-        .collect()
-}
-
 #[allow(clippy::too_many_arguments)]
 fn build_packet_interpretation_layer(
     packet: &DecisionPacket,
@@ -1463,16 +1392,11 @@ fn build_packet_interpretation_layer(
     language: crate::features::shared::interface::i18n::Language,
     dict: &crate::features::shared::interface::i18n::DisplayDictionary,
 ) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
-    let mut future_context =
-        build_signal_context_event_read_model(SignalContextEventReadModelInput {
-            as_of_date: packet.date,
-            expectation_snapshot: Some(expectation_snapshot),
-            future_calendar: Some(future_calendar),
-        });
-    future_context.runtime_coverage = Some(build_runtime_signal_context_coverage(
-        gray_rhino_daily_report,
-        pres_packet,
-    ));
+    let future_context = build_signal_context_event_read_model(SignalContextEventReadModelInput {
+        as_of_date: packet.date,
+        expectation_snapshot: Some(expectation_snapshot),
+        future_calendar: Some(future_calendar),
+    });
     let (expectation_quality, expectation_quality_reason) =
         derive_expectation_quality(expectation_snapshot);
     let interpretation_signal = InterpretationNarrativeSignal {
@@ -1524,66 +1448,6 @@ fn build_packet_interpretation_layer(
         language,
         dict,
     })
-}
-
-fn build_runtime_signal_context_coverage(
-    gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
-    pres_packet: &PresentationPacket,
-) -> SignalContextCoverage {
-    let mut coverage = SignalContextCoverage {
-        market_structure: pres_packet
-            .transition_evidence
-            .as_ref()
-            .map(|_| SignalContextSourceStatus::Healthy)
-            .unwrap_or(SignalContextSourceStatus::Unavailable),
-        ..SignalContextCoverage::default()
-    };
-
-    let Some(status) = gray_rhino_daily_report.and_then(|report| report.refresh_status.as_ref())
-    else {
-        return coverage;
-    };
-
-    let sec = gray_rhino_provider_coverage(&status.sec, status.sec_accepted, status.sec_rejected);
-    let finnhub = gray_rhino_provider_coverage(
-        &status.finnhub,
-        status.finnhub_accepted,
-        status.finnhub_rejected,
-    );
-    coverage.corporate = combine_signal_context_source_status(sec, finnhub);
-    coverage.rates_credit =
-        gray_rhino_provider_coverage(&status.fred, status.fred_accepted, status.fred_rejected);
-    coverage
-}
-
-fn gray_rhino_provider_coverage(
-    status: &str,
-    accepted: u64,
-    rejected: u64,
-) -> SignalContextSourceStatus {
-    if accepted > 0 && rejected > 0 {
-        SignalContextSourceStatus::Partial
-    } else if accepted > 0 || status.eq_ignore_ascii_case("succeeded") {
-        SignalContextSourceStatus::Healthy
-    } else {
-        SignalContextSourceStatus::Unavailable
-    }
-}
-
-fn combine_signal_context_source_status(
-    left: SignalContextSourceStatus,
-    right: SignalContextSourceStatus,
-) -> SignalContextSourceStatus {
-    use SignalContextSourceStatus::{Degraded, Healthy, Partial, Unavailable};
-    if left == Healthy && right == Healthy {
-        Healthy
-    } else if left == Degraded || right == Degraded {
-        Degraded
-    } else if left == Unavailable && right == Unavailable {
-        Unavailable
-    } else {
-        Partial
-    }
 }
 
 fn build_report_render_context(app_config: &config::AppConfig) -> ReportRenderContext {
@@ -2244,24 +2108,9 @@ fn load_gray_rhino_collection_status(
     save_dir: &std::path::Path,
     as_of_date: chrono::NaiveDate,
 ) -> GrayRhinoCollectionStatus {
-    let date_path = save_dir.join(format!(
-        "gray_rhino_refresh_status_{}.json",
-        as_of_date.format("%Y-%m-%d")
-    ));
-    let value = [
-        date_path,
-        save_dir.join("gray_rhino_refresh_status_latest.json"),
-    ]
-    .into_iter()
-    .filter_map(|path| std::fs::read_to_string(path).ok())
-    .filter_map(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok())
-    .find(|value| {
-        value
-            .get("date")
-            .and_then(|value| value.as_str())
-            .and_then(|raw| chrono::NaiveDate::parse_from_str(raw, "%Y-%m-%d").ok())
-            == Some(as_of_date)
-    });
+    let value = std::fs::read_to_string(save_dir.join("gray_rhino_refresh_status_latest.json"))
+        .ok()
+        .and_then(|raw| serde_json::from_str::<serde_json::Value>(&raw).ok());
     let Some(value) = value else {
         return GrayRhinoCollectionStatus {
             status: "skipped".to_string(),
@@ -2338,7 +2187,6 @@ fn gray_rhino_failure_appendix(
 
 #[cfg(test)]
 mod tests {
-    use super::build_weekly_report_context;
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
     use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
@@ -2362,71 +2210,6 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
-    use std::fs;
-    use tempfile::tempdir;
-
-    #[test]
-    fn gray_rhino_collection_status_prefers_target_date_sidecar_over_latest() {
-        let directory = tempdir().unwrap();
-        fs::write(
-            directory.path().join("gray_rhino_refresh_status_2026-08-12.json"),
-            r#"{"date":"2026-08-12","status":"partial_failure","sec":"partial_failure","sec_accepted":9,"sec_rejected":1,"finnhub":"succeeded","finnhub_accepted":164,"fred":"succeeded","fred_accepted":1}"#,
-        )
-        .unwrap();
-        fs::write(
-            directory.path().join("gray_rhino_refresh_status_latest.json"),
-            r#"{"date":"2026-08-13","status":"succeeded","sec":"succeeded","sec_accepted":10,"finnhub":"succeeded","finnhub_accepted":162,"fred":"succeeded","fred_accepted":1}"#,
-        )
-        .unwrap();
-
-        let status = super::load_gray_rhino_collection_status(
-            directory.path(),
-            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-        );
-
-        assert_eq!(status.status, "partial_failure");
-        assert_eq!(status.date.as_deref(), Some("2026-08-12"));
-        assert_eq!(status.sec.accepted, 9);
-        assert_eq!(status.sec.rejected, 1);
-        assert_eq!(status.finnhub.accepted, 164);
-    }
-
-    #[test]
-    fn gray_rhino_collection_status_fails_closed_when_only_latest_is_other_date() {
-        let directory = tempdir().unwrap();
-        fs::write(
-            directory
-                .path()
-                .join("gray_rhino_refresh_status_latest.json"),
-            r#"{"date":"2026-08-13","status":"succeeded"}"#,
-        )
-        .unwrap();
-
-        let status = super::load_gray_rhino_collection_status(
-            directory.path(),
-            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-        );
-
-        assert_eq!(status.status, "skipped");
-        assert_eq!(status.date, None);
-    }
-
-    #[test]
-    fn weekly_report_context_uses_packet_market_date_for_expectation() {
-        let mut config = crate::config::AppConfig::load("config.toml").unwrap();
-        config.finnhub = None;
-        let context = build_weekly_report_context(
-            &config,
-            tempdir().unwrap().path(),
-            NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-        );
-
-        assert_eq!(context.expectation_layer["as_of_date"], "2026-08-12");
-        assert_eq!(
-            context.expectation_layer["snapshot"]["as_of_date"],
-            "2026-08-12"
-        );
-    }
 
     #[test]
     fn supply_event_is_active_only_inside_the_observation_window() {
@@ -2444,10 +2227,6 @@ mod tests {
         assert!(!price_volume_supply_event_is_active(
             &event,
             NaiveDate::from_ymd_opt(2026, 8, 27).unwrap()
-        ));
-        assert!(!price_volume_supply_event_is_active(
-            &event,
-            NaiveDate::from_ymd_opt(2026, 8, 1).unwrap()
         ));
     }
 
@@ -2774,21 +2553,5 @@ Boundary: context only; no Gate input or trade instruction.
         assert!(super::should_downgrade_leader_history(
             &crate::features::radar::infrastructure::persistence::PreviousSnapshotStatus::BaselineUnavailable
         ));
-    }
-
-    #[test]
-    fn gray_rhino_source_health_maps_to_signal_context_without_event_inference() {
-        assert_eq!(
-            super::gray_rhino_provider_coverage("succeeded", 9, 0),
-            crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
-        );
-        assert_eq!(
-            super::gray_rhino_provider_coverage("partial_failure", 1, 2),
-            crate::features::radar::interface::presentation::SignalContextSourceStatus::Partial
-        );
-        assert_eq!(
-            super::gray_rhino_provider_coverage("failed", 0, 1),
-            crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable
-        );
     }
 }

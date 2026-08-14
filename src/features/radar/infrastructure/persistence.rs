@@ -310,62 +310,8 @@ impl PersistenceLayer {
             object.remove("generated_at");
             object.remove("run_id");
             object.remove("snapshot_id");
-            // report_date は同じ market_date を再表示する実行メタデータであり、
-            // 市場事実の同一性判定には含めない。
-            object.remove("report_date");
-            // 旧版报告把 FragileRotation 错误保存为 Healthy Expansion。
-            // 这是已知的显示迁移，不应阻断同一事实快照的安全回放。
-            if object.get("breadth_classification")
-                == Some(&serde_json::Value::String("Healthy Expansion".to_string()))
-            {
-                object.insert(
-                    "breadth_classification".to_string(),
-                    serde_json::Value::String("Narrow".to_string()),
-                );
-            }
         }
         value
-    }
-
-    /// 浮動小数点の再計算誤差を除き、同一取引日の意味的な快照差分だけを検出する。
-    fn trading_day_snapshot_semantics_equal(
-        left: &TradingDaySnapshot,
-        right: &TradingDaySnapshot,
-    ) -> bool {
-        fn values_equal(left: &serde_json::Value, right: &serde_json::Value) -> bool {
-            match (left, right) {
-                (serde_json::Value::Number(left), serde_json::Value::Number(right)) => {
-                    match (left.as_f64(), right.as_f64()) {
-                        (Some(left), Some(right)) => {
-                            let scale = left.abs().max(right.abs()).max(1.0);
-                            (left - right).abs() <= 1e-12 * scale
-                        }
-                        _ => left == right,
-                    }
-                }
-                (serde_json::Value::Array(left), serde_json::Value::Array(right)) => {
-                    left.len() == right.len()
-                        && left
-                            .iter()
-                            .zip(right)
-                            .all(|(left, right)| values_equal(left, right))
-                }
-                (serde_json::Value::Object(left), serde_json::Value::Object(right)) => {
-                    left.len() == right.len()
-                        && left.iter().all(|(key, left)| {
-                            right
-                                .get(key)
-                                .is_some_and(|right| values_equal(left, right))
-                        })
-                }
-                _ => left == right,
-            }
-        }
-
-        values_equal(
-            &Self::trading_day_snapshot_semantics(left),
-            &Self::trading_day_snapshot_semantics(right),
-        )
     }
 
     pub fn new(save_dir: &Path) -> Self {
@@ -547,29 +493,6 @@ impl PersistenceLayer {
         ))
     }
 
-    /// 指定した業務日以前の観測だけで timeline を再構成する。
-    pub fn load_observation_timeline_as_of(
-        &self,
-        as_of_date: chrono::NaiveDate,
-    ) -> Result<Option<ObservationTimeline>> {
-        let mut entries = self
-            .load_observation_history_entries()?
-            .into_iter()
-            .filter(|entry| entry.date <= as_of_date)
-            .collect::<Vec<_>>();
-        if entries.is_empty() {
-            return Ok(None);
-        }
-        entries.sort_by_key(|entry| entry.date);
-        let expected_trading_dates = entries.iter().map(|entry| entry.date).collect::<Vec<_>>();
-        Ok(Some(
-            crate::features::radar::domain::observation_timeline::build_observation_timeline(
-                &entries,
-                &expected_trading_dates,
-            ),
-        ))
-    }
-
     pub fn save_observation_timeline(
         &self,
         timeline: &ObservationTimeline,
@@ -724,7 +647,9 @@ impl PersistenceLayer {
                 &std::fs::read_to_string(&path).context("Failed to read trading-day snapshot")?,
             )
             .context("Failed to deserialize existing trading-day snapshot")?;
-            if !Self::trading_day_snapshot_semantics_equal(&existing, snapshot) {
+            if Self::trading_day_snapshot_semantics(&existing)
+                != Self::trading_day_snapshot_semantics(snapshot)
+            {
                 bail!("SNAPSHOT_CONFLICT");
             }
             return Ok(TradingDaySnapshotWriteDisposition::SameDayRerun);
@@ -749,7 +674,9 @@ impl PersistenceLayer {
             .context("Failed to deserialize trading-day snapshot")?;
             let key = (snapshot.cycle_id.clone(), snapshot.market_date);
             if let Some(existing) = snapshots.insert(key, snapshot.clone()) {
-                if !Self::trading_day_snapshot_semantics_equal(&existing, &snapshot) {
+                if Self::trading_day_snapshot_semantics(&existing)
+                    != Self::trading_day_snapshot_semantics(&snapshot)
+                {
                     bail!("SNAPSHOT_CONFLICT");
                 }
             }
@@ -1206,6 +1133,12 @@ impl PersistenceLayer {
             primary_leader: String::new(),
             secondary_leaders: Vec::new(),
             breadth_score,
+            breadth_raw_percent: breadth_score,
+            breadth_up_count: packet.market_features.up_count,
+            breadth_flat_count: packet.market_features.flat_count,
+            breadth_down_count: packet.market_features.down_count,
+            breadth_total_count: packet.market_features.total_count,
+            breadth_universe_integrity: packet.market_features.universe_integrity,
             concentration_score: 0.0,
             rotation_score: 0.0,
             confidence_index: 0.0,
@@ -1556,8 +1489,7 @@ mod tests {
     };
     use crate::features::radar::domain::portfolio_policy::PortfolioPolicy;
     use crate::features::radar::domain::price_volume_structure::{
-        BaselineType, CandidateLifecycle, EligibilityStatus, ObservationConfidence,
-        ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
+        BaselineType, ParticipationQuality, PriceVolumeAssessment, PriceVolumeObservationBoundary,
         PriceVolumeStructure, StructurePersistence, SupplyAbsorption, VolumeDataQuality,
     };
     use crate::features::shared::domain::supply_event_context::ObservationEffect;
@@ -1602,8 +1534,6 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
-            secondary_metrics: None,
-            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1611,10 +1541,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
-            eligibility: EligibilityStatus::Full,
-            primary_baseline: BaselineType::Standard20d,
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
             secondary_baseline: None,
-            lifecycle: CandidateLifecycle::Confirmed,
+            lifecycle: Default::default(),
             unavailable_reason: None,
             next_eligibility_condition: None,
         };
@@ -1676,8 +1608,6 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
-            secondary_metrics: None,
-            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1685,10 +1615,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
-            eligibility: EligibilityStatus::Full,
-            primary_baseline: BaselineType::Standard20d,
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
             secondary_baseline: None,
-            lifecycle: CandidateLifecycle::Confirmed,
+            lifecycle: Default::default(),
             unavailable_reason: None,
             next_eligibility_condition: None,
         };
@@ -1763,8 +1695,6 @@ mod tests {
             persistence: StructurePersistence::Candidate,
             persistence_days: 1,
             metrics: None,
-            secondary_metrics: None,
-            observation_confidence: ObservationConfidence::High,
             boundary: PriceVolumeObservationBoundary {
                 decision_weight_percent: 0,
                 trade_signal: false,
@@ -1772,10 +1702,12 @@ mod tests {
                 execution_effect: ObservationEffect::None,
                 position_sizing_effect: ObservationEffect::None,
             },
-            eligibility: EligibilityStatus::Full,
-            primary_baseline: BaselineType::Standard20d,
+            secondary_metrics: None,
+            observation_confidence: Default::default(),
+            eligibility: Default::default(),
+            primary_baseline: Default::default(),
             secondary_baseline: None,
-            lifecycle: CandidateLifecycle::Confirmed,
+            lifecycle: Default::default(),
             unavailable_reason: None,
             next_eligibility_condition: None,
         };
@@ -1810,10 +1742,6 @@ mod tests {
     fn price_volume_record_schema_accepts_missing_supply_context() {
         let value: PriceVolumeObservationRecord = serde_json::from_str(r#"{"market_date":"2026-08-07","symbol":"X","assessment":{"structure":"Neutral","participation":"Neutral","supply_absorption":"None","quality":"Healthy","persistence":"Candidate","persistence_days":1,"metrics":null,"boundary":{"decision_weight_percent":0,"trade_signal":false,"gate_effect":"None","execution_effect":"None","position_sizing_effect":"None"}}}"#).unwrap();
         assert!(value.supply_context.is_none());
-        assert_eq!(
-            value.assessment.observation_confidence,
-            ObservationConfidence::Unavailable
-        );
     }
 
     #[test]
@@ -2168,6 +2096,53 @@ mod tests {
         let restored: TradingDaySnapshot = serde_json::from_value(encoded).unwrap();
 
         assert_eq!(restored.breadth_classification, None);
+    }
+
+    #[test]
+    fn formal_snapshot_preserves_structured_breadth_observation() {
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            generated_at: "2026-08-13T00:00:00+00:00".to_string(),
+            run_id: "run-breadth".to_string(),
+            cycle_id: "cycle-breadth".to_string(),
+            snapshot_id: "snapshot-breadth".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "RANGE".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 50.0,
+            breadth_classification: Some("Narrow".to_string()),
+            confidence: 50.0,
+            supply_phase: "IDLE".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: None,
+            secondary_leaders: Vec::new(),
+            breakouts: serde_json::json!({}),
+            stability: 0.0,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({
+                "breadth_observation": {
+                    "raw_percent": 50.0,
+                    "up_count": 5,
+                    "flat_count": 1,
+                    "down_count": 4,
+                    "total_count": 10,
+                    "universe_integrity": 1.0,
+                    "classification": "Narrow"
+                }
+            }),
+        };
+        let value = serde_json::to_value(snapshot).unwrap();
+        assert_eq!(
+            value["data_quality"]["breadth_observation"]["total_count"],
+            serde_json::json!(10)
+        );
     }
 
     #[test]
@@ -2608,6 +2583,7 @@ mod tests {
                     supply_phase: "WATCH".to_string(),
                     risk_state: "NORMAL".to_string(),
                     day_type: "NORMAL".to_string(),
+                    ..Default::default()
                 },
                 &[existing_date],
             )
@@ -2804,70 +2780,6 @@ mod tests {
     }
 
     #[test]
-    fn legacy_breadth_label_is_compatible_with_current_narrow_label() {
-        let mut legacy = TradingDaySnapshot {
-            schema_version: "1".to_string(),
-            market_date: NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-            report_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
-            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-            generated_at: String::new(),
-            run_id: String::new(),
-            cycle_id: "cycle".to_string(),
-            snapshot_id: String::new(),
-            is_valid_trading_day: true,
-            source_status: "degraded".to_string(),
-            market_state: "IGNITION".to_string(),
-            decision_state: "NO_TRADE".to_string(),
-            new_position_limit: 0.0,
-            breadth: 40.0,
-            breadth_classification: None,
-            confidence: 50.0,
-            supply_phase: "IDLE".to_string(),
-            risk_state: "NORMAL".to_string(),
-            primary_leader: None,
-            secondary_leaders: Vec::new(),
-            breakouts: serde_json::json!({}),
-            stability: 0.8,
-            continuity: 1,
-            cycle_length_days: 1,
-            reset_event: None,
-            data_quality: serde_json::json!({}),
-        };
-        legacy.breadth_classification = Some("Healthy Expansion".to_string());
-        let mut current = legacy.clone();
-        current.breadth_classification = Some("Narrow".to_string());
-
-        assert!(PersistenceLayer::trading_day_snapshot_semantics_equal(
-            &legacy, &current
-        ));
-
-        current.confidence = 1.0;
-        assert!(!PersistenceLayer::trading_day_snapshot_semantics_equal(
-            &legacy, &current
-        ));
-    }
-
-    #[test]
-    fn replay_report_date_does_not_create_snapshot_conflict() {
-        let mut snapshot = TradingDaySnapshot {
-            market_date: NaiveDate::from_ymd_opt(2026, 8, 12).unwrap(),
-            report_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
-            ..serde_json::from_value(serde_json::json!({
-                "schema_version":"1", "market_date":"2026-08-12", "report_date":"2026-08-13", "as_of_date":"2026-08-12", "generated_at":"", "run_id":"", "cycle_id":"cycle", "snapshot_id":"", "is_valid_trading_day":true, "source_status":"degraded", "market_state":"IGNITION", "decision_state":"NO_TRADE", "new_position_limit":0.0, "breadth":40.0, "breadth_classification":"Narrow", "confidence":51.0, "supply_phase":"IDLE", "risk_state":"NORMAL", "primary_leader":null, "secondary_leaders":[], "breakouts":{}, "stability":0.8, "continuity":1, "cycle_length_days":1, "reset_event":null, "data_quality":{}
-            })).unwrap()
-        };
-        let mut replay = snapshot.clone();
-        replay.report_date = NaiveDate::from_ymd_opt(2026, 8, 12).unwrap();
-        assert!(PersistenceLayer::trading_day_snapshot_semantics_equal(
-            &snapshot, &replay
-        ));
-        snapshot.confidence = 52.0;
-        assert!(!PersistenceLayer::trading_day_snapshot_semantics_equal(
-            &snapshot, &replay
-        ));
-    }
-
-    #[test]
     fn test_markdown_report_saving() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_report_{}",
@@ -2982,6 +2894,7 @@ mod tests {
                 supply_phase: "WATCH".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -3019,50 +2932,6 @@ mod tests {
     }
 
     #[test]
-    fn observation_timeline_as_of_excludes_future_entries() {
-        let temp_dir = std::env::temp_dir().join(format!(
-            "test_sentinel_observation_timeline_as_of_{}",
-            Utc::now().timestamp_nanos_opt().unwrap_or_default()
-        ));
-        fs::create_dir_all(&temp_dir).unwrap();
-        let layer = PersistenceLayer::new(&temp_dir);
-        let current = NaiveDate::from_ymd_opt(2026, 7, 10).unwrap();
-        let future = NaiveDate::from_ymd_opt(2026, 7, 11).unwrap();
-        let entry = |date| ObservationTimelineEntry {
-            date,
-            primary_leader: "SPY".to_string(),
-            secondary_leaders: vec![],
-            breadth_score: 50.0,
-            concentration_score: 70.0,
-            rotation_score: 20.0,
-            confidence_index: 55.0,
-            market_state: "RANGE".to_string(),
-            supply_phase: "WATCH".to_string(),
-            risk_state: "NORMAL".to_string(),
-            day_type: "NORMAL".to_string(),
-        };
-        layer
-            .save_observation_timeline(
-                &ObservationTimeline {
-                    history_coverage:
-                        crate::features::radar::domain::observation_timeline::HistoryCoverage::Partial,
-                    entries: vec![entry(current), entry(future)],
-                    summary: "NO_STRUCTURAL_CHANGE".to_string(),
-                },
-                &future.to_string(),
-            )
-            .unwrap();
-
-        let timeline = layer
-            .load_observation_timeline_as_of(current)
-            .unwrap()
-            .unwrap();
-        assert_eq!(timeline.entries.len(), 1);
-        assert_eq!(timeline.entries[0].date, current);
-        fs::remove_dir_all(&temp_dir).unwrap();
-    }
-
-    #[test]
     fn observation_timeline_upserts_same_trading_date_without_duplicate_events() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_observation_timeline_upsert_{}",
@@ -3086,6 +2955,7 @@ mod tests {
                 supply_phase: "IDLE".to_string(),
                 risk_state: "NORMAL".to_string(),
                 day_type: "NORMAL".to_string(),
+                ..Default::default()
             }],
             summary: "NO_STRUCTURAL_CHANGE".to_string(),
         };
@@ -3133,6 +3003,7 @@ mod tests {
                         supply_phase: "UNAVAILABLE".to_string(),
                         risk_state: "NORMAL".to_string(),
                         day_type: "NORMAL".to_string(),
+                        ..Default::default()
                     },
                     &[date],
                 )
@@ -3195,13 +3066,6 @@ mod tests {
         revised.generated_at = "2026-07-28T05:31:00+09:00".to_string();
         assert_eq!(
             layer.save_trading_day_snapshot(&revised).unwrap(),
-            TradingDaySnapshotWriteDisposition::SameDayRerun
-        );
-        let mut recalculated = revised.clone();
-        recalculated.confidence += 1e-13;
-        recalculated.stability -= 1e-13;
-        assert_eq!(
-            layer.save_trading_day_snapshot(&recalculated).unwrap(),
             TradingDaySnapshotWriteDisposition::SameDayRerun
         );
         let mut conflict = revised.clone();

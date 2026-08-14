@@ -133,12 +133,24 @@ pub fn cross_layer_consistency_gate(
     })
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
 pub struct ObservationTimelineEntry {
     pub date: NaiveDate,
     pub primary_leader: String,
     pub secondary_leaders: Vec<String>,
     pub breadth_score: f64,
+    #[serde(default)]
+    pub breadth_raw_percent: f64,
+    #[serde(default)]
+    pub breadth_up_count: usize,
+    #[serde(default)]
+    pub breadth_flat_count: usize,
+    #[serde(default)]
+    pub breadth_down_count: usize,
+    #[serde(default)]
+    pub breadth_total_count: usize,
+    #[serde(default)]
+    pub breadth_universe_integrity: f64,
     pub concentration_score: f64,
     pub rotation_score: f64,
     pub confidence_index: f64,
@@ -253,6 +265,7 @@ mod tests {
             supply_phase: "IDLE".to_string(),
             risk_state: "NORMAL".to_string(),
             day_type: "NORMAL".to_string(),
+            ..Default::default()
         }
     }
 
@@ -284,6 +297,24 @@ mod tests {
             ),
             Err("READ_MODEL_CONFLICT")
         );
+    }
+
+    #[test]
+    fn breadth_observation_fields_round_trip_separately_from_classification_score() {
+        let mut value = entry((2026, 8, 13), "SPY");
+        value.breadth_score = 35.0;
+        value.breadth_raw_percent = 50.0;
+        value.breadth_up_count = 5;
+        value.breadth_flat_count = 1;
+        value.breadth_down_count = 4;
+        value.breadth_total_count = 10;
+        value.breadth_universe_integrity = 1.0;
+        let encoded = serde_json::to_value(&value).unwrap();
+        let restored: ObservationTimelineEntry = serde_json::from_value(encoded).unwrap();
+        assert_eq!(restored.breadth_score, 35.0);
+        assert_eq!(restored.breadth_raw_percent, 50.0);
+        assert_eq!(restored.breadth_total_count, 10);
+        assert_eq!(restored.breadth_universe_integrity, 1.0);
     }
 
     #[test]
