@@ -1,11 +1,13 @@
 use crate::features::backtest::application::model::{
     BacktestAssetAction, BacktestAssetSnapshot, BacktestAssetState, BacktestBreakoutStatus,
-    BacktestDecisionSnapshot, BacktestTransitionAudit, BacktestTrendStatus, BacktestTrendTopology,
+    BacktestDecisionClass, BacktestDecisionSnapshot, BacktestTransitionAudit, BacktestTrendStatus,
+    BacktestTrendTopology,
 };
 use crate::features::radar::domain::action_matrix::AssetAction;
 use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::breakout_detection::{BreakoutReason, BreakoutStatus};
 use crate::features::radar::domain::decision::DecisionPacket;
+use crate::features::radar::domain::decision_class::DecisionClass;
 use crate::features::radar::domain::market_regime::LifecycleState;
 use crate::features::radar::domain::trend_cohesion::{TrendCohesionStatus, TrendCohesionTopology};
 
@@ -13,6 +15,12 @@ use crate::features::radar::domain::trend_cohesion::{TrendCohesionStatus, TrendC
 pub(crate) fn decision_packet_to_snapshot(packet: &DecisionPacket) -> BacktestDecisionSnapshot {
     BacktestDecisionSnapshot {
         date: packet.date,
+        decision_class: map_decision_class(packet.decision_class),
+        decision_reasons: packet.decision_reasons.clone(),
+        gate_blocked: !packet.trend_cohesion.gate_passed,
+        classification_available: packet.transition_log.is_some(),
+        decision_snapshot_version: packet.decision_snapshot_version.clone(),
+        universe_id: packet.universe_id.clone(),
         market_state: format!("{:?}", packet.market_regime.market_state),
         trend_gate_passed: packet.trend_cohesion.gate_passed,
         trend_status: map_trend_status(packet.trend_cohesion.status),
@@ -35,6 +43,7 @@ pub(crate) fn decision_packet_to_snapshot(packet: &DecisionPacket) -> BacktestDe
             .iter()
             .map(|asset| BacktestAssetSnapshot {
                 symbol: asset.symbol.clone(),
+                price: asset.price,
                 action: map_asset_action(asset.action),
                 deviation: asset.deviation,
                 asset_state: map_asset_state(asset.asset_state.state),
@@ -47,6 +56,14 @@ pub(crate) fn decision_packet_to_snapshot(packet: &DecisionPacket) -> BacktestDe
                 reasons: asset.reasons.clone(),
             })
             .collect(),
+    }
+}
+
+fn map_decision_class(class: DecisionClass) -> BacktestDecisionClass {
+    match class {
+        DecisionClass::NoTrade => BacktestDecisionClass::NoTrade,
+        DecisionClass::Probe => BacktestDecisionClass::Probe,
+        DecisionClass::Ready => BacktestDecisionClass::Ready,
     }
 }
 
@@ -97,9 +114,11 @@ fn lifecycle_state_code(state: LifecycleState) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::features::backtest::application::model::BacktestDecisionClass;
     use crate::features::radar::domain::action_matrix::{AssetAction, AssetActionDecision};
     use crate::features::radar::domain::asset_state::{AssetState, AssetStateSnapshot};
     use crate::features::radar::domain::breakout_detection::{BreakoutReason, BreakoutSnapshot};
+    use crate::features::radar::domain::decision_class::DecisionClass;
     use crate::features::radar::domain::features::MarketFeatures;
     use crate::features::radar::domain::market_regime::{
         LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit,
@@ -113,6 +132,10 @@ mod tests {
     fn decision_packet_mapping_preserves_backtest_dto_contract() {
         let mut packet = DecisionPacket {
             date: NaiveDate::from_ymd_opt(2026, 5, 1).unwrap(),
+            decision_class: DecisionClass::Probe,
+            decision_reasons: vec!["NO_LEADER".to_string()],
+            decision_snapshot_version: "radar-v1.0.0".to_string(),
+            universe_id: "watchlist:AAPL,NVDA".to_string(),
             market_features: MarketFeatures {
                 potential_energy: 42.0,
                 system_confidence: 63.0,
@@ -142,6 +165,7 @@ mod tests {
         };
         packet.assets.push(AssetActionDecision {
             symbol: "NVDA".to_string(),
+            price: 100.0,
             action: AssetAction::REDUCE,
             deviation: Some(1.25),
             asset_state: AssetStateSnapshot {
@@ -162,12 +186,20 @@ mod tests {
         let snapshot = decision_packet_to_snapshot(&packet);
 
         assert_eq!(snapshot.date, packet.date);
+        assert_eq!(snapshot.decision_class, BacktestDecisionClass::Probe);
+        assert_eq!(snapshot.decision_reasons, vec!["NO_LEADER"]);
+        assert_eq!(snapshot.decision_snapshot_version, "radar-v1.0.0");
+        assert_eq!(snapshot.universe_id, "watchlist:AAPL,NVDA");
         assert_eq!(snapshot.market_state, "DEFENSIVE");
         assert!(snapshot.trend_gate_passed);
+        assert!(!snapshot.gate_blocked);
         assert_eq!(snapshot.trend_status, BacktestTrendStatus::Forming);
         assert_eq!(snapshot.trend_topology, BacktestTrendTopology::SingleLeader);
         assert_eq!(snapshot.potential_energy, 42.0);
         assert_eq!(snapshot.system_confidence, 63.0);
+        packet.trend_cohesion.gate_passed = false;
+        let blocked_snapshot = decision_packet_to_snapshot(&packet);
+        assert!(blocked_snapshot.gate_blocked);
         let audit = snapshot.transition_audit.unwrap();
         assert_eq!(audit.from, "IGNITION");
         assert_eq!(audit.to, "NEWBORN");
@@ -178,6 +210,7 @@ mod tests {
         assert!(audit.defensive_override);
         let asset = &snapshot.assets[0];
         assert_eq!(asset.symbol, "NVDA");
+        assert_eq!(asset.price, 100.0);
         assert_eq!(asset.action, BacktestAssetAction::Reduce);
         assert_eq!(asset.deviation, Some(1.25));
         assert_eq!(asset.asset_state, BacktestAssetState::Optimal);

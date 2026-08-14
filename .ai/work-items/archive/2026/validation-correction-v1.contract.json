@@ -1,0 +1,252 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-correction-v1",
+  "mode": "code",
+  "title": "Validation Correction V1：业务 Utility 与 Cohort 统计修正",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "db48c76cb22d823b90450ab65dd7c82f3f226b0070355121fd7fb5a2c1ccc3f7"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "1b042c954d0cdcde48ee59dd3687bc591f964a79b255b5ee5272a9b8049fa718"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "b84b47c5640b603d5796ea040ec587384c6bb757381e733bdf863fddf9aeb2c8"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "aa8c02e342eb28a52d50aa35ea3146f9aa758970e74f2026780e10e8c3234b16"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "522d1596cdae3345bec25a667b8705e59d3cfb0d763f7fa55490b788a0327f03"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "78e6f42ce323aca66c6a8990dd0fda3211003e8eb62806ca06793566e7707938"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "3a25280a0c784ce128395c144a580bb42c757fe0d3fd5f22de9b2a6a998c52d3"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "587d6efa6c57c4ba547be73ac17be73549acfdc0a95a846cec8eb4e0d8cf974d"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "Validation Epoch V1 の現在実装は Decision Utility の業務上の母集団を正しく限定せず、censored sample、cohort、双方向 utility、confirmation cost を十分に分離していないため、Protection Value と Opportunity Cost を誤って解釈する可能性がある。",
+  "intent": {
+    "problem": "既存の Radar decision semantics と Backtest pipeline を変えず、Validation report が業務上正しい blocked candidate、cohort、horizon completion、Protection、Opportunity Cost、Confirmation Cost を測定できるようにする。",
+    "constraints": [
+      "NO_TRADE / PROBE / READY の decision semantics と Gate / Execution / Trader / Position Sizing の判定ルールを変更しない。",
+      "Validation は portfolio simulation、cash、position、fee、order sizing を追加しない。",
+      "Protection の母集団は raw candidate かつ gate blocked の NO_TRADE とし、未完了 horizon を downside と数えない。",
+      "decision_snapshot_version と universe_id が異なる record を同一 cohort の utility 集計へ混在させない。",
+      "不完全な decision context は真实の NO_TRADE として集計せず、欠損として明示する。",
+      "Net Decision Value は構成項目の摘要に留め、単一スコアで有効性を断定しない。"
+    ],
+    "rationale": "この修正は新しい能力を追加するものではなく、既存 Validation の業務上の母集団と utility 計算を正しくするための Correction Epoch である。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-correction-v1.contract.json",
+    ".ai/work-items/active/validation-correction-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/decision_class.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/backtest/acl/radar_backtest_mapper.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/validation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs"
+  ],
+  "outOfScope": [
+    "Gate、Execution、Trader、Action Matrix、Position Sizing の判定 semantics 変更",
+    "DecisionClass threshold または既存 Radar decision rule の変更",
+    "Portfolio P&L、cash、position、commission、注文模拟",
+    "Telegram、audit daily、weekly review、i18n の変更",
+    "新しい Market Layer、macro intelligence、signal strength の追加",
+    "data branch への push と外部 CI / hosted verification"
+  ],
+  "sources": [
+    {"path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md", "reason": "前一阶段 Validation Epoch V1 的既有业务契约。"},
+    {"path": "src/features/backtest/application/model.rs", "reason": "当前 Validation record、outcome、baseline 的结构化模型。"},
+    {"path": "src/features/backtest/application/simulation.rs", "reason": "当前日次 validation aggregation 与 baseline。"},
+    {"path": "src/features/backtest/infrastructure/output.rs", "reason": "当前 Decision Validation summary 输出。"},
+    {"path": "src/features/radar/domain/decision.rs", "reason": "DecisionPacket 的 production contract。"},
+    {"path": "src/features/radar/domain/decision_class.rs", "reason": "Radar DecisionClass、reason code、snapshot version 的 source of truth。"},
+    {"path": "src/features/radar/application/engine.rs", "reason": "production classification 与 transition context 的生成边界。"},
+    {"path": "src/features/backtest/application/validation.rs", "reason": "trading session horizon、MFE、MAE 与 censoring。"},
+    {"path": "tests/pipeline_integration.rs", "reason": "production packet 与 decision classification 的 integration evidence。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "data_integrity",
+      "evidence_insufficient",
+      "api_change",
+      "review_debt"
+    ],
+    "reason": "Utility の母集団、cohort 隔離、censoring、tail metrics を修正するため、統計的な見かけの改善と業務上の誤集計を重点 review する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーが业务遗漏修正范围を确认し、既存 V1 semantics 不变、utility 与 cohort 统计修正的 acceptance 已明确。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "按六类业务修正继续实施：样本边界、cohort、双边 utility、confirmation cost、baseline 差分、缺失上下文隔离；不修改决策规则。",
+    "openQuestions": ["CONFIDENCE_INSUFFICIENT 使用既有 system_confidence < 50 的现行规则，不新增 threshold。"]
+  },
+  "preReviewWarnings": [
+    "Protection 只能统计 raw candidate 且 gate blocked 的 NO_TRADE，不能用全量 NO_TRADE 代替。",
+    "未完成 T+5 / T+10 / T+20 的 sample 不得进入对应 downside、upside 或 average 分母。",
+    "不同 universe_id 或 decision_snapshot_version 必须分 cohort 输出。",
+    "Net Decision Value 不能隐藏 Protection Benefit 与 Opportunity Cost 的组成项。"
+  ],
+  "scenarioCoverage": [
+    {"scenario": "Protection 只统计 raw candidate 且 gate blocked 的 NO_TRADE，并排除 pending / partial horizon", "required": true, "status": "unverified", "evidence": ["src/features/backtest/application/simulation.rs", "src/features/backtest/infrastructure/output.rs"], "reason": "需要先以失败测试固定业务母集与 censoring 边界。"},
+    {"scenario": "不同 decision_snapshot_version 与 universe_id 分 cohort 统计，不发生 utility 混合", "required": true, "status": "unverified", "evidence": ["src/features/backtest/application/model.rs", "src/features/backtest/application/simulation.rs"], "reason": "需要新增多 cohort aggregation 测试。"},
+    {"scenario": "NO_TRADE 同时报告 downside、missed upside、tail MAE 与 top-decile missed upside", "required": true, "status": "unverified", "evidence": ["src/features/backtest/application/model.rs", "src/features/backtest/infrastructure/output.rs"], "reason": "当前仅有平均值、median MAE 与 positive count。"},
+    {"scenario": "Confirmation Cost 输出三段 latency 与两段价格成本", "required": true, "status": "unverified", "evidence": ["src/features/backtest/application/simulation.rs", "src/features/backtest/infrastructure/output.rs"], "reason": "当前 summary 只输出 Strength→Ready latency。"},
+    {"scenario": "缺失 decision context 不伪装成真实 NO_TRADE，CONFIDENCE_INSUFFICIENT 复用现有 confidence rule", "required": true, "status": "unverified", "evidence": ["src/features/radar/domain/decision_class.rs", "src/features/radar/application/engine.rs", "tests/pipeline_integration.rs"], "reason": "需要固定生产 classification context 的完整性。"}
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "ValidationDecisionRecord 明确保存 gate_blocked 与 classification context availability，缺失 context 不再伪装成真实 NO_TRADE。",
+    "Protection 的母集只包含 raw candidate、gate blocked、NO_TRADE 且对应 horizon complete 的记录。",
+    "Protection 输出 Avg / Median / P90 或 P95 MAE、downside count，并正确排除 censored record。",
+    "Opportunity Cost 输出 Avg MFE、positive forward return、以及 top-decile missed upside，且与 downside 使用同一有效母集边界。",
+    "按 decision_snapshot_version + universe_id 分 cohort，任何 cohort 不与其他 cohort 混合计算 utility。",
+    "Confirmation Cost 输出 Strength→Breakout、Breakout→Ready、Strength→Ready latency，以及 Strength→Ready return、Breakout→Ready return、maximum move。",
+    "Raw Top-3 与 READY baseline 输出 return、MAE、MFE 及 return sacrifice / downside improvement 差分。",
+    "CONFIDENCE_INSUFFICIENT 只复用既有 system_confidence < 50 的生产规则，不改变 decision class。",
+    "sample maturity 使用有效 cohort decision samples，而不是将 pending / invalid record 计入成熟度。",
+    "设计文档、失败测试、integration evidence、summary 和所有 make required checks 完成。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json SUMMARY=.ai/work-items/active/validation-correction-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-correction-v1.summary.json CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json SUMMARY=.ai/work-items/active/validation-correction-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-correction-v1.contract.json SUMMARY=.ai/work-items/active/validation-correction-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

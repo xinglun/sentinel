@@ -1,0 +1,239 @@
+{
+  "workItemId": "validation-utility-closure-v2",
+  "contractPath": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-utility-closure-v2.contract.json",
+      "reason": "Validation Utility の分母、配対、Trend Gate-only 表示を実装する Work Item Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-utility-closure-v2.summary.json",
+      "reason": "Contract 確定後に code / test / report output / guard の検証結果を記録する。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Net Decision Value に eligible、paired/unpaired、T+5/T+10/T+20 の read model を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Raw Top-3 Trend Gate blocked NoTrade episode に限定して horizon ごとの配対値を計算した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Trend Gate-only、Confirmation Cost の分母、reason overlap、horizon 配対数を summary.md に表示した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-utility-closure-v2.contract.json",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    ".ai/work-items/archive/2026/validation-utility-correction-v3.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "raw candidate 外の gate-blocked NoTrade が Net Value に混入しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib net_decision_value_excludes_non_raw_candidates_from_the_episode_denominator"
+      ]
+    },
+    {
+      "scenario": "T+20 が上昇・横ばい・未成熟の blocked episode も分母から消えず分類される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib net_decision_value_keeps_positive_and_incomplete_episodes_in_horizon_denominators"
+      ]
+    },
+    {
+      "scenario": "Confirmation Cost の episode 数と lifecycle 完了数が summary に表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib confirmation_summary_exposes_episode_and_lifecycle_denominators_in_markdown",
+        "cargo test --lib summary_contains_validation_sections_and_uppercase_decision_classes"
+      ]
+    },
+    {
+      "scenario": "Trend Gate-only の効用であることが report wording に明示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib summary_contains_validation_sections_and_uppercase_decision_classes"
+      ]
+    },
+    {
+      "scenario": "reason breakdown が重複 reason であることを表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib summary_contains_validation_sections_and_uppercase_decision_classes"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v2.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-utility-closure-v2.summary.json CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v2.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-utility-closure-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-closure-v2.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Net Value の母集団、未成熟サンプル、Trend Gate-only の解釈境界を review する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract boundary confirmed before edit",
+      "contractHash": "1f61956356699231",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "failing tests and implementation checkpoint",
+      "contractHash": "1f61956356699231",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "implementation and tests verified",
+      "contractHash": "1f61956356699231",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification complete",
+      "contractHash": "1f61956356699231",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope、acceptance、scenario coverage を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "failing test を追加し、scope 内の Backtest 実装を修正した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "833 unit tests、integration/doc tests、fmt、clippy が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "AI guards、scope、backtrack、coverage、status の required verification を記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "metric_semantics",
+      "detail": "Net Value は Trend Gate-only の候補リターン率研究指標であり、金額 P&L、完全 Decision Gate、約定コストは未対応。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "分母、配対、Trend Gate-only 表示の修正と required verification が完了した。",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification",
+      "Net Decision Value の同一 episode / horizon 配対定義",
+      "Trend Gate-only と完全 Decision Gate の解釈境界"
+    ]
+  },
+  "userCorrectionsCaptured": [
+    "再開監査で確認された、raw candidate 外の混入、選択的な T+20 下落抽出、分母不透明、Trend Gate-only の過大解釈を修正した。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Protection と Confirmation は同一 raw Trend-Gate blocked NoTrade episode の horizon facts で配対する。",
+      "solidifiedTo": "contract",
+      "reason": "Net Decision Value の母集団、paired/unpaired denominator、回帰 test を Contract と read model に固定した。"
+    },
+    {
+      "correction": "Trend Gate の指標を完全 Decision Gate の効果として表示しない。",
+      "solidifiedTo": "summary",
+      "reason": "summary.md の見出しと Net Decision Value の説明に Trend Gate-only を明示した。"
+    }
+  ],
+  "knownGaps": [
+    "Net Decision Value は候補リターン率の研究指標であり、金額 P&L、portfolio weighting、手数料、スリッページ、完全 Decision Gate は未対応。",
+    "Confirmation Cost の負の Strength-to-Ready return は missed upside として 0 に切り分け、adverse waiting return は別 Work Item とする。"
+  ],
+  "overclaimPrevention": "本 Work Item は Raw Top-3 に対する Trend Gate-only の同一 episode 配対指標と分母透明性だけを主張し、Sentinel 全体の収益性や完全 Gate の資本価値は主張しない。"
+}

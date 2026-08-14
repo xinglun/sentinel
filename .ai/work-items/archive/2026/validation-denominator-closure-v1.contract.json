@@ -1,0 +1,322 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-denominator-closure-v1",
+  "mode": "code",
+  "title": "Validation Denominator 与 Reason Coverage 修正",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "a1fd4fdaf61345f394e1dc73acca426e04340d59c03955efb6d672a4f3dab4d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.contract.json",
+      "status": "??",
+      "fingerprint": "10246b03ac064ff1a6b4eb7ea35947fb7bc1b4999620884de55deb21b03473bb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.summary.json",
+      "status": "??",
+      "fingerprint": "4fd20b37fe3357f490b062a7cdb85e6ec35445e596313f15144602b9e4ba92d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-horizon-alignment-v1.contract.json",
+      "status": "??",
+      "fingerprint": "901664930add6faa27fbf735c094ebd5aed5842b7c8c276d623b359be92f7cb1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-horizon-alignment-v1.summary.json",
+      "status": "??",
+      "fingerprint": "8db416ca381171c95515d90da6fc88c37a367565288d901569fcb15072c944a1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.contract.json",
+      "status": "??",
+      "fingerprint": "7bd1bd616ef45090f2bafb9b01493ddf4eb7b360610a981c711d4008d63d8014"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.summary.json",
+      "status": "??",
+      "fingerprint": "d1a73e1178fb23b207bba740eef031162393900785df827089f14d1af628b9e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+      "status": "??",
+      "fingerprint": "1f61956356699231b662e37fd8fb94fd6b22dcd9b542261b320c5568c1ce535f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.summary.json",
+      "status": "??",
+      "fingerprint": "b0a757c6d98cdf5caf36c103dc0e480e776235bb084bc4422e89b58dccae2071"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.contract.json",
+      "status": "??",
+      "fingerprint": "85ebf202955cc7520cbc60a6e5aa2000a1135760640dd27b71fea46d58eae6bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.summary.json",
+      "status": "??",
+      "fingerprint": "f7050d7c95973989d767c0e3d61c3b6ed9e19430a1c64393c313f9a29a7db832"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.contract.json",
+      "status": "??",
+      "fingerprint": "d6dc5400fed4877d301e2ad0348263a812a07f19cccf057748949d303b84f499"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.summary.json",
+      "status": "??",
+      "fingerprint": "63a47bdd085fa00c7f8fa628bc5b47aca36b3439d1902742fcdc5e893957fb1f"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "status": "??",
+      "fingerprint": "2f2e73b2dd6005db2f3d5777e66eadd441bc1780ea6b31866a1db84865198489"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "status": "??",
+      "fingerprint": "6db6bc4dab89eddb32dbf1d00abccab71e62434756c4176485a0465434fbd155"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "6cae63b9b2fc51ff0697f5ef81c3f3bb579fd14f7bd8b83f0eb5e184547d225e"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "7e8cd3720ea8690d3ffde411f2235bdb815acbb6fc1e50f9477e5ca492237911"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "d58d6f61f8e46b7d99ae296c3cc9ab5fc49591485799e6431cf071eaffd0ca40"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "9d241f9e7b167b7a8c39f12af4068ffbb23fc805d8830ba9ed70423fec5e57c5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "33fb8f52686f435fd0c1529137549e76160ccb3a506a4d05f371d0f942d6e869"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "266874a35a77586d675bd8932b9feaabfd0d9a5cb9a9fca648fbeeb5ff27c12d"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "98598d10c2ecce4304ad616613898e879d6e14c357cfbf246739f258c6e6ef04"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "Validation summary の reason coverage と maturity denominator が production utility の母集団と一致せず、adverse waiting return の分母も監査できない。",
+  "intent": {
+    "problem": "BREADTH_TOO_NARROW が reason breakdown から欠落し、Protection Maturity が全 episode を数え、adverse waiting return にサンプル数がない。",
+    "constraints": [
+      "Trend Gate-only の Validation read model と Markdown summary に限定する。",
+      "DecisionPacket、execution、Risk Overlay、Portfolio Policy、data branch は変更しない。",
+      "MAE/MFE を Net Decision Value に合算せず、既存 Utility の境界を維持する。"
+    ],
+    "rationale": "Validation Epoch の指標は、値だけでなく母集団と分母を同時に監査できなければ business conclusion に使えない。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-denominator-closure-v1.contract.json",
+    ".ai/work-items/active/validation-denominator-closure-v1.summary.json",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": [
+    "MAE/MFE を Net Decision Value に合算すること",
+    "金額 P&L、portfolio weighting、fills、slippage、fees",
+    "DecisionPacket、execution、Risk Overlay、Portfolio Policy の変更",
+    "Telegram、CLI、weekly metrics、data branch の新規出力"
+  ],
+  "sources": [
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "reason breakdown、Protection Maturity、Net Decision Horizon の現行母集団計算。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Validation Utility と Net Decision Horizon の read model 契約。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "reason 分母と adverse waiting return の Markdown 表示契約。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-horizon-alignment-v1.summary.json",
+      "reason": "直前監査で確認された residual risk と対象範囲。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "BREADTH_TOO_NARROW を含む全 production reason が各 horizon の分母に現れる",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "reason omission による保護効果の過小表示を防ぐ。"
+    },
+    {
+      "scenario": "Protection Maturity が Protection Utility と同じ eligible blocked cohort を使う",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Probe、Ready、raw-only episode による成熟度汚染を防ぐ。"
+    },
+    {
+      "scenario": "adverse waiting return が平均値と negative sample count の両方を表示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "平均値の分母を監査可能にする。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存 Backtest read model と summary 内で完結し、execution path と保存契約を変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、scenario coverage、acceptance、verification を確定した。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーの再開指示と直前監査の residual findings に基づき、本 Contract の scope で実装を進める。",
+    "openQuestions": [
+      "MAE/MFE を Net Decision Value に合算するかは後続 Work Item とする。"
+    ]
+  },
+  "preReviewWarnings": [
+    "Protection Utility と Protection Maturity の eligible cohort が一致しているか重点 review する。",
+    "MAE/MFE は本 Work Item で Net Value に合算しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "reason breakdown が BREADTH_TOO_NARROW を含む production reason 集合を表示する。",
+    "Protection Maturity が Protection Utility と同じ raw_candidate、gate_blocked、NoTrade cohort を数える。",
+    "adverse waiting return の平均値と negative waiting sample count を各 horizon で表示する。",
+    "BREADTH_TOO_NARROW、Protection Maturity 母集団、adverse waiting denominator の回帰テストを追加する。",
+    "DecisionPacket、execution、Risk Overlay、Portfolio Policy、i18n、data branch の契約を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-denominator-closure-v1.contract.json SUMMARY=.ai/work-items/active/validation-denominator-closure-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

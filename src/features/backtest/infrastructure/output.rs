@@ -1,4 +1,6 @@
-use crate::features::backtest::application::model::BacktestSimulationReport;
+use crate::features::backtest::application::model::{
+    BacktestDecisionClass, BacktestSimulationReport,
+};
 use crate::features::backtest::domain::metrics::StateMachineMetrics;
 use anyhow::Result;
 use std::fs;
@@ -7,6 +9,7 @@ pub fn write_run_artifacts(report: &BacktestSimulationReport) -> Result<()> {
     let summary_markdown = render_summary_markdown(report);
     let state_machine_metrics_markdown = render_state_machine_metrics_markdown(&report.metrics);
     let state_machine_metrics_json = serde_json::to_string_pretty(&report.metrics)?;
+    let validation_json = serde_json::to_string_pretty(&report.validation)?;
 
     let dir_name = report.name.as_str();
     let base_dir = format!("backtest/{}", dir_name);
@@ -20,6 +23,7 @@ pub fn write_run_artifacts(report: &BacktestSimulationReport) -> Result<()> {
         format!("{}/state_machine_metrics.json", base_dir),
         state_machine_metrics_json,
     )?;
+    fs::write(format!("{}/validation.json", base_dir), validation_json)?;
     Ok(())
 }
 
@@ -90,7 +94,222 @@ fn render_summary_markdown(report: &BacktestSimulationReport) -> String {
         "- **Failed Breakout Risk Flags**: {} ({:.1}% of breakout-eligible asset-days)\n",
         metrics.breakout_failed_risk_count, breakout_failed_rate
     ));
+    render_validation_summary(&mut summary, report);
     summary
+}
+
+fn render_validation_summary(summary: &mut String, report: &BacktestSimulationReport) {
+    summary.push_str("\n## 4. Decision Validation\n\n");
+    if report.validation.invalid_context_record_count > 0 {
+        summary.push_str(&format!(
+            "- **Invalid decision context records excluded**: {}\n",
+            report.validation.invalid_context_record_count
+        ));
+    }
+    if report.validation.cohorts.is_empty() {
+        render_validation_cohort(
+            summary,
+            &crate::features::backtest::application::model::ValidationCohortReport {
+                decision_snapshot_version: "LEGACY_OR_UNCOHORTED".to_string(),
+                universe_id: "UNAVAILABLE".to_string(),
+                outcomes: report.validation.outcomes.clone(),
+                baseline: report.validation.baseline.clone(),
+                sample_maturity: report.validation.sample_maturity.clone(),
+                ..Default::default()
+            },
+        );
+    } else {
+        for cohort in &report.validation.cohorts {
+            render_validation_cohort(summary, cohort);
+        }
+    }
+    summary.push_str("\n### Net Decision Value (摘要)\n\nProtection Benefit と Opportunity Cost の構成値を cohort ごとに分離表示し、単一スコアによる有効性断定は行わない。\n");
+}
+
+fn render_validation_cohort(
+    summary: &mut String,
+    cohort: &crate::features::backtest::application::model::ValidationCohortReport,
+) {
+    summary.push_str(&format!(
+        "### Cohort: {} / {}\n\n- **Sample Maturity**: {}\n- **Protection Maturity**: {}\n- **Confirmation Maturity**: {}\n",
+        cohort.decision_snapshot_version,
+        cohort.universe_id,
+        cohort.sample_maturity,
+        cohort.protection_sample_maturity,
+        cohort.confirmation_sample_maturity
+    ));
+    summary.push_str(
+        "\n#### Coverage\n\n| Decision | Samples | T+5 | T+10 | T+20 |\n|---|---:|---:|---:|---:|\n",
+    );
+    for outcome in &cohort.outcomes {
+        let name = outcome
+            .decision_class
+            .map(decision_class_code)
+            .unwrap_or("UNKNOWN")
+            .to_string();
+        summary.push_str(&format!(
+            "| {} | {} | {:.1}% | {:.1}% | {:.1}% |\n",
+            name,
+            outcome.sample_count,
+            coverage(outcome.complete_5d, outcome.sample_count),
+            coverage(outcome.complete_10d, outcome.sample_count),
+            coverage(outcome.complete_20d, outcome.sample_count)
+        ));
+    }
+
+    summary.push_str("\n#### Outcome Facts\n\n| Decision | Avg 5d | Avg 10d | Avg 20d | Avg MFE 20d | Avg MAE 20d | Median MAE 20d | P95 MAE 20d | Positive 20d |\n|---|---:|---:|---:|---:|---:|---:|---:|---:|\n");
+    for outcome in &cohort.outcomes {
+        let name = outcome
+            .decision_class
+            .map(decision_class_code)
+            .unwrap_or("UNKNOWN")
+            .to_string();
+        summary.push_str(&format!(
+            "| {} | {} | {} | {} | {} | {} | {} | {} | {} |\n",
+            name,
+            percent(outcome.average_5d_return),
+            percent(outcome.average_10d_return),
+            percent(outcome.average_20d_return),
+            percent(outcome.average_mfe_20d),
+            percent(outcome.average_mae_20d),
+            percent(outcome.median_mae_20d),
+            percent(outcome.p95_mae_20d),
+            outcome.positive_20d_count
+        ));
+    }
+
+    let utility = &cohort.utility;
+    summary.push_str(&format!(
+        "\n#### Trend Gate Protection / Opportunity Cost\n\n- Raw Top-3 NO_TRADE Trend Gate blocked candidates: {} (T+20 complete: {})\n- Avg / Median / P90 / P95 MAE 20d: {} / {} / {} / {}\n- Blocked downside samples: {}\n- Missed upside samples: {}\n- Avg MFE 20d: {}\n- Avg positive 20d return: {}\n- Top-decile missed upside: {}\n- Horizon utility T+5/T+10/T+20 complete: {}/{}/{}\n- Horizon utility T+5/T+10/T+20 downside: {}/{}/{}\n- Horizon utility Avg MAE T+5/T+10/T+20: {}/{}/{}\n- Horizon utility Avg MFE T+5/T+10/T+20: {}/{}/{}\n",
+        utility.blocked_candidate_count,
+        utility.complete_20d_count,
+        percent(utility.average_mae_20d),
+        percent(utility.median_mae_20d),
+        percent(utility.p90_mae_20d),
+        percent(utility.p95_mae_20d),
+        utility.downside_20d_count,
+        utility.missed_upside_count,
+        percent(utility.average_mfe_20d),
+        percent(utility.average_positive_20d_return),
+        percent(utility.top_decile_missed_upside),
+        utility.horizon_5d.complete_sample_count,
+        utility.horizon_10d.complete_sample_count,
+        utility.horizon_20d.complete_sample_count,
+        utility.horizon_5d.downside_count,
+        utility.horizon_10d.downside_count,
+        utility.horizon_20d.downside_count,
+        percent(utility.horizon_5d.average_mae),
+        percent(utility.horizon_10d.average_mae),
+        percent(utility.horizon_20d.average_mae),
+        percent(utility.horizon_5d.average_mfe),
+        percent(utility.horizon_10d.average_mfe),
+        percent(utility.horizon_20d.average_mfe)
+    ));
+
+    summary.push_str(
+        "- Reason breakdown (complete/downside by horizon; reasons may overlap; counts are not additive): ",
+    );
+    for (index, reason) in utility.reason_breakdown.iter().enumerate() {
+        if index > 0 {
+            summary.push_str(", ");
+        }
+        summary.push_str(&format!(
+            "{} T+5 complete/downside={}/{}; T+10 complete/downside={}/{}; T+20 complete/downside={}/{}",
+            reason.reason,
+            reason.horizon_5d.complete_sample_count,
+            reason.horizon_5d.downside_count,
+            reason.horizon_10d.complete_sample_count,
+            reason.horizon_10d.downside_count,
+            reason.horizon_20d.complete_sample_count,
+            reason.horizon_20d.downside_count
+        ));
+    }
+    summary.push('\n');
+
+    let cost = &cohort.confirmation_cost;
+    summary.push_str(&format!(
+        "\n#### Confirmation Cost\n\n- Episodes: {} (lifecycle complete: {})\n- Strength → Breakout: {} sessions\n- Breakout → Ready: {} sessions\n- Strength → Ready: {} sessions\n- Strength → Ready signed return (raw fact): {}\n- Return lost before Ready (positive waiting-upside only): {}\n- Breakout → Ready return: {}\n- Strength → Ready maximum move: {}\n",
+        cost.episode_sample_count,
+        cost.lifecycle_complete_episode_count,
+        scalar(cost.average_strength_to_breakout_sessions),
+        scalar(cost.average_breakout_to_ready_sessions),
+        scalar(cost.average_strength_to_ready_sessions),
+        percent(cost.average_return_strength_to_ready),
+        percent(cost.average_return_lost_before_ready),
+        percent(cost.average_return_breakout_to_ready),
+        percent(cost.average_max_move_strength_to_ready)
+    ));
+
+    let net = &cohort.net_decision_value;
+    summary.push_str(&format!(
+        "\n#### Net Decision Value (Trend Gate-only, same-episode paired facts)\n\n- Eligible episodes: {}\n- T+5: benefit {} / cost {} / adverse waiting return {} (adverse waiting samples: {}) / net {} (paired: {}, unpaired: {})\n- T+10: benefit {} / cost {} / adverse waiting return {} (adverse waiting samples: {}) / net {} (paired: {}, unpaired: {})\n- T+20: benefit {} / cost {} / adverse waiting return {} (adverse waiting samples: {}) / net {} (paired: {}, unpaired: {})\n",
+        net.eligible_episode_count,
+        percent(net.horizon_5d.protection_benefit),
+        percent(net.horizon_5d.confirmation_cost),
+        percent(net.horizon_5d.adverse_waiting_return),
+        net.horizon_5d.adverse_waiting_sample_count,
+        percent(net.horizon_5d.net_value),
+        net.horizon_5d.paired_episode_count,
+        net.horizon_5d.unpaired_episode_count,
+        percent(net.horizon_10d.protection_benefit),
+        percent(net.horizon_10d.confirmation_cost),
+        percent(net.horizon_10d.adverse_waiting_return),
+        net.horizon_10d.adverse_waiting_sample_count,
+        percent(net.horizon_10d.net_value),
+        net.horizon_10d.paired_episode_count,
+        net.horizon_10d.unpaired_episode_count,
+        percent(net.horizon_20d.protection_benefit),
+        percent(net.horizon_20d.confirmation_cost),
+        percent(net.horizon_20d.adverse_waiting_return),
+        net.horizon_20d.adverse_waiting_sample_count,
+        percent(net.horizon_20d.net_value),
+        net.horizon_20d.paired_episode_count,
+        net.horizon_20d.unpaired_episode_count
+    ));
+
+    let baseline = &cohort.baseline;
+    summary.push_str(&format!(
+        "\n#### Counterfactual Baseline\n\n| Cohort | Samples | Avg 20d Return | Avg MFE 20d | Avg MAE 20d |\n|---|---:|---:|---:|---:|\n| Raw Top-3 without Gate | {} | {} | {} | {} |\n| Sentinel READY subset | {} | {} | {} | {} |\n\n- Return sacrifice / improvement (READY - Raw): {}\n- Downside improvement (READY - Raw MAE): {}\n- MFE difference (READY - Raw): {}\n",
+        baseline.raw_top3_sample_count,
+        percent(baseline.raw_top3_average_20d_return),
+        percent(baseline.raw_top3_average_20d_mfe),
+        percent(baseline.raw_top3_average_mae_20d),
+        baseline.ready_sample_count,
+        percent(baseline.ready_average_20d_return),
+        percent(baseline.ready_average_20d_mfe),
+        percent(baseline.ready_average_mae_20d),
+        percent(baseline.return_difference),
+        percent(baseline.mae_difference),
+        percent(baseline.mfe_difference)
+    ));
+}
+
+fn coverage(complete: usize, total: usize) -> f64 {
+    if total == 0 {
+        0.0
+    } else {
+        complete as f64 / total as f64 * 100.0
+    }
+}
+
+fn percent(value: Option<f64>) -> String {
+    value
+        .map(|value| format!("{:+.2}%", value * 100.0))
+        .unwrap_or_else(|| "N/A".to_string())
+}
+
+fn scalar(value: Option<f64>) -> String {
+    value
+        .map(|value| format!("{value:.1}"))
+        .unwrap_or_else(|| "N/A".to_string())
+}
+
+fn decision_class_code(class: BacktestDecisionClass) -> &'static str {
+    match class {
+        BacktestDecisionClass::NoTrade => "NO_TRADE",
+        BacktestDecisionClass::Probe => "PROBE",
+        BacktestDecisionClass::Ready => "READY",
+    }
 }
 
 fn render_state_machine_metrics_markdown(metrics: &StateMachineMetrics) -> String {
@@ -327,4 +546,75 @@ pub fn publish_primary_backtest_outputs() -> Result<()> {
         "backtest/state_machine_metrics.json",
     )?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::features::backtest::application::model::{
+        BacktestSimulationReport, ConfirmationCostSummary, ValidationBaselineComparison,
+        ValidationClassOutcome, ValidationCohortReport, ValidationReasonUtility, ValidationReport,
+        ValidationUtility,
+    };
+
+    #[test]
+    fn summary_contains_validation_sections_and_uppercase_decision_classes() {
+        let report = BacktestSimulationReport {
+            name: "test".to_string(),
+            metrics: StateMachineMetrics::default(),
+            reliability: Vec::new(),
+            regime_audit: Vec::new(),
+            validation: ValidationReport {
+                cohorts: vec![ValidationCohortReport {
+                    decision_snapshot_version: "radar-v1.0.0".to_string(),
+                    universe_id: "watchlist:AAPL".to_string(),
+                    outcomes: vec![ValidationClassOutcome {
+                        decision_class: Some(BacktestDecisionClass::NoTrade),
+                        sample_count: 1,
+                        ..Default::default()
+                    }],
+                    baseline: ValidationBaselineComparison {
+                        return_difference: Some(-0.01),
+                        mae_difference: Some(0.05),
+                        mfe_difference: Some(-0.02),
+                        ..Default::default()
+                    },
+                    utility: ValidationUtility {
+                        p95_mae_20d: Some(-0.20),
+                        top_decile_missed_upside: Some(0.25),
+                        reason_breakdown: vec![ValidationReasonUtility {
+                            reason: "TREND_GATE_BLOCKED".to_string(),
+                            ..Default::default()
+                        }],
+                        ..Default::default()
+                    },
+                    confirmation_cost: ConfirmationCostSummary {
+                        average_breakout_to_ready_sessions: Some(2.0),
+                        average_return_breakout_to_ready: Some(0.03),
+                        ..Default::default()
+                    },
+                    net_decision_value: Default::default(),
+                    sample_maturity: "INSUFFICIENT".to_string(),
+                    protection_sample_maturity: "INSUFFICIENT".to_string(),
+                    confirmation_sample_maturity: "INSUFFICIENT".to_string(),
+                }],
+                ..Default::default()
+            },
+        };
+        let summary = render_summary_markdown(&report);
+        assert!(summary.contains("## 4. Decision Validation"));
+        assert!(summary.contains("| NO_TRADE |"));
+        assert!(summary.contains("### Counterfactual Baseline"));
+        assert!(summary.contains("watchlist:AAPL"));
+        assert!(summary.contains("P95 MAE"));
+        assert!(summary.contains("Top-decile missed upside"));
+        assert!(summary.contains("Breakout → Ready"));
+        assert!(summary.contains("Return lost before Ready (positive waiting-upside only)"));
+        assert!(summary.contains("Raw Top-3 NO_TRADE Trend Gate blocked candidates"));
+        assert!(summary.contains("Episodes:"));
+        assert!(summary.contains("#### Net Decision Value (Trend Gate-only"));
+        assert!(summary.contains("reasons may overlap"));
+        assert!(summary.contains("T+5 complete/downside"));
+        assert!(summary.contains("adverse waiting samples"));
+    }
 }
