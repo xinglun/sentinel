@@ -2069,6 +2069,53 @@ mod tests {
     }
 
     #[test]
+    fn formal_snapshot_preserves_structured_breadth_observation() {
+        let snapshot = TradingDaySnapshot {
+            schema_version: "1".to_string(),
+            market_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            report_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 13).unwrap(),
+            generated_at: "2026-08-13T00:00:00+00:00".to_string(),
+            run_id: "run-breadth".to_string(),
+            cycle_id: "cycle-breadth".to_string(),
+            snapshot_id: "snapshot-breadth".to_string(),
+            is_valid_trading_day: true,
+            source_status: "complete".to_string(),
+            market_state: "RANGE".to_string(),
+            decision_state: "NO_TRADE".to_string(),
+            new_position_limit: 0.0,
+            breadth: 50.0,
+            breadth_classification: Some("Narrow".to_string()),
+            confidence: 50.0,
+            supply_phase: "IDLE".to_string(),
+            risk_state: "NORMAL".to_string(),
+            primary_leader: None,
+            secondary_leaders: Vec::new(),
+            breakouts: serde_json::json!({}),
+            stability: 0.0,
+            continuity: 1,
+            cycle_length_days: 1,
+            reset_event: None,
+            data_quality: serde_json::json!({
+                "breadth_observation": {
+                    "raw_percent": 50.0,
+                    "up_count": 5,
+                    "flat_count": 1,
+                    "down_count": 4,
+                    "total_count": 10,
+                    "universe_integrity": 1.0,
+                    "classification": "Narrow"
+                }
+            }),
+        };
+        let value = serde_json::to_value(snapshot).unwrap();
+        assert_eq!(
+            value["data_quality"]["breadth_observation"]["total_count"],
+            serde_json::json!(10)
+        );
+    }
+
+    #[test]
     fn formal_snapshot_resolution_accepts_degraded_snapshot_as_historical_fact() {
         let temp_dir = std::env::temp_dir().join(format!(
             "test_sentinel_degraded_formal_baseline_{}",

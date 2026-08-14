@@ -45,15 +45,25 @@ pub(crate) fn render_price_volume_structure_report(
         ));
         if let Some(metrics) = assessment.metrics {
             out.push_str(&format!(
-                "- Relative Volume: {:.2}x (5d: {:.2}x)\n",
-                metrics.rvol_20, metrics.rvol_5
+                "- Relative Volume: {:.2}x\n",
+                metrics.rvol_20
             ));
+            out.push_str("- Baseline: STANDARD_20D\n");
+            out.push_str("- Baseline Sessions: 20\n");
+            out.push_str(&format!(
+                "- Secondary Relative Volume: {:.2}x\n",
+                metrics.rvol_5
+            ));
+            out.push_str("- Secondary Baseline: SHORT_5D\n");
+            out.push_str("- Secondary Baseline Sessions: 5\n");
             out.push_str(&format!(
                 "- Price Behavior: 5d {:+.2}% · 20d high {:+.2}%\n",
                 metrics.return_5d, metrics.distance_from_20d_high
             ));
         } else {
             out.push_str("- Relative Volume: UNAVAILABLE\n");
+            out.push_str("- Baseline: UNAVAILABLE\n");
+            out.push_str("- Baseline Sessions: UNAVAILABLE\n");
             out.push_str("- Price Behavior: UNAVAILABLE\n");
         }
         if let Some(context) = entry.supply_context.as_ref().filter(|context| context.availability == crate::features::shared::domain::supply_event_context::SupplyEventContextAvailability::Available) {
@@ -63,6 +73,8 @@ pub(crate) fn render_price_volume_structure_report(
             out.push_str(&format!("- Supply Confidence: {:?}\n", context.confidence));
         } else {
             out.push_str("- Supply Context: UNAVAILABLE\n");
+            out.push_str("- Supply Context Status: UNAVAILABLE\n");
+            out.push_str("- Supply Context Reason: SUPPLY_CONTEXT_MISSING\n");
         }
         if entry.overheated {
             out.push_str("- Price Position: OVERHEATED\n");
@@ -203,6 +215,10 @@ mod tests {
         assert!(report.contains("Relative Volume: UNAVAILABLE"));
         assert!(report.contains("Price Behavior: UNAVAILABLE"));
         assert!(report.contains("Supply Context: UNAVAILABLE"));
+        assert!(report.contains("Supply Context Status: UNAVAILABLE"));
+        assert!(report.contains("Supply Context Reason: SUPPLY_CONTEXT_MISSING"));
+        assert!(report.contains("Baseline: UNAVAILABLE"));
+        assert!(report.contains("Baseline Sessions: UNAVAILABLE"));
         assert!(report.contains("Decision Weight: 0%"));
         assert!(report.contains("Supply Context: UNAVAILABLE"));
         assert!(!report.contains("机构买入确认"));

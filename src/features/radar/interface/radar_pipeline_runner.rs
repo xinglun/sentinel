@@ -630,7 +630,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                 reset_event: None,
                 data_quality: serde_json::json!({
                     "trend": if degraded { "DEGRADED" } else { "HEALTHY" },
-                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" }
+                    "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" },
+                    "breadth_observation": {
+                        "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                        "up_count": packet.market_features.up_count,
+                        "flat_count": packet.market_features.flat_count,
+                        "down_count": packet.market_features.down_count,
+                        "total_count": packet.market_features.total_count,
+                        "universe_integrity": packet.market_features.universe_integrity,
+                        "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                    }
                 }),
             }
         };
@@ -903,7 +912,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                     reset_event: None,
                     data_quality: serde_json::json!({
                         "trend": if safe_downgrade { "DEGRADED" } else { "HEALTHY" },
-                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" }
+                        "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" },
+                        "breadth_observation": {
+                            "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                            "up_count": packet.market_features.up_count,
+                            "flat_count": packet.market_features.flat_count,
+                            "down_count": packet.market_features.down_count,
+                            "total_count": packet.market_features.total_count,
+                            "universe_integrity": packet.market_features.universe_integrity,
+                            "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                        }
                     }),
                 };
             if let Err(error) = runtime_services
