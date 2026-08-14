@@ -1,0 +1,209 @@
+{
+  "workItemId": "validation-episode-integrity-closure",
+  "contractPath": ".ai/work-items/archive/2026/validation-episode-integrity-closure.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "Raw Top-3 候補の離脱時に lifecycle facts を reset し、再登場を新 episode として扱う。回帰テストを追加した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Strength の proxy semantics を Raw Top-3 strength proxy と明示する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "Confirmation Cost の Strength 起点が Raw Top-3 初回観測 proxy であることを契約へ明記する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Active Work Item の Cockpit status を生成する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-episode-integrity-closure.contract.json",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+    ".ai/work-items/archive/2026/validation-utility-correction-v3.summary.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "候補が一度離脱してから同一 symbol が再登場する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/simulation.rs"
+      ],
+      "reason": "inactive_raw_candidate_lifecycle_is_reset_before_reentry が、全 lifecycle map の reset を確認する。"
+    },
+    {
+      "scenario": "旧 episode の Ready が新 episode の lifecycle に混入しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/simulation.rs"
+      ],
+      "reason": "旧 episode の lifecycle facts を全 map から除去してから再登場を登録する。"
+    },
+    {
+      "scenario": "同一 episode の連続観測は重複計上されない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/backtest/application/simulation.rs"
+      ],
+      "reason": "既存の episode_records 集約境界を維持し、全テストを通過した。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-episode-integrity-closure.contract.json SUMMARY=.ai/work-items/active/validation-episode-integrity-closure.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "episode boundary は Raw Top-3 から一日離脱した時点とし、Strength detector は追加しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract boundary and user authorization recorded",
+      "contractHash": "bbea2fdea04e270c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "failing episode reset test observed before implementation",
+      "contractHash": "bbea2fdea04e270c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "implementation and Rust checks completed",
+      "contractHash": "bbea2fdea04e270c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification complete",
+      "contractHash": "bbea2fdea04e270c",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract とユーザー承認を記録した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "failing regression test を確認してから implementation を修正した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "fmt、test、clippy を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "AI guard、scenario coverage、status consistency を通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "validation_scope",
+      "detail": "Validation は Trend Gate-only の候補リターン率指標であり、完全 Decision Gate と金額 P&L は対象外。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "episode reset と proxy wording を実装し、required verification を通過した。",
+    "expectedReviewFocus": [
+      "episode reset boundary",
+      "Raw Top-3 strength proxy wording",
+      "Trend Gate-only and no monetary P&L boundary"
+    ]
+  }
+}
