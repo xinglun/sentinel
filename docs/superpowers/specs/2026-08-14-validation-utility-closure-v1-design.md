@@ -51,7 +51,7 @@ Protection は `TREND_GATE_BLOCKED`、`NO_LEADER`、`BREAKOUT_UNCONFIRMED`、`CO
 
 ## Confirmation Cost
 
-各 episode について次を一度だけ計算する。
+各 episode について次を一度だけ計算する。ここで Strength は新しい相対強度 detector ではなく、既存の Raw Top-3 初回観測 proxy である。Report でも `Raw Top-3 strength proxy` と明記し、Relative Strength の正式な構造確認と誤認させない。
 
 - Strength → Breakout sessions
 - Breakout → Ready sessions
@@ -91,4 +91,3 @@ Report の名称は `Trend Gate blocked` とし、full Gate fact と誤認させ
 3. T+5/T+10/T+20 の censoring と utility が独立して計算される。
 4. blocker reason 別 utility の合計が全体 episode を重複して膨らませない。
 5. 比較不能な Benefit/Cost が Net Decision Value を 0 ではなく unavailable にする。
-

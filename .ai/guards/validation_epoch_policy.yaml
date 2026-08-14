@@ -1,0 +1,15 @@
+version: 1
+currentEpochVersion: radar-v1.0.0
+semanticPaths:
+  - src/features/radar/domain/**
+  - src/features/radar/domain/decision_class.rs
+  - src/features/radar/domain/decision.rs
+  - src/features/radar/application/engine.rs
+  - src/features/radar/domain/trend_cohesion.rs
+allowedSameEpochPaths:
+  - src/features/radar/interface/**
+  - src/features/backtest/infrastructure/**
+  - src/features/backtest/application/**
+  - src/features/research/**
+  - docs/**
+  - tests/**

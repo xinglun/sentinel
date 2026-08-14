@@ -15,7 +15,9 @@ use crate::features::backtest::domain::metrics::{RegimeStats, StateMachineMetric
 use anyhow::Result;
 use chrono::NaiveDate;
 use std::borrow::Cow;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
+
+type LifecycleKey = (String, String, String);
 
 pub fn run_core_simulation(
     decision_engine: &dyn BacktestDecisionEngine,
@@ -201,6 +203,43 @@ pub fn run_core_simulation(
         let lifecycle_prefix = (
             current_packet.decision_snapshot_version.clone(),
             current_packet.universe_id.clone(),
+        );
+
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut validation_strength_first_seen,
+        );
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut breakout_first_seen,
+        );
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut ready_first_seen,
+        );
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut strength_first_seen_idx,
+        );
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut breakout_first_seen_idx,
+        );
+        retain_active_lifecycle_entries(
+            &lifecycle_prefix.0,
+            &lifecycle_prefix.1,
+            &raw_top3,
+            &mut ready_first_seen_idx,
         );
 
         for sym in &raw_top3 {
@@ -1027,6 +1066,18 @@ fn raw_top_candidates(assets: &[BacktestAssetSnapshot]) -> Vec<String> {
         .collect()
 }
 
+fn retain_active_lifecycle_entries<T>(
+    snapshot_version: &str,
+    universe_id: &str,
+    active_raw_candidates: &[String],
+    entries: &mut HashMap<LifecycleKey, T>,
+) {
+    let active_symbols = active_raw_candidates.iter().collect::<HashSet<_>>();
+    entries.retain(|(version, universe, symbol), _| {
+        version != snapshot_version || universe != universe_id || active_symbols.contains(symbol)
+    });
+}
+
 fn mean(values: &[f64]) -> Option<f64> {
     (!values.is_empty()).then(|| values.iter().sum::<f64>() / values.len() as f64)
 }
@@ -1175,6 +1226,48 @@ mod tests {
         ]);
 
         assert_eq!(candidates, vec!["HIGH", "LOW"]);
+    }
+
+    #[test]
+    fn inactive_raw_candidate_lifecycle_is_reset_before_reentry() {
+        let key = (
+            "radar-v1.0.0".to_string(),
+            "watchlist:AAPL".to_string(),
+            "AAPL".to_string(),
+        );
+        let mut strength_dates =
+            HashMap::from([(key.clone(), NaiveDate::from_ymd_opt(2026, 1, 1).unwrap())]);
+        let mut breakout_dates =
+            HashMap::from([(key.clone(), NaiveDate::from_ymd_opt(2026, 1, 2).unwrap())]);
+        let mut ready_dates =
+            HashMap::from([(key.clone(), NaiveDate::from_ymd_opt(2026, 1, 3).unwrap())]);
+        let mut strength_indices = HashMap::from([(key.clone(), 1usize)]);
+        let mut breakout_indices = HashMap::from([(key.clone(), 2usize)]);
+        let mut ready_indices = HashMap::from([(key.clone(), 3usize)]);
+
+        retain_active_lifecycle_entries("radar-v1.0.0", "watchlist:AAPL", &[], &mut strength_dates);
+        retain_active_lifecycle_entries("radar-v1.0.0", "watchlist:AAPL", &[], &mut breakout_dates);
+        retain_active_lifecycle_entries("radar-v1.0.0", "watchlist:AAPL", &[], &mut ready_dates);
+        retain_active_lifecycle_entries(
+            "radar-v1.0.0",
+            "watchlist:AAPL",
+            &[],
+            &mut strength_indices,
+        );
+        retain_active_lifecycle_entries(
+            "radar-v1.0.0",
+            "watchlist:AAPL",
+            &[],
+            &mut breakout_indices,
+        );
+        retain_active_lifecycle_entries("radar-v1.0.0", "watchlist:AAPL", &[], &mut ready_indices);
+
+        assert!(strength_dates.is_empty());
+        assert!(breakout_dates.is_empty());
+        assert!(ready_dates.is_empty());
+        assert!(strength_indices.is_empty());
+        assert!(breakout_indices.is_empty());
+        assert!(ready_indices.is_empty());
     }
 
     #[test]
