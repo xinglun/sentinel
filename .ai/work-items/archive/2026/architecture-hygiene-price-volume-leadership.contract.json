@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "architecture-hygiene-price-volume-leadership",
+  "mode": "code",
+  "title": "Radar Domain の Price-Volume と Leadership 構造整理",
+  "baseCommit": "5374c1f01b1c5cc32c76a967c27087b5607c0848",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Radar Domain の Price-Volume と Leadership が型定義、判定規則、状態 lifecycle、helper、test を単一ファイルに抱え、局所変更の影響範囲が見えにくくなっている。既存の判断挙動を変えずに責務境界を明確化する。",
+  "intent": {
+    "problem": "Price-Volume と Leadership の高変化領域を責務別の内部 module に分割し、将来の変更が他の決定ロジックへ波及する爆発半径を下げる。",
+    "constraints": [
+      "feature topology、DecisionPacket、DecisionClass、Gate semantics、snapshot version を変更しない。",
+      "既存の price_volume_structure と leader_persistence の module path、public / pub(crate) API、判定結果を維持する。",
+      "新しい market capability、threshold、表示、永続化、i18n を追加しない。",
+      "変更は behavior-preserving な構造整理と依存境界テストに限定する。"
+    ],
+    "rationale": "Validation Epoch 中に研究結果へ影響しない構造減圧だけを行い、既存判断の比較可能性を維持する。"
+  },
+  "scope": [
+    ".ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json",
+    ".ai/work-items/active/architecture-hygiene-price-volume-leadership.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-14-radar-domain-architecture-hygiene-design.md",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/domain/price_volume_structure/mod.rs",
+    "src/features/radar/domain/price_volume_structure/eligibility.rs",
+    "src/features/radar/domain/price_volume_structure/baseline.rs",
+    "src/features/radar/domain/price_volume_structure/classification.rs",
+    "src/features/radar/domain/price_volume_structure/lifecycle.rs",
+    "src/features/radar/domain/price_volume_structure/tests.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/domain/leader_persistence/mod.rs",
+    "src/features/radar/domain/leader_persistence/snapshot.rs",
+    "src/features/radar/domain/leader_persistence/persistence.rs",
+    "src/features/radar/domain/leader_persistence/absence.rs",
+    "src/features/radar/domain/leader_persistence/transition.rs",
+    "src/features/radar/domain/leader_persistence/tests.rs",
+    "src/features/radar/domain/mod.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/features.rs",
+    "src/features/radar/domain/asset_state.rs",
+    "src/features/radar/domain/market_regime.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/decision_class.rs",
+    "src/features/radar/application/**",
+    "src/features/radar/interface/**",
+    "src/features/backtest/**",
+    "tests/snapshots/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "既存の Price-Volume 型、判定、baseline、lifecycle の責務を確認する。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "既存の Leadership snapshot、persistence、absence、transition の責務を確認する。"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "reason": "Domain module の公開境界を確認する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-radar-domain-architecture-hygiene-design.md",
+      "reason": "承認済みの構造整理設計と非対象境界を固定する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Price-Volume の既存判定と公開 module path が維持される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "Leadership の既存 persistence、absence、transition 判定が維持される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"]
+    },
+    {
+      "scenario": "Radar Domain の子 module は上位 layer へ依存しない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make check-architecture-all", "make test"]
+    },
+    {
+      "scenario": "Decision semantics、snapshot、表示、i18n、永続化、backtest は変更されない",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "この Work Item の scope 外であり、差分監査で非変更を確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "変更は module 境界と re-export の整理に限定されるが、既存 domain API と全テストを回帰確認する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "承認済みの architecture hygiene 方針に基づき、scope と acceptance を固定した。"
+  },
+  "preReviewWarnings": [
+    "review では旧 module path、re-export、依存方向、Decision semantics 不変を重点確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Price-Volume 親 module が eligibility baseline classification lifecycle の四内部 module を宣言し、cargo test で解決される。",
+    "Leadership 親 module が snapshot persistence absence transition の四内部 module を宣言し、cargo test で解決される。",
+    "既存 price_volume_structure と leader_persistence の import path 型 関数 可視性を cargo test で確認する。",
+    "DecisionClass Gate DecisionPacket snapshot version の定義と値を git diff で変更していないことを確認する。",
+    "domain 子 module の依存先に application interface infrastructure が含まれないことを architecture test で確認する。",
+    "Price-Volume Leadership の既存テストと repository quality checks が全て make 経由で成功する。",
+    "feature topology 表示 i18n 永続化 backtest の対象外ファイルに git diff が存在しないことを確認する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json SUMMARY=.ai/work-items/active/architecture-hygiene-price-volume-leadership.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-hygiene-price-volume-leadership.summary.json CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json SUMMARY=.ai/work-items/active/architecture-hygiene-price-volume-leadership.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-hygiene-price-volume-leadership.contract.json SUMMARY=.ai/work-items/active/architecture-hygiene-price-volume-leadership.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
