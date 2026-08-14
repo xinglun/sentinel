@@ -6,8 +6,9 @@ use crate::features::radar::interface::presentation::{
 };
 use crate::features::radar::interface::signal_context_read_model::{
     build_signal_context_assessment, signal_context_boundary,
-    signal_context_information_content_label, signal_context_primary_context_label,
-    signal_context_quality_label, SignalContextReadModelInput,
+    signal_context_information_content_label, signal_context_lifecycle_label,
+    signal_context_primary_context_label, signal_context_quality_label,
+    SignalContextReadModelInput,
 };
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoSnapshot, CapitalAbsorptionPotentialSupplyPressureLevel,
@@ -105,6 +106,7 @@ pub(crate) fn build_interpretation_layer_view_model(
         decision_explanation_values(input.decision_summary, input.language, interpretation);
     let todays_explanation =
         build_todays_explanation(&input.signal, &signal_context, input.language);
+    let primary_event = signal_context.v1.primary_context.as_ref();
 
     InterpretationLayerViewModel {
         title: interpretation.title.clone(),
@@ -159,6 +161,28 @@ pub(crate) fn build_interpretation_layer_view_model(
             .clone(),
         signal_context_next_observation_value: signal_context.next_observation,
         signal_context_boundary: signal_context_boundary(input.language).to_string(),
+        signal_context_coverage: signal_context.v1.coverage,
+        signal_context_lifecycle_label: "Lifecycle".to_string(),
+        signal_context_lifecycle_value: primary_event
+            .map(|item| signal_context_lifecycle_label(item.lifecycle))
+            .unwrap_or("UNAVAILABLE")
+            .to_string(),
+        signal_context_expected_label: "Expected".to_string(),
+        signal_context_expected_value: primary_event
+            .and_then(|item| item.expected_value.clone())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        signal_context_actual_label: "Actual".to_string(),
+        signal_context_actual_value: primary_event
+            .and_then(|item| item.actual_value.clone())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        signal_context_surprise_label: "Surprise".to_string(),
+        signal_context_surprise_value: primary_event
+            .and_then(|item| item.surprise.clone())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        signal_context_reason_label: "Reason".to_string(),
+        signal_context_reason_value: primary_event
+            .and_then(|item| item.reason.clone())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
         expectation_quality_label: interpretation.expectation_quality_label.clone(),
         expectation_quality_value: expectation_quality_label(input.signal.expectation_quality),
         expectation_quality_reason_label: interpretation.expectation_quality_reason_label.clone(),

@@ -1,0 +1,187 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-layer-report-output",
+  "mode": "code",
+  "title": "补齐 Observation Layer 报告输出验收缺口",
+  "baseCommit": "360219af0db4742df5ce7e847c69d1addbe999e4",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Observation Layer の動的な観測状態が最終レポートに正しく表示されず、Eligibility、Baseline、Lifecycle、Context Coverage を機能として受け入れられない。",
+  "intent": {
+    "problem": "ドメイン層で計算済みの観測状態と六分類の Context Coverage を Markdown/HTML レポートへ正確に投影する。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing、自動取引の挙動は変更しない。",
+      "Observation Layer の表示・監査専用であり、既存の i18n 形式と report builder を再利用する。",
+      "動的 Baseline と secondary metrics は assessment の実値を表示し、固定値を出力しない。"
+    ],
+    "rationale": "前回 WI でドメインモデルは実装されたが、受入れに必要な最終出力が不足していたため。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/observation-layer-report-output.contract.json",
+    ".ai/work-items/active/observation-layer-report-output.summary.json",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/trader/**",
+    "src/features/gate/**",
+    "src/features/execution/**",
+    "data/**",
+    "自動取引・売買シグナル・ポジションサイズの変更"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "Price-Volume の最終 report 出力契約。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Signal Context を含む日次 Markdown/HTML report の出力入口。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Eligibility、Baseline、Lifecycle、secondary metrics の SSOT。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "六分類 SignalContextCoverage の presentation 契約。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-gap-closure.contract.json",
+      "reason": "前回 Observation Layer WI の受入れ範囲と残余リスク。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "POST_IPO/AVAILABLE_HISTORY の動的 primary/secondary baseline が report に実値で表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture"]
+    },
+    {
+      "scenario": "PARTIAL/INSUFFICIENT/UNAVAILABLE の Eligibility、理由、次の条件、Lifecycle が report に表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture"]
+    },
+    {
+      "scenario": "六分類 Context Coverage と Overall が日次 report に表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib test_interpretation_layer_renders_before_hypothesis_with_read_only_boundary -- --nocapture"]
+    },
+    {
+      "scenario": "Overall が HEALTHY でない場合に No major event today を出さない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib test_interpretation_layer_renders_before_hypothesis_with_read_only_boundary -- --nocapture"]
+    },
+    {
+      "scenario": "Observation-only 境界が維持され Gate/Action/Position に影響しない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存のドメイン値を Markdown/HTML に表示する低リスク変更で、Observation-only 境界を維持する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が確定し、表示専用の実装と検証が可能。"
+  },
+  "preReviewWarnings": [
+    "report output が Markdown/HTML の双方で同じ観測状態を表示することを重点確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Price-Volume report が assessment の primary/secondary baseline type と sessions を実値で表示する。",
+    "Price-Volume report が Eligibility、Observation Confidence、Structure、Candidate Lifecycle、Structure/Observation Persistence、Unavailable Reason、Next Eligibility Condition を表示する。",
+    "Supply Context が unavailable の場合も status と reason を表示し、既存の event taxonomy 表示を壊さない。",
+    "日次 Markdown/HTML report に Scheduled Macro、Corporate、Geopolitical、Commodity、Rates/Credit、Market Structure、Overall の Context Coverage を表示する。",
+    "Context Coverage の Overall が HEALTHY でない場合、イベントが空でも No major event today を出さない。",
+    "変更は Observation Layer の表示・監査専用で、Gate / execution / trader / action matrix / position sizing へ接続しない。",
+    "zh / en / ja の既存 report 出力形式を維持し、表示ラベルの snapshot/UI test を更新する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

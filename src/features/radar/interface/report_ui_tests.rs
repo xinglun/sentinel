@@ -3369,6 +3369,18 @@ mod tests {
         assert!(report.telegram_html_body.contains("Information Content"));
         assert!(report.telegram_html_body.contains("Primary Context"));
         assert!(report.telegram_html_body.contains("Context Quality"));
+        assert!(report.telegram_html_body.contains("Lifecycle: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Expected: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Actual: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Surprise: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Reason: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Context Coverage"));
+        assert!(report
+            .telegram_html_body
+            .contains("Scheduled Macro: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Corporate: UNAVAILABLE"));
+        assert!(report.telegram_html_body.contains("Overall: UNAVAILABLE"));
+        assert!(!report.telegram_html_body.contains("No major event today"));
         assert!(report
             .telegram_html_body
             .contains("Quarter-end Rebalancing"));
@@ -3824,6 +3836,10 @@ mod tests {
             signal_context.signal_context_event_fact_value,
             "CPI Release / 2026-06-18 / BLS"
         );
+        assert_eq!(signal_context.signal_context_lifecycle_value, "UPCOMING");
+        assert_eq!(signal_context.signal_context_expected_value, "2.9%");
+        assert_eq!(signal_context.signal_context_actual_value, "UNAVAILABLE");
+        assert_eq!(signal_context.signal_context_surprise_value, "NotAvailable");
         assert!(signal_context
             .signal_context_source_diagnostics_value
             .is_empty());
@@ -6090,6 +6106,102 @@ mod tests {
             assert!(!report
                 .markdown_body
                 .contains("Breadth shifted from 35.0 to Very Narrow."));
+        }
+    }
+
+    #[test]
+    fn report_renders_signal_context_lifecycle_and_observation_facts() {
+        use crate::features::radar::interface::presentation::{
+            InterpretationLayerViewModel, PresentationPacket,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let config = mock_config_with_language(Language::EnUs);
+        let presentation = PresentationPacket {
+            language: Language::EnUs,
+            interpretation_layer: Some(InterpretationLayerViewModel {
+                signal_context_lifecycle_label: "Lifecycle".to_string(),
+                signal_context_lifecycle_value: "RELEASED".to_string(),
+                signal_context_expected_label: "Expected".to_string(),
+                signal_context_expected_value: "2.9%".to_string(),
+                signal_context_actual_label: "Actual".to_string(),
+                signal_context_actual_value: "3.1%".to_string(),
+                signal_context_surprise_label: "Surprise".to_string(),
+                signal_context_surprise_value: "+0.2%".to_string(),
+                signal_context_reason_label: "Reason".to_string(),
+                signal_context_reason_value: "EVENT_DATA_UNAVAILABLE".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("Lifecycle: RELEASED"));
+        assert!(report.markdown_body.contains("Expected: 2.9%"));
+        assert!(report.markdown_body.contains("Actual: 3.1%"));
+        assert!(report.markdown_body.contains("Surprise: +0.2%"));
+        assert!(report
+            .markdown_body
+            .contains("Reason: EVENT_DATA_UNAVAILABLE"));
+    }
+
+    #[test]
+    fn report_localizes_signal_context_fact_labels_in_markdown_and_html() {
+        use crate::features::radar::interface::presentation::{
+            InterpretationLayerViewModel, PresentationPacket,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        for (language, labels) in [
+            (
+                Language::ZhCn,
+                ["生命周期", "预期", "实际", "意外值", "原因"],
+            ),
+            (
+                Language::EnUs,
+                ["Lifecycle", "Expected", "Actual", "Surprise", "Reason"],
+            ),
+            (
+                Language::JaJp,
+                ["ライフサイクル", "予想", "実績", "サプライズ", "理由"],
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let presentation = PresentationPacket {
+                language,
+                interpretation_layer: Some(InterpretationLayerViewModel {
+                    signal_context_lifecycle_value: "RELEASED".to_string(),
+                    signal_context_expected_value: "2.9%".to_string(),
+                    signal_context_actual_value: "3.1%".to_string(),
+                    signal_context_surprise_value: "+0.2%".to_string(),
+                    signal_context_reason_value: "EVENT_DATA_UNAVAILABLE".to_string(),
+                    ..Default::default()
+                }),
+                ..Default::default()
+            };
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for label in labels {
+                assert!(report.markdown_body.contains(label));
+                assert!(report.telegram_html_body.contains(label));
+            }
+            assert!(report.markdown_body.contains("RELEASED"));
+            assert!(report.telegram_html_body.contains("EVENT_DATA_UNAVAILABLE"));
         }
     }
 }

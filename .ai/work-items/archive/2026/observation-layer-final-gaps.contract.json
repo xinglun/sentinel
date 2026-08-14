@@ -1,0 +1,231 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-layer-final-gaps",
+  "mode": "code",
+  "title": "补齐 Observation Layer 最终验收缺口",
+  "baseCommit": "360219af0db4742df5ce7e847c69d1addbe999e4",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "7a9f75717409a937fc1cd7189eb93991c510d96b8da0f635e50ae9d39cb54c0c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-report-output.contract.json",
+      "status": "??",
+      "fingerprint": "2fdb5aeb7a8c7391786e4baeff06c6a21299a4b4a91164870b4e08a90924565a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-report-output.summary.json",
+      "status": "??",
+      "fingerprint": "0e970c33f5fea01e697f80670f1786e1d4e2d75b80ac363291f3e7571b3c58f8"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "3473791cfcc8d73b43e768b0fab8aa95db061aeb715bd8f4c9759e44cff26b8c"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "03175f8da09c28fcc01759a22156b030c253b2d781ff3aa40bce2f66607517b1"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "6585853d53abc46f09b52f62c9a0d962096b0331f820fc10014a8c73e013ab21"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "36665429581f77b3ea4c2073a9b9880e91147b165d1866c62a748a2a1437d421"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "356a663797ba7ea0479cf68c9afb6dac5775c8e151cd9cce5a2a2e07fdd61ee5"
+    }
+  ],
+  "problemStatement": "Observation Layer の最終レポートにイベント Lifecycle と Expected/Actual/Surprise が明示されず、Primary Baseline と Supply Reason の意味も十分に区別されていない。",
+  "intent": {
+    "problem": "既存の Signal Context / Price-Volume / Supply Context の事実を最終 report に欠落なく投影し、SPCX、MSFT/PLTR、CPI の report-level 回帰を固定する。",
+    "constraints": [
+      "Gate、execution、trader、action matrix、position sizing、自動取引は変更しない。",
+      "既存の domain fact と read model を利用し、推測値や新しい scoring を追加しない。",
+      "前回 WI の未コミット Observation Layer 差分を baseline dirty path として保持する。"
+    ],
+    "rationale": "前回修复后仍发现事件生命周期、数值事实、主基线命名和验收场景证据不完整。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/observation-layer-final-gaps.contract.json",
+    ".ai/work-items/active/observation-layer-final-gaps.summary.json",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/trader/**",
+    "src/features/gate/**",
+    "src/features/execution/**",
+    "data/**",
+    "自动交易、交易信号、Action Matrix、Position Sizing 的行为变化"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Signal Context 终端报告输出入口。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context 字段到 report view model 的投影。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "事件事实、Lifecycle、Expected/Actual/Surprise 的读取契约。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "Price-Volume 的 Primary/Secondary Baseline 与 Supply Reason 输出。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "报告级回归测试。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Baseline、Eligibility、Lifecycle 的 SSOT。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-report-output.contract.json",
+      "reason": "前回 WI 的实现边界与已修复输出。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Signal Context 报告显式输出 Lifecycle 与 Expected/Actual/Surprise",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib report_renders_signal_context_lifecycle_and_observation_facts -- --nocapture", "cargo test --lib interpretation_layer_renders_macro_event_without_trade_language -- --nocapture"]
+    },
+    {
+      "scenario": "Price-Volume 报告显式输出 Primary Baseline，且 SPCX/MSFT/PLTR 场景可验收",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture", "cargo test --lib report_keeps_named_symbol_baselines_explicit -- --nocapture"]
+    },
+    {
+      "scenario": "Supply Context unavailable 的 reason 按事实原因区分",
+      "required": true,
+      "status": "verified",
+      "evidence": ["cargo test --lib report_distinguishes_unmapped_supply_context_reason -- --nocapture"]
+    },
+    {
+      "scenario": "Observation-only 边界不受影响",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json"]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "仅投影既有 Observation fact 到报告，交易边界不变。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "报告投影范围、验收场景和 required checks 已明确。"
+  },
+  "preReviewWarnings": [
+    "重点检查 Lifecycle/数值事实与 Primary Baseline 是否来自实际 read model。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Signal Context report 显式输出 Lifecycle。",
+    "Signal Context report 显式输出 Expected、Actual、Surprise；数据不可用时保留事实与 unavailable reason。",
+    "Price-Volume report 使用 Primary Baseline / Secondary Baseline 明确命名，并覆盖 Post IPO、Post Lockup、Post Earnings。",
+    "Supply Context unavailable 的 status/reason 不再无条件固定为同一原因。",
+    "SPCX、MSFT/PLTR、CPI 的 report-level regression tests 固定输出契约。",
+    "Observation-only boundary 保持 Decision Weight 0%、Trade Signal false，且不接入 Gate/Action/Position。",
+    "新增字段使用稳定的 canonical labels，并通过现有 Markdown/HTML report tests 验证。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-final-gaps.contract.json SUMMARY=.ai/work-items/active/observation-layer-final-gaps.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
