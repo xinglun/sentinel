@@ -1,3 +1,4 @@
+pub(crate) mod audit_cli_handler;
 pub(crate) mod audit_daily_report;
 pub mod display;
 pub(crate) mod hypothesis_read_model;

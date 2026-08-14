@@ -1,0 +1,185 @@
+{
+  "contractVersion": 2,
+  "workItemId": "architecture-cli-audit-boundary-v1",
+  "mode": "code",
+  "title": "拆分 Audit CLI boundary，保持行为不变",
+  "baseCommit": "2b044340c0d31b7bd194fe398422365095e1590b",
+  "baselineDirtyPaths": [],
+  "problemStatement": "audit-daily command orchestration が src/cli.rs に残り、Radar の既存 report interface と composition boundary の間に不要な変更爆発半径を持つ。既存の audit report、date parsing、history loading、evidence status、formal baseline、出力契約を変えずに orchestration を Radar interface handler へ移す。",
+  "intent": {
+    "problem": "audit-daily の orchestration を Radar interface の CLI handler に移し、src/cli.rs を command dispatch と composition に限定する。",
+    "constraints": [
+      "audit daily report、date parsing、window normalization、evidence collection status、formal baseline、出力と error semantics を変更しない。",
+      "DecisionClass、Gate、MarketState、portfolio policy、Action Matrix、Position Sizing、Trader、P&L semantics を変更しない。",
+      "新しい report section、data source、persisted artifact、CLI vocabulary、i18n 文言を追加しない。"
+    ],
+    "rationale": "Validation Epoch 後の behavior-preserving architecture hygiene として、CLI の変更爆発半径を縮小する。"
+  },
+  "scope": [
+    ".ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json",
+    ".ai/work-items/active/architecture-cli-audit-boundary-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/audit_cli_handler.rs",
+    "tests/audit_daily_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/backtest/**",
+    "src/features/research/**",
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "daily-calibration command と Telegram digest helper（次の独立 Work Item）",
+    "新しい command、source、provider、decision rule、report section、snapshot、i18n 文言"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/archive/2026/architecture-debt-full-closure.summary.json",
+      "reason": "cli.rs の残存 command family 分割余地を確認する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "audit-daily dispatch と既存 orchestration を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "audit report の既存 interface と helper 境界を維持する。"
+    },
+    {
+      "path": "src/features/shared/acl/notification_factory.rs",
+      "reason": "audit daily の evidence status 読み込み境界を維持する。"
+    },
+    {
+      "path": "tests/audit_daily_cli_integration.rs",
+      "reason": "audit-daily の引数エラーと出力契約を回帰する。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "feature layer 依存境界を検証する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "既存 orchestration の移動だけであり、対象コードと CLI integration tests が明確。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、既存 test evidence、verification が確定した。"
+  },
+  "preReviewWarnings": [
+    "audit-daily の stdout、stderr、exit status、date error、empty log、status/baseline の挙動を変えない。",
+    "daily-calibration は outOfScope とし、同じ移動で混ぜない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "audit-daily の orchestration と関連 helper 呼び出しが src/features/radar/interface/audit_cli_handler.rs に移り、src/cli.rs は dispatch 呼び出しだけを保持する。",
+    "audit-daily の既存 date parsing、empty log、window normalization、evidence status、formal baseline、report output contract が既存 integration tests と targeted tests で維持される。",
+    "Radar domain/application、Backtest、Research の semantics と public CLI vocabulary、i18n、snapshot、persisted data format に意図的差分を作らない。",
+    "新しい interface handler は具体的な AppConfig に依存せず、Path と既存 Radar interface / shared ACL / shared interface の境界だけを受け取る。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-audit-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-cli-audit-boundary-v1.summary.json CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-audit-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-cli-audit-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-cli-audit-boundary-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。",
+  "scenarioCoverage": [
+    {
+      "scenario": "audit-daily preserves missing/invalid argument errors",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/audit_daily_cli_integration.rs"
+      ],
+      "reason": "既存 CLI integration tests が date/days の欠損と不正値を覆う。"
+    },
+    {
+      "scenario": "audit-daily preserves report orchestration and output boundary",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/cli.rs",
+        "src/features/radar/interface/audit_daily_report.rs"
+      ],
+      "reason": "既存 unit tests と移動対象コードの parity review で確認する。"
+    },
+    {
+      "scenario": "new handler preserves feature dependency direction",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/check_architecture_boundaries.py",
+        "src/features/radar/interface/audit_cli_handler.rs"
+      ],
+      "reason": "architecture boundary checker で検証する。"
+    }
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーの『再開』指示に基づき、Audit CLI の behavior-preserving boundary 分割を許可する。Daily Calibration、Backtest、Radar domain の追加再編は許可しない。",
+    "openQuestions": [
+      "実装後に audit-daily integration tests と architecture checks が新 handler 境界で通過することを確認する。"
+    ]
+  }
+}
