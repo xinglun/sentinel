@@ -1,14 +1,35 @@
 {
   "workItemId": "observation-layer-gap-closure",
-  "contractPath": ".ai/work-items/active/observation-layer-gap-closure.contract.json",
+  "contractPath": ".ai/work-items/archive/2026/observation-layer-gap-closure.contract.json",
   "changedFiles": [
-    {"path": "src/features/radar/interface/price_volume_structure_report.rs", "reason": "Supply Context と RVOL の観測理由を明示。"},
-    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "Breadth structured observation と legacy compatibility を保存。"},
-    {"path": "src/features/radar/domain/observation_timeline.rs", "reason": "Breadth raw/counts/universe を classification score と分離。"},
-    {"path": "src/features/radar/interface/radar_pipeline_runner.rs", "reason": "Breadth 実値を snapshot/timeline に投影。"},
-    {"path": "src/features/radar/interface/report_ui_tests.rs", "reason": "追加フィールド付き timeline fixture を検証。"},
-    {"path": "src/features/radar/interface/snapshots", "reason": "Breadth unavailable 表示の snapshot を更新。"},
-    {"path": "Makefile", "reason": "三日分 observation replay の make 入口を追加。"}
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "Supply Context と RVOL の観測理由を明示。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "Breadth structured observation と legacy compatibility を保存。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "Breadth raw/counts/universe を classification score と分離。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Breadth 実値を snapshot/timeline に投影。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "追加フィールド付き timeline fixture を検証。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots",
+      "reason": "Breadth unavailable 表示の snapshot を更新。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "三日分 observation replay の make 入口を追加。"
+    }
   ],
   "sourcesUsed": [
     "/Users/sei-rinn/.codex/attachments/b90c9f95-289a-4602-8134-d7fb97817840/pasted-text.txt",
@@ -19,12 +40,55 @@
     "src/features/radar/interface/radar_pipeline_runner.rs"
   ],
   "scenarioCoverage": [
-    {"scenario": "Supply Context unavailable status/reason", "required": true, "status": "verified", "evidence": ["cargo test price_volume_structure_report --lib"]},
-    {"scenario": "RVOL baseline and sessions display", "required": true, "status": "verified", "evidence": ["cargo test price_volume_structure_report --lib"]},
-    {"scenario": "Breadth structured observation persists", "required": true, "status": "verified", "evidence": ["cargo test formal_snapshot_preserves_structured_breadth_observation --lib"]},
-    {"scenario": "Six-class coverage keeps geopolitical and commodity observations", "required": true, "status": "verified", "evidence": ["cargo test geopolitical_and_commodity_shocks_do_not_fall_back_to_none --lib"]},
-    {"scenario": "Payroll/CPI/PPI known-event replay", "required": true, "status": "verified", "evidence": ["make ai-observation-replay"], "reason": "Replay target verifies date-preserving harness and three-date fallback unit coverage; external provider runtime is not claimed."},
-    {"scenario": "Trading boundary remains frozen", "required": true, "status": "verified", "evidence": ["make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json"]}
+    {
+      "scenario": "Supply Context unavailable status/reason",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test price_volume_structure_report --lib"
+      ]
+    },
+    {
+      "scenario": "RVOL baseline and sessions display",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test price_volume_structure_report --lib"
+      ]
+    },
+    {
+      "scenario": "Breadth structured observation persists",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test formal_snapshot_preserves_structured_breadth_observation --lib"
+      ]
+    },
+    {
+      "scenario": "Six-class coverage keeps geopolitical and commodity observations",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test geopolitical_and_commodity_shocks_do_not_fall_back_to_none --lib"
+      ]
+    },
+    {
+      "scenario": "Payroll/CPI/PPI known-event replay",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make ai-observation-replay"
+      ],
+      "reason": "Replay target verifies date-preserving harness and three-date fallback unit coverage; external provider runtime is not claimed."
+    },
+    {
+      "scenario": "Trading boundary remains frozen",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-gap-closure.contract.json"
+      ]
+    }
   ],
   "verification": [
     {
