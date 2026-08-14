@@ -1,0 +1,326 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-horizon-alignment-v1",
+  "mode": "code",
+  "title": "Validation Horizon 对齐与 Confirmation Cost 母集修正",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "6b7e6d49f5cba09a77ca4b867751c6eaabf5c2405f123c4241671e7aad38bbff"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.contract.json",
+      "status": "??",
+      "fingerprint": "10246b03ac064ff1a6b4eb7ea35947fb7bc1b4999620884de55deb21b03473bb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.summary.json",
+      "status": "??",
+      "fingerprint": "4fd20b37fe3357f490b062a7cdb85e6ec35445e596313f15144602b9e4ba92d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.contract.json",
+      "status": "??",
+      "fingerprint": "7bd1bd616ef45090f2bafb9b01493ddf4eb7b360610a981c711d4008d63d8014"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.summary.json",
+      "status": "??",
+      "fingerprint": "d1a73e1178fb23b207bba740eef031162393900785df827089f14d1af628b9e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+      "status": "??",
+      "fingerprint": "1f61956356699231b662e37fd8fb94fd6b22dcd9b542261b320c5568c1ce535f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.summary.json",
+      "status": "??",
+      "fingerprint": "b0a757c6d98cdf5caf36c103dc0e480e776235bb084bc4422e89b58dccae2071"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.contract.json",
+      "status": "??",
+      "fingerprint": "85ebf202955cc7520cbc60a6e5aa2000a1135760640dd27b71fea46d58eae6bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.summary.json",
+      "status": "??",
+      "fingerprint": "f7050d7c95973989d767c0e3d61c3b6ed9e19430a1c64393c313f9a29a7db832"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.contract.json",
+      "status": "??",
+      "fingerprint": "d6dc5400fed4877d301e2ad0348263a812a07f19cccf057748949d303b84f499"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.summary.json",
+      "status": "??",
+      "fingerprint": "63a47bdd085fa00c7f8fa628bc5b47aca36b3439d1902742fcdc5e893957fb1f"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "status": "??",
+      "fingerprint": "2f2e73b2dd6005db2f3d5777e66eadd441bc1780ea6b31866a1db84865198489"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "status": "??",
+      "fingerprint": "6db6bc4dab89eddb32dbf1d00abccab71e62434756c4176485a0465434fbd155"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "6cae63b9b2fc51ff0697f5ef81c3f3bb579fd14f7bd8b83f0eb5e184547d225e"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "0a427b1b32070d5ed8995aa446791613a677dbbf99d008ace292237c169850e9"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "058c970d2fd64c41c36b2cca27d8b10183c672c2cc8274bfa9709afdf7bb7cef"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "9d241f9e7b167b7a8c39f12af4068ffbb23fc805d8830ba9ed70423fec5e57c5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "0c5a1ba641c9658c919327a2a251e7fe29dadb2aa1cd0f7e0b10c12dc878d420"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "266874a35a77586d675bd8932b9feaabfd0d9a5cb9a9fca648fbeeb5ff27c12d"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "98598d10c2ecce4304ad616613898e879d6e14c357cfbf246739f258c6e6ef04"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "T+5/T+10/T+20 の Net Decision Value が horizon 外で成立する Confirmation Cost を同じ horizon に差し引き、Confirmation Cost 自体も別母集団から集計しているため、時間窓と業務母集団が一致しない。",
+  "intent": {
+    "problem": "各 horizon の protection outcome と、同一 eligible episode かつ当該 horizon 内に Ready した confirmation cost だけを配対し、horizon 外の待機コストを別の未成熟事実として扱う。",
+    "constraints": [
+      "Backtest の read model、simulation、Markdown summary のみを変更する。",
+      "Trend Gate blocked の効用に限定し、DecisionPacket、execution、Risk Overlay、Portfolio Policy は変更しない。",
+      "負の Strength-to-Ready return は missed upside と adverse waiting return を区別して保存する。"
+    ],
+    "rationale": "Validation Epoch では単に同一 episode であるだけでなく、同じ時間窓と同じ eligible cohort で比較できることが必要である。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-horizon-alignment-v1.contract.json",
+    ".ai/work-items/active/validation-horizon-alignment-v1.summary.json",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/decision_class.rs",
+    "src/features/radar/domain/mod.rs"
+  ],
+  "outOfScope": [
+    "DecisionPacket のフィールド追加",
+    "完全な Decision Gate / Risk Overlay / Portfolio Policy の効用評価",
+    "資本加重 P&L、約定、スリッページ、取引コストの導入",
+    "Telegram、CLI、weekly metrics、data branch の新規出力"
+  ],
+  "sources": [
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "horizon outcome、lifecycle date、Confirmation Cost、Net Decision Value の現行実装。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Validation read model と Net Decision Horizon の契約。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Markdown summary の utility、confirmation、net value 表示契約。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+      "reason": "直前 Work Item の raw candidate、paired fact、Trend Gate-only 境界。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Ready が T+5 後の場合、T+5 Net Value から confirmation cost を差し引かない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "horizon 内の事実だけを同一 horizon の Net Value に配対するため。"
+    },
+    {
+      "scenario": "Confirmation Cost と Net Decision Value が同一 eligible cohort を使用する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "全 episode の平均 Confirmation Cost を Trend Gate blocked cohort に流用しないため。"
+    },
+    {
+      "scenario": "負の Strength-to-Ready return が missed upside と adverse waiting return に分離される",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "下落を 0 に静默截断せず、Confirmation Cost の意味を監査可能にするため。"
+    },
+    {
+      "scenario": "reason breakdown が各 horizon の complete denominator を表示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "重複 reason の downside count だけでは比較不能なため。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存の Backtest read model 内で完結し、交易执行、DecisionPacket、外部保存を変更しない。業務指標の意味は review focus として残す。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、scenario coverage、acceptance、verification が確定している。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーの再開指示に基づき、記載した scope と outOfScope の範囲で実装を開始する。",
+    "openQuestions": [
+      "negative waiting return は missed upside と adverse waiting return を別集計する。",
+      "完全 Decision Gate と金額 P&L は後続 Work Item とする。"
+    ]
+  },
+  "preReviewWarnings": [
+    "horizon alignment、eligible cohort、negative waiting return の business semantics を重点 review する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "各 horizon の paired 条件が raw_candidate、gate_blocked、NoTrade、forward outcome、horizon 内 Ready を同一 episode で満たす。",
+    "horizon 外に Ready した episode は当該 horizon の Net Decision Value から除外し、unpaired または未成熟として数える。",
+    "Confirmation Cost が Net Decision Value と同じ eligible Trend Gate blocked cohort から集計される。",
+    "negative Strength-to-Ready return が missed upside と adverse waiting return に分離され、0 への静默截断を避ける。",
+    "reason breakdown が各 reason の T+5/T+10/T+20 complete sample count と downside count を表示する。",
+    "既存の i18n、DecisionPacket、execution、Risk Overlay、Portfolio Policy、data branch 契約を変更しない。",
+    "horizon 外 Ready、母集団不一致、負の confirmation return、reason denominator の回帰テストが追加される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json SUMMARY=.ai/work-items/active/validation-horizon-alignment-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-horizon-alignment-v1.summary.json CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json SUMMARY=.ai/work-items/active/validation-horizon-alignment-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-horizon-alignment-v1.contract.json SUMMARY=.ai/work-items/active/validation-horizon-alignment-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

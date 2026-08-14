@@ -1,0 +1,322 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-confirmation-cost-naming-v1",
+  "mode": "code",
+  "title": "Validation Confirmation Cost 指標の業務名称を明示",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "8168ebde332ece7d8ec1b882339410256217bf36f2eaad952b88e35d98ac1e0c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.contract.json",
+      "status": "??",
+      "fingerprint": "10246b03ac064ff1a6b4eb7ea35947fb7bc1b4999620884de55deb21b03473bb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.summary.json",
+      "status": "??",
+      "fingerprint": "4fd20b37fe3357f490b062a7cdb85e6ec35445e596313f15144602b9e4ba92d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-denominator-closure-v1.contract.json",
+      "status": "??",
+      "fingerprint": "04d7e45f7c2e2d4c011821cb126566af02b6310562887dad574ebed6eb5cb76f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-denominator-closure-v1.summary.json",
+      "status": "??",
+      "fingerprint": "a3ccd684aa0bb0acc646fcf5f7b32100d54eb8d09af989649f663c6a9b1439de"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-horizon-alignment-v1.contract.json",
+      "status": "??",
+      "fingerprint": "901664930add6faa27fbf735c094ebd5aed5842b7c8c276d623b359be92f7cb1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-horizon-alignment-v1.summary.json",
+      "status": "??",
+      "fingerprint": "8db416ca381171c95515d90da6fc88c37a367565288d901569fcb15072c944a1"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.contract.json",
+      "status": "??",
+      "fingerprint": "7bd1bd616ef45090f2bafb9b01493ddf4eb7b360610a981c711d4008d63d8014"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.summary.json",
+      "status": "??",
+      "fingerprint": "d1a73e1178fb23b207bba740eef031162393900785df827089f14d1af628b9e2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+      "status": "??",
+      "fingerprint": "1f61956356699231b662e37fd8fb94fd6b22dcd9b542261b320c5568c1ce535f"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.summary.json",
+      "status": "??",
+      "fingerprint": "b0a757c6d98cdf5caf36c103dc0e480e776235bb084bc4422e89b58dccae2071"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.contract.json",
+      "status": "??",
+      "fingerprint": "85ebf202955cc7520cbc60a6e5aa2000a1135760640dd27b71fea46d58eae6bc"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v2.summary.json",
+      "status": "??",
+      "fingerprint": "f7050d7c95973989d767c0e3d61c3b6ed9e19430a1c64393c313f9a29a7db832"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.contract.json",
+      "status": "??",
+      "fingerprint": "d6dc5400fed4877d301e2ad0348263a812a07f19cccf057748949d303b84f499"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-correction-v3.summary.json",
+      "status": "??",
+      "fingerprint": "63a47bdd085fa00c7f8fa628bc5b47aca36b3439d1902742fcdc5e893957fb1f"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "status": "??",
+      "fingerprint": "2f2e73b2dd6005db2f3d5777e66eadd441bc1780ea6b31866a1db84865198489"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "status": "??",
+      "fingerprint": "6db6bc4dab89eddb32dbf1d00abccab71e62434756c4176485a0465434fbd155"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "6cae63b9b2fc51ff0697f5ef81c3f3bb579fd14f7bd8b83f0eb5e184547d225e"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "5bddab51d88e54c4f14043fd385514814a773f0f22769598d3f3f34c4befbdf1"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "cd938da8e5acf4fd9ed67a4a9a3114177c39ecfe872b02dd803ac6f870de9727"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "9d241f9e7b167b7a8c39f12af4068ffbb23fc805d8830ba9ed70423fec5e57c5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "cc49b2d39c681109ee2af0d08986559ba2b98ef4a38205cb2f82509659f90239"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "266874a35a77586d675bd8932b9feaabfd0d9a5cb9a9fca648fbeeb5ff27c12d"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "98598d10c2ecce4304ad616613898e879d6e14c357cfbf246739f258c6e6ef04"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "Confirmation Cost の realized waiting-upside loss が Strength → Ready return という曖昧な名称でしか出力されず、return_lost_before_ready として監査できない。",
+  "intent": {
+    "problem": "Validation Epoch の business KPI として、Ready までに失った上昇分と待機中の下落を分離して表示する必要がある。",
+    "constraints": [
+      "DecisionPacket、Radar の decision semantics、Gate/Execution/Trader は変更しない。",
+      "既存の signed return_strength_to_ready を raw fact として維持し、正の部分だけを return_lost_before_ready として集計する。",
+      "金額 P&L、fees、slippage、portfolio weighting は対象外。"
+    ],
+    "rationale": "待機コストは上昇を逃したコストであり、待機中の下落は保護側の事実なので、単一の signed average では business conclusion を誤る。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+    ".ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs"
+  ],
+  "outOfScope": [
+    "DecisionPacket に新しい field を追加すること",
+    "Confirmation Cost の定義を episode/cohort/horizon 以外へ広げること",
+    "MAE/MFE を Net Decision Value の加減算へ混ぜること"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "reason": "Confirmation Cost の Strength → Ready return 契約。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "既存 episode 集計と signed lifecycle return の実装。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "summary.md の Confirmation Cost 出力契約。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "positive Strength → Ready return は return_lost_before_ready として出力される",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "positive-only の confirmation cost を固定する。",
+      "coveredBy": ["src/features/backtest/application/simulation.rs"],
+      "expected": "positive return の平均が positive-only cost として表示される"
+    },
+    {
+      "scenario": "negative Strength → Ready return は return_lost_before_ready に混入しない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待機中の下落を protection/adverse fact として分離する。",
+      "coveredBy": ["src/features/backtest/application/simulation.rs"],
+      "expected": "return_lost_before_ready は unavailable または正の値で、adverse waiting return は別集計される"
+    },
+    {
+      "scenario": "summary が raw signed return と business cost の違いを明示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "出力だけを読んでも business KPI の意味を誤読しないようにする。",
+      "coveredBy": ["src/features/backtest/infrastructure/output.rs"],
+      "expected": "return_lost_before_ready の名称と定義が出力される"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存の episode lifecycle fact と summary read model の名称・集計修正に限定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、business definition、verification が確定した。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーの再開指示と今回の業務監査で確認した名称欠落に基づき、この read model 限定の修正を進める。",
+    "openQuestions": [
+      "実装後に required scenario の evidence と status を Summary へ反映する。"
+    ]
+  },
+  "preReviewWarnings": [
+    "signed Strength → Ready return と positive-only return_lost_before_ready を同じ episode cohort で混同しないこと。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "ConfirmationCostSummary に return_lost_before_ready を明示し、summary.md にその名称と定義を出力する。",
+    "positive signed lifecycle return のみを return_lost_before_ready として集計し、negative waiting return は既存 adverse waiting fact として別保持する。",
+    "DecisionPacket、Radar decision semantics、fixture literal に変更がなく、変更は Backtest Validation read model と summary 出力に限られる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

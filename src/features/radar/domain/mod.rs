@@ -3,6 +3,7 @@ pub mod asset_state;
 pub mod breakout_detection;
 pub(crate) mod current_relative_strength;
 pub mod decision;
+pub mod decision_class;
 pub mod exit;
 pub mod features;
 pub(crate) mod hypothesis_governance_policy;

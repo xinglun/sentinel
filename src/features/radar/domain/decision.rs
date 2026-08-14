@@ -13,6 +13,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DecisionPacket {
     pub date: NaiveDate,
+    #[serde(default)]
+    pub decision_class: crate::features::radar::domain::decision_class::DecisionClass,
+    #[serde(default)]
+    pub decision_reasons: Vec<String>,
+    #[serde(default = "default_decision_snapshot_version")]
+    pub decision_snapshot_version: String,
+    #[serde(default)]
+    pub universe_id: String,
     pub market_features: MarketFeatures,
     pub market_regime: MarketRegimeSnapshot,
     pub market_state: Option<MarketStateOutput>,
@@ -35,6 +43,10 @@ impl Default for DecisionPacket {
     fn default() -> Self {
         Self {
             date: NaiveDate::from_ymd_opt(1970, 1, 1).unwrap(),
+            decision_class: Default::default(),
+            decision_reasons: Vec::new(),
+            decision_snapshot_version: default_decision_snapshot_version(),
+            universe_id: String::new(),
             market_features: Default::default(),
             market_regime: Default::default(),
             market_state: None,
@@ -67,6 +79,10 @@ impl DecisionPacket {
     ) -> Self {
         Self {
             date,
+            decision_class: Default::default(),
+            decision_reasons: Vec::new(),
+            decision_snapshot_version: default_decision_snapshot_version(),
+            universe_id: String::new(),
             market_features,
             market_regime,
             market_state,
@@ -80,4 +96,9 @@ impl DecisionPacket {
             trend_recognition,
         }
     }
+}
+
+fn default_decision_snapshot_version() -> String {
+    crate::features::radar::domain::decision_class::DecisionClassification::SNAPSHOT_VERSION
+        .to_string()
 }

@@ -1,0 +1,287 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-utility-correction-v2",
+  "mode": "code",
+  "title": "修正 Validation Utility 的 episode 生命周期与成熟度口径",
+  "baseCommit": "fc6700260afe888a9040e112752b334c8d520757",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "b34c91f3e6f225be80a7315428fdac802a7e5bf3a8c7f75212fcc0d62a65b0ef"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.contract.json",
+      "status": "??",
+      "fingerprint": "10246b03ac064ff1a6b4eb7ea35947fb7bc1b4999620884de55deb21b03473bb"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-correction-v1.summary.json",
+      "status": "??",
+      "fingerprint": "4fd20b37fe3357f490b062a7cdb85e6ec35445e596313f15144602b9e4ba92d9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.contract.json",
+      "status": "??",
+      "fingerprint": "6bfc5f53d073edef442af2244afdc421c3e1d85ae2a6cffaf1793090af970e75"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-epoch-v1.summary.json",
+      "status": "??",
+      "fingerprint": "433ee5f080a2a71e3650631d0edcff06a5765bac73928a318cd3074430dcf0d2"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.contract.json",
+      "status": "??",
+      "fingerprint": "7bd1bd616ef45090f2bafb9b01493ddf4eb7b360610a981c711d4008d63d8014"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v1.summary.json",
+      "status": "??",
+      "fingerprint": "d1a73e1178fb23b207bba740eef031162393900785df827089f14d1af628b9e2"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "status": "??",
+      "fingerprint": "2f2e73b2dd6005db2f3d5777e66eadd441bc1780ea6b31866a1db84865198489"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "status": "??",
+      "fingerprint": "aebf3dfc8fb900b117d8602e9682edc33e6f13668e558ebea874a99fc490d74b"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "status": "??",
+      "fingerprint": "6db6bc4dab89eddb32dbf1d00abccab71e62434756c4176485a0465434fbd155"
+    },
+    {
+      "path": "src/features/backtest/acl/radar_backtest_mapper.rs",
+      "status": "M",
+      "fingerprint": "6cae63b9b2fc51ff0697f5ef81c3f3bb579fd14f7bd8b83f0eb5e184547d225e"
+    },
+    {
+      "path": "src/features/backtest/application/mod.rs",
+      "status": "M",
+      "fingerprint": "edf1064cd1b5763cb1868fe59dd4f4e5662797edf0fbaa5bb3ccf51e35405a99"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "status": "M",
+      "fingerprint": "0ba8bdb96d6dfff7795706fd444c2859c9b7f890f65f8b5558b870f6ccdde8a9"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "status": "M",
+      "fingerprint": "896daee58f4211be1f3b509c159028aede5a1390430a7a47b9081c645e9f8eeb"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "status": "??",
+      "fingerprint": "9d241f9e7b167b7a8c39f12af4068ffbb23fc805d8830ba9ed70423fec5e57c5"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "status": "M",
+      "fingerprint": "fbb91a59331200d2efb3d7ef7f2b4ea4ef003115b0c0fbed864e1f10b3823d02"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "266874a35a77586d675bd8932b9feaabfd0d9a5cb9a9fca648fbeeb5ff27c12d"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "62c5ea56fd23bd64d1d380d0d7bf6e41470ce2ffe3be6f35147172c1c9cb1056"
+    },
+    {
+      "path": "src/features/radar/domain/decision_class.rs",
+      "status": "??",
+      "fingerprint": "98598d10c2ecce4304ad616613898e879d6e14c357cfbf246739f258c6e6ef04"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "aa27517f5d730fd48f76bfe6050b31e0cb110a5981dd7f96dd3ecce4ab8b7f6a"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "status": "M",
+      "fingerprint": "97560ab597aa89cc83c631e04f472a0ffa9fe379b3f433add275a672b4ccd3a7"
+    }
+  ],
+  "problemStatement": "Validation Utility の episode 集約が最初の観測行だけを保持するため、後続の Ready 到達情報を失い、Confirmation Cost、READY baseline、Net Decision Value、Sample Maturity が業務上の episode を正しく表さない。",
+  "intent": {
+    "problem": "Validation Epoch の Protection、Confirmation、baseline、maturity を同一 episode の正しい lifecycle と coverage に基づいて評価する。",
+    "constraints": [
+      "DecisionPacket の fixture literal 拡散を避け、production facts の ACL 境界は維持する。",
+      "Gate / execution / trader / action matrix / position sizing は変更せず、Backtest の検証・監査専用とする。",
+      "金額 P&L、portfolio weight、fee、slippage、約定シミュレーションは対象外とする。"
+    ],
+    "rationale": "既存の Validation Utility は構造化されているが、最初の asset-day を episode の代表行として使うことで lifecycle completion を欠落させるため。"
+  },
+  "scope": [
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/pipeline_integration.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/domain/decision.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/validation-utility-correction-v2.contract.json",
+    ".ai/work-items/active/validation-utility-correction-v2.summary.json"
+  ],
+  "outOfScope": [
+    "DecisionPacket の field 追加",
+    "新しい Market Layer または production Gate rule",
+    "portfolio の金額損益シミュレーション"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "episode、Confirmation Cost、Net Decision Value、Sample Maturity の既存業務契約。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "現行の episode_records、lifecycle map、baseline、utility、maturity の実装。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Validation report の構造化契約。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "Validation summary の表示契約。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Sentinel の Cockpit、言語、検証、Work Item 境界規則。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Strength 当日は未 Ready、後続日で Ready になる episode は lifecycle completion と Confirmation Cost に一度だけ反映される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::backtest::application::simulation::tests::confirmation_cost_merges_lifecycle_completion_from_later_episode_records -- --exact"
+      ]
+    },
+    {
+      "scenario": "Strength 開始後に Ready へ遷移した episode が READY baseline に含まれ、起点時点の NO_TRADE だけを理由に除外されない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::backtest::application::simulation::tests::ready_baseline_counts_episode_that_reaches_ready_after_strength -- --exact"
+      ]
+    },
+    {
+      "scenario": "Protection と Confirmation の maturity coverage は独立して表示され、片方の不足が他方を隠さない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::backtest::application::simulation::tests::sample_maturity_does_not_hide_protection_coverage_without_ready_lifecycle -- --exact"
+      ]
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+      "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "Backtest の監査指標のみを修正し、売買実行・DecisionPacket・production Gate は変更しない。episode 粒度と coverage は review focus として残す。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "監査で根因と変更境界を確認し、scope、sources、acceptance、scenario coverage、verification を確定した。"
+  },
+  "preReviewWarnings": [
+    "episode の first-record 選択と lifecycle の non-null merge を混同しない。",
+    "READY baseline は起点 class ではなく episode 内の Ready 到達事実で定義する。",
+    "Protection / Confirmation maturity と Net Decision Value の分母を混同しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一 episode の forward outcome は Strength 起点を一度だけ使い、lifecycle completion は episode 内の後続 non-null fact を保持する。",
+    "READY baseline は episode 内で Ready に到達した候補を対象にし、起点時の class だけで除外しない。",
+    "Protection maturity と Confirmation maturity の coverage を独立して計算・表示する。",
+    "未完了 horizon と未完了 lifecycle は zero-fill せず、分母から除外し coverage として表示する。",
+    "Net Decision Value は比較不能な benefit / cost を None とし、既存の Trend Gate blocked 境界を越えない。",
+    "三つの境界 scenario を個別の test case として再現し、修正後に各 assertion が通過する。",
+    "変更は Backtest の validation / report / test と Work Item evidence に限定し、DecisionPacket と production Gate は変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-correction-v2.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-utility-correction-v2.summary.json CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-correction-v2.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-utility-correction-v2.contract.json SUMMARY=.ai/work-items/active/validation-utility-correction-v2.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

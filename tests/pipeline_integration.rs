@@ -4,11 +4,31 @@ use stock_sentinel::features::radar::application::engine::Engine;
 use stock_sentinel::features::radar::application::provider::{DailyBar, TickerHistory};
 use stock_sentinel::features::radar::domain::action_matrix::AssetAction;
 use stock_sentinel::features::radar::domain::decision::DecisionPacket;
+use stock_sentinel::features::radar::domain::decision_class::{
+    DecisionClass, DecisionClassification,
+};
 use stock_sentinel::features::radar::domain::features::MarketFeatures;
 use stock_sentinel::features::radar::domain::market_regime::{
     LifecycleState, MarketRegimeSnapshot, MarketState, MarketTransitionAudit, RiskOverlay,
 };
 use stock_sentinel::features::radar::domain::portfolio_policy::PortfolioPolicy;
+use stock_sentinel::features::radar::domain::transition_log::OpportunityMode;
+
+#[test]
+fn decision_classification_maps_existing_opportunity_modes_without_backtest_inference() {
+    assert_eq!(
+        DecisionClassification::from_opportunity_mode(OpportunityMode::NoTradeCold),
+        DecisionClass::NoTrade
+    );
+    assert_eq!(
+        DecisionClassification::from_opportunity_mode(OpportunityMode::NoTradeScout),
+        DecisionClass::Probe
+    );
+    assert_eq!(
+        DecisionClassification::from_opportunity_mode(OpportunityMode::Ready),
+        DecisionClass::Ready
+    );
+}
 use stock_sentinel::features::radar::domain::rules::{
     DeviationBasis, ParsedBreakoutRules, ParsedInertia, ParsedRules, ParsedTrendCohesionRules,
     TrendConfig, WatchlistEntry,
@@ -184,6 +204,12 @@ async fn test_pipeline_bullish_path() {
     .expect("Pipeline failed");
 
     assert_eq!(packet.market_regime.market_state, MarketState::NEWBORN);
+    assert_eq!(packet.decision_snapshot_version, "radar-v1.0.0");
+    assert_eq!(packet.universe_id, "watchlist:AAPL,MSFT");
+    assert!(
+        packet.decision_class == DecisionClass::Probe
+            || packet.decision_class == DecisionClass::Ready
+    );
     println!("Curr: {:?}", packet.top_tier_symbols);
     println!("{:#?}", packet.trend_cohesion);
     assert!(
@@ -248,6 +274,8 @@ async fn test_pipeline_bearish_path() {
         .expect("Pipeline should run");
 
     assert_eq!(packet.market_regime.market_state, MarketState::DEFENSIVE);
+    assert_eq!(packet.decision_class, DecisionClass::NoTrade);
+    assert!(!packet.decision_reasons.is_empty());
 
     assert_eq!(packet.assets[0].action, AssetAction::AVOID);
 }

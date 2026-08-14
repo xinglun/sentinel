@@ -1,0 +1,207 @@
+{
+  "workItemId": "validation-confirmation-cost-naming-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-confirmation-cost-naming-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "reason": "業務定義、範囲、検証シナリオを確定した。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "return_lost_before_ready の集計 field を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "positive-only waiting-upside cost と signed raw fact を分離した。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "summary.md に正式名称と定義を出力した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "reason": "検証結果と residual risk を記録した。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/infrastructure/output.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "positive Strength → Ready return は return_lost_before_ready として出力される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test confirmation_cost_reports_all_lifecycle_latencies_and_price_costs"
+      ],
+      "reason": "positive-only waiting-upside cost を確認した。"
+    },
+    {
+      "scenario": "negative Strength → Ready return は return_lost_before_ready に混入しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test confirmation_cost_separates_negative_waiting_return_from_lost_upside"
+      ],
+      "reason": "adverse waiting と lost upside の分離を確認した。"
+    },
+    {
+      "scenario": "summary が raw signed return と business cost の違いを明示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test render_summary_markdown"
+      ],
+      "reason": "summary の正式名称を確認した。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-confirmation-cost-naming-v1.contract.json SUMMARY=.ai/work-items/active/validation-confirmation-cost-naming-v1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "変更は Backtest Validation read model と summary 出力に限定し、DecisionPacket と decision semantics は変更しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Confirmation Cost の signed raw fact と positive-only business cost を分離する。",
+      "solidifiedTo": "contract",
+      "reason": "Contract、scenario coverage、回帰テスト、summary 出力の名称に固定した。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract の scope、intent、sources、acceptance、verification を確定した。",
+      "contractHash": "4ea7f577d3e3623f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "preflight review が ready となり、Backtest read model 限定の編集を開始した。",
+      "contractHash": "4ea7f577d3e3623f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "focused tests、make fmt-check、make test、make clippy が通過した。",
+      "contractHash": "4ea7f577d3e3623f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Cockpit required checks と status consistency を通過した。",
+      "contractHash": "4ea7f577d3e3623f",
+      "acceptanceCount": 3,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "業務境界と実装範囲を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "preflight review が ready となった。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "テストと Rust quality gate が通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks と status consistency が通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "validation_scope",
+      "detail": "Net Decision Value は引き続き Trend Gate-only の研究指標であり、金額 P&L ではない。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "業務上の名称欠落を修正し、Rust quality gate と focused regression tests を通過した。",
+    "expectedReviewFocus": [
+      "return_lost_before_ready が正の waiting-upside のみを表すこと",
+      "signed raw return と adverse waiting return の境界",
+      "Trend Gate-only の表示境界"
+    ]
+  }
+}
