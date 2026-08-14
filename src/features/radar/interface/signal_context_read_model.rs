@@ -132,6 +132,18 @@ pub(crate) fn signal_context_quality_label(value: SignalContextQuality) -> &'sta
     }
 }
 
+pub(crate) fn signal_context_lifecycle_label(
+    value: crate::features::radar::interface::presentation::SignalContextLifecycle,
+) -> &'static str {
+    match value {
+        crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming => "UPCOMING",
+        crate::features::radar::interface::presentation::SignalContextLifecycle::Released => "RELEASED",
+        crate::features::radar::interface::presentation::SignalContextLifecycle::ActiveRepricing => "ACTIVE_REPRICING",
+        crate::features::radar::interface::presentation::SignalContextLifecycle::Aftermath => "AFTERMATH",
+        crate::features::radar::interface::presentation::SignalContextLifecycle::Expired => "EXPIRED",
+    }
+}
+
 pub(crate) fn signal_context_boundary(language: Language) -> &'static str {
     match language {
         Language::ZhCn => {

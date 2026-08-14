@@ -1,0 +1,222 @@
+{
+  "workItemId": "observation-layer-report-output",
+  "contractPath": ".ai/work-items/archive/2026/observation-layer-report-output.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit が active Work Item の状態を生成する。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-layer-report-output.contract.json",
+      "reason": "Observation Layer report output の scope と acceptance を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-layer-report-output.summary.json",
+      "reason": "実装・テスト・required checks の証跡を記録する。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "動的 Baseline、Eligibility、Lifecycle、Persistence、availability reason を出力する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "六分類 Context Coverage を日次 Markdown/HTML report に出力する。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context Coverage を presentation view model へ渡す。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Interpretation Layer view model に Coverage 契約を追加する。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Context Coverage と no-major-event 境界の report 回帰を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/observation-layer-report-output.contract.json",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/domain/price_volume_structure.rs",
+    ".ai/work-items/archive/2026/observation-layer-gap-closure.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "POST_IPO/AVAILABLE_HISTORY の動的 primary/secondary baseline が report に実値で表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "PARTIAL/INSUFFICIENT/UNAVAILABLE の Eligibility、理由、次の条件、Lifecycle が report に表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib report_renders_dynamic_eligibility_baselines_and_observation_states -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "六分類 Context Coverage と Overall が日次 report に表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib test_interpretation_layer_renders_before_hypothesis_with_read_only_boundary -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Overall が HEALTHY でない場合に No major event today を出さない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib test_interpretation_layer_renders_before_hypothesis_with_read_only_boundary -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Observation-only 境界が維持され Gate/Action/Position に影響しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-report-output.contract.json SUMMARY=.ai/work-items/active/observation-layer-report-output.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "表示専用変更だが、Markdown/HTML の両出力と Observation-only 境界を確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "2fdb5aeb7a8c7391",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "2fdb5aeb7a8c7391",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "2fdb5aeb7a8c7391",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "summary checkpoint",
+      "contractHash": "2fdb5aeb7a8c7391",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 12,
+      "requiredChecksPassed": 12
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "Contract の scope、acceptance、verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 内の report、presentation、test のみを編集した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "report-level tests と全量 required checks を実行した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks、806 tests、clippy の結果を記録した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "report-level 回帰、全量テスト、clippy、Cockpit required checks が通過した。",
+    "expectedReviewFocus": [
+      "dynamic baseline output",
+      "context coverage output",
+      "observation-only boundary"
+    ]
+  }
+}
