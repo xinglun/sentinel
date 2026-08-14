@@ -19,3 +19,18 @@ pub(crate) mod price_volume_structure;
 pub mod rules;
 pub mod transition_log;
 pub mod trend_cohesion;
+
+#[cfg(test)]
+mod architecture_boundary_tests {
+    #[test]
+    fn behavior_modules_expose_explicit_internal_boundaries() {
+        assert!(super::price_volume_structure::eligibility_boundary_marker());
+        assert!(super::price_volume_structure::baseline_boundary_marker());
+        assert!(super::price_volume_structure::classification_boundary_marker());
+        assert!(super::price_volume_structure::lifecycle_boundary_marker());
+        assert!(super::leader_persistence::snapshot_boundary_marker());
+        assert!(super::leader_persistence::persistence_boundary_marker());
+        assert!(super::leader_persistence::absence_boundary_marker());
+        assert!(super::leader_persistence::transition_boundary_marker());
+    }
+}
