@@ -1,0 +1,322 @@
+{
+  "workItemId": "price-volume-eligibility-baseline",
+  "contractPath": ".ai/work-items/archive/2026/price-volume-eligibility-baseline.contract.json",
+  "changedFiles": [
+    {
+      "path": "src/config.rs",
+      "reason": "增加通用 price_volume_event_baselines 配置入口，让事件基线由配置事实进入观察层。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "增加 Eligibility、Baseline、Candidate Lifecycle、Unavailable reason 和可用历史 metrics；保持既有经济分类和 observation boundary。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "显示 eligibility、lifecycle、primary/secondary baseline、days、reason、next condition。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "传递 total trading days、供给事件双基线和配置驱动 earnings baseline。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "更新测试构造并验证新 assessment 字段的 JSONL round-trip/旧记录兼容。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-12-price-volume-eligibility-baseline-design.md",
+      "reason": "记录观察层设计、数据流和不改变交易边界的约束。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-12-price-volume-eligibility-baseline.md",
+      "reason": "记录按 domain、lifecycle、report、persistence 串行执行的实现计划。"
+    }
+  ],
+  "sourcesUsed": [
+    "/Users/sei-rinn/.codex/attachments/cac86c04-b156-4195-b40d-44aa439d60f0/pasted-text.txt",
+    "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+    ".ai/work-items/active/price-volume-eligibility-baseline.contract.json",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    ".ai/work-items/archive/2026/s-28-03-price-volume-classification.contract.json",
+    ".ai/work-items/archive/2026/s-28-04-price-volume-report.contract.json"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "成熟股 20 日完整历史使用 STANDARD_20D/FULL",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "IPO 第 3 日为 INSUFFICIENT，不伪造基线",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "IPO 第 7 日和第 15 日使用 POST_IPO/PARTIAL",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Lock-up 第 1/3/5 日生成 POST_LOCKUP baseline",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Earnings 第 1/3 日以及配置驱动 POST_EARNINGS baseline",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "缩量上涨、放量抗跌、放量下跌维持既有经济定义",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "一日 short squeeze、二日修复失败、三日持续结构只推进候选生命周期",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "API 429、Volume gap、Supply Context missing 输出结构化原因",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "SPCX 类型 recent IPO + lockup + high turnover 通过通用规则支持 PARTIAL/CANDIDATE",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "MSFT/PLTR 型事件后弱参与候选不直接 CONFIRMED",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "所有 assessment 的 decision_weight=0%、trade_signal=false、effects=None",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "Markdown/Telegram 输出显示 eligibility、baseline、days、reason 与 next condition",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-eligibility-baseline.contract.json SUMMARY=.ai/work-items/active/price-volume-eligibility-baseline.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "观察层已由结构化枚举和 boundary regression 固定；外部 Supply Event Context 的收集仍属于 S-29，不在本工单补齐。"
+  },
+  "generatedFiles": [
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "followUps": [
+    "S-29 继续负责外部 Supply Event Context 收集；本工单只消费已提供的 context。"
+  ],
+  "unverifiedScenarios": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "用户授权、scope、outOfScope、sources、acceptance 和 required verification 已写入 Contract；preflight 已从 skeleton 修复为 ready。",
+      "contractHash": "054a29d396a64538",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "已确认修改只涉及 config、Price-Volume domain/report/runner/persistence 和 spec/plan；交易 application 与 trading 路径未修改。",
+      "contractHash": "054a29d396a64538",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "723 个 Rust 测试、fmt 与 clippy 已通过；Summary 已记录全部 required scenarios。",
+      "contractHash": "054a29d396a64538",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Contract、scope、guards、backtrack、coverage、scenario、summary、status 和 consistency checks 已通过。",
+      "contractHash": "054a29d396a64538",
+      "acceptanceCount": 11,
+      "unknownCount": 0,
+      "requiredChecks": 14,
+      "requiredChecksPassed": 14
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "用户授权已固化，preflight ready。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope 和交易边界已确认。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "focused/full Rust verification passed。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "Cockpit required checks 已通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "external_event_coverage",
+      "detail": "Post-Earnings 可由配置驱动，Supply Event Context 的外部收集仍依赖 S-29；缺失时不会推断 Supply Absorption。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "legacy_projection",
+      "detail": "旧 JSONL 记录依赖 serde default 获得 unavailable/invalidated projection；需要 review 确认该默认语义符合历史回放预期。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Rust quality gates passed and scenarios are covered; remaining risks are limited to external event coverage and legacy projection semantics.",
+    "expectedReviewFocus": [
+      "PARTIAL 与 CONFIRMED 的隔离",
+      "多 baseline 的 primary/secondary 优先级",
+      "旧 JSONL 默认字段与报告文言",
+      "交易 boundary 未被改变"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_changed",
+    "reportOutput": "verified",
+    "persistence": "verified",
+    "i18n": "verified",
+    "makeEntrypoints": "unchanged"
+  },
+  "userCorrectionsCaptured": [],
+  "userCorrectionSolidification": [
+    {
+      "correction": "用户要求所有需确认事项自行授权并写入 Contract。",
+      "solidifiedTo": "contract",
+      "reason": "humanReview、scope、outOfScope、acceptance 和 boundary constraints 已写入 Work Item Contract；Summary 同步记录。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "未连接外部 Supply Event Context 的场景不宣称已确认；报告继续明确 observation only、0% decision weight 和 false trade signal。"
+}

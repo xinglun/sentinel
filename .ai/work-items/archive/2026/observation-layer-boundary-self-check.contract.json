@@ -1,0 +1,239 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-layer-boundary-self-check",
+  "mode": "code",
+  "title": "隔离相对强度观察与 Action Matrix",
+  "baseCommit": "e4670c43c81e709b81cd5cf700a11532c0e9fdf0",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "MM",
+      "fingerprint": "82f1397c6d774df0b3f875122ce83c19690b69b22b5c47cc96de10e11c04cb14"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-repair.contract.json",
+      "status": "??",
+      "fingerprint": "6d0a815ab09ac8b3d763b4fd838359c0ed3ed9077355e9936f27fd430ff6584e"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/observation-layer-repair.summary.json",
+      "status": "??",
+      "fingerprint": "c1ba4aa4480814c7db4b75b7b4b0502a4b5514ec2676a2ba68c1b1088f974e50"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/price-volume-review-findings.contract.json",
+      "status": "??",
+      "fingerprint": "5a8a58797f3deb62442d965c669cdacd738d134a3eb5421777835fc7a5a8a109"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-13-observation-layer-repair.md",
+      "status": "??",
+      "fingerprint": "bbcbdc608eddde837ddbae25c0519d601f8a5d73886978e66259762d7f33094e"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-13-observation-layer-repair-design.md",
+      "status": "??",
+      "fingerprint": "92eed80dc694b6d77082b3d3aaa79ada16ddfb5af6b0d5fe8dd694d3ce051aa4"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "a38fa218d5405b47822a970a099f8c378a85990ec99181888525e94a9978a33e"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "status": "??",
+      "fingerprint": "dd63dbfbe361ef3240d034761b343f184e3e5771b00422b1946e04f7884c742e"
+    },
+    {
+      "path": "src/features/radar/domain/decision.rs",
+      "status": "M",
+      "fingerprint": "11c439f6250d2aa74a5115ff460fe2b8814c67208e44bb7115dce3ffbad5ba2b"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "status": "M",
+      "fingerprint": "c069073b168afbf169ab9b2b8138a4c6586e7b0f55284003a22dc8a937f9b9e5"
+    },
+    {
+      "path": "src/features/radar/domain/mod.rs",
+      "status": "M",
+      "fingerprint": "2e52cbdaf018c3949b71f2c037cfaa2d73bc46fab1dfba982a576c283cb28c24"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "d954ec1b266c1685e4d65dc751dd63f00e884e6f5b02ed560429d5695df93fae"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "d91d54946578df6a4534ec3b21eef7c40fe17e07c055223930e56804bad9969c"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "dcc4faf44d5cd3e575d0afa9c98a113406e43076a31e7a1b2710a70eff7f5a70"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "483137a2b366b0f7693bcc224d3e91477f800ad956c204af4bfa3201ab2585b9"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "status": "M",
+      "fingerprint": "501e423227f6aeacd2062614144ba392eca2790f7cb7aeac9e330384e5b8de57"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "393b6fab07f00bae51912ac9845bfe036f728cbfd633f239ecf07c20d564cfdc"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "9b3e36d1e7fca07858c7776dfa5cf6ce82bbb6184d71394d3f6acdcb8f69a6ea"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "status": "M",
+      "fingerprint": "2b77a6d4ffb0c13b565b126f68f73ebad32989a74b98813643aa5bcc91dedc57"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "status": "M",
+      "fingerprint": "a4d843e0d8cd6b266274bd3a1d07bcfc55b036de0d8d406a38ea6e8c904246f4"
+    },
+    {
+      "path": "src/features/radar/interface/weekly_state_report.rs",
+      "status": "M",
+      "fingerprint": "a530f492070518abc74c86376ebfbad1ffc9af523cbc9e9a478e993b1c076214"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_observation.rs",
+      "status": "M",
+      "fingerprint": "40889ecd94dac4cf583127d636f728f94f06815c59c1aed1e063b762cf8f9d7d"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_actual_unavailable.json",
+      "status": "??",
+      "fingerprint": "2d3119c59584fcf88c00aac3962d09ec98bc146ccb26117350244f607b020329"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_released.json",
+      "status": "??",
+      "fingerprint": "65467db1092a85e8bc53fd7ce9760f7c9519c2bd1d812ea57f1830ef4f1095eb"
+    },
+    {
+      "path": "tests/fixtures/macro_events/cpi_2026-08-12_upcoming.json",
+      "status": "??",
+      "fingerprint": "4de6b59c59f2c06a9ee54a8ea291cba11bb0c6a354803c61190d828d18ee0544"
+    }
+  ],
+  "problemStatement": "Current Relative Strength の観察値を Action Matrix の意思決定 DTO から分離し、観察層が取引判断層へ逆流しないことを保証する。",
+  "intent": {"problem":"観察値が AssetActionDecision に保持されていたため、Action Matrix との境界が曖昧だった。","constraints":["Action Matrix の判断ロジックと取引境界を変更しない。","観察値は DecisionPacket の独立 read-only collection に保持する。"],"rationale":"Observation Layer と意思決定層の依存方向を明示する。"},
+  "scope": [
+    ".ai/work-items/active/observation-layer-boundary-self-check.contract.json",
+    ".ai/work-items/active/observation-layer-boundary-self-check.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/interface/presentation_assembler.rs"
+  ],
+  "outOfScope": ["src/features/radar/application/execution_gate.rs","src/features/trading/**","Action Matrix の判断分岐、Position Sizing、Trader"],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/action_matrix.rs",
+      "reason": "Action Matrix の判断ロジックと境界を監査する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary"
+    ],
+    "reason": "観察 DTO の配置を変更するが、判断ロジックは変更しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "変更範囲、境界、検証方法が確定している。"
+  },
+  "humanReview": {"status":"confirmed","decision":"用户要求再次自检，已确认将观察 DTO 与 Action Matrix 解耦。","openQuestions":["无新增开放问题。"]},
+  "preReviewWarnings": [
+    "Current Relative Strength が Action Matrix の判断値として使用されていないことを確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Current Relative Strength は DecisionPacket の観察集合にのみ保持される。",
+    "Action Matrix の判断結果と既存取引境界は不変である。"
+  ],
+  "scenarioCoverage":[
+    {"scenario":"Current Relative Strength は強くても Action Matrix と NO TRADE 境界を変更しない","required":true,"status":"verified","evidence":["make test","make clippy"]}
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json SUMMARY=.ai/work-items/active/observation-layer-boundary-self-check.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-layer-boundary-self-check.summary.json CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json SUMMARY=.ai/work-items/active/observation-layer-boundary-self-check.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-layer-boundary-self-check.contract.json SUMMARY=.ai/work-items/active/observation-layer-boundary-self-check.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

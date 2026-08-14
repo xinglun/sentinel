@@ -164,6 +164,9 @@ test-radar-degraded-report-semantics:
 	cargo test leader_labels_identify_composite_ranking_semantics --lib
 	cargo test history_baseline_downgrade_preserves_current_breakout_status --lib
 
+test-radar-breadth-label-integrity:
+	cargo test breadth --lib
+
 clippy:
 	cargo clippy --all-targets -- -D warnings
 
@@ -393,7 +396,8 @@ daily-calibration:
 
 gray-rhino-refresh:
 	@mkdir -p reports
-	@refresh_date="$${GRAY_RHINO_REFRESH_DATE:-$$(date +%F)}"; \
+	@refresh_date_arg=$$(printf '%s\n' '$(GRAY_RHINO_REFRESH_ARGS)' | awk '{for (i = 1; i <= NF; i++) { if ($$i == "--date" && i < NF) { print $$(i + 1); exit } if (index($$i, "--date=") == 1) { sub("--date=", "", $$i); print $$i; exit } }}'); \
+	refresh_date="$${GRAY_RHINO_REFRESH_DATE:-$${refresh_date_arg:-$$(date +%F)}}"; \
 	status="skipped"; failed=""; success_count=0; partial_count=0; failed_count=0; \
 	sec_status=skipped; finnhub_status=skipped; fred_status=skipped; \
 	sec_accepted=0; sec_rejected=0; finnhub_accepted=0; finnhub_rejected=0; fred_accepted=0; fred_rejected=0; \
@@ -406,9 +410,9 @@ gray-rhino-refresh:
 		output_file=$$(mktemp); \
 		if cargo run -- collect-gray-rhino-sources --source $$provider $(GRAY_RHINO_REFRESH_ARGS) > "$$output_file" 2>&1; then \
 			cat "$$output_file"; \
-			provider_status=$$(awk -F': ' '/^provider_status: / {print $$2}' "$$output_file" | tail -n 1); \
-			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
-			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_status=$$(awk -F': ' '/^machine_provider_status: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_accepted=$$(awk -F': ' '/^machine_accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^machine_rejected: / {print $$2}' "$$output_file" | tail -n 1); \
 			provider_status=$${provider_status:-succeeded}; \
 			eval "$${provider}_status=$$provider_status"; \
 			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
@@ -424,8 +428,8 @@ gray-rhino-refresh:
 			fi; \
 		else \
 			cat "$$output_file"; \
-			provider_accepted=$$(awk -F': ' '/^accepted: / {print $$2}' "$$output_file" | tail -n 1); \
-			provider_rejected=$$(awk -F': ' '/^rejected: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_accepted=$$(awk -F': ' '/^machine_accepted: / {print $$2}' "$$output_file" | tail -n 1); \
+			provider_rejected=$$(awk -F': ' '/^machine_rejected: / {print $$2}' "$$output_file" | tail -n 1); \
 			eval "$${provider}_status=failed"; \
 			eval "$${provider}_accepted=$${provider_accepted:-0}"; \
 			eval "$${provider}_rejected=$${provider_rejected:-0}"; \

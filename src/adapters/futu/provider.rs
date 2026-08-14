@@ -109,24 +109,11 @@ impl MarketDataProvider for FutuProvider {
         let mut bars = Vec::new();
         let mut latest_ts = None;
         for kline in s2c.kl_list {
-            let dt = chrono::NaiveDateTime::parse_from_str(&kline.time, "%Y-%m-%d %H:%M:%S")
-                .ok()
-                .or_else(|| {
-                    DateTime::from_timestamp(kline.timestamp.unwrap_or(0.0) as i64, 0)
-                        .map(|dt| dt.naive_utc())
-                })
-                .unwrap_or_default();
-
-            latest_ts = Some(dt.and_utc().timestamp());
-
-            bars.push(DailyBar {
-                date: dt.date(),
-                open: kline.open_price,
-                high: kline.high_price,
-                low: kline.low_price,
-                close: kline.close_price.unwrap_or(0.0),
-                volume: kline.volume.map(|v| v as f64),
-            });
+            let Some((bar, timestamp)) = parse_kline_bar(&kline) else {
+                continue;
+            };
+            latest_ts = Some(timestamp);
+            bars.push(bar);
         }
 
         if bars.is_empty() {
@@ -143,6 +130,33 @@ impl MarketDataProvider for FutuProvider {
             latest_quote_timestamp: latest_ts,
         })
     }
+}
+
+fn parse_kline_bar(
+    kline: &crate::adapters::futu::protocol::generated::qot_common::KLine,
+) -> Option<(DailyBar, i64)> {
+    let dt = chrono::NaiveDateTime::parse_from_str(&kline.time, "%Y-%m-%d %H:%M:%S")
+        .ok()
+        .or_else(|| {
+            kline
+                .timestamp
+                .filter(|timestamp| timestamp.is_finite() && *timestamp > 0.0)
+                .and_then(|timestamp| DateTime::from_timestamp(timestamp as i64, 0))
+                .map(|dt| dt.naive_utc())
+        })?;
+    let close = kline.close_price.filter(|close| close.is_finite())?;
+    let timestamp = dt.and_utc().timestamp();
+    Some((
+        DailyBar {
+            date: dt.date(),
+            open: kline.open_price,
+            high: kline.high_price,
+            low: kline.low_price,
+            close,
+            volume: kline.volume.map(|v| v as f64),
+        },
+        timestamp,
+    ))
 }
 
 fn history_kl_failure_message(ret_msg: Option<&str>) -> String {
@@ -184,5 +198,33 @@ mod tests {
     fn localized_history_error_message_is_japanese() {
         assert!(history_kl_failure_message(Some("bad status")).contains("Futu HistoryKL"));
         assert!(empty_kline_list_message("AAPL").contains("空の KLine リスト"));
+    }
+
+    #[test]
+    fn invalid_kline_does_not_become_epoch_or_zero_price() {
+        let missing_close = crate::adapters::futu::protocol::generated::qot_common::KLine {
+            time: "2026-08-13 00:00:00".to_string(),
+            ..Default::default()
+        };
+        assert!(parse_kline_bar(&missing_close).is_none());
+
+        let invalid_time = crate::adapters::futu::protocol::generated::qot_common::KLine {
+            time: "not-a-date".to_string(),
+            close_price: Some(100.0),
+            ..Default::default()
+        };
+        assert!(parse_kline_bar(&invalid_time).is_none());
+    }
+
+    #[test]
+    fn valid_kline_preserves_date_and_close() {
+        let kline = crate::adapters::futu::protocol::generated::qot_common::KLine {
+            time: "2026-08-13 00:00:00".to_string(),
+            close_price: Some(100.0),
+            ..Default::default()
+        };
+        let (bar, _) = parse_kline_bar(&kline).expect("valid kline should parse");
+        assert_eq!(bar.date.to_string(), "2026-08-13");
+        assert_eq!(bar.close, 100.0);
     }
 }

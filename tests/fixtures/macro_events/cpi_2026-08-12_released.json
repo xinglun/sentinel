@@ -1,0 +1,22 @@
+{
+  "event_id": "cpi-2026-08-12",
+  "as_of_date": "2026-08-12",
+  "event_date": "2026-08-12",
+  "event_time": "08:30",
+  "timezone": "America/New_York",
+  "country": "US",
+  "event_type": "CPI",
+  "event_name": "US CPI",
+  "source": "BLS",
+  "source_url": "https://www.bls.gov/schedule/news_release/cpi.htm",
+  "importance": "HIGH",
+  "lifecycle": "RELEASED",
+  "expected_value": "2.9%",
+  "actual_value": "3.0%",
+  "previous_value": "2.8%",
+  "unit": "%",
+  "surprise_state": "ABOVE",
+  "information_content": "HIGH",
+  "source_health": "SUCCEEDED",
+  "observed_at": "2026-08-12"
+}

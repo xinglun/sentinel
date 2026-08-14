@@ -1,5 +1,5 @@
 use crate::features::radar::interface::presentation::{
-    SignalContextPrimaryContext, SignalContextQuality,
+    SignalContextCoverage, SignalContextPrimaryContext, SignalContextQuality,
 };
 use crate::features::research::domain::expectation::{
     ExpectationEventType, ExpectationLifecycleState,
@@ -33,6 +33,8 @@ pub(crate) struct SignalContextEventReadModel {
     pub pre_earnings_waiting: SignalContextEventSlot,
     pub major_event_waiting: SignalContextEventSlot,
     pub macro_event: SignalContextEventSlot,
+    /// 実行時に確認できた外部 source coverage。事実 event がない場合も保持する。
+    pub runtime_coverage: Option<SignalContextCoverage>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -45,6 +47,10 @@ pub(crate) struct SignalContextTimelineEntry {
     pub lifecycle: String,
     pub summary: String,
     pub high_information: bool,
+    pub expected_value: Option<String>,
+    pub actual_value: Option<String>,
+    pub surprise: Option<String>,
+    pub reason: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -116,6 +122,7 @@ pub(crate) fn build_signal_context_event_read_model(
         pre_earnings_waiting,
         major_event_waiting: future_calendar.major_event_waiting,
         macro_event: future_calendar.macro_event,
+        runtime_coverage: None,
     }
 }
 
@@ -132,18 +139,21 @@ fn build_timeline_entries(
             {
                 continue;
             }
+            let discovery = observation.discovery();
+            let event_observation = observation.observation();
+            let observation_data_unavailable = event_observation.actual_value.is_none();
             entries.push(SignalContextTimelineEntry {
                 event_date: observation.event_date,
-                event_name: observation.event_name.clone(),
+                event_name: discovery.event_name.clone(),
                 event_type: format!("{:?}", observation.event_type),
                 source: observation.source.clone(),
                 importance: Some(observation.importance),
                 lifecycle: format!("{:?}", observation.lifecycle),
-                summary: observation
+                summary: event_observation
                     .expected_value
                     .as_ref()
-                    .map(|value| format!("{} / {}", observation.event_name, value))
-                    .unwrap_or_else(|| observation.event_name.clone()),
+                    .map(|value| format!("{} / {}", discovery.event_name, value))
+                    .unwrap_or_else(|| discovery.event_name.clone()),
                 high_information: matches!(
                     observation.importance,
                     MacroEventImportance::High | MacroEventImportance::Critical
@@ -151,6 +161,12 @@ fn build_timeline_entries(
                     observation.information_content,
                     MacroEventInformationContent::High | MacroEventInformationContent::Medium
                 ),
+                expected_value: event_observation.expected_value,
+                actual_value: event_observation.actual_value,
+                surprise: Some(format!("{:?}", event_observation.surprise_state)),
+                reason: (observation.lifecycle == MacroEventLifecycle::Released
+                    && observation_data_unavailable)
+                    .then(|| "EVENT_DATA_UNAVAILABLE".to_string()),
             });
         }
     }
@@ -179,6 +195,10 @@ fn build_timeline_entries(
                     observation.subject
                 ),
                 high_information: true,
+                expected_value: None,
+                actual_value: None,
+                surprise: None,
+                reason: None,
             });
         }
     }

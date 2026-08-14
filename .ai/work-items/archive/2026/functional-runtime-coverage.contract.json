@@ -1,0 +1,186 @@
+{
+  "contractVersion": 2,
+  "workItemId": "functional-runtime-coverage",
+  "mode": "code",
+  "title": "功能运行闭环：领导历史基线与日报可用性",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "6f3d93eb58abd93e7cc84e8d29e27d9bd08ac8e3e0ae6822ec8f22e9e8da966d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    }
+  ],
+  "problemStatement": "日报已经读取到历史领导观测，但在缺少正式交易日基线时把领导持久化整体降级为 UNAVAILABLE，导致实际已有的部分功能不可见。",
+  "intent": {
+    "problem": "运行时在正式基线不可用时把领导持久化视图中的观测天数和状态全部覆盖为 BASELINE_UNAVAILABLE，掩盖了已加载的历史观测。",
+    "constraints": ["不改变交易阈值、Gate、执行、仓位计算。", "不把部分历史提升为 COMPLETE。", "外部数据源不可用不在本 Work Item 内修复。"],
+    "rationale": "验收需要能区分无数据、部分历史和完整历史，避免功能状态被过度降级。"
+  },
+  "scope": [
+    ".ai/work-items/active/functional-runtime-coverage.contract.json",
+    ".ai/work-items/active/functional-runtime-coverage.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/leader_persistence.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "外部 Finnhub、SEC、FRED 凭据与供应商可用性",
+    "Signal Context、Expectation、Gravity 的数据源实现",
+    "架构重构、交易执行与仓位决策规则"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "领导持久化结果在正式基线不可用时被统一降级的运行时逻辑。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence.rs",
+      "reason": "领导观测数量与 PARTIAL/UNAVAILABLE 分类规则。"
+    },
+    {
+      "path": "reports/leader_observations.jsonl",
+      "reason": "data 分支中 2026-07-30 至 2026-08-10 的 6 条历史领导观测。"
+    },
+    {
+      "path": "reports/snapshots/",
+      "reason": "data 分支中的正式历史交易日快照及其 source_status。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": ["data_integrity"],
+    "reason": "变更只影响报告展示层的历史覆盖分类；必须确保不把缺少正式基线误报为 COMPLETE，也不能影响执行门。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "范围、来源、未知项、验收和验证已明确。"
+  },
+  "preReviewWarnings": [
+    "正式基线不可用仍必须在报告中保留显式标记。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "加载两条以上领导观测且正式基线不可用时显示 PARTIAL 和观测天数",
+      "reason": "避免已有历史被统一误报为 UNAVAILABLE。",
+      "required": false,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "正式基线可用且历史不足 20 天时保持 PARTIAL，不显示 COMPLETE",
+      "reason": "保持历史覆盖语义诚实。",
+      "required": false,
+      "status": "unverified",
+      "evidence": []
+    },
+    {
+      "scenario": "没有领导观测时继续显示 UNAVAILABLE",
+      "reason": "不能把缺数据误报为部分可用。",
+      "required": false,
+      "status": "unverified",
+      "evidence": []
+    }
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "在 build_leader_persistence_view_model 的输入包含 2 条以上历史观测时，leader_persistence.history_coverage_value 为 PARTIAL，且 observed_days_value 不为 UNAVAILABLE。",
+    "在 PreviousSnapshotStatus::BaselineUnavailable 下，leader_persistence 的基线相关字段仍为 BASELINE_UNAVAILABLE，但 history_coverage_value 不被覆盖为 UNAVAILABLE 或 COMPLETE。",
+    "在 build_leader_persistence(&[]) 场景下，结果的 history_coverage 为 UNAVAILABLE，leader_state 为 UNAVAILABLE。",
+    "回归测试确认该变更不修改 execution gate、trade signal 和 position sizing 的输出。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json SUMMARY=.ai/work-items/active/functional-runtime-coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/functional-runtime-coverage.summary.json CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json SUMMARY=.ai/work-items/active/functional-runtime-coverage.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/functional-runtime-coverage.contract.json SUMMARY=.ai/work-items/active/functional-runtime-coverage.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

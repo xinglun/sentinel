@@ -1034,16 +1034,44 @@ fn nth_weekday_of_month(
 
 pub(crate) fn nyse_market_holidays(year: i32) -> Vec<NaiveDate> {
     vec![
-        NaiveDate::from_ymd_opt(year, 1, 1).expect("valid new year"),
+        observed_fixed_holiday(year, 1, 1),
         observed_mlk_day(year),
         observed_presidents_day(year),
         observed_memorial_day(year),
-        NaiveDate::from_ymd_opt(year, 6, 19).expect("valid juneteenth"),
-        NaiveDate::from_ymd_opt(year, 7, 4).expect("valid independence day"),
+        observed_fixed_holiday(year, 6, 19),
+        observed_fixed_holiday(year, 7, 4),
         observed_labor_day(year),
         observed_thanksgiving(year),
-        NaiveDate::from_ymd_opt(year, 12, 25).expect("valid christmas"),
+        observed_fixed_holiday(year, 12, 25),
+        easter_sunday(year) - Duration::days(2),
     ]
+}
+
+fn observed_fixed_holiday(year: i32, month: u32, day: u32) -> NaiveDate {
+    let date = NaiveDate::from_ymd_opt(year, month, day).expect("valid fixed holiday");
+    match date.weekday() {
+        Weekday::Sat => date - Duration::days(1),
+        Weekday::Sun => date + Duration::days(1),
+        _ => date,
+    }
+}
+
+fn easter_sunday(year: i32) -> NaiveDate {
+    let a = year % 19;
+    let b = year / 100;
+    let c = year % 100;
+    let d = b / 4;
+    let e = b % 4;
+    let f = (b + 8) / 25;
+    let g = (b - f + 1) / 3;
+    let h = (19 * a + b - d - g + 15) % 30;
+    let i = c / 4;
+    let k = c % 4;
+    let l = (32 + 2 * e + 2 * i - h - k) % 7;
+    let m = (a + 11 * h + 22 * l) / 451;
+    let month = (h + l - 7 * m + 114) / 31;
+    let day = (h + l - 7 * m + 114) % 31 + 1;
+    NaiveDate::from_ymd_opt(year, month as u32, day as u32).expect("valid Easter date")
 }
 
 fn observed_mlk_day(year: i32) -> NaiveDate {
@@ -1112,6 +1140,23 @@ mod tests {
         assert!(!observations.is_empty());
         assert_eq!(observations[0].kind, FutureCalendarKind::HolidayLiquidity);
         assert_eq!(observations[0].source, "NYSE Holidays & Trading Hours");
+    }
+
+    #[test]
+    fn nyse_holidays_use_observed_weekday_for_weekend_fixed_holidays() {
+        let holidays = nyse_market_holidays(2022);
+
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2021, 12, 31).unwrap()));
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2022, 6, 20).unwrap()));
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2022, 7, 4).unwrap()));
+    }
+
+    #[test]
+    fn nyse_holidays_include_good_friday_without_marking_regular_friday() {
+        let holidays = nyse_market_holidays(2026);
+
+        assert!(holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 3).unwrap()));
+        assert!(!holidays.contains(&NaiveDate::from_ymd_opt(2026, 4, 10).unwrap()));
     }
 
     #[test]

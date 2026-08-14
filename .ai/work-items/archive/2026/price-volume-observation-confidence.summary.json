@@ -1,0 +1,169 @@
+{
+  "workItemId": "price-volume-observation-confidence",
+  "contractPath": ".ai/work-items/archive/2026/price-volume-observation-confidence.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "reason": "AI Change Summary skeleton を作成した。"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "reason": "Eligibility から観察 Confidence を導出し、旧 JSONL の既定値を追加した。"
+    },
+    {
+      "path": "src/features/radar/interface/price_volume_structure_report.rs",
+      "reason": "价量 Markdown 报告逐项显示 Observation Confidence。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "新しい Assessment 字段を保存・読み込み测试覆盖。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit 状态由门禁生成。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/price-volume-observation-confidence.contract.json",
+    "/Users/sei-rinn/.codex/attachments/71a57f35-d392-4839-aa17-57172f1af1f8/pasted-text-1.txt",
+    "src/features/radar/domain/price_volume_structure.rs",
+    "src/features/radar/interface/price_volume_structure_report.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/price-volume-observation-confidence.contract.json SUMMARY=.ai/work-items/active/price-volume-observation-confidence.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "観察証拠強度の表示と保存のみで、交易决策边界未变。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已确认，用户授权继续并写入边界。",
+      "contractHash": "dc1aecf69f567e6e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope / acceptance / verification / agentCapability 已确认后开始编辑。",
+      "contractHash": "dc1aecf69f567e6e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "TDD RED 已确认，GREEN 实现完成；待最终 Cockpit 门禁。",
+      "contractHash": "dc1aecf69f567e6e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "749 tests、fmt、clippy 与 Cockpit 门禁通过。",
+      "contractHash": "dc1aecf69f567e6e",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已确认，观察 Confidence 不进入交易层。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope、sources、acceptance、agentCapability 均已确认。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "TDD RED/GREEN 完成；fmt、test、clippy 已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification 已执行并通过。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "observation_boundary",
+      "detail": "Observation Confidence 仅描述价量证据强度，仍保持 decision weight 0%、trade signal false。",
+      "reviewRecommended": false,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "Contract、实现、测试与 Cockpit required checks 已完成。",
+    "expectedReviewFocus": [
+      "观察 Confidence 与 Eligibility 映射",
+      "旧 JSONL 默认反序列化",
+      "observation-only boundary 不变"
+    ]
+  }
+}

@@ -1,0 +1,238 @@
+{
+  "contractVersion": 2,
+  "workItemId": "expectation-market-date-runtime",
+  "mode": "code",
+  "title": "Expectation 使用市场日而非机器当前日期",
+  "baseCommit": "cd78d453b4a6cdc41a520a41c267a1bb5c18c363",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "ed8f1fe6f9af2667b21253eaa7ea4f7616e3a12f4a832764be3647f55334c6fd"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.contract.json",
+      "status": "??",
+      "fingerprint": "5b55a8c4d62abd754a1f5226d1c8c2e781cda4a7684a8277e4a03dadb64066b9"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-convergence.summary.json",
+      "status": "??",
+      "fingerprint": "74efb67206518b230cac1250123139a13b3f5c00dea54f6855191ddfb8c67593"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.contract.json",
+      "status": "??",
+      "fingerprint": "154fb5f295cd9e9bee4a96251dd47c7512b110b03f2fd426b6b0da1adf972e4d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/functional-runtime-coverage.summary.json",
+      "status": "??",
+      "fingerprint": "01e6c5191e49a8118b70f5b6bdf51d29f12f676ee8076c0d3998382c1bb41f2c"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.contract.json",
+      "status": "??",
+      "fingerprint": "b3684684338179b54e076727da4b414ef7e5481308bda30b431f1143130c0a28"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/gravity-market-date-runtime.summary.json",
+      "status": "??",
+      "fingerprint": "6c0beedb7de815f2606acbb0bb8662695a17137a1b39d3fa892815848f3361e8"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.contract.json",
+      "status": "??",
+      "fingerprint": "e8cbb8b5dd1bec2e18e9d49e93ac708437b60d4554108569c112344875c04d3a"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/review-run-status-integrity.summary.json",
+      "status": "??",
+      "fingerprint": "4b3c94c70170ba616002e5d6b9c2f5fa3dbe308318326f86b09237f6803787ba"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.contract.json",
+      "status": "??",
+      "fingerprint": "f22078b7520d23d66e0cbc08333e1f2c3aa69772b10eba8b2e716ac99e18bfde"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/run-status-data-quality.summary.json",
+      "status": "??",
+      "fingerprint": "e8166170988add4b21de433528884d0a52e1e846024f568dd3989ae1ae4560c2"
+    },
+    {
+      "path": "src/cli.rs",
+      "status": "M",
+      "fingerprint": "7c7667cf45e5f87daa9e26302d84d8ee9d4c0e5709faa13f5c63a20e85e3a0b3"
+    },
+    {
+      "path": "src/features/radar/application/radar.rs",
+      "status": "M",
+      "fingerprint": "7b62a340f33e55270506553af295a00f9763b42d9677c103dc94b81aa0b1b1ab"
+    },
+    {
+      "path": "src/features/radar/domain/price_volume_structure.rs",
+      "status": "M",
+      "fingerprint": "1690c93144f00cf35d6cac8a8cd727b160739a97905e55aaabc75be65941d5ff"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "26bb557598128f20b4d0bf0585d977d2c12730a072375bf19c1f19ed71aeb96a"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "7ed0c413c3565aa5173a5bbefab36eb34ea50db4fc0cafd6c6b467d3a038f2a1"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "status": "M",
+      "fingerprint": "82c08306b173f2c702ed7d04a76d95b8c66d7a175924fb7e4d2426d3927ca3be"
+    },
+    {
+      "path": "src/features/research/acl/valuation_gravity_source_adapter_factory.rs",
+      "status": "M",
+      "fingerprint": "e889a224aa26aa88547fd74aed0370cf53eacc48ff9f313d49afc365cf92f6a4"
+    },
+    {
+      "path": "src/features/research/interface/valuation_gravity_report_builder.rs",
+      "status": "M",
+      "fingerprint": "6dd4c1b320e2ca50882034fc084e3a04ec92df58baa5c2db44e414bf857b7c60"
+    }
+  ],
+  "problemStatement": "历史回放和按指定交易日运行时，Expectation snapshot 仍使用机器当前日期，导致 as_of_date、quarter 选择和报告事实日期脱节。",
+  "intent": {
+    "problem": "Expectation 的 source/replay 分支必须以 Radar packet 的 market date 为事实日期，而不是调用机器当前日期。",
+    "constraints": ["保持 live CLI 默认使用当前日期。", "不改变 provider entitlement、交易决策或 report-only 边界。", "保留 fixture snapshot 的测试入口。"],
+    "rationale": "Gravity 已按 market date 修复；Expectation 需要同样的历史回放语义。"
+  },
+  "scope": [
+    ".ai/work-items/active/expectation-market-date-runtime.contract.json",
+    ".ai/work-items/active/expectation-market-date-runtime.summary.json",
+    "src/features/research/acl/expectation_source_adapter_factory.rs",
+    "src/features/research/interface/expectation_report.rs",
+    "src/features/research/interface/expectation_report_builder.rs",
+    "src/features/research/interface/cognitive_reports.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/research_attention_cli_integration.rs",
+    ".ai/work-items/archive/2026/functional-convergence.contract.json",
+    ".ai/work-items/archive/2026/functional-convergence.summary.json",
+    ".ai/cockpit/current_status.md"
+  ],
+  "outOfScope": ["Finnhub entitlement、外部 provider schema、交易 gate/execution/trader、fixture 内容"],
+  "sources": [
+    {
+      "path": "src/features/research/acl/expectation_source_adapter_factory.rs",
+      "reason": "live Expectation snapshot 的日期与 provider 分支入口。"
+    },
+    {
+      "path": "src/features/research/interface/expectation_report_builder.rs",
+      "reason": "Expectation report builder 的日期适配入口。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar packet.date 是历史运行的权威 market date。"
+    },
+    {
+      "path": ".ai/work-items/active/expectation-market-date-runtime.contract.json",
+      "reason": "Work Item contract and acceptance。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "日期参数沿现有 Gravity 修复模式传递，不改变决策边界。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "market date source、scope、acceptance、verification 已明确。"
+  },
+  "preReviewWarnings": [
+    "Historical run must preserve packet.date in Expectation snapshot and report output."
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "historical radar run passes packet market date into live Expectation snapshot construction",
+    "Expectation snapshot as_of_date and selected quarter follow packet market date during replay",
+    "live CLI wrapper continues using machine current date when no market date is supplied",
+    "daily-calibration historical date passes calibration_date into the Expectation report section",
+    "report-only boundary and provider unavailable fallback remain unchanged",
+    "make test covers market-date replay and existing fixture behavior"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/expectation-market-date-runtime.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/expectation-market-date-runtime.summary.json CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/expectation-market-date-runtime.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/expectation-market-date-runtime.contract.json SUMMARY=.ai/work-items/active/expectation-market-date-runtime.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

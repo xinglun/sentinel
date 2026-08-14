@@ -70,6 +70,16 @@ impl RadarRunContext {
             ..Default::default()
         }
     }
+
+    pub fn initial_run_outcome_with_data_quality(
+        &self,
+        evidence_collection: crate::features::shared::application::run_status::DeliveryStatus,
+        data_quality_status: DataQualityStatus,
+    ) -> crate::features::shared::application::run_status::RunOutcome {
+        let mut outcome = self.initial_run_outcome(evidence_collection);
+        outcome.data_quality = data_quality_status.as_str().to_string();
+        outcome
+    }
 }
 
 impl DataQualityStatus {
@@ -626,6 +636,25 @@ mod tests {
             outcome.evidence_collection,
             crate::features::shared::application::run_status::DeliveryStatus::Skipped
         );
+    }
+
+    #[test]
+    fn radar_application_boundary_projects_data_quality_into_run_status() {
+        let now = chrono::DateTime::parse_from_rfc3339("2026-05-24T09:30:00+09:00")
+            .unwrap()
+            .with_timezone(&chrono::Local);
+        let context = RadarRunContext::new(now);
+        for (status, expected) in [
+            (DataQualityStatus::Ok, "OK"),
+            (DataQualityStatus::Warning, "WARNING"),
+            (DataQualityStatus::Critical, "CRITICAL"),
+        ] {
+            let outcome = context.initial_run_outcome_with_data_quality(
+                crate::features::shared::application::run_status::DeliveryStatus::Skipped,
+                status,
+            );
+            assert_eq!(outcome.data_quality, expected);
+        }
     }
 
     #[test]

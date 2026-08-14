@@ -1,5 +1,5 @@
 use crate::config;
-use crate::features::research::acl::expectation_source_adapter_factory::build_expectation_layer_snapshot_from_config as build_live_expectation_layer_snapshot;
+use crate::features::research::acl::expectation_source_adapter_factory::build_expectation_layer_snapshot_for_market_date as build_live_expectation_layer_snapshot_for_market_date;
 use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 
@@ -378,11 +378,22 @@ pub(crate) fn build_expectation_layer_fixture_snapshot() -> ExpectationLayerSnap
     }
 }
 
-/// 期待値観測の live source snapshot を組み立てる。
-pub(crate) fn build_expectation_layer_snapshot_from_config(
+/// 指定した取引日で live Expectation snapshot を構築する。
+pub(crate) fn build_expectation_layer_snapshot_for_market_date(
     app_config: &config::AppConfig,
+    market_date: NaiveDate,
 ) -> ExpectationLayerSnapshot {
-    build_live_expectation_layer_snapshot(app_config)
+    build_live_expectation_layer_snapshot_for_market_date(app_config, market_date)
+}
+
+/// 指定した取引日で live Expectation report を組み立てる。
+pub(crate) fn build_expectation_layer_report_for_market_date(
+    app_config: &config::AppConfig,
+    market_date: NaiveDate,
+    language: crate::features::shared::interface::i18n::Language,
+) -> String {
+    let snapshot = build_expectation_layer_snapshot_for_market_date(app_config, market_date);
+    super::expectation_report::build_expectation_layer_report_from_snapshot(&snapshot, language)
 }
 
 #[allow(clippy::too_many_arguments)]

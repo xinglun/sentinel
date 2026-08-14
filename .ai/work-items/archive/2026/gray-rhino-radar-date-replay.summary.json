@@ -1,0 +1,167 @@
+{
+  "workItemId": "gray-rhino-radar-date-replay",
+  "contractPath": ".ai/work-items/archive/2026/gray-rhino-radar-date-replay.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+      "reason": "Contract を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/gray-rhino-radar-date-replay.summary.json",
+      "reason": "実装・検証結果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を更新する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Radar の明示日付を report-date pipeline に渡す。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "既存 --date parse 結果を Radar dispatch で利用する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+    "src/cli.rs",
+    "src/features/shared/interface/cli_args.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/research_attention_cli_integration.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-radar-date-replay.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/gray-rhino-radar-date-replay.summary.json CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-radar-date-replay.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/gray-rhino-radar-date-replay.contract.json SUMMARY=.ai/work-items/active/gray-rhino-radar-date-replay.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "需用真实 radar --date 重放确认目标日期 sidecar 进入 run_status。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "radar --date 之前被忽略，历史回放无法真正选择目标日期。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract 已确定。",
+      "contractHash": "5801d26eb10ec201",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "实现范围限于 CLI 日期传递。",
+      "contractHash": "5801d26eb10ec201",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "定向测试通过，待完整 checks。",
+      "contractHash": "5801d26eb10ec201",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "定向测试通过，完整 required checks 已执行。",
+      "contractHash": "5801d26eb10ec201",
+      "acceptanceCount": 4,
+      "unknownCount": 0,
+      "requiredChecks": 10,
+      "requiredChecksPassed": 10
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract 已确定。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "范围限于日期参数传递。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "定向测试已通过。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "待完整 required checks。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "historical_replay",
+      "detail": "需验证真实 CLI 产物的 status.date 与目标日期一致。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "实现与定向测试通过，待完整 required checks。",
+    "expectedReviewFocus": [
+      "radar --date dispatch",
+      "历史 sidecar 日期一致性",
+      "非交易边界"
+    ]
+  }
+}

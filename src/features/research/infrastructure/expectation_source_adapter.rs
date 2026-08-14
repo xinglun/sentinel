@@ -13,6 +13,19 @@ pub(crate) enum FinnhubConsensusMetric {
 }
 
 #[derive(Debug, Clone, PartialEq)]
+pub(crate) enum ConsensusFetchResult {
+    Available(ConsensusSeries),
+    NoConsensus,
+    ProviderUnavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum ConsensusPayloadStatus {
+    Available,
+    NoConsensus,
+}
+
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) struct ConsensusSeries {
     pub period: String,
     pub count: usize,
@@ -45,8 +58,10 @@ impl<'a> FinnhubExpectationSourceAdapter<'a> {
         symbol: &str,
         metric: FinnhubConsensusMetric,
         as_of_date: NaiveDate,
-    ) -> Option<ConsensusSeries> {
-        let token = self.token()?;
+    ) -> ConsensusFetchResult {
+        let Some(token) = self.token() else {
+            return ConsensusFetchResult::ProviderUnavailable;
+        };
         let endpoint = match metric {
             FinnhubConsensusMetric::Eps => "eps-estimate",
             FinnhubConsensusMetric::Revenue => "revenue-estimate",
@@ -61,21 +76,27 @@ impl<'a> FinnhubExpectationSourceAdapter<'a> {
         let url = format!(
             "https://finnhub.io/api/v1/stock/{endpoint}?symbol={symbol}&freq=quarterly&token={token}"
         );
-        let json = fetch_json(&url)?;
-        let mut series = parse_consensus_series(&json, metric_prefix);
-        if series.is_empty() {
-            return None;
+        let Some(json) = fetch_json(&url) else {
+            return ConsensusFetchResult::ProviderUnavailable;
+        };
+        if classify_consensus_payload(&json, metric_prefix) == ConsensusPayloadStatus::NoConsensus {
+            return ConsensusFetchResult::NoConsensus;
         }
+        let mut series = parse_consensus_series(&json, metric_prefix);
 
         series.sort_by_key(|item| parse_period_date(&item.period).unwrap_or(as_of_date));
         let current_quarter = current_quarter_bounds(as_of_date);
-        let target_index = choose_target_index(&series, current_quarter)?;
-        let target = series.get(target_index)?.clone();
+        let Some(target_index) = choose_target_index(&series, current_quarter) else {
+            return ConsensusFetchResult::NoConsensus;
+        };
+        let Some(target) = series.get(target_index).cloned() else {
+            return ConsensusFetchResult::NoConsensus;
+        };
         let previous_average = series
             .get(target_index.saturating_sub(1))
             .and_then(|item| item.average);
 
-        Some(ConsensusSeries {
+        ConsensusFetchResult::Available(ConsensusSeries {
             period: target.period,
             count: target.count,
             high: target.high,
@@ -92,6 +113,14 @@ impl<'a> FinnhubExpectationSourceAdapter<'a> {
             .as_ref()
             .map(|config| config.finnhub_api_key.trim().to_string())
             .filter(|key| !key.is_empty())
+    }
+}
+
+fn classify_consensus_payload(value: &Value, metric_prefix: &str) -> ConsensusPayloadStatus {
+    if parse_consensus_series(value, metric_prefix).is_empty() {
+        ConsensusPayloadStatus::NoConsensus
+    } else {
+        ConsensusPayloadStatus::Available
     }
 }
 
@@ -272,6 +301,15 @@ fn read_optional_f64(record: &Value, keys: &[&str]) -> Option<f64> {
 
 #[cfg(test)]
 mod tests {
+    use super::{classify_consensus_payload, ConsensusPayloadStatus};
+
+    #[test]
+    fn empty_consensus_payload_is_classified_as_no_consensus() {
+        let status = classify_consensus_payload(&serde_json::json!({"data": []}), "eps");
+
+        assert_eq!(status, ConsensusPayloadStatus::NoConsensus);
+    }
+
     use super::*;
 
     #[test]
