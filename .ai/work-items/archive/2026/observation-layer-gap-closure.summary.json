@@ -29,6 +29,18 @@
     {
       "path": "Makefile",
       "reason": "三日分 observation replay の make 入口を追加。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "WI 完了後の Cockpit 状態を生成済み状態へ更新。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-observation-layer-gap-closure-design.md",
+      "reason": "Observation Layer 不足補完の設計証跡。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-14-observation-layer-gap-closure.md",
+      "reason": "Observation Layer 不足補完の実装計画証跡。"
     }
   ],
   "sourcesUsed": [
