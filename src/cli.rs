@@ -30,6 +30,7 @@ use crate::features::shared::interface::cli_args::{
     cli_usage, parse_cli_options, CliCommand, CliProviderKind,
 };
 use crate::features::shared::interface::i18n::Language;
+use crate::review_cli_handler::run_review_command;
 
 pub async fn run() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
@@ -320,76 +321,6 @@ fn market_data_provider_kind(provider: CliProviderKind) -> ProviderType {
     }
 }
 
-fn run_review_command(config: &config::AppConfig) -> Result<()> {
-    println!("{}", load_latest_daily_report(config)?);
-    Ok(())
-}
-
-fn load_latest_daily_report(config: &config::AppConfig) -> Result<String> {
-    let save_dir = std::path::Path::new(&config.output.save_to);
-    let latest_path = std::fs::read_dir(save_dir)
-        .with_context(|| format!("Failed to read report directory: {}", save_dir.display()))?
-        .filter_map(|entry| entry.ok().map(|entry| entry.path()))
-        .filter(|path| {
-            let stem = path.file_stem().and_then(|stem| stem.to_str());
-            path.extension().and_then(|extension| extension.to_str()) == Some("md")
-                && stem
-                    .and_then(|stem| NaiveDate::parse_from_str(stem, "%Y-%m-%d").ok())
-                    .is_some()
-        })
-        .max();
-    let latest_path =
-        latest_path.ok_or_else(|| anyhow!("No daily report found in {}", save_dir.display()))?;
-
-    let report = std::fs::read_to_string(&latest_path).with_context(|| {
-        format!(
-            "Failed to read latest daily report: {}",
-            latest_path.display()
-        )
-    })?;
-    if report.contains("tests/fixtures/") || report.contains("file://") {
-        return Err(anyhow!(
-            "Latest daily report contains non-production evidence and cannot be reviewed as a valid report: {}",
-            latest_path.display()
-        ));
-    }
-    validate_latest_report_run_status(
-        save_dir,
-        latest_path
-            .file_stem()
-            .and_then(|value| value.to_str())
-            .unwrap_or_default(),
-    )?;
-    Ok(report)
-}
-
-fn validate_latest_report_run_status(save_dir: &std::path::Path, report_date: &str) -> Result<()> {
-    let status_path = save_dir.join(format!("run_status_{report_date}.json"));
-    let raw = std::fs::read_to_string(&status_path).with_context(|| {
-        format!(
-            "Latest daily report has no corresponding run status: {}",
-            status_path.display()
-        )
-    })?;
-    let outcome =
-        serde_json::from_str::<crate::features::shared::application::run_status::RunOutcome>(&raw)
-            .with_context(|| {
-                format!(
-                    "Failed to parse latest report run status: {}",
-                    status_path.display()
-                )
-            })?;
-    match outcome.decisioning {
-        crate::features::shared::application::run_status::DeliveryStatus::Succeeded => Ok(()),
-        crate::features::shared::application::run_status::DeliveryStatus::Failed { reason } => Err(
-            anyhow!("Latest daily report run failed and cannot be reviewed: {reason}"),
-        ),
-        crate::features::shared::application::run_status::DeliveryStatus::Skipped => Err(anyhow!(
-            "Latest daily report run was skipped and cannot be reviewed"
-        )),
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::run_pipeline;
@@ -419,6 +350,7 @@ mod tests {
     };
     use crate::features::shared::interface::cli_args::{cli_usage, parse_cli_options, CliCommand};
     use crate::features::shared::interface::i18n::Language;
+    use crate::review_cli_handler::load_latest_daily_report;
 
     #[test]
     fn radar_cli_preserves_explicit_report_date_for_pipeline_dispatch() {
@@ -470,7 +402,7 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "daily");
+        assert_eq!(load_latest_daily_report(&config).unwrap(), "daily");
     }
 
     #[test]
@@ -549,7 +481,7 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(super::load_latest_daily_report(&config).unwrap(), "latest");
+        assert_eq!(load_latest_daily_report(&config).unwrap(), "latest");
     }
 
     #[test]
@@ -572,7 +504,7 @@ mod tests {
         )
         .unwrap();
 
-        let error = super::load_latest_daily_report(&config).unwrap_err();
+        let error = load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("SNAPSHOT_CONFLICT"));
     }
 
@@ -582,7 +514,7 @@ mod tests {
         let config = mock_config(tmp.path());
         fs::write(tmp.path().join("2026-05-21.md"), "latest").unwrap();
 
-        let error = super::load_latest_daily_report(&config).unwrap_err();
+        let error = load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("no corresponding run status"));
     }
 
@@ -591,7 +523,17 @@ mod tests {
         let tmp = tempdir().unwrap();
         let config = mock_config(tmp.path());
 
-        let error = super::load_latest_daily_report(&config).unwrap_err();
+        let error = load_latest_daily_report(&config).unwrap_err();
+        assert!(error.to_string().contains("No daily report found"));
+    }
+
+    #[test]
+    fn review_handler_keeps_missing_report_error_at_composition_boundary() {
+        let tmp = tempdir().unwrap();
+        let config = mock_config(tmp.path());
+
+        let error = load_latest_daily_report(&config).unwrap_err();
+
         assert!(error.to_string().contains("No daily report found"));
     }
 
@@ -605,7 +547,7 @@ mod tests {
         )
         .unwrap();
 
-        let error = super::load_latest_daily_report(&config).unwrap_err();
+        let error = load_latest_daily_report(&config).unwrap_err();
         assert!(error.to_string().contains("non-production evidence"));
     }
 
