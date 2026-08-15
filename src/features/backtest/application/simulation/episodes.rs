@@ -3,10 +3,11 @@ use super::net_value::{build_net_decision_value, is_trend_gate_eligible};
 use super::utility::build_utility;
 use crate::features::backtest::application::model::{
     BacktestDecisionClass, ValidationBaselineComparison, ValidationCohortReport,
-    ValidationDecisionRecord, ValidationReport,
+    ValidationDecisionRecord, ValidationPopulationAudit, ValidationPopulationReasonCount,
+    ValidationReport,
 };
 use chrono::NaiveDate;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 pub(crate) fn build_validation_report(records: &[ValidationDecisionRecord]) -> ValidationReport {
     let mut grouped: HashMap<(String, String), Vec<ValidationDecisionRecord>> = HashMap::new();
@@ -117,6 +118,7 @@ fn build_cohort_report(
         outcomes,
         baseline,
         utility: build_utility(&episodes),
+        population: build_population_audit(records),
         confirmation_cost: build_confirmation_cost_from_episodes(&eligible),
         net_decision_value: build_net_decision_value(&episodes),
         sample_maturity: sample_maturity(&episodes),
@@ -132,6 +134,51 @@ fn build_cohort_report(
                 .filter(|record| record.strength_to_ready_sessions.is_some())
                 .count(),
         ),
+    }
+}
+
+fn build_population_audit(records: &[ValidationDecisionRecord]) -> ValidationPopulationAudit {
+    let gate_blocked = records
+        .iter()
+        .filter(|record| record.gate_blocked)
+        .collect::<Vec<_>>();
+    let raw_candidates = records
+        .iter()
+        .filter(|record| record.raw_candidate)
+        .collect::<Vec<_>>();
+    let raw_and_blocked = records
+        .iter()
+        .filter(|record| record.raw_candidate && record.gate_blocked)
+        .collect::<Vec<_>>();
+    let mut reason_counts = HashMap::<String, usize>::new();
+    for record in gate_blocked.iter().filter(|record| !record.raw_candidate) {
+        let mut reasons = HashSet::new();
+        for reason in &record.decision_reasons {
+            if reasons.insert(reason) {
+                *reason_counts.entry(reason.clone()).or_default() += 1;
+            }
+        }
+    }
+    let mut gate_blocked_non_candidate_reasons = reason_counts
+        .into_iter()
+        .map(|(reason, count)| ValidationPopulationReasonCount { reason, count })
+        .collect::<Vec<_>>();
+    gate_blocked_non_candidate_reasons.sort_by(|left, right| left.reason.cmp(&right.reason));
+
+    ValidationPopulationAudit {
+        classified_record_count: records.len(),
+        gate_blocked_record_count: gate_blocked.len(),
+        raw_candidate_record_count: raw_candidates.len(),
+        raw_candidate_gate_blocked_record_count: raw_and_blocked.len(),
+        raw_candidate_gate_blocked_no_trade_record_count: raw_and_blocked
+            .iter()
+            .filter(|record| record.decision_class == BacktestDecisionClass::NoTrade)
+            .count(),
+        gate_blocked_non_candidate_record_count: gate_blocked
+            .iter()
+            .filter(|record| !record.raw_candidate)
+            .count(),
+        gate_blocked_non_candidate_reasons,
     }
 }
 
