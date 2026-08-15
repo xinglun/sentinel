@@ -1,0 +1,163 @@
+{
+  "contractVersion": 2,
+  "workItemId": "architecture-review-cli-boundary-v1",
+  "mode": "code",
+  "title": "Review CLI boundary を分離",
+  "baseCommit": "1344b97148cb5c162eb88589c1653c05964f250a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Review command の report directory scan、最新日付選択、fixture evidence 拒否、run status 検証が src/cli.rs に残り、command dispatch と review composition の変更爆発半径を持つ。既存の report/error semantics を変えずに crate-root handler へ移す。",
+  "intent": {
+    "problem": "Review command の orchestration と helper を src/review_cli_handler.rs に移し、src/cli.rs を dispatch に限定する。",
+    "constraints": [
+      "最新 dated Markdown の選択、weekly auto report の除外、fixture/file URL 拒否、run status 必須・Succeeded 判定、stdout/error semantics を変更しない。",
+      "Radar、Backtest、Research、Gate、DecisionPacket、snapshot、persisted data format を変更しない。",
+      "新しい command、report section、i18n 文言、data source を追加しない。"
+    ],
+    "rationale": "behavior-preserving architecture hygiene として root CLI の変更爆発半径を縮小する。"
+  },
+  "scope": [
+    ".ai/work-items/active/architecture-review-cli-boundary-v1.contract.json",
+    ".ai/work-items/active/architecture-review-cli-boundary-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/cli.rs",
+    "src/lib.rs",
+    "src/review_cli_handler.rs"
+  ],
+  "outOfScope": [
+    "src/features/**",
+    "Review report content、i18n、snapshot、persisted data、run status schema",
+    "新しい command、source、provider、decision rule"
+  ],
+  "sources": [
+    {
+      "path": "src/cli.rs",
+      "reason": "Review dispatch と既存 helper の behavior を確認する。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "Review が利用する既存 run status 契約を維持する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Review helper の inline tests と report/error 回帰を確認する。"
+    },
+    {
+      "path": "scripts/check_architecture_boundaries.py",
+      "reason": "crate-root composition handler に feature boundary 違反がないことを確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "既存 helper、inline tests、対象ファイル、検証コマンドが明確で、移動以外の変更を含めない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、acceptance、既存 test evidence、verification が確定した。"
+  },
+  "preReviewWarnings": [
+    "Review の stdout、stderr、exit status、latest-date selection、fixture rejection、run status validation を変えない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Review の orchestration と helper が src/review_cli_handler.rs に移り、src/cli.rs は handler dispatch 呼び出しだけを保持する。",
+    "最新 dated report 選択、weekly auto report 除外、fixture/file URL 拒否、run status 検証、report output/error contract が既存 inline tests と targeted tests で維持される。",
+    "feature 層、Radar/Backtest/Research semantics、snapshot、persisted data format に意図的差分を作らない。",
+    "crate-root composition handler は既存 config と shared run-status contract を利用し、新しい domain rule や data source を導入しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-review-cli-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/architecture-review-cli-boundary-v1.summary.json CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-review-cli-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/architecture-review-cli-boundary-v1.contract.json SUMMARY=.ai/work-items/active/architecture-review-cli-boundary-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。",
+  "scenarioCoverage": [
+    {
+      "scenario": "Review preserves latest dated report selection and weekly exclusion",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/cli.rs"],
+      "reason": "既存 review inline tests と移動後の targeted tests で確認する。"
+    },
+    {
+      "scenario": "Review preserves fixture rejection and run status validation",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/cli.rs", "src/features/shared/application/run_status.rs"],
+      "reason": "既存失敗系 review tests で確認する。"
+    },
+    {
+      "scenario": "new handler preserves composition dependency direction",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/check_architecture_boundaries.py", "src/review_cli_handler.rs"],
+      "reason": "architecture boundary checker と全量 quality で確認する。"
+    }
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "再開中の behavior-preserving CLI boundary 整理として Review helper の crate-root composition handler への移動を許可する。feature/domain の再編は許可しない。",
+    "openQuestions": ["実装後に Review の success/error parity と architecture checks が通過することを確認する。"]
+  }
+}
