@@ -128,6 +128,7 @@ jobs:
 
           # Ensure source exists
           test -s backtest/summary.md
+          test -s backtest/enhanced/validation.json
 
           # 1) latest pointer (overwrite)
           cp -f backtest/summary.md backtest/summary_latest.md
@@ -142,7 +143,17 @@ jobs:
             echo "✅ Archived: ${ARCHIVE_PATH}"
           fi
 
-          # 3) metrics archive
+          # 3) validation utility latest pointer (overwrite) and immutable archive
+          cp -f backtest/enhanced/validation.json backtest/validation_latest.json
+          VALIDATION_ARCHIVE_PATH="backtest/archive/validation_${DATE_JST}.json"
+          if [ -f "${VALIDATION_ARCHIVE_PATH}" ]; then
+            echo "⚠️ Validation archive already exists: ${VALIDATION_ARCHIVE_PATH} (keeping existing, not overwriting)"
+          else
+            cp backtest/enhanced/validation.json "${VALIDATION_ARCHIVE_PATH}"
+            echo "✅ Archived: ${VALIDATION_ARCHIVE_PATH}"
+          fi
+
+          # 4) metrics archive
           cp -f backtest/state_machine_metrics.md backtest/state_machine_metrics_latest.md
           cp -f backtest/state_machine_metrics.json backtest/state_machine_metrics_latest.json
           cp backtest/state_machine_metrics.md "backtest/archive/state_machine_metrics_${DATE_JST}.md"
@@ -156,6 +167,7 @@ jobs:
           REQUIRED_FILES=(
             "backtest/summary.md"
             "backtest/summary_latest.md"
+            "backtest/validation_latest.json"
             "backtest/state_machine_metrics.json"
             "backtest/state_machine_metrics.md"
           )
@@ -257,6 +269,7 @@ jobs:
           fi
           rsync -a --delete "${ROOT_DIR}/reports/" "${DATA_DIR}/reports/"
           rsync -a "${ROOT_DIR}/backtest/summary_latest.md" "${DATA_DIR}/backtest/"
+          rsync -a "${ROOT_DIR}/backtest/validation_latest.json" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.md" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/state_machine_metrics_latest.json" "${DATA_DIR}/backtest/"
           rsync -a "${ROOT_DIR}/backtest/archive/" "${DATA_DIR}/backtest/archive/"

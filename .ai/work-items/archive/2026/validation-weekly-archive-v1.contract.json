@@ -1,0 +1,151 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-weekly-archive-v1",
+  "mode": "code",
+  "title": "固化 weekly Validation Utility archive 与 cohort traceability",
+  "baseCommit": "f6f33c495abd4cb4aec312a81ad3f9257632a0f6",
+  "baselineDirtyPaths": [],
+  "problemStatement": "weekly_backtest workflow は summary と state machine metrics だけを data branch に保存し、既に生成されている validation.json を保存していない。そのため、Decision Utility の cohort と maturity を週次で再監査できず、latest と immutable archive の境界もない。",
+  "intent": {
+    "problem": "weekly Validation Utility artifact を latest pointer と日付付き immutable archive として data branch に保存し、cohort identity を失わずに後から再監査できるようにする。",
+    "constraints": [
+      "既存の Validation Utility、Protection、Confirmation、Net Decision Value の計算式と cohort 集計を変更しない。",
+      "Decision semantics、Gate、Execution、Trader、Position Sizing、weekly review、i18n を変更しない。",
+      "archive は同一日付の既存 artifact を上書きせず、latest は現行 run を指す。",
+      "validation.json の decision_snapshot_version と universe_id を含む structured record をそのまま保存し、週を跨いで cohort を合算しない。"
+    ],
+    "rationale": "Validation Epoch の KPI は後から母集団と cohort を再確認できて初めて有効であり、weekly workflow の保存漏れを先に閉じる必要がある。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-weekly-archive-v1.contract.json",
+    ".ai/work-items/active/validation-weekly-archive-v1.summary.json",
+    ".github/workflows/weekly_backtest.yml",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "outOfScope": [
+    "src/** の Validation Utility、DecisionPacket、DecisionClass、Gate、portfolio policy の変更",
+    "weekly_state_report.rs、weekly_state_metrics.json、weekly_state_review_auto.md の変更",
+    "Telegram、i18n、reports/** の保存形式変更",
+    "data branch の既存履歴削除、archive 上書き、cohort 間の集約処理",
+    "新しい KPI、horizon、maturity threshold、統計式の追加"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/weekly_backtest.yml",
+      "reason": "weekly backtest の validation artifact snapshot、integrity check、data branch write-back の実装境界。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "既に validation.json を生成している production output と structured cohort fields の契約。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "workflow write-back shell syntax と data branch 境界を検証する既存 test。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-window-separation-v1.summary.json",
+      "reason": "decision/outcome window と validation artifact の直前の完了記録。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+      "reason": "cohort、maturity、Trend Gate-only utility の既存業務境界。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "reason": "Validation artifact の出力先と data branch を別境界として扱う設計 SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "変更は weekly workflow の保存対象と shell contract test に限定され、既存 validation facts を再計算しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "workflow、既存 validation artifact、既存 shell syntax test が明確で、scope 内で実装・検証できる。"
+  },
+  "preReviewWarnings": [
+    "生成 artifact の latest pointer と日付 archive の上書き防止を重点 review する。",
+    "validation.json は cohort を再計算せず、そのまま保存する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Artifact snapshot: weekly workflow copies enhanced/validation.json to backtest/validation_latest.json and backtest/archive/validation_<DATE>.json without overwriting an existing date archive.",
+    "Integrity gate: the workflow fails when enhanced/validation.json or backtest/validation_latest.json is missing or empty.",
+    "Data branch sync: write-back copies backtest/validation_latest.json and backtest/archive/ into the data branch together with existing backtest artifacts.",
+    "Cohort traceability: archived validation.json retains decision_snapshot_version and universe_id fields and no weekly aggregation is introduced.",
+    "Regression evidence: workflow shell syntax and all validation snapshot/archive path assertions are covered by tests.",
+    "Behavior freeze: Validation Utility formulas, Decision semantics, Gate semantics, and weekly review files remain unchanged."
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

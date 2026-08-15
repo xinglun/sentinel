@@ -148,6 +148,10 @@ fn data_branch_write_back_steps_have_valid_shell_syntax() {
     for (workflow_name, step_name) in [
         ("daily_radar.yml", "Commit and Push to Data Worktree"),
         ("weekly_backtest.yml", "Commit and Push to Data Worktree"),
+        (
+            "weekly_backtest.yml",
+            "Snapshot Backtest Summary (latest + archive)",
+        ),
     ] {
         let workflow_path = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join(".github/workflows")
@@ -167,6 +171,25 @@ fn data_branch_write_back_steps_have_valid_shell_syntax() {
             String::from_utf8_lossy(&output.stderr)
         );
     }
+}
+
+#[test]
+fn weekly_backtest_archives_validation_utility_without_overwriting_date_archive() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/weekly_backtest.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read weekly_backtest.yml");
+
+    assert!(workflow.contains("test -s backtest/enhanced/validation.json"));
+    assert!(workflow.contains("backtest/validation_latest.json"));
+    assert!(workflow
+        .contains("VALIDATION_ARCHIVE_PATH=\"backtest/archive/validation_${DATE_JST}.json\""));
+    assert!(workflow.contains("Validation archive already exists"));
+    assert!(workflow.contains("keeping existing, not overwriting"));
+    assert!(workflow.contains(
+        "rsync -a \"${ROOT_DIR}/backtest/validation_latest.json\" \"${DATA_DIR}/backtest/\""
+    ));
+    assert!(workflow
+        .contains("rsync -a \"${ROOT_DIR}/backtest/archive/\" \"${DATA_DIR}/backtest/archive/\""));
 }
 
 #[test]
