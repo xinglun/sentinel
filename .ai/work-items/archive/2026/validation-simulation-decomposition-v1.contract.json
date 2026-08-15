@@ -1,0 +1,166 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-simulation-decomposition-v1",
+  "mode": "code",
+  "title": "Backtest Validation Simulation 内部境界を整理",
+  "baseCommit": "aa1f1186722849c58d7db6d7c5584752a0706330",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Backtest の simulation.rs が日次 replay、候補 episode 集計、Protection Utility、Confirmation Cost、Net Decision Value、テストを一つの module に抱え、Validation Epoch の局所修正の影響範囲が見えにくい。既存の計算と出力を変えずに内部責務を分離する。",
+  "intent": {
+    "problem": "Validation の既存計算を責務別の内部 module に分割し、後続の校正修正が replay loop と別の KPI 集計へ波及する範囲を下げる。",
+    "constraints": [
+      "run_core_simulation の既存 module path、公開 signature、Backtest DTO、DecisionPacket 変換境界を維持する。",
+      "DecisionClass、Trend Gate、portfolio policy、snapshot version、horizon、censoring、episode key、KPI 計算式を変更しない。",
+      "validation.json、summary.md、weekly metrics、data branch、JSONL、snapshot、i18n の出力契約を変更しない。",
+      "新しい detector、Market Layer、金額 P&L、fee、slippage、execution simulation を追加しない。",
+      "Backtest application から Radar domain への直接依存を追加しない。"
+    ],
+    "rationale": "Validation Epoch 中に business semantics を凍結したまま、最も変更頻度の高い simulation 実装の爆発半径だけを下げる。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+    ".ai/work-items/active/validation-simulation-decomposition-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/simulation/runner.rs",
+    "src/features/backtest/application/simulation/episodes.rs",
+    "src/features/backtest/application/simulation/utility.rs",
+    "src/features/backtest/application/simulation/confirmation.rs",
+    "src/features/backtest/application/simulation/net_value.rs",
+    "src/features/backtest/application/simulation/simulation_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/validation.rs",
+    "src/features/backtest/acl/**",
+    "src/features/backtest/interface/**",
+    "src/features/backtest/infrastructure/**",
+    "src/features/research/**",
+    "tests/snapshots/**",
+    "reports/**",
+    "backtest/**",
+    "config.toml",
+    "Decision semantics、Gate、portfolio policy、snapshot version、i18n、data branch、weekly metrics"
+  ],
+  "sources": [
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "現在の replay loop、episode lifecycle、utility、confirmation、net value の責務と既存 private helper を確認する。"
+    },
+    {
+      "path": "src/features/backtest/application/model.rs",
+      "reason": "Validation DTO と BacktestSimulationReport の公開契約を変更対象外として固定する。"
+    },
+    {
+      "path": "src/features/backtest/application/validation.rs",
+      "reason": "forward outcome、quantile、validation status の既存 helper 境界を確認する。"
+    },
+    {
+      "path": "src/features/backtest/infrastructure/output.rs",
+      "reason": "validation.json と summary.md の出力契約が simulation 分割で変わらないことを確認する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "episode、horizon、censoring、Trend Gate-only utility の業務契約を確認する。"
+    },
+    {
+      "path": ".ai/guards/validation_epoch_policy.yaml",
+      "reason": "Backtest application の同一 Epoch 内で許可される構造整理の境界を確認する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "既存日次 replay が同じ BacktestDecisionEngine、20 日 window、simulation date 順序で実行される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/backtest/application/simulation.rs", "make test"],
+      "reason": "既存 replay loop と baseline test を確認済み。分割後に同じ証拠を再実行する。"
+    },
+    {
+      "scenario": "同一 episode の複数 asset-day が Protection / Confirmation / Net Value で従来どおり一度だけ集計される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/backtest/application/simulation.rs", "make test"],
+      "reason": "既存 episode/censoring/paired utility test を確認済み。分割後に同一 assertion を再実行する。"
+    },
+    {
+      "scenario": "T+5/T+10/T+20、reason breakdown、MFE/MAE、未完了 lifecycle の値と maturity が変わらない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/backtest/application/simulation.rs", "src/features/backtest/infrastructure/output.rs", "make test"],
+      "reason": "既存 horizon、utility、output contract test を確認済み。分割後に再実行する。"
+    },
+    {
+      "scenario": "Backtest application の内部 module が Radar domain、interface、infrastructure へ依存しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/validation_epoch_policy.yaml", "make check-architecture-all"],
+      "reason": "Backtest application の既存依存境界を確認済み。新 module へ上位依存を追加しない。"
+    },
+    {
+      "scenario": "新しい report、data、i18n、snapshot、Make entrypoint を生成・変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/work-items/active/validation-simulation-decomposition-v1.contract.json", "make check-ai-scope"],
+      "reason": "出力・data・i18n・snapshot を scope 外に固定済み。実装後に diff audit で再確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["review_debt", "data_integrity", "scope_unclear"],
+    "reason": "simulation.rs は validation の全 KPI を通過するため、内部 module の再 export と helper visibility を誤ると計算・出力が変わる。既存 test、output contract、architecture、full quality を必須にする。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "構造整理の対象、非対象、業務契約、検証コマンドが確定しており、production semantics を変更せず実装できる。"
+  },
+  "preReviewWarnings": [
+    "review では run_core_simulation の公開 path、既存 DTO の再 export、episode key、horizon censoring、Trend Gate-only 表記、output diff を重点確認する。",
+    "simulation.rs の全 helper を機械的に移動するだけに留め、計算式の整理や命名変更を同時に行わない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "run_core_simulation の既存 module path、公開 signature、BacktestSimulationReport の型が維持される。",
+    "replay runner、episode aggregation、utility、confirmation、net value の責務が別 internal module に分離される。",
+    "既存の episode key、Trend Gate-only cohort、T+5/T+10/T+20、censoring、MFE/MAE、reason breakdown、maturity の値が変わらない。",
+    "validation.json と summary.md の構造・文言・数値に意図的な変更がない。",
+    "Backtest application の新しい内部 module に Radar domain、interface、infrastructure の import が存在しない。",
+    "make fmt-check、make test、make clippy、make check-architecture-all、および Contract/Scope/Guard/Backtrack/Coverage の required checks が pass する。",
+    "scope 外の DecisionPacket、Gate、MarketState、portfolio policy、snapshot、i18n、data branch、reports に差分がない。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-architecture-all", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json", "required": true}
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "已确认下一批先处理 Backtest Validation Simulation 的 behavior-preserving 内部拆分，保持 Validation Epoch 业务语义冻结。",
+    "openQuestions": ["实现后必须用 full quality 与 output contract 确认数值和产物不变。"]
+  },
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "この Work Item の diff を revert し、simulation module の旧構成へ戻す。"
+}
