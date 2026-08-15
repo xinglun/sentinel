@@ -252,6 +252,23 @@ pub struct ValidationReasonUtility {
 }
 
 #[derive(Debug, Clone, Default, serde::Serialize)]
+pub struct ValidationPopulationAudit {
+    pub classified_record_count: usize,
+    pub gate_blocked_record_count: usize,
+    pub raw_candidate_record_count: usize,
+    pub raw_candidate_gate_blocked_record_count: usize,
+    pub raw_candidate_gate_blocked_no_trade_record_count: usize,
+    pub gate_blocked_non_candidate_record_count: usize,
+    pub gate_blocked_non_candidate_reasons: Vec<ValidationPopulationReasonCount>,
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize)]
+pub struct ValidationPopulationReasonCount {
+    pub reason: String,
+    pub count: usize,
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize)]
 pub struct ConfirmationCostSummary {
     pub episode_sample_count: usize,
     pub lifecycle_complete_episode_count: usize,
@@ -271,6 +288,7 @@ pub struct ValidationCohortReport {
     pub outcomes: Vec<ValidationClassOutcome>,
     pub baseline: ValidationBaselineComparison,
     pub utility: ValidationUtility,
+    pub population: ValidationPopulationAudit,
     pub confirmation_cost: ConfirmationCostSummary,
     pub net_decision_value: NetDecisionValue,
     pub sample_maturity: String,
