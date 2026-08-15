@@ -67,11 +67,12 @@ pub async fn run() -> Result<()> {
         }
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;
-            crate::features::backtest::interface::backtest::run_backtest(
+            crate::features::backtest::interface::backtest::run_backtest_with_outcome_to(
                 &app_config,
                 provider.as_ref(),
                 &options.backtest_from_date,
                 &options.backtest_to_date,
+                options.backtest_outcome_to_date.as_deref(),
             )
             .await?;
         }
