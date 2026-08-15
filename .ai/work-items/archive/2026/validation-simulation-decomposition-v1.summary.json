@@ -1,0 +1,252 @@
+{
+  "workItemId": "validation-simulation-decomposition-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-simulation-decomposition-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+      "reason": "Work Item の scope、業務境界、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-simulation-decomposition-v1.summary.json",
+      "reason": "Work Item の検証計画と checkpoint を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status を active Contract と同期する。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation.rs",
+      "reason": "互換 facade と内部 module 境界を追加した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/runner.rs",
+      "reason": "日次 simulation runner を分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/episodes.rs",
+      "reason": "validation episode 集計を分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/utility.rs",
+      "reason": "Validation Utility 集計を分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/confirmation.rs",
+      "reason": "Confirmation Cost 集計を分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/net_value.rs",
+      "reason": "Net Decision Value 集計を分離した。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/simulation_tests.rs",
+      "reason": "既存 simulation regression tests を分離した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+    "src/features/backtest/application/simulation.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/validation.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+    ".ai/guards/validation_epoch_policy.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-simulation-decomposition-v1.contract.json SUMMARY=.ai/work-items/active/validation-simulation-decomposition-v1.summary.json",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "simulation.rs の内部再配置で Validation の既存計算へ影響しないことを full quality と output contract で確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope、sources、acceptance、verification を確定した。",
+      "contractHash": "d331785278b3a519",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract verification と preflight が通過したため production edit を開始した。",
+      "contractHash": "d331785278b3a519",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装後の scope、テスト構成、互換 facade を確認した。",
+      "contractHash": "d331785278b3a519",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification 13 項目が全て passed になった。",
+      "contractHash": "d331785278b3a519",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Approved plan と current source の scope を Contract に反映した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Contract verification と preflight が通過したため production edit を開始できる。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装後の scope と内部境界を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification 13 項目が全て通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "validation-regression",
+      "detail": "同一の既存テストが分割後も全て pass することを確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "既存日次 replay が同じ BacktestDecisionEngine、20 日 window、simulation date 順序で実行される",
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs",
+        "make test"
+      ],
+      "required": true,
+      "reason": "実装前の既存 replay と baseline test を確認済み。実装後に再実行する。"
+    },
+    {
+      "scenario": "同一 episode の複数 asset-day が Protection / Confirmation / Net Value で従来どおり一度だけ集計される",
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs",
+        "make test"
+      ],
+      "required": true,
+      "reason": "実装前の episode/censoring/paired utility test を確認済み。実装後に再実行する。"
+    },
+    {
+      "scenario": "T+5/T+10/T+20、reason breakdown、MFE/MAE、未完了 lifecycle の値と maturity が変わらない",
+      "status": "verified",
+      "evidence": [
+        "src/features/backtest/application/simulation.rs",
+        "src/features/backtest/infrastructure/output.rs",
+        "make test"
+      ],
+      "required": true,
+      "reason": "実装前の horizon、utility、output contract test を確認済み。実装後に再実行する。"
+    },
+    {
+      "scenario": "Backtest application の内部 module が Radar domain、interface、infrastructure へ依存しない",
+      "status": "verified",
+      "evidence": [
+        ".ai/guards/validation_epoch_policy.yaml",
+        "make check-architecture-all"
+      ],
+      "required": true,
+      "reason": "既存依存境界を確認済み。実装後に再実行する。"
+    },
+    {
+      "scenario": "新しい report、data、i18n、snapshot、Make entrypoint を生成・変更しない",
+      "status": "verified",
+      "evidence": [
+        ".ai/work-items/active/validation-simulation-decomposition-v1.contract.json",
+        "make check-ai-scope"
+      ],
+      "required": true,
+      "reason": "scope 外を固定済み。実装後に diff audit で再確認する。"
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "内部 module 分割と全 required verification が完了した。",
+    "expectedReviewFocus": [
+      "既存 public path と DTO の維持",
+      "episode / horizon / censoring の計算不変",
+      "output と scope 外 diff の不変"
+    ]
+  }
+}
