@@ -1,0 +1,153 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-window-separation-v1",
+  "mode": "code",
+  "title": "Validation decision window と outcome window の分離",
+  "baseCommit": "f9d58b7782db8a07c9d3e0c10d5b4346e2dcddb4",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Backtest の decision window と forward outcome window が同じ --to に束縛されているため、正確な 20 decision-day sample を取得すると T+20 が未成熟になる。意思決定期間を維持したまま、結果観測期間だけを延長できる入口と出力事実を追加する。",
+  "intent": {
+    "problem": "現行 CLI は --from / --to を simulation dates と provider history の両方に使い、決策期末後の T+5/T+10/T+20 を取得できない。",
+    "constraints": [
+      "--from と --to は decision window の境界として維持する。",
+      "--outcome-to は provider history の終端だけを延長し、simulation dates や decision semantics を変更しない。",
+      "--outcome-to が無い場合は従来の --to と同じ挙動を維持する。",
+      "Gate、DecisionPacket、DecisionClass、Utility の計算式、portfolio simulation は変更しない。"
+    ],
+    "rationale": "20 日分の決策サンプルと、その後の成熟 forward outcome を同じ replay で取得し、N/A を未取得期間の副作用ではなく実際の母集団不足として判定できるようにする。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-window-separation-v1.contract.json",
+    ".ai/work-items/active/validation-window-separation-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/shared/interface/cli_args.rs",
+    "src/cli.rs",
+    "src/features/backtest/interface/backtest.rs",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation/runner.rs",
+    "src/features/backtest/infrastructure/output.rs",
+    "src/features/backtest/application/simulation/simulation_tests.rs",
+    "tests/backtest_cli_integration.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/**",
+    "DecisionPacket、DecisionClass、Gate、execution、trader、portfolio policy の変更",
+    "Protection / Confirmation / Net Decision の計算式変更",
+    "weekly review、data branch、Telegram、i18n の変更",
+    "reports/**、backtest/** の生成 artifact"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md",
+      "reason": "T+5/T+10/T+20 の session horizon と censoring の契約。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "reason": "未完了 horizon を N/A とし、decision semantics を変更しない業務境界。"
+    },
+    {
+      "path": "src/features/backtest/interface/backtest.rs",
+      "reason": "現行 --from / --to が provider history と simulation dates の双方に使われている入口。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/runner.rs",
+      "reason": "forward outcome が履歴 bar の session index から計算される実装。"
+    },
+    {
+      "path": "src/features/shared/interface/cli_args.rs",
+      "reason": "Backtest CLI option の SSOT。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "api_change"
+    ],
+    "reason": "追加 CLI option と report window metadata に限定し、既存 default と decision semantics を保持する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "window boundary、CLI option、既存 default、検証対象が確定している。"
+  },
+  "preReviewWarnings": [
+    "--outcome-to は結果履歴の終端だけを延長し、decision window の日数を増やしてはならない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "--outcome-to YYYY-MM-DD を指定した場合、provider history は outcome-to まで取得するが、simulation dates は --from から --to の範囲だけになる。",
+    "--outcome-to を省略した場合、既存の --from / --to の挙動と public run_backtest wrapper を維持する。",
+    "--outcome-to が decision --to より前の場合は fail closed し、simulation を実行しない。",
+    "summary.md に decision window と outcome window の境界が表示され、validation artifact でも同じ境界を識別できる。",
+    "短い decision window と延長 outcome window、既定 window、無効な outcome-to の unit / integration test を追加する。",
+    "既存の src/features/backtest/application/simulation/utility.rs、confirmation.rs、net_value.rs の算式と出力値を変更せず、default / extended window の既存 utility field をテストで比較する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json SUMMARY=.ai/work-items/active/validation-window-separation-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-window-separation-v1.summary.json CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json SUMMARY=.ai/work-items/active/validation-window-separation-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-window-separation-v1.contract.json SUMMARY=.ai/work-items/active/validation-window-separation-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

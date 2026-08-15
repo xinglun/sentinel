@@ -85,6 +85,7 @@ pub(crate) struct CliOptions {
     pub research_notify: bool,
     pub backtest_from_date: String,
     pub backtest_to_date: String,
+    pub backtest_outcome_to_date: Option<String>,
 }
 
 impl CliProviderKind {
@@ -129,6 +130,7 @@ impl CliOptions {
             research_notify: false,
             backtest_from_date: "2024-01-01".to_string(),
             backtest_to_date: "2024-02-01".to_string(),
+            backtest_outcome_to_date: None,
         }
     }
 }
@@ -358,6 +360,13 @@ pub(crate) fn parse_cli_options(
             "--to" if i + 1 < args.len() => {
                 options.backtest_to_date = args[i + 1].clone();
                 i += 1;
+            }
+            "--outcome-to" if i + 1 < args.len() => {
+                options.backtest_outcome_to_date = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--outcome-to" => {
+                options.cli_arg_error = Some("Missing value for --outcome-to".to_string());
             }
             unknown => {
                 options.cli_arg_error = Some(format!("Unknown command or option: {}", unknown));

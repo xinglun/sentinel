@@ -123,6 +123,13 @@ pub struct BacktestRegimeAudit {
     pub max_drawdown_20d: f64,
 }
 
+#[derive(Debug, Clone, Default, serde::Serialize)]
+pub struct ValidationWindow {
+    pub decision_start: Option<NaiveDate>,
+    pub decision_end: Option<NaiveDate>,
+    pub outcome_end: Option<NaiveDate>,
+}
+
 #[derive(Debug, Clone)]
 pub struct BacktestSimulationReport {
     pub name: String,
@@ -130,6 +137,7 @@ pub struct BacktestSimulationReport {
     pub reliability: Vec<BacktestReliabilityBucket>,
     pub regime_audit: Vec<BacktestRegimeAudit>,
     pub validation: ValidationReport,
+    pub window: ValidationWindow,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize)]

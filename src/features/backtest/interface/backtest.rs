@@ -20,8 +20,29 @@ pub async fn run_backtest(
     from_date_str: &str,
     to_date_str: &str,
 ) -> Result<()> {
+    run_backtest_with_outcome_to(config, provider, from_date_str, to_date_str, None).await
+}
+
+pub async fn run_backtest_with_outcome_to(
+    config: &AppConfig,
+    provider: &(dyn MarketDataProvider + Send + Sync),
+    from_date_str: &str,
+    to_date_str: &str,
+    outcome_to_date_str: Option<&str>,
+) -> Result<()> {
     let from_date = NaiveDate::parse_from_str(from_date_str, "%Y-%m-%d")?;
     let to_date = NaiveDate::parse_from_str(to_date_str, "%Y-%m-%d")?;
+    let outcome_to_date = outcome_to_date_str
+        .map(|value| NaiveDate::parse_from_str(value, "%Y-%m-%d"))
+        .transpose()?
+        .unwrap_or(to_date);
+    if outcome_to_date < to_date {
+        return Err(anyhow::anyhow!(
+            "Outcome window end {} cannot precede decision window end {}.",
+            outcome_to_date,
+            to_date
+        ));
+    }
 
     let from_dt = OffsetDateTime::from_unix_timestamp(
         from_date
@@ -32,7 +53,7 @@ pub async fn run_backtest(
     )
     .ok();
     let to_dt = OffsetDateTime::from_unix_timestamp(
-        to_date
+        outcome_to_date
             .and_hms_opt(23, 59, 59)
             .unwrap()
             .and_utc()
@@ -41,8 +62,8 @@ pub async fn run_backtest(
     .ok();
 
     println!(
-        "📊 Fetching history for backtest from {} to {}...",
-        from_date_str, to_date_str
+        "📊 Fetching history for decision window {} to {} and outcome window through {}...",
+        from_date_str, to_date_str, outcome_to_date
     );
 
     let mut histories = HashMap::new();
