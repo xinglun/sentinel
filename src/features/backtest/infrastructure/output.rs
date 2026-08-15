@@ -9,7 +9,17 @@ pub fn write_run_artifacts(report: &BacktestSimulationReport) -> Result<()> {
     let summary_markdown = render_summary_markdown(report);
     let state_machine_metrics_markdown = render_state_machine_metrics_markdown(&report.metrics);
     let state_machine_metrics_json = serde_json::to_string_pretty(&report.metrics)?;
-    let validation_json = serde_json::to_string_pretty(&report.validation)?;
+    let validation_json = serde_json::to_string_pretty(&serde_json::json!({
+        "decision_window": {
+            "start": report.window.decision_start,
+            "end": report.window.decision_end,
+        },
+        "outcome_window": {
+            "start": report.window.decision_start,
+            "end": report.window.outcome_end,
+        },
+        "validation": report.validation,
+    }))?;
 
     let dir_name = report.name.as_str();
     let base_dir = format!("backtest/{}", dir_name);
@@ -37,6 +47,13 @@ fn render_summary_markdown(report: &BacktestSimulationReport) -> String {
 
     let mut summary = String::new();
     summary.push_str(&format!("# 🔭 Backtest Summary ({})\n\n", report.name));
+    summary.push_str(&format!(
+        "## Validation Window\n\n- Decision window: {} → {}\n- Outcome window: {} → {}\n\n",
+        format_window_date(report.window.decision_start),
+        format_window_date(report.window.decision_end),
+        format_window_date(report.window.decision_start),
+        format_window_date(report.window.outcome_end),
+    ));
     summary.push_str("## 1. Reliability Calibration\n| Bucket | Total | Correct | Win Rate |\n|---|---|---|---|\n");
     for bucket in &report.reliability {
         summary.push_str(&format!(
@@ -96,6 +113,11 @@ fn render_summary_markdown(report: &BacktestSimulationReport) -> String {
     ));
     render_validation_summary(&mut summary, report);
     summary
+}
+
+fn format_window_date(date: Option<chrono::NaiveDate>) -> String {
+    date.map(|value| value.to_string())
+        .unwrap_or_else(|| "N/A".to_string())
 }
 
 fn render_validation_summary(summary: &mut String, report: &BacktestSimulationReport) {
@@ -626,9 +648,13 @@ mod tests {
                 }],
                 ..Default::default()
             },
+            window: Default::default(),
         };
         let summary = render_summary_markdown(&report);
         assert!(summary.contains("## 4. Decision Validation"));
+        assert!(summary.contains("## Validation Window"));
+        assert!(summary.contains("Decision window: N/A → N/A"));
+        assert!(summary.contains("Outcome window: N/A → N/A"));
         assert!(summary.contains("#### Protection Population Audit"));
         assert!(summary.contains("Raw Top-3 × Gate blocked records"));
         assert!(summary.contains("Gate blocked non-candidate reasons"));

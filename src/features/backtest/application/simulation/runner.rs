@@ -4,7 +4,7 @@ use crate::features::backtest::application::model::{
     BacktestDecisionClass, BacktestDecisionSnapshot, BacktestRegimeAudit,
     BacktestReliabilityBucket, BacktestRules, BacktestSimulationReport, BacktestTickerHistory,
     BacktestTrendStatus, BacktestTrendTopology, BacktestWatchlistEntry, ValidationClassOutcome,
-    ValidationDecisionRecord,
+    ValidationDecisionRecord, ValidationWindow,
 };
 use crate::features::backtest::application::validation::{
     empirical_quantile, forward_outcome, top_decile_mean, validation_status,
@@ -538,6 +538,12 @@ pub fn run_core_simulation(
         .collect();
 
     let validation = build_validation_report(&validation_records);
+    let decision_start = simulation_dates.first().copied();
+    let decision_end = simulation_dates.last().copied();
+    let outcome_end = histories
+        .values()
+        .filter_map(|history| history.bars.last().map(|bar| bar.date))
+        .max();
 
     Ok(BacktestSimulationReport {
         name: dir_name.to_string(),
@@ -545,6 +551,11 @@ pub fn run_core_simulation(
         reliability,
         regime_audit,
         validation,
+        window: ValidationWindow {
+            decision_start,
+            decision_end,
+            outcome_end,
+        },
     })
 }
 
