@@ -1,0 +1,103 @@
+{
+  "contractVersion": 2,
+  "workItemId": "radar-persistence-model-atomic-boundary-v1",
+  "mode": "code",
+  "title": "Persistence Model と原子的書き込み境界を分離",
+  "baseCommit": "d4532a278f1b1c90381489526501d8d319c324d7",
+  "baselineDirtyPaths": [],
+  "problemStatement": "persistence.rs に集積した永続化 DTO と原子的書き込みトランザクションの境界を分離し、Validation Epoch 中の将来変更の影響範囲を縮小する。機械的な内部再配置であり、業務挙動は変更しない。",
+  "intent": {
+    "problem": "persistence.rs に集積した永続化 DTO と原子的書き込み transaction の境界を分離し、Validation Epoch 中の将来変更の影響範囲を縮小する。",
+    "constraints": [
+      "既存 public path、snapshot schema、history migration、ファイル名、JSON/JSONL 契約、エラー境界を維持する。",
+      "PersistenceLayer の public API と atomic write の commit / rollback / Drop semantics を変更しない。",
+      "新しい Persistence capability、report、data branch、snapshot、i18n、Make entrypoint を追加しない。"
+    ],
+    "rationale": "Validation Epoch 中に business semantics を凍結したまま、Persistence の高変更領域を model と atomic write の境界へ整理する。"
+  },
+  "scope": [
+    ".ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json",
+    ".ai/work-items/active/radar-persistence-model-atomic-boundary-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/infrastructure/persistence/model.rs",
+    "src/features/radar/infrastructure/persistence/atomic.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/infrastructure/persistence.rs の migration lifecycle、snapshot schema、ファイル名、JSON/JSONL 契約の変更",
+    "src/features/radar/application/**",
+    "src/features/radar/domain/**",
+    "reports/**、data/**、snapshot、i18n、Makefile、CI の変更",
+    "新しい Persistence capability、新しい operational command、Validation KPI の追加"
+  ],
+  "sources": [
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "現行の永続化 DTO、原子的書き込み helper、transaction lifecycle、既存 test の実装事実。"},
+    {"path": "src/features/radar/infrastructure/mod.rs", "reason": "PersistenceLayer の現在の module 公開境界。"},
+    {"path": "src/features/radar/infrastructure/radar_runtime_factory.rs", "reason": "PersistenceLayer の production 利用経路。"},
+    {"path": "tests/pipeline_integration.rs", "reason": "Persistence と application 境界の integration contract。"},
+    {"path": ".ai/guards/validation_epoch_policy.yaml", "reason": "Validation Epoch 中の behavior-preserving refactor 許可範囲。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["data_integrity", "architecture_boundary", "review_debt"],
+    "reason": "永続化の型と atomic transaction の内部移動は可能だが、serde schema、private visibility、rollback semantics を全量 test と quality で確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、rollback 方針が確定し、behavior-preserving refactor として実装・検証可能。"
+  },
+  "preReviewWarnings": [
+    "module 化で public path と serde derive の所在が変わるため、snapshot roundtrip と migration regression を review focus にする。",
+    "新規 model / atomic module は変更証跡として root の boundary test と full quality を要求する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Persistence DTO（PreviousSnapshotResolution、TradingDaySnapshot、ObservationHistoryState、PriceVolumeObservationRecord）を model module に移し、既存の利用可能性と serde schema を維持する。",
+    "write_file_atomically と HistoryWriteTransaction の commit / rollback / Drop semantics を atomic module に移し、PersistenceLayer から同じ内部契約で利用できる。",
+    "PersistenceLayer の既存 public API、snapshot version、history migration、ファイル名、エラー境界を変更しない。",
+    "既存 persistence / pipeline tests と新しい module boundary test が通過する。",
+    "新しい report、data branch、JSONL、snapshot、i18n、Make entrypoint を生成・変更しない。",
+    "Radar domain / application の依存方向と Validation Epoch の behavior-preserving 境界を維持する。",
+    "Summary の changedFiles / verification / checkpointEvidence と Cockpit status を、ai-finish が検証できる完了状態へ同期する。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make check-architecture-all", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.summary.json CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-model-atomic-boundary-v1.summary.json", "required": true}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "既存 PersistenceLayer public path と Persistence DTO の serde roundtrip が維持される", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/persistence.rs", "make test"], "reason": "現行の persistence roundtrip / snapshot schema tests を実装前 baseline として確認済み。"},
+    {"scenario": "atomic write の既存 file replacement と transaction rollback / commit semantics が維持される", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/persistence.rs", "make test"], "reason": "現行 atomic write と transaction tests を実装前 baseline として確認済み。"},
+    {"scenario": "legacy migration と formal snapshot resolution の出力・ファイル契約が変わらない", "required": true, "status": "verified", "evidence": ["src/features/radar/infrastructure/persistence.rs", "tests/pipeline_integration.rs", "make test"], "reason": "migration / formal snapshot regression tests を実装前 baseline として確認済み。"},
+    {"scenario": "Radar application / domain の依存方向と Validation Epoch の behavior-preserving 境界を維持する", "required": true, "status": "verified", "evidence": [".ai/guards/validation_epoch_policy.yaml", "make check-architecture-all"], "reason": "既存 architecture boundary と epoch policy を確認済み。"},
+    {"scenario": "新しい report、data、JSONL、snapshot、i18n、Make entrypoint を生成・変更しない", "required": true, "status": "verified", "evidence": [".ai/work-items/active/radar-persistence-model-atomic-boundary-v1.contract.json", "make check-ai-scope"], "reason": "scope と outOfScope を固定済み。実装後に scope guard で再確認する。"}
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "Persistence の DTO と atomic write transaction の内部境界整理を、Validation Epoch の behavior-preserving 範囲として実施する。schema、migration、公開 API は凍結する。",
+    "openQuestions": ["実装後に serde schema、rollback semantics、migration output を full quality と regression tests で確認する。"]
+  },
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "新規 module と facade 差分を revert し、base commit の persistence.rs に戻す。既存 data は変更しない。"
+}
