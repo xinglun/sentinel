@@ -188,6 +188,13 @@ use std::collections::HashMap;
         assert_eq!(report.baseline.ready_average_20d_mfe, Some(0.10));
         assert!((report.baseline.return_difference.unwrap() - 0.04666666666666667).abs() < 1e-12);
         assert_eq!(report.sample_maturity, "INSUFFICIENT");
+        let population = &report.cohorts[0].population;
+        assert_eq!(population.classified_record_count, 3);
+        assert_eq!(population.gate_blocked_record_count, 2);
+        assert_eq!(population.raw_candidate_record_count, 3);
+        assert_eq!(population.raw_candidate_gate_blocked_record_count, 2);
+        assert_eq!(population.raw_candidate_gate_blocked_no_trade_record_count, 2);
+        assert_eq!(population.gate_blocked_non_candidate_record_count, 0);
     }
 
     #[test]
@@ -232,6 +239,17 @@ use std::collections::HashMap;
         assert_eq!(cohort.utility.top_decile_missed_upside, Some(0.03));
         assert_eq!(cohort.utility.horizon_5d.complete_sample_count, 0);
         assert_eq!(cohort.utility.horizon_20d.complete_sample_count, 1);
+        assert_eq!(cohort.population.classified_record_count, 3);
+        assert_eq!(cohort.population.gate_blocked_record_count, 3);
+        assert_eq!(cohort.population.raw_candidate_record_count, 2);
+        assert_eq!(cohort.population.raw_candidate_gate_blocked_record_count, 2);
+        assert_eq!(cohort.population.raw_candidate_gate_blocked_no_trade_record_count, 2);
+        assert_eq!(cohort.population.gate_blocked_non_candidate_record_count, 1);
+        assert_eq!(
+            cohort.population.gate_blocked_non_candidate_reasons[0].reason,
+            "TREND_GATE_BLOCKED"
+        );
+        assert_eq!(cohort.population.gate_blocked_non_candidate_reasons[0].count, 1);
     }
 
     #[test]

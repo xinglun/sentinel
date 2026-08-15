@@ -138,6 +138,31 @@ fn render_validation_cohort(
         cohort.protection_sample_maturity,
         cohort.confirmation_sample_maturity
     ));
+    let population = &cohort.population;
+    summary.push_str(&format!(
+        "\n#### Protection Population Audit\n\n- Classified records: {}\n- Gate blocked records: {}\n- Raw Top-3 candidate records: {}\n- Raw Top-3 × Gate blocked records: {}\n- Raw Top-3 × Gate blocked × NO_TRADE records: {}\n- Gate blocked non-candidate records: {}\n- Gate blocked non-candidate reasons (records may have multiple reasons): ",
+        population.classified_record_count,
+        population.gate_blocked_record_count,
+        population.raw_candidate_record_count,
+        population.raw_candidate_gate_blocked_record_count,
+        population.raw_candidate_gate_blocked_no_trade_record_count,
+        population.gate_blocked_non_candidate_record_count
+    ));
+    if population.gate_blocked_non_candidate_reasons.is_empty() {
+        summary.push_str("N/A");
+    } else {
+        for (index, reason) in population
+            .gate_blocked_non_candidate_reasons
+            .iter()
+            .enumerate()
+        {
+            if index > 0 {
+                summary.push_str(", ");
+            }
+            summary.push_str(&format!("{}={}", reason.reason, reason.count));
+        }
+    }
+    summary.push('\n');
     summary.push_str(
         "\n#### Coverage\n\n| Decision | Samples | T+5 | T+10 | T+20 |\n|---|---:|---:|---:|---:|\n",
     );
@@ -588,6 +613,7 @@ mod tests {
                         }],
                         ..Default::default()
                     },
+                    population: Default::default(),
                     confirmation_cost: ConfirmationCostSummary {
                         average_breakout_to_ready_sessions: Some(2.0),
                         average_return_breakout_to_ready: Some(0.03),
@@ -603,6 +629,9 @@ mod tests {
         };
         let summary = render_summary_markdown(&report);
         assert!(summary.contains("## 4. Decision Validation"));
+        assert!(summary.contains("#### Protection Population Audit"));
+        assert!(summary.contains("Raw Top-3 × Gate blocked records"));
+        assert!(summary.contains("Gate blocked non-candidate reasons"));
         assert!(summary.contains("| NO_TRADE |"));
         assert!(summary.contains("### Counterfactual Baseline"));
         assert!(summary.contains("watchlist:AAPL"));

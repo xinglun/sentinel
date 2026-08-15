@@ -1,0 +1,149 @@
+{
+  "contractVersion": 2,
+  "workItemId": "validation-protection-population-v1",
+  "mode": "code",
+  "title": "Validation Protection 母集与阻断原因边界",
+  "baseCommit": "8cf8e273d9481aa13afffd0fe95e73f086b4adfa",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Validation の保護価値が 0 と誤読されないよう、Raw Top-3 候補、Trend Gate blocked、NO_TRADE の母集団と、候補外の blocked record を分離して出力する。現行の実運用 replay では Gate blocked record が存在する一方、Raw Top-3 との交差が 0 件であり、Protection Utility の空母集団と Gate の阻断事実が同じ表示に埋もれている。",
+  "intent": {
+    "problem": "Validation report が protection utility の対象母集団だけを表示するため、raw candidate が無いのか、gate blocked が無いのか、候補はあるが NO_TRADE でないのかを識別できない。",
+    "constraints": [
+      "DecisionPacket、Gate、execution、action matrix、trader、position sizing の意味と実装を変更しない。",
+      "gate_blocked は既存 ACL projection を使用し、reason code を再解釈しない。",
+      "Protection Utility の分母と既存の T+5/T+10/T+20 集計ロジックは変更しない。",
+      "候補外 blocked record の reason 集計は診断専用であり、Protection Utility に混入させない。"
+    ],
+    "rationale": "空の Protection 母集団を 0 値と混同せず、次の Validation replay で必要な episode 発生条件を事実として確認できるようにする。"
+  },
+  "scope": [
+    ".ai/work-items/active/validation-protection-population-v1.contract.json",
+    ".ai/work-items/active/validation-protection-population-v1.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/backtest/application/model.rs",
+    "src/features/backtest/application/simulation/episodes.rs",
+    "src/features/backtest/application/simulation/simulation_tests.rs",
+    "src/features/backtest/infrastructure/output.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/**",
+    "src/features/backtest/acl/**",
+    "DecisionPacket の field 追加",
+    "Gate / execution / trader / action matrix / position sizing の変更",
+    "decision window と outcome window の分離",
+    "reports/**、backtest/**、data branch の生成 artifact"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-correction-v1-design.md",
+      "reason": "Protection 母集団を raw_candidate && gate_blocked && NO_TRADE と定義し、ACL の gate fact を再利用する仕様。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-14-validation-utility-closure-v1-design.md",
+      "reason": "候補 episode の utility と reason 別集計を分離する仕様。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/utility.rs",
+      "reason": "既存 Protection Utility の母集団 filter と horizon 集計。"
+    },
+    {
+      "path": "src/features/backtest/application/simulation/runner.rs",
+      "reason": "raw_candidate と gate_blocked を production facts から Validation record に投影する箇所。"
+    },
+    {
+      "path": "backtest/enhanced/validation.json",
+      "reason": "2026-06-19 から 2026-08-13 の replay で gate_blocked 30 件、raw candidate 38 件、交差 0 件を確認した実測 artifact。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt",
+      "evidence_insufficient"
+    ],
+    "reason": "既存の validation artifact に診断事実を追加するため、report schema と既存 utility denominator の非変更を確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "仕様、実測 replay、既存 implementation から母集団と非変更境界が確定している。"
+  },
+  "preReviewWarnings": [
+    "候補外 blocked reason の診断値は Protection Utility の構成値ではなく、母集団不足を説明する補助 fact として扱う。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Validation cohort report に classified record、gate blocked、raw candidate、raw candidate × gate blocked、protection population の件数が分離して出力される。",
+    "Gate blocked だが raw candidate ではない record の reason 集計が診断 fact として出力され、Protection Utility の分母には入らない。",
+    "raw_candidate × gate_blocked × NO_TRADE の既存 Protection Utility の母集団と T+5/T+10/T+20 の数値が変更されない。",
+    "候補なし、候補外 blocked のみ、候補と blocked の交差あり、複数 reason の各シナリオを unit test で固定する。",
+    "DecisionPacket、Gate、execution、trader、position sizing の実装と public contract を変更しない。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json SUMMARY=.ai/work-items/active/validation-protection-population-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-protection-population-v1.summary.json CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json SUMMARY=.ai/work-items/active/validation-protection-population-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-protection-population-v1.contract.json SUMMARY=.ai/work-items/active/validation-protection-population-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
