@@ -1,197 +1,30 @@
+mod atomic;
+mod model;
+
+use atomic::{write_file_atomically, HistoryWriteTransaction};
+pub(crate) use model::PriceVolumeObservationRecord;
+pub use model::{
+    ObservationHistoryState, PreviousSnapshotResolution, PreviousSnapshotStatus,
+    TradingDaySnapshot, TradingDaySnapshotWriteDisposition,
+};
+
 use crate::features::radar::application::execution_gate::ExecutionResult;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::leader_persistence::LeaderObservation;
 use crate::features::radar::domain::observation_timeline::{
     ObservationTimeline, ObservationTimelineEntry,
 };
-use crate::features::radar::domain::price_volume_structure::{
-    PriceVolumeAssessment, PriceVolumeStructure,
-};
-use crate::features::shared::domain::supply_event_context::SupplyEventContext;
+use crate::features::radar::domain::price_volume_structure::PriceVolumeStructure;
 use anyhow::{bail, Context, Result};
 use chrono::Datelike;
-use std::collections::HashSet;
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Write};
 use std::path::{Path, PathBuf};
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum PreviousSnapshotStatus {
-    Available,
-    BaselineUnavailable,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum TradingDaySnapshotWriteDisposition {
-    Created,
-    SameDayRerun,
-}
-
-#[derive(Debug, Clone)]
-pub struct PreviousSnapshotResolution {
-    pub status: PreviousSnapshotStatus,
-    pub current_market_date: chrono::NaiveDate,
-    pub previous_market_date: Option<chrono::NaiveDate>,
-    pub previous_snapshot_id: Option<String>,
-    pub gap_type: Option<String>,
-    pub is_same_cycle: bool,
-    pub snapshot: Option<DecisionPacket>,
-    pub reason: Option<String>,
-    pub formal_snapshot: Option<TradingDaySnapshot>,
-}
-
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct TradingDaySnapshot {
-    pub schema_version: String,
-    pub market_date: chrono::NaiveDate,
-    pub report_date: chrono::NaiveDate,
-    pub as_of_date: chrono::NaiveDate,
-    pub generated_at: String,
-    pub run_id: String,
-    pub cycle_id: String,
-    pub snapshot_id: String,
-    pub is_valid_trading_day: bool,
-    pub source_status: String,
-    pub market_state: String,
-    pub decision_state: String,
-    pub new_position_limit: f64,
-    pub breadth: f64,
-    #[serde(default)]
-    pub breadth_classification: Option<String>,
-    pub confidence: f64,
-    pub supply_phase: String,
-    pub risk_state: String,
-    pub primary_leader: Option<String>,
-    pub secondary_leaders: Vec<String>,
-    pub breakouts: serde_json::Value,
-    pub stability: f64,
-    pub continuity: usize,
-    pub cycle_length_days: usize,
-    pub reset_event: Option<String>,
-    pub data_quality: serde_json::Value,
-}
-
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-pub struct ObservationHistoryState {
-    pub count: usize,
-    pub last_market_date: chrono::NaiveDate,
-    #[serde(default)]
-    pub cycle_id: String,
-}
-
-/// 価格・出来高構造の観測を取引判断と分離して保存する record。
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, PartialEq)]
-pub(crate) struct PriceVolumeObservationRecord {
-    pub market_date: chrono::NaiveDate,
-    pub symbol: String,
-    pub assessment: PriceVolumeAssessment,
-    #[serde(default)]
-    pub supply_context: Option<SupplyEventContext>,
-    #[serde(default)]
-    pub price_position: Option<String>,
-    #[serde(default)]
-    pub accumulation_failed: bool,
-}
 
 #[derive(Clone)]
 pub struct PersistenceLayer {
     history_path: PathBuf,
     save_dir: PathBuf,
-}
-
-pub(crate) struct HistoryWriteTransaction {
-    files: Vec<(PathBuf, Option<Vec<u8>>)>,
-    committed: bool,
-}
-
-/// 一時ファイルを同じディレクトリに作成し、完成後に対象へ原子的に置換する。
-fn write_file_atomically(path: &Path, content: &[u8]) -> Result<()> {
-    let parent = path.parent().unwrap_or(Path::new("."));
-    std::fs::create_dir_all(parent)
-        .with_context(|| format!("原子的書き込み先の作成に失敗: {parent:?}"))?;
-    let mut temporary = tempfile::NamedTempFile::new_in(parent)
-        .with_context(|| format!("原子的書き込み用一時ファイルの作成に失敗: {path:?}"))?;
-    temporary
-        .write_all(content)
-        .with_context(|| format!("原子的書き込み用一時ファイルへの書き込みに失敗: {path:?}"))?;
-    temporary
-        .as_file()
-        .sync_all()
-        .with_context(|| format!("原子的書き込み用一時ファイルの同期に失敗: {path:?}"))?;
-    if let Ok(metadata) = std::fs::metadata(path) {
-        temporary
-            .as_file()
-            .set_permissions(metadata.permissions())
-            .with_context(|| format!("原子的書き込み先の権限設定に失敗: {path:?}"))?;
-    }
-    temporary
-        .persist(path)
-        .map(|_| ())
-        .map_err(|error| error.error)
-        .with_context(|| format!("原子的書き込み先の置換に失敗: {path:?}"))
-}
-
-impl HistoryWriteTransaction {
-    pub(crate) fn commit(mut self) {
-        self.committed = true;
-    }
-
-    fn rollback(&self) -> Result<()> {
-        for (path, content) in self.files.iter().rev() {
-            match content {
-                Some(content) => {
-                    if let Some(parent) = path.parent() {
-                        std::fs::create_dir_all(parent).with_context(|| {
-                            format!("履歴ロールバック先の作成に失敗: {parent:?}")
-                        })?;
-                    }
-                    std::fs::write(path, content)
-                        .with_context(|| format!("履歴ファイルの復元に失敗: {path:?}"))?;
-                }
-                None => match std::fs::remove_file(path) {
-                    Ok(()) => {}
-                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
-                    Err(error) => {
-                        return Err(error)
-                            .with_context(|| format!("履歴ファイルの削除に失敗: {path:?}"));
-                    }
-                },
-            }
-        }
-        let known_paths = self
-            .files
-            .iter()
-            .map(|(path, _)| path)
-            .collect::<HashSet<_>>();
-        for entry in std::fs::read_dir(self.files[0].0.parent().unwrap_or(Path::new(".")))
-            .context("履歴ロールバック対象の確認に失敗")?
-        {
-            let path = entry
-                .context("履歴ロールバック対象の読み込みに失敗")?
-                .path();
-            let is_new_legacy_transition = path
-                .file_name()
-                .and_then(|name| name.to_str())
-                .is_some_and(|name| {
-                    name.starts_with("state_transitions_legacy_") && name.ends_with(".csv")
-                });
-            if is_new_legacy_transition && !known_paths.contains(&path) {
-                std::fs::remove_file(&path)
-                    .with_context(|| format!("新規 legacy 履歴の削除に失敗: {path:?}"))?;
-            }
-        }
-        Ok(())
-    }
-}
-
-impl Drop for HistoryWriteTransaction {
-    fn drop(&mut self) {
-        if !self.committed {
-            if let Err(error) = self.rollback() {
-                eprintln!("履歴トランザクションのロールバックに失敗: {error:#}");
-            }
-        }
-    }
 }
 
 impl PersistenceLayer {
@@ -1496,6 +1329,21 @@ mod tests {
     use chrono::NaiveDate;
     use chrono::Utc;
     use std::fs;
+
+    #[test]
+    fn persistence_model_boundary_preserves_history_state_contract() {
+        let state = ObservationHistoryState {
+            count: 3,
+            last_market_date: NaiveDate::from_ymd_opt(2026, 8, 14).unwrap(),
+            cycle_id: "cycle-1".to_string(),
+        };
+        let encoded = serde_json::to_string(&state).unwrap();
+        let restored: ObservationHistoryState = serde_json::from_str(&encoded).unwrap();
+
+        assert_eq!(restored.count, state.count);
+        assert_eq!(restored.last_market_date, state.last_market_date);
+        assert_eq!(restored.cycle_id, state.cycle_id);
+    }
 
     #[test]
     fn atomic_write_replaces_json_without_leaving_temporary_files() {
