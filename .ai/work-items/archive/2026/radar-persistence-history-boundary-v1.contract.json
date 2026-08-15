@@ -1,0 +1,198 @@
+{
+  "contractVersion": 2,
+  "workItemId": "radar-persistence-history-boundary-v1",
+  "mode": "code",
+  "title": "Persistence History の移行境界を整理",
+  "baseCommit": "d1458b736ac628f471e65ebe80b3fd28ecda6a6a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "persistence.rs に集中している legacy history の入力読込、formal artifact 照合、snapshot/timeline 投影、移行 transaction を専用 module の境界へ整理し、Validation Epoch 中の将来変更の影響範囲を縮小する。behavior-preserving な内部再配置であり、業務挙動は変更しない。",
+  "intent": {
+    "problem": "legacy history migration の lifecycle と packet artifact 解決が PersistenceLayer の通常 read/write 経路と同じ file に集積しており、移行仕様の変更が通常履歴・baseline 解決へ波及しやすい。",
+    "constraints": [
+      "既存 public path、snapshot schema、history migration の出力、ファイル名、JSON/JSONL 契約、エラー境界を維持する。",
+      "PersistenceLayer の public API、migration の idempotency、conflict 検出、rollback semantics を変更しない。",
+      "新しい Persistence capability、report、data branch、snapshot、i18n、Make entrypoint を追加しない。"
+    ],
+    "rationale": "Validation Epoch 中に business semantics を凍結したまま、既存 migration の責務を専用境界へ分離し、次の Validation 観測期間の変更半径を抑える。"
+  },
+  "scope": [
+    ".ai/work-items/active/radar-persistence-history-boundary-v1.contract.json",
+    ".ai/work-items/active/radar-persistence-history-boundary-v1.summary.json"
+    ,".ai/cockpit/current_status.md"
+    ,"src/features/radar/infrastructure/persistence.rs"
+    ,"src/features/radar/infrastructure/persistence/migration.rs"
+  ],
+  "outOfScope": [
+    "legacy migration の schema、出力値、ファイル名、JSON/JSONL 契約、エラー識別子、idempotency の変更",
+    "PersistenceLayer の public API と通常の packet / snapshot / timeline read-write semantics の変更",
+    "src/features/radar/application/**、src/features/radar/domain/**、backtest/**",
+    "reports/**、data/**、snapshot、i18n、Makefile、CI の変更",
+    "新しい Validation KPI、report、operational command、data branch の追加"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "現行 PersistenceLayer の migration lifecycle、通常履歴経路、private helper、既存 test の実装事実。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence/model.rs",
+      "reason": "前 Work Item で整理済みの persistence model と serde 型の利用境界。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence/atomic.rs",
+      "reason": "既存 HistoryWriteTransaction の commit / rollback / Drop semantics と migration transaction の共有境界。"
+    },
+    {
+      "path": "tests/pipeline_integration.rs",
+      "reason": "Persistence と application 境界の integration contract。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-30-legacy-formal-snapshot-migration-design.md",
+      "reason": "legacy packet から formal snapshot と observation history state を再構築する既存仕様。"
+    },
+    {
+      "path": ".ai/guards/validation_epoch_policy.yaml",
+      "reason": "Validation Epoch 中の behavior-preserving refactor 許可範囲。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["data_integrity", "architecture_boundary", "review_debt"],
+    "reason": "migration helper の module 化は可能だが、legacy input 優先順位、artifact conflict、timeline projection、rollback の既存契約を全量 test と quality で確認する必要がある。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、rollback 方針が確定し、behavior-preserving な migration module 化として実装・検証可能。"
+  },
+  "preReviewWarnings": [
+    "module 化で private helper の参照境界が変わるため、legacy migration regression、conflict rejection、rollback、idempotency を review focus にする。",
+    "migration.rs は既存 PersistenceLayer の facade として維持し、通常の packet / snapshot 解決へ新しい fallback を追加しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "legacy history migration に関係する private helper と lifecycle を migration module へ移し、PersistenceLayer の public API と既存利用経路を維持する。",
+    "legacy packet input の優先順位、日付整合性検証、formal artifact conflict 検出、timeline projection、state 更新、transaction rollback / commit semantics が変更されない。",
+    "既存 persistence / pipeline tests と migration boundary test が通過する。",
+    "新しい report、data branch、JSONL、snapshot、i18n、Make entrypoint を生成・変更しない。",
+    "Radar application / domain の依存方向と Validation Epoch の behavior-preserving 境界を維持する。",
+    "Summary の changedFiles / verification / checkpointEvidence と Cockpit status を、ai-finish が検証できる完了状態へ同期する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-history-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/radar-persistence-history-boundary-v1.summary.json CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-history-boundary-v1.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/radar-persistence-history-boundary-v1.contract.json SUMMARY=.ai/work-items/active/radar-persistence-history-boundary-v1.summary.json",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "日付付き legacy packet と JSONL fallback の既存入力優先順位、日付整合性、malformed input rejection が維持される",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/radar/infrastructure/persistence.rs", "make test"],
+      "reason": "既存 migration regression tests を実装前 baseline として確認済み。"
+    },
+    {
+      "scenario": "formal snapshot / decision history の semantic conflict が拒否され、既存 artifact を変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/radar/infrastructure/persistence.rs", "make test"],
+      "reason": "conflict regression tests と rollback transaction tests を実装前 baseline として確認済み。"
+    },
+    {
+      "scenario": "legacy packet の snapshot、timeline、history state 投影と stable cycle id が既存結果を維持する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["src/features/radar/infrastructure/persistence.rs", "docs/superpowers/specs/2026-07-30-legacy-formal-snapshot-migration-design.md", "make test"],
+      "reason": "migration output と idempotency の regression tests を実装前 baseline として確認済み。"
+    },
+    {
+      "scenario": "Radar application / domain の依存方向と Validation Epoch の behavior-preserving 境界を維持する",
+      "required": true,
+      "status": "verified",
+      "evidence": [".ai/guards/validation_epoch_policy.yaml", "make check-architecture-all"],
+      "reason": "既存 architecture boundary と epoch policy を確認済み。"
+    },
+    {
+      "scenario": "新しい report、data、JSONL、snapshot、i18n、Make entrypoint を生成・変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make check-ai-scope"],
+      "reason": "scope と outOfScope を固定し、実装後に scope guard で再確認する。"
+    }
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "既存 legacy history migration の内部責務分離を Validation Epoch の behavior-preserving 範囲として実施する。migration output、schema、公開 API は凍結する。",
+    "openQuestions": ["実装後に legacy input、conflict、idempotency、rollback、snapshot/timeline output を full quality と regression tests で確認する。"]
+  },
+  "rollbackNote": "migration.rs の追加と persistence.rs の facade 差分を revert し、base commit の persistence.rs に戻す。既存 data は変更しない。"
+}
