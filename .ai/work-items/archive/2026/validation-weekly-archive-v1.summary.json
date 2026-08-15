@@ -1,0 +1,167 @@
+{
+  "workItemId": "validation-weekly-archive-v1",
+  "contractPath": ".ai/work-items/archive/2026/validation-weekly-archive-v1.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "reason": "Work Item Contract skeleton を作成した。"
+    },
+    {
+      "path": ".ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "reason": "weekly validation archive の Contract と検証記録を保持する。"
+    },
+    {
+      "path": ".github/workflows/weekly_backtest.yml",
+      "reason": "validation latest/archive の snapshot、integrity check、data branch 同期を追加する。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "weekly artifact archive の shell syntax と保存対象境界を検証する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/validation-weekly-archive-v1.contract.json",
+    ".github/workflows/weekly_backtest.yml",
+    "src/features/backtest/infrastructure/output.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/work-items/archive/2026/validation-window-separation-v1.summary.json",
+    ".ai/work-items/archive/2026/validation-utility-closure-v2.contract.json",
+    "docs/superpowers/specs/2026-08-14-validation-epoch-v1-design.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/validation-weekly-archive-v1.contract.json SUMMARY=.ai/work-items/active/validation-weekly-archive-v1.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "workflow の保存対象と archive 境界だけを変更し、Validation Utility の既存 structured fact は再計算しない。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract confirmed before implementation",
+      "contractHash": "879904c566e64652",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope and implementation boundary confirmed",
+      "contractHash": "879904c566e64652",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "implementation complete; verification recorded",
+      "contractHash": "879904c566e64652",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification passed",
+      "contractHash": "879904c566e64652",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 11,
+      "requiredChecksPassed": 11
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "scope / acceptance / verification を確認して編集を開始した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required checks が全件通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "検証結果を Summary に記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "runtime_workflow",
+      "detail": "GitHub Actions 上の data branch write-back 実行はローカルでは再現していないため、PR review で rsync 対象と archive 非上書きを確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "実装と required checks は完了。GitHub Actions 実行環境での data branch write-back は残余確認事項。",
+    "expectedReviewFocus": [
+      "archive 上書き防止",
+      "validation.json の cohort identity 保持",
+      "data branch write-back の保存対象"
+    ]
+  }
+}
