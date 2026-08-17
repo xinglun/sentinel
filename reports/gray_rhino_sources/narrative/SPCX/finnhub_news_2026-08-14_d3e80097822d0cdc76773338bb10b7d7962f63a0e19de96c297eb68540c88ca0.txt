@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Set Records, SanDisk Jumped 60% Off July's Lows: This Week on Wall Street
+  summary: Cool inflation data cut September rate-hike odds to 25% and lifted the S&amp;P 500 to a 27th record close, while SanDisk gained 34.7% and Tapestry dropped 20.5%.
+  url: https://finnhub.io/api/news?id=168c0f4344c1f554ceaa7966d50da0b30580884554b84aaa76c490b36a3927ec

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With Tesla Stock Today?
+  summary: Tesla shares are fluctuating on Friday. TD Cowen reiterated a Buy rating on the stock and kept its price target unchanged at $460.
+  url: https://finnhub.io/api/news?id=963d6c87381b47df65b3069d597219f784e58aae5b05a70ddabdb972a0fbbd05

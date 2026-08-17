@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway boosts Alphabet to a top three holding, ups Delta and housing bets
+  summary: Berkshire owned about 106 million shares in the parent of Google, worth $37.9 billion at the end of June, according to a regulatory filing released Friday.
+  url: https://finnhub.io/api/news?id=5883f4fcec6c2219e049ee6d970ba9bb31b2f9476dd1ff71486cab715d1bf2d4

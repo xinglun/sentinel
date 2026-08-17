@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Is Selling His Bitcoin, Citing the Quantum Threat. Here's Why He's Wrong.
+  summary: Bitcoin's developer community is already working to combat the potential threat posed by quantum computers.
+  url: https://finnhub.io/api/news?id=a4aadfeab10cccc69a29830a626f035fb1e4a477fac7dd1188895332d92d695f

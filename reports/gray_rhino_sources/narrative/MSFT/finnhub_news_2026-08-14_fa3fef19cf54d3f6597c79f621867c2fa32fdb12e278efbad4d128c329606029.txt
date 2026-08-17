@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Global Investors Cuts Share Stake In Microsoft Corp By 36.8% To 1.5 Mln Shares
+  summary: - Sec Filing
+  url: https://finnhub.io/api/news?id=14c5206a883261b711d6b39cdbb2909e600f87cfca77f8bbaee6d01c4fb44cd8

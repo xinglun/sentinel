@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Global Investors Dissolves Class A Capital Stock Stake In Alphabet Inc
+  summary: - Sec Filing
+  url: https://finnhub.io/api/news?id=4eade03abbc01382882f3b4721600c9922fc1e61f69238bf74bf69136ff16a17

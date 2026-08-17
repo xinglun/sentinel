@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Worried About an AI Bubble? These Tech Stocks Are Well-Suited to Survive an AI Bust.
+  summary: History shows that investors cannot rule out an AI bust, but with the technology likely here to stay, selling everything is probably not the answer.
+  url: https://finnhub.io/api/news?id=d6d617ac5de18693798bc48cdfe0043844ee36b521b142b4d29e22f91f3485a7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Is What a $1,000 Investment in Sandisk Will Be Worth by 2030
+  summary: Sandisk can still deliver a multibagger performance over the next five years.
+  url: https://finnhub.io/api/news?id=d55509f750695fba0a1c1e7083166589dcd47eb4d4c90c536a5319c44415a254

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Loves To Climb The Wall Of Worry
+  summary: 
+  url: https://finnhub.io/api/news?id=391c3edce1f7239a405b76d19981ae64747c06f694417320a74aae50de059b10

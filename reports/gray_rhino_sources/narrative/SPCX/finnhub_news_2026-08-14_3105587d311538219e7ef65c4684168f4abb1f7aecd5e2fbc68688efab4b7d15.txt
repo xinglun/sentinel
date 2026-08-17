@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gina Rinehart Makes SpaceX Her Biggest U.S. Bet—ETFs Offer Investors Another Route In
+  summary: Gina Rinehart’s $1.37B SpaceX stake puts fresh focus on ETFs holding Elon Musk’s stock, from Nasdaq-100 funds to leveraged single-stock ETFs.
+  url: https://finnhub.io/api/news?id=b141c3fcafd12a2fc4719ac2fc92c2329e1f5c3ed3ebaf17af83b8d2cc1d309c

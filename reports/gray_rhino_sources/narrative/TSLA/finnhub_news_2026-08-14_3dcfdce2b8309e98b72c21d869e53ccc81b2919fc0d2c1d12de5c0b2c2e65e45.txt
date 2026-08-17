@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Tesla Nears Unveiling of Radical New ‘Flying’ Roadster' - The Information
+  summary: https://www.theinformation.com/articles/tesla-nears-unveiling-radical-new-flying-roadster
+  url: https://finnhub.io/api/news?id=887d04ce90d54e2f36fbfe6cb0fb42236554672262ed14942065ade35f03481f

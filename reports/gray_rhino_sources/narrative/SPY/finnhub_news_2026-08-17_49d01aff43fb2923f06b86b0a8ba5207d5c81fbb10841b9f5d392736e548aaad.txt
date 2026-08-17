@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Market Pulse: Situational Awareness
+  summary: Investors always have lots of questions, most of them about the future, which makes them very hard or impossible to answer.
+  url: https://finnhub.io/api/news?id=46abd5552b3a266324ecbeaf1cef17f778f7f15807456bb384b864036109dea7

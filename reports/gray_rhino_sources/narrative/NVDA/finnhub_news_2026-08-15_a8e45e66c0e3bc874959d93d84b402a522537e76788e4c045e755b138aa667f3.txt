@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iren Won't Have to Raise Capital for Much Longer After the Horizon 1 Delivery
+  summary: Iren is starting to make money from its Microsoft deal, and that will make it less reliant on issuing corporate bonds.
+  url: https://finnhub.io/api/news?id=cd43b191a9417f18312accd23c0414768a3f063a21b70acd588ee77fa7c80475

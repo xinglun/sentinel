@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Costco Will Beat the S&P 500 Again
+  summary: Costco's membership model and consistent growth make it a strong investment candidate, but its high valuation leaves little room for disappointment.
+  url: https://finnhub.io/api/news?id=5836561ad23d365fdfd3990d87b56f3486d6db6bb60ea443ee9a24d42e8c78de

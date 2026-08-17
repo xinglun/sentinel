@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (NASDAQ:GOOG) Stands Out as a Quality Investing Pick
+  summary: Alphabet (GOOG) passes the Caviar Cruise quality screen with strong revenue growth, high ROIC, and solid financial health.
+  url: https://finnhub.io/api/news?id=37b97d214f25a61e803cb10d85244aa2b56aea603cde080aee4c52b03c7bd272

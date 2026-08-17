@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (NASDAQ:MSFT): A Best Dividend Screen Pick with Quality and Sustainability
+  summary: Microsoft passes Best Dividend screen: 7/10 dividend rating, 0.73% yield, low payout, strong health/profitability. Reliable dividend growth.
+  url: https://finnhub.io/api/news?id=8e69b6d1f00fb041f75c76c8e94a8a2120310cdc3398aa2f6d5fb87e212a74e4

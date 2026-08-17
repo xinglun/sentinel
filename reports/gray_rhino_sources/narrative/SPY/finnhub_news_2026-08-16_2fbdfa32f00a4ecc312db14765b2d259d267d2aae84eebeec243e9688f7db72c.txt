@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 May Be Heading For A Major Volatility Shift This Week
+  summary: VIX implied volatility hits multi-year lows as gamma hedging suppresses swings. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=efae63f808308119a17db1f2ef4b48f6811cf6fb2ed98727d03112a4703d8adf

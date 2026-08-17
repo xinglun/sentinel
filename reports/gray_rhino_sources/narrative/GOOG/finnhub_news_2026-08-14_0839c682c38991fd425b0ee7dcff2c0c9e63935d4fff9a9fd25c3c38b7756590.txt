@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway Doubles Down on Homebuilders, Makes Alphabet Top 3 Holding
+  summary: Berkshire Hathaway Q2 holdings shows new names and changes to old positions. Here&#39;s the list of changes and the top 10 holdings.
+  url: https://finnhub.io/api/news?id=0b9671379d55fc25ee61a6bd288d9e98541a519d7f347ba6c91d9094b4b47efe

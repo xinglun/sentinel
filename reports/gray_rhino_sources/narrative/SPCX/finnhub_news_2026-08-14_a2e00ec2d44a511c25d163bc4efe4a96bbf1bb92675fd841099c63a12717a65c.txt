@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Third Point Takes New Stake In Space Exploration Technologies Corp With 180,415 Shares
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=18f5fabd809159571abc4feeb74cfb5d35586109fbd53379cfba2af4326da1a7

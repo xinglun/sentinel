@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coatue Management Reports Share Stake Of 18.6M Class A Shares In SpaceX
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=6ee78dc86b67b65d699efcb1b2083b7ac60eb2bda2ee9ca50f274008e41ce3ab

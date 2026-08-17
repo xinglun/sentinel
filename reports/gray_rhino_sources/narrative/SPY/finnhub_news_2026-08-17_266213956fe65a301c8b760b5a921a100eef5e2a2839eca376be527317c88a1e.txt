@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: July CPI: Good News For The Fed, Mixed News For P&C Insurers
+  summary: July headline CPI eased to 3.4%, but the insurance implications are less benign than the broader disinflation story suggests. Read the full analysis now.
+  url: https://finnhub.io/api/news?id=d588b2d1232bb42ffe87633380c5155239025a15f5a82820992107f9dafc4c00

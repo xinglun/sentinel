@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coatue Management Raises Share Stake In Microsoft By 18.4% To 2.9M Shares
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=5b8c14d4d60175375d3e23b1d247ae1acbe9a3f4a7dafb0fe6f398184f405ba6

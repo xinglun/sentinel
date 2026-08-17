@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba, Walmart To Headline Earnings Next Week, FOMC Minutes Of Meeting In Focus
+  summary: Preview next weekâs market movers: FOMC minutes, key economic data, earnings from WMT, HD & BABA, plus IPOs and dividends. See more details here.
+  url: https://finnhub.io/api/news?id=42016711a55406f708f7ef1a37622996e70dcd97b80bd8da03c2ffca57b70dfb

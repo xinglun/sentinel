@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Cools on Friday, but the Broader Trend Remains Positive
+  summary: Daily breadth weakened slightly Friday, but strong moving-average participation, limited new lows and improving small caps keep the trend positive.
+  url: https://finnhub.io/api/news?id=a15ecfa73db30f0473a585d134f46bcaf84d322533207392adf6aa2d70de8fd9

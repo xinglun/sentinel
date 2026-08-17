@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eli Lilly Is Building a Weight Loss Drug for Every Kind of Patient
+  summary: The company's peers in the pharmaceutical industry should be worried.
+  url: https://finnhub.io/api/news?id=06ee74d265a0bb77590f79394eb0d293a79e06593c6c9612d2e3604d328fc044

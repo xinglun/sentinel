@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Exits Alphabet, Raises Bets on Microsoft & Meta
+  summary: Pershing Square took multiple new positions in the second quarter. A look at the portfolio changes and top holdings.
+  url: https://finnhub.io/api/news?id=571ce9fff3198e2e0aa709432fcc8e1fa5ee440fbc66bbaf59ac7a662e60086a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Global Investors Cuts Share Stake In Tesla Inc By 78.0% To 547,816 Shares
+  summary: - Sec Filing
+  url: https://finnhub.io/api/news?id=df4e58c34e81857b447c69913475e4192625d20ebaa885b8afc6ef0b700c6c52

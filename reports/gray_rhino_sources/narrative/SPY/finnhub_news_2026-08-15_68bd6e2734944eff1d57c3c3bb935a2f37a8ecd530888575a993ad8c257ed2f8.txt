@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BWET ETF Up More Than1,600% in 2026:  Here's Why It's Beating QQQ and SPY
+  summary: The BWET ETF has jumped by 1,600% this year, and is beating popular funds like S&amp;P 500&#39;s SPY and Nasdaq 100s QQQ
+  url: https://finnhub.io/api/news?id=807e5112a03651f0dde42473d4e728c22780cbd44f1f5949291393264e25f3bb

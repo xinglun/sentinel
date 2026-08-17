@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Record Highs: Should You Chase The Rally?
+  summary: The S&P 500 added 0.4%, its third straight weekly gain. It finished at 7,785.76, roughly 13% higher year over year. Read more here.
+  url: https://finnhub.io/api/news?id=20f43fda25e05eeae10834ef6efea253e7dbb7279fe70f47cd1d6ce03081cefd

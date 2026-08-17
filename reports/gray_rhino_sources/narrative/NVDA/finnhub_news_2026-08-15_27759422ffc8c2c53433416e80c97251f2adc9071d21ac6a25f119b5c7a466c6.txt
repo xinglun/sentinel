@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD’s $566 Million SpaceX Stake Raises a Bigger Question Than AI Chip Orders
+  summary: SpaceX just told the world it will build its AI infrastructure exclusively on Nvidia chips, yet AMD quietly poured more than half a billion dollars into Elon Musk's company anyway. The reason has nothing to do with GPU contracts, and everything to do with where SpaceX is actually headed.
+  url: https://finnhub.io/api/news?id=aa7a5708e0136be0318ae41b357bc3baf892600390d2b9826ab5e377747e3a9a

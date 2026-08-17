@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: Avoid Chasing, Even If You Missed The Ride (Rating Downgrade)
+  summary: Nebius downgraded to Hold as AI demand boosts growth but momentum looks overextended. Click for more on NBIS stock.
+  url: https://finnhub.io/api/news?id=2468e9cada0486bc48735eb09ab7f1e12c655d6272a0a9762e0db8bb0b6f3bf1

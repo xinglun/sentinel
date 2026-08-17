@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Social Media Went Negative on Memory Stocks like SanDisk & Micron Last Weekend. Then They Rallied.
+  summary: Social media turned sharply bearish on memory stocks like SanDisk and Micron last weekend, and some analysts were calling time on the sector. Then something happened that flipped the entire trade on its head.
+  url: https://finnhub.io/api/news?id=e00f83e95b5e09585ae8ff990bd6bd6f2585dd5c7b3e839a5c1172d45683761c

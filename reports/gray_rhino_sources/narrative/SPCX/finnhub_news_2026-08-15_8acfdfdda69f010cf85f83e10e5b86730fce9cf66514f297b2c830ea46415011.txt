@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Not At This Price
+  summary: SpaceX is rated a Sell as CapEx surges despite Q2 revenue being up 92%, Starlink ARPU drops, and valuation looks 60% rich. Click for details.
+  url: https://finnhub.io/api/news?id=07893e364e3a9bb4baa3ee8476d979133d55a7d7e30c085f5684e5640c700ffb

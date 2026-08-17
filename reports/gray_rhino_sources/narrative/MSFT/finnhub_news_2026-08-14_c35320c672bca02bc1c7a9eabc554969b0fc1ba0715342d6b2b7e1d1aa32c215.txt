@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Everyone Building Compute?
+  summary: This week, the two biggest sellers of merchant AI compute, Nebius and CoreWeave, reported prices still rising even as they rush to add new capacity. Why is everyone still building compute?
+  url: https://finnhub.io/api/news?id=77e05a309ee61562a9d28594361c0174ebd009902b7773f832693a2d7006cdc6

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Buy For The Value, Enjoy A Dividend Snack
+  summary: Microsoft stock remains a âBuyâ given its strong earnings, Azure cloud growth, and a dividend streak. Here's what investors need to know.
+  url: https://finnhub.io/api/news?id=bf26e73e1a49aaedededcf08c2e4ba5afd29f6e2a8cdcdca768317cc50f38a24

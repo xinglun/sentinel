@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: The CapEx 'Tantrum' Feels Wrong
+  summary: Alphabet's Buy thesis: strong AI & cloud growth, leadership noise muted, valuation compressed. Click to know more in detail.
+  url: https://finnhub.io/api/news?id=2cc9dc5ef329148c496a5356990530b1f6726e257216fcfc99d35ce67aebc604

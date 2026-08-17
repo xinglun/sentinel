@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Stock: 64% of Benzinga Viewers Have Owned It. Here’s How Many Still Do
+  summary: Benzinga viewers share whether they&#39;ve ever owned Apple stock and if they currently hold.
+  url: https://finnhub.io/api/news?id=8a04c7ab3074ac03dfb93f5714894cb02f6301f0bc9b4c3a61dd25955916d688

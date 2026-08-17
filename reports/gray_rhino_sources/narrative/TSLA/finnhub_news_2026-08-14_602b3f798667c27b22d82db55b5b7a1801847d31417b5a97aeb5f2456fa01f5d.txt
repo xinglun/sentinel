@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Preps SpaceX Rocket-Powered Flying Roadster Demo
+  summary: Tesla plans to demo its next-generation Roadster with rocket technology from SpaceX as soon as this month, according to reports.
+  url: https://finnhub.io/api/news?id=4f4f6c6b1bfef9cabf5a83ed51c1031c5ad0e185e0bf692216a79bb38d1259d1

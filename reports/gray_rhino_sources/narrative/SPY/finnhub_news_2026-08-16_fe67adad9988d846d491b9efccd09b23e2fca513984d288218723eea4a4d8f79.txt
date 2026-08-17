@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P500: Big Changes Spark A Bullish Outlier (Technical Analysis)
+  summary: S&P 500 (SPY) 2026 earnings surge: Q2 EPS +50.8%, AI CapEx drives growth, but non-operating gains add risk.
+  url: https://finnhub.io/api/news?id=90ea0f6702915028466306dc32d9ddb346c5d425e0a2cf5670bc2e23d5e3d347

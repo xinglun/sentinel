@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Consumer Data Trips Up Wall Street's Rally as MDxHealth Snatches a Lifeline and Anthropic Redraws the AI Ceiling
+  summary: A soft consumer confidence read and an unexpected drop in retail sales pulled the indices modestly lower on Friday even as the inflation story continued to cooperate. A Belgian-American medtech micro-cap escaped a Nasdaq delisting with one press release, and a weekend disclosure from Anthropic reset what "AI-cycle scale" actually means.
+  url: https://finnhub.io/api/news?id=fc98510322e387155cbbc6a2eb405984bb79a57cc4f550402ec0d3960db217a3

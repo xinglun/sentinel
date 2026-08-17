@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Even After Soaring 180%, a Stock Split Isn't on the Horizon for AMD. Here's Why.
+  summary: AMD stock has significantly outperformed Nvidia over the last year.
+  url: https://finnhub.io/api/news?id=7eb6b710f98361094fb0482b3e863d02d650957e44c8a46688f5169437b22dbb

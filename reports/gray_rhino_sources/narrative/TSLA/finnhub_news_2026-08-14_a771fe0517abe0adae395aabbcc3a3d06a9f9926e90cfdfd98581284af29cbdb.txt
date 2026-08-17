@@ -1,0 +1,22 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Applied Materials Has Better Growth Prospects Than It Did 32% Ago; Retail Sales Stumble
+  summary: 
+
+
+
+Investor Traps
+
+
+
+Please click here for a chart of Applied Materials Inc (NASDAQ:AMAT).
+
+
+
+Note the following:
+
+
+
+
+This article about the big picture, not an individual stock.  The chart of AMAT stock is being used
+  url: https://finnhub.io/api/news?id=bca2f8deb567ff0034e182fe71e1d80933c68be335a1637a0a4e3b4ca396b9d6

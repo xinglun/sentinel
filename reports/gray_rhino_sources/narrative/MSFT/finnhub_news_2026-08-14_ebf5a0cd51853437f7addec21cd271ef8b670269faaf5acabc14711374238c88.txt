@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Grok 4.6 Launches In GitHub Copilot
+  summary: https://x.ai/news/grok-4-6-github-copilot
+  url: https://finnhub.io/api/news?id=38ffc044faaccdf848fb268abe173b384ce3cbf0b86b32b519cc466543dacf44

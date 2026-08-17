@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire adds $17 billion to Alphabet stake
+  summary: Google parent Alphabet is now the third largest holding in Berkshire Hathaway's equity portfolio.
+  url: https://finnhub.io/api/news?id=8fd437d0ef0b0e9cb59274bfc090421c1e73d5209ade2c1d0606f90cc9e33ab5

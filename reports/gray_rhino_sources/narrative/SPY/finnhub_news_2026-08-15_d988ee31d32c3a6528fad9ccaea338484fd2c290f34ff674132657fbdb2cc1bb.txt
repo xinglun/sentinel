@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AGG: Why It's Foolish To Dismiss Bonds Right Now
+  summary: AGG offers broad, low-cost exposure to investment-grade US bonds, with a 5.72-year duration and nearly 5% yield. Read why AGG ETF is a Buy.
+  url: https://finnhub.io/api/news?id=39375011b3d5f802c3bd0565a6fb8cbf04c8d5f5ed8e2a2bcbb18695b522a4ac

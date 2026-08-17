@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Thiel and Founders Fund Report 5.5% Stake In SpaceX, Holding 427.3M Shares
+  summary: - SEC 13G Filing
+  url: https://finnhub.io/api/news?id=2decf0eee32e5bfa4743c621fe15bcd9eabbfed9a0333105296ade389dcd6d5c

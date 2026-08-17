@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway: The Cash Is Moving, The Philosophy Isn't
+  summary: Berkshire Hathaway Inc. Q2 highlights: operating growth, active capital allocation, and value discipline. Click for this BRK.A update.
+  url: https://finnhub.io/api/news?id=d89f4a063b60afb1f31ec9aa15190e0f5386ade46c611b777b90665b777a705d

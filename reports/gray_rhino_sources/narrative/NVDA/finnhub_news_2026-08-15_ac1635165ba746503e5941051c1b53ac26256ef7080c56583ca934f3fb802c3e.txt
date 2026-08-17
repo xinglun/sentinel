@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Stock Rally Pauses, But Supermicro, Lenovo Earnings Point to Upside
+  summary: Dell stock rally has paused in the past two days, but the recent Supermicro and Lenovo earnings show it has more upside
+  url: https://finnhub.io/api/news?id=d651f92ddd0ace78f7f92c2878d40e7535eac6be810461d173aaf4347482170d

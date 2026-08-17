@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How To Invest $100,000 In A Retiree's SWAN Income Portfolio
+  summary: A SWAN income portfolio aims for consistent income, growth, and lower volatility through diversification and strategic planning. Read how to build one here.
+  url: https://finnhub.io/api/news?id=378bd32677ead84815eb5c03e6e3830b56b7b1e398114ef6ed1b456b3a5bcb95

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit Joins the S&P 500 Tuesday. Here's What History Says Could Come Next -- and What Investors Should Know.
+  summary: Shares of the social media company jumped double digits on the news. Decades of research say the pop is usually the whole prize.
+  url: https://finnhub.io/api/news?id=a93a560e9fd9d3860e2c393b5cdb4ffb7418bc2073339229b87051dfd43e31f5

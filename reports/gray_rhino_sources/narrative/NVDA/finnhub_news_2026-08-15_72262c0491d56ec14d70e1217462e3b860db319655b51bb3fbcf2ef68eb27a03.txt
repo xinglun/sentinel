@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CEO Elon Musk Just Announced Great News for SpaceX Stock Investors
+  summary: The CEO of SpaceX is never shy about making projections.
+  url: https://finnhub.io/api/news?id=a98e15c2a9cafae26749193fc7ad47e6d93f4966fa53af7891bf6870f8108f4d

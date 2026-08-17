@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coatue Management Cuts Share Stake In Alphabet By 18.6% To 908,395 Class C Capital Stock
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=d86c2d91aaff03cebaf5efad321d90153cb8e9013569191122eb0b1e638ca663

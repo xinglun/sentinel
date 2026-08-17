@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway Raises Share Stake In Alphabet  To 27.2M Class C Capital Stock
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=78eb61cc79a8c62ed3547501fc6cb9bd78eec9bdae9a4fa6ccfab60958a352a1

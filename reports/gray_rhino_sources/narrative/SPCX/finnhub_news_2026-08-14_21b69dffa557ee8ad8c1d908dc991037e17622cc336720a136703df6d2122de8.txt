@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Micro Devices INC Reports Share Stake Of 3.3M Class A Shares In SpaceX
+  summary: - 13F Filing
+  url: https://finnhub.io/api/news?id=6203fe73e95cc8c7c014ea41f033d40a496b8bc1764a243ce2eddd71ed7a50bd

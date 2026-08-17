@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Soros Fund Management Raises Share Stake In Tesla Inc By 63.6% To 86,846 Shares
+  summary: - Sec Filing
+  url: https://finnhub.io/api/news?id=19ae700828509f75d208851f7c20cc65b118f0edf461e0536697ea35a688238a

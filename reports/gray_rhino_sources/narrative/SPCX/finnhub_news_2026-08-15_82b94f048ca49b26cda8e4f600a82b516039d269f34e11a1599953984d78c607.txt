@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market Is Taking The AI Bubble Naysayers For A Ride
+  summary: Nvidia and Wall Street back a $500B AI infrastructure fund as hyperscalers boost CapEx and AI neoclouds monetize compute. Click here to read more.
+  url: https://finnhub.io/api/news?id=85367708773a724ca107c57bfef0b2f4e512dbb821aec9e77c23850ebbecea1f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How the auto industry is trying to make software-defined vehicles last
+  summary: Software-defined vehicles offer advantages their analog rivals can‘t compete with. But the hardware and software in them needs to be maintained, and some owners have found their cars suddenly obsolete or without key features. CNBC talked with industry figures, including Rivian Chief Software Officer Wassym Bensaid about the promise of software-defined vehicles and how his company is trying to handle the challenges this new form of ownership poses.
+  url: https://finnhub.io/api/news?id=ffdffd209db7024c634840cd21cf86880db578f3faa5956e7049c669b497f848

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lone Pine Capital Raises Share Stake In Alphabet  By 14.9% To 215,574 Class A Capital Stock
+  summary: -SEC Filing
+  url: https://finnhub.io/api/news?id=62c597c6e3217b09c7142923bf37e36d2de13ba0e2312e85a81889e9e24cb427

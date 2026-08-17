@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Soros Fund Management Cuts Share Stake In Microsoft Corp By 10.4% To 189,971 Shares
+  summary: - Sec Filing
+  url: https://finnhub.io/api/news?id=a9f68f7b8f703d3bf3ecefa5386c71d677e156a9ee632cc8be9d65847afabf37

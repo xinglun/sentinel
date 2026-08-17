@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Recalls SpaceX's Bizarre Seal Experiment: 'Kidnap a Seal, Strap It to a Board'
+  summary: Elon Musk recalls bizarre seal testing requirement at SpaceX&#39;s Vandenberg site, highlighting regulatory friction in rocket operations.
+  url: https://finnhub.io/api/news?id=f1eb96b8175e11c4ca06ae25654d84799193b2be9a2a91b2e4d81cd81ddb9102

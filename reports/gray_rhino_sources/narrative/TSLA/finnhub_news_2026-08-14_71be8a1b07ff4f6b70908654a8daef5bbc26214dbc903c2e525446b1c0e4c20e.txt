@@ -1,0 +1,9 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sen. Rand Paul Visited Fort Knox and Confirmed, 'Yes, the Gold Is There.' He Says the Bigger Lesson Is What It Means in 2026
+  summary: Sen. Rand Paul (R-KY) finally got a look inside Fort Knox, more than a year after asking to inspect America’s gold reserves.
+
+
+
+“Yes, the gold is there all (approximately) 147 million ounces,” he wrote on X after the
+  url: https://finnhub.io/api/news?id=55a8679314e2667f80d54a25670b05f566199966f27c51ac3502ea24af7fb87e

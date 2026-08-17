@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: One Thing Most People Are Missing When It Comes To The Reported Stakes
+  summary: SpaceX aka Space Exploration Technologies Corp. may see major ETF/index rebalancing demand as free float rises post-IPO. Click for this SPCX update.
+  url: https://finnhub.io/api/news?id=d990868978e0b570709b2c0589d7acf2ec7026097bc38e60d5fba898eb018ed7

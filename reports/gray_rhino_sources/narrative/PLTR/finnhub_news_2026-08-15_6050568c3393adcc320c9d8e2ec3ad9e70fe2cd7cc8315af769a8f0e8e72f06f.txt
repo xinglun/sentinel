@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Likely To Plunge After Its Historic Run Higher
+  summary: Palantir (PLTR) stock update: revenue and US commercial sales surge as 2026 guidance rises, but valuation looks extremeâsee why itâs a strong sell.
+  url: https://finnhub.io/api/news?id=538daeaf8042f7bf3dff20d57db741a924fd3c3a05a5bc6cb417e59c1c1fe6ec

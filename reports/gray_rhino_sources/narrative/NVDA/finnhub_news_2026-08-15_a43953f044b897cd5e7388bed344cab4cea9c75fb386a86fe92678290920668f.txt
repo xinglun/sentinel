@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Under 35? Here's the Average Retirement Savings for People Your Age
+  summary: They may be young, but many of them are off to a solid start. Even if you're not keeping pace, however, there's plenty of time to do something about it.
+  url: https://finnhub.io/api/news?id=b99dd0a25a478759c6d34dd9eebfac336131577ebfb632113524190fe4d283df

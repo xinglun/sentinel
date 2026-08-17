@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Dividend Stock That Warren Buffett Backed for Decades. Here's Why It Just Hit an All-Time High Under Greg Abel.
+  summary: The reasons Buffett loves it are the same reasons the market is loving it right now.
+  url: https://finnhub.io/api/news?id=7352806761808b35c0c8f1f992c6d8fbf7e870ab25f76811bbaf1219835f2891

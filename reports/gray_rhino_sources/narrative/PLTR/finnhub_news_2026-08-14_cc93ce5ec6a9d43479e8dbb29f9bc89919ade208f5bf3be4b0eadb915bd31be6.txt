@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Winning AI Race With AIP And Forward Deployed Engineer Approach
+  summary: Palantir (PLTR) analysis: AIP bootcamps fuel faster revenue growth and higher guidance, but rich valuation, insider selling and overbought chartsâread now.
+  url: https://finnhub.io/api/news?id=072974c9ce8cbfa8d8d633f4e32de1565aca3a7a6f25b004048b968e8a456da4
