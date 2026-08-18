@@ -2,13 +2,37 @@
 
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::leader_persistence::{
-    build_leader_persistence, LeaderObservation, LeaderState,
+    build_leader_persistence, LeaderObservation, LeaderState, LEADERLESS_STRUCTURE_THRESHOLD_DAYS,
 };
+use crate::features::radar::domain::observation_timeline::derive_breadth_facts;
 use crate::features::radar::interface::presentation::{
     LeaderPersistenceViewModel, LeadershipSnapshotViewModel, MarketCyclePosition,
     MarketInterpretationViewModel, PresentationPacket, TrendBreadthMode,
 };
 use crate::features::shared::interface::i18n::Language;
+
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+struct ActionDistribution {
+    watch: usize,
+    hold: usize,
+    weaken: usize,
+}
+
+/// PresentationPacket の tactical bucket 全量から Interpretation 用の分布を導出する。
+fn action_distribution(pres_packet: &PresentationPacket) -> ActionDistribution {
+    pres_packet.tactical_buckets.iter().fold(
+        ActionDistribution::default(),
+        |mut distribution, bucket| {
+            match bucket.bucket_id.as_str() {
+                "watch" => distribution.watch = bucket.count,
+                "hold" => distribution.hold = bucket.count,
+                "defend" => distribution.weaken = bucket.count,
+                _ => {}
+            }
+            distribution
+        },
+    )
+}
 
 fn rotation_delta(previous: &[String], current: &[String]) -> (Vec<String>, Vec<String>) {
     let exited = previous
@@ -36,6 +60,7 @@ pub(crate) fn build_market_interpretation_view_model(
         leadership_snapshot,
         None,
         None,
+        0,
         language,
     )
 }
@@ -48,6 +73,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
     previous_formal_snapshot: Option<
         &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
     >,
+    leader_absence_duration: usize,
     language: Language,
 ) -> Option<MarketInterpretationViewModel> {
     let interpretation_layer = pres_packet.interpretation_layer.as_ref()?;
@@ -59,6 +85,13 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         .map(|evidence| evidence.market_cycle_position)
         .unwrap_or_default();
     let flow_acceleration = packet.market_features.flow_acceleration.unwrap_or(0.0);
+    let action_distribution = action_distribution(pres_packet);
+    let breadth_facts = derive_breadth_facts(
+        packet.market_features.up_count,
+        packet.market_features.flat_count,
+        packet.market_features.down_count,
+        packet.market_features.total_count,
+    );
 
     let primary_context = interpretation_layer
         .signal_context_primary_context_value
@@ -87,7 +120,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         language,
     );
 
-    let (breadth_score, concentration_score, rotation_score, concentration_label_text) =
+    let (_breadth_score, concentration_score, rotation_score, concentration_label_text) =
         concentration_scores(trend_breadth_mode, market_cycle_position, language);
     let mut rotation_type = rotation_type(&RotationTypeInput {
         primary_context,
@@ -143,8 +176,32 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
     );
     let current_leaders = std::iter::once(leadership_snapshot.primary_leader_value.clone())
         .chain(leadership_snapshot.secondary_leaders_values.iter().cloned())
-        .filter(|leader| !leader.is_empty() && leader != "none")
+        .filter(|leader| {
+            !leader.is_empty()
+                && !leader.eq_ignore_ascii_case("none")
+                && leader != "无"
+                && leader != "なし"
+        })
         .collect::<Vec<_>>();
+    let improving_symbols = pres_packet
+        .current_relative_strength
+        .as_ref()
+        .map(|strength| {
+            strength
+                .items
+                .iter()
+                .filter(|item| item.status == "IMPROVING")
+                .map(|item| item.symbol.clone())
+                .collect::<Vec<_>>()
+        })
+        .unwrap_or_default();
+    let tactical_leadership_structure = if current_leaders.is_empty()
+        || leader_absence_duration >= LEADERLESS_STRUCTURE_THRESHOLD_DAYS
+    {
+        "LEADERLESS / FRAGMENTED"
+    } else {
+        "CORE_ASSET_LED"
+    };
     let breakout_leaders = pres_packet
         .breakout_summary
         .items
@@ -164,6 +221,10 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
             .unwrap_or_default(),
         &current_leaders,
         &breakout_leaders,
+        breadth_facts.raw_percent,
+        &improving_symbols,
+        leader_absence_duration,
+        action_distribution,
         language,
     );
 
@@ -212,8 +273,20 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         leadership_breadth_label: leadership_breadth_label(language).to_string(),
         leadership_breadth_value,
         concentration_label: concentration_label_text,
+        breadth_raw_label: "Breadth Raw".to_string(),
+        breadth_raw_value: breadth_facts
+            .raw_percent
+            .map(|value| format!("{value:.1}%"))
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        breadth_semantic_label: "Breadth Label".to_string(),
+        breadth_semantic_value: breadth_facts.label.clone(),
+        tactical_leadership_structure_value: tactical_leadership_structure.to_string(),
+        leader_absence_duration,
         breadth_score_label: breadth_score_label(language).to_string(),
-        breadth_score_value: breadth_score.to_string(),
+        breadth_score_value: breadth_facts
+            .classification_score
+            .map(|value| format!("{value:.1}"))
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
         concentration_score_label: concentration_score_label(language).to_string(),
         concentration_score_value: concentration_score.to_string(),
         rotation_score_label: rotation_score_label(language).to_string(),
@@ -374,7 +447,7 @@ pub(crate) fn build_leader_persistence_view_model(
                 date: snapshot.market_date,
                 leader: leader.clone(),
                 confidence: Some(snapshot.confidence),
-                breadth: Some(snapshot.breadth),
+                breadth: snapshot.breadth,
                 relative_strength: None,
                 rotation_stability: Some(snapshot.stability),
                 sector_or_index_rotation: Some(snapshot.risk_state.clone()),
@@ -442,6 +515,10 @@ pub(crate) fn build_leader_persistence_view_model(
             .flatten()
             .map(|date| date.to_string()),
         previous_leader_value: result.previous_leader.clone(),
+        previous_snapshot_leader_value: result.previous_snapshot_leader.clone(),
+        last_confirmed_leader_value: result.last_confirmed_leader.clone(),
+        leader_absence_since_value: result.leader_absence_since.map(|date| date.to_string()),
+        tactical_leadership_structure_value: result.tactical_leadership_structure.clone(),
         history_note: (!result.history_coverage_complete)
             .then(|| leader_persistence_history_unavailable(input.language).to_string()),
         leadership_score_label: leader_persistence_score_label(input.language).to_string(),
@@ -1180,11 +1257,16 @@ fn narrative_label(language: Language) -> &'static str {
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn market_interpretation_narrative_values(
     day_type: &str,
     next_observation: &str,
     current_leaders: &[String],
     breakout_leaders: &[String],
+    raw_breadth: Option<f64>,
+    improving_symbols: &[String],
+    leader_absence_duration: usize,
+    action_distribution: ActionDistribution,
     language: Language,
 ) -> Vec<String> {
     let mut lines = Vec::new();
@@ -1248,11 +1330,60 @@ fn market_interpretation_narrative_values(
     if !next_observation.is_empty() {
         lines.push(next_observation.to_string());
     }
-    lines.push(match language {
-        Language::ZhCn => "没有结构性恶化证据。".to_string(),
-        Language::EnUs => "No structural deterioration evidence is visible.".to_string(),
-        Language::JaJp => "構造的悪化の証拠は見えていません。".to_string(),
-    });
+    let fragile_structure =
+        current_leaders.is_empty() || raw_breadth.is_some_and(|value| value < 30.0);
+    if fragile_structure {
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: {} trading days）。",
+                leader_absence_duration
+            ),
+            Language::EnUs => format!(
+                "No new acute deterioration is visible, but the market remains fragile with no clear leader and insufficient diffusion (leader absence: {} trading days).",
+                leader_absence_duration
+            ),
+            Language::JaJp => format!(
+                "新たな急激な悪化は見えていませんが、明確な Leader がなく拡散も不足した脆弱な構造です（Leader absence: {} trading days）。",
+                leader_absence_duration
+            ),
+        });
+    } else {
+        lines.push(match language {
+            Language::ZhCn => "没有结构性恶化证据。".to_string(),
+            Language::EnUs => "No structural deterioration evidence is visible.".to_string(),
+            Language::JaJp => "構造的悪化の証拠は見えていません。".to_string(),
+        });
+    }
+    if !improving_symbols.is_empty() {
+        let symbols = improving_symbols.join(" / ");
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "短期相对强度开始在 {symbols} 等个别资产恢复，尚不足以构成新的 Leadership。"
+            ),
+            Language::EnUs => format!(
+                "Short-term relative strength is recovering in individual assets such as {symbols}, but it is not yet a new leadership structure."
+            ),
+            Language::JaJp => format!(
+                "{symbols} など一部資産の短期相対強度は回復していますが、新しい Leadership を構成するには至っていません。"
+            ),
+        });
+    }
+    if action_distribution.watch + action_distribution.hold + action_distribution.weaken > 0 {
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "动作分布：观察 {} / 持有 {} / 收缩 {}。",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
+            ),
+            Language::EnUs => format!(
+                "Action distribution: watch {} / hold {} / weaken {}.",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
+            ),
+            Language::JaJp => format!(
+                "アクション分布：観測 {} / 保有 {} / 縮小 {}。",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
+            ),
+        });
+    }
     lines
 }
 
@@ -2222,12 +2353,87 @@ mod tests {
             "",
             &["TSLA".to_string()],
             &["GOOG".to_string()],
+            Some(50.0),
+            &[],
+            0,
+            ActionDistribution::default(),
             Language::ZhCn,
         );
 
         assert!(values[0].contains("TSLA"));
         assert!(values[0].contains("GOOG"));
         assert!(!values[0].contains("SPY 主导"));
+    }
+
+    #[test]
+    fn fragile_narrative_names_leader_absence_and_rs_recovery_without_claiming_new_leadership() {
+        let values = market_interpretation_narrative_values(
+            "normal",
+            "",
+            &[],
+            &[],
+            Some(50.0),
+            &["SPCX".to_string(), "NVDA".to_string()],
+            9,
+            ActionDistribution::default(),
+            Language::ZhCn,
+        );
+        let narrative = values.join("\n");
+
+        assert!(narrative.contains("没有观察到新的急剧恶化"));
+        assert!(narrative.contains("缺乏主导者、扩散不足的脆弱结构"));
+        assert!(narrative.contains("Leader absence: 9 trading days"));
+        assert!(narrative.contains("SPCX / NVDA"));
+        assert!(narrative.contains("尚不足以构成新的 Leadership"));
+        assert!(!narrative.contains("没有结构性恶化证据"));
+    }
+
+    #[test]
+    fn narrative_reports_full_tactical_distribution() {
+        let packet = DecisionPacket::default();
+        let pres_packet = PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "watch".to_string(),
+                    display_name: "观察".to_string(),
+                    count: 1,
+                    items: vec!["SPCX".to_string()],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "hold".to_string(),
+                    display_name: "持有".to_string(),
+                    count: 0,
+                    items: vec![],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "defend".to_string(),
+                    display_name: "收缩".to_string(),
+                    count: 9,
+                    items: vec!["A".to_string(); 9],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = build_leadership_snapshot_view_model_from_components(
+            vec![],
+            vec![],
+            vec![],
+            false,
+            Language::ZhCn,
+        );
+        let interpretation = build_market_interpretation_view_model(
+            &packet,
+            &pres_packet,
+            &leadership_snapshot,
+            Language::ZhCn,
+        )
+        .unwrap();
+        let narrative = interpretation.narrative_values.join("\n");
+
+        assert!(narrative.contains("观察 1"));
+        assert!(narrative.contains("持有 0"));
+        assert!(narrative.contains("收缩 9"));
     }
 
     #[test]

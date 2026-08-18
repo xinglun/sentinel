@@ -149,6 +149,91 @@ mod tests {
     }
 
     #[test]
+    fn no_leader_topology_does_not_get_overridden_by_persistent_main_theme() {
+        let mut packet = DecisionPacket {
+            market_features: crate::features::radar::domain::features::MarketFeatures {
+                up_count: 3,
+                down_count: 6,
+                total_count: 9,
+                ..Default::default()
+            },
+            assets: vec!["SPY", "MSFT", "GOOG"]
+                .into_iter()
+                .map(|symbol| AssetActionDecision {
+                    symbol: symbol.to_string(),
+                    asset_state: AssetStateSnapshot {
+                        symbol: symbol.to_string(),
+                        state: AssetState::CRUISE,
+                        ..Default::default()
+                    },
+                    ..Default::default()
+                })
+                .collect(),
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                topology:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
+                ..Default::default()
+            },
+            trend_recognition: Some(
+                crate::features::radar::domain::trend_cohesion::TrendRecognitionEvidence {
+                    conviction_score: 3.4,
+                    substantive: Some(
+                        crate::features::radar::domain::trend_cohesion::SubstantiveEvidence {
+                            capex_payoff_signal: true,
+                            earnings_validation: true,
+                            order_visibility: true,
+                            ..Default::default()
+                        },
+                    ),
+                    ..Default::default()
+                },
+            ),
+            ..Default::default()
+        };
+        packet.transition_log = Some(
+            crate::features::radar::domain::transition_log::StateTransitionLog::compare(
+                None, &packet,
+            ),
+        );
+
+        let config = mock_config(Language::ZhCn);
+        let presentation = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let mut presentation = presentation;
+        presentation
+            .transition_evidence
+            .as_mut()
+            .unwrap()
+            .strategic_context = vec![
+            "市场结构模式: 核心资产主导期".to_string(),
+            "长期方向: 结构证据观察中".to_string(),
+        ];
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut presentation,
+            "none",
+            9,
+            Language::ZhCn,
+        );
+
+        assert_eq!(presentation.decision_summary.trend_topology_value, "无主线");
+        let strategic_context = presentation
+            .transition_evidence
+            .as_ref()
+            .unwrap()
+            .strategic_context
+            .join("\n");
+        assert!(strategic_context.contains("结构整理 / 无明确主导"));
+        assert!(!strategic_context.contains("核心资产主导期"));
+        assert!(strategic_context.contains("长期方向: 结构证据观察中"));
+    }
+
+    #[test]
     fn test_full_failure_semantic_safety() {
         // Mock a 100% fetch failure case (same as in cli.rs)
         let packet = DecisionPacket {

@@ -4198,6 +4198,10 @@ mod tests {
                 history_coverage_value: "PARTIAL".to_string(),
                 first_observed_at_value: Some("2026-07-01".to_string()),
                 previous_leader_value: Some("MSFT".to_string()),
+                previous_snapshot_leader_value: Some("MSFT".to_string()),
+                last_confirmed_leader_value: Some("MSFT".to_string()),
+                leader_absence_since_value: None,
+                tactical_leadership_structure_value: "CORE_ASSET_LED".to_string(),
                 history_note: Some("Leadership history unavailable before feature activation.".to_string()),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "82.4".to_string(),
@@ -4258,6 +4262,10 @@ mod tests {
                 history_coverage_value: "PARTIAL".to_string(),
                 first_observed_at_value: None,
                 previous_leader_value: Some("GOOG".to_string()),
+                previous_snapshot_leader_value: Some("GOOG".to_string()),
+                last_confirmed_leader_value: Some("GOOG".to_string()),
+                leader_absence_since_value: Some("2026-07-01".to_string()),
+                tactical_leadership_structure_value: "LEADERLESS / FRAGMENTED".to_string(),
                 history_note: Some("History coverage is partial.".to_string()),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "0.0".to_string(),
@@ -4289,7 +4297,10 @@ mod tests {
         for body in [&report.markdown_body, &report.telegram_html_body] {
             assert!(body.contains("Leader State: ABSENT"));
             assert!(body.contains("Leader Absence Duration: 3 trading days"));
-            assert!(body.contains("Previous Leader: GOOG"));
+            assert!(body.contains("Previous Snapshot Leader: GOOG"));
+            assert!(body.contains("Last Confirmed Leader: GOOG"));
+            assert!(body.contains("Leader Absence Since: 2026-07-01"));
+            assert!(!body.contains("Previous Leader: GOOG"));
             assert!(body.contains("Last Transition: GOOG -> none"));
             assert!(body.contains("History Coverage: PARTIAL"));
             assert!(!body.contains("Leader Persistence: 0 days"));
@@ -4300,7 +4311,7 @@ mod tests {
     }
 
     #[test]
-    fn relative_strength_renderers_keep_markdown_and_html_boundaries() {
+    fn relative_strength_renderer_is_plain_markdown_in_all_delivery_bodies() {
         let config = mock_config_with_language(Language::EnUs);
         let pres = crate::features::radar::interface::presentation::PresentationPacket {
             current_relative_strength: Some(
@@ -4314,6 +4325,11 @@ mod tests {
                         relative_5d_vs_benchmark: Some(4.5),
                         price_position: None,
                         volume_participation: None,
+                        conflict_code: Some("SIGNAL_CONFLICT".to_string()),
+                        recovery_watch: true,
+                        recovery_explanation: Some(
+                            "长期/累计结构仍弱，但短期相对强度正在明显恢复。".to_string(),
+                        ),
                     }],
                     boundary: "Observation only".to_string(),
                 },
@@ -4334,13 +4350,186 @@ mod tests {
             .contains("### Current Relative Strength"));
         assert!(!report.markdown_body.contains("<h3>"));
         assert!(!report.markdown_body.contains("<li>"));
-        assert!(!report
-            .telegram_html_body
-            .contains("### Current Relative Strength"));
-        assert!(!report.telegram_html_body.contains("  - Confirmed Leader"));
         assert!(report
             .telegram_html_body
+            .contains("### Current Relative Strength"));
+        assert!(report.telegram_html_body.contains("  - 确认 Leader"));
+        assert!(!report
+            .telegram_html_body
             .contains("<h3>Current Relative Strength</h3>"));
+        assert!(!report.telegram_html_body.contains("<li>确认 Leader"));
+        assert!(report
+            .archival_markdown
+            .contains("### Current Relative Strength"));
+        assert!(!report.archival_markdown.contains("<h3>"));
+        assert!(!report.archival_markdown.contains("<li>"));
+        for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("状态冲突: SIGNAL_CONFLICT"));
+            assert!(body.contains("Recovery Watch: RECOVERY_WATCH"));
+            assert!(body.contains("长期/累计结构仍弱，但短期相对强度正在明显恢复。"));
+        }
+    }
+
+    #[test]
+    fn leaderless_reconciliation_reaches_all_report_bodies_without_erasing_long_term_context() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            decision_summary:
+                crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: true,
+                    trend_topology_label: "主线结构".to_string(),
+                    trend_topology_value: "核心资产主导".to_string(),
+                    ..Default::default()
+                },
+            transition_evidence: Some(
+                crate::features::radar::interface::presentation::StateTransitionViewModel {
+                    strategic_context: vec![
+                        "市场结构模式: 核心资产主导期".to_string(),
+                        "长期方向: 结构证据观察中".to_string(),
+                    ],
+                    ..Default::default()
+                },
+            ),
+            ..Default::default()
+        };
+
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut pres,
+            "none",
+            9,
+            Language::ZhCn,
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(body.contains("主线结构：无主线"));
+            assert!(body.contains("市场结构模式: 结构整理 / 无明确主导"));
+            assert!(body.contains("长期方向: 结构证据观察中"));
+            assert!(!body.contains("核心资产主导"));
+        }
+    }
+
+    #[test]
+    fn interpretation_report_renders_full_tactical_distribution() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let packet = DecisionPacket::default();
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "watch".to_string(),
+                    display_name: "观察".to_string(),
+                    count: 1,
+                    items: vec!["SPCX".to_string()],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "hold".to_string(),
+                    display_name: "持有".to_string(),
+                    count: 0,
+                    items: vec![],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "defend".to_string(),
+                    display_name: "收缩".to_string(),
+                    count: 9,
+                    items: vec!["A".to_string(); 9],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_components(
+            vec![],
+            vec![],
+            vec![],
+            false,
+            Language::ZhCn,
+        );
+        pres.market_interpretation = crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+            &packet,
+            &pres,
+            &leadership_snapshot,
+            Language::ZhCn,
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(body.contains("动作分布：观察 1 / 持有 0 / 收缩 9。"));
+        }
+    }
+
+    #[test]
+    fn improving_relative_strength_is_reported_as_signal_conflict_without_changing_action() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let asset = AssetActionDecision {
+            symbol: "SPCX".to_string(),
+            action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+            exit_decision: ExitDecision {
+                position_intent: PositionIntent::TRIM,
+                asset_exit_state: AssetExitState::StrengthLoss,
+                reasons: vec![],
+            },
+            ..Default::default()
+        };
+        let original_action = asset.action;
+        let packet = DecisionPacket {
+            assets: vec![asset.clone()],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "SPCX".to_string(),
+                    relative_1d_vs_benchmark: Some(6.34),
+                    relative_5d_vs_benchmark: Some(6.87),
+                    price_position: None,
+                    volume_participation: None,
+                    status: crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let item = pres
+            .current_relative_strength
+            .as_ref()
+            .and_then(|strength| strength.items.first())
+            .expect("SPCX current relative strength item");
+
+        assert_eq!(item.conflict_code.as_deref(), Some("SIGNAL_CONFLICT"));
+        assert!(item.recovery_watch);
+        assert!(item
+            .recovery_explanation
+            .as_deref()
+            .is_some_and(|value| value.contains("RECOVERY_WATCH")));
+        assert_eq!(asset.action, original_action);
     }
 
     #[test]
@@ -6069,8 +6258,8 @@ mod tests {
                         date: NaiveDate::from_ymd_opt(2026, 7, 13).unwrap(),
                         primary_leader: "SPY".to_string(),
                         secondary_leaders: vec![],
-                        breadth_score: 50.0,
-                        breadth_raw_percent: 70.0,
+                        breadth_score: Some(50.0),
+                        breadth_raw_percent: Some(70.0),
                         concentration_score: 50.0,
                         rotation_score: 50.0,
                         confidence_index: 50.0,
@@ -6084,8 +6273,8 @@ mod tests {
                         date: NaiveDate::from_ymd_opt(2026, 7, 14).unwrap(),
                         primary_leader: "MSFT".to_string(),
                         secondary_leaders: vec![],
-                        breadth_score: 60.0,
-                        breadth_raw_percent: 80.0,
+                        breadth_score: Some(60.0),
+                        breadth_raw_percent: Some(80.0),
                         concentration_score: 55.0,
                         rotation_score: 45.0,
                         confidence_index: 65.0,

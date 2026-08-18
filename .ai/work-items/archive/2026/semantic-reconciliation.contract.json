@@ -1,0 +1,273 @@
+{
+  "contractVersion": 2,
+  "workItemId": "semantic-reconciliation",
+  "mode": "code",
+  "title": "Observation 层语义一致性修复",
+  "baseCommit": "3c6b7c0490fd85435797f4fcd339672c36f0914a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Observation Layer に Breadth の欠損値を 0.0 として保存する経路、現在相対強度と既存弱勢判定の衝突、Leader absence 中の主導構造表示、Previous Leader の意味混同、Markdown renderer の出力不整合が残っている。Decision 自体は維持したまま、事実・解釈・表示の意味を同じ source に統一する。",
+  "intent": {
+    "problem": "新旧 Observation の意味が同じ report 内で衝突し、UNAVAILABLE が数値 0.0 に変換され、将来の validation と履歴解釈を汚染する。",
+    "constraints": [
+      "ユーザーは本 Work Item に必要な実装、テスト、文書、Contract/Summary 更新を承認済みである。",
+      "Decision、Action Matrix、Gate、Execution、Trader、READY / EXECUTE、Position Sizing の判定・閾値・取引挙動は変更しない。",
+      "Breadth Raw、Breadth Label、Breadth Classification Score は同一の up/flat/down/total fact から導出し、total=0 は UNAVAILABLE とする。",
+      "Relative Strength conflict と Leaderless/Recovery Watch は Observation / Interpretation / report 専用とし、既存の弱勢判定を取り消さない。",
+      "Current Relative Strength block は Markdown、archival、Telegram の全 delivery body で純 Markdown とし、<h3>/<li> を出力しない。他の Telegram section の HTML channel contract は変更しない。",
+      "Leader absence の tactical structure 閾値は 5 trading days とする。戦略的な core-asset background と当日の tactical leadership を別表示する。"
+    ],
+    "rationale": "新しい Raw Breadth と Current Relative Strength が既存の state-derived narrative と反証関係になったため、旧 Decision を変えずに Observation → Interpretation の事実源と語彙を再統合する。"
+  },
+  "scope": [
+    ".ai/work-items/active/semantic-reconciliation.contract.json",
+    ".ai/work-items/active/semantic-reconciliation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "docs/superpowers/plans/2026-08-18-observation-semantic-reconciliation.md",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/domain/leader_persistence/mod.rs",
+    "src/features/radar/domain/leader_persistence/persistence.rs",
+    "src/features/radar/domain/leader_persistence/snapshot.rs",
+    "src/features/radar/domain/leader_persistence/tests.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/radar/infrastructure/persistence/model.rs",
+    "src/features/radar/infrastructure/persistence/migration.rs",
+    "src/features/radar/infrastructure/persistence.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/trading/**",
+    "src/features/gate/**",
+    "src/features/execution/**",
+    "data/**",
+    "自動取引、Trade Signal、Action Matrix の判定ロジック、Position Sizing、外部 provider の追加"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-13-observation-layer-repair-design.md",
+      "reason": "Current Relative Strength、Leader absence、Observation-only boundary の既存設計。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-14-market-evolution-observation-design.md",
+      "reason": "Leader Persistence、7 日 timeline、Interpretation の既存契約。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "Breadth history の構造化 record、coverage、timeline 出力の source。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence/",
+      "reason": "Current/previous leader、absence streak、last confirmed leader の domain source。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Breadth、Leadership、Relative Strength と Interpretation narrative の read model。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "packet の市場 fact を report presentation に投影する入口。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "formal snapshot、timeline、leader observation の runtime/persistence wiring。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown、archival、Telegram delivery body の report renderer。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Markdown/HTML、Observation-only、report-level 回帰テスト。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence/",
+      "reason": "TradingDaySnapshot、legacy migration、serde compatibility の source。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "total_count=0 の Breadth Raw、Classification Score、7 日履歴が 0.0 ではなく UNAVAILABLE になる",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "テスト先行で実装後に確認する。"
+    },
+    {
+      "scenario": "50% breadth は同一 fact source から Raw=50.0%、Label=Narrow、Score=50.0 として表示される",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "テスト先行で実装後に確認する。"
+    },
+    {
+      "scenario": "Current Leader、Previous Snapshot Leader、Last Confirmed Leader、Leader Absence Since が区別され、9 trading days で LEADERLESS / FRAGMENTED になる",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "テスト先行で実装後に確認する。"
+    },
+    {
+      "scenario": "既存弱勢判定と Current Relative Strength=IMPROVING の組み合わせが SIGNAL_CONFLICT と RECOVERY_WATCH を表示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "Decision/Action Matrix を変更せず report read model で確認する。"
+    },
+    {
+      "scenario": "Leader absence、Raw Breadth、RS recovery、shrink/watch distribution、overheat/crowding を Interpretation が参照し、脆弱構造で無条件の no-deterioration 文を出さない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "report-level regression で確認する。"
+    },
+    {
+      "scenario": "Current Relative Strength block は Markdown/archival/Telegram の全 delivery body に HTML tag が混入せず、他の Telegram section は既存形式を維持する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "renderer regression で確認する。"
+    },
+    {
+      "scenario": "NO TRADE と Observation-only boundary が維持され、Decision/Action Matrix/Gate の判定値が変わらない",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "全体テストと boundary assertion で確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "scope_unclear",
+      "review_debt"
+    ],
+    "reason": "複数 read model と persistence の意味整合性に medium risk があるが、対象 source、5 日 tactical threshold、既存 channel 境界、回帰場面は確定している。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_user_authorized_semantic_reconciliation",
+    "openQuestions": [
+      "実装後に旧 JSON compatibility、5 trading days の tactical threshold、Current Relative Strength の全 delivery body 境界を required checks と report regression で確認する。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザー承認済みの scope、sources、acceptance、verification と実装境界が確定している。"
+  },
+  "preReviewWarnings": [
+    "TradingDaySnapshot と ObservationTimeline の旧 JSON compatibility で欠損 0.0 を再導入しないこと。",
+    "Relative Strength conflict は既存の弱勢判定を取り消さず、Observation/Interpretation の語彙だけを補正すること。",
+    "Leaderless threshold 後に strategic core context を tactical leadership として表示しないこと。",
+    "Current Relative Strength block の HTML tag を除去しつつ、他の Telegram HTML section の channel contract を壊さないこと。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Breadth の total=0 は domain、snapshot、timeline、report の全境界で UNAVAILABLE として扱われ、0.0 に serialize されない。",
+    "Breadth Raw、Breadth Label、Breadth Classification Score は同じ up/flat/down/total fact source から導出され、50% が Very Narrow と矛盾しない。",
+    "Leader Persistence は Current Leader、Previous Snapshot Leader、Last Confirmed Leader、Leader Absence Since、Leader Absence Duration を分離して出力する。",
+    "Leader absence が 5 trading days 以上の場合、tactical leadership structure は LEADERLESS / FRAGMENTED とし、core-asset strategic background と混同しない。",
+    "Action/Exit の弱勢と Current Relative Strength=IMPROVING の衝突を SIGNAL_CONFLICT として検出し、RECOVERY_WATCH と説明を出す。",
+    "Interpretation は Leader absence、raw breadth、RS recovery、shrink/watch distribution、overheat/crowding を読み、脆弱構造で無条件に『没有结构性恶化证据』を出さない。",
+    "Current Relative Strength block は Markdown、archival、Telegram の全 delivery body で純 Markdown であり、<h3>/<li> を出力しない。他の Telegram HTML section は既存 channel contract を保つ。",
+    "Decision、Action Matrix、Gate、Execution、Trader、Position Sizing、NO TRADE の判定と Observation-only boundary は変更しない。",
+    "zh/en/ja の report output、snapshot/serde compatibility、weekly projection を既存構造に沿って更新し、required checks を make 経由で通過させる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/semantic-reconciliation.summary.json CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/semantic-reconciliation.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

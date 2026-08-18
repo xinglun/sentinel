@@ -8,6 +8,41 @@ pub const SUMMARY_LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE: &str =
     "LIMITED_COVERAGE_NO_STRUCTURAL_CHANGE";
 pub const SUMMARY_LIMITED_COVERAGE_STRUCTURAL_CHANGE: &str = "LIMITED_COVERAGE_STRUCTURAL_CHANGE";
 
+#[derive(Debug, Clone, PartialEq)]
+pub struct BreadthFacts {
+    pub raw_percent: Option<f64>,
+    pub label: String,
+    pub classification_score: Option<f64>,
+}
+
+/// 同じ up/flat/down/total 事実から Breadth の表示値を導出する。
+pub fn derive_breadth_facts(
+    _up_count: usize,
+    _flat_count: usize,
+    _down_count: usize,
+    total_count: usize,
+) -> BreadthFacts {
+    let Some(total) = (total_count > 0).then_some(total_count as f64) else {
+        return BreadthFacts {
+            raw_percent: None,
+            label: "UNAVAILABLE".to_string(),
+            classification_score: None,
+        };
+    };
+    let raw_value = _up_count as f64 / total * 100.0;
+    let raw_percent = Some(raw_value);
+    let label = match raw_value {
+        value if value < 30.0 => "Very Narrow",
+        value if value < 60.0 => "Narrow",
+        _ => "Broad Participation",
+    };
+    BreadthFacts {
+        raw_percent,
+        label: label.to_string(),
+        classification_score: raw_percent,
+    }
+}
+
 const VALID_SUPPLY_PHASES: [&str; 5] = [
     "IDLE",
     "ACCUMULATING",
@@ -138,9 +173,10 @@ pub struct ObservationTimelineEntry {
     pub date: NaiveDate,
     pub primary_leader: String,
     pub secondary_leaders: Vec<String>,
-    pub breadth_score: f64,
     #[serde(default)]
-    pub breadth_raw_percent: f64,
+    pub breadth_score: Option<f64>,
+    #[serde(default)]
+    pub breadth_raw_percent: Option<f64>,
     #[serde(default)]
     pub breadth_up_count: usize,
     #[serde(default)]
@@ -186,7 +222,7 @@ impl ObservationTimeline {
             let current = &pair[1];
             previous.primary_leader != current.primary_leader
                 || previous.secondary_leaders != current.secondary_leaders
-                || (previous.breadth_score - current.breadth_score).abs() > f64::EPSILON
+                || previous.breadth_score != current.breadth_score
                 || (previous.concentration_score - current.concentration_score).abs() > f64::EPSILON
                 || (previous.rotation_score - current.rotation_score).abs() > f64::EPSILON
                 || (previous.confidence_index - current.confidence_index).abs() > f64::EPSILON
@@ -207,6 +243,10 @@ pub fn build_observation_timeline(
         .filter(|entry| expected_trading_dates.contains(&entry.date))
         .cloned()
         .map(|mut entry| {
+            if entry.breadth_total_count == 0 {
+                entry.breadth_score = None;
+                entry.breadth_raw_percent = None;
+            }
             entry.supply_phase = normalize_supply_phase(&entry.supply_phase);
             entry
         })
@@ -257,7 +297,7 @@ mod tests {
             date: NaiveDate::from_ymd_opt(date.0, date.1, date.2).unwrap(),
             primary_leader: leader.to_string(),
             secondary_leaders: vec!["MSFT".to_string()],
-            breadth_score: 40.0,
+            breadth_score: Some(40.0),
             concentration_score: 80.0,
             rotation_score: 20.0,
             confidence_index: 50.0,
@@ -302,8 +342,8 @@ mod tests {
     #[test]
     fn breadth_observation_fields_round_trip_separately_from_classification_score() {
         let mut value = entry((2026, 8, 13), "SPY");
-        value.breadth_score = 35.0;
-        value.breadth_raw_percent = 50.0;
+        value.breadth_score = Some(35.0);
+        value.breadth_raw_percent = Some(50.0);
         value.breadth_up_count = 5;
         value.breadth_flat_count = 1;
         value.breadth_down_count = 4;
@@ -311,8 +351,8 @@ mod tests {
         value.breadth_universe_integrity = 1.0;
         let encoded = serde_json::to_value(&value).unwrap();
         let restored: ObservationTimelineEntry = serde_json::from_value(encoded).unwrap();
-        assert_eq!(restored.breadth_score, 35.0);
-        assert_eq!(restored.breadth_raw_percent, 50.0);
+        assert_eq!(restored.breadth_score, Some(35.0));
+        assert_eq!(restored.breadth_raw_percent, Some(50.0));
         assert_eq!(restored.breadth_total_count, 10);
         assert_eq!(restored.breadth_universe_integrity, 1.0);
     }
@@ -512,5 +552,32 @@ mod tests {
             ),
             Err("NARRATIVE_FACT_CONFLICT")
         );
+    }
+
+    #[test]
+    fn breadth_facts_keep_missing_observations_unavailable_and_classify_fifty_percent_as_narrow() {
+        let unavailable = derive_breadth_facts(0, 0, 0, 0);
+        assert_eq!(unavailable.raw_percent, None);
+        assert_eq!(unavailable.classification_score, None);
+        assert_eq!(unavailable.label, "UNAVAILABLE");
+
+        let facts = derive_breadth_facts(5, 2, 3, 10);
+        assert_eq!(facts.raw_percent, Some(50.0));
+        assert_eq!(facts.classification_score, Some(50.0));
+        assert_eq!(facts.label, "Narrow");
+    }
+
+    #[test]
+    fn legacy_zero_total_breadth_is_normalized_to_unavailable() {
+        let mut legacy = entry((2026, 8, 13), "none");
+        legacy.breadth_score = Some(0.0);
+        legacy.breadth_raw_percent = Some(0.0);
+        legacy.breadth_total_count = 0;
+
+        let timeline =
+            build_observation_timeline(&[legacy], &[NaiveDate::from_ymd_opt(2026, 8, 13).unwrap()]);
+
+        assert_eq!(timeline.entries[0].breadth_score, None);
+        assert_eq!(timeline.entries[0].breadth_raw_percent, None);
     }
 }

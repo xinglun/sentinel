@@ -1757,11 +1757,21 @@ fn render_observation_timeline_section(
             ));
             block.push_str(&format!(
                 "  - {breadth_raw_label}: {}\n",
-                sequence(&|entry| format!("{:.1}", entry.breadth_raw_percent))
+                sequence(&|entry| {
+                    entry
+                        .breadth_raw_percent
+                        .map(|value| format!("{value:.1}"))
+                        .unwrap_or_else(|| "UNAVAILABLE".to_string())
+                })
             ));
             block.push_str(&format!(
                 "  - {breadth_classification_label}: {}\n",
-                sequence(&|entry| format!("{:.1}", entry.breadth_score))
+                sequence(&|entry| {
+                    entry
+                        .breadth_score
+                        .map(|value| format!("{value:.1}"))
+                        .unwrap_or_else(|| "UNAVAILABLE".to_string())
+                })
             ));
             block.push_str(&format!(
                 "  - {confidence_label}: {}\n",
@@ -1873,6 +1883,22 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.primary_leader_label, persistence.primary_leader_value
             ));
+            block.push_str(&format!(
+                "  - Current Leader: {}\n",
+                persistence.primary_leader_value
+            ));
+            if let Some(previous) = &persistence.previous_snapshot_leader_value {
+                block.push_str(&format!("  - Previous Snapshot Leader: {previous}\n"));
+            }
+            if let Some(last_confirmed) = &persistence.last_confirmed_leader_value {
+                block.push_str(&format!("  - Last Confirmed Leader: {last_confirmed}\n"));
+            }
+            if !persistence.tactical_leadership_structure_value.is_empty() {
+                block.push_str(&format!(
+                    "  - Tactical Leadership Structure: {}\n",
+                    persistence.tactical_leadership_structure_value
+                ));
+            }
             if !absent {
                 block.push_str(&format!(
                     "  - {}: {}\n",
@@ -1903,8 +1929,8 @@ fn render_leader_persistence_section(
                     "  - Leader Absence Duration: {} trading days\n",
                     persistence.leader_absence_duration
                 ));
-                if let Some(previous) = &persistence.previous_leader_value {
-                    block.push_str(&format!("  - Previous Leader: {previous}\n"));
+                if let Some(absence_since) = &persistence.leader_absence_since_value {
+                    block.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
                 }
                 block.push_str(&format!(
                     "  - Last Transition: {}\n",
@@ -1935,6 +1961,22 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.primary_leader_label, persistence.primary_leader_value
             ));
+            block.push_str(&format!(
+                "  - Current Leader: {}\n",
+                persistence.primary_leader_value
+            ));
+            if let Some(previous) = &persistence.previous_snapshot_leader_value {
+                block.push_str(&format!("  - Previous Snapshot Leader: {previous}\n"));
+            }
+            if let Some(last_confirmed) = &persistence.last_confirmed_leader_value {
+                block.push_str(&format!("  - Last Confirmed Leader: {last_confirmed}\n"));
+            }
+            if !persistence.tactical_leadership_structure_value.is_empty() {
+                block.push_str(&format!(
+                    "  - Tactical Leadership Structure: {}\n",
+                    persistence.tactical_leadership_structure_value
+                ));
+            }
             if !absent {
                 block.push_str(&format!(
                     "  - {}: {}\n",
@@ -1965,8 +2007,8 @@ fn render_leader_persistence_section(
                     "  - Leader Absence Duration: {} trading days\n",
                     persistence.leader_absence_duration
                 ));
-                if let Some(previous) = &persistence.previous_leader_value {
-                    block.push_str(&format!("  - Previous Leader: {previous}\n"));
+                if let Some(absence_since) = &persistence.leader_absence_since_value {
+                    block.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
                 }
                 block.push_str(&format!(
                     "  - Last Transition: {}\n",
@@ -2001,15 +2043,14 @@ fn render_current_relative_strength_section(
         &crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel,
     >,
     language: crate::features::shared::interface::i18n::Language,
-    mode: RenderMode,
+    _mode: RenderMode,
 ) -> String {
     let Some(strength) = strength else {
         return String::new();
     };
-    let (heading, bullet, boundary) = match mode {
-        RenderMode::Markdown => (format!("### {}\n\n", strength.title), "  - ", "\n"),
-        RenderMode::Html => (format!("<h3>{}</h3>", strength.title), "<li>", "</li>\n"),
-    };
+    let heading = format!("### {}\n\n", strength.title);
+    let bullet = "  - ";
+    let boundary = "\n";
     let (leader_label, day_1_label, day_5_label) = match language {
         crate::features::shared::interface::i18n::Language::ZhCn => {
             ("确认 Leader", "1日相对 SPY", "5日相对 SPY")
@@ -2031,6 +2072,28 @@ fn render_current_relative_strength_section(
             "{}{}: {}{}",
             bullet, item.symbol, item.status, boundary
         ));
+        if let Some(conflict_code) = &item.conflict_code {
+            out.push_str(&format!(
+                "{}{}: {}{}",
+                bullet,
+                match language {
+                    crate::features::shared::interface::i18n::Language::ZhCn => "状态冲突",
+                    crate::features::shared::interface::i18n::Language::EnUs => "Signal Conflict",
+                    crate::features::shared::interface::i18n::Language::JaJp => "シグナル衝突",
+                },
+                conflict_code,
+                boundary
+            ));
+            if item.recovery_watch {
+                out.push_str(&format!(
+                    "{}Recovery Watch: RECOVERY_WATCH{}",
+                    bullet, boundary
+                ));
+            }
+            if let Some(explanation) = &item.recovery_explanation {
+                out.push_str(&format!("{}{}{}", bullet, explanation, boundary));
+            }
+        }
         if let Some(value) = item.relative_1d_vs_benchmark {
             out.push_str(&format!(
                 "{}{day_1_label}: {value:+.2}%{}",
@@ -2454,7 +2517,26 @@ fn render_market_interpretation_section(
                     format_values(&layer.weakening_values)
                 ));
             }
-            block.push_str(&format!("    - Breadth: {}\n", layer.breadth_score_value));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_raw_label, layer.breadth_raw_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_semantic_label, layer.breadth_semantic_value
+            ));
+            block.push_str(&format!(
+                "    - Breadth Classification Score: {}\n",
+                layer.breadth_score_value
+            ));
+            block.push_str(&format!(
+                "    - Tactical Leadership Structure: {}\n",
+                layer.tactical_leadership_structure_value
+            ));
+            block.push_str(&format!(
+                "    - Leader Absence Duration: {} trading days\n",
+                layer.leader_absence_duration
+            ));
             block.push_str(&format!(
                 "    - Concentration: {}\n",
                 layer.concentration_score_value
@@ -2572,7 +2654,26 @@ fn render_market_interpretation_section(
                     format_values(&layer.weakening_values)
                 ));
             }
-            block.push_str(&format!("    - Breadth: {}\n", layer.breadth_score_value));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_raw_label, layer.breadth_raw_value
+            ));
+            block.push_str(&format!(
+                "    - {}: {}\n",
+                layer.breadth_semantic_label, layer.breadth_semantic_value
+            ));
+            block.push_str(&format!(
+                "    - Breadth Classification Score: {}\n",
+                layer.breadth_score_value
+            ));
+            block.push_str(&format!(
+                "    - Tactical Leadership Structure: {}\n",
+                layer.tactical_leadership_structure_value
+            ));
+            block.push_str(&format!(
+                "    - Leader Absence Duration: {} trading days\n",
+                layer.leader_absence_duration
+            ));
             block.push_str(&format!(
                 "    - Concentration: {}\n",
                 layer.concentration_score_value
