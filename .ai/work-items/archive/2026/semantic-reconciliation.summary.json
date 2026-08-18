@@ -67,8 +67,28 @@
       "reason": "Breadth、Leader、Conflict、Interpretation、archival/Telegram Markdown の回帰テストを追加・修正した。"
     },
     {
-      "path": "src/features/radar/interface/snapshots/",
-      "reason": "UNAVAILABLE Breadth の zh/en/ja Markdown/Telegram snapshot を更新した。"
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "UNAVAILABLE Breadth の英語 Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "reason": "UNAVAILABLE Breadth の英語 Markdown snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "UNAVAILABLE Breadth の日本語 Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "UNAVAILABLE Breadth の日本語 Markdown snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "UNAVAILABLE Breadth の中国語 Telegram snapshot を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "UNAVAILABLE Breadth の中国語 Markdown snapshot を更新した。"
     },
     {
       "path": "src/features/radar/interface/weekly_state_report.rs",
