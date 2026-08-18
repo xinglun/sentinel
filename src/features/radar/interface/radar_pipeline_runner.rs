@@ -486,6 +486,12 @@ pub(crate) async fn run_pipeline_for_report_date(
             .map(|result| result.leader_absence_duration)
             .unwrap_or_default()
         };
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut pres_packet,
+            &current_leadership_snapshot.primary_leader_value,
+            leader_absence_duration,
+            lang,
+        );
         pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
         pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
         let previous_market_interpretation = match (

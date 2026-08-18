@@ -4371,6 +4371,117 @@ mod tests {
     }
 
     #[test]
+    fn leaderless_reconciliation_reaches_all_report_bodies_without_erasing_long_term_context() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            decision_summary:
+                crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: true,
+                    trend_topology_label: "主线结构".to_string(),
+                    trend_topology_value: "核心资产主导".to_string(),
+                    ..Default::default()
+                },
+            transition_evidence: Some(
+                crate::features::radar::interface::presentation::StateTransitionViewModel {
+                    strategic_context: vec![
+                        "市场结构模式: 核心资产主导期".to_string(),
+                        "长期方向: 结构证据观察中".to_string(),
+                    ],
+                    ..Default::default()
+                },
+            ),
+            ..Default::default()
+        };
+
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut pres,
+            "none",
+            9,
+            Language::ZhCn,
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(body.contains("主线结构：无主线"));
+            assert!(body.contains("市场结构模式: 结构整理 / 无明确主导"));
+            assert!(body.contains("长期方向: 结构证据观察中"));
+            assert!(!body.contains("核心资产主导"));
+        }
+    }
+
+    #[test]
+    fn interpretation_report_renders_full_tactical_distribution() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let packet = DecisionPacket::default();
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "watch".to_string(),
+                    display_name: "观察".to_string(),
+                    count: 1,
+                    items: vec!["SPCX".to_string()],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "hold".to_string(),
+                    display_name: "持有".to_string(),
+                    count: 0,
+                    items: vec![],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "defend".to_string(),
+                    display_name: "收缩".to_string(),
+                    count: 9,
+                    items: vec!["A".to_string(); 9],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_components(
+            vec![],
+            vec![],
+            vec![],
+            false,
+            Language::ZhCn,
+        );
+        pres.market_interpretation = crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+            &packet,
+            &pres,
+            &leadership_snapshot,
+            Language::ZhCn,
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(body.contains("动作分布：观察 1 / 持有 0 / 收缩 9。"));
+        }
+    }
+
+    #[test]
     fn improving_relative_strength_is_reported_as_signal_conflict_without_changing_action() {
         let config = mock_config_with_language(Language::ZhCn);
         let asset = AssetActionDecision {

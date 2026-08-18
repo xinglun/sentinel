@@ -1,0 +1,218 @@
+{
+  "contractVersion": 2,
+  "workItemId": "semantic-reconciliation-followup",
+  "mode": "code",
+  "title": "修复 Leaderless topology 与 Interpretation 分布遗漏",
+  "baseCommit": "e1559b0c5b44bcca40e878e2ca13a17cb05cddb0",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader absence が 5 trading days 以上続いても旧 Decision Summary と Strategic Context が Core Asset Leadership を表示し続け、Interpretation が Action Matrix の全量 watch / hold / weaken 分布を説明していない。",
+  "intent": {
+    "problem": "新しい Leader Persistence と既存の Decision / Strategic Context / Interpretation が別々の事実源を参照し、Leaderless 状態と市場構造表示が衝突している。",
+    "constraints": [
+      "Decision、Action Matrix、Gate、Execution、Trader、Position Sizing、NO TRADE の判定と取引挙動は変更しない。",
+      "Leader absence の tactical threshold は既存契約どおり 5 trading days とする。",
+      "長期的な substantive/core-asset background は残すが、当日の tactical market structure と混同しない。",
+      "Interpretation は PresentationPacket の tactical bucket fact から全量の watch、hold、defend（収縮）分布を読む。",
+      "表示と解釈の補正は Observation-only とし、既存の弱勢判定を取消・昇格しない。"
+    ],
+    "rationale": "前回の semantic reconciliation 後の自检で、Leaderless / Fragmented が新しい Interpretation block にだけ存在し、旧 Decision Summary と Strategic Context に伝播していないことが判明したため。"
+  },
+  "scope": [
+    ".ai/work-items/active/semantic-reconciliation-followup.contract.json",
+    ".ai/work-items/active/semantic-reconciliation-followup.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/strategic_context_read_model.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/trading/**",
+    "src/features/gate/**",
+    "src/features/execution/**",
+    "data/**",
+    "src/features/shared/interface/i18n.rs",
+    "Decision / Gate / Execution / Trader / Position Sizing の判定ロジック"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "旧 Decision Summary が persistent main theme を理由に Core Asset Leadership を無条件表示する source。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Leader absence duration が確定し、PresentationPacket の各 read model が接続される runtime boundary。"
+    },
+    {
+      "path": "src/features/radar/interface/strategic_context_read_model.rs",
+      "reason": "Strategic Context の market structure line が TrendBreadthMode だけで生成される source。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Interpretation narrative が raw breadth、RS recovery、watchlist を読む source。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "PresentationPacket の tactical bucket と report read model 契約を確認する source。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "Presentation-level の topology reconciliation 回帰テスト。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "Decision Summary / Strategic Context / Interpretation の report 出力回帰テスト。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Current Leader が none で absence duration が 9 trading days のとき、Decision Summary は Core Asset Leadership を表示せず No Leader / Leaderless semantics を表示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "追加する presentation-level regression で確認する。"
+    },
+    {
+      "scenario": "同じ leaderless 状態で Strategic Context の current market structure は Narrow Leadership のままにならず、leaderless / no clear leadership を表示する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "runtime wiring と report-level regression で確認する。"
+    },
+    {
+      "scenario": "Interpretation が tactical buckets の全量から watch、hold、defend（収縮）の件数を読み、例として 观察 1 / 持有 0 / 收缩 9 を narrative に反映する",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "read model unit test と report regression で確認する。"
+    },
+    {
+      "scenario": "Leaderless topology の表示補正と distribution narrative は Observation-only で、NO TRADE と既存 Action は不変である",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "既存の decision boundary assertion と追加 regression で確認する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "複数の read model を横断して表示 semantics を補正するが、既存の Leader Persistence、tactical bucket、Observation-only boundary が実装済みで、変更対象と受入条件が確定している。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_user_authorized_followup",
+    "openQuestions": [
+      "実装後に Leaderless topology、Strategic Context、full distribution narrative と required checks を確認する。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーが未完了の指摘に対して対応継続と全項目 pass を明示しており、scope、sources、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "Leaderless override は tactical display だけに適用し、長期 substantive/core-asset background の事実を削除しないこと。",
+    "Strategic Context の market structure line と Decision Summary の topology を同じ Leader absence fact で補正し、片側だけを変更しないこと。",
+    "Distribution は表示された上位 symbol 数ではなく tactical bucket の全量 count を使うこと。",
+    "NO TRADE、Action Matrix、Gate、Execution、Position Sizing の判定を変更しないこと。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Leader absence が 5 trading days 以上の場合、Decision Summary の current topology は Core Asset Leadership ではなく No Leader / leaderless semantics を表示する。",
+    "同じ leaderless fact が Strategic Context の current market structure に伝播し、Narrow Leadership / 核心资产主导期 と表示しない。長期 strategic background は別の direction / evidence 行として維持する。",
+    "Interpretation は tactical bucket の全量から watch、hold、defend（収縮）の count を読み、現状分布を narrative に出力する。",
+    "上記の変更は report / interpretation の Observation-only 層に限定し、Decision、Action Matrix、Gate、Execution、Trader、Position Sizing、NO TRADE は不変である。",
+    "zh / en / ja の report output と既存 renderer contract を維持し、追加回帰テストを make 経由で通過させる。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/semantic-reconciliation-followup.summary.json CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/semantic-reconciliation-followup.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-followup.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、追加した回帰テストと Contract / Summary の evidence を元に戻す。"
+}

@@ -16,6 +16,7 @@ use crate::features::radar::interface::presentation::{
     RiskOpportunitySummaryViewModel, SignalSummaryViewModel, TrendBreadthMode,
 };
 use crate::features::radar::interface::risk_taxonomy_read_model;
+use crate::features::radar::interface::strategic_context_read_model;
 use crate::features::radar::interface::transition_evidence_read_model;
 use crate::features::shared::interface::i18n::{get_dictionary, DisplayDictionary, Language};
 use std::cmp::Ordering;
@@ -32,6 +33,34 @@ struct BattleboardSnapshot {
 }
 
 impl PresentationAssembler {
+    /// 現在の tactical leadership が不在のとき、旧 topology と strategic context を補正する。
+    pub(crate) fn reconcile_tactical_leadership_display(
+        presentation: &mut PresentationPacket,
+        current_leader: &str,
+        leader_absence_duration: usize,
+        language: Language,
+    ) {
+        let structure =
+            crate::features::radar::domain::leader_persistence::tactical_leadership_structure(
+                current_leader,
+                leader_absence_duration,
+            );
+        if structure != "LEADERLESS / FRAGMENTED" {
+            return;
+        }
+
+        let dict = get_dictionary(language);
+        presentation.decision_summary.trend_topology_value =
+            dict.trend_cohesion.topology_no_leader.clone();
+        if let Some(evidence) = presentation.transition_evidence.as_mut() {
+            strategic_context_read_model::apply_leaderless_market_structure_override(
+                &mut evidence.strategic_context,
+                &dict,
+                language,
+            );
+        }
+    }
+
     /// DecisionPacket から PresentationPacket を生成する。
     /// 入力 packet を変更しない純粋関数。
     /// AssetActionDecision を clone せず、1 回の走査で enrichment と分類を行う。
@@ -572,7 +601,7 @@ impl PresentationAssembler {
             top_vms.push(vm);
         }
 
-        PresentationPacket {
+        let presentation = PresentationPacket {
             date_str,
             language: lang,
             macro_display,
@@ -602,7 +631,8 @@ impl PresentationAssembler {
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
-        }
+        };
+        presentation
     }
 
     fn build_current_relative_strength(

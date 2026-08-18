@@ -11,6 +11,29 @@ use crate::features::radar::interface::presentation::{
 };
 use crate::features::shared::interface::i18n::Language;
 
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
+struct ActionDistribution {
+    watch: usize,
+    hold: usize,
+    weaken: usize,
+}
+
+/// PresentationPacket の tactical bucket 全量から Interpretation 用の分布を導出する。
+fn action_distribution(pres_packet: &PresentationPacket) -> ActionDistribution {
+    pres_packet.tactical_buckets.iter().fold(
+        ActionDistribution::default(),
+        |mut distribution, bucket| {
+            match bucket.bucket_id.as_str() {
+                "watch" => distribution.watch = bucket.count,
+                "hold" => distribution.hold = bucket.count,
+                "defend" => distribution.weaken = bucket.count,
+                _ => {}
+            }
+            distribution
+        },
+    )
+}
+
 fn rotation_delta(previous: &[String], current: &[String]) -> (Vec<String>, Vec<String>) {
     let exited = previous
         .iter()
@@ -62,6 +85,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         .map(|evidence| evidence.market_cycle_position)
         .unwrap_or_default();
     let flow_acceleration = packet.market_features.flow_acceleration.unwrap_or(0.0);
+    let action_distribution = action_distribution(pres_packet);
     let breadth_facts = derive_breadth_facts(
         packet.market_features.up_count,
         packet.market_features.flat_count,
@@ -200,6 +224,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         breadth_facts.raw_percent,
         &improving_symbols,
         leader_absence_duration,
+        action_distribution,
         language,
     );
 
@@ -1241,6 +1266,7 @@ fn market_interpretation_narrative_values(
     raw_breadth: Option<f64>,
     improving_symbols: &[String],
     leader_absence_duration: usize,
+    action_distribution: ActionDistribution,
     language: Language,
 ) -> Vec<String> {
     let mut lines = Vec::new();
@@ -1339,6 +1365,22 @@ fn market_interpretation_narrative_values(
             ),
             Language::JaJp => format!(
                 "{symbols} など一部資産の短期相対強度は回復していますが、新しい Leadership を構成するには至っていません。"
+            ),
+        });
+    }
+    if action_distribution.watch + action_distribution.hold + action_distribution.weaken > 0 {
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "动作分布：观察 {} / 持有 {} / 收缩 {}。",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
+            ),
+            Language::EnUs => format!(
+                "Action distribution: watch {} / hold {} / weaken {}.",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
+            ),
+            Language::JaJp => format!(
+                "アクション分布：観測 {} / 保有 {} / 縮小 {}。",
+                action_distribution.watch, action_distribution.hold, action_distribution.weaken
             ),
         });
     }
@@ -2314,6 +2356,7 @@ mod tests {
             Some(50.0),
             &[],
             0,
+            ActionDistribution::default(),
             Language::ZhCn,
         );
 
@@ -2332,6 +2375,7 @@ mod tests {
             Some(50.0),
             &["SPCX".to_string(), "NVDA".to_string()],
             9,
+            ActionDistribution::default(),
             Language::ZhCn,
         );
         let narrative = values.join("\n");
@@ -2342,6 +2386,54 @@ mod tests {
         assert!(narrative.contains("SPCX / NVDA"));
         assert!(narrative.contains("尚不足以构成新的 Leadership"));
         assert!(!narrative.contains("没有结构性恶化证据"));
+    }
+
+    #[test]
+    fn narrative_reports_full_tactical_distribution() {
+        let packet = DecisionPacket::default();
+        let pres_packet = PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "watch".to_string(),
+                    display_name: "观察".to_string(),
+                    count: 1,
+                    items: vec!["SPCX".to_string()],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "hold".to_string(),
+                    display_name: "持有".to_string(),
+                    count: 0,
+                    items: vec![],
+                },
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "defend".to_string(),
+                    display_name: "收缩".to_string(),
+                    count: 9,
+                    items: vec!["A".to_string(); 9],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = build_leadership_snapshot_view_model_from_components(
+            vec![],
+            vec![],
+            vec![],
+            false,
+            Language::ZhCn,
+        );
+        let interpretation = build_market_interpretation_view_model(
+            &packet,
+            &pres_packet,
+            &leadership_snapshot,
+            Language::ZhCn,
+        )
+        .unwrap();
+        let narrative = interpretation.narrative_values.join("\n");
+
+        assert!(narrative.contains("观察 1"));
+        assert!(narrative.contains("持有 0"));
+        assert!(narrative.contains("收缩 9"));
     }
 
     #[test]
