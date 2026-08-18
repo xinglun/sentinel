@@ -4,7 +4,34 @@ use crate::features::radar::domain::rules::{
 };
 use crate::features::radar::interface::presentation::{MarketCyclePosition, TrendBreadthMode};
 use crate::features::radar::interface::risk_taxonomy_read_model;
-use crate::features::shared::interface::i18n::DisplayDictionary;
+use crate::features::shared::interface::i18n::{DisplayDictionary, Language};
+
+/// 現在の tactical leadership が不在のとき、戦略背景とは分離した市場構造行を返す。
+pub(crate) fn leaderless_market_structure_value(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "结构整理 / 无明确主导",
+        Language::EnUs => "Structural Consolidation / No Clear Leadership",
+        Language::JaJp => "構造整理 / 明確な主導なし",
+    }
+}
+
+/// Strategic Context の当日市場構造だけを leaderless semantics に補正する。
+pub(crate) fn apply_leaderless_market_structure_override(
+    context: &mut Vec<String>,
+    dict: &DisplayDictionary,
+    language: Language,
+) {
+    let line = format!(
+        "{}: {}",
+        dict.trend_recognition.strategic_market_structure_mode,
+        leaderless_market_structure_value(language)
+    );
+    if let Some(first) = context.first_mut() {
+        *first = line;
+    } else {
+        context.push(line);
+    }
+}
 
 pub(crate) fn build_strategic_context(
     substantive_signals: &[String],

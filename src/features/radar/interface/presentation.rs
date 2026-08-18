@@ -97,6 +97,14 @@ pub struct LeaderPersistenceViewModel {
     pub history_coverage_value: String,
     pub first_observed_at_value: Option<String>,
     pub previous_leader_value: Option<String>,
+    #[serde(default)]
+    pub previous_snapshot_leader_value: Option<String>,
+    #[serde(default)]
+    pub last_confirmed_leader_value: Option<String>,
+    #[serde(default)]
+    pub leader_absence_since_value: Option<String>,
+    #[serde(default)]
+    pub tactical_leadership_structure_value: String,
     pub history_note: Option<String>,
     pub leadership_score_label: String,
     pub leadership_score_value: String,
@@ -120,6 +128,12 @@ pub struct CurrentRelativeStrengthItemViewModel {
     pub relative_5d_vs_benchmark: Option<f64>,
     pub price_position: Option<f64>,
     pub volume_participation: Option<f64>,
+    #[serde(default)]
+    pub conflict_code: Option<String>,
+    #[serde(default)]
+    pub recovery_watch: bool,
+    #[serde(default)]
+    pub recovery_explanation: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
@@ -746,6 +760,18 @@ pub struct MarketInterpretationViewModel {
     pub leadership_breadth_label: String,
     pub leadership_breadth_value: String,
     pub concentration_label: String,
+    #[serde(default)]
+    pub breadth_raw_label: String,
+    #[serde(default)]
+    pub breadth_raw_value: String,
+    #[serde(default)]
+    pub breadth_semantic_label: String,
+    #[serde(default)]
+    pub breadth_semantic_value: String,
+    #[serde(default)]
+    pub tactical_leadership_structure_value: String,
+    #[serde(default)]
+    pub leader_absence_duration: usize,
     pub breadth_score_label: String,
     pub breadth_score_value: String,
     pub concentration_score_label: String,

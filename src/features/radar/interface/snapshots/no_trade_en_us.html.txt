@@ -52,7 +52,7 @@ No trim or exit conditions were triggered.
 • <b>Stability</b>: 1.1
 <i>Confidence 52 · Streak emerging · Regime Age 1d · Net Flow Stable ·</i>
 <i>Confidence breakdown: Trend allocation 2.0 + inverse potential 50.0</i>
-<i>Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: 0.0% integrity / 0 observed · Breadth Label: Narrow</i>
+<i>Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: UNAVAILABLE / 0 observed · Breadth Label: UNAVAILABLE</i>
 
 <b>🧭 Tactical Buckets</b>
 

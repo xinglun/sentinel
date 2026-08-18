@@ -5,7 +5,7 @@ use super::model::{
 use super::PersistenceLayer;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::observation_timeline::{
-    ObservationTimeline, ObservationTimelineEntry,
+    derive_breadth_facts, ObservationTimeline, ObservationTimelineEntry,
 };
 use anyhow::{bail, Context, Result};
 use std::fs::File;
@@ -393,12 +393,12 @@ impl PersistenceLayer {
         packet: DecisionPacket,
         cycle_id: &str,
     ) -> TradingDaySnapshot {
-        let breadth = if packet.market_features.total_count == 0 {
-            0.0
-        } else {
-            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
-                * 100.0
-        };
+        let breadth_facts = derive_breadth_facts(
+            packet.market_features.up_count,
+            packet.market_features.flat_count,
+            packet.market_features.down_count,
+            packet.market_features.total_count,
+        );
         TradingDaySnapshot {
             schema_version: "1".to_string(),
             market_date: packet.date,
@@ -413,8 +413,8 @@ impl PersistenceLayer {
             market_state: format!("{:?}", packet.market_regime.market_state),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth,
-            breadth_classification: None,
+            breadth: breadth_facts.raw_percent,
+            breadth_classification: Some(breadth_facts.label),
             confidence: packet.market_features.system_confidence,
             supply_phase: "UNAVAILABLE".to_string(),
             risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -434,18 +434,18 @@ impl PersistenceLayer {
         &self,
         packet: &DecisionPacket,
     ) -> ObservationTimelineEntry {
-        let breadth_score = if packet.market_features.total_count == 0 {
-            0.0
-        } else {
-            packet.market_features.up_count as f64 / packet.market_features.total_count as f64
-                * 100.0
-        };
+        let facts = derive_breadth_facts(
+            packet.market_features.up_count,
+            packet.market_features.flat_count,
+            packet.market_features.down_count,
+            packet.market_features.total_count,
+        );
         ObservationTimelineEntry {
             date: packet.date,
             primary_leader: String::new(),
             secondary_leaders: Vec::new(),
-            breadth_score,
-            breadth_raw_percent: breadth_score,
+            breadth_score: facts.classification_score,
+            breadth_raw_percent: facts.raw_percent,
             breadth_up_count: packet.market_features.up_count,
             breadth_flat_count: packet.market_features.flat_count,
             breadth_down_count: packet.market_features.down_count,

@@ -416,7 +416,9 @@ fn build_weekly_market_interpretation_context(
             "primary": layer.primary_values,
             "supporting": layer.supporting_values,
             "weakening": layer.weakening_values,
-            "breadth": layer.leadership_breadth_value
+            "breadth": layer.leadership_breadth_value,
+            "tactical_structure": layer.tactical_leadership_structure_value,
+            "leader_absence_duration": layer.leader_absence_duration
         },
         "rotation": {
             "type": layer.rotation_type_value,
@@ -426,6 +428,8 @@ fn build_weekly_market_interpretation_context(
             "observation_only": layer.observation_only_value
         },
         "concentration": {
+            "breadth_raw": layer.breadth_raw_value,
+            "breadth_label": layer.breadth_semantic_value,
             "breadth_score": layer.breadth_score_value,
             "concentration_score": layer.concentration_score_value,
             "rotation_score": layer.rotation_score_value,
@@ -462,7 +466,10 @@ fn build_weekly_leader_persistence_context(
         "observed_leadership_days_in_lookback": layer.observed_days_value,
         "history_coverage": layer.history_coverage_value,
         "first_observed_at": layer.first_observed_at_value,
-        "previous_leader": layer.previous_leader_value,
+        "previous_snapshot_leader": layer.previous_snapshot_leader_value,
+        "last_confirmed_leader": layer.last_confirmed_leader_value,
+        "leader_absence_since": layer.leader_absence_since_value,
+        "tactical_leadership_structure": layer.tactical_leadership_structure_value,
         "leadership_score": layer.leadership_score,
         "state": layer.leader_state_value,
         "change_from_yesterday": {
@@ -597,7 +604,23 @@ fn push_weekly_market_interpretation_snapshot(
         "  - {}: {}\n",
         layer.leadership_breadth_label, layer.leadership_breadth_value
     ));
+    review.push_str(&format!(
+        "  - Tactical Leadership Structure: {}\n",
+        layer.tactical_leadership_structure_value
+    ));
+    review.push_str(&format!(
+        "  - Leader Absence Duration: {} trading days\n",
+        layer.leader_absence_duration
+    ));
     review.push_str(&format!("- {}:\n", layer.concentration_label));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.breadth_raw_label, layer.breadth_raw_value
+    ));
+    review.push_str(&format!(
+        "  - {}: {}\n",
+        layer.breadth_semantic_label, layer.breadth_semantic_value
+    ));
     review.push_str(&format!(
         "  - {}: {}\n",
         layer.breadth_score_label, layer.breadth_score_value
@@ -657,6 +680,23 @@ fn push_weekly_market_interpretation_snapshot(
         review.push_str(&format!(
             "  - {}: {}\n",
             leader_persistence.primary_leader_label, leader_persistence.primary_leader_value
+        ));
+        review.push_str(&format!(
+            "  - Current Leader: {}\n",
+            leader_persistence.primary_leader_value
+        ));
+        if let Some(previous) = &leader_persistence.previous_snapshot_leader_value {
+            review.push_str(&format!("  - Previous Snapshot Leader: {previous}\n"));
+        }
+        if let Some(last_confirmed) = &leader_persistence.last_confirmed_leader_value {
+            review.push_str(&format!("  - Last Confirmed Leader: {last_confirmed}\n"));
+        }
+        if let Some(absence_since) = &leader_persistence.leader_absence_since_value {
+            review.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
+        }
+        review.push_str(&format!(
+            "  - Tactical Leadership Structure: {}\n",
+            leader_persistence.tactical_leadership_structure_value
         ));
         review.push_str(&format!(
             "  - {}: {}\n",
@@ -1805,6 +1845,10 @@ mod tests {
                     history_coverage_value: "PARTIAL".to_string(),
                     first_observed_at_value: Some("2026-06-15".to_string()),
                     previous_leader_value: Some("QQQ".to_string()),
+                    previous_snapshot_leader_value: Some("QQQ".to_string()),
+                    last_confirmed_leader_value: Some("QQQ".to_string()),
+                    leader_absence_since_value: None,
+                    tactical_leadership_structure_value: "CORE_ASSET_LED".to_string(),
                     history_note: Some("Leadership history unavailable before feature activation.".to_string()),
                     leadership_score_label: "Leadership Score".to_string(),
                     leadership_score_value: "64.2".to_string(),

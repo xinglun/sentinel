@@ -1,5 +1,6 @@
 use super::absence::{is_no_leader, normalized_leader, qualified_no_leader_streak};
 use super::snapshot::leadership_score;
+use super::tactical_leadership_structure;
 use super::transition::{build_switch_history, determine_state, recent_switch_count};
 use super::*;
 use std::collections::BTreeMap;
@@ -16,8 +17,12 @@ pub fn build_leader_persistence(
         return Some(LeaderPersistenceResult {
             current_leader: String::new(),
             previous_leader: None,
+            previous_snapshot_leader: None,
+            last_confirmed_leader: None,
+            leader_absence_since: None,
             persistence_days: 0,
             leader_absence_duration: 0,
+            tactical_leadership_structure: "LEADERLESS / FRAGMENTED".to_string(),
             observed_leadership_days: 0,
             history_coverage_complete: false,
             history_coverage: "UNAVAILABLE",
@@ -52,6 +57,16 @@ pub fn build_leader_persistence(
     } else {
         0
     };
+    let leader_absence_since = if is_no_leader(&current.leader) {
+        observations
+            .iter()
+            .rev()
+            .take_while(|observation| is_no_leader(&observation.leader))
+            .last()
+            .map(|observation| observation.date)
+    } else {
+        None
+    };
     let observed_leadership_days = observations
         .iter()
         .filter(|observation| {
@@ -84,7 +99,14 @@ pub fn build_leader_persistence(
         .map(|observation| leadership_score(previous_persistence_days, observation))
         .unwrap_or(current_score);
 
-    let previous_leader = previous.map(|observation| observation.leader.clone());
+    let previous_snapshot_leader =
+        previous.map(|observation| normalized_leader(&observation.leader));
+    let previous_leader = previous_snapshot_leader.clone();
+    let last_confirmed_leader = observations
+        .iter()
+        .rev()
+        .find(|observation| !is_no_leader(&observation.leader))
+        .map(|observation| normalized_leader(&observation.leader));
     let same_leader_as_previous = previous
         .map(|observation| observation.leader == current.leader)
         .unwrap_or(false);
@@ -114,8 +136,16 @@ pub fn build_leader_persistence(
     Some(LeaderPersistenceResult {
         current_leader: normalized_leader(&current.leader),
         previous_leader,
+        previous_snapshot_leader,
+        last_confirmed_leader,
+        leader_absence_since,
         persistence_days: current_persistence_days,
         leader_absence_duration,
+        tactical_leadership_structure: tactical_leadership_structure(
+            &current.leader,
+            leader_absence_duration,
+        )
+        .to_string(),
         observed_leadership_days,
         history_coverage_complete,
         history_coverage,
