@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Expect Massive Upside From Apple At This Entry Point
+  summary: Apple Inc. rated Hold: premium valuation, slowing growth, and neutral technicals. Click for this AAPL update and see whether it is the right stock for you.
+  url: https://finnhub.io/api/news?id=8a31c7a08e8eb59bf54f4fcc11667cdc1e6604b3ab03451a11f895bc441b611d

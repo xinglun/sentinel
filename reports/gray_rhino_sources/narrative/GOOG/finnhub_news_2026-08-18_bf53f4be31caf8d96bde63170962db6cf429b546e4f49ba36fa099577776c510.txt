@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netlist: Samsung Bends The Knee, Micron, Alphabet And Super Micro Computer Could Be Next
+  summary: Netlist gains access to Samsung's technical documents, strengthening its IP litigation position and opening potential. Read why NLST stock is a strong buy.
+  url: https://finnhub.io/api/news?id=41afdf86402b2392651a017999072cb9e5fc250084b7ab1aac46ac64cc1e9d0b

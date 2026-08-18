@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: The Price Climbed Too Far Too Fast (Rating Downgrade)
+  summary: Microsoftâs earnings surged on Azure growth and Copilot adoption, but rich valuation and CapEx risks prompt a Strong Buy-to-Buy downgrade.
+  url: https://finnhub.io/api/news?id=7e7b2f87e439293f942d48bade83bb37e341a1060b082b8358d80512b3da2f3b

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Synchrony Partners With OpenAI To Enhance Its Services In Shopping, Payments
+  summary: Synchrony (NYSE: SYF), a premier consumer financial services company, today announced an enterprise collaboration with OpenAI to strengthen Synchrony&#39;s positioning at the center of AI&#39;s next chapter in shopping
+  url: https://finnhub.io/api/news?id=8d6c96f6a73dd3a699bc86891a978665d6100c0dc3a7dd67ec7379425a7ccdcc

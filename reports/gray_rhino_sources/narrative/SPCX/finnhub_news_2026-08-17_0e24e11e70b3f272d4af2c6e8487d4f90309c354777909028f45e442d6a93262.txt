@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Harvard Did Not Sell Its Bitcoin ETF Holdings in Q2, Discloses No New Ethereum ETF Stake
+  summary: Harvard University left its Bitcoin exchange-traded fund position unchanged in the second quarter, according to its latest 13F filing.
+  url: https://finnhub.io/api/news?id=c315935c79c91efdf490fdcbaa896ca312b1136189c7b00fa588c52be58a892b

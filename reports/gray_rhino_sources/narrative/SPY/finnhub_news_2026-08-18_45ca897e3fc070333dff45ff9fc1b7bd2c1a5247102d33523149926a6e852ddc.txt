@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How The End Of Reserve Management Purchases Might Impact The Treasury Bill Market
+  summary: The Federal Reserve is halting Reserve Management Purchases (RMPs), ending a period of balance sheet expansion and shifting to a tightening stance.
+  url: https://finnhub.io/api/news?id=8718b1a4f765b8072997e8d5b1ece7fa73d643a5c42b101fc38842e16e1a4a39

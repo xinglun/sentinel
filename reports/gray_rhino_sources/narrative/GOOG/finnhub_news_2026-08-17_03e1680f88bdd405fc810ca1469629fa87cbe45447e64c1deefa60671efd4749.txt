@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Loeb Exits Nvidia, Meta And Broadcom — Bets Big On Warner Bros. Discovery
+  summary: The investor exited Meta, Nvidia, Broadcom, KLA and Lam Research while adding major positions in Warner Bros. Discovery, Riot Platforms and Block.
+  url: https://finnhub.io/api/news?id=39c45bd1c4671c997137747a4ebe9a9e60dd43b31069cf16dab7c70f771b3539

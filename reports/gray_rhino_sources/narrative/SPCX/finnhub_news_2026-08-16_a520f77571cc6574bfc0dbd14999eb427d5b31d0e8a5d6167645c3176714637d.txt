@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Harvard Reveals $2.2 Billion SpaceX Stake, Its Largest Public Equity Holding: University's Bet on Elon Musk-led Company Outshines Amazon and Nvidia
+  summary: Harvard disclosed a $2.2 billion stake in SpaceX, an early bet on Musk&#39;s rocket company that has grown since its June debut. 
+  url: https://finnhub.io/api/news?id=9742b277d7848162f1c7f1ef48c56a3199028e7d5af96ceb58227c218eb3783a

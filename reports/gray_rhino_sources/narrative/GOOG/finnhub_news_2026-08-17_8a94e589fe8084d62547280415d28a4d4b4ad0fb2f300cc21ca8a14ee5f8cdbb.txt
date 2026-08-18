@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Like Alphabet's Debt (Rating Upgrade)
+  summary: Alphabet Inc. ramps up debt to fund AI infrastructure as Cloud surges and backlog tops $514B. Click for this GOOG stock update.
+  url: https://finnhub.io/api/news?id=fff8288435cd26a239c8b7c2fa38d9012a701470a99e9d2e014d4e5d2cc84cdf

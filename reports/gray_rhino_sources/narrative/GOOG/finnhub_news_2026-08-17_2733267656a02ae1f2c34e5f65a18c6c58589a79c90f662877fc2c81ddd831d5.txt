@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: McDonald's Menu Gets Energy Boost With Red Bull
+  summary: McDonald's (MCD) officially added energy drinks to its menu for the first time today with the debut of its new Red Bull Dragonberry Energizer.
+  url: https://finnhub.io/api/news?id=856f50db1b08b71463c96c56a4403068cae8d2c80f7a7deb5fc7bf43353d1c68

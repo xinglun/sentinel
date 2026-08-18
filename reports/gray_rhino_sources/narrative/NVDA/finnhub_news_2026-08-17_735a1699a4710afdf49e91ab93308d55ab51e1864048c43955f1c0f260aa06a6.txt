@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: The Bull Market That Won't Die
+  summary: The U.S. equity market's persistent strength is underpinned by structural forces beyond traditional fundamentals. Read more on SP500 stock here.
+  url: https://finnhub.io/api/news?id=f1ec8a7314ab03eed420d0cfdb18ac85d4f8ea02b5035e8dcef764cb10dd5a17

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cisco, Nvidia, Amazon and Nokia: The Customer List Behind Fabrinet's AI Boom
+  summary: Fabrinet&#39;s latest earnings showed Cisco, Nvidia, Amazon and Nokia as its largest customers, highlighting the company&#39;s expanding role in AI infrastructure.
+  url: https://finnhub.io/api/news?id=fa00239a2bbb9e2bdcdb0751f354bebd2acd1197d086a3766fc90b48d88693d7

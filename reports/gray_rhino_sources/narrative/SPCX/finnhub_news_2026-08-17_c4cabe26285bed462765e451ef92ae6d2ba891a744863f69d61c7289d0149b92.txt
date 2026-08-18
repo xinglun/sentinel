@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Jumps After Multibillion-Dollar Stakes Revealed
+  summary: SpaceX shares are rising above their IPO price after new 13F filings showed major institutions holding multibillion-dollar positions.
+  url: https://finnhub.io/api/news?id=4a9259df7712fc158c78483bbdba2d78dadb9171f7433956ab81bf306794ed00

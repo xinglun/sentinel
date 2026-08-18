@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500's 50% Earnings Boom Comes With A Giant Asterisk
+  summary: Alphabetâs EPS beat boosted Q2 earnings and record margins. Click for more on GOOG and where the big tech leaders are likely to lead the broader market.
+  url: https://finnhub.io/api/news?id=82bad46a5349dcc7d397c8ac4e7910af4dca8f32a45e7f0d4ea06a23509cea1e

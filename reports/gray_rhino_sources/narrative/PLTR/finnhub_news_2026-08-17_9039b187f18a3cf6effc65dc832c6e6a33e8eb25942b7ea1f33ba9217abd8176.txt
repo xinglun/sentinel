@@ -1,0 +1,7 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 7 Information Technology Stocks With Whale Alerts In Today’s Session
+  summary: This whale alert can help traders discover the next big trading opportunities.
+Whales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.
+Traders will
+  url: https://finnhub.io/api/news?id=6b3d9f6d0b35974ecf161bbdd4062b34a79f2d665e4b337536367549b0ad7112

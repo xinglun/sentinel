@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: David Tepper's Latest AI Bet Is CoreWeave
+  summary: Billionaire investor David Tepper initiated a new CoreWeave stake in Q2 while adding to Nvidia, Amazon and TSMC.
+  url: https://finnhub.io/api/news?id=9c4d75270a303776b3ed5c20d30209deccf4a080d295bf8f989e05cad1ba22b9

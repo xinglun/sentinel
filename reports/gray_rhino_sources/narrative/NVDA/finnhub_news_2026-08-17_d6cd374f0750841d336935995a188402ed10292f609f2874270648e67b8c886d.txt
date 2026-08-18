@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ray Dalio Ups Bet on SPY and IVV: Time to Buy the S&P 500?
+  summary: Ray Dalio boosted his SPY and IVV stakes by $6.2 billion. Here&#39;s what the move means for S&amp;P 500 valuations, technicals and the SPY vs. IVV debate.
+  url: https://finnhub.io/api/news?id=a130eb5ccc115937cfee96664a88dd3c404581ca5c3938b927a0689b973ddf50

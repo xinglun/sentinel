@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Netflix Stock Falling on Monday?
+  summary: Netflix Inc. (NASDAQ: NFLX) stock slips as market concerns over third-quarter revenue and earnings guidance outweigh Bill Ackman&#39;s new Pershing Square stake.
+  url: https://finnhub.io/api/news?id=863e6b1052c38aa15368d112aad3cd1ac0ec0b3992a724aecedf5d87bec3bf9e

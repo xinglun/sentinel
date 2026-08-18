@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sandisk's Nvidia Catalyst Just Emerged (Rating Upgrade)
+  summary: Sandisk Corporation turns strongly bullish on Investor Day guidance and rising NAND prices tied to Nvidia Vera-Rubin. Click for this SNDK update after earnings.
+  url: https://finnhub.io/api/news?id=c3e5cbbc28b448df3697394d77148468ce1d882e0b2ca0fbf71f4814c78bf310

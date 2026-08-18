@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Voyager CEO Dylan Taylor Says Humans Will Live and Work on Moon in 2030s: ‘We’ll Have a Moon Base…’
+  summary: Voyager Technologies Inc. CEO Dylan Taylor predicts humans will live and work in space with the Moon as the next step.
+  url: https://finnhub.io/api/news?id=ae1bf4608e0b83e95580f1cf28e335504a34b48c28e5fc7ccdffd695439077ab

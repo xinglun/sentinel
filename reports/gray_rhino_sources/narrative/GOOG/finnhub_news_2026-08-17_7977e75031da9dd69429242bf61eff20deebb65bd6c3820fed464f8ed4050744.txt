@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: The Cheapest Mega-Cap Tech Company
+  summary: Alphabet analysis: Cloud growth surges, CapEx drives near-term negative FCF, but valuation stays attractive. Click for more on GOOGL stock.
+  url: https://finnhub.io/api/news?id=38cb145ab5f0a8c07e992eae1a30182b3eab15e70caf7db2ae1da18633327153

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New York’s Factory Activity Expands to 4-Year Highs: Is AI Powering a Manufacturing Boom?
+  summary: New York manufacturing activity hit a four-year high after July’s ISM PMI reached its strongest level since 2022, highlighting AI-driven demand.
+  url: https://finnhub.io/api/news?id=a817c666393093e4a9d81baac892b4c9159124bdf11d753424efa2f371287bcb

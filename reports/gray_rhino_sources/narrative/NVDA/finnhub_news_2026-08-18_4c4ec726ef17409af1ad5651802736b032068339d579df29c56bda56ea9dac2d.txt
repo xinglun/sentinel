@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran Risk and Oil Above $90 Snap the Rally as Memory Chips Do the Heavy Lifting and Reddit Wobbles Into the S&P 500
+  summary: Trump's threat against Oman and oil back above ninety dollars pulled Wall Street modestly lower on Monday, but a violent memory-chip bid limited the damage. Reddit gave back a chunk of its S&P 500 inclusion rally, Nvidia's OpenAI Ohio guarantee shrank in the reporting, and Peter Thiel emerged with a sizeable stake in an Argentine oil name.
+  url: https://finnhub.io/api/news?id=6d945599b2c038e8f2b97653fb148f3784214b19ac8571a541be3ddb37d1dc68

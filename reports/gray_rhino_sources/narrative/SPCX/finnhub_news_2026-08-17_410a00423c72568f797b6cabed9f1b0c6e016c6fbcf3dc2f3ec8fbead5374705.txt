@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Everywhere: Google, Nvidia, AMD, Harvard Disclose Stakes
+  summary: SpaceX is one of the most disclosed names in Q2 13F filings, with tech giants, hedge funds, and universities reporting large positions.
+  url: https://finnhub.io/api/news?id=6c8636a0eabfcfd07c9b0f1337afd14e81e9070d29b93a09cf66aa94ff6a00b5

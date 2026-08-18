@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prepare For A Spike In Volatility
+  summary: Geopolitical risks and higher oil may spark a September S&P 500 pullback and volatility spikeâyet set up a Q4 rebound as Fed hike risks fade. Read more here.
+  url: https://finnhub.io/api/news?id=6261170555cd7e20239f7ef6647ce2ec911fd5bac35c85db5cf7cd10c306099d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Buys $22.8 Million of Nvidia Stock, Ark Invest Dumps AMD and Palantir Shares
+  summary: Ark Invest bought $22.8 million of Nvidia while dumping AMD and Palantir shares on Monday, Aug. 17, 2026.
+  url: https://finnhub.io/api/news?id=fd3e9ba94570bca6a5ee34786841d34189e66d4838b31aca3d46ab82ada60ccb

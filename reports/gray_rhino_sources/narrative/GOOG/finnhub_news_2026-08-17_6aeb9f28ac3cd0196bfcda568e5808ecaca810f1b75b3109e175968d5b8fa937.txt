@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking Seth Klarman's Baupost Group Holdings - Q2 2026 Update
+  summary: Baupostâs Q2 2026 13F: AMZN becomes top holding as stakes rise in GOOGL and others, with major sells too.
+  url: https://finnhub.io/api/news?id=adf36bd6d8d33f0eda81a3ffe443bb9cac2a47726dfa0107317ec0ca23d0c555

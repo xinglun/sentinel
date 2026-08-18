@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: J.P. Morgan’s Bill Eigen Sounds 2008 Crash Alarm Over AI Boom — Says Investors Are Missing One Warning Sign That Could Change Everything: ‘What I’m Terrified of Is…’ (UPDATED)
+  summary: J.P. Morgan&#39;s Bill Eigen said the AI boom shows the same warning signs as 2008&#39;s real estate crash, not a typical tech cycle.
+  url: https://finnhub.io/api/news?id=66674a9a9f1dc975189dca3fcd8ca3fd0d96596014f66182c046025ded88d0bd

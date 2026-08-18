@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 52-Week Highs Outnumber Lows In An Overbought Market
+  summary: 
+  url: https://finnhub.io/api/news?id=729d9d6f824e4c60cc2fa69289363095e4fd3cfe1f7b4e0d77272a7681907f96

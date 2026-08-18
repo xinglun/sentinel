@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: A Buy Ahead Of Q2 Earnings, With $500 Billion To Keep The AI Train Going
+  summary: 
+  url: https://finnhub.io/api/news?id=c0e72382413dcbaca6e3b5c201512c49c1a46e0d13a5c13823737b749f547acd

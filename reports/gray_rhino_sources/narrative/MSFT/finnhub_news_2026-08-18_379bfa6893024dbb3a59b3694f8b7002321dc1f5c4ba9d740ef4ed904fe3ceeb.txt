@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accenture Could Be Dead Money
+  summary: Accenture (ACN) stock faces AI disruption and slowing growth; bookings slip, and guidance is key. Read here for a detailed investment analysis.
+  url: https://finnhub.io/api/news?id=a7e4c59a6d97369192e2fdd9b75645fa6f3b0812ec8b6f11fac6ab39afe08a6a

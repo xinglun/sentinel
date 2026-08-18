@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Market Summary And Commentary
+  summary: U.S. equity markets advanced this week, with gains spread across most major ETFs and sector benchmarks.
+  url: https://finnhub.io/api/news?id=d9b4895bcab959f8da4e8a79105bd31fb76e60acd9b52236f18627a61dd4f3bb

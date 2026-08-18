@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Global Bets Big On SpaceX While Ditching CoreWeave, Alphabet in Q2
+  summary: Viking Global Investors&#39; second-quarter 13F shows new stakes in SPCX, MS, QCOM, CVS and exits in CRWV and GOOGL.
+  url: https://finnhub.io/api/news?id=31e00e0962040c9e9d7d492ae297c775be784775d38b27fadf366f6e067e881b

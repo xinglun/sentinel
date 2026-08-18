@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs: Nvidia Exposure Is Attractive, But Valuation Warrants Caution (Rating Downgrade)
+  summary: Goldman Sachs is uniquely positioned to monetize three revenue streams from the NVDA AI infrastructure partnership. Read more on GS stock here.
+  url: https://finnhub.io/api/news?id=2271746ea4ed6b4e286c5eca5226cc088f2caf0c192c2f8d714a2cd495abf012

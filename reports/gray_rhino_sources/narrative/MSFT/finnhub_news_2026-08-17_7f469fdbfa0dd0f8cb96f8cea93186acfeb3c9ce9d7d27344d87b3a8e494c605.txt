@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Discover which dow jones stocks are making waves on Monday.
+  summary: Let's have a look at the top dow jones gainers and losers one hour before the close of the markets of today's session.
+  url: https://finnhub.io/api/news?id=ec0668889a4c1c71892f8037054930e2b4ad337fa2c786bae0c8ac483da2e41c

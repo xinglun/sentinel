@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet: External TPU Sales Are A Likely Game Changer
+  summary: Alphabet (GOOG) nears a generational AI catalyst as TPU sales rampâ2027 could be its âNvidia moment.â Explore revenue, margins, and upsideâread now.
+  url: https://finnhub.io/api/news?id=d01dcdae8d000cd86d48f526d9174a7ad486c9b7b999af04d3ac6860a79f4e81

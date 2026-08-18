@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: The Cleanest AI Bet Ahead Of Q2 Earnings (Preview)
+  summary: Nvidia reports fiscal Q2 earnings with strong revenue momentum, supported by robust hyperscaler demand and elevated Hopper cloud rental pricing.
+  url: https://finnhub.io/api/news?id=f975e67b269424c2c329941ae9fba7dd21b4dceb7dfe05c7f54cbe2d3fdcc3c9

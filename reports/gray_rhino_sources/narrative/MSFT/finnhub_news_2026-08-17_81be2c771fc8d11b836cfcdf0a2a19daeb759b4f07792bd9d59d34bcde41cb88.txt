@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: One Number In Q2 Decides Where This Stock Goes
+  summary: Nvidia Corporation stays a Strong Buy as AI demand turns into signed backlogs, supporting $91B revenue and stable marginsâclick to see what to watch for with NVDA.
+  url: https://finnhub.io/api/news?id=b47b350b282d296daa35eac5e76c4c1f74454410dc092e3cd0bf3265d67bc471

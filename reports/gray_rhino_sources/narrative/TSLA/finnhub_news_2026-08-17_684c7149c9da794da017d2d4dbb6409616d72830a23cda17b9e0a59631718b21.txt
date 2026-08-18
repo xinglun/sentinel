@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Has Explored A Variety Of Designs For Its Much Delayed Next Generation Roadster, Including A Repurposed Model S Plaid And Looks That Borrow From The Lamborghini Countach And S-71 Blackbird Aircraft
+  summary: https://x.com/theinformation/status/2089374212662219180
+  url: https://finnhub.io/api/news?id=08dc236f3a0436e2f8c9d8eb5cb89bb23648e1ffd7bb0d2648dcede50bc5f0d6

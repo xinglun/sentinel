@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock of the Day: SpaceX Is Climbing — But Sellers Are Waiting Above
+  summary: Shares of SpaceX (SPCX) have hit resistance around the $140 level. There is resistance at this price because it was previously support.
+  url: https://finnhub.io/api/news?id=8fbdd5087060c7f4ddb11088510cd10975ef0abdeb1739a8e311c6129c434959

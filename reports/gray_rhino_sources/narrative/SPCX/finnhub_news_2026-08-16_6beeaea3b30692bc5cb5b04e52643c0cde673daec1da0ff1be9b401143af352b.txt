@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Spending Is Becoming a ‘Whales-First’ Game: Top 1% of Companies Reportedly Now Spend $7,400 Per Employee
+  summary: US corporate AI budgets show extreme disparities, with top 1% spending $7,400 per employee per month vs $11.95 for median firm.
+  url: https://finnhub.io/api/news?id=481651d62d2bbd625b5c2bd75fb7e935f63c57db9b3a3d9f26f18eda50faef43

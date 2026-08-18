@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Idea for flying Roadster has been around 'since the beginning': Former Tesla president Jon McNeill
+  summary: Jon McNeill, VistaShares co-founder, DVx CEO and former Tesla president, joins 'Squawk on the Street' to discuss Tesla's plans to unveil a new design for a flying roadster as soon as this month.
+  url: https://finnhub.io/api/news?id=8abea5d49bd6a33225e1c66f7470b976a279a934388c732dd0a8caf55ec52665

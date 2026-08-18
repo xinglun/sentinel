@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Reason Markets Are Rising Despite A Bearish Macro Backdrop
+  summary: Equity markets hit new highs despite inflation, geopolitics & oil shocks. Learn whatâs fueling the rallyâearnings, credit strength & structural buyers.
+  url: https://finnhub.io/api/news?id=712b058a64e071236348ee01c1d817e2e3629a8f87a7f29d55eaca50323c87d1

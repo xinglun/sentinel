@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Q2 Preview: AI Momentum And Financing In Focus, Shares Fairly Valued
+  summary: Nvidia Corporation Q2 earnings Aug 26: watch data center growth, Blackwell demand, margins and Rubin transition. Click for this NVDA update.
+  url: https://finnhub.io/api/news?id=c7858199a2f5f922d062b092faed638f58108c496aabdcd9526e78b22f0ba2cd

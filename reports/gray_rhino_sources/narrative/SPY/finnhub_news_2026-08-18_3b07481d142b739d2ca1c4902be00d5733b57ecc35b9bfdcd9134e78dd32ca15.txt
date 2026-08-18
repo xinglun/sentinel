@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Outlook For S&P 500 Dividends In August 2026
+  summary: S&P 500 dividend outlook for Aug 2026 is mixed: Q3 dips, Q4â2027 Q1 rise, 2027 Q2âQ3 fall.
+  url: https://finnhub.io/api/news?id=fb33c0e3bbaf85851bcbf6d890574fcf63cf02e3056ca26a5e1f57ac26144035

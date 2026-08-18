@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: Return Of The Bond Vigilantes?
+  summary: The 30-year Treasury yield hits 2007 levels. Nasdaq plans 23-hour trading in December. Google buys Spirit Airlines data to train its AI.
+  url: https://finnhub.io/api/news?id=06838baeacbd9974b30fcd7a4c7abc171bb609708d7abdc8abab2b1bd81236e4

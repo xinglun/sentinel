@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Former ‘Top Gear’ Host James May Tests Tesla's Grok-Powered AI Voice Assistant ‘Ara’: ‘It's Slightly Odd...’
+  summary: Journalist James May tests Tesla&#39;s AI voice assistant, highlighting different personalities, features and more.
+  url: https://finnhub.io/api/news?id=32a27d49fd8ccb36aa17954a7b991d68e67de37631970dacfc56649d6836eb08

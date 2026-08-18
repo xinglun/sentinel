@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Soluna Holdings: The $1.3B Question Remains Unanswered
+  summary: Soluna shifts from Bitcoin mining to AI data center hosting both infrastructures would become a genuine advantage. Learn why SLNH stock is a buy.
+  url: https://finnhub.io/api/news?id=011d729fb6068e1a3cedb191879bbdc3e3ae254e776fbda809224038817f2434

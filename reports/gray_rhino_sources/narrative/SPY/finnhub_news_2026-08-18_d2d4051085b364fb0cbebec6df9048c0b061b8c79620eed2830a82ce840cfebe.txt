@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cumberland's Monday Memo
+  summary: U.S. equity markets finished the week mixed but generally resilient, with the S&P 500 reaching a new record high.
+  url: https://finnhub.io/api/news?id=c69054ed6cc4abc42720181e195673fb603431a5cdaf135d20d86fd2673cd2ab

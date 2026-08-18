@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Not A Bubble: 4 Income Ideas To Ride The Wave
+  summary: I remain bullish on AI-driven growth, favoring a diversified, income-oriented portfolio to capture sustained sector upside while mitigating bubble risks.
+  url: https://finnhub.io/api/news?id=77453322fe1810b5de21ec7eeeb1b8a7a5d439d60f9c8386cc5c4778857532e8

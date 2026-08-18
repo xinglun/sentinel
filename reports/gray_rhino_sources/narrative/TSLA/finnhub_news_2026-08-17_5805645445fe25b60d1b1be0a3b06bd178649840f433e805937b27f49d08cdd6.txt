@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Tesla Readies August Launch of Cybercab, Its Robotaxi Without a Steering Wheel; Tesla Targets August Public Launch For Cybercab Robotaxi In Austin' - The Information
+  summary: https://www.theinformation.com/articles/tesla-readies-august-launch-cybercab-robotaxi-without-steering-wheel
+  url: https://finnhub.io/api/news?id=0f03c138c712e26936f5d8f5ee0def8e900f1cdf040d1d38a597cd178a1d6ba0

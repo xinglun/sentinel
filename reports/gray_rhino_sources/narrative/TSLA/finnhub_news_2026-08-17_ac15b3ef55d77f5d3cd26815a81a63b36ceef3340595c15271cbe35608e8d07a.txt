@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Has ‘Low Interest’ in Tesla Stock at Current Price, Even With a Potential SpaceX Buyout
+  summary: Investor Gary Black sees the odds of a SpaceX bid for Tesla as high. Here&#39;s his cautions on valuation and impatient investors.
+  url: https://finnhub.io/api/news?id=96d7288e8429719bfc126ac141eb9df7683eb22c5fd123ce77d8d9e0e94438cd

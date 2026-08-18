@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla AI Boss Ashok Elluswamy Calls FSD V14 ‘James Bond’ After Dramatic 82-MPH Highway Collision Avoidance
+  summary: Tesla AI chief praises FSD V14 for proactive decision-making, as driver describes religious revelation experience.
+  url: https://finnhub.io/api/news?id=6fac6fe7553b777ad5aaf6bd90c27d124f23f92cc4658cb1dd7a27c1001c2036

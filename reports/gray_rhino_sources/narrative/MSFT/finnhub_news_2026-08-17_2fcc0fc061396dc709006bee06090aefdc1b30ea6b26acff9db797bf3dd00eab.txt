@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Infleqtion: The Execution Phase (Rating Downgrade)
+  summary: Infleqtion, Inc. Q2: 116% YoY revenue growth, raised guidance, $582M cash. Click for this INFQ earnings update and see why I have downgraded the stock.
+  url: https://finnhub.io/api/news?id=9c606af26026545e7b30b7aa9418083a3aaab0c56acea1adf685b9e76c932390

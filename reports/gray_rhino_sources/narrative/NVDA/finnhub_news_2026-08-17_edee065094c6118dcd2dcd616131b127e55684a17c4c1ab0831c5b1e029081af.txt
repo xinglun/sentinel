@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung Has Thrived Without Directly Relying On Nvidia
+  summary: Samsungâs memory revenue surged 5.7x YoY, now 70% of sales with no customer over 10%. Read here for more details on SSNLF stock.
+  url: https://finnhub.io/api/news?id=8d25376564fce97dfc499e4d80f9a750601eb7177dbe4f86a5ea6cc1e4c5b9dd

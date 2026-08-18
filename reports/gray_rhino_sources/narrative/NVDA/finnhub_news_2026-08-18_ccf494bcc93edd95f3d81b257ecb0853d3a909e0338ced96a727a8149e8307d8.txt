@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BST: This Income Machine Can Still Work After Reaching $50
+  summary: Explore BlackRock Science & Technology Trust (BST): AI exposure to Anthropic/Databricks, NAV discount, 10.6%+ income and growth tailwindsâread now.
+  url: https://finnhub.io/api/news?id=b5c380b6b2e2927db6bc86716c92f45dc841432586987086e79ae1897f03d2c6

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software: Vector's Inflection Is Becoming Harder To Ignore
+  summary: 
+  url: https://finnhub.io/api/news?id=9550835ee28f604fe8d706e4c50890d361a713e936155597d8e3df9a86bd01cf

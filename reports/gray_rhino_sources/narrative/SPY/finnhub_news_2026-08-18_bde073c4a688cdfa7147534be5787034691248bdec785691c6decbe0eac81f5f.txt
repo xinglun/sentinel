@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ray Dalio Warns AI Bubble Could Burst Like 1929, 2000 as Evercore Sees 16% S&P 500 Upside: '...Companies Do Very Well, and Then It Collapses'
+  summary: Ray Dalio warns of an AI bubble burst while Evercore ISI sets a bullish 9,000 S&amp;P 500 target. Discover Wall Street&#39;s split market outlook.
+  url: https://finnhub.io/api/news?id=9642d21e0e23a0221ffb902090a1229ac3b36464b0034e1ab88dfea390425288

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which stocks are most active on Monday?
+  summary: Monday's session is buzzing with activity. Check out the stocks that are attracting the most attention and driving market activity!
+  url: https://finnhub.io/api/news?id=8a3c3c0e072895595e9b5bf18355564f058eae0f28e99c0ac22ba158d9a44567

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq 100 Short Exposure Hits $20 Billion as Insiders Near ‘15-Year High’ in Buying: Is a Squeeze Imminent?
+  summary: Hedge funds hold a $20B Nasdaq short while insider buying hits a 15-year high. Is a massive tech short squeeze imminent?
+  url: https://finnhub.io/api/news?id=3ad1bcfc193ab84535f3e227724dc5e8f9314b0fc7ad1f0012ecddf5ee5201f6
