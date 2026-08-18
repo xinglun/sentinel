@@ -257,3 +257,22 @@ fn empty_or_single_observation_is_unavailable() {
     assert_eq!(result.leader_state, LeaderState::Unavailable);
     assert_eq!(result.first_observed_at, None);
 }
+
+#[test]
+fn leaderless_history_separates_snapshot_leader_last_confirmed_leader_and_absence_start() {
+    let observations = std::iter::once(observation((2026, 8, 4), "TSLA", 80.0, 70.0, 70.0, 70.0))
+        .chain((5..=13).map(|day| observation((2026, 8, day), "", 0.0, 0.0, 0.0, 0.0)))
+        .collect::<Vec<_>>();
+
+    let result = build_leader_persistence(&observations).unwrap();
+
+    assert_eq!(result.current_leader, "none");
+    assert_eq!(result.previous_snapshot_leader.as_deref(), Some("none"));
+    assert_eq!(result.last_confirmed_leader.as_deref(), Some("TSLA"));
+    assert_eq!(result.leader_absence_since, Some(observations[1].date));
+    assert_eq!(result.leader_absence_duration, 9);
+    assert_eq!(
+        result.tactical_leadership_structure,
+        "LEADERLESS / FRAGMENTED"
+    );
+}

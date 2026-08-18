@@ -16,7 +16,7 @@
 - `total_count == 0` は `UNAVAILABLE` とし、Breadth の欠損を `0.0` として新規保存しない。
 - Breadth Raw、Label、Classification Score は同じ up/flat/down/total fact source を使用する。
 - Leader absence 5 trading days 以上は tactical `LEADERLESS / FRAGMENTED` とする。
-- Markdown/archival は純 Markdown、Telegram HTML body は既存 HTML channel contract を維持する。
+- Current Relative Strength block は Markdown/archival/Telegram の全 delivery body で純 Markdown とし、他の Telegram section の HTML channel contract は維持する。
 - すべての code comment/documentation comment は日本語、repository Markdown 本文は日本語で記述する。
 - Required verification は Contract に記録された `make` target を実行し、結果を Summary に同期する。
 
@@ -136,7 +136,7 @@ Join observations to packet assets by symbol, derive the existing weak state, an
 
 - [ ] **Step 4: Render localized conflict output**
 
-Render the stable code and recovery-watch explanation under the affected symbol in Markdown, Telegram HTML, and Japanese/English/Chinese localized text.
+Render the stable code and recovery-watch explanation under the affected symbol in Markdown syntax in every delivery body and in Japanese/English/Chinese localized text.
 
 - [ ] **Step 5: Run the focused test to verify GREEN**
 
@@ -155,25 +155,25 @@ Expected: conflict output passes and existing action/NO TRADE assertions remain 
 
 **Interfaces:**
 - Narrative builder consumes absence duration, raw breadth availability/value, improving RS symbols, shrink/watch counts, and crowding/overheat state.
-- Markdown Current Relative Strength uses Markdown syntax only; Telegram HTML remains channel-specific HTML.
+- Current Relative Strength block uses Markdown syntax only in every delivery body; other Telegram sections remain channel-specific HTML.
 
 - [ ] **Step 1: Write failing interpretation and renderer tests**
 
-Add a fragile no-leader scenario asserting the narrative says no new acute deterioration but explicitly names leader absence and insufficient diffusion, and that it does not emit the unconditional old sentence. Assert Markdown contains no `<h3>`/`<li>` and Telegram HTML preserves its expected channel formatting.
+Add a fragile no-leader scenario asserting the narrative says no new acute deterioration but explicitly names leader absence and insufficient diffusion, and that it does not emit the unconditional old sentence. Assert both delivery bodies contain no `<h3>`/`<li>` in the Current Relative Strength block and preserve Markdown heading/list syntax there.
 
 - [ ] **Step 2: Run the focused test to verify RED**
 
 Run: `make test`
 
-Expected: current narrative always emits the old no-deterioration sentence and the HTML-mode renderer is the only path with the requested tags; the new consistency assertions fail.
+Expected: current narrative always emits the old no-deterioration sentence and the HTML-mode renderer is the only path with the requested tags; the new consistency assertions fail before the implementation changes.
 
 - [ ] **Step 3: Implement fact-aware narrative**
 
 Pass the already-built observation facts into the narrative builder. Add the two-part fragile-structure explanation and a separate RS recovery sentence that explicitly says it is not yet new leadership. Include shrink/watch and crowding/overheat facts when present.
 
-- [ ] **Step 4: Fix Markdown renderer without changing Telegram contract**
+- [ ] **Step 4: Fix Current Relative Strength renderer without changing other Telegram sections**
 
-Keep `RenderMode::Markdown` heading/list output as `###` and `-`, and ensure no HTML tag can be emitted in that path. Keep `RenderMode::Html` channel formatting covered by existing tests.
+Keep `###` and `-` output for the Current Relative Strength block in every delivery mode, and ensure no `<h3>`/`<li>` can be emitted there. Keep the existing HTML channel formatting covered for unrelated Telegram sections.
 
 - [ ] **Step 5: Run the focused test to verify GREEN**
 

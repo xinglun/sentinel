@@ -42,7 +42,8 @@ pub struct TradingDaySnapshot {
     pub market_state: String,
     pub decision_state: String,
     pub new_position_limit: f64,
-    pub breadth: f64,
+    #[serde(default)]
+    pub breadth: Option<f64>,
     #[serde(default)]
     pub breadth_classification: Option<String>,
     pub confidence: f64,

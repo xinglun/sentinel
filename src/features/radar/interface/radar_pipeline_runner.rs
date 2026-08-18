@@ -468,6 +468,24 @@ pub(crate) async fn run_pipeline_for_report_date(
             current_leadership_snapshot.leadership_confidence_value = "LOW".to_string();
         }
         pres_packet.leadership_snapshot = Some(current_leadership_snapshot.clone());
+        let leader_absence_duration = {
+            let mut observations = leader_observations
+                .iter()
+                .filter(|observation| observation.date <= packet.date)
+                .cloned()
+                .collect::<Vec<_>>();
+            if let Some(current_observation) = crate::features::radar::interface::market_interpretation_read_model::build_leader_observation(
+                &packet,
+                &pres_packet,
+            ) {
+                observations.push(current_observation);
+            }
+            crate::features::radar::domain::leader_persistence::build_leader_persistence(
+                &observations,
+            )
+            .map(|result| result.leader_absence_duration)
+            .unwrap_or_default()
+        };
         pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
         pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
         let previous_market_interpretation = match (
@@ -492,6 +510,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 &current_leadership_snapshot,
                 previous_market_interpretation.as_ref(),
                 previous_snapshot_resolution.formal_snapshot.as_ref(),
+                leader_absence_duration,
                 lang,
             );
         if baseline_packet.is_none() {
@@ -595,6 +614,13 @@ pub(crate) async fn run_pipeline_for_report_date(
             })
             .transpose()?;
         let build_snapshot_probe = |continuity: usize, degraded: bool| {
+            let breadth_facts =
+                crate::features::radar::domain::observation_timeline::derive_breadth_facts(
+                    packet.market_features.up_count,
+                    packet.market_features.flat_count,
+                    packet.market_features.down_count,
+                    packet.market_features.total_count,
+                );
             crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
                 schema_version: "1".to_string(),
                 market_date: packet.date,
@@ -622,16 +648,8 @@ pub(crate) async fn run_pipeline_for_report_date(
                         })
                         .unwrap_or(0.0)
                 },
-                breadth: if packet.market_features.total_count == 0 {
-                    0.0
-                } else {
-                    packet.market_features.up_count as f64
-                        / packet.market_features.total_count as f64
-                        * 100.0
-                },
-                breadth_classification: Some(
-                    pres_packet.signal_summary.breadth_semantic_value.clone(),
-                ),
+                breadth: breadth_facts.raw_percent,
+                breadth_classification: Some(breadth_facts.label.clone()),
                 confidence: packet.market_features.system_confidence,
                 supply_phase: pres_packet.signal_summary.supply_phase_value.clone(),
                 risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -647,7 +665,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "trend": if degraded { "DEGRADED" } else { "HEALTHY" },
                     "history": if degraded { "UNAVAILABLE" } else { "HEALTHY" },
                     "breadth_observation": {
-                        "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                        "raw_percent": breadth_facts.raw_percent,
                         "up_count": packet.market_features.up_count,
                         "flat_count": packet.market_features.flat_count,
                         "down_count": packet.market_features.down_count,
@@ -864,6 +882,13 @@ pub(crate) async fn run_pipeline_for_report_date(
         }
 
         if should_persist_history {
+            let breadth_facts =
+                crate::features::radar::domain::observation_timeline::derive_breadth_facts(
+                    packet.market_features.up_count,
+                    packet.market_features.flat_count,
+                    packet.market_features.down_count,
+                    packet.market_features.total_count,
+                );
             let trading_day_snapshot =
                 crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
                     schema_version: "1".to_string(),
@@ -902,16 +927,8 @@ pub(crate) async fn run_pipeline_for_report_date(
                             })
                             .unwrap_or(0.0)
                     },
-                    breadth: if packet.market_features.total_count == 0 {
-                        0.0
-                    } else {
-                        packet.market_features.up_count as f64
-                            / packet.market_features.total_count as f64
-                            * 100.0
-                    },
-                    breadth_classification: Some(
-                        pres_packet.signal_summary.breadth_semantic_value.clone(),
-                    ),
+                    breadth: breadth_facts.raw_percent,
+                    breadth_classification: Some(breadth_facts.label.clone()),
                     confidence: packet.market_features.system_confidence,
                     supply_phase: pres_packet.signal_summary.supply_phase_value.clone(),
                     risk_state: format!("{:?}", packet.market_regime.risk_overlay),
@@ -929,7 +946,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                         "trend": if safe_downgrade { "DEGRADED" } else { "HEALTHY" },
                         "history": if safe_downgrade { "UNAVAILABLE" } else { "HEALTHY" },
                         "breadth_observation": {
-                            "raw_percent": if packet.market_features.total_count == 0 { 0.0 } else { packet.market_features.up_count as f64 / packet.market_features.total_count as f64 * 100.0 },
+                            "raw_percent": breadth_facts.raw_percent,
                             "up_count": packet.market_features.up_count,
                             "flat_count": packet.market_features.flat_count,
                             "down_count": packet.market_features.down_count,
@@ -1324,21 +1341,19 @@ fn build_observation_timeline_entry(
 ) -> Option<crate::features::radar::domain::observation_timeline::ObservationTimelineEntry> {
     let leadership = presentation.leadership_snapshot.as_ref()?;
     let interpretation = presentation.market_interpretation.as_ref()?;
+    let breadth_facts = crate::features::radar::domain::observation_timeline::derive_breadth_facts(
+        packet.market_features.up_count,
+        packet.market_features.flat_count,
+        packet.market_features.down_count,
+        packet.market_features.total_count,
+    );
     Some(
         crate::features::radar::domain::observation_timeline::ObservationTimelineEntry {
             date: packet.date,
             primary_leader: leadership.primary_leader_value.clone(),
             secondary_leaders: leadership.secondary_leaders_values.clone(),
-            breadth_score: interpretation
-                .breadth_score_value
-                .parse()
-                .unwrap_or_default(),
-            breadth_raw_percent: if packet.market_features.total_count == 0 {
-                0.0
-            } else {
-                packet.market_features.up_count as f64 / packet.market_features.total_count as f64
-                    * 100.0
-            },
+            breadth_score: breadth_facts.classification_score,
+            breadth_raw_percent: breadth_facts.raw_percent,
             breadth_up_count: packet.market_features.up_count,
             breadth_flat_count: packet.market_features.flat_count,
             breadth_down_count: packet.market_features.down_count,

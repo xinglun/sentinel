@@ -2,6 +2,7 @@ use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::exit::AssetExitState;
 use crate::features::radar::domain::market_regime::{MarketState, RiskOverlay};
+use crate::features::radar::domain::observation_timeline::derive_breadth_facts;
 use crate::features::radar::domain::rules::ParsedRules;
 use crate::features::radar::domain::trend_cohesion::EvidenceType;
 use crate::features::radar::interface::display::{DisplayAdapter, DisplayContext, DisplayIntent};
@@ -54,6 +55,12 @@ impl PresentationAssembler {
         let state = packet.market_regime.market_state;
         let risk = packet.market_regime.risk_overlay;
         let trend_breadth_mode = risk_taxonomy_read_model::classify_trend_breadth_mode(packet);
+        let breadth_facts = derive_breadth_facts(
+            packet.market_features.up_count,
+            packet.market_features.flat_count,
+            packet.market_features.down_count,
+            packet.market_features.total_count,
+        );
 
         let (headline, summary, bias) = if is_data_missing {
             (
@@ -206,23 +213,12 @@ impl PresentationAssembler {
             flow_label: dict.signals.net_flow.clone(),
             flow_value,
             breadth_label: "Breadth".to_string(),
-            breadth_value: match trend_breadth_mode {
-                TrendBreadthMode::BroadExpansion => "Broad Participation".to_string(),
-                TrendBreadthMode::NarrowLeadership => "Very Narrow".to_string(),
-                TrendBreadthMode::FragileRotation => "Narrow".to_string(),
-                TrendBreadthMode::StructuralDefense => "Narrow".to_string(),
-            },
+            breadth_value: breadth_facts.label.clone(),
             breadth_raw_label: "Breadth Raw".to_string(),
-            breadth_raw_value: if packet.market_features.total_count == 0 {
-                "UNAVAILABLE".to_string()
-            } else {
-                format!(
-                    "{:.1}%",
-                    packet.market_features.up_count as f64
-                        / packet.market_features.total_count as f64
-                        * 100.0
-                )
-            },
+            breadth_raw_value: breadth_facts
+                .raw_percent
+                .map(|value| format!("{value:.1}%"))
+                .unwrap_or_else(|| "UNAVAILABLE".to_string()),
             breadth_counts_label: "Breadth Counts".to_string(),
             breadth_counts_value: format!(
                 "up={} flat={} down={} total={}",
@@ -232,13 +228,17 @@ impl PresentationAssembler {
                 packet.market_features.total_count
             ),
             breadth_universe_label: "Breadth Universe".to_string(),
-            breadth_universe_value: format!(
-                "{:.1}% integrity / {} observed",
-                packet.market_features.universe_integrity * 100.0,
-                packet.market_features.total_count
-            ),
+            breadth_universe_value: if packet.market_features.total_count == 0 {
+                "UNAVAILABLE / 0 observed".to_string()
+            } else {
+                format!(
+                    "{:.1}% integrity / {} observed",
+                    packet.market_features.universe_integrity * 100.0,
+                    packet.market_features.total_count
+                )
+            },
             breadth_semantic_label: "Breadth Label".to_string(),
-            breadth_semantic_value: breadth_semantic_value_for_mode(trend_breadth_mode).to_string(),
+            breadth_semantic_value: breadth_facts.label.clone(),
             supply_phase_label: "Supply Phase".to_string(),
             supply_phase_value: String::new(),
         };
@@ -420,6 +420,8 @@ impl PresentationAssembler {
                             asset,
                             !is_ready,
                             Self::is_systemic_collapse(packet),
+                            packet,
+                            lang,
                             &dict,
                         ),
                     },
@@ -438,6 +440,8 @@ impl PresentationAssembler {
                             asset,
                             !is_ready,
                             Self::is_systemic_collapse(packet),
+                            packet,
+                            lang,
                             &dict,
                         ),
                     },
@@ -534,6 +538,7 @@ impl PresentationAssembler {
             &top_tier_set,
             &core_assets_set,
             is_ready,
+            lang,
             &dict,
         );
         let breakout_summary = Self::build_breakout_summary(packet, rules, &dict, lang);
@@ -555,6 +560,8 @@ impl PresentationAssembler {
                 asset,
                 !is_ready,
                 Self::is_systemic_collapse(packet),
+                packet,
+                lang,
                 &dict,
             );
             if !reason.is_empty() {
@@ -606,13 +613,36 @@ impl PresentationAssembler {
             .current_relative_strength_observations
             .iter()
             .map(|observation| {
+                let status = format!("{:?}", observation.status).to_ascii_uppercase();
+                let weakening = packet
+                    .assets
+                    .iter()
+                    .find(|asset| asset.symbol == observation.symbol)
+                    .is_some_and(|asset| {
+                        matches!(
+                            asset.exit_decision.asset_exit_state,
+                            AssetExitState::StrengthLoss | AssetExitState::CohesionExit
+                        ) || matches!(
+                            asset.action,
+                            crate::features::radar::domain::action_matrix::AssetAction::REDUCE
+                                | crate::features::radar::domain::action_matrix::AssetAction::AVOID
+                        )
+                    });
+                let recovery_watch = weakening && status == "IMPROVING";
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                     symbol: observation.symbol.clone(),
-                    status: format!("{:?}", observation.status).to_ascii_uppercase(),
+                    status,
                     relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
                     relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
                     price_position: observation.price_position,
                     volume_participation: observation.volume_participation,
+                    conflict_code: recovery_watch.then(|| "SIGNAL_CONFLICT".to_string()),
+                    recovery_watch,
+                    recovery_explanation: recovery_watch.then(|| match language {
+                        Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复。当前不取消既有弱势判断，停止继续使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
+                        Language::EnUs => "The long-term cumulative structure remains weak, while short-term relative strength is recovering. Keep the existing weakness assessment, stop describing it as continued weakening, and enter RECOVERY_WATCH.".to_string(),
+                        Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。既存の弱勢判定は維持し、連続的な弱化という表現を止めて RECOVERY_WATCH に移行します。".to_string(),
+                    }),
                 }
             })
             .collect::<Vec<_>>();
@@ -752,6 +782,8 @@ impl PresentationAssembler {
         asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         is_restrained: bool,
         is_systemic_collapse: bool,
+        packet: &DecisionPacket,
+        language: Language,
         dict: &DisplayDictionary,
     ) -> String {
         use crate::features::radar::domain::exit::AssetExitState;
@@ -764,7 +796,17 @@ impl PresentationAssembler {
                         dict.reasons.exit_structural_fragility.clone()
                     }
                 }
+                AssetExitState::StrengthLoss
+                    if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
+                {
+                    Self::recovery_watch_reason(language)
+                }
                 AssetExitState::StrengthLoss => dict.reasons.exit_strength_loss.clone(),
+                AssetExitState::CohesionExit
+                    if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
+                {
+                    Self::recovery_watch_reason(language)
+                }
                 AssetExitState::CohesionExit => dict.reasons.exit_cohesion.clone(),
                 AssetExitState::OverheatProfitTake => dict.reasons.exit_overheat.clone(),
                 AssetExitState::None => String::new(),
@@ -856,6 +898,7 @@ impl PresentationAssembler {
         top_tier_set: &HashSet<&str>,
         core_assets_set: &HashSet<&str>,
         cohesion_ready: bool,
+        language: Language,
         dict: &DisplayDictionary,
     ) -> ExitDecisionSummaryViewModel {
         let mut items = Vec::new();
@@ -885,8 +928,18 @@ impl PresentationAssembler {
                 ),
                 crate::features::radar::domain::position_intent::UnifiedPositionIntent::Trim => {
                     let reason = match asset.exit_decision.asset_exit_state {
+                        AssetExitState::StrengthLoss
+                            if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
+                        {
+                            Self::recovery_watch_reason(language)
+                        }
                         AssetExitState::StrengthLoss => {
                             dict.reasons.position_trim_strength_loss.clone()
+                        }
+                        AssetExitState::CohesionExit
+                            if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
+                        {
+                            Self::recovery_watch_reason(language)
                         }
                         AssetExitState::CohesionExit => dict.reasons.position_trim_cohesion.clone(),
                         AssetExitState::OverheatProfitTake => {
@@ -991,6 +1044,27 @@ impl PresentationAssembler {
             dict.reasons.position_exit_systemic_collapse.clone()
         } else {
             dict.reasons.position_exit_structural_fragility.clone()
+        }
+    }
+
+    fn is_relative_strength_recovering(packet: &DecisionPacket, symbol: &str) -> bool {
+        packet
+            .current_relative_strength_observations
+            .iter()
+            .find(|observation| observation.symbol == symbol)
+            .is_some_and(|observation| {
+                matches!(
+                    observation.status,
+                    crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving
+                )
+            })
+    }
+
+    fn recovery_watch_reason(language: Language) -> String {
+        match language {
+            Language::ZhCn => "状态冲突：长期/累计结构仍弱，但短期相对强度正在明显恢复。停止使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
+            Language::EnUs => "SIGNAL_CONFLICT: The long-term cumulative structure remains weak, but short-term relative strength is recovering. Stop describing continued weakening and enter RECOVERY_WATCH.".to_string(),
+            Language::JaJp => "シグナル衝突：長期・累積構造はなお弱い一方、短期相対強度は回復しています。連続的な弱化という表現を止め、RECOVERY_WATCH に移行します。".to_string(),
         }
     }
 
@@ -1509,32 +1583,6 @@ impl PresentationAssembler {
                 .replace("{count}", &same_reason_peers.to_string());
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
-    }
-}
-
-fn breadth_semantic_value_for_mode(mode: TrendBreadthMode) -> &'static str {
-    match mode {
-        TrendBreadthMode::BroadExpansion => "Broad Participation",
-        TrendBreadthMode::NarrowLeadership => "Very Narrow",
-        TrendBreadthMode::FragileRotation | TrendBreadthMode::StructuralDefense => "Narrow",
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::breadth_semantic_value_for_mode;
-    use crate::features::radar::interface::presentation::TrendBreadthMode;
-
-    #[test]
-    fn breadth_semantic_label_does_not_overstate_fragile_rotation() {
-        assert_eq!(
-            breadth_semantic_value_for_mode(TrendBreadthMode::FragileRotation),
-            "Narrow"
-        );
-        assert_eq!(
-            breadth_semantic_value_for_mode(TrendBreadthMode::BroadExpansion),
-            "Broad Participation"
-        );
     }
 }
 

@@ -55,8 +55,12 @@ pub struct LeaderObservation {
 pub struct LeaderPersistenceResult {
     pub current_leader: String,
     pub previous_leader: Option<String>,
+    pub previous_snapshot_leader: Option<String>,
+    pub last_confirmed_leader: Option<String>,
+    pub leader_absence_since: Option<NaiveDate>,
     pub persistence_days: usize,
     pub leader_absence_duration: usize,
+    pub tactical_leadership_structure: String,
     pub observed_leadership_days: usize,
     pub history_coverage_complete: bool,
     pub history_coverage: &'static str,

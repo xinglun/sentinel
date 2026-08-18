@@ -148,6 +148,31 @@ impl PersistenceLayer {
         value
     }
 
+    fn normalize_loaded_trading_day_snapshot(
+        mut snapshot: TradingDaySnapshot,
+    ) -> TradingDaySnapshot {
+        let total_count = snapshot
+            .data_quality
+            .get("breadth_observation")
+            .and_then(|value| value.get("total_count"))
+            .and_then(serde_json::Value::as_u64);
+        if total_count == Some(0) {
+            snapshot.breadth = None;
+            snapshot.breadth_classification = Some("UNAVAILABLE".to_string());
+        }
+        snapshot
+    }
+
+    fn normalize_loaded_timeline_entry(
+        mut entry: ObservationTimelineEntry,
+    ) -> ObservationTimelineEntry {
+        if entry.breadth_total_count == 0 {
+            entry.breadth_score = None;
+            entry.breadth_raw_percent = None;
+        }
+        entry
+    }
+
     pub fn new(save_dir: &Path) -> Self {
         Self {
             history_path: save_dir.join("decision_history.jsonl"),
@@ -415,6 +440,7 @@ impl PersistenceLayer {
                 let timeline: ObservationTimeline = serde_json::from_str(&line)
                     .context("Failed to deserialize observation timeline history")?;
                 for entry in timeline.entries {
+                    let entry = Self::normalize_loaded_timeline_entry(entry);
                     by_date.insert(entry.date, entry);
                 }
             }
@@ -431,6 +457,7 @@ impl PersistenceLayer {
                 )
                 .context("Failed to deserialize timeline snapshot")?;
                 for entry in timeline.entries {
+                    let entry = Self::normalize_loaded_timeline_entry(entry);
                     by_date.insert(entry.date, entry);
                 }
             }
@@ -454,14 +481,15 @@ impl PersistenceLayer {
         &self,
         snapshot: &TradingDaySnapshot,
     ) -> Result<TradingDaySnapshotWriteDisposition> {
+        let snapshot = Self::normalize_loaded_trading_day_snapshot(snapshot.clone());
         let dir = self.save_dir.join("snapshots");
         std::fs::create_dir_all(&dir).context("Failed to create trading-day snapshot directory")?;
         let path = dir.join(format!(
             "{}_{}.json",
             snapshot.cycle_id, snapshot.market_date
         ));
-        let disposition = self.validate_trading_day_snapshot_conflict(snapshot)?;
-        let json = serde_json::to_string_pretty(snapshot)
+        let disposition = self.validate_trading_day_snapshot_conflict(&snapshot)?;
+        let json = serde_json::to_string_pretty(&snapshot)
             .context("Failed to serialize trading-day snapshot")?;
         std::fs::write(path, json).context("Failed to write trading-day snapshot")?;
         Ok(disposition)
@@ -472,17 +500,21 @@ impl PersistenceLayer {
         &self,
         snapshot: &TradingDaySnapshot,
     ) -> Result<TradingDaySnapshotWriteDisposition> {
+        let snapshot = Self::normalize_loaded_trading_day_snapshot(snapshot.clone());
         let path = self.save_dir.join("snapshots").join(format!(
             "{}_{}.json",
             snapshot.cycle_id, snapshot.market_date
         ));
         if path.exists() {
-            let existing: TradingDaySnapshot = serde_json::from_str(
-                &std::fs::read_to_string(&path).context("Failed to read trading-day snapshot")?,
-            )
-            .context("Failed to deserialize existing trading-day snapshot")?;
+            let existing = Self::normalize_loaded_trading_day_snapshot(
+                serde_json::from_str(
+                    &std::fs::read_to_string(&path)
+                        .context("Failed to read trading-day snapshot")?,
+                )
+                .context("Failed to deserialize existing trading-day snapshot")?,
+            );
             if Self::trading_day_snapshot_semantics(&existing)
-                != Self::trading_day_snapshot_semantics(snapshot)
+                != Self::trading_day_snapshot_semantics(&snapshot)
             {
                 bail!("SNAPSHOT_CONFLICT");
             }
@@ -502,10 +534,13 @@ impl PersistenceLayer {
             if path.extension().and_then(|value| value.to_str()) != Some("json") {
                 continue;
             }
-            let snapshot: TradingDaySnapshot = serde_json::from_str(
-                &std::fs::read_to_string(path).context("Failed to read trading-day snapshot")?,
-            )
-            .context("Failed to deserialize trading-day snapshot")?;
+            let snapshot = Self::normalize_loaded_trading_day_snapshot(
+                serde_json::from_str(
+                    &std::fs::read_to_string(path)
+                        .context("Failed to read trading-day snapshot")?,
+                )
+                .context("Failed to deserialize trading-day snapshot")?,
+            );
             let key = (snapshot.cycle_id.clone(), snapshot.market_date);
             if let Some(existing) = snapshots.insert(key, snapshot.clone()) {
                 if Self::trading_day_snapshot_semantics(&existing)
@@ -1442,7 +1477,7 @@ mod tests {
             market_state: "STARTUP".to_string(),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth: 35.0,
+            breadth: Some(35.0),
             breadth_classification: Some("Very Narrow".to_string()),
             confidence: 56.7,
             supply_phase: "ACCUMULATING".to_string(),
@@ -1488,7 +1523,7 @@ mod tests {
             market_state: "RANGE".to_string(),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth: 35.0,
+            breadth: Some(35.0),
             breadth_classification: Some("Very Narrow".to_string()),
             confidence: 53.2,
             supply_phase: "IDLE".to_string(),
@@ -1529,7 +1564,7 @@ mod tests {
             market_state: "RANGE".to_string(),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth: 50.0,
+            breadth: Some(50.0),
             breadth_classification: Some("Narrow".to_string()),
             confidence: 50.0,
             supply_phase: "IDLE".to_string(),
@@ -1582,7 +1617,7 @@ mod tests {
             market_state: "IGNITION".to_string(),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth: 35.0,
+            breadth: Some(35.0),
             breadth_classification: None,
             confidence: 20.0,
             supply_phase: "UNAVAILABLE".to_string(),
@@ -1648,7 +1683,7 @@ mod tests {
                 market_state: "IGNITION".to_string(),
                 decision_state: "NO_TRADE".to_string(),
                 new_position_limit: 0.0,
-                breadth: 35.0,
+                breadth: Some(35.0),
                 breadth_classification: None,
                 confidence: 20.0,
                 supply_phase: "UNAVAILABLE".to_string(),
@@ -1990,7 +2025,7 @@ mod tests {
                     date: existing_date,
                     primary_leader: "EXISTING".to_string(),
                     secondary_leaders: Vec::new(),
-                    breadth_score: 42.0,
+                    breadth_score: Some(42.0),
                     concentration_score: 1.0,
                     rotation_score: 2.0,
                     confidence_index: 3.0,
@@ -2301,7 +2336,7 @@ mod tests {
                 date,
                 primary_leader: "SPY".to_string(),
                 secondary_leaders: vec![],
-                breadth_score: 50.0,
+                breadth_score: Some(50.0),
                 concentration_score: 70.0,
                 rotation_score: 20.0,
                 confidence_index: 55.0,
@@ -2362,7 +2397,7 @@ mod tests {
                 date,
                 primary_leader: "SPY".to_string(),
                 secondary_leaders: vec![],
-                breadth_score: 50.0,
+                breadth_score: Some(50.0),
                 concentration_score: 70.0,
                 rotation_score: 20.0,
                 confidence_index: 55.0,
@@ -2410,7 +2445,7 @@ mod tests {
                         date,
                         primary_leader: format!("L{offset}"),
                         secondary_leaders: Vec::new(),
-                        breadth_score: offset as f64,
+                        breadth_score: Some(offset as f64),
                         concentration_score: 0.0,
                         rotation_score: 0.0,
                         confidence_index: 0.0,
@@ -2459,7 +2494,7 @@ mod tests {
             market_state: "STARTUP".to_string(),
             decision_state: "NO_TRADE".to_string(),
             new_position_limit: 0.0,
-            breadth: 35.0,
+            breadth: Some(35.0),
             breadth_classification: Some("Very Narrow".to_string()),
             confidence: 56.7,
             supply_phase: "ACCUMULATING".to_string(),

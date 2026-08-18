@@ -13,7 +13,7 @@
       "Decision、Action Matrix、Gate、Execution、Trader、READY / EXECUTE、Position Sizing の判定・閾値・取引挙動は変更しない。",
       "Breadth Raw、Breadth Label、Breadth Classification Score は同一の up/flat/down/total fact から導出し、total=0 は UNAVAILABLE とする。",
       "Relative Strength conflict と Leaderless/Recovery Watch は Observation / Interpretation / report 専用とし、既存の弱勢判定を取り消さない。",
-      "Markdown と archival report は純 Markdown とし、Telegram HTML body は既存の HTML channel contract を維持する。",
+      "Current Relative Strength block は Markdown、archival、Telegram の全 delivery body で純 Markdown とし、<h3>/<li> を出力しない。他の Telegram section の HTML channel contract は変更しない。",
       "Leader absence の tactical structure 閾値は 5 trading days とする。戦略的な core-asset background と当日の tactical leadership を別表示する。"
     ],
     "rationale": "新しい Raw Breadth と Current Relative Strength が既存の state-derived narrative と反証関係になったため、旧 Decision を変えずに Observation → Interpretation の事実源と語彙を再統合する。"
@@ -35,6 +35,13 @@
     "src/features/radar/interface/radar_pipeline_runner.rs",
     "src/features/radar/interface/report.rs",
     "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
     "src/features/radar/interface/weekly_state_report.rs",
     "src/features/radar/infrastructure/persistence/model.rs",
     "src/features/radar/infrastructure/persistence/migration.rs",
@@ -80,7 +87,7 @@
     },
     {
       "path": "src/features/radar/interface/report.rs",
-      "reason": "Markdown と Telegram HTML の report renderer。"
+      "reason": "Markdown、archival、Telegram delivery body の report renderer。"
     },
     {
       "path": "src/features/radar/interface/report_ui_tests.rs",
@@ -128,7 +135,7 @@
       "reason": "report-level regression で確認する。"
     },
     {
-      "scenario": "Markdown/archival の Current Relative Strength に HTML tag が混入せず、Telegram HTML channel は既存形式を維持する",
+      "scenario": "Current Relative Strength block は Markdown/archival/Telegram の全 delivery body に HTML tag が混入せず、他の Telegram section は既存形式を維持する",
       "required": true,
       "status": "unverified",
       "evidence": [],
@@ -162,7 +169,7 @@
     "status": "confirmed",
     "decision": "continue_with_user_authorized_semantic_reconciliation",
     "openQuestions": [
-      "実装後に旧 JSON compatibility、5 trading days の tactical threshold、Markdown/Telegram channel boundary を required checks と report regression で確認する。"
+      "実装後に旧 JSON compatibility、5 trading days の tactical threshold、Current Relative Strength の全 delivery body 境界を required checks と report regression で確認する。"
     ]
   },
   "executionDecision": {
@@ -173,7 +180,7 @@
     "TradingDaySnapshot と ObservationTimeline の旧 JSON compatibility で欠損 0.0 を再導入しないこと。",
     "Relative Strength conflict は既存の弱勢判定を取り消さず、Observation/Interpretation の語彙だけを補正すること。",
     "Leaderless threshold 後に strategic core context を tactical leadership として表示しないこと。",
-    "Markdown renderer の修正で Telegram HTML channel contract を壊さないこと。"
+    "Current Relative Strength block の HTML tag を除去しつつ、他の Telegram HTML section の channel contract を壊さないこと。"
   ],
   "checkpointPolicy": {
     "requiredCheckpoints": [
@@ -191,7 +198,7 @@
     "Leader absence が 5 trading days 以上の場合、tactical leadership structure は LEADERLESS / FRAGMENTED とし、core-asset strategic background と混同しない。",
     "Action/Exit の弱勢と Current Relative Strength=IMPROVING の衝突を SIGNAL_CONFLICT として検出し、RECOVERY_WATCH と説明を出す。",
     "Interpretation は Leader absence、raw breadth、RS recovery、shrink/watch distribution、overheat/crowding を読み、脆弱構造で無条件に『没有结构性恶化证据』を出さない。",
-    "Markdown/archival report の Current Relative Strength は純 Markdown で、Telegram HTML body は HTML channel contract を保つ。",
+    "Current Relative Strength block は Markdown、archival、Telegram の全 delivery body で純 Markdown であり、<h3>/<li> を出力しない。他の Telegram HTML section は既存 channel contract を保つ。",
     "Decision、Action Matrix、Gate、Execution、Trader、Position Sizing、NO TRADE の判定と Observation-only boundary は変更しない。",
     "zh/en/ja の report output、snapshot/serde compatibility、weekly projection を既存構造に沿って更新し、required checks を make 経由で通過させる。"
   ],

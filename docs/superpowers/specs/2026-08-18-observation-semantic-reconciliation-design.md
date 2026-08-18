@@ -54,8 +54,8 @@ Narrative は leader absence、raw breadth、RS recovery の symbol、shrink/wat
 
 ## 5. Renderer と保存
 
-Markdown と archival output は見出し・箇条書きだけの純 Markdown とする。Telegram HTML body は既存の別 channel contract を維持する。Current Relative Strength の Markdown section に `<h3>` / `<li>` を出力しない。既存 snapshot、serde field、weekly projection は backward-compatible に読み取り、現在の write path では unavailable を 0.0 に戻さない。
+Markdown と archival output は見出し・箇条書きだけの純 Markdown とする。Current Relative Strength block は Telegram delivery body でも同じ純 Markdown とし、`<h3>` / `<li>` を出力しない。他の Telegram section の既存 channel contract は維持する。既存 snapshot、serde field、weekly projection は backward-compatible に読み取り、現在の write path では unavailable を 0.0 に戻さない。
 
 ## 検証
 
-domain test で Breadth facts、欠損履歴、Leader semantics、conflict 判定を固定し、report UI test で zh/en/ja、Markdown/Telegram HTML、Interpretation、NO TRADE、Observation-only boundary を確認する。最後に `make fmt-check`、`make test`、`make clippy` と Cockpit/architecture/quality gate を実行する。
+domain test で Breadth facts、欠損履歴、Leader semantics、conflict 判定を固定し、report UI test で zh/en/ja、全 delivery body の Markdown、Interpretation、NO TRADE、Observation-only boundary を確認する。最後に `make fmt-check`、`make test`、`make clippy` と Cockpit/architecture/quality gate を実行する。
