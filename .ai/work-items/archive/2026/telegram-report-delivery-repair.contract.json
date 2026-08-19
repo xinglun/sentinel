@@ -1,0 +1,219 @@
+{
+  "contractVersion": 2,
+  "workItemId": "telegram-report-delivery-repair",
+  "mode": "code",
+  "title": "Telegram日报投递失败修复",
+  "baseCommit": "218c797511e190a158d91ddc9e8cc2f03858f44d",
+  "baselineDirtyPaths": [],
+  "problemStatement": "2026-08-18 の Daily Radar は、観測叙述に含まれる IMPROVING ticker を Read Model の現在リーダー集合に含めていないため READ_MODEL_CONFLICT で停止し、Telegram 通知を skipped にした。さらに workflow が旧日の decision packet を fallback として採用し、job を成功扱いにしたため失敗が通知されなかった。",
+  "intent": {
+    "problem": "観測叙述に含まれる既知の ticker を Read Model consistency gate が誤って拒否せず、Daily Radar が当日成果物と通知状態を正しい日付で検証するようにする。",
+    "constraints": [
+      "Gate、Execution、Trader、Action Matrix、Position Sizing の意味と入力は変更しない。",
+      "Telegram / Markdown の本文契約は維持し、変更は観測事実の整合性検証と workflow の失敗検知に限定する。",
+      "data branch の既存履歴を削除・改変せず、当日成果物がない場合は成功扱いにしない。"
+    ],
+    "rationale": "観測表示の追加と delivery workflow の旧日 fallback が、日次通知の欠落を隠していたため。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/telegram-report-delivery-repair.contract.json",
+    ".ai/work-items/active/telegram-report-delivery-repair.summary.json",
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "outOfScope": [
+    "Telegram bot token / chat ID の変更",
+    "Gate、Execution、Trader、Action Matrix、Position Sizing の変更",
+    "data branch の履歴修復や 2026-08-18 レポートの手動生成",
+    "新しい運用 command や i18n / snapshot 契約の追加"
+  ],
+  "sources": [
+    {
+      "path": "reports/run_status_2026-08-18.json",
+      "reason": "data branch に保存された実行結果。decisioning が READ_MODEL_CONFLICT、notification が skipped であることの根拠。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "Narrative の大文字 ticker を許可集合と比較し、READ_MODEL_CONFLICT へ写像する consistency gate の SSOT。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "許可される観測 ticker の組み立てと、整合性失敗時の run status 保存を行う実装。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "IMPROVING ticker を narrative_values に追加した 2026-08-18 の変更根拠。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "旧 decision packet の fallback、当日成果物検証、失敗 Telegram 通知の workflow 契約。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "Daily Radar workflow の shell / 日付 / 失敗判定を検証する既存契約テスト。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "現在の主導者ではないが同一 packet の既知観測 ticker が narrative に含まれる",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs::narrative_allowlist_accepts_known_non_leader_packet_asset",
+        "make test"
+      ],
+      "reason": "packet asset を allowlist に含め、未知 token は別テストで拒否することを確認した。"
+    },
+    {
+      "scenario": "当日 packet が生成されず旧日の packet だけが残る",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs::daily_radar_requires_current_report_and_fails_on_decisioning_failure",
+        "make test-radar-workflow-contract"
+      ],
+      "reason": "workflow が DATE_JST の packet だけを参照し、stale packet fallback を持たないことを確認した。"
+    },
+    {
+      "scenario": "decisioning が失敗したとき workflow が success 扱いにならず failure notification 経路へ進む",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs::daily_radar_requires_current_report_and_fails_on_decisioning_failure",
+        "tests/daily_radar_workflow_integration.rs::daily_radar_run_step_has_valid_shell_syntax"
+      ],
+      "reason": "当日 run_status の decisioning が succeeded 以外なら exit 1 となる shell 契約を確認した。"
+    },
+    {
+      "scenario": "通常の当日成功経路では既存の Telegram / archival delivery を変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs::send_telegram_with_status 呼び出しは変更なし",
+        "make test"
+      ],
+      "reason": "変更は consistency allowlist と workflow failure detection に限定され、既存 delivery call と artifact schema は保持される。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci",
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "観測整合性 gate と日次 CI の失敗判定を同時に修正するため、誤って取引境界を変更しないことと当日成果物の厳密な検証が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification と回帰シナリオを確定した。"
+  },
+  "preReviewWarnings": [
+    "許可集合を広げすぎて未知の narrative ticker を黙って許可しないこと。",
+    "workflow が旧日の packet や run_status を fallback として成功扱いしないこと。",
+    "2026-08-18 の data branch artifact は本 Work Item で手動修復しない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "同一 packet の既知観測 ticker が current leader でなくても consistency gate が READ_MODEL_CONFLICT を返さない。",
+    "観測 ticker の許可集合は packet / presentation が実際に提供する事実から構成され、未知の uppercase token を無条件に許可しない。",
+    "Daily Radar workflow は当日 JST の decision packet、Markdown、snapshot、run status を要求し、旧日の packet を fallback にしない。",
+    "decisioning の失敗または当日成果物の欠落は workflow failure となり、既存の Notify on Failure 経路が利用可能になる。",
+    "当日成功経路では notification = succeeded を維持し、Telegram / Markdown の本文契約と data branch の artifact schema を変更しない。",
+    "Gate / execution / trader / action matrix / position sizing には影響しないことをテストまたは scope で確認する。",
+    "Rust regression test と daily workflow contract test が追加され、同種の回帰を検出する。",
+    "実装 diff に i18n file、snapshot file、既存 data branch artifact file が含まれないことを scope check で確認する。",
+    "contract_start、before_edit、before_ready、after_verification の checkpoint evidence が Summary に記録される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
