@@ -717,25 +717,11 @@ pub(crate) async fn run_pipeline_for_report_date(
             )
             .err()
             .or_else(|| {
-                let mut allowed_leaders = current_leadership_snapshot.secondary_leaders_values.clone();
-                if !current_leadership_snapshot.primary_leader_value.is_empty() {
-                    allowed_leaders.push(current_leadership_snapshot.primary_leader_value.clone());
-                }
-                pres_packet
-                    .market_interpretation
-                    .as_ref()
-                    .into_iter()
-                    .flat_map(|interpretation| {
-                        interpretation
-                            .primary_values
-                            .iter()
-                            .chain(interpretation.supporting_values.iter())
-                    })
-                    .for_each(|leader| {
-                        if !allowed_leaders.contains(leader) {
-                            allowed_leaders.push(leader.clone());
-                        }
-                    });
+                let allowed_symbols = build_narrative_symbol_allowlist(
+                    &packet,
+                    &pres_packet,
+                    &current_leadership_snapshot,
+                );
                 crate::features::radar::domain::observation_timeline::cross_layer_consistency_gate(
                     packet.date,
                     baseline_packet.as_ref().map(|previous| previous.date),
@@ -751,7 +737,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                         .as_ref()
                         .map(|interpretation| interpretation.narrative_values.as_slice())
                         .unwrap_or(&[]),
-                    &allowed_leaders,
+                    &allowed_symbols,
                 )
                 .err()
             });
@@ -1238,6 +1224,52 @@ pub(crate) async fn run_pipeline_for_report_date(
         runtime_services.persistence.save_run_status(&outcome)?;
     }
     Ok(())
+}
+
+fn build_narrative_symbol_allowlist(
+    packet: &DecisionPacket,
+    presentation: &PresentationPacket,
+    current_leadership_snapshot: &crate::features::radar::interface::presentation::LeadershipSnapshotViewModel,
+) -> Vec<String> {
+    let mut symbols = Vec::new();
+    let mut append_symbol = |symbol: &str| {
+        let symbol = symbol.trim();
+        if !symbol.is_empty() && !symbols.iter().any(|known| known == symbol) {
+            symbols.push(symbol.to_string());
+        }
+    };
+
+    append_symbol(&current_leadership_snapshot.primary_leader_value);
+    for symbol in &current_leadership_snapshot.secondary_leaders_values {
+        append_symbol(symbol);
+    }
+    for asset in &packet.assets {
+        append_symbol(&asset.symbol);
+    }
+    for symbol in &packet.top_tier_symbols {
+        append_symbol(symbol);
+    }
+    for observation in &packet.current_relative_strength_observations {
+        append_symbol(&observation.symbol);
+    }
+    if let Some(relative_strength) = &presentation.current_relative_strength {
+        for item in &relative_strength.items {
+            append_symbol(&item.symbol);
+        }
+    }
+    for item in &presentation.breakout_summary.items {
+        append_symbol(&item.symbol);
+    }
+    if let Some(interpretation) = &presentation.market_interpretation {
+        for symbol in interpretation
+            .primary_values
+            .iter()
+            .chain(interpretation.supporting_values.iter())
+        {
+            append_symbol(symbol);
+        }
+    }
+    symbols
 }
 
 fn price_volume_supply_context(
@@ -2208,6 +2240,7 @@ fn gray_rhino_failure_appendix(
 
 #[cfg(test)]
 mod tests {
+    use super::build_narrative_symbol_allowlist;
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
     use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
@@ -2215,7 +2248,12 @@ mod tests {
         PriceVolumeSupplyConfidence, PriceVolumeSupplyDirection, PriceVolumeSupplyEventConfig,
         PriceVolumeSupplyEventType,
     };
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::decision::DecisionPacket;
     use crate::features::radar::domain::price_volume_structure::PriceVolumeInput;
+    use crate::features::radar::interface::presentation::{
+        LeadershipSnapshotViewModel, PresentationPacket,
+    };
     use crate::features::research::application::gray_rhino_monitoring_state::{
         GrayRhinoMonitoringDirection, GrayRhinoMonitoringStatus,
     };
@@ -2231,6 +2269,65 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    #[test]
+    fn narrative_allowlist_accepts_known_non_leader_packet_asset() {
+        let mut packet = DecisionPacket::default();
+        packet.assets.push(AssetActionDecision {
+            symbol: "AMD".to_string(),
+            ..Default::default()
+        });
+
+        let allowlist = build_narrative_symbol_allowlist(
+            &packet,
+            &PresentationPacket::default(),
+            &LeadershipSnapshotViewModel::default(),
+        );
+        let narrative =
+            vec!["短期相对强度在 AMD 恢复，但尚不足以构成新的 Leadership。".to_string()];
+
+        assert_eq!(allowlist, vec!["AMD".to_string()]);
+        assert_eq!(
+            crate::features::radar::domain::observation_timeline::cross_layer_consistency_gate(
+                NaiveDate::from_ymd_opt(2026, 8, 18).unwrap(),
+                Some(NaiveDate::from_ymd_opt(2026, 8, 17).unwrap()),
+                true,
+                "NEUTRAL",
+                "NEUTRAL",
+                &narrative,
+                &allowlist,
+            ),
+            Ok(())
+        );
+    }
+
+    #[test]
+    fn narrative_allowlist_does_not_accept_unknown_uppercase_token() {
+        let mut packet = DecisionPacket::default();
+        packet.assets.push(AssetActionDecision {
+            symbol: "AMD".to_string(),
+            ..Default::default()
+        });
+        let allowlist = build_narrative_symbol_allowlist(
+            &packet,
+            &PresentationPacket::default(),
+            &LeadershipSnapshotViewModel::default(),
+        );
+        let narrative = vec!["未知标记 XYZ 不属于当日事实。".to_string()];
+
+        assert_eq!(
+            crate::features::radar::domain::observation_timeline::cross_layer_consistency_gate(
+                NaiveDate::from_ymd_opt(2026, 8, 18).unwrap(),
+                Some(NaiveDate::from_ymd_opt(2026, 8, 17).unwrap()),
+                true,
+                "NEUTRAL",
+                "NEUTRAL",
+                &narrative,
+                &allowlist,
+            ),
+            Err("READ_MODEL_CONFLICT")
+        );
+    }
 
     #[test]
     fn supply_event_is_active_only_inside_the_observation_window() {

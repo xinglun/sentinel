@@ -111,7 +111,7 @@ pub fn daily_fact_consistency_gate(
     previous_market_date: Option<NaiveDate>,
     baseline_available: bool,
     narrative_values: &[String],
-    allowed_leaders: &[String],
+    allowed_symbols: &[String],
 ) -> Result<(), &'static str> {
     if baseline_available
         && previous_market_date.is_none_or(|previous| previous >= current_market_date)
@@ -127,7 +127,7 @@ pub fn daily_fact_consistency_gate(
                         .chars()
                         .all(|character| character.is_ascii_uppercase())
             })
-            .any(|token| !allowed_leaders.iter().any(|leader| leader == token))
+            .any(|token| !allowed_symbols.iter().any(|symbol| symbol == token))
     }) {
         return Err("NARRATIVE_FACT_CONFLICT");
     }
@@ -142,7 +142,7 @@ pub fn cross_layer_consistency_gate(
     current_supply_phase: &str,
     change_log_supply_phase: &str,
     narrative_values: &[String],
-    allowed_leaders: &[String],
+    allowed_symbols: &[String],
 ) -> Result<(), &'static str> {
     if baseline_available
         && previous_market_date.is_none_or(|previous| previous >= current_market_date)
@@ -157,7 +157,7 @@ pub fn cross_layer_consistency_gate(
         previous_market_date,
         baseline_available,
         narrative_values,
-        allowed_leaders,
+        allowed_symbols,
     )
     .map_err(|reason| {
         if reason == "NARRATIVE_FACT_CONFLICT" {

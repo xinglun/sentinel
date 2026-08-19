@@ -1,0 +1,221 @@
+{
+  "workItemId": "telegram-report-delivery-repair",
+  "contractPath": ".ai/work-items/archive/2026/telegram-report-delivery-repair.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Cockpit status は make generate-cockpit-status で生成されるため、作業状態を反映する。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "reason": "実装 scope、根拠、受入条件、回帰シナリオ、required verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "reason": "Work Item の実装、検証結果、checkpoint evidence を記録する。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "当日 JST artifact と decisioning status を必須化し、旧日 packet fallback を削除する。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "Narrative fact gate の許可集合を leader だけでなく既知 symbol として扱う。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "packet / presentation の既知観測 symbol から narrative allowlist を構成する。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "Read Model 回帰と Daily Radar workflow の当日性・失敗判定を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    "reports/run_status_2026-08-18.json",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/work-items/active/telegram-report-delivery-repair.contract.json"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/telegram-report-delivery-repair.contract.json SUMMARY=.ai/work-items/active/telegram-report-delivery-repair.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "Read Model の観測事実許可集合と Daily Radar の当日成果物・失敗判定を修正する low-risk change。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "P1",
+      "detail": "2026-08-18 の run_status は READ_MODEL_CONFLICT と notification skipped を記録した。"
+    },
+    {
+      "severity": "P1",
+      "detail": "daily workflow が旧日の decision packet を fallback にし、Show Notification Outcome が前日の成功状態を表示した。"
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "Telegram 日報未着の調査結果を修正し、同種の誤拒否と旧日 fallback を防止する。",
+      "solidifiedTo": "contract",
+      "solidifiedIn": [
+        ".ai/work-items/active/telegram-report-delivery-repair.contract.json",
+        ".ai/work-items/active/telegram-report-delivery-repair.summary.json",
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "reason": "観測整合性 gate と Daily Radar の当日性・失敗判定を Work Item 契約と回帰テストに固定する。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "scope、sources、acceptance、verification を確定した。",
+      "contractHash": "a20e225956cfb6ab",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "回帰テストを先に追加し、旧実装で workflow assertion と Rust compile が失敗することを確認した。",
+      "contractHash": "a20e225956cfb6ab",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装、focused regression、Rust quality、scope/architecture guard の確認が完了した。",
+      "contractHash": "a20e225956cfb6ab",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required checks、Cockpit status、scenario coverage、quality をすべて確認した。",
+      "contractHash": "a20e225956cfb6ab",
+      "acceptanceCount": 9,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract が実装可能な状態になった。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "回帰テストを先に追加し、旧実装で失敗することを確認してから実装した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装、focused regression、Rust quality、scope/architecture guard の確認が完了した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks と Cockpit status consistency が通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "contract_readiness",
+      "detail": "CI と観測整合性を跨ぐため、workflow の当日性と許可集合の境界を review する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "required checks はすべて通過した。実 GitHub Actions 実行と Telegram 実投函は未実施のため、次回定期実行で確認する。",
+    "expectedReviewFocus": [
+      "観測 ticker の許可集合が既知事実に限定されているか",
+      "workflow が旧日の成果物を成功扱いしないか",
+      "取引境界と既存 Telegram 本文が変更されていないか"
+    ]
+  }
+}
