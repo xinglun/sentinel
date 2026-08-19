@@ -377,3 +377,55 @@ fn daily_radar_checks_out_the_triggered_ref_and_commit() {
     assert!(workflow.contains("CHECKED_OUT_SHA=\"$(git rev-parse HEAD)\""));
     assert!(workflow.contains("test \"${CHECKED_OUT_SHA}\" = \"${GITHUB_SHA}\""));
 }
+
+#[test]
+fn daily_radar_requires_current_report_and_fails_on_decisioning_failure() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(
+        workflow.contains("REPORT_PACKET_PATH=\"reports/decision_packet_${DATE_JST}.json\""),
+        "daily radar must resolve the packet for the current JST date"
+    );
+    assert!(
+        workflow.contains("RUN_STATUS_PATH=\"reports/run_status_${DATE_JST}.json\""),
+        "daily radar must validate the run status for the current JST date"
+    );
+    assert!(
+        workflow.contains("decisioning status is not succeeded"),
+        "decisioning failures must fail the workflow and activate Notify on Failure"
+    );
+    assert!(
+        workflow.contains("REPORT_DATE_JST=\"${DATE_JST}\""),
+        "later workflow steps must use the current JST date"
+    );
+    assert!(
+        !workflow.contains("find reports -maxdepth 1 -type f -name 'decision_packet_*.json'"),
+        "daily radar must not fall back to a stale packet"
+    );
+}
+
+#[test]
+fn daily_radar_run_step_has_valid_shell_syntax() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    let script_path = tmp.path().join("run_sentinel_radar.sh");
+    fs::write(
+        &script_path,
+        extract_step_script(&workflow_path, "Run Sentinel Radar"),
+    )
+    .expect("failed to write extracted workflow script");
+
+    let output = Command::new("bash")
+        .arg("-n")
+        .arg(&script_path)
+        .output()
+        .expect("failed to run bash -n");
+    assert!(
+        output.status.success(),
+        "Run Sentinel Radar shell syntax failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
