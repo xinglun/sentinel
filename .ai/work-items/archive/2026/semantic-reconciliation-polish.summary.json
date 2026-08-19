@@ -1,0 +1,284 @@
+{
+  "workItemId": "semantic-reconciliation-polish",
+  "contractPath": ".ai/work-items/archive/2026/semantic-reconciliation-polish.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "reason": "ユーザー承認済みの P0/P1 実装境界、acceptance、scenario coverage、verification を定義した。"
+    },
+    {
+      "path": ".ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "reason": "Work Item の証跡と review readiness を管理する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Contract と Summary から生成される Cockpit status を更新する。"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "reason": "Relative Strength Recovery State を observation fact として導出する。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "asset trend slope を current relative strength observation に渡す。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Recovery State を report read model に保持する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "leaderless 表示と recovery reconciliation を tactical presentation に反映する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "localized Recovery State を report output に表示する。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "P0/P1 の report UI と observation-only boundary の回帰を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "leaderless 主線構造の新しい localized contract を既存 presentation 回帰に反映する。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "leaderless 主線状態と構造の zh / en / ja 表示語彙を追加する。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "AGENTS.md"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "Current Leader が none で Leader Absence が threshold 以上の日報トップ表示",
+      "reason": "leaderless top display と旧主線文言の非表示を report / presentation 回帰で検証した。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "弱い旧構造と NEUTRAL + 正の 5 日相対強度を持つ SPCX 類似資産",
+      "reason": "NEUTRAL のまま RECOVERING fact を保持し、RECOVERY_WATCH と recovery 説明へ reconciliation することを検証した。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "1日、5日、trend slope が揃って弱い資産の連続転弱表示",
+      "reason": "DETERIORATING recovery state で既存の連続転弱診断を保持する回帰を検証した。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "RS recovery が Decision / Action / Position Sizing を変更しない observation-only boundary",
+      "reason": "既存 action 値保持アサーションと全テストで observation-only boundary を検証した。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test"
+      ]
+    },
+    {
+      "scenario": "稳定性 9.7/10 の計算と表示",
+      "reason": "ユーザー指定により観察項目として記録するだけで、今回の算法変更対象ではない。",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": []
+    }
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "P0/P1 は表示・Observation 層だけを変更するが、旧 mainline 語彙と RS classification 境界の回帰を重点確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "medium",
+      "area": "preflight",
+      "detail": "ai-start の初期 skeleton は not_ready だったため、Contract をユーザー承認済み scope に更新してから再実行する。"
+    },
+    {
+      "severity": "low",
+      "area": "stability",
+      "detail": "稳定性 9.7/10 は user-requested observation item として保持し、今回の算法変更対象から除外する。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b57ec5a249589aec",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b57ec5a249589aec",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": false,
+      "detail": "initial skeleton",
+      "contractHash": "b57ec5a249589aec",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "required verification、Rust quality gate、scenario coverage、architecture boundary と Cockpit status check がすべて passed。",
+      "contractHash": "b57ec5a249589aec",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 13,
+      "requiredChecksPassed": 13
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract の scope、acceptance、verification と実装可能性を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "実装前に scope、sources、acceptance、verification を確定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "Rust quality gate と scenario coverage を通過し、最終 status 生成前の evidence を更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification、Rust quality gate、scenario coverage、architecture boundary と Cockpit status check を完了した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "recovery_threshold_review",
+      "detail": "相対強度の 1 日・5 日差分と trend slope を組み合わせた conservative recovery-state 規則は、実データの傾向分布と閾値境界を review で確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "stability_semantics",
+      "detail": "稳定性 9.7/10 の計算と表示名称は変更していない。市場の健康度と誤読されるかを数日観察する。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "主線状態と主線構造が leader absence の日報で矛盾しないようにする。",
+      "solidifiedTo": "contract",
+      "reason": "P0 の tactical leaderless display を Contract acceptance と report UI 回帰テストに固定した。"
+    },
+    {
+      "correction": "RS classification が NEUTRAL でも recovery fact を失わないようにする。",
+      "solidifiedTo": "contract",
+      "reason": "P1 の Recovery State を domain observation と presentation/report の回帰テストに固定し、action 層を scope 外に保持した。"
+    },
+    {
+      "correction": "稳定性 9.7/10 は今回の修正対象にしない。",
+      "solidifiedTo": "summary",
+      "reason": "安定性算法を変更せず、Summary の residual risk と review focus に観察項目として記録した。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "P0/P1 は observation / presentation / report 層に限定し、取引判断層と稳定性算法は変更しない。Recovery State の実データ閾値と稳定性名称は review focus として残す。",
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "P0/P1 の実装、scenario coverage、Rust quality gate、Cockpit boundary checks を完了し、残る risk は review focus として明示した。",
+    "expectedReviewFocus": [
+      "SPCX 類似値の trend slope と recovery threshold の実データ分布",
+      "Recovery State が Decision / Action / Position Sizing に接続されていないこと",
+      "稳定性 9.7/10 の表示名称を変更しない観察方針"
+    ]
+  }
+}

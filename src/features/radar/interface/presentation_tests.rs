@@ -221,7 +221,10 @@ mod tests {
             Language::ZhCn,
         );
 
-        assert_eq!(presentation.decision_summary.trend_topology_value, "无主线");
+        assert_eq!(
+            presentation.decision_summary.trend_topology_value,
+            "无主线 / 分散"
+        );
         let strategic_context = presentation
             .transition_evidence
             .as_ref()

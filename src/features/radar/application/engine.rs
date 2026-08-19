@@ -285,6 +285,7 @@ impl Engine {
                                 symbol: f.symbol.clone(),
                                 relative_1d_vs_benchmark: calculate_relative_strength(asset, benchmark, 1),
                                 relative_5d_vs_benchmark: calculate_relative_strength(asset, benchmark, 5),
+                                trend_slope: f.slope,
                                 price_position: recent_price_position(asset),
                                 volume_participation: recent_volume_participation(asset),
                             },

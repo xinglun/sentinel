@@ -4321,6 +4321,7 @@ mod tests {
                     items: vec![crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                         symbol: "NVDA".to_string(),
                         status: "IMPROVING".to_string(),
+                        recovery_state: "STRONG_RECOVERY".to_string(),
                         relative_1d_vs_benchmark: Some(1.2),
                         relative_5d_vs_benchmark: Some(4.5),
                         price_position: None,
@@ -4364,6 +4365,7 @@ mod tests {
         assert!(!report.archival_markdown.contains("<h3>"));
         assert!(!report.archival_markdown.contains("<li>"));
         for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("恢复状态: STRONG_RECOVERY"));
             assert!(body.contains("状态冲突: SIGNAL_CONFLICT"));
             assert!(body.contains("Recovery Watch: RECOVERY_WATCH"));
             assert!(body.contains("长期/累计结构仍弱，但短期相对强度正在明显恢复。"));
@@ -4399,6 +4401,8 @@ mod tests {
             9,
             Language::ZhCn,
         );
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "当前无确认主线");
+        assert_eq!(pres.decision_summary.trend_topology_value, "无主线 / 分散");
 
         let report = generate_refined_report(
             &report_context(&config),
@@ -4502,9 +4506,11 @@ mod tests {
                     symbol: "SPCX".to_string(),
                     relative_1d_vs_benchmark: Some(6.34),
                     relative_5d_vs_benchmark: Some(6.87),
+                    trend_slope: Some(0.30),
                     price_position: None,
                     volume_participation: None,
                     status: crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving,
+                    recovery_state: crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::StrongRecovery,
                     boundary: "Observation only".to_string(),
                 },
             ],
@@ -4530,6 +4536,62 @@ mod tests {
             .as_deref()
             .is_some_and(|value| value.contains("RECOVERY_WATCH")));
         assert_eq!(asset.action, original_action);
+    }
+
+    #[test]
+    fn neutral_relative_strength_recovery_suppresses_continued_weakening_copy() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let asset = AssetActionDecision {
+            symbol: "SPCX".to_string(),
+            action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+            exit_decision: ExitDecision {
+                position_intent: PositionIntent::TRIM,
+                asset_exit_state: AssetExitState::StrengthLoss,
+                reasons: vec![],
+            },
+            ..Default::default()
+        };
+        let original_action = asset.action;
+        let packet = DecisionPacket {
+            assets: vec![asset.clone()],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "SPCX".to_string(),
+                    relative_1d_vs_benchmark: Some(-1.30),
+                    relative_5d_vs_benchmark: Some(7.94),
+                    trend_slope: Some(-0.10),
+                    price_position: None,
+                    volume_participation: None,
+                    status: crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Neutral,
+                    recovery_state: crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::Recovering,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let item = pres
+            .current_relative_strength
+            .as_ref()
+            .and_then(|strength| strength.items.first())
+            .expect("SPCX current relative strength item");
+
+        assert_eq!(item.status, "NEUTRAL");
+        assert_eq!(item.recovery_state, "RECOVERING");
+        assert_eq!(item.conflict_code.as_deref(), Some("SIGNAL_CONFLICT"));
+        assert!(item.recovery_watch);
+        assert_eq!(asset.action, original_action);
+        assert!(pres
+            .top_actions
+            .iter()
+            .filter_map(|action| action.diagnostic.as_deref())
+            .any(|diagnostic| diagnostic.contains("RECOVERY_WATCH")));
     }
 
     #[test]

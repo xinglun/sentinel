@@ -2062,6 +2062,11 @@ fn render_current_relative_strength_section(
             ("確認済み Leader", "1日 SPY比", "5日 SPY比")
         }
     };
+    let recovery_state_label = match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => "恢复状态",
+        crate::features::shared::interface::i18n::Language::EnUs => "Recovery State",
+        crate::features::shared::interface::i18n::Language::JaJp => "回復状態",
+    };
     let mut out = heading;
     out.push_str(&format!(
         "{}{}: {}{}",
@@ -2072,6 +2077,12 @@ fn render_current_relative_strength_section(
             "{}{}: {}{}",
             bullet, item.symbol, item.status, boundary
         ));
+        if !item.recovery_state.is_empty() && item.recovery_state != "NEUTRAL" {
+            out.push_str(&format!(
+                "{}{}: {}{}",
+                bullet, recovery_state_label, item.recovery_state, boundary
+            ));
+        }
         if let Some(conflict_code) = &item.conflict_code {
             out.push_str(&format!(
                 "{}{}: {}{}",

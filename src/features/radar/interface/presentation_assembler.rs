@@ -50,8 +50,10 @@ impl PresentationAssembler {
         }
 
         let dict = get_dictionary(language);
+        presentation.decision_summary.trend_cohesion_value =
+            dict.trend_cohesion.current_no_confirmed_mainline.clone();
         presentation.decision_summary.trend_topology_value =
-            dict.trend_cohesion.topology_no_leader.clone();
+            dict.trend_cohesion.topology_leaderless_fragmented.clone();
         if let Some(evidence) = presentation.transition_evidence.as_mut() {
             strategic_context_read_model::apply_leaderless_market_structure_override(
                 &mut evidence.strategic_context,
@@ -644,6 +646,7 @@ impl PresentationAssembler {
             .iter()
             .map(|observation| {
                 let status = format!("{:?}", observation.status).to_ascii_uppercase();
+                let recovery_state = observation.recovery_state.as_str().to_string();
                 let weakening = packet
                     .assets
                     .iter()
@@ -658,10 +661,17 @@ impl PresentationAssembler {
                                 | crate::features::radar::domain::action_matrix::AssetAction::AVOID
                         )
                     });
-                let recovery_watch = weakening && status == "IMPROVING";
+                let recovery_watch = weakening
+                    && (status == "IMPROVING"
+                        || matches!(
+                            observation.recovery_state,
+                            crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::StrongRecovery
+                                | crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::Recovering
+                        ));
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                     symbol: observation.symbol.clone(),
                     status,
+                    recovery_state,
                     relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
                     relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
                     price_position: observation.price_position,
@@ -1086,6 +1096,10 @@ impl PresentationAssembler {
                 matches!(
                     observation.status,
                     crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving
+                ) || matches!(
+                    observation.recovery_state,
+                    crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::StrongRecovery
+                        | crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::Recovering
                 )
             })
     }

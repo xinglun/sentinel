@@ -124,6 +124,8 @@ pub struct LeaderPersistenceViewModel {
 pub struct CurrentRelativeStrengthItemViewModel {
     pub symbol: String,
     pub status: String,
+    #[serde(default)]
+    pub recovery_state: String,
     pub relative_1d_vs_benchmark: Option<f64>,
     pub relative_5d_vs_benchmark: Option<f64>,
     pub price_position: Option<f64>,
