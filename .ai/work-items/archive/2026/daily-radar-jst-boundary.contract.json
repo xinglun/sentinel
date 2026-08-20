@@ -1,0 +1,187 @@
+{
+  "contractVersion": 2,
+  "workItemId": "daily-radar-jst-boundary",
+  "mode": "code",
+  "title": "修复 Daily Radar 的 JST 日期边界",
+  "baseCommit": "fbb3ce5353c2d25db513382cd05296f892830a0c",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Daily Radar 在 GitHub Actions 的 UTC/JST 跨日边界运行时，workflow 按 JST 校验当日报告，但 radar_pipeline_runner 使用运行环境 Local 日期命名输出，导致 Telegram 已发送而当前 JST decision packet 缺失。",
+  "intent": {
+    "problem": "让 Daily Radar 的业务日期、packet/run_status 文件名和 workflow 的 JST 校验使用同一明确时区。",
+    "constraints": [
+      "使用固定 JST（UTC+09:00）计算运行日期，不依赖 runner 操作系统默认时区。",
+      "保留市场交易日回溯、决策闸门、通知和历史持久化语义。",
+      "只修复日期边界，不绕过当前 JST packet、run_status 和 decisioning succeeded 强校验。"
+    ],
+    "rationale": "Actions 运行在 UTC 主机上，workflow 已显式使用 TZ=Asia/Tokyo；应用层也必须显式投影到 JST，避免输出落在前一日。"
+  },
+  "scope": [
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily-radar-jst-boundary.contract.json",
+    ".ai/work-items/active/daily-radar-jst-boundary.summary.json"
+  ],
+  "outOfScope": [
+    ".github/workflows/daily_radar.yml 的 packet/run_status 校验语义",
+    "src/features/radar/application/execution_gate.rs、trader、action matrix、position sizing",
+    "provider credentials、Telegram secrets、reports/** 和 data 分支运行产物",
+    "与 JST 日期边界无关的时区迁移或其他 feature 行为"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "业务日期和运行时间戳当前由 chrono::Local 生成，是 UTC/JST 文件日期错位的直接实现位置。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "workflow 明确用 JST 计算 DATE_JST，并严格检查当前日期的 packet 和 run_status。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/32402466960",
+      "reason": "main hosted run 发送 Telegram 后因当前 JST packet 缺失而失败。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item、checkpoint、required verification 和 hosted evidence 流程约束。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "UTC 18:00 后运行时，JST 业务日期落在 UTC 的次日",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test"],
+      "reason": "待新增固定时刻回归测试。"
+    },
+    {
+      "scenario": "正常 radar 输出使用 JST 日期生成 decision packet 和 run_status 文件名",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test", "make test-radar-cross-run-pipeline"],
+      "reason": "待本地验证并由 main hosted run 确认。"
+    },
+    {
+      "scenario": "现有市场交易日回溯和决策/通知语义不变",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test", "make clippy"],
+      "reason": "待 required checks 完成。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": ["ci", "external_dependency"],
+    "reason": "日期边界修复影响 hosted 输出文件名和 workflow 校验；真实发送仍受 GitHub Actions 与 provider 运行状态影响。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "修复 main hosted run 暴露的 UTC/JST 日期错位，并在 develop 合并、同步 main 后重新验证 Daily Radar。",
+    "openQuestions": ["hosted run 是否生成当前 JST packet、run_status 并成功发送 Telegram。"]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "hosted failure、workflow 的 JST 期待值、应用的 Local 日期生成位置已确认，修复范围限定在 runner module。"
+  },
+  "preReviewWarnings": [
+    "不要改变 workflow 的严格当前 JST packet 校验来掩盖日期错位。",
+    "不要把市场日期回溯改成简单的 UTC 日期；只修复业务运行日期的 JST 投影。",
+    "hosted provider、Telegram 和 data branch 结果必须在 Summary 中记录，不以本地测试代替。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "radar_pipeline_runner 使用固定 JST 计算普通运行的 report date 和 timestamp，不依赖 runner 默认时区。",
+    "UTC 18:00 后的固定时刻回归测试确认业务日期为 JST 次日。",
+    "市场交易日回溯仍基于 report date，既有 pipeline、通知和历史持久化语义不变。",
+    "本次 diff 不修改 workflow 的当前 JST packet/run_status/decisioning 强校验。",
+    "所有 Contract required checks 通过并完成 Work Item archive、PR 合并和 close cleanup。",
+    "同步 main 后 hosted Daily Radar 生成当前 JST decision packet、run_status，并成功发送 Telegram。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make test-radar-cross-run-pipeline",
+      "required": true
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json SUMMARY=.ai/work-items/active/daily-radar-jst-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage SCENARIO_COVERAGE_ARGS=\"--contract .ai/work-items/active/daily-radar-jst-boundary.contract.json --summary .ai/work-items/active/daily-radar-jst-boundary.summary.json\"",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily-radar-jst-boundary.summary.json CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json SUMMARY=.ai/work-items/active/daily-radar-jst-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily-radar-jst-boundary.contract.json SUMMARY=.ai/work-items/active/daily-radar-jst-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
