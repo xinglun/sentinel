@@ -1,0 +1,87 @@
+{
+  "contractVersion": 2,
+  "workItemId": "daily-radar-snapshot-report-date-gate",
+  "mode": "code",
+  "title": "修复 Daily Radar 的 snapshot 报告日门禁",
+  "baseCommit": "43105fcc02b81378ac33e21e728b785979991d0a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Daily Radar 已将报告业务日与行情事实日分离，但 Freshness Gate 仍按 snapshot 文件名和 market_date 等于当前报告日查找。行情落后于报告日时，snapshot 已正确生成却被门禁误判为缺失，阻断 data branch 写回。",
+  "intent": {
+    "problem": "让 snapshot Freshness Gate 使用 report_date 识别当前报告，同时保留 market_date/as-of_date 的真实行情语义。",
+    "constraints": [
+      "保持当前 JST decision_packet、run_status 和 decisioning succeeded 强校验不变。",
+      "不把 market_date 改写为报告日，不放宽历史连续性与 data branch 持久化校验。",
+      "对没有 report_date 的旧 snapshot 保留 market_date 兼容回退。"
+    ],
+    "rationale": "Hosted run 32409567622 的 Radar 和 Telegram 已成功，但 Freshness Gate 报告 current trading-day snapshot missing；日志显示 restored snapshots 的最新 market_date 为 2026-08-17，而当前报告日为 2026-08-21。历史 run 32383724554 与 32405694931 也证明当前 JST 报告资产校验是本任务的远端验收入口。"
+  },
+  "scope": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
+    "docs/specs/DATA_BRANCH_LAYOUT.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json",
+    ".ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json"
+  ],
+  "outOfScope": [
+    "Radar Engine、TradingDaySnapshot persistence、provider、Telegram credentials 和 reports/data branch 运行产物",
+    "当前 JST decision_packet、run_status、decisioning succeeded 的强校验",
+    "Gate、execution、trader、action matrix、position sizing 和行情解析逻辑",
+    "通过伪造 market_date 或放宽 Freshness Gate 来掩盖数据问题"
+  ],
+  "sources": [
+    {"path": ".github/workflows/daily_radar.yml", "reason": "当前 snapshot restore、Freshness Gate 和 data branch 写回契约。"},
+    {"path": "tests/daily_radar_workflow_integration.rs", "reason": "现有 workflow shell/报告日强校验测试入口。"},
+    {"path": "src/features/radar/infrastructure/persistence.rs", "reason": "确认新 snapshot 文件名使用 cycle_id-market_date，字段中另有 report_date。"},
+    {"path": "docs/specs/DATA_BRANCH_LAYOUT.md", "reason": "报告业务日与行情事实日的仓储语义说明。"},
+    {"path": ".ai/work-items/archive/2026/daily-radar-report-date-alignment.contract.json", "reason": "前一 WI 已确立 report_date/market_date 分离契约。"},
+    {"path": "https://github.com/xinglun/sentinel/actions/runs/32383724554", "reason": "用户提供的 develop hosted Daily Radar 历史失败证据。"},
+    {"path": "https://github.com/xinglun/sentinel/actions/runs/32405694931", "reason": "main hosted run 中当前 JST decision packet 缺失的失败证据。"},
+    {"path": "https://github.com/xinglun/sentinel/actions/runs/32409567622", "reason": "修复后的 main hosted run 中 snapshot Freshness Gate 误判的失败证据。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario": "report_date=当前 JST、market_date=前一交易日时，Freshness Gate 能按 snapshot.report_date 找到当前 snapshot", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"], "reason": "workflow contract test 已确认按 JSON report_date 搜索 snapshot。"},
+    {"scenario": "新 snapshot 的 report_date 与 market_date/as-of_date 语义分别校验，不能用 market_date 冒充报告日", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"], "reason": "workflow contract test 已确认新格式校验 report_date，同时要求 market_date 存在。"},
+    {"scenario": "旧 snapshot 缺少 report_date 时仍能以 market_date 兼容读取", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract"], "reason": "workflow contract test 已确认旧 snapshot 的 market_date 回退分支。"},
+    {"scenario": "当前 JST packet/run_status/decisioning、历史连续性与 data branch 强校验保持不变", "required": true, "status": "verified", "evidence": ["make test-radar-workflow-contract", "make test"], "reason": "workflow contract 与完整 Rust 测试均通过，当前 JST 和连续性强校验仍存在。"},
+    {"scenario": "合并 main 后 hosted Daily Radar 通过 Freshness Gate、Telegram、data branch 写回", "required": true, "status": "unverified", "evidence": [], "reason": "必须在最终 main 合并后重新触发 Actions。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level": "medium", "riskTypes": ["ci", "data_integrity", "external_dependency"], "reason": "workflow 门禁决定是否允许日报写回 data branch；错误放宽可能掩盖数据损坏，错误收紧会在行情滞后日阻断正常报告。"},
+  "agentCapability": {"canImplement": true, "canVerify": true, "needsHumanDecision": false, "blockedReason": ""},
+  "executionDecision": {"status": "continue", "reason": "失败日志已明确指出查找逻辑与 report_date/market_date 分离契约冲突，修复范围限定在 workflow 门禁、契约测试和数据布局说明。"},
+  "humanReview": {"status": "confirmed", "decision": "依据用户要求继续修复并重复远端 Daily Radar，直到门禁、通知和 data branch 均正常。", "openQuestions": ["最终 main hosted run 是否能在真实行情落后于报告日时通过 snapshot Freshness Gate，并完成 data branch 写回。"]},
+  "preReviewWarnings": [
+    "不得把 snapshot.market_date 改写为当前报告日；新格式应校验 report_date，旧格式才允许 market_date 回退。",
+    "不得删除或放宽当前 JST packet、run_status、decisioning succeeded、历史连续性和远端持久化校验。",
+    "必须在 develop 合并并同步 main 后重新运行 hosted Daily Radar。"
+  ],
+  "checkpointPolicy": {"requiredCheckpoints": ["contract_start", "before_edit", "before_ready", "after_verification"], "reminder": "scope、acceptance、verification、agentCapability 变化时先更新 Contract/Summary。"},
+  "acceptance": [
+    "Freshness Gate 按 snapshot.report_date 找到当前报告日 snapshot，不再依赖包含报告日的文件名。",
+    "新 snapshot 校验 report_date 等于当前 JST 报告日，同时保留 market_date 的真实行情事实语义。",
+    "旧 snapshot 缺少 report_date 时可用 market_date 兼容读取；历史连续性比较使用报告日语义。",
+    "workflow integration test 覆盖新格式、兼容回退、shell 语法和现有当前 JST 强校验。",
+    "Contract required checks、PR 合并、WI cleanup、develop→main 同步和最终 hosted Daily Radar 均完成。"
+  ],
+  "verification": [
+    {"command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json", "required": true},
+    {"command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json", "required": true},
+    {"command": "make fmt-check", "required": true},
+    {"command": "make test", "required": true},
+    {"command": "make clippy", "required": true},
+    {"command": "make test-radar-workflow-contract", "required": true},
+    {"command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json", "required": true},
+    {"command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json SUMMARY=.ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json", "required": true},
+    {"command": "make check-ai-coverage-guard", "required": true},
+    {"command": "make check-ai-scenario-coverage SCENARIO_COVERAGE_ARGS=\"--contract .ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json --summary .ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json\"", "required": true},
+    {"command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json", "required": true},
+    {"command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json SUMMARY=.ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json", "required": true},
+    {"command": "make check-ai-status CONTRACT=.ai/work-items/active/daily-radar-snapshot-report-date-gate.contract.json SUMMARY=.ai/work-items/active/daily-radar-snapshot-report-date-gate.summary.json", "required": true},
+    {"command": "make check-ai-status-consistency", "required": true},
+    {"command": "make check-architecture-all", "required": true}
+  ],
+  "destructiveChangePolicy": {"allowed": false, "requiresHumanApproval": true, "allowPatterns": []},
+  "rollbackNote": "revert この Work Item の workflow、test、document、Cockpit diff。"
+}

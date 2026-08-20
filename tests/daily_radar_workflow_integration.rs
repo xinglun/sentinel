@@ -243,7 +243,7 @@ fn daily_radar_restores_and_validates_formal_history_without_reimplementing_migr
     assert!(workflow.contains("Legacy decision history exists but formal trading-day snapshots"));
     assert!(workflow.contains("legacy history was not fully backfilled into formal snapshots"));
     assert!(workflow.contains("make radar-release"));
-    assert!(workflow.contains("formal snapshot history did not append across the new market date"));
+    assert!(workflow.contains("formal snapshot history did not append across the new report date"));
     assert!(!workflow.contains("packet-to-snapshot"));
     assert!(!workflow.contains("MIGRATED_LEGACY"));
 }
@@ -411,6 +411,58 @@ fn daily_radar_requires_current_report_and_fails_on_decisioning_failure() {
     assert!(
         !workflow.contains("find reports -maxdepth 1 -type f -name 'decision_packet_*.json'"),
         "daily radar must not fall back to a stale packet"
+    );
+}
+
+#[test]
+fn daily_radar_snapshot_gate_uses_report_date_and_preserves_market_date() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(
+        workflow.contains("snapshot_report_date = value.get(\"report_date\")"),
+        "snapshot restore must prefer report_date"
+    );
+    assert!(
+        workflow.contains("snapshot_report_date = snapshot.get(\"report_date\")"),
+        "freshness validation must inspect the new report_date field"
+    );
+    assert!(
+        workflow.contains("legacy current snapshot market_date does not match report date"),
+        "legacy snapshots must keep an explicit market_date fallback"
+    );
+    assert!(
+        workflow.contains("if not isinstance(snapshot.get(\"market_date\"), str)"),
+        "new snapshots must still carry the market-date fact"
+    );
+    assert!(
+        !workflow.contains("CURRENT_SNAPSHOT=\"$(find reports/snapshots -maxdepth 1 -type f -name \"*_${DATE_JST}.json\""),
+        "freshness validation must not infer the report date from the snapshot filename"
+    );
+}
+
+#[test]
+fn daily_radar_freshness_gate_has_valid_shell_syntax() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    let script_path = tmp.path().join("freshness_gate.sh");
+    fs::write(
+        &script_path,
+        extract_step_script(&workflow_path, "Freshness Gate and Output Validation"),
+    )
+    .expect("failed to write extracted workflow script");
+
+    let output = Command::new("bash")
+        .arg("-n")
+        .arg(&script_path)
+        .output()
+        .expect("failed to run bash -n");
+    assert!(
+        output.status.success(),
+        "Freshness Gate shell syntax failed: {}",
+        String::from_utf8_lossy(&output.stderr)
     );
 }
 

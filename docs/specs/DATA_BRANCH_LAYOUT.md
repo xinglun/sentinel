@@ -46,6 +46,10 @@ key: data-branch-layout
 市場データの as-of 日へ書き換えてはなりません。これにより、行情の更新が報告時点に
 追いついていない場合でも、現在 JST の成果物とデータ事実を同時に検証できます。
 
+`daily_radar.yml` の Freshness Gate は snapshot JSON の `report_date` で現在の報告業務日を
+検索し、snapshot のファイル名や `market_date` だけから報告日を推測しません。`report_date`
+を持たない旧 snapshot に限り、互換のため `market_date` を報告日として扱います。
+
 これは、以下のファイルが同じ `YYYY-MM-DD` を共有しなければならないことを意味します：
 
 1. `YYYY-MM-DD.md`
