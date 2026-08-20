@@ -163,6 +163,20 @@ impl PersistenceLayer {
         snapshot
     }
 
+    /// report_date が分離された snapshot と旧来の market_date packet の両方を解決する。
+    fn load_packet_for_snapshot(&self, snapshot: &TradingDaySnapshot) -> Option<DecisionPacket> {
+        let packets = self.load_all_packets().ok()?;
+        packets
+            .iter()
+            .find(|packet| packet.date == snapshot.report_date)
+            .or_else(|| {
+                packets
+                    .iter()
+                    .find(|packet| packet.date == snapshot.market_date)
+            })
+            .cloned()
+    }
+
     fn normalize_loaded_timeline_entry(
         mut entry: ObservationTimelineEntry,
     ) -> ObservationTimelineEntry {
@@ -555,17 +569,18 @@ impl PersistenceLayer {
 
     pub fn latest_cycle_id_before(
         &self,
-        current_market_date: chrono::NaiveDate,
+        current_report_date: chrono::NaiveDate,
     ) -> Result<Option<String>> {
         Ok(self
             .load_trading_day_snapshots()?
             .into_iter()
             .filter(|snapshot| {
                 Self::is_historical_snapshot(snapshot)
-                    && snapshot.market_date < current_market_date
+                    && snapshot.report_date <= current_report_date
+                    && snapshot.market_date < current_report_date
                     && !snapshot.cycle_id.is_empty()
             })
-            .max_by_key(|snapshot| snapshot.market_date)
+            .max_by_key(|snapshot| (snapshot.report_date, snapshot.market_date))
             .map(|snapshot| snapshot.cycle_id))
     }
 
@@ -641,12 +656,9 @@ impl PersistenceLayer {
                 snapshot.market_date == previous_market_date
                     && Self::is_historical_snapshot(snapshot)
             });
-        let snapshot = formal_snapshot.as_ref().and_then(|formal| {
-            self.load_all_packets()
-                .ok()?
-                .into_iter()
-                .find(|packet| packet.date == formal.market_date)
-        });
+        let snapshot = formal_snapshot
+            .as_ref()
+            .and_then(|formal| self.load_packet_for_snapshot(formal));
         Ok(PreviousSnapshotResolution {
             status: if formal_snapshot.is_some() {
                 PreviousSnapshotStatus::Available
@@ -669,7 +681,7 @@ impl PersistenceLayer {
 
     pub fn resolve_previous_snapshot_from_history(
         &self,
-        current_market_date: chrono::NaiveDate,
+        current_report_date: chrono::NaiveDate,
         current_cycle_id: Option<&str>,
     ) -> Result<PreviousSnapshotResolution> {
         let snapshot_history = self.load_trading_day_snapshots()?;
@@ -677,15 +689,16 @@ impl PersistenceLayer {
             .iter()
             .filter(|snapshot| {
                 Self::is_historical_snapshot(snapshot)
-                    && snapshot.market_date < current_market_date
+                    && snapshot.report_date <= current_report_date
+                    && snapshot.market_date < current_report_date
                     && current_cycle_id.is_some_and(|cycle_id| snapshot.cycle_id == cycle_id)
             })
-            .max_by_key(|snapshot| snapshot.market_date);
+            .max_by_key(|snapshot| (snapshot.report_date, snapshot.market_date));
         let previous_market_date = previous_snapshot.map(|snapshot| snapshot.market_date);
         let Some(previous_market_date) = previous_market_date else {
             return Ok(PreviousSnapshotResolution {
                 status: PreviousSnapshotStatus::BaselineUnavailable,
-                current_market_date,
+                current_market_date: current_report_date,
                 previous_market_date: None,
                 previous_snapshot_id: None,
                 gap_type: None,
@@ -695,10 +708,7 @@ impl PersistenceLayer {
                 formal_snapshot: None,
             });
         };
-        let snapshot = self
-            .load_all_packets()?
-            .into_iter()
-            .find(|packet| packet.date == previous_market_date);
+        let snapshot = previous_snapshot.and_then(|formal| self.load_packet_for_snapshot(formal));
         let status = if snapshot.is_some() {
             PreviousSnapshotStatus::Available
         } else {
@@ -710,7 +720,7 @@ impl PersistenceLayer {
             .then(|| "previous trading-day snapshot is unavailable".to_string());
         Ok(PreviousSnapshotResolution {
             status,
-            current_market_date,
+            current_market_date: current_report_date,
             previous_market_date: Some(previous_market_date),
             previous_snapshot_id: previous_snapshot.map(|snapshot| snapshot.snapshot_id.clone()),
             gap_type: Some("TRADING_DAY_GAP".to_string()),
