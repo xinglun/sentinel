@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "requestedText": "RS Diffusion reason の三言語 terminal punctuation を report renderer と整合させる影響を確認する。",
+  "target": {
+    "type": "file",
+    "name": "observation-market-interpretation-read-model-target",
+    "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+    "operation": "change_signature"
+  },
+  "referenceAnalysis": {
+    "dynamicReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "RS Diffusion reason の unit test と三言語 report UI regression を実行した。"
+      ]
+    },
+    "externalConsumers": {
+      "status": "proven_absent",
+      "evidence": [
+        "変更は repository 内の observation read model と report delivery に限定され、外部 consumer は Contract scope 外である。"
+      ]
+    },
+    "monitoringReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "quality、architecture boundary、snapshot guard を実行し、monitoring schema の変更はない。"
+      ]
+    }
+  },
+  "governanceEvidence": {
+    "contractDeclared": true,
+    "acceptanceDeclared": true,
+    "destructiveChangeAllowed": true,
+    "evidence": [
+      "Contract に RS Diffusion の terminal punctuation acceptance と renderer 境界を記録した。",
+      "ユーザーが scope 内の code/test/docs 変更、commit、develop 統合、main 同期を明示的に許可した。"
+    ]
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "workItemId": "observation-semantic-guard",
+  "contractPath": ".ai/work-items/archive/2026/observation-semantic-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/observation-semantic-guard.contract.json",
+      "reason": "P1/P2 语义修正的 scope、boundary、scenario、acceptance 与 verification 已确定。"
+    },
+    {
+      "path": ".ai/work-items/active/observation-semantic-guard.summary.json",
+      "reason": "记录本 Work Item 的 checkpoint、verification、review readiness 与 residual risk。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "由 Cockpit 入口生成当前 Work Item 状态。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-21-observation-semantic-guard.md",
+      "reason": "记录实现范围、边界和验证计划。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-market-interpretation-observation-guard.json",
+      "reason": "记录 RS Diffusion reason read model 的 reference-impact 边界。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "统一 RS Diffusion Reason 末尾句读并增加回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "限制候选标签为具备新增资格的非持仓资产，并保持观察层边界。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "增加候选资格、Trend Cohesion、Strategic readiness 与 breakout 语义回归测试。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "更新 zh/en/ja Markdown 与 Telegram HTML 的展示契约断言。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "修正 zh/en/ja 的 Trend Cohesion、Strategic Evidence 与 breakout 观察词汇。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "更新中文 Markdown archival snapshot。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "更新中文 Telegram HTML archival snapshot。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "reason": "更新英文 Markdown archival snapshot。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "更新英文 Telegram HTML archival snapshot。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "更新日文 Markdown archival snapshot。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "更新日文 Telegram HTML archival snapshot。"
+    }
+  ],
+  "sourcesUsed": [
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "/Users/sei-rinn/.codex/attachments/e4c42044-2ec1-47e9-a372-65925aa1df39/pasted-text.txt",
+    "src/features/radar/interface/display.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/transition_evidence_read_model.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Trend Cohesion が変化しても transition evidence は Trend Cohesion と表示し、Mainline/Leadership 語彙を混入させない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "presentation_tests.rs",
+        "report_ui_tests.rs",
+        "zh/en/ja snapshots"
+      ],
+      "reason": "P1-1 の概念污染を renderer と contract test で固定する。"
+    },
+    {
+      "scenario": "Strategic Background の READY は長期構造証拠の readiness として表示され、実行指令ではないことを明記する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "i18n.rs",
+        "report_ui_tests.rs",
+        "zh/en/ja snapshots"
+      ],
+      "reason": "P1-2 の READY 誤読を Observation-only boundary とともに固定する。"
+    },
+    {
+      "scenario": "相対順位が高くても Action Matrix が REDUCE/SHRINK の非保有銘柄は候補資格を持たない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "presentation_assembler.rs",
+        "presentation_tests.rs",
+        "report_ui_tests.rs"
+      ],
+      "reason": "P1-3 の ranking と eligibility の混同を防ぐ。"
+    },
+    {
+      "scenario": "Breakout が未確認でも setup strength/quality の観測値は保持し、status は未確認と表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "i18n.rs",
+        "presentation_assembler.rs",
+        "report_ui_tests.rs",
+        "snapshots"
+      ],
+      "reason": "P2 の 100/100 と無突破の誤読を setup/confirmation の二軸で解消する。"
+    },
+    {
+      "scenario": "RS Diffusion Reason の末尾句読点が renderer で二重にならない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "market_interpretation_read_model.rs",
+        "report_ui_tests.rs",
+        "zh/en/ja snapshots"
+      ],
+      "reason": "P2 の句読点重複を全 delivery body で固定する。"
+    },
+    {
+      "scenario": "既存 Gate/Execution/Trader/Action Matrix/Position Sizing の behavior と Observation-only boundary を変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make clippy",
+        "make check-architecture-all",
+        "Contract outOfScope/guard"
+      ],
+      "reason": "本 Work Item は display/read model のみを変更する。"
+    }
+  ],
+  "unverifiedScenarios": [],
+  "followUps": [],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json SUMMARY=.ai/work-items/active/observation-semantic-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-reference-impact CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-semantic-guard.summary.json CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json SUMMARY=.ai/work-items/active/observation-semantic-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-semantic-guard.contract.json SUMMARY=.ai/work-items/active/observation-semantic-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "high",
+    "detail": "候选资格、Trend Cohesion/Leadership、Strategic READY、Breakout setup/confirmation がユーザー行動の解釈に影響するため、zh/en/ja の regression と snapshot を重点確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "contract updated from skeleton and preflight evidence declared",
+      "contractHash": "3a618bd055f78a6b",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "scope and boundary reviewed before production edit",
+      "contractHash": "3a618bd055f78a6b",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "scope, acceptance, implementation and review focus confirmed before ready",
+      "contractHash": "3a618bd055f78a6b",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "all required verification passed and residual risks recorded",
+      "contractHash": "3a618bd055f78a6b",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract に user authorization、scope、outOfScope、sources、scenario coverage、acceptance、verification を記録した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Production code はまだ変更せず、対象ファイルと Observation-only boundary を確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装、全 scenario coverage、Rust gate、architecture/reference guard と review focus を確認した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required checks は全件 passed、residual risk と expectedReviewFocus を Summary に記録した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "high",
+      "area": "semantic_boundary",
+      "detail": "Candidate eligibility は表示層の資格であり、Action Matrix/Gate の判定を変更しないことを review で確認する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "medium",
+      "area": "i18n_snapshot_contract",
+      "detail": "zh/en/ja の labels と snapshot は同義性を確認する必要がある。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Production implementation と required verification は完了。高リスクの semantic boundary は review focus として残す。",
+    "expectedReviewFocus": [
+      "Trend Cohesion と Leadership/Mainline の label source が分離されているか",
+      "relative ranking alone と REDUCE/EXIT/SHRINK が candidate label を生成しないか",
+      "Strategic READY が observation-only として明示され、Tactical Decision を覆わないか",
+      "Breakout setup strength/quality と confirmation status が全言語・全 delivery body で同義か",
+      "RS Diffusion Reason に二重句読点がないか",
+      "Gate、Execution、Trader、Action Matrix、Position Sizing に差分がないか"
+    ]
+  }
+}
