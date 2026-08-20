@@ -18,6 +18,7 @@
   },
   "scope": [
     "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
     "tests/daily_radar_workflow_integration.rs",
     ".github/workflows/daily_radar.yml",
     ".ai/cockpit/current_status.md",
@@ -143,7 +144,8 @@
   "preReviewWarnings": [
     "不要通过放宽当前 JST packet 校验来掩盖决策失败。",
     "不要把所有大写 token 全部加入允许列表，否则会丢失未知股票代码检测。",
-    "hosted run 仍受 Yahoo 数据、GitHub Actions 调度和 Telegram secrets 影响，必须在 Summary 记录实际结果。"
+    "hosted run 仍受 Yahoo 数据、GitHub Actions 调度和 Telegram secrets 影响，必须在 Summary 记录实际结果。",
+    "hosted Rust/Clippy 版本可能比本地更新，必须保留远端 Build、Lint & Test 的严格检查。"
   ],
   "checkpointPolicy": {
     "requiredCheckpoints": [
