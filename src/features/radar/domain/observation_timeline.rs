@@ -51,6 +51,11 @@ const VALID_SUPPLY_PHASES: [&str; 5] = [
     "OVERWHELMED",
 ];
 
+/// Narrative に現れる状態語・マクロ略語を銘柄コードと区別する。
+const NARRATIVE_NON_SYMBOL_TOKENS: [&str; 11] = [
+    "A", "BLS", "CPI", "ETF", "FOMC", "GDP", "HIGH", "LOW", "NOT", "RS", "US",
+];
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum HistoryCoverage {
     Complete,
@@ -127,7 +132,10 @@ pub fn daily_fact_consistency_gate(
                         .chars()
                         .all(|character| character.is_ascii_uppercase())
             })
-            .any(|token| !allowed_symbols.iter().any(|symbol| symbol == token))
+            .any(|token| {
+                !NARRATIVE_NON_SYMBOL_TOKENS.contains(&token)
+                    && !allowed_symbols.iter().any(|symbol| symbol == token)
+            })
     }) {
         return Err("NARRATIVE_FACT_CONFLICT");
     }
@@ -549,6 +557,33 @@ mod tests {
                 true,
                 &["市场由 SPY 与 GOOG 主导".to_string()],
                 &["SPY".to_string()]
+            ),
+            Err("NARRATIVE_FACT_CONFLICT")
+        );
+    }
+
+    #[test]
+    fn daily_fact_gate_accepts_status_tokens_but_rejects_unknown_symbols() {
+        let current = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let previous = NaiveDate::from_ymd_opt(2026, 7, 24).unwrap();
+
+        assert_eq!(
+            daily_fact_consistency_gate(
+                current,
+                Some(previous),
+                true,
+                &["RS Diffusion: NOT_CONFIRMED for SPY".to_string()],
+                &["SPY".to_string()],
+            ),
+            Ok(())
+        );
+        assert_eq!(
+            daily_fact_consistency_gate(
+                current,
+                Some(previous),
+                true,
+                &["RS Diffusion: NOT_CONFIRMED for XYZ".to_string()],
+                &["SPY".to_string()],
             ),
             Err("NARRATIVE_FACT_CONFLICT")
         );
