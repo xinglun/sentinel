@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Easy Money Is Gone
+  summary: 
+  url: https://finnhub.io/api/news?id=c8f9ae243344d1a1dfb0b5c4d982b715397565db572bc253dc6dd0d623c986f7

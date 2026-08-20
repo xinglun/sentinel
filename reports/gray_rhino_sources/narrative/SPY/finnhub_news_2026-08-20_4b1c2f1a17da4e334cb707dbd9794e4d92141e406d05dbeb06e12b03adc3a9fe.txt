@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Move Lower As Bond Futures Edge Higher
+  summary: Investors are trying to digest the Treasury Department's buyback efforts on the long end that broke yesterday.
+  url: https://finnhub.io/api/news?id=21aadbb6e4d3dc3cc2e227a623298b586e8a40945a2b7082b8d4e3294597d2e9

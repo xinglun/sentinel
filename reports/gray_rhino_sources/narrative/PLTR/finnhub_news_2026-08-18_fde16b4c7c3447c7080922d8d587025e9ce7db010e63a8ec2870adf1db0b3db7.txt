@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Huge Earnings Complete My Correction Call (Rating Upgrade)
+  summary: Palantir (PLTR) may be reversing after a 40% dropâQ2 earnings, cash growth and sector CAPEX tailwinds signal a new upcycle.
+  url: https://finnhub.io/api/news?id=47666da884baa0d629fdc6b0791551a320d8ca96ed11399644732d0bb7bdf11b

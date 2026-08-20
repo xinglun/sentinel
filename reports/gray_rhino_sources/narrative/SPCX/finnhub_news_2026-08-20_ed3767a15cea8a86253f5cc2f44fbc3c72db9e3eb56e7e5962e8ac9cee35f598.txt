@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Elon Musk's X is exploring stablecoins to pay influencers and content providers' - CoinDesk
+  summary: https://www.coindesk.com/business/2026/08/20/elon-musk-s-x-is-exploring-stablecoins-to-pay-influencers-and-content-providers
+  url: https://finnhub.io/api/news?id=6aa0066d4df69d621feaf9613621f23c9ef6467073dae0969961c330c2f0cf31

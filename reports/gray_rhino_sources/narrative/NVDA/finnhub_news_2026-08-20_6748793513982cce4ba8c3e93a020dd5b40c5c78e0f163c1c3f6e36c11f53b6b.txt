@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Nvidia Partner Ouster Says Physical AI Is Moving From 'Demo To Deployment'
+  summary: Ouster&#39;s CEO Angus Pacala tells Benzinga that Physical AI is shifting from demos to real-world deployments as pilots move into production.
+  url: https://finnhub.io/api/news?id=7c044be95f7988c35bf7222376ff430050abc57a0aea5999eea559dc847d76bf

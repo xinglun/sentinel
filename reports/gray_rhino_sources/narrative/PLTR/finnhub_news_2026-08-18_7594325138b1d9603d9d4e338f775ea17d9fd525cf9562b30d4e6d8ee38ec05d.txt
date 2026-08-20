@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's ARK Is Quietly Building an AI Picks-and-Shovels Portfolio
+  summary: Cathie Wood’s ARK is increasingly favoring AI infrastructure, buying Nvidia, Cerebras and CoreWeave while trimming software and consumer tech names.
+  url: https://finnhub.io/api/news?id=94ced235b2821b53e8e0dd4a786d634b28bb46094fc6b53d205c3392d820025e

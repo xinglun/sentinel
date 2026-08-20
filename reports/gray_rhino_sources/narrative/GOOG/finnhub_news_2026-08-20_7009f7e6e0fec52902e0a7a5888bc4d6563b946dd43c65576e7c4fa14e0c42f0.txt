@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba shares fall 5% as AI spending drives 75% drop in net income
+  summary: Alibaba's U.S. listed shares were volatile in premarket trading after posting a 75% drop in net income in the June quarter.
+  url: https://finnhub.io/api/news?id=c428a052165e5e16a23a033ad3ff80ad7ebab797dbad4f6e17d9de2d797e4d40

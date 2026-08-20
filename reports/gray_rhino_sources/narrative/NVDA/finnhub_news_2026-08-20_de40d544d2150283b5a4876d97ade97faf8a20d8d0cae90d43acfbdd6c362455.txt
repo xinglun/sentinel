@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QUICK SPARK: Nvidia Partner Ouster Says Humanoid Robots Could Need Up to 12 Cameras Each
+  summary: Ouster CEO Angus Pacala says humanoid robots could use up to 12 cameras alongside lidar, pointing to a larger sensing hardware opportunity.
+  url: https://finnhub.io/api/news?id=6845460f59d48e0503f46022cfa7a10f6403bb97a9391d500cd202cc059ac89f

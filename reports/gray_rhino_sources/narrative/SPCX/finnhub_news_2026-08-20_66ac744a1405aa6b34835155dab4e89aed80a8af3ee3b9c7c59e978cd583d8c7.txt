@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says China Is ‘By Far’ Strongest AI Competitor, Echoing 2011 Warning as SPCX Faces New Rocket Rival
+  summary: China&#39;s AI progress poses a serious threat to US, Musk warns China gaining on US in AI &amp; rocket tech, Musk predicted in 2011.
+  url: https://finnhub.io/api/news?id=b6a49de017fc41b9b9f48d12e92815422a7b8a1c4d7af29246b2aaad05b3514f

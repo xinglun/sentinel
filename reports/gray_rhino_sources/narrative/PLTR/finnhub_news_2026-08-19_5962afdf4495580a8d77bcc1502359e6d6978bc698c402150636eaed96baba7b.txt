@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Short Sellers Are Losing Big on Palantir — Here's the Data
+  summary: Palantir squeezes short sellers in a market rally, with $12 billion in short interest and $5 billion in losses.
+  url: https://finnhub.io/api/news?id=8d6ecb1fe0e7ea71d0abbf86fc7ad5132e75d0e2f47b1b2bb600d09d52fc414d

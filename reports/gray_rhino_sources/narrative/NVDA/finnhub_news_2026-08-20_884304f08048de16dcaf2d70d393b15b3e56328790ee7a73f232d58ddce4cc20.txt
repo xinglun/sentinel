@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Just Got The Green Light To 8000
+  summary: The S&P 500 could hit 8000 on AI fundamentals and liquidity from Treasury buybacks. Click for why recent decisions could be jet fuel for the market.
+  url: https://finnhub.io/api/news?id=1a961459316c8bdf0d9d3718475df173b3baef3c3c18a7fb603ef47084c11ff0

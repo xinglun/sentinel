@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Taiwan Semiconductor’s AI Bottleneck Hands Samsung a Powerful Pricing Opportunity
+  summary: Samsung raises prices on advanced foundry services up to 15% to capitalize on tight capacity and boost profitability.
+  url: https://finnhub.io/api/news?id=d3e68ad50cd62bb2eda41d53822a55b0ed049f85c81afb4a03b02db6193e0b92

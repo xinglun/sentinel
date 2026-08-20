@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TJX Companies: Strength In HomeGoods, Canada, And International As MarMaxx Lags
+  summary: In Q2, TJX Companies returned around $1.3B to shareholders via dividends and share buybacks. Read why TJX stock is a Buy.
+  url: https://finnhub.io/api/news?id=71208b1ced7cb8ea20e798d17676e343704e71fc53e3e9d7b9bbd2ea2ee1c349

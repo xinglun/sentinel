@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX Attempted to Acquire AI Coding Startup Cognition' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-08-19/spacex-attempted-to-acquire-ai-coding-startup-cognition
+  url: https://finnhub.io/api/news?id=fd4d4939c9d92d02029846a3f238d56fd7592c170f655f76cea855682fa7f803

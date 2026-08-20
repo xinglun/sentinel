@@ -1,0 +1,18 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Should Position For Humanoid Robot Boom—Here's A Picks-And-Shovels Play; First mRNA Cancer Vaccine Succeeds
+  summary: 
+
+
+
+Please click here for an enlarged chart of Moderna Inc (NASDAQ:MRNA).
+
+
+
+Note the following:
+
+
+
+
+This article is about the big picture, not an individual stock.  The chart of MRNA stock is being used to illustrate
+  url: https://finnhub.io/api/news?id=85690539df1f074b0141508ef60dd8720ee3792d4601920da3731c6695610e5e

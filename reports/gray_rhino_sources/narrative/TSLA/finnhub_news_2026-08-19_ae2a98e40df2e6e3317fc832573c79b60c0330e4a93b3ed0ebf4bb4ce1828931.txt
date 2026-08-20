@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: No One Is Paying Attention
+  summary: Tesla remains a Buy following a 25% YTD decline, as recent weakness is driven by macro factors and sentiment, not a broken thesis. Click for more on TSLA stock.
+  url: https://finnhub.io/api/news?id=e52d1c52a67473b926a5dc82fbab6706912661f1cdaf7a07b1f376ccb286c62d

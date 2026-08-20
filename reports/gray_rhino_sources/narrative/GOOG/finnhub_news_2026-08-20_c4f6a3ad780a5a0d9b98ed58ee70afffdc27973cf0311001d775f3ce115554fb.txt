@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Conduent Enters Collaboration With Google Cloud To Integrate Gemini Models Into Its Viewpoint Platform
+  summary: The collaboration represents another milestone in Conduent&#39;s strategy to embed GenAI across its technology platforms, helping clients modernize complex, essential workflows while improving speed, quality and
+  url: https://finnhub.io/api/news?id=a2fd8329a2f596edb3ed2dcdbb3df4cb2859b646d78f12137e0284544b2c7eb3

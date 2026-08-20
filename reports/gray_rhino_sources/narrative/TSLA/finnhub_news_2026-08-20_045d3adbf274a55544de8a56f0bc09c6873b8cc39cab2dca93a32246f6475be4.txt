@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Says Tesla Is Confident of Scaling Cybercab Operations, Touts Future Models Based on Platform—FSD V15 a ‘Step-Change’ From Previous Versions
+  summary: JPMorgan says Tesla is focusing on scaling the Cybercab, with possible future models based on the platform, touts FSD V15 and Optimus Robot.
+  url: https://finnhub.io/api/news?id=96211b28d4a15c388b1dad40212616ceecf7d919d840627454922344ed46e862

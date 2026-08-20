@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Denies SpaceX Sought to Buy AI Startup Cognition, Says Talks Only Centered on Grok
+  summary: SpaceX CEO Elon Musk denies trying to acquire AI startup Cognition, which was also confirmed by the AI company&#39;s CEO.
+  url: https://finnhub.io/api/news?id=b12ea70442c9412ad546b634e9ced94f710336735d99d56eec02ac245870153e

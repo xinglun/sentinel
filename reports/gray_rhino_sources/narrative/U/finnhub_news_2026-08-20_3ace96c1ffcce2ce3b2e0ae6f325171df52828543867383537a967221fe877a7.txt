@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Fortnite Down? Here’s Why Servers Are Offline as Season 4: Override Arrives (UPDATED)
+  summary: Fortnite went offline for scheduled maintenance to update to v42.00 and launch Chapter 7 Season 4: Override.
+  url: https://finnhub.io/api/news?id=e9a6840f4c406344484b6b2ac89272592f65c329903530bd4ff988675f64430f

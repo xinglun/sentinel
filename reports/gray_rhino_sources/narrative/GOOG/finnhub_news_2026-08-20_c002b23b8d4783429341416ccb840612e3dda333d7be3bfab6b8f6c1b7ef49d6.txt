@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rosenblatt Assumes Alphabet at Buy, Announces Price Target of $410
+  summary: Rosenblatt  analyst Scott Devitt   assumes Alphabet (NASDAQ:GOOGL) with a Buy rating and announces Price Target of $410.
+  url: https://finnhub.io/api/news?id=594ff178612cdac9e4a78bcd1ae7ef19195dc0dc829ddc3bd821c4734062f458

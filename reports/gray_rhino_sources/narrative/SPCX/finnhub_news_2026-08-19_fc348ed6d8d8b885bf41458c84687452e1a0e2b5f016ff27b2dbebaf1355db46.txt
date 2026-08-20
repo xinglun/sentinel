@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Sinks as 30-Year Yield Hits 19-Year High, Chip Names Crumble
+  summary: Rising long-end Treasury yields and a sharp reversal in semiconductors dragged US stocks lower on Tuesday, August 18, 2026. Duolingo bucked the trend on a broker upgrade while Baidu and Klarna disappointed.
+  url: https://finnhub.io/api/news?id=62931e0861f4d587e501c84a06cf467fff02e73396bc22fd37f2c5a19c943e4b

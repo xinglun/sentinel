@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Cuban Fires Back At Jensen Huang’s AI Warning — ‘No Chance Radiologists Get Replaced’ Despite Nvidia CEO’s Prediction
+  summary: Huang says AI could wipe out radiology first, while Mark Cuban pushes back, arguing AI will transform the field but not replace radiologists.
+  url: https://finnhub.io/api/news?id=3ac9c3207f51e92ea0364fc2e7837bba884d8b2386c7140ed0aa60f39d838428

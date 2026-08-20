@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Wall Street Still Underestimates Palantir
+  summary: Palantir Q2 2026 revenue grew 19% QoQ, with U.S. Commercial sales up 149% YoY and Government revenue up 79% YoY. Learn why PLTR stock is a buy.
+  url: https://finnhub.io/api/news?id=086f1f854c0c902c061bb48c172bad4094a4abb9e7592e4af16f3e352b2ece75

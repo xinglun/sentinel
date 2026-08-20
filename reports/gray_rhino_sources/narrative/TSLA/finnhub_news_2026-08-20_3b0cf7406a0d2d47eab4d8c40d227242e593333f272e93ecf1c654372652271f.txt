@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Could Reportedly Cut Canadian Auto Tariffs to 15%, Aluminum and Steel to 25%: NUE, STLD, CENX in Focus (UPDATED)
+  summary: The U.S. and Canada could be close to an agreement on cutting auto tariffs to 15% but effective rates may be lower.
+  url: https://finnhub.io/api/news?id=61f4b6b6f9ca61f1ffb9f6aedc3925e12ebb091374bb444770ee12a102c2010b

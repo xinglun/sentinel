@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. Treasury Likely Just Launched A Major Market Shift
+  summary: The US Treasury just stunned markets by announcing a doubling of long-bond buybacks. Read why this is likely the launching of a major market shift.
+  url: https://finnhub.io/api/news?id=41683b928e2bd0f7e90ec14f641f2bf3366b33124c0c8ab461fda339b63c8eb1

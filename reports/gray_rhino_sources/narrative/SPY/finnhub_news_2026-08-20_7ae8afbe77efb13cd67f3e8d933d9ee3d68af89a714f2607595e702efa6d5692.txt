@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Institutions Are Buying Real Estate Blind
+  summary: Q2 2026 13F filings show institutions added shares across 95% of 158 US real estate stocks for over $300M. Read more on the real estate stocks here.
+  url: https://finnhub.io/api/news?id=2ee6b67a9adbc2e5b6a4d0531487154b45a7e6addf1f86cd1ac12a7e16c8a59e

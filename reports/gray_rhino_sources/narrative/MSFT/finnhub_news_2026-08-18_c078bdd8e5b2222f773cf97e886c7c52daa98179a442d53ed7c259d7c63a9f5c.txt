@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Utilization May Be The Next Driver Of Growth
+  summary: Explore Alger AI Enablers & Adopters ETF (ALAI): AI cloud spend to hit $42B by 2026, active picks for efficiency gains. Read more macro analysis here.
+  url: https://finnhub.io/api/news?id=4d2d5bcd7f640b2e20b026df63f0801731062a4dd7031dc67029e970601b4e97

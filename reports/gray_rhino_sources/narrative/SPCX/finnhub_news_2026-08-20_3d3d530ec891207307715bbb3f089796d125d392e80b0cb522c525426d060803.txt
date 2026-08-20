@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘It’s Done’: Investor Warns Warren Buffett’s Berkshire Can’t Beat the S&P 500 — Bets on PayPal and Intel Instead
+  summary: Investor Tom Hayes warns Berkshire Hathaway is &#34;done.&#34; Discover why he&#39;s betting big on turnaround stocks like PayPal and Intel instead.
+  url: https://finnhub.io/api/news?id=cd9e6949bfb80c5589ff96757f14852069bc5112d3b5990d52a9649436f1b4e1

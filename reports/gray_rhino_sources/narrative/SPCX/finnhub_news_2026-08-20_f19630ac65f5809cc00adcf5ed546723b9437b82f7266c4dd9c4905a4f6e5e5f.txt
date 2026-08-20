@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Another 319 Million SpaceX Shares Can Be Sold Today, and Five More Waves Are Coming
+  summary: SpaceX faces second post-IPO lockup expiration with 319 million shares becoming eligible for trading on Thursday.
+  url: https://finnhub.io/api/news?id=c7e45c79819952bad60bf50d35fdbec6c20e2e104c97bfc9cf27696a66ac5bf7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qatari Foreign Minister Sheikh Mohammed bin Abdulrahman bin Jassim Al Thani Says Hormuz Traffic Must Return To What It Was Before U.S.-Israeli War On Iran, With No Party Blackmailing The Other
+  summary: – Al Jazeera 
+  url: https://finnhub.io/api/news?id=de7745d46c8a0ee8e2c5d9826e997e93639bd4648b800ab47fc419cd7a7029ee

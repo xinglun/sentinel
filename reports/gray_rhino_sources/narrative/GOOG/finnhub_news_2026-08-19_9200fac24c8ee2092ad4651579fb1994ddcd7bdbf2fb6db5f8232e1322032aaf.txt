@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta: The Drawdown Is An Opportunity
+  summary: Meta Platforms (META) rated Strong Buy after sell-off; Q2 revenue is +27.9% to $60.8B. Read here for a detailed investment analysis.
+  url: https://finnhub.io/api/news?id=313505ed8bed4fc195d60a2aa914adc4d0273afec20216bdf86ef3c7d38b2052

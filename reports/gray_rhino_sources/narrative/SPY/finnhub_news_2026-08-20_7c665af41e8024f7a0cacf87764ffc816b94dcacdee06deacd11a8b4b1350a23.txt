@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Scarcity Trade At The Heart Of Photonics
+  summary: Two American laser makers have committed more cash to one small wafer supplier than it sold in a whole quarter. Read why AI names are making me skeptical.
+  url: https://finnhub.io/api/news?id=d5b1065225b1af8c1852faf984bc180abaab393385b5dae7dc9e25a7e258fb89

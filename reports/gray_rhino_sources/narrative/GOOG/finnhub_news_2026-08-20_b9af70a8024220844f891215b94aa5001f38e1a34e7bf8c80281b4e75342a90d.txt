@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mohamed El-Erian Warns US Treasury's Bond Buyback Is Just a 'Band-Aid,' Not a Fix For a $40 Trillion Debt Problem
+  summary: Economist Mohamed El-Erian said the U.S. Treasury&#39;s surprise move to double bond buybacks is a short-term fix, not a solution to soaring rates and debt.
+  url: https://finnhub.io/api/news?id=0a9059597d4c9f40795ff4e81be1cf28f0b85d0670c0ef4010d328885cff120f

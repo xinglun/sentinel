@@ -1,0 +1,101 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-08-20",
+  "report_date": "2026-08-21",
+  "as_of_date": "2026-08-20",
+  "generated_at": "2026-08-21T05:11:10.451522772+09:00",
+  "run_id": "7def45af-024b-4208-88f3-1923d2daa7df",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-08-20",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "IGNITION",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 50.0,
+  "breadth_classification": "Narrow",
+  "confidence": 57.39001838455344,
+  "supply_phase": "ACCUMULATING",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {
+    "FIG": {
+      "consecutive_days": 0,
+      "quality": 52.0,
+      "state": "NO_BREAKOUT",
+      "strength": 74.0
+    },
+    "GOOG": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 8.0
+    },
+    "ISRG": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 0.0
+    },
+    "MSFT": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 85.0
+    },
+    "NVDA": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 24.0
+    },
+    "PLTR": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 100.0
+    },
+    "SPCX": {
+      "consecutive_days": 0,
+      "quality": 76.0,
+      "state": "NO_BREAKOUT",
+      "strength": 21.0
+    },
+    "SPY": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 36.0
+    },
+    "TSLA": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 0.0
+    },
+    "U": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 100.0
+    }
+  },
+  "stability": 10.273956560697778,
+  "continuity": 12,
+  "cycle_length_days": 12,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "Narrow",
+      "down_count": 3,
+      "flat_count": 2,
+      "raw_percent": 50.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 5
+    },
+    "history": "HEALTHY",
+    "trend": "HEALTHY"
+  }
+}

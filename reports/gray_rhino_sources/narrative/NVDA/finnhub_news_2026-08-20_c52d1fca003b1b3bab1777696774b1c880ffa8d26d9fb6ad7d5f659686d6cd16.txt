@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia FQ2 Preview: I'm Seeing A 50%+ FCF Discount
+  summary: Nvidia will provide up to $105 billion for the credit and compute for an OpenAI data center in Ohio. Find out why NVDA stock is a buy.
+  url: https://finnhub.io/api/news?id=b77380b3f8123ad2ebbb78612bce447fe5a9fecb805b09a4d0898abf53ad90f8

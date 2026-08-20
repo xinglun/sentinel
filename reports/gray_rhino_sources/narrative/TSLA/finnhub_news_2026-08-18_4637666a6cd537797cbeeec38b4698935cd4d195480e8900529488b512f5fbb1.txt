@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Curious about the most active S&P500 stocks in today's session?
+  summary: Looking for the most active S&P500 stocks in today's session? Join us as we dive into the US markets on Tuesday and discover the stocks that are dominating the trading activity and setting the pace for the market.
+  url: https://finnhub.io/api/news?id=24c9996a10530fa6a0427d69ff6a313d93278a413a4647420282430a58033efa

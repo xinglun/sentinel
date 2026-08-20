@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking Al Gore's Generation Investment Management Portfolio - Q2 2026 Update
+  summary: 
+  url: https://finnhub.io/api/news?id=9d71a11ac50f796cfd2586dab3cdda355e745abc81ec1890055606c493633591

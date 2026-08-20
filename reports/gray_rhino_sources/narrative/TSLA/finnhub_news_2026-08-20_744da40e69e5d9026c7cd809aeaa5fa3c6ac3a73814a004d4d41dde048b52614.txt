@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Global Shifts Gears: Andreas Halvorsen Makes $817 Million Bet on Ferrari, Slashes Tesla Stake by 78% in Q2
+  summary: Viking Global&#39;s Andreas Halvorsen shifts gears in Q2, making an $817M bet on Ferrari while slashing Tesla by 78% and dumping Apple.
+  url: https://finnhub.io/api/news?id=26fe8dc2843306f5383df391e9e6c30c8b590a4ba4815c3bc267ab5ca5ffbd72

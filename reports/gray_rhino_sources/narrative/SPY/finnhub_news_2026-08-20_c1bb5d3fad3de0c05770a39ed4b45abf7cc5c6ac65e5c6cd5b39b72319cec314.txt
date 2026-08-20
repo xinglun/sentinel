@@ -1,0 +1,22 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Walmart's Outlook Signals Cautious Spending Ahead; Treasury Euphoria Fades; Samsung Soars; Bitcoin Shorts Crushed
+  summary: 
+
+
+
+Weakening Consumer
+
+
+
+Please click here for an enlarged chart of Walmart Inc (NASDAQ:WMT).
+
+
+
+Note the following:
+
+
+
+
+This article is about the big picture, not an individual stock.  The chart of WMT stock is being
+  url: https://finnhub.io/api/news?id=9f0fa6491050ece16f58e6bad9a1a4f330e0e162e9f4b10b87b5fd9db4f36298

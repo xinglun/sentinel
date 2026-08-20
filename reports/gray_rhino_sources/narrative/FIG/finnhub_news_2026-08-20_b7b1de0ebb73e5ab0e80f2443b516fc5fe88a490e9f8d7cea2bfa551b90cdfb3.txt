@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software's AI Panic Is Fading, and These 10 Stocks Are the First to Benefit
+  summary: BofA raised targets on 10 software stocks as AI disruption fears ease. ServiceNow, Snowflake and Figma stand out for AI-driven growth.
+  url: https://finnhub.io/api/news?id=6ad02959604d26d11d501bd133ba43493268ca35704891b845cc8c8467301520

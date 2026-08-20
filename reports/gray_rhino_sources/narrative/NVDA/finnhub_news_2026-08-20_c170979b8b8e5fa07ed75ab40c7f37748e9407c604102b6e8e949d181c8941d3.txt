@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Insights Into NVIDIA's Performance Versus Peers In Semiconductors &amp; Semiconductor Equipment Sector
+  summary: In today&#39;s fast-paced and competitive business landscape, it is essential for investors and industry enthusiasts to thoroughly analyze companies before making investment decisions. In this article, we will conduct a
+  url: https://finnhub.io/api/news?id=523037a7fa8565507f313cd1a242c08f1875fbc1439f286052377c2a6f9b155d

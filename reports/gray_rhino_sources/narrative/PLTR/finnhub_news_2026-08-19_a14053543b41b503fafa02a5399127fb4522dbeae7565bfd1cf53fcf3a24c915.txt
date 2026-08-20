@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Why I'm Not Buying This Rally
+  summary: Palantir Technologies Inc. Q2 earnings beat: 12th straight growth quarter, raised guidance, U.S. commercial +149%. Click for this PLTR update.
+  url: https://finnhub.io/api/news?id=8f2111f10eb660ed593b0a3e94191b968c68f31ad7073788fa99ce55b202fe75

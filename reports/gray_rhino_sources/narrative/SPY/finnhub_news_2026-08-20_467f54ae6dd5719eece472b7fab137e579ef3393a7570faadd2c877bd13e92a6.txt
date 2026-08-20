@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Counterintuitive Labor Market Shifts Constrain Measured U.S. Wage Gains
+  summary: We dig deeper into the BLS household survey data to better understand what is happening beneath the surface of those moderating headline wage trends.
+  url: https://finnhub.io/api/news?id=e2b0f65c407f93ac8a22a2daa0bfd5fd698a5818bf67ddf0a23995b0fea3f766

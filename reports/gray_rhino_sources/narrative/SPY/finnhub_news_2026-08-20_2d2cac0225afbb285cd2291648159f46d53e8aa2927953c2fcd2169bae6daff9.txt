@@ -1,0 +1,9 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones, S&P 500, Nasdaq 100 Futures Fall as Trump Launches ‘Operation Economic Fury’ on Iran— BULL, WMT, MRK Stock in Focus (UPDATED)
+  summary: Editor’s note: The ETFs data was updated and economic data was added
+
+
+
+U.S. stock futures were lower on Thursday, as the Dow Jones, S&amp;P 500 and Nasdaq 100 indices fell, following Wednesday’s higher
+  url: https://finnhub.io/api/news?id=bdf52e47b57a45524ab51963ebe64f43e347599af34cade8a165280971f79d8d

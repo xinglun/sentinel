@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk, Cognition CEO Scott Wu Confirm In X Posts, There Have Been No Discussions Regarding The Acquisition Of Cognition By SpaceX
+  summary: https://x.com/ScottWu46/status/2090165234921296030?s=20https://x.com/elonmusk/status/2090227085906473383?s=20  
+  url: https://finnhub.io/api/news?id=f405a19d1143547a8ca6a8ec0249cc95ae1ede311b577b1e7c4ad168792e12a5

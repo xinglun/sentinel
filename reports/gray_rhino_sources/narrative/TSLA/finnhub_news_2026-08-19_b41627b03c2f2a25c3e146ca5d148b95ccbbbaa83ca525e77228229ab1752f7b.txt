@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Is No Longer a Trillionaire, but He Could Still Give Every Person on Earth $69.420 and Stay the World's Richest
+  summary: Elon Musk is the richest person in the world. To show just how rich he is, here&#39;s how much he could give away and still be the richest.
+  url: https://finnhub.io/api/news?id=cb840a894cd79e910eafcac35ab8ad5e7b7d3d6e8dcab2b1ed09c8d45c9ae444

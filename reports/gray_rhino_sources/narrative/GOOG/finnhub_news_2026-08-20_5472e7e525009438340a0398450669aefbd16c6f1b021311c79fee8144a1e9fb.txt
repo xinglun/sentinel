@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo Launches 5nm ASIC Chip
+  summary: https://waymo.com/blog/2026/08/look-under-our-trunk/
+  url: https://finnhub.io/api/news?id=f6c99739a94fbbef565feaf7ad8ffbe213b86979658ac6fee49a50cdd412c3ab

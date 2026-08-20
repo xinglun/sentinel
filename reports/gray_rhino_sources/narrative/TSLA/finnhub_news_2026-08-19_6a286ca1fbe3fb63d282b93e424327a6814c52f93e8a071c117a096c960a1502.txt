@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Says Investors Should Avoid Memory Chip Stocks: Micron, SK Hynix in Focus (UPDATED)
+  summary: Cathie Wood said she&#39;s avoiding memory-dependent AI chip stocks, calling the memory shortage a warning sign rather than a buy signal.
+  url: https://finnhub.io/api/news?id=93acccb3f681c0890b484f9540cfc3dc84853b5e319f79541fdcd87c46c3cbff

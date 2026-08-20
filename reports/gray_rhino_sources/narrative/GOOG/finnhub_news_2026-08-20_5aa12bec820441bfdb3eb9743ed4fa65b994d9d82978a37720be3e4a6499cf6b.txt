@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell’s Google AI Deal Could Unlock a Staggering $120 Billion Opportunity, Analyst Says
+  summary: JPMorgan sees strong earnings upside for Marvell (MRVL) following its massive custom silicon partnership expansion with Google.
+  url: https://finnhub.io/api/news?id=a1db5cb0d5fde30c9941cc028cc4062f471dd101bfa5a86d3c6b5fb160f71f58

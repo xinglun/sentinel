@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Error 404: Quantitative Easing Not Found...Yet
+  summary: The Treasury's doubling of long-dated buybacks is not QE or YCC, but marks a significant shift in debt management strategy. Read full analysis here.
+  url: https://finnhub.io/api/news?id=b9ef2af09cefb2ffa2356e8032dee2bce205302737cbcbe9fed0a8cdfcdb8cb4

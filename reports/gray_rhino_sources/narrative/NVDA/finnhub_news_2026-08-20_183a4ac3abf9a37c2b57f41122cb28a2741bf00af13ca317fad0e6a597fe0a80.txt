@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: The Greatest Company At A Fair Price
+  summary: Nvidia Corporation stays a Strong Buy: watch revenue guidance, $1T visibility, margins amid HBM4 costs, and risks from AMD/hyperscalers. Click for this NVDA update.
+  url: https://finnhub.io/api/news?id=e13ecf41fadd7f9e572dadd5e3bdc5317777a408234248d7e28300b61060f4d3

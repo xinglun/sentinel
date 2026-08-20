@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QUICK SPARK: SPY Gets $1.9B Boost in One Day as QQQ, GLD and SOXL See Outflows
+  summary: SPY led ETF inflows with $1.89bn as QQQ, GLD and semiconductor ETFs saw major redemptions, signaling a shift toward broad-market exposure.
+  url: https://finnhub.io/api/news?id=1aaa0815cb8e7e2fa0b81baacead50e1eac48cef92c63a19485bd564eaef3a35

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab: Only The Bad Is Priced In
+  summary: Rocket Lab will face widening costs as it gets Neutron off the ground and itâll take time for Neutron to add financial benefit. Read why RKLB stock is a buy.
+  url: https://finnhub.io/api/news?id=d28d7b71b436881c0157c47a7e75bc35464f5bd1529000ed2355726fd0e6c0fa

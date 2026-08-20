@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paul Graham Says Tesla Buyers Are Getting More Range, More Car For Less Money Than A Decade Ago: ‘People Who Think They Dislike Capitalism…’
+  summary: Graham&#39;s wife bought a Tesla with 350 miles range for $48,000. In 2015, a Tesla with 270 miles range cost $135,000 adjusted for inflation.
+  url: https://finnhub.io/api/news?id=a9352d946e0405d288891faf2fb453999294551d2604a0f7320ce2f27fb7e7bd

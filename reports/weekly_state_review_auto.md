@@ -1,35 +1,35 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-08-17
+- 截至: 2026-08-21
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 51.6
-- 平均稳定度: 5.3
-- 趋势凝聚 ready 天数: 0
+- 平均置信度: 52.9
+- 平均稳定度: 6.4
+- 趋势凝聚 ready 天数: 1
 
 ## 市场状态计数
-- DEFENSIVE: 3
-- IGNITION: 4
+- DEFENSIVE: 2
+- IGNITION: 5
 
 ## 风险覆盖计数
-- DEFENSIVE: 3
-- NORMAL: 4
+- DEFENSIVE: 2
+- NORMAL: 5
 
 ## 状态机周度汇总
 - 有状态摘要的天数: 7
 - 重置确认 / 阻止: 0 / 0
-- 软重置 / duration lock / 防御覆盖: 0 / 0 / 3
+- 软重置 / duration lock / 防御覆盖: 0 / 0 / 2
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-08-07: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-10: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-11: DEFENSIVE -> DEFENSIVE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override true | mismatch 0
 - 2026-08-12: DEFENSIVE -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-13: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-17: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-08-21: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -37,7 +37,7 @@
 - 市场周期位置: CrowdedExpectation
 - 持仓效率: TimeCostRising
 - 战略上下文行:
-  - 市场结构模式: 核心资产主导期
+  - 市场结构模式: 结构整理 / 无明确主导
   - 长期方向: 长期结构趋势增强
   - 周期位置: CROWDED_EXPECTATION
   - 周期特征: 预期拥挤 / 核心资产集中 / 好消息钝化风险
@@ -46,7 +46,7 @@
   - 宏观重力: 只解释折现率与流动性环境，不生成交易信号
   - 证据持续性: 持续累积
   - 证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)
-  - 战术状态: NO TRADE，等待结构扩散
+  - 战术状态: READY，等待执行层确认
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
@@ -64,17 +64,25 @@
 - reason: trend_continuation
 - exceptionalFactors: []
 - Narrative:
-  - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破萌芽，整体属于当前截面观察。
+  - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
   - 等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。
-  - 没有结构性恶化证据。
+  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 10 trading days）。
+  - 短期相对强度开始在 FIG 等个别资产恢复，尚不足以构成新的 Leadership。
+  - RS Recovery Breadth：1/9 非基准资产改善；Strong/Moderate Recovery：1/9 强/中等恢复；RS Diffusion：NOT_CONFIRMED。Actionable Diffusion：NOT_CONFIRMED
+  - Reason：没有确认 Leader、没有 breakout、Action Matrix 未转强确认。。
+  - 动作分布：观察 0 / 持有 0 / 收缩 10。
 - Leadership Confidence: LOW
 - Leadership Metrics:
   - 综合主导者: [none]
   - Secondary Leaders: []
   - Leadership Watch Candidates: []
   - leadershipBreadth: narrow
+  - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
+  - Leader Absence Duration: 10 trading days
 - very_narrow:
-  - breadthClassificationScore: 35
+  - Breadth Raw: 50.0%
+  - Breadth Label: Narrow
+  - breadthClassificationScore: 50.0
   - concentrationScore: 82
   - rotationScore: 18
 - Rotation Observation:
@@ -98,10 +106,15 @@
   - Expectation: ☆
 - Leader Persistence:
   - 综合主导者: none
+  - Current Leader: none
+  - Previous Snapshot Leader: none
+  - Last Confirmed Leader: TSLA
+  - Leader Absence Since: 2026-08-04
+  - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
   - 领导评分: 0.0
   - 领导状态: ABSENT
-  - Leader Absence Duration: 9 trading days
+  - Leader Absence Duration: 10 trading days
   - 较昨日变化: +1 天，评分下降
   - 切换历史:
     - 2026-08-04: TSLA -> none
@@ -121,11 +134,11 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-08-17
+- 最新观测日: 2026-08-21
 - 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 2
-- 7 日 Future Queue 最小值 / 最大值: 0 / 2
-- 已报道 / 已确认: 2 / 0
+- 最新 Future Queue 数量: 1
+- 7 日 Future Queue 最小值 / 最大值: 1 / 2
+- 已报道 / 已确认: 1 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -139,7 +152,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-08-17
+- 观测日: 2026-08-21
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'British data group Quantexa explores UK or US IPO, sources say' - Reuters
+  summary: https://www.reuters.com/world/british-data-group-quantexa-explores-uk-or-us-ipo-sources-say-2026-08-18/
+  url: https://finnhub.io/api/news?id=46db90755f1f4f596d9ee4f1bd8eae153a4ca455921548aaf91c23efa6f3dbdf

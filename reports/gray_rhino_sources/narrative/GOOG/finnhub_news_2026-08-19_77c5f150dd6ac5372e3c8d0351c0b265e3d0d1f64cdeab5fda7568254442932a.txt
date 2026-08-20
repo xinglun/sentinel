@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividing Our Idea Funnel: Four Moves That Are Nicely Spread
+  summary: RGA Investment Advisors details four new positions and the rationale behind their AI-focused portfolio strategy. Read the full analysis for more details.
+  url: https://finnhub.io/api/news?id=f0afead6a1d585e01506cfd820a7e4f00c744ae1d815bb858f5a273d3a4cb534

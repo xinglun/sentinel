@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Announces Its Offering Zero Data Retention For Frontier Models
+  summary: https://openai.com/index/our-commitment-to-zero-data-retention/
+  url: https://finnhub.io/api/news?id=cfbce5e75616a003ae87ba710faf29927d5d33d354e5a8e79ab6627c1b20a5b4

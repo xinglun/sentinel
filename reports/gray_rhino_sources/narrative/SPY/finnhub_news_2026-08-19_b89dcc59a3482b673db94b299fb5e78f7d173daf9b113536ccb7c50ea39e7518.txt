@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Is AI Contributing To U.S. Economic Growth?
+  summary: Multibillion-dollar investments in AI technology and data centres have boosted US economic activity.
+  url: https://finnhub.io/api/news?id=5f1b9c619e45c9364ec953b6445e4a14da3ba8f34c1a2aed67c73a5ce93c5783

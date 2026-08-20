@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ReNew Energy: The Buy Paid Off, But Now It's Time To Hold (Rating Downgrade)
+  summary: ReNew Energy Global Plc outlook update: strong growth and outperformance, but debt and execution risks shift rating to neutral. Click for this RNW update.
+  url: https://finnhub.io/api/news?id=f7edbc3ed471f9093691c66f152989caca89da0b3b41e19da47bf4021190bf3b

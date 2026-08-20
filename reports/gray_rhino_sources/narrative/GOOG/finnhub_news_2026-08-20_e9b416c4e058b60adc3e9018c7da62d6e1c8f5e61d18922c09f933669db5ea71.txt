@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell: The Deal And The Dilution Are Both Real
+  summary: Marvell lands a major Google custom silicon AI deal, but warrants and rich valuation add risk ahead of Aug. Click for more on MRVL stock.
+  url: https://finnhub.io/api/news?id=b5fbd015aa9fe59291856988109e96ec2f864c527b3f49ec724d7fc320554a99

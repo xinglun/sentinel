@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Warns AI Billionaires Could ‘Obliterate’ Jobs and ‘Destroy the Environment,’ Calls for Data Center Moratorium
+  summary: Sanders criticizes AI industry&#39;s impact on jobs, privacy, electricity costs &amp; environment, calls for moratorium on data centers.
+  url: https://finnhub.io/api/news?id=3173843e66bc2a2ef26b9c1b0268a76babdedda14d642e241f1834a44a04fcdb

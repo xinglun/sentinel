@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Anthropic Plans to Change Data Retention Policy for Advanced AI' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-08-20/anthropic-plans-to-change-data-retention-policy-for-advanced-ai
+  url: https://finnhub.io/api/news?id=b6a031ed740b031c4076bb06064ca30c3f09acc79ab1a9c6f4b2e11e4bb9f31a

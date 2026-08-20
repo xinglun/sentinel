@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: American Exceptionalism Is Worth The Price
+  summary: S&P 500 looks pricey and concentrated, yet AI leadership, energy exposure and strong Q2 earnings support buyingâsee key risks and catalysts.
+  url: https://finnhub.io/api/news?id=29fe4eeb7074a68ee08a7e56f6baeebc832f11b0f40f2d2f33378b3516d58e77

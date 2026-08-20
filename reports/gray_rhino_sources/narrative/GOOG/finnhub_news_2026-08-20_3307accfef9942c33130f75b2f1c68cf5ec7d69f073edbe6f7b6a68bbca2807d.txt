@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Nvidia Partner Says Tesla, Waymo Are Growing the Physical AI Market — Not Competing With It
+  summary: Ouster CEO Angus Pacala says Tesla and Waymo are accelerating Physical AI adoption rather than competing with the lidar maker.
+  url: https://finnhub.io/api/news?id=f50aa2ea2ee3192a197d90d5fb6a2e046fbfc65772a5c7ed156d4bc479e0098f

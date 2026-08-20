@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A 10-Year Treasury Bond Now Pays More Than 118 Of America's Biggest Companies
+  summary: Only 3.85% of S&amp;P 500 stocks now yield more than the 10-year Treasury, the lowest since May 2007. Benzinga found 118 mega-caps that pay less.
+  url: https://finnhub.io/api/news?id=1a918e278efa39fc47340379cc1c25103f095618a9b7a011a4c3fe5235133013

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Strap In For A Very Long, Bumpy Ride
+  summary: SpaceX is going to be extremely volatile near-term given its wildly rich valuation but ambitious growth potential. Read more on SPCX stock here.
+  url: https://finnhub.io/api/news?id=3f01a044a08cf880e5a99f22f03e83b38322139cc732cf8358d7b2f0322f9073

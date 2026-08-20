@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Optimus Rival Unitree Robotics Explodes 629% in Shanghai Debut, Briefly Hits $66 Billion Valuation
+  summary: Unitree Robotics surges 629% in its Shanghai debut, hitting a $66 billion valuation and boosting founder Wang Xingxing’s wealth.
+  url: https://finnhub.io/api/news?id=f1e9f6f7defea1395e1ca247dcfabde935aa8775c4294cbe5f77f86a7ab1563e

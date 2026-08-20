@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SNOW, MDB, PLTR: Is SaaS Losing Its Edge? Futurum Equities Says 95% of Software Could Become ‘AI Plumbing’
+  summary: Are 95% of SaaS stocks dead? Futurum Equities reveals why SNOW, MDB, and PLTR are becoming &#39;AI plumbing&#39; in this expert market breakdown.
+  url: https://finnhub.io/api/news?id=db286aaca0bb80244e893fe10122beefd400e58b49f05bd1af9ea7305670c915

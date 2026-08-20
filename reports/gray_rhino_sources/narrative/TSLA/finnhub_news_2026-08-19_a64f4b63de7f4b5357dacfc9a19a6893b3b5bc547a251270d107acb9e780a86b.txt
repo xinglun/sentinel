@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking Cathie Wood's ARK Invest 13F Portfolio - Q2 2026 Update
+  summary: ARK Invest's Q2 2026 13F portfolio rose to ~$15.4B, with holdings increasing from 182 to 191 and a focus on disruptive innovation. Read more on the portfolio here.
+  url: https://finnhub.io/api/news?id=6176cf1f3006a9b7f1e7eece33e01b74901f7d28aa6591f2ed6baa2cc5a017ee

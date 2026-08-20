@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump-Backed World Liberty Partners With Platform Offering Chinese AI Models Flagged by US: Report
+  summary: Trump-backed World Liberty Financial reportedly partners with Hong Kong venture raising concerns over Chinese AI models and profits.
+  url: https://finnhub.io/api/news?id=855bef031029bcfea51393425d34e046ad9351a9149d7cff35a80dd49b1256bf

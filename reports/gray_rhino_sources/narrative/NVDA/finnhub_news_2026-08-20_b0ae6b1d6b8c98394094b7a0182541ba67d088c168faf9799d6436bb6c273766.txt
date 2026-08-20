@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Lands Multibillion-Dollar Hudson River Deal as Wall Street Races for Nvidia Chips
+  summary: CoreWeave lands a multibillion-dollar AI cloud deal with Hudson River Trading as Wall Street&#39;s trading giants race for Nvidia&#39;s newest chips.
+  url: https://finnhub.io/api/news?id=8cfc4b742ab1b52daa98e5678147ad342d5e9dcaefdd61ad243bcce4ee50dc4c

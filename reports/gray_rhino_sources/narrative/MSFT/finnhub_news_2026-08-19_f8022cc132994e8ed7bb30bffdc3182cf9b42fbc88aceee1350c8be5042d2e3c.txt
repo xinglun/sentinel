@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Replit Rolling Out GPT-5.6 Luna-Powered Free Mode
+  summary: https://x.com/Replit
+  url: https://finnhub.io/api/news?id=20fa50eb915c478f9ea747feaf3ce332aa267edd8cb8003fd7999dd2b005001a

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Why I'm Doubling Down
+  summary: Palantir Technologies Inc.'s Q2 beat and raise signals accelerating AI monetization, AIP demand, and FCF upsideâclick for why PLTR stock is a rare AI compounder.
+  url: https://finnhub.io/api/news?id=df627907967623836cb614b6d9f84806172c0d8d1b4b25a8f505c339c345c9d0

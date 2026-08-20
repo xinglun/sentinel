@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investing In The Building Blocks Of The Humanoid Revolution - Part 2 (The Brain)
+  summary: Humanoid brains require specialized modular assembly. Building a functional digital brain requires assembling best-in-class hardware from specialized suppliers.
+  url: https://finnhub.io/api/news?id=27169b49a8a67e1d061d882987a133367971362d000faef12ba8ecd56b2edb02

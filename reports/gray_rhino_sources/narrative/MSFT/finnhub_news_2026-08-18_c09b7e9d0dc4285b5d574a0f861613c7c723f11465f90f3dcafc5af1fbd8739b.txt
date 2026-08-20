@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Math Of The AI Bubble Is Changing
+  summary: Anthropicâs profitability challenges the AI loss-leader narrative, supporting hyperscaler spend and quality-driven revenue. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=8dd69aabbe43c613b7278c0d5e797403c3ad736312c150014a177208d23e5709

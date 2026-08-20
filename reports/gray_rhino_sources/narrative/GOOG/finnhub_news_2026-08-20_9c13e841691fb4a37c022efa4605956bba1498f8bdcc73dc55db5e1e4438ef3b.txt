@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom: Marvell Panic Causes A Huge Buying Opportunity
+  summary: Broadcom Inc. outlook: why the Marvell-Alphabet deal sell-off looks overdone, plus valuation and AI growth return scenarios. Click for this AVGO update.
+  url: https://finnhub.io/api/news?id=42c8bba8655a078154193a1cbcdbdcab4010b3969600f3f8c0f4e073167a5b84

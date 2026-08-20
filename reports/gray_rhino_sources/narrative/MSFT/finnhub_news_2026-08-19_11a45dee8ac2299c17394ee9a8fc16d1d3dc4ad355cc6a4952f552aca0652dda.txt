@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reported Earlier, "OpenAI’s Second-Quarter Sales Show Tepid Growth Compared With Anthropic" - WSJ
+  summary: https://www.wsj.com/tech/ai/openais-second-quarter-sales-show-tepid-growth-compared-with-anthropic-5cb42998 
+  url: https://finnhub.io/api/news?id=ae49fa322d189bc987fa2f0d9da3a97a1267b435dfce0eb1cc67cfa060c7cfde

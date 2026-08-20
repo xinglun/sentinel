@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Says Elon Musk's Tesla Playbook Explains Why She's Avoiding SK Hynix and Micron
+  summary: Cathie Wood explains why Elon Musk&#39;s Tesla strategy shapes her cautious view on SK Hynix, Micron and the AI memory boom.
+  url: https://finnhub.io/api/news?id=62d1b739860b3706d50c6862e2b99ac2589823059104be5866adcb12c36093ff

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Anthropic’s Enterprise AI Venture Buys Consultancy' - The Information
+  summary: https://www.theinformation.com/articles/anthropics-enterprise-ai-venture-buys-consultancy
+  url: https://finnhub.io/api/news?id=135cb67a90f83b25ec237d884b12d6077524aa891afed43e9a2081a248deb81a
