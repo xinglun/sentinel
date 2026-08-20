@@ -1,0 +1,203 @@
+{
+  "workItemId": "ai-pr-evidence-glob-match",
+  "contractPath": ".ai/work-items/archive/2026/ai-pr-evidence-glob-match.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "reason": "PR evidence glob matching の scope、acceptance、verification を固定した。"
+    },
+    {
+      "path": ".ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "reason": "PR guard 修正の回帰結果、ownership 境界、WI checkpoint を記録する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-pr-evidence-glob-match.*",
+      "reason": "finish 後の append-only WI archive と active residue cleanup を記録する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+      "reason": "既存未推送 archive Summary の不足 ownership pattern を補完し、PR diff 全体を監査可能にする。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active WI status と finish 後の no-active status を生成する。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "changedFiles の exact path と glob pattern を ownership 判定で照合する。"
+    },
+    {
+      "path": "scripts/ai_test_pr_evidence_glob.py",
+      "reason": "glob、exact path、非該当 path の regression test を追加する。"
+    },
+    {
+      "path": "Makefile",
+      "reason": "regression test を make test-ai-pr-evidence として公開する。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_pr.py",
+    ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+    ".ai/work-items/archive/2026/ai-install-facts-build-output.summary.json",
+    "origin/develop@c4a359a7e9b851c621ea7b4d140395985aca28d9"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-pr-evidence",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=fb40532e5f893c5baf59d9afbfae2669a0ad1cac",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "PR ownership 判定 helper と isolated regression test の変更のみ。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "既存 archive Summary の glob ownership failure、scope、回帰 test、required verification を Contract に確定した。",
+      "contractHash": "f29045ea541940e5",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "changedFiles glob が exact path を所有できない failing behavior を確認し、test-first の修正境界を固定した。",
+      "contractHash": "f29045ea541940e5",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "契約、scope、preflight、回帰、PR guard、fmt、AI guards、backtrack、coverage、scenario、test、clippy の通過を確認した。",
+      "contractHash": "f29045ea541940e5",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "make quality を含む全 17 件の required verification を通過し、PR archive guard と lifecycle evidence を確認した。",
+      "contractHash": "f29045ea541940e5",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 17
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "root cause、scope、acceptance、verification、humanReview を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "test-first の failing behavior と production change の境界を固定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "PR guard、regression、quality gate の完了を ready 条件に追加する。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "全 required verification と finish/archive 後に最終結果を追記する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "pr_evidence_matching",
+      "detail": "glob pattern の解釈は Python fnmatch 契約に依存するため、pattern は既存 Summary の表現に限定して検証する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "not_ready",
+    "reason": "Contract は確定済みだが required verification 未実行。",
+    "expectedReviewFocus": [
+      "glob と exact path の ownership 境界",
+      "PR guard false ownership の回帰防止"
+    ]
+  }
+}

@@ -36,7 +36,7 @@ COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-unde
 
 include Makefile.ai
 
-.PHONY: test-ai-install-facts
+.PHONY: test-ai-install-facts test-ai-pr-evidence
 
 .PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-docs-metadata check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-radar-legacy-history-migration test-radar-cross-run-pipeline test-radar-workflow-contract test-radar-state-load-error test-radar-audit-history-errors test-radar-degraded-report-semantics test-data-history-retention prune-data-history test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-scenario-coverage test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-work-item-risk-readiness test-ai-generate-status test-ai-start test-ai-preflight-review test-ai-checkpoint test-ai-pr-check test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
 	check-ai-contract check-ai-work-item check-ai-scope check-ai-installer-catalog check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage \
@@ -226,6 +226,9 @@ test-ai-verification-commands:
 
 test-ai-install-facts:
 	python3 scripts/ai_test_install_facts.py
+
+test-ai-pr-evidence:
+	python3 scripts/ai_test_pr_evidence_glob.py
 
 test-ai-pr-check:
 	python3 scripts/ai_test_pr_check.py

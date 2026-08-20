@@ -259,12 +259,17 @@ def changed_file_paths(summary: dict[str, Any]) -> set[str]:
     }
 
 
+def changed_file_owns_path(summary: dict[str, Any], path: str) -> bool:
+    """Summary の exact path または glob pattern が変更 path を所有するか判定する。"""
+    return any(fnmatch.fnmatch(path, pattern) for pattern in changed_file_paths(summary))
+
+
 def contract_owns_path(contract: dict[str, Any], summary: dict[str, Any], path: str) -> bool:
     scope = contract.get("scope", [])
     out_of_scope = contract.get("outOfScope", [])
     in_scope = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in scope)
     excluded = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in out_of_scope)
-    return in_scope and not excluded and path in changed_file_paths(summary)
+    return in_scope and not excluded and changed_file_owns_path(summary, path)
 
 
 def validate_evidence_ownership(changes: list[tuple[str, str]]) -> list[str]:

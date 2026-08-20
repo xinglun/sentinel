@@ -19,6 +19,10 @@
       "reason": "active WI の current cockpit status を生成し、finish 後は no-active status へ更新する。"
     },
     {
+      "path": ".ai/cockpit/**",
+      "reason": "template cockpit の README、adoption、system invariant、parity、version の managed surface を追加した。"
+    },
+    {
       "path": ".ai/cockpit/template_adoption.md",
       "reason": "今回の template source、13 stack / 115 script、bounded sync、develop default、保持境界を文書化した。"
     },
@@ -85,6 +89,10 @@
     {
       "path": "scripts/check_*.py",
       "reason": "template の check runtime と Make 参照補助を追加した。"
+    },
+    {
+      "path": "scripts/determine_governance_profile.py",
+      "reason": "template Make entrypoint が参照する governance profile detector を追加した。"
     },
     {
       "path": "scripts/unsupported_claim_gate.py",
