@@ -1,0 +1,270 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-cockpit-template-develop",
+  "mode": "code",
+  "title": "从 AI Cockpit 模板更新并设定 develop 为默认分支",
+  "baseCommit": "fb40532e5f893c5baf59d9afbfae2669a0ad1cac",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Sentinel の AI Cockpit が ai-cockpit-template の現行インストール機能に追随しておらず、インストーラーの機能清單と実際の導入済み runtime の対応を機械的に確認できない。",
+  "intent": {
+    "problem": "テンプレートの現行 runtime、Rust 用 Make 入口、インストール機能清單を Sentinel の既存 AI Cockpit 境界へ安全に反映する。",
+    "constraints": [
+      "対象プロジェクトの remote default branch は origin/develop、base commit は fb40532e5f893c5baf59d9afbfae2669a0ad1cac とする。",
+      "テンプレートの source default branch は main、source commit は e5acb677da6621004d96f0ef353c58fe8d3acfbf として固定する。",
+      "Sentinel の production Rust code、既存 archive、既存 active Work Item の外部 evidence、project-owned .ai/glossary.md は変更しない。",
+      "Gate、execution、trader、action matrix、position sizing、Telegram、audit daily、weekly review の業務挙動は変更しない。"
+    ],
+    "rationale": "ユーザーが指定したテンプレート更新と develop default branch を、インストール清單の全項目確認と既存 Sentinel のデータ境界保護を伴う Work Item として固定する。"
+  },
+  "scope": [
+    ".ai/README.md",
+    ".ai/calibration/**",
+    ".ai/cockpit/**",
+    ".ai/guards/**",
+    ".ai/policies/**",
+    ".ai/project/**",
+    ".ai/quality/**",
+    ".ai/schemas/**",
+    ".ai/trust/**",
+    ".ai/install/**",
+    ".ai/project_profile.yaml",
+    ".ai/work-items/_templates/**",
+    ".ai/work-items/active/ai-cockpit-template-develop.contract.json",
+    ".ai/work-items/active/ai-cockpit-template-develop.summary.json",
+    ".ai/work-items/archive/2026/ai-cockpit-template-develop.*",
+    "scripts/ai_installer_catalog.json",
+    "scripts/ai_*.py",
+    "scripts/bootstrap_*.py",
+    "scripts/check_*.py",
+    "scripts/unsupported_claim_gate.py",
+    "scripts/check_changed_critical_coverage.py",
+    "scripts/check_critical_coverage.py",
+    "scripts/determine_governance_profile.py",
+    "Makefile",
+    "Makefile.ai",
+    "Makefile.ai.stack",
+    "templates/make/Makefile.ai"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/external-handoffs/**",
+    ".ai/work-items/recovery-receipts/**",
+    ".ai/glossary.md",
+    "AGENTS.md",
+    "GEMINI.md",
+    "docs/**",
+    "reports/**",
+    "data/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/spirex-ds-dev/ai-cockpit-template@e5acb677da6621004d96f0ef353c58fe8d3acfbf",
+      "reason": "ユーザー指定の AI Cockpit template source。GitHub の default branch は main。"
+    },
+    {
+      "path": "/tmp/ai-cockpit-template.vVwx07/template/scripts/ai_installer_catalog.json",
+      "reason": "インストール対象の stack 13 件と runtime script 115 件を列挙する機能清單。"
+    },
+    {
+      "path": ".ai/cockpit/template_adoption.md",
+      "reason": "Sentinel 固有の採用境界、既存 guard、template の直接移植禁止範囲。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "本 repository の言語、Work Item、Make gate、AI Cockpit 運用規約。"
+    },
+    {
+      "path": "origin/develop@fb40532e5f893c5baf59d9afbfae2669a0ad1cac",
+      "reason": "Sentinel adopter project の remote default branch と Work Item base。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "catalog の全 stack と全 script path が target に存在する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_installer_catalog.json",
+        "scripts/ai_check_installer_catalog.py",
+        ".ai/cockpit/template_feature_parity.json"
+      ],
+      "reason": "make check-ai-installer-catalog が 13 stack / 115 script を全件 pass した。"
+    },
+    {
+      "scenario": "develop を base branch とする Make / lifecycle 入口が動作する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "Makefile",
+        "Makefile.ai",
+        "Makefile.ai.stack",
+        ".ai/cockpit/version.json",
+        ".ai/install/version.json"
+      ],
+      "reason": "BASE_BRANCH=develop と AI Cockpit / Rust の Make entrypoint、install facts の version binding を検証した。"
+    },
+    {
+      "scenario": "Sentinel 固有の archive、glossary、Rust quality gate が保持される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".ai/glossary.md",
+        ".ai/work-items/archive/.gitkeep",
+        "Makefile"
+      ],
+      "reason": "archive / glossary の存在を保持し、scope、backtrack、coverage guard、Rust quality gate を通過させた。"
+    },
+    {
+      "scenario": "Gate / execution / trader / report output の業務境界へ接続しない",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "本 Work Item は AI governance runtime と表示 / audit 専用の更新であり、業務判定を変更しない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "migration",
+      "data_integrity",
+      "governance_process",
+      "review_debt"
+    ],
+    "reason": "テンプレートは 115 script の機能清單と新しい .ai schema を持ち、Sentinel の既存 project-owned evidence と重なるため、全項目の存在確認とデータ境界確認が必要。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザー指示により、テンプレート機能清單を全項目確認し、Sentinel の default branch を develop として AI Cockpit runtime を更新する。",
+    "openQuestions": [
+      "テンプレート source の default branch main と adopter の default branch develop を混同しないこと。",
+      "テンプレートの runtime script は全 catalog item を確認するが、Sentinel 固有の archive / glossary / active evidence は保持すること。",
+      "実装後に未検証 scenario を逐項 command evidence へ置き換えること。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "template source、adopter base、scope、outOfScope、feature catalog、acceptance、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "テンプレート source の default branch は main だが、Sentinel の adopter default branch は develop として保持する。",
+    "catalog の全項目を存在確認するが、generic stack は配布可能性の確認に留め、Sentinel では Rust stack の Make 入口だけを有効化する。",
+    "テンプレートの archive、knowledge、decision、external handoff を Sentinel の project evidence としてコピーしない。",
+    "既存の同名 runtime script はテンプレート版へ更新されるため、Contract / Summary schema と Rust quality chain の回帰を重点確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "テンプレート source main の commit e5acb677da6621004d96f0ef353c58fe8d3acfbf と Sentinel origin/develop の base commit fb40532e5f893c5baf59d9afbfae2669a0ad1cac が evidence として固定されている。",
+    "scripts/ai_installer_catalog.json の stack 13 件と script 115 件が target に反映され、全 item を make check-ai-installer-catalog で逐項検証できる。",
+    "テンプレートの runtime script と .ai governance schema / policy が scope 内へ反映され、既存 archive、external handoff、recovery receipt、active Work Item evidence、.ai/glossary.md は保持される。",
+    "Makefile.ai と Makefile.ai.stack が追加され、Sentinel の Make entrypoint は BASE_BRANCH=develop を default として扱う。",
+    "root Makefile から AI Cockpit runtime、Rust format / test / clippy の入口が利用でき、既存 Sentinel quality gate の意味は変わらない。",
+    "Gate / execution / trader / action matrix / position sizing への接続はなく、変更は AI governance の表示 / 監査専用である。",
+    "Telegram、Markdown report、CLI、audit daily、weekly review の user-facing 業務出力は変更しない。",
+    "data branch、reports、JSONL、snapshot、weekly metrics は変更せず、Work Item evidence の full text と structured record を混同しない。",
+    "zh / en / ja の i18n、snapshot、contract test の変更有無を Summary に記録し、業務 report に別言語の設定文を混入させない。",
+    "新しい検証入口は Make target として提供され、Contract の required verification がすべて Summary に記録される。",
+    "before_edit、before_ready、after_verification の checkpoint evidence に catalog parity、base branch、required check の進捗が記録される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-installer-catalog",
+      "required": true
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-template-develop.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-cockpit-template-develop.summary.json CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-template-develop.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-cockpit-template-develop.contract.json SUMMARY=.ai/work-items/active/ai-cockpit-template-develop.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": false,
+    "allowPatterns": [
+      "scripts/ai_*.py",
+      "scripts/bootstrap_*.py",
+      "scripts/check_changed_critical_coverage.py",
+      "scripts/check_critical_coverage.py",
+      "scripts/determine_governance_profile.py",
+      ".ai/**",
+      "Makefile",
+      "Makefile.ai",
+      "Makefile.ai.stack",
+      "templates/make/Makefile.ai"
+    ]
+  },
+  "rollbackNote": "managed runtime と Make 入口を Work Item の diff から revert し、既存 Sentinel の archive / glossary / active evidence を復元する。実装前に保存した source-to-target parity report と git base を rollback evidence として使用する。"
+}

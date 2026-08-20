@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai-cockpit://trust/human-decision-request.schema.json",
+  "title": "Human Decision Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "decisionId", "workItemId", "status", "category", "severity", "whatHappened", "whyItMatters", "evidence", "options", "recommendedOption", "recommendationReason", "question", "resumeCondition"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "decisionId": {"type": "string", "minLength": 1},
+    "workItemId": {"type": "string", "minLength": 1},
+    "status": {"enum": ["needs_human_confirmation"]},
+    "category": {"type": "string", "minLength": 1},
+    "severity": {"enum": ["low", "medium", "high", "critical"]},
+    "whatHappened": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "whyItMatters": {"type": "string", "minLength": 1},
+    "evidence": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["type", "reference"], "properties": {"type": {"type": "string", "minLength": 1}, "reference": {"type": "string", "minLength": 1}}}},
+    "options": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "object", "additionalProperties": false, "required": ["id", "label", "risk", "consequence"], "properties": {"id": {"type": "string", "minLength": 1}, "label": {"type": "string", "minLength": 1}, "risk": {"type": "string", "minLength": 1}, "consequence": {"type": "string", "minLength": 1}}}},
+    "recommendedOption": {"type": "string", "minLength": 1},
+    "recommendationReason": {"type": "string", "minLength": 1},
+    "question": {"type": "string", "minLength": 1},
+    "resumeCondition": {"type": "string", "minLength": 1}
+  },
+  "examples": [
+    {
+      "schemaVersion": 1,
+      "decisionId": "HDR-20260718-001",
+      "workItemId": "trust_capability_intent_guards",
+      "status": "needs_human_confirmation",
+      "category": "capability_boundary",
+      "severity": "medium",
+      "whatHappened": ["The request cannot be mapped to one supported repository capability."],
+      "whyItMatters": "Continuing would require inventing the intended deliverable.",
+      "evidence": [{"type": "repository_capability", "reference": ".ai/project/capabilities.yaml"}],
+      "options": [{"id": "OPT-1", "label": "Build a software simulation", "risk": "low", "consequence": "The task becomes a supported software deliverable."}, {"id": "OPT-2", "label": "Cancel", "risk": "none", "consequence": "No changes are made."}],
+      "recommendedOption": "OPT-1",
+      "recommendationReason": "It is the closest supported interpretation.",
+      "question": "Which supported deliverable should be created?",
+      "resumeCondition": "A supported option is selected and recorded."
+    }
+  ]
+}

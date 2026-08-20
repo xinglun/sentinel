@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai-cockpit://trust/baseline-evidence.schema.json",
+  "title": "Baseline Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "baselineId", "workItemId", "capturedAt", "commit", "metrics"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "baselineId": {"type": "string", "minLength": 1},
+    "workItemId": {"type": "string", "minLength": 1},
+    "capturedAt": {"type": "string", "minLength": 1},
+    "commit": {"type": "string", "minLength": 1},
+    "metrics": {"type": "object", "additionalProperties": false, "required": ["testFileCount", "testCaseCount", "coverage", "protectedScenarioCount"], "properties": {"testFileCount": {"type": "integer"}, "testCaseCount": {"type": "integer"}, "coverage": {"type": ["number", "null"]}, "protectedScenarioCount": {"type": "integer"}}}
+  },
+  "examples": [
+    {
+      "schemaVersion": 1,
+      "baselineId": "BL-20260718-001",
+      "workItemId": "trust_baseline_backtrack_evidence",
+      "capturedAt": "2026-07-18T10:00:00+09:00",
+      "commit": "4e2958a635dcb66a0240c4de76c724fb8ab4b0f1",
+      "metrics": {"testFileCount": 42, "testCaseCount": 612, "coverage": 85.2, "protectedScenarioCount": 10}
+    }
+  ]
+}

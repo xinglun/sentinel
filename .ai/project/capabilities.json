@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "repository": {
+    "type": "software_template",
+    "purpose": ["ai_governance", "developer_tooling"]
+  },
+  "capabilities": [
+    "ai_governance",
+    "documentation",
+    "software_design",
+    "test_automation"
+  ],
+  "nonCapabilities": ["physical_manufacturing", "real_world_operation", "production_operation"],
+  "criticalDomains": ["authentication", "authorization", "secrets", "production_release"],
+  "operationMappings": {
+    "repository_governance.modify": ["ai_governance", "software_design"],
+    "documentation.modify": ["documentation"],
+    "tests.modify": ["test_automation"],
+    "repository_release.publish": ["ai_governance"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "workItemId": "trust_capability_intent_guards",
+  "criteria": [
+    {
+      "id": "SC-002-01",
+      "statement": "Preflight reports whether the declared repository capabilities cover the Work Item scope.",
+      "evidenceHints": ["make ai-preflight", "tests/test_trust_guards.py"]
+    },
+    {
+      "id": "SC-002-02",
+      "statement": "Ambiguous intent and conflicting constraints remain non-ready with deterministic evidence.",
+      "evidenceHints": ["tests/test_trust_guards.py", "tests/test_preflight_review.py"]
+    },
+    {
+      "id": "SC-002-03",
+      "statement": "Incomplete Success Criteria are rejected before implementation readiness is reported.",
+      "evidenceHints": ["make check-trust-schemas", "tests/test_trust_guards.py"]
+    }
+  ]
+}

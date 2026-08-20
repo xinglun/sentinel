@@ -1,0 +1,220 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-pr-evidence-glob-match",
+  "mode": "code",
+  "title": "PR evidence の changedFiles glob matching を修正",
+  "baseCommit": "c4a359a7e9b851c621ea7b4d140395985aca28d9",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+      "status": "M",
+      "fingerprint": "82dd14cee023668928bbb667df69a66ef944a55b217f16a12949b0a7fdf2d3b9"
+    }
+  ],
+  "problemStatement": "PR archive evidence の Summary が使用する changedFiles の glob pattern を、PR guard が実際の変更 path と照合できず、正当な WI ownership を誤って拒否する。",
+  "intent": {
+    "problem": "scripts/ai_check_pr.py の contract_owns_path が scope の glob には fnmatch を使う一方、Summary の changedFiles は完全一致しか受け付けないため、glob で記録した archive evidence が機能しない。",
+    "constraints": [
+      "exact path と glob pattern の両方を changedFiles ownership として扱う。",
+      "PR archive bundle、contract validation、既存の scope / outOfScope 境界は保持する。",
+      "既存の未推送 archive Summary に不足していた managed path ownership を補完し、PR diff 全体を監査可能にする。",
+      "業務の Gate、execution、trader、action matrix、position sizing、report output には接続しない。"
+    ],
+    "rationale": "既存 archive Summary の glob 記録を正しく解釈し、PR guard の false negative を回帰テストで防止する。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+    ".ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+    ".ai/work-items/archive/2026/ai-pr-evidence-glob-match.*",
+    ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+    ".ai/cockpit/current_status.md",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_test_pr_evidence_glob.py",
+    "Makefile"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "target/**",
+    ".ai/work-items/archive/2026/ai-install-facts-build-output.*",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/external-handoffs/**",
+    ".ai/work-items/recovery-receipts/**",
+    ".ai/glossary.md",
+    "docs/**",
+    "reports/**",
+    "data/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "reason": "PR evidence glob matching の Contract と scope。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "contract_owns_path と changedFiles ownership 判定の現在実装。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+      "reason": "PR guard が解釈すべき glob 形式の changedFiles archive evidence。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-install-facts-build-output.summary.json",
+      "reason": "同じ archive evidence 契約を使う追加 WI の changedFiles 記録。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json",
+      "reason": "既存 archive Summary の managed path ownership を補完し、PR diff 全体の evidence matching を成立させる。"
+    },
+    {
+      "path": "origin/develop@c4a359a7e9b851c621ea7b4d140395985aca28d9",
+      "reason": "修正を適用する前の clean branch baseline。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "review_debt"
+    ],
+    "reason": "PR evidence の path matching helper と isolated regression test だけを変更し、production business behavior には影響しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、原因、受入条件、回帰テスト、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "changedFiles の exact path と glob pattern を同じ ownership 契約で検証する。",
+    "PR archive guard 自体の check-ai-pr が base commit に対して通過することを確認する。"
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "既存 archive evidence の glob 表現を保持したまま、PR ownership 判定の互換性を修正する。",
+    "openQuestions": [
+      "追加の人間判断は不要であり、既存 fnmatch 契約の回帰検証を行う。"
+    ]
+  },
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "changedFiles の exact path と glob pattern が contract scope と組み合わせて正しく ownership 判定される。",
+    "scripts/ai_test_pr_evidence_glob.py が glob、exact path、非該当 path の判定を回帰検証する。",
+    "既存 archive evidence を含む PR diff に対して make check-ai-pr が false ownership error なしで通過する。",
+    "回帰検証は make test-ai-pr-evidence として提供される。",
+    "業務 Rust code、reports、data、snapshot、既存 archive Contract と第二 WI archive evidence は変更しない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "changedFiles の glob pattern が実ファイル path を所有する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/ai_check_pr.py", "scripts/ai_test_pr_evidence_glob.py", ".ai/work-items/archive/2026/ai-cockpit-template-develop.summary.json"],
+      "reason": "既存 Summary の .ai/calibration/** と scripts/ai_*.py を実 path に照合する。"
+    },
+    {
+      "scenario": "exact path と非該当 path の境界を保持する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/ai_check_pr.py", "scripts/ai_test_pr_evidence_glob.py"],
+      "reason": "exact path は許可し、glob 外の path と outOfScope は ownership にしない。"
+    },
+    {
+      "scenario": "業務境界へ接続しない",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "変更は PR archive evidence の判定 helper と regression test に限定する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-pr-evidence",
+      "required": true
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=fb40532e5f893c5baf59d9afbfae2669a0ad1cac",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-pr-evidence-glob-match.contract.json SUMMARY=.ai/work-items/active/ai-pr-evidence-glob-match.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": false,
+    "allowPatterns": []
+  },
+  "rollbackNote": "PR evidence ownership helper と regression checker の diff を revert し、既存の archive evidence 判定へ戻す。"
+}

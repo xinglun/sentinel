@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "stacks": ["generic", "rust", "flutter", "typescript", "python", "go", "java", "android", "kotlin", "swift", "ruby", "php", "csharp"],
+  "compatibility": {
+    "verified": ["python", "go", "rust", "typescript", "java", "kotlin", "ruby", "php", "csharp", "flutter", "android", "swift"],
+    "workflowImplemented": [],
+    "presetOnly": ["generic"],
+    "unsupportedPlatforms": ["native-windows-shell"]
+  },
+  "recommendedInstallFlags": ["--update-makefile", "--create-adoption"],
+  "governanceFlow": ["install", "configure-work-item", "onboard", "doctor", "calibrate", "confirm", "validate", "readiness", "develop"],
+  "releaseCapabilities": ["auditable-adoption", "sha256-verification"],
+  "distributionChecks": ["highestPublicTag", "sha256ArchiveVerification", "adoptionJourney", "configurationWorkItem"]
+}

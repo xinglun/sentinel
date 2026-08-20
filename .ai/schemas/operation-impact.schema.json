@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Cockpit Operation Impact Report",
+  "type": "object",
+  "required": ["version", "observedActions", "targets", "impactClasses", "riskProperties", "declarationConflict", "decisionStates", "decision"],
+  "properties": {
+    "version": {"const": 1},
+    "observedActions": {"type": "array", "items": {"enum": ["create", "modify", "delete", "move"]}},
+    "targets": {"type": "array", "items": {"type": "string"}},
+    "impactClasses": {"type": "array", "items": {"type": "string"}},
+    "declarationConflict": {"type": "boolean"},
+    "decisionStates": {
+      "type": "object",
+      "required": ["requestTrustDecision", "authorityBindingDecision", "safetyEvidenceDecision", "scopeConsistencyDecision", "effectiveDecision"]
+    },
+    "decision": {"enum": ["block", "evidence_required", "not_applicable"]}
+  }
+}

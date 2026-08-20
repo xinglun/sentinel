@@ -1,0 +1,9 @@
+version: 1
+principle: objective operation facts override request and Contract declarations
+decisions:
+  declarationConflict: block
+  impactBearingWithoutEvidence: needs_human_confirmation
+  noImpact: not_applicable
+  lowRiskFastPath: not_applicable
+limitations:
+  - Path classification is generic and does not prove runtime, external-consumer, or semantic compatibility absence.

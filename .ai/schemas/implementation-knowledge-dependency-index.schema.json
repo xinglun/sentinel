@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.invalid/schemas/implementation-knowledge-dependency-index.schema.json",
+  "title": "AI Cockpit implementation knowledge dependency index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "records", "byPath"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "records": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/recordDependency"}
+    },
+    "byPath": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "$defs": {
+    "recordDependency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recordPath", "dependencies"],
+      "properties": {
+        "recordPath": {"type": "string", "minLength": 1},
+        "dependencies": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

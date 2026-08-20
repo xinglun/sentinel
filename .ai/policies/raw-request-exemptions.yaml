@@ -1,0 +1,14 @@
+version: 1
+policyRef: raw-request-exemptions.v1
+exemptions:
+  - system_maintenance
+  - dependency_upgrade
+  - release_metadata
+  - internal_governance
+rules:
+  requiredFields: [exemption, policyRef, triggerRef, applicability, approvedBy]
+  rejectUnknown: true
+  highRiskAllowed: false
+  missingSource: fail_closed
+  triggerRefs: [scheduled-maintenance, automated-dependency-update, release-automation, internal-governance]
+  applicability: [repository, sandbox, test]

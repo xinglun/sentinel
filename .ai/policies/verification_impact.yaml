@@ -1,0 +1,22 @@
+version: 1
+domains:
+  docs: docs-only changes and user guidance
+  project_code: application or governance runtime code
+  tests: tests and fixtures
+  trust: governance, evidence, and boundary files
+  dependency: dependency manifests and locks
+  installer: installer and bootstrap entrypoints
+  lifecycle: Work Item lifecycle and archive operations
+  release: release identity, assets, provenance, and distribution
+  workflow: CI and workflow configuration
+  unknown: paths requiring explicit review
+hardGates:
+  - dependency_cycle
+  - secret_exposure
+  - evidence_tampering
+  - unauthorized_path
+  - trust_boundary_removal
+  - fail_closed_weakened
+  - missing_human_confirmation
+  - validator_failure
+  - release_identity_mismatch

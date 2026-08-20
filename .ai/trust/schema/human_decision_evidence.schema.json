@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai-cockpit://trust/human-decision-evidence.schema.json",
+  "title": "Human Decision Evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "decisionId", "selectedOption", "decision", "decidedBy", "decidedAt", "rationale", "source", "supersedes"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "decisionId": {"type": "string", "minLength": 1},
+    "selectedOption": {"type": "string", "minLength": 1},
+    "decision": {"type": "string", "minLength": 1},
+    "decidedBy": {"type": "string", "minLength": 1},
+    "decidedAt": {"type": "string", "minLength": 1},
+    "rationale": {"type": "string", "minLength": 1},
+    "source": {"enum": ["human_confirmation", "human_approval"]},
+    "supersedes": {"type": ["string", "null"]}
+  },
+  "examples": [
+    {
+      "schemaVersion": 1,
+      "decisionId": "HDR-20260718-001",
+      "selectedOption": "OPT-1",
+      "decision": "Build a software simulation",
+      "decidedBy": "user",
+      "decidedAt": "2026-07-18T10:00:00+09:00",
+      "rationale": "The requested deliverable is software, not physical operation.",
+      "source": "human_confirmation",
+      "supersedes": null
+    }
+  ]
+}

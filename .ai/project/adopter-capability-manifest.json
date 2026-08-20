@@ -1,0 +1,664 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schemaVersion": 2,
+  "schemaFile": ".ai/schemas/adopter-capability-manifest.schema.json",
+  "manifestId": "ai-cockpit-adopter-capabilities",
+  "statusVocabulary": [
+    "implemented",
+    "template_only",
+    "adopter_installed",
+    "planned"
+  ],
+  "ownershipVocabulary": [
+    "template_and_installer",
+    "template_repository",
+    "future_work_item",
+    "external_provider",
+    "adopter_or_release_domain"
+  ],
+  "capabilityTruthRule": "Only files, catalog entries, Make targets, schemas, and side-effect-free entrypoints declared here and verified in a real fresh-adopter installation support an adopter_installed claim. A planned capability may reserve a verified reference surface without claiming that the planned implementation exists.",
+  "capabilities": [
+    {
+      "id": "adopter_capability_manifest",
+      "title": "Adopter capability manifest and validator",
+      "adopterFacing": true,
+      "status": "implemented",
+      "truth": "implemented",
+      "ownership": "template_and_installer",
+      "summary": "The installer-facing capability surface is declared and validated in one machine-readable manifest.",
+      "templateFiles": [
+        ".ai/project/adopter-capability-manifest.json",
+        ".ai/schemas/adopter-capability-manifest.schema.json",
+        "scripts/ai_installer_adopter_capability_manifest.py",
+        "templates/make/Makefile.ai"
+      ],
+      "installedFiles": [
+        ".ai/project/adopter-capability-manifest.json",
+        ".ai/schemas/adopter-capability-manifest.schema.json",
+        "scripts/ai_installer_adopter_capability_manifest.py",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_installer_adopter_capability_manifest.py"
+      ],
+      "makeTargets": [
+        "check-adopter-capability-manifest"
+      ],
+      "schemas": [
+        ".ai/schemas/adopter-capability-manifest.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_installer_adopter_capability_manifest.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "work_item_status_interface",
+      "title": "Machine-readable Work Item Status Interface",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Publishes evidence-derived machine-readable Work Item status and index data.",
+      "templateFiles": [
+        "scripts/ai_generate_work_item_status.py",
+        "scripts/ai_work_item_status.py",
+        "scripts/ai_work_item_intelligence.py",
+        "scripts/ai_governance_compression.py",
+        ".ai/schemas/work-item-status-interface.schema.json",
+        ".ai/schemas/work-item-intelligence-snapshot.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/work-item-status-interface.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_generate_work_item_status.py",
+        "scripts/ai_work_item_status.py",
+        "scripts/ai_work_item_intelligence.py",
+        "scripts/ai_governance_compression.py",
+        ".ai/schemas/work-item-status-interface.schema.json",
+        ".ai/schemas/work-item-intelligence-snapshot.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_generate_work_item_status.py",
+        "ai_work_item_status.py",
+        "ai_work_item_intelligence.py",
+        "ai_governance_compression.py"
+      ],
+      "makeTargets": [
+        "ai-generate-work-item-status",
+        "ai-work-item-status"
+      ],
+      "schemas": [
+        ".ai/schemas/work-item-status-interface.schema.json",
+        ".ai/schemas/work-item-intelligence-snapshot.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_generate_work_item_status.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_work_item_status.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/work-item-status-interface.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "governance_cost_metrics",
+      "title": "Governance Cost/Metrics",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Builds advisory Work Item-scoped governance cost metrics from local observability evidence.",
+      "templateFiles": [
+        "scripts/ai_governance_cost.py",
+        "scripts/ai_performance_diagnosis.py",
+        ".ai/schemas/governance-cost-report.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/governance-cost-metrics.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_governance_cost.py",
+        "scripts/ai_performance_diagnosis.py",
+        ".ai/schemas/governance-cost-report.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_governance_cost.py",
+        "ai_performance_diagnosis.py"
+      ],
+      "makeTargets": [
+        "ai-governance-cost"
+      ],
+      "schemas": [
+        ".ai/schemas/governance-cost-report.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_governance_cost.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/governance-cost-metrics.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "performance_diagnosis",
+      "title": "Performance Diagnosis",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Derives advisory, evidence-only Work Item timing and bottleneck diagnosis.",
+      "templateFiles": [
+        "scripts/ai_performance_diagnosis.py",
+        ".ai/schemas/performance-diagnosis-report.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/performance-diagnosis.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_performance_diagnosis.py",
+        ".ai/schemas/performance-diagnosis-report.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_performance_diagnosis.py"
+      ],
+      "makeTargets": [
+        "ai-performance-diagnosis"
+      ],
+      "schemas": [
+        ".ai/schemas/performance-diagnosis-report.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_performance_diagnosis.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/performance-diagnosis.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "implementation_knowledge_query",
+      "title": "Deterministic Implementation Knowledge query interface",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Provides a read-only, evidence-bound query over Implementation Knowledge records with exact filters, stable ordering, explicit lifecycle states, and fail-closed validation.",
+      "templateFiles": [
+        "scripts/ai_knowledge_query.py",
+        ".ai/schemas/implementation-knowledge-query.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_knowledge_query.py",
+        ".ai/schemas/implementation-knowledge-query.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_knowledge_query.py"
+      ],
+      "makeTargets": [
+        "ai-knowledge-query",
+        "check-ai-knowledge"
+      ],
+      "schemas": [
+        ".ai/schemas/implementation-knowledge-query.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_knowledge_query.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "implementation_knowledge_projection",
+      "title": "Evidence-bound Implementation Knowledge projection",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Projects Summary, Outcome, and repository evidence into deterministic Work Item implementation knowledge records and a lightweight index.",
+      "templateFiles": [
+        "scripts/ai_generate_knowledge_record.py",
+        "scripts/ai_check_knowledge_index.py",
+        ".ai/schemas/implementation-knowledge-record.schema.json",
+        ".ai/schemas/implementation-knowledge-index.schema.json",
+        ".ai/schemas/implementation-knowledge-dependency-index.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_generate_knowledge_record.py",
+        "scripts/ai_check_knowledge_index.py",
+        ".ai/schemas/implementation-knowledge-record.schema.json",
+        ".ai/schemas/implementation-knowledge-index.schema.json",
+        ".ai/schemas/implementation-knowledge-dependency-index.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_generate_knowledge_record.py",
+        "ai_check_knowledge_index.py"
+      ],
+      "makeTargets": [
+        "ai-generate-knowledge-record",
+        "ai-generate-knowledge",
+        "ai-check-knowledge-index"
+      ],
+      "schemas": [
+        ".ai/schemas/implementation-knowledge-record.schema.json",
+        ".ai/schemas/implementation-knowledge-index.schema.json",
+        ".ai/schemas/implementation-knowledge-dependency-index.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_generate_knowledge_record.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_check_knowledge_index.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/implementation-knowledge.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "implementation_knowledge_reports",
+      "title": "Summary, Task Outcome, and Human Report implementation knowledge",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Keeps the current Summary, Task Outcome, and Human Report lifecycle/report entrypoints and Task Outcome schema on the verifiable installed surface.",
+      "templateFiles": [
+        "scripts/ai_check_summary.py",
+        "scripts/ai_check_task_outcome.py",
+        "scripts/ai_generate_task_outcome.py",
+        "scripts/ai_generate_human_report.py",
+        "scripts/ai_render_task_outcome.py",
+        "scripts/ai_render_task_outcome_multilingual.py",
+        "scripts/ai_render_task_outcome_pr.py",
+        "scripts/ai_generate_status.py",
+        ".ai/schemas/task_outcome.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/features/task-outcome-report.md",
+        "docs/features/human-benefit-report.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_check_summary.py",
+        "scripts/ai_check_task_outcome.py",
+        "scripts/ai_generate_task_outcome.py",
+        "scripts/ai_generate_human_report.py",
+        "scripts/ai_render_task_outcome.py",
+        "scripts/ai_render_task_outcome_multilingual.py",
+        "scripts/ai_render_task_outcome_pr.py",
+        "scripts/ai_generate_status.py",
+        ".ai/schemas/task_outcome.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_check_summary.py",
+        "ai_check_task_outcome.py",
+        "ai_generate_task_outcome.py",
+        "ai_generate_human_report.py",
+        "ai_render_task_outcome.py",
+        "ai_render_task_outcome_multilingual.py",
+        "ai_render_task_outcome_pr.py",
+        "ai_generate_status.py"
+      ],
+      "makeTargets": [
+        "check-ai-change-summary",
+        "check-ai-task-outcome",
+        "generate-human-benefit-report",
+        "check-human-benefit-report",
+        "generate-cockpit-status"
+      ],
+      "schemas": [
+        ".ai/schemas/task_outcome.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_check_summary.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_generate_task_outcome.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_generate_human_report.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_generate_status.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/features/task-outcome-report.md",
+        "docs/features/human-benefit-report.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "current_work_item_problem_resolution_boundary",
+      "title": "Current Work Item problem-resolution boundary",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "template_and_installer",
+      "summary": "Installs and verifies the rule that problems discovered during a Work Item are repaired in that Work Item when its Contract still covers the scope, authority, and base; new Work Items are reserved for genuinely different or independently governed work.",
+      "templateFiles": [
+        "AGENTS.md",
+        "templates/agents/AI_COCKPIT_RULES.md",
+        ".ai/project/adopter-capability-manifest.json",
+        ".ai/schemas/adopter-capability-manifest.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/reference/ai-cockpit-work-item-lifecycle.md"
+      ],
+      "installedFiles": [
+        "AGENTS.md",
+        ".ai/project/adopter-capability-manifest.json",
+        ".ai/schemas/adopter-capability-manifest.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_installer_adopter_capability_manifest.py"
+      ],
+      "makeTargets": [
+        "check-adopter-capability-manifest"
+      ],
+      "schemas": [
+        ".ai/schemas/adopter-capability-manifest.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_installer_adopter_capability_manifest.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/reference/ai-cockpit-work-item-lifecycle.md"
+      ],
+      "verifyInstalledSurface": true
+    },
+    {
+      "id": "template_capability_truth_material",
+      "title": "Template Capability Truth material",
+      "adopterFacing": true,
+      "status": "template_only",
+      "truth": "template_only",
+      "ownership": "template_repository",
+      "summary": "Template reference evidence is not adopter installation evidence until a fresh adopter run binds it.",
+      "templateFiles": [
+        "docs/reference/capability-truth-matrix.json",
+        "docs/reference/capability-truth-matrix.md"
+      ],
+      "installedFiles": [],
+      "catalogScripts": [],
+      "makeTargets": [],
+      "schemas": [],
+      "entrypoints": [],
+      "docs": [
+        "docs/reference/capability-truth-matrix.md"
+      ],
+      "verifyInstalledSurface": false
+    },
+    {
+      "id": "implementation_approach_report",
+      "title": "Implementation Approach report reservation",
+      "adopterFacing": true,
+      "status": "adopter_installed",
+      "truth": "adopter_installed",
+      "ownership": "future_work_item",
+      "summary": "Implementation Approach semantics are carried by the lifecycle Work Item Summary, Task Outcome, and Human Report entrypoints and schema; this Work Item's fresh-adopter parity verifies their installed surface without adding a separate helper implementation.",
+      "surfaceRole": "reserved_reference",
+      "reservedSurfaceFrom": "implementation_knowledge_reports",
+      "templateFiles": [
+        "scripts/ai_check_summary.py",
+        "scripts/ai_generate_task_outcome.py",
+        "scripts/ai_generate_human_report.py",
+        ".ai/schemas/task_outcome.schema.json",
+        "templates/make/Makefile.ai",
+        "docs/features/task-outcome-report.md",
+        "docs/features/human-benefit-report.md"
+      ],
+      "installedFiles": [
+        "scripts/ai_check_summary.py",
+        "scripts/ai_generate_task_outcome.py",
+        "scripts/ai_generate_human_report.py",
+        ".ai/schemas/task_outcome.schema.json",
+        "Makefile.ai"
+      ],
+      "catalogScripts": [
+        "ai_check_summary.py",
+        "ai_generate_task_outcome.py",
+        "ai_generate_human_report.py"
+      ],
+      "makeTargets": [
+        "check-ai-change-summary",
+        "generate-human-benefit-report",
+        "check-human-benefit-report"
+      ],
+      "schemas": [
+        ".ai/schemas/task_outcome.schema.json"
+      ],
+      "entrypoints": [
+        {
+          "path": "scripts/ai_check_summary.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_generate_task_outcome.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        },
+        {
+          "path": "scripts/ai_generate_human_report.py",
+          "args": [
+            "--help"
+          ],
+          "sideEffect": "none"
+        }
+      ],
+      "docs": [
+        "docs/features/task-outcome-report.md",
+        "docs/features/human-benefit-report.md"
+      ],
+      "verifyInstalledSurface": true
+    }
+  ],
+  "exclusions": [
+    {
+      "id": "hosted_ci",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "external_provider",
+      "exclusionType": "external",
+      "reason": "Provider execution is external and is not inherited from local template files.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "codeql",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "external_provider",
+      "exclusionType": "external",
+      "reason": "External security analysis is not an inherited local capability.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "sbom",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "adopter_or_release_domain",
+      "exclusionType": "external",
+      "reason": "SBOM generation and evidence are release/delegated-domain responsibilities.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "provenance",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "adopter_or_release_domain",
+      "exclusionType": "external",
+      "reason": "Provenance evidence is external release evidence, not installer inheritance.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "digital_signing",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "adopter_or_release_domain",
+      "exclusionType": "external",
+      "reason": "Signature authority and verification are external release evidence.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "enterprise_iam",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "adopter_or_release_domain",
+      "exclusionType": "external",
+      "reason": "Enterprise identity and access control are adopter/provider responsibilities.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "production_sandbox",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "adopter_or_release_domain",
+      "exclusionType": "external",
+      "reason": "Production isolation is outside the Repository Governance Layer.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "external_audit",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "external_provider",
+      "exclusionType": "external",
+      "reason": "External audit is not proven by local repository evidence.",
+      "templateFiles": [],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": []
+    },
+    {
+      "id": "calibration_completion",
+      "adopterFacing": false,
+      "status": "excluded",
+      "ownership": "template_repository",
+      "exclusionType": "template_only",
+      "reason": "Template calibration material does not prove adopter calibration completion.",
+      "templateFiles": [
+        ".ai/calibration/profiles.yaml",
+        "docs/reference/capability-truth-matrix.json"
+      ],
+      "installedFiles": [],
+      "makeTargets": [],
+      "schemas": [],
+      "docs": [
+        "docs/reference/capability-truth-matrix.md"
+      ]
+    }
+  ]
+}

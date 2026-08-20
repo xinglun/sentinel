@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -47,6 +48,64 @@ def active_work_item_files() -> list[Path]:
         for path in ACTIVE_DIR.glob("*.json")
         if path.name.endswith((".contract.json", ".summary.json", ".review.json"))
     )
+
+
+def transaction_owned_paths(changed: set[str]) -> set[str]:
+    """完全な archive bundle と Summary が所有する変更 path を返す。"""
+    archive_index = ".ai/work-items/archive/index.json"
+    if archive_index not in changed:
+        return set()
+    owned: set[str] = set()
+    for receipt in changed:
+        if not receipt.startswith(".ai/work-items/starts/") or not receipt.endswith(".json"):
+            continue
+        task = Path(receipt).stem
+        manifest_paths = [
+            path
+            for path in changed
+            if path.startswith(".ai/work-items/archive/")
+            and path.endswith(f"/{task}.archive-manifest.json")
+        ]
+        for manifest_path in manifest_paths:
+            archive_dir = Path(manifest_path).parent.as_posix()
+            required = {
+                archive_index,
+                receipt,
+                manifest_path,
+                f"{archive_dir}/{task}.contract.json",
+                f"{archive_dir}/{task}.summary.json",
+            }
+            if not required.issubset(changed):
+                continue
+            try:
+                manifest = load_json(PROJECT_ROOT / manifest_path)
+                contract_path = PROJECT_ROOT / f"{archive_dir}/{task}.contract.json"
+                summary_path = PROJECT_ROOT / f"{archive_dir}/{task}.summary.json"
+                contract_digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
+                summary_digest = hashlib.sha256(summary_path.read_bytes()).hexdigest()
+                summary = load_json(summary_path)
+            except (OSError, json.JSONDecodeError, ValueError):
+                continue
+            if (
+                manifest.get("format") != "ai-cockpit-archive-manifest"
+                or manifest.get("manifestVersion") != 1
+                or manifest.get("workItemId") != task
+                or manifest.get("contractSha256") != contract_digest
+                or manifest.get("summarySha256") != summary_digest
+                or summary.get("workItemId") != task
+            ):
+                continue
+            changed_files = summary.get("changedFiles")
+            if not isinstance(changed_files, list):
+                continue
+            summary_paths = {
+                item.get("path")
+                for item in changed_files
+                if isinstance(item, dict) and isinstance(item.get("path"), str)
+            }
+            if required.issubset(summary_paths):
+                owned.update(summary_paths)
+    return owned
 
 
 def validate_existing_path(label: str, value: str, errors: list[str]) -> Path | None:

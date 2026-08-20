@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Cockpit Cross-WI Integration Report",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "reportKind",
+    "overallStatus",
+    "decisionImpact",
+    "sourceDigest",
+    "requiredWorkItems",
+    "workItems",
+    "outcomeDelivery",
+    "performance",
+    "limitations",
+    "findings",
+    "rerunGuidance"
+  ],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "reportKind": {"const": "cross_wi_integration"},
+    "overallStatus": {"enum": ["green", "yellow", "red"]},
+    "decisionImpact": {"const": "none"},
+    "sourceDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "requiredWorkItems": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "workItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "taskId",
+          "outcomeStatus",
+          "humanStatusColor",
+          "archiveLifecycleStage",
+          "archivePullRequestState",
+          "acceptance",
+          "evidenceState",
+          "archivePaths",
+          "findings",
+          "limitations",
+          "outcomeSections"
+        ],
+        "properties": {
+          "taskId": {"type": "string", "minLength": 1},
+          "outcomeStatus": {"type": "string", "minLength": 1},
+          "humanStatusColor": {"enum": ["green", "yellow", "red", "unknown"]},
+          "archiveLifecycleStage": {"type": "string", "minLength": 1},
+          "archivePullRequestState": {"type": "string", "minLength": 1},
+          "acceptance": {"enum": ["passed", "warning", "failed"]},
+          "evidenceState": {"enum": ["valid", "invalid"]},
+          "archivePaths": {"type": "array", "items": {"type": "string"}},
+          "findings": {"type": "array", "items": {"type": "string"}},
+          "limitations": {"type": "array", "items": {"type": "string"}},
+          "outcomeSections": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "outcomeDelivery": {
+      "type": "object",
+      "required": [
+        "status",
+        "archiveEvidence",
+        "taskReportPair",
+        "directHandoffImplementation",
+        "directHandoffTest",
+        "conversationUiReceipt",
+        "agentHandoffProtocol",
+        "requiredOutcomeFields",
+        "limitation"
+      ],
+      "properties": {
+        "status": {"enum": ["green", "yellow", "red"]},
+        "archiveEvidence": {"enum": ["present", "missing"]},
+        "taskReportPair": {"enum": ["present", "missing"]},
+        "directHandoffImplementation": {"enum": ["verified", "missing", "not_verified"]},
+        "directHandoffTest": {"enum": ["verified", "missing", "not_verified"]},
+        "conversationUiReceipt": {"const": "not_observable"},
+        "agentHandoffProtocol": {"const": "required_for_every_agent_and_subagent"},
+        "requiredOutcomeFields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "limitation": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "performance": {
+      "type": "object",
+      "required": [
+        "status",
+        "diagnosisEvidence",
+        "comparableBaseline",
+        "runtimeImprovement",
+        "causalClaim",
+        "decisionImpact",
+        "limitations"
+      ],
+      "properties": {
+        "status": {"enum": ["green", "yellow", "red"]},
+        "diagnosisEvidence": {"enum": ["verified", "not_verified"]},
+        "comparableBaseline": {"enum": ["provided", "not_provided", "incomparable"]},
+        "runtimeImprovement": {"enum": ["verified", "unverified"]},
+        "causalClaim": {"const": "forbidden"},
+        "decisionImpact": {"const": "none"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "findings": {"type": "array", "items": {"type": "string"}},
+    "rerunGuidance": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
