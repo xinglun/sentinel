@@ -227,6 +227,91 @@ mod tests {
         assert!(report.telegram_html_body.contains("Portfolio Risk"));
     }
 
+    #[test]
+    fn effective_action_report_separates_permission_from_zero_eligibility_in_all_languages() {
+        for (
+            language,
+            market_permission,
+            eligible_assets,
+            effective_action,
+            permission_budget,
+            effective_cap,
+        ) in [
+            (
+                Language::ZhCn,
+                "市场权限",
+                "Eligible 标的",
+                "实际行动",
+                "Probe 预算上限",
+                "实际新增上限",
+            ),
+            (
+                Language::EnUs,
+                "Market Permission",
+                "Eligible Assets",
+                "Effective Action",
+                "Permission Budget",
+                "Effective New Entry Cap",
+            ),
+            (
+                Language::JaJp,
+                "市場参加権限",
+                "実行可能銘柄",
+                "実効アクション",
+                "Probe 上限",
+                "実効新規上限",
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let packet = DecisionPacket {
+                date: NaiveDate::from_ymd_opt(2026, 8, 21).unwrap(),
+                market_regime: MarketRegimeSnapshot {
+                    market_state: MarketState::IGNITION,
+                    risk_overlay: RiskOverlay::NORMAL,
+                    ..Default::default()
+                },
+                trend_cohesion: TrendCohesionSnapshot {
+                    gate_passed: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            };
+            let pres = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let permission_range = pres.decision_summary.entry_cap_value.clone();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            assert_eq!(pres.final_execution_decision.eligible_asset_count, 0);
+            assert_eq!(pres.final_execution_decision.position_range, "0%");
+            assert_eq!(
+                pres.final_execution_decision.permission_position_range,
+                permission_range
+            );
+            for body in [&report.markdown_body, &report.telegram_html_body] {
+                assert!(body.contains(market_permission));
+                assert!(body.contains(eligible_assets));
+                assert!(body.contains(effective_action));
+                assert!(body.contains("NO_NEW_ENTRY"));
+                assert!(body.contains(permission_budget));
+                assert!(body.contains(effective_cap));
+                assert!(body.contains("0%"));
+                assert!(body.contains(&permission_range));
+            }
+        }
+    }
+
     fn no_trade_transition_order_packet() -> DecisionPacket {
         let prev = no_trade_snapshot_packet();
         let mut curr = no_trade_snapshot_packet();

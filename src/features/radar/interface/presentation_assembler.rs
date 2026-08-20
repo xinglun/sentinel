@@ -501,8 +501,16 @@ impl PresentationAssembler {
         };
         let decision_summary =
             Self::build_decision_summary(packet, is_data_missing, state, &dict, &battleboard);
-        let final_execution_decision =
-            Self::build_final_execution_decision(&decision_summary, state, lang);
+        let eligible_asset_count = acc_refs
+            .iter()
+            .filter(|(_, context, _)| !context.has_position)
+            .count();
+        let final_execution_decision = Self::build_final_execution_decision(
+            &decision_summary,
+            state,
+            lang,
+            eligible_asset_count,
+        );
         let (
             execution_risk_label,
             execution_risk_value,
@@ -756,6 +764,7 @@ impl PresentationAssembler {
         decision: &DecisionSummaryViewModel,
         state: MarketState,
         language: Language,
+        eligible_asset_count: usize,
     ) -> crate::features::radar::interface::presentation::FinalExecutionDecision {
         use crate::features::radar::interface::presentation::{
             ExecutionActionability, ExecutionWindow, FinalExecutionDecision, ParticipationMode,
@@ -765,29 +774,67 @@ impl PresentationAssembler {
                 execution_window: ExecutionWindow::None,
                 participation_mode: ParticipationMode::None,
                 position_range: "0%".to_string(),
+                permission_position_range: "0%".to_string(),
+                eligible_asset_count,
                 actionability: ExecutionActionability::CandidateOnly,
                 reason: decision.hard_rule_note.clone(),
             };
         }
+        let permission_position_range = decision.entry_cap_value.clone();
+        let no_new_entry = eligible_asset_count == 0;
+        let effective_position_range = if no_new_entry {
+            "0%".to_string()
+        } else {
+            permission_position_range.clone()
+        };
+        let actionability = if no_new_entry {
+            ExecutionActionability::CandidateOnly
+        } else {
+            ExecutionActionability::Executable
+        };
         if matches!(state, MarketState::IGNITION | MarketState::NEWBORN) {
             return FinalExecutionDecision {
                 execution_window: ExecutionWindow::Limited,
                 participation_mode: ParticipationMode::Probe,
-                position_range: decision.entry_cap_value.clone(),
-                actionability: ExecutionActionability::Executable,
-                reason: match language {
-                    Language::ZhCn => "有限参与窗口 / 仅 Probe".to_string(),
-                    Language::EnUs => "Limited participation window / Probe Only".to_string(),
-                    Language::JaJp => "限定参加ウィンドウ / Probe のみ".to_string(),
+                position_range: effective_position_range,
+                permission_position_range,
+                eligible_asset_count,
+                actionability,
+                reason: if no_new_entry {
+                    Self::no_new_entry_reason(language)
+                } else {
+                    match language {
+                        Language::ZhCn => "有限参与窗口 / 仅 Probe".to_string(),
+                        Language::EnUs => "Limited participation window / Probe Only".to_string(),
+                        Language::JaJp => "限定参加ウィンドウ / Probe のみ".to_string(),
+                    }
                 },
             };
         }
         FinalExecutionDecision {
             execution_window: ExecutionWindow::Open,
             participation_mode: ParticipationMode::Add,
-            position_range: decision.entry_cap_value.clone(),
-            actionability: ExecutionActionability::Executable,
-            reason: decision.summary.clone(),
+            position_range: effective_position_range,
+            permission_position_range,
+            eligible_asset_count,
+            actionability,
+            reason: if no_new_entry {
+                Self::no_new_entry_reason(language)
+            } else {
+                decision.summary.clone()
+            },
+        }
+    }
+
+    fn no_new_entry_reason(language: Language) -> String {
+        match language {
+            Language::ZhCn => "市场权限已开放，但当前无可执行标的；实际行动为 NO_NEW_ENTRY".to_string(),
+            Language::EnUs => {
+                "Market permission is open, but no eligible asset is executable; effective action is NO_NEW_ENTRY".to_string()
+            }
+            Language::JaJp => {
+                "市場参加権限は開いているが、実行可能な銘柄がないため実効アクションは NO_NEW_ENTRY".to_string()
+            }
         }
     }
 
@@ -977,6 +1024,7 @@ impl PresentationAssembler {
         dict: &DisplayDictionary,
     ) -> ExitDecisionSummaryViewModel {
         let mut items = Vec::new();
+        let mut signal_items = Vec::new();
         let is_systemic_collapse = Self::is_systemic_collapse(packet);
 
         for asset in &packet.assets {
@@ -990,10 +1038,6 @@ impl PresentationAssembler {
                 asset.has_position_fact,
             );
             let unified_intent = Self::derive_unified_intent(asset, &context);
-
-            if !context.has_position {
-                continue;
-            }
 
             let (intent, intent_label, reason) = match unified_intent {
                 crate::features::radar::domain::position_intent::UnifiedPositionIntent::Exit => (
@@ -1065,15 +1109,24 @@ impl PresentationAssembler {
                 }
             };
 
-            items.push(ExitDecisionItemViewModel {
+            let item = ExitDecisionItemViewModel {
                 symbol: asset.symbol.clone(),
                 intent,
                 intent_label,
                 reason,
-            });
+            };
+            if matches!(
+                item.intent,
+                ExitDisplayIntent::Trim | ExitDisplayIntent::Exit
+            ) {
+                signal_items.push(item.clone());
+            }
+            if context.has_position {
+                items.push(item);
+            }
         }
 
-        items.sort_by(|a, b| {
+        let sort_fn = |a: &ExitDecisionItemViewModel, b: &ExitDecisionItemViewModel| {
             let prio = |intent: ExitDisplayIntent| match intent {
                 ExitDisplayIntent::Exit => 0,
                 ExitDisplayIntent::Trim => 1,
@@ -1083,11 +1136,15 @@ impl PresentationAssembler {
             prio(a.intent)
                 .cmp(&prio(b.intent))
                 .then_with(|| a.symbol.cmp(&b.symbol))
-        });
+        };
+        items.sort_by(sort_fn);
+        signal_items.sort_by(sort_fn);
 
         ExitDecisionSummaryViewModel {
             title: dict.headers.position_handling.clone(),
-            empty_note: if items.is_empty() {
+            signal_title: dict.decision.reduction_signal.clone(),
+            actual_action_title: dict.decision.actual_portfolio_action.clone(),
+            empty_note: if items.is_empty() && signal_items.is_empty() {
                 Some(
                     [
                         dict.reasons.position_none.as_str(),
@@ -1101,6 +1158,12 @@ impl PresentationAssembler {
             } else {
                 None
             },
+            no_action_note: if items.is_empty() && !signal_items.is_empty() {
+                Some(dict.reasons.position_no_action_no_holding.clone())
+            } else {
+                None
+            },
+            signal_items,
             items,
         }
     }

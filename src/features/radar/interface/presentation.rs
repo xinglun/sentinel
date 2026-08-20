@@ -242,6 +242,10 @@ pub struct FinalExecutionDecision {
     pub execution_window: ExecutionWindow,
     pub participation_mode: ParticipationMode,
     pub position_range: String,
+    #[serde(default)]
+    pub permission_position_range: String,
+    #[serde(default)]
+    pub eligible_asset_count: usize,
     pub actionability: ExecutionActionability,
     pub reason: String,
 }
@@ -279,7 +283,15 @@ pub struct ExitDecisionItemViewModel {
 pub struct ExitDecisionSummaryViewModel {
     pub title: String,
     #[serde(default)]
+    pub signal_title: String,
+    #[serde(default)]
+    pub actual_action_title: String,
+    #[serde(default)]
     pub empty_note: Option<String>,
+    #[serde(default)]
+    pub no_action_note: Option<String>,
+    #[serde(default)]
+    pub signal_items: Vec<ExitDecisionItemViewModel>,
     #[serde(default)]
     pub items: Vec<ExitDecisionItemViewModel>,
 }

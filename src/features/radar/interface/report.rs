@@ -201,6 +201,11 @@ fn generate_markdown_report(
         }
         card.push_str(&format!("\n> {}\n", d.summary));
     }
+    card.push_str(&render_effective_action_details(
+        pres,
+        &dict,
+        RenderMode::Markdown,
+    ));
     if !compact_no_trade_presentation && !d.readiness_reasons.is_empty() {
         card.push_str(&format!("\n- {}:\n", d.readiness_reasons_label));
         for reason in &d.readiness_reasons {
@@ -426,6 +431,11 @@ fn generate_telegram_html_report(
         }
         card.push_str(&format!("\n<i>{}</i>\n", d.summary));
     }
+    card.push_str(&render_effective_action_details(
+        pres,
+        &dict,
+        RenderMode::Html,
+    ));
     if !compact_no_trade_presentation && !d.readiness_reasons.is_empty() {
         card.push_str(&format!("\n• {}:\n", d.readiness_reasons_label));
         for reason in &d.readiness_reasons {
@@ -514,31 +524,106 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
         RenderMode::Markdown => out.push_str(&format!("### {}\n\n", pres.exit_summary.title)),
         RenderMode::Html => out.push_str(&format!("<b>{}</b>\n\n", pres.exit_summary.title)),
     }
-    if pres.exit_summary.items.is_empty() {
-        if let Some(note) = &pres.exit_summary.empty_note {
-            for line in note.lines() {
-                match mode {
-                    RenderMode::Markdown => out.push_str(&format!("> {}\n", line)),
-                    RenderMode::Html => out.push_str(&format!("{}\n", line)),
-                }
+    if !pres.exit_summary.signal_items.is_empty() {
+        match mode {
+            RenderMode::Markdown => {
+                out.push_str(&format!("#### {}\n\n", pres.exit_summary.signal_title))
+            }
+            RenderMode::Html => {
+                out.push_str(&format!("<b>{}</b>\n\n", pres.exit_summary.signal_title))
             }
         }
-    } else {
-        for item in &pres.exit_summary.items {
+        out.push_str(&render_exit_items(&pres.exit_summary.signal_items, mode));
+    }
+
+    match mode {
+        RenderMode::Markdown => out.push_str(&format!(
+            "#### {}\n\n",
+            pres.exit_summary.actual_action_title
+        )),
+        RenderMode::Html => out.push_str(&format!(
+            "<b>{}</b>\n\n",
+            pres.exit_summary.actual_action_title
+        )),
+    }
+    if !pres.exit_summary.items.is_empty() {
+        out.push_str(&render_exit_items(&pres.exit_summary.items, mode));
+    } else if let Some(note) = pres
+        .exit_summary
+        .no_action_note
+        .as_ref()
+        .or(pres.exit_summary.empty_note.as_ref())
+    {
+        for line in note.lines() {
             match mode {
-                RenderMode::Markdown => {
-                    out.push_str(&format!("- {} · {}\n", item.symbol, item.intent_label));
-                    out.push_str(&format!("   {}\n", item.reason));
-                }
-                RenderMode::Html => {
-                    out.push_str(&format!("• {} · {}\n", item.symbol, item.intent_label));
-                    out.push_str(&format!("  {}\n", item.reason));
-                }
+                RenderMode::Markdown => out.push_str(&format!("> {}\n", line)),
+                RenderMode::Html => out.push_str(&format!("{}\n", line)),
             }
         }
     }
     out.push('\n');
     out
+}
+
+fn render_exit_items(
+    items: &[crate::features::radar::interface::presentation::ExitDecisionItemViewModel],
+    mode: RenderMode,
+) -> String {
+    let mut out = String::new();
+    for item in items {
+        match mode {
+            RenderMode::Markdown => {
+                out.push_str(&format!("- {} · {}\n", item.symbol, item.intent_label));
+                out.push_str(&format!("   {}\n", item.reason));
+            }
+            RenderMode::Html => {
+                out.push_str(&format!("• {} · {}\n", item.symbol, item.intent_label));
+                out.push_str(&format!("  {}\n", item.reason));
+            }
+        }
+    }
+    out
+}
+
+fn render_effective_action_details(
+    pres: &PresentationPacket,
+    dict: &DisplayDictionary,
+    mode: RenderMode,
+) -> String {
+    let permission_range =
+        final_execution_permission_range(pres, &pres.decision_summary.entry_cap_value);
+    let effective_range =
+        final_execution_position_range(pres, &pres.decision_summary.entry_cap_value);
+    let permission = market_permission_label(pres);
+    let action = final_execution_action_label(pres);
+    match mode {
+        RenderMode::Markdown => format!(
+            "\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n- **{}**: {}\n",
+            dict.decision.market_permission,
+            permission,
+            dict.decision.eligible_assets,
+            pres.final_execution_decision.eligible_asset_count,
+            dict.decision.effective_action,
+            action,
+            dict.decision.permission_budget,
+            permission_range,
+            dict.decision.effective_new_entry_cap,
+            effective_range,
+        ),
+        RenderMode::Html => format!(
+            "\n<b>{}</b>: {}\n<b>{}</b>: {}\n<b>{}</b>: {}\n<b>{}</b>: {}\n<b>{}</b>: {}\n",
+            dict.decision.market_permission,
+            permission,
+            dict.decision.eligible_assets,
+            pres.final_execution_decision.eligible_asset_count,
+            dict.decision.effective_action,
+            action,
+            dict.decision.permission_budget,
+            permission_range,
+            dict.decision.effective_new_entry_cap,
+            effective_range,
+        ),
+    }
 }
 
 fn render_breakout_summary(
@@ -711,6 +796,13 @@ fn top_level_bias_label(pres: &PresentationPacket) -> String {
 fn final_execution_action_label(pres: &PresentationPacket) -> String {
     use crate::features::radar::interface::presentation::{ExecutionWindow, ParticipationMode};
     use crate::features::shared::interface::i18n::Language;
+    if pres.final_execution_decision.execution_window != ExecutionWindow::None
+        && pres.final_execution_decision.eligible_asset_count == 0
+    {
+        return crate::features::shared::interface::i18n::get_dictionary(pres.language)
+            .decision
+            .no_new_entry;
+    }
     match (
         pres.final_execution_decision.execution_window,
         pres.final_execution_decision.participation_mode,
@@ -743,6 +835,48 @@ fn final_execution_position_range(pres: &PresentationPacket, fallback: &str) -> 
     } else {
         pres.final_execution_decision.position_range.clone()
     }
+}
+
+fn final_execution_permission_range(pres: &PresentationPacket, fallback: &str) -> String {
+    if pres.final_execution_decision.reason.is_empty()
+        || pres
+            .final_execution_decision
+            .permission_position_range
+            .is_empty()
+    {
+        fallback.to_string()
+    } else {
+        pres.final_execution_decision
+            .permission_position_range
+            .clone()
+    }
+}
+
+fn market_permission_label(pres: &PresentationPacket) -> String {
+    use crate::features::radar::interface::presentation::{ExecutionWindow, ParticipationMode};
+    use crate::features::shared::interface::i18n::Language;
+    match (
+        pres.final_execution_decision.execution_window,
+        pres.final_execution_decision.participation_mode,
+    ) {
+        (ExecutionWindow::None, _) => match pres.language {
+            Language::ZhCn => "无市场参与权限",
+            Language::EnUs => "No Market Permission",
+            Language::JaJp => "市場参加権限なし",
+        },
+        (ExecutionWindow::Limited, ParticipationMode::Probe) => match pres.language {
+            Language::ZhCn => "有限参与窗口 / 仅 Probe",
+            Language::EnUs => "Limited Participation Window / Probe Only",
+            Language::JaJp => "限定参加ウィンドウ / Probe のみ",
+        },
+        (ExecutionWindow::Open, ParticipationMode::Add) => match pres.language {
+            Language::ZhCn => "开放参与窗口 / 可加仓",
+            Language::EnUs => "Open Participation Window / Add",
+            Language::JaJp => "参加ウィンドウ開始 / 追加可",
+        },
+        _ => pres.final_execution_decision.reason.as_str(),
+    }
+    .to_string()
 }
 
 fn render_post_actions_sections(

@@ -382,6 +382,16 @@ mod tests {
                 gate_passed: true,
                 ..Default::default()
             },
+            assets: vec![AssetActionDecision {
+                symbol: "ELIGIBLE".to_string(),
+                position_intent: PositionIntent::ADD,
+                asset_state: AssetStateSnapshot {
+                    symbol: "ELIGIBLE".to_string(),
+                    state: AssetState::OPTIMAL,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
             ..Default::default()
         };
         let config = mock_config(Language::EnUs);
@@ -404,7 +414,86 @@ mod tests {
             pres.final_execution_decision.actionability,
             crate::features::radar::interface::presentation::ExecutionActionability::Executable
         );
+        assert_eq!(pres.final_execution_decision.eligible_asset_count, 1);
+        assert_eq!(
+            pres.final_execution_decision.permission_position_range,
+            pres.decision_summary.entry_cap_value
+        );
         assert!(pres.final_execution_decision.reason.contains("Probe Only"));
+    }
+
+    #[test]
+    fn ignition_ready_without_eligible_asset_is_not_effectively_executable() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(
+            pres.final_execution_decision.actionability,
+            crate::features::radar::interface::presentation::ExecutionActionability::CandidateOnly
+        );
+        assert_eq!(pres.final_execution_decision.position_range, "0%");
+    }
+
+    #[test]
+    fn non_held_reduction_signal_is_rendered_as_signal_not_portfolio_action() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "SIGNAL_ONLY".to_string(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                position_intent: PositionIntent::TRIM,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("减仓信号"));
+        assert!(report.markdown_body.contains("实际减仓动作"));
+        assert!(report.markdown_body.contains("SIGNAL_ONLY"));
+        assert!(pres.exit_summary.items.is_empty());
     }
 
     #[test]

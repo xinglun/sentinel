@@ -30,6 +30,12 @@
 
 > Existing holdings may drift naturally; no new entries are allowed.
 
+- **Market Permission**: No Market Permission
+- **Eligible Assets**: 0
+- **Effective Action**: Candidate Only / No Execution Window
+- **Permission Budget**: 0%
+- **Effective New Entry Cap**: 0%
+
 > Candidates only, not executable trade targets.
 
 
@@ -39,6 +45,8 @@
    Leadership-style breakout · Strength 62 · Quality 100
 
 ### 📉 Risk Handling
+
+#### Actual Portfolio Action
 
 > No trim or exit conditions were triggered.
 
