@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.invalid/schemas/adopter-capability-manifest.schema.json",
+  "title": "AI Cockpit adopter-facing capability manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "schemaFile",
+    "manifestId",
+    "statusVocabulary",
+    "ownershipVocabulary",
+    "capabilityTruthRule",
+    "capabilities",
+    "exclusions"
+  ],
+  "properties": {
+    "$schema": {"type": "string", "minLength": 1},
+    "schemaVersion": {"const": 2},
+    "schemaFile": {"type": "string", "minLength": 1},
+    "manifestId": {"type": "string", "minLength": 1},
+    "statusVocabulary": {
+      "type": "array",
+      "const": ["implemented", "template_only", "adopter_installed", "planned"]
+    },
+    "ownershipVocabulary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "capabilityTruthRule": {"type": "string", "minLength": 1},
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/capability"}
+    },
+    "exclusions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/exclusion"}
+    }
+  },
+  "$defs": {
+    "relativePath": {"type": "string", "minLength": 1},
+    "surfaceList": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/relativePath"}
+    },
+    "entrypoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "args", "sideEffect"],
+      "properties": {
+        "path": {"$ref": "#/$defs/relativePath"},
+        "args": {"type": "array", "items": {"type": "string"}},
+        "sideEffect": {"const": "none"}
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "adopterFacing",
+        "status",
+        "truth",
+        "ownership",
+        "summary",
+        "templateFiles",
+        "installedFiles",
+        "catalogScripts",
+        "makeTargets",
+        "schemas",
+        "entrypoints",
+        "docs",
+        "verifyInstalledSurface"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "adopterFacing": {"const": true},
+        "status": {"enum": ["implemented", "template_only", "adopter_installed", "planned"]},
+        "truth": {"enum": ["implemented", "template_only", "adopter_installed", "planned"]},
+        "ownership": {"type": "string", "minLength": 1},
+        "summary": {"type": "string", "minLength": 1},
+        "surfaceRole": {"enum": ["primary", "reserved_reference"]},
+        "reservedSurfaceFrom": {"type": "string", "minLength": 1},
+        "templateFiles": {"$ref": "#/$defs/surfaceList"},
+        "installedFiles": {"$ref": "#/$defs/surfaceList"},
+        "catalogScripts": {"$ref": "#/$defs/surfaceList"},
+        "makeTargets": {"$ref": "#/$defs/surfaceList"},
+        "schemas": {"$ref": "#/$defs/surfaceList"},
+        "entrypoints": {"type": "array", "items": {"$ref": "#/$defs/entrypoint"}},
+        "docs": {"$ref": "#/$defs/surfaceList"},
+        "verifyInstalledSurface": {"type": "boolean"}
+      }
+    },
+    "exclusion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "adopterFacing",
+        "status",
+        "ownership",
+        "exclusionType",
+        "reason",
+        "templateFiles",
+        "installedFiles",
+        "makeTargets",
+        "schemas",
+        "docs"
+      ],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "adopterFacing": {"const": false},
+        "status": {"const": "excluded"},
+        "ownership": {"type": "string", "minLength": 1},
+        "exclusionType": {"enum": ["external", "template_only"]},
+        "reason": {"type": "string", "minLength": 1},
+        "templateFiles": {"$ref": "#/$defs/surfaceList"},
+        "installedFiles": {"$ref": "#/$defs/surfaceList"},
+        "makeTargets": {"$ref": "#/$defs/surfaceList"},
+        "schemas": {"$ref": "#/$defs/surfaceList"},
+        "docs": {"$ref": "#/$defs/surfaceList"}
+      }
+    }
+  }
+}

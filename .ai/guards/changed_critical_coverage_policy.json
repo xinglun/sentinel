@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "criticalFiles": {
+    "scripts/ai_checkpoint.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_ai_checkpoint.py",
+        "tests/test_checkpoint_intent.py",
+        "tests/test_core_gates.py"
+      ]
+    },
+    "scripts/ai_finish.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_finish_readiness.py",
+        "tests/test_core_gates.py",
+        "tests/test_task_outcome_ai_finish_integration.py",
+        "tests/test_verification_evidence.py",
+        "tests/test_ai_check_summary.py"
+      ]
+    },
+    "scripts/ai_doctor.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_doctor.py"
+      ]
+    },
+    "scripts/ai_check_scope.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_core_gates.py",
+        "tests/test_negative_scenarios.py"
+      ]
+    },
+    "scripts/ai_generate_status.py": {
+      "minimum": 80.0,
+      "tests": [
+        "tests/test_core_gates.py",
+        "tests/test_guards_and_status.py",
+        "tests/test_task_outcome_ai_finish_integration.py"
+      ]
+    },
+    "scripts/ai_check_summary.py": {
+      "minimum": 70.0,
+      "tests": [
+        "tests/test_ai_check_summary.py",
+        "tests/test_core_gates.py"
+      ]
+    },
+    "scripts/ai_archive_work_item.py": {
+      "minimum": 80.0,
+      "tests": [
+        "tests/test_ai_archive_work_item.py",
+        "tests/test_start_and_archive.py"
+      ]
+    },
+    "scripts/ai_check_status.py": {
+      "minimum": 70.0,
+      "tests": [
+        "tests/test_core_gates.py",
+        "tests/test_guards_and_status.py"
+      ]
+    },
+    "scripts/ai_check_status_consistency.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_core_gates.py",
+        "tests/test_guards_and_status.py"
+      ]
+    },
+    "scripts/ai_check_review_policy.py": {
+      "minimum": 80.0,
+      "tests": [
+        "tests/test_core_gates.py"
+      ]
+    },
+    "scripts/ai_project_doctor.py": {
+      "minimum": 80.0,
+      "tests": [
+        "tests/test_ai_project_doctor.py"
+      ]
+    },
+    "scripts/ai_project_profile.py": {
+      "minimum": 70.0,
+      "tests": [
+        "tests/test_guards_and_status.py",
+        "tests/test_ai_project_doctor.py"
+      ]
+    },
+    "scripts/ai_calibrate.py": {
+      "minimum": 60.0,
+      "tests": [
+        "tests/test_calibration_session.py",
+        "tests/test_calibration_inventory.py"
+      ]
+    },
+    "scripts/ai_check_guard_calibration.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_guards_and_status.py",
+        "tests/test_calibration_session.py"
+      ]
+    },
+    "scripts/ai_check_agent_risk.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_ai_check_agent_risk.py"
+      ]
+    },
+    "scripts/check_system_invariants.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_system_invariants.py"
+      ]
+    },
+    "scripts/ai_check_backtrack.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_negative_scenarios.py",
+        "tests/test_guards_and_status.py",
+        "tests/test_ai_check_backtrack.py"
+      ]
+    },
+    "scripts/ai_check_coverage_guard.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_negative_scenarios.py",
+        "tests/test_guards_and_status.py"
+      ]
+    },
+    "scripts/ai_check_guards.py": {
+      "minimum": 85.0,
+      "tests": [
+        "tests/test_guards_and_status.py",
+        "tests/test_negative_scenarios.py"
+      ]
+    },
+    "scripts/ai_check_work_item.py": {
+      "minimum": 70.0,
+      "tests": [
+        "tests/test_ai_check_work_item.py"
+      ]
+    },
+    "scripts/ai_check_scenario_coverage.py": {
+      "minimum": 75.0,
+      "tests": [
+        "tests/test_scenario_coverage_gate.py"
+      ]
+    }
+  }
+}

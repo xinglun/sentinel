@@ -83,6 +83,68 @@ def git_blob(revision: str, path: str) -> bytes | None:
     return result.stdout.encode()
 
 
+def _git_blob_hash(revision: str, path: str) -> str:
+    """指定 revision の path に対応する Git blob hash を返す。"""
+    result = run_git(["rev-parse", f"{revision}:{path}"])
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def _worktree_blob_hash(path: str) -> str:
+    """現在の worktree にある path の Git blob hash を返す。"""
+    result = run_git(["hash-object", "--no-filters", path])
+    return result.stdout.strip() if result.returncode == 0 else ""
+
+
+def _is_no_op_restore(base: str, path: str) -> bool:
+    """許可された baseline blob への復元だけを no-op と判定する。"""
+    worktree_blob = _worktree_blob_hash(path)
+    if not worktree_blob:
+        return False
+    return any(
+        baseline_blob and baseline_blob == worktree_blob
+        for revision in (base, f"{base}^")
+        for baseline_blob in [_git_blob_hash(revision, path)]
+    )
+
+
+def archive_evidence_changes(base: str) -> dict[str, str]:
+    """PR diff から archive evidence の変更だけを status map として返す。"""
+    result: dict[str, str] = {}
+    for status, path in changed_name_status(base):
+        if not (path.startswith(ARCHIVE_PREFIX) and has_known_suffix(path)):
+            continue
+        if status == "M" and _is_no_op_restore(base, path):
+            continue
+        result[path] = status
+    return result
+
+
+def archived_contract_paths(base: str) -> list[Path]:
+    """PR diff に含まれる archive Contract path を列挙する。"""
+    return [
+        PROJECT_ROOT / stem(path)
+        for path in archive_evidence_changes(base)
+        if path.endswith(".contract.json")
+    ]
+
+
+def archive_pair_rank(contract_path: Path, summary_path: Path) -> tuple[int, str, str]:
+    """archive pair の安定した並び順を返す。"""
+    try:
+        contract_rel = contract_path.relative_to(PROJECT_ROOT).as_posix()
+        summary_rel = summary_path.relative_to(PROJECT_ROOT).as_posix()
+    except ValueError:
+        return 0, contract_path.as_posix(), summary_path.as_posix()
+    try:
+        summary = load_json(summary_path)
+    except (OSError, ValueError, json.JSONDecodeError):
+        summary = {}
+    sequence = summary.get("archiveSequence") if isinstance(summary, dict) else None
+    if isinstance(sequence, int) and not isinstance(sequence, bool) and sequence > 0:
+        return sequence, contract_rel, summary_rel
+    return 0, contract_rel, summary_rel
+
+
 def is_ancestor(ancestor: str, descendant: str) -> bool:
     return run_git(["merge-base", "--is-ancestor", ancestor, descendant]).returncode == 0
 
@@ -197,12 +259,17 @@ def changed_file_paths(summary: dict[str, Any]) -> set[str]:
     }
 
 
+def changed_file_owns_path(summary: dict[str, Any], path: str) -> bool:
+    """Summary の exact path または glob pattern が変更 path を所有するか判定する。"""
+    return any(fnmatch.fnmatch(path, pattern) for pattern in changed_file_paths(summary))
+
+
 def contract_owns_path(contract: dict[str, Any], summary: dict[str, Any], path: str) -> bool:
     scope = contract.get("scope", [])
     out_of_scope = contract.get("outOfScope", [])
     in_scope = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in scope)
     excluded = any(isinstance(pattern, str) and fnmatch.fnmatch(path, pattern) for pattern in out_of_scope)
-    return in_scope and not excluded and path in changed_file_paths(summary)
+    return in_scope and not excluded and changed_file_owns_path(summary, path)
 
 
 def validate_evidence_ownership(changes: list[tuple[str, str]]) -> list[str]:

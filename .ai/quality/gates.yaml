@@ -1,0 +1,23 @@
+schemaVersion: 1
+
+gates:
+  project-test:
+    category: test
+    writes: [target/coverage.json, .coverage]
+    network: false
+    parallelGroup: tests
+  check-bandit-evidence:
+    category: supply-chain
+    writes: [target/quality/bandit.json]
+    network: false
+    parallelGroup: supply-chain
+  check-sbom:
+    category: supply-chain
+    writes: [.ai/cockpit/sbom.json]
+    network: false
+    parallelGroup: supply-chain
+  adopter-long-cycle:
+    category: evidence
+    writes: [target/adopter-long-cycle.json]
+    network: false
+    parallelGroup: adoption

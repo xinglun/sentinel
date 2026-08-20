@@ -9,6 +9,8 @@ ARGS ?=
 TASK ?=
 TITLE ?=
 MODE ?= investigate
+BASE_REMOTE ?= origin
+BASE_BRANCH ?= develop
 STAGE ?= manual
 RADAR_ARGS ?=
 DAEMON_ARGS ?=
@@ -32,8 +34,12 @@ COVERAGE_MIN_FILE_LINES ?= 50
 COVERAGE_FILE_IGNORE_REGEX ?= src/adapters/mod.rs|src/adapters/futu/mod.rs|src/adapters/futu/protocol/mod.rs|src/adapters/futu/protocol/generated/|src/adapters/yahoo_provider.rs|src/features/backtest/(acl/radar_decision_engine|application|infrastructure)|src/features/radar/acl/market_data_provider_factory.rs|src/features/radar/application/runtime_mode.rs|src/features/radar/application/evidence_assembly.rs|src/features/radar/interface/display.rs|src/features/research/infrastructure/dependency_source_adapter.rs
 COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-under-functions $(COVERAGE_MIN_FUNCTIONS) --fail-under-regions $(COVERAGE_MIN_REGIONS) --fail-under-file-lines $(COVERAGE_MIN_FILE_LINES) --ignore-filename-regex '$(COVERAGE_FILE_IGNORE_REGEX)'
 
+include Makefile.ai
+
+.PHONY: test-ai-install-facts test-ai-pr-evidence
+
 .PHONY: help fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-docs-metadata check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-radar-legacy-history-migration test-radar-cross-run-pipeline test-radar-workflow-contract test-radar-state-load-error test-radar-audit-history-errors test-radar-degraded-report-semantics test-data-history-retention prune-data-history test-ai-guards test-ai-backtrack test-ai-dependency-scope test-ai-retry-circuit test-ai-coverage-guard test-ai-scenario-coverage test-ai-finish-archive-flow test-ai-lifecycle test-ai-work-item-contract test-ai-verification-commands test-ai-work-item-risk-readiness test-ai-generate-status test-ai-start test-ai-preflight-review test-ai-checkpoint test-ai-pr-check test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links \
-	check-ai-contract check-ai-work-item check-ai-scope check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage \
+	check-ai-contract check-ai-work-item check-ai-scope check-ai-installer-catalog check-ai-guards check-ai-change-summary check-ai-backtrack check-ai-coverage-guard check-ai-scenario-coverage \
 	generate-cockpit-status check-ai-status check-ai-status-consistency ai-preflight generate-ai-preflight-review check-ai-preflight-review ai-start ai-finish ai-checkpoint ai-pr-lifecycle check-ai quality config-check radar radar-release daemon backtest \
 	backtest-release review audit-daily transition-audit-summary collect-evidence \
 	collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report archive-work-item check-work-items-lifecycle check-ai-pr test-ai-pr-lifecycle ai-close-work-item test-ai-close-work-item check-signal-context-consistency check-validation-epoch-freeze test-validation-epoch-freeze
@@ -218,6 +224,12 @@ test-ai-work-item-contract:
 test-ai-verification-commands:
 	python3 scripts/ai_test_verification_commands.py
 
+test-ai-install-facts:
+	python3 scripts/ai_test_install_facts.py
+
+test-ai-pr-evidence:
+	python3 scripts/ai_test_pr_evidence_glob.py
+
 test-ai-pr-check:
 	python3 scripts/ai_test_pr_check.py
 
@@ -263,6 +275,9 @@ check-ai-contract check-ai-work-item:
 
 check-ai-scope:
 	python3 scripts/ai_check_scope.py $(CONTRACT)
+
+check-ai-installer-catalog:
+	python3 scripts/ai_check_installer_catalog.py
 
 check-ai-guards:
 	python3 scripts/ai_check_guards.py $(if $(CONTRACT),--contract $(CONTRACT))

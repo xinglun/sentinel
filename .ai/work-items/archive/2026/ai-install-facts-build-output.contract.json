@@ -1,0 +1,221 @@
+{
+  "contractVersion": 2,
+  "workItemId": "ai-install-facts-build-output",
+  "mode": "code",
+  "title": "修正安装事实扫描边界并排除构建产物",
+  "baseCommit": "0ca40d8f26d15208652e896393abfc4f3c63e458",
+  "baselineDirtyPaths": [],
+  "problemStatement": "インストール事実の manifest 生成が Rust の target/ build output まで走査し、GitHub のファイルサイズ制限を超える巨大な事実ファイルを生成する。生成対象の境界を修正し、同種の再発を回帰テストで防ぐ。",
+  "intent": {
+    "problem": "ai_install_facts の build_manifest がプロジェクトの生成 build output を install facts に含める。",
+    "constraints": [
+      "managed runtime の install facts と manifest / rollback baseline の相互整合性を保持する。",
+      "production Rust code、reports、data、snapshot、既存 archive、既存 WI evidence は変更しない。",
+      "業務の Gate、execution、trader、action matrix、position sizing、report output には接続しない。"
+    ],
+    "rationale": "push 時に GitHub の 100MB 制限へ到達した再現可能な root cause を runtime の走査境界で修正する。"
+  },
+  "scope": [
+    ".ai/work-items/active/ai-install-facts-build-output.contract.json",
+    ".ai/work-items/active/ai-install-facts-build-output.summary.json",
+    ".ai/work-items/archive/2026/ai-install-facts-build-output.*",
+    ".ai/cockpit/current_status.md",
+    ".ai/install/**",
+    "scripts/ai_install_facts.py",
+    "scripts/ai_test_install_facts.py",
+    "Makefile"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "target/**",
+    ".ai/work-items/starts/**",
+    ".ai/work-items/external-handoffs/**",
+    ".ai/work-items/recovery-receipts/**",
+    ".ai/glossary.md",
+    "docs/**",
+    "reports/**",
+    "data/**",
+    "config.toml"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_install_facts.py",
+      "reason": "現在の build_manifest 実装と write_fact_bundle / validate_fact_bundle の契約。"
+    },
+    {
+      "path": ".ai/install/manifest.json",
+      "reason": "push 拒否を再現した 713,156 file entry の install fact と target/ 混入の直接証拠。"
+    },
+    {
+      "path": ".ai/install/rollback-baseline.json",
+      "reason": "manifest と連動して 113MB まで膨張した rollback baseline の直接証拠。"
+    },
+    {
+      "path": "scripts/ai_installer_managed_regions.py",
+      "reason": "installer が管理する runtime root の境界。"
+    },
+    {
+      "path": "origin/develop@fb40532e5f893c5baf59d9afbfae2669a0ad1cac",
+      "reason": "修正を適用する前の repository baseline。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "manifest の走査対象を狭めるため、managed facts の整合性と rollback / update status を再検証する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "root cause、scope、回帰テスト、受入条件、verification が確定している。"
+  },
+  "preReviewWarnings": [
+    "再生成した install facts は GitHub の 100MB 制限を下回ることを確認する。",
+    "build output を除外しても manifest / rollback baseline の validation と update status が通ることを確認する。"
+  ],
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "push 拒否の根因調査結果に基づき、install facts の走査境界修正を実施する。",
+    "openQuestions": [
+      "target/ 以外の業務データ境界はこの WI の対象外として保持すること。",
+      "修正後の manifest は機能清單更新の install facts として追跡可能であること。"
+    ]
+  },
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "build_manifest が target/ と既知の build output を install facts の file list へ含めない。",
+    "scripts/ai_test_install_facts.py が target/ 混入を検出し、修正後は除外を検証する。",
+    "manifest、rollback-baseline、version、release-identity、managed-regions の binding と validate_fact_bundle が通過する。",
+    "再生成した manifest.json と rollback-baseline.json は各 100MB 未満で、install status が active と rollbackAvailable を示す。",
+    "新しい回帰検証は make test-ai-install-facts として提供される。",
+    "業務 Rust code、reports、data、snapshot、既存 archive、既存 WI evidence は変更しない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "build output を install facts の対象から除外する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_install_facts.py",
+        "scripts/ai_test_install_facts.py",
+        ".ai/install/manifest.json"
+      ],
+      "reason": "target/ を含む最小再現を先に失敗させ、修正後に target path が存在しないことを回帰テストで確認する。"
+    },
+    {
+      "scenario": "manifest と rollback / status の binding を保持する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "scripts/ai_install_facts.py",
+        ".ai/install/version.json",
+        ".ai/install/release-identity.json",
+        ".ai/install/managed-regions.json",
+        ".ai/install/rollback-baseline.json"
+      ],
+      "reason": "再生成後に validate_fact_bundle、install status version、update-check を通過させる。"
+    },
+    {
+      "scenario": "業務境界へ接続しない",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "変更は install facts の file discovery と regression checker に限定し、業務判断を変更しない。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-install-facts",
+      "required": true
+    },
+    {
+      "command": "make check-ai-installer-catalog",
+      "required": true
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json SUMMARY=.ai/work-items/active/ai-install-facts-build-output.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/ai-install-facts-build-output.summary.json CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json SUMMARY=.ai/work-items/active/ai-install-facts-build-output.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/ai-install-facts-build-output.contract.json SUMMARY=.ai/work-items/active/ai-install-facts-build-output.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": false,
+    "allowPatterns": []
+  },
+  "rollbackNote": "install facts runtime と regression checker の diff を revert し、既存の template runtime と archive evidence を復元する。"
+}

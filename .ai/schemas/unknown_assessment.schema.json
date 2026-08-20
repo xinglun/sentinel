@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.local/schema/unknown-assessment-v1.json",
+  "title": "AI Cockpit Unknown Assessment and Human Confirmation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "assessmentId", "subject", "state", "knownUnknowns", "unresolvedQuestions", "assumptions", "examinedAreas", "unexaminedAreas", "evidenceGaps"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "assessmentId": {"type": "string", "minLength": 1},
+    "subject": {"type": "string", "minLength": 1},
+    "state": {"enum": ["known", "unknown", "needs_human_confirmation", "not_applicable"]},
+    "notApplicableReason": {"type": "string", "minLength": 1},
+    "knownUnknowns": {"type": "array", "items": {"$ref": "#/$defs/item"}},
+    "unresolvedQuestions": {"type": "array", "items": {"$ref": "#/$defs/item"}},
+    "assumptions": {"type": "array", "items": {"$ref": "#/$defs/item"}},
+    "examinedAreas": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "unexaminedAreas": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "evidenceGaps": {"type": "array", "items": {"$ref": "#/$defs/item"}}
+  },
+  "$defs": {
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement"],
+      "properties": {"id": {"type": "string", "minLength": 1}, "statement": {"type": "string", "minLength": 1}, "evidenceIds": {"type": "array", "items": {"type": "string"}}}
+    },
+    "confirmation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confirmationId", "role", "objectId", "scopeDigest", "evidenceDigest", "expiresAt", "decision"],
+      "properties": {
+        "confirmationId": {"type": "string", "minLength": 1},
+        "role": {"enum": ["reviewer", "owner", "security", "release"]},
+        "objectId": {"type": "string", "minLength": 1},
+        "scopeDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "evidenceDigest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "expiresAt": {"type": "string", "format": "date-time"},
+        "decision": {"enum": ["approved", "rejected"]},
+        "response": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.invalid/schemas/implementation-knowledge-query.schema.json",
+  "title": "AI Cockpit deterministic Implementation Knowledge query result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "query", "matchedCount", "results", "matches"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "query": {"$ref": "#/$defs/query"},
+    "matchedCount": {"type": "integer", "minimum": 0},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "workItemId",
+          "knowledgePath",
+          "state",
+          "latestKnownRecord",
+          "supersessionStatus",
+          "record"
+        ],
+        "properties": {
+          "workItemId": {"type": "string", "minLength": 1},
+          "knowledgePath": {"type": "string", "minLength": 1},
+          "state": {"enum": ["verified", "partial", "unknown", "superseded"]},
+          "latestKnownRecord": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+          "supersessionStatus": {"enum": ["current", "superseded", "conflict"]},
+          "record": {"$ref": "implementation-knowledge-record.schema.json"}
+        }
+      }
+    },
+    "matches": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/result"}
+    }
+  },
+  "$defs": {
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "workItemId",
+        "knowledgePath",
+        "state",
+        "latestKnownRecord",
+        "supersessionStatus",
+        "record"
+      ],
+      "properties": {
+        "workItemId": {"type": "string", "minLength": 1},
+        "knowledgePath": {"type": "string", "minLength": 1},
+        "state": {"enum": ["verified", "partial", "unknown", "superseded"]},
+        "latestKnownRecord": {"anyOf": [{"type": "string"}, {"type": "null"}]},
+        "supersessionStatus": {"enum": ["current", "superseded", "conflict"]},
+        "record": {"$ref": "implementation-knowledge-record.schema.json"}
+      }
+    },
+    "optionalString": {
+      "anyOf": [{"type": "string"}, {"type": "null"}]
+    },
+    "query": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "work_item_id",
+        "topic",
+        "component",
+        "commit",
+        "date_exact",
+        "status",
+        "date_from",
+        "date_to"
+      ],
+      "properties": {
+        "work_item_id": {"$ref": "#/$defs/optionalString"},
+        "topic": {"$ref": "#/$defs/optionalString"},
+        "component": {"$ref": "#/$defs/optionalString"},
+        "commit": {"$ref": "#/$defs/optionalString"},
+        "date_exact": {"$ref": "#/$defs/optionalString"},
+        "status": {"$ref": "#/$defs/optionalString"},
+        "date_from": {"$ref": "#/$defs/optionalString"},
+        "date_to": {"$ref": "#/$defs/optionalString"}
+      }
+    }
+  }
+}

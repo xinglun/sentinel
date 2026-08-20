@@ -1,0 +1,27 @@
+# Summary Checker policy.
+
+version: 1
+
+riskLevels:
+  - low
+  - medium
+  - high
+
+verificationResults:
+  - passed
+  - failed
+  - not_run
+
+reviewReadinessStatuses:
+  - not_ready
+  - ready
+  - ready_with_risks
+  - blocked
+
+requireChangedFiles: true
+requireRequiredVerificationPassed: true
+
+acceptance:
+  requireIdsForContractVersion: 2
+  requireEvidenceMapping: true
+  requireHumanReviewForRisk: high

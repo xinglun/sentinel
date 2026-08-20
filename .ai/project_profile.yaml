@@ -1,0 +1,96 @@
+# AI Cockpit repository Project Profile. This file is project-owned and is not copied during installation.
+version: 1
+repositoryRole: adopter
+templateReadinessMode: maintenance
+
+calibrationProfile:
+  level: strict
+  selectedBy: human
+  selectedAt: "2026-08-01T00:00:00+09:00"
+  reasons:
+    - "The template repository changes governance, installer, CI, and release surfaces."
+  requiredControls:
+    - source_paths
+    - test_paths
+    - generated_paths
+    - protected_paths
+    - quality_command
+    - default_branch
+    - project_owner
+    - reviewer
+    - major_unknowns
+    - file_ownership
+    - scenario_coverage
+    - destructive_change_policy
+    - dependency_policy
+    - ci_policy
+    - public_api_policy
+    - lifecycle_policy
+    - delegated_evidence
+    - reviewer_owner_separation
+    - external_identity_evidence
+    - release_evidence
+    - sbom
+    - provenance
+    - signed_tag_policy
+    - branch_protection_evidence
+    - audit_retention
+    - incident_exception_policy
+  deferredControls: []
+
+detectedFacts:
+  languages:
+    - "rust"
+    - "python"
+  frameworks: []
+  buildSystems:
+    - "cargo"
+    - "make"
+  infrastructure:
+    - "github-actions"
+
+suggestedBoundaries:
+  productionRoots:
+    - "scripts/ai_*.py"
+    - "scripts/bootstrap_*.py"
+  featureRoots:
+    - "scripts/**"
+  testRoots:
+    - "tests/**"
+  generatedPaths:
+    - "target/**"
+  criticalPaths:
+    - ".ai/**"
+    - ".github/workflows/**"
+    - "Makefile"
+
+approvedBoundaries:
+  productionRoots:
+    - "scripts/ai_*.py"
+    - "scripts/bootstrap_*.py"
+  featureRoots:
+    - "scripts/**"
+  testRoots:
+    - "tests/**"
+  generatedPaths:
+    - "target/**"
+  criticalPaths:
+    - ".ai/**"
+    - ".github/workflows/**"
+    - "Makefile"
+
+reviewRequirements:
+  - "quality"
+  - "governance-review"
+
+unknowns: []
+
+evidence:
+  - "python|confidence:high|evidence:scripts/*.py"
+  - "github-actions|confidence:high|evidence:.github/workflows"
+  - "boundaries|confidence:high|evidence:existing Guard policies"
+
+approval:
+  reviewed: true
+  reviewedBy: "repository maintainer"
+  reason: "Existing AI Cockpit repository boundaries are already enforced by the checked-in Guard policies."

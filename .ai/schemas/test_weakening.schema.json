@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.example/schemas/test-weakening.schema.json",
+  "title": "AI Cockpit Test Weakening Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "decision",
+    "signals",
+    "requiredExplanation",
+    "recoveryCondition",
+    "limitations"
+  ],
+  "properties": {
+    "version": {"const": 1},
+    "legacySourceVersion": {"const": 0},
+    "mode": {"enum": ["fast", "full"]},
+    "baseRef": {"type": "string", "minLength": 1},
+    "decision": {
+      "enum": ["continue", "warning", "review", "needs_human_confirmation", "block"]
+    },
+    "signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["type", "path", "severity"],
+        "properties": {
+          "type": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["low", "medium", "high", "critical"]},
+          "before": {"type": ["number", "array", "string"]},
+          "after": {"type": ["number", "array", "string"]},
+          "added": {"type": "array", "items": {"type": "string"}},
+          "removed": {"type": "array", "items": {"type": "string"}},
+          "changedLines": {"type": "integer"},
+          "beforePath": {"type": "string", "minLength": 1},
+          "afterPath": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "requiredExplanation": {"type": "boolean"},
+    "recoveryCondition": {"type": "string", "minLength": 1},
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "requirementEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "path", "source"],
+      "properties": {
+        "status": {"const": "accepted"},
+        "path": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "examples": [
+    {
+      "version": 1,
+      "mode": "full",
+      "baseRef": "0123456789abcdef",
+      "decision": "review",
+      "signals": [
+        {
+          "type": "assertion_reduction",
+          "path": "tests/test_order.py",
+          "before": 12,
+          "after": 5,
+          "severity": "high"
+        }
+      ],
+      "requiredExplanation": true,
+      "recoveryCondition": "Restore test strength or provide changed-requirement evidence.",
+      "limitations": ["Static signals do not prove semantic equivalence."]
+    }
+  ],
+  "x-negativeExamples": [
+    {"version": 1, "signals": [], "requiredExplanation": false},
+    {"version": 2, "decision": "continue", "signals": []}
+  ]
+}

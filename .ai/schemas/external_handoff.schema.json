@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Cockpit external handoff",
+  "type": "object",
+  "required": ["handoffVersion", "state", "bindings", "action", "fulfiller", "receiptKind", "deadline"],
+  "properties": {
+    "handoffVersion": {"const": 1},
+    "state": {"const": "awaiting_external_receipt"},
+    "action": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{2,127}$"},
+    "fulfiller": {"enum": ["hosted_ci", "provider_release", "human", "adopter"]},
+    "receiptKind": {"type": "string", "pattern": "^[a-z][a-z0-9_.-]{2,127}$"},
+    "deadline": {"type": "string", "pattern": "Z$"},
+    "bindings": {
+      "type": "object",
+      "required": ["workItemId", "branch", "headCommit", "tree", "contractDigest", "summaryDigest"],
+      "additionalProperties": false,
+      "properties": {
+        "workItemId": {"type": "string"}, "branch": {"type": "string"},
+        "headCommit": {"type": "string", "pattern": "^[a-f0-9]{40}$"}, "tree": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "contractDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "summaryDigest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "additionalProperties": false
+}

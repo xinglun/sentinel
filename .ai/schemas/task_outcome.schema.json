@@ -1,0 +1,379 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit-template.invalid/schemas/task_outcome.schema.json",
+  "title": "AI Cockpit Task Outcome Report",
+  "description": "Evidence-backed machine truth for one governed Work Item. Markdown and presentation views are derived later.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "schemaVersion", "workItemId", "status", "bindings", "sections"],
+  "properties": {
+    "format": {"const": "ai-cockpit-task-outcome"},
+    "schemaVersion": {"const": 1},
+    "workItemId": {"$ref": "#/$defs/taskId"},
+    "status": {"$ref": "#/$defs/reportStatus"},
+    "bindings": {"$ref": "#/$defs/bindings"},
+    "sections": {"$ref": "#/$defs/sections"},
+    "humanStatusColor": {"type": "string", "enum": ["green", "yellow", "red", "unknown"]},
+    "failedGate": {"type": "string"},
+    "recoveryCondition": {"type": "string"},
+    "humanHandoff": {"$ref": "#/$defs/humanHandoff"}
+  },
+  "$defs": {
+    "taskId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "reportStatus": {
+      "type": "string",
+      "enum": ["completed", "completed_with_warnings", "needs_human_confirmation", "blocked", "cancelled"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["informational", "low", "medium", "high", "critical"]
+    },
+    "finalState": {
+      "type": "string",
+      "enum": ["resolved", "mitigated", "accepted", "unresolved", "not_applicable"]
+    },
+    "findingCategory": {
+      "type": "string",
+      "enum": ["gap", "defect", "evidence", "security", "installer", "release", "process", "other"]
+    },
+    "riskKind": {
+      "type": "string",
+      "enum": ["observed_problem", "potential_risk", "prevented_event"]
+    },
+    "interventionKind": {
+      "type": "string",
+      "enum": ["observed", "warned", "intervened", "prevented"]
+    },
+    "preventionKind": {
+      "type": "string",
+      "enum": ["None", "Documentation", "Test", "Automated Check", "Structural Prevention"]
+    },
+    "evidenceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["subject", "source"],
+      "properties": {
+        "subject": {"type": "string", "minLength": 1, "maxLength": 512},
+        "source": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "handoffClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "evidenceRefs", "inference"],
+      "properties": {
+        "claim": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "title": {"type": "string", "maxLength": 1024},
+        "detail": {"type": "string", "maxLength": 4096},
+        "evidenceRefs": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "inference": {"type": "boolean"}
+      }
+    },
+    "handoffRisk": {
+      "allOf": [
+        {"$ref": "#/$defs/handoffClaim"},
+        {
+          "type": "object",
+          "required": ["severity", "state"],
+          "properties": {
+            "severity": {"$ref": "#/$defs/severity"},
+            "state": {"$ref": "#/$defs/finalState"}
+          }
+        }
+      ]
+    },
+    "redReason": {
+      "allOf": [
+        {"$ref": "#/$defs/handoffClaim"},
+        {
+          "type": "object",
+          "required": ["gate", "cause", "location", "recovery"],
+          "properties": {
+            "gate": {"type": "string", "minLength": 1},
+            "cause": {"type": "string", "minLength": 1},
+            "location": {"type": "string", "minLength": 1},
+            "recovery": {"type": "string", "minLength": 1}
+          }
+        }
+      ]
+    },
+    "handoffQuestions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problemCount", "problemCountEvidenceRefs", "blockedProblems", "resolvedProblems", "resolutionApproach", "avoidedRisks", "remainingRisks", "agentUnknowns", "humanConfirmations", "recurrenceLikelihood", "nextTime"],
+      "properties": {
+        "problemCount": {"type": "integer", "minimum": 0},
+        "problemCountEvidenceRefs": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "blockedProblems": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "resolvedProblems": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "resolutionApproach": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "avoidedRisks": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "remainingRisks": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "agentUnknowns": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "humanConfirmations": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "recurrenceLikelihood": {"$ref": "#/$defs/handoffClaim"},
+        "nextTime": {"$ref": "#/$defs/handoffClaim"}
+      }
+    },
+    "humanHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locale", "completed", "passed", "retained", "risks", "redReasons", "questions"],
+      "properties": {
+        "locale": {"type": "string", "enum": ["en", "ja", "zh-CN"]},
+        "completed": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "passed": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "retained": {"type": "array", "items": {"$ref": "#/$defs/handoffClaim"}},
+        "risks": {"type": "array", "items": {"$ref": "#/$defs/handoffRisk"}},
+        "redReasons": {"type": "array", "items": {"$ref": "#/$defs/redReason"}},
+        "questions": {"$ref": "#/$defs/handoffQuestions"}
+      }
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskId", "contractDigest", "summaryDigest", "verificationDigest", "baseCommit", "headCommit", "lifecycleStage", "pullRequest", "aiCockpitVersion", "generatorVersion"],
+      "properties": {
+        "taskId": {"$ref": "#/$defs/taskId"},
+        "contractDigest": {"$ref": "#/$defs/sha256"},
+        "summaryDigest": {"$ref": "#/$defs/sha256"},
+        "verificationDigest": {"$ref": "#/$defs/sha256"},
+        "baseCommit": {"$ref": "#/$defs/commit"},
+        "headCommit": {"$ref": "#/$defs/commit"},
+        "lifecycleStage": {"type": "string", "enum": ["pre_merge", "post_pr"]},
+        "pullRequest": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "state": {"type": "string", "enum": ["not_created"]},
+            "number": {"type": "integer", "minimum": 1},
+            "url": {"type": "string", "format": "uri", "pattern": "^https://.+"},
+            "mergeCommit": {"$ref": "#/$defs/commit"}
+          }
+        },
+        "aiCockpitVersion": {"$ref": "#/$defs/version"},
+        "generatorVersion": {"$ref": "#/$defs/version"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["findingFingerprint", "category", "severity", "title", "state", "evidence"],
+      "properties": {
+        "findingFingerprint": {"type": "string", "minLength": 1, "maxLength": 256},
+        "category": {"$ref": "#/$defs/findingCategory"},
+        "severity": {"$ref": "#/$defs/severity"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 512},
+        "state": {"$ref": "#/$defs/finalState"},
+        "description": {"type": "string", "maxLength": 4096},
+        "sourceWarning": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "affectedClaims": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "requiredEvidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "decisionOwner": {"type": "string", "minLength": 1, "maxLength": 512},
+        "mitigation": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "acceptanceStatus": {"type": "string", "minLength": 1, "maxLength": 128},
+        "blockingFor": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "severity", "title", "state", "evidence"],
+      "properties": {
+        "kind": {"$ref": "#/$defs/riskKind"},
+        "severity": {"$ref": "#/$defs/severity"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 512},
+        "state": {"$ref": "#/$defs/finalState"},
+        "description": {"type": "string", "maxLength": 4096},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "title", "evidence"],
+      "properties": {
+        "kind": {"$ref": "#/$defs/interventionKind"},
+        "title": {"type": "string", "minLength": 1, "maxLength": 512},
+        "description": {"type": "string", "maxLength": 4096},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "forcedStop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage", "reason", "policyOrGuard", "attemptedAction", "result", "evidence"],
+      "properties": {
+        "stage": {"type": "string", "minLength": 1, "maxLength": 128},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "policyOrGuard": {"type": "string", "minLength": 1, "maxLength": 256},
+        "attemptedAction": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "conditionalImpact": {"type": "string", "maxLength": 2048},
+        "handoff": {"type": "string", "maxLength": 2048},
+        "humanDecision": {"type": "string", "maxLength": 2048},
+        "recovery": {"type": "string", "maxLength": 2048},
+        "result": {"$ref": "#/$defs/finalState"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["problem", "action", "verification", "result", "evidence"],
+      "properties": {
+        "problem": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "action": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "verification": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "result": {"$ref": "#/$defs/finalState"},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "prevention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "coverage", "humanDependency"],
+      "properties": {
+        "kind": {"$ref": "#/$defs/preventionKind"},
+        "coverage": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "limits": {"type": "string", "maxLength": 2048},
+        "humanDependency": {"type": "string", "minLength": 1, "maxLength": 2048}
+      }
+    },
+    "limitation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceWarning", "title", "affectedClaims", "requiredEvidence", "forbiddenClaims"],
+      "properties": {
+        "sourceWarning": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "title": {"type": "string", "minLength": 1, "maxLength": 512},
+        "affectedClaims": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "requiredEvidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "forbiddenClaims": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "nonRiskExplanation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sourceWarning", "reason", "evidence"],
+      "properties": {
+        "sourceWarning": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 2048},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "approachClaim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "status", "evidence"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "status": {"type": "string", "enum": ["verified", "unverified", "unknown"]},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "approachComponent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component", "detail", "status", "evidence"],
+      "properties": {
+        "component": {"type": "string", "minLength": 1, "maxLength": 512},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "status": {"type": "string", "enum": ["verified", "unverified", "unknown"]},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "approachDecision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision", "reason", "status", "evidence"],
+      "properties": {
+        "decision": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "reason": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "status": {"type": "string", "enum": ["verified", "unverified", "unknown"]},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "approachDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["topic", "detail", "status", "evidence"],
+      "properties": {
+        "topic": {"type": "string", "minLength": 1, "maxLength": 512},
+        "detail": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "status": {"type": "string", "enum": ["verified", "unverified", "unknown"]},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/evidenceRef"}}
+      }
+    },
+    "approachEvidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim", "status", "source", "subject"],
+      "properties": {
+        "claim": {"type": "string", "minLength": 1, "maxLength": 2000},
+        "status": {"type": "string", "enum": ["verified", "unverified", "unknown"]},
+        "source": {"type": "string", "minLength": 1, "maxLength": 1024},
+        "subject": {"type": "string", "minLength": 1, "maxLength": 512},
+        "digest": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "implementationApproach": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approachType", "status", "summary", "mechanism", "affectedComponents", "designDecisions", "technicalDetails", "evidence"],
+      "properties": {
+        "approachType": {"type": "string", "enum": ["implementation", "configuration"]},
+        "status": {"type": "string", "enum": ["complete", "incomplete", "not_applicable"]},
+        "summary": {"$ref": "#/$defs/approachClaim"},
+        "mechanism": {"$ref": "#/$defs/approachClaim"},
+        "affectedComponents": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/approachComponent"}},
+        "designDecisions": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/approachDecision"}},
+        "technicalDetails": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/approachDetail"}},
+        "evidence": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/approachEvidence"}}
+      }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcomeSummary", "taskOverview", "deliveredChanges", "findings", "risks", "warnings", "limitations", "nonRiskExplanations", "forbiddenClaims", "interventions", "forcedStops", "resolutions", "recurrencePrevention", "avoidedImpact", "residualRisks", "humanDecisions", "evidence"],
+      "properties": {
+        "outcomeSummary": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "taskOverview": {"type": "string", "minLength": 1, "maxLength": 4096},
+        "deliveredChanges": {"type": "array", "items": {"type": "string", "maxLength": 2048}},
+        "findings": {"type": "array", "items": {"$ref": "#/$defs/finding"}},
+        "risks": {"type": "array", "items": {"$ref": "#/$defs/risk"}},
+        "warnings": {"type": "array", "items": {"type": "string", "maxLength": 2048}},
+        "limitations": {"type": "array", "items": {"$ref": "#/$defs/limitation"}},
+        "nonRiskExplanations": {"type": "array", "items": {"$ref": "#/$defs/nonRiskExplanation"}},
+        "forbiddenClaims": {"type": "array", "items": {"type": "string", "minLength": 1, "maxLength": 2048}},
+        "interventions": {"type": "array", "items": {"$ref": "#/$defs/intervention"}},
+        "forcedStops": {"type": "array", "items": {"$ref": "#/$defs/forcedStop"}},
+        "resolutions": {"type": "array", "items": {"$ref": "#/$defs/resolution"}},
+        "recurrencePrevention": {"type": "array", "items": {"$ref": "#/$defs/prevention"}},
+        "avoidedImpact": {"type": "array", "items": {"type": "string", "maxLength": 2048}},
+        "residualRisks": {"type": "array", "items": {"$ref": "#/$defs/risk"}},
+        "humanDecisions": {"type": "array", "items": {"type": "string", "maxLength": 2048}},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidenceRef"}},
+        "implementationApproach": {"$ref": "#/$defs/implementationApproach"}
+      }
+    }
+  }
+}
