@@ -61,12 +61,14 @@ Current Relative Strength は次の二軸を持つ。
 
 「長期構造トレンドの強まり」は strategic background に残すが、tactical mainline の存在を生成しない。pipeline は tactical reconciliation を先に完了してから Interpretation を生成し、旧い `主線存在（戦術未許可）` が解釈層へ混入することを防ぐ。
 
-`Relative Strength Recovery Breadth` は benchmark 以外の資産を分母とし、改善数と強・中程度の改善数を同時に表示する。改善資産が早期拡散の条件に達した場合は `RS Diffusion: EMERGING` とする。確認済み Leader、breakout、Action Matrix の強化を同時に満たした場合だけ `Actionable Diffusion` を `CONFIRMED` とし、それ以外は `NOT_CONFIRMED` とする。RS recovery 単独では新しい Leadership を構成せず、実行ウィンドウも開かない。
+`Relative Strength Recovery Breadth` は benchmark 以外で、1 日と 5 日の RS がともに利用可能な資産だけを分母とし、改善数と強・中程度の改善数を同時に表示する。改善資産が少なくとも 3 件かつ有効母数の 3 分の 1 以上である場合にだけ `RS Diffusion: EMERGING` とする。RS recovery 単独では新しい Leadership を構成せず、実行ウィンドウも開かない。
 
 表示・解釈の境界は次の条件で固定する。
 
 - Current Relative Strength の benchmark 表示は ViewModel の `benchmark_symbol` を使用し、旧データで値が欠落する場合だけ `SPY` に fallback する。US 以外の市場を `SPY` と表示しない。
-- Actionable Diffusion の breakout evidence は `EmergingBreakout` と `ConfirmedBreakout` の両方を受け入れる。ただし、これは Interpretation の観測値であり、Gate、Action Matrix、Execution の判定を変更しない。
+- Actionable Diffusion は、同一 symbol に Current Leader、`ConfirmedBreakout`、Action Matrix の `ACCUMULATE` がそろう場合だけ `CONFIRMED` とする。いずれかが欠落する場合、又は異なる symbol に分散する場合は `NOT_CONFIRMED` とする。これは Interpretation の観測値であり、Gate、Action Matrix、Execution の判定を変更しない。
+- `EmergingBreakout` と `ConfirmedBreakout` は report の status label を保った breakout observation として表示する。confirmed breakout を「候補」又は「萌芽」と再解釈しない。
+- Audit Daily の `Trend Cohesion` は tactical mainline と別の観測である。日次 summary と状態変化ラベルでは「Trend Cohesion / 趋势凝聚 / トレンド凝集」と表記し、mainline の存在・不在を上書きしない。
 - `Strong/Moderate Recovery` の集計は `status=IMPROVING` を前提とする。旧 JSON の `status=NEUTRAL` と `recovery_state=Recovering` の組み合わせを回復数へ加算しない。
 - Narrative では `IMPROVING + STRONG/MODERATE` を recovery、`IMPROVING + WEAK` を「初期改善だが回復未確認」として分離する。弱い改善を「明確な回復」と表現しない。
 
