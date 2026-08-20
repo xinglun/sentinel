@@ -124,6 +124,8 @@ pub struct LeaderPersistenceViewModel {
 pub struct CurrentRelativeStrengthItemViewModel {
     pub symbol: String,
     pub status: String,
+    #[serde(default, alias = "recovery_state")]
+    pub recovery_strength: String,
     pub relative_1d_vs_benchmark: Option<f64>,
     pub relative_5d_vs_benchmark: Option<f64>,
     pub price_position: Option<f64>,
@@ -140,6 +142,8 @@ pub struct CurrentRelativeStrengthItemViewModel {
 pub struct CurrentRelativeStrengthViewModel {
     pub title: String,
     pub confirmed_leader: String,
+    #[serde(default)]
+    pub benchmark_symbol: String,
     pub items: Vec<CurrentRelativeStrengthItemViewModel>,
     pub boundary: String,
 }
@@ -768,6 +772,26 @@ pub struct MarketInterpretationViewModel {
     pub breadth_semantic_label: String,
     #[serde(default)]
     pub breadth_semantic_value: String,
+    #[serde(default)]
+    pub rs_recovery_breadth_label: String,
+    #[serde(default)]
+    pub rs_recovery_breadth_value: String,
+    #[serde(default)]
+    pub strong_moderate_recovery_label: String,
+    #[serde(default)]
+    pub strong_moderate_recovery_value: String,
+    #[serde(default)]
+    pub rs_diffusion_label: String,
+    #[serde(default)]
+    pub rs_diffusion_value: String,
+    #[serde(default)]
+    pub actionable_diffusion_label: String,
+    #[serde(default)]
+    pub actionable_diffusion_value: String,
+    #[serde(default)]
+    pub diffusion_reason_label: String,
+    #[serde(default)]
+    pub diffusion_reason_value: String,
     #[serde(default)]
     pub tactical_leadership_structure_value: String,
     #[serde(default)]

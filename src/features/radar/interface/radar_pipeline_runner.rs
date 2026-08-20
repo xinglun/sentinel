@@ -440,17 +440,6 @@ pub(crate) async fn run_pipeline_for_report_date(
             }),
         };
         let subjects = collect_subjects(&expectation_snapshot, &gravity_observation);
-        pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
-            InterpretationLayerReadModelInput {
-                as_of_date: packet.date,
-                subjects: &subjects,
-                signal: interpretation_signal,
-                future_context,
-                decision_summary: Some(&pres_packet.decision_summary),
-                language: lang,
-                dict: &dict,
-            },
-        ));
         let mut current_leadership_snapshot = packet
             .transition_log
             .as_ref()
@@ -492,6 +481,17 @@ pub(crate) async fn run_pipeline_for_report_date(
             leader_absence_duration,
             lang,
         );
+        pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
+            InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: interpretation_signal,
+                future_context,
+                decision_summary: Some(&pres_packet.decision_summary),
+                language: lang,
+                dict: &dict,
+            },
+        ));
         pres_packet.signal_summary.supply_phase_label = current_supply_phase.phase_label.clone();
         pres_packet.signal_summary.supply_phase_value = current_supply_phase.phase_value.clone();
         let previous_market_interpretation = match (

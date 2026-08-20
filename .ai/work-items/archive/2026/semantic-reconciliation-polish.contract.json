@@ -1,0 +1,215 @@
+{
+  "contractVersion": 2,
+  "workItemId": "semantic-reconciliation-polish",
+  "mode": "code",
+  "title": "修正主线状态与相对强度恢复语义",
+  "baseCommit": "b3087e833a629c2ea906783316aa54618b31975d",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader absence が確定した日報で旧 mainline_exists 文言が残り、Current Relative Strength が NEUTRAL でも回復している資産を連続転弱として表示する意味断層を修正する。",
+  "intent": {
+    "problem": "主線状態と tactical leadership reconciliation の表示事実源を統一し、RS classification の閾値境界で recovery fact が失われないようにする。",
+    "constraints": [
+      "Decision、Gate、Execution、Trader、Action Matrix、NO_TRADE、Market Gate、Position Sizing は変更しない。",
+      "RS recovery は Observation / Presentation / Report の read model に限定し、既存 action と exit state は保持する。",
+      "稳定性スコアの計算と表示名称はこの Work Item の scope 外とする。"
+    ],
+    "rationale": "真实日报で leaderless と旧 mainline 文言が同時表示され、SPCX の NEUTRAL + 5 日相対強度回復が連続転弱理由に落ちるため。"
+  },
+  "scope": [
+    ".ai/work-items/active/semantic-reconciliation-polish.contract.json",
+    ".ai/work-items/active/semantic-reconciliation-polish.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/exit.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "Gate / Execution / Trader / Position Sizing の production code",
+    "稳定性スコアの計算、表示名称変更、NO_TRADE と Market Gate の semantics",
+    "Breadth、Leader Persistence、Interpretation 本体、snapshot / weekly metrics の既存契約"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "Observation-only boundary、Leader absence、Current Relative Strength conflict の既存設計。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "旧 mainline 文言の生成と現行 tactical reconciliation の実装。"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "reason": "Current Relative Strength の status と observation fact の実装。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "1日 / 5日相対強度と asset trend slope の observation 入力境界。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "多言語 report、observation-only boundary、既存 conflict の回帰テスト。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Rust quality gate、AI Cockpit と Work Item の必須境界。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Current Leader が none で Leader Absence が threshold 以上の日報トップ表示",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "leaderless top display と旧主線文言の非表示を report / presentation 回帰で検証した。"
+    },
+    {
+      "scenario": "弱い旧構造と NEUTRAL + 正の 5 日相対強度を持つ SPCX 類似資産",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "NEUTRAL のまま RECOVERING fact を保持し、RECOVERY_WATCH と recovery 説明へ reconciliation することを検証した。"
+    },
+    {
+      "scenario": "1日、5日、trend slope が揃って弱い資産の連続転弱表示",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "DETERIORATING recovery state で既存の連続転弱診断を保持する回帰を検証した。"
+    },
+    {
+      "scenario": "RS recovery が Decision / Action / Position Sizing を変更しない observation-only boundary",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test"],
+      "reason": "既存 action 値保持アサーションと全テストで observation-only boundary を検証した。"
+    },
+    {
+      "scenario": "稳定性 9.7/10 の計算と表示",
+      "required": false,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "ユーザー指定により観察項目として記録するだけで、今回の算法変更対象ではない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "i18n_snapshot",
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "表示層で旧語彙と tactical facts を統一し、RS status の閾値境界に recovery fact を追加するが、取引判断層へ接続しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザー承認済みの P0/P1 scope、acceptance、verification が確定している。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_user_approved_bounded_design",
+    "openQuestions": [
+      "真实数据中 SPCX 类似值的 trend slope 分布需在 focused test 与 review 中确认，但不阻塞当前 conservative recovery-state 规则。"
+    ]
+  },
+  "preReviewWarnings": [
+    "P0 は tactical leaderless facts が旧 mainline 文言を完全に上書きするか確認する。",
+    "P1 は recovery state を observation-only として保持し、既存 action / exit state を変更しないことを確認する。",
+    "SPCX 類似値の trend slope 判定と threshold 境界を review で重点確認する。",
+    "稳定性 9.7/10 は residual observation として記録し、算法変更を混入させない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Current Leader が none かつ Leader Absence が threshold 以上の場合、主線状態は『当前无确认主线』相当の localized value、主線構造は leaderless / fragmented 相当の value を表示し、旧『主線存在』文言を表示しない。",
+    "Relative Strength Recovery State は STRONG_RECOVERY / RECOVERING / NEUTRAL / DETERIORATING のいずれかとして observation に保持され、1日・5日相対強度と trend slope から導出される。",
+    "弱い旧構造と IMPROVING または STRONG_RECOVERY / RECOVERING が同時に存在する場合、report read model は SIGNAL_CONFLICT と RECOVERY_WATCH を表示し、『連続転弱』の説明を継続しない。",
+    "弱い旧構造と DETERIORATING が同時に存在する場合、既存の『主線掉队 / 连续转弱』相当の診断を保持する。",
+    "RS recovery の導入後も Decision、Gate、Execution、Trader、Action Matrix、NO_TRADE、Market Gate、Position Sizing の入力と値は変更されない。",
+    "P0/P1 の zh / en / ja report UI 回帰テストと domain test が追加または更新され、focused test で RED、GREEN の証跡を Summary に残す。",
+    "稳定性 9.7/10 の計算と既存表示は変更せず、観察対象として Summary の residual risk に記録する。",
+    "required verification はすべて make target 経由で実行し、Contract / Summary / Cockpit status の整合性を確認する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/semantic-reconciliation-polish.contract.json SUMMARY=.ai/work-items/active/semantic-reconciliation-polish.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

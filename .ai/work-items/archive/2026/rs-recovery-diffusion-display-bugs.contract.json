@@ -1,0 +1,301 @@
+{
+  "contractVersion": 2,
+  "workItemId": "rs-recovery-diffusion-display-bugs",
+  "mode": "code",
+  "title": "修复相对强度扩散展示边界漏洞",
+  "baseCommit": "e896b4e88be4bf2cb2a78428a8e0443f3063c67a",
+  "baselineDirtyPaths": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "status": "M",
+      "fingerprint": "f5dedd115cd254d3491e9e7e37991cc842db99e1eb663ca5074bc9d2c273988d"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/rs-recovery-diffusion-semantics.contract.json",
+      "status": "??",
+      "fingerprint": "7a784cf691a1be33ca961f7eadb4b17f9dee8e401046432a4c2542cd50297dca"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/rs-recovery-diffusion-semantics.summary.json",
+      "status": "??",
+      "fingerprint": "8d690e3081ccbcc7deab8a2ed4684bff3842d19219bbd7d61e9da49016918fde"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "status": "M",
+      "fingerprint": "4fe7bc2eed76335b5ab2facc47184289191cfea0522849700210a6ca63e18e29"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "status": "M",
+      "fingerprint": "bfdd5e3efa7f5bdfea50e81fe9592a7a312f300872e90d92e20212c717207426"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "status": "M",
+      "fingerprint": "6bf6cd904ff727dac6b996346467e9777133e191f99009a7bdcff629a1df0f7e"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "status": "M",
+      "fingerprint": "bea7651093762a4a77c8dc729a0e7e8a6c3dcd31b9dc54dd186946ecc4416b6e"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "status": "M",
+      "fingerprint": "958c0983b7fc8cdb37266113341f48b39fb0142782e154ecee76a6e14b14ba3e"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "status": "M",
+      "fingerprint": "4c3ea0c5ce85d1e4bcd645461c74d5bdfbfcb68c3ce2747a49a406ff2564e532"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "status": "M",
+      "fingerprint": "25b756a182c3c4cbff0474efccbe6f4c255fec035692e0f625da258bca9a0b13"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "status": "M",
+      "fingerprint": "e00d3ee6d73de7a5b3c83539a2a97cc0ce90354865d276d4b41844a9ec7e7a9b"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "status": "M",
+      "fingerprint": "6bc70172ef4566741df07bc0f4bd0d32711b23e8fbcd9f761002629fb94a417a"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "status": "M",
+      "fingerprint": "bd73691adced0c5f9392d0e38b4bbb54fa2a8c057ca8c72ee13648d811b95666"
+    }
+  ],
+  "problemStatement": "前回の Observation → Interpretation 修正に対する自己レビューで、benchmark 表示の固定、ConfirmedBreakout の除外、legacy recovery の過計上、弱い改善の叙事過度の四つの表示・解釈バグを確認した。",
+  "intent": {
+    "problem": "相対強度と Actionable Diffusion の表示が実際の benchmark、breakout 状態、state/recovery の整合性を失わないようにする。",
+    "constraints": [
+      "修正は Observation、Interpretation、Presentation、Markdown / Telegram / archival report とその回帰テストに限定する。",
+      "Leader、Gate、NO_TRADE、Action Matrix、Execution、Trader、Position Sizing、Decision state machine は変更しない。",
+      "ConfirmedBreakout は既存の breakout 確認証拠として扱うが、それだけで交易可否や Gate を変更しない。",
+      "旧 JSON の status / recovery_state aliases は保持し、legacy の NEUTRAL recovery は強中等恢复统计へ混入させない。"
+    ],
+    "rationale": "前回修正後も非 US benchmark が SPY と表示され、確認済み breakout が Actionable Diffusion から消え、legacy 状態と弱改善が Interpretation の強度を歪めるため。"
+  },
+  "scope": [
+    ".ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+    ".ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/leader_persistence/**",
+    "Gate、Execution、Trader、Action Matrix、Position Sizing、Decision state machine 的 production code",
+    "现有 Breadth Raw / Breadth Label / TrendBreadthMode 的算法和阈值",
+    "数据采集、reports data branch、JSONL/weekly metrics 持久化格式、snapshot contract 的迁移",
+    "新增 Make 运维入口"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "语言、Rust quality gate、Cockpit Contract 与观察/执行边界。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item readiness、required checks、Summary 与 status 契约。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "上一轮 Observation / Interpretation / report 的边界与阈值事实源。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "当前相对强度报告 benchmark 标签的输出路径。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "当前 RS Diffusion、breakout、recovery 计数与 narrative 的组装路径。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "多语言 report 与 Observation-only 边界的回归测试入口。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "CurrentRelativeStrengthViewModel 与 BreakoutDisplayStatus 的字段/枚举契约。"
+    },
+    {
+      "path": "src/features/radar/domain/rules.rs",
+      "reason": "US/HK/CN benchmark 的实际配置事实。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "i18n_snapshot",
+      "data_integrity",
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "修正影响三语 report 与 legacy read path；但范围仅为展示/Interpretation，执行边界明确排除。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "按四项已确认的展示/Interpretation 边界重新开启 Work Item，保持核心状态机与执行逻辑不变。",
+    "openQuestions": [
+      "RS Diffusion 的现有阈值与 denominator 是否需要另立后续 Work Item 观察。",
+      "旧 JSON 缺失 benchmark_symbol 时保留 SPY fallback 的兼容边界。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已确认对应重新开启；四项 bug 的 scope、acceptance、sources 与 verification 已明确。"
+  },
+  "preReviewWarnings": [
+    "确认 benchmark 标签从 ViewModel 的实际 benchmark_symbol 生成，并覆盖 HK/CN。",
+    "确认 ConfirmedBreakout 与 EmergingBreakout 都能满足 breakout evidence，但不进入执行逻辑。",
+    "确认 legacy status=Neutral + recovery_state=Recovering 不计入 Strong/Moderate Recovery。",
+    "确认弱改善只显示初步改善，不再使用恢复/明显恢复叙事。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Markdown、Telegram HTML body、archival Markdown 的相对强度标签使用 CurrentRelativeStrengthViewModel.benchmark_symbol；旧 JSON 缺失时仅回退 SPY。",
+    "Actionable Diffusion 的 breakout evidence 同时接受 EmergingBreakout 与 ConfirmedBreakout；现有 Leader、Action Matrix、Gate、NO_TRADE 与执行语义不变。",
+    "Strong/Moderate Recovery 只统计 status=IMPROVING 的 STRONG/MODERATE；legacy status=NEUTRAL + recovery_state=Recovering 不会污染统计。",
+    "IMPROVING + WEAK 的资产在三语 narrative 中使用‘初步改善、尚不足以确认恢复’语义；STRONG/MODERATE 才使用恢复语义。",
+    "新增回归测试覆盖 benchmark 标签、ConfirmedBreakout、legacy recovery 计数、弱改善 narrative，并覆盖 zh/en/ja report 输出约束。",
+    "不修改 Leader、Gate、NO_TRADE、Action Matrix、Execution、Trader、Position Sizing 或现有 Breadth 算法。",
+    "设计文档记录上述四项 Observation → Interpretation 边界；不新增裸 script 运维入口。",
+    "所有 required verification 都通过 make target 执行，并在 Summary / Cockpit status 中记录实际结果。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "HK/CN report 的 benchmark 标签使用 2800.HK / 510300.SS，缺失旧字段时才回退 SPY",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "src/features/radar/interface/report_ui_tests.rs", "src/features/radar/interface/report.rs"],
+      "reason": "三语 report 回归确认实际 benchmark_symbol 输出；空值 fallback 由既有 renderer contract 保持。"
+    },
+    {
+      "scenario": "ConfirmedBreakout 与 EmergingBreakout 都可作为 Actionable Diffusion 的 breakout evidence，但不改变执行语义",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "src/features/radar/interface/market_interpretation_read_model.rs"],
+      "reason": "ConfirmedBreakout 回归确认 Actionable Diffusion 进入 CONFIRMED，执行边界未变。"
+    },
+    {
+      "scenario": "legacy status=NEUTRAL + recovery_state=Recovering 不计入 Strong/Moderate Recovery，IMPROVING 才计入",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "src/features/radar/interface/market_interpretation_read_model.rs"],
+      "reason": "legacy neutral + moderate 回归确认不会进入 strong/moderate 计数。"
+    },
+    {
+      "scenario": "IMPROVING + WEAK 只显示初步改善；IMPROVING + STRONG/MODERATE 才显示 recovery 叙事",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "src/features/radar/interface/market_interpretation_read_model.rs", "src/features/radar/interface/report_ui_tests.rs"],
+      "reason": "弱改善 narrative 与 zh/en/ja report 回归确认初步改善文案。"
+    },
+    {
+      "scenario": "Leader、Gate、NO_TRADE、Action Matrix、Position Sizing 与 Breadth 算法不因展示修复改变",
+      "required": true,
+      "status": "verified",
+      "evidence": ["make test", "make clippy", "make check-architecture-all", "scope excludes execution and Breadth algorithms"],
+      "reason": "全量 quality / architecture checks 通过，修复仅位于展示与 Interpretation read model。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

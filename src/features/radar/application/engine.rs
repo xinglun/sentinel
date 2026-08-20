@@ -281,10 +281,12 @@ impl Engine {
                 {
                     current_relative_strength_observations.push(
                         crate::features::radar::domain::current_relative_strength::observe_current_relative_strength(
-                            crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthInput {
+                        crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthInput {
                                 symbol: f.symbol.clone(),
+                                benchmark_symbol: benchmark.symbol.clone(),
                                 relative_1d_vs_benchmark: calculate_relative_strength(asset, benchmark, 1),
                                 relative_5d_vs_benchmark: calculate_relative_strength(asset, benchmark, 5),
+                                trend_slope: f.slope,
                                 price_position: recent_price_position(asset),
                                 volume_participation: recent_volume_participation(asset),
                             },

@@ -1,0 +1,298 @@
+{
+  "contractVersion": 2,
+  "workItemId": "rs-recovery-diffusion-semantics",
+  "mode": "code",
+  "title": "修正相对强度恢复语义并增加扩散观测",
+  "baseCommit": "e896b4e88be4bf2cb2a78428a8e0443f3063c67a",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Leader absence 已确认的日报仍可能保留长期主线存在文案；当前相对强度只输出 IMPROVING，导致弱改善被解释为明显恢复；同时报告缺少从 RS 修复到可交易扩散之间的中间观测层。",
+  "intent": {
+    "problem": "统一 tactical leaderless 的首页语义，拆分 RelativeStrengthState 与 RecoveryStrength，并新增 RS Recovery Breadth / RS Diffusion / Actionable Diffusion 的观察只读模型。",
+    "constraints": [
+      "不修改核心状态机、Decision、Gate、NO_TRADE、Leader logic、Breadth logic、Action Matrix、Execution、Trader 或 Position Sizing。",
+      "RS Recovery 与 Diffusion 只进入 Observation、Interpretation、Presentation、Markdown/Telegram report，不参与交易执行或仓位计算。",
+      "5 日相对强度 >= 5% 为 STRONG，>= 2% 为 MODERATE，> 0% 为 WEAK；只有 IMPROVING + STRONG/MODERATE 才允许 RECOVERY_WATCH。",
+      "旧的 DecisionPacket JSON 能继续读取旧 status / recovery_state 字段，新的写出使用新的语义字段。"
+    ],
+    "rationale": "当前日报把 PLTR +1.26% 与 ISRG +0.11% 和 FIG/U/TSLA 的明显修复放在同一层级，且旧战略背景会反向生成主线存在；需要在不打开执行逻辑的前提下修复 Observation 到 Interpretation 的语义边界。"
+  },
+  "scope": [
+    ".ai/work-items/active/rs-recovery-diffusion-semantics.contract.json",
+    ".ai/work-items/active/rs-recovery-diffusion-semantics.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/leader_persistence/**",
+    "Gate、Execution、Trader、Action Matrix、Position Sizing、Decision state machine 的 production code",
+    "现有 Breadth Raw / Breadth Label / TrendBreadthMode 的算法和阈值",
+    "NO_TRADE、Market Gate、Leader confirmation semantics 的判定逻辑",
+    "数据采集、reports data branch、JSONL/weekly metrics 持久化格式、snapshot contract 的迁移",
+    "稳定性评分与现有 trend diffusion score 的计算和命名",
+    "新增 Make 运维入口"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "语言、Rust quality gate、Cockpit Contract、观察与执行边界。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item readiness、required checks、Summary 与 status 的 SSOT。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "上一轮 Observation / Interpretation / report 的事实源与 observation-only 边界。"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "reason": "当前 IMPROVING / recovery_state 的导出逻辑与 JSON 结构。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "首页 tactical leaderless 覆盖、RS conflict / RECOVERY_WATCH 生成和 Presentation read model。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "日报流水线中 Presentation、leader absence、Interpretation 的构建顺序。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "当前 RS symbol 集合、动作分布和市场解释 narrative 的事实拼装边界。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown、Telegram HTML body、archival Markdown 的统一输出契约。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "多语言 report、leaderless reconciliation、RS conflict 与 observation-only 回归测试。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Current Leader 为 none 且 absence duration 达到阈值时，首页与 Interpretation 不再出现主线存在",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/presentation_tests.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "P0 首页三项语义与 Interpretation 构建顺序已有回归测试。"
+    },
+    {
+      "scenario": "FIG/U/TSLA 的 5 日 RS >= 5% 被分为 IMPROVING / STRONG",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/domain/current_relative_strength.rs"
+      ],
+      "reason": "domain 阈值表测试覆盖 FIG、U、TSLA。"
+    },
+    {
+      "scenario": "PLTR +1.26% 与 ISRG +0.11% 被分为 IMPROVING / WEAK，不生成 RECOVERY_WATCH",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/domain/current_relative_strength.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "弱改善阈值与 presentation conflict gate 均有测试覆盖。"
+    },
+    {
+      "scenario": "RS Recovery Breadth 统计非 benchmark 资产，5/9 improving 与 strong/moderate 计数正确",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs"
+      ],
+      "reason": "read model test 固定 5/9 improving 与 3/9 strong/moderate。"
+    },
+    {
+      "scenario": "RS Diffusion 为 EMERGING 但无 Leader / breakout / Action Matrix 转强时，Actionable Diffusion 仍为 NOT_CONFIRMED",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "read model 与三语 report test 同时固定 EMERGING / NOT_CONFIRMED。"
+    },
+    {
+      "scenario": "旧 DecisionPacket JSON 的 status / recovery_state 可读取，新字段输出不改变 Gate 与 Action",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/domain/current_relative_strength.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "旧字段 aliases 与 action 不变的 observation-only 回归已通过。"
+    },
+    {
+      "scenario": "zh / en / ja 的 Markdown、Telegram HTML body、archival Markdown 输出一致且无 HTML 标签污染",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "三种语言和三种 delivery body 均有输出断言。"
+    },
+    {
+      "scenario": "现有 Breadth、Gate、NO_TRADE、Leader logic 与 trend diffusion score 保持不变",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make clippy",
+        "make check-architecture-all",
+        "scope excludes state machine, Gate, Leader logic and Breadth algorithms"
+      ],
+      "reason": "required quality and architecture checks passed; outOfScope boundary remains intact."
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "i18n_snapshot",
+      "data_integrity",
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "需要更新观察字段和 report read model，并保证旧 JSON 兼容与 leaderless 覆盖顺序；但不触碰执行判断链。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已确认 bounded design 与 5% / 2% recovery strength 阈值，scope、acceptance、verification 已明确。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_user_approved_bounded_design",
+    "openQuestions": [
+      "实现后需重点复核旧 JSON aliases、非 benchmark 分母和 Actionable Diffusion 的三条件边界。"
+    ]
+  },
+  "preReviewWarnings": [
+    "重点确认 leaderless override 在 Interpretation 构建前生效，并且首页三项事实不会被战略背景覆盖。",
+    "重点确认 PLTR / ISRG 等 WEAK improvement 不产生 SIGNAL_CONFLICT 或 RECOVERY_WATCH。",
+    "重点确认 RS Diffusion=EMERGING 只表示内部修复扩散，不会升级 Actionable Diffusion 或打开执行窗口。",
+    "重点确认旧 JSON 的 status / recovery_state aliases 不改变新写出语义。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability 发生变化时，先更新 Contract 与 Summary，再继续编辑。"
+  },
+  "acceptance": [
+    "Current Leader 为 none 且 Leader Absence Duration 达到阈值时，首页主线状态显示‘当前无确认主线’、主线结构显示‘无主线 / 分散’，并保留‘未确认启动期’状态语义；同一报告不再显示‘主线存在（战术未许可）’。",
+    "RelativeStrengthState 只包含 IMPROVING、NEUTRAL、WEAKENING；RecoveryStrength 只包含 STRONG、MODERATE、WEAK、NONE，并按已确认的 5% / 2% 阈值导出。",
+    "只有 IMPROVING + STRONG/MODERATE 且存在既有弱势结构时，才显示 SIGNAL_CONFLICT 与 RECOVERY_WATCH；IMPROVING + WEAK 显示‘相对强度出现初步改善，但尚不足以确认恢复’。",
+    "报告新增 RS Recovery Breadth、Strong/Moderate Recovery、RS Diffusion、Actionable Diffusion、Reason；5/9 improving、3/9 strong/moderate 的案例显示为 EMERGING + NOT_CONFIRMED。",
+    "Actionable Diffusion 只有在 Leader、breakout、Action Matrix 转强证据同时存在时才可确认；RS Diffusion 不改变 Leader、Gate、NO_TRADE、Action Matrix、Execution 或 Position Sizing。",
+    "benchmark 不计入 RS Recovery Breadth 分母；旧 DecisionPacket JSON 的 status / recovery_state 字段仍可读取，新的写出使用新的 state / recovery_strength 语义。",
+    "zh / en / ja 的 Markdown、Telegram HTML body、archival Markdown 都输出新的观察字段，且保持纯 Markdown 行格式约束。",
+    "上一轮 Observation semantic reconciliation 设计文档同步记录新的 Relative Strength 与 Diffusion 边界；不新增裸 script 运维入口。",
+    "所有 required verification 都通过 make target 执行，并在 Summary / Cockpit status 中记录实际结果。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-semantics.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-recovery-diffusion-semantics.summary.json CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-semantics.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-semantics.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-semantics.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "revert 本 Work Item 的 code、test、document 与 archive evidence diff；不删除既有 data branch 或用户成果物。"
+}

@@ -1,0 +1,180 @@
+{
+  "workItemId": "rs-benchmark-denominator-guard",
+  "contractPath": ".ai/work-items/archive/2026/rs-benchmark-denominator-guard.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "reason": "P2 self-audit finding、scope、acceptance、verification と review boundary を記録した。"
+    },
+    {
+      "path": ".ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "reason": "TDD red/green と required verification の evidence を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の Cockpit status を生成する。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "benchmark を RS Diffusion の有効 item から防御的に除外し、inline unit test で固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "benchmark_symbol がある入力だけを helper 内で防御的に除外する小規模な read model hardening。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "Self-audit found that RS Recovery Breadth claimed a non-benchmark denominator but the helper relied solely on PresentationAssembler's upstream benchmark filter."
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract completed and preflight passed.",
+      "contractHash": "e79314fcbcac1259",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD red reproduced benchmark denominator contamination before the production filter.",
+      "contractHash": "e79314fcbcac1259",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "TDD green and required local verification evidence recorded.",
+      "contractHash": "e79314fcbcac1259",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "Quality ran all code, test, coverage, architecture and governance gates; only the prefilled Summary receipt was repaired afterward.",
+      "contractHash": "e79314fcbcac1259",
+      "acceptanceCount": 5,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract と preflight を確認した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TDD red を確認してから最小 production filter を追加した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "required verification を記録した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "quality の code/test/coverage/guard gates を確認した。"
+    }
+  ],
+  "residualRisks": [],
+  "reviewReadiness": {
+    "status": "ready",
+    "reason": "benchmark exclusion is fixed by a focused regression test and all required checks are recorded.",
+    "expectedReviewFocus": [
+      "scope",
+      "sources",
+      "acceptance",
+      "verification"
+    ]
+  }
+}
