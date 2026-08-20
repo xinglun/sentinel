@@ -127,9 +127,12 @@ jobs:
                   value = json.loads(path.read_text(encoding="utf-8"))
               except (OSError, json.JSONDecodeError):
                   continue
-              market_date = value.get("market_date")
-              if isinstance(market_date, str):
-                  dates.append(market_date)
+              report_date = value.get("report_date")
+              if not isinstance(report_date, str):
+                  # 旧 snapshot は market_date を報告日として扱う。
+                  report_date = value.get("market_date")
+              if isinstance(report_date, str):
+                  dates.append(report_date)
           print(max(dates) if dates else "")
           PY
           )"
@@ -457,7 +460,26 @@ jobs:
           done
 
           HISTORY_STATE="reports/observation_history_state.json"
-          CURRENT_SNAPSHOT="$(find reports/snapshots -maxdepth 1 -type f -name "*_${DATE_JST}.json" -print -quit 2>/dev/null || true)"
+          CURRENT_SNAPSHOT="$(DATE_JST="${DATE_JST}" python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          expected_date = os.environ["DATE_JST"]
+          for path in sorted(Path("reports/snapshots").glob("*.json")):
+              try:
+                  value = json.loads(path.read_text(encoding="utf-8"))
+              except (OSError, json.JSONDecodeError):
+                  continue
+              snapshot_report_date = value.get("report_date")
+              if not isinstance(snapshot_report_date, str):
+                  # 旧 snapshot は market_date を報告日として扱う。
+                  snapshot_report_date = value.get("market_date")
+              if snapshot_report_date == expected_date:
+                  print(path)
+                  break
+          PY
+          )"
           if [ ! -s "${HISTORY_STATE}" ]; then
             echo "❌ CRITICAL: observation history state is missing or empty: ${HISTORY_STATE}"
             exit 1
@@ -471,7 +493,7 @@ jobs:
             && [ "${DATE_JST}" != "${RESTORED_LAST_SNAPSHOT_DATE}" ]; then
             CURRENT_SNAPSHOT_COUNT="$(find reports/snapshots -maxdepth 1 -type f -name '*.json' | wc -l | tr -d ' ')"
             if [ "${CURRENT_SNAPSHOT_COUNT}" -le "${RESTORED_SNAPSHOT_COUNT}" ]; then
-              echo "❌ CRITICAL: formal snapshot history did not append across the new market date"
+            echo "❌ CRITICAL: formal snapshot history did not append across the new report date"
               exit 1
             fi
           fi
@@ -500,15 +522,21 @@ jobs:
               raise SystemExit("observation history state has no valid count")
           if state["cycle_id"] != snapshot.get("cycle_id"):
               raise SystemExit("current snapshot cycle_id does not match observation history state")
-          if snapshot.get("market_date") != expected_date:
-              raise SystemExit("current snapshot market_date does not match report date")
+          snapshot_report_date = snapshot.get("report_date")
+          if isinstance(snapshot_report_date, str) and snapshot_report_date:
+              if snapshot_report_date != expected_date:
+                  raise SystemExit("current snapshot report_date does not match report date")
+          elif snapshot.get("market_date") != expected_date:
+              raise SystemExit("legacy current snapshot market_date does not match report date")
+          if not isinstance(snapshot.get("market_date"), str):
+              raise SystemExit("current snapshot has no market_date")
           if (
               restored_snapshot_count > 0
               and restored_last_snapshot_date
               and expected_date != restored_last_snapshot_date
               and history_count <= restored_history_count
           ):
-              raise SystemExit("observation history state count did not append across the new market date")
+              raise SystemExit("observation history state count did not append across the new report date")
           print(f"✅ Formal snapshot/state continuity verified: cycle_id={state['cycle_id']}")
           PY
 
