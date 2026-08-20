@@ -1749,7 +1749,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(report.contains("6. 审计一句话"));
         assert!(report.contains("口径: 连续段按日志连续计算（周末自动衔接）"));
         assert!(report.contains("当前状态：NO TRADE；主因："));
-        assert!(report.contains("；今日突破：GOOG（新增）；主线状态：未形成。"));
+        assert!(report.contains("；今日突破：GOOG（新增）；趋势凝聚状态：未形成。"));
     }
 
     #[test]
@@ -1790,7 +1790,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(report.contains("6. Audit One-liner"));
         assert!(report.contains("Methodology: streaks are calculated by log continuity"));
         assert!(report.contains("Current state: NO TRADE; primary blockers:"));
-        assert!(report.contains("today's breakout: GOOG (new); mainline status: Not formed."));
+        assert!(report.contains("today's breakout: GOOG (new); trend cohesion status: Not formed."));
     }
 
     #[test]
@@ -1831,7 +1831,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(report.contains("6. 監査ワンライン要約"));
         assert!(report.contains("口径: 連続区間はログ連続で計算（週末は自動連結）"));
         assert!(report.contains("現在の状態：NO TRADE；主因："));
-        assert!(report.contains("本日のブレイクアウト：GOOG（新規）；主線状態：未形成。"));
+        assert!(report.contains("本日のブレイクアウト：GOOG（新規）；トレンド凝集状態：未形成。"));
     }
 
     #[test]

@@ -1087,7 +1087,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_top_blockers: "最主要阻碍因子前三项",
             label_state_change: "今天是否有状态变化",
             label_risk_change: "今天是否有风险叠加变化",
-            label_trend_change: "今天是否有主线状态变化",
+            label_trend_change: "今天是否有趋势凝聚状态变化",
             label_mode_change: "今天是否有 NO TRADE 分层变化",
             label_scout_reset: "今天是否触发侦察重置",
             label_breakout_new: "新增突破",
@@ -1133,7 +1133,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_top_blockers: "Top 3 blockers",
             label_state_change: "State changed today",
             label_risk_change: "Risk overlay changed today",
-            label_trend_change: "Mainline status changed today",
+            label_trend_change: "Trend cohesion status changed today",
             label_mode_change: "NO TRADE tier changed today",
             label_scout_reset: "Scout reset triggered today",
             label_breakout_new: "New breakout",
@@ -1182,7 +1182,7 @@ fn audit_text(language: Language) -> AuditDailyText {
             label_top_blockers: "主要阻害要因 Top 3",
             label_state_change: "本日の状態変化",
             label_risk_change: "本日のリスクオーバーレイ変化",
-            label_trend_change: "本日の主線状態変化",
+            label_trend_change: "本日のトレンド凝集状態変化",
             label_mode_change: "本日の NO TRADE レイヤー変化",
             label_scout_reset: "本日の偵察リセット発生",
             label_breakout_new: "新規ブレイクアウト",
@@ -1669,30 +1669,30 @@ fn build_audit_sentence(language: Language, context: AuditSentenceContext<'_>) -
     if !complete_formal_baseline {
         return match language {
             Language::ZhCn => format!(
-                "当前状态：{}；主因：{}；今日突破：{}；主线状态：{}。",
+                "当前状态：{}；主因：{}；今日突破：{}；趋势凝聚状态：{}。",
                 gate_status, blocker_text, breakout_text, mainline_text
             ),
             Language::EnUs => format!(
-                "Current state: {}; primary blockers: {}; today's breakout: {}; mainline status: {}.",
+                "Current state: {}; primary blockers: {}; today's breakout: {}; trend cohesion status: {}.",
                 gate_status, blocker_text, breakout_text, mainline_text
             ),
             Language::JaJp => format!(
-                "現在の状態：{}；主因：{}；本日のブレイクアウト：{}；主線状態：{}。",
+                "現在の状態：{}；主因：{}；本日のブレイクアウト：{}；トレンド凝集状態：{}。",
                 gate_status, blocker_text, breakout_text, mainline_text
             ),
         };
     }
     match language {
         Language::ZhCn => format!(
-            "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日突破：{}；主线状态：{}。",
+            "{} 连续第 {} 天；主因：{}；NO TRADE 分层：{}；今日突破：{}；趋势凝聚状态：{}。",
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::EnUs => format!(
-            "{} day {} in a row; primary blockers: {}; NO TRADE tier: {}; today's breakout: {}; mainline status: {}.",
+            "{} day {} in a row; primary blockers: {}; NO TRADE tier: {}; today's breakout: {}; trend cohesion status: {}.",
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
         Language::JaJp => format!(
-            "{} 連続 {} 日目；主因：{}；NO TRADE レイヤー：{}；本日のブレイクアウト：{}；主線状態：{}。",
+            "{} 連続 {} 日目；主因：{}；NO TRADE レイヤー：{}；本日のブレイクアウト：{}；トレンド凝集状態：{}。",
             gate_status, gate_streak, blocker_text, no_trade_mode, breakout_text, mainline_text
         ),
     }

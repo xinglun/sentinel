@@ -56,33 +56,39 @@ fn build_relative_strength_diffusion(
         &crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel,
     >,
     current_leaders: &[String],
-    breakout_leaders: &[String],
-    action_distribution: ActionDistribution,
+    confirmed_breakout_symbols: &[String],
+    accumulate_symbols: &[String],
     language: Language,
 ) -> RelativeStrengthDiffusionReadModel {
     let items = strength
         .map(|value| value.items.as_slice())
         .unwrap_or_default();
-    let total_count = items.len();
-    let improving_count = items
+    let valid_items = items
+        .iter()
+        .filter(|item| {
+            item.relative_1d_vs_benchmark.is_some() && item.relative_5d_vs_benchmark.is_some()
+        })
+        .collect::<Vec<_>>();
+    let total_count = valid_items.len();
+    let improving_count = valid_items
         .iter()
         .filter(|item| item.status == "IMPROVING")
         .count();
-    let strong_moderate_count = items
+    let strong_moderate_count = valid_items
         .iter()
         .filter(|item| item.status == "IMPROVING")
         .filter(|item| matches!(item.recovery_strength.as_str(), "STRONG" | "MODERATE"))
         .count();
     let diffusion_value = if total_count == 0 {
         "UNAVAILABLE"
-    } else if improving_count >= 3 {
+    } else if improving_count >= 3 && improving_count.saturating_mul(3) >= total_count {
         "EMERGING"
     } else {
         "NOT_CONFIRMED"
     };
-    let actionable_confirmed = !current_leaders.is_empty()
-        && !breakout_leaders.is_empty()
-        && action_distribution.accumulate > 0;
+    let actionable_confirmed = current_leaders.iter().any(|symbol| {
+        confirmed_breakout_symbols.contains(symbol) && accumulate_symbols.contains(symbol)
+    });
     let actionable_diffusion_value = if actionable_confirmed {
         "CONFIRMED"
     } else {
@@ -94,11 +100,18 @@ fn build_relative_strength_diffusion(
             if current_leaders.is_empty() {
                 missing.push("没有确认 Leader");
             }
-            if breakout_leaders.is_empty() {
+            if confirmed_breakout_symbols.is_empty() {
                 missing.push("没有 breakout");
             }
-            if action_distribution.accumulate == 0 {
+            if accumulate_symbols.is_empty() {
                 missing.push("Action Matrix 未转强确认");
+            }
+            if !current_leaders.is_empty()
+                && !confirmed_breakout_symbols.is_empty()
+                && !accumulate_symbols.is_empty()
+                && !actionable_confirmed
+            {
+                missing.push("Leader、breakout 与 Action Matrix 未在同一资产上确认");
             }
             if missing.is_empty() {
                 "Leader、breakout 与 Action Matrix 均已确认转强。".to_string()
@@ -111,11 +124,20 @@ fn build_relative_strength_diffusion(
             if current_leaders.is_empty() {
                 missing.push("no confirmed Leader");
             }
-            if breakout_leaders.is_empty() {
+            if confirmed_breakout_symbols.is_empty() {
                 missing.push("no breakout");
             }
-            if action_distribution.accumulate == 0 {
+            if accumulate_symbols.is_empty() {
                 missing.push("no Action Matrix strengthening confirmation");
+            }
+            if !current_leaders.is_empty()
+                && !confirmed_breakout_symbols.is_empty()
+                && !accumulate_symbols.is_empty()
+                && !actionable_confirmed
+            {
+                missing.push(
+                    "Leader, breakout, and Action Matrix are not confirmed on the same asset",
+                );
             }
             if missing.is_empty() {
                 "Leader, breakout, and Action Matrix strengthening are all confirmed.".to_string()
@@ -128,11 +150,18 @@ fn build_relative_strength_diffusion(
             if current_leaders.is_empty() {
                 missing.push("確認済み Leader なし");
             }
-            if breakout_leaders.is_empty() {
+            if confirmed_breakout_symbols.is_empty() {
                 missing.push("breakout なし");
             }
-            if action_distribution.accumulate == 0 {
+            if accumulate_symbols.is_empty() {
                 missing.push("Action Matrix の強化確認なし");
+            }
+            if !current_leaders.is_empty()
+                && !confirmed_breakout_symbols.is_empty()
+                && !accumulate_symbols.is_empty()
+                && !actionable_confirmed
+            {
+                missing.push("Leader、breakout、Action Matrix が同一資産で確認されていない");
             }
             if missing.is_empty() {
                 "Leader、breakout、Action Matrix の強化を確認済み。".to_string()
@@ -370,13 +399,29 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
                     | crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout
             )
         })
+        .map(|item| format!("{} ({})", item.symbol, item.status_label))
+        .collect::<Vec<_>>();
+    let confirmed_breakout_symbols = pres_packet
+        .breakout_summary
+        .items
+        .iter()
+        .filter(|item| {
+            item.status
+                == crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout
+        })
         .map(|item| item.symbol.clone())
         .collect::<Vec<_>>();
+    let accumulate_symbols = pres_packet
+        .tactical_buckets
+        .iter()
+        .find(|bucket| bucket.bucket_id == "accumulate")
+        .map(|bucket| bucket.items.as_slice())
+        .unwrap_or_default();
     let rs_diffusion = build_relative_strength_diffusion(
         pres_packet.current_relative_strength.as_ref(),
         &current_leaders,
-        &breakout_leaders,
-        action_distribution,
+        &confirmed_breakout_symbols,
+        accumulate_symbols,
         language,
     );
     let narrative_values = market_interpretation_narrative_values(
@@ -1471,14 +1516,14 @@ fn market_interpretation_narrative_values(
                 &supporting
             },
             if breakouts.is_empty() {
-                "当前没有 Read Model 标记的突破萌芽"
+                "当前没有 Read Model 标记的突破观察"
             } else {
-                "当前突破萌芽: "
+                "当前突破观察: "
             },
             if breakouts.is_empty() { "" } else { &breakouts }
         ),
         ("normal", Language::EnUs) => format!(
-            "Current rank leader: {primary}; supporting leaders: {}. Breakout leaders: {}.",
+            "Current rank leader: {primary}; supporting leaders: {}. Breakout observations: {}.",
             if supporting.is_empty() {
                 "UNAVAILABLE"
             } else {
@@ -1491,7 +1536,7 @@ fn market_interpretation_narrative_values(
             }
         ),
         ("normal", Language::JaJp) => format!(
-            "現在の順位リーダーは {primary}、支援リーダーは {}。ブレイクアウト候補は {}。",
+            "現在の順位リーダーは {primary}、支援リーダーは {}。ブレイクアウト観測は {}。",
             if supporting.is_empty() {
                 "UNAVAILABLE"
             } else {
@@ -2614,6 +2659,26 @@ mod tests {
     }
 
     #[test]
+    fn normal_narrative_does_not_call_confirmed_breakouts_emerging() {
+        let values = market_interpretation_narrative_values(
+            "normal",
+            "",
+            &[],
+            &["GOOG (Confirmed Breakout)".to_string()],
+            Some(50.0),
+            &[],
+            &[],
+            &RelativeStrengthDiffusionReadModel::default(),
+            0,
+            ActionDistribution::default(),
+            Language::ZhCn,
+        );
+
+        assert!(values[0].contains("当前突破观察"));
+        assert!(!values[0].contains("突破萌芽"));
+    }
+
+    #[test]
     fn rs_diffusion_reports_five_of_nine_without_confirming_actionable_diffusion() {
         let mut items = Vec::new();
         for index in 0..9 {
@@ -2632,6 +2697,8 @@ mod tests {
                     } else {
                         "NONE".to_string()
                     },
+                    relative_1d_vs_benchmark: Some(0.0),
+                    relative_5d_vs_benchmark: Some(0.0),
                     ..Default::default()
                 },
             );
@@ -2642,13 +2709,8 @@ mod tests {
                 ..Default::default()
             };
 
-        let result = build_relative_strength_diffusion(
-            Some(&strength),
-            &[],
-            &[],
-            ActionDistribution::default(),
-            Language::ZhCn,
-        );
+        let result =
+            build_relative_strength_diffusion(Some(&strength), &[], &[], &[], Language::ZhCn);
 
         assert_eq!(result.recovery_breadth_value, "5/9 非基准资产改善");
         assert_eq!(result.strong_moderate_recovery_value, "3/9 强/中等恢复");
@@ -2665,26 +2727,89 @@ mod tests {
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                     status: "NEUTRAL".to_string(),
                     recovery_strength: "MODERATE".to_string(),
+                    relative_1d_vs_benchmark: Some(0.0),
+                    relative_5d_vs_benchmark: Some(0.0),
                     ..Default::default()
                 },
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                     status: "IMPROVING".to_string(),
                     recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(0.0),
+                    relative_5d_vs_benchmark: Some(0.0),
                     ..Default::default()
                 },
             ],
             ..Default::default()
         };
 
-        let result = build_relative_strength_diffusion(
-            Some(&strength),
-            &[],
-            &[],
-            ActionDistribution::default(),
-            Language::ZhCn,
-        );
+        let result =
+            build_relative_strength_diffusion(Some(&strength), &[], &[], &[], Language::ZhCn);
 
         assert_eq!(result.strong_moderate_recovery_value, "1/2 强/中等恢复");
+    }
+
+    #[test]
+    fn rs_recovery_breadth_excludes_assets_without_complete_rs_observations() {
+        let strength = crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+            items: vec![
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "FIG".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(4.24),
+                    relative_5d_vs_benchmark: Some(14.88),
+                    ..Default::default()
+                },
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "MISSING_1D".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: None,
+                    relative_5d_vs_benchmark: Some(8.0),
+                    ..Default::default()
+                },
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "MISSING_5D".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(2.0),
+                    relative_5d_vs_benchmark: None,
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let result =
+            build_relative_strength_diffusion(Some(&strength), &[], &[], &[], Language::ZhCn);
+
+        assert_eq!(result.recovery_breadth_value, "1/1 非基准资产改善");
+        assert_eq!(result.strong_moderate_recovery_value, "1/1 强/中等恢复");
+    }
+
+    #[test]
+    fn rs_diffusion_requires_one_third_of_valid_assets_to_be_improving() {
+        let items = (0..10)
+            .map(|index| {
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: format!("ASSET{index}"),
+                    status: if index < 3 { "IMPROVING" } else { "NEUTRAL" }.to_string(),
+                    relative_1d_vs_benchmark: Some(0.0),
+                    relative_5d_vs_benchmark: Some(0.0),
+                    ..Default::default()
+                }
+            })
+            .collect();
+        let strength =
+            crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                items,
+                ..Default::default()
+            };
+
+        let result =
+            build_relative_strength_diffusion(Some(&strength), &[], &[], &[], Language::EnUs);
+
+        assert_eq!(result.diffusion_value, "NOT_CONFIRMED");
     }
 
     #[test]
@@ -2735,6 +2860,56 @@ mod tests {
         .unwrap();
 
         assert_eq!(interpretation.actionable_diffusion_value, "CONFIRMED");
+    }
+
+    #[test]
+    fn actionable_diffusion_requires_leader_breakout_and_accumulate_on_the_same_symbol() {
+        let packet = DecisionPacket::default();
+        let pres_packet = PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            current_relative_strength: Some(
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                    items: vec![Default::default()],
+                    ..Default::default()
+                },
+            ),
+            breakout_summary: crate::features::radar::interface::presentation::BreakoutSummaryViewModel {
+                items: vec![
+                    crate::features::radar::interface::presentation::BreakoutItemViewModel {
+                        symbol: "GOOG".to_string(),
+                        status: crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout,
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "accumulate".to_string(),
+                    display_name: "Accumulate".to_string(),
+                    count: 1,
+                    items: vec!["PLTR".to_string()],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = build_leadership_snapshot_view_model_from_components(
+            vec!["GOOG".to_string()],
+            vec![],
+            vec![],
+            true,
+            Language::EnUs,
+        );
+
+        let interpretation = build_market_interpretation_view_model(
+            &packet,
+            &pres_packet,
+            &leadership_snapshot,
+            Language::EnUs,
+        )
+        .unwrap();
+
+        assert_eq!(interpretation.actionable_diffusion_value, "NOT_CONFIRMED");
     }
 
     #[test]

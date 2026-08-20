@@ -13,7 +13,7 @@
 2. Transition Summary
 - State changed today: No
 - Risk overlay changed today: No
-- Mainline status changed today: No
+- Trend cohesion status changed today: No
 - NO TRADE tier changed today: Yes
 - Scout reset triggered today: No
 
@@ -35,7 +35,7 @@
 - Methodology: streaks are calculated by log continuity (weekends auto-bridged)
 
 6. Audit One-liner
-- Current state: NO TRADE; primary blockers: Low continuity / Low stability / No mainline; today's breakout: GOOG (new); mainline status: Not formed.
+- Current state: NO TRADE; primary blockers: Low continuity / Low stability / No mainline; today's breakout: GOOG (new); trend cohesion status: Not formed.
 
 7. Market Interpretation Snapshot
 - decision_weight: 0%

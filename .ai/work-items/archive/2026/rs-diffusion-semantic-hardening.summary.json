@@ -1,0 +1,277 @@
+{
+  "workItemId": "rs-diffusion-semantic-hardening",
+  "contractPath": ".ai/work-items/archive/2026/rs-diffusion-semantic-hardening.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+      "reason": "自検 finding の scope、境界、acceptance と verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/rs-diffusion-semantic-hardening.summary.json",
+      "reason": "Work Item の実装・検証・review evidence を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の Cockpit 状態を生成する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "有効 RS 母数、拡散閾値、同一 symbol の actionable evidence と audit terminology を固化した。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "同一 symbol evidence、完全 RS 母数、拡散二重閾値、breakout observation を実装した。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Trend Cohesion を tactical mainline と区別する三言語文言へ更新した。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "Audit Daily CLI の三言語契約断言を更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "有効 RS observation を持つ diffusion report fixture を固定した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_zh_cn.txt",
+      "reason": "中国語監査 snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_en_us.txt",
+      "reason": "英語監査 snapshot を更新した。"
+    },
+    {
+      "path": "tests/snapshots/audit_daily_ja_jp.txt",
+      "reason": "日本語監査 snapshot を更新した。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/cli.rs"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "同一 symbol に揃わない三証拠は Actionable Diffusion を確認済みにしない。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "actionable_diffusion_requires_leader_breakout_and_accumulate_on_the_same_symbol"
+      ],
+      "reason": "GOOG の leader/breakout と PLTR の ACCUMULATE を NOT_CONFIRMED に固定した。"
+    },
+    {
+      "scenario": "利用可能な RS だけが breadth denominator と RS diffusion ratio に入る。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "rs_recovery_breadth_excludes_assets_without_complete_rs_observations",
+        "rs_diffusion_requires_one_third_of_valid_assets_to_be_improving"
+      ],
+      "reason": "欠損 RS の除外と 3 件かつ 1/3 の二重しきい値を固定した。"
+    },
+    {
+      "scenario": "breakout level と Trend Cohesion が report/audit で tactical mainline と混同されない。",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "normal_narrative_does_not_call_confirmed_breakouts_emerging",
+        "audit_daily snapshots"
+      ],
+      "reason": "breakout observation の status label と三言語 Trend Cohesion 文言を回帰検証した。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "read model の symbol intersection、RS denominator、三言語 report/audit label を変える。実行判定は明確に scope 外。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "自検で、異なる銘柄の三証拠集約、欠損 RS の分母、breakout と cohesion の表示境界、件数だけの diffusion しきい値を発見した。"
+  ],
+  "followUps": [
+    "RS recovery breadth の時系列と新 leader 出現の関係は週次観測で追跡する。本 Work Item は execution logic を開かない。"
+  ],
+  "unverifiedScenarios": [],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "前 PR #72 の merge と branch cleanup 後、ユーザー確認済みの self-audit hardening scope を Work Item 化した。",
+      "contractHash": "47d0c02b2f79a81a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "Contract preflight が ready となり、red test を先に追加して実装した。",
+      "contractHash": "47d0c02b2f79a81a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "read model、Audit Daily、三言語 snapshot、設計文書と回帰 test を更新した。",
+      "contractHash": "47d0c02b2f79a81a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required make checks を通過し、quality で coverage と Cockpit guard も確認した。",
+      "contractHash": "47d0c02b2f79a81a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "ユーザー確認済みの Interpretation-only scope を明文化した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "preflight pass 後、red test を確認してから実装した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "実装、回帰 test、三言語 snapshot と設計文書を更新した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全 required checks と quality を通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "interpretation_boundary",
+      "detail": "Actionable Diffusion の symbol coherence は read model のみを強化し、Leader/Action Matrix の source semantics は変更しない。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "全 required checks は通過した。review では Observation-only boundary と三言語 snapshot を確認する。",
+    "expectedReviewFocus": [
+      "symbol coherence",
+      "valid RS denominator",
+      "diffusion threshold",
+      "audit/report wording"
+    ]
+  },
+  "boundaryChecks": {
+    "gateExecution": "not_changed",
+    "reportOutput": "verified",
+    "persistence": "not_changed",
+    "i18n": "verified",
+    "makeEntrypoints": "unchanged"
+  },
+  "userCorrectionsCaptured": [
+    "用户要求先完成前一 WI 的 PR、清理后再开新 WI。",
+    "用户要求不要使用 Chrome，改用 gh，并切换到 xinglun。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "自检发现的展示层语义漏洞不得通过 Gate 调整掩盖。",
+      "solidifiedTo": "contract",
+      "reason": "scope 明确限定为 Observation/Interpretation/report/audit hardening，并将 execution chain 列入 outOfScope。"
+    }
+  ],
+  "knownGaps": [],
+  "overclaimPrevention": "在 Contract preflight、实现、全部 required make checks 和 hosted PR checks 完成前，不报告修复完成或 ready_for_review。"
+}

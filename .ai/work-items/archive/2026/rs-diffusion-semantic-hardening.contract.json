@@ -1,0 +1,96 @@
+{
+  "contractVersion": 2,
+  "workItemId": "rs-diffusion-semantic-hardening",
+  "mode": "code",
+  "title": "RS拡散解釈の意味境界を強化",
+  "baseCommit": "3100fc3f62f008119c0889014a4d1c5e1beb5cc5",
+  "baselineDirtyPaths": [],
+  "problemStatement": "RS 拡散の read model は、異なる銘柄の証拠を集約して Actionable Diffusion を確認済みにでき、欠損 RS の母数、breakout label、Audit Daily の主線ラベルも事実の境界を曖昧にする。",
+  "intent": {
+    "problem": "Gate、Leader 判定、Action Matrix、Breadth、Execution を変更せず、Observation から Interpretation への RS 拡散説明を同一銘柄、実測母数、正確なラベルに結び付ける。",
+    "constraints": [
+      "Actionable Diffusion は同一銘柄に current leader、confirmed breakout、ACCUMULATE の三証拠がある場合だけ CONFIRMED とする。",
+      "RS Recovery Breadth の分母は benchmark を除き、1d と 5d RS がともに利用可能な資産だけにする。",
+      "RS Diffusion は絶対件数と有効母数比の両方を満たす場合だけ EMERGING とし、interpretation-only に限定する。",
+      "Audit Daily の Trend Cohesion と tactical mainline、confirmed breakout と emerging breakout を各言語で区別する。",
+      "Gate、NO_TRADE、Leader logic、Action Matrix、position sizing、execution、JSONL/data branch と既存 Breadth algorithm は変更しない。"
+    ],
+    "rationale": "弱い又は不完全な観測を実行可能な拡散や主線として過剰に説明しないため。"
+  },
+  "scope": [
+    ".ai/work-items/active/rs-diffusion-semantic-hardening.contract.json",
+    ".ai/work-items/active/rs-diffusion-semantic-hardening.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/cli.rs",
+    "tests/snapshots/audit_daily_zh_cn.txt",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/leader_persistence/**",
+    "Gate、Execution、Trader、Position Sizing、Decision state machine の production code",
+    "Leader confirmation、Breadth、TrendCohesion の判定アルゴリズムとしきい値",
+    "data branch、reports、JSONL、snapshot、weekly metrics の永続化形式",
+    "新しい Make target 又は裸 script 運用入口"
+  ],
+  "sources": [
+    {"path":"AGENTS.md","reason":"言語、quality gate、Cockpit と Observation/Execution 境界。"},
+    {"path":".ai/cockpit/README.md","reason":"Work Item readiness と required verification。"},
+    {"path":"docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md","reason":"前 Work Item の read-only RS 拡散設計境界。"},
+    {"path":"src/features/radar/interface/market_interpretation_read_model.rs","reason":"RS breadth、Actionable Diffusion、breakout evidence の現在の集約。"},
+    {"path":"src/features/radar/interface/report.rs","reason":"三言語 report の diffusion と breakout 表示。"},
+    {"path":"src/features/radar/interface/audit_daily_report.rs","reason":"Trend Cohesion を主線状態として出力する日次監査ラベル。"},
+    {"path":"src/features/radar/interface/report_ui_tests.rs","reason":"三言語 report と Observation-only 回帰。"},
+    {"path":"src/cli.rs","reason":"日次監査 CLI の契約テスト。"}
+  ],
+  "scenarioCoverage": [
+    {"scenario":"別銘柄に分散した leader、confirmed breakout、ACCUMULATE は Actionable Diffusion を確認済みにしない。","required":true,"status":"unverified","evidence":["make test","market_interpretation_read_model.rs tests"],"reason":"symbol intersection を固定する。"},
+    {"scenario":"同一銘柄に三証拠が揃う場合だけ Actionable Diffusion が確認済みになる。","required":true,"status":"unverified","evidence":["make test","market_interpretation_read_model.rs tests"],"reason":"既存 execution semantics を読取専用で反映する。"},
+    {"scenario":"RS が欠損した非 benchmark asset は Recovery Breadth の分母にも分子にも入らない。","required":true,"status":"unverified","evidence":["make test","market_interpretation_read_model.rs tests"],"reason":"表示母数を実測可能な資産だけにする。"},
+    {"scenario":"少数の改善だけでは比率不足により RS Diffusion は EMERGING にならない。","required":true,"status":"unverified","evidence":["make test","market_interpretation_read_model.rs tests"],"reason":"絶対件数と比率の二重しきい値を固定する。"},
+    {"scenario":"confirmed と emerging breakout、Trend Cohesion と tactical mainline が zh/en/ja report と audit daily で混同されない。","required":true,"status":"unverified","evidence":["make test","report_ui_tests.rs","audit_daily_report.rs","cli.rs"],"reason":"表示層の意味境界を回帰検証する。"}
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {"level":"medium","riskTypes":["i18n_snapshot","architecture_boundary","review_debt"],"reason":"read model の証拠集約と三言語監査文言を変更するが、実行判定は scope 外。"},
+  "agentCapability": {"canImplement":true,"canVerify":true,"needsHumanDecision":false,"blockedReason":""},
+  "executionDecision": {"status":"continue","reason":"ユーザーは自検で特定された Interpretation-only hardening を再開することを確認した。"},
+  "humanReview": {"status":"confirmed","decision":"continue_with_user_approved_bounded_design","openQuestions":["RS Diffusion の比率しきい値は既存 9 asset catalog に対する 1/3 を採用し、仕様に記録する。"]},
+  "preReviewWarnings": ["同一銘柄の evidence intersection が leader 判定や Action Matrix 自体を変更しないこと。","Audit Daily の名称変更が既存 streak 計算を変更しないこと。","既存 fixture/snapshot の古い表示は契約上必要なものだけを更新すること。"],
+  "checkpointPolicy": {"requiredCheckpoints":["contract_start","before_edit","before_ready","after_verification"],"reminder":"scope、acceptance、verification 又は agentCapability が変わる場合は Contract と Summary を先に更新する。"},
+  "acceptance": [
+    "Actionable Diffusion=CONFIRMED は同一 symbol に current leader、confirmed breakout、ACCUMULATE の三証拠が揃う場合だけ出力され、分散した三証拠では NOT_CONFIRMED のままである。",
+    "RS Recovery Breadth は benchmark を除き 1d/5d RS がともに利用可能な assets を分母とし、表示・reason・テストが同じ有効母数を用いる。",
+    "RS Diffusion=EMERGING は improving count が 3 以上かつ有効母数の 1/3 以上の場合だけであり、Actionable Diffusion、Gate 又は execution を変更しない。",
+    "confirmed breakout と emerging breakout が report の zh/en/ja narrative で区別され、Audit Daily は Trend Cohesion を tactical mainline として表示しない。",
+    "Gate、NO_TRADE、Leader logic、Action Matrix、Breadth、position sizing、execution と persistence format の production semantics は変更しない。",
+    "設計文書、回帰テスト、Cockpit Summary は自検 finding と observation-only 境界を記録し、全 required make verification が通過する。"
+  ],
+  "verification": [
+    {"command":"make check-ai-contract CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json","required":true},
+    {"command":"make check-ai-scope CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json","required":true},
+    {"command":"make ai-preflight","required":true},
+    {"command":"make fmt-check","required":true},
+    {"command":"make test","required":true},
+    {"command":"make clippy","required":true},
+    {"command":"make check-ai-guards CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json","required":true},
+    {"command":"make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json","required":true},
+    {"command":"make check-ai-coverage-guard","required":true},
+    {"command":"make check-ai-scenario-coverage","required":true},
+    {"command":"make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json","required":true},
+    {"command":"make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json","required":true},
+    {"command":"make check-ai-status CONTRACT=.ai/work-items/active/rs-diffusion-semantic-hardening.contract.json SUMMARY=.ai/work-items/active/rs-diffusion-semantic-hardening.summary.json","required":true},
+    {"command":"make check-ai-status-consistency","required":true},
+    {"command":"make check-architecture-all","required":true},
+    {"command":"make quality","required":true}
+  ],
+  "destructiveChangePolicy": {"allowed":false,"requiresHumanApproval":true,"allowPatterns":[]},
+  "rollbackNote":"本 Work Item の code、test、document、archive evidence diff を revert する。既存 data branch 又はユーザー成果物は削除しない。"
+}

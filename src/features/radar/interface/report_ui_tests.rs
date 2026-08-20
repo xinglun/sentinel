@@ -4558,6 +4558,8 @@ mod tests {
                     } else {
                         "NONE".to_string()
                     },
+                    relative_1d_vs_benchmark: Some(0.0),
+                    relative_5d_vs_benchmark: Some(0.0),
                     ..Default::default()
                 }
             })
