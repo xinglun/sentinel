@@ -63,10 +63,17 @@ fn build_relative_strength_diffusion(
     let items = strength
         .map(|value| value.items.as_slice())
         .unwrap_or_default();
+    let benchmark_symbol = strength
+        .map(|value| value.benchmark_symbol.as_str())
+        .filter(|symbol| !symbol.is_empty());
     let valid_items = items
         .iter()
         .filter(|item| {
-            item.relative_1d_vs_benchmark.is_some() && item.relative_5d_vs_benchmark.is_some()
+            benchmark_symbol
+                .map(|symbol| item.symbol != symbol)
+                .unwrap_or(true)
+                && item.relative_1d_vs_benchmark.is_some()
+                && item.relative_5d_vs_benchmark.is_some()
         })
         .collect::<Vec<_>>();
     let total_count = valid_items.len();
@@ -2785,6 +2792,53 @@ mod tests {
 
         assert_eq!(result.recovery_breadth_value, "1/1 非基准资产改善");
         assert_eq!(result.strong_moderate_recovery_value, "1/1 强/中等恢复");
+    }
+
+    #[test]
+    fn rs_recovery_breadth_excludes_benchmark_even_when_its_rs_is_complete() {
+        let strength = crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+            benchmark_symbol: "SPY".to_string(),
+            items: vec![
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "SPY".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(1.0),
+                    relative_5d_vs_benchmark: Some(5.0),
+                    ..Default::default()
+                },
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "FIG".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(4.24),
+                    relative_5d_vs_benchmark: Some(14.88),
+                    ..Default::default()
+                },
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: "U".to_string(),
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    relative_1d_vs_benchmark: Some(0.75),
+                    relative_5d_vs_benchmark: Some(6.43),
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let result =
+            build_relative_strength_diffusion(Some(&strength), &[], &[], &[], Language::EnUs);
+
+        assert_eq!(
+            result.recovery_breadth_value,
+            "2/2 non-benchmark assets improving"
+        );
+        assert_eq!(
+            result.strong_moderate_recovery_value,
+            "2/2 strong/moderate recovery"
+        );
+        assert_eq!(result.diffusion_value, "NOT_CONFIRMED");
     }
 
     #[test]

@@ -1,0 +1,196 @@
+{
+  "contractVersion": 2,
+  "workItemId": "rs-benchmark-denominator-guard",
+  "mode": "code",
+  "title": "RS分母のベンチマーク除外を防御的に保証",
+  "baseCommit": "bb3732069aefa4aae0532d8120b40f633d95e010",
+  "baselineDirtyPaths": [],
+  "problemStatement": "RS Recovery Breadth は日常 pipeline で benchmark を上流除外しているが、read model helper 自身は benchmark を防御的に除外しないため、移行又は構成入力で分母・分子が汚染され得る。",
+  "intent": {
+    "problem": "benchmark が complete RS observation として helper に渡っても、RS Recovery Breadth と RS Diffusion の有効母数・改善件数に含めない。",
+    "constraints": [
+      "変更は Observation / Interpretation read model とその unit test に限定する。",
+      "Gate、NO_TRADE、Leader、Action Matrix、Breadth、position sizing、execution、永続化形式及び report 文言を変更しない。",
+      "既存の上流 benchmark 除外に依存せず、helper が CurrentRelativeStrengthViewModel の benchmark_symbol を使用して防御する。"
+    ],
+    "rationale": "表示が宣言する non-benchmark denominator を helper 自身の入力契約でも保証し、移行・fixture・将来の呼び出し経路による誤集計を防ぐ。"
+  },
+  "scope": [
+    ".ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+    ".ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/interface/market_interpretation_read_model.rs"
+  ],
+  "outOfScope": [
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "Gate、NO_TRADE、Leader logic、Action Matrix、Breadth algorithm、execution、position sizing",
+    "Telegram、Markdown、CLI、audit daily、weekly review の表示文言と snapshot",
+    "data branch、reports、JSONL、snapshot、weekly metrics の永続化形式",
+    "新しい Make target 又は裸 script 運用入口"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、quality gate、Cockpit と Observation/Execution 境界。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item readiness と required verification。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "通常 pipeline の上流 benchmark 除外を確認し、helper 内防御との差分を限定する。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "RS Recovery Breadth の有効 item 集約と unit test を実装する。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "RS Diffusion が interpretation-only である既存境界を確認する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "complete 1d/5d RS を持つ benchmark が input に含まれても、改善件数・強中 recovery 件数・有効母数から除外される。",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test"],
+      "reason": "上流 filtering を通らない入力でも non-benchmark contract を保証する。"
+    },
+    {
+      "scenario": "benchmark を除外後に改善 asset が 3 件未満なら、RS Diffusion は EMERGING にならない。",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test"],
+      "reason": "benchmark が threshold を不正に満たすことを防ぐ。"
+    },
+    {
+      "scenario": "通常 pipeline の上流 benchmark 除外と既存 Gate / Leader / Action Matrix / execution semantics は変更しない。",
+      "required": true,
+      "status": "unverified",
+      "evidence": ["make test", "make check-architecture-all"],
+      "reason": "今回の変更を Interpretation-only に限定する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "read model の集約条件を狭める変更であり、既存上流 filter と実行 semantics を変更しないことを review する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーは bounded design と独立 WI による防御的 hardening を承認した。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "continue_with_bounded_benchmark_guard",
+    "openQuestions": [
+      "benchmark_symbol が空の legacy input は既存の上流 fallback に委ね、この Work Item で新たな既定値を導入しない。"
+    ]
+  },
+  "preReviewWarnings": [
+    "benchmark 判定を helper の strength.benchmark_symbol と厳密に照合し、欠損 benchmark_symbol の既存 fallback を勝手に追加しない。",
+    "上流の PresentationAssembler filtering を変更せず、今回のローカル filter が二重安全策であることを確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "complete RS observation を持つ benchmark は RS Recovery Breadth の分子・分母及び Strong/Moderate Recovery の分子に入らない。",
+    "benchmark を除外すると improving count が 3 未満になる input は RS Diffusion=NOT_CONFIRMED のままである。",
+    "Gate、NO_TRADE、Leader logic、Action Matrix、Breadth、position sizing、execution、永続化形式、report 文言及び snapshot は変更しない。",
+    "回帰 test は production filter 追加前に失敗し、追加後に通過する。",
+    "Contract、Summary、Cockpit status に self-audit finding と検証結果を記録し、required make verification が通過する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make ai-preflight",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-benchmark-denominator-guard.contract.json SUMMARY=.ai/work-items/active/rs-benchmark-denominator-guard.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "本 Work Item の code、test、Cockpit evidence diff を revert する。既存 data branch 又はユーザー成果物は削除しない。"
+}
