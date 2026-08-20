@@ -38,19 +38,39 @@ Leader Persistence の result と view model は次を別フィールドで保�
 
 absence が 5 trading days 以上の場合、tactical `Leadership Structure` は `LEADERLESS / FRAGMENTED`、`Market Structure` は「整理中 / 明確な主導なし」とする。戦略的な core-asset 背景を表示する場合も、当日の tactical leadership と同じ field に混ぜない。
 
-## 3. Relative Strength conflict
+## 3. Relative Strength の状態と回復強度
 
-既存 asset の `StrengthLoss` / `CohesionExit` または `REDUCE` / `AVOID` と、同じ symbol の Current Relative Strength `IMPROVING` が同時に存在する場合、report read model で次を付加する。
+Current Relative Strength は次の二軸を持つ。
 
-- `SIGNAL_CONFLICT`
-- `RECOVERY_WATCH`
-- 「長期・累積構造は弱いが、短期相対強度は回復中」という説明
+- `RelativeStrengthState`: `IMPROVING`、`NEUTRAL`、`WEAKENING`。
+- `RecoveryStrength`: `STRONG`、`MODERATE`、`WEAK`、`NONE`。
 
-既存の Action / Exit 値、NO TRADE、position sizing は変更しない。
+5 日相対強度が `>= 5%` の改善を `STRONG`、`>= 2%` を `MODERATE`、`> 0%` を `WEAK` とする。`IMPROVING` と `STRONG` / `MODERATE` の組み合わせだけを `SIGNAL_CONFLICT` / `RECOVERY_WATCH` の表示へ昇格する。`WEAK` は「相対強度には初期改善が見られるが、回復を確認するにはまだ不十分」とするが、既存の弱勢判定を上書きしない。
 
-## 4. Interpretation
+旧 JSON の `status` / `recovery_state` と旧 enum 値は serde alias で読み取る。現在の write path は新しい state 名を使用する。
 
-Narrative は leader absence、raw breadth、RS recovery の symbol、shrink/watch の件数、overheat/crowding の state を入力にする。脆弱事実がある場合は「新しい急激な悪化は観測されないが、主導者不在と拡散不足を含む脆弱構造にある」と記述し、従来の無条件な「構造的悪化の証拠なし」は出さない。RS recovery だけでは新しい Leadership と扱わない。
+既存 asset の `StrengthLoss` / `CohesionExit` または `REDUCE` / `AVOID` と、同じ symbol の強い相対強度回復が同時に存在する場合でも、変更するのは report read model の表示だけである。既存の Action / Exit 値、NO TRADE、position sizing は変更しない。
+
+## 4. Leadership と Relative Strength の Interpretation
+
+現在の `Current Leader` が `none` で leader absence が閾値を超える場合、トップページの tactical 表示を次の三項目に統一する。
+
+- `当前无确认主线`
+- `无主线 / 分散`
+- `未确认启动期`
+
+「長期構造トレンドの強まり」は strategic background に残すが、tactical mainline の存在を生成しない。pipeline は tactical reconciliation を先に完了してから Interpretation を生成し、旧い `主線存在（戦術未許可）` が解釈層へ混入することを防ぐ。
+
+`Relative Strength Recovery Breadth` は benchmark 以外の資産を分母とし、改善数と強・中程度の改善数を同時に表示する。改善資産が早期拡散の条件に達した場合は `RS Diffusion: EMERGING` とする。確認済み Leader、breakout、Action Matrix の強化を同時に満たした場合だけ `Actionable Diffusion` を `CONFIRMED` とし、それ以外は `NOT_CONFIRMED` とする。RS recovery 単独では新しい Leadership を構成せず、実行ウィンドウも開かない。
+
+表示・解釈の境界は次の条件で固定する。
+
+- Current Relative Strength の benchmark 表示は ViewModel の `benchmark_symbol` を使用し、旧データで値が欠落する場合だけ `SPY` に fallback する。US 以外の市場を `SPY` と表示しない。
+- Actionable Diffusion の breakout evidence は `EmergingBreakout` と `ConfirmedBreakout` の両方を受け入れる。ただし、これは Interpretation の観測値であり、Gate、Action Matrix、Execution の判定を変更しない。
+- `Strong/Moderate Recovery` の集計は `status=IMPROVING` を前提とする。旧 JSON の `status=NEUTRAL` と `recovery_state=Recovering` の組み合わせを回復数へ加算しない。
+- Narrative では `IMPROVING + STRONG/MODERATE` を recovery、`IMPROVING + WEAK` を「初期改善だが回復未確認」として分離する。弱い改善を「明確な回復」と表現しない。
+
+Narrative は leader absence、raw breadth、RS recovery の symbol、RS Recovery Breadth、拡散状態、shrink/watch 件数、overheat/crowding の state を入力にする。脆弱事実がある場合は「新しい急激な悪化は観測されないが、主導者不在と拡散不足を含む脆弱構造にある」と記述し、従来の無条件な「構造的悪化の証拠なし」は出さない。RS recovery だけでは新しい Leadership と扱わない。
 
 ## 5. Renderer と保存
 

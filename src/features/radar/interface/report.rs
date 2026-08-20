@@ -2051,16 +2051,32 @@ fn render_current_relative_strength_section(
     let heading = format!("### {}\n\n", strength.title);
     let bullet = "  - ";
     let boundary = "\n";
+    let benchmark_symbol = if strength.benchmark_symbol.trim().is_empty() {
+        "SPY"
+    } else {
+        strength.benchmark_symbol.trim()
+    };
     let (leader_label, day_1_label, day_5_label) = match language {
-        crate::features::shared::interface::i18n::Language::ZhCn => {
-            ("确认 Leader", "1日相对 SPY", "5日相对 SPY")
-        }
-        crate::features::shared::interface::i18n::Language::EnUs => {
-            ("Confirmed Leader", "1d vs SPY", "5d vs SPY")
-        }
-        crate::features::shared::interface::i18n::Language::JaJp => {
-            ("確認済み Leader", "1日 SPY比", "5日 SPY比")
-        }
+        crate::features::shared::interface::i18n::Language::ZhCn => (
+            "确认 Leader".to_string(),
+            format!("1日相对 {benchmark_symbol}"),
+            format!("5日相对 {benchmark_symbol}"),
+        ),
+        crate::features::shared::interface::i18n::Language::EnUs => (
+            "Confirmed Leader".to_string(),
+            format!("1d vs {benchmark_symbol}"),
+            format!("5d vs {benchmark_symbol}"),
+        ),
+        crate::features::shared::interface::i18n::Language::JaJp => (
+            "確認済み Leader".to_string(),
+            format!("1日 {benchmark_symbol}比"),
+            format!("5日 {benchmark_symbol}比"),
+        ),
+    };
+    let recovery_strength_label = match language {
+        crate::features::shared::interface::i18n::Language::ZhCn => "恢复强度",
+        crate::features::shared::interface::i18n::Language::EnUs => "Recovery Strength",
+        crate::features::shared::interface::i18n::Language::JaJp => "回復強度",
     };
     let mut out = heading;
     out.push_str(&format!(
@@ -2072,6 +2088,12 @@ fn render_current_relative_strength_section(
             "{}{}: {}{}",
             bullet, item.symbol, item.status, boundary
         ));
+        if !item.recovery_strength.is_empty() && item.recovery_strength != "NONE" {
+            out.push_str(&format!(
+                "{}{}: {}{}",
+                bullet, recovery_strength_label, item.recovery_strength, boundary
+            ));
+        }
         if let Some(conflict_code) = &item.conflict_code {
             out.push_str(&format!(
                 "{}{}: {}{}",
@@ -2093,6 +2115,8 @@ fn render_current_relative_strength_section(
             if let Some(explanation) = &item.recovery_explanation {
                 out.push_str(&format!("{}{}{}", bullet, explanation, boundary));
             }
+        } else if let Some(explanation) = &item.recovery_explanation {
+            out.push_str(&format!("{}{}{}", bullet, explanation, boundary));
         }
         if let Some(value) = item.relative_1d_vs_benchmark {
             out.push_str(&format!(
@@ -2525,6 +2549,28 @@ fn render_market_interpretation_section(
                 "    - {}: {}\n",
                 layer.breadth_semantic_label, layer.breadth_semantic_value
             ));
+            if !layer.rs_recovery_breadth_label.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rs_recovery_breadth_label, layer.rs_recovery_breadth_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.strong_moderate_recovery_label, layer.strong_moderate_recovery_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rs_diffusion_label, layer.rs_diffusion_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.actionable_diffusion_label, layer.actionable_diffusion_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.diffusion_reason_label, layer.diffusion_reason_value
+                ));
+            }
             block.push_str(&format!(
                 "    - Breadth Classification Score: {}\n",
                 layer.breadth_score_value
@@ -2662,6 +2708,28 @@ fn render_market_interpretation_section(
                 "    - {}: {}\n",
                 layer.breadth_semantic_label, layer.breadth_semantic_value
             ));
+            if !layer.rs_recovery_breadth_label.is_empty() {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rs_recovery_breadth_label, layer.rs_recovery_breadth_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.strong_moderate_recovery_label, layer.strong_moderate_recovery_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.rs_diffusion_label, layer.rs_diffusion_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.actionable_diffusion_label, layer.actionable_diffusion_value
+                ));
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.diffusion_reason_label, layer.diffusion_reason_value
+                ));
+            }
             block.push_str(&format!(
                 "    - Breadth Classification Score: {}\n",
                 layer.breadth_score_value

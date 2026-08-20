@@ -4318,9 +4318,11 @@ mod tests {
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
                     title: "Current Relative Strength".to_string(),
                     confirmed_leader: "none".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
                     items: vec![crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                         symbol: "NVDA".to_string(),
                         status: "IMPROVING".to_string(),
+                        recovery_strength: "STRONG".to_string(),
                         relative_1d_vs_benchmark: Some(1.2),
                         relative_5d_vs_benchmark: Some(4.5),
                         price_position: None,
@@ -4364,9 +4366,60 @@ mod tests {
         assert!(!report.archival_markdown.contains("<h3>"));
         assert!(!report.archival_markdown.contains("<li>"));
         for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("恢复强度: STRONG"));
             assert!(body.contains("状态冲突: SIGNAL_CONFLICT"));
             assert!(body.contains("Recovery Watch: RECOVERY_WATCH"));
             assert!(body.contains("长期/累计结构仍弱，但短期相对强度正在明显恢复。"));
+        }
+    }
+
+    #[test]
+    fn relative_strength_renderer_uses_the_configured_benchmark_in_all_languages() {
+        let cases = [
+            (Language::ZhCn, "1日相对 2800.HK", "5日相对 2800.HK"),
+            (Language::EnUs, "1d vs 2800.HK", "5d vs 2800.HK"),
+            (Language::JaJp, "1日 2800.HK比", "5日 2800.HK比"),
+        ];
+
+        for (language, expected_day_1, expected_day_5) in cases {
+            let config = mock_config_with_language(language);
+            let pres = crate::features::radar::interface::presentation::PresentationPacket {
+                language,
+                current_relative_strength: Some(
+                    crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                        title: "Current Relative Strength".to_string(),
+                        confirmed_leader: "none".to_string(),
+                        benchmark_symbol: "2800.HK".to_string(),
+                        items: vec![crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                            symbol: "HKASSET".to_string(),
+                            relative_1d_vs_benchmark: Some(1.0),
+                            relative_5d_vs_benchmark: Some(2.0),
+                            ..Default::default()
+                        }],
+                        boundary: "Observation only".to_string(),
+                    },
+                ),
+                ..Default::default()
+            };
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains(expected_day_1), "{language:?}: {body}");
+                assert!(body.contains(expected_day_5), "{language:?}: {body}");
+                assert!(!body.contains("SPY"), "{language:?}: {body}");
+            }
         }
     }
 
@@ -4399,6 +4452,9 @@ mod tests {
             9,
             Language::ZhCn,
         );
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "当前无确认主线");
+        assert_eq!(pres.decision_summary.trend_topology_value, "无主线 / 分散");
+        assert_eq!(pres.decision_summary.state_tag_value, "未确认启动期");
 
         let report = generate_refined_report(
             &report_context(&config),
@@ -4415,6 +4471,9 @@ mod tests {
             &report.archival_markdown,
         ] {
             assert!(body.contains("主线结构：无主线"));
+            assert!(body.contains("当前无确认主线"));
+            assert!(body.contains("未确认启动期"));
+            assert!(!body.contains("主线存在（战术未许可）"));
             assert!(body.contains("市场结构模式: 结构整理 / 无明确主导"));
             assert!(body.contains("长期方向: 结构证据观察中"));
             assert!(!body.contains("核心资产主导"));
@@ -4482,6 +4541,85 @@ mod tests {
     }
 
     #[test]
+    fn rs_diffusion_is_rendered_in_all_languages_without_html_list_markup() {
+        let items: Vec<crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel> = (0..9)
+            .map(|index| {
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: format!("ASSET{index}"),
+                    status: if index < 5 {
+                        "IMPROVING".to_string()
+                    } else {
+                        "NEUTRAL".to_string()
+                    },
+                    recovery_strength: if index < 3 {
+                        "STRONG".to_string()
+                    } else if index < 5 {
+                        "WEAK".to_string()
+                    } else {
+                        "NONE".to_string()
+                    },
+                    ..Default::default()
+                }
+            })
+            .collect();
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let packet = DecisionPacket::default();
+            let expected_initial_improvement = match language {
+                Language::ZhCn => "相对强度在 ASSET3 / ASSET4 等资产出现初步改善，但尚不足以确认恢复。",
+                Language::EnUs => "Relative strength shows an initial improvement in assets such as ASSET3 / ASSET4, but recovery is not yet confirmed.",
+                Language::JaJp => "ASSET3 / ASSET4 などの資産で相対強度に初期改善が見られますが、回復はまだ確認できません。",
+            };
+            let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+                language,
+                interpretation_layer: Some(Default::default()),
+                current_relative_strength: Some(
+                    crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                        items: items.clone(),
+                        ..Default::default()
+                    },
+                ),
+                ..Default::default()
+            };
+            let leadership_snapshot = crate::features::radar::interface::market_interpretation_read_model::build_leadership_snapshot_view_model_from_components(
+                vec![],
+                vec![],
+                vec![],
+                false,
+                language,
+            );
+            pres.market_interpretation = crate::features::radar::interface::market_interpretation_read_model::build_market_interpretation_view_model(
+                &packet,
+                &pres,
+                &leadership_snapshot,
+                language,
+            );
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains("RS Diffusion: EMERGING"));
+                assert!(body.contains("Actionable Diffusion: NOT_CONFIRMED"));
+                assert!(body.contains(expected_initial_improvement));
+                assert!(!body.contains("<h3>"));
+                assert!(!body.contains("<li>"));
+            }
+        }
+    }
+
+    #[test]
     fn improving_relative_strength_is_reported_as_signal_conflict_without_changing_action() {
         let config = mock_config_with_language(Language::ZhCn);
         let asset = AssetActionDecision {
@@ -4500,11 +4638,14 @@ mod tests {
             current_relative_strength_observations: vec![
                 crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
                     symbol: "SPCX".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
                     relative_1d_vs_benchmark: Some(6.34),
                     relative_5d_vs_benchmark: Some(6.87),
+                    trend_slope: Some(0.30),
                     price_position: None,
                     volume_participation: None,
-                    status: crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Strong,
                     boundary: "Observation only".to_string(),
                 },
             ],
@@ -4530,6 +4671,116 @@ mod tests {
             .as_deref()
             .is_some_and(|value| value.contains("RECOVERY_WATCH")));
         assert_eq!(asset.action, original_action);
+    }
+
+    #[test]
+    fn neutral_relative_strength_recovery_suppresses_continued_weakening_copy() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let asset = AssetActionDecision {
+            symbol: "SPCX".to_string(),
+            action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+            exit_decision: ExitDecision {
+                position_intent: PositionIntent::TRIM,
+                asset_exit_state: AssetExitState::StrengthLoss,
+                reasons: vec![],
+            },
+            ..Default::default()
+        };
+        let original_action = asset.action;
+        let packet = DecisionPacket {
+            assets: vec![asset.clone()],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "SPCX".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(-1.30),
+                    relative_5d_vs_benchmark: Some(7.94),
+                    trend_slope: Some(-0.10),
+                    price_position: None,
+                    volume_participation: None,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Neutral,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::None,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let item = pres
+            .current_relative_strength
+            .as_ref()
+            .and_then(|strength| strength.items.first())
+            .expect("SPCX current relative strength item");
+
+        assert_eq!(item.status, "NEUTRAL");
+        assert_eq!(item.recovery_strength, "NONE");
+        assert_eq!(item.conflict_code, None);
+        assert!(!item.recovery_watch);
+        assert_eq!(asset.action, original_action);
+        assert!(pres
+            .top_actions
+            .iter()
+            .filter_map(|action| action.diagnostic.as_deref())
+            .all(|diagnostic| !diagnostic.contains("RECOVERY_WATCH")));
+    }
+
+    #[test]
+    fn weak_relative_strength_improvement_does_not_create_signal_conflict() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let asset = AssetActionDecision {
+            symbol: "PLTR".to_string(),
+            action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+            exit_decision: ExitDecision {
+                position_intent: PositionIntent::TRIM,
+                asset_exit_state: AssetExitState::StrengthLoss,
+                reasons: vec![],
+            },
+            ..Default::default()
+        };
+        let packet = DecisionPacket {
+            assets: vec![asset],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "PLTR".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(0.31),
+                    relative_5d_vs_benchmark: Some(1.26),
+                    trend_slope: Some(0.20),
+                    price_position: None,
+                    volume_participation: None,
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Weak,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let item = pres
+            .current_relative_strength
+            .as_ref()
+            .and_then(|strength| strength.items.first())
+            .expect("PLTR current relative strength item");
+
+        assert_eq!(item.conflict_code, None);
+        assert!(!item.recovery_watch);
+        assert!(item
+            .recovery_explanation
+            .as_deref()
+            .is_some_and(|value| value.contains("尚不足以确认恢复")));
     }
 
     #[test]
