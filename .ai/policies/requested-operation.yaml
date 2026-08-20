@@ -1,0 +1,34 @@
+version: 1
+policyRef: requested-operation.v1
+operations:
+  repository_governance.modify:
+    environments:
+      - repository
+      - sandbox
+      - test
+    effects:
+      - enforce
+      - document
+    authorityRequired: false
+  documentation.modify:
+    environments:
+      - repository
+      - sandbox
+      - test
+    effects:
+      - document
+    authorityRequired: false
+  tests.modify:
+    environments:
+      - repository
+      - sandbox
+      - test
+    effects:
+      - test
+    authorityRequired: false
+  repository_release.publish:
+    environments:
+      - public_provider
+    effects:
+      - create_immutable_release_tag_and_public_assets
+    authorityRequired: true

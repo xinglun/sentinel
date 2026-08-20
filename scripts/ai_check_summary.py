@@ -272,6 +272,46 @@ def validate_optional_checkpoint_evidence(summary: dict[str, Any], contract: dic
     return issues
 
 
+def validate_implementation_approach(
+    value: Any, contract: dict[str, Any] | None = None
+) -> list[str]:
+    """互換 runtime が扱う Implementation Approach の最小契約を検証する。"""
+    if not isinstance(value, dict):
+        return ["implementationApproach は object にしてください。"]
+    issues: list[str] = []
+    if value.get("approachType") not in {"implementation", "configuration"}:
+        issues.append("implementationApproach.approachType が不正です。")
+    if value.get("status") not in {"complete", "incomplete", "not_applicable"}:
+        issues.append("implementationApproach.status が不正です。")
+    for key in ("summary", "mechanism"):
+        claim = value.get(key)
+        if not isinstance(claim, dict):
+            issues.append(f"implementationApproach.{key} は object にしてください。")
+            continue
+        if not isinstance(claim.get("text"), str) or not claim["text"].strip():
+            issues.append(f"implementationApproach.{key}.text は必須です。")
+        if claim.get("status") not in {"verified", "unverified", "unknown"}:
+            issues.append(f"implementationApproach.{key}.status が不正です。")
+        if not isinstance(claim.get("evidence"), list):
+            issues.append(f"implementationApproach.{key}.evidence は list にしてください。")
+    for key in ("affectedComponents", "designDecisions", "technicalDetails", "evidence"):
+        if not isinstance(value.get(key), list):
+            issues.append(f"implementationApproach.{key} は list にしてください。")
+    return issues
+
+
+def changed_file_paths(summary: dict[str, Any]) -> set[str]:
+    """Summary が所有すると宣言した repository path を返す。"""
+    changed = summary.get("changedFiles")
+    if not isinstance(changed, list):
+        return set()
+    return {
+        item["path"]
+        for item in changed
+        if isinstance(item, dict) and non_empty_string(item.get("path"))
+    }
+
+
 def validate_summary(summary: dict[str, Any], contract: dict[str, Any] | None) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:

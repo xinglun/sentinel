@@ -1,0 +1,10 @@
+version: 1
+minimumSamples: 3
+signals:
+  - pythonLines
+  - archiveGrowth
+  - checkerCount
+  - documentationDrift
+  - durationMs
+insufficientSamples: warning
+thresholdAction: needs_human_confirmation

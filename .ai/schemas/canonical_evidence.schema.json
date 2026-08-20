@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ai-cockpit.local/schema/canonical-evidence-v1.json",
+  "title": "AI Cockpit Canonical Evidence Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "documentId", "capturedAt", "evidence", "events", "claims"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "documentId": {"type": "string", "minLength": 1},
+    "capturedAt": {"type": "string", "format": "date-time"},
+    "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence"}},
+    "events": {"type": "array", "items": {"$ref": "#/$defs/event"}},
+    "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}}
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "source", "capturedAt", "digest", "subject", "factKey", "payload", "status"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "source": {"type": "string", "minLength": 1},
+        "capturedAt": {"type": "string", "format": "date-time"},
+        "expiresAt": {"type": "string", "format": "date-time"},
+        "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "subject": {"type": "string", "minLength": 1},
+        "factKey": {"type": "string", "minLength": 1},
+        "payload": {"type": "object"},
+        "status": {"enum": ["observed", "verified", "blocked", "superseded"]}
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sequence", "kind", "evidenceIds"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "sequence": {"type": "integer", "minimum": 1},
+        "kind": {"type": "string", "minLength": 1},
+        "evidenceIds": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "statement", "status", "evidenceIds"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "statement": {"type": "string", "minLength": 1},
+        "status": {"enum": ["supported", "blocked"]},
+        "evidenceIds": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+      }
+    }
+  }
+}

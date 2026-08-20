@@ -1,0 +1,14 @@
+# Scope Guard policy.
+
+version: 1
+
+allowAlways:
+  - ".ai/cockpit/current_status.md"
+  - ".ai/cockpit/task_report.json"
+  - ".ai/cockpit/task_report.md"
+  - "target/ai_*.json"
+  - "target/ai_*.jsonl"
+
+dependencyScopeRules:
+  "scripts/ai_*.py":
+    - "tests/**"

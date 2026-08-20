@@ -9,6 +9,7 @@ import json
 import re
 import subprocess
 import sys
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -119,6 +120,135 @@ def preflight_review_status() -> str | None:
         return None
     status = report.get("status") if isinstance(report, dict) else None
     return status if isinstance(status, str) else None
+
+
+def linked_worktree_records(*, root: Path = PROJECT_ROOT) -> list[tuple[Path, str | None]]:
+    """リンクされた worktree と checkout branch を列挙する。"""
+    result = subprocess.run(
+        ["git", "worktree", "list", "--porcelain"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        if not (root / ".git").exists():
+            return [(root, None)]
+        raise RuntimeError("リンクされた worktree を列挙できません。")
+    records: list[tuple[Path, str | None]] = []
+    for block in result.stdout.split("\n\n"):
+        lines = block.splitlines()
+        location = next(
+            (line.removeprefix("worktree ") for line in lines if line.startswith("worktree ")),
+            None,
+        )
+        if not location:
+            continue
+        branch = next(
+            (
+                line.removeprefix("branch refs/heads/")
+                for line in lines
+                if line.startswith("branch refs/heads/")
+            ),
+            None,
+        )
+        records.append((Path(location), branch))
+    return records
+
+
+def has_complete_archived_work_item(worktree: Path, task: str) -> bool:
+    """active record が archive の完全な pair に移動済みか判定する。"""
+    archive_root = worktree / ".ai" / "work-items" / "archive"
+    required = ("contract.json", "summary.json", "outcome.json", "archive-manifest.json")
+    return (
+        any(
+            all((year / f"{task}.{suffix}").is_file() for suffix in required)
+            for year in archive_root.iterdir()
+            if year.is_dir()
+        )
+        if archive_root.is_dir()
+        else False
+    )
+
+
+@dataclass(frozen=True)
+class LinkedWorktreeIdentity:
+    """リンク先 checkout に存在する active Work Item の identity。"""
+
+    worktree: Path
+    branch: str
+    task: str
+
+
+def linked_worktree_identity_report(
+    *, root: Path = PROJECT_ROOT
+) -> tuple[list[LinkedWorktreeIdentity], list[str]]:
+    """active Work Item を持つ linked worktree を変更なしで検査する。"""
+    try:
+        records = linked_worktree_records(root=root)
+    except (OSError, RuntimeError):
+        return [], ["ERROR: linked worktree を列挙できません。"]
+    identities: list[LinkedWorktreeIdentity] = []
+    errors: list[str] = []
+    for worktree, branch in records:
+        try:
+            if worktree.resolve() == root.resolve() or branch is None:
+                continue
+        except OSError:
+            errors.append(f"ERROR: linked worktree を解決できません: {worktree}")
+            continue
+        active_dir = worktree / ".ai" / "work-items" / "active"
+        contracts = {
+            path.name.removesuffix(".contract.json")
+            for path in active_dir.glob("*.contract.json")
+        }
+        summaries = {
+            path.name.removesuffix(".summary.json")
+            for path in active_dir.glob("*.summary.json")
+        }
+        summaries -= {
+            task for task in summaries - contracts if has_complete_archived_work_item(worktree, task)
+        }
+        if not contracts and not summaries:
+            continue
+        if contracts != summaries:
+            errors.append(f"ERROR: linked worktree の active Work Item pair が不完全です: {worktree}")
+            continue
+        if len(contracts) != 1:
+            errors.append(f"ERROR: linked worktree に複数の active Work Item があります: {worktree}")
+            continue
+        task = next(iter(contracts))
+        try:
+            contract = json.loads(
+                (active_dir / f"{task}.contract.json").read_text(encoding="utf-8")
+            )
+            summary = json.loads(
+                (active_dir / f"{task}.summary.json").read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError):
+            errors.append(f"ERROR: linked worktree の active Work Item を読めません: {worktree}")
+            continue
+        if contract.get("workItemId") != task or summary.get("workItemId") != task:
+            errors.append(f"ERROR: linked worktree の Work Item ID が path と一致しません: {worktree}")
+            continue
+        identities.append(LinkedWorktreeIdentity(worktree, branch, task))
+    return identities, errors
+
+
+def recoverable_foreign_duplicate_identities(
+    identities: list[LinkedWorktreeIdentity],
+) -> set[LinkedWorktreeIdentity]:
+    """canonical branch が一つある foreign duplicate だけを復旧候補にする。"""
+    recoverable: set[LinkedWorktreeIdentity] = set()
+    for identity in identities:
+        canonical = [
+            candidate
+            for candidate in identities
+            if candidate.task == identity.task and candidate.branch == f"codex/{identity.task}"
+        ]
+        if identity.branch != f"codex/{identity.task}" and len(canonical) == 1:
+            recoverable.add(identity)
+    return recoverable
 
 
 def parse_args() -> argparse.Namespace:

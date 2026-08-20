@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ai-cockpit://trust/repository-capabilities.schema.json",
+  "title": "Repository Capability Declaration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "repository", "capabilities", "nonCapabilities", "criticalDomains"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "purpose"],
+      "properties": {
+        "type": {"type": "string", "minLength": 1},
+        "purpose": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "nonCapabilities": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "criticalDomains": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+    ,"operationMappings": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+    }
+  },
+  "examples": [
+    {
+      "schemaVersion": 1,
+      "repository": {"type": "software_template", "purpose": ["ai_governance", "developer_tooling"]},
+      "capabilities": ["software_design", "documentation", "test_automation"],
+      "nonCapabilities": ["physical_manufacturing", "real_world_operation"],
+      "criticalDomains": ["authentication", "secrets", "production_release"],
+      "operationMappings": {"repository_governance.modify": ["ai_governance", "software_design"]}
+    }
+  ]
+}
