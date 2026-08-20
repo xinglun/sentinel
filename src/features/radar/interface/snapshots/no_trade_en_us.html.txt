@@ -30,6 +30,12 @@ Risk · No immediate risk
 
 <i>Existing holdings may drift naturally; no new entries are allowed.</i>
 
+<b>Market Permission</b>: No Market Permission
+<b>Eligible Assets</b>: 0
+<b>Effective Action</b>: Candidate Only / No Execution Window
+<b>Permission Budget</b>: 0%
+<b>Effective New Entry Cap</b>: 0%
+
 <i>Candidates only, not executable trade targets.</i>
 
 <b>🚀 Breakout Detection</b>
@@ -38,6 +44,8 @@ Risk · No immediate risk
   <i>Leadership-style breakout · Strength 62 · Quality 100</i>
 
 <b>📉 Risk Handling</b>
+
+<b>Actual Portfolio Action</b>
 
 No trim or exit conditions were triggered.
 

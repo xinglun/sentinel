@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "requestedText": "Effective Action の presentation/report read model と三言語 delivery の互換影響を確認する。",
+  "target": {
+    "type": "file",
+    "name": "effective-action-radar-presentation-target",
+    "path": "src/features/radar/interface/presentation.rs",
+    "operation": "change_signature"
+  },
+  "referenceAnalysis": {
+    "dynamicReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "Cargo test と report UI test の全 delivery body を実行して runtime read model projection を確認した。"
+      ]
+    },
+    "externalConsumers": {
+      "status": "proven_absent",
+      "evidence": [
+        "Contract の scope は repository 内の radar interface presentation/report とその tests/snapshots に限定され、外部 consumer は変更対象に含まれない。"
+      ]
+    },
+    "monitoringReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "Make quality、architecture boundary、scope guard を通過し、外部 monitoring contract の変更はない。"
+      ]
+    }
+  },
+  "governanceEvidence": {
+    "contractDeclared": true,
+    "acceptanceDeclared": true,
+    "destructiveChangeAllowed": true,
+    "evidence": [
+      "effective-action-reconciliation Contract に read model/report scope、acceptance、rollback boundary を記録した。",
+      "ユーザーが専用 worktree/branch、scope 内変更、commit、develop 統合、main 同期を明示的に許可した。"
+    ]
+  }
+}
