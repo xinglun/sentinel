@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use chrono::Datelike;
+use chrono::{DateTime, Datelike, FixedOffset, Utc};
 use std::sync::Arc;
 use uuid::Uuid;
 
@@ -93,13 +93,21 @@ pub(crate) async fn run_pipeline(
     provider: Arc<dyn MarketDataProvider>,
     mode: crate::features::radar::application::runtime_mode::ExecutionMode,
 ) -> Result<()> {
-    run_pipeline_for_report_date(
-        app_config,
-        provider,
-        mode,
-        chrono::Local::now().date_naive(),
-    )
-    .await
+    run_pipeline_for_report_date(app_config, provider, mode, jst_now().date_naive()).await
+}
+
+/// Actions runner の既定 timezone に依存せず、Radar の業務日を JST に固定する。
+fn jst_now() -> DateTime<FixedOffset> {
+    Utc::now().with_timezone(&jst_offset())
+}
+
+fn jst_offset() -> FixedOffset {
+    FixedOffset::east_opt(9 * 60 * 60).expect("JST offset must be valid")
+}
+
+#[cfg(test)]
+fn jst_date_from_utc(timestamp: DateTime<Utc>) -> chrono::NaiveDate {
+    timestamp.with_timezone(&jst_offset()).date_naive()
 }
 
 fn apply_history_baseline_downgrade(
@@ -137,7 +145,7 @@ pub(crate) async fn run_pipeline_for_report_date(
     let config_arc = Arc::new(app_config);
     let domain_rules_arc = Arc::new(domain_rules);
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
-    let now = chrono::Local::now();
+    let now = jst_now();
     let market_date = recent_trading_dates(report_date)
         .into_iter()
         .filter(|date| *date <= report_date)
@@ -2269,6 +2277,25 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    #[test]
+    fn jst_date_rolls_over_at_utc_fifteen() {
+        let before_boundary = chrono::DateTime::parse_from_rfc3339("2026-08-20T14:59:59+00:00")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+        let after_boundary = chrono::DateTime::parse_from_rfc3339("2026-08-20T15:00:00+00:00")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+
+        assert_eq!(
+            super::jst_date_from_utc(before_boundary),
+            NaiveDate::from_ymd_opt(2026, 8, 20).unwrap()
+        );
+        assert_eq!(
+            super::jst_date_from_utc(after_boundary),
+            NaiveDate::from_ymd_opt(2026, 8, 21).unwrap()
+        );
+    }
 
     #[test]
     fn narrative_allowlist_accepts_known_non_leader_packet_asset() {
