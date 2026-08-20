@@ -385,6 +385,10 @@ fn daily_radar_requires_current_report_and_fails_on_decisioning_failure() {
     let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
 
     assert!(
+        workflow.contains("make radar-release"),
+        "daily radar must execute the release runner whose packet date is report_date"
+    );
+    assert!(
         workflow.contains("REPORT_PACKET_PATH=\"reports/decision_packet_${DATE_JST}.json\""),
         "daily radar must resolve the packet for the current JST date"
     );

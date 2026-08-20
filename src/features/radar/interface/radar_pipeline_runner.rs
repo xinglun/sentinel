@@ -146,13 +146,8 @@ pub(crate) async fn run_pipeline_for_report_date(
     let domain_rules_arc = Arc::new(domain_rules);
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
     let now = jst_now();
-    let market_date = recent_trading_dates(report_date)
-        .into_iter()
-        .filter(|date| *date <= report_date)
-        .max()
-        .unwrap_or(report_date);
     let radar_context = crate::features::radar::application::radar::RadarRunContext {
-        date: market_date,
+        date: report_date,
         timestamp: now.to_rfc3339(),
     };
     let save_dir = save_dir.as_path();
@@ -262,6 +257,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                     return Err(e);
                 }
             };
+        let market_data_date = packet.market_features.date;
+        // report_date は成果物の業務日、market_data_date は行情の事実日として分離する。
+        packet.date = report_date;
 
         if baseline_packet.is_none() {
             packet.transition_log = Some(
@@ -637,13 +635,13 @@ pub(crate) async fn run_pipeline_for_report_date(
                 );
             crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
                 schema_version: "1".to_string(),
-                market_date: packet.date,
+                market_date: market_data_date,
                 report_date,
-                as_of_date: packet.date,
+                as_of_date: market_data_date,
                 generated_at: radar_context.timestamp.clone(),
                 run_id: Uuid::new_v4().to_string(),
                 cycle_id: cycle_id.clone(),
-                snapshot_id: format!("{}-{}", cycle_id, packet.date),
+                snapshot_id: format!("{}-{}", cycle_id, market_data_date),
                 is_valid_trading_day: true,
                 source_status: if degraded { "degraded" } else { "complete" }.to_string(),
                 market_state: format!("{:?}", packet.market_regime.market_state),
@@ -892,13 +890,13 @@ pub(crate) async fn run_pipeline_for_report_date(
             let trading_day_snapshot =
                 crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
                     schema_version: "1".to_string(),
-                    market_date: packet.date,
+                    market_date: market_data_date,
                     report_date,
-                    as_of_date: packet.date,
+                    as_of_date: market_data_date,
                     generated_at: radar_context.timestamp.clone(),
                     run_id: Uuid::new_v4().to_string(),
                     cycle_id: cycle_id.clone(),
-                    snapshot_id: format!("{}-{}", cycle_id, packet.date),
+                    snapshot_id: format!("{}-{}", cycle_id, market_data_date),
                     is_valid_trading_day: true,
                     source_status: if safe_downgrade {
                         "degraded"
@@ -1164,7 +1162,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             let observations = price_volume_entries
                 .iter()
                 .map(|entry| PriceVolumeObservationRecord {
-                    market_date: packet.date,
+                    market_date: market_data_date,
                     symbol: entry.symbol.clone(),
                     assessment: entry.assessment.clone(),
                     supply_context: entry.supply_context.clone(),

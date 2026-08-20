@@ -1,0 +1,236 @@
+{
+  "contractVersion": 2,
+  "workItemId": "daily-radar-report-date-alignment",
+  "mode": "code",
+  "title": "修复 Daily Radar 的报告业务日对齐",
+  "baseCommit": "60ace12c03728d66e087611f84b369d2ae064ed8",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Daily Radar 在 JST 业务日运行时，行情最后一根日线可能仍属于前一交易日。Engine 将该行情 as-of 日期直接写入 DecisionPacket.date，导致 Telegram 已发送但 workflow 期待的当前 JST decision_packet 和 run_status 文件不存在。",
+  "intent": {
+    "problem": "让报告业务日与行情 as-of 日明确分离，确保当前 JST 报告产物使用 report_date，同时保留行情特征的真实 as-of 日期。",
+    "constraints": [
+      "DecisionPacket.date、报告文件名和 run_status 文件名使用显式 report_date。",
+      "MarketFeatures.date 保留行情最后一根日线的真实 as-of 日期，不伪造市场数据日期。",
+      "保持历史基线、观察时间线、交易闸门、通知和 data branch 写回语义；不放宽 workflow 的当前 JST 强校验。"
+    ],
+    "rationale": "Hosted run 32405694931 在 JST 2026-08-21 发送 Telegram 后因 reports/decision_packet_2026-08-21.json 缺失失败；源码显示 Engine 使用 MarketFeatures.date，而行情日线在当日美股收盘前仍可能停留在前一交易日。"
+  },
+  "scope": [
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/cli.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "docs/specs/DATA_BRANCH_LAYOUT.md",
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+    ".ai/work-items/active/daily-radar-report-date-alignment.summary.json"
+  ],
+  "outOfScope": [
+    ".github/workflows/daily_radar.yml 的当前 JST packet/run_status/decisioning 强校验语义",
+    "provider credentials、Telegram secrets、reports/** 和 data branch 运行产物",
+    "Gate、execution、trader、action matrix、position sizing 和行情 provider 解析逻辑",
+    "与报告业务日和行情 as-of 日分离无关的时区迁移"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "将 Engine 生成的 packet 报告日期对齐到显式 report_date，并保留 MarketFeatures.date 的真实行情 as-of 日期。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "增加行情日期落后于报告业务日时的产物命名和字段回归测试。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "让正式快照以 report_date 解析对应 packet，同时保留 market_date 的历史事实语义。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "固化 workflow 仍使用当前 JST packet/run_status 强校验的集成契约。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "确认 hosted workflow 使用 make radar-release，并保持当前 JST packet/run_status/decisioning 强校验。"
+    },
+    {
+      "path": "docs/specs/DATA_BRANCH_LAYOUT.md",
+      "reason": "说明报告业务日与行情 as-of 日的字段边界，避免把当前 workflow 日误解为行情事实日期。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "生成 Work Item 的 Cockpit 状态。"
+    },
+    {
+      "path": ".ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+      "reason": "固化本次 hosted failure 的根因、scope、acceptance 和 verification。"
+    },
+    {
+      "path": ".ai/work-items/active/daily-radar-report-date-alignment.summary.json",
+      "reason": "记录实现、逐项验证、hosted 运行和残余风险。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认本次修复遵循 Work Item Contract、checkpoint、archive 和 merge 后 cleanup 流程。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/32405694931",
+      "reason": "提供 main hosted run 中 Telegram 已发送但当前 JST report packet 缺失的失败证据。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "行情最后一根日线为 report_date 前一日时，输出文件仍使用 report_date",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "待增加 DateAwareProvider 的落后行情日期回归测试。"
+    },
+    {
+      "scenario": "MarketFeatures.date 保留行情真实 as-of 日期，报告业务日只用于 packet/artifact 日期",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "make test"
+      ],
+      "reason": "待通过持久化产物断言确认日期边界。"
+    },
+    {
+      "scenario": "daily_radar 继续严格校验当前 JST packet、run_status 和 decisioning succeeded",
+      "required": true,
+      "status": "unverified",
+      "evidence": [
+        "make test-radar-workflow-contract"
+      ],
+      "reason": "待 required checks 完成。"
+    },
+    {
+      "scenario": "合并后 main hosted Daily Radar 成功发送 Telegram 并写回 data branch",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "必须在 develop 合并、同步 main 后重新触发并检查 Actions。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "ci",
+      "external_dependency"
+    ],
+    "reason": "报告日期字段与行情 as-of 字段同时影响历史 persistence、workflow 校验和 hosted data branch 写回；真实 provider 与 Telegram 仍需合并后的 main run 确认。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "Hosted failure、workflow 当前 JST 强校验和 Engine 的行情日期赋值位置已确认，修复范围限定在报告日期对齐与契约测试。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザー要求に基づき、報告業務日と市場データ as-of 日を分離する bounded fix を実装する。",
+    "openQuestions": [
+      "実データ provider で report_date と最新行情日が異なるケースは、落后日期回归测试と合并後 main hosted run で確認する。",
+      "既存履歴の market_date / report_date / as_of_date の意味は、差分を広げずに DATA_BRANCH_LAYOUT と snapshot assertion で固定する。"
+    ]
+  },
+  "preReviewWarnings": [
+    "不要把行情 as-of 日期改写成当前 JST 来掩盖数据事实；只将报告业务日投影到 packet 和报告 artifact。",
+    "不要放宽 workflow 的当前 JST packet、run_status 和 decisioning succeeded 校验。",
+    "合并后的 main hosted run 必须验证当前 JST packet、run_status、Telegram 和 data branch 写回。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "行情最后一根日线早于 report_date 时，DecisionPacket.date 与 decision_packet、Markdown、portfolio/account snapshot 和 run_status 文件名使用 report_date。",
+    "MarketFeatures.date 保留行情最后一根日线的真实 as-of 日期，回归测试证明没有把行情事实改写为 report_date。",
+    "正式 TradingDaySnapshot 使用真实 market_date / as_of_date，并以 report_date 找回对应 packet，下一次运行仍能解析历史基线。",
+    "历史基线和 observation timeline 仍能在行情 as-of 日落后于报告业务日时完成持久化，不产生 HISTORY_REGRESSION 或 READ_MODEL_CONFLICT。",
+    "daily_radar workflow 的当前 JST packet/run_status/decisioning 强校验保持不变，并由 workflow integration test 固化。",
+    "所有 Contract required checks 通过并完成 Work Item archive、PR 合并和 close cleanup。",
+    "同步 main 后 hosted Daily Radar 生成当前 JST decision packet、run_status，Freshness Gate、data branch 写回和 Telegram notification 均成功。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make test-radar-workflow-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json SUMMARY=.ai/work-items/active/daily-radar-report-date-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage SCENARIO_COVERAGE_ARGS=\"--contract .ai/work-items/active/daily-radar-report-date-alignment.contract.json --summary .ai/work-items/active/daily-radar-report-date-alignment.summary.json\"",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/daily-radar-report-date-alignment.summary.json CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json SUMMARY=.ai/work-items/active/daily-radar-report-date-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/daily-radar-report-date-alignment.contract.json SUMMARY=.ai/work-items/active/daily-radar-report-date-alignment.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}
