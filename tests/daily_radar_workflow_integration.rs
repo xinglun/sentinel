@@ -397,6 +397,10 @@ fn daily_radar_requires_current_report_and_fails_on_decisioning_failure() {
         "decisioning failures must fail the workflow and activate Notify on Failure"
     );
     assert!(
+        workflow.contains("decisioning_failed_reason="),
+        "missing packets must expose the persisted decisioning failure reason"
+    );
+    assert!(
         workflow.contains("REPORT_DATE_JST=\"${DATE_JST}\""),
         "later workflow steps must use the current JST date"
     );

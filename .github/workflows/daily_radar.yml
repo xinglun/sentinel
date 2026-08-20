@@ -337,12 +337,30 @@ jobs:
 
           REPORT_DATE_JST="${DATE_JST}"
           REPORT_PACKET_PATH="reports/decision_packet_${DATE_JST}.json"
+          RUN_STATUS_PATH="reports/run_status_${DATE_JST}.json"
           if [ ! -s "${REPORT_PACKET_PATH}" ]; then
-            echo "❌ Current JST report packet is missing: ${REPORT_PACKET_PATH}"
+            if [ -s "${RUN_STATUS_PATH}" ]; then
+              DECISIONING_FAILED_REASON="$(RUN_STATUS_PATH="${RUN_STATUS_PATH}" python - <<'PY'
+          import json
+          import os
+
+          with open(os.environ["RUN_STATUS_PATH"], encoding="utf-8") as handle:
+              decisioning = json.load(handle).get("decisioning")
+          if isinstance(decisioning, dict) and isinstance(decisioning.get("failed"), dict):
+              print(decisioning["failed"].get("reason", "unknown"))
+          elif isinstance(decisioning, str):
+              print(decisioning)
+          else:
+              print("unknown")
+          PY
+              )"
+              echo "❌ Current JST report packet is missing: ${REPORT_PACKET_PATH} (decisioning_failed_reason=${DECISIONING_FAILED_REASON})"
+            else
+              echo "❌ Current JST report packet is missing: ${REPORT_PACKET_PATH}"
+            fi
             exit 1
           fi
 
-          RUN_STATUS_PATH="reports/run_status_${DATE_JST}.json"
           if [ ! -s "${RUN_STATUS_PATH}" ]; then
             echo "❌ Current JST run status is missing: ${RUN_STATUS_PATH}"
             exit 1

@@ -337,12 +337,10 @@ fn build_todays_explanation(
         ExplanationRole::Ignored
     };
 
-    let primary_name;
-    let primary_conf;
-
-    if macro_role == ExplanationRole::Primary {
-        primary_name = macro_explanation_text(ExplanationRole::Primary, language);
-        primary_conf = match signal_context.context_quality {
+    let (primary_name, primary_conf) = if macro_role == ExplanationRole::Primary {
+        (
+            macro_explanation_text(ExplanationRole::Primary, language),
+            match signal_context.context_quality {
             crate::features::radar::interface::presentation::SignalContextQuality::High => {
                 "HIGH".to_string()
             }
@@ -355,17 +353,21 @@ fn build_todays_explanation(
             crate::features::radar::interface::presentation::SignalContextQuality::Unavailable => {
                 "UNAVAILABLE".to_string()
             }
-        };
+            },
+        )
     } else if trend_role == ExplanationRole::Primary {
-        primary_name = trend_explanation_text(ExplanationRole::Primary, language);
-        primary_conf = trend_confidence_value(signal);
+        (
+            trend_explanation_text(ExplanationRole::Primary, language),
+            trend_confidence_value(signal),
+        )
     } else if supply_role == ExplanationRole::Primary {
-        primary_name = supply_explanation_text(ExplanationRole::Primary, language);
-        primary_conf = supply_confidence_value(signal);
+        (
+            supply_explanation_text(ExplanationRole::Primary, language),
+            supply_confidence_value(signal),
+        )
     } else {
-        primary_name = no_primary_driver_text(language);
-        primary_conf = "LOW".to_string();
-    }
+        (no_primary_driver_text(language), "LOW".to_string())
+    };
 
     let mut secondary_drivers = Vec::new();
     if macro_role == ExplanationRole::Secondary {
