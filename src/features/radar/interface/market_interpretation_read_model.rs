@@ -13,6 +13,7 @@ use crate::features::shared::interface::i18n::Language;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 struct ActionDistribution {
+    accumulate: usize,
     watch: usize,
     hold: usize,
     weaken: usize,
@@ -24,6 +25,7 @@ fn action_distribution(pres_packet: &PresentationPacket) -> ActionDistribution {
         ActionDistribution::default(),
         |mut distribution, bucket| {
             match bucket.bucket_id.as_str() {
+                "accumulate" => distribution.accumulate = bucket.count,
                 "watch" => distribution.watch = bucket.count,
                 "hold" => distribution.hold = bucket.count,
                 "defend" => distribution.weaken = bucket.count,
@@ -32,6 +34,151 @@ fn action_distribution(pres_packet: &PresentationPacket) -> ActionDistribution {
             distribution
         },
     )
+}
+
+#[derive(Debug, Clone, Default)]
+struct RelativeStrengthDiffusionReadModel {
+    has_observations: bool,
+    recovery_breadth_label: String,
+    recovery_breadth_value: String,
+    strong_moderate_recovery_label: String,
+    strong_moderate_recovery_value: String,
+    diffusion_label: String,
+    diffusion_value: String,
+    actionable_diffusion_label: String,
+    actionable_diffusion_value: String,
+    reason_label: String,
+    reason_value: String,
+}
+
+fn build_relative_strength_diffusion(
+    strength: Option<
+        &crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel,
+    >,
+    current_leaders: &[String],
+    breakout_leaders: &[String],
+    action_distribution: ActionDistribution,
+    language: Language,
+) -> RelativeStrengthDiffusionReadModel {
+    let items = strength
+        .map(|value| value.items.as_slice())
+        .unwrap_or_default();
+    let total_count = items.len();
+    let improving_count = items
+        .iter()
+        .filter(|item| item.status == "IMPROVING")
+        .count();
+    let strong_moderate_count = items
+        .iter()
+        .filter(|item| item.status == "IMPROVING")
+        .filter(|item| matches!(item.recovery_strength.as_str(), "STRONG" | "MODERATE"))
+        .count();
+    let diffusion_value = if total_count == 0 {
+        "UNAVAILABLE"
+    } else if improving_count >= 3 {
+        "EMERGING"
+    } else {
+        "NOT_CONFIRMED"
+    };
+    let actionable_confirmed = !current_leaders.is_empty()
+        && !breakout_leaders.is_empty()
+        && action_distribution.accumulate > 0;
+    let actionable_diffusion_value = if actionable_confirmed {
+        "CONFIRMED"
+    } else {
+        "NOT_CONFIRMED"
+    };
+    let reason_value = match language {
+        Language::ZhCn => {
+            let mut missing = Vec::new();
+            if current_leaders.is_empty() {
+                missing.push("没有确认 Leader");
+            }
+            if breakout_leaders.is_empty() {
+                missing.push("没有 breakout");
+            }
+            if action_distribution.accumulate == 0 {
+                missing.push("Action Matrix 未转强确认");
+            }
+            if missing.is_empty() {
+                "Leader、breakout 与 Action Matrix 均已确认转强。".to_string()
+            } else {
+                format!("{}。", missing.join("、"))
+            }
+        }
+        Language::EnUs => {
+            let mut missing = Vec::new();
+            if current_leaders.is_empty() {
+                missing.push("no confirmed Leader");
+            }
+            if breakout_leaders.is_empty() {
+                missing.push("no breakout");
+            }
+            if action_distribution.accumulate == 0 {
+                missing.push("no Action Matrix strengthening confirmation");
+            }
+            if missing.is_empty() {
+                "Leader, breakout, and Action Matrix strengthening are all confirmed.".to_string()
+            } else {
+                format!("{}.", missing.join(", "))
+            }
+        }
+        Language::JaJp => {
+            let mut missing = Vec::new();
+            if current_leaders.is_empty() {
+                missing.push("確認済み Leader なし");
+            }
+            if breakout_leaders.is_empty() {
+                missing.push("breakout なし");
+            }
+            if action_distribution.accumulate == 0 {
+                missing.push("Action Matrix の強化確認なし");
+            }
+            if missing.is_empty() {
+                "Leader、breakout、Action Matrix の強化を確認済み。".to_string()
+            } else {
+                format!("{}。", missing.join("、"))
+            }
+        }
+    };
+    let (
+        recovery_breadth_label,
+        strong_moderate_recovery_label,
+        diffusion_label,
+        actionable_diffusion_label,
+        reason_label,
+    ) = match language {
+        Language::ZhCn | Language::EnUs | Language::JaJp => (
+            "RS Recovery Breadth",
+            "Strong/Moderate Recovery",
+            "RS Diffusion",
+            "Actionable Diffusion",
+            "Reason",
+        ),
+    };
+    let recovery_breadth_value = match language {
+        Language::ZhCn => format!("{improving_count}/{total_count} 非基准资产改善"),
+        Language::EnUs => format!("{improving_count}/{total_count} non-benchmark assets improving"),
+        Language::JaJp => format!("{improving_count}/{total_count} 非ベンチマーク資産が改善"),
+    };
+    let strong_moderate_recovery_value = match language {
+        Language::ZhCn => format!("{strong_moderate_count}/{total_count} 强/中等恢复"),
+        Language::EnUs => format!("{strong_moderate_count}/{total_count} strong/moderate recovery"),
+        Language::JaJp => format!("{strong_moderate_count}/{total_count} 強/中程度の回復"),
+    };
+    RelativeStrengthDiffusionReadModel {
+        has_observations: total_count > 0,
+        recovery_breadth_label: recovery_breadth_label.to_string(),
+        recovery_breadth_value,
+        strong_moderate_recovery_label: strong_moderate_recovery_label.to_string(),
+        strong_moderate_recovery_value,
+        diffusion_label: diffusion_label.to_string(),
+        diffusion_value: diffusion_value.to_string(),
+        actionable_diffusion_label: actionable_diffusion_label.to_string(),
+        actionable_diffusion_value: actionable_diffusion_value.to_string(),
+        reason_label: reason_label.to_string(),
+        reason_value,
+    }
 }
 
 fn rotation_delta(previous: &[String], current: &[String]) -> (Vec<String>, Vec<String>) {
@@ -183,16 +330,26 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
                 && leader != "なし"
         })
         .collect::<Vec<_>>();
-    let improving_symbols = pres_packet
+    let (recovering_symbols, initial_improvement_symbols) = pres_packet
         .current_relative_strength
         .as_ref()
         .map(|strength| {
-            strength
+            let recovering_symbols = strength
                 .items
                 .iter()
-                .filter(|item| item.status == "IMPROVING")
+                .filter(|item| {
+                    item.status == "IMPROVING"
+                        && matches!(item.recovery_strength.as_str(), "STRONG" | "MODERATE")
+                })
                 .map(|item| item.symbol.clone())
-                .collect::<Vec<_>>()
+                .collect::<Vec<_>>();
+            let initial_improvement_symbols = strength
+                .items
+                .iter()
+                .filter(|item| item.status == "IMPROVING" && item.recovery_strength == "WEAK")
+                .map(|item| item.symbol.clone())
+                .collect::<Vec<_>>();
+            (recovering_symbols, initial_improvement_symbols)
         })
         .unwrap_or_default();
     let tactical_leadership_structure = if current_leaders.is_empty()
@@ -207,11 +364,21 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         .items
         .iter()
         .filter(|item| {
-            item.status
-                == crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout
+            matches!(
+                item.status,
+                crate::features::radar::interface::presentation::BreakoutDisplayStatus::EmergingBreakout
+                    | crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout
+            )
         })
         .map(|item| item.symbol.clone())
         .collect::<Vec<_>>();
+    let rs_diffusion = build_relative_strength_diffusion(
+        pres_packet.current_relative_strength.as_ref(),
+        &current_leaders,
+        &breakout_leaders,
+        action_distribution,
+        language,
+    );
     let narrative_values = market_interpretation_narrative_values(
         day_type,
         pres_packet
@@ -222,7 +389,9 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         &current_leaders,
         &breakout_leaders,
         breadth_facts.raw_percent,
-        &improving_symbols,
+        &recovering_symbols,
+        &initial_improvement_symbols,
+        &rs_diffusion,
         leader_absence_duration,
         action_distribution,
         language,
@@ -280,6 +449,16 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
             .unwrap_or_else(|| "UNAVAILABLE".to_string()),
         breadth_semantic_label: "Breadth Label".to_string(),
         breadth_semantic_value: breadth_facts.label.clone(),
+        rs_recovery_breadth_label: rs_diffusion.recovery_breadth_label,
+        rs_recovery_breadth_value: rs_diffusion.recovery_breadth_value,
+        strong_moderate_recovery_label: rs_diffusion.strong_moderate_recovery_label,
+        strong_moderate_recovery_value: rs_diffusion.strong_moderate_recovery_value,
+        rs_diffusion_label: rs_diffusion.diffusion_label,
+        rs_diffusion_value: rs_diffusion.diffusion_value,
+        actionable_diffusion_label: rs_diffusion.actionable_diffusion_label,
+        actionable_diffusion_value: rs_diffusion.actionable_diffusion_value,
+        diffusion_reason_label: rs_diffusion.reason_label,
+        diffusion_reason_value: rs_diffusion.reason_value,
         tactical_leadership_structure_value: tactical_leadership_structure.to_string(),
         leader_absence_duration,
         breadth_score_label: breadth_score_label(language).to_string(),
@@ -1264,7 +1443,9 @@ fn market_interpretation_narrative_values(
     current_leaders: &[String],
     breakout_leaders: &[String],
     raw_breadth: Option<f64>,
-    improving_symbols: &[String],
+    recovering_symbols: &[String],
+    initial_improvement_symbols: &[String],
+    rs_diffusion: &RelativeStrengthDiffusionReadModel,
     leader_absence_duration: usize,
     action_distribution: ActionDistribution,
     language: Language,
@@ -1354,8 +1535,8 @@ fn market_interpretation_narrative_values(
             Language::JaJp => "構造的悪化の証拠は見えていません。".to_string(),
         });
     }
-    if !improving_symbols.is_empty() {
-        let symbols = improving_symbols.join(" / ");
+    if !recovering_symbols.is_empty() {
+        let symbols = recovering_symbols.join(" / ");
         lines.push(match language {
             Language::ZhCn => format!(
                 "短期相对强度开始在 {symbols} 等个别资产恢复，尚不足以构成新的 Leadership。"
@@ -1365,6 +1546,71 @@ fn market_interpretation_narrative_values(
             ),
             Language::JaJp => format!(
                 "{symbols} など一部資産の短期相対強度は回復していますが、新しい Leadership を構成するには至っていません。"
+            ),
+        });
+    }
+    if !initial_improvement_symbols.is_empty() {
+        let symbols = initial_improvement_symbols.join(" / ");
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "相对强度在 {symbols} 等资产出现初步改善，但尚不足以确认恢复。"
+            ),
+            Language::EnUs => format!(
+                "Relative strength shows an initial improvement in assets such as {symbols}, but recovery is not yet confirmed."
+            ),
+            Language::JaJp => format!(
+                "{symbols} などの資産で相対強度に初期改善が見られますが、回復はまだ確認できません。"
+            ),
+        });
+    }
+    if rs_diffusion.has_observations {
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "{}：{}；{}：{}；{}：{}。{}：{}",
+                rs_diffusion.recovery_breadth_label,
+                rs_diffusion.recovery_breadth_value,
+                rs_diffusion.strong_moderate_recovery_label,
+                rs_diffusion.strong_moderate_recovery_value,
+                rs_diffusion.diffusion_label,
+                rs_diffusion.diffusion_value,
+                rs_diffusion.actionable_diffusion_label,
+                rs_diffusion.actionable_diffusion_value,
+            ),
+            Language::EnUs => format!(
+                "{}: {}; {}: {}; {}: {}; {}: {}.",
+                rs_diffusion.recovery_breadth_label,
+                rs_diffusion.recovery_breadth_value,
+                rs_diffusion.strong_moderate_recovery_label,
+                rs_diffusion.strong_moderate_recovery_value,
+                rs_diffusion.diffusion_label,
+                rs_diffusion.diffusion_value,
+                rs_diffusion.actionable_diffusion_label,
+                rs_diffusion.actionable_diffusion_value,
+            ),
+            Language::JaJp => format!(
+                "{}：{}；{}：{}；{}：{}。{}：{}。",
+                rs_diffusion.recovery_breadth_label,
+                rs_diffusion.recovery_breadth_value,
+                rs_diffusion.strong_moderate_recovery_label,
+                rs_diffusion.strong_moderate_recovery_value,
+                rs_diffusion.diffusion_label,
+                rs_diffusion.diffusion_value,
+                rs_diffusion.actionable_diffusion_label,
+                rs_diffusion.actionable_diffusion_value,
+            ),
+        });
+        lines.push(match language {
+            Language::ZhCn => format!(
+                "{}：{}。",
+                rs_diffusion.reason_label, rs_diffusion.reason_value
+            ),
+            Language::EnUs => format!(
+                "{}: {}.",
+                rs_diffusion.reason_label, rs_diffusion.reason_value
+            ),
+            Language::JaJp => format!(
+                "{}：{}。",
+                rs_diffusion.reason_label, rs_diffusion.reason_value
             ),
         });
     }
@@ -2355,6 +2601,8 @@ mod tests {
             &["GOOG".to_string()],
             Some(50.0),
             &[],
+            &[],
+            &RelativeStrengthDiffusionReadModel::default(),
             0,
             ActionDistribution::default(),
             Language::ZhCn,
@@ -2366,6 +2614,130 @@ mod tests {
     }
 
     #[test]
+    fn rs_diffusion_reports_five_of_nine_without_confirming_actionable_diffusion() {
+        let mut items = Vec::new();
+        for index in 0..9 {
+            items.push(
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    symbol: format!("ASSET{index}"),
+                    status: if index < 5 {
+                        "IMPROVING".to_string()
+                    } else {
+                        "NEUTRAL".to_string()
+                    },
+                    recovery_strength: if index < 3 {
+                        "STRONG".to_string()
+                    } else if index < 5 {
+                        "WEAK".to_string()
+                    } else {
+                        "NONE".to_string()
+                    },
+                    ..Default::default()
+                },
+            );
+        }
+        let strength =
+            crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                items,
+                ..Default::default()
+            };
+
+        let result = build_relative_strength_diffusion(
+            Some(&strength),
+            &[],
+            &[],
+            ActionDistribution::default(),
+            Language::ZhCn,
+        );
+
+        assert_eq!(result.recovery_breadth_value, "5/9 非基准资产改善");
+        assert_eq!(result.strong_moderate_recovery_value, "3/9 强/中等恢复");
+        assert_eq!(result.diffusion_value, "EMERGING");
+        assert_eq!(result.actionable_diffusion_value, "NOT_CONFIRMED");
+        assert!(result.reason_value.contains("没有确认 Leader"));
+        assert!(result.reason_value.contains("没有 breakout"));
+    }
+
+    #[test]
+    fn legacy_neutral_recovery_is_not_counted_as_strong_or_moderate_recovery() {
+        let strength = crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+            items: vec![
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    status: "NEUTRAL".to_string(),
+                    recovery_strength: "MODERATE".to_string(),
+                    ..Default::default()
+                },
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
+                    status: "IMPROVING".to_string(),
+                    recovery_strength: "STRONG".to_string(),
+                    ..Default::default()
+                },
+            ],
+            ..Default::default()
+        };
+
+        let result = build_relative_strength_diffusion(
+            Some(&strength),
+            &[],
+            &[],
+            ActionDistribution::default(),
+            Language::ZhCn,
+        );
+
+        assert_eq!(result.strong_moderate_recovery_value, "1/2 强/中等恢复");
+    }
+
+    #[test]
+    fn confirmed_breakout_counts_as_actionable_diffusion_evidence() {
+        let packet = DecisionPacket::default();
+        let pres_packet = PresentationPacket {
+            interpretation_layer: Some(Default::default()),
+            current_relative_strength: Some(
+                crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
+                    items: vec![Default::default()],
+                    ..Default::default()
+                },
+            ),
+            breakout_summary: crate::features::radar::interface::presentation::BreakoutSummaryViewModel {
+                items: vec![
+                    crate::features::radar::interface::presentation::BreakoutItemViewModel {
+                        symbol: "GOOG".to_string(),
+                        status: crate::features::radar::interface::presentation::BreakoutDisplayStatus::ConfirmedBreakout,
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+            tactical_buckets: vec![
+                crate::features::radar::interface::display::TacticalBucketViewModel {
+                    bucket_id: "accumulate".to_string(),
+                    display_name: "Accumulate".to_string(),
+                    count: 1,
+                    items: vec!["GOOG".to_string()],
+                },
+            ],
+            ..Default::default()
+        };
+        let leadership_snapshot = build_leadership_snapshot_view_model_from_components(
+            vec!["GOOG".to_string()],
+            vec![],
+            vec![],
+            true,
+            Language::EnUs,
+        );
+
+        let interpretation = build_market_interpretation_view_model(
+            &packet,
+            &pres_packet,
+            &leadership_snapshot,
+            Language::EnUs,
+        )
+        .unwrap();
+
+        assert_eq!(interpretation.actionable_diffusion_value, "CONFIRMED");
+    }
+
+    #[test]
     fn fragile_narrative_names_leader_absence_and_rs_recovery_without_claiming_new_leadership() {
         let values = market_interpretation_narrative_values(
             "normal",
@@ -2374,6 +2746,8 @@ mod tests {
             &[],
             Some(50.0),
             &["SPCX".to_string(), "NVDA".to_string()],
+            &[],
+            &RelativeStrengthDiffusionReadModel::default(),
             9,
             ActionDistribution::default(),
             Language::ZhCn,
@@ -2386,6 +2760,27 @@ mod tests {
         assert!(narrative.contains("SPCX / NVDA"));
         assert!(narrative.contains("尚不足以构成新的 Leadership"));
         assert!(!narrative.contains("没有结构性恶化证据"));
+    }
+
+    #[test]
+    fn weak_relative_strength_narrative_is_initial_improvement_not_recovery() {
+        let values = market_interpretation_narrative_values(
+            "normal",
+            "",
+            &[],
+            &[],
+            Some(50.0),
+            &[],
+            &["PLTR".to_string()],
+            &RelativeStrengthDiffusionReadModel::default(),
+            0,
+            ActionDistribution::default(),
+            Language::ZhCn,
+        );
+        let narrative = values.join("\n");
+
+        assert!(narrative.contains("初步改善，但尚不足以确认恢复"));
+        assert!(!narrative.contains("短期相对强度开始在 PLTR 等个别资产恢复"));
     }
 
     #[test]

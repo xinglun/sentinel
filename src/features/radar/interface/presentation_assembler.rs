@@ -54,6 +54,8 @@ impl PresentationAssembler {
             dict.trend_cohesion.current_no_confirmed_mainline.clone();
         presentation.decision_summary.trend_topology_value =
             dict.trend_cohesion.topology_leaderless_fragmented.clone();
+        presentation.decision_summary.state_tag_value =
+            dict.decision.state_ignition_unconfirmed.clone();
         if let Some(evidence) = presentation.transition_evidence.as_mut() {
             strategic_context_read_model::apply_leaderless_market_structure_override(
                 &mut evidence.strategic_context,
@@ -644,9 +646,17 @@ impl PresentationAssembler {
         let mut items = packet
             .current_relative_strength_observations
             .iter()
+            .filter(|observation| {
+                let benchmark_symbol = if observation.benchmark_symbol.is_empty() {
+                    "SPY"
+                } else {
+                    observation.benchmark_symbol.as_str()
+                };
+                observation.symbol != benchmark_symbol
+            })
             .map(|observation| {
-                let status = format!("{:?}", observation.status).to_ascii_uppercase();
-                let recovery_state = observation.recovery_state.as_str().to_string();
+                let status = observation.state.as_str().to_string();
+                let recovery_strength = observation.recovery_strength.as_str().to_string();
                 let weakening = packet
                     .assets
                     .iter()
@@ -660,29 +670,46 @@ impl PresentationAssembler {
                             crate::features::radar::domain::action_matrix::AssetAction::REDUCE
                                 | crate::features::radar::domain::action_matrix::AssetAction::AVOID
                         )
-                    });
+                });
                 let recovery_watch = weakening
-                    && (status == "IMPROVING"
-                        || matches!(
-                            observation.recovery_state,
-                            crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::StrongRecovery
-                                | crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::Recovering
-                        ));
+                    && matches!(
+                        observation.state,
+                        crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving
+                    )
+                    && matches!(
+                        observation.recovery_strength,
+                        crate::features::radar::domain::current_relative_strength::RecoveryStrength::Strong
+                            | crate::features::radar::domain::current_relative_strength::RecoveryStrength::Moderate
+                    );
+                let weak_improvement = observation.state
+                    == crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving
+                    && observation.recovery_strength
+                        == crate::features::radar::domain::current_relative_strength::RecoveryStrength::Weak;
                 crate::features::radar::interface::presentation::CurrentRelativeStrengthItemViewModel {
                     symbol: observation.symbol.clone(),
                     status,
-                    recovery_state,
+                    recovery_strength,
                     relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
                     relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
                     price_position: observation.price_position,
                     volume_participation: observation.volume_participation,
                     conflict_code: recovery_watch.then(|| "SIGNAL_CONFLICT".to_string()),
                     recovery_watch,
-                    recovery_explanation: recovery_watch.then(|| match language {
-                        Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复。当前不取消既有弱势判断，停止继续使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
-                        Language::EnUs => "The long-term cumulative structure remains weak, while short-term relative strength is recovering. Keep the existing weakness assessment, stop describing it as continued weakening, and enter RECOVERY_WATCH.".to_string(),
-                        Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。既存の弱勢判定は維持し、連続的な弱化という表現を止めて RECOVERY_WATCH に移行します。".to_string(),
-                    }),
+                    recovery_explanation: if recovery_watch {
+                        Some(match language {
+                            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复。当前不取消既有弱势判断，停止继续使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
+                            Language::EnUs => "The long-term cumulative structure remains weak, while short-term relative strength is recovering. Keep the existing weakness assessment, stop describing it as continued weakening, and enter RECOVERY_WATCH.".to_string(),
+                            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。既存の弱勢判定は維持し、連続的な弱化という表現を止めて RECOVERY_WATCH に移行します。".to_string(),
+                        })
+                    } else if weak_improvement {
+                        Some(match language {
+                            Language::ZhCn => "相对强度出现初步改善，但尚不足以确认恢复。".to_string(),
+                            Language::EnUs => "Relative strength shows an initial improvement, but it is not yet sufficient to confirm recovery.".to_string(),
+                            Language::JaJp => "相対強度には初期改善が見られますが、回復を確認するにはまだ不十分です。".to_string(),
+                        })
+                    } else {
+                        None
+                    },
                 }
             })
             .collect::<Vec<_>>();
@@ -712,6 +739,14 @@ impl PresentationAssembler {
         crate::features::radar::interface::presentation::CurrentRelativeStrengthViewModel {
             title: title.to_string(),
             confirmed_leader: confirmed_leader.to_string(),
+            benchmark_symbol: packet
+                .current_relative_strength_observations
+                .iter()
+                .find_map(|observation| {
+                    (!observation.benchmark_symbol.is_empty())
+                        .then_some(observation.benchmark_symbol.clone())
+                })
+                .unwrap_or_else(|| "SPY".to_string()),
             items,
             boundary: boundary.to_string(),
         }
@@ -1094,12 +1129,12 @@ impl PresentationAssembler {
             .find(|observation| observation.symbol == symbol)
             .is_some_and(|observation| {
                 matches!(
-                    observation.status,
-                    crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthStatus::Improving
-                ) || matches!(
-                    observation.recovery_state,
-                    crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::StrongRecovery
-                        | crate::features::radar::domain::current_relative_strength::RelativeStrengthRecoveryState::Recovering
+                    (observation.state, observation.recovery_strength),
+                    (
+                        crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                        crate::features::radar::domain::current_relative_strength::RecoveryStrength::Strong
+                            | crate::features::radar::domain::current_relative_strength::RecoveryStrength::Moderate
+                    )
                 )
             })
     }

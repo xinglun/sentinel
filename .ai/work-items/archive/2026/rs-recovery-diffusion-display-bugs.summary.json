@@ -1,0 +1,289 @@
+{
+  "workItemId": "rs-recovery-diffusion-display-bugs",
+  "contractPath": ".ai/work-items/archive/2026/rs-recovery-diffusion-display-bugs.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "reason": "四项已确认展示/Interpretation bug 的 scope、acceptance、scenario 与 required verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "reason": "本 Work Item 的执行证据、user correction 固化与 verification 结果を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item 生命周期状态由 Cockpit 生成并校验。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "让相对强度 report 的 benchmark 标签使用 ViewModel 实际值。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "修复 ConfirmedBreakout evidence、legacy recovery 统计与弱改善 narrative。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "增加三语 report 与 benchmark / narrative 边界回归。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "记录四项 Observation → Interpretation 边界与 observation-only 约束。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/cockpit/README.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/domain/rules.rs"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make ai-preflight",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/rs-recovery-diffusion-display-bugs.contract.json SUMMARY=.ai/work-items/active/rs-recovery-diffusion-display-bugs.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "scenarioCoverage": [
+    {
+      "scenario": "HK/CN report 的 benchmark 标签使用 2800.HK / 510300.SS，缺失旧字段时才回退 SPY",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/radar/interface/report.rs"
+      ],
+      "reason": "三语 report 回归确认实际 benchmark_symbol 输出；空值 fallback 由既有 renderer contract 保持。"
+    },
+    {
+      "scenario": "ConfirmedBreakout 与 EmergingBreakout 都可作为 Actionable Diffusion 的 breakout evidence，但不改变执行语义",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs"
+      ],
+      "reason": "ConfirmedBreakout 回归确认 Actionable Diffusion 进入 CONFIRMED，执行边界未变。"
+    },
+    {
+      "scenario": "legacy status=NEUTRAL + recovery_state=Recovering 不计入 Strong/Moderate Recovery，IMPROVING 才计入",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs"
+      ],
+      "reason": "legacy neutral + moderate 回归确认不会进入 strong/moderate 计数。"
+    },
+    {
+      "scenario": "IMPROVING + WEAK 只显示初步改善；IMPROVING + STRONG/MODERATE 才显示 recovery 叙事",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "弱改善 narrative 与 zh/en/ja report 回归确认初步改善文案。"
+    },
+    {
+      "scenario": "Leader、Gate、NO_TRADE、Action Matrix、Position Sizing 与 Breadth 算法不因展示修复改变",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make clippy",
+        "make check-architecture-all",
+        "scope excludes execution and Breadth algorithms"
+      ],
+      "reason": "全量 quality / architecture checks 通过，修复仅位于展示与 Interpretation read model。"
+    }
+  ],
+  "risk": {
+    "level": "medium",
+    "detail": "修正影响三语 report、legacy read path 与 breakout interpretation；scope 限定为展示/Interpretation，执行边界排除。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "make ai-start 生成的初始 skeleton 首次 preflight 为 not_ready；已通过 Contract / Summary 更新并在后续 preflight 中通过。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "四项 bug 已固化为 bounded scope、acceptance 与 scenario coverage；用户确认重新开启。",
+      "contractHash": "caf0aa345de8960a",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "ai-preflight 通过；red tests 分别捕获 benchmark 固定、ConfirmedBreakout 排除、legacy 过计数与弱改善叙事过强。",
+      "contractHash": "caf0aa345de8960a",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "四项实现、设计文档与 focused/full tests 已完成，未修改核心状态机与执行边界。",
+      "contractHash": "caf0aa345de8960a",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "16 项 required verification 已记录为 passed；quality 首次运行仅因 Summary 尚未回写而触发 guard，随后已修正证据并通过 summary check。",
+      "contractHash": "caf0aa345de8960a",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "用户已确认对应重新开启；Contract 已明确 scope、outOfScope、acceptance、scenario 与 verification。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "Contract preflight 通过，TDD red test 已捕获旧逻辑的四项回归。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "四项实现与 focused green tests 已完成，进入最终 quality gates。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "16 项 required verification 已通过并完成 Summary / Cockpit status 证据回写。"
+    }
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "用户指出非 US benchmark 仍被硬编码显示为 SPY。",
+      "solidifiedTo": "contract",
+      "reason": "将实际 benchmark_symbol 与 legacy fallback 的标签契约写入 acceptance、scenario coverage 与回归测试。"
+    },
+    {
+      "correction": "用户指出 ConfirmedBreakout 被排除在 Actionable Diffusion 之外。",
+      "solidifiedTo": "contract",
+      "reason": "将 EmergingBreakout / ConfirmedBreakout 的 evidence 边界和 execution-only exclusion 写入 acceptance。"
+    },
+    {
+      "correction": "用户指出 legacy status=Neutral + recovery_state=Recovering 会污染 Strong/Moderate 统计。",
+      "solidifiedTo": "contract",
+      "reason": "将 status=IMPROVING 作为 recovery strength 计数前置条件写入 acceptance 与 scenario。"
+    },
+    {
+      "correction": "用户指出 WEAK improvement 被叙述成恢复，语义过强。",
+      "solidifiedTo": "contract",
+      "reason": "将 WEAK 的初步改善文案与 STRONG/MODERATE 的 recovery 文案分离写入 acceptance。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "rs_diffusion_threshold",
+      "detail": "RS Diffusion 的 EMERGING 仍使用现有绝对数量阈值；本 Work Item 不调整算法，仅修正展示边界。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    },
+    {
+      "level": "low",
+      "area": "rs_recovery_denominator",
+      "detail": "Recovery breadth 的 denominator 仍沿用当前 items 集合；缺失 RS 的资产是否应单独排除留作后续观察。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "四项漏洞已修复，TDD red/green、全量测试、Clippy、architecture、coverage 与 quality gates 已通过。",
+    "expectedReviewFocus": [
+      "benchmark_symbol 动态标签与 legacy fallback",
+      "ConfirmedBreakout 与 Actionable Diffusion 的 observation-only 边界",
+      "status=IMPROVING 对 Strong/Moderate 统计的前置约束",
+      "WEAK / STRONG / MODERATE 三语 narrative 分层",
+      "scope 是否保持在四项展示/Interpretation bug"
+    ]
+  }
+}
