@@ -42,7 +42,7 @@
 ### 🚀 Breakout Detection
 
 - GOOG · Emerging Breakout (Day 1)
-   Leadership-style breakout · Strength 62 · Quality 100
+   Leadership-style breakout · Setup Strength 62 · Setup Quality 100
 
 ### 📉 Risk Handling
 
@@ -53,7 +53,7 @@
 ### 👀 Candidate Watchlist
 
 - GOOG · Forming
-   *Blocked · Forming: Awaiting strength confirmation*
+   *Forming: Awaiting strength confirmation*
 
 **📡 Monitoring Signals**
 

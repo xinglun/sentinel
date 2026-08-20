@@ -290,13 +290,12 @@ impl PresentationAssembler {
 
         for asset in &packet.assets {
             let context = Self::derive_display_context(
-                &asset.symbol,
+                asset,
                 positions,
                 &top_tier_set,
                 &core_assets_set,
                 is_ready,
                 asset.is_core_fact,
-                asset.has_position_fact,
             );
             let unified_intent = Self::derive_unified_intent(asset, &context);
             let intent = Self::derive_display_intent(unified_intent, &context);
@@ -970,19 +969,18 @@ impl PresentationAssembler {
     }
 
     fn derive_display_context(
-        symbol: &str,
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         positions: &HashMap<String, (f64, f64)>,
         current_top_tier: &HashSet<&str>,
         core_assets_list: &HashSet<&str>,
         cohesion_ready: bool,
         is_core_fact: bool,
-        has_position_fact: bool,
     ) -> DisplayContext {
-        let has_position = has_position_fact || positions.contains_key(symbol);
-        let is_top_tier = current_top_tier.contains(symbol);
-        let is_core_rules = is_core_fact || core_assets_list.contains(symbol);
+        let has_position = asset.has_position_fact || positions.contains_key(&asset.symbol);
+        let is_top_tier = current_top_tier.contains(asset.symbol.as_str());
+        let is_core_rules = is_core_fact || core_assets_list.contains(asset.symbol.as_str());
         let is_core_holding = has_position && (is_core_rules || is_top_tier);
-        let is_candidate_only = !has_position && is_top_tier;
+        let is_candidate_only = Self::is_candidate_eligible(asset, positions, current_top_tier);
 
         DisplayContext {
             has_position,
@@ -991,6 +989,29 @@ impl PresentationAssembler {
             is_top_tier,
             cohesion_ready,
         }
+    }
+
+    /// 相対順位だけでは候補資格を生成せず、Action Matrix の新增資格を表示境界で確認する。
+    fn is_candidate_eligible(
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
+        positions: &HashMap<String, (f64, f64)>,
+        current_top_tier: &HashSet<&str>,
+    ) -> bool {
+        let has_position = asset.has_position_fact || positions.contains_key(&asset.symbol);
+        !has_position
+            && current_top_tier.contains(asset.symbol.as_str())
+            && asset.action
+                == crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE
+            && !matches!(
+                asset.position_intent,
+                crate::features::radar::domain::exit::PositionIntent::TRIM
+                    | crate::features::radar::domain::exit::PositionIntent::EXIT
+            )
+            && !matches!(
+                asset.exit_decision.position_intent,
+                crate::features::radar::domain::exit::PositionIntent::TRIM
+                    | crate::features::radar::domain::exit::PositionIntent::EXIT
+            )
     }
 
     fn derive_display_intent(
@@ -1029,13 +1050,12 @@ impl PresentationAssembler {
 
         for asset in &packet.assets {
             let context = Self::derive_display_context(
-                &asset.symbol,
+                asset,
                 positions,
                 top_tier_set,
                 core_assets_set,
                 cohesion_ready,
                 asset.is_core_fact,
-                asset.has_position_fact,
             );
             let unified_intent = Self::derive_unified_intent(asset, &context);
 

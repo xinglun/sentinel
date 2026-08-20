@@ -549,7 +549,7 @@ pub struct DecisionDictionary {
 }
 
 pub fn get_dictionary(lang: Language) -> DisplayDictionary {
-    match lang {
+    let mut dictionary = match lang {
         Language::ZhCn => DisplayDictionary {
             actions: ActionDictionary {
                 accumulate: "加仓".to_string(),
@@ -2001,5 +2001,58 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 severity_high: "High".to_string(),
             },
         },
+    };
+    apply_observation_semantic_labels(&mut dictionary, lang);
+    dictionary
+}
+
+/// 観察層の表示語彙を既存 dictionary key に投影し、実行層の語彙と分離する。
+fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: Language) {
+    match lang {
+        Language::ZhCn => {
+            dictionary.trend_cohesion.label = "趋势凝聚".to_string();
+            dictionary.trend_cohesion.topology_label = "趋势结构".to_string();
+            dictionary.trend_cohesion.dispersed = "趋势未凝聚".to_string();
+            dictionary.trend_cohesion.persistent_not_ready =
+                "趋势凝聚已形成（战术未许可）".to_string();
+            dictionary.breakout.no_breakout = "无确认突破".to_string();
+            dictionary.breakout.strength_label = "突破准备强度".to_string();
+            dictionary.breakout.quality_label = "突破准备质量".to_string();
+            dictionary.transition_evidence.trend_status_change = "趋势凝聚状态变化".to_string();
+            dictionary.transition_evidence.topology_change = "趋势结构变化".to_string();
+            dictionary.trend_recognition.strategic_tactical_status = "战略证据状态".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "结构证据已满足，但不生成执行指令".to_string();
+        }
+        Language::EnUs => {
+            dictionary.trend_cohesion.persistent_not_ready =
+                "Trend Cohesion present (tactical permission not ready)".to_string();
+            dictionary.breakout.no_breakout = "No Confirmed Breakout".to_string();
+            dictionary.breakout.strength_label = "Setup Strength".to_string();
+            dictionary.breakout.quality_label = "Setup Quality".to_string();
+            dictionary.transition_evidence.trend_status_change =
+                "Trend Cohesion Status Change".to_string();
+            dictionary.trend_recognition.strategic_tactical_status =
+                "Strategic Evidence Status".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "Structural evidence is ready; no execution instruction is generated".to_string();
+        }
+        Language::JaJp => {
+            dictionary.trend_cohesion.label = "トレンド凝集".to_string();
+            dictionary.trend_cohesion.topology_label = "トレンド構造".to_string();
+            dictionary.trend_cohesion.dispersed = "トレンド未凝集".to_string();
+            dictionary.trend_cohesion.persistent_not_ready =
+                "トレンド凝集あり（戦術許可待ち）".to_string();
+            dictionary.breakout.no_breakout = "未確認ブレイクアウト".to_string();
+            dictionary.breakout.strength_label = "ブレイクアウト準備強度".to_string();
+            dictionary.breakout.quality_label = "ブレイクアウト準備品質".to_string();
+            dictionary.transition_evidence.trend_status_change =
+                "トレンド凝集状態の変化".to_string();
+            dictionary.transition_evidence.topology_change = "トレンド構造の変化".to_string();
+            dictionary.trend_recognition.strategic_tactical_status =
+                "戦略証拠ステータス".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "構造証拠は満たされたが、実行指令は生成しない".to_string();
+        }
     }
 }
