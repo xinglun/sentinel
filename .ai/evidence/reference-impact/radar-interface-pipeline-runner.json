@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "requestedText": "非取引日の observation history 境界 helper を追加する影響を確認する。",
+  "target": {
+    "type": "file",
+    "name": "is_observation_trading_day",
+    "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+    "operation": "change_signature"
+  },
+  "referenceAnalysis": {
+    "dynamicReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "週末、NYSE休場日、通常取引日の focused unit test と partial fetch pipeline regression を実行した。"
+      ]
+    },
+    "externalConsumers": {
+      "status": "proven_absent",
+      "evidence": [
+        "変更は repository 内の radar pipeline の observation persistence boundary に限定され、外部 consumer は Contract scope 外である。"
+      ]
+    },
+    "monitoringReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "make quality、make check-architecture-all、make clippy、make check-ai-scope を実行し、monitoring schema と public decision contract の変更がないことを確認した。"
+      ]
+    }
+  },
+  "governanceEvidence": {
+    "contractDeclared": true,
+    "acceptanceDeclared": true,
+    "destructiveChangeAllowed": true,
+    "evidence": [
+      "weekend-report-timeline-boundary Contract に observation history の scope、acceptance、rollback boundary を記録した。",
+      "ユーザーは scope 内の code/test/docs 変更、commit、PR 合并、main 同步、develop 返回を明示的に許可した。"
+    ]
+  }
+}

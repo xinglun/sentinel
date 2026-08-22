@@ -1,0 +1,249 @@
+{
+  "workItemId": "weekend-report-timeline-boundary",
+  "contractPath": ".ai/work-items/archive/2026/weekend-report-timeline-boundary.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "reason": "週末・NYSE休場日と取引日の observation history 境界、scope、acceptance、verification を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "reason": "Work Item の検証結果、failing-first evidence、残余リスクを記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active Work Item の Cockpit 状態を生成する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-pipeline-runner.json",
+      "reason": "radar pipeline の observation history 境界変更に対する reference-impact evidence を記録する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "土曜日の partial fetch 日報生成と全成果物を回帰テストで固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "非取引日に observation timeline と history state を前進させない境界を実装する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/cli.rs",
+    ".github/workflows/daily_radar.yml",
+    "AGENTS.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "土曜日の partial fetch pipeline が report と周辺成果物を生成し、observation history を更新しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cli::tests::partial_fetch_failure_preserves_history_and_real_market_state_on_weekend",
+        "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state_on_weekend -- --nocapture"
+      ],
+      "reason": "土曜日の report、run status、decision packet、decision history、snapshot、quality log、weekly output が生成され、leader observations、observation history state、observation timeline は新規作成されないことを確認した。"
+    },
+    {
+      "scenario": "NYSE休場日の pipeline が非取引日を observation timeline と history state に混入させない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "radar_pipeline_runner::tests::observation_history_advances_only_on_nyse_trading_days",
+        "features::research::interface::macro_event_official_calendar_adapter::tests::nyse_market_holidays_cover_common_dates"
+      ],
+      "reason": "通常取引日、土曜日、Christmas の NYSE calendar 判定を確認し、非取引日を observation timeline の append 対象から除外した。"
+    },
+    {
+      "scenario": "取引日の新規 append、同日再実行、過去日拒否の history progression が不変である",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "radar_pipeline_runner::tests::history_regression_blocks_publication_before_persistence",
+        "cli::tests::injected_pipeline_dates_preserve_cycle_and_append_migrated_history",
+        "make test"
+      ],
+      "reason": "既存 history regression、取引日 append、同日再実行を含む 891 tests が全通過した。"
+    },
+    {
+      "scenario": "Gate / Execution / Trader / Action Matrix / Position Sizing の境界が変更されない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-architecture-all",
+        "make clippy",
+        "make check-ai-scope CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json"
+      ],
+      "reason": "日付境界と observation persistence のみを変更し、交易判断層の architecture、lint、scope guard を通過した。"
+    }
+  ],
+  "unverifiedScenarios": [],
+  "followUps": [],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-reference-impact CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "週末・NYSE休場日を取引日として扱わない必要がある。取引日の append、同日再実行、過去日拒否を回帰テストと full quality gate で確認する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    {
+      "severity": "error",
+      "stage": "red",
+      "detail": "TDD failing-first: 旧实现で 2026-08-22（土曜日）の partial fetch pipeline が HISTORY_REGRESSION の早期 return に入り、daily report が生成されなかった。",
+      "evidence": "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state_on_weekend -- --nocapture"
+    },
+    "Code review: 非取引日に leader_observations.jsonl が作成される境界漏れを検出し、取引日ガードと週末 artifact 回帰 assertion を追加して解消した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "Contract を確定し、scope / acceptance / verification / agentCapability を確認した。",
+      "contractHash": "c85e098c0ce6991a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "TDD の failing test を追加する直前に scope と acceptance を再確認した。",
+      "contractHash": "c85e098c0ce6991a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "実装、focused regression、full test、clippy、architecture check を確認した。",
+      "contractHash": "c85e098c0ce6991a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全 required verification を通過し、最終 Cockpit status を生成する段階に進んだ。",
+      "contractHash": "c85e098c0ce6991a",
+      "acceptanceCount": 6,
+      "unknownCount": 0,
+      "requiredChecks": 16,
+      "requiredChecksPassed": 16
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "Contract を task に合わせて確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TDD failing test の追加前に scope と acceptance を再確認した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "updated",
+      "note": "週末 regression、NYSE calendar、full test、clippy、architecture check の evidence を追加した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "updated",
+      "note": "required verification の結果を記録し、最終 status を生成する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "runtime_dispatch",
+      "detail": "GitHub Actions の実運用 workflow_dispatch は実行せず、ローカルの明示土曜日 pipeline 回帰で日付境界を検証した。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "Contract、実装、failing-first regression、full quality gate、Cockpit verification が完了した。",
+    "expectedReviewFocus": [
+      "週末・NYSE休場日の report 生成と observation history 非更新",
+      "取引日 append、同日再実行、過去日拒否の progression 不変性",
+      "非取引日に leader observations を保存しないこと",
+      "Gate / Execution / Trader / Action Matrix / Position Sizing 非変更"
+    ]
+  }
+}
