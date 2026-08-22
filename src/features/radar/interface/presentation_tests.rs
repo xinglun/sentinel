@@ -382,6 +382,16 @@ mod tests {
                 gate_passed: true,
                 ..Default::default()
             },
+            assets: vec![AssetActionDecision {
+                symbol: "ELIGIBLE".to_string(),
+                position_intent: PositionIntent::ADD,
+                asset_state: AssetStateSnapshot {
+                    symbol: "ELIGIBLE".to_string(),
+                    state: AssetState::OPTIMAL,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
             ..Default::default()
         };
         let config = mock_config(Language::EnUs);
@@ -404,7 +414,86 @@ mod tests {
             pres.final_execution_decision.actionability,
             crate::features::radar::interface::presentation::ExecutionActionability::Executable
         );
+        assert_eq!(pres.final_execution_decision.eligible_asset_count, 1);
+        assert_eq!(
+            pres.final_execution_decision.permission_position_range,
+            pres.decision_summary.entry_cap_value
+        );
         assert!(pres.final_execution_decision.reason.contains("Probe Only"));
+    }
+
+    #[test]
+    fn ignition_ready_without_eligible_asset_is_not_effectively_executable() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        assert_eq!(
+            pres.final_execution_decision.actionability,
+            crate::features::radar::interface::presentation::ExecutionActionability::CandidateOnly
+        );
+        assert_eq!(pres.final_execution_decision.position_range, "0%");
+    }
+
+    #[test]
+    fn non_held_reduction_signal_is_rendered_as_signal_not_portfolio_action() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "SIGNAL_ONLY".to_string(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                position_intent: PositionIntent::TRIM,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("减仓信号"));
+        assert!(report.markdown_body.contains("实际减仓动作"));
+        assert!(report.markdown_body.contains("SIGNAL_ONLY"));
+        assert!(pres.exit_summary.items.is_empty());
     }
 
     #[test]
@@ -486,7 +575,7 @@ mod tests {
             Language::JaJp,
         );
 
-        assert_eq!(pres.decision_summary.trend_cohesion_value, "分散");
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "トレンド未凝集");
         assert_eq!(pres.decision_summary.trend_topology_value, "主導不在");
     }
 
@@ -640,6 +729,95 @@ mod tests {
             .as_deref()
             .unwrap_or_default()
             .contains("持有为主"));
+    }
+
+    #[test]
+    fn ranked_non_held_reduce_asset_is_not_rendered_as_candidate() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            market_regime: crate::features::radar::domain::market_regime::MarketRegimeSnapshot {
+                market_state: crate::features::radar::domain::market_regime::MarketState::IGNITION,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "SPY".into(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                asset_state: AssetStateSnapshot {
+                    symbol: "SPY".into(),
+                    state: AssetState::CAUTION,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::TRIM,
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["SPY".into()],
+            ..Default::default()
+        };
+
+        let config = mock_config(Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::ZhCn,
+        );
+
+        let item = pres
+            .top_actions
+            .iter()
+            .find(|item| item.symbol == "SPY")
+            .unwrap();
+        assert!(!item.tags.iter().any(|tag| tag == "候选标的"));
+    }
+
+    #[test]
+    fn trend_cohesion_transition_uses_cohesion_wording() {
+        let dictionary = crate::features::shared::interface::i18n::get_dictionary(Language::ZhCn);
+        assert_eq!(dictionary.trend_cohesion.label, "趋势凝聚");
+        assert_eq!(
+            dictionary.transition_evidence.trend_status_change,
+            "趋势凝聚状态变化"
+        );
+        assert!(!dictionary
+            .transition_evidence
+            .trend_status_change
+            .contains("主线"));
+    }
+
+    #[test]
+    fn strategic_readiness_is_observation_only_not_tactical_ready() {
+        let dictionary = crate::features::shared::interface::i18n::get_dictionary(Language::ZhCn);
+        assert_eq!(
+            dictionary.trend_recognition.strategic_tactical_status,
+            "战略证据状态"
+        );
+        assert!(dictionary
+            .trend_recognition
+            .strategic_tactical_ready
+            .contains("不生成执行指令"));
+        assert!(!dictionary
+            .trend_recognition
+            .strategic_tactical_ready
+            .contains("等待执行层"));
+    }
+
+    #[test]
+    fn breakout_labels_separate_setup_from_confirmation() {
+        let dictionary = crate::features::shared::interface::i18n::get_dictionary(Language::ZhCn);
+        assert_eq!(dictionary.breakout.no_breakout, "无确认突破");
+        assert_eq!(dictionary.breakout.strength_label, "突破准备强度");
+        assert_eq!(dictionary.breakout.quality_label, "突破准备质量");
     }
 
     #[test]
@@ -1253,7 +1431,7 @@ mod tests {
         );
 
         assert_eq!(pres.breakout_summary.items.len(), 1);
-        assert_eq!(pres.breakout_summary.items[0].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[0].status_label, "无确认突破");
         assert_eq!(pres.breakout_summary.items[0].reason, "回撤修复");
     }
 
@@ -1288,7 +1466,7 @@ mod tests {
         );
 
         assert_eq!(pres.breakout_summary.items.len(), 1);
-        assert_eq!(pres.breakout_summary.items[0].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[0].status_label, "无确认突破");
         assert_eq!(pres.breakout_summary.items[0].reason, "普通反弹");
     }
 
@@ -1374,7 +1552,7 @@ mod tests {
             "突破萌芽（第1天）"
         );
         assert_eq!(pres.breakout_summary.items[1].symbol, "NVDA");
-        assert_eq!(pres.breakout_summary.items[1].status_label, "无突破");
+        assert_eq!(pres.breakout_summary.items[1].status_label, "无确认突破");
         assert_eq!(pres.breakout_summary.items[1].reason, "假突破风险");
         assert_eq!(
             pres.breakout_summary.items[1].failed_risk_value.as_deref(),
@@ -1534,7 +1712,7 @@ mod tests {
                 "拥挤风险: ACTIVE".to_string(),
                 "证据持续性: 持续累积".to_string(),
                 "证据覆盖: AI 投入产出验证 (Capex Payoff) / 业绩实质性确认 (Earnings Quality) / 订单能见度提升 (Order Visibility)".to_string(),
-                "战术状态: NO TRADE，等待结构扩散".to_string(),
+                "战略证据状态: NO TRADE，等待结构扩散".to_string(),
             ]
         );
         let hypothesis_layer = pres.hypothesis_layer.as_ref().unwrap();

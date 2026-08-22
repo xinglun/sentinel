@@ -595,14 +595,17 @@ pub(crate) async fn run_pipeline_for_report_date(
             runtime_services.persistence.save_run_status(&outcome)?;
             return Ok(());
         }
+        let observation_trading_day = is_observation_trading_day(packet.date);
         let same_market_date = history_before.iter().any(|entry| entry.date == packet.date);
-        let expected_history_count = history_before.len() + usize::from(!same_market_date);
+        let should_append_observation =
+            should_persist_history && observation_trading_day && !same_market_date;
+        let expected_history_count = history_before.len() + usize::from(should_append_observation);
         if should_persist_history {
             let preflight_progression =
                 crate::features::radar::domain::observation_timeline::validate_history_progression(
                     history_before.len(),
                     expected_history_count,
-                    same_market_date,
+                    !should_append_observation,
                 );
             if matches!(
                 preflight_progression,
@@ -706,14 +709,13 @@ pub(crate) async fn run_pipeline_for_report_date(
             }
         }
         if should_persist_history {
-            let expected_history_count = history_before.len() + usize::from(!same_market_date);
             let consistency_error = crate::features::radar::domain::observation_timeline::daily_observation_consistency_gate(
                 history_state_before
                     .as_ref()
                     .map(|state| state.count)
                     .unwrap_or(history_before.len()),
                 expected_history_count,
-                !same_market_date,
+                should_append_observation,
                 baseline_packet.is_some(),
                 pres_packet
                     .leadership_snapshot
@@ -759,18 +761,22 @@ pub(crate) async fn run_pipeline_for_report_date(
         }
         if should_persist_history {
             runtime_services.persistence.save_packet(&packet)?;
-            if let Some(observation) = build_leader_observation(&packet, &pres_packet) {
-                runtime_services
-                    .persistence
-                    .save_leader_observation(&observation)?;
+            if observation_trading_day {
+                if let Some(observation) = build_leader_observation(&packet, &pres_packet) {
+                    runtime_services
+                        .persistence
+                        .save_leader_observation(&observation)?;
+                }
             }
-            if let Some(timeline_entry) =
-                build_observation_timeline_entry(&packet, &pres_packet, &current_supply_phase)
-            {
-                let expected_dates = recent_trading_dates(packet.date);
-                runtime_services
-                    .persistence
-                    .save_observation_timeline_entry(timeline_entry, &expected_dates)?;
+            if observation_trading_day {
+                if let Some(timeline_entry) =
+                    build_observation_timeline_entry(&packet, &pres_packet, &current_supply_phase)
+                {
+                    let expected_dates = recent_trading_dates(packet.date);
+                    runtime_services
+                        .persistence
+                        .save_observation_timeline_entry(timeline_entry, &expected_dates)?;
+                }
             }
         }
         let history_after = runtime_services
@@ -784,7 +790,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             crate::features::radar::domain::observation_timeline::daily_observation_consistency_gate(
                 previous_count,
                 history_after.len(),
-                !same_market_date,
+                should_append_observation,
                 baseline_packet.is_some(),
                 pres_packet
                     .leadership_snapshot
@@ -800,7 +806,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             crate::features::radar::domain::observation_timeline::validate_history_progression(
                 history_before.len(),
                 history_after.len(),
-                same_market_date,
+                !should_append_observation,
             );
         let mut history_blocked = should_persist_history
             && matches!(
@@ -809,7 +815,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 | crate::features::radar::domain::observation_timeline::HistoryProgression::InvalidGap
             );
         history_blocked |= consistency_gate_failed.is_some();
-        if should_persist_history {
+        if should_persist_history && observation_trading_day {
             if let Some(previous_state) = history_state_before.as_ref() {
                 let state_regressed = if packet.date > previous_state.last_market_date {
                     history_after.len() != previous_state.count + 1
@@ -867,7 +873,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                         .to_string(),
                 ];
             }
-        } else if should_persist_history {
+        } else if should_persist_history && observation_trading_day {
             runtime_services
                 .persistence
                 .save_observation_history_state(
@@ -1435,6 +1441,10 @@ fn recent_trading_dates(current: chrono::NaiveDate) -> Vec<chrono::NaiveDate> {
     }
     dates.sort_unstable();
     dates
+}
+
+fn is_observation_trading_day(date: chrono::NaiveDate) -> bool {
+    recent_trading_dates(date).contains(&date)
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -2640,6 +2650,19 @@ Boundary: context only; no Gate input or trade instruction.
             Some(&state),
             2,
             chrono::NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
+        ));
+    }
+
+    #[test]
+    fn observation_history_advances_only_on_nyse_trading_days() {
+        assert!(super::is_observation_trading_day(
+            chrono::NaiveDate::from_ymd_opt(2026, 8, 21).unwrap()
+        ));
+        assert!(!super::is_observation_trading_day(
+            chrono::NaiveDate::from_ymd_opt(2026, 8, 22).unwrap()
+        ));
+        assert!(!super::is_observation_trading_day(
+            chrono::NaiveDate::from_ymd_opt(2026, 12, 25).unwrap()
         ));
     }
 

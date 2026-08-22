@@ -1,0 +1,278 @@
+{
+  "workItemId": "pr-diff-ownership-archive-stem",
+  "contractPath": ".ai/work-items/archive/2026/pr-diff-ownership-archive-stem.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "reason": "PR Diff Ownership helper 修正の scope、acceptance、verification を固定する。"
+    },
+    {
+      "path": ".ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "reason": "PR guard 修正の回帰結果、ownership boundary、checkpoint を記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "active WI status と finish 後の no-active status を生成する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-effective-action.json",
+      "reason": "既存 Effective Action evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-market-interpretation-observation-guard.json",
+      "reason": "既存 observation guard evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-pipeline-runner.json",
+      "reason": "既存 pipeline runner evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-presentation-assembler.json",
+      "reason": "既存 presentation assembler evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-presentation-tests.json",
+      "reason": "既存 presentation test evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-report-ui-tests.json",
+      "reason": "既存 report UI evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/radar-interface-report.json",
+      "reason": "既存 report evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/shared-interface-effective-action.json",
+      "reason": "既存 shared interface evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-en-html.json",
+      "reason": "既存 English HTML snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-en-md.json",
+      "reason": "既存 English Markdown snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-ja-html.json",
+      "reason": "既存 Japanese HTML snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-ja-md.json",
+      "reason": "既存 Japanese Markdown snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-zh-html.json",
+      "reason": "既存 Chinese HTML snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/evidence/reference-impact/snapshot-no-trade-zh-md.json",
+      "reason": "既存 Chinese Markdown snapshot evidence の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "既存 CLI pipeline integration の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "既存 radar pipeline runner の restricted ownership を audit-only で補完する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-diff-ownership-archive-stem.contract.json",
+      "reason": "finish 後の append-only WI archive Contract を記録する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/pr-diff-ownership-archive-stem.summary.json",
+      "reason": "finish 後の append-only WI archive Summary を記録する。"
+    },
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "archived_contract_paths が .contract.json suffix を保持するよう修正する。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "restrictedWriteApproval を Contract schema として検証可能にする。"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "reason": "archive Contract discovery の suffix regression test を追加する。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "restrictedWriteApproval の accepted / malformed boundary を回帰検証する。"
+    }
+  ],
+  "sourcesUsed": [
+    "scripts/ai_check_pr.py",
+    "scripts/ai_check_diff_ownership.py",
+    "scripts/ai_test_pr_check.py",
+    ".ai/work-items/archive/2026/weekend-report-timeline-boundary.contract.json",
+    "origin/develop@fb5d9624a3d4ab9f378e55564c718a74af916159",
+    ".ai/guards/file_ownership.yaml"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-pr-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-diff-ownership AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "PR guard の archive path reconstruction と isolated regression test のみ。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [
+    "合併前 self-check で archived_contract_paths が .contract.json suffix を失い、正当な archive evidence が unowned と判定された。",
+    "suffix 修正後、既存 restricted path の明示 approval evidence が不足し approval_required と判定されたため、audit-only ownership を本 WI に追加した。",
+    "restrictedWriteApproval が既存 Contract schema で未知 field と判定されたため、schema validation と regression test を追加した。"
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "detail": "root cause、scope、acceptance、verification を確定した。",
+      "contractHash": "4838f2e54c4f816c",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "detail": "suffix を失った discovery の failing behavior と test-first の修正境界を確認した。",
+      "contractHash": "4838f2e54c4f816c",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "detail": "required verification 実行前に scope、acceptance、検証境界を再確認し、ready 判定の前提を確認した。",
+      "contractHash": "4838f2e54c4f816c",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 0
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "detail": "全17件の required verification、make quality、preflight review を通過した。",
+      "contractHash": "4838f2e54c4f816c",
+      "acceptanceCount": 7,
+      "unknownCount": 0,
+      "requiredChecks": 17,
+      "requiredChecksPassed": 17
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "root cause、scope、acceptance、verification を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "test-first の failing behavior と production boundary を固定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "全17件の required verification と make quality を通過した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "全17件の required verification、make quality、preflight review を通過した。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "pr_evidence_matching",
+      "detail": "archive path reconstruction は既存 suffix 契約に依存するため、Contract と Summary の pair を regression で固定する。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "全17件の required verification と make quality を通過し、PR Diff Ownership の境界を確認した。",
+    "expectedReviewFocus": [
+      "archived Contract path の suffix 保持",
+      "complete diff の unowned 判定解消",
+      "product behavior boundary の不変性"
+    ]
+  }
+}

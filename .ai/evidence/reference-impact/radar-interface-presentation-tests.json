@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "target": {"type": "file", "name": "effective-action-radar-presentation-tests-target", "path": "src/features/radar/interface/presentation_tests.rs", "operation": "change_signature"},
+  "referenceAnalysis": {
+    "dynamicReferences": {"status": "proven_absent", "evidence": ["focused と全量 test を実行した。"]},
+    "externalConsumers": {"status": "proven_absent", "evidence": ["test fixture は repository 内だけである。"]},
+    "monitoringReferences": {"status": "proven_absent", "evidence": ["quality guard を実行した。"]}
+  },
+  "governanceEvidence": {"contractDeclared": true, "acceptanceDeclared": true, "destructiveChangeAllowed": true, "evidence": ["Contract に TDD evidence を記録した。"]}
+}

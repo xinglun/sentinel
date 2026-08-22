@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "target": {"type": "file", "name": "effective-action-radar-report-target", "path": "src/features/radar/interface/report.rs", "operation": "change_signature"},
+  "referenceAnalysis": {
+    "dynamicReferences": {"status": "proven_absent", "evidence": ["Markdown と Telegram HTML を全言語で検証した。"]},
+    "externalConsumers": {"status": "proven_absent", "evidence": ["report renderer の変更は repository 内に閉じている。"]},
+    "monitoringReferences": {"status": "proven_absent", "evidence": ["quality guard を実行した。"]}
+  },
+  "governanceEvidence": {"contractDeclared": true, "acceptanceDeclared": true, "destructiveChangeAllowed": true, "evidence": ["Contract に delivery body acceptance を記録した。"]}
+}

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "target": {"type": "file", "name": "effective-action-radar-assembler-target", "path": "src/features/radar/interface/presentation_assembler.rs", "operation": "change_signature"},
+  "referenceAnalysis": {
+    "dynamicReferences": {"status": "proven_absent", "evidence": ["全量 test と report UI test を実行した。"]},
+    "externalConsumers": {"status": "proven_absent", "evidence": ["Contract scope は repository 内に限定される。"]},
+    "monitoringReferences": {"status": "proven_absent", "evidence": ["quality と architecture guard を実行した。"]}
+  },
+  "governanceEvidence": {"contractDeclared": true, "acceptanceDeclared": true, "destructiveChangeAllowed": true, "evidence": ["Contract に変更境界と rollback を記録した。"]}
+}

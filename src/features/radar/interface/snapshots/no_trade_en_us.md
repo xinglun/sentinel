@@ -30,22 +30,30 @@
 
 > Existing holdings may drift naturally; no new entries are allowed.
 
+- **Market Permission**: No Market Permission
+- **Eligible Assets**: 0
+- **Effective Action**: Candidate Only / No Execution Window
+- **Permission Budget**: 0%
+- **Effective New Entry Cap**: 0%
+
 > Candidates only, not executable trade targets.
 
 
 ### 🚀 Breakout Detection
 
 - GOOG · Emerging Breakout (Day 1)
-   Leadership-style breakout · Strength 62 · Quality 100
+   Leadership-style breakout · Setup Strength 62 · Setup Quality 100
 
 ### 📉 Risk Handling
+
+#### Actual Portfolio Action
 
 > No trim or exit conditions were triggered.
 
 ### 👀 Candidate Watchlist
 
 - GOOG · Forming
-   *Blocked · Forming: Awaiting strength confirmation*
+   *Forming: Awaiting strength confirmation*
 
 **📡 Monitoring Signals**
 

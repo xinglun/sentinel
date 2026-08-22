@@ -121,9 +121,9 @@ fn build_relative_strength_diffusion(
                 missing.push("Leader、breakout 与 Action Matrix 未在同一资产上确认");
             }
             if missing.is_empty() {
-                "Leader、breakout 与 Action Matrix 均已确认转强。".to_string()
+                "Leader、breakout 与 Action Matrix 均已确认转强".to_string()
             } else {
-                format!("{}。", missing.join("、"))
+                missing.join("、")
             }
         }
         Language::EnUs => {
@@ -147,9 +147,9 @@ fn build_relative_strength_diffusion(
                 );
             }
             if missing.is_empty() {
-                "Leader, breakout, and Action Matrix strengthening are all confirmed.".to_string()
+                "Leader, breakout, and Action Matrix strengthening are all confirmed".to_string()
             } else {
-                format!("{}.", missing.join(", "))
+                missing.join(", ")
             }
         }
         Language::JaJp => {
@@ -171,9 +171,9 @@ fn build_relative_strength_diffusion(
                 missing.push("Leader、breakout、Action Matrix が同一資産で確認されていない");
             }
             if missing.is_empty() {
-                "Leader、breakout、Action Matrix の強化を確認済み。".to_string()
+                "Leader、breakout、Action Matrix の強化を確認済み".to_string()
             } else {
-                format!("{}。", missing.join("、"))
+                missing.join("、")
             }
         }
     };
@@ -2725,6 +2725,13 @@ mod tests {
         assert_eq!(result.actionable_diffusion_value, "NOT_CONFIRMED");
         assert!(result.reason_value.contains("没有确认 Leader"));
         assert!(result.reason_value.contains("没有 breakout"));
+    }
+
+    #[test]
+    fn rs_diffusion_reason_has_one_terminal_punctuation_mark() {
+        let result = build_relative_strength_diffusion(None, &[], &[], &[], Language::ZhCn);
+        assert!(!result.reason_value.ends_with("。。"));
+        assert!(!result.reason_value.ends_with("。"));
     }
 
     #[test]
