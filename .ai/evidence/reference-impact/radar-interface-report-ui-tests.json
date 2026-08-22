@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "target": {"type": "file", "name": "effective-action-radar-report-tests-target", "path": "src/features/radar/interface/report_ui_tests.rs", "operation": "change_signature"},
+  "referenceAnalysis": {
+    "dynamicReferences": {"status": "proven_absent", "evidence": ["三言語 report UI regression を実行した。"]},
+    "externalConsumers": {"status": "proven_absent", "evidence": ["fixture は repository 内に閉じている。"]},
+    "monitoringReferences": {"status": "proven_absent", "evidence": ["quality guard を実行した。"]}
+  },
+  "governanceEvidence": {"contractDeclared": true, "acceptanceDeclared": true, "destructiveChangeAllowed": true, "evidence": ["Contract に snapshot acceptance を記録した。"]}
+}

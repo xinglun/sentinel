@@ -1261,8 +1261,9 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
     }
 
     #[tokio::test]
-    async fn partial_fetch_failure_preserves_history_and_real_market_state() {
+    async fn partial_fetch_failure_preserves_history_and_real_market_state_on_weekend() {
         let tmp = tempdir().unwrap();
+        let report_date = NaiveDate::from_ymd_opt(2026, 8, 22).unwrap();
         fs::write(
             tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
             r#"{"status":"succeeded","reason":null}"#,
@@ -1271,7 +1272,7 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         let config = mock_config(tmp.path());
         let provider: Arc<dyn MarketDataProvider> = Arc::new(PartialSuccessProvider);
 
-        run_pipeline(config, provider, ExecutionMode::Disabled)
+        run_pipeline_for_report_date(config, provider, ExecutionMode::Disabled, report_date)
             .await
             .unwrap();
 
@@ -1337,6 +1338,9 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         let data_quality_log_path = tmp.path().join("data_quality_log.jsonl");
         let weekly_metrics_path = tmp.path().join("weekly_state_metrics.json");
         let weekly_review_path = tmp.path().join("weekly_state_review_auto.md");
+        let leader_observations_path = tmp.path().join("leader_observations.jsonl");
+        let observation_history_state_path = tmp.path().join("observation_history_state.json");
+        let observation_timeline_path = tmp.path().join("observation_timeline.jsonl");
 
         assert!(
             history_path.exists(),
@@ -1348,6 +1352,9 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
         assert!(data_quality_log_path.exists());
         assert!(weekly_metrics_path.exists());
         assert!(weekly_review_path.exists());
+        assert!(!leader_observations_path.exists());
+        assert!(!observation_history_state_path.exists());
+        assert!(!observation_timeline_path.exists());
 
         let report = std::fs::read_to_string(report_path).unwrap();
         assert!(report.contains("⚠️"));
@@ -1491,6 +1498,23 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
                     && snapshot.market_date > NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
             })
             .all(|snapshot| snapshot.breadth_classification.is_some()));
+
+        run_pipeline_for_report_date(
+            mock_config(tmp.path()),
+            Arc::new(DateAwareProvider {
+                latest_date: NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+            }),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+        )
+        .await
+        .unwrap();
+        let rerun_state = PersistenceLayer::new(tmp.path())
+            .load_observation_history_state()
+            .unwrap()
+            .expect("same-day rerun should preserve history state");
+        assert_eq!(rerun_state.count, second_state.count);
+        assert_eq!(rerun_state.last_market_date, second_state.last_market_date);
     }
 
     #[tokio::test]

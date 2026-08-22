@@ -41,6 +41,7 @@ ALLOWED_FIELDS = set(REQUIRED_FIELDS) | {
     "preReviewWarnings",
     "checkpointPolicy",
     "archiveRepair",
+    "restrictedWriteApproval",
 }
 MODES = {"investigate", "author_todo", "code", "review", "cleanup"}
 REQUIRED_VERIFICATION_COMMANDS = ("make fmt-check",)
@@ -342,6 +343,23 @@ def validate_optional_checkpoint_policy(data: dict[str, Any]) -> list[str]:
     return issues
 
 
+def validate_optional_restricted_write_approval(data: dict[str, Any]) -> list[str]:
+    """restricted path の変更に対する明示 approval evidence を検証する。"""
+    if "restrictedWriteApproval" not in data:
+        return []
+    approval = data.get("restrictedWriteApproval")
+    if not isinstance(approval, dict):
+        return ["restrictedWriteApproval は object にしてください。"]
+    issues: list[str] = []
+    if not isinstance(approval.get("approved"), bool):
+        issues.append("restrictedWriteApproval.approved は boolean にしてください。")
+    if approval.get("approved") is True:
+        for key in ("approvedBy", "reason"):
+            if not non_empty_string(approval.get(key)):
+                issues.append(f"restrictedWriteApproval.{key} は approved=true の場合に必須です。")
+    return issues
+
+
 def validate_contract(data: dict[str, Any]) -> list[str]:
     issues: list[str] = []
     for key in REQUIRED_FIELDS:
@@ -372,6 +390,7 @@ def validate_contract(data: dict[str, Any]) -> list[str]:
     issues.extend(validate_optional_execution_decision(data))
     issues.extend(validate_optional_human_review(data))
     issues.extend(validate_optional_checkpoint_policy(data))
+    issues.extend(validate_optional_restricted_write_approval(data))
     issues.extend(validate_code_gate_verification(data))
     if "preReviewWarnings" in data:
         issues.extend(validate_string_list(data, "preReviewWarnings", allow_empty=True))

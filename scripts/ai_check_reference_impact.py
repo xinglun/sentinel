@@ -233,6 +233,7 @@ def evaluate(
     record: dict[str, Any], *, root: Path, ignored_paths: set[Path] | None = None
 ) -> dict[str, Any]:
     """Return a deterministic block, confirmation, or continue decision."""
+    root = root.resolve()
     target = record.get("target")
     if not isinstance(target, dict) or record.get("version") != 1:
         raise ValueError("reference impact record version 1 and target are required")

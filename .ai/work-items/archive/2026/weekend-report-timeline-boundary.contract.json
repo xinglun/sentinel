@@ -1,0 +1,222 @@
+{
+  "contractVersion": 2,
+  "workItemId": "weekend-report-timeline-boundary",
+  "mode": "code",
+  "title": "周末日报与观察历史边界修正",
+  "baseCommit": "87f3cc74bfbbaeb187d6c2ec086bae442393487c",
+  "baselineDirtyPaths": [],
+  "problemStatement": "週末またはNYSE休場日に手動実行した日報が、非取引日を新しい観測取引日として観測履歴へ追加しようとして履歴回帰門禁に入り、日報と周辺成果物を生成できない。",
+  "intent": {
+    "problem": "日報の生成・監査成果物は非取引日にも維持し、観測タイムラインと observation history state は取引日にだけ追加・更新することで、非取引日を履歴の取引日連続性へ混入させない。",
+    "constraints": [
+      "取引日の observation timeline append と observation history state 更新は既存挙動を維持する。",
+      "週末・NYSE休場日は report、decision packet、snapshot、quality log、weekly output を生成するが、observation timeline と history state を追加・前進させない。",
+      "Gate、Execution、Trader、Action Matrix、Position Sizing、decision threshold、i18n 表示契約は変更しない。",
+      "data branch、reports の既存データ、workflow schedule は変更しない。"
+    ],
+    "rationale": "2026-08-22 の部分取得回帰テストで、土曜日の packet date が新規取引日として history append gate に渡され、INVALID_HISTORY_APPEND / HISTORY_REGRESSION の早期 return により日報が保存されないことを確認した。"
+  },
+  "scope": [
+    ".ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+    ".ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/evidence/reference-impact/radar-interface-pipeline-runner.json",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs"
+  ],
+  "outOfScope": [
+    "Gate / Execution / Trader / Action Matrix / Position Sizing の判定と自動取引動作",
+    "decision threshold、market interpretation、candidate qualification の変更",
+    "data branch、reports/**、JSONL、weekly metrics の既存データ修復または migration",
+    ".github/workflows/daily_radar.yml の schedule 変更",
+    "新しいデータ source、i18n 文言、運用 command / Make target の追加"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "日報 pipeline の report date、observation timeline 保存、history consistency gate、history state 更新の現行境界。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "観測履歴 append の daily consistency と progression 契約。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "partial fetch failure の日報・decision packet・snapshot・weekly output 回帰テスト。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "通常 workflow は平日のみ実行され、workflow_dispatch が非取引日実行を許可することを確認する。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Cockpit、Work Item、Rust quality gate、変更境界の必須規約。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary",
+      "review_debt"
+    ],
+    "reason": "取引日と非取引日の履歴状態を誤って扱うと、過去観測の連続性または当日日報の監査成果物を損なうため、日付境界と既存 gate の不変性をテストで固定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、verification が確定しており、既存 pipeline の日付境界と回帰テストに限定して実装できる。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーは自检で判明した周末日报失败を修复し、全 WI 流程、PR 合并、清理、main 同步、develop 返回まで完了することを明示授权した。本 Work Item は非取引日の report/history boundary のみを修正し、交易判断层を変更しない。",
+    "openQuestions": [
+      "実装後、週末・NYSE休場日の report 成果物と observation history 非更新を実際の pipeline 回帰で確認する。",
+      "取引日 append、同日再実行、過去日拒否の progression が不変であることを full quality gate で確認する。"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "土曜日の partial fetch pipeline が report と周辺成果物を生成し、observation history を更新しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cli::tests::partial_fetch_failure_preserves_history_and_real_market_state_on_weekend",
+        "cargo test --lib cli::tests::partial_fetch_failure_preserves_history_and_real_market_state_on_weekend -- --nocapture"
+      ],
+      "reason": "土曜日の report、run status、decision packet、decision history、snapshot、quality log、weekly output が生成され、observation history state / timeline は新規作成されないことを確認した。"
+    },
+    {
+      "scenario": "NYSE休場日の pipeline が非取引日を observation timeline と history state に混入させない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "radar_pipeline_runner::tests::observation_history_advances_only_on_nyse_trading_days",
+        "features::research::interface::macro_event_official_calendar_adapter::tests::nyse_market_holidays_cover_common_dates"
+      ],
+      "reason": "通常取引日、土曜日、Christmas の NYSE calendar 判定を確認し、非取引日を observation timeline の append 対象から除外した。"
+    },
+    {
+      "scenario": "取引日の新規 append、同日再実行、過去日拒否の history progression が不変である",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "radar_pipeline_runner::tests::history_regression_blocks_publication_before_persistence",
+        "cli::tests::injected_pipeline_dates_preserve_cycle_and_append_migrated_history",
+        "make test"
+      ],
+      "reason": "既存 history regression、取引日 append、同日再実行を含む 891 tests が全通過した。"
+    },
+    {
+      "scenario": "Gate / Execution / Trader / Action Matrix / Position Sizing の境界が変更されない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-architecture-all",
+        "make clippy",
+        "make check-ai-scope CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json"
+      ],
+      "reason": "日付境界と observation persistence のみを変更し、交易判断層の architecture、lint、scope guard を通過した。"
+    }
+  ],
+  "preReviewWarnings": [
+    "非取引日でも日報成果物を生成する一方、observation timeline と history state を変更しない境界を確認する。",
+    "通常の取引日 append、同日再実行、過去日拒否の既存 history progression を回帰させない。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "土曜日などの週末に partial fetch pipeline を実行すると、日付付き Markdown report、run status、decision packet、decision history、snapshot、quality log、weekly output が生成される。",
+    "週末・NYSE休場日の実行は observation timeline の dated append を行わず、既存 observation history count と last_market_date を前進させない。",
+    "取引日の新規実行では observation timeline と history state が従来どおり一件だけ追加・更新され、同日再実行は重複追加しない。",
+    "既存の history regression、invalid gap、partial fetch の fail-closed semantics と non-trading decision behavior は維持される。",
+    "Gate、Execution、Trader、Action Matrix、Position Sizing、threshold、i18n、workflow schedule、data branch の既存契約は変更しない。",
+    "Contract、Summary、Cockpit status に failing-first evidence、required verification、residual risk、review focus を記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json SUMMARY=.ai/work-items/active/weekend-report-timeline-boundary.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make check-ai-reference-impact CONTRACT=.ai/work-items/active/weekend-report-timeline-boundary.contract.json",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

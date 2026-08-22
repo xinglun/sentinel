@@ -71,6 +71,26 @@ def test_contract_accepts_required_fmt() -> None:
     assert_equal(issues, [], "required make fmt-check should pass")
 
 
+def test_contract_validates_restricted_write_approval() -> None:
+    contract = minimal_contract(include_fmt=True)
+    contract["restrictedWriteApproval"] = {
+        "approved": True,
+        "approvedBy": "Ray",
+        "reason": "test approval",
+    }
+    assert_equal(
+        ai_check_work_item.validate_contract(contract),
+        [],
+        "explicit restricted write approval should pass",
+    )
+    contract["restrictedWriteApproval"]["reason"] = ""
+    issues = ai_check_work_item.validate_contract(contract)
+    assert_true(
+        any("restrictedWriteApproval.reason" in issue for issue in issues),
+        "approved restricted write must include a reason",
+    )
+
+
 def test_ai_start_generates_required_fmt(active: Path) -> None:
     task = "fmt_generated_contract"
     with (
@@ -194,6 +214,8 @@ def main() -> int:
         print("✅ rejects_missing_fmt")
         test_contract_accepts_required_fmt()
         print("✅ accepts_required_fmt")
+        test_contract_validates_restricted_write_approval()
+        print("✅ validates_restricted_write_approval")
         test_ai_start_generates_required_fmt(active)
         print("✅ ai_start_generates_required_fmt")
         test_ai_start_preflight_failure_creates_no_files(active)

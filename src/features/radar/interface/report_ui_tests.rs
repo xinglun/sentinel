@@ -227,6 +227,91 @@ mod tests {
         assert!(report.telegram_html_body.contains("Portfolio Risk"));
     }
 
+    #[test]
+    fn effective_action_report_separates_permission_from_zero_eligibility_in_all_languages() {
+        for (
+            language,
+            market_permission,
+            eligible_assets,
+            effective_action,
+            permission_budget,
+            effective_cap,
+        ) in [
+            (
+                Language::ZhCn,
+                "市场权限",
+                "Eligible 标的",
+                "实际行动",
+                "Probe 预算上限",
+                "实际新增上限",
+            ),
+            (
+                Language::EnUs,
+                "Market Permission",
+                "Eligible Assets",
+                "Effective Action",
+                "Permission Budget",
+                "Effective New Entry Cap",
+            ),
+            (
+                Language::JaJp,
+                "市場参加権限",
+                "実行可能銘柄",
+                "実効アクション",
+                "Probe 上限",
+                "実効新規上限",
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let packet = DecisionPacket {
+                date: NaiveDate::from_ymd_opt(2026, 8, 21).unwrap(),
+                market_regime: MarketRegimeSnapshot {
+                    market_state: MarketState::IGNITION,
+                    risk_overlay: RiskOverlay::NORMAL,
+                    ..Default::default()
+                },
+                trend_cohesion: TrendCohesionSnapshot {
+                    gate_passed: true,
+                    ..Default::default()
+                },
+                ..Default::default()
+            };
+            let pres = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let permission_range = pres.decision_summary.entry_cap_value.clone();
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            assert_eq!(pres.final_execution_decision.eligible_asset_count, 0);
+            assert_eq!(pres.final_execution_decision.position_range, "0%");
+            assert_eq!(
+                pres.final_execution_decision.permission_position_range,
+                permission_range
+            );
+            for body in [&report.markdown_body, &report.telegram_html_body] {
+                assert!(body.contains(market_permission));
+                assert!(body.contains(eligible_assets));
+                assert!(body.contains(effective_action));
+                assert!(body.contains("NO_NEW_ENTRY"));
+                assert!(body.contains(permission_budget));
+                assert!(body.contains(effective_cap));
+                assert!(body.contains("0%"));
+                assert!(body.contains(&permission_range));
+            }
+        }
+    }
+
     fn no_trade_transition_order_packet() -> DecisionPacket {
         let prev = no_trade_snapshot_packet();
         let mut curr = no_trade_snapshot_packet();
@@ -1308,7 +1393,7 @@ mod tests {
         .markdown_body;
 
         assert!(card.contains("未就绪原因"));
-        assert!(card.contains("主线结构"));
+        assert!(card.contains("趋势结构"));
         assert!(card.contains("无主线"));
         let parsed_rules = config.get_parsed_rules();
         let stability_threshold = if (parsed_rules.trend_cohesion.gate_stability_threshold
@@ -1412,21 +1497,21 @@ mod tests {
         for (language, mainline, topology, forbidden) in [
             (
                 Language::ZhCn,
-                "主线状态：主线存在（战术未许可）",
-                "主线结构：核心资产主导",
-                "主线状态：主线未形成",
+                "趋势凝聚：趋势凝聚已形成（战术未许可）",
+                "趋势结构：核心资产主导",
+                "趋势凝聚：趋势未凝聚",
             ),
             (
                 Language::EnUs,
-                "Trend Cohesion：Main Theme Present (tactical permission not ready)",
+                "Trend Cohesion：Trend Cohesion present (tactical permission not ready)",
                 "Trend Topology：Core Asset Leadership",
                 "Trend Cohesion：Dispersed",
             ),
             (
                 Language::JaJp,
-                "主線状態：主線存在（戦術未許可）",
-                "主線構造：コア資産主導",
-                "主線状態：分散",
+                "トレンド凝集：トレンド凝集あり（戦術許可待ち）",
+                "トレンド構造：コア資産主導",
+                "トレンド凝集：トレンド未凝集",
             ),
         ] {
             let config = mock_config_with_language(language);
@@ -2037,10 +2122,10 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
-        assert!(report.markdown_body.contains("- QQQ · 无突破"));
+        assert!(report.markdown_body.contains("- QQQ · 无确认突破"));
         assert!(report.markdown_body.contains("普通反弹"));
         assert!(report.telegram_html_body.contains("<b>🚀 突破识别</b>"));
-        assert!(report.telegram_html_body.contains("QQQ · 无突破"));
+        assert!(report.telegram_html_body.contains("QQQ · 无确认突破"));
         assert!(report.telegram_html_body.contains("普通反弹"));
     }
 
@@ -2134,18 +2219,24 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 Breakout Detection"));
-        assert!(report.markdown_body.contains("QQQ · No Breakout"));
+        assert!(report.markdown_body.contains("QQQ · No Confirmed Breakout"));
         assert!(report.markdown_body.contains("Ordinary rebound"));
-        assert!(report.markdown_body.contains("TSLA · No Breakout"));
+        assert!(report
+            .markdown_body
+            .contains("TSLA · No Confirmed Breakout"));
         assert!(report.markdown_body.contains("Pullback repair"));
         assert!(report.markdown_body.contains("PLTR · Confirmed Breakout"));
         assert!(report.markdown_body.contains("Leadership-style breakout"));
-        assert!(report.markdown_body.contains("NVDA · No Breakout"));
+        assert!(report
+            .markdown_body
+            .contains("NVDA · No Confirmed Breakout"));
         assert!(report.markdown_body.contains("Failure Risk 66"));
         assert!(report
             .telegram_html_body
             .contains("<b>🚀 Breakout Detection</b>"));
-        assert!(report.telegram_html_body.contains("QQQ · No Breakout"));
+        assert!(report
+            .telegram_html_body
+            .contains("QQQ · No Confirmed Breakout"));
         assert!(report.telegram_html_body.contains("Ordinary rebound"));
         assert!(report.telegram_html_body.contains("Pullback repair"));
         assert!(report
@@ -2247,16 +2338,18 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("### 🚀 突破認識"));
-        assert!(report.markdown_body.contains("QQQ · 突破未成立"));
+        assert!(report.markdown_body.contains("QQQ · 未確認ブレイクアウト"));
         assert!(report.markdown_body.contains("通常反発"));
-        assert!(report.markdown_body.contains("TSLA · 突破未成立"));
+        assert!(report.markdown_body.contains("TSLA · 未確認ブレイクアウト"));
         assert!(report.markdown_body.contains("押し目修復"));
         assert!(report.markdown_body.contains("PLTR · 構造的突破"));
         assert!(report.markdown_body.contains("主導突破"));
-        assert!(report.markdown_body.contains("NVDA · 突破未成立"));
+        assert!(report.markdown_body.contains("NVDA · 未確認ブレイクアウト"));
         assert!(report.markdown_body.contains("失敗リスク 66"));
         assert!(report.telegram_html_body.contains("<b>🚀 突破認識</b>"));
-        assert!(report.telegram_html_body.contains("QQQ · 突破未成立"));
+        assert!(report
+            .telegram_html_body
+            .contains("QQQ · 未確認ブレイクアウト"));
         assert!(report.telegram_html_body.contains("通常反発"));
         assert!(report.telegram_html_body.contains("押し目修復"));
         assert!(report.telegram_html_body.contains("PLTR · 構造的突破"));
@@ -2356,22 +2449,22 @@ mod tests {
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("GOOG · 突破萌芽"));
         assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
-        assert!(report.markdown_body.contains("NVDA · 无突破"));
+        assert!(report.markdown_body.contains("NVDA · 无确认突破"));
         assert!(report.markdown_body.contains("假突破风险"));
         assert!(report.markdown_body.contains("失败风险 82"));
-        assert!(!report.markdown_body.contains("QQQ · 无突破"));
-        assert!(!report.markdown_body.contains("TSLA · 无突破"));
+        assert!(!report.markdown_body.contains("QQQ · 无确认突破"));
+        assert!(!report.markdown_body.contains("TSLA · 无确认突破"));
         assert!(!report.markdown_body.contains("普通反弹"));
         assert!(!report.markdown_body.contains("回撤修复"));
         assert!(report.telegram_html_body.contains("GOOG · 突破萌芽"));
         assert!(report
             .telegram_html_body
             .contains("GOOG · 突破萌芽（第1天）"));
-        assert!(report.telegram_html_body.contains("NVDA · 无突破"));
+        assert!(report.telegram_html_body.contains("NVDA · 无确认突破"));
         assert!(report.telegram_html_body.contains("假突破风险"));
         assert!(report.telegram_html_body.contains("失败风险 82"));
-        assert!(!report.telegram_html_body.contains("QQQ · 无突破"));
-        assert!(!report.telegram_html_body.contains("TSLA · 无突破"));
+        assert!(!report.telegram_html_body.contains("QQQ · 无确认突破"));
+        assert!(!report.telegram_html_body.contains("TSLA · 无确认突破"));
     }
 
     #[test]
@@ -2450,10 +2543,12 @@ mod tests {
         assert!(report
             .markdown_body
             .contains("GOOG · Emerging Breakout (Day 1)"));
-        assert!(report.markdown_body.contains("NVDA · No Breakout"));
+        assert!(report
+            .markdown_body
+            .contains("NVDA · No Confirmed Breakout"));
         assert!(report.markdown_body.contains("Failure Risk"));
         assert!(report.markdown_body.contains("Failure Risk 82"));
-        assert!(!report.markdown_body.contains("QQQ · No Breakout"));
+        assert!(!report.markdown_body.contains("QQQ · No Confirmed Breakout"));
         assert!(!report.markdown_body.contains("Ordinary rebound"));
         assert!(report
             .telegram_html_body
@@ -2461,9 +2556,13 @@ mod tests {
         assert!(report
             .telegram_html_body
             .contains("GOOG · Emerging Breakout (Day 1)"));
-        assert!(report.telegram_html_body.contains("NVDA · No Breakout"));
+        assert!(report
+            .telegram_html_body
+            .contains("NVDA · No Confirmed Breakout"));
         assert!(report.telegram_html_body.contains("Failure Risk 82"));
-        assert!(!report.telegram_html_body.contains("QQQ · No Breakout"));
+        assert!(!report
+            .telegram_html_body
+            .contains("QQQ · No Confirmed Breakout"));
     }
 
     #[test]
@@ -2540,17 +2639,21 @@ mod tests {
 
         assert!(report.markdown_body.contains("GOOG · 突破初動"));
         assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
-        assert!(report.markdown_body.contains("NVDA · 突破未成立"));
+        assert!(report.markdown_body.contains("NVDA · 未確認ブレイクアウト"));
         assert!(report.markdown_body.contains("失敗リスク 82"));
-        assert!(!report.markdown_body.contains("QQQ · 突破未成立"));
+        assert!(!report.markdown_body.contains("QQQ · 未確認ブレイクアウト"));
         assert!(!report.markdown_body.contains("通常反発"));
         assert!(report.telegram_html_body.contains("GOOG · 突破初動"));
         assert!(report
             .telegram_html_body
             .contains("GOOG · 突破初動（1日目）"));
-        assert!(report.telegram_html_body.contains("NVDA · 突破未成立"));
+        assert!(report
+            .telegram_html_body
+            .contains("NVDA · 未確認ブレイクアウト"));
         assert!(report.telegram_html_body.contains("失敗リスク 82"));
-        assert!(!report.telegram_html_body.contains("QQQ · 突破未成立"));
+        assert!(!report
+            .telegram_html_body
+            .contains("QQQ · 未確認ブレイクアウト"));
     }
     #[test]
     fn test_transition_evidence_rendering_zh_cn() {
@@ -2679,7 +2782,7 @@ mod tests {
         assert!(md.contains("🧭 战略背景"));
         assert!(md.contains("市场结构模式: 脆弱轮动期"));
         assert!(md.contains("长期方向: 结构证据观察中"));
-        assert!(md.contains("战术状态: NO TRADE，等待结构扩散"));
+        assert!(md.contains("战略证据状态: NO TRADE，等待结构扩散"));
         assert!(md.contains("🎯 趋势特征识别"));
         assert!(md.contains("进展阶段: 单点确立/整体滞后"));
         assert!(md.contains("趋势扩散分: 0.45"));
@@ -2695,7 +2798,7 @@ mod tests {
         assert!(html.contains("🧭 战略背景"));
         assert!(html.contains("<i>市场结构模式: 脆弱轮动期</i>"));
         assert!(html.contains("<i>长期方向: 结构证据观察中</i>"));
-        assert!(html.contains("<i>战术状态: NO TRADE，等待结构扩散</i>"));
+        assert!(html.contains("<i>战略证据状态: NO TRADE，等待结构扩散</i>"));
         assert!(html.contains("🎯 趋势特征识别"));
         assert!(html.contains("<i>进展阶段: 单点确立/整体滞后</i>"));
         assert!(html.contains("实质性证据: 业绩实质性确认"));
@@ -2851,9 +2954,9 @@ mod tests {
                     assert!(report
                         .telegram_html_body
                         .contains("Long-Term Direction: Structural evidence under observation"));
-                    assert!(report
-                        .telegram_html_body
-                        .contains("Tactical Status: NO TRADE, waiting for structural diffusion"));
+                    assert!(report.telegram_html_body.contains(
+                        "Strategic Evidence Status: NO TRADE, waiting for structural diffusion"
+                    ));
                     assert!(report.telegram_html_body.contains("Risk Taxonomy"));
                     assert!(report
                         .telegram_html_body
@@ -2878,7 +2981,7 @@ mod tests {
                         .contains("長期方向: 構造証拠を観測中"));
                     assert!(report
                         .telegram_html_body
-                        .contains("戦術状態: NO TRADE、構造拡散待ち"));
+                        .contains("戦略証拠ステータス: NO TRADE、構造拡散待ち"));
                     assert!(report.telegram_html_body.contains("リスク分類"));
                     assert!(report.telegram_html_body.contains("市場構造リスク: NORMAL"));
                     assert!(report.telegram_html_body.contains("構造強度"));
@@ -2995,7 +3098,7 @@ mod tests {
                 "🧭 战略背景",
                 "周期位置: LATE_ACCEPTANCE",
                 "拥挤风险: WATCH",
-                "战术状态: NO TRADE，等待结构扩散",
+                "战略证据状态: NO TRADE，等待结构扩散",
                 "进展阶段: 结构延续/战术冷却",
             ),
             (
@@ -3003,7 +3106,7 @@ mod tests {
                 "🧭 Strategic Context",
                 "Cycle Position: LATE_ACCEPTANCE",
                 "Crowding Risk: WATCH",
-                "Tactical Status: NO TRADE, waiting for structural diffusion",
+                "Strategic Evidence Status: NO TRADE, waiting for structural diffusion",
                 "Continuation State: Structural Persistence / Tactical Cooldown",
             ),
             (
@@ -3011,7 +3114,7 @@ mod tests {
                 "🧭 戦略文脈",
                 "サイクル位置: LATE_ACCEPTANCE",
                 "混雑リスク: WATCH",
-                "戦術状態: NO TRADE、構造拡散待ち",
+                "戦略証拠ステータス: NO TRADE、構造拡散待ち",
                 "進行段階: 構造持続 / 戦術冷却",
             ),
         ] {
@@ -4430,7 +4533,7 @@ mod tests {
             decision_summary:
                 crate::features::radar::interface::presentation::DecisionSummaryViewModel {
                     is_no_trade: true,
-                    trend_topology_label: "主线结构".to_string(),
+                    trend_topology_label: "趋势结构".to_string(),
                     trend_topology_value: "核心资产主导".to_string(),
                     ..Default::default()
                 },
@@ -4470,7 +4573,7 @@ mod tests {
             &report.telegram_html_body,
             &report.archival_markdown,
         ] {
-            assert!(body.contains("主线结构：无主线"));
+            assert!(body.contains("趋势结构：无主线"));
             assert!(body.contains("当前无确认主线"));
             assert!(body.contains("未确认启动期"));
             assert!(!body.contains("主线存在（战术未许可）"));
@@ -5660,7 +5763,7 @@ mod tests {
                 "周期位置: CROWDED_EXPECTATION",
                 "拥挤风险: ACTIVE",
                 "持有效率: NEUTRAL",
-                "战术状态: NO TRADE，等待结构扩散",
+                "战略证据状态: NO TRADE，等待结构扩散",
                 "结构脆弱: 暂停主动进攻，等待扩散恢复",
             ),
             (
@@ -5671,7 +5774,7 @@ mod tests {
                 "Cycle Position: CROWDED_EXPECTATION",
                 "Crowding Risk: ACTIVE",
                 "Holding Efficiency: NEUTRAL",
-                "Tactical Status: NO TRADE, waiting for structural diffusion",
+                "Strategic Evidence Status: NO TRADE, waiting for structural diffusion",
                 "Structural Fragility: pause active offense and wait for diffusion recovery",
             ),
             (
@@ -5682,7 +5785,7 @@ mod tests {
                 "サイクル位置: CROWDED_EXPECTATION",
                 "混雑リスク: ACTIVE",
                 "保有效率: NEUTRAL",
-                "戦術状態: NO TRADE、構造拡散待ち",
+                "戦略証拠ステータス: NO TRADE、構造拡散待ち",
                 "構造脆弱：能動的な攻勢を停止し、拡散回復を待つ",
             ),
         ] {
@@ -5838,11 +5941,11 @@ mod tests {
         // localize された state change を確認する。
         // defensive -> ignition maps to 守備期 -> 始動期
         assert!(md.contains("守備期 -> 始動期"));
-        assert!(md.contains("分散 -> 形成中"));
+        assert!(md.contains("トレンド未凝集 -> 形成中"));
         // topology change が描画されることを確認する。
         assert!(
             md.contains("主導不在 -> 形成中")
-                || md.contains("主線構造の変化")
+                || md.contains("トレンド構造の変化")
                 || md.contains("主導不在")
         );
     }

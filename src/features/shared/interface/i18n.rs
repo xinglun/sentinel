@@ -421,6 +421,7 @@ pub struct ReasonDictionary {
     pub position_watch_pullback: String,
     pub position_watch_no_trigger: String,
     pub position_none_no_trigger: String,
+    pub position_no_action_no_holding: String,
     pub signal_changed: String,
     pub signal_new: String,
     pub state_pullback_restrained: String,
@@ -533,6 +534,14 @@ pub struct DecisionDictionary {
     pub hold_count: String,
     pub defend_count: String,
     pub candidate_watchlist: String,
+    pub market_permission: String,
+    pub eligible_assets: String,
+    pub effective_action: String,
+    pub permission_budget: String,
+    pub effective_new_entry_cap: String,
+    pub no_new_entry: String,
+    pub reduction_signal: String,
+    pub actual_portfolio_action: String,
     pub exit_intent_hold: String,
     pub exit_intent_trim: String,
     pub exit_intent_exit: String,
@@ -540,7 +549,7 @@ pub struct DecisionDictionary {
 }
 
 pub fn get_dictionary(lang: Language) -> DisplayDictionary {
-    match lang {
+    let mut dictionary = match lang {
         Language::ZhCn => DisplayDictionary {
             actions: ActionDictionary {
                 accumulate: "加仓".to_string(),
@@ -580,6 +589,14 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 hold_count: "持有".to_string(),
                 defend_count: "收缩".to_string(),
                 candidate_watchlist: "👀 候选观察名单".to_string(),
+                market_permission: "市场权限".to_string(),
+                eligible_assets: "Eligible 标的".to_string(),
+                effective_action: "实际行动".to_string(),
+                permission_budget: "Probe 预算上限".to_string(),
+                effective_new_entry_cap: "实际新增上限".to_string(),
+                no_new_entry: "NO_NEW_ENTRY".to_string(),
+                reduction_signal: "减仓信号".to_string(),
+                actual_portfolio_action: "实际减仓动作".to_string(),
 
                 exit_intent_hold: "持有".to_string(),
                 exit_intent_trim: "减仓".to_string(),
@@ -650,6 +667,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 position_watch_pullback: "回撤中，尚未触发减仓条件".to_string(),
                 position_watch_no_trigger: "暂未触发卖出条件，继续观察".to_string(),
                 position_none_no_trigger: String::new(),
+                position_no_action_no_holding: "有减仓信号，但当前未持有该标的，不产生实际减仓动作。".to_string(),
                 signal_changed: "由 {:?} -> {:?}，信号变化".to_string(),
                 signal_new: "新进入关注列表".to_string(),
                 state_pullback_restrained: "回撤结构，观察强度".to_string(),
@@ -1051,6 +1069,14 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 hold_count: "Hold".to_string(),
                 defend_count: "Defend".to_string(),
                 candidate_watchlist: "👀 Candidate Watchlist".to_string(),
+                market_permission: "Market Permission".to_string(),
+                eligible_assets: "Eligible Assets".to_string(),
+                effective_action: "Effective Action".to_string(),
+                permission_budget: "Permission Budget".to_string(),
+                effective_new_entry_cap: "Effective New Entry Cap".to_string(),
+                no_new_entry: "NO_NEW_ENTRY".to_string(),
+                reduction_signal: "Reduction Signal".to_string(),
+                actual_portfolio_action: "Actual Portfolio Action".to_string(),
 
                 exit_intent_hold: "HOLD".to_string(),
                 exit_intent_trim: "TRIM".to_string(),
@@ -1128,6 +1154,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                     .to_string(),
                 position_watch_no_trigger: "No sell trigger yet, continue monitoring.".to_string(),
                 position_none_no_trigger: String::new(),
+                position_no_action_no_holding: "A reduction signal exists, but the asset is not held; no portfolio reduction action is generated.".to_string(),
                 signal_changed: "Changed from {:?} to {:?}, signal shifted".to_string(),
                 signal_new: "Newly added to watchlist today".to_string(),
                 state_pullback_restrained: "Pullback structure, observing strength".to_string(),
@@ -1532,6 +1559,14 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 hold_count: "保有".to_string(),
                 defend_count: "縮小".to_string(),
                 candidate_watchlist: "👀 候補観測リスト".to_string(),
+                market_permission: "市場参加権限".to_string(),
+                eligible_assets: "実行可能銘柄".to_string(),
+                effective_action: "実効アクション".to_string(),
+                permission_budget: "Probe 上限".to_string(),
+                effective_new_entry_cap: "実効新規上限".to_string(),
+                no_new_entry: "NO_NEW_ENTRY".to_string(),
+                reduction_signal: "減資シグナル".to_string(),
+                actual_portfolio_action: "実際のポートフォリオ減資".to_string(),
 
                 exit_intent_hold: "継続保有".to_string(),
                 exit_intent_trim: "減資".to_string(),
@@ -1603,6 +1638,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 position_watch_pullback: "押し目中、まだ減資条件未達".to_string(),
                 position_watch_no_trigger: "まだ売り条件未達、監視継続".to_string(),
                 position_none_no_trigger: String::new(),
+                position_no_action_no_holding: "減資シグナルはあるが未保有のため、実際のポートフォリオ減資は発生しない。".to_string(),
                 signal_changed: "{:?} -> {:?} へ変更".to_string(),
                 signal_new: "ウォッチリストに新規追加".to_string(),
                 state_pullback_restrained: "押し目構造：強度確認中".to_string(),
@@ -1965,5 +2001,58 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 severity_high: "High".to_string(),
             },
         },
+    };
+    apply_observation_semantic_labels(&mut dictionary, lang);
+    dictionary
+}
+
+/// 観察層の表示語彙を既存 dictionary key に投影し、実行層の語彙と分離する。
+fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: Language) {
+    match lang {
+        Language::ZhCn => {
+            dictionary.trend_cohesion.label = "趋势凝聚".to_string();
+            dictionary.trend_cohesion.topology_label = "趋势结构".to_string();
+            dictionary.trend_cohesion.dispersed = "趋势未凝聚".to_string();
+            dictionary.trend_cohesion.persistent_not_ready =
+                "趋势凝聚已形成（战术未许可）".to_string();
+            dictionary.breakout.no_breakout = "无确认突破".to_string();
+            dictionary.breakout.strength_label = "突破准备强度".to_string();
+            dictionary.breakout.quality_label = "突破准备质量".to_string();
+            dictionary.transition_evidence.trend_status_change = "趋势凝聚状态变化".to_string();
+            dictionary.transition_evidence.topology_change = "趋势结构变化".to_string();
+            dictionary.trend_recognition.strategic_tactical_status = "战略证据状态".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "结构证据已满足，但不生成执行指令".to_string();
+        }
+        Language::EnUs => {
+            dictionary.trend_cohesion.persistent_not_ready =
+                "Trend Cohesion present (tactical permission not ready)".to_string();
+            dictionary.breakout.no_breakout = "No Confirmed Breakout".to_string();
+            dictionary.breakout.strength_label = "Setup Strength".to_string();
+            dictionary.breakout.quality_label = "Setup Quality".to_string();
+            dictionary.transition_evidence.trend_status_change =
+                "Trend Cohesion Status Change".to_string();
+            dictionary.trend_recognition.strategic_tactical_status =
+                "Strategic Evidence Status".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "Structural evidence is ready; no execution instruction is generated".to_string();
+        }
+        Language::JaJp => {
+            dictionary.trend_cohesion.label = "トレンド凝集".to_string();
+            dictionary.trend_cohesion.topology_label = "トレンド構造".to_string();
+            dictionary.trend_cohesion.dispersed = "トレンド未凝集".to_string();
+            dictionary.trend_cohesion.persistent_not_ready =
+                "トレンド凝集あり（戦術許可待ち）".to_string();
+            dictionary.breakout.no_breakout = "未確認ブレイクアウト".to_string();
+            dictionary.breakout.strength_label = "ブレイクアウト準備強度".to_string();
+            dictionary.breakout.quality_label = "ブレイクアウト準備品質".to_string();
+            dictionary.transition_evidence.trend_status_change =
+                "トレンド凝集状態の変化".to_string();
+            dictionary.transition_evidence.topology_change = "トレンド構造の変化".to_string();
+            dictionary.trend_recognition.strategic_tactical_status =
+                "戦略証拠ステータス".to_string();
+            dictionary.trend_recognition.strategic_tactical_ready =
+                "構造証拠は満たされたが、実行指令は生成しない".to_string();
+        }
     }
 }

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "requestedText": "Effective Action の zh/en/ja dictionary field 追加による repository 内 compatibility impact を確認する。",
+  "target": {
+    "type": "file",
+    "name": "effective-action-shared-i18n-target",
+    "path": "src/features/shared/interface/i18n.rs",
+    "operation": "change_signature"
+  },
+  "referenceAnalysis": {
+    "dynamicReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "全三言語 dictionary initialization と report UI regression を実行し、dynamic loading の未確認箇所はない。"
+      ]
+    },
+    "externalConsumers": {
+      "status": "proven_absent",
+      "evidence": [
+        "変更は repository 内 DisplayDictionary の presentation labels に限定され、外部 consumer は Contract scope 外である。"
+      ]
+    },
+    "monitoringReferences": {
+      "status": "proven_absent",
+      "evidence": [
+        "三言語 snapshot、全量 test、clippy、architecture guard が通過し、monitoring schema の変更はない。"
+      ]
+    }
+  },
+  "governanceEvidence": {
+    "contractDeclared": true,
+    "acceptanceDeclared": true,
+    "destructiveChangeAllowed": true,
+    "evidence": [
+      "effective-action-reconciliation Contract に i18n scope と zh/en/ja output acceptance を記録した。",
+      "ユーザーが必要な scope 内 code/test/docs 変更と branch integration 操作を明示的に許可した。"
+    ]
+  }
+}

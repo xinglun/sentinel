@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "target": {"type": "file", "name": "effective-action-snapshot-zh-md-target", "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md", "operation": "change_signature"},
+  "referenceAnalysis": {
+    "dynamicReferences": {"status": "proven_absent", "evidence": ["snapshot test を更新・再実行した。"]},
+    "externalConsumers": {"status": "proven_absent", "evidence": ["snapshot は repository 内 fixture である。"]},
+    "monitoringReferences": {"status": "proven_absent", "evidence": ["quality guard を実行した。"]}
+  },
+  "governanceEvidence": {"contractDeclared": true, "acceptanceDeclared": true, "destructiveChangeAllowed": true, "evidence": ["Contract に archival/output acceptance を記録した。"]}
+}

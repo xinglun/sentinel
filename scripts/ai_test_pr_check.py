@@ -152,6 +152,19 @@ def test_valid_declared_repair_requires_exact_historical_content(root: Path) -> 
         assert_true(not ai_check_pr.valid_declared_repair(target, repair, "base"), "changed restore content must fail")
 
 
+def test_archived_contract_paths_keep_contract_suffix(root: Path) -> None:
+    contract_rel = ".ai/work-items/archive/2026/task.contract.json"
+    summary_rel = ".ai/work-items/archive/2026/task.summary.json"
+    write_json(root / contract_rel, valid_contract())
+    write_json(root / summary_rel, valid_summary(contract_rel))
+    changes = {contract_rel: "A", summary_rel: "A"}
+    with patch.object(ai_check_pr, "PROJECT_ROOT", root), patch.object(
+        ai_check_pr, "archive_evidence_changes", return_value=changes
+    ):
+        paths = ai_check_pr.archived_contract_paths("base")
+    assert_true(paths == [root / contract_rel], f"archive Contract suffix must be preserved: {paths}")
+
+
 def main() -> int:
     root = REPO_ROOT / "target" / "ai_pr_check_test"
     shutil.rmtree(root, ignore_errors=True)
@@ -167,6 +180,8 @@ def main() -> int:
         print("✅ validates_evidence_ownership")
         test_valid_declared_repair_requires_exact_historical_content(root)
         print("✅ validates_exact_historical_repair")
+        test_archived_contract_paths_keep_contract_suffix(root)
+        print("✅ keeps_archived_contract_suffix")
     finally:
         shutil.rmtree(root, ignore_errors=True)
     print("✅ ai_check_pr tests passed")

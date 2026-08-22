@@ -1,0 +1,273 @@
+{
+  "contractVersion": 2,
+  "workItemId": "effective-action-reconciliation",
+  "mode": "code",
+  "title": "Effective Action を市場権限・銘柄資格・ポートフォリオ状態から再構成",
+  "baseCommit": "fb5d9624a3d4ab9f378e55564c718a74af916159",
+  "baselineDirtyPaths": [],
+  "problemStatement": "市場レベルの Probe 許可、個別銘柄の実行資格、ポートフォリオ状態が最終行動へ統合されず、実行可能銘柄がない日に Probe 予算や減倉信号を実行指示のように表示している。",
+  "intent": {
+    "problem": "Market Permission、Asset Eligibility、Portfolio State を一つの Effective Action read model に統合し、ユーザーが当日実際に実行すべき行動と上限を誤読しない report を生成する。",
+    "constraints": [
+      "Market Permission の Probe budget は上限情報として保持し、eligible asset が 0 件なら Effective Action は NO_NEW_ENTRY、実際の新規追加上限は 0% とする。",
+      "減倉 signal と実際の portfolio action を分離し、非保有銘柄の REDUCE/EXIT signal を実際の減倉実行として表示しない。",
+      "Gate、Execution、Trader、Action Matrix、Position Sizing の既存判定値と自動取引動作は変更しない。今回の変更は read model、presentation、report 表示と回帰テストに限定する。",
+      "zh/en/ja の Markdown、Telegram HTML、archival Markdown の表示契約を同じ意味にそろえる。",
+      "quality が Makefile から相対 root を渡しても reference-impact checker は root を正規化するだけとし、impact policy の判定規則は変更しない。",
+      "ユーザーは本 Work Item の専用 branch/worktree 作成、scope 内の code/test/docs 変更、commit、develop への統合、main への同期、最後に develop へ戻る操作を明示的に許可している。"
+    ],
+    "rationale": "ユーザー提供の Conditional FAIL 受入結果で、Probe Window と eligible asset 0 件、減倉 signal と実際の減倉なしが同一日报内で衝突している。既存設計も Observation/Interpretation と execution boundary の分離を要求している。"
+  },
+  "scope": [
+    ".ai/work-items/active/effective-action-reconciliation.contract.json",
+    ".ai/work-items/active/effective-action-reconciliation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/plans/2026-08-21-effective-action-reconciliation.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    ".ai/evidence/reference-impact/radar-interface-effective-action.json",
+    ".ai/evidence/reference-impact/shared-interface-effective-action.json",
+    ".ai/evidence/reference-impact/radar-interface-presentation-assembler.json",
+    ".ai/evidence/reference-impact/radar-interface-presentation-tests.json",
+    ".ai/evidence/reference-impact/radar-interface-report.json",
+    ".ai/evidence/reference-impact/radar-interface-report-ui-tests.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-zh-md.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-zh-html.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-en-md.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-en-html.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-ja-md.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-ja-html.json",
+    "scripts/ai_check_reference_impact.py",
+    "scripts/test_ai_check_reference_impact.py"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/trading/**",
+    "src/features/gate/**",
+    "data/**",
+    "reports/**",
+    "weekly metrics、JSONL persistence、data branch write-back",
+    "候補順位・候補ラベルと relative ranking の qualification semantics（後続 observation-semantic-guard Work Item で修正）",
+    "新しい market threshold、trade signal、自动交易、Action Matrix、Position Sizing 判定规则"
+  ],
+  "sources": [
+    {
+      "path": "/Users/sei-rinn/.codex/attachments/e4c42044-2ec1-47e9-a372-65925aa1df39/pasted-text.txt",
+      "reason": "ユーザー提供の Conditional FAIL 受入結果と P0/P1/P2 の具体的な report evidence。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "Observation/Interpretation/report の境界、Leader、Actionable Diffusion、Trend Cohesion の canonical semantics。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "FinalExecutionDecision、risk opportunity、candidate context の現行実装と semantic bug の source。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Decision Summary、Candidate Watchlist、risk/opportunity、全 delivery body の renderer。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "Presentation-level の test fixture と execution/read model の既存回帰境界。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "zh/en/ja の Markdown/HTML report-level regression。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Rust quality gate、Cockpit、Work Item、commit の必須規約。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "市場 Probe 許可あり、eligible asset 0 件、全銘柄 SHRINK の report",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::radar::interface::presentation_tests -- --nocapture",
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture",
+        "zh/en/ja Markdown と Telegram HTML の Effective Action report assertion"
+      ],
+      "reason": "eligible 0 件で CandidateOnly、NO_NEW_ENTRY、実効 0%、permission budget 分離を確認した。"
+    },
+    {
+      "scenario": "市場 Probe 許可あり、eligible asset が存在する report",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "presentation_tests::ignition_ready_uses_limited_probe_final_execution_decision",
+        "report_ui_tests::effective_action_report_separates_permission_from_zero_eligibility_in_all_languages"
+      ],
+      "reason": "eligible asset がある場合は Probe が Executable、permission cap と effective cap が分離されることを確認した。"
+    },
+    {
+      "scenario": "REDUCE/EXIT signal はあるが対象銘柄を保有していない portfolio",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "presentation_tests::non_held_reduction_signal_is_rendered_as_signal_not_portfolio_action",
+        "ExitDecisionSummaryViewModel.signal_items と items の分離",
+        "zh/en/ja report renderer の Reduction Signal / Actual Portfolio Action 表示"
+      ],
+      "reason": "非保有 REDUCE signal は signal として表示し、actual portfolio action は生成しないことを確認した。"
+    },
+    {
+      "scenario": "REDUCE/EXIT signal と実保有が一致する portfolio",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "presentation_tests::test_exit_summary_distinguishes_hold_trim_exit_and_watch",
+        "report_ui_tests::test_exit_summary_renders_separately_from_no_trade"
+      ],
+      "reason": "保有銘柄の TRIM/EXIT actual action が signal 分離後も維持されることを確認した。"
+    },
+    {
+      "scenario": "Observation-only / existing Gate・Execution・Action Matrix boundary",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make clippy",
+        "make check-architecture-all",
+        "make check-ai-scope CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json",
+        "Contract outOfScope と guard report"
+      ],
+      "reason": "Gate、Execution、Trader、Action Matrix、Position Sizing の production behavior を変更していない境界を確認した。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "high",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "data_integrity",
+      "review_debt"
+    ],
+    "reason": "最終行動の表示はユーザー行動を誤らせるリスクがあり、presentation、portfolio fact、三言語 delivery の境界を同時に修正する。Gate/Execution を変更しないことを regression と architecture check で固定する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权继续修复本轮日报的 P0/P1 跨层语义问题，并要求将需要确认的事项写入 Contract；本 Work Item 只修正 Effective Action 的 report/read model 语义，不扩大到 Gate、Execution 或交易行为。",
+    "openQuestions": [
+      "实现必须以 failing-first regression 证明 eligible asset 0 件与非保有 REDUCE/EXIT signal 的最终显示语义；在证据完成前不得报告 ready。",
+      "Probe budget 上限与当日实际新增上限必须在 zh/en/ja 的所有 delivery body 中保持同一语义。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、scenario coverage と required verification が確定しており、変更は read model/presentation/report に限定できる。"
+  },
+  "preReviewWarnings": [
+    "Market Permission の予算と Effective Action の実際の追加上限を混同しないこと。",
+    "非保有銘柄の REDUCE/EXIT signal を実際の portfolio action として再表示しないこと。",
+    "NO TRADE、Gate、Execution、Action Matrix、Position Sizing の既存挙動が不変であること。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "Market Permission、Asset Eligibility、Portfolio State、Effective Action が presentation model で別々に表現される。",
+    "Probe 許可があっても eligible asset が 0 件の場合、実際の行動は NO_NEW_ENTRY、新規追加上限は 0% と表示され、Probe budget 上限は別項目として保持される。",
+    "eligible asset がある場合だけ Probe の execution actionability が有効になり、実効上限は既存の ADD intent と非保有 fact から算出する。候補順位・候補ラベルの qualification semantics は後続 Work Item で検証する。",
+    "REDUCE/EXIT signal と実際の portfolio TRIM/EXIT action を分離し、非保有銘柄では『signal は発生、実行 action はなし』と表示する。",
+    "zh/en/ja の Markdown、Telegram HTML、archival Markdown が同じ Effective Action と portfolio action semantics を持つ。",
+    "既存の Gate、Execution、Trader、Action Matrix、Position Sizing、trade signal の値と挙動は変更されず、Observation-only boundary regression が通過する。",
+    "実装計画を docs/superpowers/plans/2026-08-21-effective-action-reconciliation.md に保存し、TDD の failing-first evidence を Summary に記録する。",
+    "reference-impact checker の相対 root 回帰テストを通過させ、quality の reference-impact gate を復旧する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json SUMMARY=.ai/work-items/active/effective-action-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/effective-action-reconciliation.summary.json CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json SUMMARY=.ai/work-items/active/effective-action-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/effective-action-reconciliation.contract.json SUMMARY=.ai/work-items/active/effective-action-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の専用 branch の diff を revert し、関連 test/docs を同時に戻す。main/develop の既存履歴は rewrite しない。"
+}
