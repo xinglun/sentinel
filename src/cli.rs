@@ -1642,6 +1642,130 @@ Boundary: Expectation Layer is for observing market expectations only. It does n
     }
 
     #[tokio::test]
+    async fn report_date_alignment_preserves_market_data_as_of_date() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
+            r#"{"status":"succeeded","reason":null}"#,
+        )
+        .unwrap();
+
+        let report_date = NaiveDate::from_ymd_opt(2026, 7, 30).unwrap();
+        let market_data_date = NaiveDate::from_ymd_opt(2026, 7, 29).unwrap();
+        let mut config = mock_config(tmp.path());
+        config.watchlist.truncate(1);
+        run_pipeline_for_report_date(
+            config,
+            Arc::new(DateAwareProvider {
+                latest_date: market_data_date,
+            }),
+            ExecutionMode::Disabled,
+            report_date,
+        )
+        .await
+        .unwrap();
+
+        let packet_path = tmp
+            .path()
+            .join(format!("decision_packet_{report_date}.json"));
+        let packet: serde_json::Value =
+            serde_json::from_str(&fs::read_to_string(&packet_path).unwrap()).unwrap();
+        assert_eq!(packet["date"], report_date.to_string());
+        assert_eq!(
+            packet["market_features"]["date"],
+            market_data_date.to_string()
+        );
+        assert!(!tmp
+            .path()
+            .join(format!("decision_packet_{market_data_date}.json"))
+            .exists());
+
+        let run_status: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(tmp.path().join(format!("run_status_{report_date}.json"))).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(run_status["date"], report_date.to_string());
+        assert_eq!(run_status["decisioning"], "succeeded");
+        assert!(tmp.path().join(format!("{report_date}.md")).exists());
+        assert!(tmp
+            .path()
+            .join(format!("portfolio_snapshot_{report_date}.json"))
+            .exists());
+        assert!(tmp
+            .path()
+            .join(format!("account_snapshot_{report_date}.json"))
+            .exists());
+
+        let snapshots = PersistenceLayer::new(tmp.path())
+            .load_trading_day_snapshots()
+            .unwrap();
+        let snapshot = snapshots
+            .iter()
+            .find(|snapshot| snapshot.report_date == report_date)
+            .expect("report-date snapshot should be persisted");
+        assert_eq!(snapshot.market_date, market_data_date);
+        assert_eq!(snapshot.as_of_date, market_data_date);
+        assert_eq!(snapshot.report_date, report_date);
+    }
+
+    #[tokio::test]
+    async fn report_date_alignment_keeps_history_baseline_when_market_data_lags() {
+        let tmp = tempdir().unwrap();
+        fs::write(
+            tmp.path().join(EVIDENCE_COLLECTION_STATUS_FILE),
+            r#"{"status":"succeeded","reason":null}"#,
+        )
+        .unwrap();
+
+        let mut first_config = mock_config(tmp.path());
+        first_config.watchlist.truncate(1);
+        run_pipeline_for_report_date(
+            first_config,
+            Arc::new(DateAwareProvider {
+                latest_date: NaiveDate::from_ymd_opt(2026, 7, 28).unwrap(),
+            }),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+        )
+        .await
+        .unwrap();
+
+        let mut second_config = mock_config(tmp.path());
+        second_config.watchlist.truncate(1);
+        run_pipeline_for_report_date(
+            second_config,
+            Arc::new(DateAwareProvider {
+                latest_date: NaiveDate::from_ymd_opt(2026, 7, 29).unwrap(),
+            }),
+            ExecutionMode::Disabled,
+            NaiveDate::from_ymd_opt(2026, 7, 30).unwrap(),
+        )
+        .await
+        .unwrap();
+
+        let run_status: serde_json::Value = serde_json::from_str(
+            &fs::read_to_string(tmp.path().join("run_status_2026-07-30.json")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(run_status["decisioning"], "succeeded");
+        assert_ne!(run_status["data_quality"], "HISTORY_REGRESSION");
+
+        let snapshots = PersistenceLayer::new(tmp.path())
+            .load_trading_day_snapshots()
+            .unwrap();
+        let second_snapshot = snapshots
+            .iter()
+            .find(|snapshot| snapshot.report_date == NaiveDate::from_ymd_opt(2026, 7, 30).unwrap())
+            .expect("second report-date snapshot should be persisted");
+        assert_eq!(
+            second_snapshot.market_date,
+            NaiveDate::from_ymd_opt(2026, 7, 29).unwrap()
+        );
+        assert_eq!(second_snapshot.as_of_date, second_snapshot.market_date);
+        assert_eq!(second_snapshot.source_status, "complete");
+    }
+
+    #[tokio::test]
     async fn rate_limited_symbol_is_reported_and_persisted_as_unavailable_price_volume() {
         let tmp = tempdir().unwrap();
         let mut config = mock_config(tmp.path());
