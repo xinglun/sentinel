@@ -122,7 +122,7 @@ def archive_evidence_changes(base: str) -> dict[str, str]:
 def archived_contract_paths(base: str) -> list[Path]:
     """PR diff に含まれる archive Contract path を列挙する。"""
     return [
-        PROJECT_ROOT / stem(path)
+        PROJECT_ROOT / f"{stem(path)}.contract.json"
         for path in archive_evidence_changes(base)
         if path.endswith(".contract.json")
     ]

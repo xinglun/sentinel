@@ -1,0 +1,236 @@
+{
+  "contractVersion": 2,
+  "workItemId": "pr-diff-ownership-archive-stem",
+  "mode": "code",
+  "title": "PR Diff Ownershipのarchive Contract読み込みを修正",
+  "baseCommit": "c32a2876945fe3827de892b8618e6d335225b6a9",
+  "baselineDirtyPaths": [],
+  "problemStatement": "Diff Ownership の archive Contract discovery が新規 archive Contract のファイル suffix を失い、既存 Work Item の code と test を unowned と誤判定して ai-pre-merge を停止させる。",
+  "intent": {
+    "problem": "scripts/ai_check_diff_ownership.py が利用する archived_contract_paths は、PR diff に含まれる contract path を stem へ変換した後に suffix を復元していないため、実在する archive Contract を読み込めない。また、累積 PR diff の restricted path に明示 approval evidence がなく、ownership gate が approval_required になる。",
+    "constraints": [
+      "archive Contract の discovery と Diff Ownership 判定だけを修正する。",
+      "archive evidence は append-only とし、既存 archive Contract / Summary の内容は変更しない。",
+      "既存の累積 PR diff に含まれる restricted path は ownership evidence のみを補完し、ファイル内容を変更しない。",
+      "Gate、Execution、Trader、Action Matrix、Position Sizing、report output の product behavior には接続しない。"
+    ],
+    "rationale": "既存の ai-pre-merge ownership gate が、正当な archive evidence を読み込んで全 PR diff を監査できる状態へ戻す。"
+  },
+  "scope": [
+    ".ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+    ".ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+    ".ai/cockpit/current_status.md",
+    ".ai/evidence/reference-impact/radar-interface-effective-action.json",
+    ".ai/evidence/reference-impact/radar-interface-market-interpretation-observation-guard.json",
+    ".ai/evidence/reference-impact/radar-interface-pipeline-runner.json",
+    ".ai/evidence/reference-impact/radar-interface-presentation-assembler.json",
+    ".ai/evidence/reference-impact/radar-interface-presentation-tests.json",
+    ".ai/evidence/reference-impact/radar-interface-report-ui-tests.json",
+    ".ai/evidence/reference-impact/radar-interface-report.json",
+    ".ai/evidence/reference-impact/shared-interface-effective-action.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-en-html.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-en-md.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-ja-html.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-ja-md.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-zh-html.json",
+    ".ai/evidence/reference-impact/snapshot-no-trade-zh-md.json",
+    "src/cli.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    ".ai/work-items/archive/2026/pr-diff-ownership-archive-stem.contract.json",
+    ".ai/work-items/archive/2026/pr-diff-ownership-archive-stem.summary.json",
+    "scripts/ai_check_pr.py",
+    "scripts/ai_check_work_item.py",
+    "scripts/ai_test_pr_check.py",
+    "scripts/ai_test_work_item_contract.py"
+  ],
+  "outOfScope": [
+    "tests/**",
+    "data/**",
+    "reports/**",
+    "weekly/**",
+    ".github/workflows/**",
+    "既存 archive Contract / Summary の内容変更",
+    "新しい Make target の追加",
+    "Gate / Execution / Trader / Action Matrix / Position Sizing の判定と自動取引動作"
+  ],
+  "sources": [
+    {
+      "path": "scripts/ai_check_pr.py",
+      "reason": "stem helper と archived_contract_paths の現在実装、および archive path の suffix 契約を確認する。"
+    },
+    {
+      "path": "scripts/ai_check_diff_ownership.py",
+      "reason": "PR diff の archived Contract discovery と ownership classification の利用側を確認する。"
+    },
+    {
+      "path": "scripts/ai_test_pr_check.py",
+      "reason": "archive Contract discovery の suffix 回帰を既存 PR guard test に追加する。"
+    },
+    {
+      "path": "scripts/ai_check_work_item.py",
+      "reason": "restrictedWriteApproval を Contract schema として検証可能にする。"
+    },
+    {
+      "path": "scripts/ai_test_work_item_contract.py",
+      "reason": "restrictedWriteApproval の accepted / malformed boundary を回帰検証する。"
+    },
+    {
+      "path": ".ai/work-items/archive/2026/weekend-report-timeline-boundary.contract.json",
+      "reason": "今回の PR diff に含まれる archive Contract が ownership candidate として読まれるべき実例。"
+    },
+    {
+      "path": ".ai/guards/file_ownership.yaml",
+      "reason": "src/cli.rs、pipeline runner、.ai/evidence の restricted write approval 契約を確認する。"
+    },
+    {
+      "path": "origin/develop@fb5d9624a3d4ab9f378e55564c718a74af916159",
+      "reason": "現在の PR merge-base として complete diff ownership を再現する。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "ci",
+      "governance_process"
+    ],
+    "reason": "PR guard の path reconstruction と isolated regression test のみを変更し、product runtime behavior には影響しない。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "restrictedWriteApproval": {
+    "approved": true,
+    "approvedBy": "Ray",
+    "reason": "ユーザー要求に基づき、累積 PR diff の既存 restricted path に対する audit-only ownership evidence を明示する。対象ファイルの追加変更は行わない。"
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "原因、scope、回帰テスト、required verification が確定しており、機械的な governance helper 修正として実装できる。"
+  },
+  "preReviewWarnings": [
+    "archived_contract_paths は contract suffix を保持した実在 path を返すこと。",
+    "complete diff に含まれる archive evidence の ownership を ai-pre-merge で再確認すること。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "archived_contract_paths が archive Contract の .contract.json suffix を保持した既存 path を返す。",
+    "scripts/ai_test_pr_check.py が archive Contract discovery の suffix 回帰を検証する。",
+    "make check-ai-diff-ownership AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159 が今回の complete diff を unowned なしで通過する。",
+    "make check-ai-pr AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159 が archive guard を通過する。",
+    "累積 PR diff の restricted path が audit-only ownership と明示 approval により approval_required なしで通過する。",
+    "restrictedWriteApproval が Contract schema で accepted され、approved=true の場合は approver と reason を要求する。",
+    "production code、既存 archive evidence、data、reports、Gate / Execution / Trader / Action Matrix / Position Sizing は変更しない。"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "新規 archive Contract path を suffix 付きで discovery する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/ai_check_pr.py", "scripts/ai_test_pr_check.py"],
+      "reason": "archive Contract path が実在ファイルとして読み込めることを回帰検証する。"
+    },
+    {
+      "scenario": "complete PR diff の archived Work Item が code / test ownership を提供する",
+      "required": true,
+      "status": "verified",
+      "evidence": ["scripts/ai_check_diff_ownership.py", ".ai/work-items/archive/2026/weekend-report-timeline-boundary.summary.json"],
+      "reason": "今回の merge-base diff に含まれる archive evidence で unowned 判定が消えることを検証する。"
+    },
+    {
+      "scenario": "product behavior boundary is unchanged",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": [],
+      "reason": "変更は PR governance helper と regression test に限定する。"
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-preflight-review CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "required": true
+    },
+    {
+      "command": "make test-ai-pr-check",
+      "required": true
+    },
+    {
+      "command": "make test-ai-work-item-contract",
+      "required": true
+    },
+    {
+      "command": "make check-ai-diff-ownership AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159",
+      "required": true
+    },
+    {
+      "command": "make check-ai-pr AI_BASE_COMMIT=fb5d9624a3d4ab9f378e55564c718a74af916159",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/pr-diff-ownership-archive-stem.contract.json SUMMARY=.ai/work-items/active/pr-diff-ownership-archive-stem.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": false,
+    "allowPatterns": []
+  },
+  "rollbackNote": "PR Diff Ownership helper と regression test の diff を revert し、既存の archive Contract discovery へ戻す。"
+}
