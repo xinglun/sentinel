@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Keeps 55 Cents of Every Revenue Dollar as Profit
+  summary: A 55% net margin would be extreme in any industry. What's inside the number matters more than the number itself.
+  url: https://finnhub.io/api/news?id=d2ec5c00db1df302373f5a9efafef31d30058f44460268739459ffa06f96978e

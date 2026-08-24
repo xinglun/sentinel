@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Wall Street Entered the "Show Me" Phase of AI?
+  summary: Expectations for AI stocks appear to be changing.
+  url: https://finnhub.io/api/news?id=174a9123379666a768a2838c88d40424c5d9cae43608ad4f79809a8d3d3dee1f

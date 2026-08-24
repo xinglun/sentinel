@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Is No Longer a Trillionaire, but He Could Still Give Every Person on Earth $69.420 and Stay the World's Richest
+  summary: Earlier this year, Elon Musk became the first person to ever have a net worth of $1 trillion thanks to a strong market debut for his space company SpaceX. While SpaceX stock has fallen in value and Musk is no...
+  url: https://finnhub.io/api/news?id=ef35e65e980dccc76512ecb19f01c4b55f12dbb767de4ea31211fe1dbad7c1cd

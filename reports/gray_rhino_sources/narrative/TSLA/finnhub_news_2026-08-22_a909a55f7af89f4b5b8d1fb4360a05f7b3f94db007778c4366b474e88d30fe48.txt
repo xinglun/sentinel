@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FFA: Beware Of The AI Risk With This High-Yielding Covered Call Fund
+  summary: Explore First Trust Enhanced Equity Income Fund: 6.67% yield via covered calls, tech-heavy risks, discount to NAV, performance vs. S&P 500. Click to read more.
+  url: https://finnhub.io/api/news?id=0cbcff8caf58cbcfbfc47128930be73edbbd176eb424c7737c0049545a204699

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock in 2027: Why I Think It Still Has Room to Run
+  summary: Tesla has dipped a bit and it faces near-term challenges, but its growing full self-driving, energy, and AI businesses could give it significant long-term growth potential.
+  url: https://finnhub.io/api/news?id=77fc99515b5b160dd568e29c7f7b2d6683b2d5d9cd8dc2d554c1560c424d748c

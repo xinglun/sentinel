@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Could Outdo SpaceX With Its IPO. Here's How Much Investors Think It's Worth Right Now and Why.
+  summary: There are still a lot of questions, but Anthropic's revenue growth is incredible.
+  url: https://finnhub.io/api/news?id=457c0d6eb40f5dd91a266d96f5e3bf8fabc0f49574d7aa629ec0c5588e0d302d

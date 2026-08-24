@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bessent Triggers The Nightmare Scenario For The Bond Market
+  summary: Rising inflation expectations and long-term yields may force Fed hikes and pressure stocks as PE multiples contract.
+  url: https://finnhub.io/api/news?id=61f51a35b6b21d28b0f135f741d51eb3107a334d0484ffb86ed9f4924186b6f1

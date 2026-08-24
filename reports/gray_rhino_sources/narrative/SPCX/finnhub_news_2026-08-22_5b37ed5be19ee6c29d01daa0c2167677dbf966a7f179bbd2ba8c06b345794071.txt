@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: D.E. Shaw Just Disclosed a $912 Million SpaceX Stake and a 58% Broadcom Cut in the Same Quarter
+  summary: In a single quarterly filing, D.E. Shaw made a massive bet on a freshly minted space giant while slashing its position in one of the hottest AI chip stocks by more than half. What those two moves reveal about where smart money sees the next big trade is worth a closer look.
+  url: https://finnhub.io/api/news?id=ace452f8b394728c2f58459e4f721b685c2747b169baf43dc452c2c9aa50a6c9

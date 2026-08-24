@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Volatility Risk: Nvidia Earnings And Jackson Hole Next Week
+  summary: Upcoming catalysts for the market include Nvidia earnings and the Federal Reserve's Jackson Hole conference. Read more on the market here.
+  url: https://finnhub.io/api/news?id=8522f9c5d378b2e6f3094ea6b686f844912c8f43296bc2edff0144a92bd32f24

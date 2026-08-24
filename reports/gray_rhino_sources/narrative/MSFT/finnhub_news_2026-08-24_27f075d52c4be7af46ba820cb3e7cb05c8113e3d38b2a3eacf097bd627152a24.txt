@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (NASDAQ:MSFT) Combines Strong Growth with a Promising Technical Setup
+  summary: Microsoft passes a strong growth screen with top-tier fundamentals and a bull flag setup, blending earnings momentum with favorable chart structure.
+  url: https://finnhub.io/api/news?id=e9c395b5e76c8232cf11d6c278831380b9363397b40c2e6216714fb198c63295

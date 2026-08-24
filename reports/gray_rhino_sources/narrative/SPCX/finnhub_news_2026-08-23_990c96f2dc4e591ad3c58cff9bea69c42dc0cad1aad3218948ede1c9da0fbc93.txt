@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AT&T's Dividend Costs the Company a Fixed Amount Every Quarter Regardless of Competitive Pressure From Starlink or Cable Rivals. Here's the Coverage Ratio That Actually Determines Whether It's Safe.
+  summary: AT&T paid out $3.973 billion in dividends in the first half of 2026, but where does that money come from?
+  url: https://finnhub.io/api/news?id=3b770c115f74bfa901898a497772a0fb5b1a5a513231f593481d6678bbfefedf

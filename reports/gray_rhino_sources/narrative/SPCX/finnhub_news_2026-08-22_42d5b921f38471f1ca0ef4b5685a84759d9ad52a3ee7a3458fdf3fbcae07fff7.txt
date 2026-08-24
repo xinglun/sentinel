@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says China Is ‘By Far’ Strongest AI Competitor, Echoing 2011 Warning as SPCX Faces New Rocket Rival
+  summary: Elon Musk said China is "by far" the strongest competitor in artificial intelligence, extending a warning he made 15 years ago that Beijing would ultimately become Space Exploration Technologies Corp.‘s most important rival in rocket technology. Musk’s 2011 China Prediction...
+  url: https://finnhub.io/api/news?id=53422f5efb750a20d476a476e361944ab16f9bfb4380bef6493f213e010ec4ef

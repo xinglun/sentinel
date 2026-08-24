@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget The Cloud Rally: Semiconductors Rule AI
+  summary: Cloud computing ETFs (SKYY) surged on AWS/Azure/Google earningsâbut risks loom. Get a cautious '26â27 outlook favoring AI infrastructure over cloud. Click for more.
+  url: https://finnhub.io/api/news?id=87652d8c25e54fdb6d8316b57bd4c2a947a4545e9333fde9f835b8e6be929cbf

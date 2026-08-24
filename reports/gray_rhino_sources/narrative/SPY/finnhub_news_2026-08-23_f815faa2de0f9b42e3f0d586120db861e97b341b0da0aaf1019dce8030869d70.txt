@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Treasury Buybacks: America Has Three Doors, And None Solve The Problem
+  summary: U.S. Treasury long-dated buybacks may cap yields, shift risk to FX/gold, and support equities.
+  url: https://finnhub.io/api/news?id=bc86e0d57587f91069f535462b88f4d6aa9fa84498f51cc0f2e77348b2bb8d93

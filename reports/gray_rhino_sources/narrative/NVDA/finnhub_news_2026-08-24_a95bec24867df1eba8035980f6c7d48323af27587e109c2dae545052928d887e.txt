@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA (NASDAQ:NVDA) Pairs High Growth Momentum with a Breakout Setup
+  summary: NVIDIA (NVDA) scores 8/10 for growth momentum and technicals, with accelerating earnings/sales and a defined setup. See the full analysis.
+  url: https://finnhub.io/api/news?id=e1c60b399ed39a900e0d80fcbc0f1729243c862583550bf3d26340b2b803395f

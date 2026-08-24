@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Accuses Elon Musk of Trying to 'Buy' Texas Senate Seat With $200 Million Spending Plan
+  summary: Bernie Sanders renewed his criticism of Elon Musk’s political spending, accusing the billionaire of trying to influence Texas Senate race.
+  url: https://finnhub.io/api/news?id=7ead3defc88250dd38773f88c9b41521049e7f8b29ad8b2c5104ed5a38f8210d

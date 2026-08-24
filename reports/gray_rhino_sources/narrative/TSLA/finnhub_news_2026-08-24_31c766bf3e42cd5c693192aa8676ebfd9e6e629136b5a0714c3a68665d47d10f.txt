@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Solar Stocks’ Weighted Gains Mask a Broad Selloff in the Average Name
+  summary: Solar stocks show a split: large caps like Tesla lift the index, while average solar stocks decline. Discover the leaders and laggards.
+  url: https://finnhub.io/api/news?id=91332a4036ce17030a26be9ec5ccaab0a38cff400940fabdcf5bb371b3b07f3b

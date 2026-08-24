@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: AI Plans Weigh On BABA
+  summary: Whatâs rattling Alibaba? Nvidia is raising prices by more than 15%. Californiaâs attorney general says Paramount is âplaying games.â
+  url: https://finnhub.io/api/news?id=ab6d1590524b5da4309826a4357c914dcd5218c5f878fc8e6c2fc95cb4973297

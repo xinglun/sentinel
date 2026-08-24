@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AWS Was Lagging Microsoft Azure and Google Cloud in Growth—Is Amazon Finally Catching Up?
+  summary: According to Rosenblatt’s Scott Devitt, Amazon (NASDAQ:AMZN)’s leading position in artificial intelligence remains underappreciated. This bold claim was made in a recent research note on August 19, where Devitt initiated coverage on the stock with a $335 price target. The firm anticipates AWS to exit 2026 at a 45% growth rate, compared with the Street’s […]
+  url: https://finnhub.io/api/news?id=e5317332388cbfda5890ec6c05144738df91f46bdfedd2972bba87e330251e95

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Has Something Nvidia Doesn’t and Here’s Why it Matters
+  summary: Nvidia gets the headlines, but Microsoft is quietly sitting on an asset that converts AI hype into locked-in revenue at a scale most investors haven't priced in yet.
+  url: https://finnhub.io/api/news?id=f7a3e5fdacd14e4ddd902355276d69e74779842065f6f1076ef9296438ff1286

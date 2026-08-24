@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia customers face over 15% server price hikes as memory costs soar - report
+  summary: Investing.com -- Rising memory chip costs are pushing up the price of servers that use Nvidia Corp’s artificial intelligence chips, with some of the chipmaker’s biggest customers facing increases of more than 15%, Bloomberg News reported on Saturday, citing people familiar with the matter.
+  url: https://finnhub.io/api/news?id=d75798cf572f9a5fa5cd6d5543994c82626ff4574c103fe42e2320ef1d708391

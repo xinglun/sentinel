@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Continues Trading Stocks at Warp Speed: Berkshire Bought, Meta Sold
+  summary: President Trump's accounts executed more than 1,000 trades in a single month, including moves in a major defense contractor timed suspiciously close to a surprise geopolitical agreement, and Congress just passed a fix that deliberately leaves him out.
+  url: https://finnhub.io/api/news?id=9e0bdc9badb8609b9eb8174cf6711e4131b5f18c8a220c9ca0c969805b9bdd83

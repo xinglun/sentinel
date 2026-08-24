@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividend Harvesting Portfolio Week 286: $28,600 Allocated, $3,258.87 In Projected Dividends
+  summary: 
+  url: https://finnhub.io/api/news?id=81c77f54c115f7f22d56de5258f065c35c8b5019b334448239e76dc706b67c0d

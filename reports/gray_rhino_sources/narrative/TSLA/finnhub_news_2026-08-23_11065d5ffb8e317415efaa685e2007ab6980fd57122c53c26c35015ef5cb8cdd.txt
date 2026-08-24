@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paul Graham Says Tesla Buyers Are Getting More Range, More Car For Less Money Than A Decade Ago: ‘People Who Think They Dislike Capitalism…’
+  summary: Y Combinator co-founder Paul Graham said his wife, Jessica Livingston, recently purchased a Tesla Inc. for $48,000 that offers about 350 miles of range. He compared it with the Tesla Livingston bought in 2015, which he said cost the equivalent...
+  url: https://finnhub.io/api/news?id=023506f4384d91b45f0aa8574be52fccf6856ae9850f3cc504a1120a82c8898a

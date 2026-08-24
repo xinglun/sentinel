@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Gets New Australia News Rules As AI Commerce Push Deepens
+  summary: Microsoft (NasdaqGS:MSFT) faces new obligations in Australia as a law requiring large digital platforms to pay local publishers for news content comes into effect, affecting LinkedIn’s news distribution. Meta has become one of Microsoft’s largest AI customers, with a major spend on Azure AI infrastructure and services. Microsoft Advertising introduced an agentic commerce blueprint that uses AI tools to reshape how brands run digital shopping and ad campaigns. Consider exploring other stocks...
+  url: https://finnhub.io/api/news?id=e12b285cb9bab3e4e96048a68e48dea5f65168b112c994b8f79247df72c03371

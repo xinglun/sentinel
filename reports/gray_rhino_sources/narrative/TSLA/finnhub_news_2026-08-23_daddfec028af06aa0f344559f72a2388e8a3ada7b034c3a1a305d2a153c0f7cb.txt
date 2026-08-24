@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Recalls Nearly 3 Million EVs in China Over Door Releases That Could Trap Occupants
+  summary: Tesla Inc. is recalling 2.98 million vehicles in China, its largest recall ever in the country, because passengers may be unable to find and use the emergency door releases after a crash cuts power. Bloomberg has identified at least 15...
+  url: https://finnhub.io/api/news?id=5fc2ea11f7ada12dc35b6e11a04d9f38d0fd87c8311e09cda077e23b386225f0

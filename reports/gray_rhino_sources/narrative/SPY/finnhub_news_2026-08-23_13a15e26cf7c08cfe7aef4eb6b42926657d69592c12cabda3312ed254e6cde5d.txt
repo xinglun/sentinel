@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bessent's Desperation Foreshadows Credit Crisis
+  summary: Global debt risks and rising yields threaten liquidity as markets look overbought. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=2feea82dcac8bb090a79c8e820d537126afe0f15189573e65f4ec9d1923645df

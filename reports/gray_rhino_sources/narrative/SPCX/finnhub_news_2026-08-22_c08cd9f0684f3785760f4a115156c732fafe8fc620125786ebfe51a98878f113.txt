@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Trades at a Reasonable Valuation With Ample Growth Headroom
+  summary: Third Point exited its position in Nvidia during Q2, but this was to shift funds around and should not be seen as a red flag for NVDA stock.
+  url: https://finnhub.io/api/news?id=567098a4ea129ac36354d2959075531878cd9016c46725e3aff72ca59e5752f9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Tech Compounders Fit for Warren Buffett's Portfolio
+  summary: Meta, Microsoft, and TSMC are all Buffett-style compounding stocks.
+  url: https://finnhub.io/api/news?id=c801aca87ba9634815323f5241770ef0756e797663e424f356b6fc156d243e14

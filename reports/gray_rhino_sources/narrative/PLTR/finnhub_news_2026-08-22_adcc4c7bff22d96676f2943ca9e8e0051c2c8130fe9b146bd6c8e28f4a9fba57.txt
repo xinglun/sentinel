@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Freeport Clear Buy Points, Lead Five Stocks To Watch
+  summary: Freeport-McMoRan and Palantir scored breakouts Friday, leading five stocks near buy points from a variety of sectors.
+  url: https://finnhub.io/api/news?id=00fb5eeace4d46b504333c00bc15ca35d4784c27a514ba06107cecb32f62582c

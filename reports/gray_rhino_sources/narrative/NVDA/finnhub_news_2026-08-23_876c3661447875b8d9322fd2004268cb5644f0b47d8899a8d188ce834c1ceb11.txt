@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gas Turbine Prices Are on Track to Nearly Triple. These Stocks Are Cashing In
+  summary: This is no flash-in-the-pan fad. This heavy equipment is worth the high upfront cost that AI data center operators are willing to pay.
+  url: https://finnhub.io/api/news?id=4a530a49f62ba58f3f60a728193e8c7dcbe23acaef80fad6cbbdde46c99061cd

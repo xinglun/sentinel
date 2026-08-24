@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JPMorgan Says Tesla Is Confident of Scaling Cybercab Operations, Touts Future Models Based on Platform—FSD V15 a ‘Step-Change’ From Previous Versions
+  summary: Investment bank JPMorgan Chase & Co. on Wednesday said that Tesla Inc. appears to be prioritizing the Cybercab over further scaling its Model Y robotaxi fleet. New Cybercab Models? Influencer and Tesla investor Sawyer Merritt took to the social media...
+  url: https://finnhub.io/api/news?id=eed3265ff6e0db580240864f4f8fc3c21c79e07561fa94507744811bcde302a6

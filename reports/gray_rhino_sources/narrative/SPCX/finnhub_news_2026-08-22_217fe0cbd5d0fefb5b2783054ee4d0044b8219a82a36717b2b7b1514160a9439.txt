@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Bounced 35% Off Its Lows — Then Another Lockup Hit. Here's Whether the Recovery Is Real or a Trap for Investors.
+  summary: SpaceX's biggest challenge could come from the law of supply and demand.
+  url: https://finnhub.io/api/news?id=c41d71a7c993e9775e90e476159fe2f28b86484029e30bf111cb10b39a22013e

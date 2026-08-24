@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bessent Doubling The Treasury Buyback Program Is Just A Deck Chair Trade
+  summary: 
+  url: https://finnhub.io/api/news?id=b6b9213cf1e5e679e94a0e7824209ea8968a58980440a23ecd8ff829674b0585

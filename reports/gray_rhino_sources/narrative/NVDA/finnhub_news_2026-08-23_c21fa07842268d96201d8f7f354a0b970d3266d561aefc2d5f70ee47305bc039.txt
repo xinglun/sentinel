@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is This $7 Stock Your Ticket to Becoming a Millionaire?
+  summary: SoundHound AI stock looks cheap, but it carries a lot of risk.
+  url: https://finnhub.io/api/news?id=a9460cbe9e449aacf5ac9104dd27f281a819a5f5928e57caede79bf6420c1221

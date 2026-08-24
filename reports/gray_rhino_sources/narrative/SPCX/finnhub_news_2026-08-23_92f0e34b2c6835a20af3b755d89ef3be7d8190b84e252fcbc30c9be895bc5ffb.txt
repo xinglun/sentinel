@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive: Anthropic's $2 Trillion Valuation Faces a Reality Check—SPCX Offers a Warning, Wall Street Veteran Says
+  summary: Anthropic’s reported potential $2 trillion valuation would require investors to underwrite an extraordinary combination of growth and margin expansion, while also taking lessons from Space Exploration Technologies Corp.‘s (NASDAQ:SPCX) turbulent transition from private-market darling to public company, says Dr Chan...
+  url: https://finnhub.io/api/news?id=31a349850b8d80427f0d0b874bd73be43c85bf452daecd2863ceef07f75dd949

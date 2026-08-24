@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: The Next AI Upgrade Supercycle Is Exclusive - And Bigger Than GPUs
+  summary: Liquid-cooling racks for Nvidia Corporation's Vera Rubin chips may spur an AI infrastructure upgrade cycleâcut costs, boost density & more. Click for more on NVDA.
+  url: https://finnhub.io/api/news?id=2b119cb948dbc9e29f9e032f928f4b695c25d81281e877ecbe16b7d4de27e69d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire CEO Greg Abel Is Sitting on Nearly $400 Billion in Cash. Here's How His Deal-Making Approach Differs From Warren Buffett's.
+  summary: Berkshire Hathaway's new CEO has the firepower to make big deals, and his first deal reveals how he's likely to approach acquisitions.
+  url: https://finnhub.io/api/news?id=d6dc2c9223b344c7bb08a7cf1c470c77bf0497ab73b998c60701ca5ea73a9c87

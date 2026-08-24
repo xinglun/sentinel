@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Bigger Basket Isn't Always A More Diversified One
+  summary: What might happen if investors looked beyond a US-only allocation - not only through broad EM exposure but also through targeted country allocations based on their investment convictions?
+  url: https://finnhub.io/api/news?id=9e7cda04441e0c383237398c6cdd5d21989c70c91fd7e0600c971ee039884969

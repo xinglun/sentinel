@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Earnings Report To Keep Next Week Busy
+  summary: Wall Street Week Ahead: key market events, earnings (NVDA, CRM), economic data (PCE, GDP), Jackson Hole, dividends & volatility. See here for more.
+  url: https://finnhub.io/api/news?id=942876dc175ea29c858a82fdcbd974cd778b10d64012ed7a210d252cbf8b1602

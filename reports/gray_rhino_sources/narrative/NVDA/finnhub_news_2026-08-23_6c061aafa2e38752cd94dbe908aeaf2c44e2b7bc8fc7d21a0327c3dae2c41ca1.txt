@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Target Just Reported Earnings. Here's Whether the Dividend King Is Still a Buy.
+  summary: The once-struggling retailer just reported a second-consecutive solid quarter just one year after a new CEO took over. Connect the dots.
+  url: https://finnhub.io/api/news?id=6c96e89c38999e2c42720f86887deb312dfaa033a7c01ca2152b00736d9bc64a

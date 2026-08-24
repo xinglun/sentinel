@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman's Pershing Square invests $1.1B in fintech giant
+  summary: Bill Ackman’s Pershing Square built a $1.1 billion new stake in the fintech heavyweight.
+  url: https://finnhub.io/api/news?id=089efd0555812f556abbe08388032dcd1f681a5ea622f68392b3f3c07d23c7d6

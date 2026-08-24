@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Model Y L Is Coming to America. Will It Reignite Sales Growth?
+  summary: Tesla is in the middle of a major business shift, and a long-range version of its Model Y SUV could help ease the transition.
+  url: https://finnhub.io/api/news?id=8b4df62cf2f33363eb93b48bd3de2f1c3c6b8ce6db46e073fadb1f40d00d4855

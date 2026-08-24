@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Greg Abel Know Something Wall Street Doesn't? New Berkshire Hathaway CEO Doubles Down On a Legacy Department Store Stock With a 3.3% Dividend Yield
+  summary: Abel has been increasing Berkshire's position in a less-followed mid-cap stock.
+  url: https://finnhub.io/api/news?id=4a1f53bdbccf920e885e90a83a143a23cfa14b68d1e131fa466c6583a2a3a5ae

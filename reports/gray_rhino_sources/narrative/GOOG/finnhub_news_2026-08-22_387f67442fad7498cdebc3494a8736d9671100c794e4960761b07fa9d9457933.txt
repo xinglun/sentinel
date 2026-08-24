@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit vs. Rigetti Computing: Which High-Growth Stock Is a Better Buy in 2026, the Social Media Giant or Rising Quantum Computing Company?
+  summary: Reddit just turned profitable with a 24.1% net margin, while Rigetti burns cash chasing quantum breakthroughs, a stark contrast in risk and reward.
+  url: https://finnhub.io/api/news?id=02af0d43401bf9a88bd0f3fdfc10e32a6f725bea58bea492db961aef4d4318a6

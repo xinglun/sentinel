@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: It's All About SpaceX Now
+  summary: Nvidia looks undervalued ahead of Q2 FY27 earnings as SpaceX's 10 GW data center plans could add $120â230B in revenue. Click here to read more on NVDA.
+  url: https://finnhub.io/api/news?id=58a628d652673e4fab861c3273fb9e2611da466ae067fb5454d6b960f8f1ea65

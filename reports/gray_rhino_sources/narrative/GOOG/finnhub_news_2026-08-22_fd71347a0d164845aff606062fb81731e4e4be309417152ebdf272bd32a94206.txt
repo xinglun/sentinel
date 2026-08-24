@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Stanley Druckenmiller Just Sold Some Sandisk Stock and Bought These 3 Unstoppable Artificial Intelligence (AI) Stocks
+  summary: Amazon, Alphabet, and Taiwan Semiconductor remain well positioned to keep winning amid the AI infrastructure build-out.
+  url: https://finnhub.io/api/news?id=d469f1c31d1338c4990facb8f05c8560762402a4729fce5e1e14081a6d6f8b3c

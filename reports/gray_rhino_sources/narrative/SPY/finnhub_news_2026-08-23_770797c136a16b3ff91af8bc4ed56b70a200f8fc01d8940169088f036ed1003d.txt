@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Macro Trends Matter To Prudent Investors
+  summary: The most important macro concerns for investors? Read why a deterioration in the credit and sovereign debt markets could be worrisome for markets.
+  url: https://finnhub.io/api/news?id=6efb7ff5af1224f0997242995834ac635579fe5b3a38936ed1fad872294cd2d6

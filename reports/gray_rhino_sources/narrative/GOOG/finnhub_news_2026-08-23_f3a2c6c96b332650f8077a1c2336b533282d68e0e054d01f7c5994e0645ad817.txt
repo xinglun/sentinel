@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Reportedly Warns Top Customers of 15% Price Hikes on AI Servers
+  summary: Nvidia customers reportedly face AI server price hikes above 15% next year as DRAM costs surge ahead of Wednesday's earnings.
+  url: https://finnhub.io/api/news?id=6d2c702231510efbf06927416e978aeec5e80043fffad20d2fb742d31433371c

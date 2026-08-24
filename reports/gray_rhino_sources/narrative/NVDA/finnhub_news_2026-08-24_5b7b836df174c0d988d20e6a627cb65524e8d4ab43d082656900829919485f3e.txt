@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave: A Financial Accident In The Making
+  summary: CoreWeaveâs AI data center buildout to 2026â2030: capacity growth vs ~$30B net debt at 9% rates.
+  url: https://finnhub.io/api/news?id=14c4893a293de51c31c9bf5b654c26c24d36a351390f7301d682b0921f107bd4

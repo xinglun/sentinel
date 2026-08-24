@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet and Amazon Are Cheaper Than the S&P 500. What's Going On?
+  summary: The price-to-earnings metric has some oddities associated with it.
+  url: https://finnhub.io/api/news?id=a872a7a1856df4832690bb56391af3967e60ec8de8dcedb20c2303a81863592d

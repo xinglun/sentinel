@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q3 Growth Still Firm, But Fresh Headwinds Cloud The Outlook
+  summary: US economic activity remains on track to strengthen in the third quarter, based on the latest nowcasts compiled by The Capital Spectator.
+  url: https://finnhub.io/api/news?id=ff245f126c904d3ab877df9a263ddf80f8632d63ba062ba28c86d785c30fe629

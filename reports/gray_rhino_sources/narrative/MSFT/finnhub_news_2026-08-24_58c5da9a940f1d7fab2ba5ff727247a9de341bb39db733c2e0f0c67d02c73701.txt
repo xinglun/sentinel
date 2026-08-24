@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway Is A Net Buyer Of Stocks, Finally
+  summary: Discover why Berkshire under new CEO Greg Abel is buying more stocks, boosting Google as a top holding, and what AI leadership meansâread now.
+  url: https://finnhub.io/api/news?id=3800a99507fc5c01f054daa045c6a1a9c30e1b6f8c00237388bb5360435c3601

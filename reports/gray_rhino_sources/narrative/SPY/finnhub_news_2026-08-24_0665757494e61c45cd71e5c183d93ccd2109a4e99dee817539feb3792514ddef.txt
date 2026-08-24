@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Retreats As Bond Market Bear Scares Investors
+  summary: The S&P 500 dropped almost 1.4% from its previous week's close to wrap up the trading week ending on Friday, 21 August 2026, at 7,678.76.
+  url: https://finnhub.io/api/news?id=b7ba81aac8b81fb18ef804229c02f5610cc4820a6fdefe25e26c62511fde139e

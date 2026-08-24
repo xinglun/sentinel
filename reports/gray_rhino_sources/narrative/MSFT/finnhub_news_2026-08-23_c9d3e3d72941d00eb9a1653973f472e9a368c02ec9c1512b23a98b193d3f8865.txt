@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Q2 earnings to test resurgent AI trade
+  summary: Nvidia will report its Q2 earnings after the bell on Aug. 26.
+  url: https://finnhub.io/api/news?id=f41f5da02a4528dd04591f2841a46d2ad6af0f415c3594e4a8c05456d827a23c

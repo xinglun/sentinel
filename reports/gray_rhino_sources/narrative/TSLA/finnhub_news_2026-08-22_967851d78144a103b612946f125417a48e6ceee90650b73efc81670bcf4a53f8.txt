@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Is Recalling Nearly 3 Million Vehicles In China
+  summary: Tesla (NasdaqGS:TSLA) is recalling nearly 3 million vehicles in China due to potential safety issues with emergency door releases. The recall is the company’s largest in China to date and affects vehicles already on Chinese roads. Separately, Tesla has introduced a new Powerwall home battery leasing plan as competition in residential energy storage increases. The recall and the Powerwall shift could influence how regulators, consumers and investors view Tesla’s broader business model. This...
+  url: https://finnhub.io/api/news?id=ddaccacc83cfd150a6e088afdd26a67714b9fe24394fff8c75d0bdb60b03efe5

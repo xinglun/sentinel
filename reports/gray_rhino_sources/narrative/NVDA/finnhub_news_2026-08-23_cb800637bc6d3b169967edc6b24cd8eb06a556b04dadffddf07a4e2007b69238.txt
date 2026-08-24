@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom vs. Marvell Technology: 1 Critical Metric Decides the Better Custom AI Chip Stock
+  summary: Custom AI chips will see more demand over the next few years.
+  url: https://finnhub.io/api/news?id=12f1e456221807cd220275e57f4df8b49a9783c2523e582ee86b95a6dfcf70a1

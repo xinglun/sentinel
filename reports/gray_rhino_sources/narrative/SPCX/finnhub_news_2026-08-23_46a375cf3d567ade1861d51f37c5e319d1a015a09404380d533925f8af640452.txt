@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top analyst sees trouble looming for SpaceX stock
+  summary: A German bank made a bold bear call on SpaceX just as a fresh wave of shares hits the market.
+  url: https://finnhub.io/api/news?id=0172ad2dab8f257b613436a9231f7202cf4bd7c1ba5bad13606bcae9e9d32c94

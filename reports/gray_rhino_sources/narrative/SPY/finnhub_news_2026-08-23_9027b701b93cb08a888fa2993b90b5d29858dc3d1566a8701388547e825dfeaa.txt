@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Above The Noise: AI, Earnings, And Permabears
+  summary: AI demand may be different from past booms because the need for chips, data centers, energy, and computing power already exists and exceeds supply. Read more here.
+  url: https://finnhub.io/api/news?id=f481a7e2eb1ace31210edf744fa333766b7e17f526944590f390f6926fa07752

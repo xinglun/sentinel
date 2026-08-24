@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Commentary: Bessent's Gambit Part Two
+  summary: Is Bessent focused on averting mounting de-risking/deleveraging risks? Such a preoccupation would explain two major market interventions in 19 days - the yen and the Treasury market.
+  url: https://finnhub.io/api/news?id=794f37d1a3620242d1b92421187b1ccc260b9dc40e3a850f68fcccbd9cf47bff

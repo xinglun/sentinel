@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bessent's Toolbox Gets a Rest as Gold Prints $4,600 and Ross Stores Cleans Up
+  summary: Wall Street closed a bruising week on a firmer note Friday, August 21, 2026, with the Dow up nearly 1%, gold pushing above $4,600 an ounce, Ross Stores and BJ's Wholesale delivering the kind of retail print investors needed after Walmart's guide-down, and Treasury Secretary Bessent still promising a bigger buyback bazooka. Attention now turns to Nvidia earnings and Jackson Hole.
+  url: https://finnhub.io/api/news?id=7787e77d790c82615e1e824a41688465d5bf2c4d110e7c42c19de2bdd668833b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Rebounds, but Index Trends Still Need Repair
+  summary: U.S. market breadth rebounded strongly Friday, but SPY, QQQ and IWM remain below their EMA9. Breadth improves to neutral with a positive bias.
+  url: https://finnhub.io/api/news?id=bd9f70cd3c6f5d22361e97b7a72770526d2cc840fecb38c6ed602a719c4778be

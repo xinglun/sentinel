@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Exploration Technologies (SPCX) Says China Is Its Top Rival In AI And Rockets
+  summary: Space Exploration Technologies (NasdaqGS: SPCX) CEO Elon Musk warned that China is emerging as the company’s most serious global competitor in AI and reusable rocket technology. Musk pointed to rapid progress by Chinese private space companies, highlighting LandSpace’s successful landing of the Zhuque-3 orbital rocket’s first stage. He said Chinese AI model performance has closed the gap with leading systems and could soon rival SpaceX’s capabilities in reusable launch systems. The comments...
+  url: https://finnhub.io/api/news?id=bb817bd5ddd861be7e738e512709f45b545e08f280646e25a3c7baa62723e118

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Dropped 30% From Its All-Time High: 2 Reasons It Could Double by 2030
+  summary: The stock has lagged the market, but is showing new signs of life.
+  url: https://finnhub.io/api/news?id=45b2486893ad76fff8a26f7e72fc2b6e8f08256ecb752d454e546406273b22d8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro And Earnings, Here's My Thoughts
+  summary: Current market strength is driven by unprecedented corporate earnings, with four consecutive quarters of 20%+ growth, despite macro headwinds like...
+  url: https://finnhub.io/api/news?id=1f8de456ccf83404e17825ec5c0fd34877e6efce61f2974e54713676cd5ac167

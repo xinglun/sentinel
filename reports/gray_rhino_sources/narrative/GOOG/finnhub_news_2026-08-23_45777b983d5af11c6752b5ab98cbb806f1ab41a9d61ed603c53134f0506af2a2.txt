@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba Launches Record $10 Billion Share Sale to Enter the AI Race
+  summary: Alibaba is seeking roughly $10 billion in a Hong Kong share sale, with proceeds earmarked for full-stack AI investment.
+  url: https://finnhub.io/api/news?id=fe9df2a5a8921784d0ca491d78887b77a76095a2c45a5b3f80a3c337f54695c9

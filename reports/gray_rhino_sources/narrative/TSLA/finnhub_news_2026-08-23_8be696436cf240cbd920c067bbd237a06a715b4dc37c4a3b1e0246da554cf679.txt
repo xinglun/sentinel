@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $1.7 Trillion Job Apocalypse: Why Investors Can’t Ignore Humanoid Robots
+  summary: AI has already gutted white-collar tech jobs by the hundreds of thousands, but the next wave targets something far bigger: the physical economy and the wages of workers who never touched a keyboard.
+  url: https://finnhub.io/api/news?id=d20ff59edd41170a40244f2911c96f9c487755868f0f7bfa5cd1178ede73e2be

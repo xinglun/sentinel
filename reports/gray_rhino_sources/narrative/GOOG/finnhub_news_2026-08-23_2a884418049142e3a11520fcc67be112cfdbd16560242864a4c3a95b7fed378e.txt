@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Texas welcomed the AI boom. Now Abbott says data centers "dug their own grave"
+  summary: Texas Gov. Greg Abbott delivered one of the starkest warnings yet from a Republican to the AI industry, saying data center companies "dug their own grave" and deserve the backlash they're facing after failing to win community support.
+  url: https://finnhub.io/api/news?id=b755aec59d124c591eb6696c5ca304ce325b5d8990412a76c0cd6678b9d2bf1c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Eli Lilly Could Be One of the Biggest Winners of the Next Decade. Here’s Why.
+  summary: Eli Lilly just delivered one of the most staggering quarters in Big Pharma history, yet Wall Street is barely reacting. Three catalysts in the next 18 months could either push shares to levels few analysts dare to print or expose the cracks in a very expensive story.
+  url: https://finnhub.io/api/news?id=2cc15de1e342b93f1401b5077083d5881f0e6f7a954a6da86576b6e2e6d3a8b0

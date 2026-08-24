@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Third Point Starts to Raise Alarm Bells on Broadcom After Dumping AVGO Stock in Q2
+  summary: Dan Loeb's Third Point exits Broadcom ahead of second-quarter results as the stock has surged in 2026.
+  url: https://finnhub.io/api/news?id=0ca279e7b64d74c6c0ae82e4785b5d0fe1ac8dd868657e961011a4f4d780033c

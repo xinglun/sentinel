@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MarketBeat Week in Review – 08/17 - 08/21
+  summary: Stocks fell this week as Treasury bond buybacks, oil prices, and Walmart earnings weighed on markets, while Bitcoin rallied; MarketBeat analysts cover Moderna, NVIDIA, Meta, RTX, and more.
+  url: https://finnhub.io/api/news?id=76547bac59c31a668d5e46df733d737aea57e6553f790608f61b8ad98abfced1

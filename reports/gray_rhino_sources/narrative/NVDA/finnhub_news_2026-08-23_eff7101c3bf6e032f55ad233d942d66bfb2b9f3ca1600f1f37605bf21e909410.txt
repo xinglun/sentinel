@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your Last Chance to Buy Nvidia Stock for Cheap in 2026 May Be Near
+  summary: Nvidia looks like a screaming bargain right now, and investors should act fast.
+  url: https://finnhub.io/api/news?id=90c7731d4906771d10b101e47fc4f0898a333aa5c04fb1d0cf39598864421b71

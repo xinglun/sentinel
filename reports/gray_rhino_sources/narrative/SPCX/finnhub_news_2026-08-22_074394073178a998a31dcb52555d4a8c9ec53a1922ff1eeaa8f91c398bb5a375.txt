@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood buys $28.1 million of popular tech stock
+  summary: Here are Cathie Wood’s latest moves.
+  url: https://finnhub.io/api/news?id=64c9e3a5f4ae9424e3661268e95f4293035300fd7b9f5a14e52f8422e4fa77b2

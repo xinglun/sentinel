@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Comcast adds new service to internet plans as customers leave
+  summary: Comcast is taking a new approach as it works to retain customers amid elevated competition.
+  url: https://finnhub.io/api/news?id=2a50e6e1f38f0da06a74cfb56d6858d2d24306cbd9627b0eaec0969a6724f973

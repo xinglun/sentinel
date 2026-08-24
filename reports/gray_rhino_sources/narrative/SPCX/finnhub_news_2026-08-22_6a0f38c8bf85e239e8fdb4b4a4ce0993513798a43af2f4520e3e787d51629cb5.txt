@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic market debut could break SpaceX IPO record: media
+  summary: The market debut of artificial intelligence start-up Anthropic, a chief rival to OpenAI, could break the record set by SpaceX, US media have reported.Anthropic could then beat OpenAI, the maker of ChatGPT, to market.
+  url: https://finnhub.io/api/news?id=5effa5a122e69f17c05458c501d63fea8b740c0760d56e9cbaaec4256a9da513

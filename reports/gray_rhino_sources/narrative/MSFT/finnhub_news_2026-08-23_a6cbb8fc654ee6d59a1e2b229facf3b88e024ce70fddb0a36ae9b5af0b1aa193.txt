@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Low-Cost ETFs Every Investor Should Own
+  summary: A four-fund portfolio can cover every major slice of the US market while keeping fees so low they barely register, but the real trick is knowing which funds belong together and why the combination matters more than any single pick.
+  url: https://finnhub.io/api/news?id=e9b6c1592c78f145ebd776eb5c5d3fa75bcf88f570e1f5329cc85a246ed70262

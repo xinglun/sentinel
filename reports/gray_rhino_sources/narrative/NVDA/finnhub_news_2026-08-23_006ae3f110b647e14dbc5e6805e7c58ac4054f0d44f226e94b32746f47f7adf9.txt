@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One of Exxon's Biggest Oil Fields Is Running Out of Room to Grow. Here's Why That's Not a Crisis.
+  summary: Exxon has plenty of fuel to continue growing.
+  url: https://finnhub.io/api/news?id=d6018cb9be58d119f3b7410ab86bbd56f6b6e81e9c766c5ee6ed6b07355cb833

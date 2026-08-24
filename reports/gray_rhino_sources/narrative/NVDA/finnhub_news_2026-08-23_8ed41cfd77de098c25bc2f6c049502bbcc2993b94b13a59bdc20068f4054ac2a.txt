@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Oracle Stock Before September? The Answer Might Surprise You.
+  summary: Oracle is about to report its latest quarterly financial results, and they might be the key to reversing its sinking stock price.
+  url: https://finnhub.io/api/news?id=3d1cccd4fe41315a157b13f0f470600fd0876205c14ede0837ef75c37b002d65

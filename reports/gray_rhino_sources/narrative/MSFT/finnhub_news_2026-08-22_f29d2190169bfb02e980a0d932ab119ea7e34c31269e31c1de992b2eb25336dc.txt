@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia customers notified about AI-related price hikes above 15%, Bloomberg News reports
+  summary: Some of Nvidia's largest customers have been told prices of servers ‌containing its AI chips will rise by ‌more than 15% in many cases with memory chip ​costs soaring, Bloomberg News reported on Saturday.  The price hikes will go into effect on systems shipped early next year and will impact systems including ‌those with the ⁠flagship Vera Rubin and Grace Blackwell chips, the report added, citing people familiar ⁠with the process.  The increases will depend on Nvidia's chip generation and memory configurations, they ​said.
+  url: https://finnhub.io/api/news?id=678b05d98443c5320548c8a1ac020bd1a0db2042b1826f15abcfed80619760b5

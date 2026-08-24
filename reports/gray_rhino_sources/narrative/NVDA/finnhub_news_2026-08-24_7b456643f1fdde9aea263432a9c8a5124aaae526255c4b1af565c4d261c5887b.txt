@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave: Nvidia Is Quietly Repricing The Neocloud Window
+  summary: CoreWeave remains a Strong Sell due to deteriorating balance sheet quality and unsustainable economics despite a double beat and 113% Y/Y revenue growth. Learn more about CRWV stock here.
+  url: https://finnhub.io/api/news?id=c07ec4c6fee848b1117a561047563edcd44cf6a33c4773678710c7e441a6c832

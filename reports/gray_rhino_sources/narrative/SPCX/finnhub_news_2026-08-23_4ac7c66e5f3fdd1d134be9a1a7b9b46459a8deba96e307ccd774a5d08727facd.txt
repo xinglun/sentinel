@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Orders 1,000 Space Launches a Year by 2030 — That's 5x Today's Pace
+  summary: President Donald Trump signed a memo Thursday directing federal agencies to dramatically ramp up commercial rocket activity, setting a target of at least 1,000 launches and re-entries annually by 2030, according to Reuters. Last year’s total sat at 178 launches...
+  url: https://finnhub.io/api/news?id=2433d951c0562ac6b93cfc15cd07f82079a1a269f27f7824664156bb63702a75

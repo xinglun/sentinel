@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price by the End of 2030
+  summary: The AI superstar is growing fast, but that does not neccesarily mean a rising stock price.
+  url: https://finnhub.io/api/news?id=1a1e9cee3c5f01b21c88074e05d2c81bbf596cd5ce6df16601d859cf3bfeccf0

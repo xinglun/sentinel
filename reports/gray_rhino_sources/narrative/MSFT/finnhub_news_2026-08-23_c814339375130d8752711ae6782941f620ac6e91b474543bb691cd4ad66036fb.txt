@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Was Left Impressed By Microsoft Corporation (NASDAQ:MSFT)’s Conference Call
+  summary: Microsoft Corporation (NASDAQ:MSFT)’s shares have witnessed a major turnaround in 2026. They are up by 2% year-to-date, primarily on the back of 23.7% gain since late July. The shares closed a strong 15.5% higher on July 30th, the day after Microsoft Corporation (NASDAQ:MSFT) reported its fiscal fourth quarter earnings. The results saw the firm beat […]
+  url: https://finnhub.io/api/news?id=7083951e64a9310414ff990033d6d12f00c34202766dfae9446f8868372a7a5b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Basis Trade: Is The Bond Market Signal Distorted?
+  summary: Long-dated Treasury yields spiked to levels not seen in decades, with the 30-year touching a 19-year high above 5.30% mid-week and the 10-year closing Friday at 4.738%, near a 20-month high.
+  url: https://finnhub.io/api/news?id=89f690629b9ea5ddb6aa3255d0abdc68198b0a52012cba778973ba38dd221793

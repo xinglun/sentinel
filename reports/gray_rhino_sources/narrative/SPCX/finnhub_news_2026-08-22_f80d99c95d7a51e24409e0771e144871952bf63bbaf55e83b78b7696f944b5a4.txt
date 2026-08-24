@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Owns 48.4% of SpaceX, a New Filing Shows. Here's Why That Matters for Everyone Else Holding the Stock.
+  summary: Musk has total control over the company's future.
+  url: https://finnhub.io/api/news?id=a413d4c8d6bb683e856845d87725850123328ec64c9dcf8330440105ea1d8cdf
