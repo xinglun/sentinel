@@ -2012,9 +2012,19 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
         Language::ZhCn => {
             dictionary.trend_cohesion.label = "趋势凝聚".to_string();
             dictionary.trend_cohesion.topology_label = "趋势结构".to_string();
-            dictionary.trend_cohesion.dispersed = "趋势未凝聚".to_string();
+            dictionary.trend_cohesion.dispersed = "未凝聚".to_string();
             dictionary.trend_cohesion.persistent_not_ready =
                 "趋势凝聚已形成（战术未许可）".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline =
+                "当前未确认趋势凝聚".to_string();
+            dictionary.trend_cohesion.forming = "凝聚中".to_string();
+            dictionary.trend_cohesion.formed = "已凝聚".to_string();
+            dictionary.trend_cohesion.topology_no_leader = "无确认领导".to_string();
+            dictionary.trend_cohesion.topology_leaderless_fragmented =
+                "无确认领导 / 分散".to_string();
+            dictionary.trend_cohesion.topology_single_leader = "单一领导".to_string();
+            dictionary.trend_cohesion.topology_fragmented_leaders = "领导分散".to_string();
+            dictionary.trend_cohesion.formation_conditions_label = "趋势凝聚形成条件".to_string();
             dictionary.breakout.no_breakout = "无确认突破".to_string();
             dictionary.breakout.strength_label = "突破准备强度".to_string();
             dictionary.breakout.quality_label = "突破准备质量".to_string();
@@ -2027,6 +2037,18 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
         Language::EnUs => {
             dictionary.trend_cohesion.persistent_not_ready =
                 "Trend Cohesion present (tactical permission not ready)".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline =
+                "No confirmed trend cohesion".to_string();
+            dictionary.trend_cohesion.forming = "Cohesion forming".to_string();
+            dictionary.trend_cohesion.formed = "Cohesive".to_string();
+            dictionary.trend_cohesion.topology_no_leader = "No confirmed leadership".to_string();
+            dictionary.trend_cohesion.topology_leaderless_fragmented =
+                "No confirmed leadership / Fragmented".to_string();
+            dictionary.trend_cohesion.topology_single_leader = "Single Leadership".to_string();
+            dictionary.trend_cohesion.topology_fragmented_leaders =
+                "Fragmented Leadership".to_string();
+            dictionary.trend_cohesion.formation_conditions_label =
+                "Trend Cohesion Conditions".to_string();
             dictionary.breakout.no_breakout = "No Confirmed Breakout".to_string();
             dictionary.breakout.strength_label = "Setup Strength".to_string();
             dictionary.breakout.quality_label = "Setup Quality".to_string();
@@ -2040,9 +2062,20 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
         Language::JaJp => {
             dictionary.trend_cohesion.label = "トレンド凝集".to_string();
             dictionary.trend_cohesion.topology_label = "トレンド構造".to_string();
-            dictionary.trend_cohesion.dispersed = "トレンド未凝集".to_string();
+            dictionary.trend_cohesion.dispersed = "未凝集".to_string();
             dictionary.trend_cohesion.persistent_not_ready =
                 "トレンド凝集あり（戦術許可待ち）".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline =
+                "未確認のトレンド凝集".to_string();
+            dictionary.trend_cohesion.forming = "凝集中".to_string();
+            dictionary.trend_cohesion.formed = "凝集済み".to_string();
+            dictionary.trend_cohesion.topology_no_leader = "確認済みリーダーなし".to_string();
+            dictionary.trend_cohesion.topology_leaderless_fragmented =
+                "確認済みリーダーなし / 分散".to_string();
+            dictionary.trend_cohesion.topology_single_leader = "単一リーダー".to_string();
+            dictionary.trend_cohesion.topology_fragmented_leaders = "リーダー分散".to_string();
+            dictionary.trend_cohesion.formation_conditions_label =
+                "トレンド凝集の形成条件".to_string();
             dictionary.breakout.no_breakout = "未確認ブレイクアウト".to_string();
             dictionary.breakout.strength_label = "ブレイクアウト準備強度".to_string();
             dictionary.breakout.quality_label = "ブレイクアウト準備品質".to_string();

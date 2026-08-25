@@ -533,7 +533,11 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
                 out.push_str(&format!("<b>{}</b>\n\n", pres.exit_summary.signal_title))
             }
         }
-        out.push_str(&render_exit_items(&pres.exit_summary.signal_items, mode));
+        out.push_str(&render_exit_items(
+            &pres.exit_summary.signal_items,
+            mode,
+            pres.language,
+        ));
     }
 
     match mode {
@@ -547,7 +551,11 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
         )),
     }
     if !pres.exit_summary.items.is_empty() {
-        out.push_str(&render_exit_items(&pres.exit_summary.items, mode));
+        out.push_str(&render_exit_items(
+            &pres.exit_summary.items,
+            mode,
+            pres.language,
+        ));
     } else if let Some(note) = pres
         .exit_summary
         .no_action_note
@@ -568,21 +576,45 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
 fn render_exit_items(
     items: &[crate::features::radar::interface::presentation::ExitDecisionItemViewModel],
     mode: RenderMode,
+    language: Language,
 ) -> String {
     let mut out = String::new();
+    let (action_label, modifier_label, explanation_label) = exit_semantic_labels(language);
     for item in items {
         match mode {
             RenderMode::Markdown => {
                 out.push_str(&format!("- {} · {}\n", item.symbol, item.intent_label));
+                out.push_str(&format!("   {}: {}\n", action_label, item.action_state));
+                if let Some(modifier) = item.observation_modifier.as_deref() {
+                    out.push_str(&format!("   {}: {}\n", modifier_label, modifier));
+                }
+                if let Some(explanation) = item.observation_explanation.as_deref() {
+                    out.push_str(&format!("   {}: {}\n", explanation_label, explanation));
+                }
                 out.push_str(&format!("   {}\n", item.reason));
             }
             RenderMode::Html => {
                 out.push_str(&format!("• {} · {}\n", item.symbol, item.intent_label));
+                out.push_str(&format!("  {}: {}\n", action_label, item.action_state));
+                if let Some(modifier) = item.observation_modifier.as_deref() {
+                    out.push_str(&format!("  {}: {}\n", modifier_label, modifier));
+                }
+                if let Some(explanation) = item.observation_explanation.as_deref() {
+                    out.push_str(&format!("  {}: {}\n", explanation_label, explanation));
+                }
                 out.push_str(&format!("  {}\n", item.reason));
             }
         }
     }
     out
+}
+
+fn exit_semantic_labels(language: Language) -> (&'static str, &'static str, &'static str) {
+    match language {
+        Language::ZhCn => ("基础处置状态", "观察修正", "解释"),
+        Language::EnUs => ("Base Action State", "Observation Modifier", "Explanation"),
+        Language::JaJp => ("基本処置状態", "観測修正", "説明"),
+    }
 }
 
 fn render_effective_action_details(

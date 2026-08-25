@@ -1,0 +1,274 @@
+{
+  "contractVersion": 2,
+  "workItemId": "observation-state-integrity",
+  "mode": "code",
+  "title": "Observation State Integrity の事実整合性を修正",
+  "baseCommit": "4649365e691bad6f0722ff7650650e727657f254",
+  "baselineDirtyPaths": [],
+  "problemStatement": "実運用レポートで、安定性スコアの上限、Leader 不在の開始日と期間、REDUCE と RECOVERY_WATCH の責務、Trend Cohesion の用語が同一の事実源・表示契約から外れている。アルゴリズムと取引ゲートは固定したまま、Observation State の計算・投影・表示を一致させる。",
+  "intent": {
+    "problem": "Observation State の domain calculation、LeadershipSnapshot、presentation、i18n の境界を修正し、同じ事実が全出力で同じ意味になるようにする。",
+    "constraints": [
+      "stability score は domain calculation で 0..10 に clamp し、表示層だけで補正しない。",
+      "LeadershipSnapshot を current_leader、last_confirmed_leader、absence_since、absence_duration の SSOT とし、Persistence、Interpretation、Telegram/Markdown projection はそこから読む。",
+      "REDUCE は action state、RECOVERY_WATCH は observation modifier として分離し、NO_TRADE、PROBE、READY、Gate thresholds、RS Diffusion thresholds、Actionable Diffusion、Position Sizing、Breadth は変更しない。",
+      "Trend Cohesion の表示から mainline / 主線 / 主線相当の旧用語を除去する。",
+      "data branch、reports、JSONL、snapshot、weekly metrics の保存契約は変更しない。"
+    ],
+    "rationale": "Validation Epoch ではアルゴリズムを頻繁に調整せず、実市場で露呈した事実整合性とリスク意味論だけを収束させる。"
+  },
+  "scope": [
+    ".ai/work-items/active/observation-state-integrity.contract.json",
+    ".ai/work-items/active/observation-state-integrity.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/features.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/application/delivery_plan.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/domain/rules.rs",
+    "src/features/radar/domain/market_regime.rs",
+    "src/features/radar/domain/leader_persistence/persistence.rs",
+    "src/features/radar/domain/leader_persistence/snapshot.rs",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "config.toml",
+    "reports",
+    "data",
+    "JSONL persistence and weekly metrics",
+    "NO_TRADE / PROBE / READY gate behavior",
+    "Gate thresholds, RS Diffusion thresholds, Actionable Diffusion, Position Sizing, and Breadth algorithms",
+    "new operational make targets"
+  ],
+  "sources": [
+    {
+      "path": "src/features/radar/domain/features.rs",
+      "reason": "MarketFeatures の stability_score の算出・再較正・既存の数値契約を確認する。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence/persistence.rs",
+      "reason": "Leader 不在の開始日・期間を生成する既存 domain source と連続性の扱いを確認する。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence/snapshot.rs",
+      "reason": "Leader observation と persistence result の構造化事実を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "LeadershipSnapshot と Persistence、Interpretation の現在の組み立て経路を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Interpretation と Leader Persistence read model が同じ事実を読む境界を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "action state と recovery observation の現在の投影、および Trend Cohesion 表示への接続を確認する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown/Telegram 共通の exit summary 表示契約を確認する。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "zh/en/ja の Trend Cohesion semantic labels を確認する。"
+    },
+    {
+      "path": "docs/specs/STATE_MACHINE_SIGNAL_ALIGNMENT_TASK.md",
+      "reason": "stability の既存スケールと readiness 閾値の互換境界を確認する。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item の lifecycle、status、verification 契約を確認する。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "生成・再較正された stability_score が 0..10 に収まり、domain threshold 判定に越境値が渡らない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "stability_score_is_bounded_at_ten_during_compute_and_recalibration"
+      ]
+    },
+    {
+      "scenario": "leader absence_since、absence_duration、last_confirmed_leader が LeadershipSnapshot から Interpretation、Persistence、報告投影まで一致する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "read_model_renders_leader_absence_from_a_prior_observation"
+      ]
+    },
+    {
+      "scenario": "REDUCE の action state を維持したまま RECOVERY_WATCH を observation modifier として表示する",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "test_exit_summary_distinguishes_hold_trim_exit_and_watch",
+        "recovery_watch_is_rendered_as_modifier_not_action_reason"
+      ]
+    },
+    {
+      "scenario": "zh/en/ja の Trend Cohesion 表示に mainline / 主線相当の旧用語が残らず、状態遷移が凝集状態として表示される",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "trend_cohesion_transition_uses_cohesion_wording",
+        "no_trade_zh_cn/en_us/ja_jp snapshots"
+      ]
+    },
+    {
+      "scenario": "NO_TRADE、PROBE、READY、Gate thresholds、RS Diffusion、Actionable Diffusion、Position Sizing、Breadth の既存挙動を変更しない",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make test",
+        "make clippy",
+        "Contract outOfScope と diff review"
+      ]
+    },
+    {
+      "scenario": "data branch、reports、JSONL、snapshot、weekly metrics の保存契約を変更しない",
+      "required": true,
+      "status": "not_applicable",
+      "evidence": ["Contract scope/outOfScope と diff review"],
+      "reason": "この Work Item は表示・投影・domain score の事実整合性に限定し、保存経路を変更しない。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "data_integrity",
+      "architecture_boundary",
+      "i18n_snapshot",
+      "review_debt"
+    ],
+    "reason": "stability は domain threshold に接続し、LeadershipSnapshot は複数 projection に接続するが、変更は bounded な domain normalization と read-model/report projection に限定する。gate/algorithm と persistence schema を scope 外に固定し、既存全量 test と追加 regression test で検証可能である。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、outOfScope、sources、acceptance、scenario coverage、verification を確定し、ユーザーが実装と Work Item 完了の権限を明示している。"
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "ユーザーは限定された Observation State Integrity の実装と Work Item 完了までのフローを承認した。",
+    "openQuestions": [
+      "全量検証で既存アルゴリズム固定境界を確認する。",
+      "次回の実データレポートで absence_since の後退がないことを運用確認する。"
+    ]
+  },
+  "preReviewWarnings": [
+    "stability score の clamp は domain calculation に限定し、readiness 閾値を変更しないこと。",
+    "Leader absence の duration/since を projection ごとに再計算しないこと。",
+    "RECOVERY_WATCH は action state を上書きしない observation modifier として確認すること。",
+    "Trend Cohesion の旧用語除去が zh/en/ja 全言語に及ぶことを確認すること。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope、acceptance、verification、agentCapability、または algorithm freeze 境界が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "MarketFeatures の stability_score 生成・再較正は domain calculation で 0..10 に clamp され、renderer 限定の補正ではない。既存の gate threshold と readiness 判定は変更しない。",
+    "LeadershipSnapshot が current_leader、last_confirmed_leader、absence_since、absence_duration の唯一の presentation fact source になり、Interpretation、Leader Persistence read model、Markdown/Telegram projection が同じ snapshot facts を読む。",
+    "Leader absence_since は連続 no-leader history の事実として後退せず、absence_duration と解釈文言の二重計算を行わない。",
+    "REDUCE/その他の action state と RECOVERY_WATCH observation modifier が別フィールド・別表示になり、recovery watch は減損 action の理由を上書きしない。",
+    "Trend Cohesion の状態・遷移・条件表示から mainline / 主線 / 主線相当の旧用語が除去され、zh/en/ja で凝集状態の語彙に統一される。",
+    "既存の RS Diffusion の段階、Actionable Diffusion、Breadth、Position Sizing、NO_TRADE、PROBE、READY、Gate thresholds と action matrix の判定値は変更しない。",
+    "Telegram/Markdown の報告範囲は既存の exit summary/current relative strength/trend cohesion sections に限定し、新しい保存先や通知経路を追加しない。",
+    "この Work Item の変更ファイル一覧に data branch writer、reports writer、JSONL writer、snapshot writer、weekly metrics writer のパスが含まれず、diff review でも保存経路の変更がないことを確認する。",
+    "i18n、report、domain、read-model の regression test が追加または更新され、既存全量 test で成功する。",
+    "Contract の境界 checklist、checkpointEvidence、userCorrectionSolidification、reviewReadiness.expectedReviewFocus が Summary に記録される。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json SUMMARY=.ai/work-items/active/observation-state-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/observation-state-integrity.summary.json CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json SUMMARY=.ai/work-items/active/observation-state-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/observation-state-integrity.contract.json SUMMARY=.ai/work-items/active/observation-state-integrity.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": true,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert し、追加 regression test と presentation projection の変更を元に戻す。"
+}
