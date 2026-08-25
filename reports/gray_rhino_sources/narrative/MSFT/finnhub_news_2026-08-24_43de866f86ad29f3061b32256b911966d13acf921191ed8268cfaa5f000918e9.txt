@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congressman Buys Magnificent Seven Stock, Blue Chip Stock — And a Stock You’ve Never Heard Of
+  summary: A congressman bought a Magnificent Seven stock and a blue-chip stock, but it&#39;s his other stock pick and a low market capitalization that bears watching.
+  url: https://finnhub.io/api/news?id=dd95b91c39c2df404e23b2497f09cc5edbeabcc09c94c0f84df0115676af3de1

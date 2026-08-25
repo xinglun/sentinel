@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Competitor? Xiaomi Joins NIO in Race to Build In-House Chips for Self-Driving Cars
+  summary: Chinese tech giant Xiaomi Corp. has unveiled its in-house self-driving chip, built on 3-nm process, to be deployed in 2027.
+  url: https://finnhub.io/api/news?id=6ab1c7962d91710079f7dd3a76f0e68630e1692b673bf5b0e0dbfc766b509a19

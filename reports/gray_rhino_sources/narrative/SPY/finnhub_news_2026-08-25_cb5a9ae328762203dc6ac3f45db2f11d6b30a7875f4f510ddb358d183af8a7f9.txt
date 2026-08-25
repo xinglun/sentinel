@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why $40 Trillion In Debt Is Really A Tech-Stock Story
+  summary: The $40 trillion U.S. national debt has fundamentally shifted the investment landscape for equities. Read why investors should prioritize near-term cash flow.
+  url: https://finnhub.io/api/news?id=f2a0f7f0ff10af70f9159c954bca0e71be979f65a5d8ae66c8fbe881d95e20fd

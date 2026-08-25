@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: Bessent Floats $1T Treasury Firepower
+  summary: Treasury Secretary Scott Bessent could tap the Treasury's almost $1T General Account to help fund increased purchases of long-dated government bonds, CNBC reported.
+  url: https://finnhub.io/api/news?id=64dca95cbecb10e25587e1b04ef31b6887f8b6c89f2314e64cde9afd73704d4f

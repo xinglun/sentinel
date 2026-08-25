@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Reacts To Wernher Von Braun’s Strange Mars ‘Prediction,’ Joking ‘As Foretold In The Prophecy’ About a Leader Called ‘Elon’
+  summary: Elon Musk referenced von Braun&#39;s Mars fiction from 1949, where the elected leader of the Martian government was called Elon.
+  url: https://finnhub.io/api/news?id=a8aa6b9a93780497b089ff850a12f8defabbf3bb8c419e8a1626cff341a065ab

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Game Plan For What Some Call A Fat AI Bubble
+  summary: Broadening stock market leadership beyond AI: why dividend growth, value, and cyclicals may outperform. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=3a1400cd007698ed4e484055cdfd498ae20a293b62edc7901c72e7fcee7d15fd

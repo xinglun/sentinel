@@ -1,0 +1,13 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s AI Servers Are About to Get Even More Expensive as Rising Memory Costs Push Prices Up More Than 15%: Report
+  summary: Some Nvidia Corp (NASDAQ:NVDA) customers have reportedly been informed that prices for servers equipped with its AI chips could increase by more than 15%.
+
+
+
+Nvidia AI Server Prices Could Rise 15% or More
+
+
+
+This price
+  url: https://finnhub.io/api/news?id=413082fc2ac0d03452446607a56c2ca48eb313ccee2c1398ac2b3b9e101e2e9a

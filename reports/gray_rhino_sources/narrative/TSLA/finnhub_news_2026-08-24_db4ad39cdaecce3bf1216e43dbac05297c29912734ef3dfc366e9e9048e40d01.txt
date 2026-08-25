@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla Has 'Massive Advantage' Before Selling Optimus in the Market, Says This Analyst — Crypto Prediction Market Weighs 2026 Launch Odds
+  summary: Cryptocurrency bettors have significantly lowered the odds that Tesla Inc. will commercially launch the Optimus humanoid robot in 2026.
+  url: https://finnhub.io/api/news?id=a06f8addb183cc024a87aecb0d8068e083479c0e67fe193f8740c85340982ead

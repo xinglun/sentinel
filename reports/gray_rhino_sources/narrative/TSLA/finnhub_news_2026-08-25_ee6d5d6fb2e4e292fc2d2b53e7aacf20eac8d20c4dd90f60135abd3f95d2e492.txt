@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Breakfast Podcast: Coffee Rally Hits PSL Season
+  summary: Your PSL just arrivedâand coffee traders are already brewing up higher prices. Bitcoin just hit a three-month high. Another Cybertruck price hike is here.
+  url: https://finnhub.io/api/news?id=c3990db7f9bcad538a07aec29ee795aaf285f5069a80b7186c7f7466f758c16e

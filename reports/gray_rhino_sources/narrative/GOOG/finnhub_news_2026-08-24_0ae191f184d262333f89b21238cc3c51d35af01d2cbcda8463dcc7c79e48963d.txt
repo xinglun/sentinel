@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyst Calls Marvell A Top Chip Pick As AI Demand Builds
+  summary: JPMorgan names Marvell Technology (MRVL) a top semiconductor pick ahead of Q2 earnings, driven by strong AI chip and data center demand.
+  url: https://finnhub.io/api/news?id=26eabb9270556fcc992f45fdeb48c363a1a640f8990c5b8a2add623742488481

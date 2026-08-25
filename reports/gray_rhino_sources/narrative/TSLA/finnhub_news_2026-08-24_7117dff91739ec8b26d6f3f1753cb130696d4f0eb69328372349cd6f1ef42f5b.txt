@@ -1,0 +1,22 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Samsung Crash Brings Semi Selling; Nvidia Earnings Ahead; $1T Treasury Firepower To Buy Bonds
+  summary: 
+
+
+
+Wild Stock Moves Ahead
+
+
+
+Please click here for an enlarged chart of Direxion Daily Semiconductor Bull 3X ETF (NYSE:SOXL).
+
+
+
+Note the following:
+
+
+
+
+Semiconductors are the leading sector that drove the stock market
+  url: https://finnhub.io/api/news?id=f7f93a4f108a80e0a29d0f56809afcb0f6385c443b224895dad20328bc16045f

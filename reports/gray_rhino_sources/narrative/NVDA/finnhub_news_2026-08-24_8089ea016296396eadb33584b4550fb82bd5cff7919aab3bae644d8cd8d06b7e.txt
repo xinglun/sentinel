@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: More 'Naked Swimmers' Will Continue To Emerge As The Tide Recedes
+  summary: Markets are near record highs as yields and energy prices rise. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=74c428b2f640aae320191551ae774dcfcd20522fb3883b8639f5f241a28dc568

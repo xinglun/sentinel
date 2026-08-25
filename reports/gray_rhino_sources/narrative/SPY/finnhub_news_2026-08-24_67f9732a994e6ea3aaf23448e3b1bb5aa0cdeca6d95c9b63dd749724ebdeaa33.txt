@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jackson Hole Preview: Warsh And Bessent Collide
+  summary: Jackson Hole preview: Warsh vs. Bessent, long Treasury yields, and AI hyperscaler debt crowding out capital. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=6e5031130a79fcbb5fcd62e5ad8340c87a38367b8a5d5defe0e802557d8a01bd

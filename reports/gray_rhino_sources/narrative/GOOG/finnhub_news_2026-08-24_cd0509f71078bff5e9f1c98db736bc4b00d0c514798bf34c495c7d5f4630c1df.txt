@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell: Google Strengthens The AI Thesis, But Q2 Must Justify The Premium
+  summary: Marvell Technology, Inc. looks technically bullish, but valuation and sector risks support a Hold. Click for this MRVL earnings preview update.
+  url: https://finnhub.io/api/news?id=d367226c7afd0def73450d4508a39879b195389ed00dee3bb31ce07eeba5fa78

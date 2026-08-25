@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Trade Deleveraged, Its Suppliers Didn't
+  summary: AI trade outlook: fundamentals may drive returns as leverage unwinds.
+  url: https://finnhub.io/api/news?id=40c34d0dd1185e79e8e69ffced14328b57b23f6c3c8acb7d14289e1b76115d73

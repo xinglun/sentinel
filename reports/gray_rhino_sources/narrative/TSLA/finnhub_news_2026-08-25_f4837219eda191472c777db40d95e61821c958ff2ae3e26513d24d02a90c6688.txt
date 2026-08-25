@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: I Want To Buy Back In But The Valuation Won't Let Me
+  summary: Tesla's profitability deteriorated sharply amid a massive investment cycle. Click here to read more on TSLA stock and why it is a Hold.
+  url: https://finnhub.io/api/news?id=91afeadcb6981238b3370b275dc57e5635739259f58005a928649917264cbad8

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce To Report Mixed Q2; Investors Remain Skeptical About H2 Acceleration
+  summary: Salesforce Q2 has analysts expecting mixed results. One expert maintains a Buy rating, citing positive signs in core growth drivers.
+  url: https://finnhub.io/api/news?id=d3bde0ff5073e01d5f7d622876a639af648b59960068b47f82b6e23556dfc694

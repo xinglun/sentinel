@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: How AI's $220 Billion Bond Boom Competes With the Treasury
+  summary: AI companies issued $220 billion in debt as Treasury yields surged. Cato economist Jai Kedia says the competition is healthy, not a problem to fight.
+  url: https://finnhub.io/api/news?id=2bb2ded5a800effa78cb8653a84a46706ba0529ec7d7f6407e9c3107b4344745

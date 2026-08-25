@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's going on in today's session: S&P500 most active stocks
+  summary: Stay informed about the most active S&P500 stocks in today's session as we take a closer look at what's happening on the US markets on Monday. Discover the stocks that are generating the highest trading volume and driving market activity.
+  url: https://finnhub.io/api/news?id=b4e7862ecff49c01c686f4ff93eb405072c170ffc8e5c83fda06da0f37f4a012

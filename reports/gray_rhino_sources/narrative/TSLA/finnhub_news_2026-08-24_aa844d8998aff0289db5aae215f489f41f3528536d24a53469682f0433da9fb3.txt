@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: SpaceX Is The Only Hope
+  summary: Tesla, Inc. remains a Sell: weak fundamentals, negative free cash flow, and SpaceX merger risks. Click for this TSLA update and see why I am bearish.
+  url: https://finnhub.io/api/news?id=6cda9280ff0d8b18a0b37e2fb9355148d2c4ca08ec9b14be1d27ad880b3a0581

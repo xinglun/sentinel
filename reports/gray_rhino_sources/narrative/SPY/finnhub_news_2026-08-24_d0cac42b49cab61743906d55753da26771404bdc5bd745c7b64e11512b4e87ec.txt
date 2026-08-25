@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Bought Dividend Stocks And Dumped AI (The Real Story)
+  summary: Trumpâs June stock disclosure shows a shift from dividend ETFs to individual dividend-growth stocks, with minimal tech/AI sellingâsee what it means. Click for more.
+  url: https://finnhub.io/api/news?id=e04988931136a24c3c0c73e63ae859a7199eaaad6bf968af6e2a93a6548b2ef5

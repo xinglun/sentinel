@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Monday's session: most active stocks
+  summary: Get a pulse on the US markets on Monday by checking out the most active stocks in today's session. Discover the stocks that are leading the way in terms of trading volume and market activity.
+  url: https://finnhub.io/api/news?id=b3be8177a60d96e89e4174884314bfffd615b11a9ee49c3a207af913a831d6ec

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Weighs In As Atreides CIO Gavin Baker Warns of 'Compute Inequality,' Sees His Firm's AI Spending Double Monthly
+  summary: Gavin Baker says AI spending is soaring as compute becomes a competitive necessity, drawing an “Interesting” response from Elon Musk.
+  url: https://finnhub.io/api/news?id=9e090f4e72ffd37675efa8b88818c5dbffaa255a377fd71369148acc65975b60

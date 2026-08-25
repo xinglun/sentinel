@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Sets Cybercab Launch Event for September 3 but Prediction Markets Doubt It'll Impress
+  summary: Tesla launches Cybercab Sept. 3, but traders give just an 18% chance Musk delivers one for $30,000 or less in 2026.
+  url: https://finnhub.io/api/news?id=c333a64426bf605ba0855d0a844244f91a3f1083a16f70cd90bb25f968d0ecbd

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell: The AI Inflection Has Arrived, But The Stock Has Run Ahead (Rating Downgrade)
+  summary: Marvell has transitioned into a core provider of AI infrastructure, with Q1 results validating the AI-driven earnings inflection. Read more on MRVL stock here.
+  url: https://finnhub.io/api/news?id=b79b5a302e89eb720873a11871229e2f0eddf4a13f019bd80f74fe4a1b7d1d34

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cross-Asset Volatilities Rise As Treasury Endeavors To Avert Yield Contagion
+  summary: Cross-asset implied volatilities rose across the board as Treasury market concerns trickled into equities and the other major asset classes. Read more here.
+  url: https://finnhub.io/api/news?id=6291c0f6869601d5efbce535b93c148423e0589faad3ef7afdcb0972ff7ef5ac

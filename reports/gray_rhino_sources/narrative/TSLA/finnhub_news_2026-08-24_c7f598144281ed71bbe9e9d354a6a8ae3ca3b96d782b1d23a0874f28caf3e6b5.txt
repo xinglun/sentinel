@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XPeng Q2: A Better Bet Than Tesla
+  summary: XPeng is a Buy, offering high potential but facing intense competition and execution risk in the Chinese EV & AI-driven auto sector. Read more on XPEV stock.
+  url: https://finnhub.io/api/news?id=03e43707ec88b1cbb3d7bf62c30654eef16c1aba21213c240d939987abd8f3b0

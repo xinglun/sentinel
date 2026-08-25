@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Says He Was Labeled 'Radical,' 'Crazy' and an Extremist for His Data Center Moratorium Push: 'Today 75% of Americans Agree'
+  summary: Bernie Sanders says growing public opposition to AI data centers validates his and AOC’s moratorium push as Trump defends expansion.
+  url: https://finnhub.io/api/news?id=ced2bdb6ef5aa45b6f82256ee489d4eb47679611f41db8acebf1f6252037d208

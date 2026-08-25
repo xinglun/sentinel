@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XPeng Posts Wider-Than-Expected Loss, Stock Falls
+  summary: XPeng (NYSE: XPEV) stock drops over 4% on wider Q2 losses and a weak Q3 revenue outlook, despite an 8% rise in quarterly revenue.
+  url: https://finnhub.io/api/news?id=c1d4f1fdd3ec0bdd95c151924ab08cb8d465f958a26f82423fd6ddd2f6f47b27

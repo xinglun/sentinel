@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Let The Bond Market Spook You
+  summary: Long-term Treasury yields are surging on deficits and issuance.
+  url: https://finnhub.io/api/news?id=44afe912aff1b85f437f31d3ec68165a6f09921bc2b0d258243b1acb8cb58c51

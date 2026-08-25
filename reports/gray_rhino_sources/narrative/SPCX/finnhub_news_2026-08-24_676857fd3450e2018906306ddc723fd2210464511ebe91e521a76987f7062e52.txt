@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zelensky Pushes Elon Musk To Allow Starlink Over Russia, Says Expanded Satellite Coverage Could Reduce Moscow’s Ability To ‘Drag Out The War’: Report
+  summary: Ukraine&#39;s president says Elon Musk may reconsider using Starlink over Russian territory, which could weaken Russia&#39;s military capabilities.
+  url: https://finnhub.io/api/news?id=f194900b8814b626412e31bc5da2b0f04ca2dec76406429795adfa982ee8e2cb

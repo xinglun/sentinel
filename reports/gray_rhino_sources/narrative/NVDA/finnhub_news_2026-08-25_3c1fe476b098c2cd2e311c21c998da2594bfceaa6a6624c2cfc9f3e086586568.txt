@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chips Take the Punch Ahead of Nvidia as Trump's Canada Tariffs Rattle Detroit
+  summary: Wall Street opened the week split on Monday, August 24, 2026, with the Nasdaq bleeding 0.8% as semiconductor names sold off ahead of Nvidia's Wednesday print and Asian equity supply raised AI dilution fears. Trump's fresh 50% tariff on Canadian autos hammered Ford, GM and Stellantis, while Treasury Secretary Bessent rolled out "Operation Economic Outcast" against Iran. All roads now lead to Nvidia, PCE, and Jackson Hole.
+  url: https://finnhub.io/api/news?id=2be168855ee50e913a997ad60b9ba46a6dce9f94c3f66325445b6b6e82be88ad

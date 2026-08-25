@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Possibilities Are Endless But It Is Still Too Early
+  summary: SpaceX (SPCX) valuation reflects a âMusk Premium,â but Starship delays and Starlink margin pressure raise risksâget the key takeaways and decide if itâs a...
+  url: https://finnhub.io/api/news?id=351dfe4be2aae2f93a35fb1df78c3a0b1e74c990ef491405ebc1c50f5f9bf242

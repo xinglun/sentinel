@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market Is Cheap: The AI Revolution Has Created Plenty Of Bargains
+  summary: S&P 500 valuations look high, but forward P/E and AI-driven earnings growth support stocks. Explore AI hardware picks (NVDA, GOOGL, MU).
+  url: https://finnhub.io/api/news?id=99a8808d41a6c8c81c40512923000a5bd8120961867eefbbcb9e291f66fe8da2

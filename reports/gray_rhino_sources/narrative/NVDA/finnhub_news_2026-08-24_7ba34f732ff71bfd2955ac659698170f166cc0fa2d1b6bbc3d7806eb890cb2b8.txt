@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nordson: AI Chip Tailwinds Drive Durable Growth, But This Is Priced For Perfection
+  summary: Nordson Corporation outlook: mid-single-digit growth from semi & AI demand. Q3 '26 beat and raised guidance, but valuation caps upside. Click for this NDSN update.
+  url: https://finnhub.io/api/news?id=66adfcb169433da360f70489b5d6ca018e5fbe02d3d7cf33c37b252161cbff9b

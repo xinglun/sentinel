@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bessent Launches Economic D-Day Against Iran: 5 Things to Know
+  summary: Bessent expands Iran sanctions across oil, shipping, gold, technology and digital assets, raising risks for foreign banks and companies.
+  url: https://finnhub.io/api/news?id=43b6a70c5678afb2a884a32f64ed9414c96f9764070e8444cddc55ed91f8e136

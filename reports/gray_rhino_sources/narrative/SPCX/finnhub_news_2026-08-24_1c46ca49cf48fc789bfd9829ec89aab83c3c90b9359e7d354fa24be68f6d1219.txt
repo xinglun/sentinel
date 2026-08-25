@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceXAI Taps NVIDIA To Build Faster AI Agents
+  summary: SpaceXAI will deploy NVIDIA Vera CPUs to power agentic AI applications and expand its Grok infrastructure across massive data centers.
+  url: https://finnhub.io/api/news?id=536d055ded194715228ed868fcf74febd01bf51c39b58f4e3db5cc37da4413b1

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XPAY: The 20% Payout Is The Feature, The Reset Is The Risk
+  summary: Roundhill S&P 500 Target 20 Managed Distri ETF targets a ~20% annualized distribution while maintaining close to full S&P 500 exposure. Learn more about the XPAY ETF here.
+  url: https://finnhub.io/api/news?id=8700d6fc72e7e1c87d4cdf4d6e1a6bee9955f263026145125bd39d0aad0d7ca9

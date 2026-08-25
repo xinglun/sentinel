@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Entire AI Trade Hinges On One Number
+  summary: Nvidiaâs Q2 earnings could shape the next AI stock rally amid skepticism and discounted valuations. Click for a look at the future of the current tech boom.
+  url: https://finnhub.io/api/news?id=13187a934f8bdee281c319e5403d170a198b568e5650fe492d35d86afce829fe

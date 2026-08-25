@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent 7 Built The AI Boom, 'Munificent Seven' Wants to Power It
+  summary: Harbor’s new Munificent Seven ETF targets the energy giants poised to benefit from surging electricity demand and the AI infrastructure boom.
+  url: https://finnhub.io/api/news?id=a258d905998991d566f877817f54c1f0694cdcc3c9ddef836424e13a14cd1b15

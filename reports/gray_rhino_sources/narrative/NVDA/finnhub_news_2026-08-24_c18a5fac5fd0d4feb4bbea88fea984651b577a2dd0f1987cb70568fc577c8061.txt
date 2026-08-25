@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Earnings: Wall Street Expects Growth to Slow in Q2 — Dan Niles Says Hyperscalers Are Spending Like Never Before
+  summary: Nvidia reports Q2 earnings Wednesday, and investor Dan Niles says Wall Street&#39;s growth estimates may be too conservative.
+  url: https://finnhub.io/api/news?id=51d026ec45ce87234c2b586767ac04afab2fa10984e61c1b84e1ee530e7f620a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba: The Market Got This One Wrong
+  summary: Alibaba Group Holding Limited stock dips after a weak June quarter and a $10.2B AI raise. Click for this BABA earnings update.
+  url: https://finnhub.io/api/news?id=78b3ad9a31e68ce7926138e71a316387787c485ea7009e5f2884501a93b113c5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jackson Hole Preview: Warsh Faces A Bond Market The Fed Cannot Control
+  summary: Jackson Hole insights: Kevin Warshâs Fed may be less predictable, lifting the term premium and volatility as 30-year yields near 5.25%. See more here.
+  url: https://finnhub.io/api/news?id=9c1ba9b8433de4d5fc4a9fa3808385b1b7020d4b4b0f1b590ee7306b13fd6a44

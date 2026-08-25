@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran Says Fully Prepared For New U.S. Economic Campaign; Not Easy To Cut Off Financial, Commercial Lifelines
+  summary: https://en.isna.ir/news/1405060201339/Iran-s-Army-chief-Iranians-ready-to-fight-for-next-20-generations
+  url: https://finnhub.io/api/news?id=37536b958cbaad7670992a5a8eac7f32ae20fa21ae088b675498179d2f30c7b5

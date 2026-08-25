@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Cloud Collaborates With Verizon To Deploy Its Full-Stake AI Into Verizon Operations
+  summary: Google Cloud today announced a new strategic partnership agreement with Verizon focused on delivering faster, more intelligent, and highly responsive experiences to consumers and businesses nationwide. By deploying
+  url: https://finnhub.io/api/news?id=936fd0342e2fccaf85f8413669dd855cd0f2e5c0e83a27a7b4ba1f8274a10eb2

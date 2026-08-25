@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Don't Let Debt Fears Derail Market Perspective
+  summary: Iâll be concerned if earnings begin to disappoint and credit spreads begin to widen. Until then, earnings matter more to me than a $40 trillion debt burden or a 5.3% 30-year Treasury yield.
+  url: https://finnhub.io/api/news?id=07cc858fc09adad98b56763ffb4a2bbe28d5590ca4ef96e950feb5c8712a5a74

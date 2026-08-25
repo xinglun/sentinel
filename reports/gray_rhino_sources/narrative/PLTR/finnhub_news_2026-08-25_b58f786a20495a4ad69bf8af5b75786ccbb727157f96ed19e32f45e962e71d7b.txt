@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TLT: AI Productivity Gains Threaten Long-End Treasuries
+  summary: Downgrading the iShares 20+ Year Treasury Bond ETF from buy to sell as real yields rise on AI-driven GDP strength. Learn more about the TLT ETF here.
+  url: https://finnhub.io/api/news?id=082baac6a7eb4628455a08f3f3ab0c49134fc6ff7a03fad7074071ceea5ee11b

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump’s 50% Canada Auto Tariff Shock: These ETFs Could Be in the Crosshairs
+  summary: Trump’s proposed 50% tariff on Canadian autos could hit automakers and supply chains. Here are the ETFs most exposed to the trade-war shock.
+  url: https://finnhub.io/api/news?id=39011b3b644558bdbe1eb2189feb7b87b44fe7ab77d7ec19972ebcfef56dcfa9

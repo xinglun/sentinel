@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix Gains Ground as App Bundling, Creator Push Drive Relative Strength
+  summary: Netflix stock gain relative strength as the streaming giant explores third-party app integration and competes with YouTube for top digital creators.
+  url: https://finnhub.io/api/news?id=dfe3fb15d01b9a8a2558c45a518c3eb1694c4d0b4d867fb03391385f29b96afc

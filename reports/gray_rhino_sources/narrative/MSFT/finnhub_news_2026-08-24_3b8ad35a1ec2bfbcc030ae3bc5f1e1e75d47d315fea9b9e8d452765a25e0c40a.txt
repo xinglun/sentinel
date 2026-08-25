@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Says Communities Rejecting Data Centers Are ‘Making a Mistake,’ Says US Leads China In AI ‘By a Lot’
+  summary: President Donald Trump defends the US data-center boom, says communities rejecting projects are making a mistake.
+  url: https://finnhub.io/api/news?id=c885e14812689215431b459ffca4426735610da1fa102740e4f6ffadd3d013f4

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is IREN Stock Sliding on Monday?
+  summary: IREN (NASDAQ: IREN) stock slides on Monday as investors take profits and face pre-earnings anxiety ahead of the fiscal Q4 2026 earnings report on August 27.
+  url: https://finnhub.io/api/news?id=e4269585489a2ea267e82a5d76896a64e6899959fb6a2a0cd4d688cecb9ca493

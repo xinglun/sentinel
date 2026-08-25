@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: World Markets Watchlist: August 24, 2026
+  summary: Through August 24, 2026, six of the nine indexes on our global markets watchlist remain in positive territory. Japanâs Nikkei 225 leads the pack. India's BSE SENSEX has struggled the most.
+  url: https://finnhub.io/api/news?id=40a4c571d84eda272a9a15031299da9b978418ae015af507cb114bbe5a79a964

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Economically Sensitive Materials Sector Is Breaking Out
+  summary: 
+  url: https://finnhub.io/api/news?id=d0a6eca3410c5f3ce6beacde27e94963e3c558ded16da2f8872ce4f0c1e2539b

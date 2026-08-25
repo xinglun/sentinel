@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Growth Isn't Even Close To Being Over Yet
+  summary: Alphabet's strong revenue, profit, and cash flow growth are led by surging Google Cloud margins plus Search & YouTube ads. Read why GOOG stock is a buy.
+  url: https://finnhub.io/api/news?id=c7444cb4d859f5f1b0f02cf6ee48507723a12de498c21c0327513f3fefb8e5d1

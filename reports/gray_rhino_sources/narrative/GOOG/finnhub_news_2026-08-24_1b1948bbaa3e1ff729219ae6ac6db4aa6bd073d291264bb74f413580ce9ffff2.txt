@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Stock Picks Last Week From Wall Street's Most Accurate Analysts
+  summary: US stocks rise on Friday, but overall market saw losses last week. Benzinga&#39;s Analyst Ratings API provides insights for stock trading.
+  url: https://finnhub.io/api/news?id=4d12749ca51a34b99fa186306c2dc9a405263b637b62371643c2c6bdbd703c19

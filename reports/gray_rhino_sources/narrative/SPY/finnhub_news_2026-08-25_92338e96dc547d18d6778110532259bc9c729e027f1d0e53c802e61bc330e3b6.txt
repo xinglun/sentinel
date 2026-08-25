@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Operation Economic Outcast Directed At China, Major Escalation Likely
+  summary: Operation Economic Outcast is designed to economically isolate Iran and force Iran to reopen Hormuz and give up its nuclear program. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=65adb86e76ed44649af6d5c1bfab8c095869bee8c5aa39d4cfc0ddf06cf03677

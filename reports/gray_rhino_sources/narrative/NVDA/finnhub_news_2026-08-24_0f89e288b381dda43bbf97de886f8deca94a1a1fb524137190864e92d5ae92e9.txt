@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Earnings Preview: Q2 2027
+  summary: Could the Q2 release and guidance provide the next positive catalyst for Nvidia stock, or are expectations largely priced in for now?
+  url: https://finnhub.io/api/news?id=3c90fc0543b2d66d1c1e133aca14148f77fa634c1632fd67d6a4da33a5f77b1f

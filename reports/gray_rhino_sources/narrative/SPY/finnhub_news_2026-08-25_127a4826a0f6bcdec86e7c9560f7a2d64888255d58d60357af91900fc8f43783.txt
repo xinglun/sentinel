@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Adjusted Recommended Portfolio For 2026 (SCHD Included)
+  summary: 
+  url: https://finnhub.io/api/news?id=d65c2789cd06af8031a9bc210629bf7a93793e994e32a84726110ab6944848e8

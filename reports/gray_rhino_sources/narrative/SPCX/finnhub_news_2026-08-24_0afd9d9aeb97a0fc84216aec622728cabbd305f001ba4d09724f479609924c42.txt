@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Buying Space Without Buying Space Stocks
+  summary: Space data centers promise long-term growth, but profitability is years away due to high launch costs and operational uncertainties. Read full analysis here.
+  url: https://finnhub.io/api/news?id=e89ff924121c4d507af2bdb39b027e963a1e0d98993da6562c4a289f5f0cf0c4

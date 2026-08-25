@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Pushes Back on Nvidia Skeptics Ahead of Earnings — Dan Ives Says Chip Demand Is Crushing Supply 15-To-1
+  summary: Ahead of Nvidia Q2 earnings, Jim Cramer slams &#39;cynical&#39; media while Dan Ives sees AI chip demand outstripping supply 15-to-1.
+  url: https://finnhub.io/api/news?id=921a59092a59ef0360c4f5823c7278086694c08418d59a04d14aca981b66be1e

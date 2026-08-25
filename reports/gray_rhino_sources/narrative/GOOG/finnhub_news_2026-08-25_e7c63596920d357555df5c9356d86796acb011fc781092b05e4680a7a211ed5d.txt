@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: JEPQ: There's Never Been A Better Time To Buy This ETF
+  summary: JPMorgan Nasdaq Equity Premium Income ETF yields 10.9% via covered calls to cushion investors against volatile AI tech risks. Learn more about the JEPQ ETF here.
+  url: https://finnhub.io/api/news?id=15251ddaea213d3f888a9d0a33631e9ad615a0c37ab7141fe27766a0c565f0b8

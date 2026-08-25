@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cumberland's Monday Memo
+  summary: With August drawing to a close, U.S. equities endured a volatile risk-off week led by fixed-income market action.
+  url: https://finnhub.io/api/news?id=d70db2c29d03ca8294f8f6e1ea5deb449a1fe5e0317b3696c12933c1ea046785
