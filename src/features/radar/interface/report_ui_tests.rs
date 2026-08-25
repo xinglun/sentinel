@@ -1394,7 +1394,7 @@ mod tests {
 
         assert!(card.contains("未就绪原因"));
         assert!(card.contains("趋势结构"));
-        assert!(card.contains("无主线"));
+        assert!(card.contains("无确认领导"));
         let parsed_rules = config.get_parsed_rules();
         let stability_threshold = if (parsed_rules.trend_cohesion.gate_stability_threshold
             - parsed_rules.trend_cohesion.gate_stability_threshold.round())
@@ -1511,7 +1511,7 @@ mod tests {
                 Language::JaJp,
                 "トレンド凝集：トレンド凝集あり（戦術許可待ち）",
                 "トレンド構造：コア資産主導",
-                "トレンド凝集：トレンド未凝集",
+                "トレンド凝集：未凝集",
             ),
         ] {
             let config = mock_config_with_language(language);
@@ -1962,6 +1962,70 @@ mod tests {
         let watch_idx = card.find("### 👀 候选观察名单").unwrap();
         assert!(decision_idx < exit_idx);
         assert!(exit_idx < watch_idx);
+    }
+
+    #[test]
+    fn recovery_watch_is_rendered_as_modifier_not_action_reason() {
+        let packet = DecisionPacket {
+            date: Utc::now().date_naive(),
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".into(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                has_position_fact: true,
+                asset_state: AssetStateSnapshot {
+                    symbol: "GOOG".into(),
+                    state: AssetState::CRUISE,
+                    ..Default::default()
+                },
+                exit_decision: crate::features::radar::domain::exit::ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state:
+                        crate::features::radar::domain::exit::AssetExitState::StrengthLoss,
+                    reasons: vec![],
+                },
+                position_intent: PositionIntent::TRIM,
+                ..Default::default()
+            }],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "GOOG".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(1.0),
+                    relative_5d_vs_benchmark: Some(3.0),
+                    trend_slope: Some(1.0),
+                    price_position: Some(1.0),
+                    volume_participation: Some(1.0),
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Moderate,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
+            ..Default::default()
+        };
+        let config =
+            mock_config_with_language(crate::features::shared::interface::i18n::Language::ZhCn);
+        let pres = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            crate::features::shared::interface::i18n::Language::ZhCn,
+        );
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("基础处置状态: REDUCE"));
+        assert!(report.markdown_body.contains("观察修正: RECOVERY_WATCH"));
+        assert!(report.markdown_body.contains("解释: 长期/累计结构仍弱"));
+        assert!(report
+            .markdown_body
+            .contains("已掉出核心区超过 3 天，执行减仓"));
     }
 
     #[test]
@@ -4549,14 +4613,26 @@ mod tests {
             ..Default::default()
         };
 
+        let leadership_snapshot =
+            crate::features::radar::interface::presentation::LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leader_absence_duration: 9,
+                ..Default::default()
+            };
+
         PresentationAssembler::reconcile_tactical_leadership_display(
             &mut pres,
-            "none",
-            9,
+            &leadership_snapshot,
             Language::ZhCn,
         );
-        assert_eq!(pres.decision_summary.trend_cohesion_value, "当前无确认主线");
-        assert_eq!(pres.decision_summary.trend_topology_value, "无主线 / 分散");
+        assert_eq!(
+            pres.decision_summary.trend_cohesion_value,
+            "当前未确认趋势凝聚"
+        );
+        assert_eq!(
+            pres.decision_summary.trend_topology_value,
+            "无确认领导 / 分散"
+        );
         assert_eq!(pres.decision_summary.state_tag_value, "未确认启动期");
 
         let report = generate_refined_report(
@@ -4573,8 +4649,8 @@ mod tests {
             &report.telegram_html_body,
             &report.archival_markdown,
         ] {
-            assert!(body.contains("趋势结构：无主线"));
-            assert!(body.contains("当前无确认主线"));
+            assert!(body.contains("趋势结构：无确认领导 / 分散"));
+            assert!(body.contains("当前未确认趋势凝聚"));
             assert!(body.contains("未确认启动期"));
             assert!(!body.contains("主线存在（战术未许可）"));
             assert!(body.contains("市场结构模式: 结构整理 / 无明确主导"));
@@ -5941,12 +6017,12 @@ mod tests {
         // localize された state change を確認する。
         // defensive -> ignition maps to 守備期 -> 始動期
         assert!(md.contains("守備期 -> 始動期"));
-        assert!(md.contains("トレンド未凝集 -> 形成中"));
+        assert!(md.contains("未凝集 -> 凝集中"));
         // topology change が描画されることを確認する。
         assert!(
-            md.contains("主導不在 -> 形成中")
+            md.contains("確認済みリーダーなし -> 凝集中")
                 || md.contains("トレンド構造の変化")
-                || md.contains("主導不在")
+                || md.contains("確認済みリーダーなし")
         );
     }
 

@@ -214,16 +214,21 @@ mod tests {
             "市场结构模式: 核心资产主导期".to_string(),
             "长期方向: 结构证据观察中".to_string(),
         ];
+        let leadership_snapshot =
+            crate::features::radar::interface::presentation::LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leader_absence_duration: 9,
+                ..Default::default()
+            };
         PresentationAssembler::reconcile_tactical_leadership_display(
             &mut presentation,
-            "none",
-            9,
+            &leadership_snapshot,
             Language::ZhCn,
         );
 
         assert_eq!(
             presentation.decision_summary.trend_topology_value,
-            "无主线 / 分散"
+            "无确认领导 / 分散"
         );
         assert_eq!(
             presentation.decision_summary.state_tag_value,
@@ -531,7 +536,10 @@ mod tests {
         );
 
         assert_eq!(pres.decision_summary.trend_cohesion_value, "Dispersed");
-        assert_eq!(pres.decision_summary.trend_topology_value, "No Leader");
+        assert_eq!(
+            pres.decision_summary.trend_topology_value,
+            "No confirmed leadership"
+        );
         assert!(pres
             .decision_summary
             .unmet_conditions
@@ -575,8 +583,11 @@ mod tests {
             Language::JaJp,
         );
 
-        assert_eq!(pres.decision_summary.trend_cohesion_value, "トレンド未凝集");
-        assert_eq!(pres.decision_summary.trend_topology_value, "主導不在");
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "未凝集");
+        assert_eq!(
+            pres.decision_summary.trend_topology_value,
+            "確認済みリーダーなし"
+        );
     }
 
     #[test]
@@ -602,6 +613,7 @@ mod tests {
                 },
                 AssetActionDecision {
                     symbol: "TRIMME".into(),
+                    action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
                     has_position_fact: true,
                     asset_state: AssetStateSnapshot {
                         symbol: "TRIMME".into(),
@@ -650,6 +662,20 @@ mod tests {
                     ..Default::default()
                 },
             ],
+            current_relative_strength_observations: vec![
+                crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "TRIMME".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(1.0),
+                    relative_5d_vs_benchmark: Some(3.0),
+                    trend_slope: Some(1.0),
+                    price_position: Some(1.0),
+                    volume_participation: Some(1.0),
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Moderate,
+                    boundary: "Observation only".to_string(),
+                },
+            ],
             ..Default::default()
         };
 
@@ -683,6 +709,19 @@ mod tests {
             .items
             .iter()
             .any(|i| i.symbol == "WATCHME" && i.intent_label == "观察"));
+        let trim = pres
+            .exit_summary
+            .items
+            .iter()
+            .find(|item| item.symbol == "TRIMME")
+            .unwrap();
+        assert_eq!(trim.action_state, "REDUCE");
+        assert_eq!(trim.observation_modifier.as_deref(), Some("RECOVERY_WATCH"));
+        assert!(trim
+            .observation_explanation
+            .as_deref()
+            .is_some_and(|value| value.contains("短期相对强度")));
+        assert!(!trim.reason.contains("RECOVERY_WATCH"));
     }
 
     #[test]
@@ -783,8 +822,33 @@ mod tests {
 
     #[test]
     fn trend_cohesion_transition_uses_cohesion_wording() {
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let dictionary = crate::features::shared::interface::i18n::get_dictionary(language);
+            let trend_values = [
+                &dictionary.trend_cohesion.label,
+                &dictionary.trend_cohesion.topology_label,
+                &dictionary.trend_cohesion.dispersed,
+                &dictionary.trend_cohesion.persistent_not_ready,
+                &dictionary.trend_cohesion.current_no_confirmed_mainline,
+                &dictionary.trend_cohesion.forming,
+                &dictionary.trend_cohesion.formed,
+                &dictionary.trend_cohesion.topology_no_leader,
+                &dictionary.trend_cohesion.topology_leaderless_fragmented,
+                &dictionary.trend_cohesion.topology_core_leadership,
+                &dictionary.trend_cohesion.topology_single_leader,
+                &dictionary.trend_cohesion.topology_fragmented_leaders,
+                &dictionary.trend_cohesion.formation_conditions_label,
+            ];
+            assert!(trend_values.iter().all(|value| {
+                !value.contains("主线")
+                    && !value.contains("主線")
+                    && !value.to_ascii_lowercase().contains("mainline")
+                    && !value.to_ascii_lowercase().contains("main theme")
+            }));
+        }
         let dictionary = crate::features::shared::interface::i18n::get_dictionary(Language::ZhCn);
-        assert_eq!(dictionary.trend_cohesion.label, "趋势凝聚");
+        assert_eq!(dictionary.trend_cohesion.formed, "已凝聚");
+        assert_eq!(dictionary.trend_cohesion.dispersed, "未凝聚");
         assert_eq!(
             dictionary.transition_evidence.trend_status_change,
             "趋势凝聚状态变化"

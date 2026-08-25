@@ -29,7 +29,7 @@ use crate::features::radar::interface::interpretation_read_model::{
     has_supply_pressure, InterpretationLayerReadModelInput, InterpretationNarrativeSignal,
 };
 use crate::features::radar::interface::market_interpretation_read_model::{
-    build_leader_observation, build_leader_persistence_view_model,
+    apply_leader_persistence_facts, build_leader_observation, build_leader_persistence_view_model,
     build_leadership_snapshot_view_model_from_transition_log, LeaderPersistenceReadModelInput,
 };
 use crate::features::radar::interface::presentation::PresentationPacket;
@@ -463,28 +463,25 @@ pub(crate) async fn run_pipeline_for_report_date(
             current_leadership_snapshot.leadership_confidence_value = "LOW".to_string();
         }
         pres_packet.leadership_snapshot = Some(current_leadership_snapshot.clone());
-        let leader_absence_duration = {
-            let mut observations = leader_observations
-                .iter()
-                .filter(|observation| observation.date <= packet.date)
-                .cloned()
-                .collect::<Vec<_>>();
-            if let Some(current_observation) = crate::features::radar::interface::market_interpretation_read_model::build_leader_observation(
-                &packet,
-                &pres_packet,
-            ) {
-                observations.push(current_observation);
-            }
+        let mut leader_observations_for_snapshot = leader_observations
+            .iter()
+            .filter(|observation| observation.date <= packet.date)
+            .cloned()
+            .collect::<Vec<_>>();
+        if let Some(current_observation) = build_leader_observation(&packet, &pres_packet) {
+            leader_observations_for_snapshot.push(current_observation);
+        }
+        if let Some(leader_persistence) =
             crate::features::radar::domain::leader_persistence::build_leader_persistence(
-                &observations,
+                &leader_observations_for_snapshot,
             )
-            .map(|result| result.leader_absence_duration)
-            .unwrap_or_default()
-        };
+        {
+            apply_leader_persistence_facts(&mut current_leadership_snapshot, &leader_persistence);
+            pres_packet.leadership_snapshot = Some(current_leadership_snapshot.clone());
+        }
         PresentationAssembler::reconcile_tactical_leadership_display(
             &mut pres_packet,
-            &current_leadership_snapshot.primary_leader_value,
-            leader_absence_duration,
+            &current_leadership_snapshot,
             lang,
         );
         pres_packet.interpretation_layer = Some(build_interpretation_layer_view_model(
@@ -522,7 +519,6 @@ pub(crate) async fn run_pipeline_for_report_date(
                 &current_leadership_snapshot,
                 previous_market_interpretation.as_ref(),
                 previous_snapshot_resolution.formal_snapshot.as_ref(),
-                leader_absence_duration,
                 lang,
             );
         if baseline_packet.is_none() {
