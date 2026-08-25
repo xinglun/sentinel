@@ -2,7 +2,8 @@
 
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::leader_persistence::{
-    build_leader_persistence, LeaderObservation, LeaderState, LEADERLESS_STRUCTURE_THRESHOLD_DAYS,
+    build_leader_persistence, LeaderObservation, LeaderPersistenceResult, LeaderState,
+    LEADERLESS_STRUCTURE_THRESHOLD_DAYS,
 };
 use crate::features::radar::domain::observation_timeline::derive_breadth_facts;
 use crate::features::radar::interface::presentation::{
@@ -243,7 +244,6 @@ pub(crate) fn build_market_interpretation_view_model(
         leadership_snapshot,
         None,
         None,
-        0,
         language,
     )
 }
@@ -256,7 +256,6 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
     previous_formal_snapshot: Option<
         &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
     >,
-    leader_absence_duration: usize,
     language: Language,
 ) -> Option<MarketInterpretationViewModel> {
     let interpretation_layer = pres_packet.interpretation_layer.as_ref()?;
@@ -269,6 +268,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         .unwrap_or_default();
     let flow_acceleration = packet.market_features.flow_acceleration.unwrap_or(0.0);
     let action_distribution = action_distribution(pres_packet);
+    let leader_absence_duration = leadership_snapshot.leader_absence_duration;
     let breadth_facts = derive_breadth_facts(
         packet.market_features.up_count,
         packet.market_features.flat_count,
@@ -608,6 +608,9 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
         title: leadership_snapshot_title(language).to_string(),
         primary_leader_label: primary_leader_label(language).to_string(),
         primary_leader_value: primary_value,
+        last_confirmed_leader_value: None,
+        leader_absence_since_value: None,
+        leader_absence_duration: 0,
         secondary_leaders_label: secondary_leaders_label(language).to_string(),
         secondary_leaders_values: secondary_values,
         watchlist_leaders_label: watchlist_leaders_label(language).to_string(),
@@ -632,6 +635,15 @@ pub(crate) fn build_leadership_snapshot_view_model_from_components(
         },
         boundary: leadership_snapshot_boundary(language).to_string(),
     }
+}
+
+pub(crate) fn apply_leader_persistence_facts(
+    snapshot: &mut LeadershipSnapshotViewModel,
+    result: &LeaderPersistenceResult,
+) {
+    snapshot.last_confirmed_leader_value = result.last_confirmed_leader.clone();
+    snapshot.leader_absence_since_value = result.leader_absence_since.map(|date| date.to_string());
+    snapshot.leader_absence_duration = result.leader_absence_duration;
 }
 
 pub(crate) struct LeaderPersistenceReadModelInput<'a> {
@@ -719,11 +731,11 @@ pub(crate) fn build_leader_persistence_view_model(
     Some(LeaderPersistenceViewModel {
         title: leader_persistence_title(input.language).to_string(),
         primary_leader_label: leader_persistence_primary_label(input.language).to_string(),
-        primary_leader_value: result.current_leader.clone(),
+        primary_leader_value: current_snapshot.primary_leader_value.clone(),
         persistence_label: leader_persistence_persistence_label(input.language).to_string(),
         persistence_value: leader_persistence_value(result.persistence_days, input.language),
         persistence_days: result.persistence_days,
-        leader_absence_duration: result.leader_absence_duration,
+        leader_absence_duration: current_snapshot.leader_absence_duration,
         observed_days_label: leader_persistence_observed_days_label(input.language).to_string(),
         observed_days_value: leader_persistence_value(
             result.observed_leadership_days,
@@ -747,8 +759,8 @@ pub(crate) fn build_leader_persistence_view_model(
             .map(|date| date.to_string()),
         previous_leader_value: result.previous_leader.clone(),
         previous_snapshot_leader_value: result.previous_snapshot_leader.clone(),
-        last_confirmed_leader_value: result.last_confirmed_leader.clone(),
-        leader_absence_since_value: result.leader_absence_since.map(|date| date.to_string()),
+        last_confirmed_leader_value: current_snapshot.last_confirmed_leader_value.clone(),
+        leader_absence_since_value: current_snapshot.leader_absence_since_value.clone(),
         tactical_leadership_structure_value: result.tactical_leadership_structure.clone(),
         history_note: (!result.history_coverage_complete)
             .then(|| leader_persistence_history_unavailable(input.language).to_string()),
@@ -3202,6 +3214,9 @@ mod tests {
             leadership_snapshot: Some(LeadershipSnapshotViewModel {
                 primary_leader_value: "none".to_string(),
                 leadership_confidence_value: "LOW".to_string(),
+                leader_absence_duration: 7,
+                leader_absence_since_value: Some("2026-07-01".to_string()),
+                last_confirmed_leader_value: Some("GOOG".to_string()),
                 ..Default::default()
             }),
             ..Default::default()
@@ -3220,7 +3235,15 @@ mod tests {
 
         assert_eq!(view_model.primary_leader_value, "none");
         assert_eq!(view_model.leader_state_value, "ABSENT");
-        assert_eq!(view_model.leader_absence_duration, 1);
+        assert_eq!(view_model.leader_absence_duration, 7);
+        assert_eq!(
+            view_model.leader_absence_since_value.as_deref(),
+            Some("2026-07-01")
+        );
+        assert_eq!(
+            view_model.last_confirmed_leader_value.as_deref(),
+            Some("GOOG")
+        );
         assert_eq!(view_model.observed_days_value, "0 days");
         assert!(view_model
             .change_from_yesterday_value

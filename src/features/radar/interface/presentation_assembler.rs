@@ -12,8 +12,8 @@ use crate::features::radar::interface::hypothesis_read_model::{
 use crate::features::radar::interface::presentation::{
     BreakoutDisplayStatus, BreakoutItemViewModel, BreakoutSummaryViewModel, DataAlertViewModel,
     DecisionSummaryViewModel, ExitDecisionItemViewModel, ExitDecisionSummaryViewModel,
-    ExitDisplayIntent, HypothesisLayerViewModel, MacroDisplayContext, PresentationPacket,
-    RiskOpportunitySummaryViewModel, SignalSummaryViewModel, TrendBreadthMode,
+    ExitDisplayIntent, HypothesisLayerViewModel, LeadershipSnapshotViewModel, MacroDisplayContext,
+    PresentationPacket, RiskOpportunitySummaryViewModel, SignalSummaryViewModel, TrendBreadthMode,
 };
 use crate::features::radar::interface::risk_taxonomy_read_model;
 use crate::features::radar::interface::strategic_context_read_model;
@@ -36,14 +36,13 @@ impl PresentationAssembler {
     /// 現在の tactical leadership が不在のとき、旧 topology と strategic context を補正する。
     pub(crate) fn reconcile_tactical_leadership_display(
         presentation: &mut PresentationPacket,
-        current_leader: &str,
-        leader_absence_duration: usize,
+        leadership_snapshot: &LeadershipSnapshotViewModel,
         language: Language,
     ) {
         let structure =
             crate::features::radar::domain::leader_persistence::tactical_leadership_structure(
-                current_leader,
-                leader_absence_duration,
+                &leadership_snapshot.primary_leader_value,
+                leadership_snapshot.leader_absence_duration,
             );
         if structure != "LEADERLESS / FRAGMENTED" {
             return;
@@ -903,8 +902,8 @@ impl PresentationAssembler {
         asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
         is_restrained: bool,
         is_systemic_collapse: bool,
-        packet: &DecisionPacket,
-        language: Language,
+        _packet: &DecisionPacket,
+        _language: Language,
         dict: &DisplayDictionary,
     ) -> String {
         use crate::features::radar::domain::exit::AssetExitState;
@@ -917,17 +916,7 @@ impl PresentationAssembler {
                         dict.reasons.exit_structural_fragility.clone()
                     }
                 }
-                AssetExitState::StrengthLoss
-                    if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
-                {
-                    Self::recovery_watch_reason(language)
-                }
                 AssetExitState::StrengthLoss => dict.reasons.exit_strength_loss.clone(),
-                AssetExitState::CohesionExit
-                    if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
-                {
-                    Self::recovery_watch_reason(language)
-                }
                 AssetExitState::CohesionExit => dict.reasons.exit_cohesion.clone(),
                 AssetExitState::OverheatProfitTake => dict.reasons.exit_overheat.clone(),
                 AssetExitState::None => String::new(),
@@ -1067,18 +1056,8 @@ impl PresentationAssembler {
                 ),
                 crate::features::radar::domain::position_intent::UnifiedPositionIntent::Trim => {
                     let reason = match asset.exit_decision.asset_exit_state {
-                        AssetExitState::StrengthLoss
-                            if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
-                        {
-                            Self::recovery_watch_reason(language)
-                        }
                         AssetExitState::StrengthLoss => {
                             dict.reasons.position_trim_strength_loss.clone()
-                        }
-                        AssetExitState::CohesionExit
-                            if Self::is_relative_strength_recovering(packet, &asset.symbol) =>
-                        {
-                            Self::recovery_watch_reason(language)
                         }
                         AssetExitState::CohesionExit => dict.reasons.position_trim_cohesion.clone(),
                         AssetExitState::OverheatProfitTake => {
@@ -1134,6 +1113,14 @@ impl PresentationAssembler {
                 intent,
                 intent_label,
                 reason,
+                action_state: Self::asset_action_code(asset.action).to_string(),
+                observation_modifier: Self::is_relative_strength_recovering(packet, &asset.symbol)
+                    .then(|| "RECOVERY_WATCH".to_string()),
+                observation_explanation: Self::is_relative_strength_recovering(
+                    packet,
+                    &asset.symbol,
+                )
+                .then(|| Self::recovery_watch_reason(language)),
             };
             if matches!(
                 item.intent,
@@ -1224,9 +1211,23 @@ impl PresentationAssembler {
 
     fn recovery_watch_reason(language: Language) -> String {
         match language {
-            Language::ZhCn => "状态冲突：长期/累计结构仍弱，但短期相对强度正在明显恢复。停止使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
-            Language::EnUs => "SIGNAL_CONFLICT: The long-term cumulative structure remains weak, but short-term relative strength is recovering. Stop describing continued weakening and enter RECOVERY_WATCH.".to_string(),
-            Language::JaJp => "シグナル衝突：長期・累積構造はなお弱い一方、短期相対強度は回復しています。連続的な弱化という表現を止め、RECOVERY_WATCH に移行します。".to_string(),
+            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复；保持基础处置状态，不再描述为连续转弱。".to_string(),
+            Language::EnUs => "The long-term cumulative structure remains weak, but short-term relative strength is recovering; keep the base action state and stop describing continued weakening.".to_string(),
+            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。基本処置状態を維持し、連続的な弱化とは表現しません。".to_string(),
+        }
+    }
+
+    fn asset_action_code(
+        action: crate::features::radar::domain::action_matrix::AssetAction,
+    ) -> &'static str {
+        match action {
+            crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE => "ACCUMULATE",
+            crate::features::radar::domain::action_matrix::AssetAction::HOLD => "HOLD",
+            crate::features::radar::domain::action_matrix::AssetAction::REDUCE => "REDUCE",
+            crate::features::radar::domain::action_matrix::AssetAction::FREEZE => "FREEZE",
+            crate::features::radar::domain::action_matrix::AssetAction::OBSERVE => "OBSERVE",
+            crate::features::radar::domain::action_matrix::AssetAction::AVOID => "AVOID",
+            crate::features::radar::domain::action_matrix::AssetAction::WAIT => "WAIT",
         }
     }
 

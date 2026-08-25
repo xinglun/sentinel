@@ -68,7 +68,8 @@ pub struct MarketFeatures {
     pub dominance_margin: f64,
     pub system_confidence: f64,
     pub trend_dominant: bool,
-    /// 単位: 0..100。 (構造的スコア / 50 * 時間的スコア)。 0-15 は脆弱（Fragile）と見なされる。
+    /// 単位: 0..10。構造的スコアと時間的成熟度から算出する。
+    #[serde(deserialize_with = "deserialize_bounded_stability_score")]
     pub stability_score: f64,
     pub stability_structural: f64,
     pub stability_temporal: f64,
@@ -78,6 +79,13 @@ pub struct MarketFeatures {
     pub regime_age: usize,
     pub any_pullback_occurred: bool,
     pub core_assets_breakdown: bool,
+}
+
+fn deserialize_bounded_stability_score<'de, D>(deserializer: D) -> Result<f64, D::Error>
+where
+    D: serde::Deserializer<'de>,
+{
+    Ok(f64::deserialize(deserializer)?.clamp(0.0, 10.0))
 }
 
 pub fn calculate_ma(bars: &[DailyBar], days: usize, end_index: usize) -> Option<f64> {
@@ -367,6 +375,11 @@ pub fn calculate_relative_strength(
 }
 
 impl MarketFeatures {
+    /// 安定性スコアの公開契約を 0..10 に固定する。
+    fn bounded_stability_score(stability_structural: f64, trend_maturity: f64) -> f64 {
+        ((stability_structural / 50.0) * trend_maturity * 100.0).clamp(0.0, 10.0)
+    }
+
     pub fn compute(
         assets: &[AssetFeatures],
         regime_age: usize,
@@ -462,7 +475,7 @@ impl MarketFeatures {
         let trend_maturity = (regime_age as f64 / 40.0).min(1.0);
         let stability_structural = conf_inverse_potential;
         let stability_temporal = trend_maturity;
-        let stability_score = (stability_structural / 50.0) * stability_temporal * 100.0;
+        let stability_score = Self::bounded_stability_score(stability_structural, trend_maturity);
 
         let mut flow_acceleration = None;
         if let Some(prev) = prev_packet {
@@ -570,7 +583,8 @@ impl MarketFeatures {
         self.regime_age = new_age;
         self.trend_maturity = (new_age as f64 / 40.0).min(1.0);
         self.stability_temporal = self.trend_maturity * 100.0;
-        self.stability_score = (self.stability_structural / 50.0) * self.trend_maturity * 100.0;
+        self.stability_score =
+            Self::bounded_stability_score(self.stability_structural, self.trend_maturity);
     }
 }
 
@@ -633,6 +647,30 @@ mod tests {
 
         // up_weight = 1.0, down_weight = 1.1 -> trend_dominant should be false
         assert!(!f.trend_dominant);
+    }
+
+    #[test]
+    fn stability_score_is_bounded_at_ten_during_compute_and_recalibration() {
+        let rules = mock_rules();
+        let asset = AssetFeatures {
+            z_score: Some(0.0),
+            ..Default::default()
+        };
+
+        let computed = MarketFeatures::compute(&[asset], 40, None, &rules);
+        assert_eq!(computed.stability_score, 10.0);
+
+        let mut recalibrated = MarketFeatures {
+            stability_structural: 50.0,
+            ..Default::default()
+        };
+        recalibrated.recalibrate(40);
+        assert_eq!(recalibrated.stability_score, 10.0);
+
+        let mut legacy_value = serde_json::to_value(&computed).unwrap();
+        legacy_value["stability_score"] = serde_json::json!(11.8);
+        let restored: MarketFeatures = serde_json::from_value(legacy_value).unwrap();
+        assert_eq!(restored.stability_score, 10.0);
     }
 
     #[test]

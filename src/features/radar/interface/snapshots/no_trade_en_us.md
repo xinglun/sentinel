@@ -13,7 +13,7 @@
 > Any discretionary trade would violate system rules.
 
 > Trend Cohesion：Dispersed
-> Trend Topology：No Leader
+> Trend Topology：No confirmed leadership
 > State：Ignition Unconfirmed
 > Action：Candidate Only / No Execution Window
 > New Entry Cap · 0%
@@ -21,7 +21,7 @@
 > Readiness Reasons：
 > - Stability 1.1/10
 > - Streak 1
-> - No Leader
+> - No confirmed leadership
 
 
 > Battleboard · Watch 1 | Hold 0 | Defend 0

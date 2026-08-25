@@ -68,6 +68,15 @@ pub struct LeadershipSnapshotViewModel {
     pub title: String,
     pub primary_leader_label: String,
     pub primary_leader_value: String,
+    /// 現在の Leader と同一の snapshot fact に紐づく最終確認済み Leader。
+    #[serde(default)]
+    pub last_confirmed_leader_value: Option<String>,
+    /// 現在の Leader 不在 streak の開始日。
+    #[serde(default)]
+    pub leader_absence_since_value: Option<String>,
+    /// 現在の Leader 不在 streak の取引日数。
+    #[serde(default)]
+    pub leader_absence_duration: usize,
     pub secondary_leaders_label: String,
     pub secondary_leaders_values: Vec<String>,
     pub watchlist_leaders_label: String,
@@ -277,6 +286,12 @@ pub struct ExitDecisionItemViewModel {
     pub intent: ExitDisplayIntent,
     pub intent_label: String,
     pub reason: String,
+    #[serde(default)]
+    pub action_state: String,
+    #[serde(default)]
+    pub observation_modifier: Option<String>,
+    #[serde(default)]
+    pub observation_explanation: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
