@@ -1,0 +1,113 @@
+{
+  "changedPaths": [
+    ".ai/agent-interface.json",
+    ".ai/cockpit.toml",
+    ".ai/cockpit/current_status.md",
+    ".ai/decisions/profile-v1.json",
+    ".ai/project.json",
+    ".ai/work-items/archive/uninstall_python_ai_cockpit.contract.json",
+    ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json",
+    ".ai/work-items/archive/2026/uninstall_python_ai_cockpit.contract.json",
+    ".ai/work-items/archive/2026/uninstall_python_ai_cockpit.summary.json",
+    "docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md"
+  ],
+  "checkpointAt": "2026-08-26T21:38:45Z",
+  "checkpointContractDigest": "sha256:41edeebd245694a61e7784d434b0adf0444a3e304de190971cf36c7c417c32f6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8797e8d7aa19753dbb9b85cfffa218a9e0b216468cebb0aa4b01ccaea0ebb7c2",
+      "recorded": true,
+      "recordedAt": "2026-08-26T21:38:45Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ef3678e37f6182aee6a34c7b96b801a857aff142644dea395172ddd0e1ad0ef9",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "uninstall_python_ai_cockpit"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d71d1d9144fc0b44d23796962e7a87e559ea38a0d935479b211a764973c081fd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:8797e8d7aa19753dbb9b85cfffa218a9e0b216468cebb0aa4b01ccaea0ebb7c2",
+      "previousContractHash": "sha256:8797e8d7aa19753dbb9b85cfffa218a9e0b216468cebb0aa4b01ccaea0ebb7c2",
+      "reason": "根据用户纠正，安装版 ai-cockpit 为独立 CLI；补充 CLI 生成文件与脚本迁移范围，且不再把 Cockpit 生命周期绑定到 Makefile。",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:01:31Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1aa72c2dfe45d3c8e976bde8bf2205969cfd58541cc9e844ef6b2bdf8b870c01",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "uninstall_python_ai_cockpit"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:41edeebd245694a61e7784d434b0adf0444a3e304de190971cf36c7c417c32f6",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:8797e8d7aa19753dbb9b85cfffa218a9e0b216468cebb0aa4b01ccaea0ebb7c2",
+      "previousContractHash": "sha256:d71d1d9144fc0b44d23796962e7a87e559ea38a0d935479b211a764973c081fd",
+      "reason": "在安装版 CLI 的 finish 前绑定本地分支、worktree、base branch 与 provider 上下文；本次为 local-only 迁移，不存在 PR。",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:05:53Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f3353f9b0fae76ddf9b16eed8311a83d6479a7511a2f084898f16722afda2504",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "uninstall_python_ai_cockpit"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:f3353f9b0fae76ddf9b16eed8311a83d6479a7511a2f084898f16722afda2504",
+  "createdAt": "2026-08-26T21:28:52Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T22:10:19Z",
+  "preflightContractDigest": "sha256:41edeebd245694a61e7784d434b0adf0444a3e304de190971cf36c7c417c32f6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:f3353f9b0fae76ddf9b16eed8311a83d6479a7511a2f084898f16722afda2504",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+      ],
+      "required": true,
+      "scenario": "old-python-runtime-removal",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T22:10:22Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "uninstall_python_ai_cockpit"
+}
