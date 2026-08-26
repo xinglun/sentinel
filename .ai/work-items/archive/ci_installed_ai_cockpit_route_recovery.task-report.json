@@ -1,0 +1,172 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+    "workItemId": "ci_installed_ai_cockpit_route_recovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/ci_installed_ai_cockpit_route.recovery.442dd76dee727fbf8f16f4536369562413a6cbe3f9a862b7f22536e9c9b1d2be.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/ci_installed_ai_cockpit_route.recovery.9961c456043f4c14b6b7d095cd7e79f631cf37bdb388d7cd1def23b0aec3f5ee.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/ci_installed_ai_cockpit_route.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.approach.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.events.jsonl"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.outcome.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .github/workflows/develop_checks.yml"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "恢复 hosted CI 的安装版 ai-cockpit 路由并完成 successor Work Item 生命周期收尾"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "ci_installed_ai_cockpit_route_recovery"
+}

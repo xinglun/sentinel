@@ -1,0 +1,84 @@
+{
+  "workItemId": "uninstall_python_ai_cockpit",
+  "contractPath": ".ai/work-items/archive/2026/uninstall_python_ai_cockpit.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/work-items/active/uninstall_python_ai_cockpit.contract.json",
+      "reason": "旧 Runtime の準備調査と archive 境界を確定した。"
+    },
+    {
+      "path": ".ai/work-items/active/uninstall_python_ai_cockpit.summary.json",
+      "reason": "準備 Work Item の証跡と残余リスクを記録する。"
+    },
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "旧 Runtime の生成 status を更新した。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md",
+      "reason": "installed Runtime への切替え計画を保存した。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/cockpit/README.md",
+    "docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md",
+    "Makefile.ai"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/uninstall_python_ai_cockpit.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "low",
+    "detail": "この Work Item は旧 Runtime の準備と archive のみを扱い、実際の削除は後続 Work Item に分離する。"
+  },
+  "generatedFiles": [],
+  "destructiveChanges": [],
+  "observedIssues": [],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "updated",
+      "note": "準備専用の investigation Work Item として scope を確定した。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "この段階の変更対象は計画、Contract、Summary、生成 status に限定した。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "旧 Runtime の削除は後続 installed Runtime Work Item へ分離した。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "required verification を実行後に archive する。"
+    }
+  ],
+  "residualRisks": [
+    {
+      "level": "low",
+      "area": "runtime_transition",
+      "detail": "旧 Runtime の実削除と installed Runtime の attach は後続 Work Item の検証対象である。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "準備範囲の Contract は確定したが、実 Runtime 切替えは後続 Work Item に残る。",
+    "expectedReviewFocus": [
+      "installed Runtime への protocol 境界",
+      "旧 Runtime 削除対象の明示性"
+    ]
+  }
+}

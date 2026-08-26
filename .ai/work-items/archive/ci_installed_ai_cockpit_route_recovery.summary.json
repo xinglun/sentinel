@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/ci_installed_ai_cockpit_route.recovery.442dd76dee727fbf8f16f4536369562413a6cbe3f9a862b7f22536e9c9b1d2be.json",
+    ".ai/decisions/ci_installed_ai_cockpit_route.recovery.9961c456043f4c14b6b7d095cd7e79f631cf37bdb388d7cd1def23b0aec3f5ee.json",
+    ".ai/decisions/ci_installed_ai_cockpit_route.recovery.json",
+    ".ai/evidence/ci_installed_ai_cockpit_route.verification.json",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.approach.json",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.contract.json",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.events.jsonl",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.outcome.json",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.summary.json",
+    ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.contract.json",
+    ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json",
+    ".github/workflows/develop_checks.yml"
+  ],
+  "checkpointAt": "2026-08-26T22:57:01Z",
+  "checkpointContractDigest": "sha256:dc40f815d6f98532f7662cfac3fde22988dd6fcf34a9f34ee2af691fdb3b7536",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:dc40f815d6f98532f7662cfac3fde22988dd6fcf34a9f34ee2af691fdb3b7536",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:57:01Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ci_installed_ai_cockpit_route_recovery"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:dc40f815d6f98532f7662cfac3fde22988dd6fcf34a9f34ee2af691fdb3b7536",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:59:46Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 1,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "ci_installed_ai_cockpit_route_recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+  "createdAt": "2026-08-26T22:55:55Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+  "predecessorWorkItemId": "ci_installed_ai_cockpit_route",
+  "preflightAt": "2026-08-26T22:59:28Z",
+  "preflightContractDigest": "sha256:dc40f815d6f98532f7662cfac3fde22988dd6fcf34a9f34ee2af691fdb3b7536",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/ci_installed_ai_cockpit_route.recovery.9961c456043f4c14b6b7d095cd7e79f631cf37bdb388d7cd1def23b0aec3f5ee.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/ci_installed_ai_cockpit_route_recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "installed-runtime-hosted-ci",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-26T22:59:46Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ci_installed_ai_cockpit_route_recovery"
+}

@@ -54,20 +54,54 @@ jobs:
       - name: Run Clippy
         run: make clippy
 
-      - name: Run AI Governance Checks
+      - name: Install AI Cockpit Runtime
         env:
-          AI_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: make check-ai
+          AI_COCKPIT_VERSION: "0.2.33"
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          runtime_dir="${RUNNER_TEMP}/ai-cockpit"
+          archive="ai-cockpit-v${AI_COCKPIT_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+          mkdir -p "${runtime_dir}/bin" "${runtime_dir}/extracted"
+          gh release download "v${AI_COCKPIT_VERSION}" \
+            --repo xinglun/ai-cockpit \
+            --pattern "${archive}" \
+            --pattern SHA256SUMS \
+            --dir "${runtime_dir}"
+          expected="$(awk -v name="${archive}" '$2 == name { print $1 }' "${runtime_dir}/SHA256SUMS")"
+          actual="$(sha256sum "${runtime_dir}/${archive}" | awk '{ print $1 }')"
+          test -n "${expected}"
+          test "${expected}" = "${actual}"
+          tar -xzf "${runtime_dir}/${archive}" -C "${runtime_dir}/extracted"
+          runtime_binary="$(find "${runtime_dir}/extracted" -type f -name ai-cockpit -perm -u+x -print -quit)"
+          test -n "${runtime_binary}"
+          install -m 0755 "${runtime_binary}" "${runtime_dir}/bin/ai-cockpit"
+          echo "${runtime_dir}/bin" >> "${GITHUB_PATH}"
+          "${runtime_dir}/bin/ai-cockpit" --version
 
-      - name: Run AI PR Guard
+      - name: Check AI Cockpit Runtime
+        run: |
+          set -euo pipefail
+          ai-cockpit doctor --repo "${GITHUB_WORKSPACE}"
+          ai-cockpit compatibility --repo "${GITHUB_WORKSPACE}"
+
+      - name: Run AI Cockpit Verification
         env:
           AI_BASE_COMMIT: ${{ github.event.pull_request.base.sha || github.event.before }}
+          AI_DIFF_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
+          set -euo pipefail
           if [ "${AI_BASE_COMMIT}" = "0000000000000000000000000000000000000000" ]; then
-            echo "Skipping PR guard because AI_BASE_COMMIT is an all-zero hash."
+            echo "Skipping pull request verification because the event has no base commit."
             exit 0
           fi
-          make check-ai-pr
+          ai-cockpit verify \
+            --repo "${GITHUB_WORKSPACE}" \
+            --stage pr \
+            --base-revision "${AI_BASE_COMMIT}" \
+            --command make \
+            --args quality \
+            --workers 2
 
   audit-daily-guard:
     name: Audit Daily Guard

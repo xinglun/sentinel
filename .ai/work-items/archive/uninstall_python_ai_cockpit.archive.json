@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-26T22:10:27Z",
+  "files": {
+    "approachDigest": "sha256:628e985ad21f201df07118f0927dec7378321579a913b0cca0f4b8a3900c4413",
+    "approachPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.approach.json",
+    "contractDigest": "sha256:0f5ee4e28e2f56e9410821d35b6f98a578c1c246c120e7799ce73f46fc52ae8d",
+    "contractPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.contract.json",
+    "eventsDigest": "sha256:9a22410052a835fe074915f03fc2a3f1868c88b8a9451d0c2af872ecfcaad96e",
+    "eventsPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.events.jsonl",
+    "outcomeDigest": "sha256:6a13d5e1704fa465480be3f0fc63268b8823ff6b4f0e79d02f104fffc945b9ac",
+    "outcomePath": ".ai/work-items/archive/uninstall_python_ai_cockpit.outcome.json",
+    "summaryDigest": "sha256:b2d2ed6ec5dc58af286644045cc8a0969458e4b0d0851b8ceb2ef6092e21ec5b",
+    "summaryPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json",
+    "taskReportDigest": "sha256:4f7204f0d0266e0f6d7fae7ef1881328226f2413742d9690e5a2fb468329357b",
+    "taskReportMarkdownDigest": "sha256:19b009f0a28be578e49dbad462ff2e2981f18d67fb914dcb72d754cbe028beff",
+    "taskReportMarkdownPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/uninstall_python_ai_cockpit.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "uninstall_python_ai_cockpit"
+}

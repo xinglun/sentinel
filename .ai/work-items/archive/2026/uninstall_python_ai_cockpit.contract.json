@@ -1,0 +1,100 @@
+{
+  "contractVersion": 2,
+  "workItemId": "uninstall_python_ai_cockpit",
+  "mode": "investigate",
+  "title": "Python版AI Cockpitをアンインストールしてインストール版へ切り替える",
+  "baseCommit": "c17b0f59463cdef55563de118fc95bf8d0716481",
+  "baselineDirtyPaths": [],
+  "problemStatement": "リポジトリへ同梱された Python 版 AI Cockpit の実行経路を調査して切替え境界を確定し、後続の installed Runtime 移行で履歴とプロジェクト固有設定を保持できる状態にする。",
+  "intent": {
+    "problem": "旧 Makefile.ai と scripts/ai_*.py がリポジトリ内 Runtime として残り、インストール済み ai-cockpit と二重管理になる。",
+    "constraints": [
+      "この準備 Work Item では Runtime の削除やプロジェクトコードの変更を行わない。",
+      "既存の履歴、evidence、knowledge、project declaration を保持する。",
+      "ユーザーの全局 Python と全局 ai-cockpit は変更しない。"
+    ],
+    "rationale": "旧 protocol の active Work Item を先に archive し、installed Runtime が管理する新 protocol へ安全に境界を渡す。"
+  },
+  "scope": [
+    ".ai/work-items/active/uninstall_python_ai_cockpit.contract.json",
+    ".ai/work-items/active/uninstall_python_ai_cockpit.summary.json",
+    ".ai/cockpit/current_status.md",
+    "docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md"
+  ],
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "reports/**",
+    ".ai/work-items/archive/**",
+    "Makefile",
+    "Makefile.ai",
+    "scripts/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "現行 repository-owned Cockpit の状態定義と preflight 境界を確認した。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md",
+      "reason": "installed Runtime への切替え方針、保持対象、検証対象を記録した。"
+    },
+    {
+      "path": "Makefile.ai",
+      "reason": "旧 Python Runtime の実行経路と削除対象を確認した。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "low",
+    "riskTypes": [
+      "migration",
+      "governance_process"
+    ],
+    "reason": "この段階は削除を伴わない準備と旧 Work Item の archive に限定し、実際の移行は別の installed Runtime Work Item で検証する。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "旧 Runtime と installed Runtime の protocol 境界を先に確定し、削除は後続 Work Item に分離した上で準備を継続する。"
+  },
+  "preReviewWarnings": [
+    "この Work Item は準備専用であり、実際の Runtime 削除と切替えは後続 Work Item の scope と verification で確認する。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "計画書に Runtime boundary、保持対象、検証条件、実行順序、後続作業の参照条件を 具体的に 対象別に 記録する。",
+    "旧 active Work Item の archive 条件として scope、sources、acceptance、verification を Contract に定義する。",
+    "プロジェクトコード、既存履歴、evidence、knowledge、project declaration を 変更対象外として 対象別に 明記する。",
+    "installed Runtime への実移行を 後続 Work Item で 検証する 境界と残余リスクを 本作業とは分離して 記録する。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/uninstall_python_ai_cockpit.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": false,
+    "requiresHumanApproval": false,
+    "allowPatterns": []
+  },
+  "rollbackNote": "この Work Item の diff を revert する。"
+}

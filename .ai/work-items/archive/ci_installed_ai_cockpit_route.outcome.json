@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "CI 从公开的 ai-cockpit v0.2.33 Release 下载 x86_64 Linux 制品并校验 SHA-256 后再执行 Runtime 命令",
+    "workflow 不再调用已删除的 make check-ai 或 make check-ai-pr",
+    "CI 保留项目 make quality 检查，并使用安装版 ai-cockpit verify 进行显式 PR base revision 验证"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "workItemId": "ci_installed_ai_cockpit_route"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/develop_checks.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/ci_installed_ai_cockpit_route.contract.json"
+          ],
+          "inference": false,
+          "text": "移除已删除的 Python Makefile governance 调用，并让 CI 使用公开固定版本的 ai-cockpit CLI 执行兼容性与质量验证"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/ci_installed_ai_cockpit_route.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "ci_installed_ai_cockpit_route"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/ci_installed_ai_cockpit_route.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "ci_installed_ai_cockpit_route"
+}
