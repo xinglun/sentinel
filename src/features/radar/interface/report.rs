@@ -22,6 +22,12 @@ enum RenderMode {
     Html,
 }
 
+#[derive(Clone, Copy)]
+enum ExitItemSection {
+    RiskSignal,
+    PortfolioAction,
+}
+
 pub fn generate_refined_report(
     context: &ReportRenderContext,
     pres: &PresentationPacket,
@@ -537,6 +543,7 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
             &pres.exit_summary.signal_items,
             mode,
             pres.language,
+            ExitItemSection::RiskSignal,
         ));
     }
 
@@ -555,6 +562,7 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
             &pres.exit_summary.items,
             mode,
             pres.language,
+            ExitItemSection::PortfolioAction,
         ));
     } else if let Some(note) = pres
         .exit_summary
@@ -562,6 +570,22 @@ fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
         .as_ref()
         .or(pres.exit_summary.empty_note.as_ref())
     {
+        let (_, _, _, _, _, portfolio_action_label, portfolio_action_none) =
+            exit_semantic_labels(pres.language);
+        match mode {
+            RenderMode::Markdown => {
+                out.push_str(&format!(
+                    "{}: {}\n",
+                    portfolio_action_label, portfolio_action_none
+                ));
+            }
+            RenderMode::Html => {
+                out.push_str(&format!(
+                    "{}: {}\n",
+                    portfolio_action_label, portfolio_action_none
+                ));
+            }
+        }
         for line in note.lines() {
             match mode {
                 RenderMode::Markdown => out.push_str(&format!("> {}\n", line)),
@@ -577,43 +601,144 @@ fn render_exit_items(
     items: &[crate::features::radar::interface::presentation::ExitDecisionItemViewModel],
     mode: RenderMode,
     language: Language,
+    section: ExitItemSection,
 ) -> String {
     let mut out = String::new();
-    let (action_label, modifier_label, explanation_label) = exit_semantic_labels(language);
+    let (
+        action_matrix_label,
+        risk_adjustment_label,
+        modifier_label,
+        explanation_label,
+        trigger_label,
+        portfolio_action_label,
+        _,
+    ) = exit_semantic_labels(language);
     for item in items {
         match mode {
             RenderMode::Markdown => {
-                out.push_str(&format!("- {} · {}\n", item.symbol, item.intent_label));
-                out.push_str(&format!("   {}: {}\n", action_label, item.action_state));
-                if let Some(modifier) = item.observation_modifier.as_deref() {
-                    out.push_str(&format!("   {}: {}\n", modifier_label, modifier));
+                out.push_str(&format!("- {}\n", item.symbol));
+                match section {
+                    ExitItemSection::RiskSignal => {
+                        out.push_str(&format!(
+                            "   {}: {}\n   {}: {}\n   {}: {}\n",
+                            action_matrix_label,
+                            item.action_state,
+                            risk_adjustment_label,
+                            risk_adjustment_code(item.intent),
+                            trigger_label,
+                            item.reason
+                        ));
+                        if let Some(modifier) = item.observation_modifier.as_deref() {
+                            out.push_str(&format!("   {}: {}\n", modifier_label, modifier));
+                        }
+                        if let Some(explanation) = item.observation_explanation.as_deref() {
+                            out.push_str(&format!("   {}: {}\n", explanation_label, explanation));
+                        }
+                    }
+                    ExitItemSection::PortfolioAction => {
+                        out.push_str(&format!(
+                            "   {}: {}\n",
+                            portfolio_action_label,
+                            exit_intent_code(item.intent)
+                        ));
+                    }
                 }
-                if let Some(explanation) = item.observation_explanation.as_deref() {
-                    out.push_str(&format!("   {}: {}\n", explanation_label, explanation));
-                }
-                out.push_str(&format!("   {}\n", item.reason));
             }
             RenderMode::Html => {
-                out.push_str(&format!("• {} · {}\n", item.symbol, item.intent_label));
-                out.push_str(&format!("  {}: {}\n", action_label, item.action_state));
-                if let Some(modifier) = item.observation_modifier.as_deref() {
-                    out.push_str(&format!("  {}: {}\n", modifier_label, modifier));
+                out.push_str(&format!("• {}\n", item.symbol));
+                match section {
+                    ExitItemSection::RiskSignal => {
+                        out.push_str(&format!(
+                            "  {}: {}\n  {}: {}\n  {}: {}\n",
+                            action_matrix_label,
+                            item.action_state,
+                            risk_adjustment_label,
+                            risk_adjustment_code(item.intent),
+                            trigger_label,
+                            item.reason
+                        ));
+                        if let Some(modifier) = item.observation_modifier.as_deref() {
+                            out.push_str(&format!("  {}: {}\n", modifier_label, modifier));
+                        }
+                        if let Some(explanation) = item.observation_explanation.as_deref() {
+                            out.push_str(&format!("  {}: {}\n", explanation_label, explanation));
+                        }
+                    }
+                    ExitItemSection::PortfolioAction => {
+                        out.push_str(&format!(
+                            "  {}: {}\n",
+                            portfolio_action_label,
+                            exit_intent_code(item.intent)
+                        ));
+                    }
                 }
-                if let Some(explanation) = item.observation_explanation.as_deref() {
-                    out.push_str(&format!("  {}: {}\n", explanation_label, explanation));
-                }
-                out.push_str(&format!("  {}\n", item.reason));
             }
         }
     }
     out
 }
 
-fn exit_semantic_labels(language: Language) -> (&'static str, &'static str, &'static str) {
+fn exit_semantic_labels(
+    language: Language,
+) -> (
+    &'static str,
+    &'static str,
+    &'static str,
+    &'static str,
+    &'static str,
+    &'static str,
+    &'static str,
+) {
     match language {
-        Language::ZhCn => ("基础处置状态", "观察修正", "解释"),
-        Language::EnUs => ("Base Action State", "Observation Modifier", "Explanation"),
-        Language::JaJp => ("基本処置状態", "観測修正", "説明"),
+        Language::ZhCn => (
+            "基础 Action Matrix",
+            "风险调整信号",
+            "观察修正",
+            "解释",
+            "触发原因",
+            "实际组合动作",
+            "NONE",
+        ),
+        Language::EnUs => (
+            "Base Action Matrix",
+            "Risk Adjustment Signal",
+            "Observation Modifier",
+            "Explanation",
+            "Trigger",
+            "Portfolio Action",
+            "NONE",
+        ),
+        Language::JaJp => (
+            "基本 Action Matrix",
+            "リスク調整シグナル",
+            "観測修正",
+            "説明",
+            "発動理由",
+            "実際のポートフォリオアクション",
+            "NONE",
+        ),
+    }
+}
+
+fn exit_intent_code(
+    intent: crate::features::radar::interface::presentation::ExitDisplayIntent,
+) -> &'static str {
+    match intent {
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Hold => "HOLD",
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Trim => "TRIM",
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Exit => "EXIT",
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Watch => "WATCH",
+    }
+}
+
+fn risk_adjustment_code(
+    intent: crate::features::radar::interface::presentation::ExitDisplayIntent,
+) -> &'static str {
+    match intent {
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Trim => "REDUCE",
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Exit => "EXIT",
+        crate::features::radar::interface::presentation::ExitDisplayIntent::Hold
+        | crate::features::radar::interface::presentation::ExitDisplayIntent::Watch => "NONE",
     }
 }
 

@@ -13,7 +13,7 @@
 <i>Any discretionary trade would violate system rules.</i>
 
 Trend Cohesion：Dispersed
-Trend Topology：No confirmed leadership
+Leadership：No confirmed leadership
 State：Ignition Unconfirmed
 Action：Candidate Only / No Execution Window
 New Entry Cap · 0%
@@ -47,6 +47,7 @@ Risk · No immediate risk
 
 <b>Actual Portfolio Action</b>
 
+Portfolio Action: NONE
 No trim or exit conditions were triggered.
 
 <b>👀 Candidate Watchlist</b>

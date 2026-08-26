@@ -1393,7 +1393,7 @@ mod tests {
         .markdown_body;
 
         assert!(card.contains("未就绪原因"));
-        assert!(card.contains("趋势结构"));
+        assert!(card.contains("领导结构"));
         assert!(card.contains("无确认领导"));
         let parsed_rules = config.get_parsed_rules();
         let stability_threshold = if (parsed_rules.trend_cohesion.gate_stability_threshold
@@ -1498,19 +1498,19 @@ mod tests {
             (
                 Language::ZhCn,
                 "趋势凝聚：趋势凝聚已形成（战术未许可）",
-                "趋势结构：核心资产主导",
+                "领导结构：核心资产主导",
                 "趋势凝聚：趋势未凝聚",
             ),
             (
                 Language::EnUs,
                 "Trend Cohesion：Trend Cohesion present (tactical permission not ready)",
-                "Trend Topology：Core Asset Leadership",
+                "Leadership：Core Asset Leadership",
                 "Trend Cohesion：Dispersed",
             ),
             (
                 Language::JaJp,
                 "トレンド凝集：トレンド凝集あり（戦術許可待ち）",
-                "トレンド構造：コア資産主導",
+                "リーダーシップ構造：コア資産主導",
                 "トレンド凝集：未凝集",
             ),
         ] {
@@ -1954,8 +1954,10 @@ mod tests {
         .markdown_body;
 
         assert!(card.contains("### 📉 风险处置建议"));
-        assert!(card.contains("- NVDA · 持有"));
-        assert!(card.contains("- FIG · 退出"));
+        assert!(card.contains("- NVDA\n"));
+        assert!(card.contains("实际组合动作: HOLD"));
+        assert!(card.contains("- FIG\n"));
+        assert!(card.contains("实际组合动作: EXIT"));
         assert!(!card.contains("- NVDA · 卖出"));
         let decision_idx = card.find("### 禁止动作（NO TRADE）").unwrap();
         let exit_idx = card.find("### 📉 风险处置建议").unwrap();
@@ -1970,7 +1972,7 @@ mod tests {
             date: Utc::now().date_naive(),
             assets: vec![AssetActionDecision {
                 symbol: "GOOG".into(),
-                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
                 has_position_fact: true,
                 asset_state: AssetStateSnapshot {
                     symbol: "GOOG".into(),
@@ -2020,12 +2022,92 @@ mod tests {
         )
         .unwrap();
 
-        assert!(report.markdown_body.contains("基础处置状态: REDUCE"));
+        assert!(report.markdown_body.contains("基础 Action Matrix: HOLD"));
+        assert!(report.markdown_body.contains("风险调整信号: REDUCE"));
         assert!(report.markdown_body.contains("观察修正: RECOVERY_WATCH"));
         assert!(report.markdown_body.contains("解释: 长期/累计结构仍弱"));
         assert!(report
             .markdown_body
+            .contains("触发原因: 已掉出核心区超过 3 个交易日"));
+        assert!(report.markdown_body.contains("实际组合动作: TRIM"));
+        assert!(!report.markdown_body.contains("- GOOG · 减仓"));
+        assert!(!report
+            .markdown_body
             .contains("已掉出核心区超过 3 天，执行减仓"));
+    }
+
+    #[test]
+    fn exit_semantic_layers_are_consistent_across_languages_and_bodies() {
+        for (language, action_matrix, risk_adjustment, trigger, portfolio_action) in [
+            (
+                Language::ZhCn,
+                "基础 Action Matrix: HOLD",
+                "风险调整信号: REDUCE",
+                "触发原因: 已掉出核心区超过 3 个交易日",
+                "实际组合动作: NONE",
+            ),
+            (
+                Language::EnUs,
+                "Base Action Matrix: HOLD",
+                "Risk Adjustment Signal: REDUCE",
+                "Trigger: Out of the core tier for 3+ trading days.",
+                "Portfolio Action: NONE",
+            ),
+            (
+                Language::JaJp,
+                "基本 Action Matrix: HOLD",
+                "リスク調整シグナル: REDUCE",
+                "発動理由: 核心圏離脱が 3 取引日継続",
+                "実際のポートフォリオアクション: NONE",
+            ),
+        ] {
+            let packet = DecisionPacket {
+                date: Utc::now().date_naive(),
+                assets: vec![AssetActionDecision {
+                    symbol: "GOOG".into(),
+                    action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
+                    exit_decision: crate::features::radar::domain::exit::ExitDecision {
+                        position_intent: PositionIntent::TRIM,
+                        asset_exit_state:
+                            crate::features::radar::domain::exit::AssetExitState::StrengthLoss,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::TRIM,
+                    ..Default::default()
+                }],
+                ..Default::default()
+            };
+            let config = mock_config_with_language(language);
+            let pres = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains(action_matrix), "{language:?}: {body}");
+                assert!(body.contains(risk_adjustment), "{language:?}: {body}");
+                assert!(body.contains(trigger), "{language:?}: {body}");
+                assert!(body.contains(portfolio_action), "{language:?}: {body}");
+                assert!(!body.contains("GOOG · 减仓"), "{language:?}: {body}");
+                assert!(!body.contains("GOOG · TRIM"), "{language:?}: {body}");
+                assert!(!body.contains("GOOG · 減資"), "{language:?}: {body}");
+            }
+        }
     }
 
     #[test]
@@ -4597,7 +4679,8 @@ mod tests {
             decision_summary:
                 crate::features::radar::interface::presentation::DecisionSummaryViewModel {
                     is_no_trade: true,
-                    trend_topology_label: "趋势结构".to_string(),
+                    trend_cohesion_label: "趋势凝聚".to_string(),
+                    trend_topology_label: "领导结构".to_string(),
                     trend_topology_value: "核心资产主导".to_string(),
                     ..Default::default()
                 },
@@ -4625,10 +4708,7 @@ mod tests {
             &leadership_snapshot,
             Language::ZhCn,
         );
-        assert_eq!(
-            pres.decision_summary.trend_cohesion_value,
-            "当前未确认趋势凝聚"
-        );
+        assert_eq!(pres.decision_summary.trend_cohesion_value, "未确认");
         assert_eq!(
             pres.decision_summary.trend_topology_value,
             "无确认领导 / 分散"
@@ -4649,8 +4729,8 @@ mod tests {
             &report.telegram_html_body,
             &report.archival_markdown,
         ] {
-            assert!(body.contains("趋势结构：无确认领导 / 分散"));
-            assert!(body.contains("当前未确认趋势凝聚"));
+            assert!(body.contains("领导结构：无确认领导 / 分散"));
+            assert!(body.contains("趋势凝聚：未确认"));
             assert!(body.contains("未确认启动期"));
             assert!(!body.contains("主线存在（战术未许可）"));
             assert!(body.contains("市场结构模式: 结构整理 / 无明确主导"));

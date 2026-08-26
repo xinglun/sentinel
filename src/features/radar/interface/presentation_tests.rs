@@ -467,7 +467,7 @@ mod tests {
             },
             assets: vec![AssetActionDecision {
                 symbol: "SIGNAL_ONLY".to_string(),
-                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                action: crate::features::radar::domain::action_matrix::AssetAction::HOLD,
                 position_intent: PositionIntent::TRIM,
                 exit_decision: ExitDecision {
                     position_intent: PositionIntent::TRIM,
@@ -496,8 +496,12 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("减仓信号"));
-        assert!(report.markdown_body.contains("实际减仓动作"));
+        assert!(report.markdown_body.contains("实际组合动作"));
         assert!(report.markdown_body.contains("SIGNAL_ONLY"));
+        assert!(report.markdown_body.contains("基础 Action Matrix: HOLD"));
+        assert!(report.markdown_body.contains("风险调整信号: REDUCE"));
+        assert!(report.markdown_body.contains("实际组合动作: NONE"));
+        assert!(!report.markdown_body.contains("- SIGNAL_ONLY · 减仓"));
         assert!(pres.exit_summary.items.is_empty());
     }
 
