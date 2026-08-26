@@ -1,0 +1,200 @@
+{
+  "acceptanceResults": [
+    "旧 Python Runtime の Make 入口、インストーラ、ライフサイクル補助コードが削除されている。",
+    "インストール済み ai-cockpit 0.2.33 が repository-local Runtime としてこのリポジトリを COMPATIBLE と認識する。",
+    "プロダクトコード、既存の履歴 Work Item、evidence、knowledge、project declaration が保持されている。",
+    "Python Cockpit 補助コードなしでプロジェクトの Rust quality gate と make quality が実行できる。",
+    "Codex adapter とリポジトリ文書が、明示的な --repo を使うインストール版 lifecycle を案内している。"
+  ],
+  "createdAt": "2026-08-26T22:10:22Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4d9c471305fead8057b1fcf99b5a19e4d9a79f461993a7eb0333e4de6040f090",
+  "evidenceRefs": [
+    ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f3353f9b0fae76ddf9b16eed8311a83d6479a7511a2f084898f16722afda2504",
+      "workItemId": "uninstall_python_ai_cockpit"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/agent-interface.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/cockpit.toml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/cockpit/current_status.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/profile-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/project.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/uninstall_python_ai_cockpit.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/2026/uninstall_python_ai_cockpit.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/2026/uninstall_python_ai_cockpit.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-08-27-uninstall-python-ai-cockpit.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/uninstall_python_ai_cockpit.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.contract.json"
+          ],
+          "inference": false,
+          "text": "Python Runtime のリポジトリ内実装を削除し、インストール済み ai-cockpit Runtime を唯一の Cockpit 実行経路にする。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/uninstall_python_ai_cockpit.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "uninstall_python_ai_cockpit"
+  },
+  "taskReportDigest": "sha256:4f7204f0d0266e0f6d7fae7ef1881328226f2413742d9690e5a2fb468329357b",
+  "taskReportMarkdownDigest": "sha256:19b009f0a28be578e49dbad462ff2e2981f18d67fb914dcb72d754cbe028beff",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/uninstall_python_ai_cockpit.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "uninstall_python_ai_cockpit"
+}

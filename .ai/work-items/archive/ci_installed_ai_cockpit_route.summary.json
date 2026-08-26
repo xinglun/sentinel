@@ -1,0 +1,129 @@
+{
+  "changedPaths": [
+    ".github/workflows/develop_checks.yml",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.contract.json",
+    ".ai/work-items/active/ci_installed_ai_cockpit_route.summary.json"
+  ],
+  "checkpointAt": "2026-08-26T22:30:38Z",
+  "checkpointContractDigest": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:3ca338f82a66c7b8ea8d0223286ec933b6a900a9e168e8a58313edfaeac6c0d4",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:30:38Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f435cdb4a99394a708ac30348b2b36730d454e78a62f39a3f8b7ff33f1340e1d",
+      "requiredChecks": 7,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ci_installed_ai_cockpit_route"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:16eee2fc71fe117a67c3a985d056544b6ab55d04f01d70ab1998f0be3e54d6d3",
+      "invalidatedRequiredChecks": [
+        "aiAgentRisk",
+        "aiScope",
+        "aiStatus",
+        "aiStatusCheck",
+        "aiSummary",
+        "aiWorkItem",
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:3ca338f82a66c7b8ea8d0223286ec933b6a900a9e168e8a58313edfaeac6c0d4",
+      "previousContractHash": "sha256:3ca338f82a66c7b8ea8d0223286ec933b6a900a9e168e8a58313edfaeac6c0d4",
+      "reason": "安装版 Runtime 将 requiredEvidenceClasses 解释为 evidence class 名称；把路径值修正为 verification，以便 preflight 消费已生成的 verification evidence。",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:35:08Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "requiredChecks": 7,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "ci_installed_ai_cockpit_route"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:3ca338f82a66c7b8ea8d0223286ec933b6a900a9e168e8a58313edfaeac6c0d4",
+      "previousContractHash": "sha256:16eee2fc71fe117a67c3a985d056544b6ab55d04f01d70ab1998f0be3e54d6d3",
+      "reason": "strict profile 需要旧 Python Runtime 的六个 Agent-Risk verification checks，当前迁移目标只由安装版 Runtime 执行标准项目质量验证；将 profile 降为 standard，避免伪造旧检查结果。",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:39:33Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 1,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "ci_installed_ai_cockpit_route"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+      "recorded": true,
+      "recordedAt": "2026-08-26T22:50:16Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 1,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "ci_installed_ai_cockpit_route"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+  "createdAt": "2026-08-26T22:28:28Z",
+  "failedGate": "finish.lifecycle",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-26T22:49:27Z",
+  "preflightContractDigest": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:aa03f315de0bf1ee31faf26612050ea521ad34f0507f782ab68c215a5aa4e313",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "recoveryRetryPending": true,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+      ],
+      "required": true,
+      "scenario": "installed-runtime-hosted-ci",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-08-26T22:51:29Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ci_installed_ai_cockpit_route"
+}

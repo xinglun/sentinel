@@ -1,0 +1,109 @@
+{
+  "acceptanceCriteria": [
+    "CI 从公开的 ai-cockpit v0.2.33 Release 下载 x86_64 Linux 制品并校验 SHA-256 后再执行 Runtime 命令",
+    "workflow 不再调用已删除的 make check-ai 或 make check-ai-pr",
+    "CI 保留项目 make quality 检查，并使用安装版 ai-cockpit verify 进行显式 PR base revision 验证"
+  ],
+  "authority": "authorized",
+  "baseRevision": "77b37584108e6192be5e8b2bde3c6f5e219e4bc7",
+  "createdAt": "2026-08-26T22:28:28Z",
+  "goal": "移除已删除的 Python Makefile governance 调用，并让 CI 使用公开固定版本的 ai-cockpit CLI 执行兼容性与质量验证",
+  "intent": "更新 hosted CI 以使用安装版 AI Cockpit Runtime",
+  "mode": "code",
+  "problemStatement": "仓库切换到安装版 ai-cockpit 后，GitHub workflow 仍调用已删除的 make check-ai 与 make check-ai-pr，导致 PR CI 在治理检查阶段失败。",
+  "notCodable": false,
+  "unknowns": [],
+  "riskAssessment": {
+    "level": "normal",
+    "reason": "只修改 hosted CI 的 Runtime 安装与验证入口，不改变产品代码、项目质量命令或保护分支策略。",
+    "riskTypes": [
+      "ci_change",
+      "governance_process"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "远端 CI 已提供明确失败日志，根因是 workflow 引用已删除的旧 Makefile 目标；修复范围和验证方式已确定。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit"
+    ],
+    "requiredChecks": [
+      "make quality"
+    ]
+  },
+  "rollbackNote": "恢复 .github/workflows/develop_checks.yml 中的旧调用仅用于诊断；正式回滚应恢复本次提交而不直接 push 保护分支。",
+  "outOfScope": [
+    "Makefile",
+    "src/**",
+    "tests/**",
+    "scripts/**"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:f435cdb4a99394a708ac30348b2b36730d454e78a62f39a3f8b7ff33f1340e1d",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/uninstall-python-ai-cockpit",
+    "provider": "codex",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/92",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/develop_checks.yml",
+    ".ai/work-items/active/**",
+    ".ai/evidence/**"
+  ],
+  "sources": [
+    {
+      "path": ".github/workflows/develop_checks.yml",
+      "reason": "定位仍引用旧 make check-ai 与 make check-ai-pr 的 hosted CI 入口。"
+    },
+    {
+      "path": ".ai/cockpit.toml",
+      "reason": "确认仓库由安装版 ai-cockpit Runtime 管理。"
+    },
+    {
+      "path": ".ai/project.json",
+      "reason": "确认已安装 Runtime 识别的项目质量工具。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认仓库 lifecycle 使用安装版 CLI，并通过显式命令执行项目质量检查。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "installed-runtime-hosted-ci",
+      "required": true,
+      "status": "unverified",
+      "expected": "CI 从固定公开 Release 安装并校验 ai-cockpit，然后完成 compatibility 与 quality verification。",
+      "verificationPlan": "本地运行 YAML/命令级检查，推送后等待 GitHub Actions 全部通过。",
+      "evidence": []
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "ci_installed_ai_cockpit_route"
+}

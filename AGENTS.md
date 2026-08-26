@@ -101,87 +101,86 @@ make clippy
 
 ## 5. AI Cockpit 強制プロトコル
 
-Codex または Antigravity 上の AI Agent が code、test、docs、CI、`.ai`、`skills`、`Makefile`、`AGENTS.md`、`GEMINI.md` を変更する場合、`.ai/cockpit/` を作業入口として扱う。
-
-Work Item 化の基準は AI が関与したかではなく、repo diff と review / audit の必要性があるかで判断する。質問への回答、説明、比較、diff を伴わない臨時調査は Work Item にしない。
-
-次の path や種別を変更する場合、Cockpit / Work Item Contract を必須とする。
-
-- `src/**`、`tests/**` などの code / test
-- `docs/**`、`README.md`、`AGENTS.md`、`GEMINI.md` などの設計・運用文書
-- `scripts/**`、`Makefile` などの checker / command entrypoint
-- `.github/workflows/**` などの CI
-- `.ai/guards/**`、`.ai/cockpit/**`、`.ai/work-items/**` などの guard / cockpit / work item
-- `skills/**` などの Skill / AI 実行手順
+Codex または Antigravity 上の AI Agent が code、test、docs、CI、`.ai`、`skills`、`Makefile`、`AGENTS.md`、`GEMINI.md` を変更する場合、インストール済み `ai-cockpit` を作業入口として扱う。Work Item 化の基準は AI が関与したかではなく、repo diff と review / audit の必要性で判断する。
 
 必須手順:
 
-1. `.ai/cockpit/README.md` で状態定義と作業可否を確認する。Cockpit 状態と status 生成の machine-readable SSOT は `.ai/cockpit/status_policy.yaml` とする。
-2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `make ai-start TASK=<task> TITLE="..." MODE=code` で作成する。template は `.ai/work-items/_templates/work_item_contract.example.json` を参照する。
-3. Work Item Contract の `mode`、`unknowns`、`notCodable`、`scope`、`outOfScope`、`acceptance`、`verification` を確認する。
-4. `notCodable: true` または `unknowns` が残る場合、production code を変更せず、調査、TODO 整理、または blocker 記録に限定する。
-5. Contract の `riskAssessment`、`agentCapability`、`executionDecision`、`preReviewWarnings` を確認する。`executionDecision` が `contract_update_required`、`blocked`、`downgraded_to_investigation` の場合、production code を変更せず Contract 更新、調査、TODO 整理、または blocker 記録に切り替える。
-6. Contract の `checkpointPolicy` に `contract_start`、`before_edit`、`before_ready`、`after_verification` が含まれることを確認する。
-7. coding する場合は `mode: code`、`notCodable: false`、`unknowns: []`、`executionDecision: continue`、`agentCapability.canImplement: true`、`agentCapability.canVerify: true`、`agentCapability.needsHumanDecision: false` を確認し、`scope` に含まれる範囲だけを変更する。
-8. 作業後は `.ai/work-items/active/<task>.summary.json` を更新し、Contract の required checks を `make` 経由で実行する。
-9. 必須 check が失敗した状態で `ready_for_review` と報告しない。required checks が通過しても残余 risk がある場合は、`ready_with_risks` と `expectedReviewFocus` を Summary に記録する。
-10. `make ai-preflight` は実装前の共通入口として使い、active Contract がある場合は Preflight Review を表示して pause rule を明示する。`make generate-ai-preflight-review` は JSON 生成のみ、`make check-ai-preflight-review` は policy 検証のみを担う。
-
+1. `.ai/cockpit/README.md` と `ai-cockpit inspect --repo .` で Runtime、repository identity、状態を確認する。
+2. 現在 task の `.ai/work-items/active/<task>.contract.json` を確認する。存在しない場合は `ai-cockpit work-item new --repo . --id <task> --mode code` で作成する。
+3. `ai-cockpit start` で intent、goal、scope、outOfScope、authority、acceptance、verification を確定する。
+4. Work Item Contract の `mode`、`unknowns`、`notCodable`、`scope`、`outOfScope`、`acceptanceCriteria`、`verification`、`agentCapability`、`executionDecision` を確認する。
+5. `notCodable: true`、unknowns、`executionDecision` の停止値、または検証不能が残る場合は production code を変更しない。
+6. `ai-cockpit preflight` の結果を確認し、`ai-cockpit checkpoint` を編集前に実行する。高リスク・破壊的変更では authority、approval evidence、scenario coverage を Contract に記録する。
+7. scope に含まれる範囲だけを変更し、既存の project code、data、evidence、履歴 Work Item を無断で削除しない。
+8. 完了時は `ai-cockpit verify` で Contract の required `verification[].check` を `make` 経由で実行し、`finish`、`archive` を順に実行する。
+9. required check が失敗した状態で `ready_for_review` と報告しない。残余 risk がある場合は Summary の `residualRisks` と `expectedReviewFocus` に分けて記録する。
+10. `close` は人間の最終判断、authority source、evidence ref が必要な場合だけ実行する。
 
 ### 5.1 Work Item 境界 checklist
 
-新しい Work Item を実装する前に、次の境界を Contract の acceptance または sources に明記する。
+新しい Work Item を実装する前に、次の境界を Contract の scope、acceptance、sources、verification に明記する。
 
 - Gate / execution / trader / action matrix / position sizing に影響するか。影響しない場合は表示・監査専用と明記する。
-- Telegram、Markdown、CLI、audit daily、weekly review のどこに表示するか。表示しない場合も明記する。
-- data branch、reports、JSONL、snapshot、weekly metrics のどこへ保存するか。全文保存と構造化 record を混同しない。
-- zh / en / ja の i18n、snapshot、contract test が必要か。単一言語 report に別言語の設定文を混入させない。
-- fact、manual observation、hypothesis、fixture、local cache を区別し、Reality Layer と Hypothesis Layer を混ぜない。
-- 新しい検証や運用入口は `make` target として提供する。裸の script command を運用手順にしない。
-- data branch は data-only branch とし、code tree、AI governance、local temporary cache を持ち込まない。認知校正の長期比較は週次粒度を標準とする。
-- Agent が実装できるか、検証できるか、人間判断が必要かを `agentCapability` に明記する。
-- review で追加論点が出る可能性がある場合は、`preReviewWarnings` と Summary の `expectedReviewFocus` に先に記録する。
-- Contract 内で危険を認識した場合は、`executionDecision` を `contract_update_required`、`blocked`、または `downgraded_to_investigation` にして止める。実装を続けながら後で Summary だけに risk を書かない。
-- Prompt は助言であり hard boundary ではない。code mode の `executionDecision: continue` では、Contract / scope / guard / backtrack / summary / status の `make` gate を required verification として持つ。
-- 実行途中で重要判断を会話文脈に押し込まない。`checkpointPolicy` の各 checkpoint で、scope、acceptance、verification、agentCapability の変化を Contract / Summary に戻す。
-- 分からないこと、検証できないこと、人間判断が必要なことを実装で埋めない。`agentCapability` が不足する場合は `continue` ではなく blocker、Contract 更新、または investigation 降格にする。
+- Telegram、Markdown、CLI、audit daily、weekly review のどこに表示するか。
+- data branch、reports、JSONL、snapshot、weekly metrics のどこへ保存するか。
+- zh / en / ja の i18n、snapshot、contract test が必要か。
+- fact、manual observation、hypothesis、fixture、local cache を区別する。
+- 新しい検証や運用入口は根 `Makefile` の `make` target として提供する。
+- Agent が実装・検証できるか、人間判断が必要かを `agentCapability` に明記する。
+- review で追加論点が出る場合は `preReviewWarnings` と Summary の `expectedReviewFocus` に記録する。
+- 重要判断を会話文脈だけに残さず、Contract、Summary、checkpoint evidence に戻す。
 
-作業後の Summary には、code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果を残す。未確認項目は未確認として書き、完了を過大に表現しない。required checks 通過後も残る risk は `residualRisks` に分け、review で確認すべき観点は `reviewReadiness.expectedReviewFocus` に記録する。
-
-User correction が発生した場合は、修正だけで終えず、同種の回帰を防ぐために Contract、Summary、document、template、guard、skill のどこへ固化するかを `userCorrectionSolidification` に記録する。
+作業後の Summary には、code / test / docs / i18n / report output / data or weekly record / Make or CI guard の確認結果を残す。未確認項目は未確認として書き、required checks 通過後も残る risk は `residualRisks` に分ける。User correction が発生した場合は `userCorrectionSolidification` に固化先を記録する。
 
 標準 command:
 
 ```bash
-make check-ai-contract CONTRACT=.ai/work-items/active/<task>.contract.json
-make check-ai-scope CONTRACT=.ai/work-items/active/<task>.contract.json
+ai-cockpit inspect --repo .
+ai-cockpit status --repo .
+ai-cockpit doctor --repo .
+ai-cockpit compatibility --repo .
+ai-cockpit preflight --repo . --contract .ai/work-items/active/<task>.contract.json
+ai-cockpit checkpoint --repo . --id <task>
+ai-cockpit verify --repo . --work-item <task> --command make --args quality
+ai-cockpit finish --repo . --id <task>
+ai-cockpit archive --repo . --id <task>
 make fmt-check
-make check-ai-guards CONTRACT=.ai/work-items/active/<task>.contract.json
-make check-architecture-all
-make check-ai-backtrack CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
-make check-ai-coverage-guard
-make check-ai-change-summary SUMMARY=.ai/work-items/active/<task>.summary.json CONTRACT=.ai/work-items/active/<task>.contract.json
-make generate-cockpit-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
-make check-ai-status CONTRACT=.ai/work-items/active/<task>.contract.json SUMMARY=.ai/work-items/active/<task>.summary.json
-make check-ai-status-consistency
-make ai-preflight
+make test
+make clippy
 make quality
 ```
 
-`make test-ai-guards` は `.ai/**/*.yaml` の parse guard を含み、`make check-ai` と `make quality` から実行される。Work Item 文脈では `CONTRACT` と `SUMMARY` を渡す command を優先し、裸の `make quality` だけで Cockpit status consistency を代替しない。
-
-Contract / Summary の `verification[].command` は `make ...` 形式だけを許可する。`python3 scripts/...`、`cargo ...`、`bash ...`、`git ...` などの裸 command が必要になった場合は、先に Makefile target を追加してから、その `make` target を verification に記録する。
-
-Work Item を完了する時は次を使う。
-
-```bash
-make ai-finish TASK=<task>
-```
-
-`make ai-finish` は required checks を再実行し、成功した場合だけ Work Item を archive する。
-
-Skill と Cockpit の内容が衝突する場合は、Work Item Contract の `scope`、`outOfScope`、`unknowns`、`notCodable`、`verification` を優先し、必要なら作業を止めて blocker として報告する。
-
+`verification` は installed Contract の `check` 宣言を使い、裸の `python3 scripts/ai_*.py` や旧 `make ai-*` を新しい運用手順に追加しない。Contract の scope、outOfScope、guard、backtrack、status の判断はインストール版 Runtime の protocol と repository-local 設定に従う。
 ## 6. 核心原則
 
 ユーザーとの対話は中国語、repository 内の手書き comment と document 本文は日本語、identifier は英語、metadata と履歴は front matter と Git に分離する。
+<!-- AI_COCKPIT_ADAPTER_BEGIN provider=codex adapterVersion=1 repositoryId=sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350 -->
+
+This repository is attached to AI Cockpit.
+
+Canonical interface: .ai/agent-interface.json
+Read .ai/README.md before acting; read .ai/glossary.md for the repository-local Agent route and vocabulary.
+
+Use the installed shared Rust Runtime as the repository-governance interface.
+Every repository-bound command must include an explicit --repo <path>.
+Prefer MCP when available; CLI remains the fallback. Do not infer AI Cockpit state from this file. Query the Runtime for current governance state.
+
+Before editing, query inspect, status, doctor, and agent doctor. Use one bounded Work Item, branch, and worktree. Keep all edits inside the Contract scope; amend and re-run preflight before expanding it.
+
+Contract first: intent, scope, outOfScope, sources, unknowns, acceptance criteria, verification, and authority are human-owned. For code mode, unresolved unknowns or notCodable conditions stop implementation. Do not invent intent, approval, evidence, or completion.
+
+A preflight result of not_ready or needs_human_confirmation is a mandatory human pause. Show the humanDecisionRequest and resume condition; a successful command or yellow result is not authorization.
+
+For authorized changes use: start or work-item new → preflight → checkpoint → verify → finish → archive → close. Keep the Summary current with changed paths and reasons, sources, verification commands/results, guideline compliance, unknowns, risk, generated/destructive changes, and observed issues.
+
+Before archive, present a visible human Outcome with 🟢/🟡/🔴, facts, unknowns, evidence, human decision, and next action. A raw MCP record or folded-only output is not a human handoff. Close only after the merged PR, archive, decision, default-branch synchronization, clean worktrees, and exact branch removal are verified.
+
+Canonical delivery order is latest remote default base → dedicated branch/worktree → implement → finish/archive → push → reviewed PR → merge → close → synchronize and clean. Never merge a feature branch into local main before PR review, delete its branch before merge, or let a provider auto-delete it to bypass finalization. If a remote step fails, preserve the retry checkout and identity until recovery is complete.
+
+A terminal green Outcome is the Rust equivalent of status=completed plus humanStatusColor=green: it requires state=Verified, decisionState=green, current Contract/Summary/evidence bindings, and direct human-visible delivery. Include issue count, blockers/stopping reason, resolved issues, risks, unknowns, verification, impact, human decision, and next action; every factual claim needs evidence, and unproven benefit is an inference.
+
+When a defect is found in the current Work Item, repair it there by amending and revalidating its Contract before opening another Work Item or Issue. A successor is allowed only for a genuinely different scope, authority, or base, an independent compatible change, an unsafe in-scope repair, immutable failed delivery, or explicit human direction.
+
+Never edit global Agent or MCP configuration, secrets, or credentials. Do not copy V1 runtime code, Python modules, Make commands, installers, or schemas into this repository.
+
+<!-- AI_COCKPIT_ADAPTER_END -->

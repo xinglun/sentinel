@@ -1,0 +1,24 @@
+{
+  "actor": "user",
+  "authoritySource": "direct-user-instruction",
+  "decidedAt": "2026-08-26T23:00:56Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+  "predecessorEventsDigest": "sha256:00cf869a6da4b1239a7c9b89e82be19fe233a8da8b0709e4a352bfdebcff591b",
+  "predecessorOutcomeDigest": "sha256:c440ef327d4bdf6fefe762ee5b04f07b887ff5867c4f22fcd8b5e8ed53ee2248",
+  "predecessorSummaryDigest": "sha256:0ddee169dd21dd310ff3b053de8fe00cf28f218067984ae39c401c622f287782",
+  "predecessorWorkItemId": "ci_installed_ai_cockpit_route",
+  "reason": "原 Work Item 在 before_finish 后再次进入 lifecycle 阻断；按 Runtime 协议将其 supersede 为历史记录，并使用已存在的 successor Contract 沿用已验证的 CI 路由。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor Work Item inherits the current Contract and requires fresh preflight, verification, and finish",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "successorWorkItemId": "ci_installed_ai_cockpit_route_recovery",
+  "workItemId": "ci_installed_ai_cockpit_route"
+}

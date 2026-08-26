@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-26T22:59:50Z",
+  "files": {
+    "contractDigest": "sha256:6a2951884d13ab339e1b830770919df23f6f6ad199e58eed3691e8f52fb74ff3",
+    "contractPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.contract.json",
+    "eventsDigest": "sha256:3e4b0f5dcd2485473bc13664b461c8769cebfb4c184205d1b3ed203111798326",
+    "eventsPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.events.jsonl",
+    "outcomeDigest": "sha256:f58d11e03242e8ca10d096c9dc572db66ca71b7560feeca165787e5597c56c94",
+    "outcomePath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.outcome.json",
+    "summaryDigest": "sha256:f672775aadc7a1f0462a7d6b47b84adbfdbca3ba3b85b29aec9ab4363876dc67",
+    "summaryPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.summary.json",
+    "taskReportDigest": "sha256:e628b21ac0bd8775dc6db129bdaedbdd27d4d723a7e0e462818d09ae852f963d",
+    "taskReportMarkdownDigest": "sha256:1dec2667c46cb0ddc482b05b994afe876fd0697569c5ac01ee83c36c6f7307af",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route_recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ci_installed_ai_cockpit_route_recovery"
+}

@@ -1,0 +1,23 @@
+{
+  "actor": "user",
+  "authoritySource": "direct-user-instruction",
+  "decidedAt": "2026-08-26T22:46:19Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/ci_installed_ai_cockpit_route.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:92686e679d03f63830137b506feb09043248d15954395b5a50ba98787f693cdd",
+  "predecessorEventsDigest": "sha256:174a45847e7692d6d3dc7c6d5f0d60f0347b1278f58c2dcd48ab9f9e1a0e3c81",
+  "predecessorOutcomeDigest": "sha256:787caccdea75682bada1c529cd9db0e40964d1baf5b07404bbd4065534ab69c5",
+  "predecessorSummaryDigest": "sha256:d2f6ab721a95f5dadf93d055331b463682bfaa2591158ca13a5aadf5c63a1949",
+  "predecessorWorkItemId": "ci_installed_ai_cockpit_route",
+  "reason": "上一次 finish 在治理检查字段迁移过程中被阻断；当前 Contract 已调整为 standard 并完成 fresh verification，按 retry 恢复同一 Work Item。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "fresh verification evidence for the current standard Contract followed by preflight and finish",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "ci_installed_ai_cockpit_route"
+}

@@ -1,0 +1,21 @@
+{
+  "createdAt": "2026-08-26T23:01:07Z",
+  "files": {
+    "approachDigest": "sha256:297c72650d491674d6f08ff7a3b1ef800587912520c4959f25c8cfdd06a8be65",
+    "approachPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route.approach.json",
+    "contractDigest": "sha256:ef6193babd4bc54a68d96e3f14e55775c512e308d1a76f259e573802c4ed8a28",
+    "contractPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route.contract.json",
+    "eventsDigest": "sha256:00cf869a6da4b1239a7c9b89e82be19fe233a8da8b0709e4a352bfdebcff591b",
+    "eventsPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route.events.jsonl",
+    "outcomeDigest": "sha256:c999d13d1a132539898ad1a64dbd5481c9a70714806908f9ca8e5379e10099ee",
+    "outcomePath": ".ai/work-items/archive/ci_installed_ai_cockpit_route.outcome.json",
+    "summaryDigest": "sha256:4293d152d451376fb4d39a9f0b451481bfb31896d08b08e8e7aa4dc78cacc311",
+    "summaryPath": ".ai/work-items/archive/ci_installed_ai_cockpit_route.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "state": "superseded",
+  "supersededBy": "ci_installed_ai_cockpit_route_recovery",
+  "supersessionDecisionPath": ".ai/decisions/ci_installed_ai_cockpit_route.recovery.32515ce89cb8b03afee082559e66f01b84cef29bf84a6bb0dd17a9853ed53b42.json",
+  "workItemId": "ci_installed_ai_cockpit_route"
+}
