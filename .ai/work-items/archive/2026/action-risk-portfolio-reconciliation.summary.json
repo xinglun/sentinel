@@ -1,0 +1,402 @@
+{
+  "summaryVersion": 2,
+  "workItemId": "action-risk-portfolio-reconciliation",
+  "contractPath": ".ai/work-items/archive/2026/action-risk-portfolio-reconciliation.contract.json",
+  "changedFiles": [
+    {
+      "path": ".ai/cockpit/current_status.md",
+      "reason": "Work Item の現在状態を Contract / Summary と同期する。"
+    },
+    {
+      "path": ".ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "reason": "ユーザー承認済みの scope、acceptance、scenario coverage、verification を記録した。"
+    },
+    {
+      "path": ".ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "reason": "実装、テスト、required checks、checkpoint、review readiness を記録する。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Action Matrix、Risk Adjustment、Observation Modifier、Portfolio Action を report body で分離表示する。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "RECOVERY_WATCH の説明を Observation Modifier として層分離する。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "三言語の層ラベル、action-neutral trigger、趋势凝聚 / Leadership 表示を整合させる。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "三言語、Markdown / Telegram HTML / archival Markdown の semantic regression を追加・更新した。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "非保有 REDUCE signal が実際の Portfolio Action と混ざらないことを固定した。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+      "reason": "中国語 Markdown の新しい層ラベルと trend heading を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+      "reason": "中国語 Telegram HTML の新しい層ラベルと trend heading を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.md",
+      "reason": "英語 Markdown の新しい層ラベルと Leadership heading を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+      "reason": "英語 Telegram HTML の新しい層ラベルと Leadership heading を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+      "reason": "日本語 Markdown の新しい層ラベルと leadership heading を固定する。"
+    },
+    {
+      "path": "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+      "reason": "日本語 Telegram HTML の新しい層ラベルと leadership heading を固定する。"
+    }
+  ],
+  "sourcesUsed": [
+    ".ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+    "docs/superpowers/plans/2026-08-21-effective-action-reconciliation.md",
+    "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "AGENTS.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "非保有 GOOG/SPY 的 REDUCE signal 显示 Action Matrix、Risk Adjustment、Trigger 和 Portfolio Action NONE",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::radar::interface::presentation_tests -- --nocapture",
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "TSLA 的 RECOVERY_WATCH 显示为 Observation Modifier，不解除 REDUCE signal 或基础 Action Matrix",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture",
+        "recovery_watch_is_rendered_as_modifier_not_action_reason"
+      ]
+    },
+    {
+      "scenario": "持有 REDUCE/EXIT 标的仍显示实际 Portfolio Action，而 signal 与 actual action 不混淆",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib features::radar::interface::presentation_tests -- --nocapture",
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "zh/en/ja 的 Markdown、Telegram HTML、archival Markdown 使用同一套四层处置语义",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "exit_semantic_layers_are_consistent_across_languages_and_bodies",
+        "UPDATE_SNAPSHOTS=1 cargo test --lib features::radar::interface::report_ui_tests -- --nocapture",
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "首页趋势凝聚与 Leadership/领导结构标题不再重复字段名",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "leaderless_reconciliation_reaches_all_report_bodies_without_erasing_long_term_context",
+        "cargo test --lib features::radar::interface::report_ui_tests -- --nocapture",
+        "cargo test --lib features::radar::interface::presentation_tests -- --nocapture"
+      ]
+    },
+    {
+      "scenario": "Gate、Execution、Trader、Action Matrix 判定与阈值保持不变",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "make check-ai-scope CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+        "make check-ai-coverage-guard",
+        "make check-architecture-all",
+        "make test",
+        "make clippy"
+      ]
+    }
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "command": "make test",
+      "result": "passed"
+    },
+    {
+      "command": "make clippy",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "result": "passed"
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "result": "passed"
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "result": "passed"
+    },
+    {
+      "command": "make check-architecture-all",
+      "result": "passed"
+    },
+    {
+      "command": "make quality",
+      "result": "passed"
+    }
+  ],
+  "unknownsRemaining": [],
+  "risk": {
+    "level": "medium",
+    "detail": "report semantics と三言語 snapshot の変更を required checks で検証する。execution boundary、Gate、threshold、NO_TRADE は scope 外として維持する。"
+  },
+  "generatedFiles": [
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    ".ai/cockpit/current_status.md"
+  ],
+  "destructiveChanges": [
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "classification": "guard_detected_value_rewrite",
+      "detail": "Backtrack guard 将被替换的 .to_string() 文案行视为 removed_i18n_key 候选；本次未删除任何 dictionary field/key，仅更新 zh/en/ja 的展示文案和语义标签。",
+      "approval": "用户已授权完整 WI 流程；Contract 仅允许该 i18n path，并保留 human approval required。"
+    }
+  ],
+  "observedIssues": [
+    "TDD RED 阶段确认旧 renderer 会把非保有 REDUCE signal 渲染成含有减仓动作语义的单行标题；已通过四层 renderer 修复。",
+    "多语言 HTML 初版仍将 TRIM 映射成实际动作，已统一使用 Risk Adjustment Signal: REDUCE 并由 Portfolio Action 层单独表达实际动作。",
+    "RECOVERY_WATCH 原有说明会与触发原因连续转弱语义相邻；已改为明确保持基础 Action Matrix、风险调整信号不解除的 Observation Modifier 说明。",
+    "check-ai-backtrack 初次将 i18n value rewrite 判为 removed_i18n_key；已通过 path-scoped Contract approval 和 Summary evidence 明确这是文案替换而非 key 删除。",
+    "make quality 首次整体退出码为 2，根因是最终 ai_check_summary 读取了旧 checkpoint 计数；其 reference-impact、test-weakening、coverage、架构、Rust test 与 clippy 子检查均已通过，Summary 修正后需重跑最终 quality。"
+  ],
+  "followUps": [
+    "继续运行真实市场数据，观察 RS Recovery 是否从局部修复扩散到 Leadership reconstruction；本 Work Item 不调整相关阈值或 Gate。"
+  ],
+  "unverifiedScenarios": [],
+  "residualRisks": [
+    {
+      "level": "medium",
+      "area": "presentation_semantics",
+      "detail": "本次修正解决了 renderer 层混淆，但仍需 review 关注四层字段在日报阅读路径中的自然度与用户认知。",
+      "reviewRecommended": true,
+      "followUpCandidate": false
+    },
+    {
+      "level": "low",
+      "area": "real_market_validation",
+      "detail": "TSLA RECOVERY_WATCH 是否领先 Leadership reconstruction 仍需后续真实市场观察；不属于本次静态 report 验证。",
+      "reviewRecommended": true,
+      "followUpCandidate": true
+    }
+  ],
+  "reviewReadiness": {
+    "status": "ready_with_risks",
+    "reason": "focused regression、全 required make checks、fresh quality 与 Cockpit status 的验证均通过；presentation semantics 与 real_market_validation 的 residual risk 仍保留为 review focus。",
+    "expectedReviewFocus": [
+      "四层语义是否分别表达 Action Matrix、Risk Adjustment、Observation Modifier 与 Portfolio Action。",
+      "非保有 signal 的 Portfolio Action 是否明确为 NONE，持有标的的 TRIM/EXIT 是否保留。",
+      "zh/en/ja 的 Markdown、Telegram HTML、archival Markdown 是否同义且不混入 execution boundary。"
+    ]
+  },
+  "intentAlignment": {
+    "status": "aligned",
+    "evidence": [
+      "仅修改 interface/report/i18n/read-model 投影、测试与 snapshots；未修改 Gate、Execution、Trader、Action Matrix 判定、阈值或 NO_TRADE。",
+      "用户要求的四层语义、RECOVERY_WATCH modifier 和趋势标题调整均有回归测试覆盖。"
+    ]
+  },
+  "documentationAlignment": {
+    "schemaVersion": 1,
+    "status": "checked",
+    "checkedAt": "2026-08-26",
+    "checks": [
+      {
+        "area": "plan",
+        "status": "aligned",
+        "evidence": [
+          "docs/superpowers/plans/2026-08-21-effective-action-reconciliation.md"
+        ],
+        "reason": "沿用现有 signal 与 actual portfolio action 边界。"
+      },
+      {
+        "area": "contractSummaryEvidence",
+        "status": "aligned",
+        "evidence": [
+          "Contract acceptance、scenarioCoverage、verification 与本 Summary 对齐。"
+        ],
+        "reason": "实现范围和证据已回写 Work Item。"
+      },
+      {
+        "area": "documentationCommandsCapability",
+        "status": "aligned",
+        "evidence": [
+          "required verification 全部使用 make entrypoint。"
+        ],
+        "reason": "未将裸脚本命令作为运行入口。"
+      },
+      {
+        "area": "multilingualSemantics",
+        "status": "aligned",
+        "evidence": [
+          "zh/en/ja report UI regression 与六个 snapshots。"
+        ],
+        "reason": "三语言同义层标签和动作中立 trigger 已固定。"
+      },
+      {
+        "area": "limitationsUnknownsHistory",
+        "status": "aligned",
+        "evidence": [
+          "unknownsRemaining=[]；真实市场扩散验证记录为 follow-up。"
+        ],
+        "reason": "未把静态 report 验证过度外推为市场行为结论。"
+      }
+    ]
+  },
+  "boundaryChecks": {
+    "runtimeEntrypoints": "not_applicable",
+    "userVisibleOutput": "verified",
+    "persistence": "not_applicable",
+    "localization": "verified",
+    "generatedArtifacts": "verified",
+    "makeEntrypoints": "verified"
+  },
+  "userCorrectionsCaptured": [
+    "基础 Action Matrix 与风险调整信号必须显式分层。",
+    "RECOVERY_WATCH 只能作为 Observation Modifier，不能解除 REDUCE。",
+    "趋势凝聚标题应避免字段名重复。"
+  ],
+  "userCorrectionSolidification": [
+    {
+      "correction": "用户指出 HOLD / OBSERVE 与减仓信号混在同一行会产生语义矛盾。",
+      "solidifiedTo": "contract",
+      "reason": "Contract 增加四层 acceptance，renderer 分离 signal / actual action，并在三语言多 body test 中固定 NONE、REDUCE、RECOVERY_WATCH。"
+    },
+    {
+      "correction": "用户要求保留当前 Gate、阈值和 NO_TRADE 逻辑，停止继续调整判定。",
+      "solidifiedTo": "contract",
+      "reason": "Contract 明确将 domain/application/trading/gate 与既有阈值、NO_TRADE 判定列为 outOfScope，并通过 scope / architecture / coverage checks 约束。"
+    }
+  ],
+  "checkpointEvidence": [
+    {
+      "stage": "contract_start",
+      "recorded": true,
+      "contractHash": "579005b462eee2d9",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0,
+      "detail": "Contract 已根据用户授权、边界确认和 backtrack 的 i18n value rewrite 证据完成更新。"
+    },
+    {
+      "stage": "before_edit",
+      "recorded": true,
+      "contractHash": "579005b462eee2d9",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0,
+      "detail": "先复现非保有 REDUCE signal 与旧 trend heading 的 TDD RED，再开始最小实现；i18n approval 在 guard 复核阶段补充。"
+    },
+    {
+      "stage": "before_ready",
+      "recorded": true,
+      "contractHash": "579005b462eee2d9",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 0,
+      "detail": "focused regression、Contract、scope、fmt、Rust test、clippy、guards、backtrack、coverage、scenario coverage 和 architecture 已通过；按 checkpoint contract 记录 requiredChecksPassed=0。"
+    },
+    {
+      "stage": "after_verification",
+      "recorded": true,
+      "contractHash": "579005b462eee2d9",
+      "acceptanceCount": 8,
+      "unknownCount": 0,
+      "requiredChecks": 15,
+      "requiredChecksPassed": 15,
+      "detail": "15 项 required verification 已执行并记录为 passed；fresh make quality 以退出码 0 完成，Summary、status 与 preflight consistency 也已通过。"
+    }
+  ],
+  "checkpointReview": [
+    {
+      "checkpoint": "contract_start",
+      "status": "confirmed",
+      "note": "scope、acceptance、unknowns、verification 已确认。"
+    },
+    {
+      "checkpoint": "before_edit",
+      "status": "confirmed",
+      "note": "TDD RED 复现后才开始 production edit。"
+    },
+    {
+      "checkpoint": "before_ready",
+      "status": "confirmed",
+      "note": "focused regression 与首批 required checks 已通过；i18n guard 误报已通过 path-scoped approval 固化。"
+    },
+    {
+      "checkpoint": "after_verification",
+      "status": "confirmed",
+      "note": "15 项 required verification 与 fresh quality 均有通过证据；real_market_validation 的后续连续性观察仍是 review focus。"
+    }
+  ],
+  "knownGaps": [
+    "真实市场中 RS Recovery → Diffusion → Leadership reconstruction 的持续性尚未在本 Work Item 内验证。"
+  ],
+  "overclaimPrevention": "已将 required checks 的 fresh pass 与 real_market_validation 未覆盖范围分开记录，不把静态展示验证表述为真实市场行为验证。"
+}

@@ -1,0 +1,246 @@
+{
+  "contractVersion": 2,
+  "workItemId": "action-risk-portfolio-reconciliation",
+  "mode": "code",
+  "title": "明确 Action Matrix、风险调整信号、观察修正与组合动作分层",
+  "baseCommit": "04ef342ad25da35c7eb3c4be39d52afde0a72dc5",
+  "baselineDirtyPaths": [],
+  "problemStatement": "日报将 Action Matrix 的基础状态、持续性减仓信号、RECOVERY_WATCH 观察修正与实际组合动作混在同一行，导致 HOLD/OBSERVE 与减仓信号看起来相互矛盾；趋势凝聚状态值也存在字段名重复。",
+  "intent": {
+    "problem": "把现有 presentation/report read model 中的四个语义维度显式投影出来，让用户能区分基础处置状态、风险调整信号、观察修正和组合执行结果。",
+    "constraints": [
+      "只修改 presentation/report/i18n/read-model 投影和回归测试，不修改 Gate、Execution、Trader、Action Matrix 判定、Position Sizing、RS threshold、Breadth threshold 或 NO_TRADE 逻辑。",
+      "保留既有 signal_items 与持仓 gated items 的 portfolio fact 边界；非保有 REDUCE/EXIT signal 的实际 Portfolio Action 必须为 NONE。",
+      "zh/en/ja 的 Markdown、Telegram HTML、archival Markdown 必须表达同一组四层语义。",
+      "RECOVERY_WATCH 只作为 Observation Modifier，不解除风险调整信号，也不改写基础 Action Matrix 状态。",
+      "趋势凝聚值改为短状态值，避免出现字段名重复。"
+    ],
+    "rationale": "用户评审确认当前稳定性、Leader absence、RS Recovery、RS Diffusion 和 Effective Action 已通过，剩余 P1 是减仓语义分层，P2 是趋势凝聚标题自然度；继续修改 Gate 或阈值会超出验证目标。"
+  },
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+    ".ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "outOfScope": [
+    "src/features/radar/domain/**",
+    "src/features/radar/application/**",
+    "src/features/trading/**",
+    "src/features/gate/**",
+    "data/**",
+    "reports/**",
+    "weekly metrics、JSONL persistence、data branch write-back",
+    "Market Permission、Asset Eligibility、Effective Action、RS Recovery、RS Diffusion、Leader absence、NO_TRADE 的既有判定和阈值",
+    "候補順位、候補資格、Leadership qualification 与真实市场观察数据"
+  ],
+  "sources": [
+    {
+      "path": "docs/superpowers/plans/2026-08-21-effective-action-reconciliation.md",
+      "reason": "现有 signal/action 分离和 portfolio state 边界的实现计划。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-18-observation-semantic-reconciliation-design.md",
+      "reason": "Observation、RECOVERY_WATCH、Trend Cohesion 和 Action Matrix 的语义边界。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown、Telegram HTML 和 archival report 的当前处置项渲染入口。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "zh/en/ja 的处置原因、趋势凝聚标签和 report 文案来源。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "三语言 report 输出的现有回归边界和 RECOVERY_WATCH fixture。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_tests.rs",
+      "reason": "signal_items 与持仓 gated items 的 presentation 级回归边界。"
+    },
+    {
+      "path": "AGENTS.md",
+      "reason": "Sentinel 的语言、Cockpit、Work Item 与 Rust quality gate 约束。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "非保有 GOOG/SPY 的 REDUCE signal 显示 Action Matrix、Risk Adjustment、Trigger 和 Portfolio Action NONE",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待 TDD failing-first 与实现后 report regression 验证。"
+    },
+    {
+      "scenario": "TSLA 的 RECOVERY_WATCH 显示为 Observation Modifier，不解除 REDUCE signal 或基础 Action Matrix",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待三层语义回归测试验证。"
+    },
+    {
+      "scenario": "持有 REDUCE/EXIT 标的仍显示实际 Portfolio Action，而 signal 与 actual action 不混淆",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待现有持仓 fixture 的 renderer 回归验证。"
+    },
+    {
+      "scenario": "zh/en/ja 的 Markdown、Telegram HTML、archival Markdown 使用同一套四层处置语义",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待 localized UI tests 与 snapshots 验证。"
+    },
+    {
+      "scenario": "首页趋势凝聚与 Leadership/领导结构标题不再重复字段名",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待三语言 report assertion 验证。"
+    },
+    {
+      "scenario": "Gate、Execution、Trader、Action Matrix 判定与阈值保持不变",
+      "required": true,
+      "status": "unverified",
+      "evidence": [],
+      "reason": "待 make test、make clippy、make check-architecture-all 和 scope guard 验证。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "riskAssessment": {
+    "level": "medium",
+    "riskTypes": [
+      "architecture_boundary",
+      "i18n_snapshot",
+      "evidence_insufficient",
+      "review_debt",
+      "destructive_change"
+    ],
+    "reason": "report 文案直接影响用户对处置和组合动作的理解；实现需保持现有 read model 和 execution boundary，仅改显式投影与文案。"
+  },
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "humanReview": {
+    "status": "confirmed",
+    "decision": "用户已授权按完整 WI 流程实施本轮 P1/P2 presentation/domain reconciliation，并要求保留 Gate、阈值、NO_TRADE 与真实市场观察逻辑不变。",
+    "openQuestions": [
+      "review 重点确认四层语义是否分别表达 Action Matrix、Risk Adjustment、Observation Modifier 与 Portfolio Action。",
+      "review 重点确认非保有 signal 的 Portfolio Action 是否明确为 NONE，以及三语言三种 report body 是否同义。"
+    ]
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "scope、sources、acceptance、scenario coverage 与 required verification 已确定，用户已授权完整 WI 流程。"
+  },
+  "preReviewWarnings": [
+    "不要把 Risk Adjustment Signal 重新写成基础 Action Matrix State。",
+    "不要让 RECOVERY_WATCH 取消 REDUCE signal 或改变 actual portfolio action。",
+    "不要修改 Gate、Execution、Trader、Action Matrix 判定、Position Sizing、阈值或 NO_TRADE。"
+  ],
+  "checkpointPolicy": {
+    "requiredCheckpoints": [
+      "contract_start",
+      "before_edit",
+      "before_ready",
+      "after_verification"
+    ],
+    "reminder": "scope / acceptance / verification / agentCapability が変わった場合は Contract と Summary を更新してから進める。"
+  },
+  "acceptance": [
+    "非保有 REDUCE/EXIT signal 的 report 明确显示基础 Action Matrix、Risk Adjustment Signal、Trigger、Observation Modifier（若有）和 Portfolio Action NONE。",
+    "持有 REDUCE/EXIT 标的的 signal 与实际 Portfolio Action 分开显示，实际 TRIM/EXIT 不因 presentation 重构而消失。",
+    "TSLA 风格的 RECOVERY_WATCH 保留基础 Action Matrix 与风险调整信号，解释明确短期 RS 恢复不等于风险解除。",
+    "减仓/退出触发原因不再把“执行减仓/执行退出”混入 signal reason；实际动作只在 Portfolio Action 层表达。",
+    "趋势凝聚和 Leadership/领导结构标题使用不重复的状态值与字段名，zh/en/ja 均通过。",
+    "Markdown、Telegram HTML、archival Markdown 的四层处置语义和趋势标题一致。",
+    "Gate、Execution、Trader、Action Matrix、Position Sizing、RS/Breadth threshold 与 NO_TRADE 判定没有 production behavior diff。",
+    "Work Item Summary 记录 code、test、docs、i18n、report output、data/weekly record、Make/CI guard 的确认结果和 residual risk。"
+  ],
+  "verification": [
+    {
+      "command": "make check-ai-contract CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scope CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make fmt-check",
+      "required": true
+    },
+    {
+      "command": "make test",
+      "required": true
+    },
+    {
+      "command": "make clippy",
+      "required": true
+    },
+    {
+      "command": "make check-ai-guards CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-backtrack CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-coverage-guard",
+      "required": true
+    },
+    {
+      "command": "make check-ai-scenario-coverage CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-change-summary SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json",
+      "required": true
+    },
+    {
+      "command": "make generate-cockpit-status CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status CONTRACT=.ai/work-items/active/action-risk-portfolio-reconciliation.contract.json SUMMARY=.ai/work-items/active/action-risk-portfolio-reconciliation.summary.json",
+      "required": true
+    },
+    {
+      "command": "make check-ai-status-consistency",
+      "required": true
+    },
+    {
+      "command": "make check-architecture-all",
+      "required": true
+    },
+    {
+      "command": "make quality",
+      "required": true
+    }
+  ],
+  "destructiveChangePolicy": {
+    "allowed": true,
+    "requiresHumanApproval": true,
+    "allowPatterns": [
+      "src/features/shared/interface/i18n.rs"
+    ]
+  },
+  "rollbackNote": "回退本 Work Item 专用分支的 diff，并同时回退相关 report tests/snapshots；不改写 develop 历史。"
+}
