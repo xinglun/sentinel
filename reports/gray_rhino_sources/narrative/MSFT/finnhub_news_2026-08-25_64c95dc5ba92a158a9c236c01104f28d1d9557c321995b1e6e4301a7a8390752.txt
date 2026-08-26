@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'OpenAI’s Head of Data Centers Has Left Company' - Wall Street Journal
+  summary: https://www.wsj.com/tech/ai/openais-head-of-data-centers-has-left-company-6d24fd83
+  url: https://finnhub.io/api/news?id=39b0fa466d0cb9b891e3559e572209ddfe0e69e49183b31d4629ae9ca8373ed2

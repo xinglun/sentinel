@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Website Shows Updated US Cybertruck Pricing, With Dual Motor AWD At $74,990 And Premium All-Wheel Drive At $84,990
+  summary: -Company Website 
+  url: https://finnhub.io/api/news?id=e53cb04507d3fd016f9711d02dc5afe9622d7c1671bb2e7da6904c0d197ed9a3

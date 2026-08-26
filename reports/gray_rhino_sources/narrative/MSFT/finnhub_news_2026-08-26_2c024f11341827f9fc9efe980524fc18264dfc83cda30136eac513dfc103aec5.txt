@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Capacity Is Selling - But Cash Conversion Is Lagging
+  summary: Microsoft is rated a Hold; AI-driven Azure growth and monetization must improve gross profit and cash conversion. Read more on MSFT stock here.
+  url: https://finnhub.io/api/news?id=af4c24676e2fe4dd3be6a5e8f1865d106a44e660e1f6de2bd96ce54d98f064e3

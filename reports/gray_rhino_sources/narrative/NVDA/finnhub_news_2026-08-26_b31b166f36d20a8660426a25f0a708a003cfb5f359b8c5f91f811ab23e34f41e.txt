@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI's Bar Mitzvah Moment: From Hype And Hope To Business Questions
+  summary: Notwithstanding its longer history, the effect on AI has been explosive in the last four years, manifesting in multiple developments.
+  url: https://finnhub.io/api/news?id=33050069b185f62edc20d73ca7c1b76aac2cbd08e64f3ac8bac0a4c87663ecf2

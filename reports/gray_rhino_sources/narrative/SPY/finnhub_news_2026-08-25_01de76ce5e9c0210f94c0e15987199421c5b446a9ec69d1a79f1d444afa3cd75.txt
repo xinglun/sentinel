@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Rubio tells allies U.S. shifting from strikes to sanctions on Iran'- Axios
+  summary: https://www.axios.com/2026/08/25/rubio-iran-war-hormuz-oil
+  url: https://finnhub.io/api/news?id=6e1944c9e5472ea7b266fd6321e87c373ff6a9a4b6722b2dadd0f7766477efa8

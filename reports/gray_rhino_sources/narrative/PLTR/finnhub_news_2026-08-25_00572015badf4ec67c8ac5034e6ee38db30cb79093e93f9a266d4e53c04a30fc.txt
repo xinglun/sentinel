@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With the Drop in Palantir Stock Today?
+  summary: Palantir Technologies shares are trading lower Tuesday, even as Truist Securities reiterated a Buy rating and $223 price target on the stock.
+  url: https://finnhub.io/api/news?id=4651259096c8b317ea2733aef7fcdd1178ca3304548ff744eebf93b34ce9cc76

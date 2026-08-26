@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer: Williams Companies Is 'Terrific,' This Tech Company Had An ‘Amazing’ Quarter
+  summary: Jim Cramer shares his opinions on Rocket Lab, Canadian Natural Resources, Palantir, IBM and Williams Companies on Mad Money Lightning Round.
+  url: https://finnhub.io/api/news?id=a5715a89f502463a41c3d3b22f0984775bc42bd574e0a5aa8ba7992a4d567968

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says SpaceX Targeting Q4 2027 Launch for Nvidia-Powered AI System—Touts ‘Lower Cost, Denser and Lighter’ Design
+  summary: SpaceX CEO Elon Musk touts cost-effective design after chipmaker NVIDIA reveals Vera CPU, optimized for orbital AI compute.
+  url: https://finnhub.io/api/news?id=74329556fe2159413a6de51492adb8a3d6af3d76bab605b0715aec4d9334dc2e

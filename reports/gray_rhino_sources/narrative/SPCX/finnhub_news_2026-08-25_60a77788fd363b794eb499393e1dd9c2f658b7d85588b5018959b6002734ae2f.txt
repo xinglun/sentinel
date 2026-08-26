@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s xAI Sounds Alarm Over Power Shutdown: Grok Could ‘Largely Cease to Function’
+  summary: xAI warns that shutting down gas turbines could cripple Grok, disrupt AI services used by millions worldwide.
+  url: https://finnhub.io/api/news?id=ac85b276750d887980b3e78e2e5b46ccd374349e26b6e1940a51c47e6c708262

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Seeking And Finding Data Center Clarity: The AI Trade And The Economy (Video)
+  summary: The AI data center boom faces regulatory scrutiny and shifting power demand signals. Click for this look at how the current tech wave affects the economy.
+  url: https://finnhub.io/api/news?id=83dd865c525020fe5df0907bb850f6f2493ba32e01162770b91820599548fa60

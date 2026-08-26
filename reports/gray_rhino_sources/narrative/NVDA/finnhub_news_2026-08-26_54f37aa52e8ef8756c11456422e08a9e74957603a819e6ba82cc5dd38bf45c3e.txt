@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Earnings Preview: AI Capex, Blackwell Ramp And 216.40 Bullish Breakout Hold The Key
+  summary: Ahead of todayâs NVIDIA Q2 FY2027 earnings, the setup is clear: the stock is no longer just trading on âArtificial Intelligence (AI) demand is strongâ. Read more here...
+  url: https://finnhub.io/api/news?id=e5dfd9a9c7a3047722edb217b4b2b5e56b50750a8d950342f7ecfab59f32308d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Says Sergey Brin 'Leading' Campaign to Stop California's 5% Billionaire Tax: 'Greed is a Sickness'
+  summary: Sanders criticizes Google co-founder Brin for opposing wealth tax, accusing him of prioritizing his fortune over children&#39;s healthcare.
+  url: https://finnhub.io/api/news?id=1d96a7dd4a638fca9ac9faa8a9f67aeb170e5763c3173c4d2b2bade3e32b6e44

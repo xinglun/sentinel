@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IGV: This Could Make Or Break Software
+  summary: 
+  url: https://finnhub.io/api/news?id=7bb0b83bffcda4d0f72b3fea9a210ef3a3552a4c83987b3f6cdac4b7003ae685

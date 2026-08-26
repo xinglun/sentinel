@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Expands Middle East AI Footprint Through Long-Term HUMAIN Deal
+  summary: Microsoft partners with Saudi Arabia’s HUMAIN to bring ALLAM Arabic AI models to Microsoft Foundry and Microsoft 365 Copilot.
+  url: https://finnhub.io/api/news?id=ccd74fc2c117b4b6acc7a504cc535ecf7cdc01bec7f5626690ced1879d7d8419

@@ -1,0 +1,22 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Treasury Bond Buybacks Cannot Solve A Fiscal Problem; Nvidia Earnings And Inflation Data Expected Tomorrow
+  summary: 
+
+
+
+Key Data Ahead
+
+
+
+Please click here for an enlarged chart of Invesco QQQ Trust Series 1 (NASDAQ:QQQ).
+
+
+
+Note the following:
+
+
+
+
+The chart shows that QQQ did not reach the low band of zone 1 (resistance) before
+  url: https://finnhub.io/api/news?id=b79b16c471bcc0898122b4984a9697a565e0a077e356fc4b8e6fa80e5d01d750

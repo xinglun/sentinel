@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'China's Moonshot In Talks With Microsoft, Amazon, Google Over K3 Revenue Sharing, Sources Say' - Reuters Exclusive
+  summary: In talks with Azure, AWS and Google Cloud about Kimi K3, sources sayIt is seeking up to 30% of revenue generated from the model, sources sayTalks come amid heightened US-China tensions over AIChina&#39;s Moonshot AI is
+  url: https://finnhub.io/api/news?id=8a7d98409c2ad563c5d64004ed170add56913eacf9d90bfbbd094a6ae4c5bb6e

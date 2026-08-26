@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Executive Sounds The Alarm, Warns AI Could Cause 'Cognitive Atrophy' on Wall Street: 'There’s a Huge Danger Here'
+  summary: Goldman Sachs executive Chris Churchman warns AI overreliance could cause “cognitive atrophy” and weaken future Wall Street talent.
+  url: https://finnhub.io/api/news?id=ab63bb13404443951b8c1816c980065c6ef1a2c8ee6088ad6632c3f88d94dff5

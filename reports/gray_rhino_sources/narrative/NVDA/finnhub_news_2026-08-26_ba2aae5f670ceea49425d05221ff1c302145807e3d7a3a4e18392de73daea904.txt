@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With NVIDIA Stock Wednesday?
+  summary: NVIDIA (NVDA) stock ticks up in premarket as Wall St awaits Q2 earnings. Analysts expect EPS of $2.09 and $92B in revenue.
+  url: https://finnhub.io/api/news?id=bd04b477597fa4e380be2a2ba94c37e88bb0d0e2c0228b4900187c17c3b77cdd

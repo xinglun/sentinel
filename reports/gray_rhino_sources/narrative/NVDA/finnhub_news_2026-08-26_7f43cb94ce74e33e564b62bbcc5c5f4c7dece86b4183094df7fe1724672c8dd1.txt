@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Explosive Growth Still Can't Justify This Stock Price
+  summary: SpaceX is one of the most overvalued stock among the mega-cap companies listed in the S&P 500. Find out why SPCX is a strong sell.
+  url: https://finnhub.io/api/news?id=d4635b115859deb0a8ace9f2448781b896865820ed1ea9b645280b488285fb2e

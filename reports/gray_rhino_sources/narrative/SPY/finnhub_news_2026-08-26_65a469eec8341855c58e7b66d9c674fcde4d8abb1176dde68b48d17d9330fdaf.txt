@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Secretary Brooke Rollins Posts On X "BIG DAY AHEAD FOR AMERICAN FERTILIZER. Headed to Louisiana, where we will break ground on two major projects bringing critical fertilizer production back to American soil. More American investment. More American production. Lower costs and stronger supply chains for American farmers. Stay tuned."
+  summary: https://x.com/SecRollins/status/2092624476470931851
+  url: https://finnhub.io/api/news?id=9dc377ea9275c0cf31a50f44285919c5c0c436e18d33fb6af472c7b37cb400f3

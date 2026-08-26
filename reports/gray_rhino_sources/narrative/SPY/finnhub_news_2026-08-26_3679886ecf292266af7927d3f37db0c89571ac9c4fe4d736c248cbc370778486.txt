@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Business Conditions Monthly June 2026
+  summary: Forward-looking indicators surged in June, even as current economic activity remained moderate and labor-market weakness complicated the outlook. Read more here.
+  url: https://finnhub.io/api/news?id=0bb221bc04e54892dd067d81b4744d775b9a0ca364554e0d431bd63cd1531445

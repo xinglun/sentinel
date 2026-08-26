@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Tesla's Biggest Robotics Advantage Isn't AI, RoboStrategy CEO Says
+  summary: RoboStrategy CEO Andrew Kang says Tesla&#39;s biggest robotics edge is manufacturing scale and robot data—not AI alone.
+  url: https://finnhub.io/api/news?id=b97b971d78733c7a2e1b8ffab61dd3d049cb91291486135d5ede5e10d0c410dc

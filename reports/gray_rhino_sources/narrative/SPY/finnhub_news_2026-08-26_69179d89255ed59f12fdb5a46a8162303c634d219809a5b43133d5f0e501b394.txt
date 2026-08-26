@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Climbing A Wall Of Worry For All The Right Reasons
+  summary: Oil prices, inflation, and rates are easing as GDP and earnings accelerate across caps. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=50bed604c772a722defd6aeb8e9bdbe5a462ec07cd930507bf30d7170841a800

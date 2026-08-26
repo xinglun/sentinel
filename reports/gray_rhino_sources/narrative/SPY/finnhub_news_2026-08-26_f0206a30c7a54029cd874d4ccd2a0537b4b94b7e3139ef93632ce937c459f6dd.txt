@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UTF: The Easy Money Might Be Behind Us (Rating Downgrade)
+  summary: UTF has delivered strong, SPY-comparable returns since July 2024 when I published my bull case on it. Click here to read more about UTF.
+  url: https://finnhub.io/api/news?id=322b745443caa496e1244f14cb6214a890a002f6562df24c9e720048f8c8eb0b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chris Murphy Accuses AI Companies of Buying Rare Books, Digitizing Them and Disposing of Originals: 'Destroy Human Creativity'
+  summary: Senator Chris Murphy warns that AI companies are buying and destroying rare books for training, potentially undermining human creativity.
+  url: https://finnhub.io/api/news?id=5a034264543f573e4ca0a809c67f644762676ba20129c98cc58feaeb89c1a9fa

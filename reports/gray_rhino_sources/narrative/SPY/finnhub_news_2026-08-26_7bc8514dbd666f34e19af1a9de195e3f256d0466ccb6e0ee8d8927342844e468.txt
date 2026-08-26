@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's $30 Trillion And The Artificial Intelligence Bubble That Never Was
+  summary: AI valuations like Anthropicâs (DIA) $2T IPO may be justified if a $30T AI market emerges. Click for this examination of the sector and implications for the markets.
+  url: https://finnhub.io/api/news?id=65f00285e5a35844d0d3bc432e0e7c25e575116c921950d88c1be2883aefba0b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Look Out For Warsh's Jackson Hole Speech, Nvidia Earnings
+  summary: On Wednesday we get PCE. On Friday, Kevin Warsh gives his first speech as Fed Chair in Jackson Hole. But the bigger event of the week is that Nvidia reports Q2 earnings on Wednesday.
+  url: https://finnhub.io/api/news?id=8552f760fa590f924bb521d88400a9689c2c2a7bf5bc3fc6aa6993d770f15ac7

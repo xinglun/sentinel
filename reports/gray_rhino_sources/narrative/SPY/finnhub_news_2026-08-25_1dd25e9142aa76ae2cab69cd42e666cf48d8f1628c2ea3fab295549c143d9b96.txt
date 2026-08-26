@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wintermute: Bitcoin, XRP, Gold Benefited From 'Debasement Board' Last Week
+  summary: Bitcoin posts its best week since March 2024 as crypto and gold surge together, prompting Wintermute to flag a debasement trade.
+  url: https://finnhub.io/api/news?id=b267f0fbcb6de7c0fd55c372ccd24ee98edc909393c14ab0b5875812ff7ec748

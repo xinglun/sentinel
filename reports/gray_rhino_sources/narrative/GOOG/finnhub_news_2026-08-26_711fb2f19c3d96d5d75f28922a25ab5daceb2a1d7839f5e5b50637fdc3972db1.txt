@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Snapchat Accused of Misleading Parents About Adult Content as Pennsylvania Sues SNAP Over Streaks and 'Addictiveness'
+  summary: Pennsylvania AG sued Snap Inc for designing features that keep children engaged while misleading families about risks.
+  url: https://finnhub.io/api/news?id=99941e707d7ae75652d810cc974265be9fa4c285713f1a376051d2b417088b03

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Reveals Why SpaceX Launched Tesla’s Roadster Into Orbit: ‘We Didn’t Want to Risk Anything Valuable’
+  summary: SpaceX launched Elon Musk&#39;s Tesla Roadster to orbit Earth and Mars in 2018 to avoid risking anything valuable, the billionaire said.
+  url: https://finnhub.io/api/news?id=84cd218105a08956b05ddc8f01be9101fa8a6fe9569fd7a3bf3e035d8aeb705a

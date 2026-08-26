@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Midterms: Policy Implications Matter More Than Political Outcomes
+  summary: Trade policy, geopolitical tensions, affordability pressures, AI-related concerns and conflict in the Middle East have all shaped the investment outlook. Read more here.
+  url: https://finnhub.io/api/news?id=dfe85c5600436652c958ee7aedac9cfb03d9a306a90165970f7f343ee190c088

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Tesla Isn't Leading Humanoid Robotics—Figure AI Is, RoboStrategy CEO Says
+  summary: RoboStrategy CEO Andrew Kang says Figure AI—not Tesla—currently leads U.S. humanoid robotics based on commercial production progress.
+  url: https://finnhub.io/api/news?id=9541922b9d2d80535fe2d970979b2a035bf6715f116c0da0329a1d9a8a63addb

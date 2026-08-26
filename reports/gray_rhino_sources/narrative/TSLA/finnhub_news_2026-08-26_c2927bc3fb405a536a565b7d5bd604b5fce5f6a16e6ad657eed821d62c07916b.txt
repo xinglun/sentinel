@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ROBO: For Diversified Exposure In Robotics At Reasonable Valuations
+  summary: ROBO Global Robotics and Automation Index ETF offers diversified, long-term exposure to the expanding robotics sector. Read why ROBO is a Strong Buy.
+  url: https://finnhub.io/api/news?id=930683f8d11453ce7cc0c9af044a3cb2389f347a5d65d65551d00234a7535470

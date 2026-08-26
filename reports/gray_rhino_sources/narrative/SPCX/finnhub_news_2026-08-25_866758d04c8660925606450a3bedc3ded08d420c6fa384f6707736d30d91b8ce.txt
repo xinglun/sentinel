@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adam Schiff Slams Trump’s Freedom 250 Race as ‘Spectacle’ Amid $4 Gas, Graham Rahal Fires Back
+  summary: Schiff accuses Trump of using IndyCar race as a political distraction from gas prices. Rahal defends race as privately funded and unifying.
+  url: https://finnhub.io/api/news?id=6751302081918a0689cd94b7c322b83ac224a531e092bd97dbec435fbc9acdea

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Moving Higher: What's Going On Today?
+  summary: SpaceX stock is rising Tuesday. JPMorgan reiterated an Overweight and $240 price target, pointing to progress on SpaceX&#39;s AI ambitions.
+  url: https://finnhub.io/api/news?id=986fb9f9edd38b8c336796a5e6d158e4f3d4abb923310f4d71e0b968027edcde

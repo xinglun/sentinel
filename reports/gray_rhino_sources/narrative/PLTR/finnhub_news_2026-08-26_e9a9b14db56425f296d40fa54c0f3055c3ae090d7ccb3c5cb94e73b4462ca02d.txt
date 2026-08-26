@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DRNZ: Buy The Drone Buildout Before The Rules Change (For The Better)
+  summary: DRNZ is concentrated in a few top holdings, notably AeroVironment and Ondas, with many positions still lacking consistent profitability. See why DRNZ ETF is a Buy.
+  url: https://finnhub.io/api/news?id=d467e0ec208307bd49dbae4601d6779debb678249676f98906f5fa2bcefc2d58

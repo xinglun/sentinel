@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Humanoid Robots Could Match Humans Within 5 Years, RoboStrategy CEO Says
+  summary: RoboStrategy CEO Andrew Kang says humanoid robots could become as capable as humans at most physical work within five years.
+  url: https://finnhub.io/api/news?id=dd7d78bc71c1347813cb3219f8f66ef2c139c56744d847c4bbea7cf917323bae

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla Hikes Cybertruck Prices by More Than 7% Despite Sluggish Sales
+  summary: Tesla raised Cybertruck prices in the U.S. for some trim levels, with the entry-level trim now priced $15,000 higher than at launch.
+  url: https://finnhub.io/api/news?id=bb79eb7cf552a87bcbd1a9b54735a00a2453f26be016591925acf38ac8ac2e2e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Introduces The Admin Plugin For ChatGPT Work And Codex
+  summary: https://openai.com/index/introducing-admin-plugin/
+  url: https://finnhub.io/api/news?id=59566ae30c5cbe6a67b988370440a80c5f3e536645783342c36fcc6f3cb95e23

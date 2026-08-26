@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Daniel Newman Says Broadcom Deserves Credit for OpenAI’s Jalapeño Chip, But Calls ‘Nvidia Killer’ Hype ‘Exhausting’
+  summary: Daniel Newman praised Broadcom’s role in OpenAI’s Jalapeño chip but called the “Nvidia killer” hype premature.
+  url: https://finnhub.io/api/news?id=efb64bd8d211fad757904bb6656bf8cdbab235f679b599b34e5c165a38a435dc

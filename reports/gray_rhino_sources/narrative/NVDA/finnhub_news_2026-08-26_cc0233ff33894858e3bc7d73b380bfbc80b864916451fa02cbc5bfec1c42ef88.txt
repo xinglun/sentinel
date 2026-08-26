@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cheaper Oil and a Chip Bid Set the Table Before Nvidia Speaks
+  summary: Wall Street clawed back ground on Tuesday, August 25, 2026, as Brent slipped under $90, Treasury yields eased, and the chip complex broke a seven-session losing streak in Nvidia ahead of its Wednesday print. Dick's Sporting Goods cratered on a guidance cut, Apple pushed its Macs deeper into the AI corner, and all eyes now turn to Nvidia earnings, PCE, and Warsh's first major speech at Jackson Hole.
+  url: https://finnhub.io/api/news?id=bdd5ff242d5acf57f02c5b23519220e818af944279b3c1f3f5ab65b2e2fffb55

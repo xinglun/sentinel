@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RUM Group: Great Risk That Offers Great Potential (Upgrade)
+  summary: RUM Group is upgraded to a Buy following a transformative $13.7B, six-year GPU services agreement with a major US cloud customer. Read more on RUM stock here.
+  url: https://finnhub.io/api/news?id=b1136a13bf4eaa05c86c47e122da7b5998ebda315fe116cab5f9771a966e9ef9

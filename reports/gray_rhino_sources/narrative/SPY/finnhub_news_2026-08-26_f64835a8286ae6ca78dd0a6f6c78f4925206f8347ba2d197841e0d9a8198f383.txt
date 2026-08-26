@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh's Jackson Hole Silence May Push Long-Term Rates Much Higher
+  summary: Kevin Warshâs Jackson Hole speech could signal Fed independence as yields stay rangebound and inflation cools. Click to see why neutrality matters.
+  url: https://finnhub.io/api/news?id=a6f102abffd556a641c849d0101b76964c0aea61eff2671fc2c58553b7d2680c

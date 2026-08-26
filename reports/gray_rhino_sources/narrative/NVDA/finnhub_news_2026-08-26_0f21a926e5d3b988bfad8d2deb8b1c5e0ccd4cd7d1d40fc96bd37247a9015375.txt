@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Wants Millions of AI Satellites in Orbit—But Experts Say Elon Musk Must Solve a ‘Crazy’ Logistics Problem First
+  summary: SpaceX may need 9+ Starship launches daily to build its planned 1 million-satellite Starmind constellation, expert says.
+  url: https://finnhub.io/api/news?id=bb423d81a2cb15178ac653c377167fe8b0b5a70c12963de541000dc793d96403

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Posts On X "Introducing Starbase, Louisiana – a high-cadence launch site that will enable Starship to open a pathway to the stars for humanity."
+  summary: https://x.com/SpaceX/status/2092284173730144732
+  url: https://finnhub.io/api/news?id=b40b12f74fb6d6bf1655df226d49bb5f592202500eab7e31537e8827c3944ac4

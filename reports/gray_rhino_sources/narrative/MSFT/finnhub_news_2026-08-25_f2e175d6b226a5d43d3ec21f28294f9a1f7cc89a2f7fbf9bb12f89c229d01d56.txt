@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Semiconductor Chips Vs. Software Stocks: Understanding Cyclicality And Disruption
+  summary: Read this comparison of top AI software vs. semiconductor stocksâNVDA, MSFT, PLTR, CRWD, AVGO, AMD, MU & CRMâto know their valuations, risks, and catalysts.
+  url: https://finnhub.io/api/news?id=be982ebc4a89a5a9360ce887cc0bb555e3d0c48ed10a27a2b0c301e97e2dc1a9

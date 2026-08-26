@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech Off-Balance Sheet Concerns
+  summary: Media outlets like WSJ and Financial Times have been covering big techâs growing affinity towards off-balance sheet financing in recent weeks. Read more here...
+  url: https://finnhub.io/api/news?id=a8f293655772bd08531737d5b9ab41904b5ef1c8de5759ac31e2a1d6cdb4ef23

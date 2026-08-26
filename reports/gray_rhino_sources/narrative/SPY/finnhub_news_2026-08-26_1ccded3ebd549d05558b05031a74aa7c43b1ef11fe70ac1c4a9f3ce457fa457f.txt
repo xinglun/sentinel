@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PCE Price Index Preview And EUR/USD Technical Analysis
+  summary: The Bureau of Economic Analysis will release the July PCE price index report on Wednesday, Aug 26, which will serve as a critical signal for Federal Reserve monetary policy. Read more here.
+  url: https://finnhub.io/api/news?id=98f00417c3b0313e16bde8114513316fe1544fa426a6af114172fad8e7c0ca2e

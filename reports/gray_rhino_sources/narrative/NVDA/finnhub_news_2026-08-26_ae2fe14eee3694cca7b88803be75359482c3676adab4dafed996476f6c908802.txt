@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow: A Loaded Rocket On The AI Launch Pad
+  summary: ServiceNow's AI revenues are expected to surpass $1.5 billion by the end of 2026 and to reach ~$9.6 billion in 2030. Click to know why it is a Strong Buy.
+  url: https://finnhub.io/api/news?id=5eac96abe82e07445f5d5db40ddc111e36f81a4f9bd3220e3a1e9f430d28b608

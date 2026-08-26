@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Deep Unknowns Of AI
+  summary: Nvidia and Apple may best withstand a $3T off-balance sheet AI data center debt risk facing Big Tech. Read why holding NVDA and AAPL stocks is recommended.
+  url: https://finnhub.io/api/news?id=49c2fdfb4b8f477ddec3ad318d577a50fca4171092a596bd62854dea127dc82c

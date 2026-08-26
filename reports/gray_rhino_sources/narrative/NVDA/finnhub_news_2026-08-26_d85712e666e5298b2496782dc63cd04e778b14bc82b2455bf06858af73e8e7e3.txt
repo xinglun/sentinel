@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Nvidia GPUs Are Essential—But They Won't Decide Who Wins AI Drug Discovery, Generate CTO Says
+  summary: Generate Biomedicines CTO says Nvidia GPUs are essential, but data and experimentation will determine AI drug discovery winners.
+  url: https://finnhub.io/api/news?id=602dff58518a8d92c7148a674ab30afbf044076035aab3d570fa29537c27011b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SCHD And STK: A 3%+ Income Barbell
+  summary: STK yields 3.56% with special distribution potential, while SCHD's 2.98% yield reflects strong price appreciation. Check out the strategy with SCHD and STK here.
+  url: https://finnhub.io/api/news?id=ea4ad1157b42d6bad453f53df9599e9e64e5dddcb48416e8ed75336323562ec6

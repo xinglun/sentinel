@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones Futures Rise, S&P 500 Slips Ahead of NVDA Q2 as Core PCE Comes in at 3.3% — Zoom, Intuit, Datavault AI in Focus (UPDATED)
+  summary: U.S. stock futures were mixed on Wednesday, as the Dow Jones index rose, while the S&amp;P 500 and Nasdaq 100 indices slipped.
+  url: https://finnhub.io/api/news?id=e3be4248ec43fd8f011d33bff63053eff75b4233622a83e8aa68ad5e2d6eab5d

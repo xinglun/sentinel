@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FDA Approves Drug To Treat HIV Infection in Newborns
+  summary: https://www.fda.gov/drugs/news-events-human-drugs/fda-approves-drug-treat-hiv-infection-newborns
+  url: https://finnhub.io/api/news?id=dabd95b04f15352ef3749a05745a17fb74a837c259092291416e0d60b19a59c6

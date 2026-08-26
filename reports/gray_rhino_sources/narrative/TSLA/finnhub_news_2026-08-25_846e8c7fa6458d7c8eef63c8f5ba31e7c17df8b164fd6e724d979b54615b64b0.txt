@@ -1,0 +1,7 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Consumer Discretionary Stocks Whale Activity In Today’s Session
+  summary: This whale alert can help traders discover the next big trading opportunities.
+Whales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.
+Traders often
+  url: https://finnhub.io/api/news?id=799bda8ba7607bb1234fee475ff06760dfb4b433c67857889d5c54ae450a716c

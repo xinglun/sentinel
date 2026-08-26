@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Einhorn Vs. Musk: Hedge Fund Manager Says SpaceX IPO Was ‘Meme-ification of the Market’
+  summary: A hedge fund manager is critical of SpaceX and its high valuation. Here&#39;s what they had to say.
+  url: https://finnhub.io/api/news?id=f61f9050df08e9286f04b9b46334336f41c60d0ec60c8b5f6408abbde5dee690

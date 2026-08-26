@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Grok Is Taking Over Starlink Support: 15,000+ Calls a Day, 3,000+ Orders a Week
+  summary: Elon Musk says Starlink uses Grok Voice at scale for support &amp; sales, handling over 15,000 calls and 3,000 orders weekly.
+  url: https://finnhub.io/api/news?id=c8e6743a5498a88c0748432fa45c6b9af7082e38a3e027ac664ed71e45bdc03f

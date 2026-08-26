@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Going On With Dell Technologies Stock Tuesday?
+  summary: Dell stock spikes 4%+ as it unveils hybrid AI strategies, enterprise PC growth, and high-performance tech partnerships.
+  url: https://finnhub.io/api/news?id=33ec44af3c53c9c04b13b8e1bdb36fcf807df542ea4023dae0fe1b67790aa1a3

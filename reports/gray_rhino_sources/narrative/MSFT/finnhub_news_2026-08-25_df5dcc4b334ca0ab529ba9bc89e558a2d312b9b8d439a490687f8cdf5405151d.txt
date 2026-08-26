@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Rally Has Room To Run
+  summary: Microsoft remains a Buy because hybrid consumption monetization, accelerating Azure growth, and pricing power support a $604 target price ahead. Learn more about MSFT stock here.
+  url: https://finnhub.io/api/news?id=3a899d2690fdfb12e74d6d362c97d093feedfa0b146f58b2246b55433a852cff

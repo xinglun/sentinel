@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo to launch driverless rides in Germany in 2027, entering third market outside U.S. 
+  summary: Waymo has been the biggest robotaxi player in the U.S., and has announced plans to enter the UK, Japan and now Germany.
+  url: https://finnhub.io/api/news?id=8f5b10faf77cdd0375a8c76749a5a79281eba0c115865c9a89ed73b4503d0b02

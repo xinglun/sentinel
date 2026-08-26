@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom: Moving Big Into Vendor Financing
+  summary: Broadcom Inc.: AI chip growth targets, SPV financing and default risks, insider selling, and valuationâsee why investors may avoid now. Click for more on AVGO stock.
+  url: https://finnhub.io/api/news?id=1e3a378c6c5ede2d5185cdc9938738b11f392691a0fd607ae87896267a54b8a3

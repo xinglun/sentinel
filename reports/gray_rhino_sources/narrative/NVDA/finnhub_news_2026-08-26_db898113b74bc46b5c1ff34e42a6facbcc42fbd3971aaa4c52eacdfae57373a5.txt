@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: God Bless America ETF Exec Says Nvidia Wins No Matter Who Leads AI Race: 'Pioneers Die With Arrows in Their Backs'
+  summary: God Bless America ETF PM Adam Curran says Nvidia can win the AI race regardless of which model leads, with Broadcom and MARA also poised to benefit.
+  url: https://finnhub.io/api/news?id=06ed292ba1a95f64c347d922749f1c3a5e1585b122bca500338eddcf539b5fd3

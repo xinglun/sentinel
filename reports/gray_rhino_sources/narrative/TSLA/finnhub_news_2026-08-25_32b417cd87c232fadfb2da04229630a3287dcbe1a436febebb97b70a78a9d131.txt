@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Company: Strong Export Growth Underpins Value
+  summary: BYD Company Limited maintains strong export momentum and rising EV sales, signaling a robust upcoming Q2 earnings report. Learn more about BYDDF stock here.
+  url: https://finnhub.io/api/news?id=edfbd4ddd9593a5bfffaa795c7a39d4063a6f08cbcad6eef5b62aa0930f31c1b

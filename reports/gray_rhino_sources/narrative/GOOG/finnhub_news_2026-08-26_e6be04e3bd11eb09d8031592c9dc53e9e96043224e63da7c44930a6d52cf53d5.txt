@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Overtakes China in Gas-Fired Power Construction as AI Data Centers Fuel Massive Energy Buildout—But at What Cost?
+  summary: U.S. gas power construction overtakes China as AI data centers drive demand, raising concerns over emissions, costs and pollution.
+  url: https://finnhub.io/api/news?id=ae629ecf7e65a9364a0b36d13792280c37cd278d6109d8f6361670923f9b7894
