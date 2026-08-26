@@ -596,7 +596,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 effective_new_entry_cap: "实际新增上限".to_string(),
                 no_new_entry: "NO_NEW_ENTRY".to_string(),
                 reduction_signal: "减仓信号".to_string(),
-                actual_portfolio_action: "实际减仓动作".to_string(),
+                actual_portfolio_action: "实际组合动作".to_string(),
 
                 exit_intent_hold: "持有".to_string(),
                 exit_intent_trim: "减仓".to_string(),
@@ -658,12 +658,12 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 exit_overheat: "🌋 偏离过热: 长期逻辑未否定，但价格已提前兑现、时间成本上升；若有超配可降低暴露等待更高赔率位置".to_string(),
                 position_none: "未触发减仓或退出条件。".to_string(),
                 position_hold_core: "核心资产，结构未破坏，继续持有".to_string(),
-                position_trim_strength_loss: "已掉出核心区超过 3 天，执行减仓".to_string(),
-                position_trim_cohesion: "趋势凝聚力不足，执行保护性减仓".to_string(),
-                position_exit_defensive: "结构性风险触发，执行退出".to_string(),
-                position_exit_structural_fragility: "结构脆弱，暂停主动进攻".to_string(),
-                position_exit_systemic_collapse: "系统性崩塌，激活保命层强制退出".to_string(),
-                position_trim_overheat: "偏离过热，时间成本上升，执行部分止盈".to_string(),
+                position_trim_strength_loss: "已掉出核心区超过 3 个交易日".to_string(),
+                position_trim_cohesion: "趋势凝聚力不足".to_string(),
+                position_exit_defensive: "结构性风险触发".to_string(),
+                position_exit_structural_fragility: "结构脆弱".to_string(),
+                position_exit_systemic_collapse: "系统性崩塌".to_string(),
+                position_trim_overheat: "偏离过热，时间成本上升".to_string(),
                 position_watch_pullback: "回撤中，尚未触发减仓条件".to_string(),
                 position_watch_no_trigger: "暂未触发卖出条件，继续观察".to_string(),
                 position_none_no_trigger: String::new(),
@@ -1141,15 +1141,13 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 exit_overheat: "Overheated: long-term logic is not denied, but price has pulled forward expectations and time cost is rising; if over-allocated, reduce exposure and wait for better odds".to_string(),
                 position_none: "No trim or exit conditions were triggered.".to_string(),
                 position_hold_core: "Core holding remains intact, continue to hold.".to_string(),
-                position_trim_strength_loss: "Out of the core tier for 3+ days, trim exposure."
+                position_trim_strength_loss: "Out of the core tier for 3+ trading days."
                     .to_string(),
-                position_trim_cohesion: "Cohesion Loss: Protecting core position".to_string(),
-                position_exit_defensive: "Defensive risk triggered, exit the position.".to_string(),
-                position_exit_structural_fragility:
-                    "Structural fragility, pause active offense.".to_string(),
-                position_exit_systemic_collapse:
-                    "Systemic collapse, safety layer activated and force risk exit.".to_string(),
-                position_trim_overheat: "Overheated extension, time cost rising, take partial profits.".to_string(),
+                position_trim_cohesion: "Cohesion below confirmation threshold.".to_string(),
+                position_exit_defensive: "Defensive risk triggered.".to_string(),
+                position_exit_structural_fragility: "Structural fragility observed.".to_string(),
+                position_exit_systemic_collapse: "Systemic collapse risk observed.".to_string(),
+                position_trim_overheat: "Overheated extension, time cost rising.".to_string(),
                 position_watch_pullback: "In pullback, trim conditions not yet triggered."
                     .to_string(),
                 position_watch_no_trigger: "No sell trigger yet, continue monitoring.".to_string(),
@@ -1566,7 +1564,7 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 effective_new_entry_cap: "実効新規上限".to_string(),
                 no_new_entry: "NO_NEW_ENTRY".to_string(),
                 reduction_signal: "減資シグナル".to_string(),
-                actual_portfolio_action: "実際のポートフォリオ減資".to_string(),
+                actual_portfolio_action: "実際のポートフォリオアクション".to_string(),
 
                 exit_intent_hold: "継続保有".to_string(),
                 exit_intent_trim: "減資".to_string(),
@@ -1628,13 +1626,12 @@ pub fn get_dictionary(lang: Language) -> DisplayDictionary {
                 exit_overheat: "🌋 過熱乖離: 長期ロジックは否定しないが、価格が期待を先取りし時間コストが上昇。過剰配分なら露出を下げ、より高い期待値の位置を待つ".to_string(),
                 position_none: "減資または終了条件は発動していない。".to_string(),
                 position_hold_core: "コア資産、構造未破壊につき継続保有".to_string(),
-                position_trim_strength_loss: "核心圏離脱が 3 日継続、減資実行".to_string(),
-                position_trim_cohesion: "トレンド凝集力不足、保護的減資".to_string(),
-                position_exit_defensive: "防御条件発動、全決済".to_string(),
-                position_exit_structural_fragility: "構造脆弱、能動的な攻勢を停止".to_string(),
-                position_exit_systemic_collapse:
-                    "システム崩壊、安全層を発動しリスクを強制退出".to_string(),
-                position_trim_overheat: "加熱状態、時間コスト上昇、部分利確を実行".to_string(),
+                position_trim_strength_loss: "核心圏離脱が 3 取引日継続".to_string(),
+                position_trim_cohesion: "トレンド凝集力不足".to_string(),
+                position_exit_defensive: "防御条件発動".to_string(),
+                position_exit_structural_fragility: "構造脆弱".to_string(),
+                position_exit_systemic_collapse: "システム崩壊".to_string(),
+                position_trim_overheat: "加熱状態、時間コスト上昇".to_string(),
                 position_watch_pullback: "押し目中、まだ減資条件未達".to_string(),
                 position_watch_no_trigger: "まだ売り条件未達、監視継続".to_string(),
                 position_none_no_trigger: String::new(),
@@ -2011,12 +2008,11 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
     match lang {
         Language::ZhCn => {
             dictionary.trend_cohesion.label = "趋势凝聚".to_string();
-            dictionary.trend_cohesion.topology_label = "趋势结构".to_string();
+            dictionary.trend_cohesion.topology_label = "领导结构".to_string();
             dictionary.trend_cohesion.dispersed = "未凝聚".to_string();
             dictionary.trend_cohesion.persistent_not_ready =
                 "趋势凝聚已形成（战术未许可）".to_string();
-            dictionary.trend_cohesion.current_no_confirmed_mainline =
-                "当前未确认趋势凝聚".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline = "未确认".to_string();
             dictionary.trend_cohesion.forming = "凝聚中".to_string();
             dictionary.trend_cohesion.formed = "已凝聚".to_string();
             dictionary.trend_cohesion.topology_no_leader = "无确认领导".to_string();
@@ -2035,10 +2031,11 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
                 "结构证据已满足，但不生成执行指令".to_string();
         }
         Language::EnUs => {
+            dictionary.trend_cohesion.label = "Trend Cohesion".to_string();
+            dictionary.trend_cohesion.topology_label = "Leadership".to_string();
             dictionary.trend_cohesion.persistent_not_ready =
                 "Trend Cohesion present (tactical permission not ready)".to_string();
-            dictionary.trend_cohesion.current_no_confirmed_mainline =
-                "No confirmed trend cohesion".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline = "Unconfirmed".to_string();
             dictionary.trend_cohesion.forming = "Cohesion forming".to_string();
             dictionary.trend_cohesion.formed = "Cohesive".to_string();
             dictionary.trend_cohesion.topology_no_leader = "No confirmed leadership".to_string();
@@ -2061,12 +2058,11 @@ fn apply_observation_semantic_labels(dictionary: &mut DisplayDictionary, lang: L
         }
         Language::JaJp => {
             dictionary.trend_cohesion.label = "トレンド凝集".to_string();
-            dictionary.trend_cohesion.topology_label = "トレンド構造".to_string();
+            dictionary.trend_cohesion.topology_label = "リーダーシップ構造".to_string();
             dictionary.trend_cohesion.dispersed = "未凝集".to_string();
             dictionary.trend_cohesion.persistent_not_ready =
                 "トレンド凝集あり（戦術許可待ち）".to_string();
-            dictionary.trend_cohesion.current_no_confirmed_mainline =
-                "未確認のトレンド凝集".to_string();
+            dictionary.trend_cohesion.current_no_confirmed_mainline = "未確認".to_string();
             dictionary.trend_cohesion.forming = "凝集中".to_string();
             dictionary.trend_cohesion.formed = "凝集済み".to_string();
             dictionary.trend_cohesion.topology_no_leader = "確認済みリーダーなし".to_string();

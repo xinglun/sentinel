@@ -1211,9 +1211,9 @@ impl PresentationAssembler {
 
     fn recovery_watch_reason(language: Language) -> String {
         match language {
-            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复；保持基础处置状态，不再描述为连续转弱。".to_string(),
-            Language::EnUs => "The long-term cumulative structure remains weak, but short-term relative strength is recovering; keep the base action state and stop describing continued weakening.".to_string(),
-            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。基本処置状態を維持し、連続的な弱化とは表現しません。".to_string(),
+            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复；保持基础 Action Matrix 状态，不再描述为连续转弱。".to_string(),
+            Language::EnUs => "The long-term cumulative structure remains weak, but short-term relative strength is recovering; keep the base Action Matrix state and stop describing continued weakening.".to_string(),
+            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。基本 Action Matrix 状態を維持し、連続的な弱化とは表現しません。".to_string(),
         }
     }
 
