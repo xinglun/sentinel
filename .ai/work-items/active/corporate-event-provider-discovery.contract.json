@@ -1,0 +1,137 @@
+{
+  "acceptanceCriteria": [
+    "Provider-neutral contract 明确 provider、provenance、event type、event time/timezone、freshness 与 fail-closed 语义，并映射到现有 corporate_events read model。",
+    "Finnhub earnings calendar 仅通过显式配置和已有凭据注入；网络失败、鉴权失败、限流、非 2xx、malformed payload、时区或日期不完整时，输出 UNAVAILABLE 或无事件且不 panic。",
+    "使用 2026-08-27 NVIDIA earnings 的 deterministic provider response fixture 覆盖 HIGH、NVIDIA EARNINGS、CORPORATE、EARNINGS、发布时段、America/New_York 语义与来源证据；测试不依赖网络。AI_INFRASTRUCTURE 等主题分类不由 Finnhub calendar 推断，只保留既有 enrichment 输入。",
+    "Corporate event 的 decision_weight 固定为 0；同一 price/RS 输入下，有无 Provider event 时 Decision、Gate、Leader、Action Matrix、Position Sizing、Execution 结果保持 semantic-equivalent。",
+    "无 Provider 输入时保持现有 UNAVAILABLE fallback；不通过价格或 RS 行为反推财报事件。",
+    "新增或调整的检查通过 make fmt-check、make test、make clippy、make quality，并记录在 Cockpit verification/summary。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6ac32761a74dc1a16b4d4e1b278ca5d82d57a217",
+  "createdAt": "2026-08-27T20:34:26Z",
+  "goal": "建立可审计、fail-closed 的 provider-neutral corporate event adapter，将 Finnhub earnings calendar 映射到现有 corporate_events read model，并保留 deterministic fixture 与无输入 fallback。",
+  "intent": "为 Signal Context 增加生产企业事件 Provider 入口，首个来源采用 Finnhub earnings calendar；事件信息只服务于 Observation/Interpretation，不进入交易决策。",
+  "mode": "code",
+  "notCodable": false,
+  "problemStatement": "现有 Signal Context 已能消费结构化 corporate_events，但生产运行没有独立的企业事件 Provider；需要在不把主题推断或事件信息带入交易决策的前提下，接入一个可审计、可测试、fail-closed 的 Finnhub earnings calendar 适配器。",
+  "outOfScope": [
+    "Market Breadth；Factor Concentration；RS Diffusion；Leader；Gate；NO_TRADE；Action Matrix；Position Sizing；Execution；Telegram 文案；新的 SEC/IR/其他 Provider；价格行为反推企业事件；秘密、凭据、全市场事件发现；reports/**、data branch、JSONL、weekly metrics；修改既有决策逻辑。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:27b889113ed779c1bdae43b2666cddbdca5e4d971a877de9595fca0d7dd8faa2",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "codex/corporate-event-signal-context",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-discovery",
+    "provider": "codex",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/features/radar/interface/**；src/features/research/interface/**（仅复用既有 provider/config 模式）；src/config.rs（仅新增必要的非秘密配置）；tests/**；docs/superpowers/specs/**；Makefile（仅在新增验证入口必要时）"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "确认语言、Rust quality gate、Work Item boundary 与决策链路不可变约束。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "确认安装版 ai-cockpit 的 Contract、preflight、checkpoint、verify、finish、archive lifecycle。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "确认 Corporate Event read model、UNAVAILABLE fallback 与 decision_weight=0 的观察层契约。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "确认 SENTINEL_SIGNAL_CONTEXT_JSON_PATH 的外部输入边界、日期与证据 fail-closed 规则。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_calendar_adapter.rs",
+      "reason": "复用既有 provider-neutral adapter、文件输入与 source strategy 模式。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_official_calendar_adapter.rs",
+      "reason": "复用现有 reqwest blocking provider、HTTP 错误处理和官方数据适配模式。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "确认 FINNHUB_API_KEY 等现有非秘密配置入口，避免新增秘密存储。"
+    },
+    {
+      "path": "Cargo.toml",
+      "reason": "确认现有 reqwest、serde、serde_json、chrono 依赖，限制本 WI 不新增不必要依赖。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-runtime-provider-wiring.md",
+      "reason": "确认此前 runtime provider wiring 已将生产 provider/discovery 留作后续独立 WI。"
+    },
+    {
+      "path": "https://finnhub.io/docs/api/quote",
+      "reason": "Finnhub 官方 API 文档说明 earnings calendar endpoint、日期/股票过滤、认证方式及 429 rate-limit 行为。"
+    },
+    {
+      "path": "用户授权（本线程）",
+      "reason": "用户明确授权继续开启并执行 Provider WI，采用 provider-neutral contract + Finnhub earnings calendar 第一实现。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "unknowns": [],
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已批准 Finnhub 第一实现，现有 read-model、配置入口和确定性 fixture 边界已明确；Provider 仍被限制为观察层输入。"
+  },
+  "riskAssessment": {
+    "level": "normal",
+    "reason": "新增外部数据适配与网络失败处理，但事件 decision_weight 固定为 0 且不进入交易决策链路。",
+    "riskTypes": [
+      "external_provider",
+      "observation_context",
+      "failure_closed"
+    ]
+  },
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit"
+    ],
+    "requiredChecks": [
+      "make quality"
+    ]
+  },
+  "workItemId": "corporate-event-provider-discovery"
+}
