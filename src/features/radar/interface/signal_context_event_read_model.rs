@@ -283,6 +283,7 @@ impl SignalContextEventReadModel {
             SignalContextPrimaryContext::MacroEvent => Some(&self.macro_event),
             SignalContextPrimaryContext::QuarterEndRebalancing
             | SignalContextPrimaryContext::MonthEndRebalancing
+            | SignalContextPrimaryContext::CorporateEvent
             | SignalContextPrimaryContext::None => None,
         }
     }

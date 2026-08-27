@@ -98,8 +98,9 @@ mod tests {
     };
     use crate::features::radar::interface::presentation::{
         ExitDecisionItemViewModel, ExitDecisionSummaryViewModel, ExitDisplayIntent,
-        InterpretationExpectationQuality, InterpretationGravityDataQuality,
-        InterpretationGravityDataQualityReason, InterpretationTrendState,
+        InterpretationExpectationQuality, InterpretationExpectationQualityReason,
+        InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
+        InterpretationTrendState,
     };
     use crate::features::radar::interface::signal_context_event_read_model::{
         build_signal_context_event_read_model, SignalContextEventReadModel,
@@ -389,6 +390,35 @@ mod tests {
         assert_eq!(expected.replace("\r\n", "\n"), normalized_actual);
     }
 
+    fn with_nvidia_fixture<T>(callback: impl FnOnce() -> T) -> T {
+        let _guard =
+            crate::features::radar::interface::signal_context_coverage::SIGNAL_CONTEXT_ENV_MUTEX
+                .lock()
+                .unwrap();
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json");
+        let previous = std::env::var_os("SENTINEL_SIGNAL_CONTEXT_JSON_PATH");
+        std::env::set_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH", path);
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(callback));
+        match previous {
+            Some(value) => std::env::set_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH", value),
+            None => std::env::remove_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH"),
+        }
+        result.unwrap()
+    }
+
+    fn decision_surface(
+        presentation: &crate::features::radar::interface::presentation::PresentationPacket,
+    ) -> serde_json::Value {
+        serde_json::json!({
+            "decision_summary": &presentation.decision_summary,
+            "final_execution_decision": &presentation.final_execution_decision,
+            "top_actions": &presentation.top_actions,
+            "exit_summary": &presentation.exit_summary,
+            "state_code": &presentation.state_code,
+        })
+    }
+
     #[test]
     fn test_telegram_v3_ui_established() {
         let assets = vec![AssetActionDecision {
@@ -454,6 +484,135 @@ mod tests {
         assert!(card.contains("决策结论"));
         assert!(card.contains("监控信号"));
         assert!(card.contains("战术分区"));
+    }
+
+    #[test]
+    fn interpretation_layer_renders_external_corporate_event_context() {
+        let packet = DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+            ..Default::default()
+        };
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let dict = get_dictionary(language);
+            let subjects = vec!["NVDA".to_string()];
+            let mut pres = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let signal_context = with_nvidia_fixture(|| {
+                build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                    as_of_date: packet.date,
+                    subjects: &subjects,
+                    signal: InterpretationNarrativeSignal {
+                        trend_state: InterpretationTrendState::Stable,
+                        trend_available: true,
+                        expectation_quality: InterpretationExpectationQuality::High,
+                        expectation_quality_reason:
+                            InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                        gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                        gravity_data_quality_reason:
+                            InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                        gravity_status: None,
+                        supply_pressure: false,
+                        supply_available: true,
+                        flow_acceleration: Some(0.0),
+                        gray_rhino_escalated: false,
+                    },
+                    future_context: SignalContextEventReadModel::default(),
+                    decision_summary: None,
+                    language,
+                    dict: &dict,
+                })
+            });
+            pres.interpretation_layer = Some(signal_context);
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &pres,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            assert!(report.markdown_body.contains("Information Content: HIGH"));
+            assert!(report
+                .markdown_body
+                .contains("Primary Context: NVIDIA EARNINGS"));
+            assert!(report
+                .markdown_body
+                .contains("Context Type: CORPORATE / AI INFRASTRUCTURE"));
+            assert!(report.markdown_body.contains(match language {
+                Language::ZhCn => "持续性尚未确认",
+                Language::EnUs => "persistence is not yet confirmed",
+                Language::JaJp => "持続性はまだ確認されていない",
+            }));
+            assert!(!report
+                .markdown_body
+                .contains("No high-information event identified"));
+        }
+    }
+
+    #[test]
+    fn corporate_event_context_does_not_change_decision_surface() {
+        let mut packet = no_trade_snapshot_packet();
+        packet.date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let config = mock_config_with_language(Language::EnUs);
+        let without_event = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let mut with_event = PresentationAssembler::assemble(
+            &packet,
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            Language::EnUs,
+        );
+        let dict = get_dictionary(Language::EnUs);
+        let subjects = vec!["NVDA".to_string()];
+        with_event.interpretation_layer = Some(with_nvidia_fixture(|| {
+            build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
+                as_of_date: packet.date,
+                subjects: &subjects,
+                signal: InterpretationNarrativeSignal {
+                    trend_state: InterpretationTrendState::Stable,
+                    trend_available: true,
+                    expectation_quality: InterpretationExpectationQuality::High,
+                    expectation_quality_reason:
+                        InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    gravity_data_quality: InterpretationGravityDataQuality::Ready,
+                    gravity_data_quality_reason:
+                        InterpretationGravityDataQualityReason::ConsensusUnavailable,
+                    gravity_status: None,
+                    supply_pressure: false,
+                    supply_available: true,
+                    flow_acceleration: Some(0.0),
+                    gray_rhino_escalated: false,
+                },
+                future_context: SignalContextEventReadModel::default(),
+                decision_summary: Some(&without_event.decision_summary),
+                language: Language::EnUs,
+                dict: &dict,
+            })
+        }));
+
+        assert_eq!(
+            decision_surface(&without_event),
+            decision_surface(&with_event)
+        );
+        let interpretation = with_event.interpretation_layer.unwrap();
+        assert_eq!(
+            interpretation.signal_context_primary_context_value,
+            "NVIDIA EARNINGS"
+        );
     }
 
     #[test]

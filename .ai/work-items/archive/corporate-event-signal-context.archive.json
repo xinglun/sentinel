@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T19:03:26Z",
+  "files": {
+    "contractDigest": "sha256:111435f2946f5ad36f3cdef4eeddde6c4cfbfe2e6419a3766cba43339fbdd221",
+    "contractPath": ".ai/work-items/archive/corporate-event-signal-context.contract.json",
+    "eventsDigest": "sha256:27d809b7885911fd8121bf894f9eb6dec1a7718b96f1faed15bbd169d690a6ef",
+    "eventsPath": ".ai/work-items/archive/corporate-event-signal-context.events.jsonl",
+    "outcomeDigest": "sha256:76801427e4cd6bb4b3bed32d52294c0c31465aded7c1677f3c4513a8d7fec09f",
+    "outcomePath": ".ai/work-items/archive/corporate-event-signal-context.outcome.json",
+    "summaryDigest": "sha256:29a1a5fcfa6e9a25f7ed40efc115da8315ce479dda7d9d4ef1dbb224dcc61a71",
+    "summaryPath": ".ai/work-items/archive/corporate-event-signal-context.summary.json",
+    "taskReportDigest": "sha256:a90f0aa0c5bf7acc601d58dae9fc72c68d7e17a7d075c8183e8a231341a7377b",
+    "taskReportMarkdownDigest": "sha256:1347a343ba4c5dd54117c2c769f76cec02f7c2fdfa0d9244ab8a1ad8c6361b49",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-signal-context.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-signal-context.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-signal-context"
+}

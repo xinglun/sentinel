@@ -1,0 +1,95 @@
+{
+  "acceptanceCriteria": [
+    "有効な外部 JSON の corporate_events が market_date と EvidenceRecord を満たす場合、Primary Context は Corporate Event として読み込まれ、Information Content は HIGH、タイトルは fixture の NVIDIA EARNINGS、Context Type は CORPORATE / AI INFRASTRUCTURE として表示される。",
+    "Interpretation はイベント駆動を断定せず、可能性と継続性観察を明示する。Corporate Event は decision_weight=0、trade_signal=false、gate_effect/execution_effect/position_sizing_effect=none を維持し、Gate、Leader、Action Matrix、Position Sizing、Execution へ入力しない。",
+    "SENTINEL_SIGNAL_CONTEXT_JSON_PATH が未設定、欠損、日付不一致、または HIGH/MEDIUM の証拠不備の場合はイベントを採用せず、UNAVAILABLE と fail-closed の既存挙動を維持する。",
+    "同じ price/RS データで corporate event JSON の有無だけを変えた場合、Decision、Gate、Action Matrix の結果は bit-for-bit または semantic-equivalent に一致し、Interpretation の Signal Context 部分だけが変化することをテストで固定する。",
+    "既存の macro event 表示と三言語の report/snapshot 契約を維持し、provider/discovery を実装しない。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "df698472edf21cc689efc3da6e0f745b6d4f8c7d",
+  "createdAt": "2026-08-27T18:28:59Z",
+  "goal": "2026-08-27 の決定論的 NVIDIA earnings fixture を用いて、Corporate Event を Primary Context として HIGH で表示し、弱い因果表現と継続性観察を出力する。入力がない場合は UNAVAILABLE を維持し、Decision、Gate、Action Matrix、Execution、Position Sizing には影響させない。",
+  "intent": "外部の企業イベント文脈を Signal Context の read model と presentation に正しく反映し、イベントの有無で意思決定経路が変わらないことを固定する。",
+  "mode": "code",
+  "outOfScope": [
+    "src/features/radar/domain/**、Gate、Leader、RS、Breadth、NO_TRADE、Action Matrix、Position Sizing、Execution、Trader の判定と計算、Corporate Event Provider / Discovery、外部 API、価格や RS からのイベント推測、リアルタイムデータ取得、Decision/Gate/Action Matrix の入力と出力、既存の閾値・拡散・リーダーシップロジック、データ保存形式、provider WI"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:585a27d0a6f378b3229203f2a8515107abe9c6e50ac12d93c87bf0297b619b6b",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "codex/universe-breadth-semantic-reconciliation",
+    "baseRemote": "local",
+    "branch": "codex/corporate-event-signal-context",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-wi-b"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/work-items/active/corporate-event-signal-context.contract.json",
+    ".ai/work-items/active/corporate-event-signal-context.summary.json",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語規約、Rust quality gate、Signal Context の境界を確認する。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item の scope、verification、Summary、lifecycle の SSOT。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "Signal Context v1 のイベント分類、quality、zero decision boundary と Interpretation view model の契約。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "SENTINEL_SIGNAL_CONTEXT_JSON_PATH の外部 JSON 読み込み、日付・証拠検証、macro context との merge 経路。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Primary Context、Information Content、Interpretation、Next Observation の read-model 導出経路。"
+    },
+    {
+      "path": "src/features/radar/interface/interpretation_read_model.rs",
+      "reason": "Signal Context を presentation view model に投影する経路。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown と HTML の Daily Report 表示契約。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "三言語 report、decision surface 不変性、Signal Context presentation の回帰テスト。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "required": true
+    }
+  ],
+  "workItemId": "corporate-event-signal-context"
+}

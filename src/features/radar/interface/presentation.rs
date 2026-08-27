@@ -616,16 +616,21 @@ pub enum SignalContextPrimaryContext {
     PreEarningsWaiting,
     MajorEventWaiting,
     MacroEvent,
+    CorporateEvent,
     #[default]
     None,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Copy, PartialEq, Eq, Default)]
 pub enum SignalContextQuality {
+    #[serde(alias = "HIGH")]
     High,
+    #[serde(alias = "MEDIUM")]
     Medium,
+    #[serde(alias = "LOW")]
     Low,
     #[default]
+    #[serde(alias = "UNAVAILABLE")]
     Unavailable,
 }
 
@@ -682,6 +687,10 @@ pub struct InterpretationLayerViewModel {
     pub signal_context_information_content_value: String,
     pub signal_context_primary_context_label: String,
     pub signal_context_primary_context_value: String,
+    #[serde(default)]
+    pub signal_context_type_label: String,
+    #[serde(default)]
+    pub signal_context_type_value: String,
     pub signal_context_quality_label: String,
     pub signal_context_quality_value: String,
     pub signal_context_event_fact_label: String,

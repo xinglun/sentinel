@@ -1,0 +1,131 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/corporate-event-signal-context.contract.json",
+    ".ai/work-items/archive/corporate-event-signal-context.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T18:34:11Z",
+  "checkpointContractDigest": "sha256:9b4040a54de3e8173ae98fb320ffeae590630a8776b2e3bf8fda604091da1c17",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d004628ded0933cc29ce977e71ce9ca00a3ded7b48aeb9cdd7c34911b2f49612",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:34:11Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:585a27d0a6f378b3229203f2a8515107abe9c6e50ac12d93c87bf0297b619b6b",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-signal-context"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:dbc886bdcf676548eedfbc20e818f8eb7cdb043419735c1cb1e3cbbebf91f5cd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d004628ded0933cc29ce977e71ce9ca00a3ded7b48aeb9cdd7c34911b2f49612",
+      "previousContractHash": "sha256:d004628ded0933cc29ce977e71ce9ca00a3ded7b48aeb9cdd7c34911b2f49612",
+      "reason": "実装中に CorporateEvent を既存の SignalContextPrimaryContext の slot mapping から除外するため、signal_context_event_read_model.rs を scope に追加した。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:47:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:66ce5f2c38c1b2671910ebc6b636e9ef09815aa06977fa766eeafc08bc88411f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-signal-context"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9b4040a54de3e8173ae98fb320ffeae590630a8776b2e3bf8fda604091da1c17",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d004628ded0933cc29ce977e71ce9ca00a3ded7b48aeb9cdd7c34911b2f49612",
+      "previousContractHash": "sha256:dbc886bdcf676548eedfbc20e818f8eb7cdb043419735c1cb1e3cbbebf91f5cd",
+      "reason": "按 Runtime 协议补全 WI-B 的来源、resource finalization context，并将 required verification 固定为 project-command-0 对应的 make quality。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:48:07Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:66ce5f2c38c1b2671910ebc6b636e9ef09815aa06977fa766eeafc08bc88411f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-signal-context"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:95f0e6fd683e4b9f6ffa49d2e729a3ff0f0fa594dc5bbc9037287c6d3fba2487",
+  "createdAt": "2026-08-27T18:28:59Z",
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      "src/features/radar/interface/signal_context_coverage.rs",
+      "src/features/radar/interface/signal_context_read_model.rs",
+      "src/features/radar/interface/report_ui_tests.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T19:03:07Z",
+  "preflightContractDigest": "sha256:9b4040a54de3e8173ae98fb320ffeae590630a8776b2e3bf8fda604091da1c17",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:95f0e6fd683e4b9f6ffa49d2e729a3ff0f0fa594dc5bbc9037287c6d3fba2487",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "required": true,
+      "scenario": "有效 corporate_events fixture 作为 Corporate Primary Context，并显示 HIGH 与 CORPORATE / AI INFRASTRUCTURE",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs"
+      ],
+      "required": true,
+      "scenario": "外部 context 缺失时保持 UNAVAILABLE",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "required": true,
+      "scenario": "同一 price/RS 数据在有无 event JSON 时 Decision/Gate/Action Matrix surface 保持一致",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "required": true,
+      "scenario": "Interpretation 使用弱因果措辞，事件 decision_weight 为零且不进入决策边界",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T19:03:12Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "corporate-event-signal-context"
+}

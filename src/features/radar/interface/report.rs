@@ -2535,6 +2535,14 @@ fn render_interpretation_section(
                 layer.signal_context_primary_context_label,
                 layer.signal_context_primary_context_value
             ));
+            if !layer.signal_context_type_label.is_empty()
+                && !layer.signal_context_type_value.is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_type_label, layer.signal_context_type_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value
@@ -2660,6 +2668,14 @@ fn render_interpretation_section(
                 layer.signal_context_primary_context_label,
                 layer.signal_context_primary_context_value
             ));
+            if !layer.signal_context_type_label.is_empty()
+                && !layer.signal_context_type_value.is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_type_label, layer.signal_context_type_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value

@@ -1,8 +1,10 @@
 use crate::features::radar::interface::interpretation_read_model::InterpretationNarrativeSignal;
-use crate::features::radar::interface::presentation::SignalContextV1;
 use crate::features::radar::interface::presentation::{
     SignalContextInformationContent, SignalContextInformationLevel, SignalContextPrimaryContext,
     SignalContextQuality,
+};
+use crate::features::radar::interface::presentation::{
+    SignalContextItem, SignalContextType, SignalContextV1,
 };
 use crate::features::radar::interface::signal_context_coverage::build_v1_from_event_context;
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
@@ -44,7 +46,7 @@ pub(crate) fn build_signal_context_assessment(
     let event_fact = compose_event_fact(&input.future_context, &v1);
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
-        compose_source_diagnostics(input.as_of_date, &input.future_context, input.language);
+        compose_source_diagnostics(input.as_of_date, &input.future_context, &v1, input.language);
     let coverage_line = format_signal_context_coverage(&v1.coverage);
     if source_diagnostics_appendix.is_empty() {
         source_diagnostics_appendix = coverage_line;
@@ -56,6 +58,7 @@ pub(crate) fn build_signal_context_assessment(
         information_content,
         context_quality,
         &input.future_context,
+        &v1,
         input.language,
     );
     let next_observation = compose_next_observation(
@@ -63,6 +66,7 @@ pub(crate) fn build_signal_context_assessment(
         primary_context,
         information_content,
         &input.future_context,
+        &v1,
         input.language,
     );
 
@@ -119,8 +123,44 @@ pub(crate) fn signal_context_primary_context_label(
         SignalContextPrimaryContext::PreEarningsWaiting => "Pre-Earnings Waiting",
         SignalContextPrimaryContext::MajorEventWaiting => "Major Event Waiting",
         SignalContextPrimaryContext::MacroEvent => "Macro Event",
+        SignalContextPrimaryContext::CorporateEvent => "Corporate Event",
         SignalContextPrimaryContext::None => "None",
     }
+}
+
+pub(crate) fn signal_context_type_value(item: Option<&SignalContextItem>) -> String {
+    let Some(item) = item else {
+        return "UNAVAILABLE".to_string();
+    };
+
+    let category = match item.context_type {
+        SignalContextType::ScheduledMacro => "SCHEDULED MACRO",
+        SignalContextType::Corporate => "CORPORATE",
+        SignalContextType::Geopolitical => "GEOPOLITICAL",
+        SignalContextType::Commodity => "COMMODITY",
+        SignalContextType::RatesCredit => "RATES/CREDIT",
+        SignalContextType::MarketStructure => "MARKET STRUCTURE",
+    };
+    let detail = item
+        .evidence
+        .iter()
+        .map(|evidence| evidence.event_type.trim())
+        .find(|event_type| !event_type.is_empty())
+        .map(normalize_signal_context_type_detail);
+
+    match detail {
+        Some(detail) if detail != category => format!("{category} / {detail}"),
+        _ => category.to_string(),
+    }
+}
+
+fn normalize_signal_context_type_detail(value: &str) -> String {
+    value
+        .replace('_', " ")
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_uppercase()
 }
 
 pub(crate) fn signal_context_quality_label(value: SignalContextQuality) -> &'static str {
@@ -172,7 +212,10 @@ fn derive_primary_context(
             item.information_content,
             SignalContextInformationLevel::High | SignalContextInformationLevel::Medium
         ) {
-            return SignalContextPrimaryContext::MacroEvent;
+            return match item.context_type {
+                SignalContextType::Corporate => SignalContextPrimaryContext::CorporateEvent,
+                _ => SignalContextPrimaryContext::MacroEvent,
+            };
         }
     }
 
@@ -205,7 +248,7 @@ fn derive_information_content(
                 SignalContextInformationContent::Unknown
             }
         }
-        SignalContextPrimaryContext::MacroEvent => {
+        SignalContextPrimaryContext::MacroEvent | SignalContextPrimaryContext::CorporateEvent => {
             if future_context.detected_primary_context()
                 == Some(SignalContextPrimaryContext::MacroEvent)
             {
@@ -252,6 +295,14 @@ fn derive_context_quality(
                 SignalContextQuality::Unavailable
             }
         }
+        SignalContextPrimaryContext::CorporateEvent => external_primary_item(future_context, v1)
+            .map(|item| match item.evidence_quality {
+                SignalContextInformationLevel::High => SignalContextQuality::High,
+                SignalContextInformationLevel::Medium => SignalContextQuality::Medium,
+                SignalContextInformationLevel::Low => SignalContextQuality::Low,
+                SignalContextInformationLevel::Unavailable => SignalContextQuality::Unavailable,
+            })
+            .unwrap_or(SignalContextQuality::Unavailable),
         SignalContextPrimaryContext::IndexReconstitution
         | SignalContextPrimaryContext::EtfRebalance
         | SignalContextPrimaryContext::HolidayLiquidity
@@ -327,6 +378,7 @@ fn compose_interpretation(
     information_content: SignalContextInformationContent,
     context_quality: SignalContextQuality,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
     language: Language,
 ) -> String {
     match primary_context {
@@ -336,6 +388,9 @@ fn compose_interpretation(
             context_quality,
             language,
         ),
+        SignalContextPrimaryContext::CorporateEvent => {
+            corporate_event_text(v1, information_content, context_quality, language)
+        }
         SignalContextPrimaryContext::MajorEventWaiting
         | SignalContextPrimaryContext::PreEarningsWaiting => waiting_event_text(
             primary_context,
@@ -369,8 +424,21 @@ fn compose_interpretation(
 fn compose_source_diagnostics(
     as_of_date: NaiveDate,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
     language: Language,
 ) -> (String, String) {
+    if let Some(item) = external_primary_item(future_context, v1) {
+        return (
+            match language {
+                Language::ZhCn => format!("已加载外部企业事件上下文：{}。", item.title),
+                Language::EnUs => {
+                    format!("External corporate event context loaded: {}.", item.title)
+                }
+                Language::JaJp => format!("外部企業イベント文脈を読み込んだ: {}。", item.title),
+            },
+            String::new(),
+        );
+    }
     let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
     let runtime_coverage_incomplete = future_context.runtime_coverage.as_ref().is_some_and(
         |coverage| {
@@ -476,8 +544,26 @@ fn compose_next_observation(
     primary_context: SignalContextPrimaryContext,
     information_content: SignalContextInformationContent,
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
     language: Language,
 ) -> String {
+    if primary_context == SignalContextPrimaryContext::CorporateEvent {
+        let title = external_primary_item(future_context, v1)
+            .map(|item| item.title.as_str())
+            .filter(|title| !title.trim().is_empty())
+            .unwrap_or("the corporate event");
+        return match language {
+            Language::ZhCn => {
+                format!("观察 {title} 后的市场反应能否持续；当前持续性尚未确认。")
+            }
+            Language::EnUs => format!(
+                "Observe whether the market response persists after {title}; persistence is not yet confirmed."
+            ),
+            Language::JaJp => {
+                format!("{title} 後の市場反応が持続するかを観察する。持続性はまだ確認されていない。")
+            }
+        };
+    }
     let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
     if timeline_lines.is_empty() {
         return match (primary_context, information_content, future_context.source_health) {
@@ -812,6 +898,47 @@ fn macro_event_text(
     }
 }
 
+fn corporate_event_text(
+    v1: &SignalContextV1,
+    information_content: SignalContextInformationContent,
+    context_quality: SignalContextQuality,
+    language: Language,
+) -> String {
+    let _ = context_quality;
+    let event = v1.primary_context.as_ref();
+    let title = event
+        .map(|item| item.title.as_str())
+        .filter(|title| !title.trim().is_empty())
+        .unwrap_or("the corporate event");
+    let fact = event
+        .and_then(|item| (!item.event_fact.trim().is_empty()).then_some(item.event_fact.as_str()))
+        .unwrap_or("");
+    let info = signal_context_information_content_label(information_content);
+    match language {
+        Language::ZhCn => {
+            if fact.is_empty() {
+                format!("今天识别到高信息量企业事件：{title}。观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+            } else {
+                format!("今天识别到高信息量企业事件：{title}。事件事实：{fact} 观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+            }
+        }
+        Language::EnUs => {
+            if fact.is_empty() {
+                format!("A high-information corporate event was identified: {title}. The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+            } else {
+                format!("A high-information corporate event was identified: {title}. Event fact: {fact} The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+            }
+        }
+        Language::JaJp => {
+            if fact.is_empty() {
+                format!("高情報量の企業イベントが識別された: {title}。観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+            } else {
+                format!("高情報量の企業イベントが識別された: {title}。イベント事実: {fact} 観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+            }
+        }
+    }
+}
+
 fn signal_context_source_health_label(value: MacroEventSourceHealth) -> &'static str {
     match value {
         MacroEventSourceHealth::Succeeded => "HEALTHY",
@@ -990,6 +1117,121 @@ mod tests {
                 future_calendar: Some(&calendar),
             },
         )
+    }
+
+    fn with_nvidia_fixture<T>(callback: impl FnOnce() -> T) -> T {
+        let _guard =
+            crate::features::radar::interface::signal_context_coverage::SIGNAL_CONTEXT_ENV_MUTEX
+                .lock()
+                .unwrap();
+        let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json");
+        let previous = std::env::var_os("SENTINEL_SIGNAL_CONTEXT_JSON_PATH");
+        std::env::set_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH", path);
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(callback));
+        match previous {
+            Some(value) => std::env::set_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH", value),
+            None => std::env::remove_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH"),
+        }
+        result.unwrap()
+    }
+
+    fn without_external_fixture<T>(callback: impl FnOnce() -> T) -> T {
+        let _guard =
+            crate::features::radar::interface::signal_context_coverage::SIGNAL_CONTEXT_ENV_MUTEX
+                .lock()
+                .unwrap();
+        let previous = std::env::var_os("SENTINEL_SIGNAL_CONTEXT_JSON_PATH");
+        std::env::remove_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH");
+        let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(callback));
+        if let Some(value) = previous {
+            std::env::set_var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH", value);
+        }
+        result.unwrap()
+    }
+
+    #[test]
+    fn corporate_earnings_fixture_is_not_reported_as_a_macro_event() {
+        let assessment = with_nvidia_fixture(|| {
+            let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+                .join("tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json");
+            let loaded = crate::features::radar::interface::signal_context_coverage::load_external_signal_context_from_path(
+                path.to_str().unwrap(),
+                NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+            )
+            .expect("NVIDIA earnings fixture must deserialize")
+            .expect("NVIDIA earnings fixture must be present");
+            assert_eq!(loaded.corporate_events.len(), 1);
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                signal: signal(
+                    InterpretationExpectationQuality::High,
+                    InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    InterpretationGravityDataQuality::Ready,
+                    false,
+                    Some(0.08),
+                ),
+                future_context: future_context_unavailable(),
+                language: Language::EnUs,
+            })
+        });
+
+        let primary_event = assessment.v1.primary_context.as_ref().unwrap();
+        assert_eq!(
+            primary_event.context_type,
+            crate::features::radar::interface::presentation::SignalContextType::Corporate
+        );
+        assert_eq!(primary_event.title, "NVIDIA EARNINGS");
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::High
+        );
+        assert_eq!(
+            signal_context_primary_context_label(assessment.primary_context),
+            "Corporate Event"
+        );
+        assert!(assessment.interpretation.contains("may be event-driven"));
+        assert!(assessment.next_observation.contains("persistence"));
+        assert!(!assessment
+            .source_diagnostics_summary
+            .contains("No high-information event identified"));
+        assert_eq!(assessment.v1.decision_weight, 0);
+        assert!(!assessment.v1.trade_signal);
+        assert_eq!(assessment.v1.gate_effect, "none");
+        assert_eq!(assessment.v1.execution_effect, "none");
+        assert_eq!(assessment.v1.position_sizing_effect, "none");
+    }
+
+    #[test]
+    fn missing_external_context_remains_unavailable() {
+        let assessment = without_external_fixture(|| {
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                signal: signal(
+                    InterpretationExpectationQuality::High,
+                    InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                    InterpretationGravityDataQuality::Ready,
+                    false,
+                    Some(0.08),
+                ),
+                future_context: future_context_unavailable(),
+                language: Language::EnUs,
+            })
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::None
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::Unknown
+        );
+        assert_eq!(
+            assessment.context_quality,
+            SignalContextQuality::Unavailable
+        );
+        assert!(assessment.interpretation.contains("UNAVAILABLE"));
     }
 
     #[test]

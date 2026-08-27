@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "有効な外部 JSON の corporate_events が market_date と EvidenceRecord を満たす場合、Primary Context は Corporate Event として読み込まれ、Information Content は HIGH、タイトルは fixture の NVIDIA EARNINGS、Context Type は CORPORATE / AI INFRASTRUCTURE として表示される。",
+    "Interpretation はイベント駆動を断定せず、可能性と継続性観察を明示する。Corporate Event は decision_weight=0、trade_signal=false、gate_effect/execution_effect/position_sizing_effect=none を維持し、Gate、Leader、Action Matrix、Position Sizing、Execution へ入力しない。",
+    "SENTINEL_SIGNAL_CONTEXT_JSON_PATH が未設定、欠損、日付不一致、または HIGH/MEDIUM の証拠不備の場合はイベントを採用せず、UNAVAILABLE と fail-closed の既存挙動を維持する。",
+    "同じ price/RS データで corporate event JSON の有無だけを変えた場合、Decision、Gate、Action Matrix の結果は bit-for-bit または semantic-equivalent に一致し、Interpretation の Signal Context 部分だけが変化することをテストで固定する。",
+    "既存の macro event 表示と三言語の report/snapshot 契約を維持し、provider/discovery を実装しない。"
+  ],
+  "createdAt": "2026-08-27T19:03:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4b9b3691035dc5d7d594254fe8a06c14d13363754b61ad29328e8f319372e07c",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-signal-context.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/corporate-event-signal-context.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-signal-context.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:95f0e6fd683e4b9f6ffa49d2e729a3ff0f0fa594dc5bbc9037287c6d3fba2487",
+      "workItemId": "corporate-event-signal-context"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-signal-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-signal-context.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-signal-context.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-signal-context.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-signal-context.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-signal-context.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-signal-context.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-signal-context.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-signal-context.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-signal-context.contract.json"
+          ],
+          "inference": false,
+          "text": "2026-08-27 の決定論的 NVIDIA earnings fixture を用いて、Corporate Event を Primary Context として HIGH で表示し、弱い因果表現と継続性観察を出力する。入力がない場合は UNAVAILABLE を維持し、Decision、Gate、Action Matrix、Execution、Position Sizing には影響させない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-signal-context.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-signal-context"
+  },
+  "taskReportDigest": "sha256:a90f0aa0c5bf7acc601d58dae9fc72c68d7e17a7d075c8183e8a231341a7377b",
+  "taskReportMarkdownDigest": "sha256:1347a343ba4c5dd54117c2c769f76cec02f7c2fdfa0d9244ab8a1ad8c6361b49",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/corporate-event-signal-context.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "corporate-event-signal-context"
+}

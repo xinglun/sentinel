@@ -13,6 +13,9 @@ use std::fs;
 
 const EXTERNAL_SIGNAL_CONTEXT_PATH_ENV: &str = "SENTINEL_SIGNAL_CONTEXT_JSON_PATH";
 
+#[cfg(test)]
+pub(crate) static SIGNAL_CONTEXT_ENV_MUTEX: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 #[derive(Debug, Clone, Default)]
 pub(crate) struct SignalContextCoverageInput {
     pub market_date: String,
@@ -247,7 +250,7 @@ fn macro_lifecycle(
     }
 }
 
-/// 構造化外部来源を読み込み、日期与证据不满足时 fail-closed。
+/// 構造化された外部ソースを読み込み、日付または証拠が不十分な場合は fail-closed とする。
 pub(crate) fn load_external_signal_context_from_path(
     path: &str,
     as_of_date: NaiveDate,
