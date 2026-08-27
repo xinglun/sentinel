@@ -62,7 +62,7 @@ Portfolio Action: NONE
 - **Stability**: 1.1
 > Confidence 52 · Streak emerging · Regime Age 1d · Net Flow Stable ·
 > Confidence breakdown: Trend allocation 2.0 + inverse potential 50.0
-> Breadth Raw: UNAVAILABLE · Breadth Counts: up=0 flat=0 down=0 total=0 · Breadth Universe: UNAVAILABLE / 0 observed · Breadth Label: UNAVAILABLE
+> Universe Breadth Raw: UNAVAILABLE · Universe Breadth Counts: up=0 flat=0 down=0 total=0 · Observation Universe: UNAVAILABLE / 0 observed · Universe Breadth Label: UNAVAILABLE
 
 **🧭 Tactical Buckets**
 

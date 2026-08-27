@@ -1,0 +1,172 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/universe-breadth-semantic-reconciliation.contract.json",
+    ".ai/work-items/archive/universe-breadth-semantic-reconciliation.summary.json"
+  ],
+  "checkpointAt": "2026-08-27T17:55:20Z",
+  "checkpointContractDigest": "sha256:83abd98ee1fc138968e53af4a977d0dd7aede3367ac4b8b72d40ad7b7c1a3ba7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "recorded": true,
+      "recordedAt": "2026-08-27T17:55:20Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ae593a63d849500cca4f285cdd9f14cd632b9bd0ad9db25f84ec67968addf89e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:bd275f1c214a73b40693df39a3f5f83dfc6dbca89e58b917900114ced5fa4435",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "previousContractHash": "sha256:63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "reason": "补充三语言 report UI 回归测试文件到 WI-A scope，保持观察层语义修复边界不变。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T17:59:43Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ae593a63d849500cca4f285cdd9f14cd632b9bd0ad9db25f84ec67968addf89e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:343a2b8d2023ffc3332a0e821d6f2e6a6cc184badb5427ac64339eca25f14b77",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "previousContractHash": "sha256:bd275f1c214a73b40693df39a3f5f83dfc6dbca89e58b917900114ced5fa4435",
+      "reason": "将 verification 固化为安装版 Runtime 可消费的 typed check contract，保留四个 Make quality gate。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:01:37Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ae593a63d849500cca4f285cdd9f14cd632b9bd0ad9db25f84ec67968addf89e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3fc283e5c4c7fff29db61e70e75f41dd78568b77078f6d40db1c8ac164d32183",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "previousContractHash": "sha256:343a2b8d2023ffc3332a0e821d6f2e6a6cc184badb5427ac64339eca25f14b77",
+      "reason": "补充三份 Markdown no-trade snapshot 到既有 report snapshot scope，确保 HTML 与 Markdown 契约同步更新。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:09:48Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:022a398f4e011e7aba3bf2e39dc7353f03f7703c43c95596bc0e6c781d9ac4df",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a81bbd7b9b4441ec4a7debbb7472a8f33350f8c34573ebc090ecb826eb87d122",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "previousContractHash": "sha256:3fc283e5c4c7fff29db61e70e75f41dd78568b77078f6d40db1c8ac164d32183",
+      "reason": "补充 audit daily 三语言文本 snapshot 到 WI-A scope，保持 Daily Report 与历史审计输出一致。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:10:38Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:4b17eb0fa1dd4743af3761032a94da50f3625386b1b121008fbadc1915513eba",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:83abd98ee1fc138968e53af4a977d0dd7aede3367ac4b8b72d40ad7b7c1a3ba7",
+      "invalidatedRequiredChecks": [
+        "project-command-0"
+      ],
+      "originalBeforeEditContractHash": "63c6f4693ffddeb0f089a39c366cdc13b7012b30daa6b392437f8a84e98fbfe9",
+      "previousContractHash": "sha256:a81bbd7b9b4441ec4a7debbb7472a8f33350f8c34573ebc090ecb826eb87d122",
+      "reason": "按 Runtime 协议将 completion evidence class 固定为 verification，并将单次 make quality 执行映射为 project-command-0；不改变代码范围与验收语义。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T18:25:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:3f2ed9565e876d73387483b143ba745db04b39be57fad3565725eac0ce5118d3",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 1,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "universe-breadth-semantic-reconciliation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:3f2ed9565e876d73387483b143ba745db04b39be57fad3565725eac0ce5118d3",
+  "createdAt": "2026-08-27T17:48:43Z",
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      "src/features/radar/interface/market_interpretation_read_model.rs",
+      "src/features/radar/interface/report_ui_tests.rs",
+      ".ai/evidence/universe-breadth-semantic-reconciliation.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-27T18:28:11Z",
+  "preflightContractDigest": "sha256:83abd98ee1fc138968e53af4a977d0dd7aede3367ac4b8b72d40ad7b7c1a3ba7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:3f2ed9565e876d73387483b143ba745db04b39be57fad3565725eac0ce5118d3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-27T18:28:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "universe-breadth-semantic-reconciliation"
+}

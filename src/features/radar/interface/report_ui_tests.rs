@@ -6805,7 +6805,7 @@ mod tests {
                 Language::ZhCn,
                 "市场演化观察",
                 "主导者序列",
-                "市场广度原始值序列",
+                "观察池广度原始值序列",
                 "置信度序列",
                 "供给阶段序列",
             ),
@@ -6813,7 +6813,7 @@ mod tests {
                 Language::EnUs,
                 "Observation Timeline",
                 "Leader sequence",
-                "Breadth Raw sequence",
+                "Universe Breadth Raw sequence",
                 "Confidence sequence",
                 "Supply sequence",
             ),
@@ -6821,7 +6821,7 @@ mod tests {
                 Language::JaJp,
                 "市場進化観測",
                 "主導銘柄の推移",
-                "市場広度Rawの推移",
+                "観測ユニバース Breadth Raw の推移",
                 "確信度の推移",
                 "供給局面の推移",
             ),
@@ -6847,9 +6847,11 @@ mod tests {
             assert!(
                 report
                     .markdown_body
-                    .contains("Breadth Classification Score sequence")
-                    || report.markdown_body.contains("广度分类分数序列")
-                    || report.markdown_body.contains("市場広度分類スコアの推移")
+                    .contains("Universe Breadth Classification Score sequence")
+                    || report.markdown_body.contains("观察池广度分类分数序列")
+                    || report
+                        .markdown_body
+                        .contains("観測ユニバース Breadth 分類スコアの推移")
             );
             assert!(report.markdown_body.contains(confidence_label));
             assert!(report.markdown_body.contains(supply_label));
@@ -6897,9 +6899,11 @@ mod tests {
                             baseline_status: "AVAILABLE".to_string(),
                             change_status: "DETERMINED".to_string(),
                             title: "Market Change Log".to_string(),
-                            breadth_label: "Breadth".to_string(),
+                            breadth_label: "Universe Breadth".to_string(),
                             breadth_value: "Very Narrow".to_string(),
-                            summary_values: vec!["Breadth remains Very Narrow.".to_string()],
+                            summary_values: vec![
+                                "Universe Breadth remains Very Narrow.".to_string()
+                            ],
                             ..Default::default()
                         },
                     ),
@@ -6917,10 +6921,10 @@ mod tests {
 
             assert!(report
                 .markdown_body
-                .contains("Breadth remains Very Narrow."));
+                .contains("Universe Breadth remains Very Narrow."));
             assert!(!report
                 .markdown_body
-                .contains("Breadth shifted from 35.0 to Very Narrow."));
+                .contains("Universe Breadth shifted from 35.0 to Very Narrow."));
         }
     }
 

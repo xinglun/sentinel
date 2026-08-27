@@ -1,0 +1,22 @@
+{
+  "createdAt": "2026-08-27T18:28:20Z",
+  "files": {
+    "approachDigest": "sha256:5d3d2b3b621927fa3c75455c5814d37fb59a48ab78ca6cceb9c92a11cb497bf8",
+    "approachPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.approach.json",
+    "contractDigest": "sha256:0c03539ca174c7e7657330a772ef797c4886b37c1ea9237c4986a599e9bf1e57",
+    "contractPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.contract.json",
+    "eventsDigest": "sha256:99b289ece29269a861d043c6881e9ff810506bb8b96ddfadc712aa484191bf76",
+    "eventsPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:0b8350444089b51c2eeed85cc20be94bd1a8bacae263a83ec2cda24ec9051d76",
+    "outcomePath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.outcome.json",
+    "summaryDigest": "sha256:6b3adf19833d84646451ec7302d44216a2b912d0f2be1420a7af2cafae56e35d",
+    "summaryPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.summary.json",
+    "taskReportDigest": "sha256:8734c709cec0ec9f76cbd00094d05969cceb104e82fb57b46a6f2e3a5a11bedd",
+    "taskReportMarkdownDigest": "sha256:809ccd5d2a250d01763dfd68f495acacfb3d88723aad42f97e53f4734b925da4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/universe-breadth-semantic-reconciliation.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "universe-breadth-semantic-reconciliation"
+}
