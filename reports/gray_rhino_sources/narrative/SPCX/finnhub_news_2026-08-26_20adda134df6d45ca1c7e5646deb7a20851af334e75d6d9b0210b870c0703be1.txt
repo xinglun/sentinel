@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Potential Merger Has Some Upside, But I'm Still Bearish (Upgrade)
+  summary: Tesla continues to fund speculative projects with cash flow from the business that is losing market share and pricing power. Click for a TSLA update.
+  url: https://finnhub.io/api/news?id=b382890d9c645179fedf5db41f4f6b4f29473bfc3286616827ab24d4f7656204

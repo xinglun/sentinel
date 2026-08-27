@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Revenue Set to Increase 18X in 4 Years; Analyst Says 'Never in History' Has a Company Grown This Fast
+  summary: Nvidia is on pace to deliver one of the fastest growth streaks in corporate history, guiding for $108 billion in Q3 revenue.
+  url: https://finnhub.io/api/news?id=8b72c2e1615eaa4a4de6dbe2cb689214680e8ab6ee04f25097a2b334bc8f1a5d

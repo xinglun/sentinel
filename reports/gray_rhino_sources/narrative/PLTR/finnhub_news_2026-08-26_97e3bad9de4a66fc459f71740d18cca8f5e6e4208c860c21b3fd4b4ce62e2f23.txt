@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Government Took Equity In Quantum Stocks, So Should We
+  summary: Explore quantum computing investing: why profits are years away, why broad/AI funds miss it, and how QTUM vs WQTM ETFs offer diversified exposureâlearn...
+  url: https://finnhub.io/api/news?id=526b9cab301084be2bd6dff7af650538fa06a5242359ebf2c95023bd0bb9e74d

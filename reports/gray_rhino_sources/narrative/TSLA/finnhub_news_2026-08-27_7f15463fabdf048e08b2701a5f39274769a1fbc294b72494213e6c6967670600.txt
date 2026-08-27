@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors Can Participate In AI
+  summary: The explosion in usage of ChatGPT and other generative AI tools has opened investorsâ eyes to their potential to boost profits and productivity throughout the economy.
+  url: https://finnhub.io/api/news?id=31af6443b7bfd53b015bb374b399e20a63049b682e4891e31aeb3cfc81bf073e

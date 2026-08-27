@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Dips Wednesday as Investors Weigh AI Spending Against Cloud Growth
+  summary: Alphabet stock fell Wednesday as investors balanced long-term AI growth across Google Cloud against rising capital expenditures.
+  url: https://finnhub.io/api/news?id=1dbbbd79949df8b4e2d169ae00b761bd98851f15ecb988f1faef94de16bf2c4f

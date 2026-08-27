@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Understanding Microsoft's Position In Software Industry Compared To Competitors
+  summary: In the dynamic and cutthroat world of business, conducting thorough company analysis is essential for investors and industry experts. In this article, we will undertake a comprehensive industry comparison, evaluating
+  url: https://finnhub.io/api/news?id=3e482140327bebf7cb42a0fc7113c25937ab5004e45dd379cf0f00895ec3d94b

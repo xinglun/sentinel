@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft, Amazon, Google Court Kimi K3 Maker Despite Bessent Blacklist Threat
+  summary: Microsoft, Amazon and Google are in talks with Kimi K3 maker Moonshot AI over revenue sharing despite Scott Bessent’s blacklist threat.
+  url: https://finnhub.io/api/news?id=5c61b3ea63bf2475f36326e1d3e147963041e66d3a17afacd7431ae125672655

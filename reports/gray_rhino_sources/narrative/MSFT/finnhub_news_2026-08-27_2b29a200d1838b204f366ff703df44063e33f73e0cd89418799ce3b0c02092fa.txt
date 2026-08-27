@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Gates Wants to Hit the Brakes. Nvidia Is Financing AI's Next Sprint.
+  summary: Bill Gates wants AI to slow down. Nvidia&#39;s latest earnings reveal how it&#39;s financing AI infrastructure to keep the boom accelerating.
+  url: https://finnhub.io/api/news?id=e74abd7d84ef920ad9a2ef0c94ec6a44d2b04d1d56ca1c89f75a466abbf7a6e2

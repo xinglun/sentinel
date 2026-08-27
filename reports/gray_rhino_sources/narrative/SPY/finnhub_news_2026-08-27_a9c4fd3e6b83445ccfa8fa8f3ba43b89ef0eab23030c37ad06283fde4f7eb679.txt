@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reported Earlier, Trump Administration Weighing New Round Of Sweeping Tariffs On Semiconductors - Politico Exclusive
+  summary: https://www.politico.com/news/2026/08/27/data-centers-chips-tariffs-threat-01050957
+  url: https://finnhub.io/api/news?id=3f4bf6e0fbedf08703d18a4efd629fe09f8419c5e2765b24945f152fb81edeb4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside Supermicro's Stock Gain: How NVIDIA's Record Q2 Drives Data Center Demand
+  summary: Supermicro stock jumped over 4% premarket following Nvidia&#39;s standout Q2 earnings, highlighting continued strong demand for high-performance AI server infrastructure.
+  url: https://finnhub.io/api/news?id=e20071580b60ff716a5412d97d8ea3257ab71e8425db77e788e05847eeb70260

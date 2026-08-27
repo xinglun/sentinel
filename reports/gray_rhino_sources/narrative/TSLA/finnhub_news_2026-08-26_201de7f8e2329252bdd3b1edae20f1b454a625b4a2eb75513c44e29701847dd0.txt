@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reported Earlier: 'Japan's Terra Charge To Roll Out Tesla-Compatible EV Charging Stations; Service Provider To Build Up Network Of 2,500 NACS Chargers By Fiscal 2033' - Nikkei
+  summary: https://asia.nikkei.com/business/automobiles/electric-vehicles/japan-s-terra-charge-to-roll-out-tesla-compatible-ev-charging-stations
+  url: https://finnhub.io/api/news?id=3ec1f95dccc0e41fc0c34937c324ee8a3d1278c0843f02a98e041e8b0925bbdb

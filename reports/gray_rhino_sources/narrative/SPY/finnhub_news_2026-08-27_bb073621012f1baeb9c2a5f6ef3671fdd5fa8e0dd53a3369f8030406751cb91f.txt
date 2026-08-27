@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Still Headlines, But New Stock Market Stories Emerge From Q2 Earnings
+  summary: AI-influenced stocks continued to headline the Q2 earnings season, which impressed across all metrics. Read more here.
+  url: https://finnhub.io/api/news?id=1b5d47a46c9827926b0e6356f0bcdd686b2e9dee69d08ee4a2c86f9eb69a5a68

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is One Less Brick On The Wall Of Worry, For Now
+  summary: Nvidia Corporation beats, and boosts 2028 guidance to 70% as AI demand stays strong; PCE tweaks may lower core inflation. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=688145e3724c233866feba2432aa26dc17438de545982869bb3968efbe62ed40

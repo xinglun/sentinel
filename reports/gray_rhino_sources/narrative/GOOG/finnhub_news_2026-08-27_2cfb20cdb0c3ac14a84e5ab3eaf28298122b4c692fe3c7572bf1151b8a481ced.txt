@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang Not Taking OpenAI's 'Jalapeño' Chip Personally: 'Lots of Projects Get Started. Lots of Projects Get Canceled'
+  summary: Jensen Huang shrugged off OpenAI’s Jalapeño chip, saying Nvidia remains confident despite growing AI-chip competition.
+  url: https://finnhub.io/api/news?id=90e38815acda0e994611751506fe3fc5b06bf92369d50cfe79b57b65cd2e08b8

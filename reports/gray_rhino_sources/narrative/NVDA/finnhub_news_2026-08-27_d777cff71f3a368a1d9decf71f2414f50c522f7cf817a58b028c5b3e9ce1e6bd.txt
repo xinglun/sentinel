@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Beats Again - But Cash Flow Must Keep Up With Blackwell's Growth
+  summary: Nvidia Corporation is a medium-confidence Buy for 6â12 months. Click for more on NVDA and its recent blowout Q2 earnings release.
+  url: https://finnhub.io/api/news?id=952c58ae2a4c18c3868d849fc653a0a0d40a08cf8025a0b5fd2cc0298683dfa1

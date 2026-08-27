@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Selects 28 AI Energy Startups For Accelerator In North America And Europe; 2026 Accelerator Cohort To Use AI For Energy Efficiency And Grid Modernizatio
+  summary: https://blog.google/company-news/outreach-and-initiatives/entrepreneurs/google-for-startups-accelerator-energy-ai/
+  url: https://finnhub.io/api/news?id=7da043046b8c41eb3d371ce349d06079068a984a7804d06947509ba41e57b144

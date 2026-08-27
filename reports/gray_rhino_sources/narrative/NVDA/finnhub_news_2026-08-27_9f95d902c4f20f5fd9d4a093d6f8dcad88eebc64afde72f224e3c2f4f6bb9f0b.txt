@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hark Announces Multi-Year Partnership With NVIDIA To Advance Personalized Agentic AI Supported By Gigawatt-Scale Compute
+  summary: Hark today announced a multi-year strategic partnership with NVIDIA to advance personalized agentic AI, including a deep technical collaboration and gigawatt-scale compute capacity on the next-generation NVIDIA Vera
+  url: https://finnhub.io/api/news?id=ef75000236c6519d9d944f726443baa14c20f43a689a60bbd81fde6977ba9f5a

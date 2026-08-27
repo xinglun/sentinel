@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Hidden AI Goldmine: Why TPU Sales Could Supercharge ROIC
+  summary: Alphabet AI-driven revenue acceleration, margin expansion, and new TPU hardware sales offer multiple paths to long-term ROIC. Read why GOOGL stock is a buy.
+  url: https://finnhub.io/api/news?id=3492ea2645f4dd286cdad64a3e47e68e4707a667ab93e88a933886336b64b680

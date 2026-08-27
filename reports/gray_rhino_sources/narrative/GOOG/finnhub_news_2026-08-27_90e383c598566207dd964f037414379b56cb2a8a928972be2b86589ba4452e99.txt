@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETJ: Very High Tech Exposure Could Be A Risk
+  summary: The Eaton Vance Risk-Managed Diversified Equity Income Fund offers a 9.26% yield and employs a unique risk-managed options strategy. Learn more about the ETJ ETF here.
+  url: https://finnhub.io/api/news?id=c04386acd520e450ecbc6ba427b8cd3bb701cde71cd2850ba4460d9c584f7560

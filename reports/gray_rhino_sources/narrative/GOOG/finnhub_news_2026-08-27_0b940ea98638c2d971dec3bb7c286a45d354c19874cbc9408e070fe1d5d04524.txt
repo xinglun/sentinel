@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: "Meta Took Aim At Anthropic. It Is Also One Of Its Largest Customers; The Social Networking Giant Projected It Could Spend $10 Billion Annually On Anthropic’s Tools, Illustrating The Friend-foe Relationships Underlying The A.I. Race." - NY Times Exclusive
+  summary: https://www.nytimes.com/2026/08/27/technology/meta-anthropic-frenemies.html
+  url: https://finnhub.io/api/news?id=62443a01291992ee1aa02a33af11edb37dc82f84ddfb4c2f238f3b9a8cdb8177

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Halo Effect: Let's Look At How Much Of Today's Chip Rally Is Real
+  summary: Nvidia Corporationâs earnings show AI infrastructure demand, but AI stock rallies may be sentiment-driven. Click for a look at what it reveals about the sector.
+  url: https://finnhub.io/api/news?id=1ad095896717e3ad97ed8cc50ffbcc20ff66c74146ca5b46cf3e4305e04c5bdb

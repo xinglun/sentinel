@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Synopsys Posts Upbeat Q3 Results, Joins Okta, Veeva Systems, Crowdstrike And Other Big Stocks Moving Higher On Thursday
+  summary: U.S. stocks mostly higher, Nasdaq up 1%. Synopsys Inc. reports strong Q3 results and raises outlook. Other gainers include Okta, Veeva, Salesforce, Ooma, Crowdstrike, Sailpoint, Hyperliquid, Tenable, Palo Alto Networks, and Zscaler.
+  url: https://finnhub.io/api/news?id=caf632ff61783122c9259ea6ab8bd3f4878343aeb0e3b7d128153bf37ceab597

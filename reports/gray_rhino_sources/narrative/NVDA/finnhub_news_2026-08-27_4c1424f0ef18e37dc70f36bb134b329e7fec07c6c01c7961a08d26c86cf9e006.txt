@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is AMD Stock Trending Today?
+  summary: AMD stock slipped in premarket trading as Nvidia&#39;s massive Q2 earnings beat drew focus, highlighting ongoing competition in data center AI hardware.
+  url: https://finnhub.io/api/news?id=cfe6a97c48d673a8132ae4202e47fdaf77691263475be86cf0638d595da5b15c

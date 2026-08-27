@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Announces The Deployment Of 27 Starlink Satellites
+  summary: https://x.com/SpaceX/status/2092561402892304399
+  url: https://finnhub.io/api/news?id=c103f35034973d820e1eb263a62e223f1d1d359d7ce2870cdec757d904c77fc3

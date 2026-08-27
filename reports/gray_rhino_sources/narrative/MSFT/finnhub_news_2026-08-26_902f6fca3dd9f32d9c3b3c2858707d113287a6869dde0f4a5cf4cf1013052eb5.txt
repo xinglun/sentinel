@@ -1,0 +1,22 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Faces A Dangerous Choice For Investors; Nvidia Earnings Ahead
+  summary: 
+
+
+
+Dangerous Choice For Investors
+
+
+
+Please click here for an enlarged chart of SPDR S&amp;P 500 ETF Trust (NYSE:SPY) which represents the benchmark stock market index S&amp;P 500 (SPX).
+
+
+
+Note the following:
+
+
+
+
+The
+  url: https://finnhub.io/api/news?id=a85b7f6f2b36db6845325910aa53dd8c771a1724b70f359cb8e1af14cc3d4a5c

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Teases Tesla Vehicle 'Way Cooler Than a Minivan'—Is the Robovan Finally Coming?
+  summary: Elon Musk hints at a bigger Tesla, possibly an SUV or Robovan, after receiving requests for larger family vehicles.
+  url: https://finnhub.io/api/news?id=d6c160a8e6e8c32874dbd08a7f0f3d522b436a3f6fdbb1d2b2c58c00b7ae564f

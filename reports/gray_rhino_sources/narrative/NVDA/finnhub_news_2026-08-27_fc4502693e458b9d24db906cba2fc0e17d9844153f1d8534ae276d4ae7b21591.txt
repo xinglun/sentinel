@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QUICK SPARK: Nvidia Stock Adds $370 Billion Market Value, A Whole Coca-Cola
+  summary: Nvidia stock jumps 7.32%, adding $371.7 billion in market value after earnings. The AI giant now has a $5.4 trillion market cap.
+  url: https://finnhub.io/api/news?id=a55f090014cdd7c43aa51da6d7243572a3af487e8c47b44dec517ef60b412fe4

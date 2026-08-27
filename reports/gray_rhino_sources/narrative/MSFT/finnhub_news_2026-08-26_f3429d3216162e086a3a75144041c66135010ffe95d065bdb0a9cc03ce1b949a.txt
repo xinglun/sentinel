@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Q4 Preview: Stock Down 48% From Highs, Will Data Center Monetization Shine Through in Earnings?
+  summary: Iren stock is down in 2026, but more data center deals and monetization could help boost earnings and the share price.
+  url: https://finnhub.io/api/news?id=c12317718e8164934ef8c585f8abef01497af561e7b00eea29d99fcff28effd2

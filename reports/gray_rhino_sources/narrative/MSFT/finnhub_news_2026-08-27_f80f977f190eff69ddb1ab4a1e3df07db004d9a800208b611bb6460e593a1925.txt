@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Arms Race Fuels More Cyberattacks — and More Spending, CrowdStrike Says
+  summary: CrowdStrike stock surges premarket after beating Q2 estimates with $1.47B revenue and raising its full-year fiscal forecast. Buy CRWD?
+  url: https://finnhub.io/api/news?id=76b62cb25ffbde8318592e4672ceeef94dbdef39b1dd495479a6721f2399d815

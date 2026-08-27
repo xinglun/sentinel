@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Intel Stock Surging on Thursday?
+  summary: Intel Corp. (INTC) stock is surging Thursday following Nvidia’s strong Q2 financial results and reports of potential broad U.S. chip tariffs.
+  url: https://finnhub.io/api/news?id=11eea201d99328cff3a38bc92799a37096f8fa2b5c01f04cb132dd97dabbb39e

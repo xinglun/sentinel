@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reported August 26, 'CIA Chief’s Surprise Moscow Trip Was to Warn Russia Not to Attack NATO' - WSJ Exclusive
+  summary: https://www.wsj.com/politics/policy/cia-chiefs-surprise-moscow-trip-was-to-warn-russia-not-to-attack-nato-c2d997f3?
+  url: https://finnhub.io/api/news?id=f8f48826e2f60c5f3b65a4b43b9e43d267edf69bc2f616f5758ab761ff1a7382

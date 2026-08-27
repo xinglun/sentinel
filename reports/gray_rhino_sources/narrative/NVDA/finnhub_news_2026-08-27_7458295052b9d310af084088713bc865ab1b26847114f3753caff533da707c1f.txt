@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I’m Keeping My Nvidia Position After Q2 27
+  summary: Nvidia’s Q2 strengthens my long-term thesis, but margin pressure, AI financing risks and portfolio concentration keep me from adding shares.
+  url: https://finnhub.io/api/news?id=9703c5632cc803771924dd91b2e1870cc772d31c41c6803613b263bd67282061

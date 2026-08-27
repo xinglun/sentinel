@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Weighs New Semiconductor Tariffs That Could Hit AI Data Center Servers, Laptops and Gaming Consoles: Report
+  summary: Trump weighs broader semiconductor tariffs as tech giants warn higher costs could threaten U.S. AI data center expansion.
+  url: https://finnhub.io/api/news?id=9b578433161866f32554eabc427980d9a82ffac5111aada37f23dc1b8eec9165

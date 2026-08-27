@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Japan seeks more H3 rocket launches to chase SpaceX' - Nikkei Asia
+  summary: https://asia.nikkei.com/business/aerospace-defense-industries/japan-seeks-more-h3-rocket-launches-to-chase-spacex
+  url: https://finnhub.io/api/news?id=2d561ef6104367dca8281df2c74c85cbc5e13ff12956377ea14d1ccde8bb9619

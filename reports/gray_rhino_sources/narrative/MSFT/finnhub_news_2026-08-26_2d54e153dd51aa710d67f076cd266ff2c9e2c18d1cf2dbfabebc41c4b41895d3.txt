@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bringing ChatGPT For Teachers To More U.S. School Districts; Data Privacy Agreement Spanning 16 States; Data Privacy Agreement Provides Common Framework For Districts To Evaluate ChatGPT For Teachers Against Student Data Privacy Requirements
+  summary: https://openai.com/index/bringing-chatgpt-for-teachers-to-more-us-school-districts/
+  url: https://finnhub.io/api/news?id=2a01da13d644c1a1f159d50647aa7ff0e611a2bd40d038a5a6e0717876e94383

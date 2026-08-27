@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NASA Chief Jared Isaacman Wants Data Centers In Space as AI Devours Electricity, Says US Should Tap ‘Free Fusion Reactor’ To Win AI Race
+  summary: NASA Admin Jared Isaacman wants to move AI data centers to Earth orbit, using solar power to strengthen US&#39;s position in space and AI race.
+  url: https://finnhub.io/api/news?id=0bdb8fedeeb5ead4976ee0171f05a7b783136e67e2e15c32f5869343dfd8ae2c

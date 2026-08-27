@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology Earnings Are Imminent; These Most Accurate Analysts Revise Forecasts Ahead Of Earnings Call
+  summary: Marvell Technology to release Q2 earnings on Aug. 27. Analysts expect earnings of $0.93/share and revenue of $2.71 billion.
+  url: https://finnhub.io/api/news?id=4b49ce08140dd33c93d996e26d8fc2c6bc033b45f607d79913f79bf686e87c22

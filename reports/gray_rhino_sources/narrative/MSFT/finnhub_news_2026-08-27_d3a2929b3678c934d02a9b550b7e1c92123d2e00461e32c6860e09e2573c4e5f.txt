@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ChronoScale Announces Plans With Microsoft For 50-MW AI Compute Deployment In North America
+  summary: ChronoScale Corporation (NASDAQ:CHRN), (&#34;ChronoScale&#34; or the &#34;Company&#34;), an accelerated compute platform purpose-built to support demanding artificial intelligence workloads, today announced plans with
+  url: https://finnhub.io/api/news?id=dc5418fecdf96d39b1b6a506c003df62623ec5011b76a8fccde362671267f4a3

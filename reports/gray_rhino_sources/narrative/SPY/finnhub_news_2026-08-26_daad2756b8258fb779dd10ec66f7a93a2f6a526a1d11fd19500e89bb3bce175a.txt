@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q2 GDP Second Estimate: Real GDP At 1.5%, Unchanged
+  summary: The second estimate for Q2 GDP of 2026 was unrevised from the advance estimate as U.S. real GDP expanded at an annualized rate of 1.5%, slowing from 2.1% in Q1.
+  url: https://finnhub.io/api/news?id=66b2f1ecbca433a7a5c93a42f5c049b4a22940d62c58983ace4c028a4956b076

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Would You Let Elon Musk’s Grok Bot Control Your Bank Account? Elon Musk Says He’ll Cover You If the AI Messes Up (UPDATED)
+  summary: Elon Musk promotes Grok Bot, offering a popular X account user to cover financial losses if the AI makes a mistake.
+  url: https://finnhub.io/api/news?id=071c5f5cc9eeb291825c844aa48bd961c19adae851818425ce4d5a353e9c4677

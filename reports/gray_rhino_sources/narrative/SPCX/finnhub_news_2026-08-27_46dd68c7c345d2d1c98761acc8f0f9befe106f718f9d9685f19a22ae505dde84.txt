@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crown Castle: The 2026 Reset Is Working, But The Market Has Yet To Catch Up
+  summary: Crown Castle remains a Buy, with valuation underestimating its recovery potential and macro tailwinds supporting a re-rating. Read more on CCI stock here.
+  url: https://finnhub.io/api/news?id=d662318b839c89527b8564002269827367b068a79c61a22f9ac96dca6fcd6828

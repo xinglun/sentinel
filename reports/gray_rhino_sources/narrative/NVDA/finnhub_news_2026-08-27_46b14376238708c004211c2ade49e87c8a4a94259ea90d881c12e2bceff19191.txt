@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RBC Capital Maintains Outperform on NVIDIA, Raises Price Target to $330
+  summary: RBC Capital  analyst Srini Pajjuir   maintains NVIDIA (NASDAQ:NVDA) with a Outperform and raises the price target from $300 to $330.
+  url: https://finnhub.io/api/news?id=5562ffe4156b75db909813aaef93090f9606650bf2e558fb34d419e3dd7f9339

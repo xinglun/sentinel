@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which S&P500 stocks are gapping on Thursday?
+  summary: Looking for the S&P500 stocks that are experiencing notable gaps on Thursday? Find out which stocks are gapping up and gapping down in the S&P500 index during today's session.
+  url: https://finnhub.io/api/news?id=dfccecd78cc744f6ccfd0d8cc510992ade50a9d50a853125a543475ba9eeb032

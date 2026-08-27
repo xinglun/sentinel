@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jackson Hole Could End In 3 Ways
+  summary: Kevin Warshâs Jackson Hole speech could sway bonds and the S&P 500 amid Treasury buybacks and hot inflation. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=c8a8d2b1a883a10dd8c4f5c7366aa3dc199d10979b2009f220db2fc184e65f7b

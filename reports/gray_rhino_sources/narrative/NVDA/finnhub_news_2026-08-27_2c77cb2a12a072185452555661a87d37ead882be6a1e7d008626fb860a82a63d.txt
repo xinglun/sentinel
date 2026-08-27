@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Thursday's session: top gainers and losers in the S&P500 index
+  summary: Stay informed about the performance of the S&P500 index in the middle of the day on Thursday. Uncover the top gainers and losers in today's session for valuable insights.
+  url: https://finnhub.io/api/news?id=dbe97060b57c6fcca42b09bac712bf7bcd8a4983c5dc92553f86f718d593e9cd

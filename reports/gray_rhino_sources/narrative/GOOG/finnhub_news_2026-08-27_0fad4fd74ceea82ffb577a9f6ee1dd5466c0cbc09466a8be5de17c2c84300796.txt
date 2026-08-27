@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: California’s Billionaire Tax Faces a Chilling Warning: Former White House Adviser Says It Could Actually Cost the State More Money Than It Raises
+  summary: California wealth tax could drive wealthy residents and businesses away
+  url: https://finnhub.io/api/news?id=b9ead5808d337fe31bad802cba9af9c8d233d17e2d9dc53bc1213dbac40607a4

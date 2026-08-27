@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Gates Sounds a Chilling AI Warning: Millions of Jobs Could Disappear, Wealth Could Pile Up at the Top and Robots May Need to Be Taxed
+  summary: Bill Gates warns AI could accelerate job losses and wealth inequality, urging governments to prepare with new policies.
+  url: https://finnhub.io/api/news?id=fb4b0e675a62b760edafa934a5bb69ca7f8c4f9d1b968ff5e332ef1dda53166e

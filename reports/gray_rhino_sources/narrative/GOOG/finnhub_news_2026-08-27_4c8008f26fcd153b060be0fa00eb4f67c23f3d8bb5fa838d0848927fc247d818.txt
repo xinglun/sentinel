@@ -1,0 +1,26 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Unusual Move Answers AI Trade’s Key Question; $40 Trillion US Debt Bomb Ticks; Key Fed Speech Awaited
+  summary: 
+
+
+
+Nvidia’s Unusual Move
+
+
+
+Please click here for an enlarged chart of NVIDIA Corp (NASDAQ:NVDA).
+
+
+
+Note the following:
+
+
+
+
+The chart shows that NVDA gapped up above the low band of Zone 1 (resistance).
+
+
+
+RSI on the
+  url: https://finnhub.io/api/news?id=586f505d7e72db784aca8e169728a1f0dfc9b7687c426d0c491ba3ce7f044961

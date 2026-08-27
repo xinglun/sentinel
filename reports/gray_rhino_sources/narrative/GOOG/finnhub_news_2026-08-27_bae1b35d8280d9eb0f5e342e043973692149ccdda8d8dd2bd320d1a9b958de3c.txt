@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Thinking Machines Lab Co-Founder Barret Zoph Joins Google' - WSJ
+  summary: https://www.wsj.com/tech/ai/thinking-machines-lab-co-founder-barret-zoph-joins-google-49f594e6 
+  url: https://finnhub.io/api/news?id=433e929520afe8052f4184b3068f59e943c60b2afaca071f278c922ab74c2b08

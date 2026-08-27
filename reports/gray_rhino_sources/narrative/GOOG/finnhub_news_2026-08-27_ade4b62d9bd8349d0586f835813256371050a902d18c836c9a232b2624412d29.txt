@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wipro Expands Partnership With Google Cloud To Accelerate Adoption Of Gemini Enterprise And Agentic AI
+  summary: The initiative includes equipping over 10,000 AI-certified specialists, including 1,500 Forward Deployed Engineers (FDEs), with advanced AI capabilities to enhance productivity, streamline operations, and expedite
+  url: https://finnhub.io/api/news?id=9bf4994e099977836efe7c5bfbfe962cb654cbe95c15395b399a6e8232c72ada

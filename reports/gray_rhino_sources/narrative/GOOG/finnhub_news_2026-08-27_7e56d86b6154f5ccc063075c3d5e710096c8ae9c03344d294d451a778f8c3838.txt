@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google takes am at Anthropic, Microsoft with budget-friendly AI pricing
+  summary: CNBC's MacKenzie Sigalos joins 'Squawk on the Street' to discuss how Google is taking aim at Anthropic, Microsoft with budget-friendly AI pricing.
+  url: https://finnhub.io/api/news?id=aa91cee7e1309d62fa1aed31244c4c0806d0b02fa0958e2e51750e5861bd4508

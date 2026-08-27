@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: A 16.0x P/E Is A Crime
+  summary: Nvidia Corporation delivered 106% revenue growth and $21.3B FCF, trading at 16x forward earnings. Click for this NVDA earnings update.
+  url: https://finnhub.io/api/news?id=84d8ba867725f7db9d628571de5b71bd633c02f11e2543578f180548338c93fa

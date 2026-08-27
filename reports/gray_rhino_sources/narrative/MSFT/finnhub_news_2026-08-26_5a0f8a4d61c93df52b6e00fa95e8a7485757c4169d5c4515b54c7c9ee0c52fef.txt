@@ -1,0 +1,7 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Information Technology Stocks With Whale Alerts In Today’s Session
+  summary: This whale alert can help traders discover the next big trading opportunities.
+Whales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.
+Traders often
+  url: https://finnhub.io/api/news?id=0e4cb4e27393a5b69ff43258a0e2de829fd04fd71f409c904035480afb36f0c1

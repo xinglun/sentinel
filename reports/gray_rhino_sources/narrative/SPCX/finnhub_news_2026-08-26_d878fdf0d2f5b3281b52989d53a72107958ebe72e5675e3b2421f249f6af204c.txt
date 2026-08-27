@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is AST SpaceMobile Stock Falling on Wednesday?
+  summary: AST SpaceMobile stock fell Wednesday after SpaceX announced changes to its launch operations, raising market concerns.
+  url: https://finnhub.io/api/news?id=8bc80989313ca0d53f9e16305de7d94faef11342bff5bb6361de6001a3ffbdc4

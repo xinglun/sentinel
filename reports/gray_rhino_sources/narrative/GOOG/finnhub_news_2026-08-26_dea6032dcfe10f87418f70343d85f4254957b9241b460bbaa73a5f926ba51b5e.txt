@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking Ruane, Cunniff, & Goldfarb's Portfolio - Q2 2026 Update
+  summary: Ruane, Cunniff & Goldfarb Q2 2026 13F: key holdings, new buys & trims, and Sequoia Fund vs S&P 500. Read here for a detailed investment analysis.
+  url: https://finnhub.io/api/news?id=f0ee289a15577c07a4f88b461b3b9df0cab874642345723232053d6898832f08

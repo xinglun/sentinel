@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernstein Maintains Outperform on NVIDIA, Raises Price Target to $400
+  summary: Bernstein  analyst Stacy Rasgon   maintains NVIDIA (NASDAQ:NVDA) with a Outperform and raises the price target from $315 to $400.
+  url: https://finnhub.io/api/news?id=30680e81e27542bfbce0526d02bd39ea3f88de7dec2b5f17fda223b23b1e3831

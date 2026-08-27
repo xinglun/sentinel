@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Denies It’s Pulling Back on FSD in China—Elon Musk’s EV Giant Fires Back at ‘False’ Shutdown Rumors: Report
+  summary: Tesla denies winding down Full Self-Driving efforts in China, clarifies it&#39;s not shutting down data center in Shanghai.
+  url: https://finnhub.io/api/news?id=fdef3407f7f468287ef8a843cc5c07b4fb779fd26544e51928a1902c8e199da5

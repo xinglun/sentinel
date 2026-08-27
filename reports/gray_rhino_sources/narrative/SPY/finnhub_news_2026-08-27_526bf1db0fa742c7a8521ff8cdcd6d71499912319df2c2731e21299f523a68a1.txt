@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market: Will S&P 500 Open Up or Down Today?
+  summary: Will the S&amp;P 500 open higher? Polymarket odds lean bullish at 71% as Street digests Nvidia earnings, PCE data, and Middle East diplomacy.
+  url: https://finnhub.io/api/news?id=0a96d85cbeae0306de3ed6802231391867645f04ea96226e6d47532f9f46027a

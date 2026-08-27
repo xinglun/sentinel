@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Beat Last Quarter's EPS Estimate by 65% — Can It Repeat That Next Time?
+  summary: Dell Technologies shares are in focus Thursday with earnings due, analyst activity, 200‑day average nearly 95% above trend and Edge Rankings.
+  url: https://finnhub.io/api/news?id=79ec30dc39bb51716978b5ee5a68035ac1e4cf30b47f28821e092843ef43f06e

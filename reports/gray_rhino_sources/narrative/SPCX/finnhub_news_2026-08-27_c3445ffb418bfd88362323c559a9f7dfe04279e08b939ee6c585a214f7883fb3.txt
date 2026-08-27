@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'SpaceX’s Musk, David Sacks to Join Altman, Huang at G20 Event' - Bloomberg News
+  summary: https://www.bloomberg.com/news/articles/2026-08-27/spacex-s-musk-david-sacks-to-join-altman-huang-at-g20-event
+  url: https://finnhub.io/api/news?id=dd93d7bba9a487ea3362f87122596b84ad15601c767ceed90e94f66c27cdd3b6

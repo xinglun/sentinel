@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: With Energy Prices Falling, Inflation Has Nowhere To Hide
+  summary: Spending growth is still outstripping productive capacity, and the Fed can no longer blame high prices on volatile energy markets.
+  url: https://finnhub.io/api/news?id=5e7cf1e518bdd8fd1fcc51ab1b2d51d3974f8dc57b5cd0e90baad92baf553fef

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Google Moves AI-Responsibility Team Out of DeepMind Lab in Latest Shake-Up' - WSJ Exclusive
+  summary: https://www.wsj.com/tech/ai/google-moves-ai-responsibility-team-out-of-deepmind-lab-in-latest-shake-up-ed01e40c
+  url: https://finnhub.io/api/news?id=3914a2019199d607bf1939b2a44d61d8d4949705f536f0f61b3af7c7c950175c

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jason Calacanis Says TSLA's Optimus Will Eclipse AAPL's iPhone, Predicts 1 Billion Robots By 2036
+  summary: Calacanis predicts Tesla&#39;s Optimus robot will surpass iPhone sales with 1 billion units by 2036, citing advanced hardware and brain.
+  url: https://finnhub.io/api/news?id=5c8c065a0e717834171bd83d7a8a01b46c98a55fe2b7000ad427c02d41225e9f

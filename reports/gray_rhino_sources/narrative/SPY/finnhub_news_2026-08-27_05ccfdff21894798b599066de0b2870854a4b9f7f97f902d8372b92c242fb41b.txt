@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Nasdaq 100 Futures Gain, While Dow Slips Following NVDA Blockbuster Q2 Report— CRM, CRWD, HPQ in Focus
+  summary: U.S. stock futures were higher on Thursday, as the Dow Jones index slipped, while the S&amp;P 500, and Nasdaq 100 indices rose.
+  url: https://finnhub.io/api/news?id=ac3a0319d92b4eab62418afeec789c3a47e9617ba3b626f800406bba032e7ee7

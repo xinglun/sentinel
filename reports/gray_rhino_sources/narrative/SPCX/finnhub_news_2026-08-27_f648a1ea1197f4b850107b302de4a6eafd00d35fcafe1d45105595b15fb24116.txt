@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Lift Off
+  summary: SpaceX is drawing upon its capabilities in rockets, satellite technology, and terrestrial data centers to develop its AI business. Read more here.
+  url: https://finnhub.io/api/news?id=be1e08f691307f38896702734fff35740b5d36499ed66ff0eb7920364eeada42

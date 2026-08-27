@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA CFO Says We Have Invested $50B In Frontier Labs; OpenAI's Existing, Planned Commitments Represent Around 12GW Of NVIDIA Compute
+  summary: -Conference Call
+  url: https://finnhub.io/api/news?id=7ad2e34cc3cf17aefa03eb4c017cb9f1ad473f5806f2d7240a5690cbe5d83f96

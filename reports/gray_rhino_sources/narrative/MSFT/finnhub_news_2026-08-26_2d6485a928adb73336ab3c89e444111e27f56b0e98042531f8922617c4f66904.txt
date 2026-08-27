@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Explore the top gainers and losers within the dow jones index in today's session.
+  summary: Stay informed about the performance of the dow jones index one hour before the close of the markets on Wednesday. Uncover the top gainers and losers in today's session for valuable insights.
+  url: https://finnhub.io/api/news?id=45b7ccfee9169d8cf3dc418bd809f9b83e3e927cd7530f4e98fda7ca7f6a2c9d

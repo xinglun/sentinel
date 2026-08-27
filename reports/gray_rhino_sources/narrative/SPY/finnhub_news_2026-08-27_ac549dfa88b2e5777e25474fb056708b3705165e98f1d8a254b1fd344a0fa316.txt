@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $40 Trillion US Debt Is 72 Times Mount Everest in Cash: Market Strategist Says the Number Looks ‘Scary’ Until You See How Much Americans Own
+  summary: Ryan Detrick likens the $40 trillion US debt to 72 Mount Everests, but urges investors to avoid &#39;denominator blindness&#39; as wealth surges.
+  url: https://finnhub.io/api/news?id=04e8f67595cdd1af37d5df0e8550674ce54c20f91d6a92887d0c6ae3a1fa0f9f
