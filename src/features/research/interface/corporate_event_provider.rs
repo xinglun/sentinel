@@ -22,6 +22,7 @@ pub(crate) enum CorporateEventReleaseWindow {
 pub(crate) struct CorporateEventObservation {
     pub symbol: String,
     pub market_date: NaiveDate,
+    pub market_timezone: String,
     pub release_window: CorporateEventReleaseWindow,
     pub fiscal_quarter: u8,
     pub fiscal_year: i32,
@@ -39,6 +40,7 @@ impl Default for CorporateEventObservation {
         Self {
             symbol: String::new(),
             market_date: NaiveDate::from_ymd_opt(1970, 1, 1).expect("valid default date"),
+            market_timezone: "America/New_York".to_string(),
             release_window: CorporateEventReleaseWindow::default(),
             fiscal_quarter: 0,
             fiscal_year: 0,
