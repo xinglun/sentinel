@@ -61,6 +61,7 @@ pub(crate) struct CorporateEventProviderReadModel {
     pub health: CorporateEventProviderHealth,
     pub source: String,
     pub source_url: String,
+    pub retrieved_at: String,
     pub diagnostic: Option<String>,
     pub events: Vec<CorporateEventObservation>,
 }
@@ -70,6 +71,7 @@ impl CorporateEventProviderReadModel {
         Self {
             source: "finnhub-earnings-calendar".to_string(),
             source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+            retrieved_at: String::new(),
             diagnostic: Some(diagnostic.into()),
             ..Self::default()
         }
