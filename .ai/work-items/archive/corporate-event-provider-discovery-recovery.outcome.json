@@ -1,0 +1,255 @@
+{
+  "acceptanceResults": [
+    "predecessor Work Item、Contract digest 与 recovery decision path 保持可追溯绑定",
+    "successor 只修复治理生命周期投影，不修改 Provider 生产代码与行为",
+    "fresh make quality verification 通过并绑定 successor Contract",
+    "完成 local-only finish 与 archive，不创建或合并 PR"
+  ],
+  "createdAt": "2026-08-27T22:32:47Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:d2fb9a479c32e1a5d9b64c24baf37a84d952f8023ae52c1c58e8c0c52758c3a4",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+      "workItemId": "corporate-event-provider-discovery-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.6cf242af318eef0946f6a2dbe45cd3dea03e514b07c4c9ea57bf2d6e8281a199.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-45c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-84a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-lifecycle-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.historical.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-lifecycle-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.historical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在不修改 Provider 生产实现的前提下重新绑定 predecessor 证据并完成 recovery successor 的验证与归档"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-provider-discovery-recovery"
+  },
+  "taskReportDigest": "sha256:9ba2e902a48636a1876a171beaeeafa9804e69e793ed5167159e074e77e1cb80",
+  "taskReportMarkdownDigest": "sha256:d3f1c80a0a2a40ad344fa0424bfca7f1f20a05ba59c953ed353868efeb587961",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/corporate-event-provider-discovery-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "corporate-event-provider-discovery-recovery"
+}

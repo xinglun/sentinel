@@ -1,0 +1,346 @@
+{
+  "acceptanceResults": [
+    "Provider-neutral contract 明确 provider、provenance、event type、event time/timezone、freshness 与 fail-closed 语义，并映射到现有 corporate_events read model。",
+    "Finnhub earnings calendar 仅通过显式配置和已有凭据注入；网络失败、鉴权失败、限流、非 2xx、malformed payload、时区或日期不完整时，输出 UNAVAILABLE 或无事件且不 panic。",
+    "使用 2026-08-27 NVIDIA earnings 的 deterministic provider response fixture 覆盖 HIGH、NVIDIA EARNINGS、CORPORATE、EARNINGS、发布时段、America/New_York 语义与来源证据；测试不依赖网络。AI_INFRASTRUCTURE 等主题分类不由 Finnhub calendar 推断，只保留既有 enrichment 输入。",
+    "Corporate event 的 decision_weight 固定为 0；同一 price/RS 输入下，有无 Provider event 时 Decision、Gate、Leader、Action Matrix、Position Sizing、Execution 结果保持 semantic-equivalent。",
+    "无 Provider 输入时保持现有 UNAVAILABLE fallback；不通过价格或 RS 行为反推财报事件。",
+    "新增或调整的检查通过 make fmt-check、make test、make clippy、make quality，并记录在 Cockpit verification/summary。"
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.json"
+  ],
+  "failedGate": "finish.lifecycle",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-discovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    "failedGate": "finish.lifecycle",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Restore the required lifecycle state and retry finish after fresh checks.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-84a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-45c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.historical.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-lifecycle-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.historical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-lifecycle-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-08-28-corporate-event-provider-discovery.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/specs/2026-08-28-corporate-event-provider-discovery-design.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/acl/corporate_event_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/acl/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/radar_pipeline_runner.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_coverage.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_event_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/corporate_event_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/application/corporate_event_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/application/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/finnhub_corporate_event_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-discovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "建立可审计、fail-closed 的 provider-neutral corporate event adapter，将 Finnhub earnings calendar 映射到现有 corporate_events read model，并保留 deterministic fixture 与无输入 fallback。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/corporate-event-provider-discovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "corporate-event-provider-discovery"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "corporate-event-provider-discovery"
+}

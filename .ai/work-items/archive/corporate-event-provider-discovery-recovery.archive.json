@@ -1,0 +1,20 @@
+{
+  "createdAt": "2026-08-27T22:32:52Z",
+  "files": {
+    "contractDigest": "sha256:6ab1485b79e82b0d319195997731691437ba746b4b2869b8c299cc743d27aa7f",
+    "contractPath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.contract.json",
+    "eventsDigest": "sha256:e69418a43beb8efb22edd19207724fdcef5e93c875fdb3bef9a4039dab9c2cba",
+    "eventsPath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.events.jsonl",
+    "outcomeDigest": "sha256:92ed1c294618fb1fc87a6e5f4a55f3e87fcd13e2654e3d6ff16fe969b6fe2433",
+    "outcomePath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.outcome.json",
+    "summaryDigest": "sha256:c84d975a9ce44f0d03d2d52810541a92c56672aaeca5cd7a77ab9396ff2a47db",
+    "summaryPath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json",
+    "taskReportDigest": "sha256:9ba2e902a48636a1876a171beaeeafa9804e69e793ed5167159e074e77e1cb80",
+    "taskReportMarkdownDigest": "sha256:d3f1c80a0a2a40ad344fa0424bfca7f1f20a05ba59c953ed353868efeb587961",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-provider-discovery-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-provider-discovery-recovery"
+}

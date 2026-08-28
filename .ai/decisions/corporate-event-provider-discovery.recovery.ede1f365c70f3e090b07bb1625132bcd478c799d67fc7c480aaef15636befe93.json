@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T04:43:20Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorEventsDigest": "sha256:030d9f6e3ca618905fa3a9ca62f4aa7d7ced2e81833801d18ca051c804ff9197",
+  "predecessorOutcomeDigest": "sha256:5bb6430ad7640110ef1c9314d8cee479870875949658591d0d609a6ebd505457",
+  "predecessorSummaryDigest": "sha256:e564e1702b6c35706406d4bf04542ebb1c1ed7800f1cbbc0ab3733b0fca44478",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "当前代码验证已通过，但前序 finish.lifecycle 失败留下的证据链需要在当前 Runtime 下重新验证；保留全部历史回执并重试同一 Work Item。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在当前 Contract 与 repository snapshot 上重新完成 fresh verification、preflight、finish 和 archive。",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-discovery"
+}

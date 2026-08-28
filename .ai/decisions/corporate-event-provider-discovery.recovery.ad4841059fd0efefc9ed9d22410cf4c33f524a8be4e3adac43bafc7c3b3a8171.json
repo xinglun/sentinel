@@ -1,0 +1,27 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-28T05:10:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.summary.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorEventsDigest": "sha256:85409c0ca5fdb4db3c757f5dec61c64ea30ad378d23cae8331c60f0e62da05a4",
+  "predecessorOutcomeDigest": "sha256:404d7c18154041ee501a16a923119a7fe37a9590e9944d0f049d462ac5e75844",
+  "predecessorSummaryDigest": "sha256:31155129e1bb361524a835aaf89ac580ff0a5c5f87b7a798ba59371d01f2f21f",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "finish 在提交终态时再次使 retry receipt 与 Summary 绑定失效；最后一次受控重试用于确认并修复同一 Work Item 的 Runtime 生命周期顺序。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在当前 Contract 与 repository snapshot 上完成一次 finish；若 Runtime 再次使绑定失效则停止并记录缺陷。",
+  "runtimeDigest": "sha256:1460a01d9831d8b05f77e30a20401e62aa028f8edef94cc3ac20c6b210760aad",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-discovery"
+}

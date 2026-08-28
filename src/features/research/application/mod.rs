@@ -1,4 +1,5 @@
 pub(crate) mod capital_absorption;
+pub(crate) mod corporate_event_provider;
 pub(crate) mod dependency_evidence;
 pub(crate) mod dependency_source_pipeline;
 pub(crate) mod governance_evidence;

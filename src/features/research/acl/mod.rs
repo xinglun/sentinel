@@ -1,4 +1,5 @@
 pub(crate) mod capital_absorption_source_adapter_factory;
+pub(crate) mod corporate_event_provider_factory;
 pub(crate) mod dependency_source_adapter_factory;
 pub(crate) mod expectation_source_adapter_factory;
 pub(crate) mod governance_evidence_store_factory;

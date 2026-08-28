@@ -1,0 +1,37 @@
+{
+  "earningsCalendar": [
+    {
+      "date": "2026-08-27",
+      "epsActual": null,
+      "epsEstimate": 1.04,
+      "hour": "amc",
+      "quarter": 2,
+      "revenueActual": 96200000000,
+      "revenueEstimate": 95000000000,
+      "symbol": "NVDA",
+      "year": 2027
+    },
+    {
+      "date": "2026-08-27",
+      "epsActual": 3.0,
+      "epsEstimate": 3.0,
+      "hour": "amc",
+      "quarter": 2,
+      "revenueActual": 1000000000,
+      "revenueEstimate": 1000000000,
+      "symbol": "MSFT",
+      "year": 2027
+    },
+    {
+      "date": "2026-08-26",
+      "epsActual": 1.0,
+      "epsEstimate": 1.0,
+      "hour": "bmo",
+      "quarter": 2,
+      "revenueActual": 100000000,
+      "revenueEstimate": 100000000,
+      "symbol": "NVDA",
+      "year": 2027
+    }
+  ]
+}

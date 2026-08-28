@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-confirmation-in-thread",
+  "decidedAt": "2026-08-28T09:43:37Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.summary.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorEventsDigest": "sha256:9b805fa2247983c2e2ff9bc55a5d04dff391df70fa34b25c6a784121fecc3922",
+  "predecessorOutcomeDigest": "sha256:d03abb91bd145b1ca53dee30275f4f5b0b52da7a77be87414371a3b8786aae9b",
+  "predecessorSummaryDigest": "sha256:1942acab0be178468b0ec7de0dec0d6f8207abf25519836fce75227424d4633d",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "当前 Provider WI 的实现与 verification 已通过，但原 active recovery chain 在 Runtime upgrade 后仍含历史 successor，finish 读取路径持续 fail closed；按协议创建 successor，仅重新绑定当前 Runtime 并完成本地终态交付，不改变 Provider 实现范围。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Complete the successor Contract, fresh current-Runtime verification, finish, and local archive without rewriting predecessor bytes.",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "workItemId": "corporate-event-provider-discovery"
+}

@@ -7,7 +7,7 @@ use crate::features::radar::interface::presentation::{
 use crate::features::radar::interface::signal_context_read_model::{
     build_signal_context_assessment, signal_context_boundary,
     signal_context_information_content_label, signal_context_lifecycle_label,
-    signal_context_primary_context_label, signal_context_quality_label,
+    signal_context_primary_context_label, signal_context_quality_label, signal_context_type_value,
     SignalContextReadModelInput,
 };
 use crate::features::research::application::capital_absorption::{
@@ -129,15 +129,23 @@ pub(crate) fn build_interpretation_layer_view_model(
             .primary_context
             .as_ref()
             .map(|item| {
-                format!(
-                    "{}: {}",
-                    signal_context_primary_context_label(signal_context.primary_context),
-                    item.title
-                )
+                if item.context_type
+                    == crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
+                {
+                    format!(
+                        "{}: {}",
+                        signal_context_primary_context_label(signal_context.primary_context),
+                        item.title
+                    )
+                } else {
+                    item.title.clone()
+                }
             })
             .unwrap_or_else(|| {
                 signal_context_primary_context_label(signal_context.primary_context).to_string()
             }),
+        signal_context_type_label: interpretation.signal_context_type_label.clone(),
+        signal_context_type_value: signal_context_type_value(primary_event),
         signal_context_quality_label: interpretation.signal_context_quality_label.clone(),
         signal_context_quality_value: signal_context_quality_label(signal_context.context_quality)
             .to_string(),
