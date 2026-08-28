@@ -1,0 +1,143 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:144aae62a7190aa3d6b248699cce41f061881d429b612cda1896159ebe0319d6",
+      "workItemId": "corporate-event-provider-discovery-pr-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery-runtime-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/corporate-event-provider-discovery-pr-finalization.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:Ray via user-confirmed-2026-08-28-pr97 at 2026-08-28T10:06:37Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "绑定 GitHub PR #97 的真实 merge commit 与 Provider branch/worktree identity，完成最小治理验证、archive、finalize-verify 与 close。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-provider-discovery-pr-finalization"
+  },
+  "finalReportDigest": "sha256:fe1019603546c67854b97d4bf7feb35332f3ffa5c6bdefeebfe338fe07781769",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:4edc4705cc1a46fb562349916ac60f710e9705bd10e23087bbf6baf03acc01d5",
+  "resourceFinalizationHeadPath": ".ai/decisions/corporate-event-provider-discovery-pr-finalization.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:Ray",
+    "authoritySource": "user-confirmed-2026-08-28-pr97",
+    "decidedAt": "2026-08-28T10:06:37Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/corporate-event-provider-discovery-pr-finalization.finalize.json"
+    ],
+    "policyRefs": [
+      "repository-local:ai-cockpit-resource-finalization"
+    ],
+    "reason": "PR #97 已合并，finalization-verify 已确认资源 disposition=deleted，批准关闭治理 successor。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-08-28T10:06:55Z",
+  "workItemId": "corporate-event-provider-discovery-pr-finalization"
+}

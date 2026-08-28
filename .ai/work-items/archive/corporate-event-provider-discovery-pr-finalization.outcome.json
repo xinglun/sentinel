@@ -1,0 +1,151 @@
+{
+  "acceptanceResults": [
+    "只新增当前 successor 的治理与资源收尾记录，不修改 predecessor archive 或生产实现。",
+    "ResourceFinalizationContext 绑定 provider=github、PR #97 URL、实际 base branch 与实际 merge commit。",
+    "使用当前 Runtime 完成最小治理 verification，并保持证据与当前 snapshot 绑定。",
+    "完成 successor archive、finalize、finalize-verify 与 human-approved close。",
+    "清理 Provider PR branch 与原始 worktree；最终本地 branch/worktree 不残留。"
+  ],
+  "createdAt": "2026-08-28T10:05:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bc68d17864a0f893c1957714edde3cd5d25e9117ae5d7bed2cf90d174a8c6cdb",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:144aae62a7190aa3d6b248699cce41f061881d429b612cda1896159ebe0319d6",
+      "workItemId": "corporate-event-provider-discovery-pr-finalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery-runtime-recovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "绑定 GitHub PR #97 的真实 merge commit 与 Provider branch/worktree identity，完成最小治理验证、archive、finalize-verify 与 close。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-provider-discovery-pr-finalization"
+  },
+  "taskReportDigest": "sha256:a0b114335c4ba07de3b9e13164270d93be3106f9e6a7f44ee75fb24e4185d41e",
+  "taskReportMarkdownDigest": "sha256:4f037473b6090d7d3b4b49909a3f1fcf47caa6736420cb8baa32d731313ae0a9",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/corporate-event-provider-discovery-pr-finalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "corporate-event-provider-discovery-pr-finalization"
+}

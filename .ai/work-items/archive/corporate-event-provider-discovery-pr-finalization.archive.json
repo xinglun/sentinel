@@ -1,0 +1,21 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T10:06:03Z",
+  "files": {
+    "contractDigest": "sha256:0d3e339a5d97602fe0bc72ca3c70bd9b1de821a086c002b74a008161b044a6b7",
+    "contractPath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json",
+    "eventsDigest": "sha256:058de40161880cf0522ef0da81d52908c8fa0248fa5bb431fa32a8a8eddbd7ff",
+    "eventsPath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.events.jsonl",
+    "outcomeDigest": "sha256:8455dcd6a72a625676c20e22c3b5e587a8a570da8bd5887f096aff191fd32e7e",
+    "outcomePath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.outcome.json",
+    "summaryDigest": "sha256:877a77b6ac43f1909db35405363337b9548bad1a6f5d0cb122eab2d686c17d73",
+    "summaryPath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json",
+    "taskReportDigest": "sha256:a0b114335c4ba07de3b9e13164270d93be3106f9e6a7f44ee75fb24e4185d41e",
+    "taskReportMarkdownDigest": "sha256:4f037473b6090d7d3b4b49909a3f1fcf47caa6736420cb8baa32d731313ae0a9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-provider-discovery-pr-finalization"
+}

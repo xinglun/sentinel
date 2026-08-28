@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.recovery.json",
+    ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.contract.json",
+    ".ai/work-items/archive/corporate-event-provider-discovery-pr-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-08-28T10:05:41Z",
+  "checkpointContractDigest": "sha256:bc145f0a484d0e3f623b18dc5de3fac9d85458c50608ab6e492fccda173bffc3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:144aae62a7190aa3d6b248699cce41f061881d429b612cda1896159ebe0319d6",
+  "createdAt": "2026-08-28T10:04:54Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:7b084b8dad8c4f0ce16191e72c348ad2a971c62081daf033b32f4c374cf3670f",
+  "predecessorWorkItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "preflightAt": "2026-08-28T10:05:56Z",
+  "preflightContractDigest": "sha256:bc145f0a484d0e3f623b18dc5de3fac9d85458c50608ab6e492fccda173bffc3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:144aae62a7190aa3d6b248699cce41f061881d429b612cda1896159ebe0319d6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T10:05:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "corporate-event-provider-discovery-pr-finalization"
+}

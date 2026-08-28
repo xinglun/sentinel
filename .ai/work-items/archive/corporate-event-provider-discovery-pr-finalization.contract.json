@@ -1,0 +1,57 @@
+{
+  "acceptanceCriteria": [
+    "只新增当前 successor 的治理与资源收尾记录，不修改 predecessor archive 或生产实现。",
+    "ResourceFinalizationContext 绑定 provider=github、PR #97 URL、实际 base branch 与实际 merge commit。",
+    "使用当前 Runtime 完成最小治理 verification，并保持证据与当前 snapshot 绑定。",
+    "完成 successor archive、finalize、finalize-verify 与 human-approved close。",
+    "清理 Provider PR branch 与原始 worktree；最终本地 branch/worktree 不残留。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6ac32761a74dc1a16b4d4e1b278ca5d82d57a217",
+  "createdAt": "2026-08-28T10:04:54Z",
+  "goal": "绑定 GitHub PR #97 的真实 merge commit 与 Provider branch/worktree identity，完成最小治理验证、archive、finalize-verify 与 close。",
+  "intent": "在不改写已归档 predecessor 的前提下，为已合并 PR #97 记录真实资源收尾并完成治理 close。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "docs/**",
+    "Market Breadth",
+    "Factor Concentration",
+    "RS Diffusion",
+    "Leader",
+    "Gate",
+    "NO_TRADE",
+    "Action Matrix",
+    "Position Sizing",
+    "Execution",
+    "new production behavior",
+    "secrets"
+  ],
+  "predecessorContractDigest": "sha256:7b084b8dad8c4f0ce16191e72c348ad2a971c62081daf033b32f4c374cf3670f",
+  "predecessorWorkItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:144aae62a7190aa3d6b248699cce41f061881d429b612cda1896159ebe0319d6",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "codex/corporate-event-signal-context",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-discovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/97",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "corporate-event-provider-discovery-pr-finalization"
+}

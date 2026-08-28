@@ -1,0 +1,28 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "user-confirmed-2026-08-28-pr97",
+  "decidedAt": "2026-08-28T10:04:49Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/sentinel/pull/97",
+    ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.archive.json"
+  ],
+  "policyRefs": [
+    "repository-local:ai-cockpit-recovery",
+    "repository-local:ai-cockpit-resource-finalization"
+  ],
+  "predecessorContractDigest": "sha256:7b084b8dad8c4f0ce16191e72c348ad2a971c62081daf033b32f4c374cf3670f",
+  "predecessorEventsDigest": "sha256:897f0b3ac74f8b3116417a03b7f8871c81095076ed41c2411bf2fe6e8ffd2615",
+  "predecessorOutcomeDigest": "sha256:0e8c64d6c92159f5849c331817263466cb885d0a6c9e2f64f5b843b96f140e23",
+  "predecessorSummaryDigest": "sha256:327ca494c7e4f019f5e125453a8d33e791638765d92867c7629b2da70c335469",
+  "predecessorWorkItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "reason": "PR #97 已合并；为不可变 local-only successor 绑定真实 GitHub PR context，并完成 provider finalization reconciliation。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "绑定 PR #97 的实际 merge commit、运行最小治理验证，并完成 archive、finalize-verify 与 close。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "corporate-event-provider-discovery-pr-finalization",
+  "workItemId": "corporate-event-provider-discovery-runtime-recovery"
+}
