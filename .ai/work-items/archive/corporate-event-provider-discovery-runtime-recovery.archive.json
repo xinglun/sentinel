@@ -1,0 +1,23 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-28T09:52:46Z",
+  "files": {
+    "approachDigest": "sha256:047c447323e0f5f9804a17c92a68c4a794d08b98b548ac555552e9b1b95f6dbe",
+    "approachPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.approach.json",
+    "contractDigest": "sha256:c1189691935b9eaf1af03aaf39d26dcaca3fdd16511070943d8eea1ef3acb2ef",
+    "contractPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.contract.json",
+    "eventsDigest": "sha256:897f0b3ac74f8b3116417a03b7f8871c81095076ed41c2411bf2fe6e8ffd2615",
+    "eventsPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.events.jsonl",
+    "outcomeDigest": "sha256:39bab34f0b16b369067962900a361cf0df83aa61b939482b4d060f54c5d9b1a4",
+    "outcomePath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.outcome.json",
+    "summaryDigest": "sha256:04b6fb2e1c24845c445dc6e390110957c549366c5a925bb4eb291c6042d30f05",
+    "summaryPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json",
+    "taskReportDigest": "sha256:cda5c17b31d4c939fe7d93f093a036df76753ca6df11a1fd288c64cb1d8a9978",
+    "taskReportMarkdownDigest": "sha256:0500df398652aa5195893056eaecfa698c146c210d88ca5edcf0ec1512cb1b91",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.task-report.json"
+  },
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-provider-discovery-runtime-recovery"
+}

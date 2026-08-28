@@ -1,0 +1,27 @@
+{
+  "actor": "human:Ray",
+  "authoritySource": "user-confirmed-2026-08-28",
+  "decidedAt": "2026-08-28T09:55:21Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json",
+    ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.archive.json"
+  ],
+  "policyRefs": [
+    "repository-local:ai-cockpit-recovery"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorEventsDigest": "sha256:9b805fa2247983c2e2ff9bc55a5d04dff391df70fa34b25c6a784121fecc3922",
+  "predecessorOutcomeDigest": "sha256:d03abb91bd145b1ca53dee30275f4f5b0b52da7a77be87414371a3b8786aae9b",
+  "predecessorSummaryDigest": "sha256:1942acab0be178468b0ec7de0dec0d6f8207abf25519836fce75227424d4633d",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "successor 已完成当前 Runtime verification、archive，并承接 Provider WI 的后续治理收尾；将 predecessor 保留为不可变历史记录。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "继续使用 successor 的 finalization receipt 完成资源收尾与 close。",
+  "runtimeDigest": "sha256:39a1e27deb5d47946c723d6129ead21a6fcb6bd5dbb7c1346a97e83ec61543c4",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "successorWorkItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "workItemId": "corporate-event-provider-discovery"
+}

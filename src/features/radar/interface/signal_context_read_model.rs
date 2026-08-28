@@ -6,7 +6,9 @@ use crate::features::radar::interface::presentation::{
 use crate::features::radar::interface::presentation::{
     SignalContextItem, SignalContextType, SignalContextV1,
 };
-use crate::features::radar::interface::signal_context_coverage::build_v1_from_event_context;
+use crate::features::radar::interface::signal_context_coverage::{
+    build_v1_from_event_context, corporate_event_item, corporate_events_match,
+};
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::shared::interface::i18n::Language;
@@ -373,6 +375,25 @@ fn external_primary_item<'a>(
     }
 }
 
+fn is_provider_backed_corporate_item(
+    future_context: &SignalContextEventReadModel,
+    item: &crate::features::radar::interface::presentation::SignalContextItem,
+) -> bool {
+    if item.context_type
+        != crate::features::radar::interface::presentation::SignalContextType::Corporate
+    {
+        return false;
+    }
+    future_context
+        .corporate_event_provider
+        .events
+        .iter()
+        .any(|event| {
+            let provider_item = corporate_event_item(event, event.market_date);
+            corporate_events_match(&provider_item, item)
+        })
+}
+
 fn compose_interpretation(
     primary_context: SignalContextPrimaryContext,
     information_content: SignalContextInformationContent,
@@ -428,15 +449,31 @@ fn compose_source_diagnostics(
     language: Language,
 ) -> (String, String) {
     if let Some(item) = external_primary_item(future_context, v1) {
+        let provider_backed = is_provider_backed_corporate_item(future_context, item);
+        let appendix = future_context
+            .corporate_event_provider
+            .diagnostic
+            .as_deref()
+            .map(|diagnostic| format!("{}: {}", provider_diagnostic_label(language), diagnostic))
+            .unwrap_or_default();
         return (
             match language {
+                Language::ZhCn if provider_backed => {
+                    format!("企业事件 Provider 已加载：{}。", item.title)
+                }
                 Language::ZhCn => format!("已加载外部企业事件上下文：{}。", item.title),
+                Language::EnUs if provider_backed => {
+                    format!("Corporate event Provider loaded: {}.", item.title)
+                }
                 Language::EnUs => {
                     format!("External corporate event context loaded: {}.", item.title)
                 }
+                Language::JaJp if provider_backed => {
+                    format!("企業イベント Provider を読み込んだ: {}。", item.title)
+                }
                 Language::JaJp => format!("外部企業イベント文脈を読み込んだ: {}。", item.title),
             },
-            String::new(),
+            appendix,
         );
     }
     let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
@@ -448,12 +485,17 @@ fn compose_source_diagnostics(
     );
     if future_context.source_health == MacroEventSourceHealth::Succeeded
         && !runtime_coverage_incomplete
+        && future_context.corporate_event_provider.diagnostic.is_none()
     {
         return (String::new(), String::new());
     }
     let detail = future_context
         .source_diagnostic
         .as_deref()
+        .or(future_context
+            .corporate_event_provider
+            .diagnostic
+            .as_deref())
         .unwrap_or(match language {
             Language::ZhCn => "没有额外诊断信息",
             Language::EnUs => "no extra diagnostic information",
@@ -511,6 +553,19 @@ fn compose_source_diagnostics(
     } else {
         timeline_lines.join("\n")
     };
+    if let Some(diagnostic) = future_context
+        .corporate_event_provider
+        .diagnostic
+        .as_deref()
+    {
+        let provider_line = format!("{}: {}", provider_diagnostic_label(language), diagnostic);
+        if !appendix.contains(diagnostic) {
+            if !appendix.is_empty() {
+                appendix.push('\n');
+            }
+            appendix.push_str(&provider_line);
+        }
+    }
     if future_context.source_health != MacroEventSourceHealth::Succeeded {
         if !appendix.is_empty() {
             appendix.push('\n');
@@ -537,6 +592,14 @@ fn compose_source_diagnostics(
         });
     }
     (summary, appendix)
+}
+
+fn provider_diagnostic_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "企业事件 Provider 诊断",
+        Language::EnUs => "Corporate event Provider diagnostic",
+        Language::JaJp => "企業イベント Provider 診断",
+    }
 }
 
 fn compose_next_observation(
@@ -914,26 +977,40 @@ fn corporate_event_text(
         .and_then(|item| (!item.event_fact.trim().is_empty()).then_some(item.event_fact.as_str()))
         .unwrap_or("");
     let info = signal_context_information_content_label(information_content);
+    let (event_prefix_zh, event_prefix_en, event_prefix_ja) =
+        if information_content == SignalContextInformationContent::High {
+            (
+                "今天识别到高信息量企业事件",
+                "A high-information corporate event was identified",
+                "高情報量の企業イベントが識別された",
+            )
+        } else {
+            (
+                "今天识别到中等信息量企业事件",
+                "A medium-information corporate event was identified",
+                "中情報量の企業イベントが識別された",
+            )
+        };
     match language {
         Language::ZhCn => {
             if fact.is_empty() {
-                format!("今天识别到高信息量企业事件：{title}。观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+                format!("{event_prefix_zh}：{title}。观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
             } else {
-                format!("今天识别到高信息量企业事件：{title}。事件事实：{fact} 观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+                format!("{event_prefix_zh}：{title}。事件事实：{fact} 观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
             }
         }
         Language::EnUs => {
             if fact.is_empty() {
-                format!("A high-information corporate event was identified: {title}. The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+                format!("{event_prefix_en}: {title}. The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
             } else {
-                format!("A high-information corporate event was identified: {title}. Event fact: {fact} The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+                format!("{event_prefix_en}: {title}. Event fact: {fact} The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
             }
         }
         Language::JaJp => {
             if fact.is_empty() {
-                format!("高情報量の企業イベントが識別された: {title}。観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+                format!("{event_prefix_ja}: {title}。観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
             } else {
-                format!("高情報量の企業イベントが識別された: {title}。イベント事実: {fact} 観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+                format!("{event_prefix_ja}: {title}。イベント事実: {fact} 観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
             }
         }
     }
@@ -954,6 +1031,10 @@ mod tests {
         InterpretationExpectationQuality, InterpretationExpectationQualityReason,
         InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
         InterpretationTrendState,
+    };
+    use crate::features::research::application::corporate_event_provider::{
+        CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
+        CorporateEventReleaseWindow,
     };
     use crate::features::research::domain::expectation::ExpectationLifecycleState;
     use crate::features::research::interface::expectation_report_builder::{
@@ -994,6 +1075,176 @@ mod tests {
     fn future_context_unavailable() -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
     {
         Default::default()
+    }
+
+    #[test]
+    fn provider_earnings_is_rendered_as_high_corporate_context_with_weak_causality() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let future_context = crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel {
+            corporate_event_provider: CorporateEventProviderReadModel {
+                health: CorporateEventProviderHealth::Healthy,
+                source: "Finnhub Earnings Calendar".to_string(),
+                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                events: vec![CorporateEventObservation {
+                    symbol: "NVDA".to_string(),
+                    market_date,
+                    market_timezone: "America/New_York".to_string(),
+                    release_window: CorporateEventReleaseWindow::AfterMarketClose,
+                    fiscal_quarter: 2,
+                    fiscal_year: 2027,
+                    revenue_actual: Some(96_200_000_000.0),
+                    revenue_estimate: Some(95_000_000_000.0),
+                    source: "Finnhub Earnings Calendar".to_string(),
+                    source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                    observed_at: "2026-08-27T20:00:00Z".to_string(),
+                    ..Default::default()
+                }],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: market_date,
+            signal: signal(
+                InterpretationExpectationQuality::High,
+                InterpretationExpectationQualityReason::MarketConsensusAvailable,
+                InterpretationGravityDataQuality::Ready,
+                false,
+                None,
+            ),
+            future_context,
+            language: Language::ZhCn,
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::CorporateEvent
+        );
+        assert_eq!(
+            assessment.information_content,
+            SignalContextInformationContent::High
+        );
+        assert!(assessment.interpretation.contains("可能受该事件驱动"));
+        assert!(assessment.interpretation.contains("持续性尚未确认"));
+        assert!(assessment
+            .source_diagnostics_summary
+            .contains("企业事件 Provider"));
+        assert!(!assessment
+            .source_diagnostics_summary
+            .contains("外部企业事件"));
+    }
+
+    #[test]
+    fn provider_failure_diagnostic_is_rendered_without_changing_decision_boundary() {
+        let mut future_context = future_context_unavailable();
+        future_context.corporate_event_provider =
+            CorporateEventProviderReadModel::unavailable("Finnhub earnings API returned HTTP 429");
+        let assessment = build_signal_context_assessment(SignalContextReadModelInput {
+            as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+            signal: signal(
+                InterpretationExpectationQuality::Unavailable,
+                InterpretationExpectationQualityReason::SystemUnavailable,
+                InterpretationGravityDataQuality::Unavailable,
+                false,
+                None,
+            ),
+            future_context,
+            language: Language::EnUs,
+        });
+
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("Finnhub earnings API returned HTTP 429"));
+        assert_eq!(assessment.v1.decision_weight, 0);
+        assert!(!assessment.v1.trade_signal);
+        assert_eq!(assessment.v1.gate_effect, "none");
+        assert_eq!(assessment.v1.execution_effect, "none");
+        assert_eq!(assessment.v1.position_sizing_effect, "none");
+    }
+
+    #[test]
+    fn provider_failure_diagnostic_is_preserved_alongside_macro_timeline() {
+        let mut future_context = future_context_unavailable();
+        future_context.source_health = MacroEventSourceHealth::Succeeded;
+        future_context.timeline_entries = vec![
+            crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry {
+                event_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                event_name: "FOMC decision".to_string(),
+                event_type: "MacroEvent".to_string(),
+                source: "Federal Reserve".to_string(),
+                summary: "FOMC decision".to_string(),
+                high_information: true,
+                ..Default::default()
+            },
+        ];
+        future_context.corporate_event_provider =
+            CorporateEventProviderReadModel::unavailable("Finnhub earnings API returned HTTP 429");
+        let assessment = without_external_fixture(|| {
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                signal: signal(
+                    InterpretationExpectationQuality::Unavailable,
+                    InterpretationExpectationQualityReason::SystemUnavailable,
+                    InterpretationGravityDataQuality::Unavailable,
+                    false,
+                    None,
+                ),
+                future_context,
+                language: Language::EnUs,
+            })
+        });
+
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("FOMC decision"));
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("Finnhub earnings API returned HTTP 429"));
+    }
+
+    #[test]
+    fn medium_corporate_event_does_not_claim_high_information() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let future_context = crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel {
+            corporate_event_provider: CorporateEventProviderReadModel {
+                health: CorporateEventProviderHealth::Healthy,
+                events: vec![CorporateEventObservation {
+                    symbol: "NVDA".to_string(),
+                    market_date,
+                    release_window: CorporateEventReleaseWindow::AfterMarketClose,
+                    fiscal_quarter: 2,
+                    fiscal_year: 2027,
+                    source: "Finnhub Earnings Calendar".to_string(),
+                    source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                    ..Default::default()
+                }],
+                ..Default::default()
+            },
+            ..Default::default()
+        };
+        let assessment = without_external_fixture(|| {
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: market_date,
+                signal: signal(
+                    InterpretationExpectationQuality::Unavailable,
+                    InterpretationExpectationQualityReason::SystemUnavailable,
+                    InterpretationGravityDataQuality::Unavailable,
+                    false,
+                    None,
+                ),
+                future_context,
+                language: Language::EnUs,
+            })
+        });
+
+        assert_eq!(
+            assessment.primary_context,
+            SignalContextPrimaryContext::CorporateEvent
+        );
+        assert!(assessment.interpretation.contains("medium-information"));
+        assert!(!assessment
+            .interpretation
+            .contains("high-information corporate event"));
     }
 
     fn future_context_loaded_without_hit() -> crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel
@@ -1162,6 +1413,8 @@ mod tests {
             .expect("NVIDIA earnings fixture must deserialize")
             .expect("NVIDIA earnings fixture must be present");
             assert_eq!(loaded.corporate_events.len(), 1);
+            let serialized = serde_json::to_value(&loaded).unwrap();
+            assert_eq!(serialized["corporate_events"][0]["symbol"], "NVDA");
             build_signal_context_assessment(SignalContextReadModelInput {
                 as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
                 signal: signal(

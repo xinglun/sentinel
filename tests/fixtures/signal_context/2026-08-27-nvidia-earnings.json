@@ -5,6 +5,7 @@
   "corporate_events": [
     {
       "type": "CORPORATE",
+      "symbol": "NVDA",
       "title": "NVIDIA EARNINGS",
       "information_content": "HIGH",
       "market_relevance": "HIGH",
@@ -36,6 +37,7 @@
   "market_structure_events": [],
   "primary_context": {
     "type": "CORPORATE",
+    "symbol": "NVDA",
     "title": "NVIDIA EARNINGS",
     "information_content": "HIGH",
     "market_relevance": "HIGH",

@@ -532,6 +532,8 @@ pub struct SignalContextItem {
     #[serde(rename = "type")]
     pub context_type: SignalContextType,
     pub title: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub symbol: Option<String>,
     pub information_content: SignalContextInformationLevel,
     pub market_relevance: SignalContextInformationLevel,
     pub evidence_quality: SignalContextInformationLevel,

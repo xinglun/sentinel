@@ -1,6 +1,7 @@
 use crate::features::radar::interface::presentation::{
     SignalContextCoverage, SignalContextPrimaryContext, SignalContextQuality,
 };
+use crate::features::research::application::corporate_event_provider::CorporateEventProviderReadModel;
 use crate::features::research::domain::expectation::{
     ExpectationEventType, ExpectationLifecycleState,
 };
@@ -19,7 +20,7 @@ pub(crate) struct SignalContextEventReadModelInput<'a> {
     pub future_calendar: Option<&'a MacroEventCalendarReadModel>,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, PartialEq, Default)]
 pub(crate) struct SignalContextEventReadModel {
     pub source_health: MacroEventSourceHealth,
     pub source_attempts: usize,
@@ -35,6 +36,8 @@ pub(crate) struct SignalContextEventReadModel {
     pub macro_event: SignalContextEventSlot,
     /// 実行時に確認できた外部 source coverage。事実 event がない場合も保持する。
     pub runtime_coverage: Option<SignalContextCoverage>,
+    /// 企業イベント Provider の normalized read model。取引判断には渡さない。
+    pub corporate_event_provider: CorporateEventProviderReadModel,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -123,6 +126,7 @@ pub(crate) fn build_signal_context_event_read_model(
         major_event_waiting: future_calendar.major_event_waiting,
         macro_event: future_calendar.macro_event,
         runtime_coverage: None,
+        corporate_event_provider: CorporateEventProviderReadModel::default(),
     }
 }
 
