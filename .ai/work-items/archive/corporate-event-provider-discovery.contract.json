@@ -7,17 +7,38 @@
     "无 Provider 输入时保持现有 UNAVAILABLE fallback；不通过价格或 RS 行为反推财报事件。",
     "新增或调整的检查通过 make fmt-check、make test、make clippy、make quality，并记录在 Cockpit verification/summary。"
   ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
   "authority": "authorized",
   "baseRevision": "6ac32761a74dc1a16b4d4e1b278ca5d82d57a217",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [
+      "make quality"
+    ],
+    "requiredStages": [
+      "before_edit"
+    ],
+    "schemaVersion": 1
+  },
   "createdAt": "2026-08-27T20:34:26Z",
+  "executionDecision": {
+    "reason": "用户已批准 Finnhub 第一实现，现有 read-model、配置入口和确定性 fixture 边界已明确；Provider 仍被限制为观察层输入。",
+    "status": "continue"
+  },
   "goal": "建立可审计、fail-closed 的 provider-neutral corporate event adapter，将 Finnhub earnings calendar 映射到现有 corporate_events read model，并保留 deterministic fixture 与无输入 fallback。",
   "intent": "为 Signal Context 增加生产企业事件 Provider 入口，首个来源采用 Finnhub earnings calendar；事件信息只服务于 Observation/Interpretation，不进入交易决策。",
   "mode": "code",
   "notCodable": false,
-  "problemStatement": "现有 Signal Context 已能消费结构化 corporate_events，但生产运行没有独立的企业事件 Provider；需要在不把主题推断或事件信息带入交易决策的前提下，接入一个可审计、可测试、fail-closed 的 Finnhub earnings calendar 适配器。",
   "outOfScope": [
     "Market Breadth；Factor Concentration；RS Diffusion；Leader；Gate；NO_TRADE；Action Matrix；Position Sizing；Execution；Telegram 文案；新的 SEC/IR/其他 Provider；价格行为反推企业事件；秘密、凭据、全市场事件发现；reports/**、data branch、JSONL、weekly metrics；修改既有决策逻辑。"
   ],
+  "problemStatement": "现有 Signal Context 已能消费结构化 corporate_events，但生产运行没有独立的企业事件 Provider；需要在不把主题推断或事件信息带入交易决策的前提下，接入一个可审计、可测试、fail-closed 的 Finnhub earnings calendar 适配器。",
   "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
   "protocolVersion": 1,
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
@@ -29,13 +50,36 @@
     "baseBranch": "codex/corporate-event-signal-context",
     "baseRemote": "origin",
     "branch": "codex/corporate-event-provider-discovery",
-    "provider": "codex",
-    "pullRequest": "unknown",
+    "provider": "local",
+    "pullRequest": "not-requested",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider"
   },
   "risk": "normal",
+  "riskAssessment": {
+    "level": "normal",
+    "reason": "新增外部数据适配与网络失败处理，但事件 decision_weight 固定为 0 且不进入交易决策链路。",
+    "riskTypes": [
+      "external_provider",
+      "observation_context",
+      "failure_closed"
+    ]
+  },
   "scope": [
-    "src/features/radar/interface/**；src/features/research/interface/**（仅复用既有 provider/config 模式）；src/config.rs（仅新增必要的非秘密配置）；tests/**；docs/superpowers/specs/**；Makefile（仅在新增验证入口必要时）"
+    ".ai/work-items/active/corporate-event-provider-discovery.contract.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.summary.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.approach.json",
+    ".ai/evidence/**",
+    "src/features/radar/interface/**",
+    "src/features/radar/acl/**",
+    "src/features/research/application/**",
+    "src/features/research/interface/**",
+    "src/features/research/acl/**",
+    "src/features/research/infrastructure/**",
+    "src/config.rs",
+    "tests/**",
+    "docs/superpowers/specs/**",
+    "docs/superpowers/plans/**",
+    "Makefile"
   ],
   "sources": [
     {
@@ -84,6 +128,7 @@
     }
   ],
   "state": "implementation_active",
+  "unknowns": [],
   "verification": [
     {
       "check": "make fmt-check",
@@ -102,36 +147,5 @@
       "required": true
     }
   ],
-  "unknowns": [],
-  "agentCapability": {
-    "canImplement": true,
-    "canVerify": true,
-    "needsHumanDecision": false,
-    "blockedReason": null
-  },
-  "executionDecision": {
-    "status": "continue",
-    "reason": "用户已批准 Finnhub 第一实现，现有 read-model、配置入口和确定性 fixture 边界已明确；Provider 仍被限制为观察层输入。"
-  },
-  "riskAssessment": {
-    "level": "normal",
-    "reason": "新增外部数据适配与网络失败处理，但事件 decision_weight 固定为 0 且不进入交易决策链路。",
-    "riskTypes": [
-      "external_provider",
-      "observation_context",
-      "failure_closed"
-    ]
-  },
-  "checkpointPolicy": {
-    "schemaVersion": 1,
-    "profile": "standard",
-    "requiredBeforeFinish": true,
-    "requiredStages": [
-      "before_edit"
-    ],
-    "requiredChecks": [
-      "make quality"
-    ]
-  },
   "workItemId": "corporate-event-provider-discovery"
 }

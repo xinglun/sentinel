@@ -1,0 +1,22 @@
+{
+  "actor": "user",
+  "authoritySource": "direct-user-instruction",
+  "decidedAt": "2026-08-27T21:44:45Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.historical-45c4.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.historical.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorSummaryDigest": "sha256:2eee31b68d0aa0dd8995fe6fd241599a1d3728f3ef21a98d0bccc87fb7b037a0",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "用户已批准继续当前 Provider WI；finish 因 provisional resource finalization context 被阻断，现已明确本地收尾并重试当前 Work Item 的 fresh verification、preflight 与 finish。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "fresh verification evidence for the current local-only Contract followed by preflight and finish",
+  "runtimeDigest": "sha256:eceed75ef74079e7ede420b42f8223fc76be82ec0211ddc6b8fdf7cb3c3b9de4",
+  "runtimeVersion": "0.2.33",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-discovery"
+}

@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-confirmation-in-thread",
+  "decidedAt": "2026-08-28T09:39:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.summary.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorEventsDigest": "sha256:bd9f33649142f6c09db0f900f15e55bb63c153a2031f22dd9a373c79c1b45daf",
+  "predecessorOutcomeDigest": "sha256:c941b84f52554950c41bbb96f82faf5ee639e33aca202f6d83117e013b4508da",
+  "predecessorSummaryDigest": "sha256:0e7e85bfca74a1ebe68280f179a1bd03da93a890b32c94acdb978de938403aa2",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "reason": "用户确认继续；追加由当前安装版 Runtime inspect 识别的 identity digest，保留全部旧 recovery receipt 并重新执行 fresh verification、preflight 与 finish。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "fresh verification evidence under the current installed ai-cockpit runtime followed by preflight and finish",
+  "runtimeDigest": "sha256:9bc04deba6e59bdc659e5c03189c9189995f48709dc8750332dfdd8f8df0767b",
+  "runtimeVersion": "0.2.34",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-discovery"
+}
