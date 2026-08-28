@@ -1839,6 +1839,8 @@ fn build_market_change_log_view_model(
         &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
     >,
 ) -> crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+    let dict = get_dictionary(language);
+
     fn breakout_state_signature(
         presentation: &crate::features::radar::interface::presentation::PresentationPacket,
     ) -> String {
@@ -1879,7 +1881,7 @@ fn build_market_change_log_view_model(
             title: "Market Change Log".to_string(),
             leader_label: "Leader".to_string(),
             leader_value: current_leader,
-            breadth_label: "Breadth".to_string(),
+            breadth_label: dict.signals.universe_breadth.clone(),
             breadth_value: pres_packet.signal_summary.breadth_semantic_value.clone(),
             risk_label: "Risk".to_string(),
             risk_value: "BASELINE_UNAVAILABLE".to_string(),
@@ -2106,7 +2108,7 @@ fn build_market_change_log_view_model(
         title: "Market Change Log".to_string(),
         leader_label: "Leader".to_string(),
         leader_value: format!("{previous_leader} -> {current_leader}"),
-        breadth_label: "Breadth".to_string(),
+        breadth_label: dict.signals.universe_breadth.clone(),
         breadth_value: breadth_value.to_string(),
         risk_label: "Risk".to_string(),
         risk_value,
@@ -2130,11 +2132,10 @@ fn build_market_change_log_view_model(
 
 fn breadth_comparison_summary(previous: Option<&str>, current: &str) -> String {
     match previous {
-        Some(previous) if previous == current => format!("Breadth remains {current}."),
-        Some(previous) => format!("Breadth shifted from {previous} to {current}."),
-        None => {
-            "Breadth classification comparison unavailable for the previous snapshot.".to_string()
-        }
+        Some(previous) if previous == current => format!("Universe Breadth remains {current}."),
+        Some(previous) => format!("Universe Breadth shifted from {previous} to {current}."),
+        None => "Universe Breadth classification comparison unavailable for the previous snapshot."
+            .to_string(),
     }
 }
 
@@ -2693,7 +2694,7 @@ Boundary: context only; no Gate input or trade instruction.
     fn equal_persisted_breadth_classification_does_not_render_raw_value_as_label() {
         let summary = super::breadth_comparison_summary(Some("Very Narrow"), "Very Narrow");
 
-        assert_eq!(summary, "Breadth remains Very Narrow.");
+        assert_eq!(summary, "Universe Breadth remains Very Narrow.");
         assert!(!summary.contains("35.0"));
     }
 
@@ -2703,7 +2704,7 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(
             summary,
-            "Breadth classification comparison unavailable for the previous snapshot."
+            "Universe Breadth classification comparison unavailable for the previous snapshot."
         );
     }
 

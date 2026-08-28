@@ -244,14 +244,14 @@ impl PresentationAssembler {
             },
             flow_label: dict.signals.net_flow.clone(),
             flow_value,
-            breadth_label: "Breadth".to_string(),
+            breadth_label: dict.signals.universe_breadth.clone(),
             breadth_value: breadth_facts.label.clone(),
-            breadth_raw_label: "Breadth Raw".to_string(),
+            breadth_raw_label: dict.signals.universe_breadth_raw.clone(),
             breadth_raw_value: breadth_facts
                 .raw_percent
                 .map(|value| format!("{value:.1}%"))
                 .unwrap_or_else(|| "UNAVAILABLE".to_string()),
-            breadth_counts_label: "Breadth Counts".to_string(),
+            breadth_counts_label: dict.signals.universe_breadth_counts.clone(),
             breadth_counts_value: format!(
                 "up={} flat={} down={} total={}",
                 packet.market_features.up_count,
@@ -259,7 +259,7 @@ impl PresentationAssembler {
                 packet.market_features.down_count,
                 packet.market_features.total_count
             ),
-            breadth_universe_label: "Breadth Universe".to_string(),
+            breadth_universe_label: dict.signals.observation_universe.clone(),
             breadth_universe_value: if packet.market_features.total_count == 0 {
                 "UNAVAILABLE / 0 observed".to_string()
             } else {
@@ -269,7 +269,7 @@ impl PresentationAssembler {
                     packet.market_features.total_count
                 )
             },
-            breadth_semantic_label: "Breadth Label".to_string(),
+            breadth_semantic_label: dict.signals.universe_breadth_label.clone(),
             breadth_semantic_value: breadth_facts.label.clone(),
             supply_phase_label: "Supply Phase".to_string(),
             supply_phase_value: String::new(),

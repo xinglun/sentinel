@@ -47,8 +47,8 @@
   - Current leaders: UNAVAILABLE; breakout watch: GOOG.
 - Leadership Classification: very_narrow
 - Leadership Metrics:
-  - Breadth label: Very Narrow
-  - Breadth score: 0
+  - Universe Breadth Label: Very Narrow
+  - Universe Breadth Score: 0
   - Concentration score: 100
   - Rotation score: 66
 - Rotation Observation:
