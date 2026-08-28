@@ -10,7 +10,7 @@ use crate::features::radar::interface::presentation::{
     LeaderPersistenceViewModel, LeadershipSnapshotViewModel, MarketCyclePosition,
     MarketInterpretationViewModel, PresentationPacket, TrendBreadthMode,
 };
-use crate::features::shared::interface::i18n::Language;
+use crate::features::shared::interface::i18n::{get_dictionary, Language};
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 struct ActionDistribution {
@@ -259,6 +259,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
     language: Language,
 ) -> Option<MarketInterpretationViewModel> {
     let interpretation_layer = pres_packet.interpretation_layer.as_ref()?;
+    let dict = get_dictionary(language);
     let transition_evidence = pres_packet.transition_evidence.as_ref();
     let trend_breadth_mode = transition_evidence
         .map(|evidence| evidence.trend_breadth_mode)
@@ -494,12 +495,12 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         leadership_breadth_label: leadership_breadth_label(language).to_string(),
         leadership_breadth_value,
         concentration_label: concentration_label_text,
-        breadth_raw_label: "Breadth Raw".to_string(),
+        breadth_raw_label: dict.signals.universe_breadth_raw.clone(),
         breadth_raw_value: breadth_facts
             .raw_percent
             .map(|value| format!("{value:.1}%"))
             .unwrap_or_else(|| "UNAVAILABLE".to_string()),
-        breadth_semantic_label: "Breadth Label".to_string(),
+        breadth_semantic_label: dict.signals.universe_breadth_label.clone(),
         breadth_semantic_value: breadth_facts.label.clone(),
         rs_recovery_breadth_label: rs_diffusion.recovery_breadth_label,
         rs_recovery_breadth_value: rs_diffusion.recovery_breadth_value,
@@ -513,7 +514,7 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         diffusion_reason_value: rs_diffusion.reason_value,
         tactical_leadership_structure_value: tactical_leadership_structure.to_string(),
         leader_absence_duration,
-        breadth_score_label: breadth_score_label(language).to_string(),
+        breadth_score_label: dict.signals.universe_breadth_score.clone(),
         breadth_score_value: breadth_facts
             .classification_score
             .map(|value| format!("{value:.1}"))
@@ -1335,17 +1336,17 @@ fn market_interpretation_metrics_label(language: Language) -> &'static str {
 
 fn market_interpretation_breadth_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Breadth / Concentration",
-        Language::EnUs => "Breadth / Concentration",
-        Language::JaJp => "Breadth / Concentration",
+        Language::ZhCn => "观察池广度 / 集中度",
+        Language::EnUs => "Universe Breadth / Concentration",
+        Language::JaJp => "観測ユニバース Breadth / 集中度",
     }
 }
 
 fn breadth_semantic_label(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "Breadth Label",
-        Language::EnUs => "Breadth Label",
-        Language::JaJp => "Breadth Label",
+        Language::ZhCn => "观察池广度标签",
+        Language::EnUs => "Universe Breadth Label",
+        Language::JaJp => "観測ユニバース Breadth Label",
     }
 }
 
@@ -1362,7 +1363,7 @@ fn breadth_semantic_value(
         language,
     );
     match (trend_breadth_mode, market_cycle_position) {
-        (TrendBreadthMode::BroadExpansion, _) => "Broad Participation",
+        (TrendBreadthMode::BroadExpansion, _) => "BROAD_WITHIN_UNIVERSE",
         (TrendBreadthMode::NarrowLeadership, _) => "Very Narrow",
         (TrendBreadthMode::StructuralDefense, _) => "Narrow",
         (TrendBreadthMode::FragileRotation, MarketCyclePosition::DistributionWarning) => "Narrow",
@@ -1450,9 +1451,9 @@ fn market_interpretation_rotation_summary(
     let _ = (leadership_snapshot, market_cycle_position);
     if matches!(trend_breadth_mode, TrendBreadthMode::BroadExpansion) {
         return match language {
-            Language::ZhCn => "Participation is broadening rather than collapsing.".to_string(),
-            Language::EnUs => "Participation is broadening rather than collapsing.".to_string(),
-            Language::JaJp => "Participation is broadening rather than collapsing.".to_string(),
+            Language::ZhCn => "上涨主要来自 Sentinel 观察池内部的广度改善；全市场 breadth 未被本层测量。".to_string(),
+            Language::EnUs => "Participation is broadening within the Sentinel observation universe; market-wide breadth is not measured by this layer.".to_string(),
+            Language::JaJp => "上昇は Sentinel 観測ユニバース内で広がっていますが、全市場の breadth はこのレイヤーで測定していません。".to_string(),
         };
     }
     if matches!(trend_breadth_mode, TrendBreadthMode::StructuralDefense) {
@@ -1916,7 +1917,7 @@ fn rotation_interpretation(
         "macro_repricing" => rotation_interpretation_macro(language).to_string(),
         "mega_cap_internal_rotation" => rotation_interpretation_mega_cap(language).to_string(),
         "defensive_rotation" => rotation_interpretation_defensive(language).to_string(),
-        "broad_participation" => rotation_interpretation_broad(language).to_string(),
+        "universe_breadth_expansion" => rotation_interpretation_broad(language).to_string(),
         "sector_or_index_rotation" => rotation_interpretation_sector(language).to_string(),
         _ => match (trend_breadth_mode, market_cycle_position) {
             (TrendBreadthMode::BroadExpansion, _) => {
@@ -2357,9 +2358,9 @@ fn market_interpretation_boundary(language: Language) -> &'static str {
 
 fn concentration_label_broad(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "broad_participation",
-        Language::EnUs => "broad_participation",
-        Language::JaJp => "broad_participation",
+        Language::ZhCn => "universe_breadth_expansion",
+        Language::EnUs => "universe_breadth_expansion",
+        Language::JaJp => "universe_breadth_expansion",
     }
 }
 
@@ -2533,9 +2534,9 @@ fn rotation_type_defensive(language: Language) -> &'static str {
 
 fn rotation_type_broad(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "broad_participation",
-        Language::EnUs => "broad_participation",
-        Language::JaJp => "broad_participation",
+        Language::ZhCn => "universe_breadth_expansion",
+        Language::EnUs => "universe_breadth_expansion",
+        Language::JaJp => "universe_breadth_expansion",
     }
 }
 
@@ -2557,11 +2558,11 @@ fn rotation_interpretation_none(language: Language) -> &'static str {
 
 fn rotation_interpretation_broad(language: Language) -> &'static str {
     match language {
-        Language::ZhCn => "上涨主要来自广泛参与，而不是少数核心资产。",
+        Language::ZhCn => "上涨主要来自 Sentinel 观察池内部的广度改善；全市场 breadth 未被本层测量。",
         Language::EnUs => {
-            "The upside is driven by broad participation rather than a small set of leaders."
+            "The upside is broadening within the Sentinel observation universe; market-wide breadth is not measured by this layer."
         }
-        Language::JaJp => "上昇は少数の主役ではなく、広い参加によって支えられている。",
+        Language::JaJp => "上昇は Sentinel 観測ユニバース内で広がっていますが、全市場の breadth はこのレイヤーで測定していません。",
     }
 }
 
@@ -3443,7 +3444,41 @@ mod tests {
                 MarketCyclePosition::EarlyFormation,
                 Language::EnUs,
             ),
-            "Broad Participation"
+            "BROAD_WITHIN_UNIVERSE"
         );
+    }
+
+    #[test]
+    fn broad_expansion_interpretation_is_scoped_to_observation_universe() {
+        for (language, universe_marker, market_boundary_marker) in [
+            (
+                Language::ZhCn,
+                "Sentinel 观察池内部",
+                "全市场 breadth 未被本层测量",
+            ),
+            (
+                Language::EnUs,
+                "Sentinel observation universe",
+                "market-wide breadth is not measured",
+            ),
+            (
+                Language::JaJp,
+                "Sentinel 観測ユニバース内",
+                "全市場の breadth はこのレイヤーで測定していません",
+            ),
+        ] {
+            let interpretation = rotation_interpretation_broad(language);
+
+            assert!(interpretation.contains(universe_marker));
+            assert!(interpretation.contains(market_boundary_marker));
+            assert!(!interpretation.contains("market-wide broad participation"));
+            assert!(!interpretation.contains("全市场广泛参与"));
+            assert!(!interpretation.contains("全市場の広範な参加"));
+        }
+
+        let english = rotation_interpretation_broad(Language::EnUs);
+        assert!(english.contains("Sentinel observation universe"));
+        assert!(english.contains("market-wide breadth is not measured"));
+        assert!(!english.contains("broad participation rather"));
     }
 }

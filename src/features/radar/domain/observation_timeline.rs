@@ -15,7 +15,7 @@ pub struct BreadthFacts {
     pub classification_score: Option<f64>,
 }
 
-/// 同じ up/flat/down/total 事実から Breadth の表示値を導出する。
+/// 同じ up/flat/down/total 事実から Universe Breadth の表示値を導出する。
 pub fn derive_breadth_facts(
     _up_count: usize,
     _flat_count: usize,
@@ -34,7 +34,7 @@ pub fn derive_breadth_facts(
     let label = match raw_value {
         value if value < 30.0 => "Very Narrow",
         value if value < 60.0 => "Narrow",
-        _ => "Broad Participation",
+        _ => "BROAD_WITHIN_UNIVERSE",
     };
     BreadthFacts {
         raw_percent,
@@ -600,6 +600,15 @@ mod tests {
         assert_eq!(facts.raw_percent, Some(50.0));
         assert_eq!(facts.classification_score, Some(50.0));
         assert_eq!(facts.label, "Narrow");
+    }
+
+    #[test]
+    fn sixty_percent_breadth_is_scoped_to_observation_universe() {
+        let facts = derive_breadth_facts(6, 2, 2, 10);
+
+        assert_eq!(facts.raw_percent, Some(60.0));
+        assert_eq!(facts.classification_score, Some(60.0));
+        assert_eq!(facts.label, "BROAD_WITHIN_UNIVERSE");
     }
 
     #[test]

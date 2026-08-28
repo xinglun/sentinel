@@ -47,8 +47,8 @@
   - 当前主导资产：UNAVAILABLE；突破观察：GOOG。
 - Leadership Classification: very_narrow
 - Leadership Metrics:
-  - Breadth label: Very Narrow
-  - Breadth score: 0
+  - 观察池广度标签: Very Narrow
+  - 观察池广度分数: 0
   - Concentration score: 100
   - Rotation score: 66
 - Rotation Observation:

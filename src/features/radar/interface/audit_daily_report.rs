@@ -694,10 +694,15 @@ fn build_market_interpretation_audit_snapshot(
         out.push_str("  - leadership detail suppressed because the leadership sets conflict.\n");
     }
     out.push_str(&format!(
-        "  - Breadth label: {}\n",
+        "  - {}: {}\n",
+        audit_universe_breadth_label(language),
         audit_breadth_label(primary_count, language)
     ));
-    out.push_str(&format!("  - Breadth score: {}\n", concentration.0));
+    out.push_str(&format!(
+        "  - {}: {}\n",
+        audit_universe_breadth_score_label(language),
+        concentration.0
+    ));
     out.push_str(&format!("  - Concentration score: {}\n", concentration.1));
     out.push_str(&format!("  - Rotation score: {}\n", concentration.2));
     out.push_str("- Rotation Observation:\n");
@@ -728,20 +733,36 @@ fn build_market_interpretation_audit_snapshot(
     out
 }
 
+fn audit_universe_breadth_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "观察池广度标签",
+        Language::EnUs => "Universe Breadth Label",
+        Language::JaJp => "観測ユニバース Breadth Label",
+    }
+}
+
+fn audit_universe_breadth_score_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "观察池广度分数",
+        Language::EnUs => "Universe Breadth Score",
+        Language::JaJp => "観測ユニバース Breadth スコア",
+    }
+}
+
 fn audit_breadth_label(primary_count: usize, language: Language) -> &'static str {
     match (primary_count, language) {
         (0, Language::ZhCn) => "Very Narrow",
         (1, Language::ZhCn) => "Narrow",
         (2, Language::ZhCn) => "Narrow",
-        (_, Language::ZhCn) => "Broad Participation",
+        (_, Language::ZhCn) => "BROAD_WITHIN_UNIVERSE",
         (0, Language::EnUs) => "Very Narrow",
         (1, Language::EnUs) => "Narrow",
         (2, Language::EnUs) => "Narrow",
-        (_, Language::EnUs) => "Broad Participation",
+        (_, Language::EnUs) => "BROAD_WITHIN_UNIVERSE",
         (0, Language::JaJp) => "Very Narrow",
         (1, Language::JaJp) => "Narrow",
         (2, Language::JaJp) => "Narrow",
-        (_, Language::JaJp) => "Broad Participation",
+        (_, Language::JaJp) => "BROAD_WITHIN_UNIVERSE",
     }
 }
 
@@ -901,7 +922,7 @@ fn audit_rotation_type(
                 | crate::features::radar::domain::trend_cohesion::TrendContinuationState::Mature
         )
     ) {
-        return "broad_participation".to_string();
+        return "universe_breadth_expansion".to_string();
     }
     "none".to_string()
 }
@@ -912,7 +933,7 @@ fn audit_rotation_interpretation(language: Language, rotation_type: &str) -> Str
             "defensive_rotation" => "资金更偏向防御板块内切换。".to_string(),
             "index_rotation" => "更像指数内部轮动，而不是系统性撤退。".to_string(),
             "mega_cap_internal_rotation" => "资金在主导资产内部轮动，而非整体流出。".to_string(),
-            "broad_participation" => "参与面扩展，轮动更接近广度扩散。".to_string(),
+            "universe_breadth_expansion" => "Sentinel 观察池内部的参与面正在扩展，但这不代表全市场广度扩散。".to_string(),
             _ => "当前未观察到明确的轮动切换。".to_string(),
         },
         Language::EnUs => match rotation_type {
@@ -923,8 +944,8 @@ fn audit_rotation_interpretation(language: Language, rotation_type: &str) -> Str
             "mega_cap_internal_rotation" => {
                 "Flow is rotating within the leading mega caps rather than exiting.".to_string()
             }
-            "broad_participation" => {
-                "Participation is broadening rather than collapsing.".to_string()
+            "universe_breadth_expansion" => {
+                "Participation is broadening within the Sentinel observation universe; market-wide breadth is not measured by this layer.".to_string()
             }
             _ => "No clear rotation regime is observable.".to_string(),
         },
@@ -936,8 +957,8 @@ fn audit_rotation_interpretation(language: Language, rotation_type: &str) -> Str
             "mega_cap_internal_rotation" => {
                 "資金は主導大型株の内部で回っており、全面流出ではない。".to_string()
             }
-            "broad_participation" => {
-                "参加銘柄が広がっており、広がりを伴うローテーションとして観測される。".to_string()
+            "universe_breadth_expansion" => {
+                "参加銘柄は Sentinel 観測ユニバース内で広がっていますが、全市場の breadth はこのレイヤーで測定していません。".to_string()
             }
             _ => "明確なローテーションは観測されない。".to_string(),
         },
@@ -1983,8 +2004,8 @@ mod tests {
 
         assert!(snapshot.contains("- Leadership Classification:"));
         assert!(snapshot.contains("- Leadership Metrics:"));
-        assert!(snapshot.contains("  - Breadth label: "));
-        assert!(snapshot.contains("  - Breadth score: "));
+        assert!(snapshot.contains("  - Universe Breadth Label: "));
+        assert!(snapshot.contains("  - Universe Breadth Score: "));
         assert!(snapshot.contains("  - Concentration score: "));
         assert!(snapshot.contains("  - Rotation score: "));
         assert!(snapshot.contains("- Rotation Observation:"));
@@ -2113,8 +2134,8 @@ mod tests {
         assert!(report.contains("dayType: normal"));
         assert!(report.contains("Leadership Classification:"));
         assert!(report.contains("Leadership Metrics:"));
-        assert!(report.contains("  - Breadth label: "));
-        assert!(report.contains("  - Breadth score: "));
+        assert!(report.contains("  - Universe Breadth Label: "));
+        assert!(report.contains("  - Universe Breadth Score: "));
         assert!(report.contains("  - Concentration score: "));
         assert!(report.contains("  - Rotation score: "));
         assert!(report.contains("Rotation Observation:"));
@@ -2155,8 +2176,8 @@ mod tests {
             Some(&DeliveryStatus::Succeeded),
         );
 
-        assert!(report.contains("  - Breadth label: "));
-        assert!(report.contains("  - Breadth score: "));
+        assert!(report.contains("  - Universe Breadth Label: "));
+        assert!(report.contains("  - Universe Breadth Score: "));
         assert!(report.contains("  - Concentration score: "));
         assert!(report.contains("  - Rotation score: "));
         assert!(!report.contains("  - primary: [GOOG]"));
@@ -2190,7 +2211,7 @@ mod tests {
         assert_eq!(audit_breadth_label(2, Language::EnUs), "Narrow");
         assert_eq!(
             audit_breadth_label(3, Language::EnUs),
-            "Broad Participation"
+            "BROAD_WITHIN_UNIVERSE"
         );
     }
 }

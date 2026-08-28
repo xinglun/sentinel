@@ -1,0 +1,242 @@
+{
+  "changedPaths": [
+    ".ai/evidence/corporate-event-provider-discovery.verification.historical.json",
+    ".ai/evidence/corporate-event-provider-discovery.verification.historical-84a4.json",
+    ".ai/evidence/corporate-event-provider-discovery.verification.historical-45c4.json",
+    ".ai/evidence/corporate-event-provider-discovery.verification.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.historical.jsonl",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.finish-blocked.jsonl",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.finish-lifecycle-blocked.jsonl",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.historical.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.finish-blocked.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.finish-lifecycle-blocked.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.approach.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.contract.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.summary.json",
+    ".ai/work-items/active/corporate-event-provider-discovery.events.jsonl",
+    ".ai/work-items/active/corporate-event-provider-discovery.outcome.json",
+    "docs/superpowers/plans/2026-08-28-corporate-event-provider-discovery.md",
+    "docs/superpowers/specs/2026-08-28-corporate-event-provider-discovery-design.md",
+    "src/features/radar/acl/corporate_event_provider_factory.rs",
+    "src/features/radar/acl/mod.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/research/acl/corporate_event_provider_factory.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/interface/mod.rs",
+    "tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json",
+    "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json"
+  ],
+  "checkpointAt": "2026-08-27T20:37:17Z",
+  "checkpointContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "recorded": true,
+      "recordedAt": "2026-08-27T20:37:17Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:27b889113ed779c1bdae43b2666cddbdca5e4d971a877de9595fca0d7dd8faa2",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:91643977e4342126d379ac90526954d26aa6ba4ce5512b2454a76933c3b5c593",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "previousContractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "reason": "用户批准将 Finnhub Provider infrastructure adapter 及其模块接线纳入当前 Work Item scope；继续保持观察层边界，不改变 Decision、Gate、Leader、Action Matrix、Position Sizing 或 Execution。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T21:21:52Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:42a5f5372763d0181c810a88269cd2ab56a9c55a99b8353a3d74cd4483e4a5ee",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:84a4debeb599bc33d1e309770ea3a042370e0957e5b6881c862646ba9f6ba49a",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "previousContractHash": "sha256:91643977e4342126d379ac90526954d26aa6ba4ce5512b2454a76933c3b5c593",
+      "reason": "依据用户批准继续修复 Architecture boundary：Provider contract 位于 Research application，concrete Finnhub adapter 由 Research ACL 接入，Radar ACL 再转接；不引入 Radar interface 到 Research infrastructure 的直接依赖，观察层与决策零影响约束不变。",
+      "recorded": true,
+      "recordedAt": "2026-08-27T21:28:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:45c4b5a20893b7b652600ce7e5f48a27cd31f29b0e2dfcc08b758942de70768b",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "previousContractHash": "sha256:84a4debeb599bc33d1e309770ea3a042370e0957e5b6881c862646ba9f6ba49a",
+      "reason": "用户已批准将 Provider WI 的实现、ACL、fixture、治理证据与计划文档纳入当前 Work Item 范围",
+      "recorded": true,
+      "recordedAt": "2026-08-27T21:34:45Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:8d3bcb88a12de6aaff41e65aef44cc6515ab4ccf8fcf25d032fbd51593d915d2",
+      "previousContractHash": "sha256:45c4b5a20893b7b652600ce7e5f48a27cd31f29b0e2dfcc08b758942de70768b",
+      "reason": "用户批准继续当前 Provider WI；本次将未请求远程交付明确记录为本地收尾 provider=local、pullRequest=not-requested，不改变实现范围或生产行为",
+      "recorded": true,
+      "recordedAt": "2026-08-27T21:43:37Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-provider-discovery"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+      "recorded": true,
+      "recordedAt": "2026-08-28T09:41:40Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:96b16de45793128556a5d698557f861ef5316585022ce974e83b0af0da9802f2",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-provider-discovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:96b16de45793128556a5d698557f861ef5316585022ce974e83b0af0da9802f2",
+  "createdAt": "2026-08-27T20:34:26Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/evidence/corporate-event-provider-discovery.verification.json",
+      "docs/superpowers/specs/2026-08-28-corporate-event-provider-discovery-design.md"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "observedIssues": [
+    {
+      "detail": "Review 发现 ticker/company-name 去重、空 observation universe 以及 Finnhub 缺少发布时间时的午夜伪时间问题；已用稳定 symbol identity、空池 fail-closed 与显式空时间投影修复。",
+      "status": "resolved"
+    },
+    {
+      "detail": "二次 review 发现外部 enrichment 命中后 Provider 事实未补足、Provider 内部重复未去重、retrieval timestamp 未记录、Provider diagnostic 未进入 Signal Context，以及 MEDIUM 事件文案越界；已加入 external-first/provider-fact-supplement 合并、symbol/date/event-kind 去重、真实 retrieval timestamp、诊断投影和按信息含量分级文案，并补充边界测试。",
+      "status": "resolved"
+    },
+    {
+      "detail": "最终针对性 review 发现已有 macro timeline 会覆盖 Provider diagnostic；已增加 timeline 与 Provider failure 并存的回归测试，并将诊断追加到 timeline appendix。",
+      "status": "resolved"
+    }
+  ],
+  "preflightAt": "2026-08-28T09:41:40Z",
+  "preflightContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:96b16de45793128556a5d698557f861ef5316585022ce974e83b0af0da9802f2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [
+    {
+      "detail": "Finnhub earnings calendar 不提供 source publication timestamp；Provider-only read model 会显式保留空的来源发布时间，并单独记录真实 retrieval timestamp。",
+      "reviewRecommended": true
+    }
+  ],
+  "reviewReadiness": {
+    "expectedReviewFocus": [
+      "symbol/date/event-kind 去重以及外部 enrichment 优先级",
+      "空 observation universe 与 Finnhub 请求边界",
+      "缺失 source publication timestamp 的 fail-closed 语义",
+      "decision_weight=0 与 Decision/Gate/Action Matrix 隔离"
+    ],
+    "reason": "最终独立只读 review 已确认代码 Ready for integration，无 Critical/Important/Minor 阻断；仍需 fresh required checks，并处理 Cockpit 历史 finish.lifecycle recovery 状态。",
+    "status": "ready"
+  },
+  "state": "finish_ready",
+  "updatedAt": "2026-08-28T09:41:40Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "corporate-event-provider-discovery"
+}

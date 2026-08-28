@@ -1,0 +1,120 @@
+{
+  "acceptanceCriteria": [
+    "Report labels the existing count-based metric as Universe Breadth in zh/en/ja outputs.",
+    "A 60% observation-universe result is rendered as BROAD_WITHIN_UNIVERSE or a localized equivalent and never as unqualified Broad Participation.",
+    "The report explicitly states that Universe Breadth describes the current Sentinel observation universe and does not represent S&P 500/Nasdaq market breadth.",
+    "up/flat/down/total counts, breadth thresholds, RS Diffusion, Leader, Gate, NO_TRADE, Action Matrix, Execution, Trader, and Position Sizing behavior remain unchanged.",
+    "When Universe Breadth is 60%, Market Interpretation contains no market-wide broad participation claim.",
+    "Existing Markdown, HTML, archival, timeline, snapshot, and three-language report contracts are updated consistently."
+  ],
+  "authority": "authorized",
+  "baseRevision": "cde6a574b0b667b618ba6ca2a7dcc2121dea485e",
+  "createdAt": "2026-08-27T17:48:43Z",
+  "goal": "将 Breadth 统一显示为 Universe Breadth，并把 Broad Participation 改为 BROAD_WITHIN_UNIVERSE 或对应本地化表达，同时保持现有 breadth 计算和交易决策链完全不变。",
+  "intent": "修复 Observation Layer 将 Sentinel observation universe 内部参与误表示为全市场广泛参与的语义错误，明确 Universe Breadth 的事实边界。",
+  "mode": "code",
+  "outOfScope": [
+    "src/features/radar/domain/features.rs",
+    "src/features/radar/domain/trend_cohesion.rs",
+    "src/features/radar/domain/leader_persistence/**",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "Gate",
+    "Execution",
+    "Trader",
+    "Action Matrix",
+    "Position Sizing",
+    "RS Diffusion",
+    "Leader",
+    "NO_TRADE",
+    "up/flat/down/total calculation",
+    "breadth thresholds",
+    "Market Breadth provider",
+    "Factor Concentration",
+    "Corporate Event Context",
+    "real-time provider",
+    "external data files",
+    "docs/**",
+    "reports/**"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:61f7224b4ba9314f7d26cf09bd0cde4a2157751aa9e4f4e5a2b5a935ee3a00fc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/universe-breadth-semantic-reconciliation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-wi-a"
+  },
+  "risk": "medium: i18n_snapshot,observation_semantics,architecture_boundary",
+  "scope": [
+    ".ai/work-items/active/universe-breadth-semantic-reconciliation.contract.json",
+    ".ai/work-items/active/universe-breadth-semantic-reconciliation.summary.json",
+    ".ai/cockpit/current_status.md",
+    "src/features/radar/domain/observation_timeline.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/audit_daily_report.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/shared/interface/i18n.rs",
+    "tests/snapshots/audit_daily_en_us.txt",
+    "tests/snapshots/audit_daily_ja_jp.txt",
+    "tests/snapshots/audit_daily_zh_cn.txt"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "言語、Rust quality gate、Observation Layer と実行層の境界を確認する。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "Work Item の scope、verification、Summary、lifecycle の SSOT。"
+    },
+    {
+      "path": "src/features/radar/domain/observation_timeline.rs",
+      "reason": "既存の up/flat/down/total から breadth label を導出する事実源。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "Signal Summary の Breadth 表示ラベルと observation universe 件数の投影経路。"
+    },
+    {
+      "path": "src/features/radar/interface/market_interpretation_read_model.rs",
+      "reason": "Market Interpretation の breadth semantic label と narrative 境界。"
+    },
+    {
+      "path": "src/features/radar/interface/audit_daily_report.rs",
+      "reason": "Daily audit report の Breadth と rotation 解釈。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "Markdown、HTML、timeline report の表示契約。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "三言語 report、snapshot、Market Interpretation 回帰テスト。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "required": true
+    }
+  ],
+  "workItemId": "universe-breadth-semantic-reconciliation"
+}

@@ -3,6 +3,11 @@ use crate::features::radar::interface::presentation::{
     SignalContextSourceStatus, SignalContextV1,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+use crate::features::research::application::corporate_event_provider::{
+    CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
+    CorporateEventReleaseWindow,
+};
+use crate::features::research::interface::macro_event_observation::EvidenceRecord;
 use crate::features::research::interface::macro_event_observation::MacroEventImportance;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
@@ -12,6 +17,9 @@ use std::env;
 use std::fs;
 
 const EXTERNAL_SIGNAL_CONTEXT_PATH_ENV: &str = "SENTINEL_SIGNAL_CONTEXT_JSON_PATH";
+
+#[cfg(test)]
+pub(crate) static SIGNAL_CONTEXT_ENV_MUTEX: std::sync::Mutex<()> = std::sync::Mutex::new(());
 
 #[derive(Debug, Clone, Default)]
 pub(crate) struct SignalContextCoverageInput {
@@ -100,6 +108,11 @@ pub(crate) fn build_v1_from_event_context(
         build_macro_v1_from_event_context(as_of_date, event_context),
         event_context.runtime_coverage.as_ref(),
     );
+    let macro_context = apply_corporate_event_provider_context(
+        as_of_date,
+        macro_context,
+        &event_context.corporate_event_provider,
+    );
     let external = env::var(EXTERNAL_SIGNAL_CONTEXT_PATH_ENV)
         .ok()
         .and_then(|path| {
@@ -108,6 +121,138 @@ pub(crate) fn build_v1_from_event_context(
                 .flatten()
         });
     build_v1_from_event_context_with_external(macro_context, external)
+}
+
+pub(crate) fn attach_corporate_event_provider(
+    mut event_context: SignalContextEventReadModel,
+    provider: CorporateEventProviderReadModel,
+) -> SignalContextEventReadModel {
+    event_context.corporate_event_provider = provider;
+    event_context
+}
+
+fn apply_corporate_event_provider_context(
+    as_of_date: NaiveDate,
+    snapshot: SignalContextV1,
+    provider: &CorporateEventProviderReadModel,
+) -> SignalContextV1 {
+    if provider.source.trim().is_empty()
+        && provider.source_url.trim().is_empty()
+        && provider.diagnostic.is_none()
+        && provider.events.is_empty()
+    {
+        return snapshot;
+    }
+    let mut coverage = snapshot.coverage;
+    coverage.corporate = match provider.health {
+        CorporateEventProviderHealth::Healthy => SignalContextSourceStatus::Healthy,
+        CorporateEventProviderHealth::Unavailable => SignalContextSourceStatus::Unavailable,
+    };
+    let mut corporate_events = Vec::new();
+    for item in provider
+        .events
+        .iter()
+        .map(|event| corporate_event_item(event, as_of_date))
+    {
+        if let Some(index) = corporate_events
+            .iter()
+            .position(|existing| corporate_events_match(existing, &item))
+        {
+            merge_provider_corporate_facts(&mut corporate_events[index], &item);
+        } else {
+            corporate_events.push(item);
+        }
+    }
+    build_signal_context_v1(SignalContextCoverageInput {
+        market_date: snapshot.market_date,
+        scheduled_macro: snapshot.scheduled_macro,
+        corporate_events,
+        geopolitical_events: snapshot.geopolitical_events,
+        commodity_events: snapshot.commodity_events,
+        rates_credit_events: snapshot.rates_credit_events,
+        market_structure_events: snapshot.market_structure_events,
+        coverage,
+        observed_market_reactions: snapshot.observed_market_reactions,
+        event_time_utc: snapshot.event_time_utc,
+        event_time_market_tz: snapshot.event_time_market_tz,
+        report_generated_at: snapshot.report_generated_at,
+    })
+}
+
+pub(crate) fn corporate_event_item(
+    event: &CorporateEventObservation,
+    as_of_date: NaiveDate,
+) -> SignalContextItem {
+    let has_actual = event.eps_actual.is_some() || event.revenue_actual.is_some();
+    let information_content = if has_actual {
+        SignalContextInformationLevel::High
+    } else {
+        SignalContextInformationLevel::Medium
+    };
+    let title = format!("{} EARNINGS", event.symbol);
+    let release_window = match event.release_window {
+        CorporateEventReleaseWindow::BeforeMarketOpen => "BMO",
+        CorporateEventReleaseWindow::AfterMarketClose => "AMC",
+        CorporateEventReleaseWindow::DuringMarketHours => "DMH",
+    };
+    let event_fact = format!(
+        "{title} release window: {release_window}; timezone: {}; FY{} Q{}{}",
+        event.market_timezone,
+        event.fiscal_year,
+        event.fiscal_quarter,
+        render_earnings_values(event),
+    );
+    let importance = if has_actual { "HIGH" } else { "MEDIUM" };
+    SignalContextItem {
+        context_type: crate::features::radar::interface::presentation::SignalContextType::Corporate,
+        title: title.clone(),
+        symbol: Some(event.symbol.clone()),
+        information_content,
+        market_relevance: information_content,
+        evidence_quality: SignalContextInformationLevel::High,
+        lifecycle: if event.market_date <= as_of_date {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Released
+        } else {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming
+        },
+        event_fact,
+        observed_at: event.observed_at.clone(),
+        source_published_at: String::new(),
+        market_date: event.market_date.to_string(),
+        evidence: vec![EvidenceRecord {
+            source: event.source.clone(),
+            source_url: event.source_url.clone(),
+            timestamp: event.observed_at.clone(),
+            source_published_at: String::new(),
+            event_type: "EARNINGS".to_string(),
+            subject: title,
+            importance: importance.to_string(),
+        }],
+        actual_value: event.revenue_actual.map(|value| value.to_string()),
+        expected_value: event.revenue_estimate.map(|value| value.to_string()),
+        ..Default::default()
+    }
+}
+
+fn render_earnings_values(event: &CorporateEventObservation) -> String {
+    let mut values = Vec::new();
+    if let Some(value) = event.eps_actual {
+        values.push(format!("EPS actual: {value}"));
+    }
+    if let Some(value) = event.eps_estimate {
+        values.push(format!("EPS estimate: {value}"));
+    }
+    if let Some(value) = event.revenue_actual {
+        values.push(format!("Revenue actual: {value}"));
+    }
+    if let Some(value) = event.revenue_estimate {
+        values.push(format!("Revenue estimate: {value}"));
+    }
+    if values.is_empty() {
+        String::new()
+    } else {
+        format!("; {}", values.join("; "))
+    }
 }
 
 fn apply_runtime_source_coverage(
@@ -155,6 +300,7 @@ fn build_macro_v1_from_event_context(
             context_type:
                 crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro,
             title: entry.event_name.clone(),
+            symbol: None,
             information_content: macro_information_level(entry),
             market_relevance: macro_information_level(entry),
             evidence_quality: SignalContextInformationLevel::High,
@@ -247,7 +393,7 @@ fn macro_lifecycle(
     }
 }
 
-/// 構造化外部来源を読み込み、日期与证据不满足时 fail-closed。
+/// 構造化された外部ソースを読み込み、日付または証拠が不十分な場合は fail-closed とする。
 pub(crate) fn load_external_signal_context_from_path(
     path: &str,
     as_of_date: NaiveDate,
@@ -313,6 +459,9 @@ fn merge_external_context(
     macro_context: SignalContextV1,
     mut external: SignalContextV1,
 ) -> SignalContextV1 {
+    let provider_corporate_coverage = macro_context.coverage.corporate;
+    let provider_corporate_events = macro_context.corporate_events;
+    let external_has_corporate_events = !external.corporate_events.is_empty();
     let mut scheduled_macro = external.scheduled_macro;
     for item in macro_context.scheduled_macro {
         if !scheduled_macro
@@ -324,6 +473,21 @@ fn merge_external_context(
     }
     external.scheduled_macro = scheduled_macro;
     external.coverage.scheduled_macro = macro_context.coverage.scheduled_macro;
+    let mut corporate_events = external.corporate_events;
+    for item in provider_corporate_events {
+        if let Some(index) = corporate_events
+            .iter()
+            .position(|existing| corporate_events_match(existing, &item))
+        {
+            merge_provider_corporate_facts(&mut corporate_events[index], &item);
+        } else {
+            corporate_events.push(item);
+        }
+    }
+    external.corporate_events = corporate_events;
+    if !external_has_corporate_events {
+        external.coverage.corporate = provider_corporate_coverage;
+    }
     build_signal_context_v1(SignalContextCoverageInput {
         market_date: external.market_date,
         scheduled_macro: external.scheduled_macro,
@@ -338,6 +502,96 @@ fn merge_external_context(
         event_time_market_tz: external.event_time_market_tz,
         report_generated_at: external.report_generated_at,
     })
+}
+
+pub(crate) fn corporate_events_match(left: &SignalContextItem, right: &SignalContextItem) -> bool {
+    if left.context_type
+        != crate::features::radar::interface::presentation::SignalContextType::Corporate
+        || right.context_type
+            != crate::features::radar::interface::presentation::SignalContextType::Corporate
+        || left.market_date != right.market_date
+    {
+        return false;
+    }
+
+    match (
+        normalized_symbol(left.symbol.as_deref()),
+        normalized_symbol(right.symbol.as_deref()),
+    ) {
+        (Some(left_symbol), Some(right_symbol)) => {
+            left_symbol == right_symbol && event_kind(left) == event_kind(right)
+        }
+        _ => normalized_text(&left.title) == normalized_text(&right.title),
+    }
+}
+
+fn merge_provider_corporate_facts(
+    external_or_existing: &mut SignalContextItem,
+    provider: &SignalContextItem,
+) {
+    if external_or_existing.symbol.is_none() {
+        external_or_existing.symbol = provider.symbol.clone();
+    }
+    if external_or_existing.event_fact.trim().is_empty() {
+        external_or_existing.event_fact = provider.event_fact.clone();
+    } else if !provider.event_fact.trim().is_empty()
+        && !external_or_existing
+            .event_fact
+            .contains(provider.event_fact.trim())
+    {
+        external_or_existing.event_fact = format!(
+            "{} Provider facts: {}",
+            external_or_existing.event_fact.trim_end_matches([' ', ';']),
+            provider.event_fact.trim()
+        );
+    }
+    if external_or_existing.observed_at.trim().is_empty() {
+        external_or_existing.observed_at = provider.observed_at.clone();
+    }
+    if external_or_existing.source_published_at.trim().is_empty() {
+        external_or_existing.source_published_at = provider.source_published_at.clone();
+    }
+    if external_or_existing.actual_value.is_none() {
+        external_or_existing.actual_value = provider.actual_value.clone();
+    }
+    if external_or_existing.expected_value.is_none() {
+        external_or_existing.expected_value = provider.expected_value.clone();
+    }
+    for evidence in &provider.evidence {
+        if !external_or_existing.evidence.iter().any(|existing| {
+            existing.source == evidence.source
+                && existing.source_url == evidence.source_url
+                && existing.timestamp == evidence.timestamp
+                && existing.event_type == evidence.event_type
+                && existing.subject == evidence.subject
+                && existing.importance == evidence.importance
+        }) {
+            external_or_existing.evidence.push(evidence.clone());
+        }
+    }
+}
+
+fn normalized_symbol(value: Option<&str>) -> Option<String> {
+    value
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .map(|value| value.to_ascii_uppercase())
+}
+
+fn event_kind(item: &SignalContextItem) -> String {
+    item.title
+        .split_whitespace()
+        .last()
+        .map(normalized_text)
+        .unwrap_or_default()
+}
+
+fn normalized_text(value: &str) -> String {
+    value
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_ascii_uppercase()
 }
 
 pub(crate) fn aggregate_coverage(
@@ -459,6 +713,10 @@ mod tests {
     use crate::features::radar::interface::presentation::{
         SignalContextInformationLevel, SignalContextType,
     };
+    use crate::features::research::application::corporate_event_provider::{
+        CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
+        CorporateEventReleaseWindow,
+    };
     use crate::features::research::interface::macro_event_observation::EvidenceRecord;
 
     fn item(title: &str, level: SignalContextInformationLevel) -> SignalContextItem {
@@ -518,6 +776,98 @@ mod tests {
     }
 
     #[test]
+    fn provider_event_projects_to_high_corporate_signal_context() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let event_context = SignalContextEventReadModel {
+            corporate_event_provider: CorporateEventProviderReadModel {
+                health: CorporateEventProviderHealth::Healthy,
+                source: "Finnhub Earnings Calendar".to_string(),
+                source_url:
+                    "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27"
+                        .to_string(),
+                retrieved_at: "2026-08-27T20:00:00Z".to_string(),
+                diagnostic: None,
+                events: vec![CorporateEventObservation {
+                    symbol: "NVDA".to_string(),
+                    market_date,
+                    market_timezone: "America/New_York".to_string(),
+                    release_window: CorporateEventReleaseWindow::AfterMarketClose,
+                    fiscal_quarter: 2,
+                    fiscal_year: 2027,
+                    eps_actual: None,
+                    eps_estimate: Some(1.04),
+                    revenue_actual: Some(96_200_000_000.0),
+                    revenue_estimate: Some(95_000_000_000.0),
+                    source: "Finnhub Earnings Calendar".to_string(),
+                    source_url:
+                        "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27"
+                            .to_string(),
+                    observed_at: "2026-08-27T20:00:00Z".to_string(),
+                }],
+            },
+            ..Default::default()
+        };
+
+        let snapshot = build_v1_from_event_context(market_date, &event_context);
+        let event = snapshot
+            .corporate_events
+            .first()
+            .expect("provider event must be projected");
+
+        assert_eq!(event.title, "NVDA EARNINGS");
+        assert_eq!(event.context_type, SignalContextType::Corporate);
+        assert_eq!(
+            event.information_content,
+            SignalContextInformationLevel::High
+        );
+        assert_eq!(event.market_date, "2026-08-27");
+        assert!(event.event_fact.contains("AMC"));
+        assert!(event.event_fact.contains("America/New_York"));
+        assert_eq!(event.evidence[0].event_type, "EARNINGS");
+        assert_eq!(snapshot.decision_weight, 0);
+        assert!(!snapshot.trade_signal);
+        assert_eq!(snapshot.gate_effect, "none");
+        assert_eq!(snapshot.execution_effect, "none");
+        assert_eq!(snapshot.position_sizing_effect, "none");
+        let baseline = SignalContextV1::default();
+        assert_eq!(
+            (
+                snapshot.decision_weight,
+                snapshot.trade_signal,
+                snapshot.gate_effect.as_str(),
+                snapshot.execution_effect.as_str(),
+                snapshot.position_sizing_effect.as_str(),
+            ),
+            (
+                baseline.decision_weight,
+                baseline.trade_signal,
+                baseline.gate_effect.as_str(),
+                baseline.execution_effect.as_str(),
+                baseline.position_sizing_effect.as_str(),
+            )
+        );
+    }
+
+    #[test]
+    fn unavailable_provider_keeps_corporate_context_fail_closed() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let event_context = SignalContextEventReadModel {
+            corporate_event_provider: CorporateEventProviderReadModel::unavailable(
+                "Finnhub API key is not configured",
+            ),
+            ..Default::default()
+        };
+
+        let snapshot = build_v1_from_event_context(market_date, &event_context);
+
+        assert!(snapshot.corporate_events.is_empty());
+        assert_eq!(
+            snapshot.coverage.corporate,
+            crate::features::radar::interface::presentation::SignalContextSourceStatus::Unavailable
+        );
+    }
+
+    #[test]
     fn runtime_merge_promotes_external_geopolitical_context() {
         let mut geopolitical = item("Hormuz shipping risk", SignalContextInformationLevel::High);
         geopolitical.context_type = SignalContextType::Geopolitical;
@@ -556,6 +906,172 @@ mod tests {
         );
         assert_eq!(merged.decision_weight, 0);
         assert!(!merged.trade_signal);
+    }
+
+    #[test]
+    fn runtime_merge_preserves_external_corporate_enrichment_without_duplicate() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let provider_event = corporate_event_item(
+            &CorporateEventObservation {
+                symbol: "NVDA".to_string(),
+                market_date,
+                market_timezone: "America/New_York".to_string(),
+                release_window: CorporateEventReleaseWindow::AfterMarketClose,
+                fiscal_quarter: 2,
+                fiscal_year: 2027,
+                revenue_actual: Some(96_200_000_000.0),
+                revenue_estimate: Some(95_000_000_000.0),
+                source: "Finnhub Earnings Calendar".to_string(),
+                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                observed_at: "2026-08-27T00:00:00Z".to_string(),
+                ..Default::default()
+            },
+            market_date,
+        );
+        let mut provider_only_event = provider_event.clone();
+        provider_only_event.symbol = Some("MSFT".to_string());
+        provider_only_event.title = "MSFT EARNINGS".to_string();
+        let mut external_event = item("NVDA EARNINGS", SignalContextInformationLevel::High);
+        external_event.context_type = SignalContextType::Corporate;
+        external_event.market_date = market_date.to_string();
+        external_event.event_fact = "NVIDIA earnings; AI INFRASTRUCTURE".to_string();
+        external_event.evidence = vec![EvidenceRecord {
+            source: "manual-corporate-context".to_string(),
+            source_url: "https://example.invalid/nvda".to_string(),
+            timestamp: "2026-08-27T20:00:00Z".to_string(),
+            source_published_at: "2026-08-27T20:00:00Z".to_string(),
+            event_type: "EARNINGS".to_string(),
+            subject: "NVDA EARNINGS".to_string(),
+            importance: "HIGH".to_string(),
+        }];
+        let merged = merge_external_context(
+            SignalContextV1 {
+                market_date: market_date.to_string(),
+                corporate_events: vec![provider_event, provider_only_event],
+                coverage: SignalContextCoverage {
+                    corporate: SignalContextSourceStatus::Healthy,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            SignalContextV1 {
+                market_date: market_date.to_string(),
+                corporate_events: vec![external_event],
+                coverage: SignalContextCoverage {
+                    corporate: SignalContextSourceStatus::Healthy,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        assert_eq!(merged.corporate_events.len(), 2);
+        let merged_nvda = merged
+            .corporate_events
+            .iter()
+            .find(|event| event.title == "NVDA EARNINGS")
+            .expect("external NVDA enrichment must remain");
+        assert!(merged_nvda
+            .event_fact
+            .starts_with("NVIDIA earnings; AI INFRASTRUCTURE"));
+        assert_eq!(merged_nvda.evidence[0].source, "manual-corporate-context");
+        assert!(merged_nvda.event_fact.contains("AMC"));
+        assert!(merged_nvda.event_fact.contains("FY2027 Q2"));
+        assert!(merged_nvda
+            .evidence
+            .iter()
+            .any(|evidence| evidence.source == "Finnhub Earnings Calendar"));
+        assert!(merged
+            .corporate_events
+            .iter()
+            .any(|event| event.title == "MSFT EARNINGS"));
+    }
+
+    #[test]
+    fn provider_projection_deduplicates_same_symbol_date_and_event_kind() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let first = CorporateEventObservation {
+            symbol: "NVDA".to_string(),
+            market_date,
+            market_timezone: "America/New_York".to_string(),
+            release_window: CorporateEventReleaseWindow::AfterMarketClose,
+            fiscal_quarter: 2,
+            fiscal_year: 2027,
+            revenue_actual: Some(96_200_000_000.0),
+            source: "Finnhub Earnings Calendar".to_string(),
+            source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+            observed_at: "2026-08-27T20:00:00Z".to_string(),
+            ..Default::default()
+        };
+        let mut second = first.clone();
+        second.eps_actual = Some(1.05);
+        second.observed_at = "2026-08-27T20:01:00Z".to_string();
+        let snapshot = build_v1_from_event_context(
+            market_date,
+            &SignalContextEventReadModel {
+                corporate_event_provider: CorporateEventProviderReadModel {
+                    health: CorporateEventProviderHealth::Healthy,
+                    events: vec![first, second],
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        );
+
+        assert_eq!(snapshot.corporate_events.len(), 1);
+        let event = &snapshot.corporate_events[0];
+        assert!(event.event_fact.contains("Revenue actual"));
+        assert!(event.event_fact.contains("EPS actual"));
+        assert_eq!(event.evidence.len(), 2);
+    }
+
+    #[test]
+    fn runtime_merge_matches_provider_ticker_to_external_company_name_by_symbol() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
+        let external = load_external_signal_context_from_path(
+            concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json"
+            ),
+            market_date,
+        )
+        .expect("NVIDIA fixture must deserialize")
+        .expect("NVIDIA fixture must be present");
+        let provider_event = corporate_event_item(
+            &CorporateEventObservation {
+                symbol: "NVDA".to_string(),
+                market_date,
+                market_timezone: "America/New_York".to_string(),
+                release_window: CorporateEventReleaseWindow::AfterMarketClose,
+                fiscal_quarter: 2,
+                fiscal_year: 2027,
+                revenue_actual: Some(96_200_000_000.0),
+                source: "Finnhub Earnings Calendar".to_string(),
+                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                ..Default::default()
+            },
+            market_date,
+        );
+
+        let merged = merge_external_context(
+            SignalContextV1 {
+                market_date: market_date.to_string(),
+                corporate_events: vec![provider_event],
+                coverage: SignalContextCoverage {
+                    corporate: SignalContextSourceStatus::Healthy,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            external,
+        );
+
+        assert_eq!(merged.corporate_events.len(), 1);
+        assert_eq!(merged.corporate_events[0].title, "NVIDIA EARNINGS");
+        assert_eq!(
+            merged.corporate_events[0].evidence[0].event_type,
+            "AI_INFRASTRUCTURE"
+        );
     }
 
     #[test]

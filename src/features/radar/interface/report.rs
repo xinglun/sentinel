@@ -1884,6 +1884,7 @@ fn render_observation_timeline_section(
     let Some(timeline) = timeline else {
         return String::new();
     };
+    let dict = get_dictionary(language);
     let coverage = match timeline.history_coverage {
         crate::features::radar::domain::observation_timeline::HistoryCoverage::Complete => {
             "COMPLETE"
@@ -1910,8 +1911,8 @@ fn render_observation_timeline_section(
             "历史覆盖",
             "7日摘要",
             "主导者序列",
-            "市场广度原始值序列",
-            "广度分类分数序列",
+            dict.signals.universe_breadth_raw_sequence.as_str(),
+            dict.signals.universe_breadth_score_sequence.as_str(),
             "置信度序列",
             "供给阶段序列",
             if timeline.has_structural_change() {
@@ -1926,8 +1927,8 @@ fn render_observation_timeline_section(
             "History Coverage",
             "7-Day Summary",
             "Leader sequence",
-            "Breadth Raw sequence",
-            "Breadth Classification Score sequence",
+            dict.signals.universe_breadth_raw_sequence.as_str(),
+            dict.signals.universe_breadth_score_sequence.as_str(),
             "Confidence sequence",
             "Supply sequence",
             if timeline.has_structural_change() {
@@ -1942,8 +1943,8 @@ fn render_observation_timeline_section(
             "履歴カバレッジ",
             "7日間サマリー",
             "主導銘柄の推移",
-            "市場広度Rawの推移",
-            "市場広度分類スコアの推移",
+            dict.signals.universe_breadth_raw_sequence.as_str(),
+            dict.signals.universe_breadth_score_sequence.as_str(),
             "確信度の推移",
             "供給局面の推移",
             if timeline.has_structural_change() {
@@ -2534,6 +2535,14 @@ fn render_interpretation_section(
                 layer.signal_context_primary_context_label,
                 layer.signal_context_primary_context_value
             ));
+            if !layer.signal_context_type_label.is_empty()
+                && !layer.signal_context_type_value.is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_type_label, layer.signal_context_type_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value
@@ -2659,6 +2668,14 @@ fn render_interpretation_section(
                 layer.signal_context_primary_context_label,
                 layer.signal_context_primary_context_value
             ));
+            if !layer.signal_context_type_label.is_empty()
+                && !layer.signal_context_type_value.is_empty()
+            {
+                block.push_str(&format!(
+                    "    - {}: {}\n",
+                    layer.signal_context_type_label, layer.signal_context_type_value
+                ));
+            }
             block.push_str(&format!(
                 "    - {}: {}\n",
                 layer.signal_context_quality_label, layer.signal_context_quality_value
@@ -2863,8 +2880,8 @@ fn render_market_interpretation_section(
                 ));
             }
             block.push_str(&format!(
-                "    - Breadth Classification Score: {}\n",
-                layer.breadth_score_value
+                "    - {}: {}\n",
+                layer.breadth_score_label, layer.breadth_score_value
             ));
             block.push_str(&format!(
                 "    - Tactical Leadership Structure: {}\n",
@@ -3022,8 +3039,8 @@ fn render_market_interpretation_section(
                 ));
             }
             block.push_str(&format!(
-                "    - Breadth Classification Score: {}\n",
-                layer.breadth_score_value
+                "    - {}: {}\n",
+                layer.breadth_score_label, layer.breadth_score_value
             ));
             block.push_str(&format!(
                 "    - Tactical Leadership Structure: {}\n",

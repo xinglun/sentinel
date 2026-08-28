@@ -1,0 +1,103 @@
+{
+  "acceptanceCriteria": [
+    "predecessor Work Item、Contract digest 与 recovery decision path 保持可追溯绑定",
+    "successor 只修复治理生命周期投影，不修改 Provider 生产代码与行为",
+    "fresh make quality verification 通过并绑定 successor Contract",
+    "完成 local-only finish 与 archive，不创建或合并 PR"
+  ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "cea87fe6ed6ef434f36b7e833ec83faf19d21825",
+  "createdAt": "2026-08-27T22:26:33Z",
+  "goal": "在不修改 Provider 生产实现的前提下重新绑定 predecessor 证据并完成 recovery successor 的验证与归档",
+  "intent": "恢复 corporate-event-provider-discovery 的不可变 checkpoint 生命周期并完成本地治理收尾",
+  "mode": "code",
+  "outOfScope": [
+    "docs/**",
+    "Makefile",
+    "push、PR、merge、release、远程分支操作"
+  ],
+  "predecessorContractDigest": "sha256:0ba8123a4a63f1fd61ececff2a96193ffc0e397e0e65bcac8f8cae41b65adf95",
+  "predecessorWorkItemId": "corporate-event-provider-discovery",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/corporate-event-provider-discovery.recovery.6cf242af318eef0946f6a2dbe45cd3dea03e514b07c4c9ea57bf2d6e8281a199.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:f34a167101cf7c8867a7621893b98642cf9b04c056088490dee5a415132f039e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "codex/corporate-event-signal-context",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-discovery",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider"
+  },
+  "risk": "normal",
+  "riskAssessment": {
+    "level": "normal",
+    "reason": "只修复 predecessor 的 Cockpit 生命周期证据绑定，不改变 Provider 代码、测试行为或远程资源。",
+    "riskTypes": [
+      "governance_process",
+      "observation_context_preservation"
+    ]
+  },
+  "scope": [
+    ".ai/work-items/active/**",
+    ".ai/work-items/archive/**",
+    ".ai/evidence/**",
+    ".ai/decisions/**",
+    "src/**",
+    "tests/**"
+  ],
+  "sources": [
+    {
+      "path": ".ai/work-items/active/corporate-event-provider-discovery.contract.json",
+      "reason": "确认 predecessor 的不可变 checkpoint、scope 与 local-only resource context。"
+    },
+    {
+      "path": ".ai/work-items/active/corporate-event-provider-discovery.summary.json",
+      "reason": "确认 predecessor 的 finish 阻断、fresh verification 与历史治理记录。"
+    },
+    {
+      "path": ".ai/decisions/corporate-event-provider-discovery.recovery.6cf242af318eef0946f6a2dbe45cd3dea03e514b07c4c9ea57bf2d6e8281a199.json",
+      "reason": "确认用户批准的 successor recovery decision 与 predecessor digest 绑定。"
+    },
+    {
+      "path": ".ai/evidence/corporate-event-provider-discovery.verification.json",
+      "reason": "复用 predecessor 的当前 quality verification 证据，不重新解释为 Provider 行为变更。"
+    }
+  ],
+  "state": "implementation_active",
+  "unknowns": [],
+  "notCodable": false,
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已批准 recovery successor；当前实现与 predecessor quality evidence 已存在，只需完成当前治理 Contract 的 fresh checkpoint、preflight、verification 与本地 archive。"
+  },
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": [
+      "before_edit"
+    ],
+    "requiredChecks": [
+      "make quality"
+    ]
+  },
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "corporate-event-provider-discovery-recovery"
+}

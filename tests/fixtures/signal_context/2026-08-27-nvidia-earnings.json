@@ -1,0 +1,91 @@
+{
+  "case_id": "2026-08-27-nvidia-earnings",
+  "market_date": "2026-08-27",
+  "scheduled_macro": [],
+  "corporate_events": [
+    {
+      "type": "CORPORATE",
+      "symbol": "NVDA",
+      "title": "NVIDIA EARNINGS",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "RELEASED",
+      "event_fact": "NVIDIA FY27 Q2 earnings reported approximately $96.2B revenue, $89B Data Center revenue, and approximately $108B next-quarter revenue guidance.",
+      "observed_at": "2026-08-27T20:00:00Z",
+      "source_published_at": "2026-08-27T20:00:00Z",
+      "market_date": "2026-08-27",
+      "evidence": [
+        {
+          "source": "NVIDIA Investor Relations",
+          "source_url": "https://investor.nvidia.com/",
+          "timestamp": "2026-08-27T20:00:00Z",
+          "source_published_at": "2026-08-27T20:00:00Z",
+          "event_type": "AI_INFRASTRUCTURE",
+          "subject": "NVIDIA EARNINGS",
+          "importance": "HIGH"
+        }
+      ],
+      "actual_value": "$96.2B revenue; $89B Data Center revenue",
+      "surprise": "POSITIVE",
+      "reason": "Strong reported demand and next-quarter guidance were observed in the released earnings information."
+    }
+  ],
+  "geopolitical_events": [],
+  "commodity_events": [],
+  "rates_credit_events": [],
+  "market_structure_events": [],
+  "primary_context": {
+    "type": "CORPORATE",
+    "symbol": "NVDA",
+    "title": "NVIDIA EARNINGS",
+    "information_content": "HIGH",
+    "market_relevance": "HIGH",
+    "evidence_quality": "HIGH",
+    "lifecycle": "RELEASED",
+    "event_fact": "NVIDIA FY27 Q2 earnings reported approximately $96.2B revenue, $89B Data Center revenue, and approximately $108B next-quarter revenue guidance.",
+    "observed_at": "2026-08-27T20:00:00Z",
+    "source_published_at": "2026-08-27T20:00:00Z",
+    "market_date": "2026-08-27",
+    "evidence": [
+      {
+        "source": "NVIDIA Investor Relations",
+        "source_url": "https://investor.nvidia.com/",
+        "timestamp": "2026-08-27T20:00:00Z",
+        "source_published_at": "2026-08-27T20:00:00Z",
+        "event_type": "AI_INFRASTRUCTURE",
+        "subject": "NVIDIA EARNINGS",
+        "importance": "HIGH"
+      }
+    ],
+    "actual_value": "$96.2B revenue; $89B Data Center revenue",
+    "surprise": "POSITIVE",
+    "reason": "Strong reported demand and next-quarter guidance were observed in the released earnings information."
+  },
+  "secondary_contexts": [],
+  "overall_information_content": "HIGH",
+  "context_quality": "HIGH",
+  "coverage": {
+    "scheduled_macro": "HEALTHY",
+    "corporate": "HEALTHY",
+    "geopolitical": "HEALTHY",
+    "commodity": "HEALTHY",
+    "rates_credit": "HEALTHY",
+    "market_structure": "HEALTHY",
+    "overall": "HEALTHY"
+  },
+  "observed_market_reactions": [
+    {
+      "observed_at": "2026-08-27T20:30:00Z",
+      "market_date": "2026-08-27",
+      "subject": "NVDA + AI complex",
+      "observation": "NVDA and AI-related assets rallied after the earnings release.",
+      "evidence": []
+    }
+  ],
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none"
+}

@@ -38,12 +38,14 @@ use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
 };
 use crate::features::radar::interface::report::{self, ReportRenderContext};
+use crate::features::radar::interface::signal_context_coverage::attach_corporate_event_provider;
 use crate::features::radar::interface::signal_context_event_read_model::{
     build_signal_context_event_read_model, SignalContextEventReadModelInput,
 };
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
+use crate::features::research::application::corporate_event_provider::CorporateEventProviderReadModel;
 use crate::features::research::application::gray_rhino_daily_report::{
     GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
 };
@@ -350,6 +352,11 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
+            let previous_corporate_event_provider = load_corporate_event_provider(
+                Arc::clone(&config_arc),
+                previous_packet_date,
+                watch_symbols.clone(),
+            );
             let previous_gravity_observation =
                 build_valuation_gravity_observation_for_market_date_with_auto(
                     config_arc.as_ref(),
@@ -374,6 +381,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 previous_capital_absorption_snapshot.as_ref(),
                 previous_gray_rhino_daily_report.as_ref(),
                 &previous_future_calendar,
+                &previous_corporate_event_provider,
                 lang,
                 &dict,
             ));
@@ -391,12 +399,19 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-        let future_context =
+        let corporate_event_provider = load_corporate_event_provider(
+            Arc::clone(&config_arc),
+            packet.date,
+            watch_symbols.clone(),
+        );
+        let future_context = attach_corporate_event_provider(
             build_signal_context_event_read_model(SignalContextEventReadModelInput {
                 as_of_date: packet.date,
                 expectation_snapshot: Some(&expectation_snapshot),
                 future_calendar: Some(&future_calendar),
-            });
+            }),
+            corporate_event_provider,
+        );
         let gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
             config_arc.as_ref(),
             save_dir,
@@ -1443,6 +1458,26 @@ fn is_observation_trading_day(date: chrono::NaiveDate) -> bool {
     recent_trading_dates(date).contains(&date)
 }
 
+fn load_corporate_event_provider(
+    app_config: Arc<config::AppConfig>,
+    market_date: chrono::NaiveDate,
+    symbols: Vec<String>,
+) -> CorporateEventProviderReadModel {
+    std::thread::spawn(move || {
+        crate::features::radar::acl::corporate_event_provider_factory::load_corporate_event_provider(
+            app_config.as_ref(),
+            market_date,
+            &symbols,
+        )
+    })
+    .join()
+    .unwrap_or_else(|_| {
+        CorporateEventProviderReadModel::unavailable(
+            "Finnhub corporate event provider thread failed",
+        )
+    })
+}
+
 #[allow(clippy::too_many_arguments)]
 fn build_packet_interpretation_layer(
     packet: &DecisionPacket,
@@ -1454,14 +1489,18 @@ fn build_packet_interpretation_layer(
     >,
     gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
     future_calendar: &crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel,
+    corporate_event_provider: &CorporateEventProviderReadModel,
     language: crate::features::shared::interface::i18n::Language,
     dict: &crate::features::shared::interface::i18n::DisplayDictionary,
 ) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
-    let future_context = build_signal_context_event_read_model(SignalContextEventReadModelInput {
-        as_of_date: packet.date,
-        expectation_snapshot: Some(expectation_snapshot),
-        future_calendar: Some(future_calendar),
-    });
+    let future_context = attach_corporate_event_provider(
+        build_signal_context_event_read_model(SignalContextEventReadModelInput {
+            as_of_date: packet.date,
+            expectation_snapshot: Some(expectation_snapshot),
+            future_calendar: Some(future_calendar),
+        }),
+        corporate_event_provider.clone(),
+    );
     let (expectation_quality, expectation_quality_reason) =
         derive_expectation_quality(expectation_snapshot);
     let interpretation_signal = InterpretationNarrativeSignal {
@@ -1839,6 +1878,8 @@ fn build_market_change_log_view_model(
         &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
     >,
 ) -> crate::features::radar::interface::presentation::MarketChangeLogViewModel {
+    let dict = get_dictionary(language);
+
     fn breakout_state_signature(
         presentation: &crate::features::radar::interface::presentation::PresentationPacket,
     ) -> String {
@@ -1879,7 +1920,7 @@ fn build_market_change_log_view_model(
             title: "Market Change Log".to_string(),
             leader_label: "Leader".to_string(),
             leader_value: current_leader,
-            breadth_label: "Breadth".to_string(),
+            breadth_label: dict.signals.universe_breadth.clone(),
             breadth_value: pres_packet.signal_summary.breadth_semantic_value.clone(),
             risk_label: "Risk".to_string(),
             risk_value: "BASELINE_UNAVAILABLE".to_string(),
@@ -2106,7 +2147,7 @@ fn build_market_change_log_view_model(
         title: "Market Change Log".to_string(),
         leader_label: "Leader".to_string(),
         leader_value: format!("{previous_leader} -> {current_leader}"),
-        breadth_label: "Breadth".to_string(),
+        breadth_label: dict.signals.universe_breadth.clone(),
         breadth_value: breadth_value.to_string(),
         risk_label: "Risk".to_string(),
         risk_value,
@@ -2130,11 +2171,10 @@ fn build_market_change_log_view_model(
 
 fn breadth_comparison_summary(previous: Option<&str>, current: &str) -> String {
     match previous {
-        Some(previous) if previous == current => format!("Breadth remains {current}."),
-        Some(previous) => format!("Breadth shifted from {previous} to {current}."),
-        None => {
-            "Breadth classification comparison unavailable for the previous snapshot.".to_string()
-        }
+        Some(previous) if previous == current => format!("Universe Breadth remains {current}."),
+        Some(previous) => format!("Universe Breadth shifted from {previous} to {current}."),
+        None => "Universe Breadth classification comparison unavailable for the previous snapshot."
+            .to_string(),
     }
 }
 
@@ -2693,7 +2733,7 @@ Boundary: context only; no Gate input or trade instruction.
     fn equal_persisted_breadth_classification_does_not_render_raw_value_as_label() {
         let summary = super::breadth_comparison_summary(Some("Very Narrow"), "Very Narrow");
 
-        assert_eq!(summary, "Breadth remains Very Narrow.");
+        assert_eq!(summary, "Universe Breadth remains Very Narrow.");
         assert!(!summary.contains("35.0"));
     }
 
@@ -2703,7 +2743,7 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(
             summary,
-            "Breadth classification comparison unavailable for the previous snapshot."
+            "Universe Breadth classification comparison unavailable for the previous snapshot."
         );
     }
 
