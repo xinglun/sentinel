@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "71ff7c3a964a26110a620ef7f153b9bcd745cabd",
+    "name": "codex/develop-main-sync",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:dacf1ca6627151ca2517e970cb59f1f9e343ca1f44c3411c93f6274720fc5be8",
+  "operationId": "github-pr-113-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "018e0dfd517a3a42e62066373f9b19f67ffcb4c8",
+    "headRevision": "71ff7c3a964a26110a620ef7f153b9bcd745cabd",
+    "mergeCommit": "6539d170f3833b04686cd929243fa9ce45044b08",
+    "number": 113,
+    "url": "https://github.com/xinglun/sentinel/pull/113"
+  },
+  "reason": "PR #113 已通过全部 GitHub 检查并合并为 6539d170；已确认 main 与 develop 的 tree 一致且 develop 为 main 的祖先，按用户授权删除精确远端 branch、本地 branch 与对应 worktree。",
+  "receiptId": "develop-main-sync-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/113",
+    "worktree": "/private/tmp/sentinel-develop-main-sync"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T19:13:35Z",
+  "workItemId": "develop-main-sync",
+  "worktree": {
+    "branch": "codex/develop-main-sync",
+    "headRevision": "71ff7c3a964a26110a620ef7f153b9bcd745cabd",
+    "path": "/private/tmp/sentinel-develop-main-sync",
+    "worktreeId": "develop-main-sync"
+  }
+}

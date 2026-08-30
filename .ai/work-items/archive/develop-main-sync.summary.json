@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/develop-main-sync.contract.json",
+    ".ai/work-items/archive/develop-main-sync.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T18:56:40Z",
+  "checkpointContractDigest": "sha256:96764bb9648ea9e09eec54de79b65b2ba6acefa77e0ad8601814d0503efeff45",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:1a0f3954d0e0edd95314b128bdc28d0027ec9cb291a6cfaef43caf7f14172521",
+      "recorded": true,
+      "recordedAt": "2026-08-30T18:56:40Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "develop-main-sync"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:16b8dbc4b58d70e925411254989d041db142a3a67cbf2e196fa08466b2d876e9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1a0f3954d0e0edd95314b128bdc28d0027ec9cb291a6cfaef43caf7f14172521",
+      "previousContractHash": "sha256:1a0f3954d0e0edd95314b128bdc28d0027ec9cb291a6cfaef43caf7f14172521",
+      "reason": "PR merge 後に判明した GitHub merge commit と develop の tree 同一性に合わせ、同一 SHA 要件を tree/祖先要件へ修正した。範囲拡張なし。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T19:09:49Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "develop-main-sync"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:96764bb9648ea9e09eec54de79b65b2ba6acefa77e0ad8601814d0503efeff45",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:1a0f3954d0e0edd95314b128bdc28d0027ec9cb291a6cfaef43caf7f14172521",
+      "previousContractHash": "sha256:16b8dbc4b58d70e925411254989d041db142a3a67cbf2e196fa08466b2d876e9",
+      "reason": "Runtime の evidence class として verification を使用し、PR/refs/cleanup の事実は acceptance と最終 evidence で記録するよう Contract 表現を補正した。範囲拡張なし。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T19:10:16Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "develop-main-sync"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+  "createdAt": "2026-08-30T18:56:34Z",
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T19:11:07Z",
+  "preflightContractDigest": "sha256:96764bb9648ea9e09eec54de79b65b2ba6acefa77e0ad8601814d0503efeff45",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T19:11:13Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "develop-main-sync"
+}
