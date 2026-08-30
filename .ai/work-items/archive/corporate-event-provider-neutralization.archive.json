@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T14:00:14Z",
+  "files": {
+    "contractDigest": "sha256:769a237e93a827c149afdb9cbcdd31562b4b0bc55de461e7d6fb8628298d8d4b",
+    "contractPath": ".ai/work-items/archive/corporate-event-provider-neutralization.contract.json",
+    "eventsDigest": "sha256:c2a88f17d330cfb995122f2ca057d0d32ae6e8b28e564a1959226ce5511733f1",
+    "eventsPath": ".ai/work-items/archive/corporate-event-provider-neutralization.events.jsonl",
+    "intelligenceDigest": "sha256:be48acdb740bd3dacb2711f653de2fb8863ad8dfcceb8476894a0b8b8ec801eb",
+    "intelligencePath": ".ai/work-items/archive/corporate-event-provider-neutralization.intelligence.json",
+    "outcomeDigest": "sha256:2cc1685d0cde9c2a9c76fe6e293d39dfa1b9ef4ec3896b565a62e40d57c597c4",
+    "outcomePath": ".ai/work-items/archive/corporate-event-provider-neutralization.outcome.json",
+    "summaryDigest": "sha256:6970341d74242542652b098a21a99fd641ce18b92c59bd438bd33abce9aa8536",
+    "summaryPath": ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json",
+    "taskReportDigest": "sha256:eff33acbde686ac6293e85698aa657e35f14338a393529c1845d43c697177096",
+    "taskReportMarkdownDigest": "sha256:12508d23f416518a0cbefcc90dd91574d84ea3e188ee54ba3ce32d46911c3da2",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-provider-neutralization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-provider-neutralization.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-provider-neutralization"
+}

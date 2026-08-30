@@ -1,0 +1,231 @@
+{
+  "acceptanceCriteria": [
+    "application contract 仅使用 CorporateEventSource 作为来源表达；不得长期保留语义重复的 legacy source: String，也不得在 application default 中出现 Finnhub、Finnhub URL 或 Finnhub Earnings Calendar。",
+    "CorporateEventSource 明确保存 provider_id、source_kind 与可选 source_url；Finnhub adapter 声明 provider_id=finnhub、source_kind=EarningsCalendar，未来 provider 可独立替换。",
+    "CorporateEventReleaseWindow 增加 Unknown 且 Unknown 仅表示没有可靠时段事实；Finnhub 未知或不支持的 hour 继续解析失败并使 provider fail-closed，不得映射为 Unknown。",
+    "unavailable read model 要求 provider/source 显式传入；provider unavailable 与 no event 保持可区分，现有 healthy、missing key、transport failure 与 malformed payload 语义不被破坏。",
+    "API key 不进入 URL、diagnostic、log 或测试输出；现有 secret redaction 测试通过。",
+    "现有 NVIDIA/Finnhub fixture 与 Signal Context 结果 semantic-equivalent；Decision、Gate、Leader、Action Matrix、Position Sizing、Execution 完全不变。",
+    "完成日文设计文档与 Work Item Summary，记录 changed paths、未确认事实、残余风险、验证结果和用户授权。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6e3e552e714aec2abb0282bb6cbd4f5c5bb41cf9",
+  "createdAt": "2026-08-30T13:13:10Z",
+  "goal": "完成 WI-1 provider neutralization：统一 CorporateEventSource 与 CorporateEventSourceKind，显式传递 unavailable 来源，增加 release window Unknown，并以 fail-closed 方式保持非法 Finnhub hour 不被静默降级。",
+  "intent": "将 Corporate Event application contract 中的 provider-specific 来源语义移出核心模型，使 provider-neutral source object 成为唯一来源表达；保持现有 Finnhub 行为与观察层边界不变。",
+  "mode": "code",
+  "outOfScope": [
+    "SEC EDGAR provider、Alpha Vantage provider、Corporate Event Evidence Resolver、provider registry 与其他新 provider",
+    "Signal Context 行为、Decision、Gate、Leader、Action Matrix、Position Sizing、Execution、RS/Universe Breadth/Market Breadth/Validation Engine",
+    "价格或 RS 推断企业事件、主题硬编码、look-ahead 设计、报告数据分支、历史 archive 重写",
+    "新增或修改 API key、User-Agent、secret storage、config.toml 中的凭据",
+    "新增非必要依赖及与 WI-1 无关的重构"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:7cfadd1d3df83b3580b5f0fe720114c019323e7e8a0db4604f43c0d6aa3601e6",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-neutralization",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-corporate-event-provider-neutralization"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/corporate-event-provider-neutralization.contract.json",
+    ".ai/work-items/active/corporate-event-provider-neutralization.summary.json",
+    ".ai/decisions/corporate-event-provider-neutralization.preflight-review.json",
+    ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.close.json",
+    ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.finalize.json",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+    "src/features/research/acl/corporate_event_provider_factory.rs",
+    "src/features/radar/acl/corporate_event_provider_factory.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/fixtures/corporate_events/**",
+    "tests/fixtures/signal_context/**",
+    "tests/**",
+    "docs/superpowers/specs/2026-08-30-corporate-event-provider-neutralization-design.md"
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "provider-neutral source object is the sole application contract source expression",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/acl/corporate_event_provider_factory.rs",
+        "src/features/radar/acl/corporate_event_provider_factory.rs"
+      ],
+      "verificationPlan": "实现后检查 application contract、ACL 和 read model consumer 中不存在长期语义重复的 source: String 或 Finnhub 默认来源。"
+    },
+    {
+      "scenario": "unknown release window remains distinct from invalid Finnhub hour",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs"
+      ],
+      "verificationPlan": "实现后测试缺少可靠时段时为 Unknown，Finnhub 未知或不支持 hour 时解析失败并以 Unavailable fail-closed。"
+    },
+    {
+      "scenario": "provider unavailable remains distinct from no event and secrets remain redacted",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs"
+      ],
+      "verificationPlan": "实现后覆盖 missing key、transport failure、malformed payload 和 transport error 中 secret redaction。"
+    },
+    {
+      "scenario": "existing Finnhub/NVIDIA Signal Context output and decision surface remain semantic-equivalent",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json",
+        "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/signal_context_coverage.rs"
+      ],
+      "verificationPlan": "实现后运行既有 fixture、Signal Context 测试及 Decision/Gate/Leader/Action Matrix/Positioning/Execution 不变性回归。"
+    },
+    {
+      "scenario": "WI-1 does not introduce SEC, Alpha Vantage, Resolver, registry, or decision behavior",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "AGENTS.md",
+        ".ai/work-items/active/corporate-event-provider-neutralization.contract.json"
+      ],
+      "verificationPlan": "实现后执行 scope/diff audit，确认变更仅落在 Contract 声明的 provider-neutralization、Finnhub adapter、tests 与设计文档范围。"
+    }
+  ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [
+      "make quality"
+    ],
+    "requiredStages": [
+      "before_edit"
+    ],
+    "schemaVersion": 1
+  },
+  "executionDecision": {
+    "reason": "用户已确认采用方案 A，并明确授权创建与执行 corporate-event-provider-neutralization；WI-1 范围、禁止项、验收和验证命令均已确定。",
+    "status": "continue"
+  },
+  "notCodable": false,
+  "problemStatement": "现有 Corporate Event application contract 将 Finnhub 来源、URL 和 release window 默认语义泄漏到核心模型，导致 provider unavailable 与来源身份耦合；本 Work Item 需要在不改变既有观测行为和交易决策语义的前提下完成来源边界中性化。",
+  "riskAssessment": {
+    "level": "high",
+    "reason": "本次修改会改变跨 application、ACL、infrastructure 与 Signal Context consumers 共享的 contract，但明确冻结所有 Decision surface，并要求 fail-closed 与 semantic-equivalent 回归。",
+    "riskTypes": [
+      "application_contract",
+      "external_provider",
+      "observation_context",
+      "failure_closed",
+      "security_redaction"
+    ]
+  },
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "确认语言规范、Rust quality gate、AI Cockpit lifecycle 和 Decision isolation 不变量。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "确认安装版 Runtime、Work Item Contract、preflight、checkpoint、verify、finish、archive 和 close 流程。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认仓库本地 Cockpit 配置及 lifecycle 边界。"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "确认仓库本地 Agent route 与治理词汇。"
+    },
+    {
+      "path": "src/features/research/application/corporate_event_provider.rs",
+      "reason": "当前 Corporate Event application contract、health、release window、observation 和 unavailable read model 的实现证据。"
+    },
+    {
+      "path": "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+      "reason": "Finnhub adapter 的 source metadata、hour parser、transport failure 和 secret redaction 行为证据。"
+    },
+    {
+      "path": "src/features/research/acl/corporate_event_provider_factory.rs",
+      "reason": "研究侧 provider factory 的 application/infrastructure ACL 边界。"
+    },
+    {
+      "path": "src/features/radar/acl/corporate_event_provider_factory.rs",
+      "reason": "Radar 侧 provider factory 的读取入口。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "Signal Context 对 Corporate Event provider read model 的观察层投影及 fallback 消费边界。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_read_model.rs",
+      "reason": "Signal Context 的 Corporate Event primary context、rendering 和现有 fixture 语义。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Radar pipeline 调用 provider 的边界及 unavailable fallback 入口。"
+    },
+    {
+      "path": "tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json",
+      "reason": "现有 deterministic Finnhub NVIDIA earnings fixture，用于 semantic-equivalent 回归。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+      "reason": "现有 Signal Context NVIDIA fixture 输出契约。"
+    },
+    {
+      "path": "Cargo.toml",
+      "reason": "确认现有 reqwest、serde、serde_json 和 chrono 依赖，WI-1 不需新增依赖。"
+    },
+    {
+      "path": "用户授权（本线程）",
+      "reason": "用户确认方案 A、WI-1 边界及需要的治理授权，并要求完成完整 Work Item lifecycle。"
+    },
+    {
+      "path": ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.outcome.json",
+      "reason": "历史 Work Item 已归档且 PR/分支清理证据已用于本次治理解锁；只读引用，不改写 archive。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "corporate-event-provider-neutralization"
+}

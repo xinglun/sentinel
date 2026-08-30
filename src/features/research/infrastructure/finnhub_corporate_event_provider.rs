@@ -1,7 +1,8 @@
 use crate::config::AppConfig;
 use crate::features::research::application::corporate_event_provider::{
     CorporateEventObservation, CorporateEventProvider, CorporateEventProviderHealth,
-    CorporateEventProviderReadModel, CorporateEventReleaseWindow,
+    CorporateEventProviderReadModel, CorporateEventReleaseWindow, CorporateEventSource,
+    CorporateEventSourceKind,
 };
 use chrono::{NaiveDate, SecondsFormat, Utc};
 use reqwest::blocking::Client;
@@ -9,7 +10,7 @@ use serde::Deserialize;
 use std::collections::HashSet;
 use std::time::Duration;
 
-const FINNHUB_SOURCE: &str = "Finnhub Earnings Calendar";
+const FINNHUB_PROVIDER_ID: &str = "finnhub";
 const FINNHUB_CALENDAR_URL: &str = "https://finnhub.io/api/v1/calendar/earnings";
 const MARKET_TIMEZONE: &str = "America/New_York";
 
@@ -97,11 +98,13 @@ where
         let token = self.api_key.trim();
         if token.is_empty() {
             return CorporateEventProviderReadModel::unavailable(
+                finnhub_source(market_date),
                 "Finnhub API key is not configured",
             );
         }
         if normalized_symbols(symbols).is_empty() {
             return CorporateEventProviderReadModel::unavailable(
+                finnhub_source(market_date),
                 "Finnhub corporate event provider requires a non-empty observation universe",
             );
         }
@@ -109,12 +112,13 @@ where
         let response = match self.transport.fetch(market_date, market_date, token) {
             Ok(response) => response,
             Err(error) => {
-                return unavailable_with_sanitized_diagnostic(token, error);
+                return unavailable_with_sanitized_diagnostic(token, market_date, error);
             }
         };
         if !(200..300).contains(&response.status) {
             return unavailable_with_sanitized_diagnostic(
                 token,
+                market_date,
                 format!("Finnhub earnings API returned HTTP {}", response.status),
             );
         }
@@ -122,15 +126,14 @@ where
         let mut events = match parse_finnhub_earnings_calendar(&response.body, market_date, symbols)
         {
             Ok(events) => events,
-            Err(error) => return unavailable_with_sanitized_diagnostic(token, error),
+            Err(error) => return unavailable_with_sanitized_diagnostic(token, market_date, error),
         };
         for event in &mut events {
             event.observed_at = retrieved_at.clone();
         }
         CorporateEventProviderReadModel {
             health: CorporateEventProviderHealth::Healthy,
-            source: FINNHUB_SOURCE.to_string(),
-            source_url: calendar_url(market_date),
+            source: finnhub_source(market_date),
             retrieved_at,
             diagnostic: None,
             events,
@@ -149,11 +152,16 @@ pub(crate) fn load_finnhub_corporate_events(
         .map(|config| config.finnhub_api_key.trim())
         .filter(|key| !key.is_empty())
     else {
-        return CorporateEventProviderReadModel::unavailable("Finnhub API key is not configured");
+        return CorporateEventProviderReadModel::unavailable(
+            finnhub_source(market_date),
+            "Finnhub API key is not configured",
+        );
     };
     let transport = match ReqwestFinnhubEarningsCalendarTransport::new() {
         Ok(transport) => transport,
-        Err(error) => return CorporateEventProviderReadModel::unavailable(error),
+        Err(error) => {
+            return CorporateEventProviderReadModel::unavailable(finnhub_source(market_date), error)
+        }
     };
     FinnhubCorporateEventProvider::with_transport(api_key, transport)
         .load_for_market_date(market_date, symbols)
@@ -163,11 +171,23 @@ fn calendar_url(market_date: NaiveDate) -> String {
     format!("{FINNHUB_CALENDAR_URL}?from={market_date}&to={market_date}")
 }
 
+pub(crate) fn finnhub_source(market_date: NaiveDate) -> CorporateEventSource {
+    CorporateEventSource {
+        provider_id: FINNHUB_PROVIDER_ID.to_string(),
+        source_kind: CorporateEventSourceKind::EarningsCalendar,
+        source_url: Some(calendar_url(market_date)),
+    }
+}
+
 fn unavailable_with_sanitized_diagnostic(
     api_key: &str,
+    market_date: NaiveDate,
     diagnostic: impl Into<String>,
 ) -> CorporateEventProviderReadModel {
-    CorporateEventProviderReadModel::unavailable(diagnostic.into().replace(api_key, "[REDACTED]"))
+    CorporateEventProviderReadModel::unavailable(
+        finnhub_source(market_date),
+        diagnostic.into().replace(api_key, "[REDACTED]"),
+    )
 }
 
 #[derive(Debug, Deserialize)]
@@ -207,8 +227,7 @@ fn parse_finnhub_earnings_calendar(
                 .to_string(),
         );
     }
-    let source_url =
-        format!("https://finnhub.io/api/v1/calendar/earnings?from={market_date}&to={market_date}");
+    let source = finnhub_source(market_date);
     let mut events = Vec::new();
 
     for record in response.earnings_calendar {
@@ -242,8 +261,7 @@ fn parse_finnhub_earnings_calendar(
             eps_estimate: record.eps_estimate,
             revenue_actual: record.revenue_actual,
             revenue_estimate: record.revenue_estimate,
-            source: FINNHUB_SOURCE.to_string(),
-            source_url: source_url.clone(),
+            source: source.clone(),
             observed_at: String::new(),
         });
     }
@@ -284,6 +302,7 @@ mod tests {
     };
     use crate::features::research::application::corporate_event_provider::{
         CorporateEventProvider, CorporateEventProviderHealth, CorporateEventReleaseWindow,
+        CorporateEventSourceKind,
     };
     use chrono::{DateTime, NaiveDate};
     use std::sync::{Arc, Mutex};
@@ -365,6 +384,15 @@ mod tests {
         assert_eq!(events[0].fiscal_quarter, 2);
         assert_eq!(events[0].fiscal_year, 2027);
         assert_eq!(events[0].revenue_actual, Some(96_200_000_000.0));
+        assert_eq!(events[0].source.provider_id, "finnhub");
+        assert_eq!(
+            events[0].source.source_kind,
+            CorporateEventSourceKind::EarningsCalendar
+        );
+        assert_eq!(
+            events[0].source.source_url.as_deref(),
+            Some("https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27")
+        );
         assert!(events[0].observed_at.is_empty());
     }
 
@@ -449,7 +477,17 @@ mod tests {
             &[(date, date, "test-token".to_string())]
         );
         assert!(DateTime::parse_from_rfc3339(&read_model.retrieved_at).is_ok());
-        assert!(!read_model.source_url.contains("test-token"));
+        assert_eq!(read_model.source.provider_id, "finnhub");
+        assert_eq!(
+            read_model.source.source_kind,
+            CorporateEventSourceKind::EarningsCalendar
+        );
+        assert!(!read_model
+            .source
+            .source_url
+            .as_deref()
+            .unwrap_or_default()
+            .contains("test-token"));
     }
 
     #[test]
@@ -484,7 +522,17 @@ mod tests {
         assert!(read_model.diagnostic.is_none());
         assert!(DateTime::parse_from_rfc3339(&read_model.retrieved_at).is_ok());
         assert!(DateTime::parse_from_rfc3339(&read_model.events[0].observed_at).is_ok());
-        assert!(!read_model.source_url.contains("test-token"));
+        assert_eq!(read_model.source.provider_id, "finnhub");
+        assert_eq!(
+            read_model.source.source_kind,
+            CorporateEventSourceKind::EarningsCalendar
+        );
+        assert!(!read_model
+            .source
+            .source_url
+            .as_deref()
+            .unwrap_or_default()
+            .contains("test-token"));
     }
 
     #[test]
@@ -550,5 +598,34 @@ mod tests {
 
         assert_eq!(read_model.health, CorporateEventProviderHealth::Unavailable);
         assert!(read_model.events.is_empty());
+    }
+
+    #[test]
+    fn provider_fails_closed_for_unknown_release_window_without_mapping_to_unknown() {
+        for hour in ["", "unknown"] {
+            let body = format!(
+                r#"{{"earningsCalendar":[{{"date":"2026-08-27","symbol":"NVDA","hour":"{hour}","quarter":2,"year":2027}}]}}"#
+            );
+            let provider = FinnhubCorporateEventProvider::with_transport(
+                "test-token",
+                StubTransport::response(200, &body),
+            );
+            let read_model = provider.load_for_market_date(
+                NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                &["NVDA".to_string()],
+            );
+
+            assert_eq!(read_model.health, CorporateEventProviderHealth::Unavailable);
+            assert!(read_model.events.is_empty());
+            assert!(read_model
+                .diagnostic
+                .as_deref()
+                .unwrap_or_default()
+                .contains("unsupported Finnhub earnings release window"));
+            assert_eq!(
+                read_model.source.source_kind,
+                CorporateEventSourceKind::EarningsCalendar
+            );
+        }
     }
 }

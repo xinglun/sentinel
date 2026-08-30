@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "312c72414d6cbccdc570c840b2a8d16b5d9f30bd",
+    "name": "codex/corporate-event-provider-discovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c1189691935b9eaf1af03aaf39d26dcaca3fdd16511070943d8eea1ef3acb2ef",
+  "operationId": "github-pr-97-merge-cleanup-20260830",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "codex/corporate-event-signal-context",
+    "baseRemote": "origin",
+    "baseRevision": "1d380ea00ac3a837ca4f70df04967d801dc17c33",
+    "headRevision": "312c72414d6cbccdc570c840b2a8d16b5d9f30bd",
+    "mergeCommit": "74a6883287501f79f9e3ebbde53fc265a69a5de2",
+    "number": 97,
+    "url": "not-requested"
+  },
+  "reason": "PR #97 was merged as 74a6883287501f79f9e3ebbde53fc265a69a5de2 and the exact historical branch and worktree are absent; record the finalization without rewriting predecessor evidence.",
+  "receiptId": "sentinel-corporate-event-provider-discovery-runtime-recovery-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "codex/corporate-event-signal-context",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-discovery",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T13:11:49Z",
+  "workItemId": "corporate-event-provider-discovery-runtime-recovery",
+  "worktree": {
+    "branch": "codex/corporate-event-provider-discovery",
+    "headRevision": "312c72414d6cbccdc570c840b2a8d16b5d9f30bd",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-provider",
+    "worktreeId": "corporate-event-provider-discovery-runtime-recovery"
+  }
+}
