@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "PR 的 base 为 main，head 来自最新 origin/develop，且 PR 通过全部必需检查后合并。",
+    "合并后 origin/main 的 tree 与 origin/develop 的 tree 完全一致，且 origin/develop 是 origin/main 的祖先。",
+    "同步分支与精确同步 worktree 均已删除，现有其他 worktree 不受影响。",
+    "本地 checkout 最终位于 develop，且工作树干净并与 origin/develop 同步。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "018e0dfd517a3a42e62066373f9b19f67ffcb4c8",
+  "createdAt": "2026-08-30T18:56:34Z",
+  "goal": "远端 main 与 develop 的 tree 内容一致，且 main 包含 develop 的已审核历史；同步过程有可审查 PR、Cockpit evidence 与精确资源清理记录；不改变生产语义。",
+  "intent": "将最新 origin/develop 的已审核提交通过 GitHub PR 同步到 origin/main，并在完成后让本地 checkout 回到 develop。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改生产 code、test、docs、CI、Makefile、AI agent rules、provider registry、SEC、Alpha Vantage、Resolver、Signal Context、Decision semantics、数据文件、secrets、credentials；不修改 develop 上现有 Work Item 记录；不删除或改动其他 worktree/branch。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d8d78879ef2d4bbf2fc67b84de9dcf4820371d596e47a7531208b52b841cad7a",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/113",
+    "worktree": "/private/tmp/sentinel-develop-main-sync"
+  },
+  "risk": "normal",
+  "scope": [
+    "仅限于从最新 origin/develop 创建同步分支/worktree、创建以 main 为 base 的 GitHub PR、等待必需检查、合并 PR、验证 origin/main 与 origin/develop 的 tree 一致且 develop 为 main 的祖先、删除该同步分支及其专用 worktree，并将本地 checkout 留在 develop。允许新增该同步 Work Item 的治理 Contract/Summary/Outcome/Events/decision 记录。"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/pull/113"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "develop-main-sync"
+}
