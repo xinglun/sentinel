@@ -6,7 +6,7 @@
     "contractPath": ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json",
     "eventsDigest": "sha256:2c45168c6fef87dff95cdd1266fc9b74d85b02efb1d4b3951f98d5634dfd8ac7",
     "eventsPath": ".ai/work-items/archive/corporate-event-evidence-resolver.events.jsonl",
-    "outcomeDigest": "sha256:dccf797fdec78aefe8a80914fcc2110f618d7d638a02739a2d7be92770e503b3",
+    "outcomeDigest": "sha256:2d75b4a36e2fc328a8035698c2e0850e1376ad345262e71dfd80421cf73a4c6c",
     "outcomePath": ".ai/work-items/archive/corporate-event-evidence-resolver.outcome.json",
     "summaryDigest": "sha256:f56f889eeef4578e2999b6a3ccb74c59cd2046539ec4457a3c83795906c0bcef",
     "summaryPath": ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json",
