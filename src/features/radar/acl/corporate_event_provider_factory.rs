@@ -1,25 +1,27 @@
 use crate::config::AppConfig;
-use crate::features::research::application::corporate_event_provider::{
-    CorporateEventProviderReadModel, CorporateEventSource,
+use crate::features::research::application::corporate_event_evidence_resolver::{
+    CorporateEventEvidenceResolution, ExternalCorporateEventEnrichment,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
+use std::path::Path;
 
-/// Research の企業イベント Provider を Radar が利用できる ACL 境界へ投影する。
-pub(crate) fn load_corporate_event_provider(
+/// Radar へは Resolver の canonical read model だけを返し、provider concrete 型を隠す。
+pub(crate) fn load_corporate_event_evidence(
     app_config: &AppConfig,
+    save_dir: &Path,
     market_date: NaiveDate,
     symbols: &[String],
-) -> CorporateEventProviderReadModel {
-    crate::features::research::acl::corporate_event_provider_factory::load_finnhub_corporate_events(
+    enrichments: &[ExternalCorporateEventEnrichment],
+    external_diagnostic: Option<&str>,
+    report_run_at: DateTime<Utc>,
+) -> CorporateEventEvidenceResolution {
+    crate::features::research::acl::corporate_event_provider_factory::resolve_corporate_event_evidence(
         app_config,
+        save_dir,
         market_date,
         symbols,
-    )
-}
-
-/// Radar の fallback が利用する source metadata を Research ACL から受け取る。
-pub(crate) fn corporate_event_provider_source(market_date: NaiveDate) -> CorporateEventSource {
-    crate::features::research::acl::corporate_event_provider_factory::finnhub_corporate_event_source(
-        market_date,
+        enrichments,
+        external_diagnostic,
+        report_run_at,
     )
 }

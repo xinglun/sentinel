@@ -1,0 +1,162 @@
+{
+  "acceptanceCriteria": [
+    "Scheduled only is never Confirmed and resolves as Scheduled or PendingConfirmation according to the existing observation date boundary.",
+    "SEC EarningsRelated evidence can resolve Confirmed; QuarterlyReport or AnnualReport alone remains Filing and cannot be treated as Earnings.",
+    "Alpha-only evidence remains expected/scheduled and cannot resolve Confirmed.",
+    "Finnhub-only evidence remains AggregatorObserved/PendingConfirmation and cannot cross the official-evidence boundary.",
+    "Conflicting provider dates are retained as separate evidence and produce a conflict diagnostic without guessing a winning date.",
+    "Expected and official evidence are both retained; official confirmation records confirmed date/time separately from expected date.",
+    "External structured enrichment such as theme and importance is retained with provenance and is not overwritten by generic provider facts; absent enrichment does not infer theme from symbol.",
+    "Evidence visibility uses observed_at, accepted_at, and report_run_at; evidence learned after report_run_at is excluded from the snapshot.",
+    "Provider health distinguishes Healthy, Partial, Stale, and Unavailable; provider failure is not represented as No Event.",
+    "Resolver output is observation/diagnostic only and Decision, Gate, Leader, Action Matrix, Position Sizing, and Execution remain semantic-equivalent.",
+    "NVIDIA lifecycle regression covers expected tomorrow, pre-release PendingConfirmation, official post-release Confirmed, and T+1 Historical/Confirmed without back-writing pre-release visibility.",
+    "Required provider evidence and health are rendered in the daily report appendix without leaking API credentials.",
+    "All provider failures, malformed inputs, unknown symbols, excessive/future timestamps, and oversized/untraceable evidence fail closed."
+  ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "c1e2c4c4b022d8626086e3634f468111e8263685",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [
+      "make fmt-check",
+      "make test",
+      "make clippy",
+      "make quality"
+    ],
+    "requiredStages": [
+      "before_edit"
+    ],
+    "schemaVersion": 1
+  },
+  "createdAt": "2026-08-30T17:24:07Z",
+  "executionDecision": {
+    "reason": "用户已授权完整开发、验证、提交、推送、PR 合并、清理与远端同步流程；本 Work Item 只增加企业事件 evidence reconciliation 与观察层诊断，不改变 Decision semantics。",
+    "status": "continue"
+  },
+  "goal": "Scheduled、PendingConfirmation、Confirmed、Historical、Unavailable を区別し、provider conflict と provenance を保持し、look-ahead を拒否したまま Signal Context の観測/解釈と日报 appendix に公開する。Decision semantics は変更しない。",
+  "intent": "複数の企業イベント provider の期待値・公式開示・aggregator observation・外部構造化 enrichment を、時間制約付きで一つの canonical evidence read model に統合する。",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "DecisionPacket、Decision semantics、NO_TRADE、PROBE、READY、Gate、Execution、Trader、Position Sizing、Action Matrix、Leader、Leadership Persistence、RS、Breadth、Breakout、Validation Engine、portfolio execution、registry、new SEC/Alpha/Finnhub HTTP implementation、credentials/secrets、market breadth、unrelated archived Work Items、Telegram wording、global Agent/MCP config"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-evidence-resolver",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/111",
+    "worktree": "/private/tmp/sentinel-corporate-event-evidence-resolver"
+  },
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Alpha-only is Scheduled/PendingConfirmation; SEC EarningsRelated evidence is Confirmed; T+1 remains Historical/Confirmed.",
+      "required": true,
+      "scenario": "Scheduled and official evidence lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Application resolver unit tests with expected, SEC and Finnhub read models plus the NVIDIA lifecycle fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "Conflicting dates remain visible as separate evidence and produce a conflict diagnostic without selecting a winner.",
+      "required": true,
+      "scenario": "Provider conflict and provenance",
+      "status": "unverified",
+      "verificationPlan": "Resolver reconciliation tests assert evidence refs, diagnostics, expected date and confirmed date independently."
+    },
+    {
+      "evidence": [],
+      "expected": "Structured external theme/importance is retained with provenance; symbol names never infer a theme.",
+      "required": true,
+      "scenario": "External enrichment and theme boundary",
+      "status": "unverified",
+      "verificationPlan": "External JSON ACL conversion and resolver tests cover retained enrichment and missing enrichment."
+    },
+    {
+      "evidence": [],
+      "expected": "Evidence whose observed_at or accepted_at is later than report_run_at is not visible in that snapshot.",
+      "required": true,
+      "scenario": "Look-ahead exclusion",
+      "status": "unverified",
+      "verificationPlan": "Controlled report_run_at tests cover SEC accepted_at, provider observed_at and the 2026-08-27 NVIDIA pre-release snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "Healthy, Partial, Stale and Unavailable remain distinct; daily diagnostics show provider health and sources without credentials.",
+      "required": true,
+      "scenario": "Provider health and report appendix",
+      "status": "unverified",
+      "verificationPlan": "Read-model/report rendering tests cover independent provider failure and appendix output."
+    },
+    {
+      "evidence": [],
+      "expected": "No corporate evidence input changes Decision, Gate, Leader, Action Matrix, Position Sizing or Execution fields.",
+      "required": true,
+      "scenario": "Decision invariance",
+      "status": "unverified",
+      "verificationPlan": "Golden comparison test for no evidence, scheduled, confirmed and enriched corporate evidence plus full make gates."
+    }
+  ],
+  "scope": [
+    "src/features/research/application/corporate_event_evidence_resolver.rs",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/application/official_disclosure_provider.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/acl/corporate_event_provider_factory.rs",
+    "src/features/research/acl/official_disclosure_provider_factory.rs",
+    "src/features/radar/acl/corporate_event_provider_factory.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/fixtures/corporate_events/**",
+    "tests/fixtures/signal_context/**",
+    "docs/superpowers/specs/2026-08-31-corporate-event-evidence-resolver-design.md",
+    "docs/superpowers/plans/2026-08-31-corporate-event-evidence-resolver.md",
+    ".ai/decisions/**",
+    ".ai/work-items/active/corporate-event-evidence-resolver.contract.json",
+    ".ai/work-items/active/corporate-event-evidence-resolver.summary.json"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "用户提供的 Sentinel Corporate Event Free Evidence Stack 规范",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/application/official_disclosure_provider.rs",
+    "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+    "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+    "src/features/research/infrastructure/alpha_vantage_earnings_calendar_provider.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json",
+    "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+    "Cargo.toml"
+  ],
+  "state": "implementation_active",
+  "unknowns": [],
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "corporate-event-evidence-resolver"
+}
