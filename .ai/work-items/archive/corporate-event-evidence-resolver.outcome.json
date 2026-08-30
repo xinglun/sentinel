@@ -139,7 +139,7 @@
     "workItemId": "corporate-event-evidence-resolver"
   },
   "taskReportDigest": "sha256:e2102d2906ac9689d3764d0debbb135cf4db9536f410796e6fae0d4943e23e80",
-  "taskReportMarkdownDigest": "sha256:b304b04ac5337f8062683383ed13f88275300d300144679f1f5386bdbf65d5a8",
+  "taskReportMarkdownDigest": "sha256:c213b985e348f9308aa32cf495d4938561ff5e17ee91202e03704d884baa92e1",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
