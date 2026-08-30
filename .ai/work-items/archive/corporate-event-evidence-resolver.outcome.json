@@ -14,14 +14,17 @@
     "Required provider evidence and health are rendered in the daily report appendix without leaking API credentials.",
     "All provider failures, malformed inputs, unknown symbols, excessive/future timestamps, and oversized/untraceable evidence fail closed."
   ],
-  "decisionState": "red",
+  "createdAt": "2026-08-30T18:37:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:db70777b1644578b9c0c498e13af56dd92068d5e601454dc4c8756aeaf69240d",
   "evidenceRefs": [
     ".ai/evidence/corporate-event-evidence-resolver.verification.json"
   ],
-  "failedGate": "finish.governance",
   "humanBenefitReport": {
     "affectedUsers": [],
-    "evidenceRefs": [],
+    "evidenceRefs": [
+      ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+    ],
     "state": "unknown",
     "unknowns": [
       "user_visible_benefit_not_declared"
@@ -29,41 +32,38 @@
     "userVisibleChanges": []
   },
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "schemaVersion": 2,
-  "state": "blocked",
-  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
   "taskOutcomeReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/corporate-event-evidence-resolver.verification.json"
       ],
       "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-      "repositorySnapshotDigest": "sha256:9e77258a11a1161266f4373dd30afff0813bed2b781e4fc7cc0656ed30a802fa",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
       "workItemId": "corporate-event-evidence-resolver"
     },
-    "failedGate": "finish.governance",
     "format": "ai-cockpit.task-outcome",
-    "humanStatusColor": "red",
-    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "humanStatusColor": "green",
     "schemaVersion": 1,
     "sections": {
       "avoidedImpact": [],
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/corporate-event-evidence-resolver.summary.json"
+            ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/corporate-event-evidence-resolver.contract.json"
+          "text": "Changed path: .ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/corporate-event-evidence-resolver.summary.json"
+            ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/corporate-event-evidence-resolver.summary.json"
+          "text": "Changed path: .ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
         }
       ],
       "evidence": [
@@ -82,15 +82,7 @@
         "provider_or_enterprise_approval_inferred_from_local_records",
         "user_visible_benefit_invented_from_implementation_facts"
       ],
-      "forcedStops": [
-        {
-          "evidenceRefs": [
-            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
-          ],
-          "inference": false,
-          "text": "A required evidence or identity control failed; remain stopped."
-        }
-      ],
+      "forcedStops": [],
       "humanDecisions": [],
       "interventions": [],
       "limitations": [],
@@ -101,7 +93,7 @@
             ".ai/evidence/corporate-event-evidence-resolver.verification.json"
           ],
           "inference": false,
-          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
         }
       ],
       "recurrencePrevention": [],
@@ -111,15 +103,23 @@
             ".ai/evidence/corporate-event-evidence-resolver.verification.json"
           ],
           "inference": false,
-          "text": "Remaining unknown: lifecycle_gate_failed"
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
         }
       ],
-      "resolutions": [],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
       "risks": [],
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/corporate-event-evidence-resolver.contract.json"
+            ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
           ],
           "inference": false,
           "text": "Scheduled、PendingConfirmation、Confirmed、Historical、Unavailable を区別し、provider conflict と provenance を保持し、look-ahead を拒否したまま Signal Context の観測/解釈と日报 appendix に公開する。Decision semantics は変更しない。"
@@ -128,23 +128,25 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/corporate-event-evidence-resolver.contract.json"
+            ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
         }
       ]
     },
-    "status": "unknown",
+    "status": "verified",
     "workItemId": "corporate-event-evidence-resolver"
   },
+  "taskReportDigest": "sha256:e2102d2906ac9689d3764d0debbb135cf4db9536f410796e6fae0d4943e23e80",
+  "taskReportMarkdownDigest": "sha256:b304b04ac5337f8062683383ed13f88275300d300144679f1f5386bdbf65d5a8",
   "unknowns": [
-    "lifecycle_gate_failed"
+    "user_visible_benefit_not_declared"
   ],
   "verification": {
     "evidencePath": ".ai/evidence/corporate-event-evidence-resolver.verification.json",
     "required": true,
-    "status": "blocked"
+    "status": "verified"
   },
   "workItemId": "corporate-event-evidence-resolver"
 }

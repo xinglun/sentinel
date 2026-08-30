@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T18:37:09Z",
+  "files": {
+    "contractDigest": "sha256:f7ae64c7f40a5502485e5512442cdb4f071dc86b635937fcf1f2093fd57b6a79",
+    "contractPath": ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json",
+    "eventsDigest": "sha256:2c45168c6fef87dff95cdd1266fc9b74d85b02efb1d4b3951f98d5634dfd8ac7",
+    "eventsPath": ".ai/work-items/archive/corporate-event-evidence-resolver.events.jsonl",
+    "outcomeDigest": "sha256:dccf797fdec78aefe8a80914fcc2110f618d7d638a02739a2d7be92770e503b3",
+    "outcomePath": ".ai/work-items/archive/corporate-event-evidence-resolver.outcome.json",
+    "summaryDigest": "sha256:f56f889eeef4578e2999b6a3ccb74c59cd2046539ec4457a3c83795906c0bcef",
+    "summaryPath": ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json",
+    "taskReportDigest": "sha256:e2102d2906ac9689d3764d0debbb135cf4db9536f410796e6fae0d4943e23e80",
+    "taskReportMarkdownDigest": "sha256:b304b04ac5337f8062683383ed13f88275300d300144679f1f5386bdbf65d5a8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/corporate-event-evidence-resolver.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/corporate-event-evidence-resolver.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "corporate-event-evidence-resolver"
+}

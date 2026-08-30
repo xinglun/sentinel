@@ -14,12 +14,37 @@
     "Required provider evidence and health are rendered in the daily report appendix without leaking API credentials.",
     "All provider failures, malformed inputs, unknown symbols, excessive/future timestamps, and oversized/untraceable evidence fail closed."
   ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
   "authority": "authorized",
   "baseRevision": "c1e2c4c4b022d8626086e3634f468111e8263685",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [
+      "make fmt-check",
+      "make test",
+      "make clippy",
+      "make quality"
+    ],
+    "requiredStages": [
+      "before_edit"
+    ],
+    "schemaVersion": 1
+  },
   "createdAt": "2026-08-30T17:24:07Z",
+  "executionDecision": {
+    "reason": "用户已授权完整开发、验证、提交、推送、PR 合并、清理与远端同步流程；本 Work Item 只增加企业事件 evidence reconciliation 与观察层诊断，不改变 Decision semantics。",
+    "status": "continue"
+  },
   "goal": "Scheduled、PendingConfirmation、Confirmed、Historical、Unavailable を区別し、provider conflict と provenance を保持し、look-ahead を拒否したまま Signal Context の観測/解釈と日报 appendix に公開する。Decision semantics は変更しない。",
   "intent": "複数の企業イベント provider の期待値・公式開示・aggregator observation・外部構造化 enrichment を、時間制約付きで一つの canonical evidence read model に統合する。",
   "mode": "code",
+  "notCodable": false,
   "outOfScope": [
     "DecisionPacket、Decision semantics、NO_TRADE、PROBE、READY、Gate、Execution、Trader、Position Sizing、Action Matrix、Leader、Leadership Persistence、RS、Breadth、Breakout、Validation Engine、portfolio execution、registry、new SEC/Alpha/Finnhub HTTP implementation、credentials/secrets、market breadth、unrelated archived Work Items、Telegram wording、global Agent/MCP config"
   ],
@@ -29,14 +54,64 @@
   "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
   "requiredEvidenceClasses": [],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/corporate-event-evidence-resolver",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/111",
     "worktree": "/private/tmp/sentinel-corporate-event-evidence-resolver"
   },
   "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "Alpha-only is Scheduled/PendingConfirmation; SEC EarningsRelated evidence is Confirmed; T+1 remains Historical/Confirmed.",
+      "required": true,
+      "scenario": "Scheduled and official evidence lifecycle",
+      "status": "unverified",
+      "verificationPlan": "Application resolver unit tests with expected, SEC and Finnhub read models plus the NVIDIA lifecycle fixture."
+    },
+    {
+      "evidence": [],
+      "expected": "Conflicting dates remain visible as separate evidence and produce a conflict diagnostic without selecting a winner.",
+      "required": true,
+      "scenario": "Provider conflict and provenance",
+      "status": "unverified",
+      "verificationPlan": "Resolver reconciliation tests assert evidence refs, diagnostics, expected date and confirmed date independently."
+    },
+    {
+      "evidence": [],
+      "expected": "Structured external theme/importance is retained with provenance; symbol names never infer a theme.",
+      "required": true,
+      "scenario": "External enrichment and theme boundary",
+      "status": "unverified",
+      "verificationPlan": "External JSON ACL conversion and resolver tests cover retained enrichment and missing enrichment."
+    },
+    {
+      "evidence": [],
+      "expected": "Evidence whose observed_at or accepted_at is later than report_run_at is not visible in that snapshot.",
+      "required": true,
+      "scenario": "Look-ahead exclusion",
+      "status": "unverified",
+      "verificationPlan": "Controlled report_run_at tests cover SEC accepted_at, provider observed_at and the 2026-08-27 NVIDIA pre-release snapshot."
+    },
+    {
+      "evidence": [],
+      "expected": "Healthy, Partial, Stale and Unavailable remain distinct; daily diagnostics show provider health and sources without credentials.",
+      "required": true,
+      "scenario": "Provider health and report appendix",
+      "status": "unverified",
+      "verificationPlan": "Read-model/report rendering tests cover independent provider failure and appendix output."
+    },
+    {
+      "evidence": [],
+      "expected": "No corporate evidence input changes Decision, Gate, Leader, Action Matrix, Position Sizing or Execution fields.",
+      "required": true,
+      "scenario": "Decision invariance",
+      "status": "unverified",
+      "verificationPlan": "Golden comparison test for no evidence, scheduled, confirmed and enriched corporate evidence plus full make gates."
+    }
+  ],
   "scope": [
     "src/features/research/application/corporate_event_evidence_resolver.rs",
     "src/features/research/application/corporate_event_provider.rs",
@@ -76,80 +151,12 @@
     "Cargo.toml"
   ],
   "state": "implementation_active",
+  "unknowns": [],
   "verification": [
     "make fmt-check",
     "make test",
     "make clippy",
     "make quality"
   ],
-  "unknowns": [],
-  "notCodable": false,
-  "agentCapability": {
-    "canImplement": true,
-    "canVerify": true,
-    "needsHumanDecision": false,
-    "blockedReason": null
-  },
-  "executionDecision": {
-    "status": "continue",
-    "reason": "用户已授权完整开发、验证、提交、推送、PR 合并、清理与远端同步流程；本 Work Item 只增加企业事件 evidence reconciliation 与观察层诊断，不改变 Decision semantics。"
-  },
-  "scenarioCoverage": [
-    {
-      "scenario": "Scheduled and official evidence lifecycle",
-      "required": true,
-      "status": "unverified",
-      "expected": "Alpha-only is Scheduled/PendingConfirmation; SEC EarningsRelated evidence is Confirmed; T+1 remains Historical/Confirmed.",
-      "verificationPlan": "Application resolver unit tests with expected, SEC and Finnhub read models plus the NVIDIA lifecycle fixture.",
-      "evidence": []
-    },
-    {
-      "scenario": "Provider conflict and provenance",
-      "required": true,
-      "status": "unverified",
-      "expected": "Conflicting dates remain visible as separate evidence and produce a conflict diagnostic without selecting a winner.",
-      "verificationPlan": "Resolver reconciliation tests assert evidence refs, diagnostics, expected date and confirmed date independently.",
-      "evidence": []
-    },
-    {
-      "scenario": "External enrichment and theme boundary",
-      "required": true,
-      "status": "unverified",
-      "expected": "Structured external theme/importance is retained with provenance; symbol names never infer a theme.",
-      "verificationPlan": "External JSON ACL conversion and resolver tests cover retained enrichment and missing enrichment.",
-      "evidence": []
-    },
-    {
-      "scenario": "Look-ahead exclusion",
-      "required": true,
-      "status": "unverified",
-      "expected": "Evidence whose observed_at or accepted_at is later than report_run_at is not visible in that snapshot.",
-      "verificationPlan": "Controlled report_run_at tests cover SEC accepted_at, provider observed_at and the 2026-08-27 NVIDIA pre-release snapshot.",
-      "evidence": []
-    },
-    {
-      "scenario": "Provider health and report appendix",
-      "required": true,
-      "status": "unverified",
-      "expected": "Healthy, Partial, Stale and Unavailable remain distinct; daily diagnostics show provider health and sources without credentials.",
-      "verificationPlan": "Read-model/report rendering tests cover independent provider failure and appendix output.",
-      "evidence": []
-    },
-    {
-      "scenario": "Decision invariance",
-      "required": true,
-      "status": "unverified",
-      "expected": "No corporate evidence input changes Decision, Gate, Leader, Action Matrix, Position Sizing or Execution fields.",
-      "verificationPlan": "Golden comparison test for no evidence, scheduled, confirmed and enriched corporate evidence plus full make gates.",
-      "evidence": []
-    }
-  ],
-  "checkpointPolicy": {
-    "schemaVersion": 1,
-    "profile": "standard",
-    "requiredBeforeFinish": true,
-    "requiredStages": ["before_edit"],
-    "requiredChecks": ["make fmt-check", "make test", "make clippy", "make quality"]
-  },
   "workItemId": "corporate-event-evidence-resolver"
 }

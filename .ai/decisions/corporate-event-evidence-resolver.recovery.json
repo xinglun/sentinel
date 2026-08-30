@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-08-31T04:00:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-evidence-resolver.verification.json",
+    ".ai/work-items/active/corporate-event-evidence-resolver.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/glossary.md"
+  ],
+  "predecessorContractDigest": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+  "predecessorEventsDigest": "sha256:be8ad13d1b8c5620162bf4973036201851f7daf9d3bdb4259bf6213c51ec8d92",
+  "predecessorOutcomeDigest": "sha256:7563557ca04e02e2d7df5c69b8be1bb7f477fc43f7031cd25a00a496b97b5df0",
+  "predecessorSummaryDigest": "sha256:33ce1d523c3b04f4386c26ccb72dd4e3daf6ad2a2bce3e6bdf0cc298615ffbb4",
+  "predecessorWorkItemId": "corporate-event-evidence-resolver",
+  "reason": "上一轮 finish 仅因 Summary 未按 Contract 登记四项 required checks 而失败；授权在当前实现与既有质量证据基础上修复治理投影并重试，不改变实现范围。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "恢复后登记四项真实质量门禁，重新执行 preflight 与 verify，然后只重试一次 finish。",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-evidence-resolver"
+}
