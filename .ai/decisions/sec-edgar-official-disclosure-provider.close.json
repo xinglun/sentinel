@@ -1,0 +1,266 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ee1c2a3969f99c81e960f778a055f98b15f7d3e856cdf4ac7dedb157febeacd5",
+      "workItemId": "sec-edgar-official-disclosure-provider"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/sec-edgar-official-disclosure-provider.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/config.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/official_disclosure_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/application/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/application/official_disclosure_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/company_tickers_official.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_empty.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_invalid_date.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_missing_accession.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_nvda_10k.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_nvda_10q.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_nvda_8k_earnings.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_nvda_8k_unknown_items.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_nvda_8k_unrelated.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/sec/submissions_wrong_cik.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/specs/2026-08-30-sec-edgar-official-disclosure-provider-design.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json",
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.outcome.json",
+            ".ai/decisions/sec-edgar-official-disclosure-provider.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by user via user-message: 用户明确授权提交、推送、PR 合并、清理、同步远端 main 并切回 develop at 2026-08-30T15:45:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 WI-2 sec-edgar-official-disclosure-provider：实现 CompanyIdentity 与零填充 CIK、独立 OfficialDisclosureProvider、8-K Item 2.02 分类、SEC fail-closed、合法 User-Agent、缓存、限速、有限重试和 deterministic fixtures/tests。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-official-disclosure-provider.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "sec-edgar-official-disclosure-provider"
+  },
+  "finalReportDigest": "sha256:9fe10045472aebd7d089755d6d19ea22ee30dac7f75566ac2948e36f594272f0",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:016a3bc78adbb4e67f0eed8bda3f71983e2e46d7d807675dbc29fbba152ed198",
+  "resourceFinalizationHeadPath": ".ai/decisions/sec-edgar-official-disclosure-provider.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、清理、同步远端 main 并切回 develop",
+    "decidedAt": "2026-08-30T15:45:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/sec-edgar-official-disclosure-provider.verification.json",
+      ".ai/work-items/archive/sec-edgar-official-disclosure-provider.outcome.json",
+      ".ai/decisions/sec-edgar-official-disclosure-provider.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md: AI Cockpit 强制协议"
+    ],
+    "reason": "PR #105 已合并，required checks 已通过，finalize-verify 已确认远端与本地精确 branch/worktree 均已删除；按用户授权关闭 WI-2。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T15:45:05Z",
+  "workItemId": "sec-edgar-official-disclosure-provider"
+}
