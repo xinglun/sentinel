@@ -8,7 +8,7 @@
     "eventsPath": ".ai/work-items/archive/corporate-event-provider-neutralization.events.jsonl",
     "intelligenceDigest": "sha256:be48acdb740bd3dacb2711f653de2fb8863ad8dfcceb8476894a0b8b8ec801eb",
     "intelligencePath": ".ai/work-items/archive/corporate-event-provider-neutralization.intelligence.json",
-    "outcomeDigest": "sha256:b56ab62b309bcdbd0c07161e62615ad907d6ea145761f51348bba6e6f6af2bb7",
+    "outcomeDigest": "sha256:2cc1685d0cde9c2a9c76fe6e293d39dfa1b9ef4ec3896b565a62e40d57c597c4",
     "outcomePath": ".ai/work-items/archive/corporate-event-provider-neutralization.outcome.json",
     "summaryDigest": "sha256:6970341d74242542652b098a21a99fd641ce18b92c59bd438bd33abce9aa8536",
     "summaryPath": ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json",

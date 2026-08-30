@@ -1,0 +1,58 @@
+{
+  "actor": "user",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、清理、同步远端 main 并切回 develop",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b344387f4f36f4df887e68719cc84696afbc8a7f",
+    "name": "codex/corporate-event-provider-neutralization",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:769a237e93a827c149afdb9cbcdd31562b4b0bc55de461e7d6fb8628298d8d4b",
+  "operationId": "github-pr-102-merge-cleanup-20260830",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "6e3e552e714aec2abb0282bb6cbd4f5c5bb41cf9",
+    "headRevision": "b344387f4f36f4df887e68719cc84696afbc8a7f",
+    "mergeCommit": "de41b7c4fd03f729daf26d7ab03b8201f3e65399",
+    "number": 102,
+    "url": "not-requested"
+  },
+  "reason": "PR #102 已通过全部必需检查并合并；按用户授权删除该 WI 的精确远端/本地分支与 worktree。",
+  "receiptId": "sentinel-corporate-event-provider-neutralization-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-provider-neutralization",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-corporate-event-provider-neutralization"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T14:12:00Z",
+  "workItemId": "corporate-event-provider-neutralization",
+  "worktree": {
+    "branch": "codex/corporate-event-provider-neutralization",
+    "headRevision": "b344387f4f36f4df887e68719cc84696afbc8a7f",
+    "path": "/private/tmp/sentinel-corporate-event-provider-neutralization",
+    "worktreeId": "corporate-event-provider-neutralization"
+  }
+}
