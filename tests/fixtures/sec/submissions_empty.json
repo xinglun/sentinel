@@ -1,0 +1,13 @@
+{
+  "cik": "0001045810",
+  "name": "NVIDIA CORP",
+  "tickers": ["NVDA"],
+  "filings": {
+    "recent": {
+      "accessionNumber": [],
+      "filingDate": [],
+      "form": [],
+      "primaryDocument": []
+    }
+  }
+}

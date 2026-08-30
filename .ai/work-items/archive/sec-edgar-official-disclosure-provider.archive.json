@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T15:35:36Z",
+  "files": {
+    "contractDigest": "sha256:a8f78034988a54f9aa821c00b94b63ef146375ee052c17b53192b0f0a3f9c823",
+    "contractPath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.contract.json",
+    "eventsDigest": "sha256:6af786d798769a95bb9d20019248e1168fa7eda151087b208a1d2ae36e6d09fd",
+    "eventsPath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.events.jsonl",
+    "outcomeDigest": "sha256:a817faa955bed14ab33ef95221d474b0fc263945be7c3d62ef39617b30b28e4d",
+    "outcomePath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.outcome.json",
+    "summaryDigest": "sha256:1c488d572fc4763bef77968ed52aeff0f50551194d9491edfa00dafd43dde5c8",
+    "summaryPath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json",
+    "taskReportDigest": "sha256:8aecdd09986648774051531d4c59ef84f49677fe37165561889a95b76fed9760",
+    "taskReportMarkdownDigest": "sha256:67badf2ab6d9716ab249bb3750ddbedda273b7a24109be7d9622bd5d82a79f88",
+    "taskReportMarkdownPath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/sec-edgar-official-disclosure-provider.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "sec-edgar-official-disclosure-provider"
+}

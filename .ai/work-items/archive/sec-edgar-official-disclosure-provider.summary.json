@@ -1,0 +1,258 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/sec-edgar-official-disclosure-provider.contract.json",
+    ".ai/work-items/archive/sec-edgar-official-disclosure-provider.summary.json",
+    "src/config.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/acl/official_disclosure_provider_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/application/official_disclosure_provider.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+    "tests/fixtures/sec/company_tickers_official.json",
+    "tests/fixtures/sec/submissions_empty.json",
+    "tests/fixtures/sec/submissions_invalid_date.json",
+    "tests/fixtures/sec/submissions_missing_accession.json",
+    "tests/fixtures/sec/submissions_nvda_10k.json",
+    "tests/fixtures/sec/submissions_nvda_10q.json",
+    "tests/fixtures/sec/submissions_nvda_8k_earnings.json",
+    "tests/fixtures/sec/submissions_nvda_8k_unknown_items.json",
+    "tests/fixtures/sec/submissions_nvda_8k_unrelated.json",
+    "tests/fixtures/sec/submissions_wrong_cik.json",
+    "docs/superpowers/specs/2026-08-30-sec-edgar-official-disclosure-provider-design.md"
+  ],
+  "checkpointAt": "2026-08-30T14:41:49Z",
+  "checkpointContractDigest": "sha256:9f3e9c7334333a5ba6ea81bd4ae82af2a16803721c54a48ce93346dd32a464da",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:abb63f2ca43956b9bff764138989e0f94662af74d796141245faff9d4b03d812",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:41:49Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:79e54e4ae93a2c56ea8403c3118be642c7407ef5187afd2f8d5754182e75c41b",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "sec-edgar-official-disclosure-provider"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9f3e9c7334333a5ba6ea81bd4ae82af2a16803721c54a48ce93346dd32a464da",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:abb63f2ca43956b9bff764138989e0f94662af74d796141245faff9d4b03d812",
+      "previousContractHash": "sha256:abb63f2ca43956b9bff764138989e0f94662af74d796141245faff9d4b03d812",
+      "reason": "恢复 provisional resource finalization 阻断：将已由用户授权的 branch/worktree context 固化为 provider=local、pullRequest=not-requested；不改变 implementation scope、acceptance 或 production semantics。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T15:30:43Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ee1c2a3969f99c81e960f778a055f98b15f7d3e856cdf4ac7dedb157febeacd5",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 4,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "sec-edgar-official-disclosure-provider"
+    },
+    {
+      "acceptanceCount": 8,
+      "contractHash": "sha256:9f3e9c7334333a5ba6ea81bd4ae82af2a16803721c54a48ce93346dd32a464da",
+      "recorded": true,
+      "recordedAt": "2026-08-30T15:35:30Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ee1c2a3969f99c81e960f778a055f98b15f7d3e856cdf4ac7dedb157febeacd5",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "sec-edgar-official-disclosure-provider"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:ee1c2a3969f99c81e960f778a055f98b15f7d3e856cdf4ac7dedb157febeacd5",
+  "destructiveChanges": [],
+  "expectedReviewFocus": [
+    "检查 CIK、symbol、accession、filing/report/accepted date 的严格校验是否持续 fail-closed。",
+    "检查 8-K Item 2.02 的证据分类，以及 Unknown 不吸收非法或缺失 transport 语义。",
+    "确认没有触及 Finnhub、Signal Context、Resolver、registry 或 Decision semantics。"
+  ],
+  "failedGate": "finish.governance",
+  "generatedChanges": [
+    "测试和覆盖率运行产生的 target/ 构建产物不纳入提交。",
+    "运行时 CIK cache 为显式 cache path 下的生成 artifact，不提交 fixture 之外的 cache 文件。"
+  ],
+  "humanDecision": {
+    "decision": "authorized",
+    "evidence": "用户明确授权完成开发、验证、提交、推送、PR 合并、清理和远端同步；本 WI 的生产行为边界由用户明确限定。"
+  },
+  "mode": "code",
+  "observedIssues": [
+    "首次 make quality 因 ACL factory 无覆盖率失败；已补充不发起网络请求的 factory construction test，之后覆盖率通过。",
+    "为保持 WI-2 在 Resolver wiring 前可编译，staged application/infrastructure/factory 使用文件级 dead_code allow，并在日文设计文档中记录该边界。",
+    "复核后将 reqwest body 读取改为 Content-Length 预检与 take(MAX+1) 有界读取；全部质量门禁重新通过。"
+  ],
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T15:35:25Z",
+  "preflightContractDigest": "sha256:9f3e9c7334333a5ba6ea81bd4ae82af2a16803721c54a48ce93346dd32a464da",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:ee1c2a3969f99c81e960f778a055f98b15f7d3e856cdf4ac7dedb157febeacd5",
+  "preflightState": "green",
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "residualRisks": [
+    "需要后续独立真实运行验证确认 SENTINEL_SEC_USER_AGENT、DNS/timeout、SEC 429/403 行为和本地 cache 权限。",
+    "现有 config.toml 中的历史凭据不属于本 WI scope，本 WI 未读取、写入或修改其值。"
+  ],
+  "risks": [
+    "SEC live endpoint 的当前可用性和真实响应节流行为尚未在本 WI 的 deterministic fixture gate 中证明。",
+    "provider 尚未接入 Resolver，这是 WI-2 的明确边界，不能被解释为已改变生产 Decision surface。"
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/features/research/acl/official_disclosure_provider_factory.rs",
+        "make clippy",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "SEC official disclosure provider is independent from Finnhub",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "tests/fixtures/sec/company_tickers_official.json",
+        "tests/fixtures/sec/submissions_wrong_cik.json",
+        "tests/fixtures/sec/submissions_invalid_date.json",
+        "tests/fixtures/sec/submissions_missing_accession.json",
+        "cargo test official_disclosure"
+      ],
+      "required": true,
+      "scenario": "CIK normalization and identity mismatch fail closed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "tests/fixtures/sec/submissions_nvda_8k_earnings.json",
+        "tests/fixtures/sec/submissions_nvda_8k_unrelated.json",
+        "tests/fixtures/sec/submissions_nvda_8k_unknown_items.json",
+        "cargo test official_disclosure"
+      ],
+      "required": true,
+      "scenario": "8-K Item 2.02 classification is evidence-backed",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/config.rs",
+        "tests/fixtures/sec/submissions_empty.json",
+        "make test",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "SEC transport and configuration failures remain UNAVAILABLE",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "cargo test official_disclosure"
+      ],
+      "required": true,
+      "scenario": "official disclosure observation preserves audit fields and source object",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+        "make test",
+        "make quality",
+        "git diff --check"
+      ],
+      "required": true,
+      "scenario": "existing Signal Context and Decision semantics remain unchanged",
+      "status": "verified"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+    "src/features/evidence/infrastructure/evidence_ingestion.rs",
+    "src/config.rs",
+    "tests/fixtures/sec/**",
+    "Cargo.toml",
+    "用户授权（本线程）"
+  ],
+  "state": "finish_ready",
+  "unknowns": [],
+  "updatedAt": "2026-08-30T15:35:30Z",
+  "userCorrectionSolidification": {
+    "solidifiedIn": [
+      ".ai/work-items/active/sec-edgar-official-disclosure-provider.contract.json",
+      ".ai/work-items/active/sec-edgar-official-disclosure-provider.summary.json",
+      "docs/superpowers/specs/2026-08-30-sec-edgar-official-disclosure-provider-design.md"
+    ],
+    "source": "用户在本线程确认方案 A、WI-1 边界、provider-neutral source 唯一表达、Unknown 仅用于未知 release window，以及当前全部开发与交付授权。"
+  },
+  "verification": [
+    {
+      "check": "cargo test official_disclosure --lib",
+      "evidence": "应用 port、SEC fixture transport、CIK cache 和 ACL factory 测试通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make fmt-check",
+      "evidence": "cargo fmt --all -- --check 通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "evidence": "941 个单元测试与全部 integration/doc tests 通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "evidence": "cargo clippy --all-targets -- -D warnings 通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "evidence": "文档、架构、全量测试、Clippy、覆盖率与 git diff --check 通过；总体行覆盖率 89.19%。",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationCoverage": {
+    "code": "独立 application port、SEC infrastructure、CIK cache 和 ACL factory 已实现；Resolver wiring 刻意留给 WI-4。",
+    "dataOrWeeklyRecord": "本 WI 未写入生产 data branch、JSONL 或 weekly metrics；运行时 CIK cache 只在显式配置 cache path 时生成。",
+    "docs": "已新增日文设计文档，并把边界、fail-closed、安全和验证记录在 Contract/Summary。",
+    "i18n": "本 WI 没有新增 end-user 文案，不需要 i18n 或 snapshot 变更。",
+    "makeOrCiGuard": "make fmt-check、make test、make clippy、make quality 均通过。",
+    "reportOutput": "本 WI 未改变报告、Telegram、Markdown 输出；属于后续 Resolver/界面范围。",
+    "test": "fixture transport 覆盖 valid 8-K Item 2.02、unrelated/unknown 8-K、10-Q、10-K、CIK/date/accession/JSON/HTTP/connection failures、retry 和 cache。"
+  },
+  "workItemId": "sec-edgar-official-disclosure-provider"
+}
