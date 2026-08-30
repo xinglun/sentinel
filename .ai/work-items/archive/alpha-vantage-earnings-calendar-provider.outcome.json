@@ -1,0 +1,188 @@
+{
+  "acceptanceResults": [
+    "Alpha Vantage key 只从 Repository secret / 进程环境读取，不写入 repository、logs、fixtures 或 evidence。",
+    "earnings calendar 使用单次日请求覆盖 3 个月 horizon，并在本地 universe 内过滤；不按 ticker 发起请求。",
+    "24 小时 cache 明确记录 fetched_at、provider、schema_version 与 records；cache 命中不重复请求，过期或损坏 fail-closed。",
+    "Alpha Vantage 只产生 Scheduled expected event；不伪造 Confirmed、Released 或 actual/estimate 事实。",
+    "缺 key、quota/error note、HTTP/CSV malformed、symbol/date/fiscal 字段非法均 fail-closed，不把 unavailable 当作 no event。",
+    "新增 provider-neutral source object 为唯一 source 表达，不恢复 legacy source String；release window Unknown 仅表示未知时间窗。",
+    "通过 make fmt-check、make test、make clippy、make quality 与针对 Alpha parser/cache/fail-closed 的测试。"
+  ],
+  "createdAt": "2026-08-30T17:06:02Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:c16d54813ef64c25030e30ca9c9ed367671eba8c3aafac24346c66268ca0e47a",
+  "evidenceRefs": [
+    ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9fbd7ab8ce1d2d5fd3e7ec9b8ee5e908463d6229cc08eb2790dc09907a40dc21",
+      "workItemId": "alpha-vantage-earnings-calendar-provider"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/alpha-vantage-earnings-calendar-provider.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/application/corporate_event_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/corporate_event_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/alpha_vantage_earnings_calendar_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/fixtures/alpha_vantage/earnings_calendar.csv"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/specs/2026-08-31-alpha-vantage-earnings-calendar-provider-design.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.contract.json"
+          ],
+          "inference": false,
+          "text": "实现并验证每日一次、3 个月 horizon、24 小时缓存且 fail-closed 的 Alpha Vantage earnings calendar provider，并保持 expected 与 confirmed 语义分离。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "alpha-vantage-earnings-calendar-provider"
+  },
+  "taskReportDigest": "sha256:31638410b741ba0f0f1a6b35a15d441ebb5ac43ac702686c64648fded69dd976",
+  "taskReportMarkdownDigest": "sha256:ca02e7c3a4be813109832907485707e173981284975191fa93ce50a697caf22b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/alpha-vantage-earnings-calendar-provider.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "alpha-vantage-earnings-calendar-provider"
+}
