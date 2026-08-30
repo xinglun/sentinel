@@ -1,0 +1,85 @@
+{
+  "evidenceType": "external_provider_live_validation",
+  "schemaVersion": 1,
+  "workItemId": "sec-edgar-real-run-validation",
+  "provider": "sec-edgar",
+  "observedAt": "2026-08-30T15:55:24Z",
+  "reportRunAt": "2026-08-30T15:55:24Z",
+  "userAgentConfigured": true,
+  "credentialPersisted": false,
+  "credentialCaptured": false,
+  "requests": [
+    {
+      "endpoint": "https://www.sec.gov/files/company_tickers.json",
+      "httpStatus": 200,
+      "timeoutSeconds": 15,
+      "responseBodyStored": false,
+      "responseBytes": 795179,
+      "responseSha256": "bf83a6d3c92cfd32211e60521861d7b0fb0ae8cf321284d4e66d01ef295ec051"
+    },
+    {
+      "endpoint": "https://data.sec.gov/submissions/CIK0001045810.json",
+      "httpStatus": 200,
+      "timeoutSeconds": 15,
+      "responseBodyStored": false,
+      "responseBytes": 159955,
+      "responseSha256": "64a5368efdc842eb34e4391b008598f9e025f7b6c2f329921bd87198ca9d15c1"
+    }
+  ],
+  "identity": {
+    "symbol": "NVDA",
+    "cikRaw": "1045810",
+    "cikNormalized": "0001045810",
+    "companyTickerMappingMatched": true,
+    "submissionsTickerMatched": true,
+    "submissionsCikMatched": true
+  },
+  "liveObservationShape": {
+    "recentRecordCount": 1000,
+    "supportedFormCount": 87,
+    "sampleRecords": [
+      {
+        "form": "10-Q",
+        "filingDate": "2026-08-26",
+        "reportDate": "2026-07-26",
+        "acceptedAt": "2026-08-26T20:36:00.000Z",
+        "accessionNumber": "0001045810-26-000075",
+        "primaryDocument": "nvda-20260726.htm"
+      },
+      {
+        "form": "8-K",
+        "filingDate": "2026-08-26",
+        "reportDate": "2026-08-26",
+        "acceptedAt": "2026-08-26T20:21:19.000Z",
+        "accessionNumber": "0001045810-26-000073",
+        "items": "2.02,9.01",
+        "primaryDocument": "nvda-20260826.htm"
+      },
+      {
+        "form": "8-K",
+        "filingDate": "2026-08-17",
+        "reportDate": "2026-08-17",
+        "acceptedAt": "2026-08-17T12:41:33.000Z",
+        "accessionNumber": "0001045810-26-000069",
+        "items": "1.01,2.03,7.01",
+        "primaryDocument": "nvda-20260817.htm"
+      }
+    ]
+  },
+  "lookAheadCheck": {
+    "acceptedAfterReportRunCount": 0,
+    "futureEvidenceVisible": false,
+    "rule": "accepted_at > report_run_at 的 disclosure 不得进入该 report snapshot；本次样本全部早于 report_run_at。"
+  },
+  "failureClassification": {
+    "transportError": false,
+    "malformedJson": false,
+    "identityMismatch": false,
+    "invalidDateOrAccession": false,
+    "classification": "HEALTHY_LIVE_RESPONSE"
+  },
+  "limitations": [
+    "本次验证证明官方 endpoint 在当前执行环境可达且返回结构满足脱敏检查；不等同于 Resolver 已接线。",
+    "本次不把 live response 当作生产 snapshot，也不改变 Signal Context 或 Decision surface。"
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "acceptanceCriteria": [
+    "只使用合法 SEC User-Agent；不把凭据或邮箱写入 repository、logs、evidence。",
+    "company_tickers 与 NVDA submissions live request 成功时，记录 HTTP status、响应结构、规范 CIK、filing/accession/date 字段的脱敏摘要。",
+    "网络、DNS、timeout、403、429、5xx、malformed response 或 identity/date/accession mismatch 只能标记 UNAVAILABLE/验证失败，不得标记 NO_EVENT。",
+    "验证 observed_at、accepted_at、report_run_at 的 look-ahead 边界；本 Work Item 不改变生产代码、报告或 Decision surface。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "c0c15d48ef2b1fd6d725a0577c15e55a2b621662",
+  "createdAt": "2026-08-30T15:53:08Z",
+  "goal": "完成 WI-2 后的真实 SEC 运行验证：在不持久化凭据的前提下检查 SEC company_tickers/submissions endpoint、NVDA CIK identity、HTTP status、JSON shape、filing/accession/date 字段和 report run time 边界。",
+  "intent": "验证已合入的 SEC EDGAR provider 所依赖的官方 live endpoint 在当前环境可达且返回结构可被安全解析；只记录脱敏的外部事实，不改变代码或 Decision semantics。",
+  "mode": "audit",
+  "outOfScope": [
+    "production code",
+    "config.toml",
+    "global config",
+    "secrets",
+    "Alpha Vantage",
+    "Resolver",
+    "registry",
+    "Signal Context",
+    "Decision semantics",
+    "trade signal",
+    "raw SEC response archive"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d0dd6357fef899c876275ccb748dcf88c437ef574424bdf8c521125965cb98e0",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/sec-edgar-real-run-validation",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-sec-edgar-real-run-validation"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/sec-edgar-real-run-validation.contract.json",
+    ".ai/work-items/active/sec-edgar-real-run-validation.summary.json",
+    ".ai/evidence/external/sec-edgar-real-run-validation.json"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "docs/superpowers/specs/2026-08-30-sec-edgar-official-disclosure-provider-design.md",
+    "用户提供的 Sentinel Corporate Event Free Evidence Stack 规范",
+    "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+    "src/features/research/application/official_disclosure_provider.rs",
+    "Cargo.toml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权完整开发与验证流程；本 Work Item 仅执行 live validation，不修改生产代码。"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "SEC official live endpoints are reachable with configured User-Agent",
+      "required": true,
+      "status": "unverified",
+      "expected": "company_tickers 与 NVDA submissions 请求以合法 User-Agent 成功返回，证据只保留脱敏状态与字段摘要。",
+      "verificationPlan": "使用临时进程环境变量发送串行 HTTPS 请求，不打印 User-Agent、响应正文或任何凭据；将摘要写入 external evidence。",
+      "evidence": []
+    },
+    {
+      "scenario": "live SEC identity and filing fields pass strict validation",
+      "required": true,
+      "status": "unverified",
+      "expected": "NVDA 映射到十位零填充 CIK，submissions 顶层 CIK/ticker 与 accession/date 字段满足 provider contract。",
+      "verificationPlan": "读取 live JSON 的字段类型、规范 CIK、ticker、form、accession、filingDate 和 acceptedAt 摘要。",
+      "evidence": []
+    },
+    {
+      "scenario": "live run preserves fail-closed and no-event distinction",
+      "required": true,
+      "status": "unverified",
+      "expected": "网络或 payload 失败只能记录 UNAVAILABLE；成功且目标日期没有记录才允许记录 healthy/no matching record。",
+      "verificationPlan": "把 HTTP/JSON/identity/date/accession 结果分类为 verified 或 unavailable，不将空结果写成 no event。",
+      "evidence": []
+    },
+    {
+      "scenario": "live run proves look-ahead boundary",
+      "required": true,
+      "status": "unverified",
+      "expected": "accepted_at 大于 report_run_at 的 filing 对该 report 不可见；observed_at 与 report_run_at 分开记录。",
+      "verificationPlan": "对 live submissions 计算字段时间相对 report_run_at 的可见性，且不改变生产 snapshot。",
+      "evidence": []
+    }
+  ],
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit"],
+    "requiredChecks": ["make fmt-check", "make test", "make clippy", "make quality"]
+  },
+  "workItemId": "sec-edgar-real-run-validation"
+}
