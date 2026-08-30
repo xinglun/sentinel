@@ -6,7 +6,7 @@
     "本地 checkout 最终位于 develop，且工作树干净并与 origin/develop 同步。"
   ],
   "authority": "authorized",
-  "baseRevision": "874dbf8abff8ee14113278198750d49e8b4bc096",
+  "baseRevision": "018e0dfd517a3a42e62066373f9b19f67ffcb4c8",
   "createdAt": "2026-08-30T18:56:34Z",
   "goal": "远端 main 与 develop 的 tree 内容一致，且 main 包含 develop 的已审核历史；同步过程有可审查 PR、Cockpit evidence 与精确资源清理记录；不改变生产语义。",
   "intent": "将最新 origin/develop 的已审核提交通过 GitHub PR 同步到 origin/main，并在完成后让本地 checkout 回到 develop。",

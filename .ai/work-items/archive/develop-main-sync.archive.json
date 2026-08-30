@@ -2,11 +2,11 @@
   "closeRequired": true,
   "createdAt": "2026-08-30T19:11:14Z",
   "files": {
-    "contractDigest": "sha256:abe7604279b91373b567f14de0b9d0ddf2bb7cce25fda63bbf7bbf08f5bb1922",
+    "contractDigest": "sha256:dacf1ca6627151ca2517e970cb59f1f9e343ca1f44c3411c93f6274720fc5be8",
     "contractPath": ".ai/work-items/archive/develop-main-sync.contract.json",
     "eventsDigest": "sha256:cf859b37ef3b86451e0e1b5b59ebb6aee36a18d51f1829776dc77be82e818cdc",
     "eventsPath": ".ai/work-items/archive/develop-main-sync.events.jsonl",
-    "outcomeDigest": "sha256:0a9c984538154f519bea6598789c0dc235e1891dd367a75b0e5ad00ddadc273b",
+    "outcomeDigest": "sha256:908b09fd15ab8856d768ab47d63b72d187c267a7f0b89b0209aeea360d9daf4a",
     "outcomePath": ".ai/work-items/archive/develop-main-sync.outcome.json",
     "summaryDigest": "sha256:4b4117f80f4f5bb5db9ef43e6e68f7b90d7944509d173a38fda5a4b39a7dd229",
     "summaryPath": ".ai/work-items/archive/develop-main-sync.summary.json",
