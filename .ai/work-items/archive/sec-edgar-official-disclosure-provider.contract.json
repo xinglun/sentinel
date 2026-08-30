@@ -1,0 +1,248 @@
+{
+  "acceptanceCriteria": [
+    "SEC provider 使用独立 OfficialDisclosureProvider port，不依赖 Finnhub。",
+    "CompanyIdentity 的 CIK 规范为十位零填充；未知 CIK 不猜测，按 symbol 返回 UNAVAILABLE。",
+    "仅支持 8-K、10-Q、10-K；8-K 只有明确 Item 2.02 才分类为 EarningsRelated，其他或无法识别的 filing 不得强行分类。",
+    "SEC failure（缺 User-Agent、CIK 缺失或不匹配、DNS/timeout/403/429/5xx、malformed JSON、非法 accession/date、连接失败）必须是 UNAVAILABLE，不得降级为 NO_EVENT。",
+    "缺少或不合规 SENTINEL_SEC_USER_AGENT 时不发起 SEC 请求；不硬编码个人邮箱；请求具备 <=2 requests/second、finite timeout、bounded retry/backoff、429 handling 与 cache。",
+    "OfficialDisclosureObservation 保存 form、accession、filing/report/accepted time、primary document、disclosure kind、provider-neutral CorporateEventSource 与 retrieved_at。",
+    "SEC provider 可由 fixture transport 独立验证，覆盖 valid NVDA/fixture equivalents、unrelated 8-K、10-Q、10-K 及全部指定失败 fixture。",
+    "本 WI 不改变 Signal Context、Decision surface、Finnhub 现有行为；完成日文设计文档与 Cockpit Summary，并记录用户授权、验证和 residual risks。"
+  ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "1be9922bfc541dc74999329f48fb2025d1051d93",
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredChecks": [
+      "make fmt-check",
+      "make test",
+      "make clippy",
+      "make quality"
+    ],
+    "requiredStages": [
+      "before_edit"
+    ],
+    "schemaVersion": 1
+  },
+  "createdAt": "2026-08-30T14:37:53Z",
+  "executionDecision": {
+    "reason": "用户已授权完成全部开发指示；WI-1 已合并，当前 WI-2 的范围、验收、验证和禁止项已明确。",
+    "status": "continue"
+  },
+  "goal": "完成 WI-2 sec-edgar-official-disclosure-provider：实现 CompanyIdentity 与零填充 CIK、独立 OfficialDisclosureProvider、8-K Item 2.02 分类、SEC fail-closed、合法 User-Agent、缓存、限速、有限重试和 deterministic fixtures/tests。",
+  "intent": "新增独立的 SEC EDGAR 官方披露 provider，将可验证的 8-K/10-Q/10-K observation 作为官方 evidence read model 提供给后续 resolver；保持 Finnhub、Signal Context、Decision semantics 与既有 governance/evidence 入口不变。",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "Alpha Vantage provider",
+    " Corporate Event Evidence Resolver",
+    " provider registry",
+    " Signal Context contract or renderer",
+    " Finnhub adapter",
+    " Decision/Gate/Leader/Action Matrix/Position Sizing/Execution semantics",
+    " Form 4/13F/DEF 14A/S-1/S-3/13D/13G",
+    " real secret values",
+    " config.toml credentials",
+    " unrelated refactoring"
+  ],
+  "problemStatement": "Sentinel 尚无与 Finnhub earnings calendar 分离的 SEC 官方披露 observation contract；现有 SEC 入口面向治理文档或通用证据抓取，不能安全表达 filing kind、Item 2.02、CIK identity、accepted time 及 provider unavailable。",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:79e54e4ae93a2c56ea8403c3118be642c7407ef5187afd2f8d5754182e75c41b",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/sec-edgar-official-disclosure-provider",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-sec-edgar-official-disclosure-provider"
+  },
+  "risk": "high",
+  "riskAssessment": {
+    "level": "high",
+    "reason": "新增外部官方数据 provider 和跨层 read model，涉及网络失败、身份匹配、缓存和时间边界；但明确冻结既有 Finnhub、Signal Context 与 Decision surface。",
+    "riskTypes": [
+      "external_provider",
+      "application_contract",
+      "identity_mapping",
+      "failure_closed",
+      "temporal_evidence"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/features/research/acl/official_disclosure_provider_factory.rs",
+        "make clippy",
+        "make quality"
+      ],
+      "expected": "OfficialDisclosureProvider port 只接收 market date 与 CompanyIdentity，不引用 Finnhub 类型、transport 或 API key。",
+      "required": true,
+      "scenario": "SEC official disclosure provider is independent from Finnhub",
+      "status": "verified",
+      "verificationPlan": "通过 module boundary test、source audit 和全量 quality 检查。"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "tests/fixtures/sec/company_tickers_official.json",
+        "tests/fixtures/sec/submissions_wrong_cik.json",
+        "tests/fixtures/sec/submissions_invalid_date.json",
+        "tests/fixtures/sec/submissions_missing_accession.json",
+        "cargo test official_disclosure"
+      ],
+      "expected": "CIK 始终十位零填充；symbol/CIK 不一致、未知 CIK 或非法值返回 UNAVAILABLE。",
+      "required": true,
+      "scenario": "CIK normalization and identity mismatch fail closed",
+      "status": "verified",
+      "verificationPlan": "使用 company_tickers/submissions valid、wrong CIK、missing mapping、invalid accession/date fixtures 测试。"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "tests/fixtures/sec/submissions_nvda_8k_earnings.json",
+        "tests/fixtures/sec/submissions_nvda_8k_unrelated.json",
+        "tests/fixtures/sec/submissions_nvda_8k_unknown_items.json",
+        "cargo test official_disclosure"
+      ],
+      "expected": "仅明确 Item 2.02 标记 EarningsRelated；无法取得 Item 信息时不得强行判为 earnings。",
+      "required": true,
+      "scenario": "8-K Item 2.02 classification is evidence-backed",
+      "status": "verified",
+      "verificationPlan": "覆盖 Item 2.02、unrelated 8-K、malformed/unknown filing fixture。"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/config.rs",
+        "tests/fixtures/sec/submissions_empty.json",
+        "make test",
+        "make quality"
+      ],
+      "expected": "缺 User-Agent、DNS、timeout、403、429、5xx、malformed JSON、连接失败都不转成 NO_EVENT；缺 User-Agent 时不发请求。",
+      "required": true,
+      "scenario": "SEC transport and configuration failures remain UNAVAILABLE",
+      "status": "verified",
+      "verificationPlan": "使用可计数 fixture transport 覆盖请求次数、有限 retry/backoff、429 handling 和所有失败响应。"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs:parse_observations",
+        "cargo test official_disclosure"
+      ],
+      "expected": "observation 保留 form、accession、filing/report/accepted time、primary document、disclosure kind、CorporateEventSource、retrieved_at。",
+      "required": true,
+      "scenario": "official disclosure observation preserves audit fields and source object",
+      "status": "verified",
+      "verificationPlan": "验证结构化 read model、archive URL 生成和 provider-neutral source metadata。"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/official_disclosure_provider.rs",
+        "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+        "make test",
+        "make quality",
+        "git diff --check"
+      ],
+      "expected": "WI-2 不修改 Finnhub、Signal Context、Gate、Leader、Action Matrix、Position Sizing、Execution 或 resolver。",
+      "required": true,
+      "scenario": "existing Signal Context and Decision semantics remain unchanged",
+      "status": "verified",
+      "verificationPlan": "运行原有 corporate event、Signal Context、pipeline、Decision invariance 和全量 quality tests，并执行 scope/diff audit。"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/sec-edgar-official-disclosure-provider.contract.json",
+    ".ai/work-items/active/sec-edgar-official-disclosure-provider.summary.json",
+    "src/features/research/application/official_disclosure_provider.rs",
+    "src/features/research/infrastructure/sec_edgar_official_disclosure_provider.rs",
+    "src/features/research/acl/official_disclosure_provider_factory.rs",
+    "src/features/research/application/mod.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/acl/mod.rs",
+    "src/config.rs",
+    "tests/fixtures/sec/**",
+    "docs/superpowers/specs/2026-08-30-sec-edgar-official-disclosure-provider-design.md"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "确认语言、Rust quality gate、Cockpit lifecycle、secret 禁止项和 Decision isolation。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "确认安装版 Runtime、Work Item Contract、preflight、checkpoint、verify、finish、archive 和 close 流程。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认 repository-local Cockpit 配置和 lifecycle 边界。"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "确认仓库本地 Agent route 与治理词汇。"
+    },
+    {
+      "path": "src/features/research/application/corporate_event_provider.rs",
+      "reason": "复用 provider-neutral CorporateEventSource 作为官方披露 source 的唯一 application 表达。"
+    },
+    {
+      "path": "src/features/research/infrastructure/sec_governance_source_adapter.rs",
+      "reason": "识别现有 SEC governance 入口的边界；新 provider 不复用其治理语义。"
+    },
+    {
+      "path": "src/features/evidence/infrastructure/evidence_ingestion.rs",
+      "reason": "识别现有通用 SEC fetcher 的边界；新 provider 需要独立 read model 和 fail-closed contract。"
+    },
+    {
+      "path": "src/config.rs",
+      "reason": "确认现有 SEC 配置与环境变量覆盖方式，并新增 SENTINEL_SEC_USER_AGENT 的兼容入口而不写入 secret。"
+    },
+    {
+      "path": "tests/fixtures/sec/**",
+      "reason": "现有 SEC fixture 提供 ticker、submissions 和 HTML 形态；将补齐官方披露 valid/failure fixture。"
+    },
+    {
+      "path": "Cargo.toml",
+      "reason": "确认现有 reqwest、serde、serde_json、chrono、tempfile 依赖可覆盖实现，无需复制 Runtime 或新增无关依赖。"
+    },
+    {
+      "path": "用户授权（本线程）",
+      "reason": "用户明确要求完成全部开发指示、需要授权的事项均授权并写入 Contract。"
+    }
+  ],
+  "state": "implementation_active",
+  "unknowns": [],
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "sec-edgar-official-disclosure-provider"
+}
