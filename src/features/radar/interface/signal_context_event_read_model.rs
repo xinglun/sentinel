@@ -1,6 +1,7 @@
 use crate::features::radar::interface::presentation::{
     SignalContextCoverage, SignalContextPrimaryContext, SignalContextQuality,
 };
+use crate::features::research::application::corporate_event_evidence_resolver::CorporateEventEvidenceResolution;
 use crate::features::research::application::corporate_event_provider::CorporateEventProviderReadModel;
 use crate::features::research::domain::expectation::{
     ExpectationEventType, ExpectationLifecycleState,
@@ -38,6 +39,8 @@ pub(crate) struct SignalContextEventReadModel {
     pub runtime_coverage: Option<SignalContextCoverage>,
     /// 企業イベント Provider の normalized read model。取引判断には渡さない。
     pub corporate_event_provider: CorporateEventProviderReadModel,
+    /// 複数 source を統合した canonical evidence。取引判断には渡さない。
+    pub corporate_event_evidence: CorporateEventEvidenceResolution,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -127,6 +130,7 @@ pub(crate) fn build_signal_context_event_read_model(
         macro_event: future_calendar.macro_event,
         runtime_coverage: None,
         corporate_event_provider: CorporateEventProviderReadModel::default(),
+        corporate_event_evidence: CorporateEventEvidenceResolution::default(),
     }
 }
 

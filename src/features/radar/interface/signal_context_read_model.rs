@@ -10,9 +10,13 @@ use crate::features::radar::interface::signal_context_coverage::{
     build_v1_from_event_context, corporate_event_item, corporate_events_match,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+use crate::features::research::application::corporate_event_evidence_resolver::{
+    CorporateEventEvidenceLifecycle, CorporateEventEvidenceResolution,
+};
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::shared::interface::i18n::Language;
 use chrono::{Datelike, NaiveDate};
+use std::collections::BTreeSet;
 
 #[derive(Debug)]
 pub(crate) struct SignalContextReadModelInput {
@@ -392,6 +396,14 @@ fn is_provider_backed_corporate_item(
             let provider_item = corporate_event_item(event, event.market_date);
             corporate_events_match(&provider_item, item)
         })
+        || future_context
+            .corporate_event_evidence
+            .events
+            .iter()
+            .any(|evidence| {
+                evidence.lifecycle != CorporateEventEvidenceLifecycle::Unavailable
+                    && item.symbol.as_deref() == Some(evidence.subject.as_str())
+            })
 }
 
 fn compose_interpretation(
@@ -450,12 +462,16 @@ fn compose_source_diagnostics(
 ) -> (String, String) {
     if let Some(item) = external_primary_item(future_context, v1) {
         let provider_backed = is_provider_backed_corporate_item(future_context, item);
-        let appendix = future_context
+        let mut appendix = future_context
             .corporate_event_provider
             .diagnostic
             .as_deref()
             .map(|diagnostic| format!("{}: {}", provider_diagnostic_label(language), diagnostic))
             .unwrap_or_default();
+        append_source_diagnostics_line(
+            &mut appendix,
+            corporate_event_evidence_appendix(&future_context.corporate_event_evidence, language),
+        );
         return (
             match language {
                 Language::ZhCn if provider_backed => {
@@ -486,6 +502,11 @@ fn compose_source_diagnostics(
     if future_context.source_health == MacroEventSourceHealth::Succeeded
         && !runtime_coverage_incomplete
         && future_context.corporate_event_provider.diagnostic.is_none()
+        && future_context.corporate_event_evidence.events.is_empty()
+        && future_context
+            .corporate_event_evidence
+            .provider_health
+            .is_empty()
     {
         return (String::new(), String::new());
     }
@@ -567,31 +588,108 @@ fn compose_source_diagnostics(
         }
     }
     if future_context.source_health != MacroEventSourceHealth::Succeeded {
-        if !appendix.is_empty() {
-            appendix.push('\n');
-        }
-        appendix.push_str(&match language {
-            Language::ZhCn => {
-                format!(
-                    "Official calendar source health: {}",
-                    signal_context_source_health_label(future_context.source_health)
-                )
-            }
-            Language::EnUs => {
-                format!(
-                    "Official calendar source health: {}",
-                    signal_context_source_health_label(future_context.source_health)
-                )
-            }
-            Language::JaJp => {
-                format!(
-                    "公式カレンダー source health: {}",
-                    signal_context_source_health_label(future_context.source_health)
-                )
-            }
-        });
+        append_source_diagnostics_line(
+            &mut appendix,
+            match language {
+                Language::ZhCn => {
+                    format!(
+                        "Official calendar source health: {}",
+                        signal_context_source_health_label(future_context.source_health)
+                    )
+                }
+                Language::EnUs => {
+                    format!(
+                        "Official calendar source health: {}",
+                        signal_context_source_health_label(future_context.source_health)
+                    )
+                }
+                Language::JaJp => {
+                    format!(
+                        "公式カレンダー source health: {}",
+                        signal_context_source_health_label(future_context.source_health)
+                    )
+                }
+            },
+        );
     }
+    append_source_diagnostics_line(
+        &mut appendix,
+        corporate_event_evidence_appendix(&future_context.corporate_event_evidence, language),
+    );
     (summary, appendix)
+}
+
+fn append_source_diagnostics_line(appendix: &mut String, line: String) {
+    if line.is_empty() {
+        return;
+    }
+    if !appendix.is_empty() {
+        appendix.push('\n');
+    }
+    appendix.push_str(&line);
+}
+
+fn corporate_event_evidence_appendix(
+    resolution: &CorporateEventEvidenceResolution,
+    language: Language,
+) -> String {
+    if resolution.events.is_empty() && resolution.provider_health.is_empty() {
+        return String::new();
+    }
+    let health = if resolution.provider_health.is_empty() {
+        "UNAVAILABLE".to_string()
+    } else {
+        resolution
+            .provider_health
+            .iter()
+            .map(|provider| {
+                let diagnostic = provider
+                    .diagnostic
+                    .as_deref()
+                    .map(|value| format!(" ({value})"))
+                    .unwrap_or_default();
+                format!(
+                    "{}={:?}{}",
+                    provider.provider_id, provider.health, diagnostic
+                )
+            })
+            .collect::<Vec<_>>()
+            .join("; ")
+    };
+    let header = match language {
+        Language::ZhCn => "企业事件证据健康度",
+        Language::EnUs => "Corporate Event Evidence Health",
+        Language::JaJp => "企業イベント証拠 health",
+    };
+    let mut lines = vec![format!("{header}: {health}")];
+    for event in &resolution.events {
+        let sources = event
+            .evidence
+            .iter()
+            .map(|evidence| evidence.source.provider_id.clone())
+            .filter(|provider_id| !provider_id.is_empty())
+            .collect::<BTreeSet<_>>();
+        let sources = if sources.is_empty() {
+            "UNAVAILABLE".to_string()
+        } else {
+            sources.into_iter().collect::<Vec<_>>().join(", ")
+        };
+        lines.push(format!(
+            "{}: lifecycle={:?}; expected={}; confirmed={}; sources={}",
+            event.subject,
+            event.lifecycle,
+            event
+                .expected_date
+                .map(|date| date.to_string())
+                .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+            event
+                .confirmed_event_date
+                .map(|date| date.to_string())
+                .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+            sources,
+        ));
+    }
+    lines.join("\n")
 }
 
 fn provider_diagnostic_label(language: Language) -> &'static str {
@@ -1032,6 +1130,11 @@ mod tests {
         InterpretationGravityDataQuality, InterpretationGravityDataQualityReason,
         InterpretationTrendState,
     };
+    use crate::features::research::application::corporate_event_evidence_resolver::{
+        CorporateEventEvidence, CorporateEventEvidenceLifecycle,
+        CorporateEventEvidenceProviderHealth, CorporateEventEvidenceProviderHealthRecord,
+        CorporateEventEvidenceRef, CorporateEventEvidenceResolution, EvidenceConfidence,
+    };
     use crate::features::research::application::corporate_event_provider::{
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
         CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
@@ -1210,6 +1313,90 @@ mod tests {
         assert!(assessment
             .source_diagnostics_appendix
             .contains("Finnhub earnings API returned HTTP 429"));
+    }
+
+    #[test]
+    fn corporate_event_evidence_health_and_provenance_are_rendered_in_appendix() {
+        let observed_at = chrono::DateTime::parse_from_rfc3339("2026-08-27T18:00:00Z")
+            .unwrap()
+            .with_timezone(&chrono::Utc);
+        let mut future_context = future_context_unavailable();
+        future_context.source_health = MacroEventSourceHealth::Succeeded;
+        future_context.corporate_event_evidence = CorporateEventEvidenceResolution {
+            events: vec![CorporateEventEvidence {
+                subject: "NVDA".to_string(),
+                event_type:
+                    crate::features::research::application::corporate_event_provider::CorporateEventType::Earnings,
+                lifecycle: CorporateEventEvidenceLifecycle::Scheduled,
+                expected_date: Some(NaiveDate::from_ymd_opt(2026, 8, 28).unwrap()),
+                confirmed_event_date: None,
+                confirmed_at: None,
+                confidence: EvidenceConfidence::Medium,
+                evidence: vec![CorporateEventEvidenceRef {
+                    source: CorporateEventSource {
+                        provider_id: "alpha_vantage".to_string(),
+                        source_kind: CorporateEventSourceKind::EarningsCalendar,
+                        source_url: None,
+                    },
+                    event_date: NaiveDate::from_ymd_opt(2026, 8, 28).unwrap(),
+                    observed_at,
+                    accepted_at: None,
+                    source_timestamp: None,
+                    fact_kind: "ExpectedEvent".to_string(),
+                }],
+                diagnostics: Vec::new(),
+                expected_value: None,
+                actual_value: None,
+                theme: None,
+                importance: None,
+                structured_explanation: None,
+            }],
+            provider_health: vec![
+                CorporateEventEvidenceProviderHealthRecord {
+                    provider_id: "alpha_vantage".to_string(),
+                    health: CorporateEventEvidenceProviderHealth::Healthy,
+                    diagnostic: None,
+                },
+                CorporateEventEvidenceProviderHealthRecord {
+                    provider_id: "sec-edgar".to_string(),
+                    health: CorporateEventEvidenceProviderHealth::Healthy,
+                    diagnostic: None,
+                },
+                CorporateEventEvidenceProviderHealthRecord {
+                    provider_id: "finnhub".to_string(),
+                    health: CorporateEventEvidenceProviderHealth::Unavailable,
+                    diagnostic: Some("credential unavailable".to_string()),
+                },
+            ],
+        };
+
+        let assessment = without_external_fixture(|| {
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+                signal: signal(
+                    InterpretationExpectationQuality::Unavailable,
+                    InterpretationExpectationQualityReason::SystemUnavailable,
+                    InterpretationGravityDataQuality::Unavailable,
+                    false,
+                    None,
+                ),
+                future_context,
+                language: Language::EnUs,
+            })
+        });
+
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("Corporate Event Evidence Health"));
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("finnhub=Unavailable"));
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("NVDA: lifecycle=Scheduled"));
+        assert!(assessment
+            .source_diagnostics_appendix
+            .contains("sources=alpha_vantage"));
     }
 
     #[test]

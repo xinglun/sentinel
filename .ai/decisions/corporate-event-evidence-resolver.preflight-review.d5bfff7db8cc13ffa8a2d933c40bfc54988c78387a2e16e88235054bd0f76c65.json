@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:79759faa377b71376d72251d0dc67b6e93a96da645b40acae9289f8402037acf",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "用户确认方案 A，并已授权本 Epic 的 WI-4 实现、验证、提交、推送、PR 合并、清理与远端同步；Contract 明确保持 Decision semantics 不变。",
+  "recordedAt": "2026-08-30T17:28:30Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9e77258a11a1161266f4373dd30afff0813bed2b781e4fc7cc0656ed30a802fa",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-evidence-resolver"
+}

@@ -3,6 +3,10 @@ use crate::features::radar::interface::presentation::{
     SignalContextSourceStatus, SignalContextV1,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
+use crate::features::research::application::corporate_event_evidence_resolver::{
+    CorporateEventEvidence, CorporateEventEvidenceLifecycle, CorporateEventEvidenceResolution,
+    EvidenceConfidence, ExternalCorporateEventEnrichment,
+};
 use crate::features::research::application::corporate_event_provider::{
     CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
     CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
@@ -113,6 +117,11 @@ pub(crate) fn build_v1_from_event_context(
         macro_context,
         &event_context.corporate_event_provider,
     );
+    let macro_context = apply_corporate_event_evidence_context(
+        as_of_date,
+        macro_context,
+        &event_context.corporate_event_evidence,
+    );
     let external = env::var(EXTERNAL_SIGNAL_CONTEXT_PATH_ENV)
         .ok()
         .and_then(|path| {
@@ -123,12 +132,60 @@ pub(crate) fn build_v1_from_event_context(
     build_v1_from_event_context_with_external(macro_context, external)
 }
 
-pub(crate) fn attach_corporate_event_provider(
+pub(crate) fn attach_corporate_event_evidence(
     mut event_context: SignalContextEventReadModel,
-    provider: CorporateEventProviderReadModel,
+    resolution: CorporateEventEvidenceResolution,
 ) -> SignalContextEventReadModel {
-    event_context.corporate_event_provider = provider;
+    event_context.corporate_event_evidence = resolution;
     event_context
+}
+
+/// 外部 Signal Context の corporate item を Resolver の enrichment contract へ変換する。
+pub(crate) fn external_corporate_event_enrichments(
+    context: &SignalContextV1,
+) -> Vec<ExternalCorporateEventEnrichment> {
+    context
+        .corporate_events
+        .iter()
+        .filter_map(|item| {
+            let symbol = item.symbol.as_deref()?.trim().to_ascii_uppercase();
+            let event_date = NaiveDate::parse_from_str(&item.market_date, "%Y-%m-%d").ok()?;
+            let evidence = item.evidence.first()?;
+            let observed_at = chrono::DateTime::parse_from_rfc3339(&item.observed_at)
+                .ok()?
+                .with_timezone(&chrono::Utc);
+            let raw_theme = evidence.event_type.trim();
+            let theme = (!raw_theme.is_empty() && !raw_theme.eq_ignore_ascii_case("EARNINGS"))
+                .then(|| raw_theme.to_string());
+            Some(ExternalCorporateEventEnrichment {
+                symbol,
+                event_type: crate::features::research::application::corporate_event_provider::CorporateEventType::Earnings,
+                event_date,
+                theme,
+                importance: parse_evidence_confidence(&evidence.importance),
+                structured_explanation: item
+                    .reason
+                    .clone()
+                    .or_else(|| (!item.event_fact.trim().is_empty()).then(|| item.event_fact.clone())),
+                source: CorporateEventSource {
+                    provider_id: "external-signal-context".to_string(),
+                    source_kind: CorporateEventSourceKind::ExternalFixture,
+                    source_url: (!evidence.source_url.trim().is_empty())
+                        .then(|| evidence.source_url.clone()),
+                },
+                observed_at,
+            })
+        })
+        .collect()
+}
+
+fn parse_evidence_confidence(value: &str) -> Option<EvidenceConfidence> {
+    match value.trim().to_ascii_uppercase().as_str() {
+        "HIGH" => Some(EvidenceConfidence::High),
+        "MEDIUM" => Some(EvidenceConfidence::Medium),
+        "LOW" => Some(EvidenceConfidence::Low),
+        _ => None,
+    }
 }
 
 fn apply_corporate_event_provider_context(
@@ -173,6 +230,192 @@ fn apply_corporate_event_provider_context(
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
     })
+}
+
+fn apply_corporate_event_evidence_context(
+    as_of_date: NaiveDate,
+    snapshot: SignalContextV1,
+    resolution: &CorporateEventEvidenceResolution,
+) -> SignalContextV1 {
+    if resolution.events.is_empty() {
+        return snapshot;
+    }
+    let mut corporate_events = snapshot.corporate_events.clone();
+    for evidence in resolution
+        .events
+        .iter()
+        .filter(|evidence| evidence.lifecycle != CorporateEventEvidenceLifecycle::Unavailable)
+    {
+        let item = canonical_corporate_event_item(evidence, as_of_date);
+        if let Some(index) = corporate_events
+            .iter()
+            .position(|existing| corporate_events_match(existing, &item))
+        {
+            merge_provider_corporate_facts(&mut corporate_events[index], &item);
+        } else {
+            corporate_events.push(item);
+        }
+    }
+    let mut coverage = snapshot.coverage;
+    coverage.corporate = canonical_corporate_coverage(resolution);
+    build_signal_context_v1(SignalContextCoverageInput {
+        market_date: snapshot.market_date,
+        scheduled_macro: snapshot.scheduled_macro,
+        corporate_events,
+        geopolitical_events: snapshot.geopolitical_events,
+        commodity_events: snapshot.commodity_events,
+        rates_credit_events: snapshot.rates_credit_events,
+        market_structure_events: snapshot.market_structure_events,
+        coverage,
+        observed_market_reactions: snapshot.observed_market_reactions,
+        event_time_utc: snapshot.event_time_utc,
+        event_time_market_tz: snapshot.event_time_market_tz,
+        report_generated_at: snapshot.report_generated_at,
+    })
+}
+
+fn canonical_corporate_event_item(
+    evidence: &CorporateEventEvidence,
+    as_of_date: NaiveDate,
+) -> SignalContextItem {
+    let title = format!("{} EARNINGS", evidence.subject);
+    let level = evidence
+        .importance
+        .or(Some(evidence.confidence))
+        .map(evidence_confidence_level)
+        .unwrap_or(SignalContextInformationLevel::Unavailable);
+    let lifecycle = match evidence.lifecycle {
+        CorporateEventEvidenceLifecycle::Scheduled
+        | CorporateEventEvidenceLifecycle::PendingConfirmation => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Upcoming
+        }
+        CorporateEventEvidenceLifecycle::Confirmed
+        | CorporateEventEvidenceLifecycle::Historical => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Released
+        }
+        CorporateEventEvidenceLifecycle::Unavailable => {
+            crate::features::radar::interface::presentation::SignalContextLifecycle::Expired
+        }
+    };
+    let event_date = evidence
+        .confirmed_event_date
+        .or(evidence.expected_date)
+        .unwrap_or(as_of_date);
+    let sources = evidence
+        .evidence
+        .iter()
+        .map(|item| item.source.provider_id.as_str())
+        .collect::<Vec<_>>()
+        .join(", ");
+    let mut facts = vec![format!(
+        "{title} lifecycle: {:?}; expected date: {}; confirmed date: {}; sources: {}",
+        evidence.lifecycle,
+        evidence
+            .expected_date
+            .map(|date| date.to_string())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        evidence
+            .confirmed_event_date
+            .map(|date| date.to_string())
+            .unwrap_or_else(|| "UNAVAILABLE".to_string()),
+        if sources.is_empty() {
+            "UNAVAILABLE"
+        } else {
+            &sources
+        },
+    )];
+    if let Some(theme) = &evidence.theme {
+        facts.push(format!("theme: {theme}"));
+    }
+    if let Some(explanation) = &evidence.structured_explanation {
+        facts.push(format!("external explanation: {explanation}"));
+    }
+    if let Some(expected_value) = &evidence.expected_value {
+        facts.push(format!("expected value: {expected_value}"));
+    }
+    if let Some(actual_value) = &evidence.actual_value {
+        facts.push(format!("actual value: {actual_value}"));
+    }
+    for diagnostic in &evidence.diagnostics {
+        facts.push(format!("diagnostic: {:?}", diagnostic.code));
+    }
+    SignalContextItem {
+        context_type: crate::features::radar::interface::presentation::SignalContextType::Corporate,
+        title: title.clone(),
+        symbol: Some(evidence.subject.clone()),
+        information_content: level,
+        market_relevance: level,
+        evidence_quality: if evidence.confirmed_at.is_some() {
+            SignalContextInformationLevel::High
+        } else {
+            level
+        },
+        lifecycle,
+        event_fact: facts.join("; "),
+        observed_at: evidence
+            .confirmed_at
+            .or_else(|| evidence.evidence.first().map(|item| item.observed_at))
+            .map(|timestamp| timestamp.to_rfc3339())
+            .unwrap_or_default(),
+        source_published_at: evidence
+            .confirmed_at
+            .map(|timestamp| timestamp.to_rfc3339())
+            .unwrap_or_default(),
+        market_date: event_date.to_string(),
+        evidence: evidence
+            .evidence
+            .iter()
+            .map(|item| EvidenceRecord {
+                source: item.source.provider_id.clone(),
+                source_url: item.source.source_url.clone().unwrap_or_default(),
+                timestamp: item.observed_at.to_rfc3339(),
+                source_published_at: item
+                    .source_timestamp
+                    .map(|timestamp| timestamp.to_rfc3339())
+                    .unwrap_or_default(),
+                event_type: "EARNINGS".to_string(),
+                subject: title.clone(),
+                importance: format!("{:?}", evidence.importance.unwrap_or(evidence.confidence)),
+            })
+            .collect(),
+        expected_value: evidence.expected_value.clone(),
+        actual_value: evidence.actual_value.clone(),
+        reason: (!evidence.diagnostics.is_empty()).then(|| {
+            evidence
+                .diagnostics
+                .iter()
+                .map(|diagnostic| diagnostic.message.clone())
+                .collect::<Vec<_>>()
+                .join("; ")
+        }),
+        ..Default::default()
+    }
+}
+
+fn evidence_confidence_level(value: EvidenceConfidence) -> SignalContextInformationLevel {
+    match value {
+        EvidenceConfidence::High => SignalContextInformationLevel::High,
+        EvidenceConfidence::Medium => SignalContextInformationLevel::Medium,
+        EvidenceConfidence::Low => SignalContextInformationLevel::Low,
+        EvidenceConfidence::Unavailable => SignalContextInformationLevel::Unavailable,
+    }
+}
+
+fn canonical_corporate_coverage(
+    resolution: &CorporateEventEvidenceResolution,
+) -> SignalContextSourceStatus {
+    if resolution.provider_health.iter().all(|provider| {
+        provider.health
+            == crate::features::research::application::corporate_event_evidence_resolver::CorporateEventEvidenceProviderHealth::Healthy
+    }) {
+        SignalContextSourceStatus::Healthy
+    } else if resolution.events.iter().any(|event| {
+        event.lifecycle != CorporateEventEvidenceLifecycle::Unavailable
+    }) {
+        SignalContextSourceStatus::Degraded
+    } else {
+        SignalContextSourceStatus::Unavailable
+    }
 }
 
 pub(crate) fn corporate_event_item(
@@ -1290,6 +1533,23 @@ mod tests {
         );
         assert!(snapshot.corporate_events.is_empty());
         assert!(snapshot.rates_credit_events.is_empty());
+    }
+
+    #[test]
+    fn external_corporate_context_projects_to_resolver_enrichment() {
+        let context = load_external_signal_context_from_path(
+            "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+            NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+
+        let enrichments = external_corporate_event_enrichments(&context);
+
+        assert_eq!(enrichments.len(), 1);
+        assert_eq!(enrichments[0].symbol, "NVDA");
+        assert_eq!(enrichments[0].theme.as_deref(), Some("AI_INFRASTRUCTURE"));
+        assert_eq!(enrichments[0].source.provider_id, "external-signal-context");
     }
 
     fn healthy_coverage() -> SignalContextCoverage {
