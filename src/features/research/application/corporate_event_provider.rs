@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 
 /// 企業イベント Provider の取得状態。
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -99,6 +99,63 @@ pub(crate) struct CorporateEventProviderReadModel {
     pub events: Vec<CorporateEventObservation>,
 }
 
+/// 確認前の企業イベント種別。
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CorporateEventType {
+    Earnings,
+}
+
+/// Provider が明示的に返した fiscal period。
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) struct FiscalPeriod {
+    pub quarter: u8,
+    pub year: i32,
+}
+
+/// 公式開示による確認前の expected corporate event。
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ExpectedCorporateEvent {
+    pub symbol: String,
+    pub event_type: CorporateEventType,
+    pub expected_date: NaiveDate,
+    pub fiscal_period: Option<FiscalPeriod>,
+    pub source: CorporateEventSource,
+    pub observed_at: DateTime<Utc>,
+}
+
+/// Expected Event Provider の取得状態。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub(crate) enum ExpectedCorporateEventProviderHealth {
+    Healthy,
+    #[default]
+    Unavailable,
+}
+
+/// Expected Event Provider の監査可能な read model。
+#[derive(Debug, Clone, PartialEq, Eq, Default)]
+pub(crate) struct ExpectedCorporateEventProviderReadModel {
+    pub health: ExpectedCorporateEventProviderHealth,
+    pub source: CorporateEventSource,
+    pub fetched_at: Option<DateTime<Utc>>,
+    pub diagnostic: Option<String>,
+    pub events: Vec<ExpectedCorporateEvent>,
+}
+
+impl ExpectedCorporateEventProviderReadModel {
+    pub(crate) fn unavailable(source: CorporateEventSource, diagnostic: impl Into<String>) -> Self {
+        Self {
+            source,
+            diagnostic: Some(diagnostic.into()),
+            ..Self::default()
+        }
+    }
+}
+
+/// 確認前の企業イベント期待値を observation universe 単位で取得する provider port。
+pub(crate) trait ExpectedCorporateEventProvider {
+    fn load_for_universe(&self, symbols: &[String]) -> ExpectedCorporateEventProviderReadModel;
+}
+
 impl CorporateEventProviderReadModel {
     pub(crate) fn unavailable(source: CorporateEventSource, diagnostic: impl Into<String>) -> Self {
         Self {
@@ -124,8 +181,10 @@ mod tests {
     use super::{
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
         CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
+        CorporateEventType, ExpectedCorporateEvent, ExpectedCorporateEventProviderHealth,
+        ExpectedCorporateEventProviderReadModel,
     };
-    use chrono::NaiveDate;
+    use chrono::{NaiveDate, Utc};
 
     #[test]
     fn source_object_preserves_provider_kind_and_optional_url() {
@@ -195,5 +254,56 @@ mod tests {
         assert_eq!(read_model.diagnostic.as_deref(), Some("api key missing"));
         assert_eq!(read_model.source, source);
         assert!(read_model.source.source_url.is_none());
+    }
+
+    #[test]
+    fn expected_event_keeps_scheduled_fact_separate_from_confirmed_observation() {
+        let event = ExpectedCorporateEvent {
+            symbol: "NVDA".to_string(),
+            event_type: CorporateEventType::Earnings,
+            expected_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
+            fiscal_period: None,
+            source: CorporateEventSource {
+                provider_id: "alpha_vantage".to_string(),
+                source_kind: CorporateEventSourceKind::EarningsCalendar,
+                source_url: Some(
+                    "https://www.alphavantage.co/query?function=EARNINGS_CALENDAR&horizon=3month&datatype=csv"
+                        .to_string(),
+                ),
+            },
+            observed_at: Utc::now(),
+        };
+
+        assert_eq!(event.symbol, "NVDA");
+        assert_eq!(event.event_type, CorporateEventType::Earnings);
+        assert_eq!(event.expected_date.to_string(), "2026-08-27");
+        assert!(event.fiscal_period.is_none());
+        assert_eq!(event.source.provider_id, "alpha_vantage");
+        assert_eq!(
+            event.source.source_kind,
+            CorporateEventSourceKind::EarningsCalendar
+        );
+    }
+
+    #[test]
+    fn expected_provider_unavailable_does_not_mean_no_event() {
+        let source = CorporateEventSource {
+            provider_id: "alpha_vantage".to_string(),
+            source_kind: CorporateEventSourceKind::EarningsCalendar,
+            source_url: None,
+        };
+        let read_model =
+            ExpectedCorporateEventProviderReadModel::unavailable(source, "calendar unavailable");
+
+        assert_eq!(
+            read_model.health,
+            ExpectedCorporateEventProviderHealth::Unavailable
+        );
+        assert!(read_model.events.is_empty());
+        assert!(read_model.fetched_at.is_none());
+        assert_eq!(
+            read_model.diagnostic.as_deref(),
+            Some("calendar unavailable")
+        );
     }
 }

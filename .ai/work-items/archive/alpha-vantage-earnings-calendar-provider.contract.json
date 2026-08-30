@@ -1,0 +1,148 @@
+{
+  "acceptanceCriteria": [
+    "Alpha Vantage key 只从 Repository secret / 进程环境读取，不写入 repository、logs、fixtures 或 evidence。",
+    "earnings calendar 使用单次日请求覆盖 3 个月 horizon，并在本地 universe 内过滤；不按 ticker 发起请求。",
+    "24 小时 cache 明确记录 fetched_at、provider、schema_version 与 records；cache 命中不重复请求，过期或损坏 fail-closed。",
+    "Alpha Vantage 只产生 Scheduled expected event；不伪造 Confirmed、Released 或 actual/estimate 事实。",
+    "缺 key、quota/error note、HTTP/CSV malformed、symbol/date/fiscal 字段非法均 fail-closed，不把 unavailable 当作 no event。",
+    "新增 provider-neutral source object 为唯一 source 表达，不恢复 legacy source String；release window Unknown 仅表示未知时间窗。",
+    "通过 make fmt-check、make test、make clippy、make quality 与针对 Alpha parser/cache/fail-closed 的测试。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9a94a3bf461f745e5d4de9b685f84b7e6a760411",
+  "createdAt": "2026-08-30T16:22:57Z",
+  "goal": "实现并验证每日一次、3 个月 horizon、24 小时缓存且 fail-closed 的 Alpha Vantage earnings calendar provider，并保持 expected 与 confirmed 语义分离。",
+  "intent": "新增 Alpha Vantage earnings calendar expected provider，为本地观察宇宙提供可审计的 Scheduled corporate event expectation；不改变已确认事件、Resolver、Signal Context 或 Decision semantics。",
+  "mode": "code",
+  "outOfScope": [
+    "registry",
+    "SEC EDGAR provider",
+    "Finnhub provider",
+    "Resolver",
+    "Signal Context",
+    "Decision semantics",
+    "action matrix",
+    "position sizing",
+    "trade signal",
+    "production snapshots",
+    "hard-coded API key",
+    "config.toml credential values"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d0dd6357fef899c876275ccb748dcf88c437ef574424bdf8c521125965cb98e0",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/alpha-vantage-earnings-calendar-provider",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-alpha-vantage-earnings-calendar-provider"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/alpha-vantage-earnings-calendar-provider.contract.json",
+    ".ai/work-items/active/alpha-vantage-earnings-calendar-provider.summary.json",
+    "src/config.rs",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/acl/corporate_event_provider_factory.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/research/infrastructure/alpha_vantage_earnings_calendar_provider.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "tests/fixtures/alpha_vantage/**",
+    "tests",
+    "docs/superpowers/specs/2026-08-31-alpha-vantage-earnings-calendar-provider-design.md"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "用户提供的 Sentinel Corporate Event Free Evidence Stack 规范",
+    "docs/superpowers/plans/2026-08-28-corporate-event-provider-discovery.md",
+    "src/features/research/application/corporate_event_provider.rs",
+    "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+    "src/features/research/acl/corporate_event_provider_factory.rs",
+    "src/config.rs",
+    "Cargo.toml"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已授权完整开发、验证、提交、推送、PR 合并、清理与远端同步流程；本 Work Item 仅增加 expected provider，不改变确认层或 Decision semantics。"
+  },
+  "scenarioCoverage": [
+    {
+      "scenario": "Alpha Vantage request uses one three-month calendar query and local-universe filtering",
+      "required": true,
+      "status": "unverified",
+      "expected": "每次刷新仅有一次 EARNINGS_CALENDAR 请求，from/to 覆盖三个月；结果只保留本地 observation universe 内的 symbol。",
+      "verificationPlan": "使用 transport spy 断言请求次数与 query 参数，并用含 universe 外 symbol 的 CSV fixture 断言过滤结果。",
+      "evidence": []
+    },
+    {
+      "scenario": "Alpha Vantage rows become scheduled expectations only",
+      "required": true,
+      "status": "unverified",
+      "expected": "输出使用 provider-neutral source object，事件保持 Scheduled expected 语义，不产生 Confirmed、Released 或 actual/estimate 事实。",
+      "verificationPlan": "对成功 fixture 检查事件 source、release window、actual/estimate 与 expected-only 字段，并验证无 legacy source String。",
+      "evidence": []
+    },
+    {
+      "scenario": "24-hour cache is explicit, reusable, and bounded",
+      "required": true,
+      "status": "unverified",
+      "expected": "cache 持久化 fetched_at、provider、schema_version、records；24 小时内命中不重复请求，过期/损坏 fail-closed。",
+      "verificationPlan": "使用可控时钟与 transport spy 覆盖 miss、fresh hit、expired、malformed、atomic write failure。",
+      "evidence": []
+    },
+    {
+      "scenario": "Alpha Vantage failures remain unavailable rather than no-event",
+      "required": true,
+      "status": "unverified",
+      "expected": "缺 key、quota/error note、非 2xx、malformed CSV、非法 symbol/date/fiscal 字段均返回 unavailable 且不输出事件。",
+      "verificationPlan": "使用失败 transport 与错误/非法 CSV fixtures 覆盖每类 fail-closed 分支。",
+      "evidence": []
+    },
+    {
+      "scenario": "provider-neutral source is the sole application source expression",
+      "required": true,
+      "status": "unverified",
+      "expected": "新增 expected provider 不引入或长期保留语义重复的 legacy source String。",
+      "verificationPlan": "编译与 contract-level assertions 检查 source object 贯穿 adapter/read model；对 application contract 做结构断言。",
+      "evidence": []
+    },
+    {
+      "scenario": "quality gates remain green without Decision surface changes",
+      "required": true,
+      "status": "unverified",
+      "expected": "production gate、action matrix、position sizing、Signal Context 与 Decision semantics 无变更；仓库质量门禁通过。",
+      "verificationPlan": "运行 make fmt-check、make test、make clippy、make quality，并审查 diff scope。",
+      "evidence": []
+    }
+  ],
+  "checkpointPolicy": {
+    "schemaVersion": 1,
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit"],
+    "requiredChecks": ["make fmt-check", "make test", "make clippy", "make quality"]
+  },
+  "workItemId": "alpha-vantage-earnings-calendar-provider"
+}
