@@ -1,0 +1,28 @@
+{
+  "actor": "user",
+  "authoritySource": "user-message: 用户已明确授权完成完整 Work Item lifecycle、PR 合并、清理与同步",
+  "decidedAt": "2026-08-30T13:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-neutralization.verification.json",
+    ".ai/work-items/active/corporate-event-provider-neutralization.summary.json",
+    ".ai/work-items/active/corporate-event-provider-neutralization.outcome.json",
+    ".ai/work-items/active/corporate-event-provider-neutralization.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md: AI Cockpit 强制协议"
+  ],
+  "predecessorContractDigest": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+  "predecessorEventsDigest": "sha256:b01f2ca579838d86f112f879360091ac02ee18fc86a3ad2ceba053da370d1eb9",
+  "predecessorOutcomeDigest": "sha256:cf6343892a61c5c3b8699b4802233b341d4e50b72cfb8bbc214ded2e35fa9830",
+  "predecessorSummaryDigest": "sha256:fe11a89bd6e6a49c81b8a40a33b12f209c9f291353c5471e3d1f1f2845c9e6cb",
+  "predecessorWorkItemId": "corporate-event-provider-neutralization",
+  "reason": "同一 WI 的 finish 顺序错误已由当前有效 Contract、Summary 与后续验证收据修复；保留失败事件并重试当前 WI。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "重新记录当前 Contract 的验证证据，运行 preflight，并在绿色结果后继续 finish。",
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-neutralization"
+}

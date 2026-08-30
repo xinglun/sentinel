@@ -5,7 +5,7 @@ use crate::features::radar::interface::presentation::{
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
 use crate::features::research::application::corporate_event_provider::{
     CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
-    CorporateEventReleaseWindow,
+    CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
 };
 use crate::features::research::interface::macro_event_observation::EvidenceRecord;
 use crate::features::research::interface::macro_event_observation::MacroEventImportance;
@@ -136,11 +136,7 @@ fn apply_corporate_event_provider_context(
     snapshot: SignalContextV1,
     provider: &CorporateEventProviderReadModel,
 ) -> SignalContextV1 {
-    if provider.source.trim().is_empty()
-        && provider.source_url.trim().is_empty()
-        && provider.diagnostic.is_none()
-        && provider.events.is_empty()
-    {
+    if provider.source.is_empty() && provider.diagnostic.is_none() && provider.events.is_empty() {
         return snapshot;
     }
     let mut coverage = snapshot.coverage;
@@ -194,6 +190,7 @@ pub(crate) fn corporate_event_item(
         CorporateEventReleaseWindow::BeforeMarketOpen => "BMO",
         CorporateEventReleaseWindow::AfterMarketClose => "AMC",
         CorporateEventReleaseWindow::DuringMarketHours => "DMH",
+        CorporateEventReleaseWindow::Unknown => "UNKNOWN",
     };
     let event_fact = format!(
         "{title} release window: {release_window}; timezone: {}; FY{} Q{}{}",
@@ -220,8 +217,8 @@ pub(crate) fn corporate_event_item(
         source_published_at: String::new(),
         market_date: event.market_date.to_string(),
         evidence: vec![EvidenceRecord {
-            source: event.source.clone(),
-            source_url: event.source_url.clone(),
+            source: corporate_event_source_label(&event.source),
+            source_url: event.source.source_url.clone().unwrap_or_default(),
             timestamp: event.observed_at.clone(),
             source_published_at: String::new(),
             event_type: "EARNINGS".to_string(),
@@ -231,6 +228,16 @@ pub(crate) fn corporate_event_item(
         actual_value: event.revenue_actual.map(|value| value.to_string()),
         expected_value: event.revenue_estimate.map(|value| value.to_string()),
         ..Default::default()
+    }
+}
+
+fn corporate_event_source_label(source: &CorporateEventSource) -> String {
+    if source.provider_id == "finnhub"
+        && source.source_kind == CorporateEventSourceKind::EarningsCalendar
+    {
+        "Finnhub Earnings Calendar".to_string()
+    } else {
+        source.provider_id.clone()
     }
 }
 
@@ -715,9 +722,17 @@ mod tests {
     };
     use crate::features::research::application::corporate_event_provider::{
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
-        CorporateEventReleaseWindow,
+        CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
     };
     use crate::features::research::interface::macro_event_observation::EvidenceRecord;
+
+    fn finnhub_source(url: &str) -> CorporateEventSource {
+        CorporateEventSource {
+            provider_id: "finnhub".to_string(),
+            source_kind: CorporateEventSourceKind::EarningsCalendar,
+            source_url: Some(url.to_string()),
+        }
+    }
 
     fn item(title: &str, level: SignalContextInformationLevel) -> SignalContextItem {
         SignalContextItem {
@@ -781,10 +796,9 @@ mod tests {
         let event_context = SignalContextEventReadModel {
             corporate_event_provider: CorporateEventProviderReadModel {
                 health: CorporateEventProviderHealth::Healthy,
-                source: "Finnhub Earnings Calendar".to_string(),
-                source_url:
-                    "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27"
-                        .to_string(),
+                source: finnhub_source(
+                    "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27",
+                ),
                 retrieved_at: "2026-08-27T20:00:00Z".to_string(),
                 diagnostic: None,
                 events: vec![CorporateEventObservation {
@@ -798,10 +812,9 @@ mod tests {
                     eps_estimate: Some(1.04),
                     revenue_actual: Some(96_200_000_000.0),
                     revenue_estimate: Some(95_000_000_000.0),
-                    source: "Finnhub Earnings Calendar".to_string(),
-                    source_url:
-                        "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27"
-                            .to_string(),
+                    source: finnhub_source(
+                        "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27",
+                    ),
                     observed_at: "2026-08-27T20:00:00Z".to_string(),
                 }],
             },
@@ -853,6 +866,9 @@ mod tests {
         let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
         let event_context = SignalContextEventReadModel {
             corporate_event_provider: CorporateEventProviderReadModel::unavailable(
+                finnhub_source(
+                    "https://finnhub.io/api/v1/calendar/earnings?from=2026-08-27&to=2026-08-27",
+                ),
                 "Finnhub API key is not configured",
             ),
             ..Default::default()
@@ -921,8 +937,7 @@ mod tests {
                 fiscal_year: 2027,
                 revenue_actual: Some(96_200_000_000.0),
                 revenue_estimate: Some(95_000_000_000.0),
-                source: "Finnhub Earnings Calendar".to_string(),
-                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                source: finnhub_source("https://finnhub.io/api/v1/calendar/earnings"),
                 observed_at: "2026-08-27T00:00:00Z".to_string(),
                 ..Default::default()
             },
@@ -998,8 +1013,7 @@ mod tests {
             fiscal_quarter: 2,
             fiscal_year: 2027,
             revenue_actual: Some(96_200_000_000.0),
-            source: "Finnhub Earnings Calendar".to_string(),
-            source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+            source: finnhub_source("https://finnhub.io/api/v1/calendar/earnings"),
             observed_at: "2026-08-27T20:00:00Z".to_string(),
             ..Default::default()
         };
@@ -1046,8 +1060,7 @@ mod tests {
                 fiscal_quarter: 2,
                 fiscal_year: 2027,
                 revenue_actual: Some(96_200_000_000.0),
-                source: "Finnhub Earnings Calendar".to_string(),
-                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                source: finnhub_source("https://finnhub.io/api/v1/calendar/earnings"),
                 ..Default::default()
             },
             market_date,

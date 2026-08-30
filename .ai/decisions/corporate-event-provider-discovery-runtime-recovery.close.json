@@ -1,0 +1,430 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e329a2a406f833f41946de916a51162bf3b81525a52f02d5d75481a732c888f4",
+      "workItemId": "corporate-event-provider-discovery-runtime-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.0d06d9c4508be97fbd447739862f63d4e0db112c06a2d1a21a106f5591841d8e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.12d96499b816c6f5243f706e881ad1daf551674dc295d9c76fb721ca2c9becfd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.5d52f6d26931acb7f99ffe72e8bbd7f55cf20983aa0610ad0fe627ec1109807e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.6074e5528dda82af46fb9d6a9eddc8ecfe88f378b44fbbf8594c696a321291bb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.6cf242af318eef0946f6a2dbe45cd3dea03e514b07c4c9ea57bf2d6e8281a199.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.6ee3a5c7423e5b0b505239b27c458dccce5e503785b160fba9d970494fda5c4c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.8cf401503c2cd72292ff73f26c156f4c3b032acc719a2701c7f1432f7bbf6cfa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.ad4841059fd0efefc9ed9d22410cf4c33f524a8be4e3adac43bafc7c3b3a8171.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.c5649e7324e90c75f5e9e08b752c2301851b9fe502574a3876b28b935d6cbefa.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.cfdb4d8fd3692f33eaead9a2e4c38fb5f99094dc4d4aa0f5bb1246ac5b1cc969.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.ede1f365c70f3e090b07bb1625132bcd478c799d67fc7c480aaef15636befe93.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.f1ffad7be18f79de71e233b8f03959d1e4a760705d2f647c5e7708b0774185bf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery-recovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-45c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.historical-84a4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/corporate-event-provider-discovery.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-final-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-lifecycle-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.finish-recovery-blocked.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.historical.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-final-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-lifecycle-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.finish-recovery-blocked.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.historical.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/corporate-event-provider-discovery.task-report.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-discovery-recovery.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.outcome.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by user via user-message: 用户明确授权完成全部 Work Item 流程、PR 合并、清理与同步 at 2026-08-30T13:11:49Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-discovery-runtime-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "继承已通过 make quality 的 Provider implementation，完成当前 Runtime fresh verification、archive 与 local-only governance close。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-provider-discovery-runtime-recovery"
+  },
+  "finalReportDigest": "sha256:5103a826dde753d810a2ba69724f51d11c5e741cfb9e6fef8d4d800c0ff2f981",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:722a530f6b32690a54a1e371779b0039b3db34494b8018f192d5fcd7559983e2",
+  "resourceFinalizationHeadPath": ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "user-message: 用户明确授权完成全部 Work Item 流程、PR 合并、清理与同步",
+    "decidedAt": "2026-08-30T13:11:49Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/corporate-event-provider-discovery-runtime-recovery.outcome.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md: AI Cockpit 强制协议"
+    ],
+    "reason": "历史 Work Item 已完成验证与归档；旧 PR 已合并，旧分支已清理，默认分支同步证据已核实。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-08-30T13:12:59Z",
+  "workItemId": "corporate-event-provider-discovery-runtime-recovery"
+}
