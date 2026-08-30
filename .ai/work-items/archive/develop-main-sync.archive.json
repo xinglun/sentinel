@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T19:11:14Z",
+  "files": {
+    "contractDigest": "sha256:abe7604279b91373b567f14de0b9d0ddf2bb7cce25fda63bbf7bbf08f5bb1922",
+    "contractPath": ".ai/work-items/archive/develop-main-sync.contract.json",
+    "eventsDigest": "sha256:cf859b37ef3b86451e0e1b5b59ebb6aee36a18d51f1829776dc77be82e818cdc",
+    "eventsPath": ".ai/work-items/archive/develop-main-sync.events.jsonl",
+    "outcomeDigest": "sha256:0a9c984538154f519bea6598789c0dc235e1891dd367a75b0e5ad00ddadc273b",
+    "outcomePath": ".ai/work-items/archive/develop-main-sync.outcome.json",
+    "summaryDigest": "sha256:4b4117f80f4f5bb5db9ef43e6e68f7b90d7944509d173a38fda5a4b39a7dd229",
+    "summaryPath": ".ai/work-items/archive/develop-main-sync.summary.json",
+    "taskReportDigest": "sha256:228938815ab660708896cfd36158d6617314c1abf18f97920997271706acc5e3",
+    "taskReportMarkdownDigest": "sha256:915a678d2686b8f6eaa0691de81d07efc5e03c05614e3c95caf18639605771b9",
+    "taskReportMarkdownPath": ".ai/work-items/archive/develop-main-sync.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/develop-main-sync.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "develop-main-sync"
+}
