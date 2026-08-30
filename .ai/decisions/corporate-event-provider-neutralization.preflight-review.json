@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:b669c84d817c1df98885a66b402941b9d363c92f1cf3e94b8493a4ac203d988b",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:a360493b0935e1013713993b9976d12e73bad6e2322306b006eb67be73c093b1",
+  "reason": "用户已确认方案 A、WI-1 范围和执行授权；required scenarios 将在实现与验证后以当前 Work Item 证据完成。",
+  "recordedAt": "2026-08-30T13:18:12Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:7cfadd1d3df83b3580b5f0fe720114c019323e7e8a0db4604f43c0d6aa3601e6",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-neutralization"
+}

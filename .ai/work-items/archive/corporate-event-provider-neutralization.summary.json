@@ -1,0 +1,206 @@
+{
+  "changedPaths": [
+    ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.close.json",
+    ".ai/decisions/corporate-event-provider-discovery-runtime-recovery.finalize.json",
+    ".ai/work-items/archive/corporate-event-provider-neutralization.contract.json",
+    ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T13:18:44Z",
+  "checkpointContractDigest": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:b669c84d817c1df98885a66b402941b9d363c92f1cf3e94b8493a4ac203d988b",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:18:44Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7cfadd1d3df83b3580b5f0fe720114c019323e7e8a0db4604f43c0d6aa3601e6",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-provider-neutralization"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:3ea73d9fb4d0eddac3ba60b68622223eafecf7245c85e112f459dee5d3ab9ab9",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b669c84d817c1df98885a66b402941b9d363c92f1cf3e94b8493a4ac203d988b",
+      "previousContractHash": "sha256:b669c84d817c1df98885a66b402941b9d363c92f1cf3e94b8493a4ac203d988b",
+      "reason": "补充 Cockpit 生成的 preflight-review 证据路径，并刷新与当前 Contract/Repository snapshot 绑定的 preflight review；不改变业务 scope、acceptance 或 production code。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:21:07Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:554b00fc6109980345fbaf243fade0808f76552286f0ff90fc4d62a6fb9a3697",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-provider-neutralization"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:b669c84d817c1df98885a66b402941b9d363c92f1cf3e94b8493a4ac203d988b",
+      "previousContractHash": "sha256:3ea73d9fb4d0eddac3ba60b68622223eafecf7245c85e112f459dee5d3ab9ab9",
+      "reason": "基于当前 Work Item 已完成的全量 quality 验证，固化五项 scenarioCoverage 为 verified；不改变业务 scope、outOfScope 或生产行为。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T13:41:14Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-provider-neutralization"
+    },
+    {
+      "acceptanceCount": 7,
+      "contractHash": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+      "recorded": true,
+      "recordedAt": "2026-08-30T14:00:03Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-provider-neutralization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+  "createdAt": "2026-08-30T13:13:10Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户确认采用方案 A，维持 WI-1 的既定范围、未知项和不改变 Decision semantics 的边界；当前场景已由实现、测试与 make quality 覆盖，授权继续 finish、archive、PR 评审合并及清理。",
+    "recordedAt": "2026-08-30T13:56:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+    "schemaVersion": 1,
+    "workItemId": "corporate-event-provider-neutralization"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/corporate-event-provider-neutralization.contract.json",
+      "src/features/research/application/corporate_event_provider.rs",
+      "src/features/research/infrastructure/finnhub_corporate_event_provider.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T14:00:00Z",
+  "preflightContractDigest": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "make clippy"
+      ],
+      "required": true,
+      "scenario": "provider-neutral source object is the sole application contract source expression",
+      "status": "verified",
+      "verificationPlan": "已通过类型编译、全量测试和 clippy；application Corporate Event model 仅保留 CorporateEventSource，Finnhub metadata 由 adapter 生成。"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+        "cargo test corporate_event_provider"
+      ],
+      "required": true,
+      "scenario": "unknown release window remains distinct from invalid Finnhub hour",
+      "status": "verified",
+      "verificationPlan": "已验证 release window default 为 Unknown；Finnhub empty/unknown hour 均产生 parse error 并返回 Unavailable，未映射为 Unknown。"
+    },
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_provider.rs",
+        "src/features/research/infrastructure/finnhub_corporate_event_provider.rs",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "provider unavailable remains distinct from no event and secrets remain redacted",
+      "status": "verified",
+      "verificationPlan": "已通过 missing key、empty universe、HTTP/transport、malformed payload、token redaction 及 healthy empty-event 回归。"
+    },
+    {
+      "evidence": [
+        "tests/fixtures/corporate_events/finnhub-2026-08-27-nvidia-earnings.json",
+        "tests/fixtures/signal_context/2026-08-27-nvidia-earnings.json",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "existing Finnhub/NVIDIA Signal Context output and decision surface remain semantic-equivalent",
+      "status": "verified",
+      "verificationPlan": "已通过 Signal Context、pipeline、decision/gate、leader、action matrix、position sizing、execution 相关全量回归；既有 0 权重和无交易语义断言保持通过。"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/corporate-event-provider-neutralization.contract.json",
+        "docs/superpowers/specs/2026-08-30-corporate-event-provider-neutralization-design.md",
+        "git diff --check",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "WI-1 does not introduce SEC, Alpha Vantage, Resolver, registry, or decision behavior",
+      "status": "verified",
+      "verificationPlan": "已完成 scope/diff audit；变更限定于 contract、provider-neutral model、Finnhub adapter、ACL consumer、tests 与设计文档，未触及后续 provider 或 decision semantics。"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T14:00:03Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "corporate-event-provider-neutralization"
+}

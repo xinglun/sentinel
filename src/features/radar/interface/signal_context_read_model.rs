@@ -1034,7 +1034,7 @@ mod tests {
     };
     use crate::features::research::application::corporate_event_provider::{
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
-        CorporateEventReleaseWindow,
+        CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
     };
     use crate::features::research::domain::expectation::ExpectationLifecycleState;
     use crate::features::research::interface::expectation_report_builder::{
@@ -1048,6 +1048,14 @@ mod tests {
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    fn finnhub_source(url: Option<&str>) -> CorporateEventSource {
+        CorporateEventSource {
+            provider_id: "finnhub".to_string(),
+            source_kind: CorporateEventSourceKind::EarningsCalendar,
+            source_url: url.map(str::to_string),
+        }
+    }
 
     fn signal(
         expectation_quality: InterpretationExpectationQuality,
@@ -1083,8 +1091,7 @@ mod tests {
         let future_context = crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel {
             corporate_event_provider: CorporateEventProviderReadModel {
                 health: CorporateEventProviderHealth::Healthy,
-                source: "Finnhub Earnings Calendar".to_string(),
-                source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                source: finnhub_source(Some("https://finnhub.io/api/v1/calendar/earnings")),
                 events: vec![CorporateEventObservation {
                     symbol: "NVDA".to_string(),
                     market_date,
@@ -1094,8 +1101,7 @@ mod tests {
                     fiscal_year: 2027,
                     revenue_actual: Some(96_200_000_000.0),
                     revenue_estimate: Some(95_000_000_000.0),
-                    source: "Finnhub Earnings Calendar".to_string(),
-                    source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                    source: finnhub_source(Some("https://finnhub.io/api/v1/calendar/earnings")),
                     observed_at: "2026-08-27T20:00:00Z".to_string(),
                     ..Default::default()
                 }],
@@ -1137,8 +1143,10 @@ mod tests {
     #[test]
     fn provider_failure_diagnostic_is_rendered_without_changing_decision_boundary() {
         let mut future_context = future_context_unavailable();
-        future_context.corporate_event_provider =
-            CorporateEventProviderReadModel::unavailable("Finnhub earnings API returned HTTP 429");
+        future_context.corporate_event_provider = CorporateEventProviderReadModel::unavailable(
+            finnhub_source(Some("https://finnhub.io/api/v1/calendar/earnings")),
+            "Finnhub earnings API returned HTTP 429",
+        );
         let assessment = build_signal_context_assessment(SignalContextReadModelInput {
             as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
             signal: signal(
@@ -1177,8 +1185,10 @@ mod tests {
                 ..Default::default()
             },
         ];
-        future_context.corporate_event_provider =
-            CorporateEventProviderReadModel::unavailable("Finnhub earnings API returned HTTP 429");
+        future_context.corporate_event_provider = CorporateEventProviderReadModel::unavailable(
+            finnhub_source(Some("https://finnhub.io/api/v1/calendar/earnings")),
+            "Finnhub earnings API returned HTTP 429",
+        );
         let assessment = without_external_fixture(|| {
             build_signal_context_assessment(SignalContextReadModelInput {
                 as_of_date: NaiveDate::from_ymd_opt(2026, 8, 27).unwrap(),
@@ -1214,8 +1224,7 @@ mod tests {
                     release_window: CorporateEventReleaseWindow::AfterMarketClose,
                     fiscal_quarter: 2,
                     fiscal_year: 2027,
-                    source: "Finnhub Earnings Calendar".to_string(),
-                    source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+                    source: finnhub_source(Some("https://finnhub.io/api/v1/calendar/earnings")),
                     ..Default::default()
                 }],
                 ..Default::default()

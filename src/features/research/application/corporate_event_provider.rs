@@ -8,13 +8,49 @@ pub(crate) enum CorporateEventProviderHealth {
     Unavailable,
 }
 
-/// Finnhub が返す企業決算の発表時間帯。
+/// 企業イベントの provider 中立な source 種別。
+#[allow(dead_code)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) enum CorporateEventSourceKind {
+    EarningsCalendar,
+    OfficialFiling,
+    CompanyIr,
+    NewsAggregator,
+    ExternalFixture,
+}
+
+/// 企業イベントを取得した source の application contract 表現。
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct CorporateEventSource {
+    pub provider_id: String,
+    pub source_kind: CorporateEventSourceKind,
+    pub source_url: Option<String>,
+}
+
+impl Default for CorporateEventSource {
+    fn default() -> Self {
+        Self {
+            provider_id: String::new(),
+            source_kind: CorporateEventSourceKind::ExternalFixture,
+            source_url: None,
+        }
+    }
+}
+
+impl CorporateEventSource {
+    pub(crate) fn is_empty(&self) -> bool {
+        self.provider_id.trim().is_empty() && self.source_url.is_none()
+    }
+}
+
+/// Provider に依存しない企業イベントの発表時間帯。
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub(crate) enum CorporateEventReleaseWindow {
     BeforeMarketOpen,
-    #[default]
-    AfterMarketClose,
     DuringMarketHours,
+    AfterMarketClose,
+    #[default]
+    Unknown,
 }
 
 /// Provider 固有の payload を Signal Context から分離した正規化済み事実。
@@ -30,8 +66,7 @@ pub(crate) struct CorporateEventObservation {
     pub eps_estimate: Option<f64>,
     pub revenue_actual: Option<f64>,
     pub revenue_estimate: Option<f64>,
-    pub source: String,
-    pub source_url: String,
+    pub source: CorporateEventSource,
     pub observed_at: String,
 }
 
@@ -48,8 +83,7 @@ impl Default for CorporateEventObservation {
             eps_estimate: None,
             revenue_actual: None,
             revenue_estimate: None,
-            source: String::new(),
-            source_url: String::new(),
+            source: CorporateEventSource::default(),
             observed_at: String::new(),
         }
     }
@@ -59,18 +93,16 @@ impl Default for CorporateEventObservation {
 #[derive(Debug, Clone, PartialEq, Default)]
 pub(crate) struct CorporateEventProviderReadModel {
     pub health: CorporateEventProviderHealth,
-    pub source: String,
-    pub source_url: String,
+    pub source: CorporateEventSource,
     pub retrieved_at: String,
     pub diagnostic: Option<String>,
     pub events: Vec<CorporateEventObservation>,
 }
 
 impl CorporateEventProviderReadModel {
-    pub(crate) fn unavailable(diagnostic: impl Into<String>) -> Self {
+    pub(crate) fn unavailable(source: CorporateEventSource, diagnostic: impl Into<String>) -> Self {
         Self {
-            source: "finnhub-earnings-calendar".to_string(),
-            source_url: "https://finnhub.io/api/v1/calendar/earnings".to_string(),
+            source,
             retrieved_at: String::new(),
             diagnostic: Some(diagnostic.into()),
             ..Self::default()
@@ -91,9 +123,36 @@ pub(crate) trait CorporateEventProvider {
 mod tests {
     use super::{
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
-        CorporateEventReleaseWindow,
+        CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
     };
     use chrono::NaiveDate;
+
+    #[test]
+    fn source_object_preserves_provider_kind_and_optional_url() {
+        let source = CorporateEventSource {
+            provider_id: "fixture".to_string(),
+            source_kind: CorporateEventSourceKind::ExternalFixture,
+            source_url: Some("tests/fixtures/corporate_events/example.json".to_string()),
+        };
+
+        assert_eq!(source.provider_id, "fixture");
+        assert_eq!(
+            source.source_kind,
+            CorporateEventSourceKind::ExternalFixture
+        );
+        assert_eq!(
+            source.source_url.as_deref(),
+            Some("tests/fixtures/corporate_events/example.json")
+        );
+    }
+
+    #[test]
+    fn release_window_default_is_unknown() {
+        assert_eq!(
+            CorporateEventReleaseWindow::default(),
+            CorporateEventReleaseWindow::Unknown
+        );
+    }
 
     #[test]
     fn normalized_earnings_observation_preserves_provider_facts() {
@@ -123,11 +182,18 @@ mod tests {
 
     #[test]
     fn unavailable_read_model_has_no_events_and_a_safe_diagnostic() {
-        let read_model = CorporateEventProviderReadModel::unavailable("api key missing");
+        let source = CorporateEventSource {
+            provider_id: "fixture".to_string(),
+            source_kind: CorporateEventSourceKind::ExternalFixture,
+            source_url: None,
+        };
+        let read_model =
+            CorporateEventProviderReadModel::unavailable(source.clone(), "api key missing");
 
         assert_eq!(read_model.health, CorporateEventProviderHealth::Unavailable);
         assert!(read_model.events.is_empty());
         assert_eq!(read_model.diagnostic.as_deref(), Some("api key missing"));
-        assert!(!read_model.source_url.contains("token"));
+        assert_eq!(read_model.source, source);
+        assert!(read_model.source.source_url.is_none());
     }
 }

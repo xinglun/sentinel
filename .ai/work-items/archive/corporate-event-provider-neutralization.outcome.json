@@ -1,0 +1,160 @@
+{
+  "acceptanceResults": [
+    "application contract 仅使用 CorporateEventSource 作为来源表达；不得长期保留语义重复的 legacy source: String，也不得在 application default 中出现 Finnhub、Finnhub URL 或 Finnhub Earnings Calendar。",
+    "CorporateEventSource 明确保存 provider_id、source_kind 与可选 source_url；Finnhub adapter 声明 provider_id=finnhub、source_kind=EarningsCalendar，未来 provider 可独立替换。",
+    "CorporateEventReleaseWindow 增加 Unknown 且 Unknown 仅表示没有可靠时段事实；Finnhub 未知或不支持的 hour 继续解析失败并使 provider fail-closed，不得映射为 Unknown。",
+    "unavailable read model 要求 provider/source 显式传入；provider unavailable 与 no event 保持可区分，现有 healthy、missing key、transport failure 与 malformed payload 语义不被破坏。",
+    "API key 不进入 URL、diagnostic、log 或测试输出；现有 secret redaction 测试通过。",
+    "现有 NVIDIA/Finnhub fixture 与 Signal Context 结果 semantic-equivalent；Decision、Gate、Leader、Action Matrix、Position Sizing、Execution 完全不变。",
+    "完成日文设计文档与 Work Item Summary，记录 changed paths、未确认事实、残余风险、验证结果和用户授权。"
+  ],
+  "createdAt": "2026-08-30T14:00:03Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a26eb75b2404b9b64a38bfc8f6dabdf70ae395fc187b83f81c33bb41654b16e8",
+  "evidenceRefs": [
+    ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+      "workItemId": "corporate-event-provider-neutralization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery-runtime-recovery.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/corporate-event-provider-discovery-runtime-recovery.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-neutralization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-provider-neutralization.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-provider-neutralization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 WI-1 provider neutralization：统一 CorporateEventSource 与 CorporateEventSourceKind，显式传递 unavailable 来源，增加 release window Unknown，并以 fail-closed 方式保持非法 Finnhub hour 不被静默降级。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-provider-neutralization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-provider-neutralization"
+  },
+  "taskReportDigest": "sha256:eff33acbde686ac6293e85698aa657e35f14338a393529c1845d43c697177096",
+  "taskReportMarkdownDigest": "sha256:92a458fecd839ccdfd08912888c2cea50addb59327451d32d851f726ab4ef9dd",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/corporate-event-provider-neutralization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "corporate-event-provider-neutralization"
+}

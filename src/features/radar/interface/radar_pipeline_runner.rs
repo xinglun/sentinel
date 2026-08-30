@@ -1473,6 +1473,9 @@ fn load_corporate_event_provider(
     .join()
     .unwrap_or_else(|_| {
         CorporateEventProviderReadModel::unavailable(
+            crate::features::radar::acl::corporate_event_provider_factory::corporate_event_provider_source(
+                market_date,
+            ),
             "Finnhub corporate event provider thread failed",
         )
     })

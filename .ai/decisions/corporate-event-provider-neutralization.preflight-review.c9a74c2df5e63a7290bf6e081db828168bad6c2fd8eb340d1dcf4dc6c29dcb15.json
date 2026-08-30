@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:ec05dc2157445b9f227ece7d7ffed022599ad92fe186b48c3bef052c5cee6e62",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "用户确认采用方案 A，维持 WI-1 的既定范围、未知项和不改变 Decision semantics 的边界；当前场景已由实现、测试与 make quality 覆盖，授权继续 finish、archive、PR 评审合并及清理。",
+  "recordedAt": "2026-08-30T13:56:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:0662766475fdddb55a219efdeb54bd38e1fe9904665fd8cec467c66048dd9a74",
+  "schemaVersion": 1,
+  "workItemId": "corporate-event-provider-neutralization"
+}
