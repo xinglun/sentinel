@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "只使用合法 SEC User-Agent；不把凭据或邮箱写入 repository、logs、evidence。",
+    "company_tickers 与 NVDA submissions live request 成功时，记录 HTTP status、响应结构、规范 CIK、filing/accession/date 字段的脱敏摘要。",
+    "网络、DNS、timeout、403、429、5xx、malformed response 或 identity/date/accession mismatch 只能标记 UNAVAILABLE/验证失败，不得标记 NO_EVENT。",
+    "验证 observed_at、accepted_at、report_run_at 的 look-ahead 边界；本 Work Item 不改变生产代码、报告或 Decision surface。"
+  ],
+  "createdAt": "2026-08-30T16:06:12Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:85e6e3d9c0cd5675bc4ce3c0bb1263d88ab1e7b97133e55883706c1a57472d08",
+  "evidenceRefs": [
+    ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7a7b545daaa3a9da5ce48b326612ebeed24fb7506f2683eb003bcf87c6beffce",
+      "workItemId": "sec-edgar-real-run-validation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-real-run-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/sec-edgar-real-run-validation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-real-run-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/sec-edgar-real-run-validation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-real-run-validation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/external/sec-edgar-real-run-validation.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/sec-edgar-real-run-validation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-real-run-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 WI-2 后的真实 SEC 运行验证：在不持久化凭据的前提下检查 SEC company_tickers/submissions endpoint、NVDA CIK identity、HTTP status、JSON shape、filing/accession/date 字段和 report run time 边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/sec-edgar-real-run-validation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "sec-edgar-real-run-validation"
+  },
+  "taskReportDigest": "sha256:84da7c994382d1c5937d3c1919516ccc94f8499460c3375bcc3ebdfe628038b0",
+  "taskReportMarkdownDigest": "sha256:e12505f294a765380ab812c9763710430c27f7d1211044638d915e1768d091e0",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/sec-edgar-real-run-validation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "sec-edgar-real-run-validation"
+}

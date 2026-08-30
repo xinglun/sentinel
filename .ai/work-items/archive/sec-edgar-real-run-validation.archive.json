@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T16:06:18Z",
+  "files": {
+    "contractDigest": "sha256:903897b9261356c992eaab2938864232b92874b00b1fc01b6fdfe7710d3e68a9",
+    "contractPath": ".ai/work-items/archive/sec-edgar-real-run-validation.contract.json",
+    "eventsDigest": "sha256:2bfe7ceb4e6ed6effbd6a8ceaa0dda8adc4f4c523d0bbba0ad84c334616e9dd5",
+    "eventsPath": ".ai/work-items/archive/sec-edgar-real-run-validation.events.jsonl",
+    "outcomeDigest": "sha256:f413e300e8919f37d1935782927f48907fa6167f6f2f541415b771796a7620ad",
+    "outcomePath": ".ai/work-items/archive/sec-edgar-real-run-validation.outcome.json",
+    "summaryDigest": "sha256:d31d6107603ab05b5bd481011285ba2f526efad0af1e157730e4d426261e5a15",
+    "summaryPath": ".ai/work-items/archive/sec-edgar-real-run-validation.summary.json",
+    "taskReportDigest": "sha256:84da7c994382d1c5937d3c1919516ccc94f8499460c3375bcc3ebdfe628038b0",
+    "taskReportMarkdownDigest": "sha256:e12505f294a765380ab812c9763710430c27f7d1211044638d915e1768d091e0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/sec-edgar-real-run-validation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/sec-edgar-real-run-validation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "sec-edgar-real-run-validation"
+}
