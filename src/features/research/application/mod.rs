@@ -1,4 +1,5 @@
 pub(crate) mod capital_absorption;
+pub(crate) mod corporate_event_evidence_resolver;
 pub(crate) mod corporate_event_provider;
 pub(crate) mod dependency_evidence;
 pub(crate) mod dependency_source_pipeline;
@@ -10,5 +11,6 @@ pub(crate) mod gray_rhino_discovery;
 pub(crate) mod gray_rhino_monitoring_state;
 pub(crate) mod gray_rhino_source_collection;
 pub(crate) mod institutional_evidence;
+pub(crate) mod official_disclosure_provider;
 pub(crate) mod redundancy_evidence;
 pub(crate) mod valuation_gravity;

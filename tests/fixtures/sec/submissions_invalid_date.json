@@ -1,0 +1,14 @@
+{
+  "cik": "0001045810",
+  "name": "NVIDIA CORP",
+  "tickers": ["NVDA"],
+  "filings": {
+    "recent": {
+      "accessionNumber": ["0001045810-26-000008"],
+      "filingDate": ["2026-02-30"],
+      "form": ["8-K"],
+      "primaryDocument": ["invalid-date.htm"],
+      "items": ["2.02"]
+    }
+  }
+}

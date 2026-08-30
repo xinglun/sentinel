@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c8cf4516626d956fcb2041fb792d90af27e2622e",
+    "name": "codex/corporate-event-evidence-resolver",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:f7ae64c7f40a5502485e5512442cdb4f071dc86b635937fcf1f2093fd57b6a79",
+  "operationId": "github-pr-111-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "c1e2c4c4b022d8626086e3634f468111e8263685",
+    "headRevision": "c8cf4516626d956fcb2041fb792d90af27e2622e",
+    "mergeCommit": "2c18ea1822737f457bc41db5bf5a384ea466b4f2",
+    "number": 111,
+    "url": "https://github.com/xinglun/sentinel/pull/111"
+  },
+  "reason": "PR #111 已通过全部 GitHub 检查并合并为 2c18ea18；按用户授权删除精确远端 branch、本地 branch 与对应 worktree。",
+  "receiptId": "corporate-event-evidence-resolver-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/corporate-event-evidence-resolver",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/111",
+    "worktree": "/private/tmp/sentinel-corporate-event-evidence-resolver"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T18:44:00Z",
+  "workItemId": "corporate-event-evidence-resolver",
+  "worktree": {
+    "branch": "codex/corporate-event-evidence-resolver",
+    "headRevision": "c8cf4516626d956fcb2041fb792d90af27e2622e",
+    "path": "/private/tmp/sentinel-corporate-event-evidence-resolver",
+    "worktreeId": "corporate-event-evidence-resolver"
+  }
+}

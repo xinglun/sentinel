@@ -1,0 +1,294 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json",
+    ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
+  ],
+  "checkpointAt": "2026-08-30T17:24:36Z",
+  "checkpointContractDigest": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:24:36Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:34acf7005617a19820b4932bf4b578570e1b0d345eed5cca0d9d72a208928846",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "reason": "补齐 WI-4 的 required evidence classes、来源、四项 make verification、空 unknowns/notCodable、agent capability、execution decision、scenario coverage 与 checkpoint policy；不扩大既定范围，不修改 Decision semantics。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:26:26Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:d2e50be0bdaf59b302ac0021e3f3e441826048fe180bca07e42bf6079b7a9c9e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:34acf7005617a19820b4932bf4b578570e1b0d345eed5cca0d9d72a208928846",
+      "reason": "固定 authority=authorized 并将 required evidence classes 留给 finish/summary 产生的实证；scenarioCoverage 仍覆盖 app、tests、docs、report、fixture 与 make/CI。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:27:28Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:57550d696351ff31c24212fd67fdebde16485341aff0e7c8ac4fc096f4d4fb95",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:d2e50be0bdaf59b302ac0021e3f3e441826048fe180bca07e42bf6079b7a9c9e",
+      "reason": "将 Resolver application、Research/Radar ACL、Signal Context/日报 health 适配以及设计/实现计划文件明确纳入 scope；不触及 Decision semantics、Provider HTTP 实现或全局配置。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:30:31Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:77cc37c572c088b6512122af899e0e25d9cfeb2ae89d3c3bc2c6a40680b717fb",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:82644d405e6fa3eeff7e22e14f2dbea84229fe95689885843225b1670fe88aaf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:57550d696351ff31c24212fd67fdebde16485341aff0e7c8ac4fc096f4d4fb95",
+      "reason": "将 Cockpit 自动生成的 preflight review decision artifacts 明确纳入本 Work Item scope；不扩大 production 行为边界。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:32:39Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:96fe24e9bf89d2159d72911f976c342dcfcecb2bc4c442df7a5b93cda8da24ec",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:79759faa377b71376d72251d0dc67b6e93a96da645b40acae9289f8402037acf",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:82644d405e6fa3eeff7e22e14f2dbea84229fe95689885843225b1670fe88aaf",
+      "reason": "将 scope 从单一分号字符串规范化为逐路径条目，使 Cockpit 能准确审计变更路径；并纳入 .ai/decisions/** 自动生成证据。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T17:33:19Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:96fe24e9bf89d2159d72911f976c342dcfcecb2bc4c442df7a5b93cda8da24ec",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:0c083da17e1c4464fb4cf7c7d10e2d42ba1374657ca20f259f2f4c1f6b790753",
+      "previousContractHash": "sha256:79759faa377b71376d72251d0dc67b6e93a96da645b40acae9289f8402037acf",
+      "reason": "绑定真实 PR #111 后，重新验证当前 Contract、资源身份与完整质量门禁。",
+      "recorded": true,
+      "recordedAt": "2026-08-30T18:20:26Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    {
+      "acceptanceCount": 13,
+      "contractHash": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+      "recorded": true,
+      "recordedAt": "2026-08-30T18:37:03Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "corporate-event-evidence-resolver"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+  "createdAt": "2026-08-30T17:24:07Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户确认方案 A，并已授权本 Epic 的 WI-4 实现、验证、提交、推送、PR 合并、清理与远端同步；Contract 明确保持 Decision semantics 不变。",
+    "recordedAt": "2026-08-31T03:40:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+    "schemaVersion": 1,
+    "workItemId": "corporate-event-evidence-resolver"
+  },
+  "failedGate": "finish.verification",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/corporate-event-evidence-resolver.contract.json",
+      "用户提供的 Sentinel Corporate Event Free Evidence Stack 规范"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-08-30T18:36:55Z",
+  "preflightContractDigest": "sha256:45b973c9b29826fa1a54d02c0c687fc2402c0c139abb2729860f64b4862a018e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_evidence_resolver.rs",
+        "cargo test --lib corporate_event",
+        "make quality"
+      ],
+      "expected": "Alpha-only is Scheduled/PendingConfirmation; SEC EarningsRelated evidence is Confirmed; T+1 remains Historical/Confirmed.",
+      "required": true,
+      "scenario": "Scheduled and official evidence lifecycle",
+      "status": "verified",
+      "verificationPlan": "Run the Resolver application lifecycle tests and the full quality gate."
+    },
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_evidence_resolver.rs",
+        "cargo test --lib corporate_event"
+      ],
+      "expected": "Conflicting dates remain visible as separate evidence and produce a conflict diagnostic without selecting a winner.",
+      "required": true,
+      "scenario": "Provider conflict and provenance",
+      "status": "verified",
+      "verificationPlan": "Run Resolver reconciliation tests and inspect the canonical evidence projection."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/research/application/corporate_event_evidence_resolver.rs",
+        "cargo test --lib corporate_event"
+      ],
+      "expected": "Structured external theme/importance is retained with provenance; symbol names never infer a theme.",
+      "required": true,
+      "scenario": "External enrichment and theme boundary",
+      "status": "verified",
+      "verificationPlan": "Run external Signal Context conversion and Resolver enrichment tests."
+    },
+    {
+      "evidence": [
+        "src/features/research/application/corporate_event_evidence_resolver.rs",
+        "cargo test --lib corporate_event"
+      ],
+      "expected": "Evidence whose observed_at or accepted_at is later than report_run_at is not visible in that snapshot.",
+      "required": true,
+      "scenario": "Look-ahead exclusion",
+      "status": "verified",
+      "verificationPlan": "Run controlled cutoff tests for expected, SEC and aggregator observations."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "cargo test --lib signal_context_read_model::tests::corporate_event_evidence_health_and_provenance_are_rendered_in_appendix",
+        "make quality"
+      ],
+      "expected": "Healthy, Partial, Stale and Unavailable remain distinct; daily diagnostics show provider health and sources without credentials.",
+      "required": true,
+      "scenario": "Provider health and report appendix",
+      "status": "verified",
+      "verificationPlan": "Run Signal Context read-model appendix tests and the full quality gate."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test --lib corporate_event_context_does_not_change_decision_surface",
+        "make quality"
+      ],
+      "expected": "No corporate evidence input changes Decision, Gate, Leader, Action Matrix, Position Sizing or Execution fields.",
+      "required": true,
+      "scenario": "Decision invariance",
+      "status": "verified",
+      "verificationPlan": "Run corporate event decision-surface regression and the full quality gate."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-08-30T18:37:03Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "corporate-event-evidence-resolver"
+}

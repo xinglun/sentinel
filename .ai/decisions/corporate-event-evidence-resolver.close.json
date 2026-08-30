@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:08deda5d3a00f2b2f4a95734d9271838e7d7d05e312a3af27429626d004eb7cf",
+      "workItemId": "corporate-event-evidence-resolver"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/corporate-event-evidence-resolver.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/corporate-event-evidence-resolver.finalize.json",
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-08-30T18:50:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
+          ],
+          "inference": false,
+          "text": "Scheduled、PendingConfirmation、Confirmed、Historical、Unavailable を区別し、provider conflict と provenance を保持し、look-ahead を拒否したまま Signal Context の観測/解釈と日报 appendix に公開する。Decision semantics は変更しない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/corporate-event-evidence-resolver.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "corporate-event-evidence-resolver"
+  },
+  "finalReportDigest": "sha256:e4a91d6de04cf5421dde8d45dbae5d50700d3a852703c3cafbd8607a4763e3e3",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:f67460b217b87647796fb40e363a219bad440cf8d4a434b150948b2f2e56d49c",
+  "resourceFinalizationHeadPath": ".ai/decisions/corporate-event-evidence-resolver.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-08-30T18:50:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/corporate-event-evidence-resolver.finalize.json",
+      ".ai/evidence/corporate-event-evidence-resolver.verification.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "PR #111 已通过全部检查并合并；finalization receipt 已证明精确 branch/worktree 已清理，继续完成 Work Item 关闭。",
+    "resumeCondition": "无需恢复；如需追加治理修复，应创建独立 successor Work Item。"
+  },
+  "timestamp": "2026-08-30T18:49:34Z",
+  "workItemId": "corporate-event-evidence-resolver"
+}

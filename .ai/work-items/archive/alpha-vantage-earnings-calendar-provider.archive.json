@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-08-30T17:06:06Z",
+  "files": {
+    "contractDigest": "sha256:14421308246159eadadc883df62720b3d0a1314bbae31fc50aa2e20d79591760",
+    "contractPath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.contract.json",
+    "eventsDigest": "sha256:1bc664e0cbb9a2f76a4fb722fa667898b7bed38416f4ee733f4f3a141564a45c",
+    "eventsPath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.events.jsonl",
+    "outcomeDigest": "sha256:b825b7033b73397fcb16d166e078fd3e2a258b085b40a02d96b26caa5e4acacc",
+    "outcomePath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.outcome.json",
+    "summaryDigest": "sha256:8e3cfe805a5ed3a691ff2e904ce27d0c7025ddabc56cfc799be00d09c39fdb3c",
+    "summaryPath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.summary.json",
+    "taskReportDigest": "sha256:31638410b741ba0f0f1a6b35a15d441ebb5ac43ac702686c64648fded69dd976",
+    "taskReportMarkdownDigest": "sha256:ca02e7c3a4be813109832907485707e173981284975191fa93ce50a697caf22b",
+    "taskReportMarkdownPath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/alpha-vantage-earnings-calendar-provider.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "alpha-vantage-earnings-calendar-provider"
+}

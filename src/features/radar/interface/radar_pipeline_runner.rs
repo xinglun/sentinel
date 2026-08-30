@@ -38,14 +38,18 @@ use crate::features::radar::interface::price_volume_structure_report::{
     render_price_volume_structure_report, PriceVolumeReportEntry,
 };
 use crate::features::radar::interface::report::{self, ReportRenderContext};
-use crate::features::radar::interface::signal_context_coverage::attach_corporate_event_provider;
+use crate::features::radar::interface::signal_context_coverage::{
+    attach_corporate_event_evidence, external_corporate_event_enrichments,
+};
 use crate::features::radar::interface::signal_context_event_read_model::{
     build_signal_context_event_read_model, SignalContextEventReadModelInput,
 };
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
 };
-use crate::features::research::application::corporate_event_provider::CorporateEventProviderReadModel;
+use crate::features::research::application::corporate_event_evidence_resolver::{
+    CorporateEventEvidenceResolution, CorporateEventEvidenceResolver,
+};
 use crate::features::research::application::gray_rhino_daily_report::{
     GrayRhinoDailyReportViewModel, GrayRhinoSnapshotPersistence,
 };
@@ -148,6 +152,7 @@ pub(crate) async fn run_pipeline_for_report_date(
     let domain_rules_arc = Arc::new(domain_rules);
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
     let now = jst_now();
+    let report_run_at = now.with_timezone(&Utc);
     let radar_context = crate::features::radar::application::radar::RadarRunContext {
         date: report_date,
         timestamp: now.to_rfc3339(),
@@ -352,10 +357,12 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-            let previous_corporate_event_provider = load_corporate_event_provider(
+            let previous_corporate_event_evidence = load_corporate_event_evidence(
                 Arc::clone(&config_arc),
+                save_dir,
                 previous_packet_date,
                 watch_symbols.clone(),
+                report_run_at,
             );
             let previous_gravity_observation =
                 build_valuation_gravity_observation_for_market_date_with_auto(
@@ -381,7 +388,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 previous_capital_absorption_snapshot.as_ref(),
                 previous_gray_rhino_daily_report.as_ref(),
                 &previous_future_calendar,
-                &previous_corporate_event_provider,
+                &previous_corporate_event_evidence,
                 lang,
                 &dict,
             ));
@@ -399,18 +406,20 @@ pub(crate) async fn run_pipeline_for_report_date(
                     "macro-event-calendar-connector".to_string(),
                 )
             });
-        let corporate_event_provider = load_corporate_event_provider(
+        let corporate_event_evidence = load_corporate_event_evidence(
             Arc::clone(&config_arc),
+            save_dir,
             packet.date,
             watch_symbols.clone(),
+            report_run_at,
         );
-        let future_context = attach_corporate_event_provider(
+        let future_context = attach_corporate_event_evidence(
             build_signal_context_event_read_model(SignalContextEventReadModelInput {
                 as_of_date: packet.date,
                 expectation_snapshot: Some(&expectation_snapshot),
                 future_calendar: Some(&future_calendar),
             }),
-            corporate_event_provider,
+            corporate_event_evidence,
         );
         let gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
             config_arc.as_ref(),
@@ -1458,27 +1467,50 @@ fn is_observation_trading_day(date: chrono::NaiveDate) -> bool {
     recent_trading_dates(date).contains(&date)
 }
 
-fn load_corporate_event_provider(
+fn load_corporate_event_evidence(
     app_config: Arc<config::AppConfig>,
+    save_dir: &std::path::Path,
     market_date: chrono::NaiveDate,
     symbols: Vec<String>,
-) -> CorporateEventProviderReadModel {
-    std::thread::spawn(move || {
-        crate::features::radar::acl::corporate_event_provider_factory::load_corporate_event_provider(
+    report_run_at: chrono::DateTime<Utc>,
+) -> CorporateEventEvidenceResolution {
+    let (enrichments, external_diagnostic) = match std::env::var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH")
+    {
+        Ok(path) => match crate::features::radar::interface::signal_context_coverage::load_external_signal_context_from_path(
+            &path,
+            market_date,
+        ) {
+            Ok(Some(context)) => (external_corporate_event_enrichments(&context), None),
+            Ok(None) => (Vec::new(), None),
+            Err(error) => (Vec::new(), Some(error)),
+        },
+        Err(std::env::VarError::NotPresent) => (Vec::new(), None),
+        Err(error) => (
+            Vec::new(),
+            Some(format!("external signal context path unavailable: {error}")),
+        ),
+    };
+    let save_dir = save_dir.to_path_buf();
+    let fallback_symbols = symbols.clone();
+    match std::thread::spawn(move || {
+        crate::features::radar::acl::corporate_event_provider_factory::load_corporate_event_evidence(
             app_config.as_ref(),
+            &save_dir,
             market_date,
             &symbols,
+            &enrichments,
+            external_diagnostic.as_deref(),
+            report_run_at,
         )
     })
     .join()
-    .unwrap_or_else(|_| {
-        CorporateEventProviderReadModel::unavailable(
-            crate::features::radar::acl::corporate_event_provider_factory::corporate_event_provider_source(
-                market_date,
-            ),
-            "Finnhub corporate event provider thread failed",
-        )
-    })
+    {
+        Ok(resolution) => resolution,
+        Err(_) => CorporateEventEvidenceResolver::unavailable(
+            &fallback_symbols,
+            "corporate event resolver worker failed before producing a resolution",
+        ),
+    }
 }
 
 #[allow(clippy::too_many_arguments)]
@@ -1492,17 +1524,17 @@ fn build_packet_interpretation_layer(
     >,
     gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
     future_calendar: &crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel,
-    corporate_event_provider: &CorporateEventProviderReadModel,
+    corporate_event_evidence: &CorporateEventEvidenceResolution,
     language: crate::features::shared::interface::i18n::Language,
     dict: &crate::features::shared::interface::i18n::DisplayDictionary,
 ) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
-    let future_context = attach_corporate_event_provider(
+    let future_context = attach_corporate_event_evidence(
         build_signal_context_event_read_model(SignalContextEventReadModelInput {
             as_of_date: packet.date,
             expectation_snapshot: Some(expectation_snapshot),
             future_calendar: Some(future_calendar),
         }),
-        corporate_event_provider.clone(),
+        corporate_event_evidence.clone(),
     );
     let (expectation_quality, expectation_quality_reason) =
         derive_expectation_quality(expectation_snapshot);

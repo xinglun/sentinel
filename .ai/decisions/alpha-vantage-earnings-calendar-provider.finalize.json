@@ -1,0 +1,58 @@
+{
+  "actor": "user",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、清理、同步远端 main 并切回 develop",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "e00542a5af273a8bd9239b18e42fd323f68dd348",
+    "name": "codex/alpha-vantage-earnings-calendar-provider",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:14421308246159eadadc883df62720b3d0a1314bbae31fc50aa2e20d79591760",
+  "operationId": "github-pr-109-merge-cleanup-20260830",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "9a94a3bf461f745e5d4de9b685f84b7e6a760411",
+    "headRevision": "e00542a5af273a8bd9239b18e42fd323f68dd348",
+    "mergeCommit": "f4af19eeded5ede220657c0c6f50a62e4d053877",
+    "number": 109,
+    "url": "not-requested"
+  },
+  "reason": "PR #109 已通过 Audit Daily Guard、Build/Lint & Test 和 task-list checks 并合并；按用户授权显式删除精确远端 branch、本地 branch 与对应 worktree。",
+  "receiptId": "sentinel-alpha-vantage-earnings-calendar-provider-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/alpha-vantage-earnings-calendar-provider",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/private/tmp/sentinel-alpha-vantage-earnings-calendar-provider"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:69d28c970c2b89534e63cb685c6cc02a2f135d3067b6a84feaabce2adce1d5e5",
+  "runtimeVersion": "0.2.44",
+  "schemaVersion": 1,
+  "timestamp": "2026-08-30T17:14:47Z",
+  "workItemId": "alpha-vantage-earnings-calendar-provider",
+  "worktree": {
+    "branch": "codex/alpha-vantage-earnings-calendar-provider",
+    "headRevision": "e00542a5af273a8bd9239b18e42fd323f68dd348",
+    "path": "/private/tmp/sentinel-alpha-vantage-earnings-calendar-provider",
+    "worktreeId": "alpha-vantage-earnings-calendar-provider"
+  }
+}

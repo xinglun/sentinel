@@ -902,15 +902,20 @@ impl AppConfig {
             }
         }
 
-        // SEC 設定を環境変数で上書きする。
-        if let Ok(ua) = std::env::var("SEC_USER_AGENT") {
-            if ua.trim().is_empty() {
-                // 空文字の環境変数は設定ファイルを上書きしない。
-                // CI で未設定 Secret が空文字として注入されるケースを吸収する。
-            } else if let Some(ref mut sec) = config.sec {
-                sec.user_agent = ua;
+        // SEC 設定を環境変数で上書きする。新しい名前を優先し、既存 workflow の互換性を保つ。
+        let sec_user_agent = std::env::var("SENTINEL_SEC_USER_AGENT")
+            .ok()
+            .filter(|value| !value.trim().is_empty())
+            .or_else(|| {
+                std::env::var("SEC_USER_AGENT")
+                    .ok()
+                    .filter(|value| !value.trim().is_empty())
+            });
+        if let Some(user_agent) = sec_user_agent {
+            if let Some(ref mut sec) = config.sec {
+                sec.user_agent = user_agent;
             } else {
-                config.sec = Some(SecConfig { user_agent: ua });
+                config.sec = Some(SecConfig { user_agent });
             }
         }
 

@@ -1,3 +1,4 @@
+pub(crate) mod alpha_vantage_earnings_calendar_provider;
 pub(crate) mod capital_absorption_ipo_queue_store;
 pub(crate) mod capital_absorption_source_adapter;
 pub(crate) mod dependency_source_adapter;
@@ -9,6 +10,7 @@ pub(crate) mod gray_rhino_daily_report_repository;
 pub(crate) mod gray_rhino_evidence_store;
 pub(crate) mod gray_rhino_snapshot_store;
 pub(crate) mod gray_rhino_source_adapter;
+pub(crate) mod sec_edgar_official_disclosure_provider;
 pub(crate) mod sec_governance_source_adapter;
 pub(crate) mod valuation_gravity_snapshot_store;
 pub(crate) mod valuation_gravity_source_adapter;
