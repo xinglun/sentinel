@@ -143,6 +143,22 @@ fn daily_radar_collect_evidence_bad_config_writes_failed_status_without_blocking
 }
 
 #[test]
+fn daily_radar_failure_notification_has_secrets_and_fails_closed() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Notify on Failure");
+
+    assert!(workflow.contains(
+        "TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}\n          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}"
+    ));
+    assert!(script.contains("set -euo pipefail"));
+    assert!(script.contains("curl --fail-with-body -sS"));
+    assert!(script.contains("jq -e '.ok == true'"));
+    assert!(!script.contains("|| echo \"Failed to send Telegram notification\""));
+}
+
+#[test]
 fn data_branch_write_back_steps_have_valid_shell_syntax() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     for (workflow_name, step_name) in [
