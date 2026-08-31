@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Warns Against Killing the Data Center 'Golden Goose': 5 Stocks to Watch
+  summary: President Trump posts in support of data centers, saying &#34;let Data Reign,&#34; adding that that communities rejecting them risk being &#34;backwards and poor.&#34;
+  url: https://finnhub.io/api/news?id=ad5abf2f1c903c8fd7c1bb74534a035f3cd1df84d39cee310c02a670419fa25f

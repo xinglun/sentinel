@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Brunch: Jobs And More AI Litmus Test Earnings
+  summary: Augustâs jobs report could cement a September rate hike. Broadcom earnings give another look at the AI spending. John Ternus takes the reins from Tim Cook at Apple.
+  url: https://finnhub.io/api/news?id=b65dcfa0f8f8e542ff67693f72381cc5309af36902e5be4ba7bbc2a6c8f91e94

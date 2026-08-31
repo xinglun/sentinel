@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Among 14 Dividend Growth Companies To Announce Annual Dividend Increases In September
+  summary: Microsoft (MSFT) may announce a 10â12% dividend hike as cloud and productivity growth offsets AI spend.
+  url: https://finnhub.io/api/news?id=d51433a38a0f4890cf4c5e89cba7f152e5467f9b5df585ace5da77fceb26f54f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Surges Ahead of Cybercab Event
+  summary: Tesla Inc (NASDAQ:TSLA) shares are jumping Monday ahead of the company&#39;s Cybercab launch event, scheduled for Thursday in Austin, Texas.
+  url: https://finnhub.io/api/news?id=06837805eeb324830710640e0448cd251aa97dac293e943e9e69fc8b4ebbf592

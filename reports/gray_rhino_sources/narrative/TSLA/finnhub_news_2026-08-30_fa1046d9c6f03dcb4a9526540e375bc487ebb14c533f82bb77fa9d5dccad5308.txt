@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Week Ahead
+  summary: Wall Street heads into September: August jobs report, AI chip earnings, and Teslaâs Cybercab launchâplus Fed Beige Book insights.
+  url: https://finnhub.io/api/news?id=ba315618ffbe316cfaad6942270af6a92eed58515a9f13eba6d622c94ad24900

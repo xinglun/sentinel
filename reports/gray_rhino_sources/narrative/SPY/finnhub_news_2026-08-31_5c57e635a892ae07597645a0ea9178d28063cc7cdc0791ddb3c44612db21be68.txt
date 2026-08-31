@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will There Be Panic Before The Midterms
+  summary: US-Iran tensions and Strait of Hormuz risks are spiking oil prices as SPR nears limits.
+  url: https://finnhub.io/api/news?id=39120c3ce85cedf3abc6250800d3929d0e517e9adcaed05463b607a50286baa3

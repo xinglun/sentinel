@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: A High-Quality AI Name That Is No Longer Misunderstood
+  summary: Microsoft Q4: Azure tops $100B, AI/cloud fueled by strong free cash flow. Click for more on MSFT stock.
+  url: https://finnhub.io/api/news?id=b1c233d5799408d07e2e32b2a1adca075e81e92599584c8165fa077acb1c0882

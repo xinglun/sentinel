@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Lessons From A Tumultuous 2026
+  summary: The new economic regime weâve long described has been on full display in 2026. As the summer ends, we focus on three lessons to take into the rest of the year. Read more here...
+  url: https://finnhub.io/api/news?id=19bb9b0da79078270a2271238abb4c72bbbf7936ccfbe1c4a1b6994f466dc65f

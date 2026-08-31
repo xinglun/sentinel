@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Happy 50th, Index Funds: Why Just Owning the S&P 500 May Not Be Enough Anymore
+  summary: Happy Birthday Index Funds! Explore 50 years of passive investing, S&amp;P 500 dominance and the index funds that could benefit from the next market cycle.
+  url: https://finnhub.io/api/news?id=50c1739b9ddc051dbc65d18313392dacbbb32e68b5cb804e7218d29a0018180f

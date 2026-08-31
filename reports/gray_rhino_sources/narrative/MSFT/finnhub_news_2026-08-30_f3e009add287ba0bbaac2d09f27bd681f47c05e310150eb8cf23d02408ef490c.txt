@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Agree, 'Saaspocalypse Is Nonsense'- 3 Stocks I'm Buying
+  summary: Software stocks are leading: CRWD & CRM earnings lifted IGV above June highs. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=582b4c74c9f2238f57f7eae2391bc39cf37385ff43fc7fe6b3a6a1b9fb61f4d5

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: Analyzing Its Datacenter Customers In A Changing Environment
+  summary: Nvidia Corporation remains a Buy as hyperscaler and NeoCloud demand drives robust growth and profitability. Read more on NVDA stock here.
+  url: https://finnhub.io/api/news?id=34fcdc5b395ae44bd3a01c6180162677594447ca079b80f3c68238569f37151a

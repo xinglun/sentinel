@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: D-Wave Quantum: Cheaper Downside Than IonQ, Safer Bet Than Rigetti
+  summary: 
+  url: https://finnhub.io/api/news?id=3101baf206684f503a32f2560333686a3895fc6f2907a5df3a1af381f6ecc254

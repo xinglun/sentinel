@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology: Greater Clarity Does Not Impress
+  summary: Marvell Technology stock drops 10% after earnings as Google deal uncertainty hits despite strong AI data center growth. Click for this MRVL earnings update.
+  url: https://finnhub.io/api/news?id=5b4a71f6c01dc5299eafffd7f57c6315118979a3a2767dca80452da6a9f002aa

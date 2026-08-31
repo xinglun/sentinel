@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Covered Call ETFs Built To Weather The Sell-Off
+  summary: Discover why elevated volatility favors covered call strategies and how selective overwriting can cut opportunity costs.
+  url: https://finnhub.io/api/news?id=f63a697049919b11a470fe248dd4ad5e1631005c05e5f0f75300b647d3d8ce46

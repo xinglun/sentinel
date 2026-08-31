@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Predicts AI Will Be ‘Superhuman’ at Everything Digital by End of 2027: ‘Doesn’t Require Shaping Atoms’
+  summary: Elon Musk sees superhuman AI arriving across the digital world by the end of next year, extending his increasingly aggressive timeline.
+  url: https://finnhub.io/api/news?id=62b4cc0b2380830bf495e9eef1185f8de70122c6620a9aba40763bbd8ebf3463

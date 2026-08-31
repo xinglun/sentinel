@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside Google’s 260 Million Pound UK App Store Settlement: What It Means for Alphabet Stock
+  summary: Alphabet stock fell 2% as mega-cap tech pulls back following Google’s 260 million pound settlement in a U.K. class-action lawsuit over Play Store developer fees.
+  url: https://finnhub.io/api/news?id=7917f88768fa132366790b535ec26f91fbe1ad7c42d4de91d67ed9e071750dd2

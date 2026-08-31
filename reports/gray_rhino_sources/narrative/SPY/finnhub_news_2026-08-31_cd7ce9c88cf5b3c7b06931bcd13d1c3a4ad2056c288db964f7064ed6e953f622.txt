@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Were Strong In August. Here's What Could Derail The S&P 500's Rally
+  summary: August stock market update: S&P 500 up 2%, QQQ led; Energy surged as Utilities lagged. Click for this look back at what mattered during the month.
+  url: https://finnhub.io/api/news?id=c3fec2e5de14a48db544d851b80967776b3b55d5ac26582026cef58a9c63dba2

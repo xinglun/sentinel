@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Warns Clean Energy Alone Won't Stop Earth's Climate Crisis: Satellite Swarm Needed or 'It Will Be Game Over'
+  summary: Elon Musk says clean energy may not be enough, proposing space-based geoengineering to fight global warming.
+  url: https://finnhub.io/api/news?id=c8db54581409eecd3527bbddcc54a8dd0400f4b9fc32df7287387f0d51a3700d

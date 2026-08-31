@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Tech Stocks Take The Season
+  summary: The Tech sector accounted for about 80% of the S&P's increase in market cap by adding $1.392 trillion.
+  url: https://finnhub.io/api/news?id=d3e222c8d53d06eaa41a882f4a3c9974ce47502133ed8c290135535a9e377606

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: Trillions In AI Spend Over 5 Years Keeps The Growth Cycle Intact
+  summary: Nvidia Corporation Strong Buy: AI data center boom, Vera Rubin GPUs/CPUs, key risks, and $506 target. Click for this NVDA earnings update.
+  url: https://finnhub.io/api/news?id=ca6298f12d71df209bf6b633de9c8b53e91ff0df4a12e2b808d830e97e9371d4

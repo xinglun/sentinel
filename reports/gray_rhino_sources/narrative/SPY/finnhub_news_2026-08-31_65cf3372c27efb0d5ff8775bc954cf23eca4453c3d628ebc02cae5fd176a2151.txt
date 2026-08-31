@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: No Rate-Hiking Map From The Federal Reserve
+  summary: Warshâs speech at the Jackson Hole Economic Symposium tempered, but didnât change, my view that the Fed stays on hold for the rest of the year. Earnings season ended with positive surprises.
+  url: https://finnhub.io/api/news?id=868dfb1f5375518edb71c3e8f51a13911bb49e464f618fc0c1b0a78fa498d54f

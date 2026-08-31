@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Trump’s Venezuelan Oil Company Plans Massive Drilling Push; Company Led By Alejandro Betancourt Plans To Dispatch More Than 50 Drilling Rigs To Turbocharge The Country’s Anemic Crude Production' - WSJ Exclusive
+  summary: https://www.wsj.com/business/energy-oil/trumps-venezuelan-oil-company-plans-massive-drilling-push-db439e19
+  url: https://finnhub.io/api/news?id=e56d6f8cdf28e75f9933e34a270bcf17371fbf7b84d3b8a88c25b1eda83967e5

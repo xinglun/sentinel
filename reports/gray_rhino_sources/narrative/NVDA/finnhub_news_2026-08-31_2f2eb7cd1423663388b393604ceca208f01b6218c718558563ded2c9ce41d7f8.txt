@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN: $19M Of Ebitda Against $30B Of CapEx
+  summary: IREN Limited is downgraded to Strong Sell due to unsustainable economics and mounting financial risks. Click here to read this IREN stock update.
+  url: https://finnhub.io/api/news?id=ea8a173f15854f7dae0ebbc376a4f0231491c70568b9ab9f68b10da84311e9da

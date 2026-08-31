@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Boom Needs Electricity — These Solar ETFs Could Be the Beneficiaries
+  summary: Elon Musk’s solar push comes as AI data centers drive soaring power demand, creating a potential tailwind for clean energy ETFs.
+  url: https://finnhub.io/api/news?id=fb6fe1c5b5bb64999b37840d0aed5d3b4dfddd5a56818d0d93413b95f58de3c8

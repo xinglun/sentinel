@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Vs. SS Innovations: Why You Should Buy The Lesser-Known Indian Competitor
+  summary: Compare SS Innovations vs. Intuitive Surgical in medical roboticsâwhy SS Innovations may offer asymmetric upside, stronger growth, and better returns. Click to read.
+  url: https://finnhub.io/api/news?id=3bc420092aebcb8971b91fd83d22aaf16431a744f360a1e12d4cbf8c8074f319

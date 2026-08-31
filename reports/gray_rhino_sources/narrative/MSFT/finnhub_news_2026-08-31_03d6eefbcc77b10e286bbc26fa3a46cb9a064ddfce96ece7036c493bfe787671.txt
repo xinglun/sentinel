@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Take-Two Interactive Software: The Street Is Missing The Big Picture
+  summary: Take-Two Interactive Software, Inc. may dip in the near term as GTA 6 preorders lag and valuation looks stretchedâyet long-term upside remains. Click for this TTWO stock update.
+  url: https://finnhub.io/api/news?id=c1e941ba37b823022bde98c957fe09c6aa78fbe641d19e6d6c097df0e323ad85

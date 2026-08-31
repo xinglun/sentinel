@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After The Fed: Analysis Of Warsh On AI, Inflation And The Unknowns (Video)
+  summary: Explore Fed Chair Warshâs view on AI-driven capex, booming token sales, and inflation risksâplus why a diversified strategy matters. Click for more.
+  url: https://finnhub.io/api/news?id=c41651ec2da0872185aff3aa7ad3470900318cfee1386bc5100c5df18440d2a5

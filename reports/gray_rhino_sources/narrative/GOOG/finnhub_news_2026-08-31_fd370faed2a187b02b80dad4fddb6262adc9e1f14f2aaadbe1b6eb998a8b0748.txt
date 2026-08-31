@@ -1,0 +1,26 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Rises As US Strikes Iran; Warsh's Hawkishness Reverberates; Weak Stock Market Seasonality Ahead
+  summary: 
+
+
+
+Oil Rising
+
+
+
+Please click here for an enlarged chart of United States Oil ETF (NYSE:USO).
+
+
+
+Note the following:
+
+
+
+
+The chart shows oil is rising this morning.
+
+
+
+The chart shows oil has risen significantly from
+  url: https://finnhub.io/api/news?id=8254cead2ba94488fac39c41d8bf0f016fe92d3652f8e578b2f527cf4635645d

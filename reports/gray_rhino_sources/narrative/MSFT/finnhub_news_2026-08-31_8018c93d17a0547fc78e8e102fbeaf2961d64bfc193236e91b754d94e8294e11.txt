@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Gates Won't Pick Crypto to Diversify Away From the Dollar, Calls It 'Pure Mania-Driven Asset' — Here's What the Billionaire Would Choose Instead
+  summary: Microsoft Corp. co-founder Bill Gates said in an interview on Friday that he would never use cryptocurrencies to diversify away from the dollar.
+  url: https://finnhub.io/api/news?id=ef00d9aff95028aca0820ca9c8279addce8b53c11ee6f6cef55716a7077629bd

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking Terry Smith's Fundsmith 13F Portfolio - Q2 2026 Update
+  summary: Fundsmith's 13F portfolio rose to ~$13.65B in Q2 2026, expanding holdings from 34 to 41. Click here to read more about the portfolio.
+  url: https://finnhub.io/api/news?id=891189d904c37cd1a42d9adf35703a2729dacbb6529f24d5bb557f9ddb970015

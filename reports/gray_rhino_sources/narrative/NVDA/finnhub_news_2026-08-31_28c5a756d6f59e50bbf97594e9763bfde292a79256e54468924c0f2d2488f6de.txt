@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Power Demand Doubles By 2027: Here's Ways To Position
+  summary: AI data center power demand is reshaping utilities into growth plays. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=bc03f9bc6310b18cb3bb750d7736f6509cdbda84e035fe14301772b51a57fb5f

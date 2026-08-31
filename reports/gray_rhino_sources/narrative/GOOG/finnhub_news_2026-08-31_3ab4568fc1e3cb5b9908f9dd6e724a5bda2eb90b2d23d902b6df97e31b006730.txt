@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google takes aim at Anthropic, Microsoft with budget-friendly AI pricing
+  summary: CNBC’s MacKenzie Sigalos joins “Access Middle East” to report on Google’s push to undercut Microsoft and Anthropic on AI agent pricing as enterprise spending soars.
+  url: https://finnhub.io/api/news?id=d56be9e39de8b38b8bf7117425a2966b574bfded7adff7d52183193a2fa0cf30

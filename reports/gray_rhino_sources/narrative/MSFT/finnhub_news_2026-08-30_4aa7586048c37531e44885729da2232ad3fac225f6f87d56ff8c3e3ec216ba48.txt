@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 and Dow Jones Outlook: Top Three Catalysts This Week
+  summary: This S&amp;P 500 and Dow Jones outlook explains the top three catalysts that will move US stocks this week.
+  url: https://finnhub.io/api/news?id=ca3dea02bb91c8852d60782888b29f299e0e70d199186e5959bac5a1ec43b8fe

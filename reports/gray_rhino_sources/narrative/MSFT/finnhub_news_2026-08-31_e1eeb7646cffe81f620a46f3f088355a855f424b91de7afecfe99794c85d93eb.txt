@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Saw Microsoft Before the Chart Did
+  summary: Microsoft stock is nearing a Golden Cross as Bill Ackman&#39;s long-standing conviction gains technical confirmation.
+  url: https://finnhub.io/api/news?id=2268389f238783ec369626d5ca84434a19039b55244c69439664f6a2c5cc64e1

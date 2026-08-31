@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Web Services Accelerates Middle East AI Push with Saudi Cloud Region Launch
+  summary: Amazon stock dipped 2% as market risk appetite cooled, even as AWS prepares to expand AI across Saudi Arabia.
+  url: https://finnhub.io/api/news?id=008c44d4eaae4ae1b0b5b8a08366f055bc94038e076494456f3101d6c2935e43

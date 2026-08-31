@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Alleges Defendant In Trade Secret Case Against OpenAI Accessed Power Converter Circuit Schematic While At OpenAI; Alleges Defendant In Trade Secret Case Against OpenAI Trained AI Agent Using Proprietary Apple Information; Apple Says New Evidence Came To Light From MacBook Computer OpenAI Provided To Apple On August 21 As Part Of Legal Proceedings; Apple Is Asking U.S. Federal Court To Expedite Discovery Proceeding In Trade Secret Case Against OpenAI
+  summary: - Reuters Citing Legal Filing
+  url: https://finnhub.io/api/news?id=577062a90969964beaea43743d931e622f2a563a24c7878335925ff6b13fb032

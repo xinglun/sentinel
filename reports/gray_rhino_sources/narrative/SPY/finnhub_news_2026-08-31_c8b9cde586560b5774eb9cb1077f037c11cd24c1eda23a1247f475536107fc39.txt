@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Opendoor Stock Falling on Monday?
+  summary: Opendoor Technologies Inc. stock declines Monday following hawkish Federal Reserve signals and rising crude oil prices due to Middle East tensions.
+  url: https://finnhub.io/api/news?id=ce46cf7c7efe0741170bb954ce87281ee6cfa6cf3683337f72dcd696d3dbda3d

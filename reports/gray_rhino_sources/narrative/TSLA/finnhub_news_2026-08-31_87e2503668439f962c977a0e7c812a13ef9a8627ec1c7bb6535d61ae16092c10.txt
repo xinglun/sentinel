@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom reports earnings this week. Mike Khouw says this trade could be a winner
+  summary: "The stakes are high" heading into Broadcom earnings, says Mike Khouw.
+  url: https://finnhub.io/api/news?id=8895fcfcf8d3d1190b2607a238127bac333af14caed7224e7640cfb9982341e8

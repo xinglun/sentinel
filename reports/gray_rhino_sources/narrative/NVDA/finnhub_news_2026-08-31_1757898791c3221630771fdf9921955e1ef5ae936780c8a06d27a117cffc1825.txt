@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 14x Earnings For 70% Growth: Why Nvidia Remains My Top Pick
+  summary: Nvidia (NVDA) stock outlook: 106% YoY growth, AI infrastructure dominance, and steady margins/FY28 guidance.
+  url: https://finnhub.io/api/news?id=ede70d739bd57ec04e7e45e7b1a44ff1854b87b35f109ac3f98413971c382801

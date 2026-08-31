@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says America’s Wealth Gap With Europe Is About to Get ‘Much Bigger’ — AI and Robots Are Why
+  summary: Billionaire Elon Musk thinks the U.S. has a key advantage over its trans-atlantic neighbors, which will help make the country richer.
+  url: https://finnhub.io/api/news?id=f17bd49ba82909fda4365853b2a881e23fb5fba4d737e2c2b1c668adc526bdc2

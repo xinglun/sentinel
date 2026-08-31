@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's SpaceX Bet Grows as Rocket Lab Stock Flashes a Death Cross
+  summary: Rocket Lab stock flashed a death cross as Cathie Wood trimmed RKLB while her SpaceX investment gained prominence after a strong rally.
+  url: https://finnhub.io/api/news?id=4eecdf8a3d26a51cd12a526a0ae87104eed8a7f68eaa2c5bfc079cb6cf321e58

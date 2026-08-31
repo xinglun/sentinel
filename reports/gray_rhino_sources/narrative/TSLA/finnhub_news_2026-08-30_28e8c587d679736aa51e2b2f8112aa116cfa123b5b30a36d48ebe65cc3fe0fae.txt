@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Says Wall Street's Tesla Robotaxi Skepticism Comes Down to Market Share, Not Growth: Autonomy Will 'Quickly Become a Commodity'
+  summary: Gary Black said Tesla bulls are misreading how Wall Street values the company&#39;s robotaxi business, disputing that a repricing is inevitable.
+  url: https://finnhub.io/api/news?id=6ab528a91b66eabe8c920f81156d93bf09b04683b58536ae1c992f2c6eb038b7

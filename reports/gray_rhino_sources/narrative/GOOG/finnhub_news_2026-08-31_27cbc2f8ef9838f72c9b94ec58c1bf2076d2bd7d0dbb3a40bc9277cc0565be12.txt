@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell: Market's Myopia On Alphabet Deal's Potential Is Baffling
+  summary: Marvell Technology, Inc. post-earnings: Google partnership, AI/data center upside, and a valuation reset to 40x. Click for this MRVL earnings update.
+  url: https://finnhub.io/api/news?id=4e98513098d2b5cc14bbfe6fb8c034e9bee1ed220022a46f52ccf43edf7d570d

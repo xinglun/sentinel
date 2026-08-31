@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike's Falcon Platform Now Available On Google Cloud
+  summary: CrowdStrike (NASDAQ:CRWD) today announced the CrowdStrike Falcon® platform is now available on Google Cloud infrastructure, giving customers access to its leading AI-native security platform.As AI workloads expand in
+  url: https://finnhub.io/api/news?id=b1f59387405252fa2f32504889c995886a5602cff2cbc0f062656b9f423ff26d

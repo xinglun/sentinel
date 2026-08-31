@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nomura Value Fund Q2 2026 Portfolio Activity
+  summary: After outperforming its benchmark in 1Q2026, the Nomura Value Fund Institutional Class shares lost considerable ground to the Russell 1000Â® Value Index in 2Q2026. Read more here.
+  url: https://finnhub.io/api/news?id=e31bb94ba8ba5bf570eec0910d8d4a76f8de5cb1337c82447b88712cea7dea53

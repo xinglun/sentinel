@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tom Lee Just Bought These Three Beaten Down Stocks. Here's Why.
+  summary: Here are the top beaten down stocks that Tom Lee, the popular analyst, bought recently for his top exchange-traded funds (ETF)
+  url: https://finnhub.io/api/news?id=454f6459ee8e3716e06acccd9a6bd4702bad5bc6fa7f6bbc52925de104dc358a

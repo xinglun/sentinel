@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The Valuation And The Unlock Calendar Keep Me On The Sidelines
+  summary: SpaceX surged 92% YoY, but 42x forward sales and huge share unlocks could pressure shares. Click for more on SPCX.
+  url: https://finnhub.io/api/news?id=1eca922b5725cabba5b34434fc7297ac78abae5b58c2aed6172091448be463e8

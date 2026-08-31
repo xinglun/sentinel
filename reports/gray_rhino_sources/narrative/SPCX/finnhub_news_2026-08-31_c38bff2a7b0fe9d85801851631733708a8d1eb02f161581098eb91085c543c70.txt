@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump’s Truth Social ETF Manager Is Betting Big on AI, Crypto and New ETFs
+  summary: Trump’s Truth Social ETF manager is expanding into AI, crypto, and macro strategies with a new MANGOS ETF and a planned acquisition.
+  url: https://finnhub.io/api/news?id=379b352d0de5bb6d45d2ce5d132795804bbcda6cdfa1bba75116c990e11b8a61

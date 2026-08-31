@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top dow jones movers in Monday's session
+  summary: Get insights into the dow jones index performance on Monday. Explore the top gainers and losers within the dow jones index in today's session.
+  url: https://finnhub.io/api/news?id=70b9550024f8c5d254fc55828103b4b095d43a0883efa08bacf46c4e37fc2a76

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jackson Hole Just Changed The Game
+  summary: The Fed Chairman's speech at Jackson Hole just changed the game for markets. I detail the reasons why the Fed may (and may not) cut rates by year-end.
+  url: https://finnhub.io/api/news?id=69c13fb568ed66aae2fc04afe7601d7d6482c634af27cf03a14645b8a4ecc0fc

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta’s $18 billion settlement puts TikTok and YouTube on notice. Who's next on the firing line?
+  summary: "Meta is seeking to ensure its competitors will face the same rules," one business professor told CNBC after Meta called on rivals to protect children online.
+  url: https://finnhub.io/api/news?id=c2e66c3961adc17bc6d599cf3432a561b5ad6dca0be837dd804d63714674b59e

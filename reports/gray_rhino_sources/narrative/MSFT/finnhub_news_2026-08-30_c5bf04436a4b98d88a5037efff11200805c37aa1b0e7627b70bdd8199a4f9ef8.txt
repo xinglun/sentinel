@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elizabeth Warren Says 6 Huge Companies Pocketed $83 Billion in Tax Breaks as Americans Struggled: 'Let That Sink In'
+  summary: Sen. Elizabeth Warren warned that a small group of powerful companies is capturing an outsized share of federal tax benefits.
+  url: https://finnhub.io/api/news?id=d6b2fed5009ccabc61c34d07a341418e823e3f9ce3d9bc8aae00b23662e98875

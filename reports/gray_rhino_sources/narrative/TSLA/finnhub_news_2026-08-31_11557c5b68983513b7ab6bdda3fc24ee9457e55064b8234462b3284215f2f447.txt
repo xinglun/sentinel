@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says SpaceX Can Accelerate Natural Gas Turbines by 18 Months: 'Profound Game-Changer' for AI Power
+  summary: Elon Musk says SpaceX&#39;s push to manufacture in-house turbine that will accelerate data center power consumption.
+  url: https://finnhub.io/api/news?id=a6b703da30e7154746e2a3d46a9d3e98f0c9de9f3cae1c5f39dc96873a197de4

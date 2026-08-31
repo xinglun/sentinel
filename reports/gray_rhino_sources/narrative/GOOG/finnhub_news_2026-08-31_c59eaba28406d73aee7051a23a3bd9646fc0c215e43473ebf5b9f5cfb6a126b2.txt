@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo Robotaxis Under Fire From Atlanta Drivers, Union Demands Up To $1 Fee To Protect Human Jobs: Report
+  summary: Atlanta drivers&#39; union demands city to prohibit deployments of Robotaxis from Waymo at the city&#39;s airports amid reduced earnings.
+  url: https://finnhub.io/api/news?id=b311f74c3b306a4b65cc5691f4043a1ea46fb37e965e3b3b9c4379d1cdaf7411

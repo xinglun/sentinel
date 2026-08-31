@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Q2: Buying This Dip Looks Premature
+  summary: Marvell Technology beat on Q2 results and Q3 guidance and raised FY27 and FY28 revenue. Click here to read this earnings analysis of MRVL stock.
+  url: https://finnhub.io/api/news?id=a99f625d38802459f85133681f842b100923c2296fe3f8b5d8f22a3e990d26b4

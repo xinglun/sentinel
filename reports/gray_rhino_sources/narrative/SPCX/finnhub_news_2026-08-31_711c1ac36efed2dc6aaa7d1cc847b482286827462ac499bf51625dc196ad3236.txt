@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: The Best Days Are Far From Over
+  summary: Nvidia's growth engine is far from peaking, translating into a solid outlook of 70% FY2028 revenue growth and robust AI chip demand. See why NVDA stock is a Buy.
+  url: https://finnhub.io/api/news?id=fe861e3a39c7f954a44f2b7435081fd58db08371d666adb0ced0c51ca4310ae4

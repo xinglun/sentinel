@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week in Tesla: No More FSD in China? Elon Musk's Robovan Talk And More
+  summary: Over the past week, Tesla and Elon Musk made headlines with a possible FSD rumor, a new vehicle tease, galaxy-wide expansion plans and more.
+  url: https://finnhub.io/api/news?id=f4ff9954c64b13fb2bcf1d926ed2aae92a41901b8f906ab0dedfab86f45c5d9d

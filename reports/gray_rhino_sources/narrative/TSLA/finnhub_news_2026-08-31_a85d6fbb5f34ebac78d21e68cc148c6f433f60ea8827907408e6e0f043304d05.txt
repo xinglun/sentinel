@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Jumps Near $90 On Iran Risk, California Utilities Crater: Stock Market Today
+  summary: Brent climbed after new U.S.-Iran strikes, pushing the 10-year yield to a 19-month high; Edison and PG&amp;E collapsed on a wildfire bill.
+  url: https://finnhub.io/api/news?id=8c679010ff60a94a4bf6183bb59b2027892362519d720c9538c25683fe6feb34

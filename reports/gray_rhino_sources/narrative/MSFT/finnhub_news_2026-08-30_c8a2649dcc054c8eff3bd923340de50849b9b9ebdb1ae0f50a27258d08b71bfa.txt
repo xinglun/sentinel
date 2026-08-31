@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Says Bill Gates Is Right About AI Posing 'Grave Threat' to Humanity: 'We Must Act Before It's Too Late'
+  summary: Bernie Sanders backs Bill Gates’ AI job-loss warning, while Jensen Huang disagrees and economic data offers mixed signals.
+  url: https://finnhub.io/api/news?id=206fedafd4053c92887d5c37d62c0b3c6e04892b6c925bb31a725566c201b6ef

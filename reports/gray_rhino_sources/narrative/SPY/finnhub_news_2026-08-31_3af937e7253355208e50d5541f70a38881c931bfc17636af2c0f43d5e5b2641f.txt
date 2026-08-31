@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What I'm Watching In September: Rate Volatility, Rotation Trades, And Cooler Inflation
+  summary: September market outlook: jobs data, Fed decisions, and key earnings (Micron, Oracle, and FedEx) could drive volatility and sector rotation. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=459e250df5cbc45146c63a529c5c43b1acc9b20b814d1b582dfc46f2f3603e55

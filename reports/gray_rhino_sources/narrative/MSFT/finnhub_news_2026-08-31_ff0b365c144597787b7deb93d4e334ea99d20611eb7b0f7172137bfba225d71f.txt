@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Competitor Analysis: Evaluating Microsoft And Competitors In Software Industry
+  summary: Amidst today&#39;s fast-paced and highly competitive business environment, it is crucial for investors and industry enthusiasts to conduct comprehensive company evaluations. In this article, we will delve into an
+  url: https://finnhub.io/api/news?id=35292225fb919529ddbd9de95bf762221796c52a755d27b88a6460f791599bc5

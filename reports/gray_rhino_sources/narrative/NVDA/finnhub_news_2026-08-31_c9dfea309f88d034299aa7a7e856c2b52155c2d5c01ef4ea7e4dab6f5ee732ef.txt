@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Got $5.5B in SB Energy Warrants to Lease Nvidia-Backed AI Data Centers
+  summary: OpenAI holds $5.5B in warrants from SoftBank’s SB Energy as Nvidia backs its data-center buildout with up to $105B in guarantees.
+  url: https://finnhub.io/api/news?id=7ec20d97d1eecd24fe43a985d3bf704b4b8e79d82435f4cd0a3b034fcc1aec9d

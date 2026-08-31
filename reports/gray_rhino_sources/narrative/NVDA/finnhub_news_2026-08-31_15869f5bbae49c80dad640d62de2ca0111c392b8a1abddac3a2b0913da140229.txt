@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US Banks Want a Bigger Piece Of The AI Trade: Here's How They're Getting It
+  summary: US business lending hit $2.93 trillion, up 10% year over year, the fastest since March 2023. Bank of America says AI capex is behind it.
+  url: https://finnhub.io/api/news?id=cc64ae657afd51c4c58ea2ebf8732d9596acc0da5b56b93f15e54657e4bf4fb0

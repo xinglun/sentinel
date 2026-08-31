@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVDU: Nvidia's Earnings Beat Opens A Tactical Window For Active Traders
+  summary: Nvidia Corporationâs strong Q2 '27 and FY28 guidance fuel a bullish NVDA outlook; learn why NVDU offers 2x upside but high volatility risk. Click for an NVDU update.
+  url: https://finnhub.io/api/news?id=06073b2f20c7fdea69d6ad7faa380ff16e3dfa1569335ea9e55b8c9b73a7729b

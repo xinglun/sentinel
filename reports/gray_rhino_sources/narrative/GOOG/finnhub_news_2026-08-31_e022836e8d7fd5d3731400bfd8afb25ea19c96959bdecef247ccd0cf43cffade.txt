@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MapQuest vs. Trump: OG of Maps Keeps Lake Ontario Name, Sees Download Surge and Stock Boost for Parent
+  summary: President Donald Trump changed the name of Lake Ontario to Lake America. A mapping company said they wouldn&#39;t comply.
+  url: https://finnhub.io/api/news?id=6ee3701f9f50830475a4f528b304d4a6bce93de3d0d516def3d75ff08a090182

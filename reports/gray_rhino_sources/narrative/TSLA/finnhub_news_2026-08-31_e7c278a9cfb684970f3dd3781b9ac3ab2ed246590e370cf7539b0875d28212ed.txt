@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD: The World's #1 EV Maker By Every Measure (Rating Upgrade)
+  summary: 
+  url: https://finnhub.io/api/news?id=1d189faaef80fef8e11f0b4dd4414d89c6eaa67e576851f8645463fa22df7932

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks fall after U.S. strikes Iran, but Wall Street heads for winning month: Live updates
+  summary: Heightened tensions in the Middle East have contributed to choppy trading in August, but Wall Street is currently on track for a month of gains.
+  url: https://finnhub.io/api/news?id=84fd2eb43534de120702c9f2fb9aaa229ed9288e8e9209be9f42a47646cce4a5

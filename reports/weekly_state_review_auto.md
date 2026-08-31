@@ -1,15 +1,16 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-08-28
+- 截至: 2026-09-01
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 57.1
-- 平均稳定度: 9.3
+- 平均置信度: 58.0
+- 平均稳定度: 9.7
 - 趋势凝聚 ready 天数: 2
 
 ## 市场状态计数
-- IGNITION: 7
+- IGNITION: 6
+- NEWBORN: 1
 
 ## 风险覆盖计数
 - NORMAL: 7
@@ -21,13 +22,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-08-14: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-17: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-21: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-25: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-26: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-27: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-28: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-09-01: IGNITION -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -64,9 +65,9 @@
 - Narrative:
   - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
   - 等待官方公布。公布后系统将自动对比 Expected / Actual、计算 Surprise、更新 Narrative。
-  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 14 trading days）。
-  - 短期相对强度开始在 FIG / PLTR / NVDA / MSFT 等个别资产恢复，尚不足以构成新的 Leadership。
-  - 相对强度在 TSLA 等资产出现初步改善，但尚不足以确认恢复。
+  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 15 trading days）。
+  - 短期相对强度开始在 SPCX / PLTR / NVDA / TSLA 等个别资产恢复，尚不足以构成新的 Leadership。
+  - 相对强度在 ISRG 等资产出现初步改善，但尚不足以确认恢复。
   - RS Recovery Breadth：5/9 非基准资产改善；Strong/Moderate Recovery：4/9 强/中等恢复；RS Diffusion：EMERGING。Actionable Diffusion：NOT_CONFIRMED
   - Reason：没有确认 Leader、没有 breakout、Action Matrix 未转强确认。
   - 动作分布：观察 0 / 持有 0 / 收缩 10。
@@ -77,18 +78,18 @@
   - Leadership Watch Candidates: []
   - leadershipBreadth: broad
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
-  - Leader Absence Duration: 14 trading days
-- broad_participation:
-  - Breadth Raw: 60.0%
-  - Breadth Label: Broad Participation
-  - breadthClassificationScore: 60.0
+  - Leader Absence Duration: 15 trading days
+- universe_breadth_expansion:
+  - 观察池广度原始值: 60.0%
+  - 观察池广度标签: BROAD_WITHIN_UNIVERSE
+  - 观察池广度分类分数: 60.0
   - concentrationScore: 34
   - rotationScore: 14
 - Rotation Observation:
   - rotationType: no_rotation
   - from: []
   - to: []
-  - interpretation: 上涨主要来自广泛参与，而不是少数核心资产。
+  - interpretation: 上涨主要来自 Sentinel 观察池内部的广度改善；全市场 breadth 未被本层测量。
   - observationOnly: true
 - Observation Confidence:
   - trend: MEDIUM
@@ -105,13 +106,12 @@
   - 综合主导者: none
   - Current Leader: none
   - Previous Snapshot Leader: none
-  - Last Confirmed Leader: TSLA
   - Leader Absence Since: 2026-08-04
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
   - 领导评分: 0.0
   - 领导状态: ABSENT
-  - Leader Absence Duration: 14 trading days
+  - Leader Absence Duration: 15 trading days
   - 较昨日变化: +1 天，评分下降
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.
@@ -129,7 +129,7 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-08-28
+- 最新观测日: 2026-09-01
 - 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 0
 - 7 日 Future Queue 最小值 / 最大值: 0 / 2
@@ -147,7 +147,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-08-28
+- 观测日: 2026-09-01
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

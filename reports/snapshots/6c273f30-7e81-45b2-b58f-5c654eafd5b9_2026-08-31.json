@@ -1,0 +1,40 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-08-31",
+  "report_date": "2026-09-01",
+  "as_of_date": "2026-08-31",
+  "generated_at": "2026-09-01T08:09:45.623201401+09:00",
+  "run_id": "a9ce9f5a-d214-49ef-9d09-e6132290fa74",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-08-31",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 60.0,
+  "breadth_classification": "BROAD_WITHIN_UNIVERSE",
+  "confidence": 60.43308310947727,
+  "supply_phase": "IDLE",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {},
+  "stability": 10.0,
+  "continuity": 17,
+  "cycle_length_days": 17,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "BROAD_WITHIN_UNIVERSE",
+      "down_count": 2,
+      "flat_count": 2,
+      "raw_percent": 60.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 6
+    },
+    "history": "HEALTHY",
+    "trend": "HEALTHY"
+  }
+}

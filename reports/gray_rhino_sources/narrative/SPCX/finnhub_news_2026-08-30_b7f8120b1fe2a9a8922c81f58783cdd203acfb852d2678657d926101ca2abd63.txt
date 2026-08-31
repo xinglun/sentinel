@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Planet Labs Stock is Stuck in a Bear Market: Will Its Earnings Change This?
+  summary: Planet Labs stock has moved into a bear market as investors wait for its earnings report. Find out whether its results will change that
+  url: https://finnhub.io/api/news?id=9dfee018869fbba9974a852364d25a80a59e2cda58c9441ff000bc8a39a1a1f5

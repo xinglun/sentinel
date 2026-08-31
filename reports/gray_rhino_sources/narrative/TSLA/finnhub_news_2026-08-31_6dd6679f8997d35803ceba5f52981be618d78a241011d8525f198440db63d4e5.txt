@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trade Tracker: Bryn Talkington buys more Tesla
+  summary: Bryn Talkington, Managing Partner of Requisite Capital Management, joins CNBC's "Halftime Report" to explain why she's buying more Tesla stock.
+  url: https://finnhub.io/api/news?id=c7765a7b23ed932867381efac0950506c2686f3f435fadec9ecb6af92c31aabc

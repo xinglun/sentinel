@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These S&P500 stocks are moving in today's session
+  summary: Wondering what's happening in today's session for the S&P500 index? Stay informed with the top movers within the S&P500 index on Monday.
+  url: https://finnhub.io/api/news?id=01011219bd3066f3aa6a6aa7d156545a75f4d92ff5a9dd88eaf7a962f089ffe5

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Bubble Is Entering Its Most Dangerous Phase As Spending Nears $1 Trillion
+  summary: AI investment is surging, with tech giants like Meta, Amazon, Alphabet, Oracle, and Microsoft driving massive data center buildouts. Read full analysis here.
+  url: https://finnhub.io/api/news?id=d88940733070ec5c831b7c4329fde1f6367cc60bc05a6119c98dc3b970e36fdd

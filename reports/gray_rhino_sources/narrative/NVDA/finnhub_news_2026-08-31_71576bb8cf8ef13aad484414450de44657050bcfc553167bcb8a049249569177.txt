@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: This Is A Golden Opportunity
+  summary: Nvidia Corporation targets ~70% FY2028 revenue growth on AI demand; Vera Rubin ramps and DCF suggest $410 fair value. Click for this NVDA earnings update.
+  url: https://finnhub.io/api/news?id=ee05ebfa16d8ae0618ef183ba38f42537562e1580fe7ef955222bc44b47cd85e

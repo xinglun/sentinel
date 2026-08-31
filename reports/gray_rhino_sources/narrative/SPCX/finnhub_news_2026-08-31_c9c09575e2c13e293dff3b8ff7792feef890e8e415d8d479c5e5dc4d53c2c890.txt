@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Family Businesses Are Among Iran War’s Winners as Oil and Defense Spending Surge: Report
+  summary: Six months into the Iran war, stocks have rebounded while oil, food and travel costs remain elevated.
+  url: https://finnhub.io/api/news?id=abb232eba21b406984512746d131029ee4350ccdbf94a4e923d18ffdb70d6528
