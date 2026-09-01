@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is GLP-1 Stock Amylyx Still a Buy After Skyrocketing 247%?
+  summary: Amylyx looks promising, but a pullback would improve the opportunity.
+  url: https://finnhub.io/api/news?id=dcbedbca5c1380e786d9beebb0e8f23bf9ea841293169dfec33449055fa85402

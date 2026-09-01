@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Vs. Intel: Choose One for The Rest of 2026
+  summary: Palantir posted record software growth while Intel staged its biggest revenue comeback in fifteen years, and choosing between them for the second half of 2026 comes down to a single uncomfortable question about valuation versus velocity.
+  url: https://finnhub.io/api/news?id=f1781651bd1834a5fa663e2e511547ced7140dde6122f0f1dda62d5af5f50f32

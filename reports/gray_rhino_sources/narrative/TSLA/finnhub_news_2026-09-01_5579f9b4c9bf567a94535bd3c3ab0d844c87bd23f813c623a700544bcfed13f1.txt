@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: This Week's Cybercab Launch Has A Lot To Prove
+  summary: Tesla, Inc.'s Cybercab launch event is happening in Austin this Thursday, September 3. Check out why TSLA stock is a sell.
+  url: https://finnhub.io/api/news?id=0979c50e4f4e52f760ae2da6ed8c21f57f057bf3fad84bbd7541626cd947d771

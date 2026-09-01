@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: All-New Mitsubishi Eclipse Sportback EV Named 2027 Green SUV of the Year by Green Car Journal
+  summary: New vehicle offerings in the U.S. have never been more competitive, but the editors at Green Car Journal (GCJ), one of the most influential publications covering environmentally friendly vehicles and technologies, say that Mitsubishi vehicles continually rise to the top. Today, GCJ's editors named the 2027 Mitsubishi Eclipse Sportback, an all-new electric vehicle, as their 2027 Green SUV of the Year. The Green SUV of the Year Award recognizes sport-utility vehicles that excel in environmental pe
+  url: https://finnhub.io/api/news?id=b8a08e4d5688c7fbdb2b913f5e03566bcfbc3f8a050f2464b83666befcbc9b71

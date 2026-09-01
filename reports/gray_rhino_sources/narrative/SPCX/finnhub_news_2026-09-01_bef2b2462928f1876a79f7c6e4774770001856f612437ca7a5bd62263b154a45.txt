@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Space Stock Outran SPCX, ASTS, RKLB And LUNR In August — BofA Says It Can Rally Another 30%
+  summary: BofA retained a ‘Buy’ rating on RKLB with 72% implied upside, but maintained ‘Underperform’ ratings on RDW and LUNR.
+  url: https://finnhub.io/api/news?id=fa64eecfbdc1b85ae5033afc193533ca81670d414018fe1a705efbed6c8e0fb1

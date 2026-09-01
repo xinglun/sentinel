@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Stocks & ETFs: Is the AI Sell-Off Over?
+  summary: We examine why software stocks are rebounding and highlight software ETFs.
+  url: https://finnhub.io/api/news?id=443f9e405a5df9ef9ccd8ed5fb83ee8b87b06c91a2969c2e5c52598c21edfe76

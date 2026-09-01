@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How SpaceX Is Following Amazon as the Market’s Great Disruptor
+  summary: Elon Musk’s plan to manufacture gas turbine blades is just the latest example of SpaceX’s disruptive approach to business.
+  url: https://finnhub.io/api/news?id=add7a0253cad040b6157cb7c2dbfc8f13267f4bdbf1eaa326a89eece7d4f9e91

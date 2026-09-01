@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US to Tell G20: Regulate AI Less, Buy American Chips as Nvidia's Jensen Huang Joins Talks
+  summary: The Trump administration will use this week’s G20 meeting in North Carolina to tell the world’s biggest economies to go easy on AI regulation, with Nvidia Corp. (NASDAQ:NVDA) CEO Jensen Huang and OpenAI’s Sam Altman appearing before ministers on Wednesday....
+  url: https://finnhub.io/api/news?id=2d0eef0e462099f2dfe0a9f35992668adeede5c322453bbae332728dd807f0de

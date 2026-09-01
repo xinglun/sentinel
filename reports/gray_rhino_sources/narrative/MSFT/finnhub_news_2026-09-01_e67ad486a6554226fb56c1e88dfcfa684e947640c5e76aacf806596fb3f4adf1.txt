@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Slumps 21% YTD: Time to Reassess the Stock in Your Portfolio?
+  summary: IBM's 21% YTD slide reflects AI-led threats to legacy services, pricing pressure and falling estimates, even as hybrid cloud and watsonx offer support.
+  url: https://finnhub.io/api/news?id=e5c8071f7ad5582b4b504d2647477d356402f11f57b2b78b40e92ced56d506cd

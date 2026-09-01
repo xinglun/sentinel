@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medtronic Tops Earnings Estimates and Makes $700M Robot Surgeon Investment. Is It Gaining on Intuitive Surgical?
+  summary: Medtronic stock advances after the company posts better-than-expected quarterly earnings, raises revenue guidance, and announces a $700 million investment.
+  url: https://finnhub.io/api/news?id=08406bb536df4ca9272275dcd5acc8ee8365b0072528edef83b9d583852ab632

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Median Household Income In July 2026
+  summary: Motio Research's initial estimate of US median household income for July 2026 is $87,810. Political Calculations' initial estimate of July median household income is $88,150. Read more here.
+  url: https://finnhub.io/api/news?id=314baeca84b2d84a14fcab00498ac254eb74a6bfd7e6e572060840246baefa5e

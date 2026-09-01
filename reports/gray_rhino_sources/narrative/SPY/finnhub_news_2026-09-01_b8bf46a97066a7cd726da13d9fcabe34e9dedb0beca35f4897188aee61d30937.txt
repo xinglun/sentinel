@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘The Maradona Theory of Interest Rates’ Is Back: Is Kevin Warsh Playing Wall Street?
+  summary: Kevin Warsh never said &#34;hike&#34; at Jackson Hole. September odds went from 35% to 66% anyway. Mervyn King&#39;s Maradona theory explains why.
+  url: https://finnhub.io/api/news?id=9171fd1a97336d8725bea07521a0d26886e675e6599b19d5cc55130ba28f9b78

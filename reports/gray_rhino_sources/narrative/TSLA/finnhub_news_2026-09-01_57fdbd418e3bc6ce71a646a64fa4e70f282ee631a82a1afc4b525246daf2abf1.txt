@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Remember Elon Musk’s warning that America will ‘1,000%’ go bankrupt? Well, US debt just soared through $40T
+  summary: “We’re actually totally screwed.”
+  url: https://finnhub.io/api/news?id=e41a25e9b0eec9341fd4e08326e097e166cf30ebaa42a565044a239d3cdf08d6

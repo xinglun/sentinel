@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Drops. Cybercab Hype Is Out of Control.
+  summary: FEATURE   Tesla stock started the week with a bang, rising 5.5% on Monday. Investors’ optimism wasn’t easy to explain. The likeliest reason, according to Future Fund co-founder Gary Black, was robo-taxis.
+  url: https://finnhub.io/api/news?id=51fd5df3541feea8c292d7497dc24cdb267ddc1561bb95daeef4d1f900201f4b

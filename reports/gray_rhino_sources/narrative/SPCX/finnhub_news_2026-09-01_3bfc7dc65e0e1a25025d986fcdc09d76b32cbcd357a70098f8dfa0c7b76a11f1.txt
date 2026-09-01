@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla vs. Jamie Dimon's JPMorgan Chase: Which Stock Has Performed Better Over the Past 5 Years?
+  summary: Tesla is one of the most popular stocks in the market, and JPMorgan Chase is the country's largest bank.
+  url: https://finnhub.io/api/news?id=ea38072808d51fd16df1aaba363046c7027bfad8d6c682d78491e0a62b1a98f1

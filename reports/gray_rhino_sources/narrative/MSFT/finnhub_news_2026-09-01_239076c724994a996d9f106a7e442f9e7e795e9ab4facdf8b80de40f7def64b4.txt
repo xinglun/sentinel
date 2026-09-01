@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle cutting 3,000 India jobs as Microsoft places 500 on PIPs
+  summary: Both companies are restructuring their India workforces as the tech sector reallocates budgets toward newer areas
+  url: https://finnhub.io/api/news?id=72135367ce7280280326e685ee71b10dde48fc85baa35bcacd47389f16fcbd46

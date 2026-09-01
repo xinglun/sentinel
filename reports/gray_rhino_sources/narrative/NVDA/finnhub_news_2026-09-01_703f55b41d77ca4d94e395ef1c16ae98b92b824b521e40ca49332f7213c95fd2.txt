@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market May Be Underestimating This AI Chip-Design Stock
+  summary: Synopsys just posted explosive revenue growth that dwarfs its closest EDA rival, yet the market prices it at a fraction of that rival's multiple. Something in that gap tells a story most investors are missing.
+  url: https://finnhub.io/api/news?id=bc5dedf03f755be4fe1e89d478f62ff908280d0d16100a0a84345c7c72452671

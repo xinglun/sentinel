@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: U.S. Commercial Segment Drives The Next Bull Leg
+  summary: Palantir Technologies Inc.âs US commercial boom drives PLTR growth: revenue +149% YOY, raised 2026 guidance, stronger FCF, and margins. Click for this PLTR stock update.
+  url: https://finnhub.io/api/news?id=95c2052d8af0880d3f46b56aa5feb8aba3d0125741931bdcffb8446c06ffd3c7

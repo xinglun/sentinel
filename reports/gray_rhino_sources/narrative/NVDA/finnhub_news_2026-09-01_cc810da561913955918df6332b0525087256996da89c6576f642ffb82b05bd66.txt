@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Media Falls 3% as Rising Yields and Higher Oil Squeeze Risk Appetite
+  summary: Rising Treasury yields and surging oil prices are creating a punishing combination for speculative small caps, and Trump Media stock is absorbing far more pain than the broader market suggests it should.
+  url: https://finnhub.io/api/news?id=c90542ca5953cf542321c6c4bc28b7a9943f4edcf641a109c7a035c7c38b9e88

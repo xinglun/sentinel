@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Sold $26 Million of Palantir to Buy These Two Stocks
+  summary: ARK shifted more than $50 million into Block and Rocket Lab while trimming several high-profile growth names.
+  url: https://finnhub.io/api/news?id=f0516ce1cf48c2f7de40f1b05d61747adf22f55fe3163625008e19b6d6b3eaea

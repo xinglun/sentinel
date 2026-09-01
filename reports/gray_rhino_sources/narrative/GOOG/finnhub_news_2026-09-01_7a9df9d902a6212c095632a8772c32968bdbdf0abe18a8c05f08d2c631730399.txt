@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy shares rise 15% following Google geothermal power agreement
+  summary: Fervo Energy (NASDAQ:FRVO) shares rose 15% on Tuesday morning following a Wall Street Journal report that the geothermal company had secured its largest power agreement to date with Alphabet’s Google (NASDAQ:GOOG). The agreement covers nearly 400 megawatts of electricity from Fervo’s Cape Station project in southwestern Utah.
+  url: https://finnhub.io/api/news?id=67570d30e30f7786fe327864c9560026dc0c32e571a33b60729334b20621f992

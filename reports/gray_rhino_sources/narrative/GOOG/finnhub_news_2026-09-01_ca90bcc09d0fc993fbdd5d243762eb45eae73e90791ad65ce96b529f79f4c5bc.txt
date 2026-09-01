@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fambot Launches AI "Chief of Staff" for Families, Turning the Chaos of Family Logistics into a Clear Daily Plan
+  summary: Fambot, an AI "chief of staff" for families designed to simplify the logistics of family life, launched today with more than 1,000 families on the platform. The company is also announcing $3.5 million in pre-seed funding co-led by NextView Ventures and Baukunst, with participation from Correlation Ventures, Karman Ventures, and Founders Network. Founded by Uber, Instagram and Google alumni David Reich, Greg Karlin and Jason Morrow—Fambot reads school-related emails, newsletters, calendar invites
+  url: https://finnhub.io/api/news?id=1496158b27c795944670361d79d057bfafc8c9d8818e5c6c6477fe8a387a1659

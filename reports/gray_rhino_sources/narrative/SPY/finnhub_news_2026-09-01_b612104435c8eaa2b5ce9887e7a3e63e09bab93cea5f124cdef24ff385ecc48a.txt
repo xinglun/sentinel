@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: Signals From Jackson Hole, Historic Bond Selloff And The September Outlook
+  summary: Welcome to the SAâs The Macro Brief! This official SA Profile will highlight our analysts' latest economic and market analysis to help investors gauge the...
+  url: https://finnhub.io/api/news?id=9645133e2ef54cca7b0cacc9d41d6102839feac2c37126c557e7534177c17271

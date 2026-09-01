@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Think You Bought a Telecom ETF? You Mostly Own Big Tech
+  summary: XLC carries the word "communication" in its name, but the fund's actual portfolio has almost nothing to do with phone bills, fiber lines, or fat dividend checks. Before you assume you own telecom income, check what you actually hold.
+  url: https://finnhub.io/api/news?id=253b0e24c9819333a66c08d93c52aa92e0cfad347d30fa6b38c6243165d8a337

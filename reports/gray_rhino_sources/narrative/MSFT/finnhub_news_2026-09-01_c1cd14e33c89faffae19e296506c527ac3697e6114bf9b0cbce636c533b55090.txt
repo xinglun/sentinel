@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Microsoft, Intel, Bank of America, AMREP and United Bancorp
+  summary: Microsoft, Intel and Bank of America lead this week's stock picks, with AMREP and United Bancorp offering microcap opportunities.
+  url: https://finnhub.io/api/news?id=0e0cb0524bbe4cae4fe2dfebd7b82de969a1070d38f656b2d86f6be5b4e92927

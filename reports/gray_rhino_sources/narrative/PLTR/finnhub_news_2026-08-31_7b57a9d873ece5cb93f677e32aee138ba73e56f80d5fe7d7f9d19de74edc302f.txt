@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gorilla Surges 5% as AI Infrastructure Spending Ramps: Is a B- Credit Rating Enough to Fund It?
+  summary: Gorilla Technology is funding a billion-dollar AI data center buildout across Asia on a speculative-grade credit rating, and the stock just jumped 5% anyway. The tension between that balance sheet and those ambitions is exactly what investors need to understand before sizing a position.
+  url: https://finnhub.io/api/news?id=f16bc9592b46f5e0f2bbf750b1788615dc3bd35272bbf1c26ba271e50effefe3

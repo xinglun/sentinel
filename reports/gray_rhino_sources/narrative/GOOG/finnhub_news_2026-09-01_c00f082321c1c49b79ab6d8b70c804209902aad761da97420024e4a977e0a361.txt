@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy Stock Soars as Bill Gates-Backed Company Scores Deal With Google
+  summary: Fervo Energy stock soars after The Wall Street Journal reports Bill Gates-backed geothermal energy Fervo has signed a major deal with Google.
+  url: https://finnhub.io/api/news?id=cc459ca19d0170fdedc2b5fa62b24554c924601fe1db7d31bfcbda3d5fa12881

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Overseas Sales Strategy Pays Off; Tesla Reports A Mixed Bag In Europe
+  summary: BYD's international sales drove the entirety of its growth in August. Meanwhile, initial Tesla figures show a mixed bag across Europe.
+  url: https://finnhub.io/api/news?id=11f980e1f48aa3588a9a9d1301c7646808772e2269fc0348afc5b6d222789360

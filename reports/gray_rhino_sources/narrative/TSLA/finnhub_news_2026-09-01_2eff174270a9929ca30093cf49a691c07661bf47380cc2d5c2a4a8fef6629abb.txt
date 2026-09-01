@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD’s Domestic Sales Plunge. China’s Car Market Continues to Struggle.
+  summary: It sold 433,384 electrified cars, including 256,230 all-electric vehicles.  Domestic sales of about 244,000 cars fell 24% year over year.  Year to date, BYD’s domestic sales are down about 33% year over year.
+  url: https://finnhub.io/api/news?id=d974ed32d5aa4ac1f48a39e85809bccf39d0475740987dada30a57f1972de0c2

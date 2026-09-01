@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Is No Longer What It Was So I Keep Loading Up
+  summary: The memory cycle that crushed Micron shareholders for three decades may have just broken permanently, and the market still seems to be pricing the stock like nothing changed.
+  url: https://finnhub.io/api/news?id=62a04e51d0bd475619459336070d171ab9eca4072d222e585f81ad2da6150291

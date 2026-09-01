@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Warns of ‘Unholy Developments’ Crushing Rate-Cut Hopes as Brent Tops $92 After Strait of Hormuz Attacks
+  summary: Jim Cramer warns &#39;unholy developments&#39; and a hawkish Fed will crush rate cut hopes as Brent crude tops $92 after Middle East tanker attacks.
+  url: https://finnhub.io/api/news?id=9fbaf46cec70af0ad7a1abd7ce4b0808446f959588eb50884cfd2a163a51e64c

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Are Looking Beyond the Magnificent Seven. Could This Be the Next AI Giant?
+  summary: Palantir just posted a 51% single-month surge and the kind of revenue guidance that has analysts scrambling to revise their models, yet the stock still trades near Wall Street's consensus target. Here is whether the math actually supports a path to $300 by 2027.
+  url: https://finnhub.io/api/news?id=5b591dacd9e1a28eba909ce060e3e5715fc5de2f5b5191b6d0285c79ba4412df

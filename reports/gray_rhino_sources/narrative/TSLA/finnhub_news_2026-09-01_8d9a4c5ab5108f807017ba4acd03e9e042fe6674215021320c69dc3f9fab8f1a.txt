@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo, Zoox announce major robotaxi expansions
+  summary: CNBC's MacKenzie Sigalos reports on Waymo’s push into three new paid driverless markets, Zoox’s expansion into two more cities, and how both stack up against Tesla.
+  url: https://finnhub.io/api/news?id=4c132ac3f11ec39f3f28ec78136bbf384dcec7ecdb2bbe9cd170cd13e1a849cd

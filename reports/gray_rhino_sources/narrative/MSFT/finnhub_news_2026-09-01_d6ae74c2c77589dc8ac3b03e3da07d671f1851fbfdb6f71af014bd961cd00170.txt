@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ChargebackX Returns November 9-10 With Two Days of Virtual Programming and In-Person Evenings in New York and Berlin
+  summary: ChargebackX, the annual event dedicated exclusively to chargebacks, fraud prevention, and payment dispute management, returns November 9-10 for its second year. Hosted by Justt.ai, the AI-native chargeback management platform and a 2026 Forbes Fintech 50 company, the conference brings together merchants, payments leaders, financial institutions, and technology providers from around the world for two days of working sessions on how disputes are won and lost.
+  url: https://finnhub.io/api/news?id=ddaf605c159f5323b87bd2ab166c63f687e24fc686b85ddd554cd01ba6ffe5cb

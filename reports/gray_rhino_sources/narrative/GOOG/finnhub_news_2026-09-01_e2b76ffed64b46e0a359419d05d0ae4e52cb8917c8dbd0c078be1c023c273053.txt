@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Tech Analyst Warns: OpenAI’s Ad Business Grew 10x in 6 Months. Google Search Is the Most Exposed
+  summary: A top Wall Street analyst is sounding the alarm on a fast-growing OpenAI revenue stream that targets the exact same advertiser budgets powering Alphabet's most profitable business.
+  url: https://finnhub.io/api/news?id=003c50f8a6d78ff34e00dafd525ce3b893d4bef6c4dfd0299cae9002d12f5aa0

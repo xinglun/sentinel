@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rezolve Ai Reports $130.8 Million H1 Revenue, Up Nearly 21-Fold, as Google Validates Its Infrastructure Strategy for the Agentic Economy
+  summary: Microsoft, Google, TCS and Tech Mahindra extend global distribution; customer base exceeds 1,640; FY2026 revenue guidance of approximately $360 million reaffirmed Key Highlights Revenue increased approximately 1,970% to $130.8 million compared with $6.3 million in H1 2025 and nearly three times revenue for the whole of FY2025. Rezolve’s revenue is seasonally weighted towards H2 with peak retail and holiday trading, enterprise deployment timing and increasing partner-led distribution expected to
+  url: https://finnhub.io/api/news?id=35f894eb47c4f545c7fc5bfe6b0dc64c58cb8e0fb8b061d4d1a9322cb9c8a2c2

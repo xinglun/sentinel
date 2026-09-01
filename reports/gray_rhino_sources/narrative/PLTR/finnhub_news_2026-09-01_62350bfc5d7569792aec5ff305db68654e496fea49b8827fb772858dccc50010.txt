@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Cathie Wood Buying Now? Nvidia, SpaceX And Crypto Stocks Led ARK’s August Trades – While Cutting These Growth Stocks
+  summary: Nvidia was ARK’s biggest August purchase, with roughly 548,000 shares added during the month.
+  url: https://finnhub.io/api/news?id=284113dded2e69c8309aa5cc7745ede084e2d6232e3d3956df4c7ecf5be64890

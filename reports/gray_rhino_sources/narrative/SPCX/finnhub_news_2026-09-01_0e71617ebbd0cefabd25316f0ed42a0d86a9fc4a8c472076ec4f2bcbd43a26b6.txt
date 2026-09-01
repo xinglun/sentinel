@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ONE Nuclear secures Louisiana site for 2.88GW Project Cayman in US
+  summary: Planned for a site near RiverPlex MegaPark, Project Cayman combines new gas generation, large-scale storage and a data centre.
+  url: https://finnhub.io/api/news?id=b5681b7e73633570d8e12e4ddba01dc7016efc35454ce2a7284fb72948960b69

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500, Dow, Nasdaq 100 Futures Drop After Trump Says Iran Is ‘Totally Defeated’, Brent Tops $92 — CBRS, PXS, PANW, DELL in Focus (UPDATED)
+  summary: U.S. stock futures were lower on Tuesday, as the Dow Jones, S&amp;P 500 and Nasdaq 100 indices fell, following Monday&#39;s lower close.
+  url: https://finnhub.io/api/news?id=7485774bda7b869bd9e40a4b09e852fe09a21965555ec6bdfa917c5c196ff350

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Tesla's Internal Engineering Platforms May be Accessed by Court-Appointed Expert in Australia Class Action Lawsuit
+  summary: Tesla's (TSLA) internal engineering platforms may be accessed by an independent expert after an Aust
+  url: https://finnhub.io/api/news?id=2eb3aa08a117b2286a84159abfc3c74aa9844e60d20b7542ee326d8ec53f1e61

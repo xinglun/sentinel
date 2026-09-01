@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE Vernova (GEV) Stock Looks Near Fair Value Despite AI Power Demand
+  summary: GE Vernova stock has delivered a strong 46.9% gain over the past year, yet current checks present a more measured picture, with the Discounted Cash Flow (DCF) intrinsic value suggesting the shares are roughly fairly valued while market multiples point to undervaluation. That mix of signals leaves investors weighing solid recent returns against whether the current price still offers a margin of safety. GE Vernova’s 46.9% return over the past 12 months highlights robust recent momentum, which...
+  url: https://finnhub.io/api/news?id=a7d9977bfdf35ecbf3f75506d7585caef95fddb931f1b72f3b88e0118a4ebb26

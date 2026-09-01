@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's AI Investments Pale In Comparison To Microsoft, Amazon And Alphabet
+  summary: Investments in OpenAI, Anthropic and SpaceX drove up earnings for Big Tech players like Amazon, Microsoft and Google-parent Alphabet.
+  url: https://finnhub.io/api/news?id=6d22e56c416cae9a7ad835d700291edeaf1140abda72666c0b457fa6087f1dbc

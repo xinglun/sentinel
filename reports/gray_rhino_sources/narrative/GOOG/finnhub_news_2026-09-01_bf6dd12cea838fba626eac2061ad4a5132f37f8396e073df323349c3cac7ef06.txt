@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy signs record 396 MW geothermal deal with Google
+  summary: The agreement, described as the largest enhanced geothermal power purchase deal on record, includes an option for Google to expand its offtake to nearly 1 GW
+  url: https://finnhub.io/api/news?id=deeed2d14fc3daee7ab63ecce7947f8c95588921cf766a4b28305424030f3951

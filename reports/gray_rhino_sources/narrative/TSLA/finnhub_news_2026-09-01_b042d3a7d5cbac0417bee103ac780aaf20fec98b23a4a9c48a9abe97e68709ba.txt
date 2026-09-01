@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Fans Just Got Good News From Europe
+  summary: Tesla Registrations Surge 279% in France, but Norway Sales Plunge 79%
+  url: https://finnhub.io/api/news?id=1f653d63faba14ac5137a067829b038289a2261ba8c5b56b33cdf0dc078117a8

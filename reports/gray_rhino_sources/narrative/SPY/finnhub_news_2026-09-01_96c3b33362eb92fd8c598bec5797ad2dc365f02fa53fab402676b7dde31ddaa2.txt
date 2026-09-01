@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Infrastructure Buildout Is Hitting Major Roadblocks
+  summary: AI data center expansion faces intense local opposition, limited electricity and water access. Find out why AI is starting to encounter major obstacles.
+  url: https://finnhub.io/api/news?id=1e792e6c02edb93ecab2ed08aa9ae96ff9a4d6ba74021e49602abf0f4e94cbec

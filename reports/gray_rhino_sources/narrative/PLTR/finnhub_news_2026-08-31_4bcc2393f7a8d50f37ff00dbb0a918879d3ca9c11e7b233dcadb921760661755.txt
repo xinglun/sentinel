@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Dumps Palantir Shares Worth $26 Million, Bets on Bitcoin-Linked Block and USDC-Issuer Circle Amid Crypto Rally
+  summary: Cathie Wood sold Palantir following its earnings beat, shifting capital into Block and Circle amid a broader Bitcoin and Ethereum rally.
+  url: https://finnhub.io/api/news?id=78e7be433f4d54232695ab9d31ab986f864dc93db632692002e2668cc170a4ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Crosses 50-Day SMA: Buy, Hold or Sell TSLA Stock?
+  summary: TSLA stock moves above its 50-day SMA as FSD adoption and Cybercab buzz build, but rich valuation, margin pressure and falling cash flow cloud the rally.
+  url: https://finnhub.io/api/news?id=7cb148f6affb399ce595b63fbf7ddf23d1a723541d42d27a7cc18575c3da9825

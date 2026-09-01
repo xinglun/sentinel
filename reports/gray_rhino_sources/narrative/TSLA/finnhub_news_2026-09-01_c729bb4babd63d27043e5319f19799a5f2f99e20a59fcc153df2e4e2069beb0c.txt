@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire SpaceX investor is selling his private island for $7.9M or best offer — but Tanzania says the land isn't his
+  summary: Tim Draper posted his email and a $7.9 million price tag for his Tanzanian island resort, saying offers were already rolling in. Days later, Tanzania's government stepped in to clarify: under its land laws, foreigners can't own property — meaning whatever Draper is selling isn't the island itself.
+  url: https://finnhub.io/api/news?id=faca6740355675118329e75da8598d16281bdd0c819b7374c985351a99bb288b

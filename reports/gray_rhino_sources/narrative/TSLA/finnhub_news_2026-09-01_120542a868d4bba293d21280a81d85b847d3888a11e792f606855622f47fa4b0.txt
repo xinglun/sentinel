@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Energy Transition Today - AI Transforms Solar Energy With $13 Billion Investment
+  summary: Artificial intelligence is revolutionizing the solar energy industry by enhancing various aspects of the value chain, from manufacturing processes to grid integration and end-of-life management. This transformative shift is marked by significant investments, with $13 billion devoted to integrating AI into solar technologies, underscoring a structural change within the sector. Key developments include the deployment of AI to improve product quality, reduce production cycles, and lower energy...
+  url: https://finnhub.io/api/news?id=c53f850aec3e1df0d9277a3ec0ad0f25869afa20e76210b41d27f1590f0db502

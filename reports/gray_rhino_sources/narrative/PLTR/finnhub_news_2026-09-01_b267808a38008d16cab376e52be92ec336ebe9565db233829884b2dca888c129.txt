@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price in a Year (Hint: It Implies a Big Move)
+  summary: Palantir stock has traded sideways in 2026, but it could break out in the next year.
+  url: https://finnhub.io/api/news?id=0243699ff78b0a4f16f5d4e75837595d69b1c34d4c371a0b3ccecb4d65a39af3

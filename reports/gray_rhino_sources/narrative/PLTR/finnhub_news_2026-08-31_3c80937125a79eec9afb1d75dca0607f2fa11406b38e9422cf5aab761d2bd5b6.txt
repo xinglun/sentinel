@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Snowflake Stock Ran On A Plan The Company Had Already Spelled Out
+  summary: The agent platform and the pricing choice behind the surge were both on the record before the reported results caught up.
+  url: https://finnhub.io/api/news?id=bcc24e040278aee8456f81dc5458b186139d24abefaf4e8b8533ae3e60ef8062

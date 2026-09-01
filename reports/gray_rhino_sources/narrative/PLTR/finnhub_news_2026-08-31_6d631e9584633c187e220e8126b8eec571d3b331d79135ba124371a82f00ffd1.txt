@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ValuEngine Weekly Commentary: Will Disruptive Technologies Upend Aerospace Companies?
+  summary: U.S. equity markets were mixed this past week, with modest gains in the major benchmarks offset by weakness across several defensive and cyclical sectors.
+  url: https://finnhub.io/api/news?id=f92e42ba0fd391439b9372466bb070027ee9fafb6e2e1388e5a346dc14508642

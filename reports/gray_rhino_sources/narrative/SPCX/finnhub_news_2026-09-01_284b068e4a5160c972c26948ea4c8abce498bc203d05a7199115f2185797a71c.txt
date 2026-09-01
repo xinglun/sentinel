@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ted Cruz Warns Beijing Is Using Bot Farms to Turn Americans Against Data Centers: 'China Wants to Control Us'
+  summary: Cruz warns China is using 200,000 bot farms to push anti-data center propaganda and weaken U.S. AI infrastructure in a growing national security fight.
+  url: https://finnhub.io/api/news?id=22af3f5f0593cc802788e4565458f8a9d2e263c047dc1bf286d565c74396a308

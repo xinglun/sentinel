@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy and Google Sign 396 MW PPA
+  summary: Power purchase agreement marks world’s largest enhanced geothermal PPA to date and is expected to accelerate the delivery of 24/7, carbon-free power from the Cape Station GeoCluster in UtahHOUSTON, Sept. 01, 2026 (GLOBE NEWSWIRE) -- Fervo Energy (Nasdaq: FRVO), a global pioneer of next-generation geothermal energy, today announced a 396-megawatt (MW) power purchase agreement (PPA) with Google to enable the continued development of the Cape Station enhanced geothermal systems (EGS) GeoCluster, ex
+  url: https://finnhub.io/api/news?id=42037dc4e5d268bb70139e22b406ac454196545f0181816c8bb9ca95e484c61d

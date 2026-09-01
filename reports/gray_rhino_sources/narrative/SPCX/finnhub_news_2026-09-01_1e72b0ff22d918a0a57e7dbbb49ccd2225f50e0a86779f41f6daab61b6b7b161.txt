@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD vs. Nvidia: SpaceX and Tesla CEO Elon Musk Weighs In on His Top Pick
+  summary: Nvidia's growth is faster than AMD's despite its size.
+  url: https://finnhub.io/api/news?id=aea6568e5712dfbaef92b89f47b322569d25c2019eb3448fd31220087637b933

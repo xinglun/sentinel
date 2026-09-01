@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow drops 363 points as bond yields surge on inflation fears
+  summary: The S&P 500 and Nasdaq also fell Tuesday as oil prices climbed above $88 a barrel and global bond yields hit multiyear highs
+  url: https://finnhub.io/api/news?id=8303ee3ea4ab3f3eff064e7f21288e56b27f452825d24cf8fdabeaaccf2aa34b

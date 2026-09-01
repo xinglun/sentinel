@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Home Prices Refuse To Fall As Sales Hit A 2-Year Low
+  summary: U.S. home sales are plunging as prices rise on tight supply and metal tariffs.
+  url: https://finnhub.io/api/news?id=b5725b038c1234eb37f5bf394f638b1499caa39c33e6436220746c2e14dade44

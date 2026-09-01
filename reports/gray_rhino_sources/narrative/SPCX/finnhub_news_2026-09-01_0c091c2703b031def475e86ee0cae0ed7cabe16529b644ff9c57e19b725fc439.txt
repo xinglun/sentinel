@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk drops stunning SpaceX forecast
+  summary: A number that’s unparalleled in modern corporate history is attracting attention on Wall Street.
+  url: https://finnhub.io/api/news?id=a07e6bad7da531a9ac041b1d51395b4d1e8a6622ca6915549cc6bcd8be4d4b65

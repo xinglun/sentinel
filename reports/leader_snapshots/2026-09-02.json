@@ -1,10 +1,10 @@
 {
-  "date": "2026-08-05",
+  "date": "2026-09-02",
   "leader": "none",
   "confidence": 40.0,
-  "breadth": 35.0,
+  "breadth": 60.0,
   "relative_strength": null,
-  "rotation_stability": 82.0,
+  "rotation_stability": 86.0,
   "sector_or_index_rotation": "no_rotation",
   "supply_state": "ACCUMULATING"
 }

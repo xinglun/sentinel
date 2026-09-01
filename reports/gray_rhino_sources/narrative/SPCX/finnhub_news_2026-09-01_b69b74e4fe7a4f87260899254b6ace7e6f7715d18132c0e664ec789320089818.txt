@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Recalls SpaceX Nearly Failing After 3 Rocket Launches: ‘If the 4th Launch Had Failed, SpaceX Would Not Exist’
+  summary: While Space Exploration Technologies Corp. (NASDAQ:SPCX) is one of the biggest enterprises in the world today, this was not always the case, as CEO Elon Musk shared how repeated initial launch failures cast uncertainty over the future of the commercial spaceflight company. Peter Diamandis Recalls SpaceX’s Failures In a post on X on Sunday, X Prize Foundation‘s Executive Chairman Peter Diamandis shared how everyone knows the “trillion-dollar version of SpaceX,” but nobody remembered that “Elon’s
+  url: https://finnhub.io/api/news?id=b6a33e4df39b140a42a9de2cbce8ab09d10dbd705410972bb6a753656835a3d3

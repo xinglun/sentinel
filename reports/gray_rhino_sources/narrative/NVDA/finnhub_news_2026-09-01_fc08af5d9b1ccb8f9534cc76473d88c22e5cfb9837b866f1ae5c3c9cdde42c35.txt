@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Keep Buying Marvell Technology Because Its Type Historically Wins
+  summary: Every time the hyperscalers write a check to build out AI, one mid-cap chip company's name keeps appearing on the invoice, and the pattern behind that is exactly why this stock stays in the buy column.
+  url: https://finnhub.io/api/news?id=7b3fc12b56e290dd8a4eb6c48e32ece5d1d1f98d48429eeba2403314eb1986cf

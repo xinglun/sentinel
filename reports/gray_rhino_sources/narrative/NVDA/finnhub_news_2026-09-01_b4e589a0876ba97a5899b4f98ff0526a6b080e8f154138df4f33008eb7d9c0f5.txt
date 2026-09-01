@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stacked for Success: Inside SK Hynix's HBM Dominance
+  summary: SK Hynix has positioned itself at the center of the AI supply ecosystem.
+  url: https://finnhub.io/api/news?id=8845d1cd613f4eb9cb810e6e1bd8306362f486d292060cbf4801e7ad9554b21c

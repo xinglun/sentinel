@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software: The Ad Network Hiding Inside A Game Engine
+  summary: Unity Software (U) pivots to high-margin AI ads; strategic revenue is +38% YoY and EBITDA margin 29%â33%. Read here for a detailed analysis.
+  url: https://finnhub.io/api/news?id=85a338e4a85fd00598edad21df9c1eb223766f9e762c3d88e2606fd8d5477ced

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unisys Enhances Managed Detection and Response Capabilities with Microsoft Security Copilot and Agentic AI
+  summary: Unisys (NYSE: UIS) has integrated Microsoft Security Copilot capabilities into its Managed Detection and Response (MDR) solution to strengthen AI-powered threat detection, investigation and response. This enhanced offering enables security teams to streamline workflows, improve threat visibility and automate routine security tasks to accelerate incident response across hybrid environments.
+  url: https://finnhub.io/api/news?id=f92fe867e504c3917a7b1f6e7376e3b3aea6aa19f8d95bf33c279e51dbad1ad8

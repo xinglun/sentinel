@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rising Rates and $90 Oil Break the August Winning Streak
+  summary: Wall Street closed a positive August in the red as Kevin Warsh's Jackson Hole hangover kept the ten-year yield climbing and Brent pushed back above $90. Amazon caught an FTC lawsuit, California utilities were gutted on a wildfire liability vote, and Howmet Aerospace was ambushed by an Elon Musk tweet.
+  url: https://finnhub.io/api/news?id=a682723299d894f8ee60a01c84e7d16ba079508b5f0a24675319482dacfc0af5

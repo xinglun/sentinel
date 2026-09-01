@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Stock May Be 2% Undervalued As AI Data Ownership Debate Grows
+  summary: Palantir Technologies stock has posted very strong multi year gains, while valuation checks now suggest the shares trade close to an intrinsic value estimate from a Discounted Cash Flow (DCF) model and look expensive on traditional market multiples. A roughly 11x return over 3 years is a very large move that leaves Palantir in a very different place than earlier investors experienced. Investor focus on Palantir’s role in AI driven data analytics for government and commercial customers can...
+  url: https://finnhub.io/api/news?id=50fce289946b7f115b0050059498b6eec554b843230fc4927038e12337a81bb2

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Diversification — Investors Are Betting Everything on Tech ETFs (And the Numbers Are Jaw-Dropping)
+  summary: Global fund flows are piling into a single sector at a pace that dwarfs every other corner of the market, and the trade hinges entirely on four companies delivering good news in October.
+  url: https://finnhub.io/api/news?id=273938e220c6ae1b3c443e392cee336f27d8ccc6c003c482d22a2279631d448c

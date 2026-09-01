@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's $448 Billion Valuation Still Isn't Scaring Baird
+  summary: Pentagon work is nearing a $1 billion annual run-rate
+  url: https://finnhub.io/api/news?id=04035556349570464c93441e4ec8b92ffd8edcfbaa71c0b7f3378bc3c4805f82

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AgriCapture Partners with Google to Advance Water Stewardship in Texas
+  summary: AgriCapture today announced a new partnership with Google and the Bonneville Environmental Foundation (BEF) to replenish 5.4 billion gallons of water in Southeast Texas. The program will bring water-saving irrigation infrastructure to 6,000 acres of rice farmland, reducing irrigation withdrawals in one of the most stressed watersheds in the state.
+  url: https://finnhub.io/api/news?id=819750dca35f2f85f5aa753868a5ff6ca7942edfcc19c4147b21f9db92355682

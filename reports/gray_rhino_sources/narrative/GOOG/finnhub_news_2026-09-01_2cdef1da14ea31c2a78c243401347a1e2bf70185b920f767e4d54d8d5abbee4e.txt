@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo Robotaxis Under Fire From Atlanta Drivers, Union Demands Up To $1 Fee To Protect Human Jobs: Report
+  summary: The Atlanta Rideshare Drivers Union has called on local and state officials to protect rideshare drivers’ earnings on platforms like Uber Technologies Inc. and Lyft Inc., arguing that Alphabet Inc.‘s Waymo is already squeezing human drivers’ earnings and work volume....
+  url: https://finnhub.io/api/news?id=e54778dcd846adba89a9e69f1ac0f02197c057de6188cf0eafb6fffb0e09953d

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Say No to Tokenmaxxing. How Alex Karp’s War on the ‘Token Industrial Complex’ Is Fueling the Next NVDA and PLTR Bull Run.
+  summary: The outspoken Palantir CEO believes his company, together with Nvidia, adds real value and everything in between is not worth investing in.
+  url: https://finnhub.io/api/news?id=45fcd26feefe139c864b814351d5eeb81926823e5014306f12d4b27b659219b7

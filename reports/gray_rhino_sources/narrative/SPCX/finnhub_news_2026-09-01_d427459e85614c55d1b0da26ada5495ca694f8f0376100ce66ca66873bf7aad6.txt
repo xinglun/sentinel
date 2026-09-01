@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starlink Made SpaceX's Only Segment Profit While the AI Unit Took $15.8 Billion in Capital Spending -- Here's What That Does to the Stock.
+  summary: One segment earned $1.7 billion last quarter -- the other two lost a combined $1.8 billion and took nearly all of the capital spending.
+  url: https://finnhub.io/api/news?id=cfe3c19f13399409a388b29f9a131f728e04167065ca922c559e857a6fa0f32b

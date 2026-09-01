@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: F5 Accelerates Virtual Patching to Manage Emerging Cyber Risks With AI-Powered WAF and Runtime Security
+  summary: SEATTLE, September 01, 2026--F5 (NASDAQ: FFIV), the global leader in delivering and securing every app and API, today announced innovations to block frontier AI-driven threats in the data path and enable faster virtual patching, giving security leaders time to make intelligent risk-based decisions rather than reactive operational compromises. With new features such as anomaly detection and agentic threat intelligence, F5’s AI-powered web application firewall (WAF) is uniquely capable in deliveri
+  url: https://finnhub.io/api/news?id=e488f0a3e16cd5f769d1125a06976cb103c373b19c8e4d147356731ce65cc021

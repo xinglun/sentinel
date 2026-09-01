@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Backstory Names Sam Branson Head of Partnerships to Accelerate Growth Through Strategic Alliances
+  summary: SAN FRANCISCO, September 01, 2026--Backstory, the AI platform for revenue teams (formerly People.ai), today announced the appointment of Sam Branson as Head of Partnerships. In this newly created role, Branson will build a strategic partner ecosystem as a core growth engine, defining partnership strategy and the strategic alliances that will accelerate the company's revenue growth and extend its reach across the enterprise.
+  url: https://finnhub.io/api/news?id=71902603b97c39fa1d1d7d316940bf4a5c5279f4aa9d7e79a3a17b82fc871b86

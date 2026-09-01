@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When Rates Begin To Bite
+  summary: The stock market has remained resilient despite higher yields, supported by strong economic growth and robust corporate earnings. Read more here.
+  url: https://finnhub.io/api/news?id=ce194393eea41928289bb0266451c74f5a12d58f0064c77eb4feb048506e5432

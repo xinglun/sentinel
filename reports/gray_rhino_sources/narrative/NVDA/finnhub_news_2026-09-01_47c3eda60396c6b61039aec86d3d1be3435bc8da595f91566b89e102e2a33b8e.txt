@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ciena's Next Earnings Report on September 3 Could Send the Stock Soaring. Here's Why.
+  summary: Expectations are quite high for the optical networking hardware specialist.
+  url: https://finnhub.io/api/news?id=2051564d9de9f995e86bc148d7f4e3e3112fb23440c94f45289eb63326a7f5d3

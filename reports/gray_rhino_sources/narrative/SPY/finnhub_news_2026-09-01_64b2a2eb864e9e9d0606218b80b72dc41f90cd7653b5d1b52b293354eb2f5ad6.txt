@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pre-Market Futures Lower to Start September
+  summary: Oil prices are back up per barrel, and bond yields continue to tick higher.
+  url: https://finnhub.io/api/news?id=89fad6f44e9b07625418c77b89d0816b2f7bfaaa54a7d41382985ca005c7e171

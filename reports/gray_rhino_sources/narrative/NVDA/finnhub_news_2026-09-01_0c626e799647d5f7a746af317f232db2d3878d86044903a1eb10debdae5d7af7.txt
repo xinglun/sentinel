@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cramer Says Not to Bet Against the AI Chipmaker That Lost Nearly 10% the Day After NVIDIA’s Huge Gain
+  summary: Marvell Technology dropped nearly 10% the same morning NVIDIA added $442 billion in a single session, and Jim Cramer thinks that selloff is the setup, not the warning sign. One date in October could prove him right or very wrong.
+  url: https://finnhub.io/api/news?id=50c760b6bcdb378a60b16aecbf0d448b2e86203bb9fe3beda9429a7bf6010f6b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI CapEx Is Distorting The GDP Growth Picture
+  summary: The Fed says most of the recent strength in business investment is tied to AI infrastructure. Read why I remain neutral on the broader markets.
+  url: https://finnhub.io/api/news?id=4ba63ed53b658fbe093e99ae6923f4add493c735536c4845588821bc8c944bbe

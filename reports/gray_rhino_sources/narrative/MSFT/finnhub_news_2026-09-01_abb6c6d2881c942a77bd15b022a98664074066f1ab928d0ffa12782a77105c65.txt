@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New York Mets Modernize Employee and Fan Engagement with RingCentral
+  summary: BELMONT, Calif. & NEW YORK, September 01, 2026--The NY Mets select RingCentral to modernize fan engagement, ticket sales, and business communications across the organization.
+  url: https://finnhub.io/api/news?id=911dbbc671ab62e6a70cc9c21b4fc9f77a4d84b4658e18d72f60d057c54d4915

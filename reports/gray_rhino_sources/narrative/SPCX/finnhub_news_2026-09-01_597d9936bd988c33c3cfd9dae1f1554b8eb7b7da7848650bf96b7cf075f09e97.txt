@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: VOO’s $1 Trillion Problem: Why SpaceX Stays Out Until 2027
+  summary: SpaceX is now publicly traded and sitting just outside the reach of the world's largest ETF, and the rulebook keeping it out raises real questions about what VOO holders should do while they wait.
+  url: https://finnhub.io/api/news?id=40ed52170707baf662286be7f55ea4635d71c31b98f83dded5ee32fa865a48a5

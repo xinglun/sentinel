@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Analysts Are Bullish on Palantir Stock?
+  summary: Baird Sees More Upside for Palantir as Enterprise AI Adoption Accelerates
+  url: https://finnhub.io/api/news?id=ad66d079cc5d1fd81a822efc21e9d09e49b416417300e2e9c08936e9d795e2d6

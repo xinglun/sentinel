@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla registrations show mixed performance across European markets in August
+  summary: Tesla (NASDAQ:TSLA) recorded differing registration trends across several European markets in August, with year-over-year increases in France and Denmark and declines in Norway and Sweden. New Tesla vehicle registrations, which can be used as an indicator of sales, increased 279% from a year earlier in France and 104% in Denmark, according to figures from French automotive industry body PFA and Denmark’s bilstatistik.
+  url: https://finnhub.io/api/news?id=493c94449312512778ddfafa8db3aa432a340e9803ea56ed1822d4509898152c

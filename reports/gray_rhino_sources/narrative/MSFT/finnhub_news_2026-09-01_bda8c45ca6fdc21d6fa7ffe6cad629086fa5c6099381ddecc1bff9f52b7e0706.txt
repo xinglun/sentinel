@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Tesla Enter September With Momentum but Which Is Better?
+  summary: Azure is printing cash while Tesla burns it chasing a future that has yet to show up in margins. Before you buy the August momentum in either name, the numbers reveal a stark split in what each company is actually selling investors right now.
+  url: https://finnhub.io/api/news?id=dadf44465f03f95c4e25fcc4d6ae8569d942346851708542ebfac061500c0d45

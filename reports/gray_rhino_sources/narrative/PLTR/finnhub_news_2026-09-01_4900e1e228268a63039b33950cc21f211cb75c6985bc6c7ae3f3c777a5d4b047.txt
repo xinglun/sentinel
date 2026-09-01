@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 biggest August 2026 winners: Moderna, software stocks
+  summary: Moderna stock led the index after melanoma vaccine data, while a hedge fund's forced unwind turbocharged a rebound in enterprise software
+  url: https://finnhub.io/api/news?id=9315fd4dd75780eaab7805f262d6a791796b33062bb781fa99191d618e904bc8

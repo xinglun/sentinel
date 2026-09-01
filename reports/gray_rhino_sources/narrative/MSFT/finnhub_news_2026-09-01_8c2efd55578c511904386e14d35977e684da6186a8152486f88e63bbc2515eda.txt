@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Laurel Now Available in the Microsoft Marketplace
+  summary: SAN FRANCISCO, September 01, 2026--Microsoft customers worldwide can now discover and deploy Laurel through Microsoft Marketplace.
+  url: https://finnhub.io/api/news?id=73b9afdbd143b5c513ccdb4624905d2a2fc45c5ea1b8141d5e1a5d1749635cb2

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Falls 3% as Mixed European Registrations Land Ahead of Cybercab Launch
+  summary: Tesla stock is pulling back hard two days before a major product launch, and the selling looks nothing like what the rest of the market is doing. Mixed European registration data just landed, and the bigger numbers from Britain and Germany are still on the way.
+  url: https://finnhub.io/api/news?id=26b695aac00c3ba42686f79022f1fb0a0774e8442cce9a6e96a28a0fae9b3f55

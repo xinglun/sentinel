@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everkind Collaborates with GoodTherapist to Support Clients Between Therapy Sessions
+  summary: New pilot pairs professional therapy with everyday journaling under a simple idea: good therapy, good habits.Toronto, Ontario--(Newsfile Corp. - September 1, 2026) - Everkind Wellness Inc. (TSXV: EK) (the "Company" or "Everkind"), a wellness platform built for emotional self-care, today announced a 90-day pilot with GoodTherapist, a Canadian platform connecting people with licensed therapists. The collaboration pairs professional care with a private space to reflect between appointments, helping
+  url: https://finnhub.io/api/news?id=44d83b889b8b6cc61c1659a46489ea756e650bb55e0691a4eb935c4e21b42803

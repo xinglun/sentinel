@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Major Asset Classes: August 2026 Performance Review
+  summary: The majority of the major asset classes rose in August, led by commodities for a second straight month, based on a set of ETF proxies.
+  url: https://finnhub.io/api/news?id=d526b2eb62621933cbb7b8302fade35fc727a0af03d6b98758ae66870321b5b2

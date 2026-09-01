@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's $35B cloud deal with Lambda adds new layer to circular financing concerns
+  summary: Anthropic (ANTH.PVT) has signed a $35 billion cloud deal with Lambda (LAMD.PVT), according to Wall Street Journal reporting. Lambda is backed by Nvidia (NVDA). Morning Brief Host Julie Hyman is joined by Yahoo Finance Breaking Business News Reporter Jake Conley and Senior Reporter Pras Subramanian to take a closer look at this network of AI deals — Nvidia owns the lease on the data center site, which will be built by Hut 8 — and weigh in on the circular nature of the AI landscape.
+  url: https://finnhub.io/api/news?id=59e0b96049c19b4c1c104749fe11b6bb1f65a2f3f04c1c0ec71cd92d22b10e9b

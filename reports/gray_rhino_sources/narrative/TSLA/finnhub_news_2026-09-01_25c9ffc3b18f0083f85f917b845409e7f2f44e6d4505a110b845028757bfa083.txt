@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo, NVIDIA, Tesla and More Join A3’s Advanced Vision & AI Conference
+  summary: ANN ARBOR, Mich., September 01, 2026--The Association for Advancing Automation (A3) today announced the speaker lineup and agenda for its Advanced Vision & AI Conference, September 23–24, 2026, in Santa Clara, California. Featuring experts from Waymo, NVIDIA, Tesla, Intrinsic, GE Vernova, Intel, FANUC, Cognex, Siemens Digital Industries, and more, the two-day conference will focus on how vision and AI technologies are being deployed across manufacturing and other industrial environments.
+  url: https://finnhub.io/api/news?id=b3ee4a547c33a8e80e90c743037da557a0a8b229dfbba79901a29237f84d1aa2

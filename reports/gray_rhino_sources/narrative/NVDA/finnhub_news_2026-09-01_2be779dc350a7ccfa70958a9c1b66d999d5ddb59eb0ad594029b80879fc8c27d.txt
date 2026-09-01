@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Under-the-Radar Dividend Stock Yields 6.2%. Is It a Buy?
+  summary: With its stable high yield, you can get paid to wait for this transportation giant's turnaround.
+  url: https://finnhub.io/api/news?id=bf8e3f0a6504544cf25e05f7d141f422f449be724ae760b373253170f955fbeb

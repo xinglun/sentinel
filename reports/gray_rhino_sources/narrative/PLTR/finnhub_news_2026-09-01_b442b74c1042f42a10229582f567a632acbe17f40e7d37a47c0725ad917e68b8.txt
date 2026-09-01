@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5-star Analyst Doubles Down On Palantir Stock After Event
+  summary: Open-weight models could unlock another layer of growth
+  url: https://finnhub.io/api/news?id=a27746a80169ec4a59a24847fda4cd41727272743cdfc1b5856a13b4775e1e99

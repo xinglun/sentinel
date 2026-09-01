@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Cloud AI - AI-Driven Optical Networks Reshape Global Market Dynamics
+  summary: The global optical transceiver market is experiencing significant transformation, propelled by the increasing convergence of artificial intelligence (AI) and high-speed optical networking. Recent developments highlight substantial investments, including NVIDIA's $2 billion commitment to Lumentum and Marvell's planned acquisition of Celestial AI for up to $5.5 billion, underscoring the increasing demand for high-bandwidth connectivity driven by hyperscale AI infrastructures. Domestic...
+  url: https://finnhub.io/api/news?id=df2cc0baad50357103984e5d969e51ae18b30e247a6ebe94d518b585e7904141

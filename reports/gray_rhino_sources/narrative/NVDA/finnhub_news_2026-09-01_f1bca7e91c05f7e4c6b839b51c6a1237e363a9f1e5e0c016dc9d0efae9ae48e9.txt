@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Your Stock Doesn’t Know Your Name’: Wes Moss on Owning Too Much Apple, Google
+  summary: A 45-year-old investor with a million dollars on the line and a third of it riding on three stocks asked Wes Moss how to escape. His answer starts with a mindset shift most investors resist making.
+  url: https://finnhub.io/api/news?id=18af2de40a1a571e3f737a59bd07c1c4c73bd3a0d68a804d6a423f842f6b8e86

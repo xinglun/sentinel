@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Aeris Names Suresh Sathyamurthy Chief Marketing Officer to Lead Global Go-to-Market Strategy for the Physical AI Era
+  summary: SANTA CLARA, Calif., September 01, 2026--Aeris, a global leader in IoT connectivity management, security and connected vehicle programs, today announced the appointment of Suresh Sathyamurthy as Chief Marketing Officer. Sathyamurthy will lead Aeris' marketing, communications and go-to-market strategy as the company accelerates its expansion into securing and connecting Physical AI, the rapidly growing category of autonomous vehicles, robotics, and intelligent machines operating in the physical w
+  url: https://finnhub.io/api/news?id=ee0f27a367432a6be6f061f68e7a95a182e6bc111da4304b3ef191f7359983c1

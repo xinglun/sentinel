@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Warns AI Stocks Are Starting to Trade Like Interest-Rate-Sensitive Credit
+  summary: The bond market is quietly reshaping how investors should think about NVIDIA and the broader AI trade, and Wall Street strategists are raising alarms that most equity investors are not watching the right risk.
+  url: https://finnhub.io/api/news?id=befbd006968130df177b796f96c8d7bc1251c4a970d57da5b8103fdf4472183e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TalentNeuron Research Finds AI Is Driving Workforce Redesign, Not Solely Workforce Reduction
+  summary: Global workforce intelligence firm TalentNeuron today announced the release of The Great Reallocation: Understanding the Impact of AI on Talent Strategy, a new research report examining how enterprises are reshaping their workforces as AI moves from experimentation to large-scale adoption. The research analyzed workforce strategies at Salesforce, Klarna, Wells Fargo, Google, Microsoft, Citi, and BT Group, finding that AI investment is not resulting in a single workforce strategy. Instead, organi
+  url: https://finnhub.io/api/news?id=a8b9f2cc98e388a695ecb0b33a486872d765fb49152524333827e7eeeca80885
