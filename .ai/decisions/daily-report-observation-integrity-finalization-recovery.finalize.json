@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "c35a1c8f54bc2f628e509fbd761e7d5396cf269c",
+    "name": "codex/daily-report-observation-integrity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:03fc2851a6571a3a9eae84ebb5cde58bd3a2d73eb1e6eb3d197546a2c768cd9d",
+  "operationId": "github-pr-119-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "6b8ab6749f20b1df8b85ed52623d55e3900e00b6",
+    "headRevision": "c35a1c8f54bc2f628e509fbd761e7d5396cf269c",
+    "mergeCommit": "1f9f0a72bc13e49aac5f893664020ec4dc4d88c0",
+    "number": 119,
+    "url": "https://github.com/xinglun/sentinel/pull/119"
+  },
+  "reason": "PR #119 已合并为 1f9f0a72；精确的 daily-report-observation-integrity 分支与 worktree 已不存在，按用户授权记录幂等的 provider finalization，不改写不可变前驱记录。",
+  "receiptId": "daily-report-observation-integrity-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/daily-report-observation-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/119",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-observation-integrity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T04:30:00Z",
+  "workItemId": "daily-report-observation-integrity-finalization-recovery",
+  "worktree": {
+    "branch": "codex/daily-report-observation-integrity",
+    "headRevision": "c35a1c8f54bc2f628e509fbd761e7d5396cf269c",
+    "path": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-observation-integrity",
+    "worktreeId": "daily-report-observation-integrity"
+  }
+}
