@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "branch": {
+    "headRevision": "5cd684ec8419fa615910be00ce121fd1f8455a9c",
+    "name": "codex/telegram-report-resend-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:82706f8d193ed56d00181a2f1002e39394e3fb129dcfc8f67538b99d42415276",
+  "operationId": "github-pr-118-merge-cleanup-20260901",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "0a6a9fea306baca8efbf8d17bc15452ffdd24d58",
+    "headRevision": "5cd684ec8419fa615910be00ce121fd1f8455a9c",
+    "mergeCommit": "6b8ab6749f20b1df8b85ed52623d55e3900e00b6",
+    "number": 118,
+    "url": "https://github.com/xinglun/sentinel/pull/118"
+  },
+  "reason": "PR #118 已合并为 6b8ab674；精确的 codex/telegram-report-resend-v2 分支与 worktree 已不存在，按用户授权记录幂等的 provider finalization，不改写不可变前驱记录。",
+  "receiptId": "telegram-report-recovery-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-resend-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/118",
+    "worktree": "/private/tmp/sentinel-telegram-report-resend-v2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-01T04:45:00Z",
+  "workItemId": "telegram-report-recovery-finalization-recovery",
+  "worktree": {
+    "branch": "codex/telegram-report-resend-v2",
+    "headRevision": "5cd684ec8419fa615910be00ce121fd1f8455a9c",
+    "path": "/private/tmp/sentinel-telegram-report-resend-v2",
+    "worktreeId": "telegram-report-recovery"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "前驱 telegram-report-recovery 的 archive、evidence、Contract、Summary、Outcome、Events 与 recovery bytes 不改写",
+    "在 verification 前绑定真实 GitHub PR #118、base main、merge commit 6b8ab674",
+    "只清理精确的 PR #118 branch/worktree，并通过 finalize-verify",
+    "以结构化人类决定 close successor"
+  ],
+  "authority": "explicit-user-authorization",
+  "baseRevision": "0a6a9fea306baca8efbf8d17bc15452ffdd24d58",
+  "createdAt": "2026-09-01T04:32:45Z",
+  "goal": "在不改写前驱记录的前提下绑定真实 PR #118，验证并关闭收尾 successor",
+  "intent": "为已合并 PR #118 补齐不可变前驱的 provider finalization 与 close",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 Sentinel production code、workflow、provider、既有 archive/evidence/contract/summary/outcome/events bytes；不创建新的业务 PR"
+  ],
+  "predecessorContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "predecessorWorkItemId": "telegram-report-recovery",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-recovery.recovery.32b5e7af7913ef2abc64636ef78452d8d1a870d07056f8bbf96b6e2a60ad23cb.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:845a1d7a62a7859c2b587ff09ec4dc34b7590d39c5ed54d7e29781b6bf203692",
+  "requiredEvidenceClasses": [
+    "verification",
+    "PR #118 merge",
+    "provider finalization receipt",
+    "finalize-verify",
+    "close decision"
+  ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-resend-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/118",
+    "worktree": "/private/tmp/sentinel-telegram-report-resend-v2"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [
+    ".ai/work-items/archive/telegram-report-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-recovery.summary.json",
+    ".ai/work-items/archive/telegram-report-recovery.outcome.json",
+    ".ai/evidence/telegram-report-recovery.verification.json",
+    "https://github.com/xinglun/sentinel/pull/118"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "telegram-report-recovery-finalization-recovery"
+}

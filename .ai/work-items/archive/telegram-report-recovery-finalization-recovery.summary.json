@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/telegram-report-recovery.recovery.32b5e7af7913ef2abc64636ef78452d8d1a870d07056f8bbf96b6e2a60ad23cb.json",
+    ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T04:33:17Z",
+  "checkpointContractDigest": "sha256:43e680bf182caf888fa54bb268a70e5c928c667335460a2bfb7c751af1897a7a",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:bcdaeac0b611411ec9c3141a7c96a85d6068242965de891db69a5090305b44cb",
+  "createdAt": "2026-09-01T04:32:45Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "predecessorWorkItemId": "telegram-report-recovery",
+  "preflightAt": "2026-09-01T04:37:51Z",
+  "preflightContractDigest": "sha256:43e680bf182caf888fa54bb268a70e5c928c667335460a2bfb7c751af1897a7a",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:bcdaeac0b611411ec9c3141a7c96a85d6068242965de891db69a5090305b44cb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-recovery.recovery.32b5e7af7913ef2abc64636ef78452d8d1a870d07056f8bbf96b6e2a60ad23cb.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T04:37:56Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-recovery-finalization-recovery"
+}
