@@ -489,7 +489,7 @@ impl PresentationAssembler {
             .iter()
             .filter(|item| item.kind == dict.decision.risk)
             .collect::<Vec<_>>();
-        let risk_value = Self::summarize_primary_risk(&risk_items, &dict);
+        let risk_value = Self::summarize_primary_risk(&risk_items, packet, &dict, lang);
         let battleboard = BattleboardSnapshot {
             watch_count: watch_refs.len(),
             hold_count: hold_refs.len(),
@@ -1701,7 +1701,9 @@ impl PresentationAssembler {
 
     fn summarize_primary_risk(
         risk_items: &[&crate::features::radar::interface::display::RiskOpportunityViewModel],
+        packet: &DecisionPacket,
         dict: &DisplayDictionary,
+        language: Language,
     ) -> String {
         if risk_items.is_empty() {
             return dict.decision.no_risk.clone();
@@ -1709,7 +1711,8 @@ impl PresentationAssembler {
 
         let mut grouped: HashMap<String, (usize, usize, String)> = HashMap::new();
         for (idx, item) in risk_items.iter().enumerate() {
-            let entry = grouped.entry(item.reason.clone()).or_insert_with(|| {
+            let reason = Self::canonical_risk_reason(item, packet, language);
+            let entry = grouped.entry(reason).or_insert_with(|| {
                 (
                     0,
                     idx,
@@ -1747,6 +1750,52 @@ impl PresentationAssembler {
             format!("{} · {}{}", best_symbol, best_reason, peer_text)
         }
     }
+
+    fn canonical_risk_reason(
+        item: &crate::features::radar::interface::display::RiskOpportunityViewModel,
+        packet: &DecisionPacket,
+        language: Language,
+    ) -> String {
+        let Some(asset) = packet
+            .assets
+            .iter()
+            .find(|asset| asset.symbol == item.symbol)
+        else {
+            return item.reason.clone();
+        };
+        if asset.exit_decision.asset_exit_state != AssetExitState::StrengthLoss {
+            return item.reason.clone();
+        }
+
+        if Self::is_relative_strength_recovering(packet, &asset.symbol) {
+            return match language {
+                Language::ZhCn => {
+                    "结构性减仓信号仍有效；短期 RS 恢复中（RECOVERY_WATCH）".to_string()
+                }
+                Language::EnUs => {
+                    "Structural trim signal remains active; short-term RS is recovering (RECOVERY_WATCH).".to_string()
+                }
+                Language::JaJp => {
+                    "構造的な縮小シグナルは有効です。短期相対強度は回復中です（RECOVERY_WATCH）。".to_string()
+                }
+            };
+        }
+
+        let leaderless = packet.top_tier_symbols.is_empty()
+            || matches!(
+                packet.trend_cohesion.topology,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader
+            );
+        if leaderless {
+            return match language {
+                Language::ZhCn => "结构性减仓信号仍有效".to_string(),
+                Language::EnUs => "Structural trim signal remains active.".to_string(),
+                Language::JaJp => "構造的な縮小シグナルは有効です。".to_string(),
+            };
+        }
+
+        item.reason.clone()
+    }
 }
 
 #[cfg(test)]
@@ -1764,5 +1813,92 @@ mod breakout_projection_tests {
             Language::EnUs,
         );
         assert_eq!(label, "Emerging (Day 4)");
+    }
+}
+
+#[cfg(test)]
+mod risk_summary_tests {
+    use super::PresentationAssembler;
+    use crate::features::radar::domain::action_matrix::AssetActionDecision;
+    use crate::features::radar::domain::current_relative_strength::{
+        CurrentRelativeStrengthObservation, RecoveryStrength, RelativeStrengthState,
+    };
+    use crate::features::radar::domain::decision::DecisionPacket;
+    use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, PositionIntent};
+    use crate::features::radar::interface::display::RiskOpportunityViewModel;
+    use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+    #[test]
+    fn recovery_watch_risk_summary_does_not_claim_continued_weakening() {
+        let packet = DecisionPacket {
+            assets: vec![AssetActionDecision {
+                symbol: "TRIMME".to_string(),
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            current_relative_strength_observations: vec![CurrentRelativeStrengthObservation {
+                symbol: "TRIMME".to_string(),
+                benchmark_symbol: "SPY".to_string(),
+                relative_1d_vs_benchmark: Some(1.0),
+                relative_5d_vs_benchmark: Some(3.0),
+                trend_slope: Some(1.0),
+                price_position: Some(1.0),
+                volume_participation: Some(1.0),
+                state: RelativeStrengthState::Improving,
+                recovery_strength: RecoveryStrength::Moderate,
+                boundary: "Observation only".to_string(),
+            }],
+            ..Default::default()
+        };
+        let item = RiskOpportunityViewModel {
+            kind: "风险".to_string(),
+            symbol: "TRIMME".to_string(),
+            reason: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
+        };
+
+        let summary = PresentationAssembler::summarize_primary_risk(
+            &[&item],
+            &packet,
+            &get_dictionary(Language::ZhCn),
+            Language::ZhCn,
+        );
+
+        assert!(summary.contains("RECOVERY_WATCH"));
+        assert!(!summary.contains("主线掉队"));
+        assert!(!summary.contains("连续转弱"));
+    }
+
+    #[test]
+    fn leaderless_risk_summary_does_not_claim_a_mainline() {
+        let packet = DecisionPacket {
+            assets: vec![AssetActionDecision {
+                symbol: "TRIMME".to_string(),
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                ..Default::default()
+            }],
+            ..Default::default()
+        };
+        let item = RiskOpportunityViewModel {
+            kind: "风险".to_string(),
+            symbol: "TRIMME".to_string(),
+            reason: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
+        };
+
+        let summary = PresentationAssembler::summarize_primary_risk(
+            &[&item],
+            &packet,
+            &get_dictionary(Language::ZhCn),
+            Language::ZhCn,
+        );
+
+        assert!(!summary.contains("主线掉队"));
     }
 }

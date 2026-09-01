@@ -13,7 +13,7 @@ use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::market_change_driver::{
-    build_market_change_driver, MarketChangeSnapshot,
+    build_market_change_driver, canonical_breadth_classification, MarketChangeSnapshot,
 };
 use crate::features::radar::domain::price_volume_structure::{
     assess_price_volume_structure, PriceVolumeInput,
@@ -2227,7 +2227,12 @@ fn build_market_change_log_view_model(
 
 fn breadth_comparison_summary(previous: Option<&str>, current: &str) -> String {
     match previous {
-        Some(previous) if previous == current => format!("Universe Breadth remains {current}."),
+        Some(previous)
+            if canonical_breadth_classification(previous)
+                == canonical_breadth_classification(current) =>
+        {
+            format!("Universe Breadth remains {current}.")
+        }
         Some(previous) => format!("Universe Breadth shifted from {previous} to {current}."),
         None => "Universe Breadth classification comparison unavailable for the previous snapshot."
             .to_string(),
@@ -2835,6 +2840,14 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(summary, "Universe Breadth remains Very Narrow.");
         assert!(!summary.contains("35.0"));
+    }
+
+    #[test]
+    fn breadth_label_migration_is_not_rendered_as_a_shift() {
+        let summary =
+            super::breadth_comparison_summary(Some("Broad Participation"), "BROAD_WITHIN_UNIVERSE");
+
+        assert_eq!(summary, "Universe Breadth remains BROAD_WITHIN_UNIVERSE.");
     }
 
     #[test]

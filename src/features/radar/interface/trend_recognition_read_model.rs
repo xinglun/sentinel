@@ -4,6 +4,8 @@ use crate::features::radar::domain::trend_cohesion::{
     TrendContinuationState,
 };
 use crate::features::shared::interface::i18n::DisplayDictionary;
+use std::cmp::Ordering;
+use std::collections::HashMap;
 
 pub(crate) struct TrendRecognitionReadModel {
     pub state: Option<String>,
@@ -19,12 +21,58 @@ pub(crate) struct TrendRecognitionReadModel {
 
 const MAX_DISPLAYED_SUBSTANTIVE_DETAILS: usize = 20;
 
-fn select_display_records(records: &[AutomatedEvidenceRecord]) -> Vec<&AutomatedEvidenceRecord> {
-    let mut selected: Vec<&AutomatedEvidenceRecord> = records.iter().collect();
-    selected.sort_by(|left, right| {
+fn select_display_clusters(
+    records: &[AutomatedEvidenceRecord],
+) -> Vec<(&AutomatedEvidenceRecord, usize)> {
+    let mut grouped: HashMap<(String, String, String), Vec<&AutomatedEvidenceRecord>> =
+        HashMap::new();
+    for record in records {
+        grouped
+            .entry((
+                record.symbol.clone().unwrap_or_default(),
+                record.event_date.clone(),
+                format!("{:?}", record.evidence_type),
+            ))
+            .or_default()
+            .push(record);
+    }
+
+    let mut selected = grouped
+        .into_values()
+        .map(|cluster| {
+            let primary = cluster
+                .iter()
+                .copied()
+                .min_by(|left, right| {
+                    evidence_source_priority(left.source)
+                        .cmp(&evidence_source_priority(right.source))
+                        .then_with(|| {
+                            right
+                                .confidence
+                                .partial_cmp(&left.confidence)
+                                .unwrap_or(Ordering::Equal)
+                        })
+                        .then_with(|| left.description.cmp(&right.description))
+                })
+                .expect("evidence cluster cannot be empty");
+            let media_count = cluster
+                .iter()
+                .filter(|record| record.source == EvidenceSourceType::NewsMedia)
+                .count();
+            let supporting_media_count =
+                media_count.saturating_sub(if primary.source == EvidenceSourceType::NewsMedia {
+                    1
+                } else {
+                    0
+                });
+            (primary, supporting_media_count)
+        })
+        .collect::<Vec<_>>();
+    selected.sort_by(|(left, _), (right, _)| {
         evidence_source_priority(left.source)
             .cmp(&evidence_source_priority(right.source))
             .then_with(|| right.event_date.cmp(&left.event_date))
+            .then_with(|| left.description.cmp(&right.description))
     });
     selected.truncate(MAX_DISPLAYED_SUBSTANTIVE_DETAILS);
     selected
@@ -176,10 +224,10 @@ fn build_evidence_quality_summary(
 }
 
 fn build_substantive_details(sub: &SubstantiveEvidence, dict: &DisplayDictionary) -> Vec<String> {
-    let records = select_display_records(&sub.records);
+    let records = select_display_clusters(&sub.records);
     records
         .iter()
-        .map(|record| {
+        .map(|(record, supporting_media_count)| {
             let source_label = match record.source {
                 EvidenceSourceType::Manual => &dict.trend_recognition.source_manual,
                 EvidenceSourceType::OfficialIR => &dict.trend_recognition.source_official_ir,
@@ -196,7 +244,7 @@ fn build_substantive_details(sub: &SubstantiveEvidence, dict: &DisplayDictionary
                 .as_ref()
                 .map(|u| format!(" ({})", u))
                 .unwrap_or_default();
-            format!(
+            let detail = format!(
                 "{} {}[{}] [{:?}] {} (Conf: {:.1}){}",
                 source_label,
                 symbol_part,
@@ -205,17 +253,30 @@ fn build_substantive_details(sub: &SubstantiveEvidence, dict: &DisplayDictionary
                 record.description,
                 record.confidence,
                 url_part
-            )
+            );
+            if *supporting_media_count == 0 {
+                detail
+            } else {
+                format!(
+                    "{}{}",
+                    detail,
+                    dict.trend_recognition
+                        .supporting_coverage
+                        .replace("{count}", &supporting_media_count.to_string())
+                )
+            }
         })
         .collect()
 }
 
 #[cfg(test)]
 mod tests {
-    use super::select_display_records;
+    use super::select_display_clusters;
+    use crate::features::radar::domain::trend_cohesion::SubstantiveEvidence;
     use crate::features::shared::domain::evidence::{
         AutomatedEvidenceRecord, EvidenceSourceType, EvidenceType,
     };
+    use crate::features::shared::interface::i18n::{get_dictionary, Language};
 
     fn record(source: EvidenceSourceType, event_date: &str) -> AutomatedEvidenceRecord {
         AutomatedEvidenceRecord::new(
@@ -235,16 +296,28 @@ mod tests {
         let mut records = vec![record(EvidenceSourceType::NewsMedia, "2026-08-10"); 25];
         records.push(record(EvidenceSourceType::OfficialIR, "2026-01-01"));
 
-        let selected = select_display_records(&records);
+        let selected = select_display_clusters(&records);
 
-        assert_eq!(selected.len(), 20);
-        assert_eq!(selected[0].source, EvidenceSourceType::OfficialIR);
-        assert_eq!(
-            selected
-                .iter()
-                .filter(|item| item.source == EvidenceSourceType::NewsMedia)
-                .count(),
-            19
+        assert_eq!(selected.len(), 2);
+        assert_eq!(selected[0].0.source, EvidenceSourceType::OfficialIR);
+        assert_eq!(selected[0].1, 0);
+        assert_eq!(selected[1].1, 24);
+    }
+
+    #[test]
+    fn same_event_media_records_are_rendered_as_supporting_coverage() {
+        let mut records = vec![record(EvidenceSourceType::NewsMedia, "2026-08-10"); 18];
+        records.push(record(EvidenceSourceType::OfficialIR, "2026-08-10"));
+        let details = super::build_substantive_details(
+            &SubstantiveEvidence {
+                records,
+                ..Default::default()
+            },
+            &get_dictionary(Language::ZhCn),
         );
+
+        assert_eq!(details.len(), 1);
+        assert!(details[0].contains("官方 IR"));
+        assert!(details[0].contains("18"));
     }
 }

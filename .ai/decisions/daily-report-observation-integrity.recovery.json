@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T03:05:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/daily-report-observation-integrity.verification.json",
+    ".ai/work-items/active/daily-report-observation-integrity.summary.json",
+    ".ai/work-items/active/daily-report-observation-integrity.outcome.json",
+    ".ai/work-items/active/daily-report-observation-integrity.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+  "predecessorEventsDigest": "sha256:70668afa343cd6db8fe09c3c82f7697cd6017e04e5c8e4547ec13b35e5c22166",
+  "predecessorOutcomeDigest": "sha256:dd688f889050f99fc0af8089438646b3025b76bfc217a3af04fa3e04fd45e580",
+  "predecessorSummaryDigest": "sha256:eded53f1c11195693c2d039fdc18fdcec1a5970641eb3e9ec7b22330373020d0",
+  "predecessorWorkItemId": "daily-report-observation-integrity",
+  "reason": "前一次 finish 在 before_finish checkpoint 的 required checks 绑定上阻断；用户已批准实施，现按 Runtime 协议绑定当前证据并重试同一 Work Item 的本地 finish/archive，不改变实现范围。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "当前 Contract 完成 fresh preflight、verification、finish 与 archive。",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "daily-report-observation-integrity"
+}

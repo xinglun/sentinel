@@ -117,7 +117,7 @@ impl StateTransitionLog {
             to: curr.market_regime.market_state,
             changed: prev
                 .map(|p| p.market_regime.market_state != curr.market_regime.market_state)
-                .unwrap_or(true),
+                .unwrap_or(false),
         };
 
         let risk_overlay = StatusTransition {
@@ -410,7 +410,7 @@ mod tests {
         let curr = mock_packet(MarketState::IGNITION, false);
         let log = StateTransitionLog::compare(None, &curr);
         assert!(log.no_trade_persists);
-        assert!(log.market_state.changed); // from default IGNITION to IGNITION is technically same but compare treats None as default
+        assert!(!log.market_state.changed); // ベースライン不在は市場状態の変化として扱わない。
         assert!(!log.trend_cohesion_gate.to);
     }
 
