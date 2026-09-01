@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-01T03:06:02Z",
+  "files": {
+    "contractDigest": "sha256:5897ce3a4baa5b3c72802797dceb17e07060ec65f70d72ccb27939c4250b3476",
+    "contractPath": ".ai/work-items/archive/daily-report-observation-integrity.contract.json",
+    "eventsDigest": "sha256:fd2a05d3c068da95167dac4905e83c3702de8a5be3ab80871d7d9d9612f51a36",
+    "eventsPath": ".ai/work-items/archive/daily-report-observation-integrity.events.jsonl",
+    "outcomeDigest": "sha256:081d4129b1d6f5a19d0fbbe3aeee22e4d3aec9f4206378a04b3dbaa55db43a72",
+    "outcomePath": ".ai/work-items/archive/daily-report-observation-integrity.outcome.json",
+    "summaryDigest": "sha256:2e4f79317dfd4852613c9712af84adb097ea5f89c166318f4d444f6472b95a5f",
+    "summaryPath": ".ai/work-items/archive/daily-report-observation-integrity.summary.json",
+    "taskReportDigest": "sha256:33a4b70afedf97be9151f48da85e2111568b935e7d0ecf4b9258e0ba648fa58a",
+    "taskReportMarkdownDigest": "sha256:4dd466e743009572fbbf3901ea0cd22bf21cb31b31d20e348fceb5cd8c22372c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-report-observation-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-report-observation-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-report-observation-integrity"
+}

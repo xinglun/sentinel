@@ -1,0 +1,126 @@
+{
+  "acceptanceCriteria": [
+    "相同语义的 market_state 与 breadth classification 不产生 market_state 或 breadth driver，且真正不同的 canonical market state 可在 Change Log 中被辨识",
+    "RECOVERY_WATCH 资产的 Risk Summary 不再写成连续转弱；无 leader 时不再使用主线掉队措辞，并保留现有 Action Matrix 语义",
+    "同一 symbol、event date、evidence type 的 strategic evidence 在展示层聚合为 primary record 与 supporting media count，既不重复刷屏也不改变底层证据记录、评分或趋势算法",
+    "现有 daily_radar.yml 的 Collect Evidence 与 Run Sentinel Radar 步骤显式映射 ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}，不暴露 secret 值",
+    "相关回归测试与 make fmt-check、make test、make clippy、make quality 通过；未修改交易决策路径"
+  ],
+  "authority": "authorized",
+  "baseRevision": "a82f72d54ce22ee293f233f1f073dfc3843d22ba",
+  "createdAt": "2026-09-01T02:26:38Z",
+  "goal": "让同语义状态迁移不再制造市场变化，让 RECOVERY_WATCH 与无主线状态使用事实一致的风险摘要，并将同一 corporate event 的媒体证据聚合为 primary/supporting 展示，同时保持评分、趋势和交易决策逻辑不变",
+  "intent": "修复日报 Change Log、Risk Summary 与战略证据展示中的语义失真，并接入现有 Alpha Vantage 日报运行时 secret 映射",
+  "mode": "code",
+  "outOfScope": [
+    "不新增 macro/geopolitical provider；不修改 evidence score、trend recognition、price-volume 模型；不修改 Gate、execution、trader、action matrix、position sizing；不改变 data branch、reports、JSONL、snapshot 或 weekly metrics 数据契约；不写入或轮换任何 secret；不改变 Alpha Vantage provider 实现；不推送、创建或合并 PR"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d8d78879ef2d4bbf2fc67b84de9dcf4820371d596e47a7531208b52b841cad7a",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-report-observation-integrity",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-observation-integrity"
+  },
+  "risk": "normal",
+  "scope": [
+    "src/features/radar/domain/market_change_driver.rs",
+    "src/features/radar/domain/transition_log.rs",
+    "src/features/radar/interface/transition_evidence_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/trend_recognition_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    ".github/workflows/daily_radar.yml",
+    ".ai/evidence/daily-report-observation-integrity.verification.json",
+    ".ai/work-items/active/daily-report-observation-integrity.contract.json",
+    ".ai/work-items/active/daily-report-observation-integrity.events.jsonl",
+    ".ai/work-items/active/daily-report-observation-integrity.outcome.json",
+    ".ai/work-items/active/daily-report-observation-integrity.summary.json"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "确认语言、Rust quality gate、AI Cockpit lifecycle、secret 禁止项和 Decision isolation。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "确认 Work Item Contract、preflight、checkpoint、verify、finish 和 archive 流程。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认 repository-local Cockpit 运行时与治理状态。"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "确认仓库本地 Agent route 与治理词汇。"
+    },
+    {
+      "path": "src/features/radar/domain/market_change_driver.rs",
+      "reason": "确认 Change Log driver 的比较维度与优先级。"
+    },
+    {
+      "path": "src/features/radar/domain/transition_log.rs",
+      "reason": "确认 market_state transition 的 baseline 与 changed 语义。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "确认 Risk Summary、RECOVERY_WATCH 与 leaderless 状态的展示投影。"
+    },
+    {
+      "path": "src/features/radar/interface/trend_recognition_read_model.rs",
+      "reason": "确认 strategic evidence detail 的展示记录选择与媒体噪声入口。"
+    },
+    {
+      "path": "src/features/radar/interface/transition_evidence_read_model.rs",
+      "reason": "确认 Change Log market_state 文案与战略证据读模型的组装边界。"
+    },
+    {
+      "path": "src/features/shared/interface/i18n.rs",
+      "reason": "确认 zh/en/ja 展示字典和新增 supporting coverage 文案的 i18n 入口。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "确认现有 daily evidence collection runtime 的 secret env 映射位置。"
+    },
+    {
+      "path": "user-message:2026-09-01-批准实施",
+      "reason": "用户明确批准执行已确认的实现范围。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已批准完整开发与验证；范围、排除项、验收标准和验证命令已明确。"
+  },
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit"],
+    "requiredChecks": ["make fmt-check", "make test", "make clippy", "make quality"],
+    "schemaVersion": 1
+  },
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "daily-report-observation-integrity"
+}

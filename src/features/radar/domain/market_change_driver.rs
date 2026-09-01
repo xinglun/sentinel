@@ -34,6 +34,37 @@ pub struct MarketChangeDriver {
     pub summary: String,
 }
 
+pub(crate) fn canonical_market_state(value: &str) -> String {
+    match value.trim().to_ascii_uppercase().as_str() {
+        "STARTUP" => "IGNITION".to_string(),
+        normalized => normalized.to_string(),
+    }
+}
+
+pub(crate) fn canonical_breadth_classification(value: &str) -> String {
+    let trimmed = value.trim();
+    if let Ok(percent) = trimmed.trim_end_matches('%').parse::<f64>() {
+        if percent.is_finite() {
+            return if percent < 30.0 {
+                "VERY_NARROW".to_string()
+            } else if percent < 60.0 {
+                "NARROW".to_string()
+            } else {
+                "BROAD_WITHIN_UNIVERSE".to_string()
+            };
+        }
+    }
+
+    match trimmed.to_ascii_uppercase().replace(' ', "_").as_str() {
+        "BROAD" | "BROAD_PARTICIPATION" | "BROAD_WITHIN_UNIVERSE" => {
+            "BROAD_WITHIN_UNIVERSE".to_string()
+        }
+        "VERY_NARROW" => "VERY_NARROW".to_string(),
+        "NARROW" => "NARROW".to_string(),
+        normalized => normalized.to_string(),
+    }
+}
+
 pub fn build_market_change_driver(
     previous: &MarketChangeSnapshot,
     current: &MarketChangeSnapshot,
@@ -43,12 +74,14 @@ pub fn build_market_change_driver(
     let mut minor = Vec::new();
     let mut unchanged = Vec::new();
 
+    let previous_market_state = canonical_market_state(&previous.market_state);
+    let current_market_state = canonical_market_state(&current.market_state);
     compare_dimension(
         &mut major,
         &mut unchanged,
         "market_state",
-        &previous.market_state,
-        &current.market_state,
+        &previous_market_state,
+        &current_market_state,
     );
     compare_dimension(
         &mut major,
@@ -75,12 +108,14 @@ pub fn build_market_change_driver(
         previous.breadth_classification.as_deref(),
         current.breadth_classification.as_deref(),
     ) {
+        let previous = canonical_breadth_classification(previous);
+        let current = canonical_breadth_classification(current);
         compare_dimension(
             &mut moderate,
             &mut unchanged,
             "breadth_classification",
-            previous,
-            current,
+            &previous,
+            &current,
         );
     }
     compare_dimension(
@@ -258,6 +293,32 @@ mod tests {
 
         assert_eq!(change.change_level, ChangeLevel::Moderate);
         assert_eq!(change.change_drivers, vec!["breadth_classification"]);
+    }
+
+    #[test]
+    fn breadth_label_migration_does_not_create_a_driver() {
+        let mut previous = snapshot();
+        previous.breadth_classification = Some("Broad Participation".to_string());
+        let mut current = snapshot();
+        current.breadth_classification = Some("BROAD_WITHIN_UNIVERSE".to_string());
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert!(!change
+            .change_drivers
+            .contains(&"breadth_classification".to_string()));
+    }
+
+    #[test]
+    fn market_state_alias_migration_does_not_create_a_driver() {
+        let mut previous = snapshot();
+        previous.market_state = "STARTUP".to_string();
+        let mut current = snapshot();
+        current.market_state = "IGNITION".to_string();
+
+        let change = build_market_change_driver(&previous, &current);
+
+        assert!(!change.change_drivers.contains(&"market_state".to_string()));
     }
 
     #[test]
