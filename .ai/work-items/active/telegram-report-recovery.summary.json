@@ -1,0 +1,151 @@
+{
+  "changedPaths": [
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/work-items/active/telegram-report-recovery.contract.json",
+    ".ai/work-items/active/telegram-report-recovery.summary.json",
+    ".ai/evidence/telegram-report-recovery.verification.json"
+  ],
+  "checkpointAt": "2026-08-31T22:42:58Z",
+  "checkpointContractDigest": "sha256:d8524752671dd2f73d0486328d5f591695f3e247a767044872f213015593edf6",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:03997466be692e760b44b75a245f7652e481a81e63430e30030e95e037bf5db6",
+      "recorded": true,
+      "recordedAt": "2026-08-31T22:42:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d8d78879ef2d4bbf2fc67b84de9dcf4820371d596e47a7531208b52b841cad7a",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:eb760aeca5deb690311f53cf410f2a2c53516b36f529f8f401616a1d5e5b824a",
+  "createdAt": "2026-08-31T22:40:52Z",
+  "expectedReviewFocus": [
+    "确认历史计数校正只在 cycle_id 非空且最新日期一致时生效，不会掩盖日期回退或减少历史记录。",
+    "确认失败通知的 secrets 注入和 Telegram API ok 字段校验不会暴露 secret 值。",
+    "确认修复未改变 Gate、Execution、Trader、Action Matrix 或 Position Sizing 语义。"
+  ],
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-recovery.contract.json",
+      "src/features/radar/interface/radar_pipeline_runner.rs",
+      ".github/workflows/daily_radar.yml",
+      "tests/daily_radar_workflow_integration.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-08-31T23:04:15Z",
+  "preflightContractDigest": "sha256:d8524752671dd2f73d0486328d5f591695f3e247a767044872f213015593edf6",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:eb760aeca5deb690311f53cf410f2a2c53516b36f529f8f401616a1d5e5b824a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [
+    {
+      "area": "telegram_delivery",
+      "detail": "远端补发依赖 Repository secrets、Telegram API 可达性和 workflow 运行权限；当前尚未在推送分支上执行补发。",
+      "followUpCandidate": false,
+      "level": "medium",
+      "reviewRecommended": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "features::radar::interface::radar_pipeline_runner::tests::same_day_history_state_reconciles_stale_count_from_timeline",
+        "make quality"
+      ],
+      "reason": "回归测试确认同日且 cycle_id 有效时，状态计数会校正为时间线实际计数。",
+      "required": true,
+      "scenario": "同周期且最新市场日一致时可校正陈旧历史计数",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "features::radar::interface::radar_pipeline_runner::tests::history_state_reconciliation_does_not_hide_date_rollback",
+        "make test"
+      ],
+      "reason": "回归测试确认时间线日期早于状态日期时仍保持 HISTORY_REGRESSION。",
+      "required": true,
+      "scenario": "真实市场日期回退仍然阻断",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests::daily_radar_failure_notification_has_secrets_and_fails_closed",
+        "make quality"
+      ],
+      "reason": "workflow 静态契约已验证；远端补发运行及 Telegram API 结果待推送后确认。",
+      "required": true,
+      "scenario": "日报和失败通知均获得 Telegram secrets",
+      "status": "unverified"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "src/config.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/infrastructure/persistence/migration.rs",
+    ".github/workflows/daily_radar.yml",
+    "GitHub Actions run 33434932388 日志",
+    "origin/data: reports/observation_history_state.json 与 reports/observation_timeline.jsonl",
+    "用户确认（本线程）"
+  ],
+  "state": "checkpointed",
+  "unknowns": [],
+  "updatedAt": "2026-08-31T23:04:20Z",
+  "userCorrectionSolidification": [
+    "用户要求修改并补发；修复逻辑、失败通知和补发验证范围已固化在 Contract、Summary 与回归测试中。"
+  ],
+  "userVisibleBenefit": "日报不再因同周期历史计数陈旧而错误阻断；Telegram 失败通知能够确认实际 API 发送结果，补发运行可将日报交付到 Telegram。",
+  "verification": [
+    {
+      "check": "cargo test history_state_ --lib",
+      "evidence": "同周期计数校正与日期回退回归测试通过。",
+      "result": "passed"
+    },
+    {
+      "check": "cargo test --test daily_radar_workflow_integration daily_radar_failure_notification_has_secrets_and_fails_closed",
+      "evidence": "失败通知 workflow 契约测试通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-recovery"
+}

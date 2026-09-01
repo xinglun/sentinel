@@ -596,7 +596,11 @@ pub(crate) async fn run_pipeline_for_report_date(
         let history_before = runtime_services
             .persistence
             .load_observation_history_entries()?;
-        let history_state_before = history_state_for_resolution.clone();
+        let history_state_before = reconcile_history_state(
+            history_state_for_resolution.clone(),
+            history_before.len(),
+            history_before.iter().map(|entry| entry.date).max(),
+        );
         let cycle_id = cycle_id_for_resolution
             .clone()
             .unwrap_or_else(|| Uuid::new_v4().to_string());
@@ -1884,6 +1888,23 @@ fn history_state_would_regress(
     current_market_date < previous_state.last_market_date || history_count != previous_state.count
 }
 
+fn reconcile_history_state(
+    previous_state: Option<
+        crate::features::radar::infrastructure::persistence::ObservationHistoryState,
+    >,
+    history_count: usize,
+    history_latest_date: Option<chrono::NaiveDate>,
+) -> Option<crate::features::radar::infrastructure::persistence::ObservationHistoryState> {
+    let mut previous_state = previous_state?;
+    if !previous_state.cycle_id.is_empty()
+        && history_count > previous_state.count
+        && history_latest_date == Some(previous_state.last_market_date)
+    {
+        previous_state.count = history_count;
+    }
+    Some(previous_state)
+}
+
 #[allow(clippy::too_many_arguments)]
 fn build_market_change_log_view_model(
     prev_packet: Option<&DecisionPacket>,
@@ -2721,6 +2742,50 @@ Boundary: context only; no Gate input or trade instruction.
             Some(&state),
             2,
             chrono::NaiveDate::from_ymd_opt(2026, 7, 28).unwrap()
+        ));
+    }
+
+    #[test]
+    fn same_day_history_state_reconciles_stale_count_from_timeline() {
+        let state = crate::features::radar::infrastructure::persistence::ObservationHistoryState {
+            count: 3,
+            last_market_date: chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            cycle_id: "cycle-test".to_string(),
+        };
+        let reconciled = super::reconcile_history_state(
+            Some(state),
+            4,
+            Some(chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap()),
+        )
+        .expect("history state should remain available");
+
+        assert_eq!(reconciled.count, 4);
+        assert!(!super::history_state_would_regress(
+            Some(&reconciled),
+            4,
+            chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap()
+        ));
+    }
+
+    #[test]
+    fn history_state_reconciliation_does_not_hide_date_rollback() {
+        let state = crate::features::radar::infrastructure::persistence::ObservationHistoryState {
+            count: 3,
+            last_market_date: chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            cycle_id: "cycle-test".to_string(),
+        };
+        let reconciled = super::reconcile_history_state(
+            Some(state),
+            4,
+            Some(chrono::NaiveDate::from_ymd_opt(2026, 7, 24).unwrap()),
+        )
+        .expect("history state should remain available");
+
+        assert_eq!(reconciled.count, 3);
+        assert!(super::history_state_would_regress(
+            Some(&reconciled),
+            4,
+            chrono::NaiveDate::from_ymd_opt(2026, 7, 24).unwrap()
         ));
     }
 
