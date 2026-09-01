@@ -1,0 +1,123 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/daily-report-observation-integrity.contract.json",
+    ".ai/work-items/archive/daily-report-observation-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T02:28:25Z",
+  "checkpointContractDigest": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:712cb3092b38f730f1b2a492f0895aa23ccc210ac60698c0db9922b90b58c27e",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:28:25Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d8d78879ef2d4bbf2fc67b84de9dcf4820371d596e47a7531208b52b841cad7a",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-report-observation-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:5df5129ec7b9d704004285d807c6019cb37d4b8f28dd3f11af19729af546938c",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:712cb3092b38f730f1b2a492f0895aa23ccc210ac60698c0db9922b90b58c27e",
+      "previousContractHash": "sha256:712cb3092b38f730f1b2a492f0895aa23ccc210ac60698c0db9922b90b58c27e",
+      "reason": "将 Work Item 的 verification 声明与实际执行的四项 make quality gate 对齐；不改变生产代码范围、验收标准或 outOfScope。",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:54:17Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:97022e06b28fe6eb69dc5529a47a2fc3aadd46368a5d75df513b5eecbb5748a6",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-report-observation-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:712cb3092b38f730f1b2a492f0895aa23ccc210ac60698c0db9922b90b58c27e",
+      "previousContractHash": "sha256:5df5129ec7b9d704004285d807c6019cb37d4b8f28dd3f11af19729af546938c",
+      "reason": "将 scope 规范化为逐路径条目，并纳入当前 Work Item 的治理 evidence artifact；不扩大 production 行为范围或验收边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-01T02:57:22Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:97022e06b28fe6eb69dc5529a47a2fc3aadd46368a5d75df513b5eecbb5748a6",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-report-observation-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+      "recorded": true,
+      "recordedAt": "2026-09-01T03:05:54Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:97022e06b28fe6eb69dc5529a47a2fc3aadd46368a5d75df513b5eecbb5748a6",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "daily-report-observation-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:97022e06b28fe6eb69dc5529a47a2fc3aadd46368a5d75df513b5eecbb5748a6",
+  "createdAt": "2026-09-01T02:26:38Z",
+  "failedGate": "finish.verification",
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T03:05:50Z",
+  "preflightContractDigest": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:97022e06b28fe6eb69dc5529a47a2fc3aadd46368a5d75df513b5eecbb5748a6",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Record valid current verification evidence, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T03:05:54Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-report-observation-integrity"
+}

@@ -124,10 +124,10 @@ pub(crate) fn build_transition_evidence(
             || !strategic_context.is_empty(),
         no_trade_persists: log.no_trade_persists,
         market_state_change: if log.market_state.changed {
-            Some(format!(
-                "{} -> {}",
-                map_market_state(log.market_state.from, dict),
-                map_market_state(log.market_state.to, dict)
+            Some(map_market_state_transition(
+                log.market_state.from,
+                log.market_state.to,
+                dict,
             ))
         } else {
             None
@@ -280,6 +280,20 @@ fn map_market_state(state: MarketState, dict: &DisplayDictionary) -> String {
     }
 }
 
+fn map_market_state_transition(
+    from: MarketState,
+    to: MarketState,
+    dict: &DisplayDictionary,
+) -> String {
+    let from_label = map_market_state(from, dict);
+    let to_label = map_market_state(to, dict);
+    if from != to && from_label == to_label {
+        format!("{from_label} [{from:?}] -> {to_label} [{to:?}]")
+    } else {
+        format!("{from_label} -> {to_label}")
+    }
+}
+
 fn map_risk_overlay(risk: RiskOverlay, dict: &DisplayDictionary) -> String {
     match risk {
         RiskOverlay::NORMAL => dict.risks.normal.clone(),
@@ -331,5 +345,43 @@ fn map_gate(passed: bool, dict: &DisplayDictionary) -> String {
         dict.transition_evidence.gate_pass.clone()
     } else {
         dict.transition_evidence.gate_fail.clone()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::build_transition_evidence;
+    use crate::features::radar::domain::decision::DecisionPacket;
+    use crate::features::radar::domain::market_regime::MarketState;
+    use crate::features::radar::domain::rules::ParsedRules;
+    use crate::features::radar::domain::transition_log::{StateTransitionLog, StatusTransition};
+    use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+    #[test]
+    fn ambiguous_market_state_labels_keep_canonical_state_names() {
+        let packet = DecisionPacket {
+            transition_log: Some(StateTransitionLog {
+                market_state: StatusTransition {
+                    from: MarketState::IGNITION,
+                    to: MarketState::NEWBORN,
+                    changed: true,
+                },
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let evidence = build_transition_evidence(
+            &packet,
+            &ParsedRules::default(),
+            &get_dictionary(Language::ZhCn),
+        )
+        .expect("transition evidence should be available");
+
+        let market_state_change = evidence
+            .market_state_change
+            .expect("market state change should be rendered");
+        assert!(market_state_change.contains("IGNITION"));
+        assert!(market_state_change.contains("NEWBORN"));
     }
 }

@@ -143,6 +143,53 @@ fn daily_radar_collect_evidence_bad_config_writes_failed_status_without_blocking
 }
 
 #[test]
+fn daily_radar_failure_notification_has_secrets_and_fails_closed() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Notify on Failure");
+
+    assert!(workflow.contains(
+        "TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}\n          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}"
+    ));
+    assert!(script.contains("set -euo pipefail"));
+    assert!(script.contains("curl --fail-with-body -sS"));
+    assert!(script.contains("jq -e '.ok == true'"));
+    assert!(!script.contains("|| echo \"Failed to send Telegram notification\""));
+}
+
+#[test]
+fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Resend Existing Daily Report");
+    let tmp = tempfile::tempdir().expect("failed to create temp dir");
+    let script_path = tmp.path().join("resend_daily_report.sh");
+    fs::write(&script_path, &script).expect("failed to write resend script");
+
+    let output = Command::new("bash")
+        .arg("-n")
+        .arg(&script_path)
+        .output()
+        .expect("failed to run bash -n");
+    assert!(
+        output.status.success(),
+        "resend shell syntax failed: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(workflow.contains("type: choice"));
+    assert!(workflow.contains("resend"));
+    assert!(workflow.contains("inputs.mode != 'resend'"));
+    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("run_status_${DATE_JST}.json"));
+    assert!(script.contains("api.telegram.org"));
+    assert!(script.contains("\"ok\""));
+    assert!(script.contains("notification_resend"));
+    assert!(!script.contains("make radar-release"));
+}
+
+#[test]
 fn data_branch_write_back_steps_have_valid_shell_syntax() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     for (workflow_name, step_name) in [

@@ -4,7 +4,16 @@ on:
   schedule:
     # 每周一至周五 日本时间 23:30 运行 (对应 UTC 14:30)
     - cron: '30 14 * * 1-5'
-  workflow_dispatch: # 允许手动触发
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "运行方式"
+        required: true
+        default: generate
+        type: choice
+        options:
+          - generate
+          - resend
 
 permissions:
   contents: write
@@ -185,9 +194,110 @@ jobs:
             echo "✅ Restored formal trading-day snapshots: count=${RESTORED_SNAPSHOT_COUNT}, last_date=${RESTORED_LAST_SNAPSHOT_DATE:-none}"
           fi
 
+      - name: Resend Existing Daily Report
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'resend' }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          set -euo pipefail
+          DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
+          REPORT_PATH="reports/${DATE_JST}.md"
+          STATUS_PATH="reports/run_status_${DATE_JST}.json"
+          test -s "${REPORT_PATH}"
+          test -s "${STATUS_PATH}"
+          DATE_JST="${DATE_JST}" REPORT_PATH="${REPORT_PATH}" STATUS_PATH="${STATUS_PATH}" python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          from urllib.error import HTTPError, URLError
+          from urllib.request import Request, urlopen
+
+          date_jst = os.environ["DATE_JST"]
+          report_path = Path(os.environ["REPORT_PATH"])
+          status_path = Path(os.environ["STATUS_PATH"])
+          bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+          chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+          if not bot_token or not chat_id:
+              raise SystemExit("Telegram resend credentials are missing")
+
+          status = json.loads(status_path.read_text(encoding="utf-8"))
+          decisioning = status.get("decisioning")
+          decisioning_succeeded = decisioning == "succeeded" or (
+              isinstance(decisioning, dict) and "succeeded" in decisioning
+          )
+          if not decisioning_succeeded:
+              raise SystemExit("archived report decisioning status is not succeeded")
+          if status.get("date") not in (None, date_jst):
+              raise SystemExit("archived report status date does not match JST date")
+
+          report = report_path.read_text(encoding="utf-8").strip()
+          if not report:
+              raise SystemExit("archived report is empty")
+
+          max_chunk_length = 3800
+          chunks = [
+              report[index : index + max_chunk_length]
+              for index in range(0, len(report), max_chunk_length)
+          ]
+          url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+          for index, chunk in enumerate(chunks, start=1):
+              prefix = (
+                  f"📨 日报补发（{date_jst}，复用 data 分支已生成报告）\n\n"
+                  if index == 1
+                  else f"📨 日报补发（{date_jst}，第 {index}/{len(chunks)} 段）\n\n"
+              )
+              payload = json.dumps(
+                  {
+                      "chat_id": chat_id,
+                      "text": prefix + chunk,
+                      "disable_web_page_preview": True,
+                  }
+              ).encode("utf-8")
+              request = Request(
+                  url,
+                  data=payload,
+                  headers={"Content-Type": "application/json"},
+                  method="POST",
+              )
+              try:
+                  with urlopen(request, timeout=30) as response:
+                      response_body = json.loads(response.read().decode("utf-8"))
+                      if response.status >= 300 or response_body.get("ok") is not True:
+                          raise SystemExit(
+                              f"Telegram resend returned an unsuccessful response for chunk {index}"
+                          )
+              except HTTPError as error:
+                  raise SystemExit(
+                      f"Telegram resend HTTP request failed for chunk {index}: status={error.code}"
+                  ) from error
+              except URLError as error:
+                  raise SystemExit(
+                      f"Telegram resend network request failed for chunk {index}: {error.reason}"
+                  ) from error
+
+          status["notification_resend"] = {
+              "status": "succeeded",
+              "source": "data_branch_archived_report",
+              "report_date": date_jst,
+              "chunks": len(chunks),
+              "sent_at": datetime.now(timezone.utc).isoformat(),
+          }
+          status_path.write_text(
+              json.dumps(status, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          print(f"✅ Archived Telegram report resent successfully: chunks={len(chunks)}")
+          PY
+          echo "REPORT_DATE_JST=${DATE_JST}" >> "$GITHUB_ENV"
+          echo "✅ Existing daily report was reused; radar recalculation was skipped."
+
       - name: Collect Evidence (non-blocking)
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
         env:
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
           EVIDENCE_DAYS: "7"
         run: |
@@ -263,10 +373,12 @@ jobs:
           fi
 
       - name: Run Sentinel Radar
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: |
@@ -408,8 +520,13 @@ jobs:
           import os
           path = os.environ["STATUS_PATH"]
           data = json.load(open(path, encoding="utf-8"))
+          resend = data.get("notification_resend")
           notification = data.get("notification", "missing")
           print("=== NOTIFICATION OUTCOME ===")
+          if isinstance(resend, dict):
+              print(f"resend_status={resend.get('status', 'missing')}")
+              print(f"resend_source={resend.get('source', 'missing')}")
+              print(f"resend_chunks={resend.get('chunks', 'missing')}")
           if isinstance(notification, str):
               print(f"status={notification}")
           elif isinstance(notification, dict):
@@ -690,13 +807,24 @@ jobs:
 
       - name: Notify on Failure
         if: failure()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
+          set -euo pipefail
           # Use ANSI-C quoting for real newlines in Telegram
           MSG=$'❌ Daily Radar FAILED on '"${GITHUB_REPOSITORY}"$'\n'
           MSG+=$'Workflow: '"${GITHUB_WORKFLOW}"$'\n'
           MSG+=$'Run: '"${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"$'\n'
           MSG+=$'Commit: '"${GITHUB_SHA::7}"
           
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          if ! TELEGRAM_RESPONSE="$(curl --fail-with-body -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
-            --data-urlencode text="${MSG}" > /dev/null || echo "Failed to send Telegram notification"
+            --data-urlencode text="${MSG}")"; then
+            echo "Failed to send Telegram notification: HTTP request failed" >&2
+            exit 1
+          fi
+          if ! jq -e '.ok == true' >/dev/null <<<"${TELEGRAM_RESPONSE}"; then
+            echo "Failed to send Telegram notification: Telegram API returned ok=false" >&2
+            exit 1
+          fi

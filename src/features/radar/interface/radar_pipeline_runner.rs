@@ -13,7 +13,7 @@ use crate::features::radar::application::provider::MarketDataProvider;
 use crate::features::radar::domain::asset_state::AssetState;
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::market_change_driver::{
-    build_market_change_driver, MarketChangeSnapshot,
+    build_market_change_driver, canonical_breadth_classification, MarketChangeSnapshot,
 };
 use crate::features::radar::domain::price_volume_structure::{
     assess_price_volume_structure, PriceVolumeInput,
@@ -596,7 +596,11 @@ pub(crate) async fn run_pipeline_for_report_date(
         let history_before = runtime_services
             .persistence
             .load_observation_history_entries()?;
-        let history_state_before = history_state_for_resolution.clone();
+        let history_state_before = reconcile_history_state(
+            history_state_for_resolution.clone(),
+            history_before.len(),
+            history_before.iter().map(|entry| entry.date).max(),
+        );
         let cycle_id = cycle_id_for_resolution
             .clone()
             .unwrap_or_else(|| Uuid::new_v4().to_string());
@@ -1884,6 +1888,23 @@ fn history_state_would_regress(
     current_market_date < previous_state.last_market_date || history_count != previous_state.count
 }
 
+fn reconcile_history_state(
+    previous_state: Option<
+        crate::features::radar::infrastructure::persistence::ObservationHistoryState,
+    >,
+    history_count: usize,
+    history_latest_date: Option<chrono::NaiveDate>,
+) -> Option<crate::features::radar::infrastructure::persistence::ObservationHistoryState> {
+    let mut previous_state = previous_state?;
+    if !previous_state.cycle_id.is_empty()
+        && history_count > previous_state.count
+        && history_latest_date == Some(previous_state.last_market_date)
+    {
+        previous_state.count = history_count;
+    }
+    Some(previous_state)
+}
+
 #[allow(clippy::too_many_arguments)]
 fn build_market_change_log_view_model(
     prev_packet: Option<&DecisionPacket>,
@@ -2206,7 +2227,12 @@ fn build_market_change_log_view_model(
 
 fn breadth_comparison_summary(previous: Option<&str>, current: &str) -> String {
     match previous {
-        Some(previous) if previous == current => format!("Universe Breadth remains {current}."),
+        Some(previous)
+            if canonical_breadth_classification(previous)
+                == canonical_breadth_classification(current) =>
+        {
+            format!("Universe Breadth remains {current}.")
+        }
         Some(previous) => format!("Universe Breadth shifted from {previous} to {current}."),
         None => "Universe Breadth classification comparison unavailable for the previous snapshot."
             .to_string(),
@@ -2725,6 +2751,50 @@ Boundary: context only; no Gate input or trade instruction.
     }
 
     #[test]
+    fn same_day_history_state_reconciles_stale_count_from_timeline() {
+        let state = crate::features::radar::infrastructure::persistence::ObservationHistoryState {
+            count: 3,
+            last_market_date: chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            cycle_id: "cycle-test".to_string(),
+        };
+        let reconciled = super::reconcile_history_state(
+            Some(state),
+            4,
+            Some(chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap()),
+        )
+        .expect("history state should remain available");
+
+        assert_eq!(reconciled.count, 4);
+        assert!(!super::history_state_would_regress(
+            Some(&reconciled),
+            4,
+            chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap()
+        ));
+    }
+
+    #[test]
+    fn history_state_reconciliation_does_not_hide_date_rollback() {
+        let state = crate::features::radar::infrastructure::persistence::ObservationHistoryState {
+            count: 3,
+            last_market_date: chrono::NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
+            cycle_id: "cycle-test".to_string(),
+        };
+        let reconciled = super::reconcile_history_state(
+            Some(state),
+            4,
+            Some(chrono::NaiveDate::from_ymd_opt(2026, 7, 24).unwrap()),
+        )
+        .expect("history state should remain available");
+
+        assert_eq!(reconciled.count, 3);
+        assert!(super::history_state_would_regress(
+            Some(&reconciled),
+            4,
+            chrono::NaiveDate::from_ymd_opt(2026, 7, 24).unwrap()
+        ));
+    }
+
+    #[test]
     fn observation_history_advances_only_on_nyse_trading_days() {
         assert!(super::is_observation_trading_day(
             chrono::NaiveDate::from_ymd_opt(2026, 8, 21).unwrap()
@@ -2770,6 +2840,14 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(summary, "Universe Breadth remains Very Narrow.");
         assert!(!summary.contains("35.0"));
+    }
+
+    #[test]
+    fn breadth_label_migration_is_not_rendered_as_a_shift() {
+        let summary =
+            super::breadth_comparison_summary(Some("Broad Participation"), "BROAD_WITHIN_UNIVERSE");
+
+        assert_eq!(summary, "Universe Breadth remains BROAD_WITHIN_UNIVERSE.");
     }
 
     #[test]
