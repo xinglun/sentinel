@@ -1,0 +1,29 @@
+{
+  "actor": "user",
+  "authoritySource": "direct-user-instruction",
+  "decidedAt": "2026-09-01T01:30:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/telegram-report-recovery.verification.json",
+    ".ai/work-items/active/telegram-report-recovery.summary.json",
+    ".ai/work-items/active/telegram-report-recovery.outcome.json",
+    ".ai/work-items/active/telegram-report-recovery.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md: AI Cockpit 强制协议",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "predecessorEventsDigest": "sha256:dcd8e89b292c26b465024aee996e3d45afae9912521e7deae60673ecd0383755",
+  "predecessorOutcomeDigest": "sha256:504bccc7415b3497dae0e28dcb234c6ddcfbb716259a86fcab5fc955edbbfc23",
+  "predecessorSummaryDigest": "sha256:1706fbea56a0e3e1a2d0954b67730c1345c5c3064e96eaa1739b641bdc2483f1",
+  "predecessorWorkItemId": "telegram-report-recovery",
+  "reason": "用户已明确授权修复旧 Work Item 治理记录，并新增复用 data 分支现有日报的安全补发入口；保留失败 finish 事件，按 retry 恢复同一 Work Item。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "重新记录当前 Contract 的验证证据，运行 preflight，并在绿色结果后继续 finish。",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "workItemId": "telegram-report-recovery"
+}

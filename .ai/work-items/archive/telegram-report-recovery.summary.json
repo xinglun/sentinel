@@ -1,0 +1,239 @@
+{
+  "changedPaths": [
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/work-items/archive/telegram-report-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-recovery.summary.json",
+    ".ai/evidence/telegram-report-recovery.verification.json",
+    "docs/superpowers/plans/2026-09-01-telegram-report-resend.md"
+  ],
+  "checkpointAt": "2026-08-31T22:42:58Z",
+  "checkpointContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:03997466be692e760b44b75a245f7652e481a81e63430e30030e95e037bf5db6",
+      "recorded": true,
+      "recordedAt": "2026-08-31T22:42:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d8d78879ef2d4bbf2fc67b84de9dcf4820371d596e47a7531208b52b841cad7a",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:00a74477463dad6e403c5a652a37b863a332a8622a061da1dbc0dbd2d2981d58",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:03997466be692e760b44b75a245f7652e481a81e63430e30030e95e037bf5db6",
+      "previousContractHash": "sha256:03997466be692e760b44b75a245f7652e481a81e63430e30030e95e037bf5db6",
+      "reason": "用户已授权修复旧 Work Item 的基线与证据，并新增复用 data 分支已生成日报的安全 resend workflow；当前分支基于已合入 main 的 0a6a9fea。",
+      "recorded": true,
+      "recordedAt": "2026-09-01T01:06:44Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b91f3fc21d2dd1ff23e179bd564ef8e2149049cdd634fe0743fc347e99e4b1eb",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 4,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:03997466be692e760b44b75a245f7652e481a81e63430e30030e95e037bf5db6",
+      "previousContractHash": "sha256:00a74477463dad6e403c5a652a37b863a332a8622a061da1dbc0dbd2d2981d58",
+      "reason": "用户已授权修复治理记录；将四个 Contract scenario 的 verified 状态与当前静态/回归测试证据对齐，远端 Telegram 运行保留为合入后的操作核验。",
+      "recorded": true,
+      "recordedAt": "2026-09-01T01:36:05Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:287ee1f308e83bed433b18f8327db16aa1b7a6a36cf161ee15bf2128283589d4",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 4,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+      "recorded": true,
+      "recordedAt": "2026-09-01T01:52:18Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:287ee1f308e83bed433b18f8327db16aa1b7a6a36cf161ee15bf2128283589d4",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:287ee1f308e83bed433b18f8327db16aa1b7a6a36cf161ee15bf2128283589d4",
+  "createdAt": "2026-08-31T22:40:52Z",
+  "expectedReviewFocus": [
+    "确认历史计数校正只在 cycle_id 非空且最新日期一致时生效，不会掩盖日期回退或减少历史记录。",
+    "确认失败通知的 secrets 注入和 Telegram API ok 字段校验不会暴露 secret 值。",
+    "确认修复未改变 Gate、Execution、Trader、Action Matrix 或 Position Sizing 语义。",
+    "确认 resend 模式只读取 data 分支的已生成日报，不执行 radar 重算或同日快照写入。"
+  ],
+  "failedGate": "finish.governance",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-recovery.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "tests/daily_radar_workflow_integration.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "outcomeState": "blocked",
+  "preflightAt": "2026-09-01T01:52:15Z",
+  "preflightContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:287ee1f308e83bed433b18f8327db16aa1b7a6a36cf161ee15bf2128283589d4",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [
+    {
+      "area": "telegram_delivery",
+      "detail": "远端补发依赖 Repository secrets、Telegram API 可达性和 workflow 运行权限；当前尚未在推送分支上执行补发。",
+      "followUpCandidate": false,
+      "level": "medium",
+      "reviewRecommended": true
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "features::radar::interface::radar_pipeline_runner::tests::same_day_history_state_reconciles_stale_count_from_timeline",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "同周期且最新市场日一致时可校正陈旧历史计数",
+      "status": "verified",
+      "verificationPlan": "回归测试与 make quality 已确认同日且 cycle_id 有效时，状态计数校正为时间线实际计数。"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "features::radar::interface::radar_pipeline_runner::tests::history_state_reconciliation_does_not_hide_date_rollback",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "真实市场日期回退仍然阻断",
+      "status": "verified",
+      "verificationPlan": "回归测试与 make test 已确认时间线日期早于状态日期时仍保持 HISTORY_REGRESSION。"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests::daily_radar_failure_notification_has_secrets_and_fails_closed",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "日报和失败通知均获得 Telegram secrets",
+      "status": "verified",
+      "verificationPlan": "workflow 静态契约和全量质量检查已确认 secrets 注入及 Telegram 非 ok 响应 fail-closed；远端 API 运行结果作为合入后的操作证据单独记录。"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests::daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax",
+        "make test",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "resend 模式复用既有日报并记录补发结果",
+      "status": "verified",
+      "verificationPlan": "契约测试和全量质量检查已确认 resend 只验证并复用 data 分支既有日报、分块调用 Telegram API、写入 notification_resend 且不调用 radar-release；合入 main 后再核验实际发送结果。"
+    }
+  ],
+  "sourcesUsed": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    ".ai/glossary.md",
+    "src/config.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/infrastructure/persistence/migration.rs",
+    ".github/workflows/daily_radar.yml",
+    "GitHub Actions run 33434932388 日志",
+    "GitHub Actions run 33455967587 日志中的 SNAPSHOT_CONFLICT 复现结果",
+    "origin/data:reports/2026-09-01.md 与 reports/run_status_2026-09-01.json",
+    "origin/data: reports/observation_history_state.json 与 reports/observation_timeline.jsonl",
+    "用户确认（本线程）",
+    "用户授权修复 Work Item 基线与证据并新增安全补发入口（本线程）"
+  ],
+  "state": "finish_ready",
+  "unknowns": [],
+  "updatedAt": "2026-09-01T01:52:18Z",
+  "userCorrectionSolidification": [
+    "用户要求修改并补发；历史状态修复、失败通知、复用既有日报的安全补发和验证范围已固化在 Contract、Summary、计划与回归测试中。"
+  ],
+  "userVisibleBenefit": "日报不再因同周期历史计数陈旧而错误阻断；Telegram 失败通知能够确认实际 API 发送结果，补发运行可复用 data 分支的正式日报并交付到 Telegram。",
+  "verification": [
+    {
+      "check": "cargo test history_state_ --lib",
+      "evidence": "同周期计数校正与日期回退回归测试通过。",
+      "result": "passed"
+    },
+    {
+      "check": "cargo test --test daily_radar_workflow_integration daily_radar_failure_notification_has_secrets_and_fails_closed",
+      "evidence": "失败通知 workflow 契约测试通过。",
+      "result": "passed"
+    },
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "cargo test --test daily_radar_workflow_integration daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax -- --exact",
+      "evidence": "resend workflow 的 shell 语法、数据输入验证、Telegram ok 检查和审计字段契约通过。",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-recovery"
+}
