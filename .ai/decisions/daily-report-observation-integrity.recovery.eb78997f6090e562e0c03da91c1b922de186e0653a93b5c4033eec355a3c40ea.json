@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T04:32:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-report-observation-integrity-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-report-observation-integrity-finalization-recovery.summary.json",
+    ".ai/decisions/daily-report-observation-integrity-finalization-recovery.finalize.json",
+    ".ai/decisions/daily-report-observation-integrity-finalization-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+  "predecessorEventsDigest": "sha256:fd2a05d3c068da95167dac4905e83c3702de8a5be3ab80871d7d9d9612f51a36",
+  "predecessorOutcomeDigest": "sha256:ee4552eeeb93a7e857e10e5924d0219963b5df19e079b00daba5e1260b9e13fd",
+  "predecessorSummaryDigest": "sha256:bfbebaec3559478406d4e31cc6674a95a5a8a54ed4a3f89dd32f6eb6d45c160c",
+  "predecessorWorkItemId": "daily-report-observation-integrity",
+  "reason": "daily-report-observation-integrity 的不可变前驱记录由已完成并已关闭的 recovery successor 接管；前驱 bytes 保持不变，并以显式 supersede 决定完成历史收尾。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "无需恢复；后续如需追加治理修复应创建独立 successor Work Item。",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-report-observation-integrity-finalization-recovery",
+  "workItemId": "daily-report-observation-integrity"
+}
