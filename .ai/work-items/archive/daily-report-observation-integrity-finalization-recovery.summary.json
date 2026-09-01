@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-report-observation-integrity.recovery.bc08573333e6a272d9162821de1b0018664717f432643bfad2f428cfb511aab4.json",
+    ".ai/work-items/archive/daily-report-observation-integrity-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-report-observation-integrity-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T04:21:17Z",
+  "checkpointContractDigest": "sha256:b0af11f750dfd827d22ff64d1cc414723cd3009aba4a4c0d1db7493c283d9ebd",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:bcdaeac0b611411ec9c3141a7c96a85d6068242965de891db69a5090305b44cb",
+  "createdAt": "2026-09-01T04:20:19Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:edfeba060044c68e01aff8f456692b9ae98fcd37669ce7792cce4d098f95737f",
+  "predecessorWorkItemId": "daily-report-observation-integrity",
+  "preflightAt": "2026-09-01T04:25:54Z",
+  "preflightContractDigest": "sha256:b0af11f750dfd827d22ff64d1cc414723cd3009aba4a4c0d1db7493c283d9ebd",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:bcdaeac0b611411ec9c3141a7c96a85d6068242965de891db69a5090305b44cb",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-report-observation-integrity.recovery.bc08573333e6a272d9162821de1b0018664717f432643bfad2f428cfb511aab4.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-01T04:25:58Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-report-observation-integrity-finalization-recovery"
+}
