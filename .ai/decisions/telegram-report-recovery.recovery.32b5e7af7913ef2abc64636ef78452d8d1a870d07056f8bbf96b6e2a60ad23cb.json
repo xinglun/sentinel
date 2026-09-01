@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T04:40:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-recovery.summary.json",
+    ".ai/work-items/archive/telegram-report-recovery.outcome.json",
+    ".ai/work-items/archive/telegram-report-recovery.events.jsonl",
+    ".ai/evidence/telegram-report-recovery.verification.json",
+    "https://github.com/xinglun/sentinel/pull/118"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "predecessorEventsDigest": "sha256:ad223cec918bb5532c500316f83d77a48d648ace589b72f58485e11048337ce1",
+  "predecessorOutcomeDigest": "sha256:c2e7ddd0caa47cd522bfd0c1e07bcfa03bd4bf6635d6b7ed418bbfbc10810749",
+  "predecessorSummaryDigest": "sha256:01d1ca01036ae717d0a3afc8ecc0e6d08c741fbb22a6120e06d69d2fe0e2c49a",
+  "predecessorWorkItemId": "telegram-report-recovery",
+  "reason": "旧 Work Item 的 immutable Contract 记录了 local/not-requested 占位上下文，但实际交付已通过 GitHub PR #118 合并到 main。用户已明确批准收尾；建立 recovery successor，以绑定真实 PR、完成 finalization 与 close，且不改写前驱记录。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 绑定 PR #118 后完成 preflight、verification、finish、archive、finalize-verify 与 close。",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-recovery-finalization-recovery",
+  "workItemId": "telegram-report-recovery"
+}

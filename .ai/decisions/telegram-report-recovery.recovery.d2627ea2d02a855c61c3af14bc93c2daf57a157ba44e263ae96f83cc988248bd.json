@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-01T04:47:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json",
+    ".ai/decisions/telegram-report-recovery-finalization-recovery.finalize.json",
+    ".ai/decisions/telegram-report-recovery-finalization-recovery.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:6591ac292e0a1e43e052404d8c2e36e5cc20227873aa4c73f9dad520fec94396",
+  "predecessorEventsDigest": "sha256:ad223cec918bb5532c500316f83d77a48d648ace589b72f58485e11048337ce1",
+  "predecessorOutcomeDigest": "sha256:c2e7ddd0caa47cd522bfd0c1e07bcfa03bd4bf6635d6b7ed418bbfbc10810749",
+  "predecessorSummaryDigest": "sha256:01d1ca01036ae717d0a3afc8ecc0e6d08c741fbb22a6120e06d69d2fe0e2c49a",
+  "predecessorWorkItemId": "telegram-report-recovery",
+  "reason": "telegram-report-recovery 的不可变前驱记录由已完成并已关闭的 recovery successor 接管；前驱 bytes 保持不变，并以显式 supersede 决定完成历史收尾。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "无需恢复；后续如需追加治理修复应创建独立 successor Work Item。",
+  "runtimeDigest": "sha256:f63c3308e6b3038ca28673d2079b350036642afa5076a5079338f64f34f076f5",
+  "runtimeVersion": "0.2.53",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-recovery-finalization-recovery",
+  "workItemId": "telegram-report-recovery"
+}

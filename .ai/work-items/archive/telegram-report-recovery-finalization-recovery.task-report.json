@@ -1,0 +1,109 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:bcdaeac0b611411ec9c3141a7c96a85d6068242965de891db69a5090305b44cb",
+    "workItemId": "telegram-report-recovery-finalization-recovery"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/telegram-report-recovery.recovery.32b5e7af7913ef2abc64636ef78452d8d1a870d07056f8bbf96b6e2a60ad23cb.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/telegram-report-recovery-finalization-recovery.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/telegram-report-recovery-finalization-recovery.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-recovery-finalization-recovery.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "在不改写前驱记录的前提下绑定真实 PR #118，验证并关闭收尾 successor"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-recovery-finalization-recovery.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "telegram-report-recovery-finalization-recovery"
+}
