@@ -186,6 +186,10 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
     assert!(script.contains("api.telegram.org"));
     assert!(script.contains("\"ok\""));
     assert!(script.contains("notification_resend"));
+    assert!(script.contains("report_lifecycle"));
+    assert!(script.contains("\"mode\": \"RESENT\""));
+    assert!(workflow.contains("SENTINEL_EXECUTION_GIT_SHA: ${{ github.sha }}"));
+    assert!(workflow.contains("SENTINEL_EXECUTION_GIT_BRANCH: ${{ github.ref_name }}"));
     assert!(!script.contains("make radar-release"));
 }
 

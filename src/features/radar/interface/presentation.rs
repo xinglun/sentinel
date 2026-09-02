@@ -4,6 +4,9 @@ use crate::features::radar::interface::display::{
 use crate::features::research::interface::macro_event_observation::{
     EvidenceRecord, MarketReaction,
 };
+use crate::features::shared::application::run_status::{
+    DataProvenanceBundle, ReportLifecycle, ReportRuntimeIdentity, RuntimeIntegrity,
+};
 use crate::features::shared::interface::i18n::Language;
 use serde::{Deserialize, Serialize};
 
@@ -104,6 +107,12 @@ pub struct LeaderPersistenceViewModel {
     pub breakout_continuity_value: String,
     pub history_coverage_label: String,
     pub history_coverage_value: String,
+    #[serde(default)]
+    pub leadership_snapshot_id: Option<String>,
+    #[serde(default)]
+    pub previous_snapshot_id: Option<String>,
+    #[serde(default)]
+    pub calculation_mode: String,
     pub first_observed_at_value: Option<String>,
     pub previous_leader_value: Option<String>,
     #[serde(default)]
@@ -135,6 +144,10 @@ pub struct CurrentRelativeStrengthItemViewModel {
     pub status: String,
     #[serde(default, alias = "recovery_state")]
     pub recovery_strength: String,
+    #[serde(default)]
+    pub health: String,
+    #[serde(default)]
+    pub diagnostic: Option<String>,
     pub relative_1d_vs_benchmark: Option<f64>,
     pub relative_5d_vs_benchmark: Option<f64>,
     pub price_position: Option<f64>,
@@ -995,6 +1008,14 @@ pub struct PresentationPacket {
     // terminal table と archival markdown 用。
     pub terminal_rows: Vec<TerminalRowViewModel>,
     pub state_code: String,
+    #[serde(default)]
+    pub runtime_identity: Option<ReportRuntimeIdentity>,
+    #[serde(default)]
+    pub data_provenance: Option<DataProvenanceBundle>,
+    #[serde(default)]
+    pub runtime_integrity: Option<RuntimeIntegrity>,
+    #[serde(default)]
+    pub report_lifecycle: Option<ReportLifecycle>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]

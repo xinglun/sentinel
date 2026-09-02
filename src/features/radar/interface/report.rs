@@ -81,6 +81,10 @@ fn generate_markdown_report(
         is_no_trade && compact_transition_in_no_trade && !detailed_transition;
 
     let mut card = String::new();
+    card.push_str(&render_runtime_integrity_markdown(
+        pres,
+        detailed_transition,
+    ));
     card.push_str(&format!("## {}\n\n", dict.headers.market_summary));
     card.push_str(&format!(
         "**{}**: {} | **{}**: {}\n\n",
@@ -308,6 +312,7 @@ fn generate_telegram_html_report(
         is_no_trade && compact_transition_in_no_trade && !detailed_transition;
 
     let mut card = String::new();
+    card.push_str(&render_runtime_integrity_html(pres));
     card.push_str(&format!("<b>{}</b>\n\n", dict.headers.market_summary));
     card.push_str(&format!(
         "<b>{}</b>: {} | <b>{}</b>: {}\n\n",
@@ -522,6 +527,105 @@ fn generate_telegram_html_report(
     ));
 
     card
+}
+
+fn render_runtime_integrity_markdown(pres: &PresentationPacket, detailed: bool) -> String {
+    let mut out = String::new();
+    if let Some(identity) = pres.runtime_identity.as_ref() {
+        out.push_str("<!-- report_runtime_identity\n");
+        out.push_str(
+            &serde_json::to_string_pretty(identity).expect("runtime identity is serializable"),
+        );
+        out.push_str("\n-->\n\n");
+    }
+    if let Some(integrity) = pres.runtime_integrity.as_ref() {
+        if !integrity.is_healthy() {
+            let diagnostics = if integrity.diagnostics.is_empty() {
+                "UNAVAILABLE".to_string()
+            } else {
+                integrity.diagnostics.join(", ")
+            };
+            out.push_str(&format!(
+                "> ⚠️ Observation Integrity: {} (Runtime Integrity, decision_weight=0)\n> diagnostics: {}\n\n",
+                runtime_integrity_status_label(integrity.status),
+                diagnostics,
+            ));
+        }
+    }
+    if detailed {
+        out.push_str("## Report Runtime Integrity\n\n");
+        if let Some(provenance) = pres.data_provenance.as_ref() {
+            out.push_str("### data_provenance\n\n```json\n");
+            out.push_str(
+                &serde_json::to_string_pretty(provenance).expect("provenance is serializable"),
+            );
+            out.push_str("\n```\n\n");
+        }
+        if let Some(integrity) = pres.runtime_integrity.as_ref() {
+            out.push_str("### runtime_integrity\n\n```json\n");
+            out.push_str(
+                &serde_json::to_string_pretty(integrity).expect("integrity is serializable"),
+            );
+            out.push_str("\n```\n\n");
+        }
+        if let Some(lifecycle) = pres.report_lifecycle.as_ref() {
+            out.push_str("### report_lifecycle\n\n```json\n");
+            out.push_str(
+                &serde_json::to_string_pretty(lifecycle).expect("lifecycle is serializable"),
+            );
+            out.push_str("\n```\n\n");
+        }
+        if let Some(leadership) = pres.leader_persistence.as_ref() {
+            out.push_str("### leadership_provenance\n\n```json\n");
+            out.push_str(
+                &serde_json::to_string_pretty(leadership)
+                    .expect("leadership provenance is serializable"),
+            );
+            out.push_str("\n```\n\n");
+        }
+    }
+    out
+}
+
+fn render_runtime_integrity_html(pres: &PresentationPacket) -> String {
+    let Some(integrity) = pres.runtime_integrity.as_ref() else {
+        return String::new();
+    };
+    let mut out = String::new();
+    if let Some(identity) = pres.runtime_identity.as_ref() {
+        out.push_str(&format!(
+            "<i>report_runtime_identity: {} | revision: {}</i>\n\n",
+            identity.report_run_id, identity.git_commit_sha
+        ));
+    }
+    if !integrity.is_healthy() {
+        out.push_str(&format!(
+            "<i>Runtime Integrity: {} (decision_weight=0; diagnostics: {})</i>\n\n",
+            runtime_integrity_status_label(integrity.status),
+            if integrity.diagnostics.is_empty() {
+                "UNAVAILABLE".to_string()
+            } else {
+                integrity.diagnostics.join(", ")
+            }
+        ));
+    }
+    out
+}
+
+fn runtime_integrity_status_label(
+    status: crate::features::shared::application::run_status::RuntimeIntegrityStatus,
+) -> &'static str {
+    match status {
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Healthy => {
+            "HEALTHY"
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded => {
+            "DEGRADED"
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Unavailable => {
+            "UNAVAILABLE"
+        }
+    }
 }
 
 fn render_exit_summary(pres: &PresentationPacket, mode: RenderMode) -> String {
@@ -2209,6 +2313,33 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.history_coverage_label, persistence.history_coverage_value
             ));
+            block.push_str(&format!(
+                "  - Leadership Snapshot ID: {}\n",
+                persistence
+                    .leadership_snapshot_id
+                    .as_deref()
+                    .unwrap_or("UNAVAILABLE")
+            ));
+            block.push_str(&format!(
+                "  - Previous Snapshot ID: {}\n",
+                persistence
+                    .previous_snapshot_id
+                    .as_deref()
+                    .unwrap_or("UNAVAILABLE")
+            ));
+            block.push_str(&format!(
+                "  - calculation_mode: {}\n",
+                if persistence.calculation_mode.is_empty() {
+                    "UNAVAILABLE"
+                } else {
+                    persistence.calculation_mode.as_str()
+                }
+            ));
+            if persistence.calculation_mode == "RECOMPUTED_FROM_PARTIAL_HISTORY" {
+                block.push_str(
+                    "  - absence_since and duration are estimated/reconstructed from partial history.\n",
+                );
+            }
             if let Some(note) = &persistence.history_note {
                 block.push_str(&format!("  - {}\n", note));
             }
@@ -2287,6 +2418,33 @@ fn render_leader_persistence_section(
                 "  - {}: {}\n",
                 persistence.history_coverage_label, persistence.history_coverage_value
             ));
+            block.push_str(&format!(
+                "  - Leadership Snapshot ID: {}\n",
+                persistence
+                    .leadership_snapshot_id
+                    .as_deref()
+                    .unwrap_or("UNAVAILABLE")
+            ));
+            block.push_str(&format!(
+                "  - Previous Snapshot ID: {}\n",
+                persistence
+                    .previous_snapshot_id
+                    .as_deref()
+                    .unwrap_or("UNAVAILABLE")
+            ));
+            block.push_str(&format!(
+                "  - calculation_mode: {}\n",
+                if persistence.calculation_mode.is_empty() {
+                    "UNAVAILABLE"
+                } else {
+                    persistence.calculation_mode.as_str()
+                }
+            ));
+            if persistence.calculation_mode == "RECOMPUTED_FROM_PARTIAL_HISTORY" {
+                block.push_str(
+                    "  - absence_since and duration are estimated/reconstructed from partial history.\n",
+                );
+            }
             if let Some(note) = &persistence.history_note {
                 block.push_str(&format!("  - {}\n", note));
             }
@@ -2380,6 +2538,22 @@ fn render_current_relative_strength_section(
             "{}{}: {}{}",
             bullet, item.symbol, item.status, boundary
         ));
+        out.push_str(&format!(
+            "{}RS Observation Health: {}{}",
+            bullet,
+            if item.health.is_empty() {
+                "UNAVAILABLE"
+            } else {
+                item.health.as_str()
+            },
+            boundary
+        ));
+        if let Some(diagnostic) = &item.diagnostic {
+            out.push_str(&format!(
+                "{}RS Diagnostic: {}{}",
+                bullet, diagnostic, boundary
+            ));
+        }
         if !item.recovery_strength.is_empty() && item.recovery_strength != "NONE" {
             out.push_str(&format!(
                 "{}{}: {}{}",

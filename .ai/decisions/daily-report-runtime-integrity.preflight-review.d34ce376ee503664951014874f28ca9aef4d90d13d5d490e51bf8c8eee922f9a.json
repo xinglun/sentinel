@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:0741833cc4c61276cc8a95ea800484d209010b931af34c34665346ef886c0803",
+  "reason": "用户确认方案 A 后要求继续编码，并已审阅当前 Runtime Integrity 设计；继续遵守当前 Work Item 的范围、八个验收场景和不改变交易决策语义的边界。",
+  "recordedAt": "2026-09-01T23:56:27Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:835223dfd2acb4f006ae1c10f648e41f3810babc64b9dc27e013fa7e5fac68df",
+  "schemaVersion": 1,
+  "workItemId": "daily-report-runtime-integrity"
+}

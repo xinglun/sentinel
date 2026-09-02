@@ -64,6 +64,7 @@ pub struct LeaderPersistenceResult {
     pub observed_leadership_days: usize,
     pub history_coverage_complete: bool,
     pub history_coverage: &'static str,
+    pub calculation_mode: &'static str,
     pub first_observed_at: Option<NaiveDate>,
     pub leadership_score: f64,
     pub previous_score: f64,

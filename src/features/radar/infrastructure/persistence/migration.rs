@@ -426,6 +426,7 @@ impl PersistenceLayer {
             cycle_length_days: 0,
             reset_event: Some("MIGRATED_LEGACY".to_string()),
             data_quality: serde_json::json!({"history": "MIGRATED_LEGACY"}),
+            ..Default::default()
         }
     }
 

@@ -641,6 +641,10 @@ impl PresentationAssembler {
             hypothesis_layer: Self::build_hypothesis_layer_from_packet(packet, &dict),
             terminal_rows: Vec::new(),
             state_code: format!("{:?}", state),
+            runtime_identity: None,
+            data_provenance: None,
+            runtime_integrity: None,
+            report_lifecycle: None,
         };
         presentation
     }
@@ -695,6 +699,8 @@ impl PresentationAssembler {
                     symbol: observation.symbol.clone(),
                     status,
                     recovery_strength,
+                    health: observation.health.clone(),
+                    diagnostic: observation.diagnostic.clone(),
                     relative_1d_vs_benchmark: observation.relative_1d_vs_benchmark,
                     relative_5d_vs_benchmark: observation.relative_5d_vs_benchmark,
                     price_position: observation.price_position,
@@ -1850,6 +1856,8 @@ mod risk_summary_tests {
                 volume_participation: Some(1.0),
                 state: RelativeStrengthState::Improving,
                 recovery_strength: RecoveryStrength::Moderate,
+                health: "AVAILABLE".to_string(),
+                diagnostic: None,
                 boundary: "Observation only".to_string(),
             }],
             ..Default::default()
