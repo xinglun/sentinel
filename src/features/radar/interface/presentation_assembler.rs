@@ -447,7 +447,7 @@ impl PresentationAssembler {
                     crate::features::radar::interface::display::RiskOpportunityViewModel {
                         kind: dict.decision.opportunity.clone(),
                         symbol: asset.symbol.clone(),
-                        reason: Self::derive_telegram_reason(
+                        reason: Self::derive_canonical_risk_presentation_reason(
                             asset,
                             !is_ready,
                             Self::is_systemic_collapse(packet),
@@ -467,7 +467,7 @@ impl PresentationAssembler {
                     crate::features::radar::interface::display::RiskOpportunityViewModel {
                         kind: dict.decision.risk.clone(),
                         symbol: asset.symbol.clone(),
-                        reason: Self::derive_telegram_reason(
+                        reason: Self::derive_canonical_risk_presentation_reason(
                             asset,
                             !is_ready,
                             Self::is_systemic_collapse(packet),
@@ -489,7 +489,7 @@ impl PresentationAssembler {
             .iter()
             .filter(|item| item.kind == dict.decision.risk)
             .collect::<Vec<_>>();
-        let risk_value = Self::summarize_primary_risk(&risk_items, packet, &dict, lang);
+        let risk_value = Self::summarize_primary_risk(&risk_items, &dict);
         let battleboard = BattleboardSnapshot {
             watch_count: watch_refs.len(),
             hold_count: hold_refs.len(),
@@ -595,7 +595,7 @@ impl PresentationAssembler {
         for (asset, context, intent) in selected_refs {
             let mut vm =
                 DisplayAdapter::derive_top_action_view_model(asset, &context, intent, &dict);
-            let reason = Self::derive_telegram_reason(
+            let reason = Self::derive_canonical_risk_presentation_reason(
                 asset,
                 !is_ready,
                 Self::is_systemic_collapse(packet),
@@ -603,11 +603,7 @@ impl PresentationAssembler {
                 lang,
                 &dict,
             );
-            if !reason.is_empty() {
-                vm.diagnostic = Some(reason);
-            } else if let Some(raw_reason) = asset.reasons.first() {
-                vm.diagnostic = Some(raw_reason.clone());
-            }
+            vm.diagnostic = (!reason.is_empty()).then_some(reason);
             top_vms.push(vm);
         }
 
@@ -709,9 +705,9 @@ impl PresentationAssembler {
                     recovery_watch,
                     recovery_explanation: if recovery_watch {
                         Some(match language {
-                            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复。当前不取消既有弱势判断，停止继续使用“连续转弱”描述，进入 RECOVERY_WATCH。".to_string(),
-                            Language::EnUs => "The long-term cumulative structure remains weak, while short-term relative strength is recovering. Keep the existing weakness assessment, stop describing it as continued weakening, and enter RECOVERY_WATCH.".to_string(),
-                            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。既存の弱勢判定は維持し、連続的な弱化という表現を止めて RECOVERY_WATCH に移行します。".to_string(),
+                            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复。当前不取消既有弱势判断，进入 RECOVERY_WATCH。".to_string(),
+                            Language::EnUs => "The long-term cumulative structure remains weak, while short-term relative strength is recovering. Keep the existing weakness assessment and enter RECOVERY_WATCH.".to_string(),
+                            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。既存の弱勢判定を維持し、RECOVERY_WATCH に移行します。".to_string(),
                         })
                     } else if weak_improvement {
                         Some(match language {
@@ -961,6 +957,25 @@ impl PresentationAssembler {
                 }
             }
         }
+    }
+
+    fn derive_canonical_risk_presentation_reason(
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
+        is_restrained: bool,
+        is_systemic_collapse: bool,
+        packet: &DecisionPacket,
+        language: Language,
+        dict: &DisplayDictionary,
+    ) -> String {
+        let raw_reason = Self::derive_telegram_reason(
+            asset,
+            is_restrained,
+            is_systemic_collapse,
+            packet,
+            language,
+            dict,
+        );
+        Self::canonicalize_risk_presentation_reason(asset, raw_reason, packet, language)
     }
 
     fn derive_display_context(
@@ -1217,9 +1232,9 @@ impl PresentationAssembler {
 
     fn recovery_watch_reason(language: Language) -> String {
         match language {
-            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复；保持基础 Action Matrix 状态，不再描述为连续转弱。".to_string(),
-            Language::EnUs => "The long-term cumulative structure remains weak, but short-term relative strength is recovering; keep the base Action Matrix state and stop describing continued weakening.".to_string(),
-            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。基本 Action Matrix 状態を維持し、連続的な弱化とは表現しません。".to_string(),
+            Language::ZhCn => "长期/累计结构仍弱，但短期相对强度正在明显恢复；保持基础 Action Matrix 状态，进入 RECOVERY_WATCH。".to_string(),
+            Language::EnUs => "The long-term cumulative structure remains weak, but short-term relative strength is recovering; keep the base Action Matrix state and enter RECOVERY_WATCH.".to_string(),
+            Language::JaJp => "長期・累積構造はなお弱い一方、短期相対強度は回復しています。基本 Action Matrix 状態を維持し、RECOVERY_WATCH に移行します。".to_string(),
         }
     }
 
@@ -1707,9 +1722,7 @@ impl PresentationAssembler {
 
     fn summarize_primary_risk(
         risk_items: &[&crate::features::radar::interface::display::RiskOpportunityViewModel],
-        packet: &DecisionPacket,
         dict: &DisplayDictionary,
-        language: Language,
     ) -> String {
         if risk_items.is_empty() {
             return dict.decision.no_risk.clone();
@@ -1717,8 +1730,7 @@ impl PresentationAssembler {
 
         let mut grouped: HashMap<String, (usize, usize, String)> = HashMap::new();
         for (idx, item) in risk_items.iter().enumerate() {
-            let reason = Self::canonical_risk_reason(item, packet, language);
-            let entry = grouped.entry(reason).or_insert_with(|| {
+            let entry = grouped.entry(item.reason.clone()).or_insert_with(|| {
                 (
                     0,
                     idx,
@@ -1757,20 +1769,14 @@ impl PresentationAssembler {
         }
     }
 
-    fn canonical_risk_reason(
-        item: &crate::features::radar::interface::display::RiskOpportunityViewModel,
+    fn canonicalize_risk_presentation_reason(
+        asset: &crate::features::radar::domain::action_matrix::AssetActionDecision,
+        raw_reason: String,
         packet: &DecisionPacket,
         language: Language,
     ) -> String {
-        let Some(asset) = packet
-            .assets
-            .iter()
-            .find(|asset| asset.symbol == item.symbol)
-        else {
-            return item.reason.clone();
-        };
         if asset.exit_decision.asset_exit_state != AssetExitState::StrengthLoss {
-            return item.reason.clone();
+            return raw_reason;
         }
 
         if Self::is_relative_strength_recovering(packet, &asset.symbol) {
@@ -1787,12 +1793,7 @@ impl PresentationAssembler {
             };
         }
 
-        let leaderless = packet.top_tier_symbols.is_empty()
-            || matches!(
-                packet.trend_cohesion.topology,
-                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader
-            );
-        if leaderless {
+        if Self::is_leaderless(packet) {
             return match language {
                 Language::ZhCn => "结构性减仓信号仍有效".to_string(),
                 Language::EnUs => "Structural trim signal remains active.".to_string(),
@@ -1800,7 +1801,15 @@ impl PresentationAssembler {
             };
         }
 
-        item.reason.clone()
+        raw_reason
+    }
+
+    fn is_leaderless(packet: &DecisionPacket) -> bool {
+        packet.top_tier_symbols.is_empty()
+            || matches!(
+                packet.trend_cohesion.topology,
+                crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader
+            )
     }
 }
 
@@ -1831,8 +1840,7 @@ mod risk_summary_tests {
     };
     use crate::features::radar::domain::decision::DecisionPacket;
     use crate::features::radar::domain::exit::{AssetExitState, ExitDecision, PositionIntent};
-    use crate::features::radar::interface::display::RiskOpportunityViewModel;
-    use crate::features::shared::interface::i18n::{get_dictionary, Language};
+    use crate::features::shared::interface::i18n::Language;
 
     #[test]
     fn recovery_watch_risk_summary_does_not_claim_continued_weakening() {
@@ -1862,22 +1870,16 @@ mod risk_summary_tests {
             }],
             ..Default::default()
         };
-        let item = RiskOpportunityViewModel {
-            kind: "风险".to_string(),
-            symbol: "TRIMME".to_string(),
-            reason: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
-        };
-
-        let summary = PresentationAssembler::summarize_primary_risk(
-            &[&item],
+        let reason = PresentationAssembler::canonicalize_risk_presentation_reason(
+            &packet.assets[0],
+            "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
             &packet,
-            &get_dictionary(Language::ZhCn),
             Language::ZhCn,
         );
 
-        assert!(summary.contains("RECOVERY_WATCH"));
-        assert!(!summary.contains("主线掉队"));
-        assert!(!summary.contains("连续转弱"));
+        assert!(reason.contains("RECOVERY_WATCH"));
+        assert!(!reason.contains("主线掉队"));
+        assert!(!reason.contains("连续转弱"));
     }
 
     #[test]
@@ -1894,19 +1896,13 @@ mod risk_summary_tests {
             }],
             ..Default::default()
         };
-        let item = RiskOpportunityViewModel {
-            kind: "风险".to_string(),
-            symbol: "TRIMME".to_string(),
-            reason: "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
-        };
-
-        let summary = PresentationAssembler::summarize_primary_risk(
-            &[&item],
+        let reason = PresentationAssembler::canonicalize_risk_presentation_reason(
+            &packet.assets[0],
+            "📉 主线掉队: 连续转弱触发结构性减仓".to_string(),
             &packet,
-            &get_dictionary(Language::ZhCn),
             Language::ZhCn,
         );
 
-        assert!(!summary.contains("主线掉队"));
+        assert!(!reason.contains("主线掉队"));
     }
 }
