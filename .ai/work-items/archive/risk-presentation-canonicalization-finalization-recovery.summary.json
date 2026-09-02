@@ -1,0 +1,213 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "真实 GitHub PR #128 已合并到 develop，PR #129 已将 develop 同步到 main，且两者的 merge identity 与远端状态可核验",
+      "evidence": [
+        "https://github.com/xinglun/sentinel/pull/128",
+        "https://github.com/xinglun/sentinel/pull/129",
+        ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "feature branch、feature worktree 已按精确 identity 清理，本地处于干净 develop，完成 successor finalization-verify 与 close",
+      "evidence": [
+        ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json",
+        ".ai/work-items/archive/risk-presentation-canonicalization.archive.json"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/risk-presentation-canonicalization.recovery.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.contract.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-02T19:22:22Z",
+  "checkpointContractDigest": "sha256:8e11b43c5d44f4c0784cd3915667824f6a85796841b89ecb18d2724e1392be81",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:22:22Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d7168d5bd37fa83ceedcd71ab4bc499069d2e2eb968beae785616cbd04153e0c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:59386402a043bc2a52f9081075f745f1168ccc16bebd1276dcf89ae9cde44710",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "previousContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "reason": "补齐 recovery successor 的 GitHub PR #128、PR #129、develop/main 同步、精确 feature branch/worktree 身份与 governance-only verification；不改变产品代码。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:22:56Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d7168d5bd37fa83ceedcd71ab4bc499069d2e2eb968beae785616cbd04153e0c",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:7b3803c24a5fc192a14fea3a72cd14e7bff545c7af621ea2a04fd62664060a0e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "previousContractHash": "sha256:59386402a043bc2a52f9081075f745f1168ccc16bebd1276dcf89ae9cde44710",
+      "reason": "确认 successor 仅执行已授权的治理证据记录与验证；provider close 的人类授权已由用户消息提供，不构成未决执行阻断。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:23:09Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d7168d5bd37fa83ceedcd71ab4bc499069d2e2eb968beae785616cbd04153e0c",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:9d9be021ac95e45f52c2f2edba19e8f6436e51c45328468c832a7fad82b6f5cf",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "previousContractHash": "sha256:7b3803c24a5fc192a14fea3a72cd14e7bff545c7af621ea2a04fd62664060a0e",
+      "reason": "将 PR #128、PR #129 作为外部 GitHub source，并扩大治理 artifact scope 以覆盖 finalize/close/archive；不引入生产代码。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:28:30Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:6cd6a31daab6c42aa931c8c34acd6d0e741492aafff5351b8474c9c7a436a64b",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "previousContractHash": "sha256:9d9be021ac95e45f52c2f2edba19e8f6436e51c45328468c832a7fad82b6f5cf",
+      "reason": "将 successor 的 finalization baseRevision 对齐已合并 PR #128 的实际 develop base；保持历史业务分支与 worktree 的精确清理事实。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:32:18Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:8e11b43c5d44f4c0784cd3915667824f6a85796841b89ecb18d2724e1392be81",
+      "invalidatedRequiredChecks": [
+        "project-command-0"
+      ],
+      "originalBeforeEditContractHash": "sha256:104853f4015e88fdfa207dadc0fa09e324159fa50fda22ff762f7b6614059b07",
+      "previousContractHash": "sha256:6cd6a31daab6c42aa931c8c34acd6d0e741492aafff5351b8474c9c7a436a64b",
+      "reason": "将 typed verification gate 名称对齐 Runtime 执行节点 project-command-0；该节点实际执行 make quality，避免把未匹配的结果误判为已验证。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T19:36:54Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 1,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+  "createdAt": "2026-09-02T19:22:08Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/risk-presentation-canonicalization-finalization-recovery.contract.json",
+      ".ai/decisions/risk-presentation-canonicalization.recovery.json",
+      ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:43b389eaceda58a340a38b68264eb1ab374e7b50b63af7cfb42b95bbc7fd959f",
+  "predecessorWorkItemId": "risk-presentation-canonicalization",
+  "preflightAt": "2026-09-02T19:40:14Z",
+  "preflightContractDigest": "sha256:8e11b43c5d44f4c0784cd3915667824f6a85796841b89ecb18d2724e1392be81",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/risk-presentation-canonicalization.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "https://github.com/xinglun/sentinel/pull/128",
+        ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "PR #128 reviewed merge identity is bound to develop and the feature branch/worktree cleanup is exact",
+      "status": "verified",
+      "verificationPlan": "GitHub PR #128、merge commit b96c9bb6、远端 branch deletion 和 exact worktree removal 均在 finalization receipt 中绑定。"
+    },
+    {
+      "evidence": [
+        "https://github.com/xinglun/sentinel/pull/129",
+        ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "develop is synchronized to main through the reviewed GitHub PR #129",
+      "status": "verified",
+      "verificationPlan": "核对 PR #129 的 merge commit 9bfa43ed、origin/develop 与 origin/main 的共同 tree，以及 ancestor 关系。"
+    },
+    {
+      "evidence": [
+        ".ai/work-items/active/risk-presentation-canonicalization-finalization-recovery.contract.json",
+        ".ai/evidence/risk-presentation-canonicalization-finalization-recovery.verification.json"
+      ],
+      "required": true,
+      "scenario": "recovery successor contains governance records only and does not change production behavior",
+      "status": "verified",
+      "verificationPlan": "successor Contract 的 outOfScope 明确排除 src/tests，make quality 通过且 affected paths 为空。"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T19:40:15Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+}

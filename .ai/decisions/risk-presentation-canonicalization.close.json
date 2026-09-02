@@ -1,0 +1,149 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-presentation-canonicalization.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "workItemId": "risk-presentation-canonicalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-presentation-canonicalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/risk-presentation-canonicalization.recovery.df566c25907d3950d3bf142f2b5abd8483a3f83b66ad95374af9a713bebf3043.json",
+            ".ai/decisions/risk-presentation-canonicalization-finalization-recovery.finalize.json",
+            ".ai/decisions/risk-presentation-canonicalization-finalization-recovery.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via user-message: 用户明确授权提交、推送、PR 合并、同步远端 main 并本地切回 develop at 2026-09-02T19:45:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Risk Presentation の Summary、Candidate Watchlist、Risk & Opportunity、Portfolio Risk、individual risk rows を同一の表示事実源へ収束させる。Decision、Probe、RS、Leadership、Runtime Integrity の意味と判定は変更しない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-presentation-canonicalization"
+  },
+  "finalReportDigest": "sha256:38269d1bda8d2bd277a89d44e37a3237191f5ded9fa2e15171cf5dc85b2ed396",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、同步远端 main 并本地切回 develop",
+    "decidedAt": "2026-09-02T19:45:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/risk-presentation-canonicalization.recovery.df566c25907d3950d3bf142f2b5abd8483a3f83b66ad95374af9a713bebf3043.json",
+      ".ai/decisions/risk-presentation-canonicalization-finalization-recovery.finalize.json",
+      ".ai/decisions/risk-presentation-canonicalization-finalization-recovery.close.json"
+    ],
+    "policyRefs": [],
+    "reason": "risk-presentation-canonicalization 的业务 PR #128 已合并，PR #129 已完成 develop→main 同步；由已关闭的 recovery successor 完成 provider finalization 与 finalize-verify，按显式 supersede 决定关闭 immutable predecessor，前驱 archive bytes 保持不变。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-02T19:42:38Z",
+  "workItemId": "risk-presentation-canonicalization"
+}
