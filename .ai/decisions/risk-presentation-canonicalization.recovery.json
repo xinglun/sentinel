@@ -1,0 +1,31 @@
+{
+  "actor": "user",
+  "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、同步远端 main 并本地切回 develop",
+  "decidedAt": "2026-09-02T19:12:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/risk-presentation-canonicalization.contract.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization.summary.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization.outcome.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization.events.jsonl"
+  ],
+  "policyRefs": [
+    "AGENTS.md: AI Cockpit 强制协议",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:43b389eaceda58a340a38b68264eb1ab374e7b50b63af7cfb42b95bbc7fd959f",
+  "predecessorEventsDigest": "sha256:dce33baa9faa2d44161b557500478ee9b1e8affe2448b434e9e49b78af970423",
+  "predecessorOutcomeDigest": "sha256:1cf404897172bfd482f4c97d275728625979045b7ca15b01b32324231e49047c",
+  "predecessorSummaryDigest": "sha256:f4ee154cf1fbd16542b47a6fd1604633c4b1d661a239c1dc209031f59ba6f09c",
+  "predecessorWorkItemId": "risk-presentation-canonicalization",
+  "reason": "业务 PR #128 与 develop→main 同步 PR #129 已完成，但原 Work Item 在 archive 前未绑定真实 PR URL，导致 provider finalization receipt 无法同时满足不可变 Contract 与实际 PR identity。保留全部前驱 bytes，通过 successor 补齐真实 GitHub finalization 与 close，不改写业务代码或前驱 archive。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在 successor 中绑定 PR #128、PR #129、main/develop 同步与精确 branch/worktree 清理，完成 finalize-verify 后 close 前驱治理链。",
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "successorWorkItemId": "risk-presentation-canonicalization-finalization-recovery",
+  "workItemId": "risk-presentation-canonicalization"
+}
