@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How CVS' Improving Balance Sheet Supports Deleveraging
+  summary: CVS Health's strong cash generation, higher operating cash flow outlook and disciplined capital deployment support continued deleveraging in 2026.
+  url: https://finnhub.io/api/news?id=10fcefd3355d598d46e8dca783f9778f4475a83f844c22cffff199cadf2d2ae8

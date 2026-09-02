@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Stock Could Surprise Investors Over the Next 12 Months
+  summary: AWS just posted its fastest growth in 18 quarters while Amazon burns through billions in capex, and that tension is exactly what makes the next 12 months so pivotal for shareholders.
+  url: https://finnhub.io/api/news?id=73a8a72e53f84672063499bb0147ad489b35cdb8b37403628c0af5666634af33

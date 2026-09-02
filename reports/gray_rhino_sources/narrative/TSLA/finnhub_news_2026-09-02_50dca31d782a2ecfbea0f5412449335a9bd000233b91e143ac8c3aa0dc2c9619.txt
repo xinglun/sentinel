@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Honda Wants $9 Billion in Cuts to Fight China's EV Giants
+  summary: Honda is reportedly asking suppliers for steep price reductions as BYD and other Chinese automakers squeeze global competition.
+  url: https://finnhub.io/api/news?id=6076eb33d36cde3259e9cf8b72f00be4ffadbee0175d0b8b6673d5c67a6f6eb8

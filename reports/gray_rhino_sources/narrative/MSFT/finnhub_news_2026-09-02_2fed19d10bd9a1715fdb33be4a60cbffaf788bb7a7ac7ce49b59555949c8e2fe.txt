@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Euromonitor Introduces Passport Intelligence Through Microsoft 365 Copilot
+  summary: CHICAGO, September 02, 2026--Euromonitor International, a leading global market intelligence company, announced the Euromonitor Passport agent, a new agent within Microsoft 365 Copilot and its first agentic integration into a third-party AI platform.
+  url: https://finnhub.io/api/news?id=348ecafb9f2b7d191fe19fb2052e3a04a3ad1eaf0d771e6f45b76387d0fe06ab

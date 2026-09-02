@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Rises as Google Nears Launch of Gemini 3.8 Flash
+  summary: Alphabet Shares Climb as Google Prepares New AI Model to Challenge Anthropic
+  url: https://finnhub.io/api/news?id=d556670a45692a520a8f4c6dec8fbf44f2f720b3b89a434952e9b0fca710806c

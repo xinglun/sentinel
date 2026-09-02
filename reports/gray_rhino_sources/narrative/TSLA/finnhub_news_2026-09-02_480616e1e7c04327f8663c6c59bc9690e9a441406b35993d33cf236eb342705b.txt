@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Declares Bulk Power 'Emergency'; These Energy Storage Players Benefit
+  summary: Energy storage stocks Tesla and Fluence may get a Trump boost as he bans some inverters, BESS, and transformers from China.
+  url: https://finnhub.io/api/news?id=ac529b6208ef52e9e7810ec0c608597420268abb69ce50e95ef6e26d102d586b

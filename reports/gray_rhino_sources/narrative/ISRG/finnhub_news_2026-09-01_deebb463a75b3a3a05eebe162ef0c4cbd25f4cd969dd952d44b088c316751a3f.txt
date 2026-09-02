@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zentek Approved for Trading on the OTCQX Best Market
+  summary: Common shares to trade in the U.S. under new ticker ZTEKF beginning September 2, 2026Guelph, Ontario--(Newsfile Corp. - September 1, 2026) - Zentek Ltd. (TSXV: ZEN) (OTCQX: ZTEKF) ("Zentek" or the "Company") today announces, further to its news releases dated August 28, 2026, and August 31, 2026, that its common shares have been approved for trading on the OTCQX Best Market, the highest tier of the OTC Markets, and will begin trading under the symbol "ZTEKF" at the open of trading on Wednesday,.
+  url: https://finnhub.io/api/news?id=c570bd23c058b035d332a00ebe305036a196042744618ec3070b47a97d47c8e9

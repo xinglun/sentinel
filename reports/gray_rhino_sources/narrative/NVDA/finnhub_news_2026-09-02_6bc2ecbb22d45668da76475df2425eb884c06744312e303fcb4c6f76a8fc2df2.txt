@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Cheered Marvell’s $12 Billion Google Deal but the Stock Just Fell Nearly 10%
+  summary: Jim Cramer celebrated a blockbuster Google deal as proof that Marvell's CEO scores again, but the stock just shed nearly 10% after the earnings call revealed something the headline never mentioned.
+  url: https://finnhub.io/api/news?id=cb3d6e200c9f8bc12d0c4b8ce3847aa6c2a5e4d7f774b8042a98660acf6babb9

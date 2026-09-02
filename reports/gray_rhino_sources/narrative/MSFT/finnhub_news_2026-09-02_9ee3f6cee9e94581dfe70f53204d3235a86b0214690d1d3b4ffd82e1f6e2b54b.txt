@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Future of Website Building with Wix.com (WIX)
+  summary: Baron Capital, an investment management company, released its second-quarter 2026 investor letter for its “Baron Global Opportunity Fund”. The letter can be downloaded here. The fund achieved a strong quarter, gaining 26.7% (Institutional Shares), exceeding a 14.9% gain for the MSCI ACWI Index (the Index), and a 19.8% gain for the MSCI ACWI Growth Index. […]
+  url: https://finnhub.io/api/news?id=05d7859c17afcd56e420df2af3a72590d8a1619bda9d7cdd3df7402ac463504b

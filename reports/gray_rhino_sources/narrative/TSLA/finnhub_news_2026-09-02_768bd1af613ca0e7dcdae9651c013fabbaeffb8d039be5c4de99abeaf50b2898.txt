@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights Toyota, CrowdStrike, Welltower, Blue Ridge Bankshares and Franklin Financial Services
+  summary: Toyota, CrowdStrike and Welltower show strong gains, while five featured stocks highlight growth opportunities and risks across key sectors.
+  url: https://finnhub.io/api/news?id=36639666e0b6f838c6a85eba124b9cb4b596f69231a92783e7de1ae1a274169f

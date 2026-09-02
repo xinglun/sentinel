@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MongoDB Stock Tumbles Despite An Earnings Beat. Here's Why.
+  summary: MongoDB stock fell sharply Wednesday after the database software company reported fiscal second quarter results. MongoDB beat estimates, but analysts pointed to high expectations for MongoDB's cloud software growth.
+  url: https://finnhub.io/api/news?id=b75a932078da6d60eb257aa559e6b98e1c1c8d4219157f6e6fe2cadb076567a1

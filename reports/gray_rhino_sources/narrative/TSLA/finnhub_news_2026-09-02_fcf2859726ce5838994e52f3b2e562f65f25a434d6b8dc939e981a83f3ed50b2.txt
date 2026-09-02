@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Li Auto (LI) Q2 2026 Earnings Call Transcript
+  summary: Model refresh cycle pressures margins as deliveries decline amid intense competition.
+  url: https://finnhub.io/api/news?id=35f377fd0b40f4baa9df7a814756d7df5f145569f096b28be8184d5177813184

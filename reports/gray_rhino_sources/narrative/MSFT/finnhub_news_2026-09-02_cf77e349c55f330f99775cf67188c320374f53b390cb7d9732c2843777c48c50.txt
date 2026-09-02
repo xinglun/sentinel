@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bet on These 3 AI ETFs to Beat the September Curse
+  summary: AI ETFs offer diversified exposure to a booming industry, giving investors a way to navigate September volatility while staying invested in AI's growth.
+  url: https://finnhub.io/api/news?id=6e911c4dce00c0c0f157080867b1866fe40a2578071bc265b618fa823230d396

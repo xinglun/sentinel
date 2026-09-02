@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s New CEO Has 8 Days to Answer the AI Question That Could Redefine Computing
+  summary: John Ternus steps into the CEO role at Apple with the stock near a record high, but the hardware event eight days away demands something far harder than a good quarter: a convincing answer to why the iPhone stays at the center of computing when AI agents start replacing the apps on it.
+  url: https://finnhub.io/api/news?id=b0a6c608189033e6f6c556545d32fd7d962026bd302223ecad40d4ecea3d8242

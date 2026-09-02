@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nio Drops 4% on J.P. Morgan Downgrade and $4.50 Price Target, XPeng and Li Auto Slip
+  summary: Shares of Nio (NYSE:NIO) are down 4% to $3.92 in early Wednesday trading after J.P. Morgan cut the stock to Neutral from Overweight and lowered its price target to $4.50 from $7.00. The move stands out because the research note credits the company’s execution and blames the market it sells into. The peer group is […]
+  url: https://finnhub.io/api/news?id=ea81a501caccc2a21676d989f71593e1eaf7bfd4fcc598b5ee3ef4c1a7d73e47

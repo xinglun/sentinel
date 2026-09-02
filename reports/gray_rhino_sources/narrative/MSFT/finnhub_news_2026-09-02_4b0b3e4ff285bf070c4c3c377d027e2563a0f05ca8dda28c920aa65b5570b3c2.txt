@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GitLab tops second-quarter estimates on AI-driven demand
+  summary: GitLab Inc (NASDAQ:GTLB) reported second-quarter revenue and profit that beat analyst estimates, as the company's shift toward consumption-based artificial intelligence revenue gained momentum, sending its shares up more than 14% on Wednesday morning. The DevSecOps platform provider posted...
+  url: https://finnhub.io/api/news?id=09e8d5b58741af21356e80e66efd6d930e34fd9e8999286cddd92db40147d3bd

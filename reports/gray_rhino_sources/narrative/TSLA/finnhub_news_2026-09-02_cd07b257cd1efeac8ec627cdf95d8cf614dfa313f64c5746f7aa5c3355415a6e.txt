@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs. BYD: One Stock Could Be Poised for a Bigger Comeback
+  summary: Tesla just posted record deliveries while its margins cratered, and BYD keeps selling millions of cars to a stock market that barely notices. Only one of these EV giants is actually set up for a bigger move from here.
+  url: https://finnhub.io/api/news?id=b774c3da41c192b1c2603ed65746175f1eda126ddf4dc7a9343c69820096b615

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI’s Cursor Termination Turns Model Supply Into a Competitive Weapon
+  summary: The termination of the model supply agreement between OpenAI and Cursor marks a transition from collaborative AI development to a landscape where model access is a primary instrument of corporate warfare. When OpenAI invoked its change-of-control clause on August 28, 2026—exactly two weeks after SpaceX finalized its $60 billion acquisition of Anysphere—it effectively weaponized its […]
+  url: https://finnhub.io/api/news?id=f19586ee87e02ea62016d2829ffee08c0d00d228b574e4015d473136f8f02b7d

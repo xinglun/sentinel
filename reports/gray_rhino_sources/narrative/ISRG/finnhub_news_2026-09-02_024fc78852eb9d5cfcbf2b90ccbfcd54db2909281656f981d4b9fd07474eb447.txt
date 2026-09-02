@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors Are Reacting To Merit Medical Systems (MMSI) New Global Operations Leadership Transition
+  summary: In August 2026, Merit Medical Systems announced that Sheri Lewis would join as Executive Vice President of Global Operations, bringing three decades of global manufacturing and supply chain experience from SkinHealth Systems, Avantor, Medtronic, and Honeywell, while long-time operations leader Mr. Peterson shifted to a Senior Advisor role through March 2027 to support continuity. This leadership transition highlights Merit's focus on strengthening global operations and supply chain...
+  url: https://finnhub.io/api/news?id=afa65034f7579432b1d57502c780d52f8dd164c949fe1c6d378dc4be79a5acc5

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's What $1,000 in Visa Stock at Its IPO Would Be Worth Today
+  summary: The payments giant has a moat that makes it a compelling buy.
+  url: https://finnhub.io/api/news?id=f2f241c200b32a0df8fc046bab1545bdd6ca06ebfeda66a556267e46c6164c5d

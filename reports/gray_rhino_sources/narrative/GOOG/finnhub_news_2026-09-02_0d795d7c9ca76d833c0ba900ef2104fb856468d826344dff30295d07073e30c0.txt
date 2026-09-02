@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Stocks to Buy Now to Ride the AI Data Center Spending Boom
+  summary: NVIDIA, Micron, SanDisk and Lam Research offer four ways to ride the AI data center boom across chips, memory, storage and equipment.
+  url: https://finnhub.io/api/news?id=e59b437f7c611781eedb4a687a630a6d991f3469db1b4c4506059fb83c9bc072

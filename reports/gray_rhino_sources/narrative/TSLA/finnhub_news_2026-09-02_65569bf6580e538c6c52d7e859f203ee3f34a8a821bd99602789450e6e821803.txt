@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kristen Bell Brings the Magic of Frozen to UCLA Mattel Children’s Hospital Patients through Musicians On Call
+  summary: Bell Joined Musicians On Call and Hyundai Hope on Wheels for a Special Frozen-Inspired Celebration, Bedside Visits, and a $100,000 Donation Supporting Pediatric Cancer Research Kristen Bell Brings Frozen to Patients at UCLA Mattel Children's Hospital Kristen Bell joined Musicians On Call and Hyundai Hope on Wheels to bring a Frozen-themed celebration and visit patients at UCLA Mattel Children's Hospital. Kristen Bell Brings Frozen to Patients at UCLA Mattel Children's Hospital Kristen Bell joine
+  url: https://finnhub.io/api/news?id=b6a13382d211abe714290dab9e1263d8bc52acb3d3a97796b705061f03b35ff5

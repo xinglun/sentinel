@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Keeps China Sales Streak Alive; Cybercab Event On Deck
+  summary: Tesla China sales, including exports, rose 3.6% in August. The EV giant's Cybercab robotaxi event is set for Thursday.
+  url: https://finnhub.io/api/news?id=48dcc491fb936f794dc6941c4c7d262c4c4045920247605dc48e3fad987b74d4

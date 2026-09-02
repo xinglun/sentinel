@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is Still Retail Investors' Most-Held Stock on Robinhood, but a New Trillion-Dollar Stock Has Entered the Top 10
+  summary: This highly sought-after investment may end up fleecing retail investors.
+  url: https://finnhub.io/api/news?id=d661b779e8a3175f2064b7f16084917551c18f45217ecfb2da67835b410ebce7

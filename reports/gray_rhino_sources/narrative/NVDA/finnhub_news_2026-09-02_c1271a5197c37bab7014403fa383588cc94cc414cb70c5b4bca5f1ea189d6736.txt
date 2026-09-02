@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Laurent Ferreira to speak at the Scotiabank Financials Summit
+  summary: Laurent Ferreira, President and Chief Executive Officer of National Bank of Canada (TSX: NA), is scheduled to speak at the Scotiabank Financials Summit on September 9, 2026, from 12:45 p.m. to 1:15 p.m. (EDT).
+  url: https://finnhub.io/api/news?id=f2c976a6141349ebb69b1fdaa0d90188ed6ef6160057e30b155f9fabdbd25760

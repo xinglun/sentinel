@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did PFE, MMED, DE Stocks Surge To 52-Week Highs Today?
+  summary: Pfizer gained on vaccine and oncology growth, MiniMed on strong earnings, and Deere on AI-driven agriculture.
+  url: https://finnhub.io/api/news?id=47217398548950d9f84cdeb1d1a3019d18385d2e6ab106a69441c57913570390

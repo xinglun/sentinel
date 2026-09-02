@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Top 12 Most-Searched Tickers in August on Benzinga Pro – SpaceX, Nebius Climb, Palantir Returns
+  summary: A look at the most-searched stock tickers on Benzinga Pro for the month of August. The leaderboard saw Palantir back in the top 12.
+  url: https://finnhub.io/api/news?id=4a8d19e8a486326c415759bfe9c505dea7775b75f3f4904cb37c43f7ffce260d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MongoDB Earnings Beat Expectations. Why the Stock Is Dropping Anyway.
+  summary: MongoDB  reported strong second-quarter earnings Tuesday, but the document database company’s stock fell on Wednesday.  The company also raised its fiscal 2027 guidance, citing a 29% year-over-year revenue increase for its multi-cloud database service,  Atlas  But with Atlas growing at the same pace for three consecutive fiscal quarters, investors hoping to see whether new clients are spending on cloud apps could feel disappointed.  Mizuho Securities analyst Jordan Klein wrote late Tuesday that major hedge funds had privately expected 30.5% to 31% growth in Atlas revenue.
+  url: https://finnhub.io/api/news?id=2e6a8d074b5566ed65800ed933dbc9d64bf53aee8ffe3268a5cedb20550c12f2

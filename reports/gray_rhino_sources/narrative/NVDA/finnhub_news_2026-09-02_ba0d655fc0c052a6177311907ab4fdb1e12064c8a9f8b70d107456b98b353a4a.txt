@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Jensen Huang thinks is the worst outcome of the next industrial revolution
+  summary: Nvidia (NVDA) CEO Jensen Huang addressed how governments should regulate the rise of AI technology and described the worst-case scenario for countries amid the technological-industrial revolution at the G20 Innovation Ministerial in Chapel Hill, N.C.
+  url: https://finnhub.io/api/news?id=5abf05e42d720658db30bef49bf0c420f95edea70671c317e5d132efc60ce6f0

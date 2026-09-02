@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's AI Datacenter Expansion: A Game Changer for the Stock?
+  summary: MSFT's Saudi datacenter launch and $175 billion 2026 capex plan highlight how its AI infrastructure push is reshaping growth and capacity.
+  url: https://finnhub.io/api/news?id=f7b60b45f76a521db76bd516815595bbcfbd028b041fbeb9b737e145890d7cb6

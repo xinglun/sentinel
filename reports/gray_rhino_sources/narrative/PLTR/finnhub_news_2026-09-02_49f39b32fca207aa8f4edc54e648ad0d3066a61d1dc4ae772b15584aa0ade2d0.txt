@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp backs ousted Ukraine defense minister's new defense tech startup
+  summary: Fedorov is launching a defense tech company backed by Palantir CEO Alex Karp, aiming to turn Ukraine’s wartime experience into new technologies.
+  url: https://finnhub.io/api/news?id=fd63022341e99f0aaa5116c73e8668e69ff0f1460f37314260583ce86a3e629e

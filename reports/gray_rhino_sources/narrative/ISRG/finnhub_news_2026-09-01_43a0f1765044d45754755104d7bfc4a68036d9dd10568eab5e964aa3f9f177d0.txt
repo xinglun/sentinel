@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Is Intuitive Surgical's Stock Performance Compared to Other Health Care Equipment Stocks?
+  summary: Intuitive Surgical has notably underperformed the Health Care Equipment industry over the past year, but analysts are highly optimistic about the stock’s prospects.
+  url: https://finnhub.io/api/news?id=b1065ae517407acc6c390ae28ce4770ae725962a611f7cc2e6c26edd75b2a5a1

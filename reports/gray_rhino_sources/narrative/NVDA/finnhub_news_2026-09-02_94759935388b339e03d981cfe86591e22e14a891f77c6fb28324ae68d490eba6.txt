@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GitLab Stock Soars After Earnings. It’s Still Not a Buy, Analyst Says.
+  summary: Be wary of chasing the coding platform’s recent rally, with shares already up 46% over the past three months.
+  url: https://finnhub.io/api/news?id=0e23b824cb2e8a4b780fa93cf197862c41fd2a2ff18e56ac26bcad5ccaf56a41

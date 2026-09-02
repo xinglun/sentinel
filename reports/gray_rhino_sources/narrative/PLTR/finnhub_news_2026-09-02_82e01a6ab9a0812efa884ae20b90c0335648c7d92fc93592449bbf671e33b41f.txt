@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Priced for Perfection. These 2 Defense Stocks Are Priced for Pessimism.
+  summary: AI defense spending is booming, but not every stock reflects that optimism. Two contractors trade at low multiples and may have more upside.
+  url: https://finnhub.io/api/news?id=587555ad3d6028ee1b076f137d160f4ef00a366929a6ba92b2b8077b81d7c56a

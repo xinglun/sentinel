@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MiniMed Group Q1 Earnings Call Highlights
+  summary: MiniMed Group (NASDAQ:MMED) reported fiscal 2027 first-quarter revenue of $843 million, with organic revenue growth of 15.8%, as demand for its newer insulin-delivery and continuous glucose monitoring products supported growth in the United States and international markets. Chief Executive Officer
+  url: https://finnhub.io/api/news?id=032b7c4af1552c5474418c4d57a2f8715e729f87ebe918f9125f67744a4000e5

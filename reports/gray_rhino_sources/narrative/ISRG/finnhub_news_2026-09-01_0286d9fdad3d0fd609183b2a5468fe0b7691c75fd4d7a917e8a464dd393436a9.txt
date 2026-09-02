@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 2 Stocks Hit New Milestones Today – What’s Driving Retail Enthusiasm?
+  summary: MiniMed’s first-quarter sales rose 17% to $843 million, while BTIG upgraded Tidewater to ‘Buy’ from ‘Neutral’.
+  url: https://finnhub.io/api/news?id=cec7707db82b718729f8ebeef46623489c71cc056c8de0942f562e097c8b1930

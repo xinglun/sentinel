@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell's revenue guidance exceeded Wall Street forecasts and then some
+  summary: Dell Technologies stock (DELL) is jumping Wednesday morning after the computer company blew past fiscal full-year guidance forecasts. Yahoo Finance Executive Editor Brian Sozzi breaks down the positive stock reaction to Dell's latest earnings release.
+  url: https://finnhub.io/api/news?id=9c17a09b06359d159f539deea0f48da3cd2c52f981a7eeb1c61b7742ce4801f1

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (NASDAQ:PLTR) Clears All Eight Navellier Growth Rules
+  summary: Palantir clears all 8 Navellier growth rules—upbeat estimates, triple-digit sales/EPS growth, strong ROE—but faces high valuation risk.
+  url: https://finnhub.io/api/news?id=8bcc0ba3cdf8c8210e150235aebb9ca5ec9e19d960e221dcd3fbecfb04567eda

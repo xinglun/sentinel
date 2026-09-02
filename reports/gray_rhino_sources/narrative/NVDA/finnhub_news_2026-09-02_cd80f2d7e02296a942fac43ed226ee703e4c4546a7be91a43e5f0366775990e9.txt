@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hexaware Appoints Vivek Jetley as CEO Designate to Lead its Next Phase of AI-Led Growth
+  summary: Hexaware Technologies (NSE: HEXT), an AI-first digital and IT services company, today announced the appointment of Vivek Jetley as CEO Designate. Vivek will join Hexaware and assume the role of CEO on October 28, 2026. The appointment comes at an important moment for Hexaware as the company enters its next phase of accelerated growth with AI reshaping enterprise technology services globally and creating new sources of client demand.
+  url: https://finnhub.io/api/news?id=7462674b37996831a926fcc550b68e8c2e6022eb35dcd4679d04769bf887ddc9

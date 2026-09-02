@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks Drive Half of August's $665 Billion CEX Perpetual Futures Volume
+  summary: Stock perpetual futures hit $665.42B in August as SNDK, SK Hynix and SPCX took half of crypto exchange volume.
+  url: https://finnhub.io/api/news?id=5da17d87e4288c5bfcfe884134a50cd58830fb258238440b4911cbb86fba4761

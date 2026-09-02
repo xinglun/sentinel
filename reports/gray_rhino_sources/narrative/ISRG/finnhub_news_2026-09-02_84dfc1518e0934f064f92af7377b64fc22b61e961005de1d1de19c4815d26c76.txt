@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Form 8.3
+  summary: LONDON, September 02, 2026-- FORM 8.3
+  url: https://finnhub.io/api/news?id=eefa076d18a99486e081712009099e7a077d0f7413d1102d08dc9fb7cef7d8c5

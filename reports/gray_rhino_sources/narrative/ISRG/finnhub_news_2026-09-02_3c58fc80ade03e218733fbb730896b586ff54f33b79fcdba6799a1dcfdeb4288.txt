@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bausch + Lomb Announces New Published Research on enVista Aspire™ Real World Experience
+  summary: VAUGHAN, Ontario, September 02, 2026--Bausch + Lomb Corporation (NYSE/TSX: BLCO), a leading global eye health company dedicated to helping people see better to live better, today announced the publication of new research on real world experience with enVista Aspire and enVista Aspire toric intraocular lenses (IOLs). The study, published in the journal Ophthalmology and Therapy, found that these enhanced monofocal lenses delivered both good distance and functional intermediate vision, thus meetin
+  url: https://finnhub.io/api/news?id=421bdece5f1241be6a091427a2c2e6f0e51796c4e69515678f9ad55f7863efc4

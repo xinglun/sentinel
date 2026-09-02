@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MiniMed (MMED) Soars on Revenue Growth, Price Target Hike; Hedge Fund Conviction Weakens
+  summary: MiniMed Group (NASDAQ:MMED) saw its share price increase by 10.66 percent on Tuesday to finish at $22.42 apiece after reporting strong revenues and earning a price target upgrade from an investment firm. In an earnings call on the same day, the company said that it was able to grow its revenues in the first quarter […]
+  url: https://finnhub.io/api/news?id=7b9af1dbb512a7477c6e06a838182c9f4548f3b7c2059a062503a19f8de4deb4

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 of Wall Street’s Favorite Stocks for Long-Term Investors and 2 We Ignore
+  summary: Wall Street is overwhelmingly bullish on the stocks in this article, with price targets suggesting significant upside potential. However, it’s worth remembering that analysts rarely issue sell ratings, partly because their firms often seek other business from the same companies they cover.
+  url: https://finnhub.io/api/news?id=3087b93c69dd0c1382b67f57ad43ee3fd98c8177a77c3279ec1cfac9960e9de0

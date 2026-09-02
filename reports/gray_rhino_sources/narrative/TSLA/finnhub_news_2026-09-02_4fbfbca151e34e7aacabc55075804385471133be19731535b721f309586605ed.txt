@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond yields still high as investors weigh rate hike risk: AlphaCheck
+  summary: Stocks were little changed as Treasury yields stayed elevated.
+  url: https://finnhub.io/api/news?id=9255ca29d61ebb55b05c2ac4bc7b5761f44bd47e3ab0ab5a89b421c6d306fe24

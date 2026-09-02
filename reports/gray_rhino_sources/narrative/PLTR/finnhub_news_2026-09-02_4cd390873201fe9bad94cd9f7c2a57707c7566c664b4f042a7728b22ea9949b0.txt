@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Is Doubling Down on Defense Tech
+  summary: The venture comes from former Ukraine defense chief Mykhailo Fedorov
+  url: https://finnhub.io/api/news?id=bd610aab5238e301bf244ac80e82126b0757520189db38e304ba9d202a90c847

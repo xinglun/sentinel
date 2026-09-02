@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Berkshire’s New CEO Plans to Protect Iowa Power Costs From Hyperscaler Data Center Expansion
+  summary: Berkshire Hathaway  CEO Greg Abel said the company will only provide power for new data centers if other utility customers benefit.  In a wide-ranging interview Wednesday morning with CNBC from Tokyo—where Abel is visiting with several large Japanese trading companies in which Berkshire has investments—the CEO discussed how Berkshire’s big utility, Berkshire Hathaway Energy, approaches data centers.
+  url: https://finnhub.io/api/news?id=d1caf3f3345762ba9ca35a4272f801d272d81b6e8bfad6550ee228ff43f62ddc

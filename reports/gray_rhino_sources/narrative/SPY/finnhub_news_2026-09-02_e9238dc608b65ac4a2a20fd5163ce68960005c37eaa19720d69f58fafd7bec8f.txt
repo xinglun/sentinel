@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mixed Data, Cooler Payrolls - And Still A Low Probability Of Recession
+  summary: Despite a year packed with geopolitical flareâups, market tremors, and policy whiplash, US economy keeps powering forward. Recession risk is low, per TMC Researchâs business cycle indicator.
+  url: https://finnhub.io/api/news?id=7aef720a65ce588184aaa6de06a7a4b68de13c4480e0bce524c47390ceea3826

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which dow jones stocks are moving on Wednesday?
+  summary: Join us in exploring the top gainers and losers within the dow jones index in the middle of the day on Wednesday as we examine the latest happenings in today's session.
+  url: https://finnhub.io/api/news?id=430d022c59f8a55c66215f07ef9914e0acef1865ae2c24299355d9e8eb701ee6

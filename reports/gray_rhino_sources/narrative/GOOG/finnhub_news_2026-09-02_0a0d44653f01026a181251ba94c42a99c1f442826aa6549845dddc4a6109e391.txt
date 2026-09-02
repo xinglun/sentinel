@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Broadcom Earnings Rebuild Confidence in Its AI Growth Story?
+  summary: Though Wall Street analysts expect around 70% earnings growth this year and next, the stock is down 30% from its all-time high in June.
+  url: https://finnhub.io/api/news?id=59747adbefa16ae6b5d6242485b91a475e2af4b25d8e33d52b5ccb41cfeb155d

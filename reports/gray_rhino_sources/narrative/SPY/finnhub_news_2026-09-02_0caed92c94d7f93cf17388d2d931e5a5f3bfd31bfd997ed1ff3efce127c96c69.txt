@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chart Of The Day: It's A Global Problem, And It's Getting Worse
+  summary: Interest rates in many countries are going up... and the trend is getting worse. Weâre in for some rough sledding for a little while. That goes for bonds and stocks. Read more here.
+  url: https://finnhub.io/api/news?id=356dcd0d0e91bfe69c77ff59fb81f7e49061d6602f55963a65e4128fc50ad6fa

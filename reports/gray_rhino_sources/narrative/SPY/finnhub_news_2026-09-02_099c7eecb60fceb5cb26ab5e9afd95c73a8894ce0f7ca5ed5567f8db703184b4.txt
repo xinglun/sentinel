@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Got Cheaper While It Rallied. Here's What Bond Bears Are Missing
+  summary: S&amp;P 500 earnings grew 52% in the second quarter while Treasury yields rose past 5%. Why bond yields matter less than the market thinks.
+  url: https://finnhub.io/api/news?id=c3a0568fd9f65bc3034746a25d387cd73730751723c229ec6894c50b162be9a8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Nvidia’s Huang Urges G20 to Speed AI Adoption as Key to Growth' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-09-02/nvidia-s-huang-urges-g20-to-speed-ai-adoption-as-key-to-growth
+  url: https://finnhub.io/api/news?id=07d58ed1fd5346406bf868168df39ba89cd5987f841aaa3af294b3cf9417bdf3

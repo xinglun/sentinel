@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Infrastructure Spending Is Set to Hit $1.4 Trillion by 2030. These Are the 3 Chip Stocks Positioned to Capture It.
+  summary: The silicon layer is where the AI buildout begins and where the bottleneck is tightest. JPMorgan projects annual AI infrastructure spending will reach $1.4 trillion by 2030, and the chips at the heart of that spend come from a small group of designers and one indispensable manufacturer. NVIDIA’s own CFO commentary underlines the constraint: management […]
+  url: https://finnhub.io/api/news?id=9b3d215c7373a8fad3418a898b7c0749fb685b153f5b917d81899f327b5659d9

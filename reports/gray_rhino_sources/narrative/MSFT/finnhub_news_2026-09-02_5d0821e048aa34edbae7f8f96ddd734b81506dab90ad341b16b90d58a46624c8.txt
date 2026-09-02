@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palo Alto Stock Is Getting Crushed After a Huge Earnings Beat
+  summary: Adjusted earnings per share were $1.02, up from 95 cents last year, ahead of Wall Street projections of 98 cents.
+  url: https://finnhub.io/api/news?id=e9a43680106e77ad234f9295a05dbf210633dc1c4508c65fdfffe9ea6d060e74

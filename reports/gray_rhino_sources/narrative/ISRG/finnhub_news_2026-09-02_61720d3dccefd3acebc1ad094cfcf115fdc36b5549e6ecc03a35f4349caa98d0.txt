@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zentek Ltd. Begins Trading on OTCQX Best Market
+  summary: NEW YORK, Sept. 02, 2026 (GLOBE NEWSWIRE) -- OTC Markets Group Inc. (OTCQX: OTCM), operator of regulated markets for trading 12,000 U.S. and international securities, today announced Zentek Ltd. (TSX-V: ZEN; OTCQX: ZTEKF), an IP development and commercialization company, has qualified to trade on the OTCQX® Best Market. Zentek Ltd. previously traded on NASDAQ. Zentek Ltd. begins trading today on OTCQX under the symbol “ZTEKF” and, further to its press release dated August 27, 2026, will no longe
+  url: https://finnhub.io/api/news?id=97c70f0687094e4cc94c3a249823568a049c8696d8464c7a9fbc071333776656

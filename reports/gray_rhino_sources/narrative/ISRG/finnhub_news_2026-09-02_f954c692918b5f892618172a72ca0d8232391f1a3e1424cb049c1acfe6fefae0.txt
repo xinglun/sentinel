@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alcon (SWX:ALC), What Is Behind The Fresh Attention?
+  summary: Alcon stock reacts to US Medicaid drug pricing agreement New US Medicaid drug pricing agreements involving Alcon (SWX:ALC) and eight other healthcare companies have put the stock in focus for investors assessing potential implications for its eye care drug portfolio. At around CHF58.30 per share, Alcon has seen short term share price pressure related to the Medicaid headlines, with the 1-day share price return down 0.44% and the year-to-date share price return down 8.25%. In contrast, the...
+  url: https://finnhub.io/api/news?id=088b0bea460b63a58f72059f97b40a7769169cbe44e01e0159d646fc2aa0402e

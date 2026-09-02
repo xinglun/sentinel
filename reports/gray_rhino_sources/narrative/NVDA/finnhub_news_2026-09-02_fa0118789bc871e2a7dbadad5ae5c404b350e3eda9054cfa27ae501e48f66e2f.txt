@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Nvidia Willing to Pay $14 Billion for Hugging Face?
+  summary: Nvidia is reportedly nearing a deal to buy AI platform Hugging Face for about $14 billion. It could be a long-term boost for the stock.
+  url: https://finnhub.io/api/news?id=a049f77a3af76cc7c1d146da8b5814914db2b405b504802040b953934008d0c9

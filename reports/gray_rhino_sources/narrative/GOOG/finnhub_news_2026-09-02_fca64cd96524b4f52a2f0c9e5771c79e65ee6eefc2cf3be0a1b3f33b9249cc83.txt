@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analyzing Alphabet’s (GOOGL) Strategy in Diversifying Technology Ventures
+  summary: Hotchkis & Wiley, an investment management company, released its second-quarter 2026 investor letter for the “Global Value Fund.” The letter can be downloaded here. In Q2 2026, the MSCI World Index rose by +13.8% and the MSCI World Value Index by +9.2%, despite challenges like rising inflation and the Iran conflict. The US now comprises […]
+  url: https://finnhub.io/api/news?id=73205e359d6e2bfc98865692079dd838b8ae780f5147357a861018d0d4b4d81b

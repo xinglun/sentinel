@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Li Auto Inc. Launches the New Li MEGA, a High-Tech Flagship MPV
+  summary: BEIJING, China, Sept. 02, 2026 (GLOBE NEWSWIRE) -- Li Auto Inc. (“Li Auto” or the “Company”) (Nasdaq: LI; HKEX: 2015), a leader in China’s new energy vehicle market, today officially launched the new Li MEGA, a high-tech flagship MPV. The vehicle is priced at RMB509,800 for its standard configuration. Deliveries of the new Li MEGA will commence this week. For more details on the new Li MEGA, please visit Li Auto’s official website. About Li Auto Inc. Li Auto Inc. is a leader in China’s new energ
+  url: https://finnhub.io/api/news?id=508eb011095a690e04b51d298a3d7ae031256983c5c0577f95126746897beafe

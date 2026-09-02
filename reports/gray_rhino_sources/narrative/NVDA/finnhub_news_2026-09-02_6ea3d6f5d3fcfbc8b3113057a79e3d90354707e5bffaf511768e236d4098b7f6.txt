@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Interactive Brokers Quietly Becoming an AI Stock?
+  summary: If AI becomes the new interface for investing, Interactive Brokers could become one of the companies powering the next generation of investors.
+  url: https://finnhub.io/api/news?id=57ab777cf928ecba932a89e777ff25a308041d0fc08dca1205fc4d907294233c

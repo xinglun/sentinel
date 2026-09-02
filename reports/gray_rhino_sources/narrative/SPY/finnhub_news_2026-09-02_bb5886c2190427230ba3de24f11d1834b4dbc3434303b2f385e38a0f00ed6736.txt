@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SCD: High Midstream/Low Bond Exposure Is A Good Combination
+  summary: LMP Capital & Income Fund yields 9.23% with MLP/midstream exposure for inflation-hedged income, now at 11.4% NAV discount. Read to know why it is downgraded.
+  url: https://finnhub.io/api/news?id=a6bc0cc42e41325cbf46470e19ca09e3538fc116ed7f5f92d62c12285b94e055

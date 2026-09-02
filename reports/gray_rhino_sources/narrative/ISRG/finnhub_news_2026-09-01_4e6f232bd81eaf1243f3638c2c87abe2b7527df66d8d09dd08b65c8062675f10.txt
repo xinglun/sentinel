@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medtronic Flirts With A Breakout As Its Spinoff, MiniMed, Hits A Record
+  summary: Medtronic stock popped Tuesday as its diabetes spinoff MiniMed rallied after both lifted their full-year guidance.
+  url: https://finnhub.io/api/news?id=d1b865c92452ba72756a05d9a1cb3a500250d5cc214a37216430abce5b34d95d

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Company News for Sep 2, 2026
+  summary: Companies In The News Are: MDT, MMED, NIO, AAPL.
+  url: https://finnhub.io/api/news?id=0510beeefb0f1a55fbef841c80ed9e8bad695869049ccb884727b306ecffac4f

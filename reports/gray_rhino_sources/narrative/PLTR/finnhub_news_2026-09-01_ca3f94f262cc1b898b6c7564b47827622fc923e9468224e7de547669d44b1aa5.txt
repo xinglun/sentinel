@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir to Deliver Eight TITAN Systems to the U.S. Army
+  summary: MIAMI, September 01, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) today announced that the Army Contracting Command has awarded Palantir USG, Inc. — a wholly-owned subsidiary of Palantir Technologies Inc. — a prime agreement for the production and delivery of the Tactical Intelligence Targeting Access Node (TITAN) ground station system, the Army’s next-generation deep-sensing capability enabled by artificial intelligence and machine learning. The agreement covers the production of eight new T
+  url: https://finnhub.io/api/news?id=44fd76d744709e51c79642b1e2836e329d347a3da94da93916bd42fbe91d8714

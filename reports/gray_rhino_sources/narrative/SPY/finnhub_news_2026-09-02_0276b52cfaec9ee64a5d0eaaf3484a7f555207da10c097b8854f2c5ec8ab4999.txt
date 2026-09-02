@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is Your Last Chance To Buy Gold
+  summary: GLD faces short-term headwinds from rising U.S. and Japanese bond yields, a stronger dollar, and geopolitical tensions. Read full analysis here.
+  url: https://finnhub.io/api/news?id=95a408b2246c04c5915d550680eb2301d922757f4da410da10a9f4a83251ae73

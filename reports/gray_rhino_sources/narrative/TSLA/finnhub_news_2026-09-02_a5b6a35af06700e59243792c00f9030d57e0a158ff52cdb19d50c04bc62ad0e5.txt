@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford and GM Will Have to Pay Tariffs on Cars Made in Canada
+  summary: New Canada tariffs are landing as a direct bill to two of America's biggest automakers, and the ripple effects stretch well beyond car lots into the housing market and household budgets.
+  url: https://finnhub.io/api/news?id=4359f9b3dd9667b54d2f29bd232183ffec190729a187964dce5e66f4c0184795

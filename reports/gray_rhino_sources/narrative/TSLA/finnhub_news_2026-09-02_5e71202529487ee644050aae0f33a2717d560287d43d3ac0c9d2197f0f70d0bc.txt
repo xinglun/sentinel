@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Cybercab Event Is Set for Thursday. Here’s What to Watch.
+  summary: FEATURE   Tesla stock was down ahead of its Cybercab event in Austin, Texas. Shares of the electric-vehicle maker were off 1.5% in early trading at $350.80, while the and were up 0.2% and 0.4%, respectively.
+  url: https://finnhub.io/api/news?id=49e5f63afddf3d0be42e4b84d94217c924d8320b654b315694e08627c93712e8

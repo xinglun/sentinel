@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Peter Zaffino to Join Palantir Technologies as Global Head of Financial Services
+  summary: MIAMI, September 02, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) today announced that Peter Zaffino will join the company as Global Head of Financial Services, effective January 15, 2027. Mr. Zaffino, previously Chief Executive Officer and Executive Chairman of AIG, will drive growth and transformational impact across Palantir’s financial services business, including insurance companies, banks, asset managers, private equity firms, and other financial institutions.
+  url: https://finnhub.io/api/news?id=ff445f3abbdc594412d48a9cd44a8b862f566f1deee23deb602955078af2f35e

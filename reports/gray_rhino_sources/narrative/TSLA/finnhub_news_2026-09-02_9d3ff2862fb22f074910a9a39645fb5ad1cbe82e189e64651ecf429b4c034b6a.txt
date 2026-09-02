@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's FSD Faces Fresh Scrutiny After Fatal Illinois Crash
+  summary: Electrek reports FSD was engaged during the crash
+  url: https://finnhub.io/api/news?id=92775fc62f54da26492f1873bd2cf4a98bb300a0d10d22b481d29350c1a59f0f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strategy's CEO Says Bitcoin Buys Come Down to Capital Costs, Not Price
+  summary: Strategy CEO Phong Le explains why Bitcoin buying decisions come down to capital costs, not price, amid a bull market bet.
+  url: https://finnhub.io/api/news?id=bb97d54a075cf9b2a0b49a368b72d31bd90427b8c881f35b943a1f6e2cacddfa

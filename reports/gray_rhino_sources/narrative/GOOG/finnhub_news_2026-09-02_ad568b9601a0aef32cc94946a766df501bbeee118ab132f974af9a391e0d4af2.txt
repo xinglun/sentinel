@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Capsule Security Builds “AI Circuit Breaker” for Rogue Agents with NVIDIA Nemotron
+  summary: NVIDIA Nemotron model, fine-tuned by Capsule, catches 98% of rogue agent behavior on independent benchmark, outperforms OpenAI, Anthropic, Google frontier modelsBOSTON, Sept. 02, 2026 (GLOBE NEWSWIRE) -- Capsule Security today announced a solution based on Nemotron small language models that acts as an “AI circuit breaker” to stop rogue AI agents at runtime, before they can wreak havoc on a company’s digital infrastructure. Researchers achieved 98% accuracy on StepShield, an independent academic
+  url: https://finnhub.io/api/news?id=924c6499cd650cb2c58f0cd9950da004824bad19e52be959a879e414255c0ac5

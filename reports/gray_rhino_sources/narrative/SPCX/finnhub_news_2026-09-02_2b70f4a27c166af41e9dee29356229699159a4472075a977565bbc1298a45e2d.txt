@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia forecasts 70% revenue jump fueled by exclusive SpaceX deal as Bank of England warns of AI bubble risk
+  summary: ‘Bananas’ overvaluations have analysts warning you’ll need to hold on tight through a potential market correction stampeding our way.
+  url: https://finnhub.io/api/news?id=7498cfad4e0363ac8eb2a4b4db6b9748a4cd6812c5b0a533d19a02cfa842799d

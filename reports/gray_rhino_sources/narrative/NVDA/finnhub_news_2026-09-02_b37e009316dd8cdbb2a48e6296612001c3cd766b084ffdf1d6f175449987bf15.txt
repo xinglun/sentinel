@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Surges 43.7% in a Year: Is There More Room to Run?
+  summary: RKLB expands its end-to-end space platform as Neutron advances, acquisitions strengthen capabilities, and national security opportunities grow.
+  url: https://finnhub.io/api/news?id=a6f7bb6fd225743116df9142c191f16c0701bcff3a212b80a9ddf459e29fbfd1

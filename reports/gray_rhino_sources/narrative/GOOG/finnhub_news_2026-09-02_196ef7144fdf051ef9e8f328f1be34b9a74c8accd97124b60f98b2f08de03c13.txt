@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Greg Abel Says AI Data Center Power Demand Is A ‘Big Constraint’ – And A Berkshire Opportunity
+  summary: In an interview with CNBC, Berkshire Hathaway CEO Greg Abel said the broader economy is “incredibly vibrant,” and that the underlying fundamentals remain “strong.”
+  url: https://finnhub.io/api/news?id=fe79f1b6f82772ecaba5f8b625be926116ececa17534ccce9cfea654116bd58a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Jones, S&P 500 Futures Rise, Nasdaq 100 Falls as US-Iran Tensions Escalate— DELL, PANW, MDB, AVGO in Focus (UPDATED)
+  summary: U.S. stock futures declined on Wednesday, as the Dow Jones, S&amp;P 500, and Nasdaq 100 indices fell, following Tuesday&#39;s lower close.
+  url: https://finnhub.io/api/news?id=99f64821fa592dee0c91a14607257a5f89f0210299885f930aeff7aa939aab7e

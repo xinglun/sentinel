@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: David Sacks Urges AI Companies to Fund Trump Accounts, Says It Would 'Improve the Public’s Image of AI'
+  summary: Sacks urged AI companies to give American kids a stake in their success through Trump Accounts, saying it could improve the public’s image of AI.
+  url: https://finnhub.io/api/news?id=35e9f3ec692ea8c101319f565600465daf0971dba804bfb50ff234eb046999e1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analog Devices to Participate in the J.P. Morgan U.S. All Stars Conference
+  summary: Analog Devices, Inc. (NASDAQ: ADI) today announced that the Company's Chief Financial Officer, Richard Puccio, will discuss business topics and trends at the J.P. Morgan U.S. All Stars Conference, located in London, England, on Tuesday, September 22, at 1:00 p.m. BST.
+  url: https://finnhub.io/api/news?id=8a3337a92afca1ab0f0bef107c4426380cfbe4ba92d2ea9ba36223e19880575e

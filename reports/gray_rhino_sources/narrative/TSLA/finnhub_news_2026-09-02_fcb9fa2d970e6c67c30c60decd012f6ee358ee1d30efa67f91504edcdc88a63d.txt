@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: J.P. Morgan cuts NIO to Neutral, slashes price target on weak demand outlook
+  summary: Investing.com -- J.P. Morgan downgraded NIO to Neutral from Overweight and cut its price target to $4.50 from $7.00, citing sluggish demand in China's passenger-vehicle market, intensifying price competition and limited overseas exposure that could constrain the electric-vehicle maker's earnings upside.
+  url: https://finnhub.io/api/news?id=eaea113335901ae92246b27482b8a40b484cadccfc1234a3529984d922f4655b

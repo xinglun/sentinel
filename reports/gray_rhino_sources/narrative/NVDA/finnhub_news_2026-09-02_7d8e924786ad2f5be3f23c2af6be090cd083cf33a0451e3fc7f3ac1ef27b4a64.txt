@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Helps Integrated Tools Take on Security Threats, ISG Says
+  summary: STAMFORD, Conn., September 02, 2026--Cybersecurity software is evolving with AI to protect increasingly broad, complex operating environments against a rising tide of threats, ISG says.
+  url: https://finnhub.io/api/news?id=68c61749e5122608b276a6967cf1cae9b341b7fda0fc59cb388ef6b68bd3472b

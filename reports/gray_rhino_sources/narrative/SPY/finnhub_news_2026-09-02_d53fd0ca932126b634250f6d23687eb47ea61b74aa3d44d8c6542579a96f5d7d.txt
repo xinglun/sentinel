@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Bubble Burst: Token Prices Collapse, And Yields Soar
+  summary: The LLM Token Expenditures Index has collapsed in Q2 and might force a stall or cut in AI capex. Read why the AI bubble burst is likely already in progress.
+  url: https://finnhub.io/api/news?id=ce7bc2d1848b818957820136969a17d9b2d2b2d615f890103503174f8c69d957

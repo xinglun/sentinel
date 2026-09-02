@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Rebounds Above Its Mean Trend
+  summary: The S&P 500 rebounded back above its mean trend in August 2026 after briefly breaking below it. Read more here.
+  url: https://finnhub.io/api/news?id=93117b3c1017ed4079e4f346076649427cd1d9c0da5804d742ab9ef061392465

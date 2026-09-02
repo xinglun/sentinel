@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Hits Our Price Target - We Move To Distribute Rating (Downgrade)
+  summary: Palantir (PLTR) fundamentals are exceptional, with rapid revenue growth, strong cashflow margins, and a robust $9.4bn net cash balance sheet.
+  url: https://finnhub.io/api/news?id=cc19ed0c770a0d1ae8e80294e158bb21ca24029fb50751e118e44e468b2387fc

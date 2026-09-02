@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises On Surprise Jobs Data; AI Name Credo Dives On Earnings Report (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rises Tuesday after surprise jobs data. AI stock Credo plunges on earnings.
+  url: https://finnhub.io/api/news?id=86d421ee08854c072b0e6f5c7545dcd5861e6edefab4efb9aded31f00f1d8aae

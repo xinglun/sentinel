@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Sounds Alarm on ‘Rigged’ US Economy Amid Growing Wealth Inequality, Says Elon Musk Is Richer Than Half of American Households
+  summary: Sen. Bernie Sanders (I-Vt.) said America’s growing wealth gap shows what a "rigged economy" looks like, pointing to Tesla Inc. and Space Exploration Technologies Corp. CEO Elon Musk’s fortune as evidence of increasingly concentrated wealth. Sanders Slams US Wealth Inequality...
+  url: https://finnhub.io/api/news?id=ce24749c6d4bc45529713f48b138a1abd3abc8bbca26ddb763198750c10b941f

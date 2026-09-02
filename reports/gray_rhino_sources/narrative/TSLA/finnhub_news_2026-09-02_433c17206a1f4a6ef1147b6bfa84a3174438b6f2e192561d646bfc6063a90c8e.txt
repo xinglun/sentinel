@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are Wednesday’s Top Wall Street Analyst Research Calls: Ally Financial, GitLab, GLOBAL FOUNDRIES, Martin Marietta Materials, Rocket Lab USA, Strategy, Toast, Tower Semiconductor, and More
+  summary: Markets took a beating Tuesday as war tensions, surging oil, and the September curse hammered stocks, bonds, and gold all at once. Find out which stocks Wall Street upgraded, downgraded, or initiated fresh coverage on as analysts scramble to reposition heading into a brutal stretch.
+  url: https://finnhub.io/api/news?id=5bdee7f77d94bab2735e34763b7e5f6d8bea5af172cc15c96e608af42c54c8bf

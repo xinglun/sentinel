@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sirius XM upgraded, Toast downgraded: Wall Street's top analyst calls
+  summary: Sirius XM upgraded, Toast downgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=8516fefd2a35173aa62476707580400a1db2e41384346018cfcd8590df085ca6

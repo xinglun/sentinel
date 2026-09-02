@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Jumps On AI Bid, Software Stocks Dip: Stock Market Today
+  summary: Nvidia surges 4.7%, while Credo, MongoDB and Palo Alto all cratered Wednesday despite quarterly beats, as costs surged.
+  url: https://finnhub.io/api/news?id=5cf95ee6885a452daa1f20dd9bc5b90f45475a3ef1cca61a6a93d2706dfe0175

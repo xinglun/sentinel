@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eos Energy Shares Rise 12% Following West Virginia Solar and Storage Project Announcement
+  summary: Eos Energy Enterprises (NASDAQ:EOSE) shares rose 12% on Wednesday following the announcement of a collaboration with MN8 Energy and Google for a solar and energy storage project in West Virginia. The project will combine 86 MW of utility-scale solar generation with 10 MW/100 MWh of Eos’ Z3 zinc-based long-duration energy storage and 70 MW/280 MWh of lithium-ion battery storage.
+  url: https://finnhub.io/api/news?id=4de64f7bddb45610888cc227bdd9e80c383b7c71832a4b7b62345fd639539976

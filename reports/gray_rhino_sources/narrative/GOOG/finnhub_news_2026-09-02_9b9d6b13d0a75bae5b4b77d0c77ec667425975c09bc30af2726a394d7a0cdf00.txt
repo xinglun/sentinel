@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Timbaland to Headline Smartly’s ADVANCE in New York City on September 29
+  summary: NEW YORK, September 02, 2026--Smartly announces Timbaland as the headliner for ADVANCE, joining leaders across advertising to explore AI, creativity, commerce & marketing’s future.
+  url: https://finnhub.io/api/news?id=b247e856bd51ba6870c4b7281cfdf90b97be9201999975aac8c3badfa1d1549f

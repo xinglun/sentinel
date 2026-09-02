@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX investors may be overlooking a major risk: There’s no replacing Elon Musk
+  summary: Ahead of its June IPO, SpaceX described its CEO as the “driving force behind our growth, innovation, and operational success.” His loss, “whether due to death, disability, or otherwise … could significantly disrupt our management structure.”
+  url: https://finnhub.io/api/news?id=a06e95471709939137382aaec825336ed32d6d4b734878518ceccfcd999d9fe5

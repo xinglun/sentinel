@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit’s Next AI Catalyst Isn’t User Growth — It’s What Alphabet’s Google and OpenAI Do Next
+  summary: Reddit (NYSE: RDDT)’s data licensing deals with Alphabet Inc. (NASDAQ:GOOGL)’s Google and OpenAI are set to expire next year, and Wall Street simply can’t decide whether these deals are a windfall or a warning sign. On September 2, Baird analyst Colin Sebastian reiterated a Neutral rating and $185.00 price target on the stock. The note […]
+  url: https://finnhub.io/api/news?id=042925a9453d6fdf4a0efd20754185ae18b57d6d102aefc6f0a41448c7b1a048

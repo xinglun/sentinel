@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: Equities Dance To Bonds' Tune
+  summary: Bonds continue to call the market tune, with rising yields pressuring equities, especially growth stocks.
+  url: https://finnhub.io/api/news?id=f2afcf48e07d983f23766d453755db3438863200470395317163c2418b5ffd19

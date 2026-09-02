@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Electric Vehicles - AI Powers Revolution In Wireless Charging Infrastructure
+  summary: Artificial intelligence is revolutionizing the wireless electric vehicle charging sector, enhancing efficiency and driving massive infrastructure investment. AI technologies are significantly improving wireless charging efficiency to over 93% by optimizing vehicle positioning and predictive maintenance, thus reducing energy loss and costs. Large-scale investments, such as the $500 billion Stargate Project and Europe’s $215.3 billion InvestAI initiative, are channeling substantial capital into...
+  url: https://finnhub.io/api/news?id=a3455824a9b3bcf3b461536cc5d2486b59a83be8bfa77f5e1c10618adadafc91

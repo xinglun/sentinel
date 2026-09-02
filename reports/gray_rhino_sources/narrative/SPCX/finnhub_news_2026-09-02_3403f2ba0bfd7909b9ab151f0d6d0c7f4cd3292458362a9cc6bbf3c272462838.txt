@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MANGOS ETFs: The Next Big AI Tech Investing Theme
+  summary: MANGOS is emerging as the next AI-focused tech basket, with several ETFs filed to capture the group's potential growth.
+  url: https://finnhub.io/api/news?id=fc29396f8bf8629913d35b8fb5583ced6c8212c0c34fd38f98c9131bd5e4c098

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Have We Accomplished In Iran?
+  summary: The protracted Iran war has failed to achieve decisive U.S. or Israeli objectives, with Iran retaining key military and nuclear capabilities.
+  url: https://finnhub.io/api/news?id=b14ac34cfac543760a0a44093b656e5760284ae8716d64b5b417878e299d36a6

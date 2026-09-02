@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Platauro Metals Corp. - Star Project, Utah
+  summary: Vancouver, British Columbia--(Newsfile Corp. - September 2, 2026) - Platauro Metals Corp. (TSXV: PURO) (OTCQB: MEXGF) ("Platauro" or the "Company") announces that its wholly-owned subsidiary, Alcon Silver Corp. ("Alcon"), is party to an option agreement dated effective September 1, 2025 ("Effective Date") with Western Property Holdings, LLC (the "Optionor"), which was amended by a first amending agreement dated January 20, 2026 (collectively, the "Option Agreement"). Under the Option Agreement..
+  url: https://finnhub.io/api/news?id=2943e8d8bf416c45983f219ee72fd0eac4f31d21825c7247a509ff7d0200d699

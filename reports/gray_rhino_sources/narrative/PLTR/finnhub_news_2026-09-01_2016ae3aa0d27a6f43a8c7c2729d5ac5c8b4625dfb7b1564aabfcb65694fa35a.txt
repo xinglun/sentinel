@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As AI Models Become Commoditized, Palantir Is Betting Its Ontology Is the New Moat
+  summary: After attending a technology demonstration with a small group of investors, Baird came away incrementally positive on Palantir Technologies Inc. (NASDAQ:PLTR) . Firm analyst William Power reiterated an Outperform rating on the stock with a $200.00 price target, remaining confident in the company’s ability to modernize enterprise operations and lead in agentic AI. Ontology: The New […]
+  url: https://finnhub.io/api/news?id=497fe702abcbc9e46e39ed07d114d3f5e1d2fe640a71366a5a8cf198b76c0e54

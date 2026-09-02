@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Stocks Just Did Something They've Done Only Three Times Before
+  summary: Palantir, Palo Alto and Microsoft are its largest holdings
+  url: https://finnhub.io/api/news?id=3d0d3c76a47762202d641470477de885b70f2751d73e778c9a736808450f32d5

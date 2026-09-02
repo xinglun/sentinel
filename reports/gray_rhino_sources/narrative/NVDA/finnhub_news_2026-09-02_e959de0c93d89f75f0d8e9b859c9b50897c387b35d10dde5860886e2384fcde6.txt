@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tri City National Bank Launches Alkami's Digital Sales & Service Platform to Extend Hometown Banking in the Digital Channel
+  summary: Alkami Technology, Inc. (Nasdaq: ALKT) ("Alkami"), a digital sales and service platform provider for financial institutions in the U.S., today announced that Tri City National Bank (Tri City), a community bank serving Southeastern Wisconsin for more than 60 years, is now live with the Alkami Digital Sales & Service Platform. The comprehensive suite includes Alkami's Onboarding & Account Opening Solution, Digital Banking Solution, and the Data & Marketing Solution.
+  url: https://finnhub.io/api/news?id=79c96331b1436baefb4eb65c1bf7ca5278ebc74445a2d6ad959fbaecd63cc345

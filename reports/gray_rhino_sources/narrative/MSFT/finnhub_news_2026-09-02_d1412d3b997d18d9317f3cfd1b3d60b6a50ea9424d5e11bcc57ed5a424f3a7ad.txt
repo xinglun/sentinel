@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palo Alto Networks earnings beat as CEO cites $1 trillion AI security gap
+  summary: CEO Nikesh Arora says legacy security systems can't handle AI-speed attacks, calling it a long-term growth driver for the industry
+  url: https://finnhub.io/api/news?id=5f153aa0ef4314c079efca93d74466680c0f69f8765f25a52a50efd2afadb413
