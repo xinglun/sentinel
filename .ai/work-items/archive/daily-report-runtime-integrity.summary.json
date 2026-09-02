@@ -1,0 +1,238 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/daily-report-runtime-integrity.contract.json",
+    ".ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-09-01T23:22:13Z",
+  "checkpointContractDigest": "sha256:7be2c6567a0cba82b2c431eccb88498460e095223ea7c2d7e377639973fb6adc",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+      "recorded": true,
+      "recordedAt": "2026-09-01T23:22:13Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:07a4eb50638a5dd443799dfa07f8d3bec70fc22d3021c17c53691278d1b7a1f1",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:9a0c47c44b580ac35e55a3798d50a47e6c51c384efdd326199488af89955e64d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+      "previousContractHash": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+      "reason": "将本 Work Item 已明确要求的依赖测试、Leadership snapshot 实现、weekly report 兼容构造点与 Runtime 生成的决策证据纳入原有 scope；不扩大交易决策语义范围。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T00:28:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b28e6d6fab8f4e7c736a2dce8db599eee6106eb292fe8cd9c4e6db0bd6b43ce0",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:3fd5903ed4db9f404ef2d10768fb79e1adcf1f8bfefbf177dfce88e7b5491d21",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+      "previousContractHash": "sha256:9a0c47c44b580ac35e55a3798d50a47e6c51c384efdd326199488af89955e64d",
+      "reason": "补入 RS engine 缺失输入处理与 legacy snapshot migration 构造兼容点；仍仅覆盖 Runtime/Data Provenance/Observation Integrity。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T00:29:54Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b28e6d6fab8f4e7c736a2dce8db599eee6106eb292fe8cd9c4e6db0bd6b43ce0",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:7be2c6567a0cba82b2c431eccb88498460e095223ea7c2d7e377639973fb6adc",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+      "previousContractHash": "sha256:3fd5903ed4db9f404ef2d10768fb79e1adcf1f8bfefbf177dfce88e7b5491d21",
+      "reason": "登记已执行的八个 required scenario 验证状态与证据映射；不改变 Work Item 意图、scope、outOfScope 或交易决策语义。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T00:36:29Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    {
+      "acceptanceCount": 14,
+      "contractHash": "sha256:7be2c6567a0cba82b2c431eccb88498460e095223ea7c2d7e377639973fb6adc",
+      "recorded": true,
+      "recordedAt": "2026-09-02T00:45:43Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 4,
+      "schemaVersion": 1,
+      "stage": "before_finish",
+      "unknownCount": 0,
+      "workItemId": "daily-report-runtime-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+  "createdAt": "2026-09-01T23:12:30Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:7be2c6567a0cba82b2c431eccb88498460e095223ea7c2d7e377639973fb6adc",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户在当前会话明确要求继续编码，并确认当前 Work Item 的 Runtime/Data Provenance/Observation Integrity 范围、八个回归场景及不改变交易决策语义的边界；本回执绑定当前 Contract、场景证据与仓库快照。",
+    "recordedAt": "2026-09-02T00:38:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+    "schemaVersion": 1,
+    "workItemId": "daily-report-runtime-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-report-runtime-integrity.contract.json",
+      "docs/superpowers/specs/2026-09-02-daily-report-runtime-integrity-design.md",
+      "tests/daily_report_runtime_integrity.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-02T00:45:37Z",
+  "preflightContractDigest": "sha256:7be2c6567a0cba82b2c431eccb88498460e095223ea7c2d7e377639973fb6adc",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/domain/current_relative_strength.rs::tests::current_strength_can_be_strong_without_a_confirmed_leader",
+        "src/features/radar/domain/current_relative_strength.rs::tests::strong_and_weak_recovery_strength_follow_the_five_day_thresholds",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "完整 RS 数据保留真实 Neutral/5/9 结果",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/domain/current_relative_strength.rs::tests::missing_relative_input_is_unavailable_instead_of_neutral",
+        "tests/daily_report_runtime_integrity.rs::generated_report_contains_identity_and_archive_diagnostics_without_decision_weight",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "benchmark history 缺失时 RS 显示 UNAVAILABLE",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/domain/current_relative_strength.rs::tests::missing_relative_input_is_unavailable_instead_of_neutral",
+        "tests/daily_report_runtime_integrity.rs::provenance_bundle_has_a_named_fail_closed_record_for_each_input",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "所有 RS 输入缺失时禁止 all NEUTRAL",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/domain/leader_persistence/tests.rs::leaderless_history_separates_snapshot_leader_last_confirmed_leader_and_absence_start",
+        "src/features/radar/domain/leader_persistence/tests.rs::streak_continues_beyond_twenty_five_persisted_days",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "Leadership persisted snapshot 的 since/duration 稳定",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_report_runtime_integrity.rs::partial_leadership_history_is_marked_as_recomputed",
+        "src/features/radar/domain/leader_persistence/tests.rs::feature_activation_history_is_partial_without_resetting_known_streak",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "partial Leadership history 明确为 reconstructed/degraded",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/report.rs",
+        "tests/daily_report_runtime_integrity.rs::generated_report_contains_identity_and_archive_diagnostics_without_decision_weight",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "最新代码生成报告使用最新 Risk Summary wording",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs::daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "旧报告 resend 保留原文并区分 generation/resend revision",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_report_runtime_integrity.rs::snapshot_digest_conflict_is_rejected_without_overwriting_existing_fact",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "make test"
+      ],
+      "required": true,
+      "scenario": "snapshot digest mismatch 被标记为 conflict/degraded",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T00:45:43Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-report-runtime-integrity"
+}

@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:dd71d25419668a9ec54fa26db6e55d0df04435146dae5cfbf41f90dc9967b45c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:0741833cc4c61276cc8a95ea800484d209010b931af34c34665346ef886c0803",
+  "reason": "用户已确认采用方案 A，并确认当前 Work Item 的范围、验收场景、禁止修改交易决策语义的边界和执行授权；8 个场景将在实现与验证后以当前 Work Item 证据完成。",
+  "recordedAt": "2026-09-01T23:20:13Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:07a4eb50638a5dd443799dfa07f8d3bec70fc22d3021c17c53691278d1b7a1f1",
+  "schemaVersion": 1,
+  "workItemId": "daily-report-runtime-integrity"
+}

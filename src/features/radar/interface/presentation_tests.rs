@@ -677,6 +677,8 @@ mod tests {
                     volume_participation: Some(1.0),
                     state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
                     recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Moderate,
+                    health: "AVAILABLE".to_string(),
+                    diagnostic: None,
                     boundary: "Observation only".to_string(),
                 },
             ],

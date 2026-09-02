@@ -86,7 +86,9 @@ use crate::features::shared::acl::notification_factory::{
     load_latest_evidence_collection_status, send_telegram_with_status,
 };
 use crate::features::shared::application::run_status::{
-    DeliveryStatus, GrayRhinoCollectionStatus, GrayRhinoProviderStatus,
+    sha256_json, DataProvenance, DataProvenanceBundle, DeliveryStatus, GrayRhinoCollectionStatus,
+    GrayRhinoProviderStatus, ReportLifecycle, ReportLifecycleMode, ReportRuntimeIdentity,
+    RuntimeIntegrity,
 };
 use crate::features::shared::domain::supply_event_context::{
     SupplyDirection, SupplyEventConfidence, SupplyEventContext, SupplyEventFact, SupplyEventType,
@@ -139,6 +141,82 @@ fn should_downgrade_leader_history(
     )
 }
 
+fn build_data_provenance<'a>(
+    histories: &[(
+        crate::features::shared::domain::market_data::TickerHistory<'a>,
+        DomainWatchlistEntry,
+    )],
+    failed_symbols: &[String],
+    leadership_observations: &[crate::features::radar::domain::leader_persistence::LeaderObservation],
+    baseline_available: bool,
+    as_of: chrono::NaiveDate,
+) -> DataProvenanceBundle {
+    let snapshot_id = format!("market-data-{as_of}");
+    let observed_symbols = histories
+        .iter()
+        .map(|(history, _)| history.symbol.clone())
+        .collect::<Vec<_>>();
+    let snapshot_digest = sha256_json(&(observed_symbols, failed_symbols));
+    let market_data_record = || DataProvenance {
+        status: if histories.is_empty() {
+            "UNAVAILABLE".to_string()
+        } else if failed_symbols.is_empty() {
+            "AVAILABLE".to_string()
+        } else {
+            "PARTIAL".to_string()
+        },
+        source: "market-data-provider".to_string(),
+        as_of: Some(as_of.to_string()),
+        snapshot_id: Some(snapshot_id.clone()),
+        snapshot_digest: Some(snapshot_digest.clone()),
+        record_count: histories.len(),
+        diagnostic: (!failed_symbols.is_empty())
+            .then(|| format!("failed_symbols: {}", failed_symbols.join(", "))),
+    };
+    let leadership_record = if leadership_observations.is_empty() {
+        DataProvenance::unavailable("leader-observation-history", "leadership_history_empty")
+    } else {
+        DataProvenance {
+            status: "AVAILABLE".to_string(),
+            source: "leader-observation-history".to_string(),
+            as_of: Some(as_of.to_string()),
+            snapshot_id: Some(format!("leadership-{as_of}")),
+            snapshot_digest: Some(sha256_json(leadership_observations)),
+            record_count: leadership_observations.len(),
+            diagnostic: None,
+        }
+    };
+    let baseline_record = if baseline_available {
+        DataProvenance {
+            status: "AVAILABLE".to_string(),
+            source: "trading-day-snapshot".to_string(),
+            as_of: Some(as_of.to_string()),
+            snapshot_id: Some(format!("baseline-{as_of}")),
+            snapshot_digest: None,
+            record_count: 1,
+            diagnostic: None,
+        }
+    } else {
+        DataProvenance::unavailable("trading-day-snapshot", "baseline_unavailable")
+    };
+    DataProvenanceBundle {
+        price_history: market_data_record(),
+        benchmark_history: market_data_record(),
+        relative_strength_input: market_data_record(),
+        leadership_history: leadership_record,
+        market_change_baseline: baseline_record,
+        corporate_event_evidence: DataProvenance::unavailable(
+            "corporate-event-evidence",
+            "not_persisted_in_runtime_identity",
+        ),
+        expectation_data: DataProvenance::unavailable(
+            "expectation-layer",
+            "not_persisted_in_runtime_identity",
+        ),
+        price_volume_history: market_data_record(),
+    }
+}
+
 /// テスト時だけ基準日を注入し、通常の CLI 実行では現在日付を使う。
 pub(crate) async fn run_pipeline_for_report_date(
     app_config: config::AppConfig,
@@ -153,6 +231,14 @@ pub(crate) async fn run_pipeline_for_report_date(
     let save_dir = std::path::PathBuf::from(&config_arc.output.save_to);
     let now = jst_now();
     let report_run_at = now.with_timezone(&Utc);
+    let report_run_id = Uuid::new_v4().to_string();
+    let mut runtime_identity = ReportRuntimeIdentity::from_environment(
+        report_run_id.clone(),
+        now.to_rfc3339(),
+        "decision-v1",
+        format!("market-data-{report_date}"),
+        report_date.to_string(),
+    );
     let radar_context = crate::features::radar::application::radar::RadarRunContext {
         date: report_date,
         timestamp: now.to_rfc3339(),
@@ -224,7 +310,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         .await;
     let data_acquisition_summary = prepared_data.summary;
     let pipeline_plan = prepared_data.plan;
-    let should_persist_history = pipeline_plan.should_persist_history;
+    let mut should_persist_history = pipeline_plan.should_persist_history;
     let fetched_ticker_histories = prepared_data.successful_items;
     let ticker_histories = fetched_ticker_histories
         .iter()
@@ -232,9 +318,33 @@ pub(crate) async fn run_pipeline_for_report_date(
         .collect::<Vec<_>>();
     let failed_symbols = prepared_data.failed_symbols;
     let rate_limited_symbols = prepared_data.rate_limited_symbols;
+    let data_provenance = build_data_provenance(
+        &fetched_ticker_histories,
+        &failed_symbols,
+        &leader_observations,
+        baseline_packet.is_some(),
+        report_date,
+    );
 
     let mut outcome =
         radar_context.initial_run_outcome(load_latest_evidence_collection_status(save_dir));
+    outcome.runtime_identity = Some(runtime_identity.clone());
+    outcome.data_provenance = Some(data_provenance.clone());
+    outcome.runtime_integrity = Some(RuntimeIntegrity::from_checks(
+        &runtime_identity,
+        !fetched_ticker_histories.is_empty(),
+        false,
+        false,
+        false,
+        false,
+    ));
+    outcome.report_lifecycle = Some(ReportLifecycle {
+        mode: ReportLifecycleMode::Generated,
+        original_generation_revision: Some(runtime_identity.git_commit_sha.clone()),
+        original_report_run_id: Some(report_run_id.clone()),
+        source: Some("rust-radar-runner".to_string()),
+        ..Default::default()
+    });
     outcome.gray_rhino_collection = load_gray_rhino_collection_status(save_dir, radar_context.date);
 
     let ledger = Arc::new(build_ledger_adapter(save_dir.to_path_buf()));
@@ -265,6 +375,45 @@ pub(crate) async fn run_pipeline_for_report_date(
                 }
             };
         let market_data_date = packet.market_features.date;
+        runtime_identity.data_snapshot_id = format!("market-data-{market_data_date}");
+        runtime_identity.data_snapshot_date = market_data_date.to_string();
+        for symbol in &failed_symbols {
+            if packet
+                .current_relative_strength_observations
+                .iter()
+                .any(|observation| observation.symbol == *symbol)
+            {
+                continue;
+            }
+            let benchmark_symbol = watchlist
+                .iter()
+                .find(|entry| entry.symbol == *symbol)
+                .and_then(|entry| {
+                    domain_rules_arc
+                        .market_state_engine
+                        .market_benchmarks
+                        .get(&entry.market.to_ascii_uppercase())
+                })
+                .or_else(|| {
+                    domain_rules_arc
+                        .market_state_engine
+                        .market_benchmarks
+                        .get("US")
+                })
+                .cloned()
+                .unwrap_or_else(|| "SPY".to_string());
+            packet.current_relative_strength_observations.push(
+                crate::features::radar::domain::current_relative_strength::unavailable_current_relative_strength(
+                    symbol.clone(),
+                    benchmark_symbol,
+                    if rate_limited_symbols.contains(symbol) {
+                        "market_data_rate_limited"
+                    } else {
+                        "market_data_fetch_failed"
+                    },
+                ),
+            );
+        }
         // report_date は成果物の業務日、market_data_date は行情の事実日として分離する。
         packet.date = report_date;
 
@@ -593,6 +742,34 @@ pub(crate) async fn run_pipeline_for_report_date(
             previous_snapshot_resolution.formal_snapshot.as_ref(),
         ));
 
+        let rs_input_consistent = !packet
+            .current_relative_strength_observations
+            .iter()
+            .any(|observation| observation.health == "UNAVAILABLE");
+        let leadership_snapshot_consistent = previous_snapshot_resolution
+            .formal_snapshot
+            .as_ref()
+            .is_some_and(|snapshot| snapshot.source_status == "complete")
+            && pres_packet
+                .leader_persistence
+                .as_ref()
+                .is_some_and(|value| value.history_coverage_value == "COMPLETE");
+        let runtime_integrity = RuntimeIntegrity::from_checks(
+            &runtime_identity,
+            !fetched_ticker_histories.is_empty(),
+            true,
+            rs_input_consistent,
+            leadership_snapshot_consistent,
+            true,
+        );
+        pres_packet.runtime_identity = Some(runtime_identity.clone());
+        pres_packet.data_provenance = Some(data_provenance.clone());
+        pres_packet.runtime_integrity = Some(runtime_integrity.clone());
+        pres_packet.report_lifecycle = outcome.report_lifecycle.clone();
+        outcome.runtime_identity = Some(runtime_identity.clone());
+        outcome.data_provenance = Some(data_provenance.clone());
+        outcome.runtime_integrity = Some(runtime_integrity);
+
         let history_before = runtime_services
             .persistence
             .load_observation_history_entries()?;
@@ -713,6 +890,14 @@ pub(crate) async fn run_pipeline_for_report_date(
                         "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
                     }
                 }),
+                report_run_id: Some(report_run_id.clone()),
+                git_commit_sha: Some(runtime_identity.git_commit_sha.clone()),
+                data_digest: Some(sha256_json(&data_provenance)),
+                decision_packet_digest: Some(sha256_json(&packet)),
+                observation_digest: Some(sha256_json(
+                    &packet.current_relative_strength_observations,
+                )),
+                runtime_integrity: outcome.runtime_integrity.clone(),
             }
         };
         if should_persist_history {
@@ -723,13 +908,22 @@ pub(crate) async fn run_pipeline_for_report_date(
                 .validate_trading_day_snapshot_conflict(&snapshot_probe)
             {
                 let reason = error.to_string();
+                should_persist_history = false;
+                drop(history_write_transaction.take());
                 outcome.date = packet.date.to_string();
-                outcome.decisioning = DeliveryStatus::Failed {
-                    reason: reason.clone(),
-                };
-                outcome.data_quality = reason;
-                runtime_services.persistence.save_run_status(&outcome)?;
-                return Ok(());
+                outcome.data_quality = reason.clone();
+                if let Some(integrity) = outcome.runtime_integrity.as_mut() {
+                    integrity.status =
+                        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded;
+                    integrity.diagnostics.push(reason);
+                    integrity.diagnostics.sort();
+                }
+                if let Some(integrity) = pres_packet.runtime_integrity.as_mut() {
+                    integrity.status =
+                        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded;
+                    integrity.diagnostics.push("SNAPSHOT_CONFLICT".to_string());
+                    integrity.diagnostics.sort();
+                }
             }
         }
         if should_persist_history {
@@ -980,9 +1174,17 @@ pub(crate) async fn run_pipeline_for_report_date(
                             "down_count": packet.market_features.down_count,
                             "total_count": packet.market_features.total_count,
                             "universe_integrity": packet.market_features.universe_integrity,
-                            "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                        "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
                         }
                     }),
+                    report_run_id: Some(report_run_id.clone()),
+                    git_commit_sha: Some(runtime_identity.git_commit_sha.clone()),
+                    data_digest: Some(sha256_json(&data_provenance)),
+                    decision_packet_digest: Some(sha256_json(&packet)),
+                    observation_digest: Some(sha256_json(
+                        &packet.current_relative_strength_observations,
+                    )),
+                    runtime_integrity: outcome.runtime_integrity.clone(),
                 };
             if let Err(error) = runtime_services
                 .persistence
@@ -1086,6 +1288,42 @@ pub(crate) async fn run_pipeline_for_report_date(
             &positions,
             &delivery_plan.prices,
         )?;
+        let report_artifact_matches_run = report_result
+            .markdown_body
+            .contains(&runtime_identity.report_run_id)
+            && report_result
+                .archival_markdown
+                .contains(&runtime_identity.report_run_id)
+            && report_result
+                .telegram_html_body
+                .contains(&runtime_identity.report_run_id);
+        if !report_artifact_matches_run {
+            if let Some(integrity) = pres_packet.runtime_integrity.as_mut() {
+                integrity.status =
+                    crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded;
+                integrity.report_artifact_matches_run = false;
+                integrity
+                    .diagnostics
+                    .push("REPORT_ARTIFACT_MISMATCH".to_string());
+                integrity.diagnostics.sort();
+            }
+            if let Some(integrity) = outcome.runtime_integrity.as_mut() {
+                integrity.status =
+                    crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded;
+                integrity.report_artifact_matches_run = false;
+                integrity
+                    .diagnostics
+                    .push("REPORT_ARTIFACT_MISMATCH".to_string());
+                integrity.diagnostics.sort();
+            }
+            report_result = report::generate_refined_report(
+                &report_context,
+                &pres_packet,
+                realized_pl,
+                &positions,
+                &delivery_plan.prices,
+            )?;
+        }
         let mut price_volume_entries = fetched_ticker_histories
             .iter()
             .map(|(history, _)| {

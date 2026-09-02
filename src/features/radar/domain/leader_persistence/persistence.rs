@@ -26,6 +26,7 @@ pub fn build_leader_persistence(
             observed_leadership_days: 0,
             history_coverage_complete: false,
             history_coverage: "UNAVAILABLE",
+            calculation_mode: "UNAVAILABLE",
             first_observed_at: None,
             leadership_score: 0.0,
             previous_score: 0.0,
@@ -132,6 +133,11 @@ pub fn build_leader_persistence(
     } else {
         "PARTIAL"
     };
+    let calculation_mode = match history_coverage {
+        "COMPLETE" => "PERSISTED_FACT",
+        "PARTIAL" => "RECOMPUTED_FROM_PARTIAL_HISTORY",
+        _ => "UNAVAILABLE",
+    };
 
     Some(LeaderPersistenceResult {
         current_leader: normalized_leader(&current.leader),
@@ -149,6 +155,7 @@ pub fn build_leader_persistence(
         observed_leadership_days,
         history_coverage_complete,
         history_coverage,
+        calculation_mode,
         first_observed_at,
         leadership_score: current_score,
         previous_score,

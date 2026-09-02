@@ -725,6 +725,11 @@ pub(crate) fn build_leader_persistence_view_model(
         } else {
             "UNAVAILABLE"
         };
+        result.calculation_mode = if observations.len() > 1 {
+            "RECOMPUTED_FROM_PARTIAL_HISTORY"
+        } else {
+            "UNAVAILABLE"
+        };
         result.first_observed_at = None;
         result.leader_state = LeaderState::Unavailable;
     }
@@ -754,6 +759,9 @@ pub(crate) fn build_leader_persistence_view_model(
         history_coverage_label: leader_persistence_history_coverage_label(input.language)
             .to_string(),
         history_coverage_value: result.history_coverage.to_string(),
+        leadership_snapshot_id: Some(format!("leadership-{}", input.current_packet.date)),
+        previous_snapshot_id: input.baseline_date.map(|date| format!("leadership-{date}")),
+        calculation_mode: result.calculation_mode.to_string(),
         first_observed_at_value: (result.history_coverage == "COMPLETE")
             .then_some(result.first_observed_at)
             .flatten()

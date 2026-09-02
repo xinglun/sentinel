@@ -4,6 +4,16 @@ use std::path::PathBuf;
 fn main() {
     let proto_dir = PathBuf::from("src/adapters/futu/proto");
 
+    println!("cargo:rerun-if-changed=.git/HEAD");
+    println!(
+        "cargo:rustc-env=SENTINEL_BUILD_GIT_SHA={}",
+        git_value(&["rev-parse", "HEAD"])
+    );
+    println!(
+        "cargo:rustc-env=SENTINEL_BUILD_GIT_BRANCH={}",
+        git_value(&["branch", "--show-current"])
+    );
+
     // Watch for changes in the proto directory
     println!("cargo:rerun-if-changed={}", proto_dir.display());
 
@@ -35,4 +45,16 @@ fn main() {
             .compile_protos(&proto_files, &[&proto_dir])
             .unwrap_or_else(|e| panic!("Failed to compile protos: {}", e));
     }
+}
+
+fn git_value(arguments: &[&str]) -> String {
+    std::process::Command::new("git")
+        .args(arguments)
+        .output()
+        .ok()
+        .filter(|output| output.status.success())
+        .and_then(|output| String::from_utf8(output.stdout).ok())
+        .map(|value| value.trim().to_string())
+        .filter(|value| !value.is_empty())
+        .unwrap_or_else(|| "UNKNOWN".to_string())
 }

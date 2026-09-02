@@ -144,8 +144,41 @@ impl PersistenceLayer {
             object.remove("generated_at");
             object.remove("run_id");
             object.remove("snapshot_id");
+            object.remove("report_run_id");
+            object.remove("git_commit_sha");
+            object.remove("data_digest");
+            object.remove("decision_packet_digest");
+            object.remove("observation_digest");
+            object.remove("runtime_integrity");
         }
         value
+    }
+
+    fn trading_day_snapshot_identity(snapshot: &TradingDaySnapshot) -> serde_json::Value {
+        serde_json::json!({
+            "git_commit_sha": snapshot.git_commit_sha,
+            "data_digest": snapshot.data_digest,
+            "decision_packet_digest": snapshot.decision_packet_digest,
+            "observation_digest": snapshot.observation_digest,
+        })
+    }
+
+    fn trading_day_snapshot_identity_known(snapshot: &TradingDaySnapshot) -> bool {
+        snapshot.git_commit_sha.is_some()
+            || snapshot.data_digest.is_some()
+            || snapshot.decision_packet_digest.is_some()
+            || snapshot.observation_digest.is_some()
+    }
+
+    fn trading_day_snapshot_conflicts(
+        existing: &TradingDaySnapshot,
+        candidate: &TradingDaySnapshot,
+    ) -> bool {
+        Self::trading_day_snapshot_semantics(existing)
+            != Self::trading_day_snapshot_semantics(candidate)
+            || (Self::trading_day_snapshot_identity_known(existing)
+                && Self::trading_day_snapshot_identity(existing)
+                    != Self::trading_day_snapshot_identity(candidate))
     }
 
     fn normalize_loaded_trading_day_snapshot(
@@ -527,9 +560,7 @@ impl PersistenceLayer {
                 )
                 .context("Failed to deserialize existing trading-day snapshot")?,
             );
-            if Self::trading_day_snapshot_semantics(&existing)
-                != Self::trading_day_snapshot_semantics(&snapshot)
-            {
+            if Self::trading_day_snapshot_conflicts(&existing, &snapshot) {
                 bail!("SNAPSHOT_CONFLICT");
             }
             return Ok(TradingDaySnapshotWriteDisposition::SameDayRerun);
@@ -557,9 +588,7 @@ impl PersistenceLayer {
             );
             let key = (snapshot.cycle_id.clone(), snapshot.market_date);
             if let Some(existing) = snapshots.insert(key, snapshot.clone()) {
-                if Self::trading_day_snapshot_semantics(&existing)
-                    != Self::trading_day_snapshot_semantics(&snapshot)
-                {
+                if Self::trading_day_snapshot_conflicts(&existing, &snapshot) {
                     bail!("SNAPSHOT_CONFLICT");
                 }
             }
@@ -1500,6 +1529,7 @@ mod tests {
             cycle_length_days: 1,
             reset_event: None,
             data_quality: serde_json::json!({"history": "HEALTHY"}),
+            ..Default::default()
         };
         layer.save_trading_day_snapshot(&snapshot).unwrap();
 
@@ -1546,6 +1576,7 @@ mod tests {
             cycle_length_days: 2,
             reset_event: None,
             data_quality: serde_json::json!({}),
+            ..Default::default()
         };
         let mut encoded = serde_json::to_value(snapshot).unwrap();
         encoded
@@ -1597,6 +1628,7 @@ mod tests {
                     "classification": "Narrow"
                 }
             }),
+            ..Default::default()
         };
         let value = serde_json::to_value(snapshot).unwrap();
         assert_eq!(
@@ -1640,6 +1672,7 @@ mod tests {
             cycle_length_days: 1,
             reset_event: None,
             data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+            ..Default::default()
         };
         assert!(PersistenceLayer::is_historical_snapshot(&snapshot));
         layer.save_trading_day_snapshot(&snapshot).unwrap();
@@ -1706,6 +1739,7 @@ mod tests {
                 cycle_length_days: 1,
                 reset_event: None,
                 data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+                ..Default::default()
             })
             .unwrap();
 
@@ -2517,6 +2551,7 @@ mod tests {
             cycle_length_days: 1,
             reset_event: None,
             data_quality: serde_json::json!({"history": "UNAVAILABLE"}),
+            ..Default::default()
         };
         assert_eq!(
             layer.save_trading_day_snapshot(&snapshot).unwrap(),

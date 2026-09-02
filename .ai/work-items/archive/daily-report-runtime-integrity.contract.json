@@ -1,0 +1,273 @@
+{
+  "acceptanceCriteria": [
+    "每份生成日报记录唯一 report_run_id、report_run_at、git_commit_sha、git_branch、binary_version、decision_snapshot_version、data_snapshot_id、data_snapshot_date。",
+    "binary build revision 与当前实际执行 code revision 不一致时报告标记 RUNTIME_MISMATCH，且不以 branch name 替代 commit SHA。",
+    "关键数据 price_history、benchmark_history、relative_strength_input、leadership_history、market_change_baseline、corporate_event_evidence、expectation_data、price_volume_history 分别记录 status、source、as_of、snapshot_id/digest、record_count、diagnostic。",
+    "RS 输入完整时保留现有真实 Neutral/5/9 语义；benchmark、price 或 comparable session 缺失时 ticker 状态为 UNAVAILABLE，0/0 不得伪装为全部 Neutral。",
+    "Archive Markdown 保留逐 ticker 的 RS Observation Health diagnostics；Telegram 可省略详细 diagnostics。",
+    "Leadership Snapshot 成为 daily report 单一事实源，Summary、Leader Persistence、Market Interpretation 的 since/duration/last_confirmed_leader 对同一 run 完全一致。",
+    "Leadership absence provenance 记录 leadership_snapshot_id、previous_snapshot_id、last_confirmed_leader、absence_since、absence_duration、history_coverage、calculation_mode，并区分 PERSISTED_FACT 与 RECOMPUTED_FROM_PARTIAL_HISTORY。",
+    "最新代码生成的日报使用最新 Risk Summary wording；旧报告 resend 保留原文并明确 original generation revision 与 resend revision。",
+    "GENERATED 与 RESENT lifecycle 可从报告 metadata/audit evidence 区分；resend 不重算、不写入新的正式 snapshot。",
+    "正式 snapshot 包含 market_date、report_run_id、git_commit_sha、data_digest、decision_packet_digest、observation_digest；digest mismatch 不静默覆盖并产生 SNAPSHOT_CONFLICT 或 Runtime Integrity DEGRADED。",
+    "Runtime Integrity 只读检查 code_revision_known、data_snapshot_known、decision_snapshot_known、rs_input_consistent、leadership_snapshot_consistent、report_artifact_matches_run，结果为 HEALTHY/DEGRADED/UNAVAILABLE，decision_weight=0。",
+    "Runtime Integrity DEGRADED 时日报顶部显示完整性提示，但不改变 NO_TRADE 或任何交易决策。",
+    "同一完整输入下 Decision、Gate、Leader calculation、Action Matrix、Position Sizing、Execution 与修改前 semantic-equivalent。",
+    "覆盖完整 RS、benchmark 缺失、全部 RS 输入缺失、persisted/partial Leadership、最新生成、旧报告 resend、snapshot digest mismatch 八类回归场景，并通过 make fmt-check、make test、make clippy、make quality。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "434031cc0c596d81456c7cdae4fde9e747c4032a",
+  "createdAt": "2026-09-01T23:12:30Z",
+  "goal": "确认日报事实来自唯一代码 revision、唯一数据 snapshot、完整可追溯输入，并能区分新生成报告与旧报告补发。",
+  "intent": "为每份 Sentinel 日报建立可审计的 Runtime Identity、Data Provenance、RS/Leadership Observation Integrity，并在输入缺失时 fail-closed 展示，同时保持所有交易决策语义不变。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 NO_TRADE、PROBE、READY、Gate、Action Matrix、Leader threshold、Leadership algorithm、RS threshold、RecoveryStrength threshold、RS Diffusion threshold、Breadth calculation/threshold、Breakout logic、Supply model、Position Sizing、Execution、Trader、Validation Engine；不回写或迁移旧 reports artifact；不新增 provider；不写入或轮换 secrets；不创建或合并 PR。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:07a4eb50638a5dd443799dfa07f8d3bec70fc22d3021c17c53691278d1b7a1f1",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-report-runtime-integrity",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-runtime-integrity"
+  },
+  "risk": "high",
+  "scope": [
+    "build.rs",
+    "src/features/radar/domain/current_relative_strength.rs",
+    "src/features/radar/domain/decision.rs",
+    "src/features/radar/domain/leader_persistence/mod.rs",
+    "src/features/radar/domain/leader_persistence/snapshot.rs",
+    "src/features/radar/domain/leader_persistence/persistence.rs",
+    "src/features/radar/application/engine.rs",
+    "src/features/radar/application/radar.rs",
+    "src/features/shared/application/run_status.rs",
+    "src/features/radar/infrastructure/persistence/model.rs",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/infrastructure/persistence/migration.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/interface/i18n.rs",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_report_runtime_integrity.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "docs/superpowers/specs/2026-09-02-daily-report-runtime-integrity-design.md",
+    "docs/superpowers/plans/2026-09-02-daily-report-runtime-integrity.md",
+    ".ai/decisions/**",
+    ".ai/work-items/active/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "确认中文对话、日文 repository 文档、Rust quality gate、AI Cockpit lifecycle 和交易语义禁止修改边界。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "确认安装版 Rust Runtime、Contract、preflight、checkpoint、verify、finish 和 archive 的治理入口。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "确认 repository-local Cockpit 配置与当前治理状态。"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "确认 Work Item、Preflight Review、Evidence over Self-Declaration 等仓库术语。"
+    },
+    {
+      "path": "src/features/radar/domain/current_relative_strength.rs",
+      "reason": "确认现有 RS state/recovery 计算和缺失 Option 被默认 Neutral 的边界。"
+    },
+    {
+      "path": "src/features/radar/application/engine.rs",
+      "reason": "确认 RS observation 由 price/benchmark ticker histories 生成，并且当前仅作为 observation packet 字段。"
+    },
+    {
+      "path": "src/features/radar/domain/leader_persistence/persistence.rs",
+      "reason": "确认 absence_since、absence_duration、last_confirmed_leader 和 history_coverage 的现有推导。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence/model.rs",
+      "reason": "确认 TradingDaySnapshot、run_id、snapshot_id 和 data_quality 的持久化 schema。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "确认正式 snapshot conflict 校验、report/run_status 写入和旧 artifact 读取边界。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "确认日报生成、data acquisition、Leadership/RS 组装、snapshot 保存和 Telegram 发送顺序。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation.rs",
+      "reason": "确认日报 PresentationPacket、Leadership、RS 和 DataAlert 的展示 contract。"
+    },
+    {
+      "path": "src/features/radar/interface/presentation_assembler.rs",
+      "reason": "确认 RS 和 Leadership read model 的 presentation 投影边界。"
+    },
+    {
+      "path": "src/features/radar/interface/report.rs",
+      "reason": "确认 Markdown/HTML 报告 section、archive appendix 和 RS/Leadership rendering 入口。"
+    },
+    {
+      "path": "src/features/shared/application/run_status.rs",
+      "reason": "确认日报 run_status 的向后兼容 JSON contract。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "确认 checkout SHA、build/run steps、data branch restore 和既有 resend lifecycle。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-09-01-telegram-report-resend.md",
+      "reason": "确认既有 resend 只复用正式 data branch report、不重算的 workflow 约束。"
+    },
+    {
+      "path": "用户确认：方案 A",
+      "reason": "确认采用 backward-compatible provenance/diagnostics 方案并授权实现。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "完整 RS 数据保留真实 Neutral/5/9 结果",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/domain/current_relative_strength.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "使用完整 price history、benchmark history 和 comparable sessions，确认现有 RS 状态、Recovery Breadth denominator 与 5/9 结果不变。"
+    },
+    {
+      "scenario": "benchmark history 缺失时 RS 显示 UNAVAILABLE",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/application/engine.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "构造 benchmark history 缺失输入，确认 ticker health 为 UNAVAILABLE、诊断原因明确且不被投影为普通 NEUTRAL。"
+    },
+    {
+      "scenario": "所有 RS 输入缺失时禁止 all NEUTRAL",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/domain/current_relative_strength.rs",
+        "src/features/radar/interface/report.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "构造全量缺失输入，确认 denominator 为 0/0 时报告带有 UNAVAILABLE 原因及 Observation Integrity 降级提示。"
+    },
+    {
+      "scenario": "Leadership persisted snapshot 的 since/duration 稳定",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/domain/leader_persistence/persistence.rs",
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "使用连续 persisted leader observations，确认 Leadership Snapshot、Leader Persistence 与 Market Interpretation 使用同一 since/duration/last confirmed leader。"
+    },
+    {
+      "scenario": "partial Leadership history 明确为 reconstructed/degraded",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/domain/leader_persistence/persistence.rs",
+        "src/features/radar/interface/report.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "使用不完整历史，确认 calculation_mode 为 RECOMPUTED_FROM_PARTIAL_HISTORY，报告明确说明 absence_since 是 estimated/reconstructed。"
+    },
+    {
+      "scenario": "最新代码生成报告使用最新 Risk Summary wording",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/report.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "通过当前 runner 生成报告，确认 report metadata 的 generated revision 与 report body 同一 run，且不存在旧 Risk Summary wording。"
+    },
+    {
+      "scenario": "旧报告 resend 保留原文并区分 generation/resend revision",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "docs/superpowers/plans/2026-09-01-telegram-report-resend.md",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "静态检查 resend workflow 只读取 data branch 正式报告，不调用 radar 重算或新 snapshot 写入，并记录 original generation 与 resend revision。"
+    },
+    {
+      "scenario": "snapshot digest mismatch 被标记为 conflict/degraded",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "src/features/radar/infrastructure/persistence.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "tests/daily_report_runtime_integrity.rs"
+      ],
+      "verificationPlan": "修改同一 market date 的输入 digest，确认不会静默覆盖正式 snapshot，并产生 SNAPSHOT_CONFLICT 或 Runtime Integrity DEGRADED。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已确认方案 A；Work Item 的 scope、outOfScope、验收标准、来源和验证命令已明确。"
+  },
+  "problemStatement": "现有日报虽然保存了部分 snapshot/run 状态，但没有把代码 revision、数据 snapshot、RS 输入健康度、Leadership absence provenance 与最终报告绑定在同一可审计事实包中；缺失 RS 输入也可能在 presentation 层表现为普通 Neutral。",
+  "riskAssessment": {
+    "level": "high",
+    "reason": "修改会横跨 domain、application、persistence、presentation 与 workflow；风险由只读 integrity 层、向后兼容字段、明确 outOfScope 和 semantic-equivalent 回归控制。",
+    "riskTypes": [
+      "runtime_provenance",
+      "data_integrity",
+      "observation_availability",
+      "presentation_consistency",
+      "workflow_resend"
+    ]
+  },
+  "checkpointPolicy": {
+    "profile": "standard",
+    "requiredBeforeFinish": true,
+    "requiredStages": ["before_edit"],
+    "requiredChecks": [
+      "make fmt-check",
+      "make test",
+      "make clippy",
+      "make quality"
+    ],
+    "schemaVersion": 1
+  },
+  "verification": [
+    {"check": "make fmt-check", "required": true},
+    {"check": "make test", "required": true},
+    {"check": "make clippy", "required": true},
+    {"check": "make quality", "required": true}
+  ],
+  "workItemId": "daily-report-runtime-integrity"
+}

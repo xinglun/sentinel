@@ -1,5 +1,6 @@
 use crate::features::radar::domain::decision::DecisionPacket;
 use crate::features::radar::domain::price_volume_structure::PriceVolumeAssessment;
+use crate::features::shared::application::run_status::RuntimeIntegrity;
 use crate::features::shared::domain::supply_event_context::SupplyEventContext;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -27,7 +28,7 @@ pub struct PreviousSnapshotResolution {
     pub formal_snapshot: Option<TradingDaySnapshot>,
 }
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Default)]
 pub struct TradingDaySnapshot {
     pub schema_version: String,
     pub market_date: chrono::NaiveDate,
@@ -57,6 +58,18 @@ pub struct TradingDaySnapshot {
     pub cycle_length_days: usize,
     pub reset_event: Option<String>,
     pub data_quality: serde_json::Value,
+    #[serde(default)]
+    pub report_run_id: Option<String>,
+    #[serde(default)]
+    pub git_commit_sha: Option<String>,
+    #[serde(default)]
+    pub data_digest: Option<String>,
+    #[serde(default)]
+    pub decision_packet_digest: Option<String>,
+    #[serde(default)]
+    pub observation_digest: Option<String>,
+    #[serde(default)]
+    pub runtime_integrity: Option<RuntimeIntegrity>,
 }
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]

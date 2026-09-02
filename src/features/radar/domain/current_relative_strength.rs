@@ -9,6 +9,8 @@ pub enum RelativeStrengthState {
     Neutral,
     #[serde(alias = "WEAKENING")]
     Weakening,
+    #[serde(alias = "UNAVAILABLE")]
+    Unavailable,
 }
 
 impl RelativeStrengthState {
@@ -17,6 +19,7 @@ impl RelativeStrengthState {
             Self::Improving => "IMPROVING",
             Self::Neutral => "NEUTRAL",
             Self::Weakening => "WEAKENING",
+            Self::Unavailable => "UNAVAILABLE",
         }
     }
 }
@@ -69,7 +72,15 @@ pub struct CurrentRelativeStrengthObservation {
     #[serde(default)]
     #[serde(alias = "recovery_state")]
     pub recovery_strength: RecoveryStrength,
+    #[serde(default = "default_observation_health")]
+    pub health: String,
+    #[serde(default)]
+    pub diagnostic: Option<String>,
     pub boundary: String,
+}
+
+fn default_observation_health() -> String {
+    "AVAILABLE".to_string()
 }
 
 pub(crate) struct CurrentRelativeStrengthInput {
@@ -85,6 +96,36 @@ pub(crate) struct CurrentRelativeStrengthInput {
 pub(crate) fn observe_current_relative_strength(
     input: CurrentRelativeStrengthInput,
 ) -> CurrentRelativeStrengthObservation {
+    observe_current_relative_strength_with_diagnostic(input, None)
+}
+
+pub(crate) fn observe_current_relative_strength_with_diagnostic(
+    input: CurrentRelativeStrengthInput,
+    diagnostic: Option<String>,
+) -> CurrentRelativeStrengthObservation {
+    let unavailable =
+        input.relative_1d_vs_benchmark.is_none() || input.relative_5d_vs_benchmark.is_none();
+    if unavailable {
+        return CurrentRelativeStrengthObservation {
+            symbol: input.symbol,
+            benchmark_symbol: input.benchmark_symbol,
+            relative_1d_vs_benchmark: input.relative_1d_vs_benchmark,
+            relative_5d_vs_benchmark: input.relative_5d_vs_benchmark,
+            trend_slope: input.trend_slope,
+            price_position: input.price_position,
+            volume_participation: input.volume_participation,
+            state: RelativeStrengthState::Unavailable,
+            recovery_strength: RecoveryStrength::None,
+            health: "UNAVAILABLE".to_string(),
+            diagnostic: Some(diagnostic.unwrap_or_else(|| {
+                "relative_strength_comparison_unavailable".to_string()
+            })),
+            boundary:
+                "Observation only; unavailable input does not change Leader, Gate, Action Matrix or Position Sizing."
+                    .to_string(),
+        };
+    }
+
     let improving = input
         .relative_1d_vs_benchmark
         .is_some_and(|value| value > 0.0)
@@ -116,10 +157,31 @@ pub(crate) fn observe_current_relative_strength(
         volume_participation: input.volume_participation,
         state,
         recovery_strength,
+        health: "AVAILABLE".to_string(),
+        diagnostic: None,
         boundary:
             "Observation only; does not change Leader, Gate, Action Matrix or Position Sizing."
                 .to_string(),
     }
+}
+
+pub(crate) fn unavailable_current_relative_strength(
+    symbol: String,
+    benchmark_symbol: String,
+    diagnostic: impl Into<String>,
+) -> CurrentRelativeStrengthObservation {
+    observe_current_relative_strength_with_diagnostic(
+        CurrentRelativeStrengthInput {
+            symbol,
+            benchmark_symbol,
+            relative_1d_vs_benchmark: None,
+            relative_5d_vs_benchmark: None,
+            trend_slope: None,
+            price_position: None,
+            volume_participation: None,
+        },
+        Some(diagnostic.into()),
+    )
 }
 
 fn derive_recovery_strength(
@@ -162,6 +224,23 @@ mod tests {
         assert_eq!(observation.state, RelativeStrengthState::Improving);
         assert_eq!(observation.recovery_strength, RecoveryStrength::Moderate);
         assert!(observation.boundary.contains("does not change Leader"));
+    }
+
+    #[test]
+    fn missing_relative_input_is_unavailable_instead_of_neutral() {
+        let observation = observe_current_relative_strength(CurrentRelativeStrengthInput {
+            symbol: "NVDA".to_string(),
+            benchmark_symbol: "SPY".to_string(),
+            relative_1d_vs_benchmark: None,
+            relative_5d_vs_benchmark: None,
+            trend_slope: None,
+            price_position: None,
+            volume_participation: None,
+        });
+
+        assert_eq!(observation.state, RelativeStrengthState::Unavailable);
+        assert_eq!(observation.state.as_str(), "UNAVAILABLE");
+        assert!(observation.diagnostic.is_some());
     }
 
     #[test]

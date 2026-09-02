@@ -199,6 +199,8 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SENTINEL_EXECUTION_GIT_SHA: ${{ github.sha }}
+          SENTINEL_EXECUTION_GIT_BRANCH: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
@@ -232,6 +234,16 @@ jobs:
           if status.get("date") not in (None, date_jst):
               raise SystemExit("archived report status date does not match JST date")
 
+          runtime_identity = status.get("runtime_identity")
+          if not isinstance(runtime_identity, dict):
+              runtime_identity = {}
+          original_generated_at = runtime_identity.get("report_run_at") or status.get(
+              "timestamp", "UNAVAILABLE"
+          )
+          original_commit = runtime_identity.get("git_commit_sha", "UNAVAILABLE")
+          original_run_id = runtime_identity.get("report_run_id")
+          resend_revision = os.environ.get("SENTINEL_EXECUTION_GIT_SHA", "UNAVAILABLE")
+
           report = report_path.read_text(encoding="utf-8").strip()
           if not report:
               raise SystemExit("archived report is empty")
@@ -244,7 +256,10 @@ jobs:
           url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
           for index, chunk in enumerate(chunks, start=1):
               prefix = (
-                  f"📨 日报补发（{date_jst}，复用 data 分支已生成报告）\n\n"
+                  f"📨 日报补发（{date_jst}，复用 data 分支已生成报告）\n"
+                  f"Original Generated At: {original_generated_at}\n"
+                  f"Original Commit SHA: {original_commit}\n"
+                  f"Resend Workflow SHA: {resend_revision}\n\n"
                   if index == 1
                   else f"📨 日报补发（{date_jst}，第 {index}/{len(chunks)} 段）\n\n"
               )
@@ -277,12 +292,31 @@ jobs:
                       f"Telegram resend network request failed for chunk {index}: {error.reason}"
                   ) from error
 
+          resent_at = datetime.now(timezone.utc).isoformat()
+          lifecycle = status.get("report_lifecycle")
+          if not isinstance(lifecycle, dict):
+              lifecycle = {}
+          lifecycle.update(
+              {
+                  "mode": "RESENT",
+                  "original_generation_revision": lifecycle.get(
+                      "original_generation_revision", original_commit
+                  ),
+                  "original_report_run_id": lifecycle.get(
+                      "original_report_run_id", original_run_id
+                  ),
+                  "resend_revision": os.environ.get("SENTINEL_EXECUTION_GIT_SHA"),
+                  "resent_at": resent_at,
+                  "source": "data_branch_archived_report",
+              }
+          )
+          status["report_lifecycle"] = lifecycle
           status["notification_resend"] = {
               "status": "succeeded",
               "source": "data_branch_archived_report",
               "report_date": date_jst,
               "chunks": len(chunks),
-              "sent_at": datetime.now(timezone.utc).isoformat(),
+              "sent_at": resent_at,
           }
           status_path.write_text(
               json.dumps(status, ensure_ascii=False, indent=2) + "\n",
@@ -381,6 +415,8 @@ jobs:
           ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          SENTINEL_EXECUTION_GIT_SHA: ${{ github.sha }}
+          SENTINEL_EXECUTION_GIT_BRANCH: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV

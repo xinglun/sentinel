@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:3fd5903ed4db9f404ef2d10768fb79e1adcf1f8bfefbf177dfce88e7b5491d21",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:0741833cc4c61276cc8a95ea800484d209010b931af34c34665346ef886c0803",
+  "reason": "用户在当前会话明确要求继续编码，并确认当前 Work Item 的 Runtime/Data Provenance/Observation Integrity 范围、八个回归场景及不改变交易决策语义的边界；本回执绑定当前仓库快照。",
+  "recordedAt": "2026-09-02T00:36:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+  "schemaVersion": 1,
+  "workItemId": "daily-report-runtime-integrity"
+}
