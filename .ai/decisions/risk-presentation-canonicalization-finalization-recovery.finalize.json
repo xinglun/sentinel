@@ -1,0 +1,58 @@
+{
+  "actor": "user",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user-message: 用户明确授权提交、推送、PR 合并、同步远端 main 并本地切回 develop",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ce0907782cfbf6296bb0fc95d1dbf149dd40fb16",
+    "name": "codex/risk-presentation-canonicalization",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:035bad7be967313e83a55b6d88079d7c6e9310d333cc9c94bed67fd55688565f",
+  "operationId": "github-pr-128-merge-cleanup-recovery-20260902",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "ebb3ee7fd7b6f49adf3034cd15eee826f4f9bdee",
+    "headRevision": "ce0907782cfbf6296bb0fc95d1dbf149dd40fb16",
+    "mergeCommit": "b96c9bb6c43ea0291de6a66459c29c61a69ab358",
+    "number": 128,
+    "url": "https://github.com/xinglun/sentinel/pull/128"
+  },
+  "reason": "PR #128 已通过全部 GitHub 检查并合并到 develop；develop 随后通过 PR #129 同步到 main，已删除精确的远端 feature branch、本地 branch 与 worktree。",
+  "receiptId": "risk-presentation-canonicalization-finalization-recovery",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-presentation-canonicalization",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/128",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-risk-presentation-canonicalization"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c559157356a9b5c3945a5cbe787da0e7f982547d3f545bd8925706fabf851f12",
+  "runtimeVersion": "0.2.62",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T19:42:00Z",
+  "workItemId": "risk-presentation-canonicalization-finalization-recovery",
+  "worktree": {
+    "branch": "codex/risk-presentation-canonicalization",
+    "headRevision": "ce0907782cfbf6296bb0fc95d1dbf149dd40fb16",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-risk-presentation-canonicalization",
+    "worktreeId": "risk-presentation-canonicalization"
+  }
+}

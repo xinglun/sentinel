@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T19:40:19Z",
+  "files": {
+    "contractDigest": "sha256:035bad7be967313e83a55b6d88079d7c6e9310d333cc9c94bed67fd55688565f",
+    "contractPath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:2c7b115d2c10e631fc2f683b41ffb7fa26e61f6936e416352352e9956b7590b4",
+    "eventsPath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:8db9e7faa7ef665f471d57cb168e6f5125a56d0b9a3eeee3e3946222b67f7f13",
+    "outcomePath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:cf45c873399cc103d0a179bbfef757a4c15c88b2db722cec544672a81f49d83b",
+    "summaryPath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:6b9027b6724b088d3d2608a4acbe9034f6e38a5415502504ab8958a8bd7baef9",
+    "taskReportMarkdownDigest": "sha256:334f7a14598547f3677d82f0a84708f4118627cd7dd1d575468a5d665eb4d054",
+    "taskReportMarkdownPath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/risk-presentation-canonicalization-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "risk-presentation-canonicalization-finalization-recovery"
+}
