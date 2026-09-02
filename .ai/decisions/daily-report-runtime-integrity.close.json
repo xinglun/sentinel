@@ -1,0 +1,139 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-report-runtime-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-report-runtime-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json",
+            ".ai/decisions/daily-report-runtime-integrity.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-02T01:13:21Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "确认日报事实来自唯一代码 revision、唯一数据 snapshot、完整可追溯输入，并能区分新生成报告与旧报告补发。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-report-runtime-integrity"
+  },
+  "finalReportDigest": "sha256:40b7bf6a92e30ecb04f556e5ce6d241e7d09a1e19a2b702738a9792c0d59fa9e",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:5f2e87873007b2f337732d537d15de3e6504bc881f5e18e95052231ac14ad0e6",
+  "resourceFinalizationHeadPath": ".ai/decisions/daily-report-runtime-integrity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-02T01:13:21Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/daily-report-runtime-integrity.verification.json",
+      ".ai/decisions/daily-report-runtime-integrity.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md"
+    ],
+    "reason": "PR #124 已合并到远端 develop，PR #125 已将 develop 同步到远端 main；必需检查通过，默认分支已同步，本地已回到干净 develop，专用资源已清理。",
+    "resumeCondition": "无需恢复；如需追加治理修复应创建独立 successor Work Item。"
+  },
+  "timestamp": "2026-09-02T01:13:28Z",
+  "workItemId": "daily-report-runtime-integrity"
+}
