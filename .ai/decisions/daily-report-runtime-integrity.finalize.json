@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "097f114c70ae22a2c8d2a1ab38a0ec9057439ec9",
+    "name": "codex/daily-report-runtime-integrity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e694df0b7c817c9b9b2c78bcadbbb71ba625dbfa03387ac87c07ce62d58319ea",
+  "operationId": "github-pr-124-merge-cleanup-20260902",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "434031cc0c596d81456c7cdae4fde9e747c4032a",
+    "headRevision": "097f114c70ae22a2c8d2a1ab38a0ec9057439ec9",
+    "mergeCommit": "4d2191681fbbe963e47edf481f5b31ad49ccc364",
+    "number": 124,
+    "url": "not-requested"
+  },
+  "reason": "PR #124 已合并到 develop，PR #125 已将 develop 同步到 main；精确的 daily-report-runtime-integrity branch 与 worktree 已清理，按用户授权记录 provider finalization。",
+  "receiptId": "daily-report-runtime-integrity-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-report-runtime-integrity",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-runtime-integrity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:f03a13251a6fe57783528efbeae6ddd23bc2cc31dd2a1501d5421aac169a1d58",
+  "runtimeVersion": "0.2.57",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-02T01:12:29Z",
+  "workItemId": "daily-report-runtime-integrity",
+  "worktree": {
+    "branch": "codex/daily-report-runtime-integrity",
+    "headRevision": "097f114c70ae22a2c8d2a1ab38a0ec9057439ec9",
+    "path": "/Users/sei-rinn/dev/worktrees/sentinel-daily-report-runtime-integrity",
+    "worktreeId": "daily-report-runtime-integrity"
+  }
+}
