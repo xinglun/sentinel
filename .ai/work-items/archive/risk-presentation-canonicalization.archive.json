@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-02T18:54:27Z",
+  "files": {
+    "contractDigest": "sha256:de44995cd2de8f5b6b6a6ae4f81563499d2cf9b4f45042deb73a74e4f4775920",
+    "contractPath": ".ai/work-items/archive/risk-presentation-canonicalization.contract.json",
+    "eventsDigest": "sha256:dce33baa9faa2d44161b557500478ee9b1e8affe2448b434e9e49b78af970423",
+    "eventsPath": ".ai/work-items/archive/risk-presentation-canonicalization.events.jsonl",
+    "outcomeDigest": "sha256:a976401d21340ce052bbbf917203735c2a1651f6a8f1b721226b9020093bbe06",
+    "outcomePath": ".ai/work-items/archive/risk-presentation-canonicalization.outcome.json",
+    "summaryDigest": "sha256:cc39482b93ae7e0c4af252038511fd26a714e535f4441ae97e668823cc58aab3",
+    "summaryPath": ".ai/work-items/archive/risk-presentation-canonicalization.summary.json",
+    "taskReportDigest": "sha256:4cc0e378d699d13cfd449d4a730c69ef73f5f29a771bb286208d0d9df9a9cca7",
+    "taskReportMarkdownDigest": "sha256:c4bf00522e7f63c67c6d6901f61096cd73b344a2a3d0d58c7c23639512150148",
+    "taskReportMarkdownPath": ".ai/work-items/archive/risk-presentation-canonicalization.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/risk-presentation-canonicalization.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "risk-presentation-canonicalization"
+}

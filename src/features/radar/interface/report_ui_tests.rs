@@ -7202,4 +7202,153 @@ mod tests {
             assert!(report.telegram_html_body.contains("EVENT_DATA_UNAVAILABLE"));
         }
     }
+
+    fn risk_presentation_packet(recovery_watch: bool) -> DecisionPacket {
+        DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 9, 2).unwrap(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                topology:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "NVDA".to_string(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::REDUCE,
+                asset_state: AssetStateSnapshot {
+                    symbol: "NVDA".to_string(),
+                    state: AssetState::CRUISE,
+                    ..Default::default()
+                },
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::TRIM,
+                has_position_fact: true,
+                ..Default::default()
+            }],
+            current_relative_strength_observations: if recovery_watch {
+                vec![crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                        symbol: "NVDA".to_string(),
+                        benchmark_symbol: "SPY".to_string(),
+                        relative_1d_vs_benchmark: Some(2.92),
+                        relative_5d_vs_benchmark: Some(7.31),
+                        trend_slope: Some(1.0),
+                        price_position: Some(1.0),
+                        volume_participation: Some(1.0),
+                        state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                        recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Strong,
+                        health: "AVAILABLE".to_string(),
+                        diagnostic: None,
+                        boundary: "Observation only".to_string(),
+                    }]
+            } else {
+                Vec::new()
+            },
+            ..Default::default()
+        }
+    }
+
+    fn risk_presentation_report(
+        recovery_watch: bool,
+    ) -> (
+        crate::features::radar::interface::presentation::PresentationPacket,
+        crate::features::radar::interface::report::ReportResult,
+    ) {
+        let config =
+            mock_config_with_language(crate::features::shared::interface::i18n::Language::ZhCn);
+        let presentation = PresentationAssembler::assemble(
+            &risk_presentation_packet(recovery_watch),
+            &domain_rules(&config),
+            &HashMap::new(),
+            vec![],
+            crate::features::shared::interface::i18n::Language::ZhCn,
+        );
+        let report = generate_refined_report(
+            &report_context(&config),
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+        (presentation, report)
+    }
+
+    #[test]
+    fn leaderless_risk_presentation_has_no_mainline_wording_in_any_consumer() {
+        let (pres, report) = risk_presentation_report(false);
+        let consumer_values = pres
+            .risk_opportunities
+            .iter()
+            .map(|item| item.reason.as_str())
+            .chain(
+                pres.top_actions
+                    .iter()
+                    .filter_map(|item| item.diagnostic.as_deref()),
+            )
+            .chain(std::iter::once(
+                pres.risk_opportunity_summary.risk_value.as_str(),
+            ))
+            .chain(std::iter::once(
+                pres.risk_opportunity_summary.portfolio_risk_value.as_str(),
+            ));
+
+        for value in consumer_values {
+            assert!(
+                !value.contains("主线掉队"),
+                "旧 leaderless 文案泄漏: {value}"
+            );
+        }
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(!body.contains("主线掉队"));
+        }
+    }
+
+    #[test]
+    fn recovery_watch_risk_presentation_reuses_canonical_reason_everywhere() {
+        let (pres, report) = risk_presentation_report(true);
+        let consumer_values = pres
+            .risk_opportunities
+            .iter()
+            .map(|item| item.reason.as_str())
+            .chain(
+                pres.top_actions
+                    .iter()
+                    .filter_map(|item| item.diagnostic.as_deref()),
+            )
+            .chain(std::iter::once(
+                pres.risk_opportunity_summary.risk_value.as_str(),
+            ))
+            .chain(std::iter::once(
+                pres.risk_opportunity_summary.portfolio_risk_value.as_str(),
+            ));
+
+        for value in consumer_values {
+            assert!(!value.contains("连续转弱"), "旧 recovery 文案泄漏: {value}");
+            assert!(
+                value.contains("结构性减仓信号仍有效"),
+                "canonical reason 缺少风险信号: {value}"
+            );
+        }
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(!body.contains("连续转弱"));
+            assert!(body.contains("结构性减仓信号仍有效"));
+        }
+    }
 }

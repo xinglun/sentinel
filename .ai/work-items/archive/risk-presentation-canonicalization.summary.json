@@ -1,0 +1,165 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "canonical risk presentation reason is the sole display fact source",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Leaderless and RECOVERY_WATCH wording constraints hold in all presentation consumers and delivery bodies",
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/risk-presentation-canonicalization.contract.json",
+    ".ai/work-items/archive/risk-presentation-canonicalization.summary.json",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "checkpointAt": "2026-09-02T18:28:45Z",
+  "checkpointContractDigest": "sha256:43b389eaceda58a340a38b68264eb1ab374e7b50b63af7cfb42b95bbc7fd959f",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:2c49f67aaf09e2bfadc4bde846134974b5f1dc31129f30463bf4c25509b4332f",
+      "recorded": true,
+      "recordedAt": "2026-09-02T18:28:45Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ebd113e7b997d47fbedae725f682822890385183f6de42d79129b7824b487414",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "risk-presentation-canonicalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a303e6acc6f18f424c5b84cade022017a4a2cc66067b0a0f15ad480489f7ab1b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2c49f67aaf09e2bfadc4bde846134974b5f1dc31129f30463bf4c25509b4332f",
+      "previousContractHash": "sha256:2c49f67aaf09e2bfadc4bde846134974b5f1dc31129f30463bf4c25509b4332f",
+      "reason": "修正 evidence class、补齐 sources、GitHub resource context 和 make verification；不改变已批准的代码 scope 与 acceptance boundary",
+      "recorded": true,
+      "recordedAt": "2026-09-02T18:30:12Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ebd113e7b997d47fbedae725f682822890385183f6de42d79129b7824b487414",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-presentation-canonicalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:8de55b5f4fd7d4e2ede27c461d6bbf348354896e87adc4e46b0a2253d3adf2ae",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2c49f67aaf09e2bfadc4bde846134974b5f1dc31129f30463bf4c25509b4332f",
+      "previousContractHash": "sha256:a303e6acc6f18f424c5b84cade022017a4a2cc66067b0a0f15ad480489f7ab1b",
+      "reason": "verification receipt 由完成后的 ai-cockpit verify 生成，移除实现前置 evidence class；保留四项 required verification",
+      "recorded": true,
+      "recordedAt": "2026-09-02T18:30:39Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:ebd113e7b997d47fbedae725f682822890385183f6de42d79129b7824b487414",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-presentation-canonicalization"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:43b389eaceda58a340a38b68264eb1ab374e7b50b63af7cfb42b95bbc7fd959f",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:2c49f67aaf09e2bfadc4bde846134974b5f1dc31129f30463bf4c25509b4332f",
+      "previousContractHash": "sha256:8de55b5f4fd7d4e2ede27c461d6bbf348354896e87adc4e46b0a2253d3adf2ae",
+      "reason": "将 Runtime 可匹配的 required verification 收口为 make quality；该复合门禁仍包含 make fmt-check、make test、make clippy 与 coverage 等底层检查，不改变实现 scope 或验收边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-02T18:50:15Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-presentation-canonicalization"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+  "createdAt": "2026-09-02T18:28:20Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/risk-presentation-canonicalization.contract.json",
+      "src/features/radar/interface/presentation_assembler.rs",
+      "src/features/radar/interface/report_ui_tests.rs"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-02T18:54:17Z",
+  "preflightContractDigest": "sha256:43b389eaceda58a340a38b68264eb1ab374e7b50b63af7cfb42b95bbc7fd959f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs::leaderless_risk_presentation_has_no_mainline_wording_in_any_consumer",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "Leaderless risk presentation removes the legacy mainline wording from every presentation consumer and delivery body",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs::recovery_watch_risk_presentation_reuses_canonical_reason_everywhere",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "RECOVERY_WATCH risk presentation removes the legacy continued-weakening wording and retains the structural trim meaning across every presentation consumer and delivery body",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report.rs",
+        "make quality"
+      ],
+      "required": true,
+      "scenario": "All risk presentation consumers read the canonical reason produced by the presentation assembler instead of the raw asset reason",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-02T18:54:21Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "risk-presentation-canonicalization"
+}

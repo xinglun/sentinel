@@ -1,0 +1,158 @@
+{
+  "acceptanceResults": [
+    "canonical risk presentation reason が唯一の展示事実源であり、risk_opportunities、top_actions.diagnostic、Risk Summary、Portfolio Risk、candidate/watchlist risk text が raw item.reason を直接消費しない",
+    "Leader = none のケースで、全 delivery body と全 presentation consumer に「主线掉队」相当の旧文言が出ない",
+    "RECOVERY_WATCH のケースで、全 delivery body と全 presentation consumer に「连续转弱」相当の旧文言が出ず、「结构性减仓信号仍有效」相当の意味が残る",
+    "既存的 Decision、Action、NO TRADE/Probe、RS、Leadership、Runtime Integrity 行為および三语言 report contract を維持する",
+    "focused regression tests 与 make fmt-check、make test、make clippy、make quality 通过"
+  ],
+  "createdAt": "2026-09-02T18:54:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:b76babe9b61919400b87ec7f90cf897cefa7126f8d99d419739c098ab4734a7c",
+  "evidenceRefs": [
+    ".ai/evidence/risk-presentation-canonicalization.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/risk-presentation-canonicalization.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-presentation-canonicalization.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fb907a166dd154d34dfffec247d72f06370ce8fb27c5c7833c8da6f84da7139f",
+      "workItemId": "risk-presentation-canonicalization"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-presentation-canonicalization.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-canonicalization.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+          ],
+          "inference": false,
+          "text": "Risk Presentation の Summary、Candidate Watchlist、Risk & Opportunity、Portfolio Risk、individual risk rows を同一の表示事実源へ収束させる。Decision、Probe、RS、Leadership、Runtime Integrity の意味と判定は変更しない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-canonicalization.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-presentation-canonicalization"
+  },
+  "taskReportDigest": "sha256:4cc0e378d699d13cfd449d4a730c69ef73f5f29a771bb286208d0d9df9a9cca7",
+  "taskReportMarkdownDigest": "sha256:c4bf00522e7f63c67c6d6901f61096cd73b344a2a3d0d58c7c23639512150148",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/risk-presentation-canonicalization.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "risk-presentation-canonicalization"
+}
