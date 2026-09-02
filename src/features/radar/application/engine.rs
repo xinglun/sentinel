@@ -265,34 +265,52 @@ impl Engine {
                         .find(|(history, _)| history.symbol == f.symbol)
                         .and_then(|(asset, _)| calculate_relative_strength(asset, benchmark, 63))
                 });
-            if let Some((benchmark, _)) = ticker_histories.iter().find(|(_, candidate)| {
-                candidate.symbol
-                    == rules
-                        .market_state_engine
-                        .market_benchmarks
-                        .get(&entry.market.to_ascii_uppercase())
-                        .or_else(|| rules.market_state_engine.market_benchmarks.get("US"))
-                        .map(String::as_str)
-                        .unwrap_or("SPY")
-            }) {
-                if let Some((asset, _)) = ticker_histories
+            let benchmark_symbol = rules
+                .market_state_engine
+                .market_benchmarks
+                .get(&entry.market.to_ascii_uppercase())
+                .or_else(|| rules.market_state_engine.market_benchmarks.get("US"))
+                .map(String::as_str)
+                .unwrap_or("SPY");
+            if let Some((benchmark, _)) = ticker_histories
+                .iter()
+                .find(|(_, candidate)| candidate.symbol == benchmark_symbol)
+            {
+                let relative_1d_vs_benchmark = calculate_relative_strength(
+                    ticker_histories
+                        .iter()
+                        .find(|(history, _)| history.symbol == f.symbol)
+                        .map(|(history, _)| history)
+                        .expect("asset feature has a ticker history"),
+                    benchmark,
+                    1,
+                );
+                let asset = ticker_histories
                     .iter()
                     .find(|(history, _)| history.symbol == f.symbol)
-                {
-                    current_relative_strength_observations.push(
-                        crate::features::radar::domain::current_relative_strength::observe_current_relative_strength(
+                    .map(|(history, _)| history)
+                    .expect("asset feature has a ticker history");
+                current_relative_strength_observations.push(
+                    crate::features::radar::domain::current_relative_strength::observe_current_relative_strength(
                         crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthInput {
-                                symbol: f.symbol.clone(),
-                                benchmark_symbol: benchmark.symbol.clone(),
-                                relative_1d_vs_benchmark: calculate_relative_strength(asset, benchmark, 1),
-                                relative_5d_vs_benchmark: calculate_relative_strength(asset, benchmark, 5),
-                                trend_slope: f.slope,
-                                price_position: recent_price_position(asset),
-                                volume_participation: recent_volume_participation(asset),
-                            },
-                        ),
-                    );
-                }
+                            symbol: f.symbol.clone(),
+                            benchmark_symbol: benchmark.symbol.clone(),
+                            relative_1d_vs_benchmark,
+                            relative_5d_vs_benchmark: calculate_relative_strength(asset, benchmark, 5),
+                            trend_slope: f.slope,
+                            price_position: recent_price_position(asset),
+                            volume_participation: recent_volume_participation(asset),
+                        },
+                    ),
+                );
+            } else {
+                current_relative_strength_observations.push(
+                    crate::features::radar::domain::current_relative_strength::unavailable_current_relative_strength(
+                        f.symbol.clone(),
+                        benchmark_symbol.to_string(),
+                        "benchmark_history_missing",
+                    ),
+                );
             }
 
             asset_decisions.push(decision);

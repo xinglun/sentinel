@@ -1,0 +1,153 @@
+{
+  "acceptanceResults": [
+    "每份生成日报记录唯一 report_run_id、report_run_at、git_commit_sha、git_branch、binary_version、decision_snapshot_version、data_snapshot_id、data_snapshot_date。",
+    "binary build revision 与当前实际执行 code revision 不一致时报告标记 RUNTIME_MISMATCH，且不以 branch name 替代 commit SHA。",
+    "关键数据 price_history、benchmark_history、relative_strength_input、leadership_history、market_change_baseline、corporate_event_evidence、expectation_data、price_volume_history 分别记录 status、source、as_of、snapshot_id/digest、record_count、diagnostic。",
+    "RS 输入完整时保留现有真实 Neutral/5/9 语义；benchmark、price 或 comparable session 缺失时 ticker 状态为 UNAVAILABLE，0/0 不得伪装为全部 Neutral。",
+    "Archive Markdown 保留逐 ticker 的 RS Observation Health diagnostics；Telegram 可省略详细 diagnostics。",
+    "Leadership Snapshot 成为 daily report 单一事实源，Summary、Leader Persistence、Market Interpretation 的 since/duration/last_confirmed_leader 对同一 run 完全一致。",
+    "Leadership absence provenance 记录 leadership_snapshot_id、previous_snapshot_id、last_confirmed_leader、absence_since、absence_duration、history_coverage、calculation_mode，并区分 PERSISTED_FACT 与 RECOMPUTED_FROM_PARTIAL_HISTORY。",
+    "最新代码生成的日报使用最新 Risk Summary wording；旧报告 resend 保留原文并明确 original generation revision 与 resend revision。",
+    "GENERATED 与 RESENT lifecycle 可从报告 metadata/audit evidence 区分；resend 不重算、不写入新的正式 snapshot。",
+    "正式 snapshot 包含 market_date、report_run_id、git_commit_sha、data_digest、decision_packet_digest、observation_digest；digest mismatch 不静默覆盖并产生 SNAPSHOT_CONFLICT 或 Runtime Integrity DEGRADED。",
+    "Runtime Integrity 只读检查 code_revision_known、data_snapshot_known、decision_snapshot_known、rs_input_consistent、leadership_snapshot_consistent、report_artifact_matches_run，结果为 HEALTHY/DEGRADED/UNAVAILABLE，decision_weight=0。",
+    "Runtime Integrity DEGRADED 时日报顶部显示完整性提示，但不改变 NO_TRADE 或任何交易决策。",
+    "同一完整输入下 Decision、Gate、Leader calculation、Action Matrix、Position Sizing、Execution 与修改前 semantic-equivalent。",
+    "覆盖完整 RS、benchmark 缺失、全部 RS 输入缺失、persisted/partial Leadership、最新生成、旧报告 resend、snapshot digest mismatch 八类回归场景，并通过 make fmt-check、make test、make clippy、make quality。"
+  ],
+  "createdAt": "2026-09-02T00:45:43Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:80463d69d104a2943a916508bfbc09ca965bc09964f7ca092aad243ab251d828",
+  "evidenceRefs": [
+    ".ai/evidence/daily-report-runtime-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/daily-report-runtime-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-report-runtime-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb468b43e71e2d8c6d2d14fa126ebe9134eaebb3657b2f20c4fa7a26514b92ef",
+      "workItemId": "daily-report-runtime-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-report-runtime-integrity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-report-runtime-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-report-runtime-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "确认日报事实来自唯一代码 revision、唯一数据 snapshot、完整可追溯输入，并能区分新生成报告与旧报告补发。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-report-runtime-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-report-runtime-integrity"
+  },
+  "taskReportDigest": "sha256:19ce21d5fe16c94307d50418d99bef6c2aa1d1414dd21e7f2f75dfe8e9b79c75",
+  "taskReportMarkdownDigest": "sha256:1303f8fccfb091205974001727be0aa5cbd175670a448094628ad7b47a81321a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/daily-report-runtime-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "daily-report-runtime-integrity"
+}
