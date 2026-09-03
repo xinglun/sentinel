@@ -194,6 +194,23 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
 }
 
 #[test]
+fn daily_radar_manual_resend_accepts_a_validated_report_date_without_generating() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Resend Existing Daily Report");
+
+    assert!(workflow.contains("report_date:"));
+    assert!(workflow.contains("description: \"重发的 JST 报告日期"));
+    assert!(workflow.contains("REPORT_DATE_INPUT: ${{ inputs.report_date }}"));
+    assert!(script.contains("REPORT_DATE_INPUT"));
+    assert!(script.contains("datetime.strptime(date_jst, \"%Y-%m-%d\")"));
+    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("run_status_${DATE_JST}.json"));
+    assert!(!script.contains("make radar-release"));
+}
+
+#[test]
 fn data_branch_write_back_steps_have_valid_shell_syntax() {
     let tmp = tempfile::tempdir().expect("failed to create temp dir");
     for (workflow_name, step_name) in [

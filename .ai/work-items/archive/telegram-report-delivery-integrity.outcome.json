@@ -1,0 +1,173 @@
+{
+  "acceptanceResults": [
+    "通常の Daily Radar 通知は Telegram の HTTP 非成功応答と JSON ok != true を失敗として run_status に記録し、成功を偽装しない。",
+    "Telegram HTML の各 chunk は許可されたタグを chunk 内で閉じ、3800 文字境界や超長行によって未閉鎖タグを生成しない。",
+    "workflow_dispatch の resend は明示的な report_date を受け取り、data ブランチの同日 report と decisioning=succeeded を検証してから、保存済み report だけを再送する。",
+    "resend は radar 再計算、正式 snapshot の再生成、report 本文の上書きを行わず、全 chunk の HTTP status と JSON ok=true を検証した後だけ notification_resend を記録する。",
+    "回帰テストは HTML chunk 境界、Telegram API 業務エラー、指定日付の入力検証、resend が generate 経路を停止することを検証する。",
+    "make fmt-check、make test、make clippy、make quality が成功する。"
+  ],
+  "createdAt": "2026-09-03T21:46:58Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:75ee02e29616b8a94e6e337aea9db625029e91d3873627eb3dd8f2abd88a437a",
+  "evidenceRefs": [
+    ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "workItemId": "telegram-report-delivery-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-integrity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/shared/infrastructure/notify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "日報の生成、通知結果、履歴 report の resend を検証可能にし、指定日付の正式 report を再計算・上書きしない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "telegram-report-delivery-integrity"
+  },
+  "taskReportDigest": "sha256:389afb3c9dbdab42b1eb2f40d829bae1867720101744e23b05c079c4f6bced24",
+  "taskReportMarkdownDigest": "sha256:b4a03285d0383ebab215bfb022cfb575cb65902bd48f11d85bb15f354a233f0b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/telegram-report-delivery-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "telegram-report-delivery-integrity"
+}

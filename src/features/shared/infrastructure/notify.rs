@@ -1,6 +1,6 @@
 use crate::config::TelegramConfig;
 use anyhow::{anyhow, Result};
-use reqwest::Client;
+use reqwest::{Client, StatusCode};
 use serde::Serialize;
 
 #[derive(Serialize)]
@@ -47,57 +47,193 @@ fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload
 }
 
 fn chunk_telegram_html_message(message_text: &str, max_len: usize) -> Vec<String> {
-    if message_text.len() <= max_len {
+    if message_text.is_empty() || max_len == 0 {
         return vec![message_text.to_string()];
+    }
+    if message_text.len() <= max_len {
+        let mut chunks = Vec::new();
+        let mut current = String::new();
+        let mut open_tags = Vec::new();
+        append_telegram_html_fragment(
+            message_text,
+            &mut current,
+            &mut open_tags,
+            &mut chunks,
+            max_len,
+        );
+        if !current.is_empty() {
+            finish_telegram_html_chunk(&mut current, &open_tags, &mut chunks);
+        }
+        return chunks;
     }
 
     let mut chunks = Vec::new();
     let mut current = String::new();
+    let mut open_tags = Vec::new();
 
-    for line in message_text.split('\n') {
-        let candidate_len = if current.is_empty() {
-            line.len()
-        } else {
-            current.len() + 1 + line.len()
-        };
+    for (line_index, line) in message_text.split('\n').enumerate() {
+        let separator_len = usize::from(line_index > 0 && !current.is_empty());
+        let candidate_len =
+            current.len() + separator_len + line.len() + telegram_html_closing_tags_len(&open_tags);
 
-        if candidate_len <= max_len {
-            if !current.is_empty() {
-                current.push('\n');
-            }
-            current.push_str(line);
-            continue;
+        if !current.is_empty() && candidate_len > max_len {
+            finish_telegram_html_chunk(&mut current, &open_tags, &mut chunks);
+        } else if separator_len > 0 {
+            current.push('\n');
         }
 
-        if !current.is_empty() {
-            chunks.push(current);
-            current = String::new();
-        }
-
-        if line.len() <= max_len {
-            current.push_str(line);
-            continue;
-        }
-
-        let mut start = 0;
-        while start < line.len() {
-            let mut end = (start + max_len).min(line.len());
-            while !line.is_char_boundary(end) {
-                end -= 1;
-            }
-            if end == start {
-                break;
-            }
-            chunks.push(line[start..end].to_string());
-            start = end;
-        }
+        append_telegram_html_fragment(line, &mut current, &mut open_tags, &mut chunks, max_len);
     }
 
     if !current.is_empty() {
-        chunks.push(current);
+        finish_telegram_html_chunk(&mut current, &open_tags, &mut chunks);
     }
 
     chunks
+}
+
+fn next_telegram_html_tag(text: &str) -> Option<(usize, &'static str)> {
+    ["<b>", "</b>", "<i>", "</i>"]
+        .into_iter()
+        .filter_map(|tag| text.find(tag).map(|index| (index, tag)))
+        .min_by_key(|(index, _)| *index)
+}
+
+fn telegram_html_closing_tag(open_tag: &str) -> &'static str {
+    match open_tag {
+        "<b>" => "</b>",
+        "<i>" => "</i>",
+        _ => "",
+    }
+}
+
+fn telegram_html_closing_tags_len(open_tags: &[&'static str]) -> usize {
+    open_tags
+        .iter()
+        .map(|tag| telegram_html_closing_tag(tag).len())
+        .sum()
+}
+
+fn finish_telegram_html_chunk(
+    current: &mut String,
+    open_tags: &[&'static str],
+    chunks: &mut Vec<String>,
+) {
+    for tag in open_tags.iter().rev() {
+        current.push_str(telegram_html_closing_tag(tag));
+    }
+    chunks.push(std::mem::take(current));
+    for tag in open_tags {
+        current.push_str(tag);
+    }
+}
+
+fn append_telegram_html_text(
+    text: &str,
+    current: &mut String,
+    open_tags: &[&'static str],
+    chunks: &mut Vec<String>,
+    max_len: usize,
+) {
+    let mut remaining = text;
+    while !remaining.is_empty() {
+        let reserved_len = telegram_html_closing_tags_len(open_tags);
+        let available_len = max_len.saturating_sub(current.len() + reserved_len);
+        if available_len == 0 {
+            finish_telegram_html_chunk(current, open_tags, chunks);
+            continue;
+        }
+
+        let mut end = remaining.len().min(available_len);
+        while end > 0 && !remaining.is_char_boundary(end) {
+            end -= 1;
+        }
+        if end == 0 {
+            finish_telegram_html_chunk(current, open_tags, chunks);
+            continue;
+        }
+
+        current.push_str(&remaining[..end]);
+        remaining = &remaining[end..];
+        if !remaining.is_empty() {
+            finish_telegram_html_chunk(current, open_tags, chunks);
+        }
+    }
+}
+
+fn append_telegram_html_fragment(
+    fragment: &str,
+    current: &mut String,
+    open_tags: &mut Vec<&'static str>,
+    chunks: &mut Vec<String>,
+    max_len: usize,
+) {
+    let mut cursor = 0;
+    while cursor < fragment.len() {
+        let Some((relative_tag_start, tag)) = next_telegram_html_tag(&fragment[cursor..]) else {
+            append_telegram_html_text(&fragment[cursor..], current, open_tags, chunks, max_len);
+            break;
+        };
+        let tag_start = cursor + relative_tag_start;
+
+        if tag_start > cursor {
+            append_telegram_html_text(
+                &fragment[cursor..tag_start],
+                current,
+                open_tags,
+                chunks,
+                max_len,
+            );
+        }
+
+        if let Some(open_tag) = tag.strip_prefix("</") {
+            let matching_open_tag = match open_tag {
+                "b>" => "<b>",
+                "i>" => "<i>",
+                _ => "",
+            };
+            if open_tags.last().copied() != Some(matching_open_tag) {
+                append_telegram_html_text(&escape_html(tag), current, open_tags, chunks, max_len);
+            } else {
+                let remaining_closing_len =
+                    telegram_html_closing_tags_len(&open_tags[..open_tags.len() - 1]);
+                if current.len() + tag.len() + remaining_closing_len > max_len {
+                    finish_telegram_html_chunk(current, open_tags, chunks);
+                }
+                current.push_str(tag);
+                open_tags.pop();
+            }
+        } else {
+            let closing_len =
+                telegram_html_closing_tags_len(open_tags) + telegram_html_closing_tag(tag).len();
+            if current.len() + tag.len() + closing_len > max_len {
+                finish_telegram_html_chunk(current, open_tags, chunks);
+            }
+            current.push_str(tag);
+            open_tags.push(tag);
+        }
+        cursor = tag_start + tag.len();
+    }
+}
+
+fn validate_telegram_response(status: StatusCode, body: &str) -> Result<()> {
+    if !status.is_success() {
+        return Err(anyhow!(
+            "Telegram API returned an HTTP error: status={status}"
+        ));
+    }
+
+    let response: serde_json::Value =
+        serde_json::from_str(body).map_err(|_| anyhow!("Telegram API returned invalid JSON"))?;
+    if response.get("ok") != Some(&serde_json::Value::Bool(true)) {
+        let description = response
+            .get("description")
+            .and_then(serde_json::Value::as_str)
+            .unwrap_or("ok=false");
+        return Err(anyhow!("Telegram API returned an error: {description}"));
+    }
+
+    Ok(())
 }
 
 pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) -> Result<()> {
@@ -139,10 +275,9 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
             .await
             .map_err(|e| anyhow!("Failed to send Telegram request: {}", e))?;
 
-        if !res.status().is_success() {
-            let err_text = res.text().await.unwrap_or_default();
-            return Err(anyhow!("Telegram API returned an error: {}", err_text));
-        }
+        let status = res.status();
+        let response_body = res.text().await.unwrap_or_default();
+        validate_telegram_response(status, &response_body)?;
     }
 
     println!(
@@ -154,8 +289,12 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
 
 #[cfg(test)]
 mod tests {
-    use super::{build_payload, chunk_telegram_html_message, escape_html, sanitize_telegram_html};
+    use super::{
+        build_payload, chunk_telegram_html_message, escape_html, sanitize_telegram_html,
+        validate_telegram_response,
+    };
     use crate::config::TelegramConfig;
+    use reqwest::StatusCode;
 
     #[test]
     fn telegram_payload_uses_html_parse_mode() {
@@ -234,5 +373,33 @@ mod tests {
 
         assert!(total_chunks > 1);
         assert!(rendered.iter().all(|chunk| chunk.len() <= 4096));
+    }
+
+    #[test]
+    fn telegram_chunking_does_not_split_allowed_html_tags() {
+        let text = format!("<i>{}</i>", "a".repeat(3800));
+        let chunks = chunk_telegram_html_message(&text, 3800);
+
+        assert!(chunks.len() > 1);
+        assert!(chunks.iter().all(|chunk| {
+            chunk.len() <= 3800 && chunk.matches("<i>").count() == chunk.matches("</i>").count()
+        }));
+    }
+
+    #[test]
+    fn telegram_api_business_error_is_rejected_even_when_http_succeeds() {
+        let result = validate_telegram_response(
+            StatusCode::OK,
+            r#"{"ok":false,"error_code":400,"description":"Bad Request"}"#,
+        );
+
+        let error = result.expect_err("Telegram ok=false must fail the notification");
+        assert!(error.to_string().contains("Telegram API returned an error"));
+    }
+
+    #[test]
+    fn telegram_api_ok_response_is_accepted() {
+        validate_telegram_response(StatusCode::OK, r#"{"ok":true,"result":{"message_id":1}}"#)
+            .expect("Telegram ok=true must succeed");
     }
 }
