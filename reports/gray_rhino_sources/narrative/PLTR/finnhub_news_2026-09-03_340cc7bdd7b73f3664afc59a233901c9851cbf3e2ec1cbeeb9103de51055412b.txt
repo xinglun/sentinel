@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Comes for Palantir Again — This Time it's the Balance Sheet
+  summary: Michael Burry: &#39;Palantir is losing bargaining power and channel stuffing... The former is a weak business position; the latter, a crime.&#39;
+  url: https://finnhub.io/api/news?id=bb32f694406b6bf17f3412f23d79df81120001be1140cfd9429a4a57de588230

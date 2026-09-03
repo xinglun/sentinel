@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Godzilla's Rebirth: The Yen Roars And Shakes Up Markets
+  summary: A yen surge and rising JGB yields may keep Japanese capital at home, slowing Treasury buying and lifting the U.S. Click to read more of this detailed analysis.
+  url: https://finnhub.io/api/news?id=bd72e36cb004ecd6ee938c6aa58e4241635c27fb24ec6f07dd6322c4fce837ca

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Senteon and SPECTRA Announce Partnership to Strengthen Cyber Resilience for MSPs and Their Customers
+  summary: Partnership connects continuous endpoint hardening with independent certification and business-focused security and financial outcomes.Peachtree Corners, GA, Sept. 03, 2026 (GLOBE NEWSWIRE) -- Senteon, a leading provider of automated endpoint hardening and continuous configuration enforcement, today announced a new partnership with SPECTRA, a cyber risk management platform that independently evaluates and certifies the cyber resilience maturity of MSPs and their customers. Senteon and SPECTRA Pa
+  url: https://finnhub.io/api/news?id=9d9915ff1f7e838b3802dd3da3d198ebc92a1e154a180482c98439afbf4e7e12

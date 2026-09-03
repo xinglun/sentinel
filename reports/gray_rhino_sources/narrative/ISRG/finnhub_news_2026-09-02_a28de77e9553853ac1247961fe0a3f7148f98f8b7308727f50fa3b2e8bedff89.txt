@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Envista (NVST) Stock May Be 42% Undervalued On Cash Flow
+  summary: Envista Holdings arrives at a tricky valuation point for investors, with an intrinsic value estimate from a Discounted Cash Flow (DCF) suggesting the stock may trade below its underlying cash flow value, while market based multiples make the shares look more expensive and the broader checklist does not flag a clear bargain. Over the past 5 years the stock has fallen 38.0%, which leaves long term holders with a weak result and puts extra focus on whether the current price reflects realistic...
+  url: https://finnhub.io/api/news?id=f01585d2f4195fc0ad21afb69f6e15aa35d01aeca5898e4ea395b54e8f503c0e

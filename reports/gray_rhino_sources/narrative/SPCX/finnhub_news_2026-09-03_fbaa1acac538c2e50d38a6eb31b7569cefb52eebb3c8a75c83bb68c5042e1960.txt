@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You'd Put $500 Into SpaceX the Day It Went Public, Here's What You'd Have Today
+  summary: Before it went public, investors thought this space stock was headed to the moon. Have they been right?
+  url: https://finnhub.io/api/news?id=635c0a1f976787bcd7d8cc5be7a0e795d459e9111bbcc95dcc3649dbcc04ad22

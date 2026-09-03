@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Who Really Got Rights to Venezuela’s 65 Billion Barrels Of Oil Prize?
+  summary: Washington just handed a 100-year lease on tens of billions of barrels of Venezuelan oil to a private company nobody has heard of, while Chevron quietly hit a 52-week high on a completely separate deal. The two stories are getting conflated in ways that could cost investors.
+  url: https://finnhub.io/api/news?id=07cf181359dc61ab21a4cb9fb9013b357d16eff83df2ca6319dfdf33898ab3cf

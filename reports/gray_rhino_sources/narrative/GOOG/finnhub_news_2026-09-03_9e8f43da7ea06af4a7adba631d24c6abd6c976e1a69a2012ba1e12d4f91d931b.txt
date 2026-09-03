@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Is The Biggest Reason I Keep Accumulating Amazon Stock After Jumping 10% This Year
+  summary: AWS just posted its fastest growth in 18 quarters, yet the most compelling reason to keep buying Amazon stock has nothing to do with last quarter's numbers at all.
+  url: https://finnhub.io/api/news?id=2939ce31b6d6569c582b428449c959013d4f1434074b81382ded26e3a17788c2

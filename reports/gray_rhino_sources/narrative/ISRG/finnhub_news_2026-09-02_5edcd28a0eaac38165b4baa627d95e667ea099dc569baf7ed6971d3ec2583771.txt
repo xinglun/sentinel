@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Stock: The Best House On The Block Costs The Most
+  summary: In the world of robotic surgery, one company is both the undisputed leader and the most expensive option, forcing investors to ask if operational excellence is worth the premium.
+  url: https://finnhub.io/api/news?id=2b3549b7f8cb8125eb4f126f266bc4f7b1ff45999bedafe3fbd3f7d0c3d75f3e

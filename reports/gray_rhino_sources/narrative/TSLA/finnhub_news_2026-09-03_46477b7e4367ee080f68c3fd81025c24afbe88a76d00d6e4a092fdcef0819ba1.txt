@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Lucid Group (LCID) Down 29.7% Since Last Earnings Report?
+  summary: Lucid Group (LCID) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues.
+  url: https://finnhub.io/api/news?id=e9aeee5bc536cb5b2ddf7038d70914c2c2b42b3e81c277f68d9be1d9a2a12b54

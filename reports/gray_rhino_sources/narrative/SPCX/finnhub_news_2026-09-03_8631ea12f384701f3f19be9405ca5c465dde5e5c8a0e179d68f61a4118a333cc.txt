@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Machines Has 7 NASA Missions on the Manifest. Is the Stock Finally Worth Owning?
+  summary: This little space stock deserves a lot more attention.
+  url: https://finnhub.io/api/news?id=1c32f5039773ac79be3d702997ded99c3fd077574b47ecfb5d852faf9ef46c9d

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is Paying $14 Billion for a Company That Gives Its Best Work Away for Free
+  summary: Nvidia is reportedly spending billions to acquire a platform that built its reputation by giving everything away for free, and the biggest threat this deal is meant to neutralize comes from Nvidia's own best customers.
+  url: https://finnhub.io/api/news?id=afbe1e09af567213334f0127bb98838c60000a89af1e5165b0cb7f0d75f3e004

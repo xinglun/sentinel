@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Bet on GLW Stock Amid Rising Earnings Estimate Revisions?
+  summary: Corning's rising earnings estimates and AI-driven optical demand fuel growth, but smartphone weakness, customer concentration and tariffs pose risks.
+  url: https://finnhub.io/api/news?id=3cfb03fc6a9cb31ecb4adc6227a75ee84b8fab9f6dfd94e3e03740977c166822

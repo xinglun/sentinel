@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Brady Corporation Q4 2026 Earnings Call Summary
+  summary: Moby summary of Brady Corporation's Q4 2026 earnings call
+  url: https://finnhub.io/api/news?id=6ddd2b39693eb6dfaa3bcbec78cfd6c354f0bf8ae7b399c144266f1bb4903717

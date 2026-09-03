@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Big Short’ Michael Burry Calls Palantir An ‘AI FOMO’ Consultant — Warns Market Cap Could Crash Below $100B
+  summary: Burry also attacked the $17.2 million spent on Karp’s aircraft in 2025, dubbing it the “$17.2 million mile-high club.”
+  url: https://finnhub.io/api/news?id=b2c9f1b7bd3d55abe5fd8638e26058c67ed954125391b9cb91a5d2ee5657634c

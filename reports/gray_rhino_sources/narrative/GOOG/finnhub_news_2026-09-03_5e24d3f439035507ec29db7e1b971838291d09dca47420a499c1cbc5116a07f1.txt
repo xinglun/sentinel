@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vietnamese Rival To Uber, Lyft Plans To Enter U.S. Market This Year
+  summary: The VinFast-linked rideshare company GSM plans to enter the U.S. market by the end of this year, the company said.
+  url: https://finnhub.io/api/news?id=362f44f9032a1ab95239166a39b7ae8d8d7705c79653a20fb694266e09463b1e

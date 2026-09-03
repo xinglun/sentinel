@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford targets 100,000 first-year sales for Fathom electric truck
+  summary: The Fathom, set for production in early 2027, would be the first non-Tesla EV to reach that sales milestone in the U.S.
+  url: https://finnhub.io/api/news?id=8d54edde8f71e2b9175f9390efa5fc9efed05e939bf2fd97e7a566335c70480a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Anthropic, OpenAI Take Different Positions on Massachusetts AI Safety Bill
+  summary: Amazon-backed (AMZN) Anthropic is supporting AI-safety language in a Massachusetts Senate bill that
+  url: https://finnhub.io/api/news?id=501e22b95015f0456a1ea82566ef3aa3f0c32124baf8fe2156cc37f7561c131f

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Says AI Is a 'Five-Layer Cake.' Nvidia Is Just One Slice
+  summary: Jensen Huang&#39;s &#34;five-layer cake&#34; AI framework reveals how companies beyond Nvidia could benefit from the next phase of AI investment.
+  url: https://finnhub.io/api/news?id=6fa592e1507ebb12f1a0b8091d8b0394f742fcc02b41d8f14bae8ab825952fdd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy Spikes 8% as Risk-On Tape Lifts High-Beta Names, FuelCell Ticks Up, Plug Power Stays Flat
+  summary: Bloom Energy is surging while its closest fuel cell peers barely budge, and the reason behind the split reveals something important about where AI power demand is actually landing.
+  url: https://finnhub.io/api/news?id=e965a43291a375a910fbc7f3b4cf089d976eb7cabfa4b0511c084e0ca44d399b

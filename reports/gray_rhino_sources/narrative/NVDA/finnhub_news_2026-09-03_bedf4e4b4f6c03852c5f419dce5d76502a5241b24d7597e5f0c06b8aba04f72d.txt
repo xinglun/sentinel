@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equinix, NVIDIA & Together AI Accelerate Enterprise AI Inference
+  summary: EQIX teams with NVIDIA and Together AI on Inference Exchange, aiming to speed enterprise AI deployment with flexible, efficient infrastructure.
+  url: https://finnhub.io/api/news?id=0f18775ae8bbc081bd1ea59c6d8cd570347ce22e95cb704d49fed83fce70f0ab

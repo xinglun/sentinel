@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cypress Creek Energy's Ostrea Solar Reaches Commercial Operation, Helping Power Nation's Fastest-Growing State Economy
+  summary: Cypress Creek Energy's Ostrea Solar project in Yakima County, Washington has reached commercial operation, adding a new source of locally generated electricity to the regional grid.
+  url: https://finnhub.io/api/news?id=42702eeb50d97a6a9a1242585364b18c0980ae6ef1324106e7f7453bb2ebd738

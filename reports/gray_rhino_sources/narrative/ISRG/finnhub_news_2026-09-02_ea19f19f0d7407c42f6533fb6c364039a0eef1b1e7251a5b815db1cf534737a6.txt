@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Protean Funds Scandinavia AB August 2026 Partner Letter
+  summary: Protean Small Cap returned 4.7% in August, outperforming its benchmark index by 0.3%. Since launching in August 2023, the fund has gained 89.8%.
+  url: https://finnhub.io/api/news?id=a6f6ec2c65e326fc347e7b4ccbce5a26e16c41b5e52e33603b96899d02c71fc8

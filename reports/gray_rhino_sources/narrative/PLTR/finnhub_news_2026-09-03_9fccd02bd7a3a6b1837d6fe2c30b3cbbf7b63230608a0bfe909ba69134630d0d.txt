@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Just Put a $100 Billion Warning on Palantir
+  summary: This article first appeared on GuruFocus.  Data analytics and artificial intelligence startup Palantir Technologies Inc. (PLTR, Financials) is back on Michael Burry (Trades, Portfolio)'s radar.  The Big Short investor said Palantir's market valuation, which is around $432 billion, may eventually sink below $100 billion, saying investors are pricing the company more like a high-margin software platform than the business its financial profile suggests.
+  url: https://finnhub.io/api/news?id=91cdec64b25fe00906e46c1c27d8d190d21b7561479b4cc62819c6a2fe5673cc

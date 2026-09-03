@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Rallies 7% as PwC Alliance Counters Michael Burry Bear Case, ServiceNow Climbs 5%, Salesforce Gains 3%
+  summary: Michael Burry just renewed his short case against Palantir, and Palantir answered with a major alliance announcement that sent the stock surging. Whether that response actually addresses the receivables quality problem Burry flagged is a different question entirely.
+  url: https://finnhub.io/api/news?id=279792a7fe645e5e8b153e61061e3ca8ad0dd300ddbe4ebaf26d13e66d9411eb

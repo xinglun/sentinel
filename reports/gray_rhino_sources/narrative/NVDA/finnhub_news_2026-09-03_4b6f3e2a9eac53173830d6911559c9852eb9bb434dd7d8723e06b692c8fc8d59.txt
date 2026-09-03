@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Campbell Soup Company Q4 2026 Earnings Call Summary
+  summary: Moby summary of Campbell Soup Company's Q4 2026 earnings call
+  url: https://finnhub.io/api/news?id=0b4492e185bf5584ec8380b761a6af508115c3abed6289fcc371ba6b959b0497

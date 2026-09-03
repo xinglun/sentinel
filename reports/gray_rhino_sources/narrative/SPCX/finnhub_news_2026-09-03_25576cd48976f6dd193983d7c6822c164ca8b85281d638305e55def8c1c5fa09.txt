@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is SpaceX (SPCX) Up 30% Since Last Earnings Report?
+  summary: SpaceX (SPCX) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues.
+  url: https://finnhub.io/api/news?id=fb744717a0614cc370682eca4918696d40a68feb4fafbb9867ce9d536072c793

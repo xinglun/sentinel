@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Was Found to Hold an Illegal Monopoly and Kept It Anyway. Is the Antitrust Nightmare Finally Over?
+  summary: A federal judge confirmed Google runs an illegal monopoly in ad tech, then refused to break it up anyway. What that contradiction means for Alphabet investors depends entirely on what comes next.
+  url: https://finnhub.io/api/news?id=ff030692a3a0d78f152a5c6b1bf5bf4efc1a933e51fd88319daae0c633ccf90b

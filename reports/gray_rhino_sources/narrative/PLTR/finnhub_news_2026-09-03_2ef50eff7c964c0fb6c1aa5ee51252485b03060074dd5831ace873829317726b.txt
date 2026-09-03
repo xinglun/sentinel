@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer explains Palantir, Salesforce rebound
+  summary: Two battered software giants just delivered a warning to bears
+  url: https://finnhub.io/api/news?id=3b8825161aec7289d838ef900d367d7539778b98f2407f1d8a8279cae4af8a92

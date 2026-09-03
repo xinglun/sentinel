@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Spotify (SPOT) Up 16% Since Last Earnings Report: Can It Continue?
+  summary: Spotify (SPOT) reported earnings 30 days ago. What's next for the stock? We take a look at earnings estimates for some clues.
+  url: https://finnhub.io/api/news?id=35478ba8e2b8f8d9d7a8410774d09661f786007008c96a6b13a342b3cb21f7f3

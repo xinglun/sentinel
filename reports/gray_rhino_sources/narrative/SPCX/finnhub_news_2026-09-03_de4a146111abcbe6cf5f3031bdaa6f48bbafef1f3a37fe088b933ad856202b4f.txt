@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 75% of Nvidia's $63 Billion Investment Portfolio Has Been Put to Work in Just 2 Game-Changing AI Stocks
+  summary: Two timely investments over the last year have significantly appreciated in value.
+  url: https://finnhub.io/api/news?id=5ee1dd9acae0eed4a19b485e5a1e50db0fb506687da05f75e141a695fdcbe386

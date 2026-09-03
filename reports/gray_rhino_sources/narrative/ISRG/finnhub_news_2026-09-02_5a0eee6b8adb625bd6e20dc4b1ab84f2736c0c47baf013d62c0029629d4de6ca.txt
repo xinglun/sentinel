@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GSK to Advance mRNA Influenza Vaccine Into Phase III Development
+  summary: GSK to advance its mRNA flu vaccine into phase III after phase II study has shown stronger immune responses and good tolerability.
+  url: https://finnhub.io/api/news?id=93ce5900c3fa1681c3c71ae1432698f1c995279031e7f4ebc38028cc2a640ca3

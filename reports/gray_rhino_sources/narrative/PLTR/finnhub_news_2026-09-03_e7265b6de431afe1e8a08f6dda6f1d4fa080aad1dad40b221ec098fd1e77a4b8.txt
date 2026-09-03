@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $1 Trillion Question Hanging Over Palantir Stock
+  summary: Palantir just posted the kind of revenue growth that makes software investors stop mid-scroll, yet the stock sits 8% below its all-time high with insiders selling and a valuation that has skeptics reaching for antacids. Whether that tension resolves as a buying opportunity or a warning sign depends on one number.
+  url: https://finnhub.io/api/news?id=db0908f319d462ebb96eb0a10573879f2ca42eff057944ceff1ca770c26d5e07

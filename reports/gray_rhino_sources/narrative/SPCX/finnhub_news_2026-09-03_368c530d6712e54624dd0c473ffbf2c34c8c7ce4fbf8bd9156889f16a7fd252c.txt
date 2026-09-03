@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'User Reports Indicate Problems At OpenAI, Claude, Grok, Cursor For Users In The U.S.' - DownDetector
+  summary: https://downdetector.ca/
+  url: https://finnhub.io/api/news?id=1a30e3efeacd0e261d9fe02be047a78c16eafd67ae9d66e326db3efbff813dcd

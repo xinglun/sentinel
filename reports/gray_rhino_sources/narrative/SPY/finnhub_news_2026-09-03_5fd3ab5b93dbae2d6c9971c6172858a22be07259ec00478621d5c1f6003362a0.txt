@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Planet Labs Sinks 8% Despite New Defense Contract, Intuitive Machines Pulls Back, AST SpaceMobile Sits Out Broad-Market Rally
+  summary: A new European defense contract and a fresh analyst Buy rating landed for Planet Labs on Thursday, yet the stock cratered anyway while the broader market rallied. Something specific to this sector is spooking investors ahead of a closely watched earnings release tonight.
+  url: https://finnhub.io/api/news?id=acd8fd188f7a90fd4f684a99a8a933f997ce77344e4397dcd1a5292e50736f6a

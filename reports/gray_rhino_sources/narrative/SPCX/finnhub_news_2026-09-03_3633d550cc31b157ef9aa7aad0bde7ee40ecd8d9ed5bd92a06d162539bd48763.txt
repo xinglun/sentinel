@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: He’s lost hundreds of thousands in stocks like SpaceX and Beyond Meat — and he’s not stopping. Is the ‘high’ worth it?
+  summary: Akshay Sapra turned Uber earnings and borrowed money into nearly CA$2 million day-trading stocks like Nvidia and AMD. Then he lost it all — including a recent CA$250,000 SpaceX bet gone wrong.
+  url: https://finnhub.io/api/news?id=cad77623e158eeefe7c7e0b6c8c58d88f07c2f793f4830e0061f8be756c55565

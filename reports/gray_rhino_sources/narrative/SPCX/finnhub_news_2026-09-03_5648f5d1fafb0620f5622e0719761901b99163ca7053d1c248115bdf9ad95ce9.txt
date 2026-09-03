@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft and Meta Signed Multi-Decade Nuclear Power Deals. These 3 Stocks Supply That Power
+  summary: Microsoft and Meta just locked in nuclear power for decades, and the contracts are reshaping how the entire supply chain gets valued. Three very different companies sit between those deals and your portfolio, and treating them as one trade could cost you.
+  url: https://finnhub.io/api/news?id=e0bdf4e075bff2eb19523d11ee6ef673d49c496b45db459aaf5d86b32ddf8af3

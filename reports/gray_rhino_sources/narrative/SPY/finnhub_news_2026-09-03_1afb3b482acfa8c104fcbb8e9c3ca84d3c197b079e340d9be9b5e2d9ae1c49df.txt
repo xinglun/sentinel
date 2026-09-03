@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Circle Internet Surges 14% Despite Wall Street Building Rival Stablecoin; Coinbase Spikes 10%
+  summary: Washington's push to regulate stablecoins sent Circle Internet stock soaring past a key threshold this morning, even as 21 of the biggest names in traditional finance quietly assembled a rival that could upend the very advantage regulators are handing Circle.
+  url: https://finnhub.io/api/news?id=7ec1a2dda94fdfedfa23769fba04985c9b135d7b704d5e44e134988e7fcb5b56

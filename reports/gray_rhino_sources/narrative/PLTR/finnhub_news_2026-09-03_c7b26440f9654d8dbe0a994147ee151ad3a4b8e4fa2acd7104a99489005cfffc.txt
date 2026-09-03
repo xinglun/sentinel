@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ocean Power Technologies Selects Palantir Foundry to Accelerate Growth in Autonomous Maritime Operations
+  summary: Foxtrot to lead implementation as OPT builds the digital infrastructure for a more connected, scalable operating modelMONROE TOWNSHIP, N.J., Sept. 03, 2026 (GLOBE NEWSWIRE) -- Ocean Power Technologies, Inc. (“OPT” or the “Company”) (NYSE American: OPTT), a leader in intelligent maritime solutions and services, today announced that it is implementing Palantir Foundry through the Palantir for Builders program to support its expanding U.S. and international deployment footprint. OPT has engaged Fox
+  url: https://finnhub.io/api/news?id=51e9a3c75e7e4a6fac2f840e561b1a3d59db141af2656e75db5e626601f7f671

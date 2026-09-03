@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ro Khanna Takes Aim at Trump's AI Data Center Push — Wants Congress to Block Projects in Residential Communities and Cut Off Flock Camera Funding
+  summary: Khanna calls for banning data centers in residential communities and ending federal funding for Flock cameras, citing privacy and surveillance concerns.
+  url: https://finnhub.io/api/news?id=0e69974a72e5c140ede876cd4f5e720536ee8ca960501bccc273a3bbc51b609d

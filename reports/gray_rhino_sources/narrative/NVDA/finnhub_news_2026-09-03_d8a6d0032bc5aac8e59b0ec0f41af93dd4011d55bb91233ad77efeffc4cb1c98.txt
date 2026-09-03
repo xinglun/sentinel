@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Confirms $12.9B Hugging Face Deal as Huang Lauds 'Growth Driver'
+  summary: Nvidia Corp. (NASDAQ:NVDA) has confirmed its $12.93 billion acquisition of Hugging Face, betting that ownership of the world’s leading open-model hub can extend its influence beyond chips and deeper into how AI is built. CEO Jensen Huang said Hugging Face...
+  url: https://finnhub.io/api/news?id=83a1f11a644899da4dfcf19f93a9fb86c1c485cc2a803d801ee6207a3c314ea3

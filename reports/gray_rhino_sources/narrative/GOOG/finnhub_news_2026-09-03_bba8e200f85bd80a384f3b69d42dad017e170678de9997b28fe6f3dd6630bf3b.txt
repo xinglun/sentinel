@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google won’t have to sell off ad exchange in ad-tech monopoly case
+  summary: Instead, according to a federal judge, the tech giant will be required to implement less severe behavioral remedies.
+  url: https://finnhub.io/api/news?id=0f364634540fc5883fc2ea4c089597e6f85701d6091d50f853115474bb56b705

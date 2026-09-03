@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Expands PwC Strategic Alliance to Scale Enterprise AI Across Core Business Operations
+  summary: The expanded collaboration targets enterprise AI deployment, M&A transformation and ERP modernization, giving Palantir Technologies Inc. (NASDAQ:PLTR) a broader route for embedding its platforms into complex corporate workflows.
+  url: https://finnhub.io/api/news?id=084f94ba796b0cc20b10b5150dc84edd3f9625a00ffbfbe09d9be648814b2b56

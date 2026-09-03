@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Debt, AI Boom Triggers Historic Borrowing Binge, Pushing Up Rates. What To Know.
+  summary: Surging U.S. debt and AI borrowing are pushing up Treasury yields, spurring an unusual bond market move by Treasury Secretary Scott Bessent.
+  url: https://finnhub.io/api/news?id=47884ebf1a02150728cbf46db2fd784fcec7210c72246d09a90a53accb77b860

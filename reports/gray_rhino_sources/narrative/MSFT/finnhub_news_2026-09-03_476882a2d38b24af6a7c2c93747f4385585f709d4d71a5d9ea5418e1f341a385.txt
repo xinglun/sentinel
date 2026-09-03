@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Spotlights AI and Cloud With New Reporting Structure. It’s a Big Deal.
+  summary: Microsoft will provide more visibility into its Azure cloud-computing business with its new reporting structure.
+  url: https://finnhub.io/api/news?id=2b8d31ce605ae2fc153ca8e9bfbdd1661f917d05466e51ae4d178e12ddefd9bb

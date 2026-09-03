@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GEHC Wins CE Mark for Photonova Spectra, Expands International Reach
+  summary: GE HealthCare's Photonova Spectra gains CE Mark, expanding access to its Deep Silicon photon-counting CT technology across Europe and other CE markets.
+  url: https://finnhub.io/api/news?id=2fd36efae43a9563f6f9269b884a90404cb97202438be101b33968a24fd368ef

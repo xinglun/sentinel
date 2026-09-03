@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coherent Fell Hard Over 3 Months: It Will Nearly Double According to These Analysts
+  summary: Coherent just handed back a third of its value in three months without a single crack in its operating story, and Wall Street is responding by piling on price target upgrades instead of downgrades. Something about this setup does not add up, and the answer changes how you read every AI optics name right now.
+  url: https://finnhub.io/api/news?id=6f3893548f41109b1b4eb75c62bc389520909c3c155a3424c424bbdf2ef47c9d

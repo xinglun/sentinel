@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Workato and Lenovo Announce Strategic Collaboration to Expand Lenovo Qira's Cross-App Capabilities
+  summary: PALO ALTO, Calif., September 03, 2026--Workato®, the leading Control and Execution Platform for Enterprise AI, and Lenovo™ today announced their strategic collaboration to support the continued evolution of Lenovo Qira, Lenovo’s Personal Ambient Intelligence, which is actively expanding across Lenovo's device lineup. Through this collaboration, Workato is helping expand Lenovo Qira's ability to execute workflows across multiple applications.
+  url: https://finnhub.io/api/news?id=0f33b7cb68dccac132e1ed463e19bdccb197e97747d55ed863eb76d2ca8f693f

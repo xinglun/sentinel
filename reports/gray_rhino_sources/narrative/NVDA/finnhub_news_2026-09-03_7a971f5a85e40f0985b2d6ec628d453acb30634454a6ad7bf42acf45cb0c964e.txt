@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Warned Towns They’d End Up Poor Without Data Centers but Berkshire’s CEO Sees a Revolt Growing
+  summary: A White House AI adviser is selling data centers as economic lifelines while Berkshire's Greg Abel warns of a full-blown revolt taking shape in communities across the country. One of them is reading a very different map of where a trillion dollars in AI spending actually lands.
+  url: https://finnhub.io/api/news?id=412e5920b22c08467a5d2dfc98e533405254a25205839f9ab8177149a4ea65e3

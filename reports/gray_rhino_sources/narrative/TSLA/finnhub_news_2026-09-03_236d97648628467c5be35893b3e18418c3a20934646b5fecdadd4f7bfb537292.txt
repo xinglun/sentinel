@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Is Unveiling Its Cybercab Tonight. The Stock Needs More Than Demonstration Rides.
+  summary: It’s taken  Tesla  a while, but it finally looks ready to dispense with the steering wheel as its Cybercab event this evening.  The electric-vehicle maker is set to host a Cybercab event in Austin, Texas, this evening.  Cybercab,  Tesla’s  purpose-built robo-taxi without pedals or a steering wheel that went into mass production earlier this year, is the culmination of years of work on autonomous driving technology.
+  url: https://finnhub.io/api/news?id=386cb47eeddc5e18fbe0254ae38aa3a1765bb1a49763a5a6f6326d0e76879e2f

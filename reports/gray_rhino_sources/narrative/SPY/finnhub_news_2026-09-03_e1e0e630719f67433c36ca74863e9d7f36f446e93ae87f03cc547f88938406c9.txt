@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 24-Hour Trading Is A Terrible Idea
+  summary: The SEC explores 24-hour stock trading: learn what the roundtable may change on settlement (T+2), spreads, liquidity, and who wins in capital marketsâread now.
+  url: https://finnhub.io/api/news?id=8ec04b8f6cc9bc89d784545760840976d245a371d187b79b8dbe82d373716f28

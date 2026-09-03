@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Assessment of the U.S. Nuclear Power and Small Modular Reactor Market 2026 Now Available — Reveals Why Big Tech Is Becoming an Active Force in Nuclear Project Formation, Not Just a Power Buyer
+  summary: 44-Page Report Assesses Restarts, Uprates, and SMR Deployment as Microsoft, Meta, Google, and Amazon Shape Project Economics, Site Selection, and Risk AllocationDublin, Sept. 03, 2026 (GLOBE NEWSWIRE) -- The "Assessment of the U.S. Nuclear Power and Small Modular Reactor Market 2026" report has been added to ResearchAndMarkets.com's offering.The Assessment of the US Nuclear Power and Small Modular Reactor Market 2026 provides a strategic qualitative review of the US nuclear power sector as the m
+  url: https://finnhub.io/api/news?id=3566f6f862dfedfb0e67aca7bf85099c0e835cc4ffaa39101bfbaf76b553bf1f

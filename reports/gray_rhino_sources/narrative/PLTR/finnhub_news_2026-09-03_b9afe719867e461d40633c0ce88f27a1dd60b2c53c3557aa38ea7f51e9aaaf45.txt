@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Options Action: Options explode in big names
+  summary: CNBC’s Oliver Renick reports on the latest action in options market.
+  url: https://finnhub.io/api/news?id=77e7c5ff68cd471a439d31db216db5fc21062e255d1723e9d91ccf15fe581971

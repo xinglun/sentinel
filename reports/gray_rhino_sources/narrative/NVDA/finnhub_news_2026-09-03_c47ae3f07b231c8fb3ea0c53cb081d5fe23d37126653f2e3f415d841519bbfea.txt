@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Governor Chris Waller Just Significantly Upped the Stakes for the Sept. 11 Inflation Report. It Could Decide Whether There is a Rate Hike at the Fed's Upcoming Meeting
+  summary: Waller said he would consider leaving interest rates unchanged at the Fed's September meeting if the next inflation report shows progress toward the Fed's 2% target.
+  url: https://finnhub.io/api/news?id=48c634dfbef42ac465047257043027d1900e8dd83f8e9f2b34c02c1791e66698

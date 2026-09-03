@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk sends a strong message to Tesla and SpaceX investors
+  summary: Now comes the hard part, he openly admitted.
+  url: https://finnhub.io/api/news?id=d62fe39f90811baac0c7824beb6babdcf771b22ebe20f589639a3614dbea03cc

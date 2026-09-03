@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford's $30,000 EV Is Chasing a Sales Milestone Only Tesla Has Reached
+  summary: Ford reportedly wants its roughly $30,000 electric truck to reach a U.S. sales level achieved only by Tesla.
+  url: https://finnhub.io/api/news?id=0c91fe8c06bd2e795c2b350ca24116dd8dcc18c77e8f1040bad5396c433e9aed

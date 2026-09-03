@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla and Google Just Joined a New Bet on the Electric Grid
+  summary: PG&E is connecting thousands of smart-home devices into a virtual power plant that could reshape how utilities manage peak electricity demand.
+  url: https://finnhub.io/api/news?id=d881ec42195401f2f6429624504251f4013a38067cc469cac1de9db80451a3dc

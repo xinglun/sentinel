@@ -1,0 +1,160 @@
+{
+  "date": "2026-09-04",
+  "timestamp": "2026-09-04T03:00:49.629223125+09:00",
+  "preflight": null,
+  "decisioning": "succeeded",
+  "evidence_collection": "succeeded",
+  "gray_rhino_collection": {
+    "status": "partial_failure",
+    "date": "2026-09-04",
+    "sec": {
+      "status": "partial_failure",
+      "accepted": 9,
+      "rejected": 1
+    },
+    "finnhub": {
+      "status": "succeeded",
+      "accepted": 163,
+      "rejected": 0
+    },
+    "fred": {
+      "status": "skipped",
+      "accepted": 0,
+      "rejected": 0
+    },
+    "failed_providers": [
+      "sec"
+    ]
+  },
+  "gray_rhino_rendering": "succeeded",
+  "archival": "skipped",
+  "notification": {
+    "failed": {
+      "reason": "Telegram API returned an error: {\"ok\":false,\"error_code\":400,\"description\":\"Bad Request: can't parse entities: Can't find end tag corresponding to start tag \\\"i\\\"\"}"
+    }
+  },
+  "execution": "skipped",
+  "reconciliation": "skipped",
+  "reconciliation_report": null,
+  "state_machine": {
+    "from_state": "NEWBORN",
+    "to_state": "NEWBORN",
+    "reset_confirmed": false,
+    "reset_blocked": false,
+    "soft_reset_applied": false,
+    "duration_locked": false,
+    "defensive_override": false,
+    "core_breakdown": false,
+    "reconciliation_mismatch_count": 0,
+    "preflight_failed": false
+  },
+  "data_quality": "",
+  "execution_details": null,
+  "runtime_identity": {
+    "report_run_id": "ccd2e672-d682-4af5-9426-d522d35792d1",
+    "report_run_at": "2026-09-04T03:00:49.629223125+09:00",
+    "git_commit_sha": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "git_branch": "develop",
+    "binary_version": "0.1.0",
+    "decision_snapshot_version": "decision-v1",
+    "data_snapshot_id": "market-data-2026-09-03",
+    "data_snapshot_date": "2026-09-03",
+    "build_git_commit_sha": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "execution_git_commit_sha": "cd85269439b29c2283bbf8f535612f56a19a038b"
+  },
+  "data_provenance": {
+    "price_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-04",
+      "snapshot_id": "market-data-2026-09-04",
+      "snapshot_digest": "sha256:ca708e79951ae8fc7b0fd959f1a2b4795b972b227e53f696ba56784fd68fae79",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "benchmark_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-04",
+      "snapshot_id": "market-data-2026-09-04",
+      "snapshot_digest": "sha256:ca708e79951ae8fc7b0fd959f1a2b4795b972b227e53f696ba56784fd68fae79",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "relative_strength_input": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-04",
+      "snapshot_id": "market-data-2026-09-04",
+      "snapshot_digest": "sha256:ca708e79951ae8fc7b0fd959f1a2b4795b972b227e53f696ba56784fd68fae79",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "leadership_history": {
+      "status": "AVAILABLE",
+      "source": "leader-observation-history",
+      "as_of": "2026-09-04",
+      "snapshot_id": "leadership-2026-09-04",
+      "snapshot_digest": "sha256:4072c1ef82b20dfafa56e800dee2f2d76cebbcb3a55edeb584d5a35455035fa4",
+      "record_count": 14,
+      "diagnostic": null
+    },
+    "market_change_baseline": {
+      "status": "AVAILABLE",
+      "source": "trading-day-snapshot",
+      "as_of": "2026-09-04",
+      "snapshot_id": "baseline-2026-09-04",
+      "snapshot_digest": null,
+      "record_count": 1,
+      "diagnostic": null
+    },
+    "corporate_event_evidence": {
+      "status": "UNAVAILABLE",
+      "source": "corporate-event-evidence",
+      "as_of": null,
+      "snapshot_id": null,
+      "snapshot_digest": null,
+      "record_count": 0,
+      "diagnostic": "not_persisted_in_runtime_identity"
+    },
+    "expectation_data": {
+      "status": "UNAVAILABLE",
+      "source": "expectation-layer",
+      "as_of": null,
+      "snapshot_id": null,
+      "snapshot_digest": null,
+      "record_count": 0,
+      "diagnostic": "not_persisted_in_runtime_identity"
+    },
+    "price_volume_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-04",
+      "snapshot_id": "market-data-2026-09-04",
+      "snapshot_digest": "sha256:ca708e79951ae8fc7b0fd959f1a2b4795b972b227e53f696ba56784fd68fae79",
+      "record_count": 10,
+      "diagnostic": null
+    }
+  },
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  },
+  "report_lifecycle": {
+    "mode": "GENERATED",
+    "original_generation_revision": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "original_report_run_id": "ccd2e672-d682-4af5-9426-d522d35792d1",
+    "resend_revision": null,
+    "resent_at": null,
+    "source": "rust-radar-runner"
+  }
+}

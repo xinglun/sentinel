@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 of Wall Street’s Safest High-Yield Dividend Stocks With Over 25-Year Increase Streaks
+  summary: Not all Dividend Aristocrats are created equal, and three companies spanning payroll processing, supplemental insurance, and integrated energy have quietly stacked 25-plus years of annual raises through completely different cash engines.
+  url: https://finnhub.io/api/news?id=0ff803d8d3d7c9f72c59cac6ec4df01dfec5409cddd244458289bb6eb7757202

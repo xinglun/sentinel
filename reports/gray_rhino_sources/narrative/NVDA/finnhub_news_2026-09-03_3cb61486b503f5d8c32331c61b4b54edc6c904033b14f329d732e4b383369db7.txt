@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks Rally, Yields Retreat after Waller Signals a September Hold
+  summary: The Fed governor’s plea to “Give disinflation a chance” knocked September hike odds down to a coin flip, sent the Dow up 635 points, and pulled the 10-year back to 4.75%
+  url: https://finnhub.io/api/news?id=6b4c43aeb8b4b20da4025ac372d767df8b63714d49bbd8726ba977074d0ffbb0

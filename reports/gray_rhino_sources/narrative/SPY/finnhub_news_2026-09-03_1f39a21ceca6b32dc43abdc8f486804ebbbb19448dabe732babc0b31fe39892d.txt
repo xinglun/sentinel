@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRDO Stock at $165: Buy, Sell, or Hold?
+  summary: Credo just dropped 20% on an earnings beat, and that contradiction is exactly where the argument starts. Whether today's flush is a gift or a warning depends on a few risks most investors are overlooking.
+  url: https://finnhub.io/api/news?id=1bd0d8fd21e2daedd2ea5b4115388299d34ca2d5a81b9a4af473af0feab26a8b

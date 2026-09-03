@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Just Hit $355 and Investors Are Split on What Comes Next
+  summary: Tesla's bull case and bear case are both stronger than usual right now, and that tension is exactly what makes the stock so difficult to read at current levels.
+  url: https://finnhub.io/api/news?id=3e25449f8cd3bf9b8c6e96d39c71ab19753bfee08f2059a7096872e2435fcad0

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Add Merit Medical Stock to Your Portfolio Now
+  summary: MMSI's broad portfolio, R&D investments and WRAPSODY opportunity support growth, while tariffs, China pressure and competition remain risks.
+  url: https://finnhub.io/api/news?id=86e15f8323c03c1ac87c4de0202df6bd8977a871e3b91cae624801d8ffb2b26d

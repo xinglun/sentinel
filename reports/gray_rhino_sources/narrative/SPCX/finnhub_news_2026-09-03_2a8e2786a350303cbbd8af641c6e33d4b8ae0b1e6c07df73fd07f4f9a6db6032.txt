@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Why Anthropic IPO Could Be Huge: ETFs in Focus
+  summary: Anthropic is heading toward a potential blockbuster IPO, fueled by rapid revenue growth, major AI deals and ambitious valuation targets.
+  url: https://finnhub.io/api/news?id=68b051e5a81bd124176d0720112093a40f1ac624954250912240e2c45fd7a04e

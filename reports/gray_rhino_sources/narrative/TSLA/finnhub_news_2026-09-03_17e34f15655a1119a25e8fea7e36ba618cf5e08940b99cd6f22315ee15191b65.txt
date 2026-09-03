@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford Risks Another Big EV Failure
+  summary: Ford just unveiled its latest electric vehicle with bold sales targets, but the company faces a collision of forces that sank its previous EV ambitions and shows no sign of letting up.
+  url: https://finnhub.io/api/news?id=614cc07e95d45e03377f6c320af037db6cd3a6572765aa60430ac191af49c9cb

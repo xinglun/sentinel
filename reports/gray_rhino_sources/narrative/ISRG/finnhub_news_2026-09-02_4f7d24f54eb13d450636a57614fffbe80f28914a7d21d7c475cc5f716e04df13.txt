@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OCGN Advances Gene Therapy OCU410 In Phase III for Geographic Atrophy
+  summary: Ocugen moves OCU410 into phase III for geographic atrophy, with FDA-aligned study plans. The company expects to file a BLA for OCU410 in 2028.
+  url: https://finnhub.io/api/news?id=3b81682ec6880284e6626e8db1bcb83438a9191f8627dc5a7e11a9b307df6249

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Was ‘Nowhere’ in AI 6 Months Ago — Now It’s an Anthropic Rival After the $60 Billion Cursor Deal, Says Oppenheimer
+  summary: Oppenheimer says SpaceX became a credible Anthropic rival after acquiring Cursor, raising its target to $280 on AI growth and infrastructure.
+  url: https://finnhub.io/api/news?id=f6e627c8acd3b42ee126a9b1f44a914cf0a83fc4cebf849ffd565408cbdcaa04

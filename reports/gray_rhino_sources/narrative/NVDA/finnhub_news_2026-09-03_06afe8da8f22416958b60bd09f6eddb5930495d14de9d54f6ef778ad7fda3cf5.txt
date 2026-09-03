@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Energy Play: NextEra vs. Constellation Energy
+  summary: With varying approaches to growing their businesses, both companies have something different to offer investors.
+  url: https://finnhub.io/api/news?id=19c9550975bd4439dae72428ef3ace69f697fd2aa72c93f59dbfc3671f0e2a3f

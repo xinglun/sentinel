@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lands' End, Inc. Q2 2026 Earnings Call Summary
+  summary: Moby summary of Lands' End, Inc.'s Q2 2026 earnings call
+  url: https://finnhub.io/api/news?id=8f7f0b85b2a4db7e1cbd821f06bd1e7fb92ea1ec1531f2330f0cf09bfa9ddcc1

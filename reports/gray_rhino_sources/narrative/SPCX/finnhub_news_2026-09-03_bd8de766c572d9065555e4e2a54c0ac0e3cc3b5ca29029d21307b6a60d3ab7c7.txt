@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baron Focused Growth Fund Q2 2026 Portfolio Update
+  summary: The Fund's weightings are significantly different than those of the Benchmark, which explains why the Fund has such high active share of almost 100%. Read more here.
+  url: https://finnhub.io/api/news?id=e9276ab12e47a0d3dd90df920e651f06fcf504acce7c2175389d383dc3c70589

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Auto Industry Group Urges U.S. Lawmakers To Pass Comprehensive Ban On Chinese Vehicles Before End Of Year
+  summary: - Letter Seen By Reuters
+  url: https://finnhub.io/api/news?id=409de642f63b5a23bdcff66891a65e445f74809279e28dd26fb8d5e9f6d0092c

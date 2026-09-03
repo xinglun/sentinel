@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT) Generates Revenues and Profits Beyond AI Theme
+  summary: Andvari Associates, an investment management firm, released its second-quarter 2026 investor letter. The letter can be downloaded here. Andvari’s portfolio has performed strongly in the quarter, highlighted by Constellation Software’s 19.9% revenue growth and its plans to spend on acquisitions in 2026. The company is also focusing on AI tools to enhance productivity and customer […]
+  url: https://finnhub.io/api/news?id=fb24826309b6d32398fa2180cf9cf72c082cc4447bd3a51604995b1ae913f26a

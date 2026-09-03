@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sundar Pichai Promised a Gemini Flagship in June, and Alphabet Is on Its Worst Streak Since 2015
+  summary: Sundar Pichai promised investors a flagship AI model by June, but what arrived instead has sparked Alphabet's longest stock losing streak in over a decade, raising an uncomfortable question about whether the company's celebrated AI pace is actually working.
+  url: https://finnhub.io/api/news?id=1b5a4b69922b3dcacd50468e511e49169ff1182b46f1f6deb8e8277e61d32b1c

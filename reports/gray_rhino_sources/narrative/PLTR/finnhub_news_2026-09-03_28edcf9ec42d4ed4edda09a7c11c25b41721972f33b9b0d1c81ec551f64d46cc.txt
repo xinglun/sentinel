@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What’s Bugging Palantir’s Stock? Analyst Says Google’s New AI Tools for Government
+  summary: Palantir stock slumps as Google’s new AI push raises concerns over its government business and lofty valuation.
+  url: https://finnhub.io/api/news?id=7ebd71ae5f6b7defbb4bd317ce698e323805311c4221c0d8e3fcf23957ec7348

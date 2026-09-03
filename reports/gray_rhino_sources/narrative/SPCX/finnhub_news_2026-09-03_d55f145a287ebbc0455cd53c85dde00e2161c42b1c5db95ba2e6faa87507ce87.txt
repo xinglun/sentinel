@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tim Cook’s final words of warning as Apple CEO: US now at risk from ‘hundred-year flood’ — even Elon Musk is worried
+  summary: “I’ve never seen anything like it in any area in over 40 years.”
+  url: https://finnhub.io/api/news?id=6c50c78ad57eb38566a9071f35dbfb92db0432f7432a70989a970ad4e43078cb

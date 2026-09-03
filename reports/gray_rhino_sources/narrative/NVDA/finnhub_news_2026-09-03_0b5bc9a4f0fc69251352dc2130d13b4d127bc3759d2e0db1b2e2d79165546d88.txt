@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CEO Who Just Sold His Data Center Firm to SoftBank for $4 Billion Is Warning of a Late 1990s Moment
+  summary: Marc Ganzi just cashed out a $4 billion deal, and now he is drawing a pointed comparison between today's AI infrastructure frenzy and the late 1990s fiber overbuild. His warning about who gets left holding the debt when the cycle turns is aimed squarely at the investors still rushing in.
+  url: https://finnhub.io/api/news?id=bffadd249f5d2d6004fb063ef9cfa24fc5a667f88723415b47b59d44e352f536

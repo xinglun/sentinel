@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ciena Tumbles 10% as In-Line Guidance Overshadows Earnings Beat, Arista Edges Higher
+  summary: Ciena just posted a record quarter with earnings well above estimates, yet its stock cratered 10% while networking peers Arista and Cisco held firm or climbed. The divergence points to a specific pressure point that separates Ciena's story from the broader AI networking boom.
+  url: https://finnhub.io/api/news?id=9d339eebeef88f2eb442ebc0637a23a26b5ef75ee11ec30192ca8d8a559640f7

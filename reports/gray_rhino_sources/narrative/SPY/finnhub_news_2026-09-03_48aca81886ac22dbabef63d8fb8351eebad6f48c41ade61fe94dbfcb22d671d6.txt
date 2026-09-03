@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S.-Canada Trade Spat Could Bring More Tariffs Next Week
+  summary: The U.S.-Canada trade dispute is deepening, with Canadian retaliatory tariffs set to take effect Tuesday and several potential flashpoints looming.
+  url: https://finnhub.io/api/news?id=7caaaea528d081d6768dccf6e27824a297136c9f528af319c22695c6e640d729

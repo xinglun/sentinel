@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Adds 650 Points in Midday Rally
+  summary: Stocks climbed as Wall Street let out a sigh of relief that bond yields ticked lower and the odds of a Federal Reserve rate hike fell. The S&P 500 gained 1%, and the Nasdaq Composite rose 1.4%. The Dow Jones Industrial Average added 1.
+  url: https://finnhub.io/api/news?id=342b519501365cb433fa9eec18d80e47744f9b89f462c32b16f260b76abb117c

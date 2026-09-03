@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Markets Are Waist Deep In Investor Complacency
+  summary: Geopolitical turmoil, high energy prices, and stubborn inflation may push a Fed hike. Read what investors should know about the volatility.
+  url: https://finnhub.io/api/news?id=6fa2fd6d4a41d96bb327367a3dac66b34c6fc4e6570c3c161324b78a4bd8e9d7

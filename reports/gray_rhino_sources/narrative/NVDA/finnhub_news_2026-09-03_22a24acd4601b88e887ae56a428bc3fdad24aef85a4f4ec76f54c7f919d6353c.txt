@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Pops 600 Points As Jobs Data Looms; AI Server Name Falls (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rises Thursday as Treasury yields fall. Nvidia stock rallies on its Hugging Face deal.
+  url: https://finnhub.io/api/news?id=fe469251978f3fba79df19a2653619d4280154f2232a3812f9d215177f229820

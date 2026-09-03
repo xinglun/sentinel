@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Breadth Rebounds, but Short-Term Trend Damage Remains
+  summary: U.S. market breadth rebounded sharply on September 2, but weak moving-average participation and fragile index trends keep the outlook cautious.
+  url: https://finnhub.io/api/news?id=044463bfeb6567dcb23dd80e23720673ced8f33cc77e1b23b4522490ac7f2659

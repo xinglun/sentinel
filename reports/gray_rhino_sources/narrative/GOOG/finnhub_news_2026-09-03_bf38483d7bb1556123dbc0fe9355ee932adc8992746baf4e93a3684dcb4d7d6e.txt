@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Stock Has a New AI Catalyst. Is META Headed Back Toward Its All-Time High?
+  summary: Zuckerberg's Q2 message was blunt about AI transforming Meta's business, yet the stock sits more than 25% below its all-time high while legal storms and a historic capex surge squeeze free cash flow to a fraction of last year's levels. Whether the ad machine can overpower those headwinds is the trade every Meta investor needs to understand right now.
+  url: https://finnhub.io/api/news?id=ed7c295d9e4503f34c540039c59b1877876842c77a31adfd21bb4ddf519de789

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Advances 6% as Traders Await Cybercab Event, Lucid Rises 3%, Rivian Ticks Up
+  summary: Tesla is surging ahead of its Cybercab event in Austin while rivals Lucid and Rivian trail behind, but whether the autonomous vehicle showcase delivers the commercial proof traders are pricing in could determine if this rally has legs or sets up a painful reversal.
+  url: https://finnhub.io/api/news?id=e8f11b3ab95ebce42a2089164a530e2e2dcc7b39b32a463a635db75c1b958065

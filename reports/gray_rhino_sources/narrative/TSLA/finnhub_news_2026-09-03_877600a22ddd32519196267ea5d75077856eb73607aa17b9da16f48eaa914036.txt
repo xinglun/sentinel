@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Stock: Lucid vs. Rivian? (Hint: Unit Economics and Gross Profits Are Key.)
+  summary: Rivian and Lucid share many things in common, but the former has drastically improved its gross profitability, while Lucid has been stuck in neutral.
+  url: https://finnhub.io/api/news?id=3c23546fd37ec5007dc37783688a3418271421da8b122d6530066d8adf879ee0

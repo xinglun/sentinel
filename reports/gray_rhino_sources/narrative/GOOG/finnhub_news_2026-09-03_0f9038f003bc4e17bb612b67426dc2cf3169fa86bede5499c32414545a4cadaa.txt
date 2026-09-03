@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom Falls 6% as Soft Guidance Overshadows 221% AI Revenue Surge; NVIDIA Inches Higher, AMD Slips
+  summary: Broadcom's AI revenue just posted a triple-digit surge, yet the stock is getting punished while its biggest rival is trading higher on the same report. The reason comes down to a margin story that is splitting the entire custom-silicon trade in two.
+  url: https://finnhub.io/api/news?id=616da197b6fde819be618af72337fbb47e098bbbf8bf2d81f0df3266cd4fbfb5

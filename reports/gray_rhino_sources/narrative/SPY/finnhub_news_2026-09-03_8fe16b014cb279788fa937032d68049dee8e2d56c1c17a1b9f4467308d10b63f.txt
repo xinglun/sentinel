@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AeroVironment Rises 6% on $464.8M Army Laser Award, Unusual Machines and Red Cat Tick Up
+  summary: The U.S. Army just crossed a threshold it has never crossed before, and one battered defense stock is suddenly the center of a sector-wide scramble to figure out what comes next.
+  url: https://finnhub.io/api/news?id=47be74411a5816d0e80597a029dd4dcf340877c26db456a589ec9be86127414e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ePlus (PLUS) Expands Its Microsoft Footprint Even As Profit Margins Slip
+  summary: On August 24, ePlus (NASDAQ:PLUS) announced it had completed the acquisition of the assets of Daymark Solutions, a Massachusetts-based IT services provider, with the deal having closed three days earlier on August 21. The announcement landed three weeks after the company posted first-quarter fiscal 2027 results on August 4, showing sales climbing even as profit […]
+  url: https://finnhub.io/api/news?id=ff040cc718f7d04fde1e3246f240fe6dd39ebe411dd4c3039136de0ed2e3bea8

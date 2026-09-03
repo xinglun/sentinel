@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Starship Test 14 Is Coming Soon
+  summary: SpaceX  Starship test number 14 could be days away.  Starship, SpaceX’s fully reusable rocket, is the largest ever built by humans, standing about 400 feet tall.  SpaceX recently filed paperwork with the FCC related to Starship test 14.
+  url: https://finnhub.io/api/news?id=1501cbf624bb597637064e98aef04bb5589dfd4a9f608da8a091c5494209e68e

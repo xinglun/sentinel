@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bull vs. Bear: Here's My Take on Tesla's Robotaxi Rollout
+  summary: The robotaxi rollout is progressing better than headline numbers suggest, but uncertainty remains, and the bull-and-bear debate won't be resolved anytime soon.
+  url: https://finnhub.io/api/news?id=5bde31bc19b4abee125f9994f437c459c2ad6cee54246574e565dd8ae754cb4e

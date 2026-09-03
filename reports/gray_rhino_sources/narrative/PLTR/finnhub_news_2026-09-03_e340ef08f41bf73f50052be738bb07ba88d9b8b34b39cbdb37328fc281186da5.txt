@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These S&P500 stocks are moving in today's session
+  summary: Curious about the top performers within the S&P500 index in the middle of the day on Thursday? Dive into the list of today's session's top gainers and losers for a comprehensive overview.
+  url: https://finnhub.io/api/news?id=844dd45cdb24402fd7cb0469555803baeb4b18d6993dc5e7f81d631a9138c782

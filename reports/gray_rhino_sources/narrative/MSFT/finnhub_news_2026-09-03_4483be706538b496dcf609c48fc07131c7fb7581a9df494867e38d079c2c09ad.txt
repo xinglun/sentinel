@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Something Is Happening With Alphabet Stock That Wall Street Isn’t Talking About
+  summary: Every payday I hit buy on Alphabet, and the valuation signal I keep seeing in a business this size is the kind of setup that makes me wonder why the crowd is still looking elsewhere.
+  url: https://finnhub.io/api/news?id=b2e8f4fae4c704e4f017fcf2b4e01d9f81ed0bd619a11972f746fd6a2b729404

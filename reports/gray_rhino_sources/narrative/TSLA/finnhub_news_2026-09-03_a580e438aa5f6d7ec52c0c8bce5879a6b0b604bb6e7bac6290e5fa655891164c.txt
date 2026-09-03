@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Next Big Test Is Here  and Investors Are Watching One Thing
+  summary: The Cybercab event could shape how Wall Street values Tesla's autonomous-driving ambitions after a strong run in the stock.
+  url: https://finnhub.io/api/news?id=77ec0701d17ae397c4dd83228e67bba5590aa2c08567207f6d27be59b6f3dd97

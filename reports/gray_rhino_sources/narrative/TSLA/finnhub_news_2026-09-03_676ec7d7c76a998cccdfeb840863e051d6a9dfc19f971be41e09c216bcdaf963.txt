@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Behind Ford's Recall of Nearly 149K Mustang Vehicles?
+  summary: F recalls nearly 149K Mustang vehicles over an electrical wiring defect that could cause loss of drive power or disrupt key functions.
+  url: https://finnhub.io/api/news?id=f88f7f171c74501ef1897f6c2736d2cb89da132f0756b71af79473c9cc756936

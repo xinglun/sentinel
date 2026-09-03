@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Guide to Space ETF Investment
+  summary: Space ETFs offer exposure to a booming space economy, helping investors capture long-term growth while mitigating risks tied to individual companies.
+  url: https://finnhub.io/api/news?id=c9c7321dbfd625adf567494cccb9c9090c48ef0b3161629d15766612324bde13

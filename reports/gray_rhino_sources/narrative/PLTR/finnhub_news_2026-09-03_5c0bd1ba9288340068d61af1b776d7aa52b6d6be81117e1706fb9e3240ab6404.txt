@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Here's Where Palantir Stock Will Be in 3 Years
+  summary: The data analytics powerhouse has grown rapidly, but too much expected growth is already priced into its stock.
+  url: https://finnhub.io/api/news?id=0068ab03a3c18c991e2cdb71aafdd42960c01b8d616d80660aaaa6aa20251f1b

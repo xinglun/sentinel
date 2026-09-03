@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Death of the Safe Haven: How to Fix Your Bond Strategy as Yields Rise
+  summary: As interest rates rise, bonds are becoming a drag on investment portfolios.  There is no quick fix for the problems bedeviling the bond market, whether persistent inflation, rising government debt, or the torrent of issuance by corporate borrowers that threatens to crowd out demand for U.S. Treasuries.  “We are in a different environment now,” says Andrew Briggs, director of portfolio management at Plaza Advisory Group.
+  url: https://finnhub.io/api/news?id=332f3df8173be8e5d02cb08bc2c46deef2987dfa29372f0defc616019794e8b0

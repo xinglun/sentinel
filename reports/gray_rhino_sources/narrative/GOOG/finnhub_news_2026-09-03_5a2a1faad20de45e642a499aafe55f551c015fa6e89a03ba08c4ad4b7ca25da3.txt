@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Armadin Names Frank Verdecanna Chief Financial Officer
+  summary: Armadin, an AI-native cybersecurity company building effective autonomous security, today announced that Frank Verdecanna has joined the company as Chief Financial Officer.
+  url: https://finnhub.io/api/news?id=f01b874c327d0140d6f83bab6c038da976ed2fa59aa26f6a78e7f1e5244de06b

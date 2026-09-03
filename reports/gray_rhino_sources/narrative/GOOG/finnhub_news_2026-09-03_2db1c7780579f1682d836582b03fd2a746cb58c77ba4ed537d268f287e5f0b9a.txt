@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Alphabet Be Turning a Corner? ETFs Worth Considering
+  summary: Alphabet's momentum may be returning. Here are the key catalysts and ETFs offering investors heavy exposure to GOOGL.
+  url: https://finnhub.io/api/news?id=8068c9eb0e714d5b21c1b17efb96eb3d971b12b18f8514e2a55fcd380e108218

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Genesco Inc. Q2 2027 Earnings Call Summary
+  summary: Moby summary of Genesco Inc.'s Q2 2027 earnings call
+  url: https://finnhub.io/api/news?id=1c91153dc38a90d1950e38e11f3e3adba36b4b604ab1a6aa4f797f6b90012f62

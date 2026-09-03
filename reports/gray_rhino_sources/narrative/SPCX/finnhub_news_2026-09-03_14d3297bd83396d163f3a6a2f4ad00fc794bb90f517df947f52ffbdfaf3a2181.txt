@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Points to SpaceX to Explain Why He Finds Bitcoin Price Predictions 'One of the Funnier Ideas'
+  summary: Well-known investor Ross Gerber highlighted fundamental differences in how public stocks like Space Exploration Technologies Corp. (NASDAQ:SPCX) are valued compared with Bitcoin (CRYPTO: BTC). ‘Well-Worn Methods’ Available to Value Public Stocks In an exclusive interview with Benzinga, Gerber said he finds Bitcoin price predictions “one of the funnier ideas,” questioning how anyone can set a target for an asset with no earnings or revenue. Gerber, co-founder of investment firm Gerber Kawasaki, s
+  url: https://finnhub.io/api/news?id=ab242bdad826b569c8d2a32c3690773c1ca5783a2b50f5bff3075b6e8ad339a0

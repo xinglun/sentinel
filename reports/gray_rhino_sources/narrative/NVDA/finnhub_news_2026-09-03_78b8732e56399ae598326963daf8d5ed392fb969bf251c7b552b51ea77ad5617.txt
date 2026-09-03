@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Nears Record Highs With Help From Mag 7
+  summary: Stocks rallied during Thursday's session, nearing record levels, with some help from the Magnificent Seven.  The Roundhill Magnificent Seven ETF was up 2.7% to $70.58, just a stone's throw from its record closing price of $70.94.  The Nasdaq was up 1.4% while the S&P 500 rose 1%.
+  url: https://finnhub.io/api/news?id=0dd29d7875103b3a39d52951c48618bee16a1342b27a377d187af1c76f13851c

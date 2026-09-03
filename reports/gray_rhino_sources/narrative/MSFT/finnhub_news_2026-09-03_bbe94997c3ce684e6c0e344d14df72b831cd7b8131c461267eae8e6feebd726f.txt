@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Far Can Amazon Stock Fall When The Business Is Fine?
+  summary: Amazon.com (AMZN) trades at $255, down 10% over the past month and about 10% below its 52-week high. The second quarter of 2026, reported in July, was a strong one: revenue rose 20% year over year to $200.6 billion and operating income rose 43%, though about $1.2 billion of that income came from tariff refunds and an energy-contract accounting gain. That makes the drop worth sizing, because this is a stock with a long habit of falling further than the market.
+  url: https://finnhub.io/api/news?id=784ebfa6487c7bb29e44e57e5fe3651294c2056dd24186e670d2838f9c797a6a

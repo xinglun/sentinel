@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO just made bet that could reshape defense-tech race
+  summary: Alex Karp invested in a company built from real battlefield lessons.
+  url: https://finnhub.io/api/news?id=92f43e0a5e3cb0994a3c746d3e31e09952e8e9cf23b31efca100c3375bbb404e

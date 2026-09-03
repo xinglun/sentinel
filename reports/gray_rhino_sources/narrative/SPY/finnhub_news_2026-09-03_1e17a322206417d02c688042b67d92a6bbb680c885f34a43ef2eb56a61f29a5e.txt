@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Market May Be Telling Us We're Entering A Capital Formation Cycle
+  summary: My clustering stock screener is giving us a much more interesting macro signal than simply energy stocks are strong. The portfolio is not simply long commodities. It's long capital intensity
+  url: https://finnhub.io/api/news?id=d73ec82f651930fbe8adb62766f2b042452f9ee41b03a835b7ab5d39184a3300

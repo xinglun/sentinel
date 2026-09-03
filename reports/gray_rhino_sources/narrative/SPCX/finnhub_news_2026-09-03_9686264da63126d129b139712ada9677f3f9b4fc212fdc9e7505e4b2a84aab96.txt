@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Starship Test 14 Could Be Days Away. Why the Stock Needs It to Go Well.
+  summary: SpaceX  Starship test number 14 could be days away.  Starship, SpaceX’s fully reusable rocket, is the largest ever built by humans, standing about 400 feet tall.  Its development is one of the most important things SpaceX investors can monitor.
+  url: https://finnhub.io/api/news?id=b23437dabf316ffb67110fb41632f3611962c1a2c6c4063e6af1da951e21225f

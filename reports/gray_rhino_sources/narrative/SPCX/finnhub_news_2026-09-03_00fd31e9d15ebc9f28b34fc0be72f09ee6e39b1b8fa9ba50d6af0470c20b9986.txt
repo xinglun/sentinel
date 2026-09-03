@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Google and Anthropic Turned to SpaceX For AI Compute Because Power is Tight, Says SPCX Built its Own Plants to Move Faster
+  summary: Elon Musk said bringing large artificial intelligence data centers online requires far more than chips, as Alphabet Inc.’s Google, Anthropic and other companies lease computing capacity from Space Exploration Technologies Corp. amid tightening power supplies across the fast-growing AI industry....
+  url: https://finnhub.io/api/news?id=af419a9ae2abc900503bcfa80d1bd19907499e413758ccc773f2383fa8355720

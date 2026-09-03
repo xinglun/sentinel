@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Bounced Back Today
+  summary: Palantir stock looks expensive, yes, but given its growth rate, is it really overpriced?
+  url: https://finnhub.io/api/news?id=14ad47c360f66d86ba50ff45a945edff02c9622f6ec4f362b94bf59e0e64e7e3
