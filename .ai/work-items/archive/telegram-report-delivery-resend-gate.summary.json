@@ -1,0 +1,68 @@
+{
+  "changedPaths": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/decisions/telegram-report-delivery-integrity.close.json",
+    ".ai/decisions/telegram-report-delivery-integrity.finalize.json",
+    ".ai/evidence/telegram-report-delivery-resend-gate.verification.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity.task-report.md"
+  ],
+  "checkpointAt": "2026-09-03T22:19:34Z",
+  "checkpointContractDigest": "sha256:8cb85ff7b03948f621a0460463e1089e7cc8589a50a3675c5b3dcfb0e6e142b3",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:0098b744f1cbe73c42b09542a57c79849e94d453dc9256bd0808695799da97a0",
+  "createdAt": "2026-09-03T22:16:55Z",
+  "expectedReviewFocus": [
+    "resend モードだけが新規生成専用の Freshness Gate を skip し、generate モードの検証を変更していないこと。",
+    "resend が保存済み report を再利用し、radar 再計算・正式 snapshot 再生成・report 本文上書きを行わないこと。",
+    "前駆 Work Item の archive、finalize、close の証跡が保持されていること。"
+  ],
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-delivery-resend-gate.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "tests/daily_radar_workflow_integration.rs",
+      "https://github.com/xinglun/sentinel/actions/runs/33811326408"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-03T22:44:48Z",
+  "preflightContractDigest": "sha256:8cb85ff7b03948f621a0460463e1089e7cc8589a50a3675c5b3dcfb0e6e142b3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:0098b744f1cbe73c42b09542a57c79849e94d453dc9256bd0808695799da97a0",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [
+    {
+      "area": "telegram_delivery",
+      "detail": "再送の実運用結果は修正 PR の merge 後に workflow_dispatch で確認する。",
+      "followUpCandidate": false,
+      "level": "medium",
+      "reviewRecommended": true
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T22:44:51Z",
+  "userVisibleBenefit": "指定日付の既存日報を再計算せず Telegram に再送し、再送結果を data branch の監査記録へ反映できる。",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": "AI Cockpit required verification として quality gate が成功した。",
+      "result": "passed"
+    },
+    {
+      "check": "CARGO_INCREMENTAL=0 cargo test --test daily_radar_workflow_integration",
+      "evidence": "resend の Freshness Gate 分岐を含む workflow 契約テスト 17 件が成功した。",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-delivery-resend-gate"
+}

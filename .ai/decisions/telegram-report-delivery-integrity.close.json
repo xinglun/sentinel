@@ -1,0 +1,164 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "workItemId": "telegram-report-delivery-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-integrity.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/shared/infrastructure/notify.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/telegram-report-delivery-integrity.finalize.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'PR #132 が required checks 通過後に develop へマージされ、provider finalization と finalize-verify が成功したため、前駆 Work Item を閉じる。実運用の resend workflow は別 successor で修正する。' by human:repository-owner via explicit-user-authorization at 2026-09-03T22:14:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "日報の生成、通知結果、履歴 report の resend を検証可能にし、指定日付の正式 report を再計算・上書きしない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "telegram-report-delivery-integrity"
+  },
+  "finalReportDigest": "sha256:0b9a7f62a9f778c8282c2c76f644acaaeefae1edc79a14efe7ea924950e7a1dc",
+  "humanDecision": "PR #132 が required checks 通過後に develop へマージされ、provider finalization と finalize-verify が成功したため、前駆 Work Item を閉じる。実運用の resend workflow は別 successor で修正する。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:72146de3be12433a08014043bdde6a1096b0b393296a4eb731f256a22ed5365d",
+  "resourceFinalizationHeadPath": ".ai/decisions/telegram-report-delivery-integrity.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-03T22:14:00Z",
+    "decision": "PR #132 が required checks 通過後に develop へマージされ、provider finalization と finalize-verify が成功したため、前駆 Work Item を閉じる。実運用の resend workflow は別 successor で修正する。",
+    "evidenceRefs": [
+      ".ai/decisions/telegram-report-delivery-integrity.finalize.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md"
+    ],
+    "reason": "ユーザーは修正の push、PR #132 の develop へのマージ、精確な branch/worktree 清理、報告再送、develop→main 同期を明示的に承認した。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-03T22:16:28Z",
+  "workItemId": "telegram-report-delivery-integrity"
+}

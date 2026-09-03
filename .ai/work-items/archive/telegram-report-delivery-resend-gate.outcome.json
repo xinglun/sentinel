@@ -1,0 +1,186 @@
+{
+  "acceptanceResults": [
+    "workflow_dispatch の resend は保存済み report と decisioning=succeeded を検証し、Telegram 全 chunk の HTTP status と JSON ok=true 後に notification_resend を記録する",
+    "resend モードはレーダー再計算、正式 snapshot 再生成、report 本文上書きを行わず、Freshness Gate の新規日付連続性チェックを実行しない",
+    "generate モードでは Freshness Gate が従来どおり実行され、workflow の条件分岐に回帰テストがある",
+    "前駆 archive の taskReportMarkdown digest が一致し、finalize と close の証跡を保持する",
+    "make fmt-check、make test、make clippy、make quality が成功する"
+  ],
+  "createdAt": "2026-09-03T22:44:51Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:0378ad812be0c854bc958ad5b7e0b45fd4dc639365d2c8abb7b512344b9b2acf",
+  "evidenceRefs": [
+    ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:0098b744f1cbe73c42b09542a57c79849e94d453dc9256bd0808695799da97a0",
+      "workItemId": "telegram-report-delivery-resend-gate"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/telegram-report-delivery-integrity.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/telegram-report-delivery-integrity.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-integrity.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "指定日付の既存日報を再計算せず再送し、resend モードで新規生成専用の Freshness Gate を実行せず、送信結果を data branch に記録できるようにする。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "telegram-report-delivery-resend-gate"
+  },
+  "taskReportDigest": "sha256:ac618505bf18413bc3c36276d68b80f28aaa2fc24908510eeec83307b8b8d346",
+  "taskReportMarkdownDigest": "sha256:d5fd21fff3197957291bb3de66e1004489be51c4b27e5896506f989a867f5408",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/telegram-report-delivery-resend-gate.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "telegram-report-delivery-resend-gate"
+}
