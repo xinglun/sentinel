@@ -602,6 +602,7 @@ jobs:
           PY
 
       - name: Freshness Gate and Output Validation
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
         run: |
           set -euo pipefail
           

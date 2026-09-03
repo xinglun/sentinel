@@ -191,6 +191,12 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
     assert!(workflow.contains("SENTINEL_EXECUTION_GIT_SHA: ${{ github.sha }}"));
     assert!(workflow.contains("SENTINEL_EXECUTION_GIT_BRANCH: ${{ github.ref_name }}"));
     assert!(!script.contains("make radar-release"));
+    assert!(
+        workflow.contains(
+            "name: Freshness Gate and Output Validation\n        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}"
+        ),
+        "resend must skip freshness validation intended for newly generated reports"
+    );
 }
 
 #[test]
