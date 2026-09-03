@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T22:44:57Z",
+  "files": {
+    "contractDigest": "sha256:384a69c733c599b36bbc15ad78e41536fa33b8fe0c6a6a72e54a4de2762e5b25",
+    "contractPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json",
+    "eventsDigest": "sha256:a95dbd9a4bdb76f35fd02ecf7d497b7934539ead9c535f17f50e91d019f01542",
+    "eventsPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.events.jsonl",
+    "outcomeDigest": "sha256:613bb3b562eca87b665d4dec43532afba85276ede4035cdab21cc6c9731771d5",
+    "outcomePath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.outcome.json",
+    "summaryDigest": "sha256:a7f8db5696383bccc4291fadcde4f2c101077057d9efa607a8c679f3e696e9c1",
+    "summaryPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json",
+    "taskReportDigest": "sha256:ac618505bf18413bc3c36276d68b80f28aaa2fc24908510eeec83307b8b8d346",
+    "taskReportMarkdownDigest": "sha256:d5fd21fff3197957291bb3de66e1004489be51c4b27e5896506f989a867f5408",
+    "taskReportMarkdownPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "telegram-report-delivery-resend-gate"
+}

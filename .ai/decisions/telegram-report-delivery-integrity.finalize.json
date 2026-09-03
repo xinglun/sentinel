@@ -1,0 +1,69 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "ce7fd737be3c27a1dcc8783a04d9b8bde26ccb06",
+    "name": "codex/telegram-report-delivery-integrity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:cecc208a2bfd379d085c8c72a05c8a6f08d4d2d5f3a15c80cb958e75f189898d",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "contractBaseRevision": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "30514c636e04f09f6609f2029ba4859f56852766",
+    "mergeParents": [
+      "cd85269439b29c2283bbf8f535612f56a19a038b",
+      "ce7fd737be3c27a1dcc8783a04d9b8bde26ccb06"
+    ]
+  },
+  "operationId": "historical-pr-132-merge-cleanup-20260904",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "cd85269439b29c2283bbf8f535612f56a19a038b",
+    "headRevision": "ce7fd737be3c27a1dcc8783a04d9b8bde26ccb06",
+    "mergeCommit": "30514c636e04f09f6609f2029ba4859f56852766",
+    "number": 0,
+    "url": "historical://direct-merge/30514c636e04f09f6609f2029ba4859f56852766"
+  },
+  "reason": "PR #132 已实际通过全部 GitHub 检查并合并为 30514c63；由于前驱 Contract 只保存 local/not-requested 占位上下文，按 Runtime 的 historical recovery 路径记录真实合并提交与精确分支/worktree 清理事实，不改写不可变前驱记录。",
+  "receiptId": "telegram-report-delivery-integrity-historical-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-delivery-integrity",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/30514c636e04f09f6609f2029ba4859f56852766",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-wi-telegram-report-delivery-integrity"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:1636e67caf25fb0421068ac0eb7a8d2e3b0c142a7fe734a2a7ad26a5b45bc1a5",
+  "runtimeVersion": "0.2.69",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-03T22:10:06Z",
+  "workItemId": "telegram-report-delivery-integrity",
+  "worktree": {
+    "branch": "codex/telegram-report-delivery-integrity",
+    "headRevision": "ce7fd737be3c27a1dcc8783a04d9b8bde26ccb06",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-wi-telegram-report-delivery-integrity",
+    "worktreeId": "telegram-report-delivery-integrity"
+  }
+}

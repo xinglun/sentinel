@@ -1,0 +1,171 @@
+{
+  "acceptanceCriteria": [
+    "通常の Daily Radar 通知は Telegram の HTTP 非成功応答と JSON ok != true を失敗として run_status に記録し、成功を偽装しない。",
+    "Telegram HTML の各 chunk は許可されたタグを chunk 内で閉じ、3800 文字境界や超長行によって未閉鎖タグを生成しない。",
+    "workflow_dispatch の resend は明示的な report_date を受け取り、data ブランチの同日 report と decisioning=succeeded を検証してから、保存済み report だけを再送する。",
+    "resend は radar 再計算、正式 snapshot の再生成、report 本文の上書きを行わず、全 chunk の HTTP status と JSON ok=true を検証した後だけ notification_resend を記録する。",
+    "回帰テストは HTML chunk 境界、Telegram API 業務エラー、指定日付の入力検証、resend が generate 経路を停止することを検証する。",
+    "make fmt-check、make test、make clippy、make quality が成功する。"
+  ],
+  "agentCapability": {
+    "blockedReason": "",
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "cd85269439b29c2283bbf8f535612f56a19a038b",
+  "createdAt": "2026-09-03T21:08:11Z",
+  "executionDecision": {
+    "reason": "実装対象、非変更境界、既存 evidence、回帰シナリオ、検証方法が明確である。",
+    "status": "continue"
+  },
+  "goal": "日報の生成、通知結果、履歴 report の resend を検証可能にし、指定日付の正式 report を再計算・上書きしない。",
+  "intent": {
+    "problem": "Telegram の HTTP 成功だけでは業務エラーを検出できず、長い HTML report の chunk 分割がタグを壊して通知を失敗させる。また既存 report の指定日付 resend ができない。",
+    "constraints": [
+      "Gate、Decision、Action Matrix、Position Sizing、Execution、Trader および取引意味論を変更しない。",
+      "report 本文、既存 data branch history、Telegram secrets を変更または読み出さない。",
+      "resend は data branch の正式 report だけを再利用し、通常の radar generate 経路を実行しない。"
+    ],
+    "rationale": "2026-09-03 の旧 run は Telegram API の JSON ok を検証せず成功扱いにし、2026-09-04 の run は未閉鎖 i tag による Telegram HTTP 400 を記録した。既存 report を再計算せず復旧できる指定日付 resend と、同種の静かな配信失敗を防ぐ検証が必要である。"
+  },
+  "problemStatement": "Daily Radar の Telegram 通知が HTTP 成功だけを根拠に成功扱いとなり、HTML chunk 境界のタグ破損を検出できない。既存 data branch report も指定日付で安全に resend できない。",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "Gate、Decision、Action Matrix、Position Sizing、Execution、Trader および取引意味論",
+    "report 計算、provider、data branch の既存履歴 data、正式 report 本文",
+    "Telegram token、chat id、Secret の読み出しまたは変更",
+    "修正の merge 後にユーザーが明示的に運用承認するまで、指定日付 report を実際に Telegram へ送信すること"
+  ],
+  "preReviewWarnings": [
+    "HTML chunk の修正は許可タグの境界だけを扱い、report 本文の文言や取引判断を変更しないこと。",
+    "指定日付 resend は data branch の正式 artifact だけを読み、通常の radar generate 経路を必ず skip すること。",
+    "Telegram token、chat id、API 応答本文の秘密値をログ、Contract、Summary、テスト出力へ記録しないこと。",
+    "実際の 2026-09-03 resend はコード修正の merge 後に、ユーザーの明示的な運用承認を得て行うこと。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d7168d5bd37fa83ceedcd71ab4bc499069d2e2eb968beae785616cbd04153e0c",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-delivery-integrity",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-wi-telegram-report-delivery-integrity"
+  },
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/shared/infrastructure/notify.rs"
+      ],
+      "expected": "通知は succeeded にならず、業務エラーを安全に返す。",
+      "required": true,
+      "scenario": "Telegram が HTTP 2xx で ok=false を返す",
+      "status": "unverified",
+      "verificationPlan": "レスポンス判定関数のユニットテストで ok=false を failure に写像する。"
+    },
+    {
+      "evidence": [
+        "src/features/shared/infrastructure/notify.rs"
+      ],
+      "expected": "各 chunk の許可タグが閉じ、Telegram HTML として妥当な payload になる。",
+      "required": true,
+      "scenario": "Telegram HTML の長い行が chunk 境界をまたぐ",
+      "status": "unverified",
+      "verificationPlan": "HTML fragment を含む長い行を入力し、chunk ごとのタグ整合性と上限長を検証する。"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "expected": "report_date の artifact と status だけを読み、対象日付を明示した resend を実行できる。",
+      "required": true,
+      "scenario": "指定日付の resend が当日以外の正式 report を再利用する",
+      "status": "unverified",
+      "verificationPlan": "workflow input、date path、date/status validation、data branch source を静的契約テストで検証する。"
+    },
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "expected": "resend 時は evidence collection と radar execution が skip され、formal snapshot が再計算されない。",
+      "required": true,
+      "scenario": "resend が通常 generate 経路を実行しない",
+      "status": "unverified",
+      "verificationPlan": "workflow 条件と resend script に radar-release / provider 呼び出しがないことを契約テストで確認する。"
+    }
+  ],
+  "scope": [
+    ".ai/cockpit/current_status.md",
+    ".ai/work-items/active/telegram-report-delivery-integrity.contract.json",
+    ".ai/work-items/active/telegram-report-delivery-integrity.summary.json",
+    ".github/workflows/daily_radar.yml",
+    "src/features/shared/infrastructure/notify.rs",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "会話言語、repository artifact の言語、Rust quality gate、Work Item の境界を定義する。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "インストール済み ai-cockpit Runtime と Contract lifecycle の正規入口を定義する。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "repository-local AI Cockpit の状態と lifecycle を確認する。"
+    },
+    {
+      "path": ".ai/glossary.md",
+      "reason": "Work Item、Preflight、evidence の repository-local 用語を確認する。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/notify.rs",
+      "reason": "通常 Telegram 通知の sanitize、chunk、HTTP 応答判定の実装対象である。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "通常 generate と既存 resend の分岐、data branch artifact、Telegram secrets の workflow contract である。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "workflow の shell、date、failure、resend 境界を検証する既存契約テストである。"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-09-01-telegram-report-resend.md",
+      "reason": "既存 resend の再計算禁止、data branch source、Telegram response 検証方針を記録する。"
+    },
+    {
+      "path": "GitHub Actions run 33664273287",
+      "reason": "2026-09-03 report が生成されたが、旧通知 status に message id と API ok 判定がないことを示す。"
+    },
+    {
+      "path": "GitHub Actions run 33787489075",
+      "reason": "Telegram が未閉鎖 i tag を理由に 400 を返した現在の再現 evidence である。"
+    },
+    {
+      "path": "origin/data: reports/run_status_2026-09-03.json",
+      "reason": "2026-09-03 の report、decisioning、notification の保存結果を確認する。"
+    }
+  ],
+  "state": "not_ready",
+  "unknowns": [],
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "telegram-report-delivery-integrity"
+}

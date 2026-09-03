@@ -1,0 +1,120 @@
+{
+  "changedPaths": [
+    ".ai/evidence/telegram-report-delivery-integrity.verification.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity.summary.json",
+    ".github/workflows/daily_radar.yml",
+    "src/features/shared/infrastructure/notify.rs",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "checkpointAt": "2026-09-03T21:15:56Z",
+  "checkpointContractDigest": "sha256:10f391a57d2b088954065b6098cd5c868a2b649f18da4c0150c57b19fcc4461b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:92925fc55a8f7b0134ed2e2be875747f372bf838af939bb80eadcc33c2d1a473",
+      "recorded": true,
+      "recordedAt": "2026-09-03T21:15:56Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-delivery-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:8c36c51613b5906c081dce795168e44300fdcd3bd3af6ed02cb13de337047bb5",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:92925fc55a8f7b0134ed2e2be875747f372bf838af939bb80eadcc33c2d1a473",
+      "previousContractHash": "sha256:92925fc55a8f7b0134ed2e2be875747f372bf838af939bb80eadcc33c2d1a473",
+      "reason": "将 required evidence 分类修正为 Runtime 支持的 verification，并保留既有范围与验收不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-03T21:35:37Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-delivery-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2ff2e1d5aeebdcd9efc45e1f059006dc583efe04654e9f7c1162786b75442093",
+      "invalidatedRequiredChecks": [
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:92925fc55a8f7b0134ed2e2be875747f372bf838af939bb80eadcc33c2d1a473",
+      "previousContractHash": "sha256:8c36c51613b5906c081dce795168e44300fdcd3bd3af6ed02cb13de337047bb5",
+      "reason": "将 finalize-plan 固化的 local branch/worktree 资源上下文绑定到当前 Contract，代码 scope、验收与非变更边界不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-03T21:39:48Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-delivery-integrity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:10f391a57d2b088954065b6098cd5c868a2b649f18da4c0150c57b19fcc4461b",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:92925fc55a8f7b0134ed2e2be875747f372bf838af939bb80eadcc33c2d1a473",
+      "previousContractHash": "sha256:2ff2e1d5aeebdcd9efc45e1f059006dc583efe04654e9f7c1162786b75442093",
+      "reason": "按 Runtime governance 绑定要求将 intent 改为结构化问题/约束/依据，并将已由 make quality 覆盖的质量门声明为唯一 required verification；业务验收与代码范围不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-03T21:43:48Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-delivery-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+  "createdAt": "2026-09-03T21:08:11Z",
+  "mode": "code",
+  "preflightAt": "2026-09-03T21:46:28Z",
+  "preflightContractDigest": "sha256:10f391a57d2b088954065b6098cd5c868a2b649f18da4c0150c57b19fcc4461b",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:b463920701fb113dc37b237db9d3387789c3ec971d89f44eaa184d02dc137c3d",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-03T21:46:58Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-delivery-integrity"
+}
