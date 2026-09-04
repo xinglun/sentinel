@@ -160,7 +160,7 @@
     "workItemId": "daily-radar-reliability-fix"
   },
   "taskReportDigest": "sha256:7c12931b4762ae6cf684c4933255058c8742c692f413ea47ef9c730b312a605c",
-  "taskReportMarkdownDigest": "sha256:8cef786275894eea4abfbdae5e611f061f348c42f6def4d6f6c15dbf9c37c422",
+    "taskReportMarkdownDigest": "sha256:aa8b4cd4eb6870a8b1f8b5706c354a948562b81242470c524b509639309c8af0",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
