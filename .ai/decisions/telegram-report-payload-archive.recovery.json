@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T01:50:01Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-payload-archive.archive.json",
+    ".ai/work-items/archive/telegram-report-payload-archive.contract.json",
+    ".ai/work-items/archive/telegram-report-payload-archive.summary.json",
+    ".ai/work-items/archive/telegram-report-payload-archive.outcome.json",
+    ".ai/work-items/archive/telegram-report-payload-archive.events.jsonl",
+    ".ai/evidence/telegram-report-payload-archive.verification.json",
+    "https://github.com/xinglun/sentinel/pull/137",
+    "https://github.com/xinglun/sentinel/commit/6eb62bdb114a88ede349bc5d1eaf5407b092c07f"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+  "predecessorEventsDigest": "sha256:5aa611da1bdf04a31a3bfb225fadfe5cd3c7df5b3d2840ad450be4ca521214e4",
+  "predecessorOutcomeDigest": "sha256:15f07224ab36fddb12abcc10652e4822d5c9b8b306c7baa09a0abecce137c6c5",
+  "predecessorSummaryDigest": "sha256:5858a3fe34de332d8742fe0261e0316c3947bbcb78f08fd519716d9640b8f2cb",
+  "predecessorWorkItemId": "telegram-report-payload-archive",
+  "reason": "原 Work Item 已归档后，独立审查发现同一修复范围仍需补强 HTML 转义、元数据边界、严格状态判定和真实执行回归；保留前驱归档不可变证据，按 Runtime 协议从最新 develop 创建绑定的 repair successor，完成同一 PR 已合并修复的独立验证。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "repair successor 完成同范围 Contract、preflight、checkpoint、make quality、finish、archive，并在默认分支同步后完成 finalization 和 close。",
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-payload-archive-repair",
+  "workItemId": "telegram-report-payload-archive"
+}
