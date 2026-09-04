@@ -1,0 +1,103 @@
+{
+  "changedPaths": [
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/infrastructure/persistence.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/archival_integration.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    ".ai/evidence/external/telegram-report-payload-archive-runtime.txt",
+    ".ai/evidence/external/telegram-report-payload-archive.8193530c988003998100a43648c456f3a314f2cca54a9ba6b488f6ea8c6f0b46.delegated.json"
+  ],
+  "checkpointAt": "2026-09-04T00:46:21Z",
+  "checkpointContractDigest": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:365da7303a43b686d7e4f44b63ef52d16a0d836cc8a31dff19be6c530f3f6e0a",
+      "recorded": true,
+      "recordedAt": "2026-09-04T00:46:21Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-payload-archive"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:770c65a352b214385dcf3db97ed024207fb5e2715e423f3c06d0c5f8cea05c46",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:365da7303a43b686d7e4f44b63ef52d16a0d836cc8a31dff19be6c530f3f6e0a",
+      "previousContractHash": "sha256:365da7303a43b686d7e4f44b63ef52d16a0d836cc8a31dff19be6c530f3f6e0a",
+      "reason": "将 required verification 固化为仓库规定的 make quality，确保 0.2.70 verify 通过统一质量入口执行。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T00:51:59Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1b7c3fb0ed78db6a90e28c17456cb7304141c00695dc03ed8a6cf5d3228a02c9",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "telegram-report-payload-archive"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:365da7303a43b686d7e4f44b63ef52d16a0d836cc8a31dff19be6c530f3f6e0a",
+      "previousContractHash": "sha256:770c65a352b214385dcf3db97ed024207fb5e2715e423f3c06d0c5f8cea05c46",
+      "reason": "补齐 finish 所需的用户可见收益并将 branch、base、provider、worktree 资源上下文绑定到当前 Work Item；代码范围与验收不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T01:03:51Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e58d6988ac7f63b56325f91f65d2851a9b409271f716d435058069b904a58e75",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "telegram-report-payload-archive"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e58d6988ac7f63b56325f91f65d2851a9b409271f716d435058069b904a58e75",
+  "createdAt": "2026-09-04T00:42:50Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-payload-archive.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "src/features/radar/interface/radar_pipeline_runner.rs",
+      "tests/daily_radar_workflow_integration.rs"
+    ],
+    "reason": "本 Work Item 只修正 Telegram 日报补发载荷的来源、HTML 解析与安全分片，并在缺少精确载荷时失败关闭；不改变报告语义或交易决策。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-04T01:10:12Z",
+  "preflightContractDigest": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e58d6988ac7f63b56325f91f65d2851a9b409271f716d435058069b904a58e75",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T01:10:12Z",
+  "userVisibleBenefit": "指定日期的 Telegram 日报补发将复用原始 HTML 载荷，避免把归档 Markdown 错当成可发送正文，并在缺少精确载荷时明确失败。",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": "ai-cockpit 0.2.70 verify 在当前 Contract digest 下执行 make quality 成功。",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-payload-archive"
+}

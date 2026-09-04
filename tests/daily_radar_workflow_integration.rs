@@ -2,8 +2,16 @@
 
 use serde_json::Value;
 use std::fs;
+use std::io::{Read, Write};
+use std::net::{TcpListener, TcpStream};
 use std::path::Path;
 use std::process::Command;
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc, Mutex,
+};
+use std::thread;
+use std::time::{Duration, Instant};
 
 const STEP_NAME: &str = "Collect Evidence (non-blocking)";
 
@@ -78,6 +86,102 @@ fn extract_step_script(workflow_path: &Path, step_name: &str) -> String {
         }
     }
     script
+}
+
+fn extract_embedded_python(script: &str) -> String {
+    let start_marker = "python - <<'PY'\n";
+    let start = script
+        .find(start_marker)
+        .map(|index| index + start_marker.len())
+        .expect("resend Python heredoc is missing");
+    let end = script[start..]
+        .find("\nPY\n")
+        .map(|index| start + index)
+        .expect("resend Python heredoc terminator is missing");
+    script[start..end].to_string()
+}
+
+fn read_mock_http_request(stream: &mut TcpStream) -> Option<Value> {
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .expect("failed to configure mock HTTP read timeout");
+    let mut headers = Vec::new();
+    let mut byte = [0_u8; 1];
+    loop {
+        stream.read_exact(&mut byte).ok()?;
+        headers.push(byte[0]);
+        if headers.ends_with(b"\r\n\r\n") {
+            break;
+        }
+        if headers.len() > 8192 {
+            return None;
+        }
+    }
+    let headers_text = String::from_utf8_lossy(&headers);
+    let content_length = headers_text
+        .lines()
+        .find_map(|line| line.strip_prefix("Content-Length:"))
+        .and_then(|value| value.trim().parse::<usize>().ok())?;
+    let mut body = vec![0_u8; content_length];
+    stream.read_exact(&mut body).ok()?;
+    serde_json::from_slice(&body).ok()
+}
+
+fn serve_mock_telegram_request(stream: &mut TcpStream, messages: &Arc<Mutex<Vec<Value>>>) {
+    if let Some(payload) = read_mock_http_request(stream) {
+        messages
+            .lock()
+            .expect("mock Telegram messages mutex was poisoned")
+            .push(payload);
+        let response_body = b"{\"ok\":true}";
+        let response = format!(
+            "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+            response_body.len()
+        );
+        stream
+            .write_all(response.as_bytes())
+            .expect("failed to write mock Telegram response headers");
+        stream
+            .write_all(response_body)
+            .expect("failed to write mock Telegram response body");
+    }
+}
+
+type MockTelegramServer = (
+    String,
+    Arc<Mutex<Vec<Value>>>,
+    Arc<AtomicBool>,
+    thread::JoinHandle<()>,
+);
+
+fn start_mock_telegram_server() -> MockTelegramServer {
+    let listener = TcpListener::bind("127.0.0.1:0").expect("failed to bind mock Telegram server");
+    listener
+        .set_nonblocking(true)
+        .expect("failed to configure mock Telegram server");
+    let address = format!(
+        "http://{}/sendMessage",
+        listener
+            .local_addr()
+            .expect("failed to read mock Telegram server address")
+    );
+    let messages = Arc::new(Mutex::new(Vec::new()));
+    let stop = Arc::new(AtomicBool::new(false));
+    let thread_messages = Arc::clone(&messages);
+    let thread_stop = Arc::clone(&stop);
+    let handle = thread::spawn(move || {
+        let deadline = Instant::now() + Duration::from_secs(15);
+        while !thread_stop.load(Ordering::Acquire) && Instant::now() < deadline {
+            match listener.accept() {
+                Ok((mut stream, _)) => serve_mock_telegram_request(&mut stream, &thread_messages),
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                    thread::sleep(Duration::from_millis(5));
+                }
+                Err(_) => break,
+            }
+        }
+    });
+    (address, messages, stop, handle)
 }
 
 fn write_script(dir: &Path) -> std::path::PathBuf {
@@ -181,7 +285,7 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
     assert!(workflow.contains("type: choice"));
     assert!(workflow.contains("resend"));
     assert!(workflow.contains("inputs.mode != 'resend'"));
-    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
     assert!(script.contains("run_status_${DATE_JST}.json"));
     assert!(script.contains("api.telegram.org"));
     assert!(script.contains("\"ok\""));
@@ -211,9 +315,167 @@ fn daily_radar_manual_resend_accepts_a_validated_report_date_without_generating(
     assert!(workflow.contains("REPORT_DATE_INPUT: ${{ inputs.report_date }}"));
     assert!(script.contains("REPORT_DATE_INPUT"));
     assert!(script.contains("datetime.strptime(date_jst, \"%Y-%m-%d\")"));
-    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
     assert!(script.contains("run_status_${DATE_JST}.json"));
     assert!(!script.contains("make radar-release"));
+}
+
+#[test]
+fn daily_radar_persists_the_final_telegram_payload_before_delivery() {
+    let runner_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("src/features/radar/interface/radar_pipeline_runner.rs");
+    let runner = fs::read_to_string(runner_path).expect("failed to read radar pipeline runner");
+    let persist = runner
+        .find("save_telegram_html_report")
+        .expect("final Telegram HTML payload must be persisted");
+    let deliver = runner
+        .rfind("send_telegram_with_status")
+        .expect("final Telegram HTML payload must be delivered");
+
+    assert!(persist < deliver);
+    assert!(runner.contains("&report_result.telegram_html_body"));
+}
+
+#[test]
+fn daily_radar_manual_resend_uses_the_archived_telegram_html_payload() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Resend Existing Daily Report");
+
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
+    assert!(!script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("parse_mode"));
+    assert!(script.contains("HTML"));
+    assert!(script.contains("data_branch_telegram_html_payload"));
+    assert!(script.contains("payload_path"));
+    assert!(script.contains("sanitize_telegram_html"));
+    assert!(script.contains("chunk_telegram_html_message"));
+    assert!(script.contains("def utf8_len"));
+    assert!(script.contains("archived Telegram HTML payload is missing"));
+}
+
+#[test]
+fn daily_radar_manual_resend_executes_html_payload_safely() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Resend Existing Daily Report");
+    let python = extract_embedded_python(&script);
+    let tmp = tempfile::tempdir().expect("failed to create resend fixture directory");
+    let reports = tmp.path().join("reports");
+    fs::create_dir_all(&reports).expect("failed to create reports directory");
+    let report = format!(
+        "\n<b>报告开始<&> <u>危险</u> __TG_OPEN_B__ {}</b>\n<i>报告结束</i>\n",
+        "中文🧪".repeat(1100)
+    );
+    fs::write(reports.join("telegram_report_2026-09-03.html"), &report)
+        .expect("failed to write HTML payload fixture");
+    let status = serde_json::json!({
+        "date": "2026-09-03",
+        "decisioning": "succeeded",
+        "runtime_identity": {
+            "report_run_at": "<b>不可信</b>",
+            "git_commit_sha": "abc<script>"
+        }
+    });
+    fs::write(
+        reports.join("run_status_2026-09-03.json"),
+        serde_json::to_vec_pretty(&status).unwrap(),
+    )
+    .expect("failed to write status fixture");
+    let python_path = tmp.path().join("resend.py");
+    fs::write(&python_path, python).expect("failed to write resend Python fixture");
+
+    let (api_url, messages, stop, server) = start_mock_telegram_server();
+    let output = Command::new("python3")
+        .arg(&python_path)
+        .current_dir(tmp.path())
+        .env("DATE_JST", "2026-09-03")
+        .env(
+            "TELEGRAM_REPORT_PATH",
+            "reports/telegram_report_2026-09-03.html",
+        )
+        .env("STATUS_PATH", "reports/run_status_2026-09-03.json")
+        .env("TELEGRAM_BOT_TOKEN", "test-token")
+        .env("TELEGRAM_CHAT_ID", "test-chat")
+        .env("TELEGRAM_API_URL", &api_url)
+        .env("SENTINEL_EXECUTION_GIT_SHA", "resend-sha")
+        .output()
+        .expect("failed to execute resend Python fixture");
+    assert!(
+        output.status.success(),
+        "resend fixture failed: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+
+    let first_messages = messages
+        .lock()
+        .expect("mock Telegram messages mutex was poisoned")
+        .clone();
+    assert!(
+        first_messages.len() > 1,
+        "fixture must exercise HTML chunking"
+    );
+    assert!(first_messages.iter().all(|payload| {
+        payload["text"]
+            .as_str()
+            .is_some_and(|text| text.len() <= 3800)
+    }));
+    assert!(first_messages.iter().all(|payload| {
+        let text = payload["text"].as_str().unwrap_or_default();
+        text.matches("<b>").count() == text.matches("</b>").count()
+            && text.matches("<i>").count() == text.matches("</i>").count()
+    }));
+    assert!(first_messages[0]["text"]
+        .as_str()
+        .unwrap()
+        .contains("\n\n\n<b>报告开始"));
+    let sent_text = first_messages
+        .iter()
+        .filter_map(|payload| payload["text"].as_str())
+        .collect::<String>();
+    assert!(sent_text.contains("&lt;u&gt;危险&lt;/u&gt;"));
+    assert!(sent_text.contains("&lt;b&gt;不可信&lt;/b&gt;"));
+    assert!(sent_text.contains("&lt;script&gt;"));
+    assert!(sent_text.contains("__TG_OPEN_B__"));
+    assert!(first_messages
+        .iter()
+        .all(|payload| { payload["parse_mode"].as_str() == Some("HTML") }));
+
+    fs::write(
+        reports.join("run_status_2026-09-03.json"),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "date": "2026-09-03",
+            "decisioning": {"succeeded": false}
+        }))
+        .unwrap(),
+    )
+    .expect("failed to write failed status fixture");
+    let rejected = Command::new("python3")
+        .arg(&python_path)
+        .current_dir(tmp.path())
+        .env("DATE_JST", "2026-09-03")
+        .env(
+            "TELEGRAM_REPORT_PATH",
+            "reports/telegram_report_2026-09-03.html",
+        )
+        .env("STATUS_PATH", "reports/run_status_2026-09-03.json")
+        .env("TELEGRAM_BOT_TOKEN", "test-token")
+        .env("TELEGRAM_CHAT_ID", "test-chat")
+        .env("TELEGRAM_API_URL", &api_url)
+        .output()
+        .expect("failed to execute rejected resend fixture");
+    assert!(!rejected.status.success());
+    assert_eq!(
+        messages
+            .lock()
+            .expect("mock Telegram messages mutex was poisoned")
+            .len(),
+        first_messages.len(),
+        "failed decisioning status must not send any Telegram request"
+    );
+    stop.store(true, Ordering::Release);
+    server.join().expect("mock Telegram server panicked");
 }
 
 #[test]
