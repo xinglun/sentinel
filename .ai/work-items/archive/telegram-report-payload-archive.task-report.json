@@ -1,0 +1,137 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-payload-archive.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:e58d6988ac7f63b56325f91f65d2851a9b409271f716d435058069b904a58e75",
+    "workItemId": "telegram-report-payload-archive"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .github/workflows/daily_radar.yml"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: src/features/radar/infrastructure/persistence.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: src/features/radar/interface/radar_pipeline_runner.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/archival_integration.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/telegram-report-payload-archive-runtime.txt"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/evidence/external/telegram-report-payload-archive.8193530c988003998100a43648c456f3a314f2cca54a9ba6b488f6ea8c6f0b46.delegated.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/telegram-report-payload-archive.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.contract.json"
+        ],
+        "inference": false,
+        "text": "生成日报时保存最终 Telegram HTML 载荷；补发仅使用该载荷并复用 HTML 安全分片与校验语义；缺少精确载荷时失败关闭。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "telegram-report-payload-archive"
+}

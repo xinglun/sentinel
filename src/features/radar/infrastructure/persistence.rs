@@ -868,6 +868,14 @@ impl PersistenceLayer {
         Ok(())
     }
 
+    /// Telegram 配信用の最終 HTML payload を日付単位で保存する。
+    pub fn save_telegram_html_report(&self, content: &str, date: &str) -> Result<()> {
+        let filename = format!("telegram_report_{}.html", date);
+        let path = self.save_dir.join(filename);
+        std::fs::write(path, content).context("Failed to write Telegram HTML report")?;
+        Ok(())
+    }
+
     pub fn save_data_quality_log<T: serde::Serialize>(&self, log: &T) -> Result<()> {
         let path = self.save_dir.join("data_quality_log.jsonl");
         let json = serde_json::to_string(log).context("Failed to serialize data quality log")?;
