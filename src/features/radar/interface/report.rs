@@ -530,7 +530,7 @@ fn generate_telegram_html_report(
 }
 
 fn render_runtime_integrity_markdown(pres: &PresentationPacket, detailed: bool) -> String {
-    let mut out = String::new();
+    let mut out = render_report_run_marker(pres);
     if detailed {
         if let Some(identity) = pres.runtime_identity.as_ref() {
             out.push_str("<!-- report_runtime_identity\n");
@@ -578,10 +578,19 @@ fn render_runtime_integrity_markdown(pres: &PresentationPacket, detailed: bool) 
     out
 }
 
-fn render_runtime_integrity_html(pres: &PresentationPacket) -> String {
-    runtime_integrity_alert(pres)
-        .map(|alert| format!("<i>{alert}</i>\n\n"))
+fn render_report_run_marker(pres: &PresentationPacket) -> String {
+    pres.runtime_identity
+        .as_ref()
+        .map(|identity| format!("<!-- report_run_id: {} -->\n", identity.report_run_id))
         .unwrap_or_default()
+}
+
+fn render_runtime_integrity_html(pres: &PresentationPacket) -> String {
+    let mut out = render_report_run_marker(pres);
+    if let Some(alert) = runtime_integrity_alert(pres) {
+        out.push_str(&format!("<i>{alert}</i>\n\n"));
+    }
+    out
 }
 
 fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
@@ -598,6 +607,14 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
         .diagnostics
         .iter()
         .any(|diagnostic| diagnostic == "RS_INPUT_DEGRADED");
+    let is_runtime_mismatch = integrity
+        .diagnostics
+        .iter()
+        .any(|diagnostic| diagnostic == "RUNTIME_MISMATCH");
+    let is_report_artifact_mismatch = integrity
+        .diagnostics
+        .iter()
+        .any(|diagnostic| diagnostic == "REPORT_ARTIFACT_MISMATCH");
     let detail = match integrity.status {
         crate::features::shared::application::run_status::RuntimeIntegrityStatus::Unavailable => {
             RuntimeIntegrityAlertDetail::Unavailable
@@ -611,6 +628,16 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             if is_rs_degraded && integrity.diagnostics.len() == 1 =>
         {
             RuntimeIntegrityAlertDetail::RelativeStrengthIncomplete
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
+            if is_runtime_mismatch && integrity.diagnostics.len() == 1 =>
+        {
+            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
+            if is_report_artifact_mismatch && integrity.diagnostics.len() == 1 =>
+        {
+            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete
         }
         crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded => {
             RuntimeIntegrityAlertDetail::PartialObservation
@@ -631,6 +658,13 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             RuntimeIntegrityAlertDetail::RelativeStrengthIncomplete => {
                 "⚠️ 观测完整性：部分降级 · RS 观测不完整 · 仅观测，不参与决策".to_string()
             }
+            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch => {
+                "⚠️ 观测完整性：部分降级 · 运行版本不一致 · 仅观测，不参与决策".to_string()
+            }
+            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete => {
+                "⚠️ 观测完整性：部分降级 · 报告产物完整性需要复核 · 仅观测，不参与决策"
+                    .to_string()
+            }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ 观测完整性：部分降级 · 部分观测输入不完整 · 仅观测，不参与决策".to_string()
             }
@@ -644,6 +678,12 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             }
             RuntimeIntegrityAlertDetail::RelativeStrengthIncomplete => {
                 "⚠️ Observation Integrity: Partially degraded · RS observation incomplete · Observation only; excluded from decisions".to_string()
+            }
+            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch => {
+                "⚠️ Observation Integrity: Partially degraded · Runtime revision mismatch · Observation only; excluded from decisions".to_string()
+            }
+            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete => {
+                "⚠️ Observation Integrity: Partially degraded · Report artifact traceability incomplete · Observation only; excluded from decisions".to_string()
             }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ Observation Integrity: Partially degraded · Partial observation input incomplete · Observation only; excluded from decisions".to_string()
@@ -659,6 +699,12 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             RuntimeIntegrityAlertDetail::RelativeStrengthIncomplete => {
                 "⚠️ 観測完全性：一部低下 · RS 観測が不完全です · 観測のみ・意思決定には不参加".to_string()
             }
+            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch => {
+                "⚠️ 観測完全性：一部低下 · 実行リビジョン不一致 · 観測のみ・意思決定には不参加".to_string()
+            }
+            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete => {
+                "⚠️ 観測完全性：一部低下 · レポート成果物の追跡性が不完全です · 観測のみ・意思決定には不参加".to_string()
+            }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ 観測完全性：一部低下 · 一部の観測入力が不完全です · 観測のみ・意思決定には不参加".to_string()
             }
@@ -671,6 +717,8 @@ enum RuntimeIntegrityAlertDetail {
     Unavailable,
     LeadershipHistoryIncomplete,
     RelativeStrengthIncomplete,
+    RuntimeRevisionMismatch,
+    ReportArtifactTraceabilityIncomplete,
     PartialObservation,
 }
 

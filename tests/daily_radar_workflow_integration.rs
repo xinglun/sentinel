@@ -449,6 +449,7 @@ fn daily_radar_manual_resend_uses_the_archived_telegram_html_payload() {
     assert!(script.contains("data_branch_telegram_html_payload"));
     assert!(script.contains("payload_path"));
     assert!(script.contains("sanitize_telegram_html"));
+    assert!(script.contains("report_run_id"));
     assert!(script.contains("chunk_telegram_html_message"));
     assert!(script.contains("def utf8_len"));
     assert!(script.contains("archived Telegram HTML payload is missing"));
@@ -464,7 +465,7 @@ fn daily_radar_manual_resend_executes_html_payload_safely() {
     let reports = tmp.path().join("reports");
     fs::create_dir_all(&reports).expect("failed to create reports directory");
     let report = format!(
-        "\n<b>报告开始<&> <u>危险</u> __TG_OPEN_B__ {}</b>\n<i>报告结束</i>\n",
+        "<!-- report_run_id: run-2026-09-03 -->\n<b>报告开始<&> <u>危险</u> __TG_OPEN_B__ {}</b>\n<i>报告结束</i>\n",
         "中文🧪".repeat(1100)
     );
     fs::write(reports.join("telegram_report_2026-09-03.html"), &report)
@@ -534,6 +535,8 @@ fn daily_radar_manual_resend_executes_html_payload_safely() {
         .iter()
         .filter_map(|payload| payload["text"].as_str())
         .collect::<String>();
+    assert!(!sent_text.contains("run-2026-09-03"));
+    assert!(!sent_text.contains("report_run_id"));
     assert!(sent_text.contains("&lt;u&gt;危险&lt;/u&gt;"));
     assert!(sent_text.contains("&lt;b&gt;不可信&lt;/b&gt;"));
     assert!(sent_text.contains("&lt;script&gt;"));

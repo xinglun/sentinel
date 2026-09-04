@@ -315,6 +315,12 @@ jobs:
               raise SystemExit("archived Telegram HTML payload is empty")
 
           def sanitize_telegram_html(message_text):
+              message_text = re.sub(
+                  r"<!-- report_run_id:.*?-->",
+                  "",
+                  message_text,
+                  flags=re.DOTALL,
+              )
               parts = []
               cursor = 0
               for match in re.finditer(r"</?[bi]>", message_text):

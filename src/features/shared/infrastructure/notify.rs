@@ -23,6 +23,7 @@ fn sanitize_telegram_html(message_text: &str) -> String {
     const OPEN_ITALIC: &str = "__TG_OPEN_I__";
     const CLOSE_ITALIC: &str = "__TG_CLOSE_I__";
 
+    let message_text = strip_internal_report_run_markers(message_text);
     escape_html(
         &message_text
             .replace("<b>", OPEN_BOLD)
@@ -34,6 +35,25 @@ fn sanitize_telegram_html(message_text: &str) -> String {
     .replace(CLOSE_BOLD, "</b>")
     .replace(OPEN_ITALIC, "<i>")
     .replace(CLOSE_ITALIC, "</i>")
+}
+
+fn strip_internal_report_run_markers(message_text: &str) -> String {
+    const MARKER_PREFIX: &str = "<!-- report_run_id:";
+    const MARKER_SUFFIX: &str = "-->";
+
+    let mut output = String::with_capacity(message_text.len());
+    let mut cursor = 0;
+    while let Some(relative_start) = message_text[cursor..].find(MARKER_PREFIX) {
+        let start = cursor + relative_start;
+        output.push_str(&message_text[cursor..start]);
+        let Some(relative_end) = message_text[start..].find(MARKER_SUFFIX) else {
+            output.push_str(&message_text[start..]);
+            return output;
+        };
+        cursor = start + relative_end + MARKER_SUFFIX.len();
+    }
+    output.push_str(&message_text[cursor..]);
+    output
 }
 
 #[cfg(test)]
@@ -328,6 +348,16 @@ mod tests {
 
         assert!(sanitized.contains("<b>headline</b>"));
         assert!(sanitized.contains("stability &lt; 10.0"));
+    }
+
+    #[test]
+    fn telegram_payload_removes_internal_report_run_marker() {
+        let sanitized =
+            sanitize_telegram_html("<!-- report_run_id: run-2026-09-02 -->\n\n<b>headline</b>");
+
+        assert!(!sanitized.contains("report_run_id"));
+        assert!(!sanitized.contains("run-2026-09-02"));
+        assert!(sanitized.contains("<b>headline</b>"));
     }
 
     #[test]
