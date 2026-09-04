@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-03T23:55:47Z",
+  "files": {
+    "contractDigest": "sha256:c14519a6cf42a98209e9641bddd9c673ad4c3c86e07471f7e194baae3b5f4fdc",
+    "contractPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.contract.json",
+    "eventsDigest": "sha256:fc0d5a24db9e46a78478e0359434038e50d7b7a4c5f8638376a77f30703c3438",
+    "eventsPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.events.jsonl",
+    "outcomeDigest": "sha256:a59e87b6fad90ce6e59800b3e03a263ca39a8590adb77c3ae21b014ea112a4d2",
+    "outcomePath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.outcome.json",
+    "summaryDigest": "sha256:c6d707dbb88578104d56fd816182ab6fd98aec6774fd722e41200f0b5c72595c",
+    "summaryPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json",
+    "taskReportDigest": "sha256:57e94a1dd9a887984b004835d9275193e7cc5218f94e98753d896bae2345e68a",
+    "taskReportMarkdownDigest": "sha256:3f105fe4d9f42b5057d174cd59aa35669639f2071a272c0ae98f2584edccc1a8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "telegram-report-delivery-resend-gate-finalization-repair"
+}

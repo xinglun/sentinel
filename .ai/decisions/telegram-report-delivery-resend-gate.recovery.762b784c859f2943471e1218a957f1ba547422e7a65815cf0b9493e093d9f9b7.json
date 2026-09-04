@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T00:05:33Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate.outcome.json",
+    ".ai/decisions/telegram-report-delivery-resend-gate-finalization-repair.close.json",
+    "https://github.com/xinglun/sentinel/pull/133",
+    "https://github.com/xinglun/sentinel/pull/134",
+    "https://github.com/xinglun/sentinel/actions/runs/33817912971"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:8cb85ff7b03948f621a0460463e1089e7cc8589a50a3675c5b3dcfb0e6e142b3",
+  "predecessorEventsDigest": "sha256:a95dbd9a4bdb76f35fd02ecf7d497b7934539ead9c535f17f50e91d019f01542",
+  "predecessorOutcomeDigest": "sha256:0faac66cb701c3be3ee5a1eb52e9515434fb6dcd7b05ef503849de6ec9a3ffa0",
+  "predecessorSummaryDigest": "sha256:8733a8041ae04242c8c5c0716441e10cabf8ea1aa0dacba7532f263594b50412",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate",
+  "reason": "原始 resend gate 的実装と main 上の補発結果は後続 lineage により完了した。前駆 archive bytes を改変せず、finalization governance を完了した successor lineage を正規の historical closure として採用する。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-delivery-resend-gate-finalization",
+  "workItemId": "telegram-report-delivery-resend-gate"
+}
