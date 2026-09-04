@@ -1,0 +1,76 @@
+{
+  "acceptanceCriteria": [
+    "补发只读取与正常发送一致的 Telegram HTML 载荷，不回退到 archival Markdown。",
+    "补发严格校验日期和 decisioning 成功状态，失败时不发送错误载荷。",
+    "补发安全转义非白名单 HTML，保留 b/i 标签，并保证每个带前缀分片不超过 Telegram 字节上限。",
+    "真实执行回归覆盖 HTTP 请求、元数据转义、空白保留、标签边界和失败关闭；仓库 quality gate 通过。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "6eb62bdb114a88ede349bc5d1eaf5407b092c07f",
+  "createdAt": "2026-09-04T01:50:27Z",
+  "goal": "在最新 develop 上重新验证 Telegram HTML 载荷补发：严格 decisioning 成功判定、保留原始载荷空白、HTML 转义、元数据边界、标签安全分片和真实 HTTP 执行回归。",
+  "intent": "验证已合并的 Telegram 日报补发边界修复，并固化审查发现的安全约束。",
+  "mode": "code",
+  "outOfScope": [
+    "交易决策、报告内容语义、数据采集、历史归档 Markdown、直接向 main 或 develop 推送"
+  ],
+  "predecessorContractDigest": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+  "predecessorWorkItemId": "telegram-report-payload-archive",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-payload-archive.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:af505c2599ff91ac13efe3de1f8b9937b2704ff1bacbafbd70acde5c67df2f78",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-payload-archive-repair",
+    "provider": "github",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-telegram-report-payload-archive-repair"
+  },
+  "risk": "normal",
+  "scope": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "仓库语言、Work Item、质量门禁、PR 和默认分支同步规则。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "仓库本地 AI Cockpit 生命周期和已安装 Runtime 入口。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "Telegram 报告生成、HTML 载荷归档和手动补发流程。"
+    },
+    {
+      "path": "src/features/shared/infrastructure/notify.rs",
+      "reason": "生产 Telegram HTML 转义与标签安全分片约束。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "补发 workflow 的静态契约和真实 HTTP mock 回归。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/pull/137",
+      "reason": "首个实现 PR 的审查结论和合并事实。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/commit/6eb62bdb114a88ede349bc5d1eaf5407b092c07f",
+      "reason": "修复代码已合并到 develop 的事实基线。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "telegram-report-payload-archive-repair"
+}

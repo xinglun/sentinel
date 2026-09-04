@@ -1,0 +1,116 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:af74f059001d4a46fff644f917535c94af4f24097ea0c42a231d43e3af57c763",
+    "workItemId": "telegram-report-payload-archive-repair"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/telegram-report-payload-archive-recovery-input.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/decisions/telegram-report-payload-archive.recovery.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/telegram-report-payload-archive-repair.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/telegram-report-payload-archive-repair.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "在最新 develop 上重新验证 Telegram HTML 载荷补发：严格 decisioning 成功判定、保留原始载荷空白、HTML 转义、元数据边界、标签安全分片和真实 HTTP 执行回归。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/telegram-report-payload-archive-repair.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "telegram-report-payload-archive-repair"
+}

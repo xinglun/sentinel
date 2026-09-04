@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-04T02:01:32Z",
+  "files": {
+    "contractDigest": "sha256:0fccfed0a11faee5f191caf76610aac6be6b07137909f93268a74394afb3ea7e",
+    "contractPath": ".ai/work-items/archive/telegram-report-payload-archive-repair.contract.json",
+    "eventsDigest": "sha256:a368b07f9c5ea4523eaf0e4c81ab94cd5e00ee8eceb8a99307454fddecde915d",
+    "eventsPath": ".ai/work-items/archive/telegram-report-payload-archive-repair.events.jsonl",
+    "outcomeDigest": "sha256:1d6a048708780f5750d8c68e8cc78f62974e74e0675d86687d7b17a1775cee1d",
+    "outcomePath": ".ai/work-items/archive/telegram-report-payload-archive-repair.outcome.json",
+    "summaryDigest": "sha256:e9cce9ee68e14c9e392fe1b782b85d45d65311ce830c5004a28fee923118461f",
+    "summaryPath": ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json",
+    "taskReportDigest": "sha256:88b434fd4177ee21e7bd3061a323855fcaaa00dd16e6f8a007df2aafd19104e6",
+    "taskReportMarkdownDigest": "sha256:e9e5641e071076559e51ed4f4958453fdeaf54a01dfe2a00b6a78112bb4138b8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/telegram-report-payload-archive-repair.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/telegram-report-payload-archive-repair.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "telegram-report-payload-archive-repair"
+}

@@ -1,0 +1,81 @@
+{
+  "changedPaths": [
+    ".ai/decisions/telegram-report-payload-archive-recovery-input.json",
+    ".ai/decisions/telegram-report-payload-archive.recovery.json",
+    ".ai/work-items/archive/telegram-report-payload-archive-repair.contract.json",
+    ".ai/work-items/archive/telegram-report-payload-archive-repair.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T01:51:53Z",
+  "checkpointContractDigest": "sha256:64c5c57b05d277323ee039256434f446fdb969f10cebfb99abcd2b19d4cc3ec8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9597cedb66e75f2959a9121abc526bd5c609f83ebef0105aedf1df576c9bd91d",
+      "recorded": true,
+      "recordedAt": "2026-09-04T01:51:53Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:af505c2599ff91ac13efe3de1f8b9937b2704ff1bacbafbd70acde5c67df2f78",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "telegram-report-payload-archive-repair"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:64c5c57b05d277323ee039256434f446fdb969f10cebfb99abcd2b19d4cc3ec8",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:9597cedb66e75f2959a9121abc526bd5c609f83ebef0105aedf1df576c9bd91d",
+      "previousContractHash": "sha256:9597cedb66e75f2959a9121abc526bd5c609f83ebef0105aedf1df576c9bd91d",
+      "reason": "补齐 repair successor 的正式来源、GitHub 资源上下文和 required make quality 验证；保持代码范围与验收目标不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T01:52:08Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:af505c2599ff91ac13efe3de1f8b9937b2704ff1bacbafbd70acde5c67df2f78",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "telegram-report-payload-archive-repair"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:af74f059001d4a46fff644f917535c94af4f24097ea0c42a231d43e3af57c763",
+  "createdAt": "2026-09-04T01:50:27Z",
+  "intentAlignment": {
+    "evidence": [
+      ".github/workflows/daily_radar.yml",
+      "tests/daily_radar_workflow_integration.rs",
+      ".ai/evidence/telegram-report-payload-archive-repair.verification.json",
+      "https://github.com/xinglun/sentinel/pull/137"
+    ],
+    "reason": "本 successor 只验证并固化 Telegram 日报补发载荷的来源、HTML 解析、安全分片和 fail-closed 边界；不改变报告语义或交易决策。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:a952b83ba24dc925b9d61e7cc0d04a747ea4a02deb474809187aebf656956dcb",
+  "predecessorWorkItemId": "telegram-report-payload-archive",
+  "preflightAt": "2026-09-04T02:00:49Z",
+  "preflightContractDigest": "sha256:64c5c57b05d277323ee039256434f446fdb969f10cebfb99abcd2b19d4cc3ec8",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:af74f059001d4a46fff644f917535c94af4f24097ea0c42a231d43e3af57c763",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-payload-archive.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T02:01:24Z",
+  "userVisibleBenefit": "Telegram 日报补发现在复用原始 HTML 载荷，严格限制状态、转义和字节分片；历史载荷缺失时会明确失败而不会发送错误内容。",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": ".ai/evidence/telegram-report-payload-archive-repair.verification.json",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-payload-archive-repair"
+}
