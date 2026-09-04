@@ -68,6 +68,11 @@ async fn test_full_9_asset_archival_package() {
     // 5. Markdown Report (DATE.md)
     layer.save_markdown_report("# Report", date_str).unwrap();
 
+    // 5.1 Telegram HTML レポート（telegram_report_DATE.html）
+    layer
+        .save_telegram_html_report("<b>Telegram Report</b>", date_str)
+        .unwrap();
+
     // 6. Telemetry (telemetry.csv)
     let telemetry_row = TelemetryRow {
         timestamp: "2023-01-01T00:00:00Z".to_string(),
@@ -120,6 +125,7 @@ async fn test_full_9_asset_archival_package() {
         "account_snapshot_2023-01-01.json",
         "data_quality_log.jsonl",
         "2023-01-01.md",
+        "telegram_report_2023-01-01.html",
         "telemetry.csv",
         "state_transitions.csv",
         "state_transitions.jsonl",

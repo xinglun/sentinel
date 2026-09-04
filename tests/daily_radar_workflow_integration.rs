@@ -181,7 +181,7 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
     assert!(workflow.contains("type: choice"));
     assert!(workflow.contains("resend"));
     assert!(workflow.contains("inputs.mode != 'resend'"));
-    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
     assert!(script.contains("run_status_${DATE_JST}.json"));
     assert!(script.contains("api.telegram.org"));
     assert!(script.contains("\"ok\""));
@@ -211,9 +211,43 @@ fn daily_radar_manual_resend_accepts_a_validated_report_date_without_generating(
     assert!(workflow.contains("REPORT_DATE_INPUT: ${{ inputs.report_date }}"));
     assert!(script.contains("REPORT_DATE_INPUT"));
     assert!(script.contains("datetime.strptime(date_jst, \"%Y-%m-%d\")"));
-    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
     assert!(script.contains("run_status_${DATE_JST}.json"));
     assert!(!script.contains("make radar-release"));
+}
+
+#[test]
+fn daily_radar_persists_the_final_telegram_payload_before_delivery() {
+    let runner_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("src/features/radar/interface/radar_pipeline_runner.rs");
+    let runner = fs::read_to_string(runner_path).expect("failed to read radar pipeline runner");
+    let persist = runner
+        .find("save_telegram_html_report")
+        .expect("final Telegram HTML payload must be persisted");
+    let deliver = runner
+        .rfind("send_telegram_with_status")
+        .expect("final Telegram HTML payload must be delivered");
+
+    assert!(persist < deliver);
+    assert!(runner.contains("&report_result.telegram_html_body"));
+}
+
+#[test]
+fn daily_radar_manual_resend_uses_the_archived_telegram_html_payload() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Resend Existing Daily Report");
+
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
+    assert!(!script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("parse_mode"));
+    assert!(script.contains("HTML"));
+    assert!(script.contains("data_branch_telegram_html_payload"));
+    assert!(script.contains("payload_path"));
+    assert!(script.contains("sanitize_telegram_html"));
+    assert!(script.contains("chunk_telegram_html_message"));
+    assert!(script.contains("def utf8_len"));
+    assert!(script.contains("archived Telegram HTML payload is missing"));
 }
 
 #[test]

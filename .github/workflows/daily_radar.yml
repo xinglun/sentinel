@@ -218,11 +218,15 @@ jobs:
             echo "❌ report_date must use YYYY-MM-DD format"
             exit 1
           fi
-          REPORT_PATH="reports/${DATE_JST}.md"
+          TELEGRAM_REPORT_PATH="reports/telegram_report_${DATE_JST}.html"
           STATUS_PATH="reports/run_status_${DATE_JST}.json"
-          test -s "${REPORT_PATH}"
+          test -s "${TELEGRAM_REPORT_PATH}" || {
+            echo "❌ archived Telegram HTML payload is missing: ${TELEGRAM_REPORT_PATH}"
+            exit 1
+          }
           test -s "${STATUS_PATH}"
-          DATE_JST="${DATE_JST}" REPORT_PATH="${REPORT_PATH}" STATUS_PATH="${STATUS_PATH}" python - <<'PY'
+          DATE_JST="${DATE_JST}" TELEGRAM_REPORT_PATH="${TELEGRAM_REPORT_PATH}" STATUS_PATH="${STATUS_PATH}" python - <<'PY'
+          import html
           import json
           import os
           from datetime import datetime, timezone
@@ -238,7 +242,7 @@ jobs:
               datetime.strptime(date_jst, "%Y-%m-%d")
           except ValueError as error:
               raise SystemExit("report_date is not a valid calendar date") from error
-          report_path = Path(os.environ["REPORT_PATH"])
+          telegram_report_path = Path(os.environ["TELEGRAM_REPORT_PATH"])
           status_path = Path(os.environ["STATUS_PATH"])
           bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
           chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -265,29 +269,124 @@ jobs:
           original_run_id = runtime_identity.get("report_run_id")
           resend_revision = os.environ.get("SENTINEL_EXECUTION_GIT_SHA", "UNAVAILABLE")
 
-          report = report_path.read_text(encoding="utf-8").strip()
+          report = telegram_report_path.read_text(encoding="utf-8").strip()
           if not report:
-              raise SystemExit("archived report is empty")
+              raise SystemExit("archived Telegram HTML payload is empty")
 
-          max_chunk_length = 3800
-          chunks = [
-              report[index : index + max_chunk_length]
-              for index in range(0, len(report), max_chunk_length)
-          ]
+          def sanitize_telegram_html(message_text):
+              open_bold = "__TG_OPEN_B__"
+              close_bold = "__TG_CLOSE_B__"
+              open_italic = "__TG_OPEN_I__"
+              close_italic = "__TG_CLOSE_I__"
+              escaped = html.escape(
+                  message_text
+                  .replace("<b>", open_bold)
+                  .replace("</b>", close_bold)
+                  .replace("<i>", open_italic)
+                  .replace("</i>", close_italic),
+                  quote=False,
+              )
+              return (
+                  escaped
+                  .replace(open_bold, "<b>")
+                  .replace(close_bold, "</b>")
+                  .replace(open_italic, "<i>")
+                  .replace(close_italic, "</i>")
+              )
+
+          allowed_tag_pattern = re.compile(r"</?[bi]>")
+
+          def utf8_len(value):
+              return len(value.encode("utf-8"))
+
+          def take_utf8_prefix(value, max_bytes):
+              if utf8_len(value) <= max_bytes:
+                  return value
+              low = 0
+              high = len(value)
+              while low < high:
+                  candidate = (low + high + 1) // 2
+                  if utf8_len(value[:candidate]) <= max_bytes:
+                      low = candidate
+                  else:
+                      high = candidate - 1
+              return value[:low]
+
+          def chunk_telegram_html_message(message_text, max_len):
+              if not message_text or max_len == 0:
+                  return [message_text]
+
+              chunks = []
+              current = ""
+              open_tags = []
+
+              def closing_tags_length():
+                  return sum(utf8_len(f"</{tag}>") for tag in open_tags)
+
+              def finish_chunk():
+                  nonlocal current
+                  if not current:
+                      return
+                  chunks.append(current + "".join(f"</{tag}>" for tag in reversed(open_tags)))
+                  current = "".join(f"<{tag}>" for tag in open_tags)
+
+              def append_text(text):
+                  nonlocal current
+                  while text:
+                      available = max_len - utf8_len(current) - closing_tags_length()
+                      if available <= 0:
+                          finish_chunk()
+                          continue
+                      prefix = take_utf8_prefix(text, available)
+                      if not prefix:
+                          finish_chunk()
+                          continue
+                      current += prefix
+                      text = text[len(prefix) :]
+                      if text:
+                          finish_chunk()
+
+              for line_index, line in enumerate(message_text.split("\n")):
+                  if line_index > 0:
+                      append_text("\n")
+                  cursor = 0
+                  for match in allowed_tag_pattern.finditer(line):
+                      append_text(line[cursor : match.start()])
+                      tag = match.group(0)
+                      tag_name = tag.strip("</>")
+                      available = max_len - utf8_len(current) - closing_tags_length()
+                      if current and available < utf8_len(tag):
+                          finish_chunk()
+                      current += tag
+                      if tag.startswith("</"):
+                          if not open_tags or open_tags[-1] != tag_name:
+                              raise SystemExit("archived Telegram HTML payload has invalid tag nesting")
+                          open_tags.pop()
+                      else:
+                          open_tags.append(tag_name)
+                      cursor = match.end()
+                  append_text(line[cursor:])
+
+              finish_chunk()
+              return chunks
+
+          sanitized_report = sanitize_telegram_html(report)
+          chunks = chunk_telegram_html_message(sanitized_report, 3800)
           url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
           for index, chunk in enumerate(chunks, start=1):
               prefix = (
-                  f"📨 日报补发（{date_jst}，复用 data 分支已生成报告）\n"
+                  f"<i>📨 日报补发（{date_jst}，复用 data 分支已生成 Telegram 报告）</i>\n"
                   f"Original Generated At: {original_generated_at}\n"
                   f"Original Commit SHA: {original_commit}\n"
                   f"Resend Workflow SHA: {resend_revision}\n\n"
                   if index == 1
-                  else f"📨 日报补发（{date_jst}，第 {index}/{len(chunks)} 段）\n\n"
+                  else f"<i>📨 日报补发（{date_jst}，第 {index}/{len(chunks)} 段）</i>\n\n"
               )
               payload = json.dumps(
                   {
                       "chat_id": chat_id,
                       "text": prefix + chunk,
+                      "parse_mode": "HTML",
                       "disable_web_page_preview": True,
                   }
               ).encode("utf-8")
@@ -328,14 +427,16 @@ jobs:
                   ),
                   "resend_revision": os.environ.get("SENTINEL_EXECUTION_GIT_SHA"),
                   "resent_at": resent_at,
-                  "source": "data_branch_archived_report",
+                  "source": "data_branch_telegram_html_payload",
               }
           )
           status["report_lifecycle"] = lifecycle
           status["notification_resend"] = {
               "status": "succeeded",
-              "source": "data_branch_archived_report",
+              "source": "data_branch_telegram_html_payload",
               "report_date": date_jst,
+              "payload_path": str(telegram_report_path),
+              "parse_mode": "HTML",
               "chunks": len(chunks),
               "sent_at": resent_at,
           }

@@ -1479,6 +1479,9 @@ pub(crate) async fn run_pipeline_for_report_date(
 
         runtime_services
             .persistence
+            .save_telegram_html_report(&report_result.telegram_html_body, &pres_packet.date_str)?;
+        runtime_services
+            .persistence
             .save_markdown_report(&report_result.archival_markdown, &pres_packet.date_str)?;
         persist_weekly_state_outputs(
             save_dir,
