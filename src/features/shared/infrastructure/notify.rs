@@ -38,29 +38,34 @@ fn sanitize_telegram_html(message_text: &str) -> String {
 }
 
 fn strip_internal_report_run_markers(message_text: &str) -> String {
-    const MARKER_PREFIX: &str = "<!-- report_run_id:";
-    const MARKER_SUFFIX: &str = "-->";
+    message_text
+        .split_inclusive('\n')
+        .filter(|line| !is_internal_report_run_marker(line))
+        .collect()
+}
 
-    let mut output = String::with_capacity(message_text.len());
-    let mut cursor = 0;
-    while let Some(relative_start) = message_text[cursor..].find(MARKER_PREFIX) {
-        let start = cursor + relative_start;
-        output.push_str(&message_text[cursor..start]);
-        let Some(relative_end) = message_text[start..].find(MARKER_SUFFIX) else {
-            output.push_str(&message_text[start..]);
-            return output;
-        };
-        cursor = start + relative_end + MARKER_SUFFIX.len();
-    }
-    output.push_str(&message_text[cursor..]);
-    output
+fn is_internal_report_run_marker(line: &str) -> bool {
+    let line = line.strip_suffix('\n').unwrap_or(line);
+    let line = line.strip_suffix('\r').unwrap_or(line);
+    let Some(run_id) = line
+        .strip_prefix("<!-- report_run_id: ")
+        .and_then(|line| line.strip_suffix(" -->"))
+    else {
+        return false;
+    };
+
+    !run_id.is_empty() && !run_id.chars().any(char::is_whitespace)
 }
 
 #[cfg(test)]
 fn build_payload(config: &TelegramConfig, message_text: &str) -> TelegramPayload {
+    build_payload_from_sanitized(config, &sanitize_telegram_html(message_text))
+}
+
+fn build_payload_from_sanitized(config: &TelegramConfig, message_text: &str) -> TelegramPayload {
     TelegramPayload {
         chat_id: config.chat_id.clone(),
-        text: sanitize_telegram_html(message_text),
+        text: message_text.to_string(),
         parse_mode: "HTML".to_string(),
         disable_web_page_preview: true,
     }
@@ -281,12 +286,7 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
         } else {
             chunk
         };
-        let payload = TelegramPayload {
-            chat_id: config.chat_id.clone(),
-            text,
-            parse_mode: "HTML".to_string(),
-            disable_web_page_preview: true,
-        };
+        let payload = build_payload_from_sanitized(config, &text);
 
         let res = client
             .post(&url)
@@ -310,8 +310,8 @@ pub async fn send_telegram_message(config: &TelegramConfig, message_text: &str) 
 #[cfg(test)]
 mod tests {
     use super::{
-        build_payload, chunk_telegram_html_message, escape_html, sanitize_telegram_html,
-        validate_telegram_response,
+        build_payload, build_payload_from_sanitized, chunk_telegram_html_message, escape_html,
+        sanitize_telegram_html, validate_telegram_response,
     };
     use crate::config::TelegramConfig;
     use reqwest::StatusCode;
@@ -358,6 +358,35 @@ mod tests {
         assert!(!sanitized.contains("report_run_id"));
         assert!(!sanitized.contains("run-2026-09-02"));
         assert!(sanitized.contains("<b>headline</b>"));
+    }
+
+    #[test]
+    fn telegram_payload_builder_uses_sanitized_text_sent_to_api() {
+        let cfg = TelegramConfig {
+            enabled: true,
+            bot_token: "token".to_string(),
+            chat_id: "chat".to_string(),
+        };
+        let sanitized = sanitize_telegram_html(
+            "<!-- report_run_id: run-2026-09-02 -->\n<b>headline</b> inline <!-- report_run_id: keep-me -->",
+        );
+        let payload = build_payload_from_sanitized(&cfg, &sanitized);
+        let json = serde_json::to_value(payload).unwrap();
+
+        assert!(!json["text"].as_str().unwrap().contains("run-2026-09-02"));
+        assert!(json["text"]
+            .as_str()
+            .unwrap()
+            .contains("&lt;!-- report_run_id: keep-me --&gt;"));
+        assert_eq!(json["parse_mode"], "HTML");
+    }
+
+    #[test]
+    fn telegram_payload_keeps_marker_like_inline_text_visible_and_escaped() {
+        let sanitized = sanitize_telegram_html("prefix <!-- report_run_id: keep-me --> suffix");
+
+        assert!(sanitized.contains("keep-me"));
+        assert!(sanitized.contains("&lt;!-- report_run_id: keep-me --&gt;"));
     }
 
     #[test]

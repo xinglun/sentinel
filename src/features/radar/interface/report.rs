@@ -620,6 +620,21 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             RuntimeIntegrityAlertDetail::Unavailable
         }
         crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
+            if is_runtime_mismatch && is_report_artifact_mismatch =>
+        {
+            RuntimeIntegrityAlertDetail::RuntimeAndReportArtifactTraceabilityRequiresReview
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
+            if is_runtime_mismatch =>
+        {
+            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
+            if is_report_artifact_mismatch =>
+        {
+            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete
+        }
+        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
             if is_leadership_degraded && integrity.diagnostics.len() == 1 =>
         {
             RuntimeIntegrityAlertDetail::LeadershipHistoryIncomplete
@@ -628,16 +643,6 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             if is_rs_degraded && integrity.diagnostics.len() == 1 =>
         {
             RuntimeIntegrityAlertDetail::RelativeStrengthIncomplete
-        }
-        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
-            if is_runtime_mismatch && integrity.diagnostics.len() == 1 =>
-        {
-            RuntimeIntegrityAlertDetail::RuntimeRevisionMismatch
-        }
-        crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded
-            if is_report_artifact_mismatch && integrity.diagnostics.len() == 1 =>
-        {
-            RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete
         }
         crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded => {
             RuntimeIntegrityAlertDetail::PartialObservation
@@ -665,6 +670,10 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
                 "⚠️ 观测完整性：部分降级 · 报告产物完整性需要复核 · 仅观测，不参与决策"
                     .to_string()
             }
+            RuntimeIntegrityAlertDetail::RuntimeAndReportArtifactTraceabilityRequiresReview => {
+                "⚠️ 观测完整性：部分降级 · 运行版本与报告产物追踪均需复核 · 仅观测，不参与决策"
+                    .to_string()
+            }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ 观测完整性：部分降级 · 部分观测输入不完整 · 仅观测，不参与决策".to_string()
             }
@@ -684,6 +693,9 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             }
             RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete => {
                 "⚠️ Observation Integrity: Partially degraded · Report artifact traceability incomplete · Observation only; excluded from decisions".to_string()
+            }
+            RuntimeIntegrityAlertDetail::RuntimeAndReportArtifactTraceabilityRequiresReview => {
+                "⚠️ Observation Integrity: Partially degraded · Runtime and report artifact traceability require review · Observation only; excluded from decisions".to_string()
             }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ Observation Integrity: Partially degraded · Partial observation input incomplete · Observation only; excluded from decisions".to_string()
@@ -705,6 +717,9 @@ fn runtime_integrity_alert(pres: &PresentationPacket) -> Option<String> {
             RuntimeIntegrityAlertDetail::ReportArtifactTraceabilityIncomplete => {
                 "⚠️ 観測完全性：一部低下 · レポート成果物の追跡性が不完全です · 観測のみ・意思決定には不参加".to_string()
             }
+            RuntimeIntegrityAlertDetail::RuntimeAndReportArtifactTraceabilityRequiresReview => {
+                "⚠️ 観測完全性：一部低下 · 実行リビジョンとレポート成果物の追跡性を確認してください · 観測のみ・意思決定には不参加".to_string()
+            }
             RuntimeIntegrityAlertDetail::PartialObservation => {
                 "⚠️ 観測完全性：一部低下 · 一部の観測入力が不完全です · 観測のみ・意思決定には不参加".to_string()
             }
@@ -719,6 +734,7 @@ enum RuntimeIntegrityAlertDetail {
     RelativeStrengthIncomplete,
     RuntimeRevisionMismatch,
     ReportArtifactTraceabilityIncomplete,
+    RuntimeAndReportArtifactTraceabilityRequiresReview,
     PartialObservation,
 }
 

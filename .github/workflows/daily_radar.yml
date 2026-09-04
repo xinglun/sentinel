@@ -316,10 +316,9 @@ jobs:
 
           def sanitize_telegram_html(message_text):
               message_text = re.sub(
-                  r"<!-- report_run_id:.*?-->",
+                  r"(?m)^<!-- report_run_id: \S+ -->(?:\r?\n|$)",
                   "",
                   message_text,
-                  flags=re.DOTALL,
               )
               parts = []
               cursor = 0
