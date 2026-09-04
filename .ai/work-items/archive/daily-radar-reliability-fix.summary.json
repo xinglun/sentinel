@@ -1,0 +1,182 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "定时任务在跨越 JST 午夜后仍使用所对应的最近完成工作日作为报告日期；手动显式 report_date 优先。",
+      "evidence": [
+        "https://github.com/xinglun/sentinel/actions/runs/33901875473",
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "报告生成、通知结果和 Freshness Gate 共享同一个 REPORT_DATE_JST。",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "修复验证不执行日报生成、真实日报入口或 Telegram API。",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "既有 Runtime Integrity 展示修复保持 Archive 完整机器字段、用户层健康隐藏和降级短告警语义。",
+      "evidence": [
+        "tests/daily_report_runtime_integrity.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/shared/infrastructure/notify.rs"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/telegram-report-payload-archive-repair.close.json",
+    ".ai/decisions/telegram-report-payload-archive-repair.finalize.json",
+    ".ai/decisions/telegram-report-payload-archive.close.json",
+    ".ai/decisions/telegram-report-payload-archive.finalize.json",
+    ".ai/work-items/archive/daily-radar-reliability-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-reliability-fix.summary.json"
+  ],
+  "checkpointAt": "2026-09-04T22:57:20Z",
+  "checkpointContractDigest": "sha256:794258e8c5dcb93e82465b79cf8f31da014c4af495a7af62ab2f40242c903ac8",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2f34a8c2d634d7360670c61eeeaafc7b6f5e537b530b1453474efa30432d778d",
+      "recorded": true,
+      "recordedAt": "2026-09-04T22:57:20Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:2f439e9f3690c4163f34dce9b588ff6297dd154a09f642805c8c6c7d6515fee3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-reliability-fix"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:2071a732031747de7dc035cde850826b9df39e75cdac3e35b3461f2f329de793",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2f34a8c2d634d7360670c61eeeaafc7b6f5e537b530b1453474efa30432d778d",
+      "previousContractHash": "sha256:2f34a8c2d634d7360670c61eeeaafc7b6f5e537b530b1453474efa30432d778d",
+      "reason": "补充 Work Item 的用户可见收益声明：用户收到的日报使用与报告生成及 Freshness Gate 一致的报告日期；观测降级时显示简短、可追溯的提示，同时不暴露冗长机器诊断且不改变机器语义。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T23:15:31Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:2f439e9f3690c4163f34dce9b588ff6297dd154a09f642805c8c6c7d6515fee3",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-reliability-fix"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:a9c74f6ce963e62c24e24ac5aec21a44fee90a3626bf05948d4304623ad0c328",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:2f34a8c2d634d7360670c61eeeaafc7b6f5e537b530b1453474efa30432d778d",
+      "previousContractHash": "sha256:2071a732031747de7dc035cde850826b9df39e75cdac3e35b3461f2f329de793",
+      "reason": "修正 Contract 的 verification 声明，使 required check 与既定质量门禁和实际 Cockpit 验证命令一致：使用结构化的 make quality；targeted tests 与 git diff --check 继续作为 acceptance evidence。",
+      "recorded": true,
+      "recordedAt": "2026-09-04T23:18:55Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:2f439e9f3690c4163f34dce9b588ff6297dd154a09f642805c8c6c7d6515fee3",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-reliability-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:2f439e9f3690c4163f34dce9b588ff6297dd154a09f642805c8c6c7d6515fee3",
+  "createdAt": "2026-09-04T22:55:23Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-radar-reliability-fix.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "https://github.com/xinglun/sentinel/actions/runs/33901875473",
+      "tests/daily_radar_workflow_integration.rs"
+    ],
+    "reason": "本 Work Item 将失败运行中观察到的 JST 日期边界问题限制在工作流日期解析与回归验证；此前已授权的 Runtime Integrity presentation 提交作为同一 PR 的既有变更纳入验证，但不扩展到交易决策或实际发送。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-04T23:39:03Z",
+  "preflightContractDigest": "sha256:794258e8c5dcb93e82465b79cf8f31da014c4af495a7af62ab2f40242c903ac8",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:2f439e9f3690c4163f34dce9b588ff6297dd154a09f642805c8c6c7d6515fee3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs",
+        "https://github.com/xinglun/sentinel/actions/runs/33901875473"
+      ],
+      "required": true,
+      "scenario": "scheduled run at 2026-09-05 02:43 JST resolves 2026-09-04",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "required": true,
+      "scenario": "scheduled run at normal 23:30 JST keeps the current report date",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "required": true,
+      "scenario": "Monday early scheduled run rolls back to the previous Friday",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "required": true,
+      "scenario": "workflow_dispatch with explicit report_date remains unchanged",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs"
+      ],
+      "required": true,
+      "scenario": "date resolver tests cannot invoke report generation or Telegram delivery",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-04T23:39:07Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-reliability-fix"
+}

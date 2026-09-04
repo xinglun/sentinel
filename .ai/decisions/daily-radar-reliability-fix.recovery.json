@@ -1,0 +1,28 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-05T08:20:00+09:00",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/daily-radar-reliability-fix.verification.json",
+    ".ai/work-items/active/daily-radar-reliability-fix.outcome.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:794258e8c5dcb93e82465b79cf8f31da014c4af495a7af62ab2f40242c903ac8",
+  "predecessorEventsDigest": "sha256:d3ed8008b1593e9d28597beb961faea84b0f198fa43e8e8c992e63fd3d3da0ad",
+  "predecessorOutcomeDigest": "sha256:802001428a2ca2fdc85f6200f30e38a34f10967a11dc4da69b0095d2c1a7503e",
+  "predecessorSummaryDigest": "sha256:97d6aab388b824dbacbf3298836e4d247490b4dcdccef0836679118b84931a99",
+  "predecessorWorkItemId": "daily-radar-reliability-fix",
+  "reason": "finish 先后经历了证据摘要与 Contract 修订不一致、以及资源 finalization plan 尚未绑定的治理阻断；当前代码与 make quality 验证均已通过，且用户已授权继续 PR/合并流程，因此按同一 Work Item retry，保留此前失败 Outcome 与证据，不改写历史。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "fresh verification evidence for the current Contract followed by non-red preflight and finish",
+  "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-reliability-fix"
+}
