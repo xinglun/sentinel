@@ -199,6 +199,48 @@ jobs:
             echo "✅ Restored formal trading-day snapshots: count=${RESTORED_SNAPSHOT_COUNT}, last_date=${RESTORED_LAST_SNAPSHOT_DATE:-none}"
           fi
 
+      - name: Resolve Report Date
+        env:
+          REPORT_DATE_INPUT: ${{ inputs.report_date }}
+        run: |
+          set -euo pipefail
+
+          REPORT_DATE_JST="$(python - <<'PY'
+          from datetime import datetime, timedelta
+          from zoneinfo import ZoneInfo
+          import os
+
+          explicit_date = os.environ.get("REPORT_DATE_INPUT", "").strip()
+          if explicit_date:
+              try:
+                  report_date = datetime.strptime(explicit_date, "%Y-%m-%d").date()
+              except ValueError as error:
+                  raise SystemExit("report_date must use a valid YYYY-MM-DD date") from error
+          else:
+              now_text = os.environ.get("SENTINEL_NOW_JST", "").strip()
+              if now_text:
+                  try:
+                      now_jst = datetime.strptime(now_text, "%Y-%m-%d %H:%M:%S").replace(
+                          tzinfo=ZoneInfo("Asia/Tokyo")
+                      )
+                  except ValueError as error:
+                      raise SystemExit(
+                          "SENTINEL_NOW_JST must use YYYY-MM-DD HH:MM:SS"
+                      ) from error
+              else:
+                  now_jst = datetime.now(ZoneInfo("Asia/Tokyo"))
+              report_date = now_jst.date()
+              if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and now_jst.hour < 6:
+                  report_date -= timedelta(days=1)
+                  while report_date.weekday() >= 5:
+                      report_date -= timedelta(days=1)
+
+          print(report_date.isoformat())
+          PY
+          )"
+          echo "REPORT_DATE_JST=${REPORT_DATE_JST}" >> "$GITHUB_ENV"
+          echo "✅ Resolved report date: ${REPORT_DATE_JST}"
+
       - name: Resend Existing Daily Report
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'resend' }}
         env:
@@ -206,14 +248,9 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SENTINEL_EXECUTION_GIT_SHA: ${{ github.sha }}
           SENTINEL_EXECUTION_GIT_BRANCH: ${{ github.ref_name }}
-          REPORT_DATE_INPUT: ${{ inputs.report_date }}
         run: |
           set -euo pipefail
-          if [ -n "${REPORT_DATE_INPUT}" ]; then
-            DATE_JST="${REPORT_DATE_INPUT}"
-          else
-            DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
-          fi
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before report delivery}"
           if [[ ! "${DATE_JST}" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
             echo "❌ report_date must use YYYY-MM-DD format"
             exit 1
@@ -574,7 +611,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "RUN_AT_JST=$(date +'%Y-%m-%d %H:%M:%S %Z')" >> $GITHUB_ENV
-          DATE_JST="$(TZ=Asia/Tokyo date +%Y-%m-%d)"
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before radar execution}"
           STATUS_PATH="reports/gray_rhino_refresh_status_latest.json"
           mkdir -p reports
 
@@ -638,7 +675,7 @@ jobs:
             fi
           fi
 
-          make radar-release
+          make radar-release RADAR_ARGS="--date ${REPORT_DATE_JST}"
 
           REPORT_DATE_JST="${DATE_JST}"
           REPORT_PACKET_PATH="reports/decision_packet_${DATE_JST}.json"
@@ -659,15 +696,15 @@ jobs:
               print("unknown")
           PY
               )"
-              echo "❌ Current JST report packet is missing: ${REPORT_PACKET_PATH} (decisioning_failed_reason=${DECISIONING_FAILED_REASON})"
+              echo "❌ Resolved report-date packet is missing: ${REPORT_PACKET_PATH} (decisioning_failed_reason=${DECISIONING_FAILED_REASON})"
             else
-              echo "❌ Current JST report packet is missing: ${REPORT_PACKET_PATH}"
+              echo "❌ Resolved report-date packet is missing: ${REPORT_PACKET_PATH}"
             fi
             exit 1
           fi
 
           if [ ! -s "${RUN_STATUS_PATH}" ]; then
-            echo "❌ Current JST run status is missing: ${RUN_STATUS_PATH}"
+            echo "❌ Resolved report-date run status is missing: ${RUN_STATUS_PATH}"
             exit 1
           fi
 
@@ -686,18 +723,18 @@ jobs:
           PY
           )"
           if [ "${DECISIONING_STATUS}" != "succeeded" ]; then
-            echo "❌ Current JST decisioning status is not succeeded: ${RUN_STATUS_PATH}"
+            echo "❌ Resolved report-date decisioning status is not succeeded: ${RUN_STATUS_PATH}"
             exit 1
           fi
 
           echo "REPORT_DATE_JST=${REPORT_DATE_JST}" >> "$GITHUB_ENV"
-          echo "✅ Current JST report artifacts and decisioning status verified: ${REPORT_DATE_JST}"
+          echo "✅ Resolved report-date artifacts and decisioning status verified: ${REPORT_DATE_JST}"
 
       - name: Show Notification Outcome
         run: |
           set -euo pipefail
 
-          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before notification inspection}"
           RUN_STATUS_PATH="reports/run_status_${DATE_JST}.json"
 
           if [ ! -f "${RUN_STATUS_PATH}" ]; then
@@ -739,7 +776,7 @@ jobs:
         run: |
           set -euo pipefail
           
-          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before freshness validation}"
           
           # 1. Output Integrity Checks (Prevent pushing empty/failed reports)
           REQUIRED_FILES=(
@@ -887,7 +924,7 @@ jobs:
 
           ROOT_DIR="${GITHUB_WORKSPACE}"
           DATA_DIR="${ROOT_DIR}/.worktrees/data"
-          DATE_JST="${REPORT_DATE_JST:-$(TZ=Asia/Tokyo date +%Y-%m-%d)}"
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before data persistence}"
 
           # Clean any stale worktree state (paranoia mode: destroy abandoned locks)
           git worktree remove --force "${DATA_DIR}" 2>/dev/null || true

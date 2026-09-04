@@ -88,6 +88,104 @@ fn extract_step_script(workflow_path: &Path, step_name: &str) -> String {
     script
 }
 
+fn extract_report_date_resolver_script(workflow_path: &Path) -> String {
+    let script = extract_step_script(workflow_path, "Resolve Report Date");
+    assert!(
+        script.contains("REPORT_DATE_JST"),
+        "report date resolver must export REPORT_DATE_JST"
+    );
+    assert!(
+        script.contains("GITHUB_EVENT_NAME"),
+        "report date resolver must distinguish scheduled and manual runs"
+    );
+    assert!(
+        !script.contains("make radar-release"),
+        "report date resolver must not generate a report"
+    );
+    assert!(
+        !script.contains("api.telegram.org") && !script.contains("TELEGRAM_BOT_TOKEN"),
+        "report date resolver must not send Telegram messages"
+    );
+    script
+}
+
+fn run_report_date_resolver(
+    script: &str,
+    event_name: &str,
+    now_jst: &str,
+    report_date_input: &str,
+) -> String {
+    let tmp = tempfile::tempdir().expect("failed to create report date resolver fixture");
+    let script_path = tmp.path().join("resolve_report_date.sh");
+    let github_env = tmp.path().join("github_env");
+    fs::write(&script_path, script).expect("failed to write report date resolver script");
+
+    let output = Command::new("bash")
+        .arg(&script_path)
+        .env("GITHUB_ENV", &github_env)
+        .env("GITHUB_EVENT_NAME", event_name)
+        .env("SENTINEL_NOW_JST", now_jst)
+        .env("REPORT_DATE_INPUT", report_date_input)
+        .output()
+        .expect("failed to run report date resolver");
+    assert!(
+        output.status.success(),
+        "report date resolver failed: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    fs::read_to_string(github_env).expect("report date resolver did not write GITHUB_ENV")
+}
+
+#[test]
+fn daily_radar_report_date_resolver_rolls_back_delayed_scheduled_runs() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_report_date_resolver_script(&workflow_path);
+
+    let delayed = run_report_date_resolver(&script, "schedule", "2026-09-05 02:43:39", "");
+    assert!(delayed.contains("REPORT_DATE_JST=2026-09-04"));
+
+    let normal = run_report_date_resolver(&script, "schedule", "2026-09-04 23:30:00", "");
+    assert!(normal.contains("REPORT_DATE_JST=2026-09-04"));
+
+    let monday = run_report_date_resolver(&script, "schedule", "2026-09-07 02:43:39", "");
+    assert!(monday.contains("REPORT_DATE_JST=2026-09-04"));
+}
+
+#[test]
+fn daily_radar_report_date_resolver_preserves_manual_report_date() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let script = extract_report_date_resolver_script(&workflow_path);
+
+    let manual = run_report_date_resolver(
+        &script,
+        "workflow_dispatch",
+        "2026-09-05 02:43:39",
+        "2026-08-28",
+    );
+    assert!(manual.contains("REPORT_DATE_JST=2026-08-28"));
+}
+
+#[test]
+fn daily_radar_report_date_is_shared_by_generation_and_freshness_validation() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let run_step = extract_step_script(&workflow_path, "Run Sentinel Radar");
+    let notification_step = extract_step_script(&workflow_path, "Show Notification Outcome");
+    let freshness_step =
+        extract_step_script(&workflow_path, "Freshness Gate and Output Validation");
+
+    assert!(workflow.contains("name: Resolve Report Date"));
+    assert!(run_step.contains("RADAR_ARGS=\"--date ${REPORT_DATE_JST}\""));
+    assert!(!run_step.contains("DATE_JST=\"$(TZ=Asia/Tokyo date +%Y-%m-%d)\""));
+    assert!(notification_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
+    assert!(freshness_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
+    assert!(workflow.contains("REPORT_DATE_JST=\"${DATE_JST}\""));
+}
+
 fn extract_embedded_python(script: &str) -> String {
     let start_marker = "python - <<'PY'\n";
     let start = script
@@ -313,7 +411,9 @@ fn daily_radar_manual_resend_accepts_a_validated_report_date_without_generating(
     assert!(workflow.contains("report_date:"));
     assert!(workflow.contains("description: \"重发的 JST 报告日期"));
     assert!(workflow.contains("REPORT_DATE_INPUT: ${{ inputs.report_date }}"));
-    assert!(script.contains("REPORT_DATE_INPUT"));
+    let resolver = extract_report_date_resolver_script(&workflow_path);
+    assert!(resolver.contains("REPORT_DATE_INPUT"));
+    assert!(script.contains("REPORT_DATE_JST:?"));
     assert!(script.contains("datetime.strptime(date_jst, \"%Y-%m-%d\")"));
     assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
     assert!(script.contains("run_status_${DATE_JST}.json"));
