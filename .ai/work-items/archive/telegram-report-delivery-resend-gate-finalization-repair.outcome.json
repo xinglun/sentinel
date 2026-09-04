@@ -1,0 +1,212 @@
+{
+  "acceptanceResults": [
+    "PR #133 の実際の immutable baseRevision 30514c636e04f09f6609f2029ba4859f56852766 に一致する finalization receipt を記録する。",
+    "PR #134 により修正が main の merge commit 1098f9e918bca5694cfae31fb6f3db83879c8131 に同期され、main ref run 33817912971 と data branch の補発結果が evidence に残る。",
+    "前駆 WI の archive bytes を改変せず、strict finalization、finalize-verify、close を完了する。"
+  ],
+  "createdAt": "2026-09-03T23:55:39Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:54d3e4e35426c6837e20d40a16991f5ff613f70c3e91bec46d7e92685d76fa8a",
+  "evidenceRefs": [
+    ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+      "workItemId": "telegram-report-delivery-resend-gate-finalization-repair"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/telegram-report-delivery-resend-gate-finalization.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/telegram-report-delivery-resend-gate.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/telegram-report-delivery-resend-gate-finalization.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "前駆 successor の誤った PR base binding を再利用せず、PR #133 の実際の基線へ正しく再結合した governance-only successor として finalization、検証、close を完了する。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "telegram-report-delivery-resend-gate-finalization-repair"
+  },
+  "taskReportDigest": "sha256:57e94a1dd9a887984b004835d9275193e7cc5218f94e98753d896bae2345e68a",
+  "taskReportMarkdownDigest": "sha256:3f105fe4d9f42b5057d174cd59aa35669639f2071a272c0ae98f2584edccc1a8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/telegram-report-delivery-resend-gate-finalization-repair.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "telegram-report-delivery-resend-gate-finalization-repair"
+}

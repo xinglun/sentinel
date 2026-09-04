@@ -1,0 +1,64 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "f5df7854921ff13387548c6e511fdba2f42d2551",
+    "name": "codex/telegram-report-resend-gate",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c14519a6cf42a98209e9641bddd9c673ad4c3c86e07471f7e194baae3b5f4fdc",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "30514c636e04f09f6609f2029ba4859f56852766",
+    "kind": "shared_worktree_retained",
+    "mergeParents": []
+  },
+  "operationId": "github-pr-133-shared-primary-finalization-20260904",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "30514c636e04f09f6609f2029ba4859f56852766",
+    "headRevision": "f5df7854921ff13387548c6e511fdba2f42d2551",
+    "mergeCommit": "45155cac1421f4904c1d74a12f8b98e523d7951f",
+    "number": 133,
+    "url": "https://github.com/xinglun/sentinel/pull/133"
+  },
+  "reason": "PR #133 已通过全部 GitHub 检查并合并为 45155cac；精确 feature branch 已删除，主 worktree 保持 clean 并继续承载 develop，按 shared-primary historical compatibility 记录，不改写前驱 archive。main 已经由 PR #134 同步，main run 33817912971 已成功补发 2026-09-03 日报。",
+  "receiptId": "telegram-report-delivery-resend-gate-finalization-repair",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-resend-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/133",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T00:03:00Z",
+  "workItemId": "telegram-report-delivery-resend-gate-finalization-repair",
+  "worktree": {
+    "branch": "codex/telegram-report-resend-gate",
+    "headRevision": "f5df7854921ff13387548c6e511fdba2f42d2551",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel",
+    "worktreeId": "sentinel-primary"
+  }
+}

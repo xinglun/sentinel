@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-03T23:47:11Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.outcome.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.events.jsonl",
+    ".ai/evidence/telegram-report-delivery-resend-gate-finalization.verification.json",
+    "https://github.com/xinglun/sentinel/pull/133",
+    "https://github.com/xinglun/sentinel/pull/134",
+    "https://github.com/xinglun/sentinel/actions/runs/33817912971"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:53b4cd404702c3b33e92f3304d6b80ed4bcd66343f0735328628f7751002844c",
+  "predecessorEventsDigest": "sha256:4502110178be1186216b8789f70bf527e442b65325eb9e78c5a070adb1562d3e",
+  "predecessorOutcomeDigest": "sha256:8f4a1f3e8e45106192c2bebcc97734d565eb6aab825afd2a55d3017a9d5b1dbe",
+  "predecessorSummaryDigest": "sha256:96ab91c98dbb230ee516a1f156695a9f76be5f823ad0a9f5cd7d8df2aa292c2d",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate-finalization",
+  "reason": "当前 successor 的 immutable archive 将 PR #133 的 resourceContext 与 successor 创建时的 baseRevision 45155cac 绑定，Runtime 以此拒绝真实 PR #133 的基线 30514c63。为保持 evidence 诚实，不改写 archive，创建治理-only successor 并改用 PR #133 的真实基线完成 finalization、finalize-verify、close。main 同步与日報补发事实已由 PR #134 和 main run 33817912971 完成。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 将 Contract baseRevision 固定为 PR #133 的 30514c636e04f09f6609f2029ba4859f56852766，完成 make quality、archive、strict finalization、finalize-verify、close，并在 PR #133、PR #134、main run 33817912971 的 evidence 下结束当前 lineage。",
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-delivery-resend-gate-finalization-repair",
+  "workItemId": "telegram-report-delivery-resend-gate-finalization"
+}
