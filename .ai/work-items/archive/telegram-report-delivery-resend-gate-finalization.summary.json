@@ -1,0 +1,67 @@
+{
+  "changedPaths": [
+    ".ai/decisions/telegram-report-delivery-resend-gate.recovery.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.summary.json"
+  ],
+  "checkpointAt": "2026-09-03T23:16:03Z",
+  "checkpointContractDigest": "sha256:53b4cd404702c3b33e92f3304d6b80ed4bcd66343f0735328628f7751002844c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+  "createdAt": "2026-09-03T23:14:07Z",
+  "expectedReviewFocus": [
+    "PR #133 が PR #134 により main の merge commit 1098f9e918bca5694cfae31fb6f3db83879c8131 に同期されていること。",
+    "main ref の run 33817912971 が成功し、data branch に report_lifecycle=RESENT、notification_resend=succeeded、14 chunks が記録されていること。",
+    "前駆 Work Item の immutable archive を変更せず、recovery、finalization、finalize-verify、close の証跡を保持していること。"
+  ],
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-delivery-resend-gate-finalization.contract.json",
+      "https://github.com/xinglun/sentinel/pull/133",
+      "https://github.com/xinglun/sentinel/pull/134",
+      "https://github.com/xinglun/sentinel/actions/runs/33817912971",
+      "origin/data:reports/run_status_2026-09-03.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preReviewWarnings": [
+    "補発の最終判定は develop ref ではなく main ref の run 33817912971 と data branch artifact を使う。",
+    "前駆 archive の Contract、Summary、Outcome、Events bytes は改変しない。",
+    "success は送信結果と保存済み状態に限定して記録し、未証明の利用者効果は主張しない。"
+  ],
+  "predecessorContractDigest": "sha256:8cb85ff7b03948f621a0460463e1089e7cc8589a50a3675c5b3dcfb0e6e142b3",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate",
+  "preflightAt": "2026-09-03T23:41:53Z",
+  "preflightContractDigest": "sha256:53b4cd404702c3b33e92f3304d6b80ed4bcd66343f0735328628f7751002844c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-delivery-resend-gate.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [],
+  "state": "finish_ready",
+  "unknowns": [],
+  "updatedAt": "2026-09-03T23:41:59Z",
+  "userCorrectionSolidification": [
+    {
+      "correction": "Actions は main branch で実行されるため、develop だけに merge した状態での補発は最終完了とみなさない。",
+      "reason": "Contract acceptance、main 同期 PR #134、main ref run 33817912971、data branch run status に固定した。",
+      "solidifiedTo": "contract_and_summary"
+    }
+  ],
+  "userVisibleBenefit": "先に main へ修正を同期した後、保存済みの 2026-09-03 日報を再計算せず Telegram へ補発し、14 chunks の成功結果を data branch の監査記録へ反映できた。",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": "AI Cockpit required verification として quality gate が成功した。",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-delivery-resend-gate-finalization"
+}

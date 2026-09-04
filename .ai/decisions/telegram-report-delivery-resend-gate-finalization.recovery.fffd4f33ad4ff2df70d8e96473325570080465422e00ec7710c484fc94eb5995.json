@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-04T00:05:33Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.outcome.json",
+    ".ai/decisions/telegram-report-delivery-resend-gate-finalization-repair.finalize.json",
+    ".ai/decisions/telegram-report-delivery-resend-gate-finalization-repair.close.json",
+    "https://github.com/xinglun/sentinel/pull/133",
+    "https://github.com/xinglun/sentinel/pull/134",
+    "https://github.com/xinglun/sentinel/actions/runs/33817912971"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:53b4cd404702c3b33e92f3304d6b80ed4bcd66343f0735328628f7751002844c",
+  "predecessorEventsDigest": "sha256:4502110178be1186216b8789f70bf527e442b65325eb9e78c5a070adb1562d3e",
+  "predecessorOutcomeDigest": "sha256:8f4a1f3e8e45106192c2bebcc97734d565eb6aab825afd2a55d3017a9d5b1dbe",
+  "predecessorSummaryDigest": "sha256:96ab91c98dbb230ee516a1f156695a9f76be5f823ad0a9f5cd7d8df2aa292c2d",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate-finalization",
+  "reason": "前駆 successor は PR #133 の baseRevision binding を誤って archive したため、immutable bytes を改変せず、正しい baseRevision で strict finalization、finalize-verify、close を完了した repair successor に lineage を引き継いだ。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "none",
+  "runtimeDigest": "sha256:0e9293454395a51e96b7347f79aa0dfef27ac15e4754e6b5af40e30eafd74853",
+  "runtimeVersion": "0.2.70",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-delivery-resend-gate-finalization-repair",
+  "workItemId": "telegram-report-delivery-resend-gate-finalization"
+}

@@ -1,0 +1,71 @@
+{
+  "changedPaths": [
+    ".ai/decisions/telegram-report-delivery-resend-gate-finalization.recovery.json",
+    ".ai/decisions/telegram-report-delivery-resend-gate.recovery.json",
+    ".ai/evidence/telegram-report-delivery-resend-gate-finalization.verification.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization-repair.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.archive.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.events.jsonl",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.outcome.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.task-report.json",
+    ".ai/work-items/archive/telegram-report-delivery-resend-gate-finalization.task-report.md"
+  ],
+  "checkpointAt": "2026-09-03T23:48:57Z",
+  "checkpointContractDigest": "sha256:4e63101c59387c61c149d05af99228da67280f81d9259b35f30fd8438da3c4c1",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+  "createdAt": "2026-09-03T23:47:22Z",
+  "expectedReviewFocus": [
+    "PR #133 の実際の baseRevision 30514c636e04f09f6609f2029ba4859f56852766 と finalization receipt の一致。",
+    "PR #134 による main 同期と main ref run 33817912971 の成功、data branch の RESENT / succeeded / 14 chunks。",
+    "前駆 archive bytes を改変せず、strict finalization、finalize-verify、close を完了していること。"
+  ],
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/telegram-report-delivery-resend-gate-finalization-repair.contract.json",
+      "https://github.com/xinglun/sentinel/pull/133",
+      "https://github.com/xinglun/sentinel/pull/134",
+      "https://github.com/xinglun/sentinel/actions/runs/33817912971",
+      "origin/data:reports/run_status_2026-09-03.json"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:53b4cd404702c3b33e92f3304d6b80ed4bcd66343f0735328628f7751002844c",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate-finalization",
+  "preflightAt": "2026-09-03T23:55:19Z",
+  "preflightContractDigest": "sha256:4e63101c59387c61c149d05af99228da67280f81d9259b35f30fd8438da3c4c1",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:25113533555550aed7f8b712771d191d0adf38f4197b71ff9352e8d9ef88b654",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-delivery-resend-gate-finalization.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "residualRisks": [],
+  "state": "finish_ready",
+  "unknowns": [],
+  "updatedAt": "2026-09-03T23:55:39Z",
+  "userCorrectionSolidification": [
+    {
+      "correction": "Actions は main branch で実行されるため、develop のみへの merge 後の補発は最終完了としない。",
+      "reason": "main 同期 PR #134、main ref run 33817912971、data branch status を Contract と Summary に固定した。",
+      "solidifiedTo": "contract_and_summary"
+    }
+  ],
+  "userVisibleBenefit": "main 同期後に保存済みの 2026-09-03 日報を再計算せず Telegram へ補発し、14 chunks の成功結果を data branch へ記録できた。",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": "AI Cockpit required verification として quality gate が成功した。",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-delivery-resend-gate-finalization-repair"
+}

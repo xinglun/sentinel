@@ -1,0 +1,126 @@
+{
+  "acceptanceCriteria": [
+    "PR #133 の修正が PR #134 により main へ merge commit 1098f9e918bca5694cfae31fb6f3db83879c8131 として同期される。",
+    "main ref の 2026-09-03 日報補発 run 33817912971 が成功し、data branch の run status に report_lifecycle=RESENT と notification_resend=succeeded、14 chunks が記録される。",
+    "前駆 WI の recovery、finalization、finalize-verify、close の治理証跡が不変 archive を改変せずに記録される。"
+  ],
+  "agentCapability": {
+    "blockedReason": "",
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "45155cac1421f4904c1d74a12f8b98e523d7951f",
+  "createdAt": "2026-09-03T23:14:07Z",
+  "executionDecision": {
+    "reason": "これは既存 PR と run の finalization、verification、close の governance-only 記録であり、業務コード変更を含まない。",
+    "status": "continue"
+  },
+  "goal": "実装変更なしで、前駆 WI の recovery、finalization、検証、close に必要な証跡を successor WI に記録し、PR #133 を main に同期した後の補発結果まで archive と close に結び付ける。",
+  "intent": "PR #133 と日報再送成功の事実を immutable archive に結び付け、前駆 WI の未完了 finalization を治理証跡として補完する。",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "src/**",
+    ".github/workflows/**",
+    "tests/**",
+    "reports/**",
+    "data/**",
+    "新しい業務ロジック、既存 archive/evidence/contract/summary/outcome/events bytes の改変、直接 main/develop への push"
+  ],
+  "preReviewWarnings": [
+    "前駆 archive の Contract、Summary、Outcome、Events bytes は改変しない。",
+    "PR #133 の main 同期は PR #134 と merge commit 1098f9e918bca5694cfae31fb6f3db83879c8131 で確認し、補発は main run 33817912971 を正とする。",
+    "実装変更を successor の scope に追加せず、governance artifact だけを変更する。"
+  ],
+  "predecessorContractDigest": "sha256:8cb85ff7b03948f621a0460463e1089e7cc8589a50a3675c5b3dcfb0e6e142b3",
+  "predecessorWorkItemId": "telegram-report-delivery-resend-gate",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-delivery-resend-gate.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:2569f0cf3859a696c4a17f1b328759b54468227b582ca9355bb08445addc2195",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/telegram-report-resend-gate",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/133",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Work Item lifecycle、quality gate、PR、branch、worktree の repository 規約を定義する。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "インストール済み ai-cockpit Runtime と governance lifecycle の正規入口を定義する。"
+    },
+    {
+      "path": ".ai/cockpit/README.md",
+      "reason": "repository-local AI Cockpit の Contract、evidence、archive の扱いを定義する。"
+    },
+    {
+      "path": ".ai/decisions/telegram-report-delivery-resend-gate.recovery.json",
+      "reason": "前駆 WI の immutable archive を改変せず successor を作成した人間承認付き recovery decision である。"
+    },
+    {
+      "path": ".ai/work-items/archive/telegram-report-delivery-resend-gate.contract.json",
+      "reason": "前駆 WI の不変 Contract と PR 前の resource context を保持する。"
+    },
+    {
+      "path": ".ai/work-items/archive/telegram-report-delivery-resend-gate.summary.json",
+      "reason": "前駆 WI の不変 Summary と verification binding を保持する。"
+    },
+    {
+      "path": ".ai/work-items/archive/telegram-report-delivery-resend-gate.outcome.json",
+      "reason": "前駆 WI の不変 Outcome と finish evidence binding を保持する。"
+    },
+    {
+      "path": ".ai/work-items/archive/telegram-report-delivery-resend-gate.events.jsonl",
+      "reason": "前駆 WI の append-only lifecycle events を保持する。"
+    },
+    {
+      "path": ".ai/evidence/telegram-report-delivery-resend-gate.verification.json",
+      "reason": "PR #133 に含まれる resend gate 修正の make quality 実行結果を保持する。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/pull/133",
+      "reason": "修正を review 済みで develop に merge した実 PR の証跡である。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/33814897093",
+      "reason": "develop ref で先行確認した補発 run であり、main ref の最終 run と区別する履歴 evidence である。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/pull/134",
+      "reason": "PR #133 を main に同期し、main ref 補発の前提を成立させた PR である。"
+    },
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/33817912971",
+      "reason": "main ref で 2026-09-03 日報を補発し成功した最終 GitHub Actions run である。"
+    },
+    {
+      "path": "origin/data:reports/run_status_2026-09-03.json",
+      "reason": "main ref 補発の report_lifecycle=RESENT、notification_resend=succeeded、14 chunks を保存した data branch artifact である。"
+    }
+  ],
+  "state": "implementation_active",
+  "unknowns": [],
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "telegram-report-delivery-resend-gate-finalization"
+}
