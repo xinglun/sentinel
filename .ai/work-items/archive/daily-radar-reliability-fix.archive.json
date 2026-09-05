@@ -6,7 +6,7 @@
     "contractPath": ".ai/work-items/archive/daily-radar-reliability-fix.contract.json",
     "eventsDigest": "sha256:6beac37604499b7cc0b2658e1617ceaf92d38dac57e061f08ac37c0ee0267b24",
     "eventsPath": ".ai/work-items/archive/daily-radar-reliability-fix.events.jsonl",
-    "outcomeDigest": "sha256:a7500fea3f82f62e1700b5c9dc0cac98a02f5ad2ebeb8aa94a85b3cbf54d7f55",
+    "outcomeDigest": "sha256:2ebaacc16bb2d35bdfb6c6221f68b1c0d1e435451643c15ffb93073749f8c2ed",
     "outcomePath": ".ai/work-items/archive/daily-radar-reliability-fix.outcome.json",
     "summaryDigest": "sha256:86550b1167c0622bbb386a06eb9f47ce93f3386dcb9f8f767cc7dc716c80b188",
     "summaryPath": ".ai/work-items/archive/daily-radar-reliability-fix.summary.json",
