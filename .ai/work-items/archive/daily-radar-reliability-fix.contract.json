@@ -26,7 +26,7 @@
     "baseRemote": "origin",
     "branch": "codex/daily-radar-reliability-fix-pr",
     "provider": "github",
-    "pullRequest": "not-requested",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/142",
     "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-reliability-fix"
   },
   "risk": "workflow 生产定时边界修复；展示变更保持 decision_weight 与底层机器字段不变，测试仅使用静态脚本和 mock，不触发日报发送。",

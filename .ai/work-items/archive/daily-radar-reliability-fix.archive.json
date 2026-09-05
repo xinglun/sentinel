@@ -2,7 +2,7 @@
   "closeRequired": true,
   "createdAt": "2026-09-04T23:40:12Z",
   "files": {
-    "contractDigest": "sha256:cd63cda7d8d2c30c453adcbd1b377d484f6d0fcb16eebf6dd2447acabcbfabf5",
+    "contractDigest": "sha256:1dfc3527cc7b8780b3a36072d0dfc8bf56ca536e23daff9d91c30fca3c5277bc",
     "contractPath": ".ai/work-items/archive/daily-radar-reliability-fix.contract.json",
     "eventsDigest": "sha256:6beac37604499b7cc0b2658e1617ceaf92d38dac57e061f08ac37c0ee0267b24",
     "eventsPath": ".ai/work-items/archive/daily-radar-reliability-fix.events.jsonl",
