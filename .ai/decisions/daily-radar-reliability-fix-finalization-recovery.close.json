@@ -1,0 +1,153 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+      "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json",
+            ".ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json",
+            ".ai/decisions/daily-radar-reliability-fix-finalization-recovery.finalize.json",
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.archive.json",
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.outcome.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-05T10:59:18Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在保留前驱不可变 archive 的前提下，重新验证当前 Contract、历史 PR 合并、develop→main 同步与 provider finalization 证据，并完成 predecessor/successor close"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:914c1fef80cfbde4405718936a898ee012a91fa92169abca452a7e65634b669f",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:355713501026e7fa35bbd9efd773e31460466652ce31638446547ca555dfe971",
+  "resourceFinalizationHeadPath": ".ai/decisions/daily-radar-reliability-fix-finalization-recovery.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-05T10:59:18Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json",
+      ".ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json",
+      ".ai/decisions/daily-radar-reliability-fix-finalization-recovery.finalize.json",
+      ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.archive.json",
+      ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.outcome.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/cockpit/README.md"
+    ],
+    "reason": "PR #148 已合并到 develop，successor verification 已在 v0.2.76 通过，provider finalization 已验证为 deleted；前驱历史 archive/evidence 保持不可变，本 successor 治理链可以关闭。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-05T10:59:28Z",
+  "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+}
