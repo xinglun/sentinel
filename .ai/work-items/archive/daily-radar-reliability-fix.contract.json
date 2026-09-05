@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "定时任务在 2026-09-05 02:43 JST 解析为 2026-09-04，跨周末的周一凌晨解析为上一周五，正常 23:30 JST 不回溯，workflow_dispatch 的显式 report_date 优先保留。",
+    "报告生成、通知结果和 Freshness Gate 使用同一个 REPORT_DATE_JST，不再各自读取当前 JST 日历日期。",
+    "回归测试覆盖日期边界、日期一致性、手动显式日期和 no-send 约束；测试不会执行 make radar-release、真实日报入口或 Telegram API。",
+    "Telegram/普通日报的 Runtime Integrity 展示按既有授权边界工作：HEALTHY 隐藏技术状态行，DEGRADED/UNAVAILABLE 显示短告警，Archive 保留完整机器字段。",
+    "用户可见收益：日报使用统一且可追溯的报告日期；观测降级时用户能看到简短告警，而不会暴露冗长机器诊断；不改变任何机器语义。",
+    "所有修改保持机器语义不变，make fmt-check、make test、make clippy、make quality 和 ai-cockpit verify 全部通过。"
+  ],
+  "authority": "当前用户已明确确认方案并授权实现、提交、推送、创建 PR、合并 develop、再通过 PR 同步 main；修复期间不得发送日报。",
+  "baseRevision": "a8836e8f40ee864969c906e76d55cd127ab64039",
+  "createdAt": "2026-09-04T22:55:23Z",
+  "goal": "统一定时报告日期解析、报告生成、结果展示与 Freshness Gate 的日期语义；在不运行日报、不发送 Telegram、不改变任何机器决策语义的前提下，完成可重复回归验证，并按 PR 合并 develop 后再同步 main。",
+  "intent": "修复 Daily Decision Radar 在定时任务跨越 JST 午夜后使用错误报告日期导致 Freshness Gate 失败的工作流边界问题，并将此前已授权的日报 Runtime Integrity 展示修复纳入同一可交付 PR。",
+  "mode": "code",
+  "outOfScope": [
+    "实际日报生成与 Telegram 发送；GitHub Actions 手动 dispatch；Decision/Gate/Probe/RS/Leadership/Position Sizing/Execution/Runtime Integrity 判定逻辑；市场数据、报告历史和生产 secrets；宏观 Signal Context 功能扩展；直接推送或改写 main。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:af505c2599ff91ac13efe3de1f8b9937b2704ff1bacbafbd70acde5c67df2f78",
+  "requiredEvidenceClasses": [],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-reliability-fix-pr",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/142",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-reliability-fix"
+  },
+  "risk": "workflow 生产定时边界修复；展示变更保持 decision_weight 与底层机器字段不变，测试仅使用静态脚本和 mock，不触发日报发送。",
+  "scope": [
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/interface/report.rs",
+    "src/features/shared/infrastructure/notify.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "tests/daily_report_runtime_integrity.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "daily-radar-reliability-fix"
+}

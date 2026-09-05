@@ -88,8 +88,8 @@ fn partial_leadership_history_is_marked_as_recomputed() {
 }
 
 #[test]
-fn generated_report_contains_identity_and_archive_diagnostics_without_decision_weight() {
-    let mut presentation = PresentationPacket {
+fn generated_report_keeps_runtime_details_in_archive_and_uses_short_degraded_alert() {
+    let presentation = PresentationPacket {
         language: Language::EnUs,
         runtime_identity: Some(runtime_identity()),
         runtime_integrity: Some(RuntimeIntegrity::from_checks(
@@ -97,8 +97,8 @@ fn generated_report_contains_identity_and_archive_diagnostics_without_decision_w
             true,
             true,
             true,
-            true,
             false,
+            true,
         )),
         data_provenance: Some(DataProvenanceBundle::unavailable(
             "runtime-integrity-test",
@@ -123,11 +123,79 @@ fn generated_report_contains_identity_and_archive_diagnostics_without_decision_w
         }),
         ..Default::default()
     };
-    presentation
-        .runtime_integrity
-        .as_mut()
-        .unwrap()
-        .decision_weight = 9;
+    let result = generate_refined_report(
+        &ReportRenderContext {
+            compact_transition_in_no_trade: false,
+            compact_stability_threshold: "0".to_string(),
+            compact_continuity_threshold: "0".to_string(),
+            observation_timeline: None,
+        },
+        &presentation,
+        0.0,
+        &HashMap::new(),
+        &HashMap::new(),
+    )
+    .unwrap();
+
+    assert!(result
+        .markdown_body
+        .contains("⚠️ Observation Integrity: Partially degraded"));
+    assert!(result
+        .markdown_body
+        .contains("Observation only; excluded from decisions"));
+    assert!(result.markdown_body.contains("run-2026-09-02"));
+    assert!(!result.markdown_body.contains("report_runtime_identity"));
+    assert!(!result.markdown_body.contains("data_provenance"));
+    assert!(!result
+        .markdown_body
+        .contains("LEADERSHIP_SNAPSHOT_DEGRADED"));
+    assert!(!result.markdown_body.contains("decision_weight=0"));
+    assert!(result.markdown_body.contains("RS Observation Health"));
+    assert!(result.markdown_body.contains("benchmark_history_missing"));
+    assert!(result
+        .telegram_html_body
+        .contains("Observation Integrity: Partially degraded"));
+    assert!(result
+        .telegram_html_body
+        .contains("Observation only; excluded from decisions"));
+    assert!(result.telegram_html_body.contains("run-2026-09-02"));
+    assert!(!result
+        .telegram_html_body
+        .contains("report_runtime_identity"));
+    assert!(!result
+        .telegram_html_body
+        .contains("LEADERSHIP_SNAPSHOT_DEGRADED"));
+    assert!(!result.telegram_html_body.contains("decision_weight=0"));
+    assert!(result.archival_markdown.contains("report_runtime_identity"));
+    assert!(result.archival_markdown.contains("Runtime Integrity"));
+    assert!(result.archival_markdown.contains("data_provenance"));
+    assert!(result
+        .archival_markdown
+        .contains("LEADERSHIP_SNAPSHOT_DEGRADED"));
+    assert!(result.archival_markdown.contains("\"decision_weight\": 0"));
+    assert!(result.archival_markdown.contains("UNAVAILABLE"));
+    assert_eq!(presentation.runtime_integrity.unwrap().decision_weight, 0);
+}
+
+#[test]
+fn healthy_report_hides_runtime_integrity_technical_lines_in_user_surfaces() {
+    let presentation = PresentationPacket {
+        language: Language::ZhCn,
+        runtime_identity: Some(runtime_identity()),
+        runtime_integrity: Some(RuntimeIntegrity::from_checks(
+            &runtime_identity(),
+            true,
+            true,
+            true,
+            true,
+            true,
+        )),
+        data_provenance: Some(DataProvenanceBundle::unavailable(
+            "healthy-runtime-integrity-test",
+            "provenance fixture",
+        )),
+        ..Default::default()
+    };
 
     let result = generate_refined_report(
         &ReportRenderContext {
@@ -143,13 +211,270 @@ fn generated_report_contains_identity_and_archive_diagnostics_without_decision_w
     )
     .unwrap();
 
-    assert!(result.markdown_body.contains("report_runtime_identity"));
-    assert!(result.markdown_body.contains("Runtime Integrity"));
-    assert!(result.markdown_body.contains("RS Observation Health"));
-    assert!(result.markdown_body.contains("benchmark_history_missing"));
+    for body in [&result.markdown_body, &result.telegram_html_body] {
+        assert!(body.contains("run-2026-09-02"));
+        assert!(!body.contains("Runtime Integrity"));
+        assert!(!body.contains("report_runtime_identity"));
+        assert!(!body.contains("data_provenance"));
+        assert!(!body.contains("观测完整性"));
+    }
+    assert!(result.archival_markdown.contains("report_runtime_identity"));
+    assert!(result.archival_markdown.contains("Runtime Integrity"));
+    assert!(result.archival_markdown.contains("\"status\": \"HEALTHY\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"report_run_id\": \"run-2026-09-02\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"report_run_at\": \"2026-09-02T23:30:00+09:00\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"git_commit_sha\": \"abc123\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"git_branch\": \"develop\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"binary_version\": \"0.1.0\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"decision_snapshot_version\": \"decision-v1\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"data_snapshot_id\": \"data-2026-09-02\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"data_snapshot_date\": \"2026-09-02\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"build_git_commit_sha\": \"abc123\""));
+    assert!(result
+        .archival_markdown
+        .contains("\"execution_git_commit_sha\": \"abc123\""));
     assert!(result.archival_markdown.contains("data_provenance"));
-    assert!(result.archival_markdown.contains("UNAVAILABLE"));
-    assert_eq!(presentation.runtime_integrity.unwrap().decision_weight, 9);
+    assert!(result.archival_markdown.contains("provenance fixture"));
+    assert!(result.archival_markdown.contains("\"decision_weight\": 0"));
+}
+
+#[test]
+fn unavailable_report_shows_non_silent_short_alert_without_machine_diagnostics() {
+    let presentation = PresentationPacket {
+        language: Language::ZhCn,
+        runtime_identity: Some(runtime_identity()),
+        runtime_integrity: Some(RuntimeIntegrity::from_checks(
+            &runtime_identity(),
+            false,
+            true,
+            true,
+            true,
+            true,
+        )),
+        ..Default::default()
+    };
+
+    let result = generate_refined_report(
+        &ReportRenderContext {
+            compact_transition_in_no_trade: false,
+            compact_stability_threshold: "0".to_string(),
+            compact_continuity_threshold: "0".to_string(),
+            observation_timeline: None,
+        },
+        &presentation,
+        0.0,
+        &HashMap::new(),
+        &HashMap::new(),
+    )
+    .unwrap();
+
+    for body in [&result.markdown_body, &result.telegram_html_body] {
+        assert!(body.contains("run-2026-09-02"));
+        assert!(body.contains("观测完整性：不可用"));
+        assert!(body.contains("仅观测，不参与决策"));
+        assert!(!body.contains("DATA_SNAPSHOT_UNAVAILABLE"));
+        assert!(!body.contains("decision_weight=0"));
+        assert!(!body.contains("report_runtime_identity"));
+    }
+    assert!(result
+        .archival_markdown
+        .contains("DATA_SNAPSHOT_UNAVAILABLE"));
+    assert!(result.archival_markdown.contains("\"decision_weight\": 0"));
+}
+
+#[test]
+fn runtime_integrity_alerts_are_specific_and_localized() {
+    let mut mismatched_identity = runtime_identity();
+    mismatched_identity.execution_git_commit_sha = "def456".to_string();
+    let revision_integrity =
+        RuntimeIntegrity::from_checks(&mismatched_identity, true, true, true, true, true);
+    let artifact_integrity =
+        RuntimeIntegrity::from_checks(&runtime_identity(), true, true, true, true, false);
+
+    for (language, expected_detail, excluded_detail, old_generic_detail) in [
+        (
+            Language::ZhCn,
+            "运行版本不一致",
+            "仅观测，不参与决策",
+            "部分观测输入不完整",
+        ),
+        (
+            Language::EnUs,
+            "Runtime revision mismatch",
+            "Observation only; excluded from decisions",
+            "Partial observation input incomplete",
+        ),
+        (
+            Language::JaJp,
+            "実行リビジョン不一致",
+            "観測のみ・意思決定には不参加",
+            "一部の観測入力が不完全です",
+        ),
+    ] {
+        for (identity, integrity, expected_artifact_detail) in [
+            (
+                mismatched_identity.clone(),
+                revision_integrity.clone(),
+                expected_detail,
+            ),
+            (
+                runtime_identity(),
+                artifact_integrity.clone(),
+                match language {
+                    Language::ZhCn => "报告产物完整性需要复核",
+                    Language::EnUs => "Report artifact traceability incomplete",
+                    Language::JaJp => "レポート成果物の追跡性が不完全です",
+                },
+            ),
+        ] {
+            let presentation = PresentationPacket {
+                language,
+                runtime_identity: Some(identity),
+                runtime_integrity: Some(integrity),
+                ..Default::default()
+            };
+            let result = generate_refined_report(
+                &ReportRenderContext {
+                    compact_transition_in_no_trade: false,
+                    compact_stability_threshold: "0".to_string(),
+                    compact_continuity_threshold: "0".to_string(),
+                    observation_timeline: None,
+                },
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for body in [&result.markdown_body, &result.telegram_html_body] {
+                assert!(body.contains(expected_artifact_detail));
+                assert!(body.contains(excluded_detail));
+                assert!(!body.contains(old_generic_detail));
+                assert!(!body.contains("RUNTIME_MISMATCH"));
+                assert!(!body.contains("REPORT_ARTIFACT_MISMATCH"));
+            }
+            assert!(result.archival_markdown.contains(expected_artifact_detail));
+        }
+    }
+}
+
+#[test]
+fn runtime_integrity_alert_prioritizes_traceability_diagnostics() {
+    let mut mismatched_identity = runtime_identity();
+    mismatched_identity.execution_git_commit_sha = "def456".to_string();
+    let mut runtime_integrity =
+        RuntimeIntegrity::from_checks(&mismatched_identity, true, true, true, true, true);
+    runtime_integrity
+        .diagnostics
+        .push("LEADERSHIP_SNAPSHOT_DEGRADED".to_string());
+    runtime_integrity.diagnostics.sort();
+
+    let mut artifact_integrity =
+        RuntimeIntegrity::from_checks(&runtime_identity(), true, true, true, true, false);
+    artifact_integrity
+        .diagnostics
+        .push("RS_INPUT_DEGRADED".to_string());
+    artifact_integrity.diagnostics.sort();
+
+    let mut combined_integrity = runtime_integrity.clone();
+    combined_integrity
+        .diagnostics
+        .push("REPORT_ARTIFACT_MISMATCH".to_string());
+    combined_integrity.diagnostics.sort();
+
+    for (identity, integrity, expected) in [
+        (
+            mismatched_identity,
+            runtime_integrity,
+            "Runtime revision mismatch",
+        ),
+        (
+            runtime_identity(),
+            artifact_integrity,
+            "Report artifact traceability incomplete",
+        ),
+        (
+            runtime_identity(),
+            combined_integrity.clone(),
+            "Runtime and report artifact traceability require review",
+        ),
+    ] {
+        let presentation = PresentationPacket {
+            language: Language::EnUs,
+            runtime_identity: Some(identity),
+            runtime_integrity: Some(integrity),
+            ..Default::default()
+        };
+        let result = generate_refined_report(
+            &ReportRenderContext {
+                compact_transition_in_no_trade: false,
+                compact_stability_threshold: "0".to_string(),
+                compact_continuity_threshold: "0".to_string(),
+                observation_timeline: None,
+            },
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [&result.markdown_body, &result.telegram_html_body] {
+            assert!(body.contains(expected));
+            assert!(!body.contains("Partial observation input incomplete"));
+        }
+    }
+
+    for (language, expected) in [
+        (Language::ZhCn, "运行版本与报告产物追踪均需复核"),
+        (
+            Language::JaJp,
+            "実行リビジョンとレポート成果物の追跡性を確認してください",
+        ),
+    ] {
+        let presentation = PresentationPacket {
+            language,
+            runtime_identity: Some(runtime_identity()),
+            runtime_integrity: Some(combined_integrity.clone()),
+            ..Default::default()
+        };
+        let result = generate_refined_report(
+            &ReportRenderContext {
+                compact_transition_in_no_trade: false,
+                compact_stability_threshold: "0".to_string(),
+                compact_continuity_threshold: "0".to_string(),
+                observation_timeline: None,
+            },
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [&result.markdown_body, &result.telegram_html_body] {
+            assert!(body.contains(expected));
+        }
+    }
 }
 
 #[test]

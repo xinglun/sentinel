@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "76f5af81248e07a19c47b287a937f14e10fa9f66",
+    "name": "codex/daily-radar-reliability-fix-pr",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:1dfc3527cc7b8780b3a36072d0dfc8bf56ca536e23daff9d91c30fca3c5277bc",
+  "operationId": "github-pr-142-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "a8836e8f40ee864969c906e76d55cd127ab64039",
+    "headRevision": "76f5af81248e07a19c47b287a937f14e10fa9f66",
+    "mergeCommit": "c62a6addf27537b2ee1cf9a560359443d8782813",
+    "number": 142,
+    "url": "https://github.com/xinglun/sentinel/pull/142"
+  },
+  "reason": "PR #142 已通过全部 GitHub 检查并合并到 develop；按用户授权删除精确 feature branch 与 worktree，保留完整治理证据。",
+  "receiptId": "daily-radar-reliability-fix-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-reliability-fix-pr",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/142",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-reliability-fix"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T23:47:34Z",
+  "workItemId": "daily-radar-reliability-fix",
+  "worktree": {
+    "branch": "codex/daily-radar-reliability-fix-pr",
+    "headRevision": "76f5af81248e07a19c47b287a937f14e10fa9f66",
+    "path": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-reliability-fix",
+    "worktreeId": "daily-radar-reliability-fix"
+  }
+}

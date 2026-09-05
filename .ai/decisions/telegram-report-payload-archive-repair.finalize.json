@@ -1,0 +1,22 @@
+{
+  "actor": "human:repository-owner",
+  "after": {"branch": "deleted", "pullRequest": "merged", "worktree": "removed"},
+  "authoritySource": "explicit-user-authorization",
+  "before": {"branch": "present", "pullRequest": "merged", "worktree": "clean"},
+  "branch": {"headRevision": "6f205815969cd15a8ca91a60bcbdab35a294dd82", "name": "codex/telegram-report-payload-archive-repair", "remote": "origin"},
+  "contractDigest": "sha256:0fccfed0a11faee5f191caf76610aac6be6b07137909f93268a74394afb3ea7e",
+  "operationId": "github-pr-138-merge-cleanup-20260904",
+  "provider": "github",
+  "pullRequest": {"baseBranch": "develop", "baseRemote": "origin", "baseRevision": "6eb62bdb114a88ede349bc5d1eaf5407b092c07f", "headRevision": "6f205815969cd15a8ca91a60bcbdab35a294dd82", "mergeCommit": "a8836e8f40ee864969c906e76d55cd127ab64039", "number": 138, "url": "not-requested"},
+  "reason": "PR #138 已合并，精确 repair branch 与 worktree 已清理；该 receipt 绑定真实 GitHub 合并事实，不改写不可变归档。",
+  "receiptId": "telegram-report-payload-archive-repair-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {"baseBranch": "develop", "baseRemote": "origin", "branch": "codex/telegram-report-payload-archive-repair", "provider": "github", "pullRequest": "not-requested", "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-telegram-report-payload-archive-repair"},
+  "result": {"disposition": "deleted", "failureCodes": [], "unknownCodes": []},
+  "runtimeDigest": "sha256:4026e381313d2d8875b7b52b942571ebd6b24bdfa1716883acdb631454f7b3ed",
+  "runtimeVersion": "0.2.74",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-04T20:03:52Z",
+  "workItemId": "telegram-report-payload-archive-repair",
+  "worktree": {"branch": "codex/telegram-report-payload-archive-repair", "headRevision": "6f205815969cd15a8ca91a60bcbdab35a294dd82", "path": "/Users/sei-rinn/dev/worktrees/sentinel-telegram-report-payload-archive-repair", "worktreeId": "sentinel-telegram-report-payload-archive-repair"}
+}
