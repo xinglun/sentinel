@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c5b07ea720dca3494825e85a93c9104f85fd28c4",
+    "name": "codex/daily-radar-finalization-recovery-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:d90edc4df81a029cf81d25ae78f0841f3ccd3b9b4709589a4445703961ae8ff1",
+  "operationId": "github-pr-148-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "2a8716551600ad0b24436f9ad49ed181f2af62a0",
+    "headRevision": "c5b07ea720dca3494825e85a93c9104f85fd28c4",
+    "mergeCommit": "efec5593f8642a835a5e079854a1dff0e88ff302",
+    "number": 148,
+    "url": "https://github.com/xinglun/sentinel/pull/148"
+  },
+  "reason": "PR #148 已通过全部 GitHub 检查并合并到 develop；已确认对应 feature branch 与 linked worktree 精确删除，保留 v0.2.76 successor 的完整治理证据。",
+  "receiptId": "daily-radar-reliability-fix-finalization-recovery-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-finalization-recovery-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/148",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-finalization-recovery-v2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-05T10:58:33Z",
+  "workItemId": "daily-radar-reliability-fix-finalization-recovery",
+  "worktree": {
+    "branch": "codex/daily-radar-finalization-recovery-v2",
+    "headRevision": "c5b07ea720dca3494825e85a93c9104f85fd28c4",
+    "path": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-finalization-recovery-v2",
+    "worktreeId": "daily-radar-reliability-fix-finalization-recovery"
+  }
+}
