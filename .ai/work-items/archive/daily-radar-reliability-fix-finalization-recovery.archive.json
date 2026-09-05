@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-05T10:50:35Z",
+  "files": {
+    "contractDigest": "sha256:d90edc4df81a029cf81d25ae78f0841f3ccd3b9b4709589a4445703961ae8ff1",
+    "contractPath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:b6f9ab818c554954d4b9e1db99862c6efb9ade3acdbc790d803b4a7c3f29af59",
+    "eventsPath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:8fec155c9b808afbd358fb902b3214758a5854f5a001b14cd6cd3234ee3b9cbe",
+    "outcomePath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:1840454e745557d6ef0a7fde6622416043ed1291a87633753a02a1aacbb5278f",
+    "summaryPath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:ebee39a6113335d4cac6e35886f99a03b29f1fd32cca0b252ee7def486f6ca67",
+    "taskReportMarkdownDigest": "sha256:6af97a5326313416dd5c5557ba6b7d1713862222e1d5065f7e6fecc559c124d8",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+}

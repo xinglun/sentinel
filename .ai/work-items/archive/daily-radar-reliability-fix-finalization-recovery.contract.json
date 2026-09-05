@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/daily-radar-finalization-recovery-v2",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/148",
     "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-finalization-recovery-v2"
   },
   "risk": "normal",

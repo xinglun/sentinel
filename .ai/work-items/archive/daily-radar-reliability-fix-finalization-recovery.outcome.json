@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "当前 Contract 的验证证据与 successor/revalidation receipt 一致",
+    "PR #142、PR #146、PR #147 的 merge identity 可核验",
+    "develop 与 main 的树内容一致且相关 feature/sync 分支与 worktree 已精确清理",
+    "不发送日报、不调用 Telegram、不改变产品代码"
+  ],
+  "createdAt": "2026-09-05T10:50:31Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:334c9231682bb7205aff73b847a983e7efd6213469de5df104ecc6375bb927cc",
+  "evidenceRefs": [
+    ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+      "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在保留前驱不可变 archive 的前提下，重新验证当前 Contract、历史 PR 合并、develop→main 同步与 provider finalization 证据，并完成 predecessor/successor close"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:ebee39a6113335d4cac6e35886f99a03b29f1fd32cca0b252ee7def486f6ca67",
+  "taskReportMarkdownDigest": "sha256:6af97a5326313416dd5c5557ba6b7d1713862222e1d5065f7e6fecc559c124d8",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/daily-radar-reliability-fix-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+}
