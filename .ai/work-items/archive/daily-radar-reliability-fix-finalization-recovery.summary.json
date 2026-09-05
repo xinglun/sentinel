@@ -1,0 +1,68 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json",
+    ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-radar-reliability-fix-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-05T10:37:15Z",
+  "checkpointContractDigest": "sha256:0e6f5d2fff8739f895195a422b820ef6d0fac56bf539e6c9a514ffda92d27ea5",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:b489014f6f6880484ad449777d211bcf601e6c53b5c55b8ae6ff2b66f50e975d",
+      "recorded": true,
+      "recordedAt": "2026-09-05T10:37:15Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:0e6f5d2fff8739f895195a422b820ef6d0fac56bf539e6c9a514ffda92d27ea5",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:b489014f6f6880484ad449777d211bcf601e6c53b5c55b8ae6ff2b66f50e975d",
+      "previousContractHash": "sha256:b489014f6f6880484ad449777d211bcf601e6c53b5c55b8ae6ff2b66f50e975d",
+      "reason": "真实 PR #148 已创建并通过 finalize-plan 绑定到当前 successor；该资源上下文变更使旧 verification receipt 仅作为历史尝试保留，现按 v0.2.76 规则重新生成当前 Contract 的 preflight、checkpoint 关联与 verification evidence，不改写旧 evidence 或前驱 archive。",
+      "recorded": true,
+      "recordedAt": "2026-09-05T10:47:16Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+  "createdAt": "2026-09-05T10:33:59Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:fd5535386d18eadd19e24bc9ac246174c90358b1515dbdb1101f24a599d854e4",
+  "predecessorWorkItemId": "daily-radar-reliability-fix",
+  "preflightAt": "2026-09-05T10:50:04Z",
+  "preflightContractDigest": "sha256:0e6f5d2fff8739f895195a422b820ef6d0fac56bf539e6c9a514ffda92d27ea5",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:7f205b2a34f33d156c2a9a4753ff6edd83e4d605260bda0f59a8c7d429a6d168",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-reliability-fix.recovery.f2d2d7015b13b5206317894c4c91fd628a6df3116da706c434e3bba25807a643.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-05T10:50:31Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-reliability-fix-finalization-recovery"
+}
