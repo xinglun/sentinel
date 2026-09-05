@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "currentContractDigest": "sha256:fd5535386d18eadd19e24bc9ac246174c90358b1515dbdb1101f24a599d854e4",
+  "decidedAt": "2026-09-05T10:33:59Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-reliability-fix.contract.json",
+    ".ai/evidence/daily-radar-reliability-fix.verification.json",
+    ".ai/decisions/daily-radar-reliability-fix.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:2088fa7ec5698662abb3ccc8c2c1d992a020b6d2de875b72e3effa3a08fceec0",
+  "predecessorContractDigest": "sha256:794258e8c5dcb93e82465b79cf8f31da014c4af495a7af62ab2f40242c903ac8",
+  "predecessorEventsDigest": "sha256:6beac37604499b7cc0b2658e1617ceaf92d38dac57e061f08ac37c0ee0267b24",
+  "predecessorFinalizationContractDigest": "sha256:1dfc3527cc7b8780b3a36072d0dfc8bf56ca536e23daff9d91c30fca3c5277bc",
+  "predecessorOutcomeDigest": "sha256:eaa9d61ed0540fd42dc0564781365412a037a923e40e2ef373efc05f11cef9a1",
+  "predecessorSummaryDigest": "sha256:3c43cf069186c6b5d6370fe046d9d89fc9b19f8cc4565bf01b9a24dd407bc0e4",
+  "predecessorVerificationEvidenceDigest": "sha256:b23c692c3180d6d87312ff633a31cbb5cb46e9aa6675a6f2be76984cfc362d2e",
+  "predecessorWorkItemId": "daily-radar-reliability-fix",
+  "reason": "归档后已通过审查修复 Contract 的 PR identity，旧验证证据保持不可变；请为当前 Contract 追加 successor 重验证，并在验证与 provider finalization 完成后关闭前驱治理链。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在 successor 中生成当前 Contract 的新验证证据，完成 preflight、verify、finish、archive、finalize-verify 与 close；不改写前驱 archive/evidence，不运行日报，不发送 Telegram。",
+  "runtimeDigest": "sha256:3442326523162b255bad5b317b87cb9ad162420bf9f9c88e23ab24f07b16e36d",
+  "runtimeVersion": "0.2.76",
+  "schemaVersion": 1,
+  "successorBindingMode": "contract_amendment_revalidation",
+  "successorWorkItemId": "daily-radar-reliability-fix-finalization-recovery",
+  "workItemId": "daily-radar-reliability-fix"
+}
