@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T22:40:28Z",
+  "files": {
+    "contractDigest": "sha256:28629310729ea04e433a684ed768cae49eab279697ca39667debf75f3b9b518a",
+    "contractPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.contract.json",
+    "eventsDigest": "sha256:1beee11e376e9c5d007d7e3e2b4f50e265a3a331c3ecd45715a92bc5baedde9f",
+    "eventsPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.events.jsonl",
+    "outcomeDigest": "sha256:8ad09b54c99ed39cc841c92d39f2b679b7aef89754258d7121399ffe84f3cec4",
+    "outcomePath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.outcome.json",
+    "summaryDigest": "sha256:655e8bc7329b1c7b386b8db8cf7c1de4dfef675e9cecc2fd2dfa7fed82519414",
+    "summaryPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.summary.json",
+    "taskReportDigest": "sha256:e45076dd2a69961b1ac605ab00702170b528dfd2bcae61ed19da8561d0765982",
+    "taskReportMarkdownDigest": "sha256:b761583c85b4dc2c2218e1e9338eba76076389c334c9e19d7feaf14cf24262e0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "nyse-holiday-narrative-token-fix"
+}
