@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T01:56:33Z",
+  "files": {
+    "contractDigest": "sha256:a3d35c6eb153658e348b37bf7f5a8b570c59a8f7129dc4a650c2cf61b0543215",
+    "contractPath": ".ai/work-items/archive/governance-script-drift-cleanup.contract.json",
+    "eventsDigest": "sha256:f4b149b44c8d4b0dffafe2d80cdd7d61f33482c5debe047e4f4e541ccc84419f",
+    "eventsPath": ".ai/work-items/archive/governance-script-drift-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:2571fd7bd29c919a8799504fe88a7e04e81aba156f69dcfb888a380e88084549",
+    "outcomePath": ".ai/work-items/archive/governance-script-drift-cleanup.outcome.json",
+    "summaryDigest": "sha256:36c6f235f8f5b0d69f55ccbda0e144b76fb3227f7718e5c88140465d6e7b657a",
+    "summaryPath": ".ai/work-items/archive/governance-script-drift-cleanup.summary.json",
+    "taskReportDigest": "sha256:8b961fd9197f9c913576fe72fd14d1e9dbd742d557add567ceac099007f6e14c",
+    "taskReportMarkdownDigest": "sha256:a2b462b072645132f1e18bd0275a6e32ca6bebee7f1867acb08c82e7868bab4e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/governance-script-drift-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/governance-script-drift-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "governance-script-drift-cleanup"
+}
