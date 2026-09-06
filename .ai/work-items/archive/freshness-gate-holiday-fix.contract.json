@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "Freshness Gate内のPythonチェックにlast_market_date比較による休場日例外条件が追加されている",
+    "休場日ケース(last_market_date不変)・通常append成功ケース・真のリグレッションケース(last_market_date進行かつcount不変)の3パターンをスタンドアロンで検証しいずれも期待通りの結果になる",
+    "YAML構文とPythonブロック構文がエラーなく解析できる"
+  ],
+  "authority": "authorized",
+  "baseRevision": "33f337decdf5fa4dec10f1f78d2749236802da49",
+  "createdAt": "2026-09-06T23:13:32Z",
+  "goal": ".github/workflows/daily_radar.ymlのFreshness Gate and Output Validationステップ内、observation_history_state.jsonのcount検証ロジックに、last_market_dateがrestored_last_snapshot_dateから変化していない場合(=休場日で正しくスキップされた場合)を例外として許可する条件を追加する。真のリグレッション(last_market_dateは新しい日付に進んだのにcountが増えていない矛盾)は引き続き検出できるようにする。アプリ本体のロジック・取引判断は一切変更しない。",
+  "intent": "本番Daily Decision Radarワークフローを2026-09-07(NYSE Holiday、Labor Day)に手動実行した際、Run Sentinel Radar自体は成功しTelegram実送信も成功したが、後続のFreshness Gate and Output Validationステップが「observation history state count did not append across the new report date」で失敗した。調査の結果、アプリ側(is_observation_trading_day, recent_trading_dates in radar_pipeline_runner.rs)は週末/NYSE休場日を正しく判定し、意図的にobservation historyへの追記をスキップしており、これは正しい仕様である。CI側のFreshness Gateスクリプトが「レポート日付が変われば必ずhistory件数が増える」という前提のみでチェックしており、休場日での正当なスキップを誤ってリグレッションとして検出していた。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "Gate",
+    "Execution",
+    "Trader",
+    "Action Matrix",
+    "Position Sizing",
+    "docs/**",
+    "reports/**",
+    "scripts/**"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:971efdda6ede09092bd5fba0e7c657fe6b64d6150e4afe9a7af8c3bc0a6150bc",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/freshness-gate-holiday-fix",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-freshness-gate-holiday-fix"
+  },
+  "risk": "low: ci_workflow_check_condition_refinement",
+  "scope": [
+    ".github/workflows/daily_radar.yml"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "freshness-gate-holiday-fix"
+}
