@@ -880,11 +880,17 @@ jobs:
               raise SystemExit("legacy current snapshot market_date does not match report date")
           if not isinstance(snapshot.get("market_date"), str):
               raise SystemExit("current snapshot has no market_date")
+          # 週末や NYSE 休場日は observation history に新規追記されない仕様
+          # (is_observation_trading_day, src/features/radar/interface/radar_pipeline_runner.rs)。
+          # last_market_date が復元時から変化していなければ、それは休場日として正しく
+          # スキップされた状態であり、リグレッションではない。
+          last_market_date = state.get("last_market_date")
           if (
               restored_snapshot_count > 0
               and restored_last_snapshot_date
               and expected_date != restored_last_snapshot_date
               and history_count <= restored_history_count
+              and last_market_date != restored_last_snapshot_date
           ):
               raise SystemExit("observation history state count did not append across the new report date")
           print(f"✅ Formal snapshot/state continuity verified: cycle_id={state['cycle_id']}")
