@@ -1,0 +1,71 @@
+{
+  "actor": "agent:claude-code",
+  "after": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "authoritySource": "user-message: 同様に調査・修正します",
+  "before": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "branch": {
+    "headRevision": "816ac68aff7137d3047efb2cce11145608480a77",
+    "name": "codex/freshness-gate-holiday-fix",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c4ca176c2a9843c5bf7310af5ba219e8caec33d1ce32ecaa3306e2bc734f651f",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "33f337decdf5fa4dec10f1f78d2749236802da49",
+    "contractBaseRevision": "33f337decdf5fa4dec10f1f78d2749236802da49",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "87cba2428dee1bcaba5ef2d4be1ea82c1503c06e",
+    "mergeParents": [
+      "33f337decdf5fa4dec10f1f78d2749236802da49",
+      "816ac68aff7137d3047efb2cce11145608480a77"
+    ]
+  },
+  "operationId": "historical-direct-merge-operation-87cba2428dee1bcaba5ef2d4be1ea82c1503c06e",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "33f337decdf5fa4dec10f1f78d2749236802da49",
+    "headRevision": "816ac68aff7137d3047efb2cce11145608480a77",
+    "mergeCommit": "87cba2428dee1bcaba5ef2d4be1ea82c1503c06e",
+    "number": 0,
+    "url": "historical://direct-merge/87cba2428dee1bcaba5ef2d4be1ea82c1503c06e"
+  },
+  "reason": "GitHub PR #158 (https://github.com/xinglun/sentinel/pull/158) を作成し、Build, Lint & Test / Audit Daily Guard / task-list-completed の全 CI チェック通過後に gh pr merge でマージした(commit 87cba242)。finalize-plan 時に Contract の resourceContext を provider=local/pullRequest=not-requested で先に確定していたため、finalize はその束縛に合わせて direct_merge_no_pr 形式で記録するが、実態は PR #158 経由の正規マージである。マージ後、正確な worktree とローカルブランチを削除した。",
+  "receiptId": "historical-direct-merge-freshness-gate-holiday-fix-87cba2428dee1bcaba5ef2d4be1ea82c1503c06e",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/freshness-gate-holiday-fix",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/87cba2428dee1bcaba5ef2d4be1ea82c1503c06e",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-freshness-gate-holiday-fix"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": [
+      "historical_resource_state_unknown"
+    ]
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T23:20:00Z",
+  "workItemId": "freshness-gate-holiday-fix",
+  "worktree": {
+    "branch": "codex/freshness-gate-holiday-fix",
+    "headRevision": "816ac68aff7137d3047efb2cce11145608480a77",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-freshness-gate-holiday-fix",
+    "worktreeId": "historical-direct-merge-87cba2428dee1bcaba5ef2d4be1ea82c1503c06e"
+  }
+}
