@@ -1,0 +1,103 @@
+{
+  "captureMode": "full_capture",
+  "contractDigest": "sha256:1a5c0b06d5cb1e63eb7246d77bcb065e5f9b6ec9a916763e247b14050ec851e4",
+  "createdAt": "2026-09-06T23:23:05Z",
+  "evidenceSchemaVersion": 2,
+  "passed": true,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 146749,
+      "executionElapsedMs": 146665,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+      "runtimeVersion": "0.2.85",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 146749,
+    "executionElapsedMs": 146665,
+    "filesHashed": 7,
+    "filesRead": 7,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        ".github/workflows/daily_radar.yml"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "33f337decdf5fa4dec10f1f78d2749236802da49",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 146665,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c5fe2e83a383d53fe86cc88f040b8686460b8b84149b60f4b60ef90af99ad468",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "workItemId": "freshness-gate-holiday-fix"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:9cf4b96e713fc1a8ef112fef4927fdf73acc5ce140a89729457bca69920e7ae1",
+        "outputTruncated": true,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+    "runtimeVersion": "0.2.85",
+    "workItemId": "freshness-gate-holiday-fix"
+  },
+  "receiptDigest": "sha256:0345dd3f8d5d3bebc4a22670223a46eaa4f6538647fb48b0a20d37c1961d18d5",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c5fe2e83a383d53fe86cc88f040b8686460b8b84149b60f4b60ef90af99ad468",
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "workItemId": "freshness-gate-holiday-fix"
+}

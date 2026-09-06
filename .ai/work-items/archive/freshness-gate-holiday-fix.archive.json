@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-06T23:23:09Z",
+  "files": {
+    "contractDigest": "sha256:c4ca176c2a9843c5bf7310af5ba219e8caec33d1ce32ecaa3306e2bc734f651f",
+    "contractPath": ".ai/work-items/archive/freshness-gate-holiday-fix.contract.json",
+    "eventsDigest": "sha256:182017708409ce2847a6953d4ffae1c2dabf0fdc7c1ea1db89d088ddc7c6a626",
+    "eventsPath": ".ai/work-items/archive/freshness-gate-holiday-fix.events.jsonl",
+    "outcomeDigest": "sha256:8304cf705ee94aff0eab674dc7ce7a7654ee89c86d9376c4010d17738794059c",
+    "outcomePath": ".ai/work-items/archive/freshness-gate-holiday-fix.outcome.json",
+    "summaryDigest": "sha256:90b00961434b8bbf5ef9f3fba0d10ecda7251174e4fd8ad572d3fe80263e9faf",
+    "summaryPath": ".ai/work-items/archive/freshness-gate-holiday-fix.summary.json",
+    "taskReportDigest": "sha256:9cca3d3b1384da8b5016622f7bfb984387b4e5ecdfd71c8eae16555a2e9e4a8e",
+    "taskReportMarkdownDigest": "sha256:c28ebee68c1d3ab621dd50f02419cd1dc9985e8a3c87054d01b0b440a0c58633",
+    "taskReportMarkdownPath": ".ai/work-items/archive/freshness-gate-holiday-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/freshness-gate-holiday-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "freshness-gate-holiday-fix"
+}
