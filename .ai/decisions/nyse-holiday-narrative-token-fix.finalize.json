@@ -1,0 +1,71 @@
+{
+  "actor": "agent:claude-code",
+  "after": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "authoritySource": "user-message: 承認、修正して",
+  "before": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "branch": {
+    "headRevision": "af6c46e9e3ef1500b457dd43247f53179abe5c3b",
+    "name": "codex/nyse-holiday-narrative-token-fix",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:28629310729ea04e433a684ed768cae49eab279697ca39667debf75f3b9b518a",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "6cad3078a7c931686fd55870b6a85dfa98b51e88",
+    "contractBaseRevision": "6cad3078a7c931686fd55870b6a85dfa98b51e88",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "731655a1a56dd5b4d55595d3f13a300b3f533998",
+    "mergeParents": [
+      "6cad3078a7c931686fd55870b6a85dfa98b51e88",
+      "af6c46e9e3ef1500b457dd43247f53179abe5c3b"
+    ]
+  },
+  "operationId": "historical-direct-merge-operation-731655a1a56dd5b4d55595d3f13a300b3f533998",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "6cad3078a7c931686fd55870b6a85dfa98b51e88",
+    "headRevision": "af6c46e9e3ef1500b457dd43247f53179abe5c3b",
+    "mergeCommit": "731655a1a56dd5b4d55595d3f13a300b3f533998",
+    "number": 0,
+    "url": "historical://direct-merge/731655a1a56dd5b4d55595d3f13a300b3f533998"
+  },
+  "reason": "実際には GitHub PR #155 (https://github.com/xinglun/sentinel/pull/155) を作成し、Build, Lint & Test / Audit Daily Guard / task-list-completed の全 CI チェック通過後に gh pr merge でマージした(commit 731655a1)。finalize-plan 時に Contract の resourceContext を provider=local/pullRequest=not-requested で先に確定していたため、finalize はその束縛に合わせて direct_merge_no_pr 形式で記録するが、実態は PR #155 経由の正規マージである。マージ後、正確な worktree とローカルブランチを削除した。",
+  "receiptId": "historical-direct-merge-nyse-holiday-narrative-token-fix-731655a1a56dd5b4d55595d3f13a300b3f533998",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/nyse-holiday-narrative-token-fix",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/731655a1a56dd5b4d55595d3f13a300b3f533998",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-nyse-holiday-narrative-token-fix"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": [
+      "historical_resource_state_unknown"
+    ]
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-06T22:47:00Z",
+  "workItemId": "nyse-holiday-narrative-token-fix",
+  "worktree": {
+    "branch": "codex/nyse-holiday-narrative-token-fix",
+    "headRevision": "af6c46e9e3ef1500b457dd43247f53179abe5c3b",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-nyse-holiday-narrative-token-fix",
+    "worktreeId": "historical-direct-merge-731655a1a56dd5b4d55595d3f13a300b3f533998"
+  }
+}

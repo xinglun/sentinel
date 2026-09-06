@@ -52,8 +52,8 @@ const VALID_SUPPLY_PHASES: [&str; 5] = [
 ];
 
 /// Narrative に現れる状態語・マクロ略語を銘柄コードと区別する。
-const NARRATIVE_NON_SYMBOL_TOKENS: [&str; 11] = [
-    "A", "BLS", "CPI", "ETF", "FOMC", "GDP", "HIGH", "LOW", "NOT", "RS", "US",
+const NARRATIVE_NON_SYMBOL_TOKENS: [&str; 12] = [
+    "A", "BLS", "CPI", "ETF", "FOMC", "GDP", "HIGH", "LOW", "NOT", "NYSE", "RS", "US",
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
