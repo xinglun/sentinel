@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-02T18:02:00.246810023Z",
+  "fetched_at": "2026-09-06T23:43:17.908593829Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
@@ -15,7 +15,7 @@
     },
     {
       "symbol": "TSLA",
-      "expected_date": "2026-10-21",
+      "expected_date": "2026-10-28",
       "fiscal_period": null
     }
   ]

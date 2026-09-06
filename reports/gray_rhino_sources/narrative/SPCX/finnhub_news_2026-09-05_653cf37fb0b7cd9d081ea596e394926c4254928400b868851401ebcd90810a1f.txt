@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Insiders and Early Investors Are Selling SpaceX Stock and Index Funds Are Buying It. Which Side Do You Want to Be On?
+  summary: Could IPO lockup expirations create buying opportunities for long-term investors?
+  url: https://finnhub.io/api/news?id=01e01ebfbb42bb84486c49f38f3f03bcdada117c6357cba53e3ba5873caaafbb

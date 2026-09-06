@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Launched the Cybercab Thursday, 6 Weeks After Removing Volume Production of It From This Year's Plan
+  summary: Riders in Austin can now hail the two-seater. The company's own July letter says batteries still set the pace.
+  url: https://finnhub.io/api/news?id=8872255e3277849cfc14a56c7d9c0d0935ef8d2a026b10d9390ba1d51c83c0b0

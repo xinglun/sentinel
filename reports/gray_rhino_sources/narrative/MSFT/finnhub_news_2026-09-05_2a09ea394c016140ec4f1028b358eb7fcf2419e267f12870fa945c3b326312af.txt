@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI hiring boom could turn into a surprise tailwind for software: Bernstein
+  summary: Investing.com -- Artificial intelligence could prove a surprise tailwind for software companies if productivity gains spur businesses to hire more workers rather than cut headcount, Bernstein analysts said, challenging one of the sector’s key bearish narratives.
+  url: https://finnhub.io/api/news?id=4b2fb0a511e6863240d53cbaa40f3b07fbaa7e8bf81d7321db35c28405275d1c

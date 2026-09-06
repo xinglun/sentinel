@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's $2 Trillion IPO Approaches: The Companies Poised to Benefit
+  summary: Anthropic, the creator of Claude, the popular AI chatbot, is set to launch its IPO in the coming weeks. Here are the companies to benefit
+  url: https://finnhub.io/api/news?id=f88c67a8eb7e654a2e18acfe5ec3cd20b85ac37a2f40b73ee3c575d7171c36ca

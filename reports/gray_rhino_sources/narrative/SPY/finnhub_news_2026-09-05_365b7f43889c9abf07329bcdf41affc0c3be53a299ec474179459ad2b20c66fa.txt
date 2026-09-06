@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Midterm Elections Are Unlikely To Derail The Stock Market's Course
+  summary: While the midterm elections will shape the political narrative, history suggests they are a poor predictor of broad market performance. Read more here.
+  url: https://finnhub.io/api/news?id=b4b229e178b2672a29460828b70f7cf484ccf096f51ef8c29a0977d43fd84e81

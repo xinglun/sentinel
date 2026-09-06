@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX President Gwynne Shotwell Backs Maye Musk After Documentary Calls Elon ‘The Most Miserable Man’
+  summary: SpaceX President and COO Gwynne Shotwell defends Elon Musk after a documentary calls him “the most miserable man.”
+  url: https://finnhub.io/api/news?id=db6441b94ad5e76f6b3d78a0d96f3d92bdac9252f97abb1373cf3550ad433a4a

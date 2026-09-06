@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab's Revenue Is Soaring. So Why Is the Stock Sinking?
+  summary: The rocket flight company might push back the timeline yet again for the debut of its new rocket type.
+  url: https://finnhub.io/api/news?id=d75d947946246522fc44bb2841d0ccaa193ddeb16412c5298a6340d14449c0e2

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Seattle Times, Newsday sue OpenAI and Microsoft over AI training
+  summary: Investing.com -- The Seattle Times and Newsday sued OpenAI and Microsoft (NASDAQ:MSFT) on Friday, accusing the technology companies of using their journalism without permission to train artificial intelligence systems, Reuters reported.
+  url: https://finnhub.io/api/news?id=e6696fef538bb0c73d620e74322a628bcfd6ff41c9829679fa26aa4b54bd773a

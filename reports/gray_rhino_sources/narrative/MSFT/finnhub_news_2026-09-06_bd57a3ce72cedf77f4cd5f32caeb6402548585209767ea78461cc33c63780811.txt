@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What I Found By Analyzing How Seeking Alpha Analysts Rated The Mag 7
+  summary: Mag 7 is fragmentingâstock picking matters. See Seeking Alpha analysts' upgrade trends, Nvidia vs Apple/Tesla outlooks, and options hedging signals.
+  url: https://finnhub.io/api/news?id=eba233ff3388800a9f35b66ef6f1f68eff2afea31b642f11a07505e75d4043ea

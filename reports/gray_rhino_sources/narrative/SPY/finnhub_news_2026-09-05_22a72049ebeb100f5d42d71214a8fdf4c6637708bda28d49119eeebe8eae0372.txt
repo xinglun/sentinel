@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 24-Hour Trading Is Coming: This Is The Investment Opportunity
+  summary: U.S. stocks may move to 24-hour trading as SEC, Nasdaq and Cboe extend hoursâlearn impacts on price discovery, market data and clearing.
+  url: https://finnhub.io/api/news?id=17887a33ca700a99abaadd5550df100380249e962db6d6c3f582182fed1f1436

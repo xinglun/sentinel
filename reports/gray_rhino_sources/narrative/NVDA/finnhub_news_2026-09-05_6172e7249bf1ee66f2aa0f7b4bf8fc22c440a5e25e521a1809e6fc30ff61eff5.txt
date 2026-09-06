@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras Has a $25.4 Billion Backlog, and One OpenAI Agreement Is Behind Much of It
+  summary: The AI computing specialist's latest results were strong. The real story is a backlog worth almost 29 times this year's expected revenue.
+  url: https://finnhub.io/api/news?id=ba8470d8a125fa5899b03f76b81056b75a9e91147f8684f71c3cff6f5d74c6e5

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Tesla Cybercab’s Rare-Earth-Free Motor Was ‘Extremely Hard’ To Achieve — Gary Black Calls TSLA Launch ‘Largely A Bust’
+  summary: Tesla Inc. CEO Elon Musk has said that the Cybercab’s electric motor operates without using any rare earth metals in its design, touting it as a major milestone for the EV giant. Rare-Earth-Free Design On Thursday, Tesla investor and influencer...
+  url: https://finnhub.io/api/news?id=fdf7d978b3acb2859c20f16699d0c01318f950052c6dc1959f0b333a1d37fa8c

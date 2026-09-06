@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Labor Market Is Starting To Align With Inflation In Pushing The Fed
+  summary: The August jobs report beat forecasts with 162K jobs and 4.1% unemployment, raising Fed rate-hike odds. Click to read more of this detailed analysis.
+  url: https://finnhub.io/api/news?id=5f4a6a4abc013c3a092f3b26d2b4ffaf7b217b83ea48864befe33a150ff19ef8

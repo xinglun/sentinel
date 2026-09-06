@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: August NFP Behind Her, Goldilocks Looks To Upcoming Inflation Data
+  summary: August jobs surge and a flattening yield curve signal a âGoldilocksâ windowâsee why Tech/semis may lead, metals lag, and how to position through elections.
+  url: https://finnhub.io/api/news?id=01f89f5dd2cc7a5b4585000ec1c192c08a99320330a5bd8da6585d00a0a795b9

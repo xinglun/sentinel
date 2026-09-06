@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: The Risk Reward Has Never Been Worse
+  summary: SpaceX looks overvalued at ~$148 vs. $127 fair value. Key risks: tight deadlines, lockups, heavy CapEx, and FCF burn. Click for more on SPCX stock.
+  url: https://finnhub.io/api/news?id=6e42f9ed8372c7e4cda05db3b637d988e4e028c60056278aa591ccc10c760e38

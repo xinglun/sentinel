@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Therapeutics Trades Well Below Its Wall Street Targets. Here's the Skeptics' Case.
+  summary: Investors always need to appreciate risk before buying into any clinical-stage biopharmaceutical company.
+  url: https://finnhub.io/api/news?id=f560de93e6d7b99e8f9a524466e7ec1fed0850a9af41b2a88e40c96fd6f4f993

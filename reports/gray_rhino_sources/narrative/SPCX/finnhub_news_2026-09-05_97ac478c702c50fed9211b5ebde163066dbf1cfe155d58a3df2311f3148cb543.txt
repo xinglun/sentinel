@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Could Be the Next Mega IPO: 2 Magnificent Stocks That Already Own a Piece of the AI Unicorn
+  summary: These companies have already recorded billions in profits from their Anthropic stakes.
+  url: https://finnhub.io/api/news?id=4687a275faaa02ff09785da90a1423df1e03b2d37c287571d7cbabeaf80fa67d

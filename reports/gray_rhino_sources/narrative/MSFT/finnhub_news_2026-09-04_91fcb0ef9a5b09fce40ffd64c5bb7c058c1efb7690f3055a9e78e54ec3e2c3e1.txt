@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why IBM, Microsoft Back Move for Quantum Policy Czar
+  summary: A new bill aims to secure U.S. supply chains and elevate the Commerce Department to lead national quantum policy.
+  url: https://finnhub.io/api/news?id=e63959053abec7ca1686d78b8e333591fc63bb420b58da026f509430b85cf7e5

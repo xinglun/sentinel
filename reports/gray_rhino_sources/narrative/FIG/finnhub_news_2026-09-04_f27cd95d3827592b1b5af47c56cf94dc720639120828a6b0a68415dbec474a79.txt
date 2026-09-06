@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma Stock Slides as Hot Jobs Report Weighs on High-Multiple Software Stocks
+  summary: Figma shares are trading lower Friday as cloud software stocks face macro headwinds despite the company&#39;s strong fundamental momentum.
+  url: https://finnhub.io/api/news?id=128b7e1ed6048dc63393bf1caa685ce8abf64b51e3523f52534d9321d5c158fd

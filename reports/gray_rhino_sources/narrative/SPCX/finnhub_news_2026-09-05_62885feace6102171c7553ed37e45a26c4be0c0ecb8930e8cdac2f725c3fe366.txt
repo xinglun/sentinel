@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 29 People Now Control 27% of All Billionaire Wealth, and the Gap Is Widening Fast
+  summary: Altrata's latest billionaire census reveals a concentration of wealth at the very top that has shifted faster in two years than in the previous decade combined, and the mechanism driving it runs straight through a stock market most ordinary investors already own.
+  url: https://finnhub.io/api/news?id=f8d2997946270898a4f187e6ed78ad787a1374619a89619cab3074a2e2c8d91d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Gap Between CRWD Stock And Its Own Numbers
+  summary: CrowdStrike's stock has soared past its rivals, but a look at the books shows a very different pecking order. Is the market seeing the future, or just a mirage.
+  url: https://finnhub.io/api/news?id=755f5444213e0c0f7bcd7948703dc6e2249bb546cb75fa6192d706dd839a5bb1

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Will Microsoft (MSFT) Reveal With Its New AI And Cloud Reporting?
+  summary: Microsoft (NasdaqGS:MSFT) announced plans to restructure its financial reporting and segment disclosures from fiscal 2027 to highlight AI and cloud activities. The company will consolidate operating segments and introduce new Azure specific disclosures to give investors clearer insight into its cloud performance. Management framed the overhaul as a way to better align financial reporting with Microsoft's growing focus on AI driven products and services. The new reporting format is expected...
+  url: https://finnhub.io/api/news?id=07596a211a515ae22daa73d316b15320b11efc72019e3674f899b19116f0b0c4

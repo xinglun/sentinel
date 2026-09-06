@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stifel Revamps Microsoft Target With a Catch
+  summary: Microsoft's AI story is improving, but one crucial doubt remains
+  url: https://finnhub.io/api/news?id=999ccc2c518c36e77c6abcac5ae575278fb16b852b97c5dd94124421aeb20dbb

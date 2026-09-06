@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gene Munster Predicts Tesla Will Add 300 Cybercabs in Austin in a Month, Says Elon Musk’s Accident Fears ‘Appear to Be Coming to an End’
+  summary: Gene Munster predicts Tesla could add 300 Cybercabs to its Austin robotaxi fleet as federal regulators scrutinize the vehicle.
+  url: https://finnhub.io/api/news?id=9f49e65d878fd181b3f7c36e12380e8f74e297ff6d3788b13bf71066ca5e9131

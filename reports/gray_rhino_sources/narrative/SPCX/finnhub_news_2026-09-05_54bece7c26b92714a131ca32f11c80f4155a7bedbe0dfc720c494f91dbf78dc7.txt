@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Cybercab Is Gold to Reflect 'Golden Era' of Mobility as Tesla Launches Robotaxi With Starlink
+  summary: Tesla Inc. CEO Elon Musk on Thursday touted a new era in mobility following the EV giant’s Cybercab launch, touting Starlink connectivity, workforce expansion and more. A ‘Golden Era’ in Transport User Doge Designer shared a video of the Cybercab...
+  url: https://finnhub.io/api/news?id=126618c40db8f3b747cd88232e8f15cf1440de5249af98aa757123598401b81e

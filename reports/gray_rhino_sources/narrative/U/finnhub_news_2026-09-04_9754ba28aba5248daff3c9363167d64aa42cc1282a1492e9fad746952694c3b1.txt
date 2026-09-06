@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AppLovin Stock Priced For A Sharper Slowdown Than Management Guides To?
+  summary: AppLovin (APP) has fallen about 43.9% over the trailing three months and sits roughly 57% below its 52-week high, at about $313.58 a share. Even after a drop that size, the advertising platform is priced at about 23.2 times its trailing adjusted earnings. That figure is on every screen, and it is the one that tells you least about what you are buying.
+  url: https://finnhub.io/api/news?id=9f25996f812b5a19f886c6f7d56ca90563c61701d4742c988e36ed56265d6c64

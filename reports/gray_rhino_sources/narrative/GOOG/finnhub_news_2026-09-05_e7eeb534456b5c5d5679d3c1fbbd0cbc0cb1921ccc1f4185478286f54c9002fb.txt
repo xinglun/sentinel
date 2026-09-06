@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Berkshire Hathaway (BRK.A)'s Tech Tilt and Taylor Morrison Deal Means For Shareholders
+  summary: Berkshire Hathaway recently shifted from being a net seller to a net buyer of stocks under CEO Greg Abel, ramping up purchases including a roughly US$38.00 billion Alphabet stake and acquiring homebuilder Taylor Morrison for about US$6.80 billion. This repositioning concentrates more of Berkshire’s vast portfolio in technology, AI-adjacent infrastructure, and interest-rate‑sensitive housing, marking a clear evolution in its capital allocation playbook after Warren Buffett’s long...
+  url: https://finnhub.io/api/news?id=351caeb843d4530ead2d5c4f95a1437289702e302b87303bb77777ed898d5262

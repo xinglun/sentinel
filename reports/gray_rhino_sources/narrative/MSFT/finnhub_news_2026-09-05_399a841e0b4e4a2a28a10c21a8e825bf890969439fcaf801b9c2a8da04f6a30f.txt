@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Republican Congressman Bearish on Stocks? $7 Million+ Sold in 2026, Including 28 Recent Moves
+  summary: A member of Congress recently unloaded over 20 stocks and continues a history of selling this year.
+  url: https://finnhub.io/api/news?id=bdc1962979cbb2a80bb936f5a2d67c53818d889696e535788453a69274213bbe

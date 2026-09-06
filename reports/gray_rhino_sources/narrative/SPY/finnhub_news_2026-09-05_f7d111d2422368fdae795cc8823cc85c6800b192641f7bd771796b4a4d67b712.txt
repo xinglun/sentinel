@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Things I Think I Think
+  summary: Multi-asset instruments need to be blended well enough so that each component of the blend is actually playing a relevant role. Otherwise, you get a blend that is blended for no good reason.
+  url: https://finnhub.io/api/news?id=5bea64ee8eca352162436d93823986e8a6d5ec1072198bd0444853c483912072

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Most Divided Fed In A Decade Is About To Vote
+  summary: The August jobs report erased labor market weakness concerns, shifting all FOMC focus to inflation and the upcoming CPI print. Read more on the jobs report here.
+  url: https://finnhub.io/api/news?id=483c815fbb85523c545ef5106c2592f8f2d8cd6a070cae7f4a735debad0197dd

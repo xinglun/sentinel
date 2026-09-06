@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 1-Minute Market Report, September 5, 2026
+  summary: S&P 500 nears highs as energy and AI lead. See key stock market updates, sector rotation trends, and inflation/Fed risksâread now for insights.
+  url: https://finnhub.io/api/news?id=11fde7fc7eaa601dd53858a70759c85fec4ee16ff31692ccca60d5bc20dad13d

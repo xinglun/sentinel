@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The "Warsh Vs. The White House" Trade
+  summary: Trump pressures the Fed to cut ratesârisking bond turmoil. Get timely market analysis plus AI & gold allocation ideas (GLD, BE, MRVL, ON, CRDO).
+  url: https://finnhub.io/api/news?id=314e28d53ba817b0d1d04e35f025936daf735077b6a7861cff8764c709a99fb7

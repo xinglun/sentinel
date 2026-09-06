@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Hot CPI Report May Force A September Rate Hike
+  summary: August CPI is key to the Fedâs September rate decision. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=c787c80befbf48e9c982da5d4013657255e2b5c074481f412de260e38d27b6b5

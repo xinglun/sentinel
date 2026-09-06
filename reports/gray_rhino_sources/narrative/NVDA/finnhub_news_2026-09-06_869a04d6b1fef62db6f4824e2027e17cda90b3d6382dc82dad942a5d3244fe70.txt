@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's $279 Billion Bet Changes Everything
+  summary: Nvidia revenue hit $96.2B as AI demand stays strong; supply limits FY2028 growth. Click for more on NVDA stock.
+  url: https://finnhub.io/api/news?id=7c894a3a8d556b8d736a1e286c9cc55bc7c49c8203ca8ab596d47ff8eb33e2ab

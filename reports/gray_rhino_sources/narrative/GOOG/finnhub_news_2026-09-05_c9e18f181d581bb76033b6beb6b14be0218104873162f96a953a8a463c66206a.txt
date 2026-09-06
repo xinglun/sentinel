@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Dell’s Net Worth Up $110 Billion So Far 2026: Why the Surge May Continue
+  summary: Michael Dell has added $110 billion this year as his net worth gains momentum amid the ongoing Dell stock surge.
+  url: https://finnhub.io/api/news?id=5d8fde8474956130cb95bbe2618fb4e7954f56a1d0128a63995f07b867493262

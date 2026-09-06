@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Won a $127 Million Army Production Order and Still Fell 6%. Is the Valuation Finally Catching Up?
+  summary: The U.S. Army moved its Tactical Intelligence Targeting Access Node, or TITAN, into production on September 1. Palantir received a $127 million delivery order, while Anduril received $65 million. The eight initial systems are scheduled over 18 months, and the Army anticipates another order in fiscal 2027. Yet Palantir Technologies Inc. (NASDAQ:PLTR) fell roughly 6% […]
+  url: https://finnhub.io/api/news?id=8390efa5c9b1ef51d45707c4d04a1e293aeff87535b8985f819d05fcb1c94079

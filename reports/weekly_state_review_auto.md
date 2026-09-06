@@ -1,16 +1,16 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-09-04
+- 截至: 2026-09-07
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 58.9
+- 平均置信度: 59.3
 - 平均稳定度: 10.0
 - 趋势凝聚 ready 天数: 2
 
 ## 市场状态计数
-- IGNITION: 3
-- NEWBORN: 4
+- IGNITION: 2
+- NEWBORN: 5
 
 ## 风险覆盖计数
 - NORMAL: 7
@@ -22,13 +22,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-08-26: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-27: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-08-28: IGNITION -> IGNITION | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-01: IGNITION -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-02: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-03: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-04: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-09-07: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -49,12 +49,12 @@
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
-- Information Content: MEDIUM
-- Primary Context: TSLA EARNINGS
+- Information Content: UNAVAILABLE
+- Primary Context: Holiday Liquidity: NYSE Holiday Liquidity [official NYSE holiday calendar]
 - Context Quality: MEDIUM
-- Event Fact: TSLA EARNINGS lifecycle: Scheduled; expected date: 2026-10-21; confirmed date: UNAVAILABLE; sources: alpha_vantage
-- Source Diagnostics: 企业事件 Provider 已加载：TSLA EARNINGS。
-- Interpretation: 今天识别到中等信息量企业事件：TSLA EARNINGS。事件事实：TSLA EARNINGS lifecycle: Scheduled; expected date: 2026-10-21; confirmed date: UNAVAILABLE; sources: alpha_vantage 观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：MEDIUM。
+- Event Fact: NYSE Holiday Liquidity [official NYSE holiday calendar] / 2026-09-07 / NYSE Holidays & Trading Hours
+- Source Diagnostics: 今天: NYSE Holiday Liquidity [official NYSE holiday calendar]
+- Interpretation: 当前来源覆盖不完整，无法确认机械性再平衡是否为主要驱动。
 - 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
 ## Market Interpretation Snapshot
@@ -64,11 +64,10 @@
 - exceptionalFactors: []
 - Narrative:
   - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
-  - 观察 TSLA EARNINGS 后的市场反应能否持续；当前持续性尚未确认。
-  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 15 trading days）。
-  - 短期相对强度开始在 SPCX / TSLA 等个别资产恢复，尚不足以构成新的 Leadership。
-  - 相对强度在 MSFT / NVDA / GOOG 等资产出现初步改善，但尚不足以确认恢复。
-  - RS Recovery Breadth：5/9 非基准资产改善；Strong/Moderate Recovery：2/9 强/中等恢复；RS Diffusion：EMERGING。Actionable Diffusion：NOT_CONFIRMED
+  - Available event context: 今天: NYSE Holiday Liquidity [official NYSE holiday calendar]
+  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 14 trading days）。
+  - 短期相对强度开始在 NVDA 等个别资产恢复，尚不足以构成新的 Leadership。
+  - RS Recovery Breadth：1/9 非基准资产改善；Strong/Moderate Recovery：1/9 强/中等恢复；RS Diffusion：NOT_CONFIRMED。Actionable Diffusion：NOT_CONFIRMED
   - Reason：没有确认 Leader、没有 breakout、Action Matrix 未转强确认。
   - 动作分布：观察 1 / 持有 0 / 收缩 9。
 - Leadership Confidence: LOW
@@ -78,7 +77,7 @@
   - Leadership Watch Candidates: []
   - leadershipBreadth: broad
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
-  - Leader Absence Duration: 15 trading days
+  - Leader Absence Duration: 14 trading days
 - universe_breadth_expansion:
   - 观察池广度原始值: 60.0%
   - 观察池广度标签: BROAD_WITHIN_UNIVERSE
@@ -107,12 +106,12 @@
   - 综合主导者: none
   - Current Leader: none
   - Previous Snapshot Leader: none
-  - Leader Absence Since: 2026-08-10
+  - Leader Absence Since: 2026-08-12
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
   - 领导评分: 0.0
   - 领导状态: ABSENT
-  - Leader Absence Duration: 15 trading days
+  - Leader Absence Duration: 14 trading days
   - 较昨日变化: +1 天，评分下降
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.
@@ -130,12 +129,12 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-09-04
+- 最新观测日: 2026-09-07
 - 最新 Near-Term Supply 数量: 0
-- 最新 Future Queue 数量: 0
-- 7 日 Future Queue 最小值 / 最大值: 0 / 1
-- 已报道 / 已确认: 0 / 0
-- 潜在供给压力: LOW
+- 最新 Future Queue 数量: 2
+- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 已报道 / 已确认: 2 / 0
+- 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
 ### 6.2 Demand Layer（Flow Layer）
@@ -148,7 +147,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-09-04
+- 观测日: 2026-09-07
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

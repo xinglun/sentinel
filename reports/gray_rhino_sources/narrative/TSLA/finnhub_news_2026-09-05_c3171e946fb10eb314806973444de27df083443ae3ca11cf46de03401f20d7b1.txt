@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Mixed European Sales Send Clear Signal on Regional Demand
+  summary: TSLA stock watchers take note: August European sales swung wildly by country, revealing what is driving EV demand across the region.
+  url: https://finnhub.io/api/news?id=b2d90c6348732d7384020c62e2230126ed87be424497bbc0c851106f01f8939b

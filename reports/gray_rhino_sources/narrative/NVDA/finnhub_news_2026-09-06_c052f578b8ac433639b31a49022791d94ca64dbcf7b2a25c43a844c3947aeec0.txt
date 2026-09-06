@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Says Palantir's Books Look More Like a Consultant's Than a Software Company's
+  summary: The Big Short investor's numbers come straight from the AI specialist's own filings. What they mean is another matter.
+  url: https://finnhub.io/api/news?id=5714bc35e234c84b1b652560d57698764d9188429e146be68b146a681ea2b14e

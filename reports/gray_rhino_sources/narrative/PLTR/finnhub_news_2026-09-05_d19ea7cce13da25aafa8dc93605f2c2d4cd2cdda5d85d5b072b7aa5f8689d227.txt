@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Hardware Rallied While Adobe and Palantir Sank. Which Side Is Right?
+  summary: September 4 delivered a stark rotation. Memory, connectivity, chip-equipment, and power stocks rallied while Adobe fell 6.7% and Palantir dropped 4.5%. Adobe’s decline followed news that Anil Chakravarthy will become chief executive on December 1, while Palantir faced a broader move away from richly valued software. Adobe Inc. (NASDAQ:ADBE) and Palantir Technologies Inc. (NASDAQ:PLTR) test […]
+  url: https://finnhub.io/api/news?id=dd5dbf7f6d759981e91cf0b0f1dd2780441b5012576787a2fe262a6dabcf3b95

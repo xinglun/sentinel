@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LULU, AVGO, DELL, SNOW, GOOGL: 5 Stocks Investors Couldn't Stop Buzzing About This Week
+  summary: Retail investors talked up 5 hot stocks during the week (Aug. 31 to Sept. 4) on X and Reddit&#39;s r/WallStreetBets: AVGO, LULU, DELL, SNOW, GOOG.
+  url: https://finnhub.io/api/news?id=d932b32e68b90e46469e153ab124503fde3999ed8768a0e2d95e6b563e8eebea

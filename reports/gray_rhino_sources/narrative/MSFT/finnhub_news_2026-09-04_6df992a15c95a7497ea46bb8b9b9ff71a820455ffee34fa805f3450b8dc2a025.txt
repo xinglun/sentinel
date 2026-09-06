@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividend Champion, Contender, And Challenger Highlights: Week September 6
+  summary: Explore this weekâs dividend updates for Dividend Champions, Contenders & Challengersâsee dividend changes, upcoming ex-dividend and pay dates.
+  url: https://finnhub.io/api/news?id=a14fa2d71c991d1424c650e89ccc0365f647e29aec84a754bdf9a4133b2e0743

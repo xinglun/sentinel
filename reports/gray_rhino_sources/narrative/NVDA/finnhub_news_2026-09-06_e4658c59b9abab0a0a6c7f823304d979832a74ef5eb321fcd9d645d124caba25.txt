@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Innodata Stock Tumbled by 10% Last Month
+  summary: It wasn't because of the quarterly earnings report it published that month.
+  url: https://finnhub.io/api/news?id=a9a4c2aadb417cdcb3e96954b94525f6260cb1594aa78aa474b974f573047230

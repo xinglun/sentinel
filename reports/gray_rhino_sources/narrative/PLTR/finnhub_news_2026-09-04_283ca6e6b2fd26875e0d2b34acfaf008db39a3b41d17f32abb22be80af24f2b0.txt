@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons PLTR Has Explosive Upside Potential
+  summary: Palantir Technologies currently trades at $182.42 and has been a dream stock for shareholders. It’s returned 583% since September 2021, blowing past the S&P 500’s 69.5% gain. The company has also beaten the index over the past six months as its stock price is up 19.1% thanks to its solid quarterly results.
+  url: https://finnhub.io/api/news?id=996443b380492c2ebd87bdace5ae69ad18960ea47f84170b5e30a0fd2330b055

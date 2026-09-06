@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weekly Indicators: The 'Bear Steepening' In Long Rates Intensifies
+  summary: Track weekly economic indicators: growth remains strong, but inflation and rising rates bite. Click to read this latest analysis.
+  url: https://finnhub.io/api/news?id=e9c3ce52d7a67804ab9ecc3b14ee8562daa2dbf4359cf003ec4422de9eebe769

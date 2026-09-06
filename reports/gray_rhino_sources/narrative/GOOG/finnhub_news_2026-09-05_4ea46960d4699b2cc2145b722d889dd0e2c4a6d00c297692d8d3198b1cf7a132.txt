@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Abel: Two ways Berkshire hopes to cash in on AI
+  summary: Berkshire Hathaway CEO Greg Abel tells CNBC the company is pursuing AI opportunities on two paths.
+  url: https://finnhub.io/api/news?id=b7385fe21146462caae5672f5c844b97c18aa6ce5c150d669f172997ff0e985d

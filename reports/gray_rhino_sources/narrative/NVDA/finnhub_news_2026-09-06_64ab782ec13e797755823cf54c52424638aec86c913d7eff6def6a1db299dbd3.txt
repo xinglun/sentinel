@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: 70% Growth Guidance Makes This A Strong Buy
+  summary: NVIDIA (NVDA) remains a Strong Buy as revenue more than doubled to $96.2B and growth continues to accelerate at massive scale.
+  url: https://finnhub.io/api/news?id=fdf5d51f3a9aae5ead5a1f75b77a161f52b5363e1555c9b2b80d641dfb56e383

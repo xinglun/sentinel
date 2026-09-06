@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Alphabet, and Microsoft: Two I'm Buying and One I'm Selling
+  summary: Cloud computing providers make for great investments in the AI era.
+  url: https://finnhub.io/api/news?id=b49a12a2280f98ea7df336d9d898d9719782308d1835256ed6df4f4f8eab6bd6

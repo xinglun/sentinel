@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Says the AI Trade Is Barely Started. The Stocks That Got You Here Will Not Take You There
+  summary: Goldman Sachs says the AI spending cycle is just getting started, but the stocks that made investors rich in the last leg may not be the ones that do it in the next one. Knowing which part of the stack to own now is the question worth answering.
+  url: https://finnhub.io/api/news?id=3cd0c9da06fb66db1546885a1152493735a3d3ab4b97ee8c640d88fa43710042

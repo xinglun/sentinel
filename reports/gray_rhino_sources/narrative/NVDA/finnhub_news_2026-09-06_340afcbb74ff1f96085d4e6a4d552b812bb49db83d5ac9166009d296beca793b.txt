@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Little-Known Altcoin Powering Robinhood's New Blockchain Just Soared By 45%. Is ARB a Buy, Sell, or Hold?
+  summary: Arbitrum is in the spotlight for the first time, and it's performing well.
+  url: https://finnhub.io/api/news?id=3456b8c0943899d53c8985becca5593fdb655fe41408b42215d4926324cb815d

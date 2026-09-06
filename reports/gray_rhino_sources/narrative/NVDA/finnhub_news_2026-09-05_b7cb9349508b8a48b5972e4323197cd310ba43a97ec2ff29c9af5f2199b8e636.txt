@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IonQ vs. Rigetti Computing: Which Pure-Play Quantum Pioneer Has the Stronger Technology Advantage?
+  summary: Rigetti and IonQ are taking two separate approaches to quantum computing.
+  url: https://finnhub.io/api/news?id=8252ed7c5916cb022b1210303ae2990659e93597d59692e2eb2f3868d339902b

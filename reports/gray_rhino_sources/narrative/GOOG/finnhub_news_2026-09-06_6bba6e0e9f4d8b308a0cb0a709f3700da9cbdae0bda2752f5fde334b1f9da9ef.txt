@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Model fatigue’ sets in as AI labs race to roll out new versions at frenetic pace
+  summary: Anthropic, OpenAI, Meta and Google all released model updates this week, while Nvidia said it's acquiring open-source AI platform Hugging Face.
+  url: https://finnhub.io/api/news?id=40ff8d57a306d2282f291e686c8a14791db8f71a7e9540e73c0489b86bf6fec4

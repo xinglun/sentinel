@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk Jumps 10%, Lululemon Crashes 17%: Stock Market Today
+  summary: A blowout August jobs report pushed traders to price a coin-flip chance of a Federal Reserve rate hike this month, dragging the S&amp;P 500 and Dow lower by midday Friday.
+  url: https://finnhub.io/api/news?id=b3fa9337d21cb53cc886ddba9f1007d102100cddf69f58a2e8b41c7db1350f9c

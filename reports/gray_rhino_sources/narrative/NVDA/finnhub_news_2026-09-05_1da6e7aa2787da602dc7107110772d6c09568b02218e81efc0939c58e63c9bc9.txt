@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This eVTOL Stock Could Set Early Investors Up for Life
+  summary: Archer is gearing itself up to become a highly profitable eVTOL company.
+  url: https://finnhub.io/api/news?id=5fab27a0f9549e56f6ae53104882ceadac29be2960b6f72e2564374019ebb4f0

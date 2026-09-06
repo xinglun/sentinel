@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Summer Flings And Heartbreaks
+  summary: Since the close on the Thursday before Memorial Day, the S&P 500 has rallied 3.7%. Read more here.
+  url: https://finnhub.io/api/news?id=696a0087be65b16b185540e6c7c0ed466c123a717e884c14d7461d4872a414ff

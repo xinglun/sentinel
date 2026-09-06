@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Turns Out, The Labor Market Is Okay Despite All Moaning And Groaning About The Economy Or Whatever
+  summary: Payrolls at nonfarm employers jumped by 162,000 workers in August from July. Read more here.
+  url: https://finnhub.io/api/news?id=99e49f479f8cb436b634ec4d2a445a8a3782f3bf6799418a1b3ed4458bce7a84

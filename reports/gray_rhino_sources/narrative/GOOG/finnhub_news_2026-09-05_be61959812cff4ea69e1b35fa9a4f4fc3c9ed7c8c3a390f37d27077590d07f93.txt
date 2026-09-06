@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Greg Abel Betting on Lower Interest Rates? The Berkshire Hathaway CEO Just Trimmed Bank Stocks Like Bank of America and Bought 3 Stocks That Would Benefit From Lower Yields.
+  summary: Bank don't necessarily thrive amid low interest rates.
+  url: https://finnhub.io/api/news?id=47b4340ff142d45279ab42475349a6d94d0a4aeb4a8893f53415948c93810de8

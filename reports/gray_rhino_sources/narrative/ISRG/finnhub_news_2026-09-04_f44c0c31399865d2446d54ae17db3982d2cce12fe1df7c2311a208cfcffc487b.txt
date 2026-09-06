@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Stocks Down 8% or More That Are Screaming Buys Right Now
+  summary: You might regret ignoring these companies at current levels.
+  url: https://finnhub.io/api/news?id=62ee29f2438111e292e68f25c0a9a3e289f960d0f95bdd76f41ce778ce43a6d1

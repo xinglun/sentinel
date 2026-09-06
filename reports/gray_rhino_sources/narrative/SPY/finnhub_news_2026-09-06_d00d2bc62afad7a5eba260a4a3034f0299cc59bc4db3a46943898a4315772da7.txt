@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September Market Weakness: The Setup Has Teeth
+  summary: The economy added 162,000 jobs in August. The 10-year Treasury yield pushed back to about 4.79%. Energy jumped 2.2% as crude surged more than 9%. Read more here.
+  url: https://finnhub.io/api/news?id=b46a1e1a8473c742ec714a3d6f02ebfca095a4520e7efda4c2d785dda7f4f349

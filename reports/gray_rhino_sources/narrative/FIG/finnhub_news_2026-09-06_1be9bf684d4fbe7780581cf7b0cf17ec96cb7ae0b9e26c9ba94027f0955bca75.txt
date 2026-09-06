@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe: Avoid This Dead Cat Bounce
+  summary: Adobe faces AI disruption as rivals threaten creative software. Click for more on ADBE stock.
+  url: https://finnhub.io/api/news?id=5906b7ff62ad2ac171f2f561d90be2bedbbce3ea3a02f17d2c25afa1ec6fe06c

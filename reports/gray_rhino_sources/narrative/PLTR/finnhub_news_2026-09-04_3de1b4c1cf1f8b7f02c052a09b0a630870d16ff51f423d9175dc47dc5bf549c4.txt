@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir's AI Growth Worth the Premium Valuation of its Stock?
+  summary: PLTR pairs 93% revenue growth with a 62% adjusted operating margin, but its premium valuation leaves little room for disappointment.
+  url: https://finnhub.io/api/news?id=80f5c486e30696c2d4bb63b33b69599469b48bb65c47a066637747f496980177

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Explains Why Velo3D (VELO) Is Only Worth a Quarter Position Right Now
+  summary: During the lightning round of the September 1 episode of Mad Money, a caller highlighted Velo3D, Inc.’s (NASDAQ:VELO) 52% year-over-year revenue surge, raised guidance, and projected second-half positive EBITDA along with deep ties to SpaceX and defense primes and asked whether it was finally time to buy. Jim Cramer commented: Okay, they have not had […]
+  url: https://finnhub.io/api/news?id=08c17ec93f34a4197d1722cb43e71965df3f4644aadba954aa67dd121a9a7a88

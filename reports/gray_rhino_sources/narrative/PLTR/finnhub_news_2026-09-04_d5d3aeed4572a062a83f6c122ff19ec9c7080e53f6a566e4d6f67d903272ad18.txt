@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Inc. (PLTR) Just Flashed Golden Cross Signal: Do You Buy?
+  summary: Good things could be on the horizon when a stock surpasses the 20-day simple moving average. How should investors react?
+  url: https://finnhub.io/api/news?id=d440286feaec383de11ea0c1ce1c076d86f5d6bb4d6b207b025264e6a689348d

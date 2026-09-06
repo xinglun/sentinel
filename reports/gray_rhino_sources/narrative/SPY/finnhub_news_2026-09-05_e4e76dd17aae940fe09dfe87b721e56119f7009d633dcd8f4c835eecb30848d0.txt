@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Interest Rates Will Increasingly Crimp The U.S. Economy
+  summary: Rising interest rates hit housing, big-ticket goods & commercial real estate. Click to read this detailed investing strategy.
+  url: https://finnhub.io/api/news?id=a8ccbafab649f9d2b7608f0936729ab6e743f4c434d78a0dcc860e5daffc8702

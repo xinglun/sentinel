@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Move Will SpaceX Stock Make After Sept. 9? The Evidence Is Piling Up, and Here’s What It Shows.
+  summary: SpaceX launched a record IPO almost three months ago.
+  url: https://finnhub.io/api/news?id=b9ead72fddd744311155a77c5f18a3899dbcf7c213951291e0b2d4cee9631345

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Greg Abel Says Berkshire Will Serve the Hyperscalers Only If Its Other Customers Don't Pay for It
+  summary: The CEO put conditions on serving the AI build-out. Iowa shows what happens when a project clears them.
+  url: https://finnhub.io/api/news?id=3ad00b3107becc204cf1593de879f3cc16eacf7d804a2f3bbe523815583a0f9c

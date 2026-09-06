@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Gabelli’s Global Content & Connectivity Fund Likes Alphabet (GOOGL)
+  summary: Gabelli Investment Management Firm recently released its “Global Content & Connectivity Fund” second-quarter 2026 investor letter. A copy of the letter can be downloaded here. The Fund delivered a strong second quarter of 2026, with its Class I shares gaining 12.88%, more than double the 6.02% return of the MSCI AC World Communication Services Index, […]
+  url: https://finnhub.io/api/news?id=e0d46bea158bc9e7f203a2efc7dcc43767a26a294863479304c2310dd762cb24

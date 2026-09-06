@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Offers Exponential Upside And Extreme Risk
+  summary: SpaceX offers exponential growth potential across Space, Connectivity and AI but carries execution and capital risk. Read why SPCX stock is a strong buy.
+  url: https://finnhub.io/api/news?id=339e975b88d11ac6271667e1618bcc0c0700bb92068e34f677ebb50ec802e5e6

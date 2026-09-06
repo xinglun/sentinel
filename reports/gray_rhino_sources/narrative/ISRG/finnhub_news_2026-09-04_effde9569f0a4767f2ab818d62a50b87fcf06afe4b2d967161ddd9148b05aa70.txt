@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Robots the New Normal? Bet on these ETFs to Invest in the Future
+  summary: Robotics is entering a new era as AI fuels humanoid adoption, with four ETFs offering diversified exposure to the sector's growth.
+  url: https://finnhub.io/api/news?id=7d4647a0aba77aa832a2043833917398cf2447b739e36e7a637352d888a5da8f

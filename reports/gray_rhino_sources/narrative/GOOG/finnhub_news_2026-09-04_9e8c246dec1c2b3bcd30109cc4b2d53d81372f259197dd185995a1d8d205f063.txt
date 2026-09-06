@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Raised Its Outlook but Fell as Google Chip Revenue Stayed Distant. Has the AI Payoff Been Priced In? (Ready for review)
+  summary: Marvell raised its annual forecasts on August 27, yet its shares fell as investors focused on the timing of revenue from a custom AI-chip relationship with Google. Management said material Google revenue was not expected until fiscal 2029, even though its outlook already included some contribution and the longer opportunity could be substantial. Marvell Technology, […]
+  url: https://finnhub.io/api/news?id=c671bd5fcba653dfdc97d99024b47750c2036530faca328cad1456ce7b7e280b

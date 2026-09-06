@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Stock Trades Down, Here Is Why
+  summary: Shares of electric vehicle pioneer Tesla (NASDAQ:TSLA) fell 6% in the afternoon session after U.S. safety regulators said they were evaluating the rollout of the company's new Cybercab, compounding a sell-the-news reaction to a launch event.
+  url: https://finnhub.io/api/news?id=8c35cf54ba6d28bf5d1cc75f688d6c084060c0ba2a4b0d214cf8129ea628605b

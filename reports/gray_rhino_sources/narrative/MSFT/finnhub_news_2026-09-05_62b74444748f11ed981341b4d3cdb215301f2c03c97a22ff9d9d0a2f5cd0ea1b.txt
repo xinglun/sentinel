@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Gates Says He Still Won't Invest in Crypto, Calls It a "Pure Mania-Driven Asset." Here's Why He's Right.
+  summary: Bitcoin has momentum, but stocks have fundamentals.
+  url: https://finnhub.io/api/news?id=fbf3e3b36eae83968c474f6b75fef86867dcd364d665ae031056e99f23fe0412

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Venice Token, Near Protocol, Worldcoin Tokens Jump as AI Tailwinds Rise
+  summary: Here&#39;s why top AI tokens like Venice Token (VVV), Near Protocol (NEAR), and Worldcoin (WLD) are in a strong rally this year.
+  url: https://finnhub.io/api/news?id=71ce0459d2651cca241702402116187d50cb93e616f9a602e6eb7dc042647320

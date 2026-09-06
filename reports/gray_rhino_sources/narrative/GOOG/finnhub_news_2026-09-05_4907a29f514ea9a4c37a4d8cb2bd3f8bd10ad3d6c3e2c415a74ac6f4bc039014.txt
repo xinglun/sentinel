@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Chess Will Be ‘Fully Solved’ One Day — Chess.com Fires Back With a Brutal Two-Word Roast
+  summary: Elon Musk believes that Chess has few non-stupid moves and will one day be fully solved just like the game of Checkers was solved years ago.
+  url: https://finnhub.io/api/news?id=e0f9aa52e2427c4df87eafd5cacd1d1c158ced78269f2683c9d7f08a4da8b45d

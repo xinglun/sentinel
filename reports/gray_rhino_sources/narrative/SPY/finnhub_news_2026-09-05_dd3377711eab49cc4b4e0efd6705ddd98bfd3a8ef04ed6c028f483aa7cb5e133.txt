@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Semis Survived Hawkish August Jobs Data: CPI's Next
+  summary: AI and semiconductor stocks rallied despite a hawkish jobs report; however, the markets still need to clear the August CPI report on September 11. Read more.
+  url: https://finnhub.io/api/news?id=fae88d35ebdf89ca5fa421ebfef07b05c2d88a73232ea4b7f9d3067a822d458f

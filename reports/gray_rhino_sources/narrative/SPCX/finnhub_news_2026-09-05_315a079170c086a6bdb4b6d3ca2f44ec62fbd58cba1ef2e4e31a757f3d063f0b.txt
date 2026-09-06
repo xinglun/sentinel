@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Space Stocks to Buy in September
+  summary: More risk-averse investors could consider investing in MDA Space, while more aggressive investors could consider buying shares of SpaceX.
+  url: https://finnhub.io/api/news?id=1228b1f064b3796786744233150acbcb0a1b6cb0ea05d47ca596e2fc585e27cd

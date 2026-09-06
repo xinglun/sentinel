@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Entergy Says Google’s Arkansas Solar Payments Could Total $2.1 Billion. Is Power Becoming Alphabet’s New Bottleneck?
+  summary: Newly reported records put dollar figures on power infrastructure for Google’s West Memphis data center, but Entergy says the first $716 million headline understated the full economics. Reports identified $526 million toward the Cypress Solar project and $190 million for transmission. Entergy later argued that the $526 million figure reflected only the upfront payment and […]
+  url: https://finnhub.io/api/news?id=83a606178ee22e8224653c370848f078fcbdf23135642d93060ed9b4c7e83cfe

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gene Munster Says Tesla Cybercab's Austin Launch Signals Elon Musk’s ‘Paranoid’ Phase Over Robotaxi Accidents Is Over: ‘That’s Just the Start’
+  summary: Investor Gene Munster of Deepwater Asset Management thinks that the Tesla Inc. Cybercab launch reflects a shift in CEO Elon Musk‘s outlook on incidents involving self-driving vehicles. 300 Cybercabs in Austin In a post on X on Thursday, Munster quoted...
+  url: https://finnhub.io/api/news?id=cc55dba32f457b2d0524a7ba1d15bc0a02bc3980f79c8a4f4d5fb22f8589364d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congressmen Warn US Military’s Fix May Not Be Enough After Enemies Exploited Location Data to Target American Troops: 'Troubling Questions'
+  summary: Wyden and Harrigan are questioning whether the U.S. military has done enough to protect troops from commercial location tracking.
+  url: https://finnhub.io/api/news?id=310544a7184847ab3aace0c6eb80dd3c7a3c9143d597a8ad87ec829f26104e0e

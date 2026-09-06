@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: August Job Gains Blew Past Estimates. Here's What It Means for the Fed.
+  summary: Payroll gains of 162,000 in August may alter what the Fed does in the coming months.
+  url: https://finnhub.io/api/news?id=e330dd4e192533bbf27c638160cf8547e962f868224141a73f6800aa8abd2e5d

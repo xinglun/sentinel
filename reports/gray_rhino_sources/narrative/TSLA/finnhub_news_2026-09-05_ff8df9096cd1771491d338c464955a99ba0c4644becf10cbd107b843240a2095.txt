@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Benzinga Bulls and Bears: Palo Alto, Ciena, Lululemon
+  summary: Benzinga examined the prospects for many investors’ favorite stocks over the last week — here’s a look at some of our top stories.
+  url: https://finnhub.io/api/news?id=fed21fdac8ddb2e15d89d27f942aca3066231cc5e10ddc9a4e2a0e732c8451e5

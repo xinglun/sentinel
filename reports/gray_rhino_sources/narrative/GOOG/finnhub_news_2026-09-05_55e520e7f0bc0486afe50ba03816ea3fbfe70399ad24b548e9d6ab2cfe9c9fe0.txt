@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Judge Spared Alphabet From an Ad-Tech Breakup but Ordered Changes. Does That Protect Its AI War Chest?
+  summary: A federal judge on September 2 declined to force Google to sell major pieces of its advertising technology business, choosing conduct remedies instead. The decision reduced the immediate threat of a structural breakup while still requiring changes to how Google operates parts of its ad stack. Alphabet Inc. (NASDAQ:GOOGL) investors gained clarity, but not a […]
+  url: https://finnhub.io/api/news?id=69c2931f7d93b8c2a44d3a85b03755eb9314821007f1fa7bb70bfb90f0dc1bd0

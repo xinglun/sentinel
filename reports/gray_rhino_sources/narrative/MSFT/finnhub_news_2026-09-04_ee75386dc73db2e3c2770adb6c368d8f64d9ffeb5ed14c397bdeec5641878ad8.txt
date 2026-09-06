@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Midea SMART MASTER at IFA 2026: From AI Agents to Embodied Intelligence
+  summary: Midea has placed SMART MASTER at the centre of its IFA 2026 showcase. Guided by this year's "Simply ideal" philosophy, SMART MASTER is Midea's AI-powered home ecosystem, built to create a smart home that listens, understands and responds naturally.
+  url: https://finnhub.io/api/news?id=d6dca19c8894dd62a5b6b443a2352f5d92fb5950dddd23fae10ba91e4645a366

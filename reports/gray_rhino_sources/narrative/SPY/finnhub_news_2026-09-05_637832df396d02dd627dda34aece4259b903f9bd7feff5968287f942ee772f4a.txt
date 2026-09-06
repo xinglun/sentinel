@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: August Jobs Report: Rate Hike Indicated, But Maybe Just One
+  summary: 
+  url: https://finnhub.io/api/news?id=22868ce322a97a6ad66a79da883ade3996ca4d77068d926b9475532dee84e575

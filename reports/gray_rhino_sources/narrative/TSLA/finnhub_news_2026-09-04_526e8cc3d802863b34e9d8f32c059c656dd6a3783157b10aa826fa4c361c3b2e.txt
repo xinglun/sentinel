@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Self-Driving’s Next Task: Potholes
+  summary: REVIEW  On Monday, shares of Tesla jumped 5.5%, closing at $367.95, up 18% for the month after dropping 26% in July. Why the rise? There were no Wall Street upgrades or price-target changes. One Global exchange-traded fund co-founder Gary Black speculated investors might be anticipating the launch of Cybercab, Tesla’s robo-taxi, which lacks a steering wheel.
+  url: https://finnhub.io/api/news?id=b32a2f6aee931ae85cc74dc68caa109016852fd17d4b1cbe93af98a2136d3301

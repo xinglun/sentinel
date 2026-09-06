@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Here's What a $10,000 Investment in Rocket Lab Will Be Worth in 5 Years
+  summary: It's hard to make predictions, especially about the future.
+  url: https://finnhub.io/api/news?id=52658f53300bc7f696746f5962a580892156309a4d124c31d17ef0197b65f2c4

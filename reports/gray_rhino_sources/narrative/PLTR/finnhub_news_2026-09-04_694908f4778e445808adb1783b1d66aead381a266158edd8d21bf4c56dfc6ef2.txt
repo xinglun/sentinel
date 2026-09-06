@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir just won the Army and lost Michael Burry
+  summary: A wholly owned subsidiary just landed eight TITAN systems. Burry says none of it justifies the price.
+  url: https://finnhub.io/api/news?id=987bda87cebe56265d935a33135cdd2004bc7dcf681d075a0cf04680f4560f85

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Cybercab 'Storm' Was More of a 'Drizzle,' WSJ's Tim Higgins Says
+  summary: Tesla Inc. shares were down roughly 3% in premarket trading Friday following a Cybercab launch that The Wall Street Journal business columnist Tim Higgins said fell short of Elon Musk‘s promised “storm” of robotaxis. “Maybe less of a storm and...
+  url: https://finnhub.io/api/news?id=6e9debe36a2c6bce961f14fecb6e263d30fb26236e23500c612f578e470176c4

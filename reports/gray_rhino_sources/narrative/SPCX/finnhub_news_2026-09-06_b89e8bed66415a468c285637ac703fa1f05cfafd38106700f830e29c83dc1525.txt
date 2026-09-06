@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says His New Foundry Can Get Gas Turbines Online 18 Months Faster. Here's What This "Profound Game Changer" Would Mean for SpaceX and Tesla.
+  summary: Musk's turbine push could accelerate his massive AI infrastructure build-out.
+  url: https://finnhub.io/api/news?id=a7ddfa76d72c5e3c87b19596fd4877ebbb7605cf8cac1b7c04c396777e01024d
