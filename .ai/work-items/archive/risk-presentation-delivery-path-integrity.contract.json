@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "確定Leader不在(leadership_snapshot経由のLEADERLESS/FRAGMENTED)かつ候補選定レベルでは候補が存在する組み合わせで、risk_opportunities/risk_value/portfolio_risk_value/risk_snapshot_valueに残る生のStrengthLoss理由が正規文言に置き換わる",
+    "report_ui_tests.rsに実際のgenerate_refined_reportパイプラインを通す統合テストを追加し、markdown_body/telegram_html_body/archival_markdownの3出力全てで生文言('主线掉队','连续转弱')が一切出現しないことをassertする",
+    "Context CoverageでMarketStructure分類のitemが存在する場合、coverage.market_structureがscheduled_macroと同じ健全性ステータスになる(UNAVAILABLE固定にならない)",
+    "cargo test --lib が全件通過し、cargo clippy --all-targets -- -D warnings が警告0で通過する",
+    "data ブランチから復元した2026-09-07の実データで cargo run --release -- radar --date 2026-09-07 を実行し、生成されたmarkdown/telegram htmlに'主线掉队'が一切出現しないことを目視確認する"
+  ],
+  "authority": "authorized",
+  "baseRevision": "186ebe679cef54e1e3f68ebd8bffabbe012250e6",
+  "createdAt": "2026-09-07T03:38:56Z",
+  "goal": "既にradar_pipeline_runner.rsからleadership_snapshot確定後に無条件で呼ばれているreconcile_tactical_leadership_display(LEADERLESS/FRAGMENTED判定済み)を拡張し、risk_opportunities/risk_opportunity_summary(risk_value・portfolio_risk_value)/decision_summary.risk_snapshot_valueに残存するraw StrengthLoss理由文字列を、既存のcanonicalize_risk_presentation_reasonが定義する正規文言に置き換える。実際のgenerate_refined_report経由でmarkdown/telegram_html/archival markdownの3出力全てに生文言('主线掉队'/'连续转弱'等)が一切出現しないことをreport_ui_tests.rsの統合テストで検証する。副次的に、直前の自分の変更(Holiday Liquidity taxonomy修正)で生じたContext CoverageのMarket Structure healthがHolidayLiquidity分類のitemが存在してもUNAVAILABLE固定のままだった不整合も合わせて修正する。Gate/Execution/Trader/Action Matrix/Position Sizing等の取引判断ロジックは一切変更しない。",
+  "intent": "ユーザーが2026-09-07(NYSE Labor Day)のレポートを精査した結果、以前のrisk-presentation-canonicalization WI(commit ce090778)実装後14コミット後の現行revisionでも、リスク表示('風险'/'組合風险'欄)に生のStrengthLoss理由文字列(例:'主线掉队: 连续转弱触发结构性减仓')が漏れて出力されていることが判明した。調査の結果、根本原因はconsumerのバイパスではなく、presentation_assembler.rsのcanonicalize_risk_presentation_reason内is_leaderless(packet)ヘルパーが、レポート冒頭に表示される確定Leader不在の判定(leadership_snapshot.primary_leader_value)とは別の、候補選定レベルの信号(packet.top_tier_symbols/trend_cohesion.topology)だけでleaderless判定をしていたこと。PresentationAssembler::assemble()実行時点ではまだleadership_snapshotが確定していないため、この関数単体では正しい信号にアクセスできない設計上の制約がある。",
+  "mode": "code",
+  "outOfScope": [
+    "Gate",
+    "Execution",
+    "Trader",
+    "Action Matrix",
+    "Position Sizing",
+    "RS Diffusion",
+    "Leader",
+    "NO_TRADE",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "docs/**",
+    "reports/**",
+    "scripts/**",
+    "exit_strength_loss以外のexit reason種別(DefensiveExit/CohesionExit/OverheatProfitTake)のcanonicalization"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d50e40547f2eef3bbf18f8a984a241977aaaa9fb1e887edcd03a6b4eddc2a3a3",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-presentation-delivery-path-integrity",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-risk-presentation-delivery-path-integrity"
+  },
+  "risk": "low: risk_presentation_reconciliation_extension_and_coverage_health_fix",
+  "scope": [
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}

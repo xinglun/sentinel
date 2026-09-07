@@ -62,6 +62,45 @@ impl PresentationAssembler {
                 language,
             );
         }
+        Self::reconcile_leaderless_risk_presentation(presentation, &dict, language);
+    }
+
+    /// `canonicalize_risk_presentation_reason` は `assemble()` 時点でまだ確定していない
+    /// `leadership_snapshot` を参照できず、候補選定レベルの信号(`top_tier_symbols` /
+    /// `trend_cohesion`)だけで leaderless を判定するため、確定 Leader 不在が判明した
+    /// 後でも StrengthLoss の raw reason(例: "主线掉队: 连续转弱触发结构性减仓")を
+    /// 通してしまうことがある。確定 Leader 不在がここで判明した時点で、同じ
+    /// canonical 文言に置き換え、風险/組合風险の両方を再構成する。
+    fn reconcile_leaderless_risk_presentation(
+        presentation: &mut PresentationPacket,
+        dict: &DisplayDictionary,
+        language: Language,
+    ) {
+        let raw = dict.reasons.exit_strength_loss.clone();
+        let canonical = match language {
+            Language::ZhCn => "结构性减仓信号仍有效".to_string(),
+            Language::EnUs => "Structural trim signal remains active.".to_string(),
+            Language::JaJp => "構造的な縮小シグナルは有効です。".to_string(),
+        };
+        let mut changed = false;
+        for item in presentation.risk_opportunities.iter_mut() {
+            if item.reason == raw {
+                item.reason = canonical.clone();
+                changed = true;
+            }
+        }
+        if !changed {
+            return;
+        }
+        let risk_items = presentation
+            .risk_opportunities
+            .iter()
+            .filter(|item| item.kind == dict.decision.risk)
+            .collect::<Vec<_>>();
+        let risk_value = Self::summarize_primary_risk(&risk_items, dict);
+        presentation.risk_opportunity_summary.risk_value = risk_value.clone();
+        presentation.risk_opportunity_summary.portfolio_risk_value = risk_value.clone();
+        presentation.decision_summary.risk_snapshot_value = risk_value;
     }
 
     /// DecisionPacket から PresentationPacket を生成する。

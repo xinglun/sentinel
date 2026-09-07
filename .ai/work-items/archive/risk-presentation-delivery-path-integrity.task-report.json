@@ -1,0 +1,102 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:02cb59de69e3cf0a61db44b56fe05d3696a38f02eb593f2f7cb751146c7726d2",
+    "workItemId": "risk-presentation-delivery-path-integrity"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/risk-presentation-delivery-path-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/risk-presentation-delivery-path-integrity.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/risk-presentation-delivery-path-integrity.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/risk-presentation-delivery-path-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "既にradar_pipeline_runner.rsからleadership_snapshot確定後に無条件で呼ばれているreconcile_tactical_leadership_display(LEADERLESS/FRAGMENTED判定済み)を拡張し、risk_opportunities/risk_opportunity_summary(risk_value・portfolio_risk_value)/decision_summary.risk_snapshot_valueに残存するraw StrengthLoss理由文字列を、既存のcanonicalize_risk_presentation_reasonが定義する正規文言に置き換える。実際のgenerate_refined_report経由でmarkdown/telegram_html/archival markdownの3出力全てに生文言('主线掉队'/'连续转弱'等)が一切出現しないことをreport_ui_tests.rsの統合テストで検証する。副次的に、直前の自分の変更(Holiday Liquidity taxonomy修正)で生じたContext CoverageのMarket Structure healthがHolidayLiquidity分類のitemが存在してもUNAVAILABLE固定のままだった不整合も合わせて修正する。Gate/Execution/Trader/Action Matrix/Position Sizing等の取引判断ロジックは一切変更しない。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/risk-presentation-delivery-path-integrity.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}
