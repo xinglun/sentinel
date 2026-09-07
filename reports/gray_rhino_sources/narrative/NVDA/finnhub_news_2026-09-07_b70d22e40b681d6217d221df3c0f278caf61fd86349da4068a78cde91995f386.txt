@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Vanguard ETF Is Up 27% This Year: Is It Still a Buy for Long-Term Investors?
+  summary: The Vanguard Information Technology Index Fund ETF should continue to outpace the S&P 500.
+  url: https://finnhub.io/api/news?id=19dc2b93a9b50c266064dc726008e5263e96955e8c3682cddcb6f2155c82ef5a

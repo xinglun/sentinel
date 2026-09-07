@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT)’s Outlook and OpenAI’s ChatGPT Work Both Broke the Same Day
+  summary: On August 31, 2026, CNBC reported that Microsoft Corporation (NASDAQ:MSFT) suffered a widespread Outlook and Exchange Online outage on August 31, with Downdetector reports peaking at 6,015 for Outlook and 2,044 for Microsoft 365. Microsoft said on its status page that “users may experience degraded functionality with various Exchange Online functionalities” while it reviewed service […]
+  url: https://finnhub.io/api/news?id=2b055ec749833f584e8dc50cb98ce2375ce3ff77dd74cb4cb7758fc61cb7a433

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UiPath Just Sank 17%. Is the Stock a Buy on the Dip?
+  summary: UiPath shares tumbled after its fiscal Q2 earnings report.
+  url: https://finnhub.io/api/news?id=cbd30f4ad1d8bc5a0990a1514869a70972a1b4cb68b4d81e137731ab4e6e45ba

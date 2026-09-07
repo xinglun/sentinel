@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Alex Karp: The Real AI Leak Isn't Data, It's Your 'Alpha'
+  summary: Companies have long worried about artificial intelligence exposing sensitive data. Palantir Technologies Inc. CEO Alex Karp says they’re focused on the wrong threat. Speaking at the G20 Innovation Ministerial, Karp argued that the real strategic risk isn’t losing data —...
+  url: https://finnhub.io/api/news?id=9f32abbd15f04ac9e56aead36e4156917f49afc27cebde74575e2a9b91b1a218

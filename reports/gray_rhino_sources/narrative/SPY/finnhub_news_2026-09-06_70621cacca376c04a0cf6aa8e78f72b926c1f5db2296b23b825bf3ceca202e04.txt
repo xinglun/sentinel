@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ETF Inflows Set a Record in July. The Fee Mix Moved at the Same Time.
+  summary: Investors are still buying exchange-traded funds in huge numbers, but Wall Street has figured out how to make this transition more profitable, too.
+  url: https://finnhub.io/api/news?id=44ef4095431a17653032ea5eeae33841fad12695db224f4befe356a187919442

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway's Cash Fell From $397 Billion to $366 Billion in a Single Quarter
+  summary: After several quarters watching from the sidelines, CEO Greg Abel is getting Berkshire Hathaway back in the game -- slowly.
+  url: https://finnhub.io/api/news?id=886dca03ecf8d01965efc4945c9ed277e9bcb084643a845802990462ca44d072

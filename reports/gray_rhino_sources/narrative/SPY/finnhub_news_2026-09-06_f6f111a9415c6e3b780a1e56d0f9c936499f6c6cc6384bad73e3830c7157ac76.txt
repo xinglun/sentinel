@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Buying Consumer Experience Like Delta, Carnival, And Avoiding Discretionary Stocks
+  summary: Travel demand is robust among boomers, and inflation risks are monitored. Click here to see why consumer experience stocks are constructive.
+  url: https://finnhub.io/api/news?id=1582ef2d0582b3ed5928ab2cc1a284c1b649982bd24e5b3d62a524023d8373cd

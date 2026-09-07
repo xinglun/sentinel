@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's 2 Biggest Positions Are Both Elon Musk Companies. Together They Are 16% of the Fund.
+  summary: On Friday, one of them drove more than half of the fund's decline.
+  url: https://finnhub.io/api/news?id=ffcdfa5197aac6b3e776bf7082f777d8d3b03ef848fb42569f96b4caf08f7f98

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Rolls Out its Safety Numbers ahead of a Make-or-Break EU Vote
+  summary: Tesla, Inc. (NASDAQ:TSLA) said its supervised Full Self-Driving technology recorded 4.1 times fewer collisions than manually driven Tesla cars across the five European countries where it is currently permitted, Reuters reported on September 1, as the company steps up lobbying ahead of a European Union vote on wider deployment. Tesla said the findings came from […]
+  url: https://finnhub.io/api/news?id=7007c79cd25c2c18c0ebd819f762828ebe8d86919790dff22643d034f583a505

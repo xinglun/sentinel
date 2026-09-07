@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Data Center Passes 70% of AMD's Revenue in 2027, Before the Helios Ramp Is Finished
+  summary: One segment doubled last quarter while everything else combined grew 8%. If rates anywhere close to those hold, 70% arrives before the ramp is done.
+  url: https://finnhub.io/api/news?id=950589bf356e65e4b5c7d044e9975ce5bf7475b56c44dd329cefe25a41f243a2
