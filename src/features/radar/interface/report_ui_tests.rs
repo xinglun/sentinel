@@ -4909,6 +4909,98 @@ mod tests {
     }
 
     #[test]
+    fn leaderless_reconciliation_removes_raw_strength_loss_reason_from_all_report_bodies() {
+        // 実運用で観測された組み合わせ: top_tier_symbols に候補は存在する
+        // (is_leaderless() の候補選定レベルの判定は false になる) が、確定 Leader は
+        // 不在(LEADERLESS / FRAGMENTED)。assemble() 時点ではまだ leadership_snapshot が
+        // 確定していないため、StrengthLoss の raw reason("主线掉队: 连续转弱触发結構性
+        // 減仓")がそのまま risk_opportunities / risk_snapshot_value / portfolio_risk_value
+        // に残っている状態を再現し、reconcile_tactical_leadership_display 実行後に
+        // 実際の Markdown / Telegram HTML / archival 全ての最終文字列から raw reason が
+        // 消えていることを検証する。
+        let config = mock_config_with_language(Language::ZhCn);
+        let raw_reason = "📉 主线掉队: 连续转弱触发结构性减仓".to_string();
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            risk_opportunities: vec![
+                crate::features::radar::interface::display::RiskOpportunityViewModel {
+                    kind: "风险".to_string(),
+                    symbol: "TSLA".to_string(),
+                    reason: raw_reason.clone(),
+                },
+            ],
+            risk_opportunity_summary:
+                crate::features::radar::interface::presentation::RiskOpportunitySummaryViewModel {
+                    opportunity_label: "机会".to_string(),
+                    opportunity_value: "暂无明显机会".to_string(),
+                    risk_label: "风险".to_string(),
+                    risk_value: format!("TSLA · {raw_reason}"),
+                    execution_risk_label: "执行风险".to_string(),
+                    execution_risk_value: "暂停新增主动进攻".to_string(),
+                    portfolio_risk_label: "组合风险".to_string(),
+                    portfolio_risk_value: format!("TSLA · {raw_reason}"),
+                },
+            decision_summary:
+                crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: true,
+                    market_board_label: "市场看板".to_string(),
+                    market_board_value: "观察 1 | 持有 0 | 收缩 0".to_string(),
+                    opportunity_snapshot_label: "机会".to_string(),
+                    opportunity_snapshot_value: "暂无明显机会".to_string(),
+                    risk_snapshot_label: "风险".to_string(),
+                    risk_snapshot_value: format!("TSLA · {raw_reason}"),
+                    ..Default::default()
+                },
+            ..Default::default()
+        };
+
+        let leadership_snapshot =
+            crate::features::radar::interface::presentation::LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leader_absence_duration: 13,
+                ..Default::default()
+            };
+
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut pres,
+            &leadership_snapshot,
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.risk_opportunities[0].reason, "结构性减仓信号仍有效");
+        assert_eq!(
+            pres.risk_opportunity_summary.risk_value,
+            "TSLA · 结构性减仓信号仍有效"
+        );
+        assert_eq!(
+            pres.risk_opportunity_summary.portfolio_risk_value,
+            "TSLA · 结构性减仓信号仍有效"
+        );
+        assert_eq!(
+            pres.decision_summary.risk_snapshot_value,
+            "TSLA · 结构性减仓信号仍有效"
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(!body.contains("主线掉队"), "{body}");
+            assert!(!body.contains("连续转弱"), "{body}");
+            assert!(body.contains("结构性减仓信号仍有效"), "{body}");
+        }
+    }
+
+    #[test]
     fn interpretation_report_renders_full_tactical_distribution() {
         let config = mock_config_with_language(Language::ZhCn);
         let packet = DecisionPacket::default();

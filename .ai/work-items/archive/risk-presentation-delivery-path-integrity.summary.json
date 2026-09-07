@@ -1,0 +1,28 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/risk-presentation-delivery-path-integrity.contract.json",
+    ".ai/work-items/archive/risk-presentation-delivery-path-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-09-07T03:39:26Z",
+  "checkpointContractDigest": "sha256:6ce822cff119e267f9dc79c17d4081406033572b9edd546526f8cdcb4c43c2a4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:02cb59de69e3cf0a61db44b56fe05d3696a38f02eb593f2f7cb751146c7726d2",
+  "createdAt": "2026-09-07T03:38:56Z",
+  "mode": "code",
+  "preflightAt": "2026-09-07T03:49:15Z",
+  "preflightContractDigest": "sha256:6ce822cff119e267f9dc79c17d4081406033572b9edd546526f8cdcb4c43c2a4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:02cb59de69e3cf0a61db44b56fe05d3696a38f02eb593f2f7cb751146c7726d2",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-07T03:49:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}
