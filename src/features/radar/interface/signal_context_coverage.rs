@@ -12,6 +12,7 @@ use crate::features::research::application::corporate_event_provider::{
     CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
 };
 use crate::features::research::interface::macro_event_observation::EvidenceRecord;
+use crate::features::research::interface::macro_event_observation::FutureCalendarKind;
 use crate::features::research::interface::macro_event_observation::MacroEventImportance;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
@@ -538,6 +539,24 @@ fn build_v1_from_event_context_with_external(
         .unwrap_or(macro_context)
 }
 
+/// Index Reconstitution / ETF Rebalance / Holiday Liquidity は経済指標の発表ではなく、
+/// 取引カレンダー由来の市場構造イベントであるため ScheduledMacro ではなく MarketStructure
+/// に分類する。Pre-Earnings/Major Event Waiting は個別銘柄イベント待ちであり、
+/// 純粋なマクロ経済指標(MacroEvent)と同様 ScheduledMacro のまま扱う。
+fn signal_context_type_for_calendar_kind(
+    kind: FutureCalendarKind,
+) -> crate::features::radar::interface::presentation::SignalContextType {
+    use crate::features::radar::interface::presentation::SignalContextType;
+    match kind {
+        FutureCalendarKind::IndexReconstitution
+        | FutureCalendarKind::EtfRebalance
+        | FutureCalendarKind::HolidayLiquidity => SignalContextType::MarketStructure,
+        FutureCalendarKind::PreEarningsWaiting
+        | FutureCalendarKind::MajorEventWaiting
+        | FutureCalendarKind::MacroEvent => SignalContextType::ScheduledMacro,
+    }
+}
+
 fn build_macro_v1_from_event_context(
     as_of_date: NaiveDate,
     event_context: &SignalContextEventReadModel,
@@ -547,8 +566,7 @@ fn build_macro_v1_from_event_context(
         .iter()
         .filter(|entry| entry.event_date == as_of_date)
         .map(|entry| SignalContextItem {
-            context_type:
-                crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro,
+            context_type: signal_context_type_for_calendar_kind(entry.kind),
             title: entry.event_name.clone(),
             symbol: None,
             information_content: macro_information_level(entry),
@@ -1442,6 +1460,7 @@ mod tests {
                 crate::features::radar::interface::signal_context_event_read_model::SignalContextTimelineEntry {
                     event_date: NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
                     event_name: "Minor survey release".to_string(),
+                    kind: crate::features::research::interface::macro_event_observation::FutureCalendarKind::MacroEvent,
                     event_type: "OTHER".to_string(),
                     source: "official-calendar".to_string(),
                     importance: Some(MacroEventImportance::Low),

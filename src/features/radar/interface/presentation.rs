@@ -796,6 +796,14 @@ pub struct MarketInterpretationViewModel {
     pub current_decision_weight_value: String,
     pub narrative_label: String,
     pub narrative_values: Vec<String>,
+    #[serde(default)]
+    pub report_date_label: String,
+    #[serde(default)]
+    pub report_date_value: String,
+    #[serde(default)]
+    pub latest_trading_session_label: String,
+    #[serde(default)]
+    pub latest_trading_session_value: String,
     pub day_type_label: String,
     pub day_type_value: String,
     pub day_type_reason_label: String,

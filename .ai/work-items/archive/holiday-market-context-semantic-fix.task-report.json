@@ -1,0 +1,102 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:626ae69946f3c8c175de8db0e0e5c0b8b5efac9a2433620b8f546e2e23ad91db",
+    "workItemId": "holiday-market-context-semantic-fix"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/holiday-market-context-semantic-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/holiday-market-context-semantic-fix.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/holiday-market-context-semantic-fix.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/holiday-market-context-semantic-fix.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/holiday-market-context-semantic-fix.contract.json"
+        ],
+        "inference": false,
+        "text": "(1) FutureCalendarObservation.kindをSignalContextTimelineEntryまで伝播し、Holiday Liquidity/ETF Rebalance/Index ReconstitutionをSignalContextType::MarketStructureに正しく分類する(Pre-Earnings/Major Event Waiting/真のMacroEventはScheduledMacroのまま維持)。(2) day_type/day_type_reason/exceptional_factorの'Holiday Liquidity'判定をprefix一致に修正し、新しいday_type値'holiday'とreason値'market_closed'を追加する。(3) MarketInterpretationViewModelにreport_date/latest_trading_sessionの2フィールドを追加し、Markdown/Telegram HTML両方に表示する。Gate/Execution/Trader/Action Matrix/Position Sizing等の取引判断ロジックは一切変更しない。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/holiday-market-context-semantic-fix.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "holiday-market-context-semantic-fix"
+}

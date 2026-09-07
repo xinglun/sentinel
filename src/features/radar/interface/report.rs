@@ -3096,6 +3096,14 @@ fn render_market_interpretation_section(
             }
             block.push_str(&format!(
                 "  - {}: {}\n",
+                layer.report_date_label, layer.report_date_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.latest_trading_session_label, layer.latest_trading_session_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
                 layer.day_type_label, layer.day_type_value
             ));
             block.push_str(&format!(
@@ -3253,6 +3261,14 @@ fn render_market_interpretation_section(
                     block.push_str(&format!("    - {}\n", value));
                 }
             }
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.report_date_label, layer.report_date_value
+            ));
+            block.push_str(&format!(
+                "  - {}: {}\n",
+                layer.latest_trading_session_label, layer.latest_trading_session_value
+            ));
             block.push_str(&format!(
                 "  - {}: {}\n",
                 layer.day_type_label, layer.day_type_value
