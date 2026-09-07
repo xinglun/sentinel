@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Stayed in Venezuela for 20 Years While Rivals Left. Here's Why Its CEO Says Patience Pays Off.
+  summary: Chevron's patience is paying big dividends.
+  url: https://finnhub.io/api/news?id=39aceb3eaf8ff8d04fac21401da7ab13210b28151c621808cd300c3239008d64

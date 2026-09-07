@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Alphabet Break Warren Buffett's Cardinal Rule of Investing?
+  summary: Berkshire Hathaway has made Alphabet one of the top positions in its large stock portfolio this year.
+  url: https://finnhub.io/api/news?id=51991d5143abfe93c3ec18bedb3515f18910d13b72f8044caf3bf9a6d3ec9aa9

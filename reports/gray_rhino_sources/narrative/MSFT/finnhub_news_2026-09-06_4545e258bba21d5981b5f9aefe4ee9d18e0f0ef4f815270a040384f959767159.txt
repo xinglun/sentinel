@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Agent Production Gap: When 171% ROI Isn’t Enough to Ship
+  summary: AI agents that successfully reach production scale deliver a 171% global return on investment, a figure that climbs to 192% in the United States, according to IDC and Microsoft research. These returns highlight a clear path to efficiency and profitability. Yet, if the economics are so compelling, why are so many organizations struggling to move […]
+  url: https://finnhub.io/api/news?id=6f527f8155079f56d802b2aba6c73be3d53327698d97cb8d2659be74e7a5a51c

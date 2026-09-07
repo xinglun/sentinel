@@ -3,16 +3,16 @@
   "assets": [
     {
       "symbol": "FIG",
-      "gravity": "UNDERVALUED",
-      "confidence": "VERY_LOW",
-      "source": "ANALYST_CONSENSUS",
+      "gravity": null,
+      "confidence": null,
+      "source": null,
       "provider": "Finnhub",
-      "as_of_date": "2026-09-01",
-      "source_health": "PARTIAL",
-      "quality_reason": "RECOMMENDATION_FALLBACK",
-      "evidence_count": 18,
+      "as_of_date": "2026-09-07",
+      "source_health": "UNAVAILABLE",
+      "quality_reason": "PROVIDER_FAILURE",
+      "evidence_count": 0,
       "relative_ratio": null,
-      "message": "recommendation consensus fallback"
+      "message": "provider request failed"
     },
     {
       "symbol": "GOOG",
@@ -81,16 +81,16 @@
     },
     {
       "symbol": "SPCX",
-      "gravity": "UNDERVALUED",
-      "confidence": "LOW",
-      "source": "ANALYST_CONSENSUS",
+      "gravity": null,
+      "confidence": null,
+      "source": null,
       "provider": "Finnhub",
-      "as_of_date": "2026-09-01",
-      "source_health": "PARTIAL",
-      "quality_reason": "RECOMMENDATION_FALLBACK",
-      "evidence_count": 43,
+      "as_of_date": "2026-09-07",
+      "source_health": "UNAVAILABLE",
+      "quality_reason": "PROVIDER_FAILURE",
+      "evidence_count": 0,
       "relative_ratio": null,
-      "message": "recommendation consensus fallback"
+      "message": "provider request failed"
     },
     {
       "symbol": "SPY",
@@ -100,10 +100,10 @@
       "provider": "Finnhub",
       "as_of_date": "2026-09-07",
       "source_health": "UNAVAILABLE",
-      "quality_reason": "INSUFFICIENT_EVIDENCE",
+      "quality_reason": "PROVIDER_FAILURE",
       "evidence_count": 0,
       "relative_ratio": null,
-      "message": "insufficient valuation evidence"
+      "message": "provider request failed"
     },
     {
       "symbol": "TSLA",
@@ -115,21 +115,21 @@
       "source_health": "PARTIAL",
       "quality_reason": "MARKET_MULTIPLE_FALLBACK",
       "evidence_count": 5,
-      "relative_ratio": 2.14810223285811,
+      "relative_ratio": 2.0209106664253973,
       "message": "current P/E relative to five-year historical median"
     },
     {
       "symbol": "U",
-      "gravity": "UNDERVALUED",
-      "confidence": "LOW",
-      "source": "ANALYST_CONSENSUS",
+      "gravity": null,
+      "confidence": null,
+      "source": null,
       "provider": "Finnhub",
-      "as_of_date": "2026-09-01",
-      "source_health": "PARTIAL",
-      "quality_reason": "RECOMMENDATION_FALLBACK",
-      "evidence_count": 34,
+      "as_of_date": "2026-09-07",
+      "source_health": "UNAVAILABLE",
+      "quality_reason": "PROVIDER_FAILURE",
+      "evidence_count": 0,
       "relative_ratio": null,
-      "message": "recommendation consensus fallback"
+      "message": "provider request failed"
     }
   ],
   "observation_only": true

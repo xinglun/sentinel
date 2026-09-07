@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Fires Back at Bernie Sanders Over His $900 Billion Fortune
+  summary: Elon Musk answers Sanders, stating his wealth is in Tesla & SpaceX stock, not cash, after Sanders said he owns more than half of US families.
+  url: https://finnhub.io/api/news?id=d089622ce60e5c438b0afde1ceb5cb625782a6b6a74949ee813c0e82621b127a

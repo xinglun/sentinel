@@ -1,5 +1,5 @@
-<!-- report_run_id: b18351a2-68be-4a11-a7d8-3f7e03c503bc -->
-<i>⚠️ 观测完整性：部分降级 · Leadership 历史不完整 · 仅观测，不参与决策</i>
+<!-- report_run_id: a60d8db1-c2e1-4aa5-92a3-5a8e689e64cc -->
+<i>⚠️ 观测完整性：部分降级 · 部分观测输入不完整 · 仅观测，不参与决策</i>
 
 <b>🌍 市场摘要</b>
 
@@ -24,12 +24,12 @@
 
 <b>未就绪原因</b>:
 • <i>稳定性 10.0/10</i>
-• <i>连续性 1</i>
+• <i>连续性 2</i>
 • <i>无确认领导 / 分散</i>
 
 战情总览 · 观察 1 | 持有 0 | 收缩 9
 机会 · 暂无明确机会
-风险 · SPCX · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）
+风险 · TSLA · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）
 
 <i>仅允许已有持仓自然波动，不允许主动开仓。</i>
 
@@ -80,7 +80,7 @@
   风险调整信号: REDUCE
   触发原因: 已掉出核心区超过 3 个交易日
 • TSLA
-  基础 Action Matrix: OBSERVE
+  基础 Action Matrix: HOLD
   风险调整信号: REDUCE
   触发原因: 已掉出核心区超过 3 个交易日
 • U
@@ -99,23 +99,23 @@
 
 <b>📡 监控信号</b>
 
-• <b>凝聚状态</b>: 未就绪 · 连续性 emerging
+• <b>凝聚状态</b>: 未就绪 · 连续性 building
 • <b>稳定性</b>: 10.0
-<i>信心指数 60 · 连续性 emerging · 周期长度 19d · 资金流向 存量博弈 ·</i>
+<i>信心指数 60 · 连续性 building · 周期长度 20d · 资金流向 存量博弈 ·</i>
 <i>置信度构成: 趋势配置 39.5 + 逆势能 21.0</i>
 <i>观察池广度原始值: 60.0% · 观察池广度计数: up=6 flat=1 down=3 total=10 · Sentinel 观察池: 100.0% integrity / 10 observed · 观察池广度标签: BROAD_WITHIN_UNIVERSE</i>
 
 <b>🧭 战术分区</b>
 
 • <b>观察区 (1)</b>: FIG
-• <b>收缩区 (9)</b>: NVDA / MSFT / SPCX / SPY / ISRG / PLTR / U / TSLA / GOOG
+• <b>收缩区 (9)</b>: TSLA / NVDA / MSFT / SPCX / SPY / ISRG / PLTR / U / GOOG
 
 <b>⚠️ 风险与机会</b>
 
 <i><b>机会</b>: 暂无明确机会
-<b>风险</b>: SPCX · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）</i>
+<b>风险</b>: TSLA · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）</i>
 <i><b>执行风险</b>: 暂停新增主动进攻
-<b>组合风险</b>: SPCX · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）</i>
+<b>组合风险</b>: TSLA · 📉 主线掉队: 连续转弱触发结构性减仓（其余4标的同类风险）</i>
 
 ⚠️ 处于脆弱启动期，以上仅为候选强者，需等待确认。
 
@@ -127,19 +127,19 @@
   - 观察池广度: BROAD_WITHIN_UNIVERSE
   - Risk: unchanged
   - Supply Phase: ACCUMULATING
-  - Confidence: increased to 60.5
-  - Change Level: MODERATE
-  - Change Drivers: supply_phase
-  - Unchanged Dimensions: market_state, risk_state, day_type, primary_leader, breadth_classification, score, local_ranking
-  - Market Interpretation: 变化等级: MODERATE（依据：supply_phase）
+  - Confidence: unchanged at 60.5
+  - Change Level: MINOR
+  - Change Drivers: supply_pressure_increased, breakout_state
+  - Unchanged Dimensions: market_state, risk_state, day_type, primary_leader, breadth_classification, supply_phase, confidence, score, local_ranking
+  - Market Interpretation: 变化等级: MINOR（依据：supply_pressure_increased、breakout_state）
   - Summary:
     - Leader remains none.
     - Universe Breadth remains BROAD_WITHIN_UNIVERSE.
     - Risk remains broadly unchanged.
-    - Supply phase shifted from IDLE to ACCUMULATING.
-    - Confidence: increased to 60.5.
-    - Change basis: supply_phase.
-    - 变化等级: MODERATE（依据：supply_phase）
+    - Supply phase remains ACCUMULATING.
+    - Confidence: unchanged at 60.5.
+    - Change basis: supply_pressure_increased, breakout_state.
+    - 变化等级: MINOR（依据：supply_pressure_increased、breakout_state）
   - Boundary: observation only; this log does not change trading, Gate, Execution, Trader, or Position Sizing.
 
 ### 市场演化观察
@@ -172,13 +172,13 @@
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 历史覆盖: PARTIAL
   - Leadership Snapshot ID: leadership-2026-09-07
-  - Previous Snapshot ID: leadership-2026-09-03
+  - Previous Snapshot ID: leadership-2026-09-04
   - calculation_mode: RECOMPUTED_FROM_PARTIAL_HISTORY
   - absence_since and duration are estimated/reconstructed from partial history.
   - 功能启用前的 Leadership 历史不可用。
   - 领导状态: ABSENT
-  - Leader Absence Duration: 14 trading days
-  - Leader Absence Since: 2026-08-12
+  - Leader Absence Duration: 13 trading days
+  - Leader Absence Since: 2026-08-13
   - Last Transition: +1 天，评分下降
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 
@@ -253,8 +253,8 @@
   - <i>战略证据状态: NO TRADE，等待结构扩散</i>
 • 🎯 趋势特征识别:
   - <i>进展阶段: 结构延续/战术冷却</i>
-  - <i>趋势扩散分: 3.25</i>
-  - <i>确信度: 3.25</i>
+  - <i>趋势扩散分: 3.40</i>
+  - <i>确信度: 3.40</i>
   - <i>结构强度: 增强中 (3 类证据)</i>
   - <i>实质性证据: AI 投入产出验证 (Capex Payoff), 业绩实质性确认 (Earnings Quality), 订单能见度提升 (Order Visibility)</i>
   - <i>单极突破衰减: 0/3</i>
@@ -267,7 +267,7 @@
   - Signal Context:
     - Information Content: UNAVAILABLE
     - Primary Context: Holiday Liquidity: NYSE Holiday Liquidity [official NYSE holiday calendar]
-    - Context Type: SCHEDULED MACRO / GDP
+    - Context Type: MARKET STRUCTURE / HOLIDAY LIQUIDITY
     - Context Quality: MEDIUM
     - 事件事实: NYSE Holiday Liquidity [official NYSE holiday calendar] / 2026-09-07 / NYSE Holidays & Trading Hours
     - Source Diagnostics: 今天: NYSE Holiday Liquidity [official NYSE holiday calendar]
@@ -276,7 +276,7 @@
   - 边界: Signal Context 只解释今天价格变化的信息含量，不进入 Gate、Execution、Trader、Action Matrix、READY / EXECUTE 或 Position Sizing，也不生成交易信号。
   - Context Coverage:
     - Scheduled Macro: PARTIAL
-    - Corporate: UNAVAILABLE
+    - Corporate: DEGRADED
     - Geopolitical: UNAVAILABLE
     - Commodity: UNAVAILABLE
     - Rates/Credit: UNAVAILABLE
@@ -316,16 +316,18 @@
   - <i>仅作解释输出。Decision Weight 固定为 0%，不会进入 Gate / Execution / Trader / Action Matrix / Position Sizing。</i>
   - Current decision weight: 0%
   - Narrative:
-    - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
+    - 今天是 NYSE 休市日，没有新的交易日观察，以下延续最近一个有效交易日的结构。
     - Available event context: 今天: NYSE Holiday Liquidity [official NYSE holiday calendar]
-    - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 14 trading days）。
+    - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 13 trading days）。
     - 短期相对强度开始在 NVDA 等个别资产恢复，尚不足以构成新的 Leadership。
     - RS Recovery Breadth：1/9 非基准资产改善；Strong/Moderate Recovery：1/9 强/中等恢复；RS Diffusion：NOT_CONFIRMED。Actionable Diffusion：NOT_CONFIRMED
     - Reason：没有确认 Leader、没有 breakout、Action Matrix 未转强确认。
     - 动作分布：观察 1 / 持有 0 / 收缩 9。
-  - dayType: normal
-  - reason: trend_continuation
-  - exceptionalFactors: []
+  - reportDate: 2026-09-07
+  - latestTradingSession: 2026-09-04
+  - dayType: holiday
+  - reason: market_closed
+  - exceptionalFactors: [market closed]
   - Leadership Confidence: LOW
   - Leadership Metrics:
     - 综合主导者: [none]
@@ -340,7 +342,7 @@
     - Reason: 没有确认 Leader、没有 breakout、Action Matrix 未转强确认
     - 观察池广度分类分数: 60.0
     - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
-    - Leader Absence Duration: 14 trading days
+    - Leader Absence Duration: 13 trading days
     - Concentration: 34
     - Rotation: 14
   - Rotation Observation:
@@ -428,24 +430,24 @@ Observation only · Decision Weight: 0% · Trade Signal: false
 观察层：表达价格相对外部价值锚的偏离，不预测价格。
 - 快照持久化: 已保存
 ### FIG
-- Gravity: 低估
-- 可信度: 极低
-- 来源: 分析师共识
 - Provider: Finnhub
-- 数据日期: 2026-09-01
-- 来源状态: 部分成功
-- 证据数量: 18
-- 数据质量原因: 数值锚不可用，降级为分析师评级共识
+- 数据日期: 2026-09-07
+- 来源状态: 不可用
+- 证据数量: 0
+- 数据质量原因: 外部 provider 请求失败
 ### GOOG
 - Gravity: 低估
 - 可信度: 低
 - 来源: 市场估值倍数
 - Provider: Finnhub
+- 数据日期: 2026-09-07
+- 来源状态: 部分成功
+- 证据数量: 5
 边界：Gravity 与 Trend 独立；不影响 READY / EXECUTE / Gate / Position Sizing / Trader，也不产生交易信号。
-- Telegram 摘要: 已省略 74 行明细；归档 Markdown 保留完整 appendix。
+- Telegram 摘要: 已省略 68 行明细；归档 Markdown 保留完整 appendix。
 
 📊 资本吸收早期预警传感器
-自动来源: Finnhub company-news · Finnhub returned 429 Too Many Requests for PLTR
+自动来源: Finnhub company-news · Finnhub returned 429 Too Many Requests for AAPL
 资本吸收状态: 正常（NORMAL）
 实际供给事件:
 - Mega Cap 融资: 0

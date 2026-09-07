@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You'd Invested $1,000 in Bitcoin 10 Years Ago, Here's How Much You'd Have Today
+  summary: Ten years ago, $1,000 bought you 1.7 Bitcoins.
+  url: https://finnhub.io/api/news?id=042f11eafaca222131fad3c8b593bd2eb5390d5f44c04dc3a3cc19fa0ac5bc00

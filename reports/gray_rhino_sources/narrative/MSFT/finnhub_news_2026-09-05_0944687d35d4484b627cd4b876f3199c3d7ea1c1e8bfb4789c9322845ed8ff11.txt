@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GTA VI's Console Problem Isn't Take-Two's Problem
+  summary: Take-Two shares fell despite strong GTA VI demand ahead of its Nov. 19 launch, with analysts maintaining Buy ratings and price targets implying upside, while Sony and Microsoft face console pricing and supply risks.
+  url: https://finnhub.io/api/news?id=537ec53a0658fa380d8b6b2369e09a0b0286caf09c299b3e2e2c757398ce451b

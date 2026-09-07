@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Cybercab just met its first real test, and it's federal
+  summary: Austin was the easy part. The number Tesla was avoiding is the story.
+  url: https://finnhub.io/api/news?id=7b33e3a22f3f6b02d96aa051276701fe425741e03699b1b0f2880fdfdccedc72

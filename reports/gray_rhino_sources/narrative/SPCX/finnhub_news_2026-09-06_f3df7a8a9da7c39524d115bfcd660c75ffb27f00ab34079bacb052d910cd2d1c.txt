@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Cuts Cursor Off from its Models Now That Musk’s SpaceX (SPCX) Owns It
+  summary: CNBC reported that OpenAI said it will end model access through Cursor on November 12, following Space Exploration Technologies Corp. (NASDAQ:SPCX) $60 billion all-stock acquisition of Cursor’s parent company, Anysphere, which closed on August 14. OpenAI said it “cannot be confident that SpaceX will use our technology within our terms of service, based on our […]
+  url: https://finnhub.io/api/news?id=d7e5094255077c4e9357ad3d328b592a27992c9a1332622b889fe528928d2d9e

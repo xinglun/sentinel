@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix Raised U.K. Prices Again. History Says a Netflix Price Increase Has Never Cost It a Year of Revenue Growth.
+  summary: The streaming giant's cheapest U.K. plan just jumped by a third. Can the tier built for price-sensitive members absorb that?
+  url: https://finnhub.io/api/news?id=6846f6785f2dc060e77303948060702c19df463bc05bafd64a9eae0963242d6c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The U.S. National Debt Just Surpassed $40 Trillion. Here's What This Means for Your Portfolio in 2026 and Beyond.
+  summary: The Congressional Budget Office expects this already massive figure to expand to $64 trillion by 2036.
+  url: https://finnhub.io/api/news?id=8d6e0cf1422807b98840fd24ea24e1fcc98a6eb3d1bbba68bd2b23e6cf171cf6

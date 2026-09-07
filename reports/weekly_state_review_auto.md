@@ -1,16 +1,16 @@
 # 周度状态复盘（自动草稿）
 
 - 截至: 2026-09-07
-- 状态: 使用当前市场判断
+- 状态: 数据不可用；仅基于已保存历史
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 59.3
+- 平均置信度: 58.9
 - 平均稳定度: 10.0
 - 趋势凝聚 ready 天数: 2
 
 ## 市场状态计数
-- IGNITION: 2
-- NEWBORN: 5
+- IGNITION: 3
+- NEWBORN: 4
 
 ## 风险覆盖计数
 - NORMAL: 7
@@ -28,7 +28,7 @@
 - 2026-09-02: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-03: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-04: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
-- 2026-09-07: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-09-07: NEWBORN -> DATA_UNAVAILABLE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -59,13 +59,13 @@
 
 ## Market Interpretation Snapshot
 - decision_weight: 0%
-- dayType: normal
-- reason: trend_continuation
-- exceptionalFactors: []
+- dayType: holiday
+- reason: market_closed
+- exceptionalFactors: [market closed]
 - Narrative:
-  - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
+  - 今天是 NYSE 休市日，没有新的交易日观察，以下延续最近一个有效交易日的结构。
   - Available event context: 今天: NYSE Holiday Liquidity [official NYSE holiday calendar]
-  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 14 trading days）。
+  - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 13 trading days）。
   - 短期相对强度开始在 NVDA 等个别资产恢复，尚不足以构成新的 Leadership。
   - RS Recovery Breadth：1/9 非基准资产改善；Strong/Moderate Recovery：1/9 强/中等恢复；RS Diffusion：NOT_CONFIRMED。Actionable Diffusion：NOT_CONFIRMED
   - Reason：没有确认 Leader、没有 breakout、Action Matrix 未转强确认。
@@ -77,7 +77,7 @@
   - Leadership Watch Candidates: []
   - leadershipBreadth: broad
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
-  - Leader Absence Duration: 14 trading days
+  - Leader Absence Duration: 13 trading days
 - universe_breadth_expansion:
   - 观察池广度原始值: 60.0%
   - 观察池广度标签: BROAD_WITHIN_UNIVERSE
@@ -106,12 +106,12 @@
   - 综合主导者: none
   - Current Leader: none
   - Previous Snapshot Leader: none
-  - Leader Absence Since: 2026-08-12
+  - Leader Absence Since: 2026-08-13
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
   - 领导评分: 0.0
   - 领导状态: ABSENT
-  - Leader Absence Duration: 14 trading days
+  - Leader Absence Duration: 13 trading days
   - 较昨日变化: +1 天，评分下降
   - 边界：仅用于观察；本区块不改变 Decision、Gate、Execution、Trader 或 Position Sizing。 数据质量：降级，部分历史指标缺失。
 - Boundary: market interpretation is observation only. Decision weight stays at 0% and it does not enter Gate, Execution, Trader, Action Matrix, Position Sizing, or any decision threshold.

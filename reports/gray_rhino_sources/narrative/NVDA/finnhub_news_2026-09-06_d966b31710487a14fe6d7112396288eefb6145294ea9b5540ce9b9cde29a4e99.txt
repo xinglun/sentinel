@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Taiwan Semiconductor's Market Value Passes $3 Trillion Before 2029
+  summary: Hitting the milestone by the end of 2028 takes about 14% a year -- from a business growing about three times that fast.
+  url: https://finnhub.io/api/news?id=de217b3d126a7da50cad3f3adfe531191ffd394c81f85ee63fcdfd99566c662b

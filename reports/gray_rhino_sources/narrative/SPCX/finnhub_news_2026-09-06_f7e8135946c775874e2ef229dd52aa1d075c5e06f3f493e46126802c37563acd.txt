@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Ways Elon Musk Can Make SpaceX Win the New Space Race
+  summary: SpaceX's space ambitions rely on two key catalysts.
+  url: https://finnhub.io/api/news?id=54fe1630bbb07c7f4e67b035044e6db2163dced117c64087db0dacf55d5f0ff3

@@ -1,6 +1,6 @@
 {
   "date": "2026-09-07",
-  "timestamp": "2026-09-07T08:43:13.731850093+09:00",
+  "timestamp": "2026-09-07T10:58:53.326581928+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
@@ -34,7 +34,7 @@
   "reconciliation_report": null,
   "state_machine": {
     "from_state": "NEWBORN",
-    "to_state": "NEWBORN",
+    "to_state": "DATA_UNAVAILABLE",
     "reset_confirmed": false,
     "reset_blocked": false,
     "soft_reset_applied": false,
@@ -44,19 +44,19 @@
     "reconciliation_mismatch_count": 0,
     "preflight_failed": false
   },
-  "data_quality": "",
+  "data_quality": "SNAPSHOT_CONFLICT",
   "execution_details": null,
   "runtime_identity": {
-    "report_run_id": "b18351a2-68be-4a11-a7d8-3f7e03c503bc",
-    "report_run_at": "2026-09-07T08:43:13.731850093+09:00",
-    "git_commit_sha": "68985f7af9a5c4a92a585c3d3dfa282c95bc30f4",
+    "report_run_id": "a60d8db1-c2e1-4aa5-92a3-5a8e689e64cc",
+    "report_run_at": "2026-09-07T10:58:53.326581928+09:00",
+    "git_commit_sha": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5",
     "git_branch": "main",
     "binary_version": "0.1.0",
     "decision_snapshot_version": "decision-v1",
     "data_snapshot_id": "market-data-2026-09-04",
     "data_snapshot_date": "2026-09-04",
-    "build_git_commit_sha": "68985f7af9a5c4a92a585c3d3dfa282c95bc30f4",
-    "execution_git_commit_sha": "68985f7af9a5c4a92a585c3d3dfa282c95bc30f4"
+    "build_git_commit_sha": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5",
+    "execution_git_commit_sha": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5"
   },
   "data_provenance": {
     "price_history": {
@@ -64,7 +64,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:082e1d7d8f6744942fc37026a1684638cfa395625239346f3083adc59e94408e",
+      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
       "record_count": 10,
       "diagnostic": null
     },
@@ -73,7 +73,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:082e1d7d8f6744942fc37026a1684638cfa395625239346f3083adc59e94408e",
+      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
       "record_count": 10,
       "diagnostic": null
     },
@@ -82,7 +82,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:082e1d7d8f6744942fc37026a1684638cfa395625239346f3083adc59e94408e",
+      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
       "record_count": 10,
       "diagnostic": null
     },
@@ -91,8 +91,8 @@
       "source": "leader-observation-history",
       "as_of": "2026-09-07",
       "snapshot_id": "leadership-2026-09-07",
-      "snapshot_digest": "sha256:22f3d7806f2824c20cfb74c8889893573767eaa6e7f295a9d7a418df3b5cdffe",
-      "record_count": 13,
+      "snapshot_digest": "sha256:bb48e962c5a6b839638b8ca2da829cd4686dcaffc0ac07ca75b975da8a9a07a0",
+      "record_count": 12,
       "diagnostic": null
     },
     "market_change_baseline": {
@@ -127,7 +127,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:082e1d7d8f6744942fc37026a1684638cfa395625239346f3083adc59e94408e",
+      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
       "record_count": 10,
       "diagnostic": null
     }
@@ -142,13 +142,14 @@
     "leadership_snapshot_consistent": false,
     "report_artifact_matches_run": true,
     "diagnostics": [
-      "LEADERSHIP_SNAPSHOT_DEGRADED"
+      "LEADERSHIP_SNAPSHOT_DEGRADED",
+      "SNAPSHOT_CONFLICT"
     ]
   },
   "report_lifecycle": {
     "mode": "GENERATED",
-    "original_generation_revision": "68985f7af9a5c4a92a585c3d3dfa282c95bc30f4",
-    "original_report_run_id": "b18351a2-68be-4a11-a7d8-3f7e03c503bc",
+    "original_generation_revision": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5",
+    "original_report_run_id": "a60d8db1-c2e1-4aa5-92a3-5a8e689e64cc",
     "resend_revision": null,
     "resent_at": null,
     "source": "rust-radar-runner"

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump’s Financial Disclosure Reveals a Personal Stake in Musk’s SpaceX (SPCX)
+  summary: Reuters reported that President Donald Trump bought between $15,001 and $50,000 in Space Exploration Technologies Corp. (NASDAQ:SPCX) shares on June 23, according to a financial disclosure signed August 12 and made public August 22. The purchase, part of more than 1,000 stock trades Trump made that month, came two weeks after SpaceX’s June 12 IPO, […]
+  url: https://finnhub.io/api/news?id=67b686f0b2c321c0c3eff458cbc3d51255d1a2d4f6aef9e0b6a7bd31423a7452

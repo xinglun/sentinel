@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Momentum Signal Suggests the Software Apocalypse Is Over. Don’t Rush to Buy Just Yet.
+  summary: The iShares Expanded Tech-Software Sector ETF (IGV) recently triggered a rare technical “Thrust” signal following a dramatic 24.5% rally over a five-week span.
+  url: https://finnhub.io/api/news?id=a5825d4e573ae8346f75fcf8bd6292e1778319cc7e03ff3bf97c489eb6df71f5

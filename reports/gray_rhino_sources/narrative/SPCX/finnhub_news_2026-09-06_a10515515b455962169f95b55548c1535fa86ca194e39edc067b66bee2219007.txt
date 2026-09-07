@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Starlink? Japan’s $1 Billion BlueBird Play Makes ASTS the National Satellite OS
+  summary: Japan just handed a foreign satellite company something no G20 nation has ever offered before, and the telecom giant most investors are obsessing over right now has nothing to do with it.
+  url: https://finnhub.io/api/news?id=5cbfda37107204a4d306210f49fb1d352f1193dc8a78c4b536d1180209948668

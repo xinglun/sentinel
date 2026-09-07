@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman sees Cybercab giving Tesla a cost advantage in robotaxis
+  summary: Investing.com -- Tesla’s Cybercab could give the company a cost advantage in the autonomous-vehicle market, but its ability to scale robotaxi operations will depend more on software performance than manufacturing costs, Goldman Sachs analysts said. Tesla hosted a Cybercab launch event in Austin on Sept. 3 and has begun offering robotaxi rides in the vehicle, according to the Goldman Sachs research note. The company said it had completed 1 million miles of unsupervised robotaxi operations. Tesla
+  url: https://finnhub.io/api/news?id=5ef826fe7fa9d7a15455135dc550c75c7f1d73f37686269cfe6d4a78afa7c8e8

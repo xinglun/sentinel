@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Own Both Oracle and NuScale for Different Reasons. Here's How They Fit Together.
+  summary: I bought the dip in both Oracle and NuScale. Here's why.
+  url: https://finnhub.io/api/news?id=b40793938842a642033beb13c69ba7da156ae6298c41f34398889d0733596bf4

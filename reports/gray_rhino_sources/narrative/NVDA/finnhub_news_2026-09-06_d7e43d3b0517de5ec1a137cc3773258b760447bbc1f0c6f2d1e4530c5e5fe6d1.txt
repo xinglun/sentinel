@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia: New Upside Catalysts Emerge And Why I'm Raising My Target
+  summary: Nvidia trades at a compelling 14.7x out-year earnings, supported by 70% projected FY28 revenue growth and strong gross margins. Read why NVDA stock is a Buy.
+  url: https://finnhub.io/api/news?id=506e6113788fa9393af2e18faf761bd59f0a6a96190f1041a0774b4f29ffa458

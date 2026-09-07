@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could $10,000 Invested in Nvidia Today Make You a Millionaire?
+  summary: Nvidia stock has jumped significantly over the past decade, and the good news is that it still has multibagger potential.
+  url: https://finnhub.io/api/news?id=af250f8ec57c04287c3dc18058c06b1054540d44bfeab7549b484be705c20ca1

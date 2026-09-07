@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Rezolve AI Stock Plummeted This Week
+  summary: Rezolve's revenue grew nearly 2,000% annually in this year's first half, but investors have questions about the business's outlook.
+  url: https://finnhub.io/api/news?id=7fbc4b1d23527f114ab842a2ce13ebc80f665136cfcc19b16c12702d2a24d40b

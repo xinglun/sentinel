@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Moves Up SpaceX (SPCX)’s Orbital Data Center Timeline, Again
+  summary: Bloomberg reported that Elon Musk said Space Exploration Technologies Corp. (NASDAQ:SPCX) first AI satellites, powered exclusively by NVIDIA Corporation (NASDAQ:NVDA) chips, will launch in the fourth quarter of 2027 and reach “significant scale” in 2028, citing a post on X. Musk wrote “SpaceX, in partnership with Nvidia, has designed a space-optimized Vera Rubin NVL72 system […]
+  url: https://finnhub.io/api/news?id=b5e65c7deb988b3f6874b472ff1560018a67fba0764fa660c647fc3bb4427fc4

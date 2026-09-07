@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 big analyst AI moves: iPhone launch to be negative for Apple stock
+  summary: Investing.com -- Here are the biggest analyst moves in the area of artificial intelligence (AI) for this week.
+  url: https://finnhub.io/api/news?id=7dcfb0b8f2990b29d3e02d434613a2ba4eb9573f4623d1251b041aa7ea7d9b47

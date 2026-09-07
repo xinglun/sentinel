@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s Hugging Face Deal Is a Hedge against Broadcom’s Custom Silicon Threat
+  summary: NVIDIA Corporation (NASDAQ:NVDA) has officially committed billions on AI developer platform Hugging Face for a $12.9 billion. The deal signifies the chipmaker’s move beyond hardware and up the AI stack. The AI chipmaker buying the open-source model hub millions of developers are already using reads differently when compared to Broadcom’s earlier forecast to double its […]
+  url: https://finnhub.io/api/news?id=c698c3cd5183f58ca14f21253e285b623a7df657507fa969a2b9c0d7fa94ce0e

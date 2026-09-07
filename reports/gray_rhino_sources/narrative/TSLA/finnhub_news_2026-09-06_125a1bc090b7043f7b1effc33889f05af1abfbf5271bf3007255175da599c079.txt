@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood's Ark Has Delivered Just a 13.8% Annualized Return Since 2014, Roughly Matching the S&P 500. Should You Trust Her Bold Predictions for 2030?
+  summary: Are her big ideas turning into big returns?
+  url: https://finnhub.io/api/news?id=df9d36808799c445706110900730aa22b81c22ad690a1f8a9e82fcbd6471ab29

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Unveils Gemini 3.8 Flash and Fairwind Program: How to Play GOOGL Stock Here
+  summary: Google recently unveiled Fairwind while launching Gemini 3.8 Flash as the company looks to catch up on the AI race.
+  url: https://finnhub.io/api/news?id=27562989ea13b4f63e25dadce72ed0ca7934a00318e0e2a7a407d69daf98fbc7

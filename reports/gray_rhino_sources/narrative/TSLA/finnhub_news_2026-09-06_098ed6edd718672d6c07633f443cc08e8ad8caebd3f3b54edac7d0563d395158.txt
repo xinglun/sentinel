@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Tesla Cybertruck Has A New Ford Rival That Wants To Outsell It 5-To-1
+  summary: Tesla Inc CEO Elon Musk once had an ambitious goal of producing 250,000 Cybertrucks annually. Demand for the electric pickup truck never reached the levels Musk expected. Auto rival Ford Motor Company is making its electric pickup truck comeback and...
+  url: https://finnhub.io/api/news?id=aa13ddb014684f222f8b4d3ea8d8aa2e32da9fa46bb24f5cadc63c1181f2d080

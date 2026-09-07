@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang Says AGI Has Arrived With OpenAI's GPT-6 Astra
+  summary: Jensen Huang says AGI has arrived after OpenAI's newest model trained on NVIDIA chips. OpenAI has not said it.
+  url: https://finnhub.io/api/news?id=b6e8604ce11738c942b39f1d51a4c44c0dddb24a7b5be95e7819a723a59fbd2b

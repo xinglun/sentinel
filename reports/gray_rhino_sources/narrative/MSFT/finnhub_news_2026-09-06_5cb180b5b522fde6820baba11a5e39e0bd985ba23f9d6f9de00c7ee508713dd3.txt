@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Inheritance That Went Backward: They Gave Mom the Stock They’d Someday Inherit and Eighteen Months Later It Came Back With Thirty Years of Capital Gains Wiped Off the Books
+  summary: A provision buried in the tax code lets families quietly erase decades of capital gains before a single share gets sold, but the window to pull it off is narrow and the traps that kill the strategy are ones most estate attorneys never mention.
+  url: https://finnhub.io/api/news?id=d5a1ba8041b4472f6e2c38a0a5808acb3a80fbccb75eea6075ca96655a0301c0

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Scott Galloway issues grim SpaceX stock price forecast
+  summary: Scott Galloway says SpaceX stock is worth just $10 to $30, far below its $148 price, pointing to swelling losses and a debt-heavy AI bet.
+  url: https://finnhub.io/api/news?id=b2378cc87d4ac58298f5013080c95defeeb84c2e1cf453728233b2590e66cf8d

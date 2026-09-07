@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Dirt Cheap 6.4%-Yielding Dividend Stock That's Beating the Market in 2026
+  summary: Altria has crushed it in 2026, but be well aware of the risks.
+  url: https://finnhub.io/api/news?id=b9feb66b7c7b25eec6d3ecdad30719f4c98e7cd58113325e07fcf20a41e541bb

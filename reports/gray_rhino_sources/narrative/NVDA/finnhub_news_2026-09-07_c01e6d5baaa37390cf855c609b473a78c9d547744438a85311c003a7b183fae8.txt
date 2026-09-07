@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Berkshire Hathaway Stock Be in 5 Years?
+  summary: The range is wide -- and what Greg Abel does with $365 billion of cash and Treasury bills decides which end of it the stock lands on.
+  url: https://finnhub.io/api/news?id=e5c87435729e8188828604516d73cedac234fbfd5d5e5b81561560d4038962fb

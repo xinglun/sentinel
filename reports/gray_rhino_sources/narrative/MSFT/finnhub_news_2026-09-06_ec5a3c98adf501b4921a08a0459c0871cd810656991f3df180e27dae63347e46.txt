@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Snowflake Stock After Its Recent Surge? The Answer Might Shock You.
+  summary: Snowflake just posted another blockbuster quarterly report, but there is one key problem with its stock right now.
+  url: https://finnhub.io/api/news?id=c897cb22cd0eeca5c33c74d444a028427019735809ba3102ab93792dc9c2352a

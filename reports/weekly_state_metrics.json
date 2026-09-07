@@ -1,6 +1,6 @@
 {
   "as_of_date": "2026-09-07",
-  "avg_confidence": 59.26980961517755,
+  "avg_confidence": 58.93883203652081,
   "avg_stability": 10.0,
   "daily_summaries": [
     {
@@ -92,13 +92,13 @@
       "reset_blocked": false,
       "reset_confirmed": false,
       "soft_reset_applied": false,
-      "to_state": "NEWBORN"
+      "to_state": "DATA_UNAVAILABLE"
     }
   ],
-  "data_status": "OK",
+  "data_status": "DATA_UNAVAILABLE",
   "days_analyzed": 7,
-  "generated_at": "2026-09-07T08:43:29.813265665+09:00",
-  "include_current_packet": true,
+  "generated_at": "2026-09-07T10:59:19.606357601+09:00",
+  "include_current_packet": false,
   "latest_context": {
     "capital_absorption_ipo_queue": {
       "configured": true,
@@ -570,14 +570,14 @@
       "change_from_yesterday": {
         "display": "+1 天，评分下降",
         "persistence_days": 1,
-        "score": -85.22318076946561
+        "score": -57.022155160410165
       },
       "configured": true,
       "current_leadership_streak_days": 0,
       "first_observed_at": null,
       "history_coverage": "PARTIAL",
       "last_confirmed_leader": null,
-      "leader_absence_since": "2026-08-12",
+      "leader_absence_since": "2026-08-13",
       "leadership_score": 0.0,
       "observed_leadership_days_in_lookback": "0 天",
       "persistence_days": 0,
@@ -617,12 +617,14 @@
         "trend": "MEDIUM"
       },
       "configured": true,
-      "day_type": "normal",
+      "day_type": "holiday",
       "decision_weight": "0%",
-      "exceptional_factors": [],
+      "exceptional_factors": [
+        "market closed"
+      ],
       "leadership": {
         "breadth": "broad",
-        "leader_absence_duration": 14,
+        "leader_absence_duration": 13,
         "primary": [
           "none"
         ],
@@ -635,7 +637,7 @@
         "Supply: ★★",
         "Macro: ★"
       ],
-      "reason": "trend_continuation",
+      "reason": "market_closed",
       "rotation": {
         "from": [],
         "interpretation": "上涨主要来自 Sentinel 观察池内部的广度改善；全市场 breadth 未被本层测量。",
@@ -670,8 +672,8 @@
   "latest_market_state": "NEWBORN",
   "latest_risk_overlay": "NORMAL",
   "market_state_counts": {
-    "IGNITION": 2,
-    "NEWBORN": 5
+    "IGNITION": 3,
+    "NEWBORN": 4
   },
   "participation_ready_days": 2,
   "risk_overlay_counts": {
