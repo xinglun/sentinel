@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T03:49:19Z",
+  "files": {
+    "contractDigest": "sha256:860cc53604c478ddc00c0d37cc06329c0b83be381561430938a29cc33fb7af87",
+    "contractPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.contract.json",
+    "eventsDigest": "sha256:22342bfaa6cf57a615420ea0ce2b27d181054132cd733ad9a37a4b97fedd5142",
+    "eventsPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.events.jsonl",
+    "outcomeDigest": "sha256:136a7a7b61a8ab2c23daa104a2e5eab324d1fcc23aefe3faf1705244aecfded5",
+    "outcomePath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.outcome.json",
+    "summaryDigest": "sha256:e7d81cdffe60d040a0fc373e3e45bc97c7b3fe94aad39fca99652bcfc13278a4",
+    "summaryPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.summary.json",
+    "taskReportDigest": "sha256:b4d9ea6a42816d863228b8e2f1699b04b9631b9982cb9928a391adfa470b6522",
+    "taskReportMarkdownDigest": "sha256:b07a61901f1f4b04ccb8325af94ec1f035acfca28af63b16f96c271a810dfb62",
+    "taskReportMarkdownPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}

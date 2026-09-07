@@ -603,15 +603,27 @@ fn build_macro_v1_from_event_context(
         MacroEventSourceHealth::Partial => SignalContextSourceStatus::Partial,
         MacroEventSourceHealth::Unavailable => SignalContextSourceStatus::Unavailable,
     };
+    // Holiday Liquidity / ETF Rebalance / Index Reconstitution は同じ公式カレンダー
+    // source から得られる MarketStructure 分類の event であるため、それらが1件でも
+    // 含まれていれば market_structure coverage も scheduled_macro と同じ健全性を持つ。
+    let market_structure_status = if scheduled_macro.iter().any(|item| {
+        item.context_type
+            == crate::features::radar::interface::presentation::SignalContextType::MarketStructure
+    }) {
+        scheduled_status
+    } else {
+        SignalContextSourceStatus::Unavailable
+    };
     let coverage = SignalContextCoverage {
         scheduled_macro: scheduled_status,
+        market_structure: market_structure_status,
         overall: aggregate_coverage([
             scheduled_status,
             SignalContextSourceStatus::Unavailable,
             SignalContextSourceStatus::Unavailable,
             SignalContextSourceStatus::Unavailable,
             SignalContextSourceStatus::Unavailable,
-            SignalContextSourceStatus::Unavailable,
+            market_structure_status,
         ]),
         ..SignalContextCoverage::default()
     };
