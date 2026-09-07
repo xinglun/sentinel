@@ -1,0 +1,71 @@
+{
+  "actor": "agent:claude-code",
+  "after": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "authoritySource": "user-message: push through the WI/PR process, cleanup, 同步到远端main and re-verify with a live report.",
+  "before": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "branch": {
+    "headRevision": "f9fa7f5c5fb4b126365e3cee218d4f70e0d2d2b3",
+    "name": "codex/risk-presentation-delivery-path-integrity",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:860cc53604c478ddc00c0d37cc06329c0b83be381561430938a29cc33fb7af87",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "186ebe679cef54e1e3f68ebd8bffabbe012250e6",
+    "contractBaseRevision": "186ebe679cef54e1e3f68ebd8bffabbe012250e6",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "bc6f161d14312ae792af861e4e1eadc95109a0e5",
+    "mergeParents": [
+      "186ebe679cef54e1e3f68ebd8bffabbe012250e6",
+      "f9fa7f5c5fb4b126365e3cee218d4f70e0d2d2b3"
+    ]
+  },
+  "operationId": "historical-direct-merge-operation-bc6f161d14312ae792af861e4e1eadc95109a0e5",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "186ebe679cef54e1e3f68ebd8bffabbe012250e6",
+    "headRevision": "f9fa7f5c5fb4b126365e3cee218d4f70e0d2d2b3",
+    "mergeCommit": "bc6f161d14312ae792af861e4e1eadc95109a0e5",
+    "number": 0,
+    "url": "historical://direct-merge/bc6f161d14312ae792af861e4e1eadc95109a0e5"
+  },
+  "reason": "GitHub PR #164 (https://github.com/xinglun/sentinel/pull/164) を作成し、Build, Lint & Test / Audit Daily Guard / task-list-completed の全 CI チェック通過後に gh pr merge でマージした(commit bc6f161d)。finalize-plan 時に Contract の resourceContext を provider=local/pullRequest=not-requested で先に確定していたため、finalize はその束縛に合わせて direct_merge_no_pr 形式で記録するが、実態は PR #164 経由の正規マージである。マージ後、正確な worktree とローカルブランチを削除した。",
+  "receiptId": "historical-direct-merge-risk-presentation-delivery-path-integrity-bc6f161d14312ae792af861e4e1eadc95109a0e5",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-presentation-delivery-path-integrity",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/bc6f161d14312ae792af861e4e1eadc95109a0e5",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-risk-presentation-delivery-path-integrity"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": [
+      "historical_resource_state_unknown"
+    ]
+  },
+  "runtimeDigest": "sha256:ece00d0b596c4674eaf37225e95a83aacec66a4c33f0bb89857f5dcaecde3a50",
+  "runtimeVersion": "0.2.85",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-07T03:50:00Z",
+  "workItemId": "risk-presentation-delivery-path-integrity",
+  "worktree": {
+    "branch": "codex/risk-presentation-delivery-path-integrity",
+    "headRevision": "f9fa7f5c5fb4b126365e3cee218d4f70e0d2d2b3",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-risk-presentation-delivery-path-integrity",
+    "worktreeId": "historical-direct-merge-bc6f161d14312ae792af861e4e1eadc95109a0e5"
+  }
+}
