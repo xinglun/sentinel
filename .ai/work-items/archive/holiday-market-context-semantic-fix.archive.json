@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-07T01:38:12Z",
+  "files": {
+    "contractDigest": "sha256:bf12b83473b52428aed967c13ab6e606a054e3f82dea0d85c73e77865a39fb73",
+    "contractPath": ".ai/work-items/archive/holiday-market-context-semantic-fix.contract.json",
+    "eventsDigest": "sha256:0983b658cf5cbf91bce18ee267680b3599f46e3b37a22ac016006944da746ac1",
+    "eventsPath": ".ai/work-items/archive/holiday-market-context-semantic-fix.events.jsonl",
+    "outcomeDigest": "sha256:de0ac30d44be9af5589af08b149a761acea2c2bd3e2b2da8ae42ad045997e1d0",
+    "outcomePath": ".ai/work-items/archive/holiday-market-context-semantic-fix.outcome.json",
+    "summaryDigest": "sha256:0b055deddc3d4b060989557cbfedb5ed6ac7d5309779513bcf7f5f419558b30e",
+    "summaryPath": ".ai/work-items/archive/holiday-market-context-semantic-fix.summary.json",
+    "taskReportDigest": "sha256:d21ba378d0e4c79dccdb73d2d887155079ab21f8c8b35157724f43db1a0aa079",
+    "taskReportMarkdownDigest": "sha256:5e77ce9b9624e0e20ca7d02dc5e3aed945fdd30dcfe04f279e45bbd093bc01fe",
+    "taskReportMarkdownPath": ".ai/work-items/archive/holiday-market-context-semantic-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/holiday-market-context-semantic-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "holiday-market-context-semantic-fix"
+}

@@ -287,7 +287,10 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         flow_acceleration,
         language,
     );
-    let day_type = if exceptional_factors.is_empty() {
+    let is_holiday_liquidity_day = primary_context.starts_with("Holiday Liquidity");
+    let day_type = if is_holiday_liquidity_day {
+        day_type_holiday(language)
+    } else if exceptional_factors.is_empty() {
         day_type_normal(language)
     } else {
         day_type_exceptional(language)
@@ -469,6 +472,10 @@ pub(crate) fn build_market_interpretation_view_model_with_baseline(
         current_decision_weight_value: "0%".to_string(),
         narrative_label: narrative_label(language).to_string(),
         narrative_values,
+        report_date_label: report_date_label(language).to_string(),
+        report_date_value: packet.date.to_string(),
+        latest_trading_session_label: latest_trading_session_label(language).to_string(),
+        latest_trading_session_value: packet.market_features.date.to_string(),
         day_type_label: day_type_label(language).to_string(),
         day_type_value: day_type.to_string(),
         day_type_reason_label: day_type_reason_label(language).to_string(),
@@ -1579,6 +1586,15 @@ fn market_interpretation_narrative_values(
         ("exceptional", Language::ZhCn) => "今天属于例外驱动日。".to_string(),
         ("exceptional", Language::EnUs) => "Today is an exception-driven day.".to_string(),
         ("exceptional", Language::JaJp) => "今日は例外駆動の日です。".to_string(),
+        ("holiday", Language::ZhCn) => {
+            "今天是 NYSE 休市日，没有新的交易日观察，以下延续最近一个有效交易日的结构。".to_string()
+        }
+        ("holiday", Language::EnUs) => {
+            "Today is an NYSE holiday with no new trading session; the structure below carries forward the last valid trading day.".to_string()
+        }
+        ("holiday", Language::JaJp) => {
+            "本日はNYSE休場日であり新規の取引セッションはない。以下は直近の有効な取引日の構造を引き継いでいる。".to_string()
+        }
         _ => "Today is a normal trend continuation.".to_string(),
     });
     if !next_observation.is_empty() {
@@ -1780,13 +1796,15 @@ fn exceptional_factor_from_primary_context(
     primary_context: &str,
     language: Language,
 ) -> Option<String> {
+    if primary_context.starts_with("Holiday Liquidity") {
+        return Some(exceptional_factor_holiday_liquidity(language));
+    }
     let factor = match primary_context {
         "Macro Event" => Some(exceptional_factor_macro_surprise(language)),
         "Index Reconstitution" => Some(exceptional_factor_index_reconstitution(language)),
         "ETF Rebalance" => Some(exceptional_factor_etf_rebalance(language)),
         "Pre-Earnings Waiting" => Some(exceptional_factor_major_earnings(language)),
         "Major Event Waiting" => Some(exceptional_factor_unusual_rotation(language)),
-        "Holiday Liquidity" => Some(exceptional_factor_unusual_rotation(language)),
         "Quarter-end Rebalancing" | "Month-end Rebalancing" => {
             Some(exceptional_factor_etf_rebalance(language))
         }
@@ -2036,6 +2054,22 @@ fn market_interpretation_notice(language: Language) -> &'static str {
         Language::ZhCn => "仅作解释输出。Decision Weight 固定为 0%，不会进入 Gate / Execution / Trader / Action Matrix / Position Sizing。",
         Language::EnUs => "Observation only. Decision Weight is fixed at 0%, and this layer does not enter Gate / Execution / Trader / Action Matrix / Position Sizing.",
         Language::JaJp => "説明出力のみ。Decision Weight は 0% に固定され、Gate / Execution / Trader / Action Matrix / Position Sizing には入らない。",
+    }
+}
+
+fn report_date_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "reportDate",
+        Language::EnUs => "reportDate",
+        Language::JaJp => "reportDate",
+    }
+}
+
+fn latest_trading_session_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "latestTradingSession",
+        Language::EnUs => "latestTradingSession",
+        Language::JaJp => "latestTradingSession",
     }
 }
 
@@ -2295,6 +2329,14 @@ fn day_type_exceptional(language: Language) -> &'static str {
     }
 }
 
+fn day_type_holiday(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "holiday",
+        Language::EnUs => "holiday",
+        Language::JaJp => "holiday",
+    }
+}
+
 fn day_type_reason(
     primary_context: &str,
     trend_breadth_mode: TrendBreadthMode,
@@ -2302,6 +2344,13 @@ fn day_type_reason(
     flow_acceleration: f64,
     language: Language,
 ) -> &'static str {
+    if primary_context.starts_with("Holiday Liquidity") {
+        return match language {
+            Language::ZhCn => "market_closed",
+            Language::EnUs => "market_closed",
+            Language::JaJp => "market_closed",
+        };
+    }
     match (
         primary_context,
         trend_breadth_mode,
@@ -2481,6 +2530,14 @@ fn exceptional_factor_unusual_rotation(language: Language) -> String {
         Language::ZhCn => "unusual rotation".to_string(),
         Language::EnUs => "unusual rotation".to_string(),
         Language::JaJp => "unusual rotation".to_string(),
+    }
+}
+
+fn exceptional_factor_holiday_liquidity(language: Language) -> String {
+    match language {
+        Language::ZhCn => "market closed".to_string(),
+        Language::EnUs => "market closed".to_string(),
+        Language::JaJp => "market closed".to_string(),
     }
 }
 

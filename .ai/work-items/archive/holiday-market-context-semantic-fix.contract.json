@@ -1,0 +1,63 @@
+{
+  "acceptanceCriteria": [
+    "Holiday Liquidity/ETF Rebalance/Index Reconstitutionのcontext_typeがMarketStructureになり、休場日レポートでContext Typeが'MARKET STRUCTURE / HOLIDAY LIQUIDITY'のように正しく表示される(GDPが表示されない)",
+    "休場日(2026-09-07)のレポートでdayType値が'holiday'、reason値が'market_closed'になり、ナラティブ文言も'normal trend continuation'ではなくholiday向けの文言になる",
+    "レポートにreportDate(2026-09-07)とlatestTradingSession(2026-09-04)の2行が表示される",
+    "cargo test --lib が全件(987件)通過し、cargo clippy --all-targets -- -D warnings が警告0で通過する",
+    "data ブランチから復元した2026-09-07の実データで cargo run --release -- radar --date 2026-09-07 を実行し、3点の修正が期待通り出力されることを目視確認する"
+  ],
+  "authority": "authorized",
+  "baseRevision": "57001135c0fd3a77ad35906573bd45c52c5fe168",
+  "createdAt": "2026-09-07T01:28:55Z",
+  "goal": "(1) FutureCalendarObservation.kindをSignalContextTimelineEntryまで伝播し、Holiday Liquidity/ETF Rebalance/Index ReconstitutionをSignalContextType::MarketStructureに正しく分類する(Pre-Earnings/Major Event Waiting/真のMacroEventはScheduledMacroのまま維持)。(2) day_type/day_type_reason/exceptional_factorの'Holiday Liquidity'判定をprefix一致に修正し、新しいday_type値'holiday'とreason値'market_closed'を追加する。(3) MarketInterpretationViewModelにreport_date/latest_trading_sessionの2フィールドを追加し、Markdown/Telegram HTML両方に表示する。Gate/Execution/Trader/Action Matrix/Position Sizing等の取引判断ロジックは一切変更しない。",
+  "intent": "2026-09-07(NYSE Labor Day)のレポートをユーザーが精査した結果、Signal Context層に3件のtaxonomy/presentation不具合が見つかった: (1) Holiday Liquidity(および同種のIndex Reconstitution/ETF Rebalance)が経済指標カテゴリの必須プレースホルダ値(MacroEventType::Gdp)をそのまま表示し'Context Type: SCHEDULED MACRO / GDP'という誤った分類が出力されていた。(2) primary_context文字列が'Label: Title'形式の結合文字列であるにもかかわらず、day_type/exceptional_factors判定が裸のラベルとの完全一致で比較していたため、Holiday Liquidityが検出されてもdayTypeが常に'normal'のままだった。(3) 休場日でもBreadth/RS/Supply Phase等の数値が実際には直近有効取引日(packet.market_features.date)のものを継承しているのに、report_date(packet.date)との区別がレポート上に一切表示されていなかった。",
+  "mode": "code",
+  "outOfScope": [
+    "Gate",
+    "Execution",
+    "Trader",
+    "Action Matrix",
+    "Position Sizing",
+    "RS Diffusion",
+    "Leader",
+    "NO_TRADE",
+    "src/features/radar/application/execution_gate.rs",
+    "src/features/radar/domain/action_matrix.rs",
+    "docs/**",
+    "reports/**",
+    "scripts/**",
+    "Pre-Earnings Waiting",
+    "Major Event Waiting のexceptional factor分類変更"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a172d2f8bca1f809367e1231aba44626c281ff9fc3c59d5091258b4705d74338",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/holiday-market-context-semantic-fix",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-holiday-market-context-semantic-fix"
+  },
+  "risk": "low: signal_context_taxonomy_and_presentation_only",
+  "scope": [
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "holiday-market-context-semantic-fix"
+}
