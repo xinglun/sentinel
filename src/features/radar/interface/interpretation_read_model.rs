@@ -129,9 +129,11 @@ pub(crate) fn build_interpretation_layer_view_model(
             .primary_context
             .as_ref()
             .map(|item| {
-                if item.context_type
-                    == crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
-                {
+                if matches!(
+                    item.context_type,
+                    crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
+                        | crate::features::radar::interface::presentation::SignalContextType::MarketStructure
+                ) {
                     format!(
                         "{}: {}",
                         signal_context_primary_context_label(signal_context.primary_context),

@@ -47,6 +47,9 @@ pub(crate) struct SignalContextEventReadModel {
 pub(crate) struct SignalContextTimelineEntry {
     pub event_date: NaiveDate,
     pub event_name: String,
+    /// 経済指標の種類ではなく、この event が市場構造(取引カレンダー)由来か
+    /// 純粋なマクロ経済指標由来かを区別する。context_type 分類に使う。
+    pub kind: FutureCalendarKind,
     pub event_type: String,
     pub source: String,
     pub importance: Option<MacroEventImportance>,
@@ -153,7 +156,11 @@ fn build_timeline_entries(
             entries.push(SignalContextTimelineEntry {
                 event_date: observation.event_date,
                 event_name: discovery.event_name.clone(),
-                event_type: format!("{:?}", observation.event_type),
+                kind: observation.kind,
+                event_type: calendar_observation_event_type_detail(
+                    observation.kind,
+                    observation.event_type,
+                ),
                 source: observation.source.clone(),
                 importance: Some(observation.importance),
                 lifecycle: format!("{:?}", observation.lifecycle),
@@ -193,6 +200,7 @@ fn build_timeline_entries(
             entries.push(SignalContextTimelineEntry {
                 event_date,
                 event_name: observation.subject.clone(),
+                kind: FutureCalendarKind::MacroEvent,
                 event_type: format!("{:?}", observation.event_type),
                 source: observation.consensus_source.clone(),
                 importance: None,
@@ -217,6 +225,31 @@ fn build_timeline_entries(
             .then_with(|| a.summary.cmp(&b.summary))
     });
     entries
+}
+
+/// `FutureCalendarObservation.event_type` は非マクロ由来の`kind`(HolidayLiquidity 等)でも
+/// 必須フィールドとして placeholder 値(`MacroEventType::Gdp`)を持つため、そのまま表示すると
+/// 誤って"GDP"のような経済指標名を露出させてしまう。市場構造由来の`kind`では、その`kind`自体を
+/// detail として使う。
+fn calendar_observation_event_type_detail(
+    kind: FutureCalendarKind,
+    event_type: MacroEventType,
+) -> String {
+    match kind {
+        FutureCalendarKind::MacroEvent => format!("{:?}", event_type),
+        other => future_calendar_kind_detail_label(other).to_string(),
+    }
+}
+
+fn future_calendar_kind_detail_label(kind: FutureCalendarKind) -> &'static str {
+    match kind {
+        FutureCalendarKind::IndexReconstitution => "INDEX_RECONSTITUTION",
+        FutureCalendarKind::EtfRebalance => "ETF_REBALANCE",
+        FutureCalendarKind::HolidayLiquidity => "HOLIDAY_LIQUIDITY",
+        FutureCalendarKind::PreEarningsWaiting => "PRE_EARNINGS_WAITING",
+        FutureCalendarKind::MajorEventWaiting => "MAJOR_EVENT_WAITING",
+        FutureCalendarKind::MacroEvent => "MACRO_EVENT",
+    }
 }
 
 fn expectation_timeline_label(event_type: &ExpectationEventType) -> &'static str {

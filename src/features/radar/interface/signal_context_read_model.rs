@@ -366,12 +366,14 @@ fn external_primary_item<'a>(
     v1: &'a SignalContextV1,
 ) -> Option<&'a crate::features::radar::interface::presentation::SignalContextItem> {
     let item = v1.primary_context.as_ref()?;
-    if item.context_type
-        != crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
-        || !future_context
-            .timeline_entries
-            .iter()
-            .any(|entry| entry.event_name == item.title)
+    if !matches!(
+        item.context_type,
+        crate::features::radar::interface::presentation::SignalContextType::ScheduledMacro
+            | crate::features::radar::interface::presentation::SignalContextType::MarketStructure
+    ) || !future_context
+        .timeline_entries
+        .iter()
+        .any(|entry| entry.event_name == item.title)
     {
         Some(item)
     } else {
