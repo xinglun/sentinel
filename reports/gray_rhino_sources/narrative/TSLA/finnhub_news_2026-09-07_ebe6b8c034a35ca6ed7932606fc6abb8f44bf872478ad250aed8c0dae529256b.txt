@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Says This Time Is Different. Wall Street Is Split on Whether to Believe It
+  summary: Tesla posted record deliveries and 25% revenue growth in the same quarter it missed earnings by nearly 40% and burned over a billion in free cash flow. Wall Street cannot agree on which number tells the real story.
+  url: https://finnhub.io/api/news?id=b00df3789445700e3808c68150d32d8ac532b32ccdddb90f87bb0d2a86857517

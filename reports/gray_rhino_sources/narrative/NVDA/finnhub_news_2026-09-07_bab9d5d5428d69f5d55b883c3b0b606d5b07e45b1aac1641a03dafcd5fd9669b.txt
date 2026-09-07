@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar's Power Generation Backlog Just Hit $72 Billion. The Construction Cycle Barely Matters Anymore.
+  summary: The construction industry giant has become a compelling AI-driven winning stock.
+  url: https://finnhub.io/api/news?id=4a729d7e3a6e8ca0e894aec5b980f5438d95f79edfd86290591b737842e5ffd0

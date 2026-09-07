@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hot Payrolls Reload the September Hike Bet and Push Wall Street Into a Quiet Labor Day on the Back Foot
+  summary: Wall Street closed Friday in the red after a much stronger than expected August payrolls report reset the odds on a September rate hike above 50%. Nvidia reclaimed the AI throne as its market cap ballooned back toward a record, Tesla's silent Cybercab launch drew a regulator probe, and Lululemon collapsed on a broken outlook.
+  url: https://finnhub.io/api/news?id=f18133eba8cfe4de1a0040ef723c5f04e69debc44f0a362604012a2d4d428379

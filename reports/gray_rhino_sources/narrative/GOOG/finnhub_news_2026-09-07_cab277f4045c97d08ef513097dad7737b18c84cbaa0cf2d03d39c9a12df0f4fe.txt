@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Apple Stock a Buy Now Ahead of its Product Launch Event?
+  summary: Ahead of Wednesday's launch, AAPL faces a tricky mix: strong demand, rising costs, tight supply, and a premium stock valuation.
+  url: https://finnhub.io/api/news?id=3ee56adc580aeb1cfdce31ba37534e7d5f9b8531f9126d2dfb8877003cf73321

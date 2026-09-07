@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Corporation (MSFT) Is a Trending Stock: Facts to Know Before Betting on It
+  summary: Microsoft (MSFT) has received quite a bit of attention from Zacks.com users lately. Therefore, it is wise to be aware of the facts that can impact the stock's prospects.
+  url: https://finnhub.io/api/news?id=f3d2df4793dfe16c53afe7a1ea125e15770cc4c5b71d913e9640275a33885915

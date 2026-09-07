@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weight loss is just the beginning of GLP-1's: Novo Nordisk CEO
+  summary: Yahoo Finance Executive Editor Brian Sozzi chats with Novo Nordisk CEO Mike Doustdar about the true timeline for how GLP-1s will impact the food and airline industries, and what the future of weight loss and preventative health looks like over the next decade.
+  url: https://finnhub.io/api/news?id=b46f69d07e94378e750f3d2f11bd8b2436d620a7118b7c75308ea6ee80253b62

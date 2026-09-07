@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple’s Sept. 9 Event Could Change Everything
+  summary: Apple's September event promises foldable hardware and next-generation chips, but the real question is whether a company battling a memory pricing crisis and China exposure can keep its decade-long streak of rewarding patient shareholders intact.
+  url: https://finnhub.io/api/news?id=7c46515f3e0360d092fa73827d57f18f53306c6242bdeedafe81ba35a78d0a87

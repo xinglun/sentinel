@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What a $10,000 Investment in SpaceX Could Be Worth by September 2027
+  summary: For more aggressive investors who believe in SpaceX's long-term vision, buying shares at today's prices may present a favorable risk-to-reward profile.
+  url: https://finnhub.io/api/news?id=f87f95d449c62efd7736a6db3be9fbe6b9e4ef5cae02af2349977aff7a84fb5e

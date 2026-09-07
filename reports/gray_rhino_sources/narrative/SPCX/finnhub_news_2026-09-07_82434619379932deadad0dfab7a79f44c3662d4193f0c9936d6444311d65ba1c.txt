@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Rival Claims €10 Billion Pipeline After First Orbit. How Will Stock React?
+  summary: Isar Aerospace reached orbit on flight two and claims a €10 billion pipeline. What it means for SPCX stock now.
+  url: https://finnhub.io/api/news?id=07a726c1f12015dbc08ddd06d2bf983e2931cba3754bd162f2d82c9583768531

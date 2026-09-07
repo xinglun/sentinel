@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global Surgical Robots Market to Reach $10.6 Billion in 2026, Driven by AI Integration and Minimally Invasive Surgery
+  summary: Report Features In-Depth Profiles of Abbott, Great Robotics, Intuitive Surgical, Johnson & Johnson, Medtronic, Panasonic, Renishaw, Siemens Healthineers, Smith+Nephew, Stryker, Zimmer Biomet, and FreehandDublin, Sept. 07, 2026 (GLOBE NEWSWIRE) -- The "Surgical Robots Market by Offering of Surgical Robot Developers, Deployment Model, Type of Surgical Procedure Supported, Application Area, End Users and Key Geographical Regions - Trends and Forecast Till 2035" has been added to ResearchAndMarkets.
+  url: https://finnhub.io/api/news?id=4f2802aa4ef24aef7667975d5a4b559ef64630292829d06fe129c3b40461cdab

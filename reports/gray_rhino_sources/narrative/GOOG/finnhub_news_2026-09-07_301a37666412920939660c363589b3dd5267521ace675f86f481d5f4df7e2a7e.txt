@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Meta Are Now Serious Competition to Uncle Sam: Big Tech's AI Debt Boom 'Driving' Treasury Yields Higher, Says Market Commentator
+  summary: Combined bond issuance from Big Tech companies, including their special-purpose vehicles, is projected to surge to a record $320 billion this year, roughly 70% of total Treasury bond issuance. Big Tech’s Debt Load Is Exploding According to data shared by The Kobeissi Letter on X, the $320 billion figure would mark a 60% year-over-year increase of roughly $120 billion and represent nearly nine times the level seen in 2024. “We believe the AI debt boom is now driving Treasury yields higher,” the m
+  url: https://finnhub.io/api/news?id=5847164e575b5aaeecaa3a17bdffc69e2f12e74e45c3aa5d3deb3d84dd8ab8ae

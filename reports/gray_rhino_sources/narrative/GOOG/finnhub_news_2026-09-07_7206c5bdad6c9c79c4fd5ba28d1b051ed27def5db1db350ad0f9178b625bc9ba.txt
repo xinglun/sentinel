@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Pentagon Doubled Down on Its Anthropic Blacklist. Why Amazon and Alphabet Investors Should Care
+  summary: A senior Pentagon official said on September 3 that the Pentagon still considers Anthropic a supply-chain risk, despite comments that had suggested the dispute might ease. The military had already announced classified-AI arrangements with eight technology providers, including Amazon Web Services and Google. The conflict matters to Amazon.com, Inc. (NASDAQ:AMZN) and Alphabet Inc. (NASDAQ:GOOGL) because […]
+  url: https://finnhub.io/api/news?id=8cde0bc3f47096b0460460de64d08d21e54af110d2ebae6d11dbf2bd3e54bb30

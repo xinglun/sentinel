@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down Nearly 50% in 2026, Is BigBear.ai Stock Cheap Enough to Finally Buy?
+  summary: The tech stock has fallen considerably from a high of more than $9 that it hit last year.
+  url: https://finnhub.io/api/news?id=a19621c58dde115029fb8286fee43cbbd40d94423844643a837c143b3990a1eb

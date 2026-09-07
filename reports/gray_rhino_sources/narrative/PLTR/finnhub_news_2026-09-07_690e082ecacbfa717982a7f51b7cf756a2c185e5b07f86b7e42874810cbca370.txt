@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Pulled $700 Million From IGV Hours Before Snowflake Reignited Software
+  summary: Investors yanked $700 million from the top software ETF in a single session, and within hours a major earnings report threatened to make that timing look catastrophic. Whether the selloff was a blunder or a bullet dodged depends on a deeper AI disruption debate that has kept the fund negative all year.
+  url: https://finnhub.io/api/news?id=8e593eda15a8a5e2cb6a56e330c9bff38b88c816bcc465d34f6fd84cfe25481e

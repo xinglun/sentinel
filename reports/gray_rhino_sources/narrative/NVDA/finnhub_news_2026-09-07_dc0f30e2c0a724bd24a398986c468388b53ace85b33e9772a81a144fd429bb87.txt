@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Nike's Stock Bottomed Out?
+  summary: The footwear and apparel stock has been in a free fall over the past few years.
+  url: https://finnhub.io/api/news?id=e975fd90f7b798480493cc314dccf3ca1f6659db1ed151380c8712c762c87b12

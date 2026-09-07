@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Tech Giants Flash Stunning Market Signal
+  summary: AI's enormous financing needs are spilling into an unexpected market
+  url: https://finnhub.io/api/news?id=1310e9180075f970c2c517c9fb196410fa7f00b17c9aedaa1d122cfebafd6117

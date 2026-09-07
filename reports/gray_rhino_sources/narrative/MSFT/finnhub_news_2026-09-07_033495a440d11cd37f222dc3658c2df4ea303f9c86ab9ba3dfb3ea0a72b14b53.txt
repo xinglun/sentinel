@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet May Be the Mag 7 Stock Investors Are Underestimating
+  summary: Google Cloud is growing at twice the rate of Azure while GOOG trades at half the valuation multiple, and the gap between perception and reality may be the biggest opportunity hiding in plain sight among mega-cap tech stocks.
+  url: https://finnhub.io/api/news?id=eac300c64a3a9a78cebf60cea3ed85304c066ace4b6e74247e3ebe481aef4821

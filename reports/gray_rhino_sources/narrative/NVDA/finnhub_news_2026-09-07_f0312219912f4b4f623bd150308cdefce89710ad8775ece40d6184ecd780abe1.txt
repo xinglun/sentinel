@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everyone Is Watching Nvidia. But This Memory Stock Could Be the Next AI Winner
+  summary: While investors pile into Nvidia, a quieter memory supplier has already outpaced it with gains topping 700% in a year, and analysts think the run is nowhere near finished.
+  url: https://finnhub.io/api/news?id=609fd8dc7ca05cb32273a37e4bf4e411a5b7aaa02536fa011c5e01eb09f77ee1

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Next Group Of 'AI Winners': The Cost-Cutters
+  summary: Nvidia (NVDA) catalyzed the generative AI investment boom, driving trillions in market cap gains and shifting investor focus across AI infrastructure plays.
+  url: https://finnhub.io/api/news?id=5710e60987ad9487cba93826884f39851267cd3d0b30de734da3fde16c90d0c6

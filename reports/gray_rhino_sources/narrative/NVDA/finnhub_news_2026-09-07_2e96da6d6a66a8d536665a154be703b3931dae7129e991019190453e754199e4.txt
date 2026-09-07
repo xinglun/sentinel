@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What If the Clarity Act Doesn't Pass This Year? Here Are 3 Ways to Bulletproof Your Crypto Portfolio.
+  summary: Plan for the contingency now so that you won't be chasing the market later.
+  url: https://finnhub.io/api/news?id=04cf90d6658bb59287c971a7ecbdea09a06259ea4b3739333c02f24ba9cf0d35

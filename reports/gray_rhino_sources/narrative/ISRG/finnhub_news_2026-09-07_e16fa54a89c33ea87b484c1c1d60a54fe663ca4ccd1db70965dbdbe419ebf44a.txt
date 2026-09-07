@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG's Ion Platform Is Quietly Becoming a Second Growth Engine
+  summary: Intuitive Surgical's Ion platform is gaining momentum, with rising procedures, a larger installed base and global expansion fueling a second growth engine.
+  url: https://finnhub.io/api/news?id=30f82c3d71c728c02b8284a8860ea904bbbc22691e7920cba19df99641cdfb6e

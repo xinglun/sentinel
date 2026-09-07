@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPHD: Why SCHD Is Better For High Dividends And Low Volatility
+  summary: SPHD ETF targets conservative income investors but sacrifices total returns versus peers. Find out why I assign SPHD a Sell rating.
+  url: https://finnhub.io/api/news?id=207d57dc95f4b0832c624f2f44c2ae8adf3d1703b954ba56598cae11b56a2a1a

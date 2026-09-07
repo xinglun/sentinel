@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Has Fallen Nearly 20% in 2026: One Wall Street Firm Says It’s Going to Double and Then Some
+  summary: Oracle has shed nearly a fifth of its value while its cloud peers climbed, and one Wall Street firm just slapped a price target on it that implies the stock needs to do something it has never done before.
+  url: https://finnhub.io/api/news?id=6c83e9c94a0178a6b7195bd461678399dea08eb79e60975a22da9a91c1aadfdf

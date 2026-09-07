@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the AI Infrastructure Stock That Has Tripled in 2026 (Hint: It Can Still Double)
+  summary: The incredible demand for storage in AI data centers suggests that Seagate's terrific rally is sustainable.
+  url: https://finnhub.io/api/news?id=fbe5d8410b7d1b708c2cab4a0510c6f53d16bb2ac6d818171d688f56b5b0dab5

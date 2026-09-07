@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Coming 10 Year Decline In Stocks
+  summary: Warning: Shiller PE and S&P 500 earnings suggest overvaluation, unsustainable growth, and margin reversionârisking a downturn and weak 10-year returns. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=b55cff791a33b606526f8d256b2128cbfae2b66019c86bb560f0d801ea3eded7

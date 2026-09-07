@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Is Building a Trillion-Dollar AI Opportunity. Is $600 Next?
+  summary: Azure just crossed a revenue milestone that caught Wall Street off guard, and Microsoft's backlog tells a story the headline numbers barely hint at. Whether the stock can push toward $600 depends on one number that most investors are not watching closely enough.
+  url: https://finnhub.io/api/news?id=cb0691a9cce468da03f653426f3bea8ca9143c1dd284f0365fe1f7bfe52756fc

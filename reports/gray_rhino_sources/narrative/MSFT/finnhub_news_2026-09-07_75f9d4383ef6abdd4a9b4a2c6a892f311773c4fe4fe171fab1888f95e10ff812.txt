@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your RMD Doesn’t Have to Be Cash: He Moved the Shares Themselves Out of the IRA, Paid the Exact Same Tax and Never Had to Sell at the Bottom
+  summary: Most retirees assume a forced IRA withdrawal means selling shares whether they want to or not, but a little-known IRS rule lets you satisfy the requirement without liquidating a single position, even in a falling market.
+  url: https://finnhub.io/api/news?id=33e272f3cb6e571752a851e30c7d08dc9fc95975235b551f94d9ee2abe436493

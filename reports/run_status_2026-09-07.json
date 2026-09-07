@@ -1,6 +1,6 @@
 {
   "date": "2026-09-07",
-  "timestamp": "2026-09-07T13:11:06.394194108+09:00",
+  "timestamp": "2026-09-08T03:51:21.536482004+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
@@ -14,7 +14,7 @@
     },
     "finnhub": {
       "status": "succeeded",
-      "accepted": 150,
+      "accepted": 154,
       "rejected": 0
     },
     "fred": {
@@ -47,16 +47,16 @@
   "data_quality": "SNAPSHOT_CONFLICT",
   "execution_details": null,
   "runtime_identity": {
-    "report_run_id": "88d0be05-91a8-4543-ab71-e996599eda6e",
-    "report_run_at": "2026-09-07T13:11:06.394194108+09:00",
-    "git_commit_sha": "164672c8378dc11ca5dead93cb32733ba37faaeb",
-    "git_branch": "main",
+    "report_run_id": "9802fe42-3503-4aa6-bc49-ea261507a7e0",
+    "report_run_at": "2026-09-08T03:51:21.536482004+09:00",
+    "git_commit_sha": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+    "git_branch": "develop",
     "binary_version": "0.1.0",
     "decision_snapshot_version": "decision-v1",
     "data_snapshot_id": "market-data-2026-09-04",
     "data_snapshot_date": "2026-09-04",
-    "build_git_commit_sha": "164672c8378dc11ca5dead93cb32733ba37faaeb",
-    "execution_git_commit_sha": "164672c8378dc11ca5dead93cb32733ba37faaeb"
+    "build_git_commit_sha": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+    "execution_git_commit_sha": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f"
   },
   "data_provenance": {
     "price_history": {
@@ -64,7 +64,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:ea27d6c77d6276ce69cef3d9e47adf28307878037939ba159b9fa124e866b499",
+      "snapshot_digest": "sha256:ca22e1463511c9ff43b27888b846ea52ddbb294588a72e44fd0faac3b3edde6f",
       "record_count": 10,
       "diagnostic": null
     },
@@ -73,7 +73,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:ea27d6c77d6276ce69cef3d9e47adf28307878037939ba159b9fa124e866b499",
+      "snapshot_digest": "sha256:ca22e1463511c9ff43b27888b846ea52ddbb294588a72e44fd0faac3b3edde6f",
       "record_count": 10,
       "diagnostic": null
     },
@@ -82,7 +82,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:ea27d6c77d6276ce69cef3d9e47adf28307878037939ba159b9fa124e866b499",
+      "snapshot_digest": "sha256:ca22e1463511c9ff43b27888b846ea52ddbb294588a72e44fd0faac3b3edde6f",
       "record_count": 10,
       "diagnostic": null
     },
@@ -127,7 +127,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:ea27d6c77d6276ce69cef3d9e47adf28307878037939ba159b9fa124e866b499",
+      "snapshot_digest": "sha256:ca22e1463511c9ff43b27888b846ea52ddbb294588a72e44fd0faac3b3edde6f",
       "record_count": 10,
       "diagnostic": null
     }
@@ -148,8 +148,8 @@
   },
   "report_lifecycle": {
     "mode": "GENERATED",
-    "original_generation_revision": "164672c8378dc11ca5dead93cb32733ba37faaeb",
-    "original_report_run_id": "88d0be05-91a8-4543-ab71-e996599eda6e",
+    "original_generation_revision": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+    "original_report_run_id": "9802fe42-3503-4aa6-bc49-ea261507a7e0",
     "resend_revision": null,
     "resent_at": null,
     "source": "rust-radar-runner"

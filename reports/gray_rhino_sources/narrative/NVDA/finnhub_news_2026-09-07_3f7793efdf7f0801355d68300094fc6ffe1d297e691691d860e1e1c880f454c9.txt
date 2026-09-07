@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Stat That Makes Costco Hard to Ignore this September
+  summary: The warehouse chain's latest sales update gave investors another reason to watch September closely.
+  url: https://finnhub.io/api/news?id=cb18f714fda83bd60a692cbfddf9735cdf2cc14fe004910f1889b74157a4f418

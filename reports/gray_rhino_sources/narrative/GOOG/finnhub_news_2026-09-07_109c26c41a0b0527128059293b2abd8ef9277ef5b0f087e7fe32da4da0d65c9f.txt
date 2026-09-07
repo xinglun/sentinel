@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agentic Commerce Optimisation: Azoma on Which Platforms Help Brands Get Recommended by AI Shopping Agents
+  summary: Harvard Business Review reports that 90% of B2B purchases could flow through AI agent exchanges by 2028. Azoma sets out what agentic commerce optimisation platforms should deliver for enterprise brands and digital shelf teamsLondon, Sept. 07, 2026 (GLOBE NEWSWIRE) -- Azoma, the Agentic Commerce Optimisation platform that helps brands drive revenue through AI shopping agents like ChatGPT, Google Gemini, Amazon Rufus and Walmart Sparky, today set out what enterprise brands and digital shelf teams
+  url: https://finnhub.io/api/news?id=6505a24d500a7b597e4eef69527ff58ac5358256f26b2407de3d1d9dd4c7f41d

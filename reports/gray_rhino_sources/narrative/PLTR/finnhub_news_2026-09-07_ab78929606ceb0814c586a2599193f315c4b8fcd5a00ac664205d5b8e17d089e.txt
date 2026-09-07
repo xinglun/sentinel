@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Could Make a Dramatic Move Over the Next Year (Hint: It Implies a Big Move)
+  summary: Palantir has seen a parabolic jump in its stock price following its earnings report, and it can sustain its impressive momentum in the coming year.
+  url: https://finnhub.io/api/news?id=20b226e6c9de799af015715ae850e20f687ef6ebd708d6c3a0d6f26ed91066a1

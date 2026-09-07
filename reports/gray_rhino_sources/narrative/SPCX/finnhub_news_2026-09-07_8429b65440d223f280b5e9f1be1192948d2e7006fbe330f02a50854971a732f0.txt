@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Launches 80th Starlink Mission of 2026. 3 Reasons Why Its Rocket Switch Matters.
+  summary: SpaceX completed its 80th Starlink launch of the year on Sunday, sending 27 satellites to low-Earth orbit from California.
+  url: https://finnhub.io/api/news?id=ae80f8e98a441ce9c3303d85188a4fc99a391cd2188126bac5959db846515cb4

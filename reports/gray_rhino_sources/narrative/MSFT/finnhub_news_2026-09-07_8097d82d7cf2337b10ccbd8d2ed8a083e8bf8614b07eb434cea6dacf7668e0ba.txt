@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 100 ETF Just Dumped Nike and Colgate for 4 AI Stocks. Here’s What That Means for Your Portfolio
+  summary: The iShares S&P 100 ETF just swapped out a toothpaste giant and a mall REIT for four AI infrastructure plays, and the move reveals something uncomfortable about what this so-called blue-chip fund has quietly become.
+  url: https://finnhub.io/api/news?id=42fbcd571f4e0ff319ea17c0fe94bd2d9085859a6a211459ff345ebc0a878b0d

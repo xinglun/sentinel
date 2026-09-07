@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock Up 254% in a Year: Should You Buy, Hold or Sell?
+  summary: NBIS surges 253.5% in a year on AI infrastructure demand, but high capital needs and valuation raise questions about further upside.
+  url: https://finnhub.io/api/news?id=a2f39a72ba6e03d4d185cc86683f05d1657b804872a1add5b2f505d525700744

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Tesla Be in 5 Years?
+  summary: After lagging the market in the past five years, investors hope Tesla can get in the fast lane and produce winning returns in the future.
+  url: https://finnhub.io/api/news?id=683112dbe6e3e42ddc04e3cb5bc1c98aa73aee5d216a080d08c26fcea2c2e043

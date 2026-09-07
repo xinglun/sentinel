@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Close to a New All-Time High. This Number Will Determine If It Keeps Climbing
+  summary: Microsoft sits within reach of a record high, yet one line item buried in its cash flow statement could either launch the stock through that ceiling or keep it rangebound for another year.
+  url: https://finnhub.io/api/news?id=45b43e32c69fcd907bccf6934cff36a1afb8be143e2cd263c03748647c2f4f20

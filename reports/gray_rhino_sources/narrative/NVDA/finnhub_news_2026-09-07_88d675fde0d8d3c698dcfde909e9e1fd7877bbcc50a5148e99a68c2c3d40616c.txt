@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRWV Stock Takes a 13% Hit in 3 Months: Time to Buy, Hold or Bail Out?
+  summary: CoreWeave's huge AI-cloud backlog fuels growth, but soaring capital spending, debt and losses raise questions about its next move.
+  url: https://finnhub.io/api/news?id=237ae467380e7f5046eb8be771225b74aa0ed8b12a0d9ed293e0eb4a759d9384

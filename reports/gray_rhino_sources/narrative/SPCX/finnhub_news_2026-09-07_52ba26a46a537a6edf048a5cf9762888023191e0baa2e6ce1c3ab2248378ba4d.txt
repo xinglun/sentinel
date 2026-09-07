@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs SpaceX: Elon Musk’s Two Companies Are Chasing the Same AI Prize. Only One Is Positioned to Win It
+  summary: Elon Musk is running two separate companies toward the same AI finish line, but their strategies, cash positions, and timelines could not be more different. One already earns revenue from compute today while the other burns billions building the infrastructure it needs just to compete.
+  url: https://finnhub.io/api/news?id=613dc5dd04d9a6e3bc5a51c2757dfd228be70ec34d8022d9d772e483283aa72c

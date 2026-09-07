@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Upcoming Anthropic and OpenAI IPOs could trigger early tax-loss selling
+  summary: Investing.com - Fund managers preparing for a wave of mega-cap artificial intelligence initial public offerings could trigger an early wave of tax-loss selling across underperforming blue-chip stocks, according to a report by Evercore ISI published on Sunday.
+  url: https://finnhub.io/api/news?id=91fc0fe23cb1052962d27849ff44d9c5ae3ad1da4ad4cd823f0162c83976a7b9

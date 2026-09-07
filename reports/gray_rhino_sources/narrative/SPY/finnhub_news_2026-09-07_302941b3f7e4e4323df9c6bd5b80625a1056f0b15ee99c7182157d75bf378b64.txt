@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: After Nvidia's Blowout, The AI Trade's Next Leg Is One Layer Down
+  summary: Nvidia (NVDA) delivered a Q2 FY2027 revenue blowout and guided for ~70% FY2028 growth, yet shares showed muted reaction, reflecting mega cap-like behavior.
+  url: https://finnhub.io/api/news?id=86a31b1e274c891ff38b774ba76d994779beba8957da9d46ae6fa56610c0d1c8

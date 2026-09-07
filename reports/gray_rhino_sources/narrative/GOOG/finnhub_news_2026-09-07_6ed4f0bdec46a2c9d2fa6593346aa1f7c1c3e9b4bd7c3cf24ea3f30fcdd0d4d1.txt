@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Bill Ackman Sells Alphabet Stock and Buys a Mega-Cap Stock Down 42% From Its High
+  summary: Money manager Bill Ackman recently added Netflix stock to his portfolio.
+  url: https://finnhub.io/api/news?id=8d32481f9c84c3ca2b511a135e42cf9ce1e624a8a747641f58512160f1aedde3

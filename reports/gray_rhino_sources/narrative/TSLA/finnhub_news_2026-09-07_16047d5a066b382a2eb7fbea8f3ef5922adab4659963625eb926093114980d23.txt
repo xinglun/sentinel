@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Wants to Be Seen as an AI Company
+  summary: Tesla's management is pitching investors on an AI future while the income statement tells a very different story, and the gap between those two realities is getting harder to ignore.
+  url: https://finnhub.io/api/news?id=c860b0afd2868019118be6f8007031121b3b486289f41293d3727fe685e06fa3

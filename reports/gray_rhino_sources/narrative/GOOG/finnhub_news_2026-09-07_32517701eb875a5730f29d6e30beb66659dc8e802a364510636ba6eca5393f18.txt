@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom: Market Is In Disbelief; Don't Be Mistaken
+  summary: Broadcom ramps multi-gigawatt AI chip capacity with OpenAI/Anthropic as valuation compresses. Click for more on AVGO stock.
+  url: https://finnhub.io/api/news?id=3fb8395b8442cc3160f1217a7f7556b2986ec575fbb2ee4160effa8d6061f111

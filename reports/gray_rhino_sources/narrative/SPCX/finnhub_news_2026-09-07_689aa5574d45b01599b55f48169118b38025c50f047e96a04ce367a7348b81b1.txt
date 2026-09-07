@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cell Tower REITs: No Threat From Above
+  summary: Cell tower REITs (SBAC, AMT, CCI) now trade at 12-year low multiples, reflecting trough earnings and fully baked-in Dish and satellite risks.
+  url: https://finnhub.io/api/news?id=3873a540b155b690910bfad885297ae468e613350ec7710251db74651866a1f0

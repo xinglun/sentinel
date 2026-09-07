@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most People Asking "What Should I Invest In?" Are Overthinking It. Start With Index Funds and These 4 Stocks.
+  summary: The most important investment move is getting started.
+  url: https://finnhub.io/api/news?id=93180b1bc757d71d438da8407a077087cc59e9a4c91348a7be90023013e6e996

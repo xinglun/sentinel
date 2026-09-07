@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Wrong With PepsiCo Stock?
+  summary: The stock has drastically underperformed the market over the past five years.
+  url: https://finnhub.io/api/news?id=f5605ef5323b02d2ef76dfd77a0ea86515c9486606a9079d3b9e296b5237daec

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will SpaceX Stock Get Back to $200 Before the End of 2026?
+  summary: The stock soared above $200 in its early trading days, but it's been struggling since then.
+  url: https://finnhub.io/api/news?id=687bf3690c2e70f32c6d7f07347cd6e5f2d773e2fea105ae8048b17d24b286e0

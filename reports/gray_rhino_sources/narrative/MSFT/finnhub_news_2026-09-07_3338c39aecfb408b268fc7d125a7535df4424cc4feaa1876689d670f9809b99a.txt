@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Apple May Be the Safest AI Stock Nobody Calls an AI Stock
+  summary: Wall Street obsesses over the hyperscalers burning billions on AI infrastructure, but one mega-cap with 2.5 billion active devices keeps getting left out of the conversation, and that oversight may be exactly where the opportunity hides.
+  url: https://finnhub.io/api/news?id=e4892590c0acf4caf6687e6804e32ca4e16379ef5abc4560a18eb47e8d755755

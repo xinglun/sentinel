@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bernie Sanders Wants to Ban Superintelligence. What It Means for Microsoft and Amazon
+  summary: Senator Bernie Sanders and Representative Greg Casar announced forthcoming legislation on September 3 that would permanently ban artificial superintelligence and temporarily pause advanced AI development until a federal regulator sets safety rules. The proposal would also direct the United States to pursue international agreements and establish penalties for violations. Microsoft Corporation (NASDAQ:MSFT) and Amazon.com, Inc. […]
+  url: https://finnhub.io/api/news?id=0c382cbcde9ba4178268a50dcc2b63d7dbc8013a1e3fd61d2e9e43c49ce4ea8e

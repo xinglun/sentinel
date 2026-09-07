@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Down 34% From Its High. History Suggests a $10,000 Investment Will Be Worth This Much by Mid-2027.
+  summary: The stock peaked shortly after its IPO, but shares have started to slide in recent weeks.
+  url: https://finnhub.io/api/news?id=fd92797ced937dba42f13f70f9d8960d7b9a6d43376d5688a275e0ccd09ec700

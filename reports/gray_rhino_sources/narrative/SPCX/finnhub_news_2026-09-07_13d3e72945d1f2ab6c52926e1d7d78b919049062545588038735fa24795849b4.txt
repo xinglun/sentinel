@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Historical Reasons I'll Be Completely Avoiding Anthropic's Upcoming and Potentially Record-Breaking IPO
+  summary: Anthropic stands ready to dethrone Elon Musk’s SpaceX, which rewrote Wall Street’s record books in June.
+  url: https://finnhub.io/api/news?id=77b6e2b17425f9d18a1c48a352f8f37cb100e4306b58a535a7e64991c4193660

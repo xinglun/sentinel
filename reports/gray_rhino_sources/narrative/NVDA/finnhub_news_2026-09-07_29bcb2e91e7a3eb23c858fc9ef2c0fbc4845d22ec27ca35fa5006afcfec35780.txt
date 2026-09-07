@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Is Behind The AI Chip Shift Nobody Is Talking About
+  summary: AMD and NVIDIA both posted explosive AI quarters, but they are betting on opposite visions of how the AI economy will actually be won. One of those visions fits the next phase of the buildout far better than the market currently appreciates.
+  url: https://finnhub.io/api/news?id=ed58ccb2a6d417bdb7eafb56f307cb7f915d6a5ce939224d2e07ec6d5f917b32

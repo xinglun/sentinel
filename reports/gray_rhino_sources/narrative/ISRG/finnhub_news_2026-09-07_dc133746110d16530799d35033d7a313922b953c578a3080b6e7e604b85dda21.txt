@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical (ISRG): Embracing AI Innovations in Robotic Surgery for Future Growth
+  summary: Sands Capital, an investment management company, released its second-quarter 2026 investor letter for “Sands Capital Global Growth Fund”. The letter can be downloaded here. Global Growth seeks the best growth businesses worldwide, leveraging a research team that explores both developed and emerging markets for sustainable competitive advantages. In the quarter, global equities rebounded strongly, driven […]
+  url: https://finnhub.io/api/news?id=bd62df8ef1027cea2e815ad3bbb21d584987832cf3ac67fb352bc6b373aa8446

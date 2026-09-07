@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Balances Strengths And Weaknesses
+  summary: Alphabet demonstrates prodigious Google Cloud growth, with quarterly revenue surging from $20B to $25B in just one quarter. Read more on GOOG stock here.
+  url: https://finnhub.io/api/news?id=545a50528e5eaf4bca00a26348d85ff0e35761f63e3bd82082ea382dc5c80590

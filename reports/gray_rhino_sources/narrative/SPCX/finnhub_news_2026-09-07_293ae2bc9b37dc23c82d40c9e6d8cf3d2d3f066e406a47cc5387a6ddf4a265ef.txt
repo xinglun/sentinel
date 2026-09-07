@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Just Did Something For the 3rd Time in Over 100 Years. If History Is Any Guide, Prepare For This to Come Next.
+  summary: Stocks look expensive when viewed through a long-term lens.
+  url: https://finnhub.io/api/news?id=09c257cd025a98dcb07f874aab7a522ca62e8074a6c852cfd47b1d2c93f822f0

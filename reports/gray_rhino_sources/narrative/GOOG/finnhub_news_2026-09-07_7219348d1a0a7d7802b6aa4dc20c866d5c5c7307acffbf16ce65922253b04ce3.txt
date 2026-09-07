@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom vs Marvell: One of These AI Chip Stocks Is a Clear Winner
+  summary: Broadcom and Marvell both just reported blowout AI chip quarters, but the gap between them runs far deeper than raw revenue numbers. Picking the right one depends on what kind of risk you are actually willing to take.
+  url: https://finnhub.io/api/news?id=10cacaa0c276487f38fdc13443277bde152a7bc9aa6864dd73b60840f308cc19

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are Only a Handful of Nasdaq-100 Stocks That Yield Over 3%. Here's My Top Pick to Buy Now.
+  summary: For my money, Mondelez is the best bet of the Nasdaq-100's high-yield names.
+  url: https://finnhub.io/api/news?id=2174d70a766081bdd8a73346df33a60a96c42372d1e9faef2a5fadd7bbf61936

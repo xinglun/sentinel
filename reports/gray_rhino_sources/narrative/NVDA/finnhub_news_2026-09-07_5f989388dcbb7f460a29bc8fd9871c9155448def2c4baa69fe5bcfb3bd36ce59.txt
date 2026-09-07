@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s (NVDA) Strong Results Reinforce Long Term Outlook
+  summary: Sustainable Growth Advisers (SGA), an investment management company, released its second-quarter 2026 investor letter for its “U.S. Large Cap Growth Strategy.” The letter can be downloaded here. SGA focuses on building high-conviction portfolios of quality growth businesses expected to achieve mid-teens earnings growth with less variability. Their investment strategy aims to protect and compound client capital. […]
+  url: https://finnhub.io/api/news?id=1c26bc114e29547cdc275a10e3b3f68ea97c9bfc5b1e963ea89938a599c93c7d

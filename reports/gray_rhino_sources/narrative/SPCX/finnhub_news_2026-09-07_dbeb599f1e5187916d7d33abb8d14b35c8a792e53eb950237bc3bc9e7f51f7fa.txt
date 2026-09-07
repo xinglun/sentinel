@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Space Stock: AST SpaceMobile vs. L3Harris Technologies
+  summary: AST SpaceMobile's shares have come back to Earth. Is it now a better buy than L3Harris Technologies?
+  url: https://finnhub.io/api/news?id=76e00d25b51fd0f1381f575cd868e0e7088ae02c68c57521c96c7d00b66a5337

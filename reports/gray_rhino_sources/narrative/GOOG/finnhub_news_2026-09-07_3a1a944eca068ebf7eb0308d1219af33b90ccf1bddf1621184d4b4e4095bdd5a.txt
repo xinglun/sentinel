@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Exclusive: Ineffable Intelligence adds six ‘cofounders,’ hiring veterans from Google DeepMind, InstaDeep and venture firm Flying Fish
+  summary: The startup, valued at $5 billion, wants to build superintelligence using the same methods that DeepMind used for breakthroughs in games-playing AI.
+  url: https://finnhub.io/api/news?id=74156aa767fae12fb20380e430a04380b1dcf7c2b3d01928311a0f577393d8f3

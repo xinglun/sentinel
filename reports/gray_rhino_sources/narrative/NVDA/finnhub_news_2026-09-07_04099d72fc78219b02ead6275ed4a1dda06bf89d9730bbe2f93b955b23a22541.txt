@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Elastic Stock Bounced 48.3% Higher Last Month
+  summary: Elastic just posted one of its strongest months on record. Here's what drove the surge, and how the stock's valuation compares to a slower-growing rival.
+  url: https://finnhub.io/api/news?id=aae8f31d39acf063f9d20c8e7056d9e8c1a6f9053762c20752fabff6964db140

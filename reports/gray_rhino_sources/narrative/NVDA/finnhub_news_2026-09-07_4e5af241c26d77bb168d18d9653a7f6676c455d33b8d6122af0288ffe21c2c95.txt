@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Retirement Really Looks Like With Average Savings and Social Security at 62
+  summary: You won't be living in the lap of luxury, but there are ways to improve your situation.
+  url: https://finnhub.io/api/news?id=b47aa42086bc083c794d247a8d27d1648fd93261ed994988e3b12a8eb16352c4
