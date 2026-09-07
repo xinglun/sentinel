@@ -3,16 +3,16 @@
   "assets": [
     {
       "symbol": "FIG",
-      "gravity": null,
-      "confidence": null,
-      "source": null,
+      "gravity": "UNDERVALUED",
+      "confidence": "VERY_LOW",
+      "source": "ANALYST_CONSENSUS",
       "provider": "Finnhub",
-      "as_of_date": "2026-09-07",
-      "source_health": "UNAVAILABLE",
-      "quality_reason": "PROVIDER_FAILURE",
-      "evidence_count": 0,
+      "as_of_date": "2026-09-01",
+      "source_health": "PARTIAL",
+      "quality_reason": "RECOMMENDATION_FALLBACK",
+      "evidence_count": 18,
       "relative_ratio": null,
-      "message": "provider request failed"
+      "message": "recommendation consensus fallback"
     },
     {
       "symbol": "GOOG",
@@ -81,16 +81,16 @@
     },
     {
       "symbol": "SPCX",
-      "gravity": null,
-      "confidence": null,
-      "source": null,
+      "gravity": "UNDERVALUED",
+      "confidence": "LOW",
+      "source": "ANALYST_CONSENSUS",
       "provider": "Finnhub",
-      "as_of_date": "2026-09-07",
-      "source_health": "UNAVAILABLE",
-      "quality_reason": "PROVIDER_FAILURE",
-      "evidence_count": 0,
+      "as_of_date": "2026-09-01",
+      "source_health": "PARTIAL",
+      "quality_reason": "RECOMMENDATION_FALLBACK",
+      "evidence_count": 43,
       "relative_ratio": null,
-      "message": "provider request failed"
+      "message": "recommendation consensus fallback"
     },
     {
       "symbol": "SPY",
@@ -100,10 +100,10 @@
       "provider": "Finnhub",
       "as_of_date": "2026-09-07",
       "source_health": "UNAVAILABLE",
-      "quality_reason": "PROVIDER_FAILURE",
+      "quality_reason": "INSUFFICIENT_EVIDENCE",
       "evidence_count": 0,
       "relative_ratio": null,
-      "message": "provider request failed"
+      "message": "insufficient valuation evidence"
     },
     {
       "symbol": "TSLA",
@@ -120,16 +120,16 @@
     },
     {
       "symbol": "U",
-      "gravity": null,
-      "confidence": null,
-      "source": null,
+      "gravity": "UNDERVALUED",
+      "confidence": "LOW",
+      "source": "ANALYST_CONSENSUS",
       "provider": "Finnhub",
-      "as_of_date": "2026-09-07",
-      "source_health": "UNAVAILABLE",
-      "quality_reason": "PROVIDER_FAILURE",
-      "evidence_count": 0,
+      "as_of_date": "2026-09-01",
+      "source_health": "PARTIAL",
+      "quality_reason": "RECOMMENDATION_FALLBACK",
+      "evidence_count": 34,
       "relative_ratio": null,
-      "message": "provider request failed"
+      "message": "recommendation consensus fallback"
     }
   ],
   "observation_only": true

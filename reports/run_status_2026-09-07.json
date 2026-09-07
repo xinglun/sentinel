@@ -1,6 +1,6 @@
 {
   "date": "2026-09-07",
-  "timestamp": "2026-09-07T10:58:53.326581928+09:00",
+  "timestamp": "2026-09-07T11:13:45.218231282+09:00",
   "preflight": null,
   "decisioning": "succeeded",
   "evidence_collection": "succeeded",
@@ -47,8 +47,8 @@
   "data_quality": "SNAPSHOT_CONFLICT",
   "execution_details": null,
   "runtime_identity": {
-    "report_run_id": "a60d8db1-c2e1-4aa5-92a3-5a8e689e64cc",
-    "report_run_at": "2026-09-07T10:58:53.326581928+09:00",
+    "report_run_id": "00b865ca-aa73-4d33-8770-e72d7a6ab9ba",
+    "report_run_at": "2026-09-07T11:13:45.218231282+09:00",
     "git_commit_sha": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5",
     "git_branch": "main",
     "binary_version": "0.1.0",
@@ -64,7 +64,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
+      "snapshot_digest": "sha256:99d98bba65fefe79fd3cb5ae821429a79e2104bde89994425a639de2cfda0538",
       "record_count": 10,
       "diagnostic": null
     },
@@ -73,7 +73,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
+      "snapshot_digest": "sha256:99d98bba65fefe79fd3cb5ae821429a79e2104bde89994425a639de2cfda0538",
       "record_count": 10,
       "diagnostic": null
     },
@@ -82,7 +82,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
+      "snapshot_digest": "sha256:99d98bba65fefe79fd3cb5ae821429a79e2104bde89994425a639de2cfda0538",
       "record_count": 10,
       "diagnostic": null
     },
@@ -127,7 +127,7 @@
       "source": "market-data-provider",
       "as_of": "2026-09-07",
       "snapshot_id": "market-data-2026-09-07",
-      "snapshot_digest": "sha256:d1539126f858356f7c4ec52dd5f1a14e2d7cee8939506bb89c3d4206be28e1ad",
+      "snapshot_digest": "sha256:99d98bba65fefe79fd3cb5ae821429a79e2104bde89994425a639de2cfda0538",
       "record_count": 10,
       "diagnostic": null
     }
@@ -149,7 +149,7 @@
   "report_lifecycle": {
     "mode": "GENERATED",
     "original_generation_revision": "eb457cfe35e46b8ac9f2a687e15335fa020f4db5",
-    "original_report_run_id": "a60d8db1-c2e1-4aa5-92a3-5a8e689e64cc",
+    "original_report_run_id": "00b865ca-aa73-4d33-8770-e72d7a6ab9ba",
     "resend_revision": null,
     "resent_at": null,
     "source": "rust-radar-runner"
