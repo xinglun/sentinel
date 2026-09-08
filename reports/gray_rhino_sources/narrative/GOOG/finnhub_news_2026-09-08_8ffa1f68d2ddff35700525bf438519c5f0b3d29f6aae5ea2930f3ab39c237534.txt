@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Anthropic to stop Decart AI deal while investing in counts ahead of expected IPO' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-09-08/anthropic-abandonaria-compra-de-decart-ai-por-us-6-000-millones
+  url: https://finnhub.io/api/news?id=7f3db3ac644f4fa4931c5b5c3689bbcc470a7eb4e7a8010935fc7df81cd20dcf

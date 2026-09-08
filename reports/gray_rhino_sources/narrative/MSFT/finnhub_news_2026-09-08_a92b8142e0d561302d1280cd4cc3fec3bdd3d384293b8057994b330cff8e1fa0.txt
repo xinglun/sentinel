@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk Up Over 40% Past Month: Can the Rally Last?
+  summary: SanDisk has surged more than 40% in a month on AI-driven memory demand. Can strong fundamentals and an upbeat outlook keep the rally going?
+  url: https://finnhub.io/api/news?id=eeae82cc500d8a6551b3bd18241777e324c6dffcf2fcccc0088b50bb8ee91c86

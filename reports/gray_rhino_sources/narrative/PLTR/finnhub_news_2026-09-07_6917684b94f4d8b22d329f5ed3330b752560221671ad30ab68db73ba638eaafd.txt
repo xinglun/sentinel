@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Surged 51% in August. The Rest of Tech Wasn't Even Close
+  summary: Strong earnings and a bigger full-year outlook pushed Palantir far ahead of the broader technology sector.
+  url: https://finnhub.io/api/news?id=aa9eb4fe642f504f634dcae8d06df547f4ca83de56f0d7e206a1d48d4ff4f56a

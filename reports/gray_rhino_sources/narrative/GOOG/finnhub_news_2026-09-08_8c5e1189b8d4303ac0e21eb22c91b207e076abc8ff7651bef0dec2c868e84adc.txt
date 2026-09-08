@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accenture and Google Cloud Launch Gemini Enterprise Business Group to Scale AI Adoption
+  summary: Accenture (NYSE:ACN) and Google Cloud (NASDAQ:GOOG) have launched the Accenture Gemini Enterprise Business Group, a new joint initiative designed to help organisations adopt and scale Google’s Gemini Enterprise artificial intelligence platform. The initiative will draw on Accenture’s existing workforce of nearly 50,000 Google Cloud-skilled professionals while establishing a dedicated team of 1,000 forward deployed engineers.
+  url: https://finnhub.io/api/news?id=2d9bf49637669fdd42487af886a5f21cded46fbe550561e09cf6291078aa6979

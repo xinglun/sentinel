@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD: OpenAI's Astra Changes Everything (Double Upgrade)
+  summary: OpenAIâs Astra boosts agentic AI demand for GPUs/CPUsâAdvanced Micro Devices, Inc. could benefit via Helios. Click for why AMD is upgraded, plus risks & valuation.
+  url: https://finnhub.io/api/news?id=3cbc0cf6104f7f635f964e8cda2be1dd002293dbed9070435e4b540165739c45

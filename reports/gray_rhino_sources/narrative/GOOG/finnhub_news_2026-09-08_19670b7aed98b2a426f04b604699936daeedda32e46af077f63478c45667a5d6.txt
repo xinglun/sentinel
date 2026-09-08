@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Is Pulling Back From Its High. Here’s Why I’d Buy the Dip.
+  summary: Alphabet just posted blowout earnings and yet the stock has shed more than 10% from its peak, leaving investors caught between soaring Cloud growth and a balance sheet that suddenly looks very different from a year ago.
+  url: https://finnhub.io/api/news?id=acaac3e231b219dead21cf35728ae4ba89f07213d32012fca0a667dddee6c654

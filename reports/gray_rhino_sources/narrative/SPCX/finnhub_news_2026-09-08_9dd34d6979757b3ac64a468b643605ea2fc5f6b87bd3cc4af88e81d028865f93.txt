@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel upgraded, Reddit initiated: Wall Street's top analyst calls
+  summary: Intel upgraded, Reddit initiated: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=953fd7c963e0c5c7fefec12d69c7c78db5d8c24be2387123c7a503f0a80f1920

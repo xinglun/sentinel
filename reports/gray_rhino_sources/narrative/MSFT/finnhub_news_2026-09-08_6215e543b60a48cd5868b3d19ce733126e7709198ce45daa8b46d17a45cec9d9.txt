@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: eMazzanti Technologies' Messaging Architects Partners with miniOrange to Deliver Unified Identity and Access Management for Legacy and Hybrid IT Environments
+  summary: eMazzanti Technologies, Hoboken-based Microsoft Partner and leading managed services provider (MSP), today announced that its Messaging Architects division has formed a strategic partnership with miniOrange, a global Identity and Access Management (IAM) platform with US locations in New York City and elsewhere. The alliance delivers unified authentication, Single Sign-On (SSO), Multi-Factor Authentication (MFA), Privileged Access Management (PAM), and Unified Endpoint Management (UEM) to busines
+  url: https://finnhub.io/api/news?id=0f185ed59a4ecc822134fc52c09111ab0367f27fd69c78158158aa6346de008e

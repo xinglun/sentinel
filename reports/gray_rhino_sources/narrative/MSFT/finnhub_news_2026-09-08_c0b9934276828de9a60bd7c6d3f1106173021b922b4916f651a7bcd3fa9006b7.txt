@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Stock Pops as Amazon Deal Ramps Up AI Ambitions
+  summary: The chip maker and online retailer are teaming up to build data-center infrastructure, including chips and optical networking products.
+  url: https://finnhub.io/api/news?id=6c3b4f8f8a8f53b4b3d5260871a8cd175f6e151469b858166abe91b06d7c1041

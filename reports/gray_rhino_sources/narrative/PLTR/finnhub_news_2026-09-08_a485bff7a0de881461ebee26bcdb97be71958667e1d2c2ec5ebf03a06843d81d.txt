@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Becomes Palantir’s Secret Weapon as AI Compute Wars Heat Up
+  summary: Palantir is winning the AI sovereignty race but has a glaring gap in its stack, and a little-known European cloud player just stepped in to fill it at a scale that could reshape how enterprises buy sovereign AI.
+  url: https://finnhub.io/api/news?id=dd1d46ca6508d17b431cd83989035e855281db3a57b64b6a6c2816cf9b1196e7

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What investors 'really' need to see from Oracle earnings this week
+  summary: Oracle (ORCL) is reporting quarterly earnings results on Thursday. Bloomberg Intelligence senior technology credit analyst Robert Schiffman shares what investors should be keeping an eye on in the earnings print, especially from a debt-issuance perspective.
+  url: https://finnhub.io/api/news?id=34db42e3448575350d25d2202986ae48a28d403696ffcb85925d7e845adfdb2d

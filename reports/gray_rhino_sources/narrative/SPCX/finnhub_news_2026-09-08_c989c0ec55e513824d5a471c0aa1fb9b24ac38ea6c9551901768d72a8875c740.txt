@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Robinhood compete with banks after underwriting Oura's IPO?
+  summary: Great Hill Capital Chairman and Managing Member Thomas Hayes and AllSource Investment Management founder and Managing Partner Patrick Kennedy join Yahoo Finance Executive Editor Brian Sozzi to discuss Robinhood (HOOD) serving as the underwriter for Oura ahead of its IPO and whether the platform is accumulating a reputation as a bank.
+  url: https://finnhub.io/api/news?id=dc688c48db78c3a08cc178270307b4248c7da62812929a50d4bc511665064a62

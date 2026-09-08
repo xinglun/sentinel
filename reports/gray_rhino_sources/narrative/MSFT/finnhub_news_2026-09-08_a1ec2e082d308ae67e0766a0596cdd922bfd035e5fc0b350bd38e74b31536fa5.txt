@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Stock Keeps Falling While Wall Street Holds Firm—Who’s Right?
+  summary: Oracle's stock has cratered while Wall Street analysts stubbornly hold some of the most bullish price targets in the mega-cap space. With earnings dropping Thursday, something has to give.
+  url: https://finnhub.io/api/news?id=6deb037430801de54af43e0fc63d9d660d40be5b9c4a00689c53ab617813f3e4

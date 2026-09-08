@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Over the Air Updates Market for Automotive Report Now Available — See Why Volvo's 2.5M-Vehicle Rollout and BMW's 12M Remote Upgrades Signal OTA Has Become Core to Vehicle Strategy
+  summary: 380-Page Report Forecasts Market Growth from $5.61B (2026) to $17.1B by 2033, Profiling Tesla, Volkswagen, Hyundai, GM, Mercedes-Benz, BYD, and 12 Other Key Players Over the Air Updates Market Over the Air Updates Market Dublin, Sept. 08, 2026 (GLOBE NEWSWIRE) -- The "Over the Air Updates Market for Automotive by Technology, Application, Vehicle, EV, Communication & Region - Global Forecast to 2033" report has been added to ResearchAndMarkets.com's offering.The over the air updates market for au
+  url: https://finnhub.io/api/news?id=063f71edf0140d83cda4e49e5164eb74a6e628c19d46f436893372b51fd95cc7

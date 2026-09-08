@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Are Buying Palantir for a Story That Is Not Quite True
+  summary: Palantir's blowout growth numbers look like pure software success, but a closer look at how the company actually wins its deals reveals a business model that the current valuation may be dangerously misreading.
+  url: https://finnhub.io/api/news?id=249c98e206ff056538898d38d129ac8205340e4e05638b84f8a9077490db46a1

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s New Partner Says Banks Want AI on Machines They Can Unplug
+  summary: Big banks are demanding AI systems they can physically disconnect from the internet, and the CEO of one of Nvidia's newest partners says that changes everything about where the next trillion dollars in AI compute actually gets built.
+  url: https://finnhub.io/api/news?id=a2bd274efde77bd159c943f55af06f018f8e82ee5da6dcc35c419d38f8d35141

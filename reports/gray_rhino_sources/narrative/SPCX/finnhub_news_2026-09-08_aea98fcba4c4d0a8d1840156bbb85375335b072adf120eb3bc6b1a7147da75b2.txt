@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Sees an AI Bargain in the Company That Owns the New York Stock Exchange
+  summary: Bill Ackman just placed a major bet on the owner of the New York Stock Exchange, arguing that investors have the AI threat to this business exactly backwards.
+  url: https://finnhub.io/api/news?id=edaa964a8264f5b74e23577fb617bff5ba074b6e7d61650604a37198e50dd605

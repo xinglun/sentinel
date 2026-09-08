@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Could Nearly Triple America's Data Center Footprint by 2030
+  summary: The AI boom is becoming a power-and-real-estate story as developers race to build much larger computing campuses.
+  url: https://finnhub.io/api/news?id=aac17b508bc0201b1557f35fb79dec877156ba3c26125ffa1c757c491bbc1f1d

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Drifts as Cybercab Debate Rages
+  summary: The debate around  Tesla  stock continues to center on Cybercab, Tesla’s steering wheel-less, purpose-built robo-taxi, which entered service in Texas this past week.  A lot is riding on Cybercab.  Tesla is morphing from an electric-vehicle maker into a “physical AI” company, with the AI-trained self-driving car as its first killer application.
+  url: https://finnhub.io/api/news?id=5991ef1b8e4dd8532170fe77ff616f9262683d6d10795815e072abd7e51d9fe6

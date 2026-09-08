@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Rigetti Computing Popped Today
+  summary: The federal government invest $100 million into the company.
+  url: https://finnhub.io/api/news?id=9d79568d44da4ece066a411a261c58e9b38acbb2f37cbb109747500fed133d56

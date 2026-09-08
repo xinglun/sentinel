@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Technologies Poised to Benefit From Long-Term Trend for Autonomous Vehicles, Wedbush Says
+  summary: Uber Technologies (UBER) will benefit from the long-term trend for autonomous vehicles, Wedbush said
+  url: https://finnhub.io/api/news?id=f0b25f2d7e51951fe97cc5aca38261fc77293fb05326bb849467f32a182796a7

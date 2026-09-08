@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rubis Turns Expensive Oil Into a Guidance Upgrade
+  summary: The French energy distributor lifted its 2026 profit outlook after first-half EBITDA jumped 18%, sending the shares sharply higher.
+  url: https://finnhub.io/api/news?id=493ffe4f8c8d7621dd252f33eda6e541576fe19dd369b287d55eae70e75cd3fc

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Surges 7% on Conditional ERCOT Status for 2GW Sweetwater Hub, Applied Digital Climbs 6%
+  summary: Texas just handed IREN a rare grid milestone that its CEO calls the scarcest input in the entire AI buildout, and the stock moved fast. Here is what the Sweetwater approval actually means for the race to lock up power before rivals do.
+  url: https://finnhub.io/api/news?id=e65dee70e70ec410d97bef394dc3103dc0063482a1a4a027cb4665c8795eb7ae

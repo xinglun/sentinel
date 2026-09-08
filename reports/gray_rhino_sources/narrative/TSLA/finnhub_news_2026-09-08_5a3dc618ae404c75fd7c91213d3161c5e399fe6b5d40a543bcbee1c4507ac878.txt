@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, XPENG Push Humanoid Robots Toward Mass Production
+  summary: Tesla and XPENG are shifting the humanoid robot race from prototypes to mass production. Here&#39;s why the latest milestones matter.
+  url: https://finnhub.io/api/news?id=0d4311494d4b0eed3dc5b6505fbd5459f065de7790ac30ef7e70d2f03a5a215f

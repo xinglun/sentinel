@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Dumps $25 Million of Palantir Shares. Should PLTR Investors Worry?
+  summary: Ark Invest Pulls $25 Million From Palantir Stock
+  url: https://finnhub.io/api/news?id=b388368762f7aa2c9373111e5adae3be3bda393d3350ef21e60d0b52fc430eb9

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Stock Gains 34% in a Month: Time to Hold or Book Profits?
+  summary: CRM's 34% monthly rally is backed by stabilizing growth, surging Agentforce ARR and a valuation below major enterprise software rivals.
+  url: https://finnhub.io/api/news?id=d002a04852af38c0c1ed4e988add1c1c857b5a6c5fea34cec075e5508110d23f

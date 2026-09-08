@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ex-Google, IBM, Microsoft and HP Research Scientist, Professor Daniel Freedman Joins Quantum X Labs as Distinguished Quantum Scientist
+  summary: The appointment of the Harvard PhD as a Distinguished Quantum Scientist reflects Quantum X Labs’ commitment to building a world-class quantum technology company TEL AVIV, Israel, Sept. 08, 2026 (GLOBE NEWSWIRE) -- Quantum X Labs Inc. (Nasdaq: QXL) (“Quantum X Labs” or the “Company”), today announced the appointment of Professor Daniel Freedman as Distinguished Quantum Scientist, effective immediately. Professor Freedman brings to Quantum X Labs a distinguished career spanning fundamental researc
+  url: https://finnhub.io/api/news?id=3763f0d9c55e31125db63ed9fbc01f440ff8a44482f6b6b0fe047de6a9b52cad

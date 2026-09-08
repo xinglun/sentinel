@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Leo: The Company's Next Frontier Is Already Here!
+  summary: Amazon (AMZN) offers a near-free call option on its Leo satellite business, with significant long-term upside embedded in its core valuation.
+  url: https://finnhub.io/api/news?id=6d0c3432002f4ce59f4c84fdfd53104e4fdd7c53d882df50c564ccfeb2607265

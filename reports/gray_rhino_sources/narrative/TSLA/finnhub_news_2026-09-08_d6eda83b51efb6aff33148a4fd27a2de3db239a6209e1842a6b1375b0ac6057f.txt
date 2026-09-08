@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Stock Falls As Wall Street Sizes Up Tesla's Cybercab Rollout
+  summary: Uber stock fell Tuesday as investors continued to debate the competitive threat of Tesla's Cybercab plans.
+  url: https://finnhub.io/api/news?id=dec137ef4c25da8482ea1cd63d0d4f8ef271e13599501be70af394059e5bab3d

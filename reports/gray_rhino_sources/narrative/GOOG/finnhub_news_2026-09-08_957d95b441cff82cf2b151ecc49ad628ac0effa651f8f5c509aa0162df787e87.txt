@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire David Tepper Just Bought These 2 Artificial Intelligence (AI) Stocks That Wall Street Thinks Could Soar by 50% or More
+  summary: These AI companies are grabbing plenty of headlines these days.
+  url: https://finnhub.io/api/news?id=992293df6958c1eafa2e71dd4756feba6d4174d515caa4cc316126c89a8ae390

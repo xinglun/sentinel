@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NBIS Stock Jumps After Palantir, Nebius Team Up to Let Companies Own Their AI Models, Not Rent Them
+  summary: The deal extends Palantir CEO Alex Karp’s broader push for sovereign AI and his criticism of pay-per-token pricing models used by major AI providers.
+  url: https://finnhub.io/api/news?id=24d63a830db4ebef936a3f855ccca0395ccbd12b2cd137b7a09417cb38862f0c

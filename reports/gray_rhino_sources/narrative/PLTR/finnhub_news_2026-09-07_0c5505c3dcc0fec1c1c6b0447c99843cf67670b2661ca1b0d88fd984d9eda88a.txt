@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Is Moving Money From Palantir Into Rocket Lab and Fintech
+  summary: ARK's latest trades show a shift toward space and financial technology while trimming several of its high-profile AI holdings.
+  url: https://finnhub.io/api/news?id=b8bd745bb2aa30f966bf4f45624526b74dfcb4be40ed406474c8547865d5f458

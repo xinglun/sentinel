@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Network to Code Appoints Chris Millerick as Chief Revenue Officer to Scale Commercial Software Growth
+  summary: Enterprise revenue leader joins to expand adoption of Nautobot commercial software, Nautobot Cloud, and NautobotAINEW YORK CITY, NY / ACCESS Newswire / September 8, 2026 / , a leader in AI-powered network automation, today announced the appointment of Chris Millerick as Chief Revenue Officer. Millerick will lead all go-to-market functions and report to Chief Executive Officer Paul Brady.
+  url: https://finnhub.io/api/news?id=6b8b40dcdd0f8ed1821abc0fce4b205942a9314bd8778a3c47ed95b4ada03468

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anduril Added as Top Holding in Tema International Defense ETF (ARMY)
+  summary: ARMY Offers Scarce Access to Leading Private Defense Innovator.NEW YORK, Sept. 08, 2026 (GLOBE NEWSWIRE) -- Tema ETFs (“Tema”), a leader in actively managed exchange-traded funds, today announced that Anduril has been added as the top position in the Tema International Defense ETF (ARMY). As of the date of this release, Anduril represents 14.5% of ARMY’s net assets, and Tema intends to maintain the company as a top holding in the fund. Holdings are subject to change. Tema is the first ETF issuer
+  url: https://finnhub.io/api/news?id=52b34c3eb96d51cbfda9e941746134b14586c007e1ad0e916be189fce8e883e1

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX trades 11% above its $135 IPO price as analysts target $280 — but one investor warns valuation is 'beyond silly'
+  summary: Wall Street sees huge potential in SpaceX’s AI ambitions, but its $2-trillion valuation may leave little room for growth.
+  url: https://finnhub.io/api/news?id=7df973457f0c4cd9de8157884033e7f6e2f1647349079cf007ae27c94a8d36e9

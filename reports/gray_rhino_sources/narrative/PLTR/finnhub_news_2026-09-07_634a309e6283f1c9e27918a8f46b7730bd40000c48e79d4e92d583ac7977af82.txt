@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Burry’s Palantir Warning Is Back. Accenture Shows What Investors Should Check
+  summary: Michael Burry’s accounting critique of Palantir Technologies Inc. (NASDAQ:PLTR) resurfaced in September 5 coverage, reviving the question of whether its economics resemble a software company or a consultant. His original post dates to February 19. Accenture plc (NYSE:ACN) offers a useful comparison because it earns money helping companies deploy technology, including Palantir’s. A billing balance […]
+  url: https://finnhub.io/api/news?id=751bff668d962532e99c934d094fef830a22db53c9eb88e1c986ed08dca55eb9

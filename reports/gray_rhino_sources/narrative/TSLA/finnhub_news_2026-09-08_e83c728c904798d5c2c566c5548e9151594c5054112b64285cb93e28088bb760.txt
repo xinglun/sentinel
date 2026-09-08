@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Boeing Stocks Fall as Inquiry Into Fatal Miami Plane Crash Escalates
+  summary: Investigators will spend the week collecting information at the crash site at Miami International Airport.
+  url: https://finnhub.io/api/news?id=abd5bf2a52ba08b996f67d9064441e3d23d1485822f770e4e727b52717f73805

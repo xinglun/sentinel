@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's 2021 Bitcoin Bet: What Is It Worth Today?
+  summary: Tesla Inc‘s Bitcoin investment has become one of the longest-running corporate crypto bets on Wall Street—but it looks very different today than it did in 2021. After selling most of its holdings during the 2022 crypto downturn, the electric vehicle...
+  url: https://finnhub.io/api/news?id=985d8dc6a08e7ffbb7a611caeeecd57f0d080e8cacd2a035ef0f5af9feb4f20e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Apple Face a $17 Billion Child Safety Settlement Like Meta?
+  summary: West Virginia's attorney general just called Meta's $17 billion child safety settlement a smart business move, then pointed directly at Apple as the next target. What he says Apple's iCloud is hiding could upend the privacy brand Tim Cook spent a decade building.
+  url: https://finnhub.io/api/news?id=f691e846b0364299e58b2bef4d5350616ec4ddb792183d747bf71ffcf1a6757f

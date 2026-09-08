@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic delays IPO to October: What that could mean for the AI player
+  summary: Anthropic (ANTH.PVT) may be shifting its IPO launch date to mid-October, according to Reuters. Morning Brief Host Julie Hyman is joined by Yahoo Finance Breaking Business News Reporter Jake Conley and TMX Wall Street Horizon head of corporate event research Christine Short to discuss how the private AI developer now finds its IPO stuck between a rock and a hard place: a public offering in September — a time usually tough for markets — or October, right before the US midterm elections.
+  url: https://finnhub.io/api/news?id=ea60b0e9016bc942ffb19c4546ad02e41cd2658de84ff388895012043be33ed7

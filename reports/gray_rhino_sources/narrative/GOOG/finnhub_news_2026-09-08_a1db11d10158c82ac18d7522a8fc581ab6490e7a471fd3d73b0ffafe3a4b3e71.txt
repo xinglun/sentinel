@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's Earnings Staircase Keeps The Momentum Rolling
+  summary: Nvidia Corporation stays a Buy as data center growth and new product ramps fuel earnings. Click for this NVDA stock update and see why I remain bullish.
+  url: https://finnhub.io/api/news?id=247f4b3d90c704d710c9c59854c69933c5be44656dabd199e311a5b506f7351c

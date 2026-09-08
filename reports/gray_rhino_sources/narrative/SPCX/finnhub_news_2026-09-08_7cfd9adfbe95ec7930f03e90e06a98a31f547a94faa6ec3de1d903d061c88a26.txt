@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Gets a $220 Target as Starship Reuse Becomes the Big Test
+  summary: Pivotal Research sees roughly 49% upside, but says SpaceX's long-term value depends on Starship flying again and again at low cost.
+  url: https://finnhub.io/api/news?id=69ac3d3b8ba858756fd665b1b66978ff9ff2be6dcc2574cc06f4566fc3364f23

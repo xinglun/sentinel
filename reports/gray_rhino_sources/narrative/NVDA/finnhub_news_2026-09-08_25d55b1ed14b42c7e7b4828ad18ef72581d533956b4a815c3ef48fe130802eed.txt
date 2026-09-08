@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starbucks Is Up 24% This Year While Dutch Bros Is Down 24%. Here's Why Only 1 of These Coffee Stocks Is a Buy in September.
+  summary: Only one of these beverage companies currently presents a buying opportunity.
+  url: https://finnhub.io/api/news?id=1d183c7a6ff55e880ec3ce27e7430cb6dd0008b89f2b71a57f227f226de98b7c

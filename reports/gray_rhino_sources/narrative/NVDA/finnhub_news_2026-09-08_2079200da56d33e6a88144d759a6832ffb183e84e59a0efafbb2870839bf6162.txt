@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ExxonMobil Has Raised Its Dividend 43 Years Running. Here's the One Year the Streak Almost Broke.
+  summary: ExxonMobil is one of the most reliable dividend growers in the U.S., but that dependability was threatened in a big way in 2020.
+  url: https://finnhub.io/api/news?id=5ba5570bb7a7f0d05c9bad2caa31cc129065b34deecb3b44d2eed27ab3d70656

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why D-Wave Quantum Stock Popped Today
+  summary: D-Wave is investors' favorite quantum computing stock today, but GlobalFoundries is the government's favorite.
+  url: https://finnhub.io/api/news?id=d00e77021a14c807377675495cc3b9de012b19cb52d48656f68be22d4204f3a1

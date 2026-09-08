@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Antioch Raises $32M to Bring Software Speed to Physical AI Development
+  summary: Backed by Greylock, enables Physical AI teams to move from simulation to real-world deployment with confidenceNEW YORK CITY, NY / ACCESS Newswire / September 8, 2026 / , the simulation platform for physical AI, today announced a $32 million Series A led by Greylock, with participation from A*, Category Ventures, Box Group, and Icehouse Ventures. The company's prominent angel investors include Shyam Sankar, CTO at Palantir; Adrian Macneil, CEO of Foxglove; and Ian Andrews, an NVIDIA executive and
+  url: https://finnhub.io/api/news?id=65f95fc69942befd3d08c74cf63d52982a9901feb58557948d97e1dfa02fc515

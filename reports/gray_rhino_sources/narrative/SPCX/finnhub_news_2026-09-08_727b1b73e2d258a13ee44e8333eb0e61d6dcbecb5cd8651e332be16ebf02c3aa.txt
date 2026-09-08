@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk’s Trillionaire Status Disappears, And Won’t Be Back Soon
+  summary: Elon Musk's brief stint as the world's first trillionaire is slipping away fast, and the forces dragging him back down reveal deep cracks in two of his most powerful companies.
+  url: https://finnhub.io/api/news?id=fe15d16f937c3868386d079307782a6c2c55b3b151ae93a01d77f75b5ad69004

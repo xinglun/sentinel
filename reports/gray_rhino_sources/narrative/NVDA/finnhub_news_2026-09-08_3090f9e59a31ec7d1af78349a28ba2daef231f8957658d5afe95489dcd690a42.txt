@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If I Could Invest $500 in Just 1 ETF in September, Here's What I'd Buy
+  summary: I'm bullish on international stocks in September 2026 -- and for a long time to come.
+  url: https://finnhub.io/api/news?id=ade20c3bb088369ffcc85b0510cfffe17122aa9e852ad9e3c2da54e1b94a089a

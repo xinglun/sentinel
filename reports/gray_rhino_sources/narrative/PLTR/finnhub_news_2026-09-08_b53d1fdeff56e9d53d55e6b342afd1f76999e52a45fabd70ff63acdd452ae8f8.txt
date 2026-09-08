@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Out Of Catalysts (Rating Downgrade)
+  summary: Palantir Technologies posts record Q2'26 and raises FY26 guidance, but rich valuation and weak catalysts raise downside risk. Click for this PLTR stock update.
+  url: https://finnhub.io/api/news?id=7611712420c1107d23b5a297bfd9a94641d86a795573a0f2f7e06fc4a9d28673

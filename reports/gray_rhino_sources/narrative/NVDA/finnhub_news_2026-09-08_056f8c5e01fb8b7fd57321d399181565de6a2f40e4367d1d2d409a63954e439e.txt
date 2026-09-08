@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cramer Begs Trump Not to Sell Chipmaker That Is Up 311% in a Year
+  summary: Jim Cramer went on live television to beg the president not to sell a chipmaker sitting on massive gains, and the reason why reveals just how much political risk now hangs over one of the hottest stocks in the semiconductor sector.
+  url: https://finnhub.io/api/news?id=4f709da50a0140aaf3f5712d53d3de1fe4da1feac1c0ce6b36e6b6cce6a2e6ac

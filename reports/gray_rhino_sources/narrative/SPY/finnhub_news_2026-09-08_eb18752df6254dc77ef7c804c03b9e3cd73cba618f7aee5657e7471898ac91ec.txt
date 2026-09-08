@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Climbs 5% on High-NA EUV Production Lead, ASML and Taiwan Semiconductor Advance 3%
+  summary: Intel just hit a lithography milestone that puts every rival chipmaker years behind, and the stock is surging against a falling market. Whether that lead translates into a lasting foundry turnaround is the question investors are now pricing in real time.
+  url: https://finnhub.io/api/news?id=22bf7995134c56689342d46246942c2317a4832289f98b6e61b534cfd0edfc48

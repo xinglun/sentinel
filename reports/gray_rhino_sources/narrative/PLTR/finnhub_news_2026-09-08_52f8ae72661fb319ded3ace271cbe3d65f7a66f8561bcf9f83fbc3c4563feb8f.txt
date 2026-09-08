@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Nebius Partner to Deliver a Complete Sovereign AI Stack to Palantir Customers
+  summary: MIAMI & AMSTERDAM, September 08, 2026--Palantir Technologies Inc. (NASDAQ: PLTR) and Nebius Group N.V. (NASDAQ: NBIS) today announced a strategic partnership to bring Nebius's AI-native compute infrastructure and cloud platform to Palantir's commercial customers.
+  url: https://finnhub.io/api/news?id=8408e9b59f6ab202f1303bf268ae829f0dad08e2132f97fda8371b34cfa71f91

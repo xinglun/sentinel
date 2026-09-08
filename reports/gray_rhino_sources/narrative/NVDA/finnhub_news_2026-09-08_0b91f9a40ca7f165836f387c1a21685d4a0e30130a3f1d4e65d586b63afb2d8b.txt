@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Novartis’s Pipeline Just Lost Two Big Bets
+  summary: Shares plunged around 9% after del-desiran failed Phase III, barely a day after another late-stage disappointment put billions of potential future sales in doubt.
+  url: https://finnhub.io/api/news?id=b4b932738c5a2d72e7899af1221935800c1b44e1c20c624806861f6175f2eb60

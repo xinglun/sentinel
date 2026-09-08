@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dives, Oil Spikes After Saudi Attacks; Amgen Swoons On These Results (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index sells off 500 points Tuesday, as oil prices jump on continued U.S.-Iran attacks. SK Hynix breaks out.
+  url: https://finnhub.io/api/news?id=79f4e4a6e1e49d6fa07701f2e318d30279a7be23f16a2b861adc10771daf385c

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Declares the Moon Belongs to the U.S. Here Are 5 Space Stocks to Watch
+  summary: A presidential caption declaring the Moon American property changes no treaty, but it may be reshuffling billions in defense contracts toward a handful of space companies already sitting on record backlogs.
+  url: https://finnhub.io/api/news?id=62d12ccc9c6e2bdbb016e287656ec50bda43085cc0756f5fd2e59a147c4a0d5c

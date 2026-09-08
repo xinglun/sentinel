@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XPeng Beats Tesla With This Humanoid Robot Milestone
+  summary: At XPeng's factory in Guangzhou, China, machines assembled parts, installed electrical circuits and welded it all together.  On Tuesday, Chinese electric vehicle company XPeng announced it completed assembly of its Iron humanoid robot.  The production of the first Iron robot is a milestone for XPeng as it works toward its ultimate goal of mass production, scheduled to start by the end of the year, according to the company.
+  url: https://finnhub.io/api/news?id=bab7b6e866fce8f8bfef8d716613a46a79fb6486e80523bccec59b5c44ed739b

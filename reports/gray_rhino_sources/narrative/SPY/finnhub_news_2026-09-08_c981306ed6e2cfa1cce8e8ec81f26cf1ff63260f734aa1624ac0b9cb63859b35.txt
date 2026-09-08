@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NuScale Power Spikes 13%, Oklo Climbs 7%: Is the Nuclear Selloff Finally Exhausted?
+  summary: Small modular reactor stocks are surging against a red broad market, but with NuScale and Oklo still deep in the red for the year, the real question is whether this is a genuine bottom or just another bounce trap in a brutal downtrend.
+  url: https://finnhub.io/api/news?id=fda46fbd53b5d2b634f92a936e0fca64e4dbb4df148c3c44da00adcf5ee35e72

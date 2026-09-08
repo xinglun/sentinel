@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500, Nasdaq Slip as $98 Brent Reignites Inflation Fears: Stock Market Today
+  summary: Crude near $98 pushes the 10-year Treasury yield above 4.8% for the first time since 2023, hammering the Dow as traders price a Fed rate hike next week.
+  url: https://finnhub.io/api/news?id=8a08431f98f3c0ced87a42b6ba908de51fc05a9b6d1925de869901f1a4b29dab

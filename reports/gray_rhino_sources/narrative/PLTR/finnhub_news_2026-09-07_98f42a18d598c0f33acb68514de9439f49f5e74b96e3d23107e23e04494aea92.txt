@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Leads August Rally -- Nvidia, Salesforce and Super Micro Jump
+  summary: Palantir Crushes Tech Stocks in August: Salesforce Nears 40% Gain, Super Micro Jumps
+  url: https://finnhub.io/api/news?id=89ee1437c35b1ea43ff04c0695734f1b0ef289bd07ced8822ca70a45052719c9

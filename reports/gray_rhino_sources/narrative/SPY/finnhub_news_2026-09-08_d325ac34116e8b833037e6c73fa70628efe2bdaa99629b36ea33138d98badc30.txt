@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Investors May Want To Ignore Some Market Headlines
+  summary: Resilient earnings and continued AI investment have remained key supports for markets. Any pullback in profits, hyperscaler spending, or AI financing could be concerning. Read more here.
+  url: https://finnhub.io/api/news?id=b88bb64acc99f34505b4bbbdab75104d3228b6e615c0e480b8ec5b045aa0dbee

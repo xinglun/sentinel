@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Stocks Rally as Commerce Department Takes Equity Stakes: Rigetti Surges 6%, D-Wave Climbs 5%
+  summary: The Commerce Department just took equity stakes in two quantum computing companies, and the fine print on that government ownership may matter more to long-term investors than today's share price pops.
+  url: https://finnhub.io/api/news?id=2a978a03fb49a6b6184fef5d75db3147b6d00a7523a65d974625cb5176429e64

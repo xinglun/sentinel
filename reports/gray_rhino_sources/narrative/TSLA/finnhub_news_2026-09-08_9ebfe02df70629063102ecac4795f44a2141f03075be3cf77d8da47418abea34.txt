@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Drivers Are Overpaying. Lemonade CEO Says Two-Thirds Subsidize the Highest-Mileage Third.
+  summary: Lemonade's CEO claims the way auto insurance has always worked quietly punishes the majority of drivers, and his company is betting a radical repricing model around telematics and Tesla's self-driving miles can finally flip that equation into a profit.
+  url: https://finnhub.io/api/news?id=3e1c74758477d4c84956fb2ff9b3d200ca147606defd00cbf31bb78792a00d47

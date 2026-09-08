@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Sales Crippled In World’s Biggest EV Country
+  summary: Tesla's August numbers out of China signal trouble for a company already struggling to find a win in 2026, and the problems extend well beyond one month of weak demand.
+  url: https://finnhub.io/api/news?id=0269eb9ac5a535a9873034938dcb56c7732ed11d8ae0c960e1fd63c1e6f2f3cb

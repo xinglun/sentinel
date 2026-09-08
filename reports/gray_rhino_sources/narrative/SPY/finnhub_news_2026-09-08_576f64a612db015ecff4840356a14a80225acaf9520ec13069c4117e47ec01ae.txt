@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Rises 5% on Multi-Generation Amazon AI Silicon Deal; Broadcom Ticks Up, Amazon Holds Flat
+  summary: Amazon just handed Qualcomm a multi-generation AI silicon deal that sent shares surging against a falling market, but the fine print raises a pointed question about whether this credential ever becomes a revenue line.
+  url: https://finnhub.io/api/news?id=65eb1aa56be457032e93b7e401babcef0586e7deac32cb826c1db78707470133

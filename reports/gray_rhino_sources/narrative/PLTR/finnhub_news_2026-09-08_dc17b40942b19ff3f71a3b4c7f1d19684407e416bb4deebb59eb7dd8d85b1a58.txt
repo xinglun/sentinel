@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Bears Cannot Trap AI Leader Of The Meta-Compute Layer (Rating Upgrade)
+  summary: Palantir's meta-compute layer and ontology-driven AI architecture solidify a unique moat in enterprise and sovereign AI. Find out why PLTR stock is a Buy.
+  url: https://finnhub.io/api/news?id=c727a76a1377499e16b64f5c9cb5516a51ff89c7dc365bd7d55b39a80f0bf906

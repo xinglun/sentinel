@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Picks From Seeking Alpha's August 2026 New Analysts
+  summary: Meet 25 new Seeking Alpha analysts with fresh stock ideas plus catalysts across sectors.
+  url: https://finnhub.io/api/news?id=b1c015ec3c94035a159c3774de031e653d04aab5247cb180802e09d73bcb2649

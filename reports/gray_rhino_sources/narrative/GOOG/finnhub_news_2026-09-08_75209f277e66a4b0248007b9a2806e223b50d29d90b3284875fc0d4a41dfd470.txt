@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle, Adobe, Micron, Alphabet and Nvidia are part of Zacks Earnings Preview
+  summary: Oracle and Adobe kick off Q3 earnings season as S&P 500 profits are expected to rise 23%, with Micron and Alphabet boosting Q2 results.
+  url: https://finnhub.io/api/news?id=6b169f4ffab59e651a9473f00890c2f672105f2cba845f4aa091bcae33a643f0

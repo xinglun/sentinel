@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Stock Is Weighing Heavily on the Dow
+  summary: The Dow lost 500 points early into Tuesday's trading session. Here's what's driving the loss. Most components in the blue chip index were in the red, but there was one name seeing the most dramatic downturn.
+  url: https://finnhub.io/api/news?id=133228c197acc1f69c8d8f11699e40a22ac90fff93f22b9b634479a06941e4f3

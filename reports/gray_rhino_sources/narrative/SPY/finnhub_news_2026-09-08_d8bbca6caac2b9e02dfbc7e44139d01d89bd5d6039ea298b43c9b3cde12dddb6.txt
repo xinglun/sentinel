@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Keeps Asking How Much Meta Will Spend. The Better Question Is at What Price to Buy
+  summary: Meta's ad engine is accelerating at a historic pace while the stock sits near a level that has historically signaled a cyclical floor, but the $130 billion capex bet hanging over the company changes every calculation an investor needs to make before touching it.
+  url: https://finnhub.io/api/news?id=b74ceb69f8eba1ddbc5fd99ebf78ab3ae2385261777be309a5f7e9394ddb247d

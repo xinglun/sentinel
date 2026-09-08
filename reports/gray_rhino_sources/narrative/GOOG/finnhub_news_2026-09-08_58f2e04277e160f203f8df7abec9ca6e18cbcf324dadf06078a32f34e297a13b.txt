@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Beyond Social: Meta Is Buying the Future of Compute So I’m Buying It
+  summary: Meta is quietly assembling one of the largest AI compute empires on the planet, and the funding source hiding in plain sight changes everything about how you should value this stock.
+  url: https://finnhub.io/api/news?id=a9194cd3ff43d8a90631914d48ac8fa05beba20f0ee18f9ba4ee12f0a7cf7e8f

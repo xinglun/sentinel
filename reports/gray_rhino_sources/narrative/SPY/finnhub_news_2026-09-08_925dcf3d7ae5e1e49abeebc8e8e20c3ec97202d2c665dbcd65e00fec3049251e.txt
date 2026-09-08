@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Canadian Tariffs Hit $20B in U.S. Imports
+  summary: Now $20 billion in U.S. goods -- from metals to apparel to milk -- are being slapped with a +15%, +25% or +50% tariff, as of today.
+  url: https://finnhub.io/api/news?id=2152a1c895d7463afeed6595e7b88dc0261de4c4ae3fc2fbf6efcd643cc39a8b

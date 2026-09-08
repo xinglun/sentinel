@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fantastic News for Tesla Stock Investors!
+  summary: This news comes with several caveats that investors should keep in mind.
+  url: https://finnhub.io/api/news?id=3b8d5cb653cdb3d52b2d7abe1116af6cbfbda451440d507791bdb9f36d83fe28

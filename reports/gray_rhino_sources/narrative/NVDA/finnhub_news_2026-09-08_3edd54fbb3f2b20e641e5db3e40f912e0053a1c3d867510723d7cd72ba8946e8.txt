@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Just Went Bargain Hunting. Here Are the 3 AI Stocks She Bought.
+  summary: Cathie Wood just loaded up on three stocks, spanning different corners of the AI chip market.
+  url: https://finnhub.io/api/news?id=afddb8c9f41339057b1faaf490c10c63d6486062283d86f3c53bf336b57a235c

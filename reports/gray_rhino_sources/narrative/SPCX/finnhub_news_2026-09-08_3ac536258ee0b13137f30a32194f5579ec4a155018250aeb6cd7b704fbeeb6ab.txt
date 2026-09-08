@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE’s $12 Billion Bet on the Unsexy Industry SpaceX Is Trying to Disrupt
+  summary: GE Aerospace is buying Consolidate Precision Products for almost $12 billion. It’s a big deal for the jet engine maker.
+  url: https://finnhub.io/api/news?id=0ee2dffd753b340bdef2d0cbbff5eeda27f5bd8f7ee40a91c993f6ee1960f808

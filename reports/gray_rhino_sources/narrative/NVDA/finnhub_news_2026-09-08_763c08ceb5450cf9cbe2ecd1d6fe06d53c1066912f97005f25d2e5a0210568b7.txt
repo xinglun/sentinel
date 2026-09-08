@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang just sent Wall Street a message about AGI
+  summary: The Nvidia chief posted two numbers. Only one of them is tradable.
+  url: https://finnhub.io/api/news?id=afce24d0314de11f3ceefdd4b1d2a5f865ee4a6d7a57926fbc6b560dc471523b

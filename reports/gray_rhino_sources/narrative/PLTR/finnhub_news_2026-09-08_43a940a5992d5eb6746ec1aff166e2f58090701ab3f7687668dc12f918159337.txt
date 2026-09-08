@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Just Became Palantir’s Preferred Sovereign AI Infrastructure Partner
+  summary: Nebius (NBIS) stock jumps 3% premarket after partnering with Palantir (PLTR) for sovereign AI infrastructure. Technicals stay bullish.
+  url: https://finnhub.io/api/news?id=d2b0884b378dd82fd53ece846257422076d794b383d383a50fbbdfb7d063a3bc

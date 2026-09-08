@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Limited Has Cratered Over 3 Months: A Top-Ranked Wall Street Name Says It’s Due to Double
+  summary: A top Wall Street analyst is standing behind a bold price target on IREN while the stock sits deep in the red, and the gap between where shares trade today and where the bulls say they belong tells a story worth understanding before the next earnings catalyst hits.
+  url: https://finnhub.io/api/news?id=06e86c9b93bba620ca1678ba1a4b5f6b15d9a2c04d8e11b5dc1fe8a6d6ef35d7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Rallies 5% as Morgan Stanley Lifts Its Price Target, CoreWeave Advances 3%
+  summary: A Morgan Stanley price target raise just reignited the AI cloud infrastructure trade, sending Oracle surging on a day when the broader market slipped into the red. Whether the rally reflects genuine conviction or a short-term narrative reset is the question investors need to answer before sizing up.
+  url: https://finnhub.io/api/news?id=4f9f371caa800cb2a9167564c623d1912353a5bf448294041d32bee1da8b1d83

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Oracle’s Low-Cost Cloud Changes Everything
+  summary: Oracle's stock has dropped nearly 28% over the past year, yet one investor keeps hitting the buy button on every leg lower. The reason sits inside a structural bet on cloud infrastructure that most Wall Street reflexes completely overlook.
+  url: https://finnhub.io/api/news?id=3008d5e53812fad2cb087177d2979aed5ec9f3a3b18b8b2371729a5945e5c139

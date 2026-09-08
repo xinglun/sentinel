@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Tesla Overcome Mixed August Registration Trends Across Europe?
+  summary: TSLA's August registrations surge in France and Denmark but plunge across several other European markets, leaving its sales recovery mixed.
+  url: https://finnhub.io/api/news?id=54774b51f706d1027a54d6e62889a3dac75e3569e3ac010725baf06b65d5673a

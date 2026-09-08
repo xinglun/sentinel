@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Zacks Analyst Blog Highlights SpaceX, Verizon and AT&T
+  summary: SpaceX briefly reclaimed a $2 trillion valuation as Starlink growth, launch dominance and AI investments bolster its long-term growth story.
+  url: https://finnhub.io/api/news?id=71c7f65aa12ff9faa4f265dd20664e88b58866c254c8fee35ae8ad58f2aab3f7

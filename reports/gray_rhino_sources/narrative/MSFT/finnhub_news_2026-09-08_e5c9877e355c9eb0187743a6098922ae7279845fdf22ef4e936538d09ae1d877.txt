@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Stock Is Near a Record High. Here’s Why the Rally May Not Be Over
+  summary: Chevron has surged more than 42% this year and is brushing against a 52-week high, but the real question is whether the fundamentals driving that run can hold at these prices or whether the easy money is already gone.
+  url: https://finnhub.io/api/news?id=6065acd7da45fabaff8893d8abce7c4f2486b94008786a0779c9e42f874a7eea

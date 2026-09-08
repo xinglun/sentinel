@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla's Cybercab Certification Facing a Regulatory Roadblock?
+  summary: TSLA faces a probe into how nearly 1,000 Cybercabs were certified, spotlighting regulatory questions around their driverless design.
+  url: https://finnhub.io/api/news?id=a858fd044bf5fb52a679a628d8303945cbf7ca8fc5ead174b96520ef82ea0637

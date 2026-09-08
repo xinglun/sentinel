@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Micro Devices and Marvell Technology Keep Growing Their Revenue. Here's What Else to Watch.
+  summary: AMD's revenue has nearly doubled in two years, while Marvell's has climbed 80%—but the gap between them is widening.
+  url: https://finnhub.io/api/news?id=5487f52d5ec2ff7339ee92f5c5e8b6abf7b6cd59028d0047fd21967061f8210d

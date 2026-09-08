@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's going on in today's session: dow jones movers
+  summary: Wondering what's happening in today's session for the dow jones index? Stay informed with the top movers within the dow jones index on Tuesday.
+  url: https://finnhub.io/api/news?id=5ed9c9ef40acd5c017324f75f1cda8dd92993808c451df6bde6b702e36240df6

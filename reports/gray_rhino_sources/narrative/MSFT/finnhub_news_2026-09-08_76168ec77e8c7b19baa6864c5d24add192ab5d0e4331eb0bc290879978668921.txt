@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon, Meta among ‘Hyper 5’ facing AI cash-flow test
+  summary: The five hyperscalers are projected to spend over $5 trillion on capex from now through 2030, according to S&P Global Market Intelligence.
+  url: https://finnhub.io/api/news?id=fa29d6c40bd5244ed3c32cfa2e94ba0108797fb2d303f678302be7a3ce773516

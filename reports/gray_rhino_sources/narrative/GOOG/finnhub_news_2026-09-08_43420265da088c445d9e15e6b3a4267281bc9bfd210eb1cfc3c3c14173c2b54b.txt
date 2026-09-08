@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud Capex to Cash: AWS Wins This Way, Alphabet Wins Another Way
+  summary: AWS and Google Cloud are both burning through tens of billions in capex every quarter, but only one is converting that spending into free cash flow at hyperscale margins right now. Which model actually wins when the 2027 capacity cliff arrives?
+  url: https://finnhub.io/api/news?id=c588f34a8e9f80e88f5cae6e0e74a4bb8c20c640cbe9bdb650c8a2924df9469b

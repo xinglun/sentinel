@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stocks: OpenAI Declares The 'AGI Era' Is Here Amid IPO Fervor
+  summary: AI stocks show diverging fortunes in Q3, with Nvidia, Snowflake and Palantir gaining momentum while AMD, Ciena and Google lag.
+  url: https://finnhub.io/api/news?id=c9e636bf34730d1b774906d767827cde4732812c54b99b2c0b06f9cf0315a55f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Could Draw $15.5B in Passive Buying as Nasdaq Rebalance Looms
+  summary: Elon Musk’s SpaceX (NASDAQ:SPCX) could draw $15.5 billion in passive buying this month as a Nasdaq-100 rebalance could force index funds to increase their holdings. JPMorgan estimates SpaceX’s weight in the index could jump from 1.25% to 2.25%, Bloomberg reported...
+  url: https://finnhub.io/api/news?id=a4637f65d6bb8d5dece824dd2f7c74835f96636436e69c894f9fae2e9c37126c

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon and AT&T partner to challenge SpaceX Starlink dominance
+  summary: AT&T becomes the first U.S. wireless carrier to use Amazon Leo's low-Earth-orbit satellite network to serve business customers
+  url: https://finnhub.io/api/news?id=2ca545d0c1ccab4b40622058ae6b9ccc0033129447009f825319fe58e2880bbe

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If Uber’s Fundamentals Have ‘Dramatically Improved,’ Why Has the Stock Gone Nowhere?
+  summary: Uber's profits doubled and free cash flow surged past $10 billion, yet the stock keeps sliding while rivals circle the ride-hailing throne. The real question is whether Wall Street is seeing something bulls are missing, or pricing in a robotaxi takeover that may never arrive on schedule.
+  url: https://finnhub.io/api/news?id=703e9023f028847591491894dde0766d04384414395ad5ee075dfc3e67c9b4d8

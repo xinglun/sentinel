@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ryan Olohan Joins MDCalc as Head of Sales
+  summary: NEW YORK, September 08, 2026--Ryan Olohan joins MDCalc as Head of Sales. Hire Signals Growth for Trusted Information Provider to Millions of Physicians.
+  url: https://finnhub.io/api/news?id=b3125ea91e72c73fa581acf8ad25f1233ac0509133d08d492f37ffed3e3003f7

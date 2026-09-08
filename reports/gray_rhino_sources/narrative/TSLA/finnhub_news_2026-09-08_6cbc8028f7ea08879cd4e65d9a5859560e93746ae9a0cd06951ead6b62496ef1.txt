@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Sales In China Continue Negative Streak; Exports Reach Key Level
+  summary: Tesla China sales at home continue to slide. It's offering new cash incentives through Sept. 30. But exports remain strong.
+  url: https://finnhub.io/api/news?id=026bd2e6c590d076b9f2e98dbcccc48cd57598486a9d246692a58567b98c246f

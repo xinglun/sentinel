@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Deserves One Last Chance
+  summary: Oracle faces downgrades and AI capex scrutiny after Q4 FY26. Click for more on ORCL stock.
+  url: https://finnhub.io/api/news?id=e96e7f50e5f996a18af5e0e14ecb2604937d6dc46fd229335d03f3423f8cc69a
