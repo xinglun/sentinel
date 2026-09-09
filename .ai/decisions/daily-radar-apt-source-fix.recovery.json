@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-message: close Cockpit",
+  "decidedAt": "2026-09-09T21:37:01Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json",
+    ".ai/work-items/archive/daily-radar-apt-source-fix.outcome.json",
+    ".ai/work-items/archive/daily-radar-apt-source-fix.archive.json",
+    ".ai/evidence/daily-radar-apt-source-fix.verification.json",
+    "https://github.com/xinglun/sentinel/pull/170"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:f7c73af1abfc38d180519f04cc47c8955825ecb7db45428bee2701dde907850e",
+  "predecessorEventsDigest": "sha256:e42add12c69dbbc4909c5e85ba172a901c864be1081eafa9f691d8c372124f36",
+  "predecessorOutcomeDigest": "sha256:f475483b6199db3616db10364ff368225b2f53e1a81526d6e390103c70b802aa",
+  "predecessorSummaryDigest": "sha256:dfa1b8cb219e2185d50317360d6f8a1a2e943600aa2f1cb29979bb7599234ee6",
+  "predecessorWorkItemId": "daily-radar-apt-source-fix",
+  "reason": "前駆 Work Item は archive 前に finalize-plan を実行しておらず、immutable Contract の PR context が not_started のまま保存された。PR #170、merge commit d46309ac、feature branch/worktree の削除、develop 同期は既に確認済みである。前駆 archive/evidence bytes を変更せず、治理-only successor で現在の Contract を再検証し、正規の finalize-plan、finalize-verify、close を完了する。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 中不修改生产代码或前駆 archive；绑定 PR #170、merge commit d46309ac 和已确认的 branch/worktree cleanup，完成 fresh verification、preflight、finish、archive、finalize-plan、finalize、finalize-verify，并关闭 successor 与前駆 Work Item。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-radar-apt-source-fix-finalization-recovery",
+  "workItemId": "daily-radar-apt-source-fix"
+}

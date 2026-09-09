@@ -138,6 +138,30 @@ fn run_report_date_resolver(
 }
 
 #[test]
+fn daily_radar_protoc_install_ignores_third_party_apt_sources() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(workflow_path).expect("failed to read daily_radar.yml");
+
+    assert!(
+        workflow.contains("Dir::Etc::sourcelist=\"/etc/apt/sources.list.d/ubuntu.sources\""),
+        "Protobuf installation must update the Ubuntu source list explicitly"
+    );
+    assert!(
+        workflow.contains("Dir::Etc::sourceparts=\"-\""),
+        "Protobuf installation must exclude unrelated third-party source parts"
+    );
+    assert!(
+        workflow.contains("sudo apt-get install -y protobuf-compiler"),
+        "Protobuf installation must keep installing protobuf-compiler"
+    );
+    assert!(
+        !workflow.contains("run: sudo apt-get update && sudo apt-get install -y protobuf-compiler"),
+        "Protobuf installation must not update every runner-provided APT source"
+    );
+}
+
+#[test]
 fn daily_radar_report_date_resolver_rolls_back_delayed_scheduled_runs() {
     let workflow_path =
         Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
