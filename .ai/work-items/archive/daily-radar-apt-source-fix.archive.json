@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T18:50:42Z",
+  "files": {
+    "contractDigest": "sha256:223a2ac57015a7aac7c068bd79c868910bd4e1040193ad7fa9892382517c491b",
+    "contractPath": ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json",
+    "eventsDigest": "sha256:e42add12c69dbbc4909c5e85ba172a901c864be1081eafa9f691d8c372124f36",
+    "eventsPath": ".ai/work-items/archive/daily-radar-apt-source-fix.events.jsonl",
+    "outcomeDigest": "sha256:5b08c8edf2d43e830180c52a54d9d3afc4bf2405c7ed9e9c8d83910200403a43",
+    "outcomePath": ".ai/work-items/archive/daily-radar-apt-source-fix.outcome.json",
+    "summaryDigest": "sha256:76263f024ab29fff6e027b7b9ad54a48e87b2b897fee678da4f9efa14b1a3fb9",
+    "summaryPath": ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json",
+    "taskReportDigest": "sha256:7a96f0872374101b131b0a50cb2c72a4edb3e6406ac57e0adb3c0eca95d65b56",
+    "taskReportMarkdownDigest": "sha256:54e5d6e2021fc440fdbc281c9e011f3e5a5ceca0424b6b8540d9140972906d49",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-apt-source-fix.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-apt-source-fix.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-apt-source-fix"
+}
