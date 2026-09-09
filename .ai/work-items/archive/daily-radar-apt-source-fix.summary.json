@@ -1,0 +1,117 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "Protobuf 安装步骤不再对 Google Chrome 等第三方源执行全量 apt-get update，并继续安装 protobuf-compiler。",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs",
+        "make test-radar-workflow-contract"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "静态回归验证能识别旧的全量 apt 更新写法，并确认新的 Ubuntu-only 更新边界。",
+      "evidence": [
+        "tests/daily_radar_workflow_integration.rs",
+        "make test-radar-workflow-contract"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Daily Radar 工作流 YAML 语法有效，仓库 Rust 质量门禁通过。",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "make quality"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json",
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "checkpointAt": "2026-09-09T18:32:48Z",
+  "checkpointContractDigest": "sha256:f7c73af1abfc38d180519f04cc47c8955825ecb7db45428bee2701dde907850e",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:db38177e9a6e02156e2a49c295634b1303fb97eec6b4ba013d498ac4e86cb282",
+      "recorded": true,
+      "recordedAt": "2026-09-09T18:32:48Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-apt-source-fix"
+    },
+    {
+      "acceptanceCount": 3,
+      "contractHash": "sha256:f7c73af1abfc38d180519f04cc47c8955825ecb7db45428bee2701dde907850e",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:db38177e9a6e02156e2a49c295634b1303fb97eec6b4ba013d498ac4e86cb282",
+      "previousContractHash": "sha256:db38177e9a6e02156e2a49c295634b1303fb97eec6b4ba013d498ac4e86cb282",
+      "reason": "将 required evidence class 明确绑定到当前 Contract 的 make quality 验证 receipt；不改变实现 scope，仅修正 Runtime 可消费的验证绑定。",
+      "recorded": true,
+      "recordedAt": "2026-09-09T18:45:29Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-apt-source-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+  "createdAt": "2026-09-09T18:30:54Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-radar-apt-source-fix.contract.json",
+      ".github/workflows/daily_radar.yml",
+      "tests/daily_radar_workflow_integration.rs",
+      "https://github.com/xinglun/sentinel/actions/runs/34385637045"
+    ],
+    "reason": "本 Work Item 将 Daily Radar 的 Protobuf 安装失败限制在 APT 源边界与静态回归验证，不改变 Radar 决策、数据分支或其他工作流。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-09T18:50:36Z",
+  "preflightContractDigest": "sha256:f7c73af1abfc38d180519f04cc47c8955825ecb7db45428bee2701dde907850e",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "tests/daily_radar_workflow_integration.rs",
+        "make test-radar-workflow-contract"
+      ],
+      "required": true,
+      "scenario": "Protobuf 安装只使用 Ubuntu source list，第三方 APT 源索引异常不会阻断该步骤",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T18:50:36Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-apt-source-fix"
+}
