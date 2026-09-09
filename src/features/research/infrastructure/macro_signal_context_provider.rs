@@ -301,7 +301,7 @@ fn parse_fred_series_observations(raw: &str, market_date: NaiveDate) -> Result<P
             value.is_finite().then_some((observation.date, value))
         })
         .collect::<Vec<_>>();
-    observations.sort_by(|left, right| right.0.cmp(&left.0));
+    observations.sort_by_key(|left| std::cmp::Reverse(left.0));
     let [(latest_date, latest_value), (previous_date, previous_value), ..] =
         observations.as_slice()
     else {
