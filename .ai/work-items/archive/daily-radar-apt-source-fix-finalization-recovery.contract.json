@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/daily-radar-apt-source-fix-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/171",
     "worktree": "/private/tmp/sentinel-daily-radar-apt-finalization-recovery"
   },
   "risk": "normal",
