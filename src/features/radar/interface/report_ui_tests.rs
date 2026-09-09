@@ -7244,6 +7244,42 @@ mod tests {
     }
 
     #[test]
+    fn report_renders_observed_market_reactions_without_trade_language() {
+        use crate::features::radar::interface::presentation::{
+            InterpretationLayerViewModel, PresentationPacket,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let config = mock_config_with_language(Language::EnUs);
+        let presentation = PresentationPacket {
+            language: Language::EnUs,
+            interpretation_layer: Some(InterpretationLayerViewModel {
+                signal_context_market_reactions_label: "Observed Market Reactions".to_string(),
+                signal_context_market_reactions_value:
+                    "Brent crude oil: latest 99.20; daily change +4.10\nUS 10Y Treasury yield: latest 4.80; daily change +0.12"
+                        .to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        assert!(report.markdown_body.contains("Observed Market Reactions"));
+        assert!(report.markdown_body.contains("Brent crude oil"));
+        assert!(report.telegram_html_body.contains("US 10Y Treasury yield"));
+        assert!(!report.markdown_body.contains("BUY"));
+        assert!(!report.markdown_body.contains("SELL"));
+    }
+
+    #[test]
     fn report_localizes_signal_context_fact_labels_in_markdown_and_html() {
         use crate::features::radar::interface::presentation::{
             InterpretationLayerViewModel, PresentationPacket,

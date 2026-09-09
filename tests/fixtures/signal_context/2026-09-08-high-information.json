@@ -1,0 +1,145 @@
+{
+  "case_id": "2026-09-08-high-information",
+  "market_date": "2026-09-08",
+  "scheduled_macro": [],
+  "corporate_events": [],
+  "geopolitical_events": [
+    {
+      "type": "GEOPOLITICAL",
+      "title": "Geopolitical escalation",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "ACTIVE_REPRICING",
+      "event_fact": "Structured escalation headline observed in the market-news feed.",
+      "observed_at": "2026-09-08T10:00:00Z",
+      "source_published_at": "2026-09-08T10:00:00Z",
+      "market_date": "2026-09-08",
+      "evidence": [
+        {
+          "source": "Structured News",
+          "source_url": "https://example.test/geopolitical-escalation",
+          "timestamp": "2026-09-08T10:00:00Z",
+          "source_published_at": "2026-09-08T10:00:00Z",
+          "event_type": "GEOPOLITICAL_ESCALATION",
+          "subject": "Energy facility attack",
+          "importance": "HIGH"
+        }
+      ],
+      "reason": "Event fact is retained for context; causal attribution is not established."
+    }
+  ],
+  "commodity_events": [
+    {
+      "type": "COMMODITY",
+      "title": "Brent crude oil",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "ACTIVE_REPRICING",
+      "event_fact": "Brent crude oil latest 99.20; daily change +4.10.",
+      "observed_at": "2026-09-08T16:00:00Z",
+      "source_published_at": "2026-09-08T16:00:00Z",
+      "market_date": "2026-09-08",
+      "evidence": [
+        {
+          "source": "FRED",
+          "source_url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
+          "timestamp": "2026-09-08T16:00:00Z",
+          "source_published_at": "2026-09-08T00:00:00Z",
+          "event_type": "COMMODITY_OIL",
+          "subject": "Brent crude oil",
+          "importance": "HIGH"
+        }
+      ],
+      "reason": "Observed commodity repricing is retained for context; causal attribution is not established."
+    }
+  ],
+  "rates_credit_events": [
+    {
+      "type": "RATES_CREDIT",
+      "title": "US rates / credit",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "ACTIVE_REPRICING",
+      "event_fact": "US 10Y Treasury yield latest 4.80; daily change +0.12.",
+      "observed_at": "2026-09-08T16:00:00Z",
+      "source_published_at": "2026-09-08T16:00:00Z",
+      "market_date": "2026-09-08",
+      "evidence": [
+        {
+          "source": "FRED",
+          "source_url": "https://fred.stlouisfed.org/series/DGS10",
+          "timestamp": "2026-09-08T16:00:00Z",
+          "source_published_at": "2026-09-08T00:00:00Z",
+          "event_type": "RATES_CREDIT",
+          "subject": "US 10Y Treasury yield",
+          "importance": "HIGH"
+        }
+      ],
+      "reason": "Observed rate repricing is retained for context; causal attribution is not established."
+    }
+  ],
+  "market_structure_events": [],
+  "primary_context": {
+    "type": "GEOPOLITICAL",
+    "title": "Geopolitical escalation",
+    "information_content": "HIGH"
+  },
+  "secondary_contexts": [],
+  "overall_information_content": "HIGH",
+  "context_quality": "HIGH",
+  "coverage": {
+    "scheduled_macro": "HEALTHY",
+    "corporate": "HEALTHY",
+    "geopolitical": "HEALTHY",
+    "commodity": "HEALTHY",
+    "rates_credit": "HEALTHY",
+    "market_structure": "HEALTHY",
+    "overall": "HEALTHY"
+  },
+  "observed_market_reactions": [
+    {
+      "observed_at": "2026-09-08T16:00:00Z",
+      "source_published_at": "2026-09-08T00:00:00Z",
+      "market_date": "2026-09-08",
+      "subject": "Brent crude oil",
+      "observation": "latest 99.20; daily change +4.10",
+      "evidence": [
+        {
+          "source": "FRED",
+          "source_url": "https://fred.stlouisfed.org/series/DCOILBRENTEU",
+          "timestamp": "2026-09-08T16:00:00Z",
+          "source_published_at": "2026-09-08T00:00:00Z",
+          "event_type": "COMMODITY_OIL",
+          "subject": "Brent crude oil",
+          "importance": "HIGH"
+        }
+      ]
+    },
+    {
+      "observed_at": "2026-09-08T16:00:00Z",
+      "source_published_at": "2026-09-08T00:00:00Z",
+      "market_date": "2026-09-08",
+      "subject": "US 10Y Treasury yield",
+      "observation": "latest 4.80; daily change +0.12",
+      "evidence": [
+        {
+          "source": "FRED",
+          "source_url": "https://fred.stlouisfed.org/series/DGS10",
+          "timestamp": "2026-09-08T16:00:00Z",
+          "source_published_at": "2026-09-08T00:00:00Z",
+          "event_type": "RATES_CREDIT",
+          "subject": "US 10Y Treasury yield",
+          "importance": "HIGH"
+        }
+      ]
+    }
+  ],
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none"
+}

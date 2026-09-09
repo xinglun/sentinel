@@ -153,6 +153,12 @@ pub(crate) fn build_interpretation_layer_view_model(
             .to_string(),
         signal_context_event_fact_label: interpretation.signal_context_event_fact_label.clone(),
         signal_context_event_fact_value: signal_context.event_fact,
+        signal_context_market_reactions_label: match input.language {
+            Language::ZhCn => "观察到的市场反应".to_string(),
+            Language::EnUs => "Observed Market Reactions".to_string(),
+            Language::JaJp => "観測された市場反応".to_string(),
+        },
+        signal_context_market_reactions_value: signal_context.market_reactions_value,
         signal_context_source_diagnostics_label: interpretation
             .signal_context_source_diagnostics_label
             .clone(),

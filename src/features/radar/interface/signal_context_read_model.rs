@@ -33,6 +33,7 @@ pub(crate) struct SignalContextAssessment {
     pub primary_context: SignalContextPrimaryContext,
     pub context_quality: SignalContextQuality,
     pub event_fact: String,
+    pub market_reactions_value: String,
     pub source_health: MacroEventSourceHealth,
     pub source_diagnostics_summary: String,
     pub source_diagnostics_appendix: String,
@@ -50,6 +51,7 @@ pub(crate) fn build_signal_context_assessment(
         derive_information_content(primary_context, &input.future_context, &v1);
     let context_quality = derive_context_quality(primary_context, &input.future_context, &v1);
     let event_fact = compose_event_fact(&input.future_context, &v1);
+    let market_reactions_value = format_market_reactions(&v1.observed_market_reactions);
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, &v1, input.language);
@@ -82,12 +84,26 @@ pub(crate) fn build_signal_context_assessment(
         primary_context,
         context_quality,
         event_fact,
+        market_reactions_value,
         source_health,
         source_diagnostics_summary,
         source_diagnostics_appendix,
         interpretation,
         next_observation,
     }
+}
+
+fn format_market_reactions(
+    reactions: &[crate::features::research::interface::macro_event_observation::MarketReaction],
+) -> String {
+    reactions
+        .iter()
+        .filter(|reaction| {
+            !reaction.subject.trim().is_empty() && !reaction.observation.trim().is_empty()
+        })
+        .map(|reaction| format!("{}: {}", reaction.subject, reaction.observation))
+        .collect::<Vec<_>>()
+        .join("\n")
 }
 
 fn format_signal_context_coverage(
@@ -419,6 +435,7 @@ fn compose_interpretation(
     match primary_context {
         SignalContextPrimaryContext::MacroEvent => macro_event_text(
             future_context,
+            v1,
             information_content,
             context_quality,
             language,
@@ -474,6 +491,10 @@ fn compose_source_diagnostics(
             &mut appendix,
             corporate_event_evidence_appendix(&future_context.corporate_event_evidence, language),
         );
+        append_source_diagnostics_line(
+            &mut appendix,
+            macro_signal_context_diagnostics(future_context),
+        );
         return (
             match language {
                 Language::ZhCn if provider_backed => {
@@ -501,8 +522,10 @@ fn compose_source_diagnostics(
                 != crate::features::radar::interface::presentation::SignalContextSourceStatus::Healthy
         },
     );
+    let macro_runtime_source_incomplete = macro_runtime_source_incomplete(future_context);
     if future_context.source_health == MacroEventSourceHealth::Succeeded
         && !runtime_coverage_incomplete
+        && !macro_runtime_source_incomplete
         && future_context.corporate_event_provider.diagnostic.is_none()
         && future_context.corporate_event_evidence.events.is_empty()
         && future_context
@@ -519,13 +542,20 @@ fn compose_source_diagnostics(
             .corporate_event_provider
             .diagnostic
             .as_deref())
+        .or_else(|| {
+            future_context
+                .macro_signal_context
+                .as_ref()
+                .and_then(|context| context.rates_credit.diagnostics.first())
+                .map(String::as_str)
+        })
         .unwrap_or(match language {
             Language::ZhCn => "没有额外诊断信息",
             Language::EnUs => "no extra diagnostic information",
             Language::JaJp => "追加の診断情報はない",
         });
     let summary = if timeline_lines.is_empty() {
-        if runtime_coverage_incomplete {
+        if runtime_coverage_incomplete || macro_runtime_source_incomplete {
             match language {
                 Language::ZhCn => {
                     "来源覆盖不完整，当前无法确认是否存在高信息量事件；不作无事件结论。".to_string()
@@ -618,7 +648,49 @@ fn compose_source_diagnostics(
         &mut appendix,
         corporate_event_evidence_appendix(&future_context.corporate_event_evidence, language),
     );
+    append_source_diagnostics_line(
+        &mut appendix,
+        macro_signal_context_diagnostics(future_context),
+    );
     (summary, appendix)
+}
+
+fn macro_runtime_source_incomplete(future_context: &SignalContextEventReadModel) -> bool {
+    future_context
+        .macro_signal_context
+        .as_ref()
+        .is_some_and(|context| {
+            [
+                context.rates_credit.status,
+                context.commodity.status,
+                context.geopolitical.status,
+            ]
+            .into_iter()
+            .any(|status| {
+                !matches!(
+                    status,
+                    crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy
+                )
+            })
+        })
+}
+
+fn macro_signal_context_diagnostics(future_context: &SignalContextEventReadModel) -> String {
+    future_context
+        .macro_signal_context
+        .as_ref()
+        .map(|context| {
+            context
+                .rates_credit
+                .diagnostics
+                .iter()
+                .chain(context.commodity.diagnostics.iter())
+                .chain(context.geopolitical.diagnostics.iter())
+                .cloned()
+                .collect::<Vec<_>>()
+                .join("; ")
+        })
+        .unwrap_or_default()
 }
 
 fn append_source_diagnostics_line(appendix: &mut String, line: String) {
@@ -727,10 +799,49 @@ fn compose_next_observation(
             }
         };
     }
+    if let Some(item) = external_primary_item(future_context, v1).filter(|item| {
+        matches!(
+            item.context_type,
+            SignalContextType::Geopolitical
+                | SignalContextType::Commodity
+                | SignalContextType::RatesCredit
+        )
+    }) {
+        return match language {
+            Language::ZhCn => format!(
+                "继续观察 {} 的后续市场反应与利率/商品/风险定价是否持续；这只是上下文观测，不改变交易权限。",
+                item.title
+            ),
+            Language::EnUs => format!(
+                "Continue observing whether the market response to {} persists across rates, commodities, or risk pricing; this context does not change trading permission.",
+                item.title
+            ),
+            Language::JaJp => format!(
+                "{} に対する市場反応と金利・コモディティ・リスク価格の持続性を観察する。この文脈は取引権限を変更しない。",
+                item.title
+            ),
+        };
+    }
     let timeline_lines = format_event_timeline_lines(as_of_date, future_context, language);
     if timeline_lines.is_empty() {
+        if macro_runtime_source_incomplete(future_context) {
+            return match language {
+                Language::ZhCn => {
+                    "Rates/Credit、Commodity/Oil 或 Geopolitical 来源覆盖不完整；无法确认是否存在高信息量事件，不作无事件结论。".to_string()
+                }
+                Language::EnUs => {
+                    "Rates/credit, commodity/oil, or geopolitical source coverage is incomplete; whether a high-information event exists cannot be confirmed, so no absence conclusion is made.".to_string()
+                }
+                Language::JaJp => {
+                    "金利・信用、コモディティ・原油、または地政学ソースのカバレッジが不完全なため、高情報量イベントの有無を確認できず、無イベントの結論は出さない。".to_string()
+                }
+            };
+        }
         return match (primary_context, information_content, future_context.source_health) {
-            (_, _, MacroEventSourceHealth::Unavailable) if !future_context.has_loaded_context() => {
+            (_, _, MacroEventSourceHealth::Unavailable)
+                if !future_context.has_loaded_context()
+                    || macro_runtime_source_incomplete(future_context) =>
+            {
                 match language {
                     Language::ZhCn => "官方来源当前不可用；待来源恢复后再确认是否存在事件".to_string(),
                     Language::EnUs => "Official source is currently unavailable; verify if events exist once the source is restored.".to_string(),
@@ -1021,12 +1132,15 @@ fn waiting_event_text(
 
 fn macro_event_text(
     future_context: &SignalContextEventReadModel,
+    v1: &SignalContextV1,
     information_content: SignalContextInformationContent,
     context_quality: SignalContextQuality,
     language: Language,
 ) -> String {
-    let event_fact = future_context
-        .detected_primary_evidence_summary()
+    let event_fact = external_primary_item(future_context, v1)
+        .map(|item| item.event_fact.clone())
+        .filter(|fact| !fact.trim().is_empty())
+        .or_else(|| future_context.detected_primary_evidence_summary())
         .unwrap_or_default();
     match language {
         Language::ZhCn => {

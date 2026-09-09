@@ -2785,6 +2785,22 @@ fn render_signal_context_facts_markdown(
     }
 }
 
+fn render_signal_context_market_reactions(
+    block: &mut String,
+    layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+) {
+    if layer.signal_context_market_reactions_value.is_empty() {
+        return;
+    }
+    block.push_str(&format!(
+        "    - {}:\n",
+        layer.signal_context_market_reactions_label
+    ));
+    for line in layer.signal_context_market_reactions_value.lines() {
+        block.push_str(&format!("      - {line}\n"));
+    }
+}
+
 fn render_interpretation_section(
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
     language: Language,
@@ -2837,6 +2853,7 @@ fn render_interpretation_section(
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
                 ));
             }
+            render_signal_context_market_reactions(&mut block, layer);
             if !layer.signal_context_source_diagnostics_value.is_empty() {
                 block.push_str(&format!(
                     "    - {}: {}\n",
@@ -2970,6 +2987,7 @@ fn render_interpretation_section(
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
                 ));
             }
+            render_signal_context_market_reactions(&mut block, layer);
             if !layer.signal_context_source_diagnostics_value.is_empty() {
                 block.push_str(&format!(
                     "    - {}: {}\n",

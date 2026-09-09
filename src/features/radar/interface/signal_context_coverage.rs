@@ -1,6 +1,6 @@
 use crate::features::radar::interface::presentation::{
     SignalContextCoverage, SignalContextInformationLevel, SignalContextItem,
-    SignalContextSourceStatus, SignalContextV1,
+    SignalContextLifecycle, SignalContextSourceStatus, SignalContextType, SignalContextV1,
 };
 use crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel;
 use crate::features::research::application::corporate_event_evidence_resolver::{
@@ -11,11 +11,14 @@ use crate::features::research::application::corporate_event_provider::{
     CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
     CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
 };
-use crate::features::research::interface::macro_event_observation::EvidenceRecord;
 use crate::features::research::interface::macro_event_observation::FutureCalendarKind;
 use crate::features::research::interface::macro_event_observation::MacroEventImportance;
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
+use crate::features::research::interface::macro_event_observation::{
+    EvidenceRecord, MacroSignalContextEvent, MacroSignalContextInformationLevel,
+    MacroSignalContextLifecycle, MacroSignalContextSourceStatus,
+};
 use chrono::NaiveDate;
 use serde_json;
 use std::env;
@@ -113,6 +116,11 @@ pub(crate) fn build_v1_from_event_context(
         build_macro_v1_from_event_context(as_of_date, event_context),
         event_context.runtime_coverage.as_ref(),
     );
+    let macro_context = apply_runtime_macro_signal_context(
+        as_of_date,
+        macro_context,
+        event_context.macro_signal_context.as_ref(),
+    );
     let macro_context = apply_corporate_event_provider_context(
         as_of_date,
         macro_context,
@@ -131,6 +139,124 @@ pub(crate) fn build_v1_from_event_context(
                 .flatten()
         });
     build_v1_from_event_context_with_external(macro_context, external)
+}
+
+fn apply_runtime_macro_signal_context(
+    as_of_date: NaiveDate,
+    snapshot: SignalContextV1,
+    runtime_context: Option<
+        &crate::features::research::interface::macro_event_observation::MacroSignalContextReadModel,
+    >,
+) -> SignalContextV1 {
+    let Some(runtime_context) = runtime_context else {
+        return snapshot;
+    };
+    let mut coverage = snapshot.coverage;
+    coverage.rates_credit = runtime_source_status(runtime_context.rates_credit.status);
+    coverage.commodity = runtime_source_status(runtime_context.commodity.status);
+    coverage.geopolitical = runtime_source_status(runtime_context.geopolitical.status);
+    let rates_credit_events = runtime_context
+        .rates_credit
+        .events
+        .iter()
+        .filter_map(|event| runtime_macro_item(event, SignalContextType::RatesCredit, as_of_date))
+        .collect();
+    let commodity_events = runtime_context
+        .commodity
+        .events
+        .iter()
+        .filter_map(|event| runtime_macro_item(event, SignalContextType::Commodity, as_of_date))
+        .collect();
+    let geopolitical_events = runtime_context
+        .geopolitical
+        .events
+        .iter()
+        .filter_map(|event| runtime_macro_item(event, SignalContextType::Geopolitical, as_of_date))
+        .collect();
+    coverage.overall = aggregate_coverage([
+        coverage.scheduled_macro,
+        coverage.corporate,
+        coverage.geopolitical,
+        coverage.commodity,
+        coverage.rates_credit,
+        coverage.market_structure,
+    ]);
+    build_signal_context_v1(SignalContextCoverageInput {
+        market_date: as_of_date.to_string(),
+        scheduled_macro: snapshot.scheduled_macro,
+        corporate_events: snapshot.corporate_events,
+        geopolitical_events,
+        commodity_events,
+        rates_credit_events,
+        market_structure_events: snapshot.market_structure_events,
+        coverage,
+        observed_market_reactions: snapshot
+            .observed_market_reactions
+            .into_iter()
+            .chain(runtime_context.observed_market_reactions.iter().cloned())
+            .collect(),
+        event_time_utc: snapshot.event_time_utc,
+        event_time_market_tz: snapshot.event_time_market_tz,
+        report_generated_at: snapshot.report_generated_at,
+    })
+}
+
+fn runtime_source_status(status: MacroSignalContextSourceStatus) -> SignalContextSourceStatus {
+    match status {
+        MacroSignalContextSourceStatus::Healthy => SignalContextSourceStatus::Healthy,
+        MacroSignalContextSourceStatus::Partial => SignalContextSourceStatus::Partial,
+        MacroSignalContextSourceStatus::Degraded => SignalContextSourceStatus::Degraded,
+        MacroSignalContextSourceStatus::Unavailable => SignalContextSourceStatus::Unavailable,
+    }
+}
+
+fn runtime_macro_item(
+    event: &MacroSignalContextEvent,
+    context_type: SignalContextType,
+    as_of_date: NaiveDate,
+) -> Option<SignalContextItem> {
+    if event.market_date != as_of_date.to_string()
+        || event.lifecycle == MacroSignalContextLifecycle::Expired
+        || event.evidence.is_empty()
+    {
+        return None;
+    }
+    Some(SignalContextItem {
+        context_type,
+        title: event.title.clone(),
+        symbol: None,
+        information_content: runtime_information_level(event.information_content),
+        market_relevance: runtime_information_level(event.market_relevance),
+        evidence_quality: runtime_information_level(event.evidence_quality),
+        lifecycle: match event.lifecycle {
+            MacroSignalContextLifecycle::Released => SignalContextLifecycle::Released,
+            MacroSignalContextLifecycle::ActiveRepricing => SignalContextLifecycle::ActiveRepricing,
+            MacroSignalContextLifecycle::Aftermath => SignalContextLifecycle::Aftermath,
+            MacroSignalContextLifecycle::Expired => SignalContextLifecycle::Expired,
+        },
+        event_fact: event.event_fact.clone(),
+        observed_at: event.observed_at.clone(),
+        source_published_at: event.source_published_at.clone(),
+        market_date: event.market_date.clone(),
+        evidence: event.evidence.clone(),
+        expected_value: event.expected_value.clone(),
+        actual_value: event.actual_value.clone(),
+        surprise: event.surprise.clone(),
+        reason: event.reason.clone(),
+    })
+}
+
+fn runtime_information_level(
+    level: MacroSignalContextInformationLevel,
+) -> SignalContextInformationLevel {
+    match level {
+        MacroSignalContextInformationLevel::High => SignalContextInformationLevel::High,
+        MacroSignalContextInformationLevel::Medium => SignalContextInformationLevel::Medium,
+        MacroSignalContextInformationLevel::Low => SignalContextInformationLevel::Low,
+        MacroSignalContextInformationLevel::Unavailable => {
+            SignalContextInformationLevel::Unavailable
+        }
+    }
 }
 
 pub(crate) fn attach_corporate_event_evidence(
@@ -1581,6 +1707,103 @@ mod tests {
         assert_eq!(enrichments[0].symbol, "NVDA");
         assert_eq!(enrichments[0].theme.as_deref(), Some("AI_INFRASTRUCTURE"));
         assert_eq!(enrichments[0].source.provider_id, "external-signal-context");
+    }
+
+    #[test]
+    fn runtime_macro_context_projects_three_observation_sources_without_trade_effect() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 9, 8).unwrap();
+        let evidence = EvidenceRecord {
+            source: "FRED".to_string(),
+            source_url: "https://fred.stlouisfed.org/series/DGS10".to_string(),
+            timestamp: "2026-09-08T00:00:00Z".to_string(),
+            source_published_at: "2026-09-08T00:00:00Z".to_string(),
+            event_type: "RATES_CREDIT".to_string(),
+            subject: "US 10Y Treasury yield".to_string(),
+            importance: "HIGH".to_string(),
+        };
+        let runtime_context = crate::features::research::interface::macro_event_observation::MacroSignalContextReadModel {
+            market_date,
+            rates_credit: crate::features::research::interface::macro_event_observation::MacroSignalContextSource {
+                status: crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy,
+                events: vec![crate::features::research::interface::macro_event_observation::MacroSignalContextEvent {
+                    title: "US RATES / CREDIT".to_string(),
+                    information_content: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                    market_relevance: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                    evidence_quality: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                    lifecycle: crate::features::research::interface::macro_event_observation::MacroSignalContextLifecycle::ActiveRepricing,
+                    event_fact: "US 10Y Treasury yield latest 4.80".to_string(),
+                    observed_at: "2026-09-08T00:00:00Z".to_string(),
+                    source_published_at: "2026-09-08T00:00:00Z".to_string(),
+                    market_date: market_date.to_string(),
+                    evidence: vec![evidence],
+                    ..Default::default()
+                }],
+                diagnostics: Vec::new(),
+            },
+            commodity: crate::features::research::interface::macro_event_observation::MacroSignalContextSource {
+                status: crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy,
+                ..Default::default()
+            },
+            geopolitical: crate::features::research::interface::macro_event_observation::MacroSignalContextSource {
+                status: crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy,
+                ..Default::default()
+            },
+            observed_market_reactions: Vec::new(),
+        };
+        let event_context = crate::features::radar::interface::signal_context_event_read_model::attach_macro_signal_context(
+            SignalContextEventReadModel::default(),
+            runtime_context,
+        );
+
+        let snapshot = build_v1_from_event_context(market_date, &event_context);
+
+        assert_eq!(snapshot.rates_credit_events.len(), 1);
+        assert_eq!(
+            snapshot.coverage.rates_credit,
+            SignalContextSourceStatus::Healthy
+        );
+        assert_eq!(
+            snapshot.primary_context.as_ref().unwrap().context_type,
+            SignalContextType::RatesCredit
+        );
+        assert_eq!(snapshot.decision_weight, 0);
+        assert!(!snapshot.trade_signal);
+    }
+
+    #[test]
+    fn high_information_fixture_keeps_geopolitical_oil_rates_and_reactions() {
+        let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/signal_context/2026-09-08-high-information.json");
+        let context = load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 9, 8).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(context.geopolitical_events.len(), 1);
+        assert_eq!(context.commodity_events.len(), 1);
+        assert_eq!(context.rates_credit_events.len(), 1);
+        assert_eq!(context.observed_market_reactions.len(), 2);
+        assert_eq!(context.decision_weight, 0);
+        assert!(!context.trade_signal);
+    }
+
+    #[test]
+    fn no_event_fixture_is_not_converted_to_absolute_event_absence() {
+        let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/signal_context/2026-09-08-no-event.json");
+        let context = load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 9, 8).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+
+        assert!(context.geopolitical_events.is_empty());
+        assert!(context.commodity_events.is_empty());
+        assert!(context.rates_credit_events.is_empty());
+        assert_eq!(context.coverage.overall, SignalContextSourceStatus::Healthy);
     }
 
     fn healthy_coverage() -> SignalContextCoverage {
