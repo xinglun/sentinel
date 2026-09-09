@@ -1,0 +1,29 @@
+{
+  "case_id": "2026-09-08-no-event",
+  "market_date": "2026-09-08",
+  "scheduled_macro": [],
+  "corporate_events": [],
+  "geopolitical_events": [],
+  "commodity_events": [],
+  "rates_credit_events": [],
+  "market_structure_events": [],
+  "primary_context": null,
+  "secondary_contexts": [],
+  "overall_information_content": "UNAVAILABLE",
+  "context_quality": "UNAVAILABLE",
+  "coverage": {
+    "scheduled_macro": "HEALTHY",
+    "corporate": "HEALTHY",
+    "geopolitical": "HEALTHY",
+    "commodity": "HEALTHY",
+    "rates_credit": "HEALTHY",
+    "market_structure": "HEALTHY",
+    "overall": "HEALTHY"
+  },
+  "observed_market_reactions": [],
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none"
+}

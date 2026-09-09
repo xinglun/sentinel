@@ -11,6 +11,7 @@ use crate::features::research::interface::macro_event_calendar_adapter::MacroEve
 use crate::features::research::interface::macro_event_observation::{
     FutureCalendarKind, FutureCalendarObservation, MacroEventImportance,
     MacroEventInformationContent, MacroEventLifecycle, MacroEventSourceHealth, MacroEventType,
+    MacroSignalContextReadModel,
 };
 use chrono::NaiveDate;
 
@@ -37,6 +38,8 @@ pub(crate) struct SignalContextEventReadModel {
     pub macro_event: SignalContextEventSlot,
     /// 実行時に確認できた外部 source coverage。事実 event がない場合も保持する。
     pub runtime_coverage: Option<SignalContextCoverage>,
+    /// 実行時に取得した rates/commodity/geopolitical の observation-only context。
+    pub macro_signal_context: Option<MacroSignalContextReadModel>,
     /// 企業イベント Provider の normalized read model。取引判断には渡さない。
     pub corporate_event_provider: CorporateEventProviderReadModel,
     /// 複数 source を統合した canonical evidence。取引判断には渡さない。
@@ -132,9 +135,19 @@ pub(crate) fn build_signal_context_event_read_model(
         major_event_waiting: future_calendar.major_event_waiting,
         macro_event: future_calendar.macro_event,
         runtime_coverage: None,
+        macro_signal_context: None,
         corporate_event_provider: CorporateEventProviderReadModel::default(),
         corporate_event_evidence: CorporateEventEvidenceResolution::default(),
     }
+}
+
+/// Research ACL から渡された macro context を event read model に接続する。
+pub(crate) fn attach_macro_signal_context(
+    mut event_context: SignalContextEventReadModel,
+    macro_signal_context: MacroSignalContextReadModel,
+) -> SignalContextEventReadModel {
+    event_context.macro_signal_context = Some(macro_signal_context);
+    event_context
 }
 
 fn build_timeline_entries(
@@ -274,6 +287,7 @@ impl SignalContextEventReadModel {
             || self.pre_earnings_waiting.is_loaded()
             || self.major_event_waiting.is_loaded()
             || self.macro_event.is_loaded()
+            || self.macro_signal_context.is_some()
     }
 
     pub(crate) fn detected_primary_context(&self) -> Option<SignalContextPrimaryContext> {

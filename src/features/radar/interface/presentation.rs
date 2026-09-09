@@ -710,6 +710,10 @@ pub struct InterpretationLayerViewModel {
     pub signal_context_quality_value: String,
     pub signal_context_event_fact_label: String,
     pub signal_context_event_fact_value: String,
+    #[serde(default)]
+    pub signal_context_market_reactions_label: String,
+    #[serde(default)]
+    pub signal_context_market_reactions_value: String,
     pub signal_context_source_diagnostics_label: String,
     pub signal_context_source_diagnostics_value: String,
     pub signal_context_source_diagnostics_appendix_label: String,

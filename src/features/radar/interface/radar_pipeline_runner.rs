@@ -42,7 +42,8 @@ use crate::features::radar::interface::signal_context_coverage::{
     attach_corporate_event_evidence, external_corporate_event_enrichments,
 };
 use crate::features::radar::interface::signal_context_event_read_model::{
-    build_signal_context_event_read_model, SignalContextEventReadModelInput,
+    attach_macro_signal_context, build_signal_context_event_read_model,
+    SignalContextEventReadModelInput,
 };
 use crate::features::radar::interface::weekly_state_report::{
     persist_weekly_state_outputs, WeeklyMacroGravityContext, WeeklyReportContext,
@@ -513,6 +514,11 @@ pub(crate) async fn run_pipeline_for_report_date(
                 watch_symbols.clone(),
                 report_run_at,
             );
+            let previous_macro_signal_context = crate::features::research::interface::macro_event_observation::load_macro_signal_context(
+                config_arc.as_ref(),
+                previous_packet_date,
+            )
+            .await;
             let previous_gravity_observation =
                 build_valuation_gravity_observation_for_market_date_with_auto(
                     config_arc.as_ref(),
@@ -538,6 +544,7 @@ pub(crate) async fn run_pipeline_for_report_date(
                 previous_gray_rhino_daily_report.as_ref(),
                 &previous_future_calendar,
                 &previous_corporate_event_evidence,
+                &previous_macro_signal_context,
                 lang,
                 &dict,
             ));
@@ -562,12 +569,20 @@ pub(crate) async fn run_pipeline_for_report_date(
             watch_symbols.clone(),
             report_run_at,
         );
+        let macro_signal_context = crate::features::research::interface::macro_event_observation::load_macro_signal_context(
+            config_arc.as_ref(),
+            packet.date,
+        )
+        .await;
         let future_context = attach_corporate_event_evidence(
-            build_signal_context_event_read_model(SignalContextEventReadModelInput {
-                as_of_date: packet.date,
-                expectation_snapshot: Some(&expectation_snapshot),
-                future_calendar: Some(&future_calendar),
-            }),
+            attach_macro_signal_context(
+                build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                    as_of_date: packet.date,
+                    expectation_snapshot: Some(&expectation_snapshot),
+                    future_calendar: Some(&future_calendar),
+                }),
+                macro_signal_context,
+            ),
             corporate_event_evidence,
         );
         let gray_rhino_daily_report = build_gray_rhino_daily_report_view_model(
@@ -1770,15 +1785,19 @@ fn build_packet_interpretation_layer(
     gray_rhino_daily_report: Option<&GrayRhinoDailyReportViewModel>,
     future_calendar: &crate::features::research::interface::macro_event_calendar_adapter::MacroEventCalendarReadModel,
     corporate_event_evidence: &CorporateEventEvidenceResolution,
+    macro_signal_context: &crate::features::research::interface::macro_event_observation::MacroSignalContextReadModel,
     language: crate::features::shared::interface::i18n::Language,
     dict: &crate::features::shared::interface::i18n::DisplayDictionary,
 ) -> crate::features::radar::interface::presentation::InterpretationLayerViewModel {
     let future_context = attach_corporate_event_evidence(
-        build_signal_context_event_read_model(SignalContextEventReadModelInput {
-            as_of_date: packet.date,
-            expectation_snapshot: Some(expectation_snapshot),
-            future_calendar: Some(future_calendar),
-        }),
+        attach_macro_signal_context(
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: packet.date,
+                expectation_snapshot: Some(expectation_snapshot),
+                future_calendar: Some(future_calendar),
+            }),
+            macro_signal_context.clone(),
+        ),
         corporate_event_evidence.clone(),
     );
     let (expectation_quality, expectation_quality_reason) =

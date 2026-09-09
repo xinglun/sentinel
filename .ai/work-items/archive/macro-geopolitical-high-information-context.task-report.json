@@ -1,0 +1,102 @@
+{
+  "bindings": {
+    "evidenceRefs": [
+      ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+    ],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+    "workItemId": "macro-geopolitical-high-information-context"
+  },
+  "format": "ai-cockpit.task-outcome",
+  "humanStatusColor": "green",
+  "schemaVersion": 1,
+  "sections": {
+    "avoidedImpact": [],
+    "deliveredChanges": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/macro-geopolitical-high-information-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/macro-geopolitical-high-information-context.contract.json"
+      },
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/macro-geopolitical-high-information-context.summary.json"
+        ],
+        "inference": false,
+        "text": "Changed path: .ai/work-items/archive/macro-geopolitical-high-information-context.summary.json"
+      }
+    ],
+    "evidence": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+        ],
+        "inference": false,
+        "text": ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+      }
+    ],
+    "findings": [],
+    "forbiddenClaims": [
+      "merge_authorized_without_human_decision",
+      "release_published_without_release_evidence",
+      "provider_or_enterprise_approval_inferred_from_local_records",
+      "user_visible_benefit_invented_from_implementation_facts"
+    ],
+    "forcedStops": [],
+    "humanDecisions": [],
+    "interventions": [],
+    "limitations": [],
+    "nonRiskExplanations": [],
+    "outcomeSummary": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+      }
+    ],
+    "recurrencePrevention": [],
+    "residualRisks": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+        ],
+        "inference": false,
+        "text": "Remaining unknown: user_visible_benefit_not_declared"
+      }
+    ],
+    "resolutions": [
+      {
+        "evidenceRefs": [
+          ".ai/evidence/macro-geopolitical-high-information-context.verification.json"
+        ],
+        "inference": false,
+        "text": "The current verification evidence is valid for this repository and Work Item."
+      }
+    ],
+    "risks": [],
+    "taskOverview": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/macro-geopolitical-high-information-context.contract.json"
+        ],
+        "inference": false,
+        "text": "在现有 Signal Context read model 中接入三类结构化宏观事实：利率/信用、原油/商品、地缘升级，并在 Markdown/Telegram/weekly traceability 中以 observation-only 方式显示 primary/secondary context、source diagnostics、market reaction 与弱因果解释。"
+      }
+    ],
+    "warnings": [
+      {
+        "evidenceRefs": [
+          ".ai/work-items/archive/macro-geopolitical-high-information-context.contract.json"
+        ],
+        "inference": false,
+        "text": "User-visible benefit is not declared by the Work Item owner."
+      }
+    ]
+  },
+  "status": "verified",
+  "workItemId": "macro-geopolitical-high-information-context"
+}

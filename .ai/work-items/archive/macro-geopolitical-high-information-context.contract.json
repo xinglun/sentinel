@@ -1,0 +1,209 @@
+{
+  "acceptanceCriteria": [
+    "三类 source status 能分别表达 HEALTHY/PARTIAL/DEGRADED/UNAVAILABLE；缺源、解析失败、429、日期不匹配或证据不足时 fail-closed，不输出无证据的 high-information 或 absence 结论。",
+    "Rates/Credit、Commodity/Oil、Geopolitical 的结构化事实可进入统一 SignalContextV1，并在 2026-09-08 fixture 中被确定性选择为 primary/secondary context；事件事实、market reaction、source diagnostics 分离。",
+    "日报 Markdown、Telegram HTML 与 weekly traceability 使用同一 read model，显示类别、证据、来源、market date、lifecycle、reaction 与弱因果解释；所有 context 的 decision_weight=0、trade_signal=false、gate/execution/position_sizing effect=none。",
+    "现有 holiday fresh-session、NO TRADE、RS、Leadership provenance、Risk Presentation 与 Supply Sensor 行为保持不变；同一 price/RS 输入下，有无 Signal Context 只改变 observation/report surface，不改变 Decision/Gate/Action Matrix。",
+    "增加 2026-09-08 high-information、无事件、日期/时区、源失败/429/部分覆盖、过期事件和三语言 presentation 的回归测试，并通过 fmt、test、clippy、signal-context consistency 与 quality。"
+  ],
+  "agentCapability": {
+    "blockedReason": "",
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseCommit": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+  "baseRevision": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+  "baselineDirtyPaths": [],
+  "createdAt": "2026-09-08T23:30:15Z",
+  "executionDecision": {
+    "reason": "用户已批准窄范围 observation-only WI；本实现只复用现有 FRED/Finnhub 配置和结构化 payload，credential 缺失时走 UNAVAILABLE，不新增 provider 或 secret。",
+    "status": "continue"
+  },
+  "goal": "在现有 Signal Context read model 中接入三类结构化宏观事实：利率/信用、原油/商品、地缘升级，并在 Markdown/Telegram/weekly traceability 中以 observation-only 方式显示 primary/secondary context、source diagnostics、market reaction 与弱因果解释。",
+  "intent": "补齐日报 Signal Context 的 Rates/Credit、Commodity/Oil、Geopolitical observation coverage，使 high-information day 的重要性可由可追溯事实表达，同时保持交易决策边界冻结。",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "Decision/Gate/Execution/Trader/Action Matrix/READY/EXECUTE/Leader/RS/Breadth/Confidence/Position Sizing/Price-Volume/Supply/Gravity/Expectation 的判定与输入",
+    "Holiday carry-forward/fresh-session semantics",
+    "新增未经批准的 provider、secret、credential 或自由文本 AI 事实",
+    "任何买卖建议、trade signal 或 decision weight",
+    "历史 Work Item archive、reports、现有 data branch 的重写"
+  ],
+  "preReviewWarnings": [
+    "不得把 FRED structural text 或 Finnhub news narrative 直接当作 SignalContextItem；必须先经过字段、日期、EvidenceRecord 和 lifecycle 验证。",
+    "Geopolitical escalation 只能显示可追溯 event fact 与 observed reaction，不得生成强因果或交易建议。",
+    "重点检查外部 Context 的有无不会改变 Decision、Gate、Action Matrix 与 Position Sizing。"
+  ],
+  "problemStatement": "日报在正常交易日仍将 Rates/Credit、Commodity/Oil、Geopolitical 的信息内容显示为 UNAVAILABLE，导致 high-information day 的重要性无法由可追溯事实表达；现有 Signal Context schema 与外部 JSON fail-closed 入口已存在，但真实运行时缺少三类结构化观察接线。",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d61249a4960599f6fb796eada896ad88f1c16f0c273daf891786a0c130d883f0",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/macro-geopolitical-high-information-context",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-macro-geopolitical-high-information-context"
+  },
+  "risk": "high",
+  "riskAssessment": {
+    "level": "high",
+    "reason": "三类输入会改变日报的信息含量与解释展示；输入已限定为现有 FRED structured series 与 Finnhub structured news payload，来源字段、时间归属、证据完整性和失败语义由测试固定。",
+    "riskTypes": [
+      "data_integrity",
+      "api_change",
+      "architecture_boundary",
+      "governance_process"
+    ]
+  },
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-high-information.json"
+      ],
+      "reason": "固定 high-information observation-only fixture 已通过验证。",
+      "required": true,
+      "scenario": "2026-09-08 geopolitical escalation with oil and rates reaction",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-no-event.json"
+      ],
+      "reason": "已验证 source incomplete 时不输出绝对 absence。",
+      "required": true,
+      "scenario": "no-event and incomplete source coverage",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "make check-signal-context-consistency"
+      ],
+      "reason": "已验证三类 source 的 fail-closed 语义。",
+      "required": true,
+      "scenario": "source failure, 429, malformed payload and market-date mismatch",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/radar/interface/weekly_state_report.rs"
+      ],
+      "reason": "已验证各输出路径从同一 read model 投影事实。",
+      "required": true,
+      "scenario": "Markdown, Telegram HTML and weekly traceability share one read model",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "reason": "已验证 decision_weight=0 与 decision surface 语义等价。",
+      "required": true,
+      "scenario": "Signal Context does not alter decision surfaces",
+      "status": "verified"
+    }
+  ],
+  "scope": [
+    ".ai/work-items/active/macro-geopolitical-high-information-context.contract.json",
+    ".ai/work-items/active/macro-geopolitical-high-information-context.summary.json",
+    ".ai/decisions/macro-geopolitical-high-information-context.preflight-review.json",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/infrastructure/mod.rs",
+    "src/features/research/acl/mod.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/fixtures/signal_context/2026-09-08-high-information.json",
+    "tests/fixtures/signal_context/2026-09-08-no-event.json",
+    "tests/fixtures/signal_context/scenario-matrix.json",
+    "scripts/check_signal_context_consistency.py",
+    "docs/superpowers/specs/2026-09-09-macro-geopolitical-high-information-context-design.md",
+    "docs/superpowers/plans/2026-09-09-macro-geopolitical-high-information-context.md"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "仓库语言、AI Cockpit、Rust quality gate 与 observation-only 边界。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "安装版 Runtime、Work Item lifecycle 与 fail-closed 规则。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+      "reason": "既有六类 Context、EvidenceRecord、Coverage、lifecycle 与 decision_weight=0 设计。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-runtime-provider-wiring.md",
+      "reason": "既有结构化 JSON 输入、日期校验和非日历 Context 的运行时接线边界。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "当前 SignalContextV1 聚合、外部输入验证、coverage 真值表与 fail-closed 入口。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_event_read_model.rs",
+      "reason": "当前事件 read model 与 runtime_coverage 缺口。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "日报运行时组装 Interpretation read model 的唯一 pipeline 入口。"
+    },
+    {
+      "path": "src/features/research/infrastructure/gray_rhino_source_adapter.rs",
+      "reason": "现有 FRED 结构化 series 请求、超时、source identity 与 fail-closed provider 模式。"
+    },
+    {
+      "path": "src/features/research/infrastructure/capital_absorption_source_adapter.rs",
+      "reason": "现有 Finnhub market-news structured payload 读取与 source URL 追踪模式。"
+    },
+    {
+      "path": "src/features/radar/interface/report_ui_tests.rs",
+      "reason": "日报/Telegram/decision surface 不变性的回归测试入口。"
+    }
+  ],
+  "state": "implementation_active",
+  "title": "补齐宏观、商品与地缘 Signal Context 观察覆盖",
+  "unknowns": [],
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make check-signal-context-consistency",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "macro-geopolitical-high-information-context"
+}
