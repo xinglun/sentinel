@@ -1,0 +1,58 @@
+{
+  "actor": "agent:codex",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "user-message: 提交并按合并，再删除 worktree、branch 并执行 close；gh xinglun账户可以使用；授权给你继续合并与清理",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "5ea3b2b8cfec41910408783ef5f9c4331c6ad896e",
+    "name": "codex/macro-geopolitical-high-information-context",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:788ac13208fc35a6de7408bfc9025da8137e536b34edf1b8a4771c270e9c0dbc",
+  "operationId": "finalize-macro-geopolitical-high-information-context-a294c77cf45443468ded2025a1c0336b6f334c6f",
+  "provider": "local",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "65ad2177e1ceabcb6b670ed932d1ce8ebe3f1e2f",
+    "headRevision": "5ea3b2b8cfec41910408783ef5f9c4331c6ad896e",
+    "mergeCommit": "a294c77cf45443468ded2025a1c0336b6f334c6f",
+    "number": 167,
+    "url": "not-requested"
+  },
+  "reason": "PR #167 は CI の Build, Lint & Test、Audit Daily Guard、task-list-completed を通過した後に develop へマージされた。merge commit は a294c77c。マージ後、feature worktree とローカルおよびリモートの feature branch を削除した。",
+  "receiptId": "local-macro-geopolitical-high-information-context-a294c77cf45443468ded2025a1c0336b6f334c6f",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/macro-geopolitical-high-information-context",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-macro-geopolitical-high-information-context"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-09T01:34:03Z",
+  "workItemId": "macro-geopolitical-high-information-context",
+  "worktree": {
+    "branch": "codex/macro-geopolitical-high-information-context",
+    "headRevision": "5ea3b2b8cfec41910408783ef5f9c4331c6ad896e",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-macro-geopolitical-high-information-context",
+    "worktreeId": "macro-geopolitical-high-information-context"
+  }
+}
