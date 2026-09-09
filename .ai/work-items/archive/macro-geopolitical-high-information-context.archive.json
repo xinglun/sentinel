@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T01:08:46Z",
+  "files": {
+    "contractDigest": "sha256:788ac13208fc35a6de7408bfc9025da8137e536b34edf1b8a4771c270e9c0dbc",
+    "contractPath": ".ai/work-items/archive/macro-geopolitical-high-information-context.contract.json",
+    "eventsDigest": "sha256:2043f93090f917f8d25d77bbcf336ed7f94a6fead3545fc147a6fd32d460120f",
+    "eventsPath": ".ai/work-items/archive/macro-geopolitical-high-information-context.events.jsonl",
+    "outcomeDigest": "sha256:685433f99f12fe444d99af63cb8d75ba9ba23b05960be7408f78d288d5510f9a",
+    "outcomePath": ".ai/work-items/archive/macro-geopolitical-high-information-context.outcome.json",
+    "summaryDigest": "sha256:33ea39bc9fd7993792008af233adea0ee9f5276d716b45d3f189e971f3dffbc3",
+    "summaryPath": ".ai/work-items/archive/macro-geopolitical-high-information-context.summary.json",
+    "taskReportDigest": "sha256:6fed2ea15eb9f8947065edd64fa42d49a1f5437977d7f7096c95ec85ec5cb214",
+    "taskReportMarkdownDigest": "sha256:2d9e10d7cc44833ac3e00a9715451e9123532fa5e245b4f185c5585fa3c8a60e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/macro-geopolitical-high-information-context.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/macro-geopolitical-high-information-context.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "macro-geopolitical-high-information-context"
+}

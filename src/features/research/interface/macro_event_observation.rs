@@ -28,6 +28,85 @@ pub struct MarketReaction {
     pub evidence: Vec<EvidenceRecord>,
 }
 
+/// Research interface が同一 feature の ACL を呼び出す facade。
+pub(crate) async fn load_macro_signal_context(
+    app_config: &crate::config::AppConfig,
+    market_date: NaiveDate,
+) -> MacroSignalContextReadModel {
+    crate::features::research::acl::macro_signal_context_provider_factory::load_macro_signal_context(
+        app_config,
+        market_date,
+    )
+    .await
+}
+
+/// Radar が解釈する前の macro source の中立 read model。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub(crate) struct MacroSignalContextReadModel {
+    pub market_date: NaiveDate,
+    pub rates_credit: MacroSignalContextSource,
+    pub commodity: MacroSignalContextSource,
+    pub geopolitical: MacroSignalContextSource,
+    pub observed_market_reactions: Vec<MarketReaction>,
+}
+
+/// 単一 macro source の event と取得状態を保持する。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub(crate) struct MacroSignalContextSource {
+    pub status: MacroSignalContextSourceStatus,
+    pub events: Vec<MacroSignalContextEvent>,
+    pub diagnostics: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub(crate) enum MacroSignalContextSourceStatus {
+    Healthy,
+    Partial,
+    Degraded,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub(crate) enum MacroSignalContextInformationLevel {
+    High,
+    Medium,
+    Low,
+    #[default]
+    Unavailable,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub(crate) enum MacroSignalContextLifecycle {
+    Released,
+    ActiveRepricing,
+    Aftermath,
+    #[default]
+    Expired,
+}
+
+/// Provider が観測した event fact。取引判断には渡さない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub(crate) struct MacroSignalContextEvent {
+    pub title: String,
+    pub information_content: MacroSignalContextInformationLevel,
+    pub market_relevance: MacroSignalContextInformationLevel,
+    pub evidence_quality: MacroSignalContextInformationLevel,
+    pub lifecycle: MacroSignalContextLifecycle,
+    pub event_fact: String,
+    pub observed_at: String,
+    pub source_published_at: String,
+    pub market_date: String,
+    pub evidence: Vec<EvidenceRecord>,
+    pub expected_value: Option<String>,
+    pub actual_value: Option<String>,
+    pub surprise: Option<String>,
+    pub reason: Option<String>,
+}
+
 #[cfg(test)]
 mod signal_context_v1_tests {
     use super::{EvidenceRecord, MarketReaction};

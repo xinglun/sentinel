@@ -1,0 +1,220 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "三类 source status 与 fail-closed 语义",
+      "evidence": [
+        "src/features/research/infrastructure/macro_signal_context_provider.rs",
+        "src/features/research/infrastructure/macro_signal_context_provider.rs::tests",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "三类结构化事实进入统一 SignalContextV1，事件事实与 market reaction 分离",
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-high-information.json",
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Markdown、Telegram HTML、weekly 使用同一 read model，且 observation-only",
+      "evidence": [
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "现有 Decision/Gate/Action Matrix 行为保持不变",
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "high-information、无事件、日期/证据不足与三语言回归通过",
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-high-information.json",
+        "tests/fixtures/signal_context/2026-09-08-no-event.json",
+        "tests/fixtures/signal_context/scenario-matrix.json",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/archive/macro-geopolitical-high-information-context.contract.json",
+    ".ai/work-items/archive/macro-geopolitical-high-information-context.summary.json"
+  ],
+  "checkpointAt": "2026-09-08T23:53:48Z",
+  "checkpointContractDigest": "sha256:cca9cc0e94b9f4c1abef7a48ee662e47d937d4f4a8cdf7fa9fb20018000fe050",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:a7865a6ef1511ea5bf54de2947def0b2b4b1a605a4a0ab3fe636e43c31351398",
+      "recorded": true,
+      "recordedAt": "2026-09-08T23:53:48Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "macro-geopolitical-high-information-context"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f53e0b5cc2e3648413e1c95d146c534a794ed66e2bc4d4d61e9a723c32931454",
+      "invalidatedRequiredChecks": [
+        "make check-signal-context-consistency",
+        "make clippy",
+        "make fmt-check",
+        "make quality",
+        "make test"
+      ],
+      "originalBeforeEditContractHash": "sha256:a7865a6ef1511ea5bf54de2947def0b2b4b1a605a4a0ab3fe636e43c31351398",
+      "previousContractHash": "sha256:a7865a6ef1511ea5bf54de2947def0b2b4b1a605a4a0ab3fe636e43c31351398",
+      "reason": "基于当前 Work Item 已通过的 make quality、signal-context consistency 与专项测试，将五项场景覆盖状态从 unverified 固化为 verified；不改变业务 scope、observation-only 边界或 Decision/Gate/Execution 语义。",
+      "recorded": true,
+      "recordedAt": "2026-09-09T00:52:24Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+      "requiredChecks": 5,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "macro-geopolitical-high-information-context"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+  "createdAt": "2026-09-08T23:30:15Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:cca9cc0e94b9f4c1abef7a48ee662e47d937d4f4a8cdf7fa9fb20018000fe050",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户确认按当前实现继续 finish → archive；保持 observation-only、decision_weight=0、不改变 Decision/Gate/Execution。",
+    "recordedAt": "2026-09-09T10:05:30+09:00",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+    "schemaVersion": 1,
+    "workItemId": "macro-geopolitical-high-information-context"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/macro-geopolitical-high-information-context.contract.json",
+      "src/features/radar/interface/signal_context_coverage.rs",
+      "src/features/research/infrastructure/macro_signal_context_provider.rs"
+    ],
+    "reason": "当前实现限定为 observation-only Signal Context coverage；decision_weight=0，不改变 Decision、Gate、Execution。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-09T01:08:38Z",
+  "preflightContractDigest": "sha256:cca9cc0e94b9f4c1abef7a48ee662e47d937d4f4a8cdf7fa9fb20018000fe050",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e0319ec1bb14a1c548d74115b14fd556a172dfeea5a7de1d1a4d36abb996f946",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-high-information.json",
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "reason": "高信息 fixture、runtime projection 与统一质量门禁均通过。",
+      "required": true,
+      "scenario": "2026-09-08 geopolitical escalation with oil and rates reaction",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-08-no-event.json",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "reason": "无事件与不完整覆盖不会被转换为绝对 absence。",
+      "required": true,
+      "scenario": "no-event and incomplete source coverage",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/infrastructure/macro_signal_context_provider.rs::tests",
+        "src/features/radar/interface/signal_context_coverage.rs::tests",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "reason": "provider parser、缺少 credential、日期与证据校验保持 fail-closed。",
+      "required": true,
+      "scenario": "source failure, 429, malformed payload and market-date mismatch",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "reason": "三条输出路径均从同一 SignalContext read model 投影。",
+      "required": true,
+      "scenario": "Markdown, Telegram HTML and weekly traceability share one read model",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "make quality"
+      ],
+      "reason": "观察层字段保持 decision_weight=0、trade_signal=false 且无 gate/execution/position_sizing effect。",
+      "required": true,
+      "scenario": "Signal Context does not alter decision surfaces",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-09T01:08:39Z",
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "result": "passed"
+    },
+    {
+      "check": "make test",
+      "result": "passed"
+    },
+    {
+      "check": "make clippy",
+      "result": "passed"
+    },
+    {
+      "check": "make check-signal-context-consistency",
+      "result": "passed"
+    },
+    {
+      "check": "make quality",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "macro-geopolitical-high-information-context"
+}

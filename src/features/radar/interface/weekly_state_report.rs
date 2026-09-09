@@ -392,6 +392,7 @@ fn build_weekly_signal_context(
         "primary_context": layer.signal_context_primary_context_value,
         "context_quality": layer.signal_context_quality_value,
         "event_fact": layer.signal_context_event_fact_value,
+        "market_reactions": layer.signal_context_market_reactions_value,
         "source_diagnostics": layer.signal_context_source_diagnostics_value,
         "interpretation": layer.signal_context_interpretation_value
     })
@@ -519,6 +520,15 @@ fn push_weekly_signal_context_snapshot(
             &layer.signal_context_event_fact_value
         }
     ));
+    if !layer.signal_context_market_reactions_value.is_empty() {
+        review.push_str(&format!(
+            "- {}:\n",
+            layer.signal_context_market_reactions_label
+        ));
+        for line in layer.signal_context_market_reactions_value.lines() {
+            review.push_str(&format!("  - {line}\n"));
+        }
+    }
     review.push_str(&format!(
         "- {}: {}\n",
         text.signal_context_source_diagnostics,
