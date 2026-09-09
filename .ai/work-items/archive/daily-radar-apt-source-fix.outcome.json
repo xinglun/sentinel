@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "Protobuf 安装步骤不再对 Google Chrome 等第三方源执行全量 apt-get update，并继续安装 protobuf-compiler。",
+    "静态回归验证能识别旧的全量 apt 更新写法，并确认新的 Ubuntu-only 更新边界。",
+    "Daily Radar 工作流 YAML 语法有效，仓库 Rust 质量门禁通过。"
+  ],
+  "createdAt": "2026-09-09T18:50:36Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:982bf10c7adc2d914763755942b5721124fa6cdded17f80e543f708ac1f8cc5e",
+  "evidenceRefs": [
+    ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+      "workItemId": "daily-radar-apt-source-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "让 Daily Radar 的 Protobuf 安装只更新提供该包所需的 Ubuntu APT 源，避免无关 Google Chrome 源的 Hash Sum mismatch 阻断工作流。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-apt-source-fix"
+  },
+  "taskReportDigest": "sha256:7a96f0872374101b131b0a50cb2c72a4edb3e6406ac57e0adb3c0eca95d65b56",
+  "taskReportMarkdownDigest": "sha256:54e5d6e2021fc440fdbc281c9e011f3e5a5ceca0424b6b8540d9140972906d49",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/daily-radar-apt-source-fix.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "daily-radar-apt-source-fix"
+}

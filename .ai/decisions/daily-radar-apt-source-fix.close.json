@@ -1,0 +1,153 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:35708e6325c475e602be852ce68e4b96adbc71ffda3fc08fb3c9c4845b57b44f",
+      "workItemId": "daily-radar-apt-source-fix"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/daily-radar-apt-source-fix.recovery.json",
+            ".ai/decisions/daily-radar-apt-source-fix.recovery.54e224877913f153615780a8842e0c200d3b5b0e15118d49072c818b3c6df962.json",
+            ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via user-message: close Cockpit at 2026-09-09T23:36:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-apt-source-fix.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "让 Daily Radar 的 Protobuf 安装只更新提供该包所需的 Ubuntu APT 源，避免无关 Google Chrome 源的 Hash Sum mismatch 阻断工作流。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-apt-source-fix.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-apt-source-fix"
+  },
+  "finalReportDigest": "sha256:c6516c3e6aa96ecd972b499323800cc584f5291846ed7aa4b976b19fa0cee9e6",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "user-message: close Cockpit",
+    "decidedAt": "2026-09-09T23:36:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/daily-radar-apt-source-fix.recovery.json",
+      ".ai/decisions/daily-radar-apt-source-fix.recovery.54e224877913f153615780a8842e0c200d3b5b0e15118d49072c818b3c6df962.json",
+      ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/cockpit/README.md"
+    ],
+    "reason": "前驱实现已由 PR #170 合并；治理 successor PR #171 已完成验证、合并、finalization、finalize-verify 与 close，前驱历史以不可变 successor supersede recovery 方式收尾。",
+    "resumeCondition": "无；前驱与 successor 治理链已关闭"
+  },
+  "timestamp": "2026-09-09T23:34:00Z",
+  "workItemId": "daily-radar-apt-source-fix"
+}

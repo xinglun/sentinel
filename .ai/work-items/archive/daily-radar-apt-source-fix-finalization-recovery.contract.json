@@ -1,0 +1,52 @@
+{
+  "acceptanceCriteria": [
+    "当前 successor Contract 的验证证据与 recovery/close receipt 一致",
+    "PR #170 与 merge commit d46309ac 的身份可核验",
+    "develop 与 origin/develop 同步且本次治理工作树可精确清理",
+    "不发送日报、不调用 Telegram、不改变产品代码或前驱 archive/evidence"
+  ],
+  "authority": "authorized",
+  "baseRevision": "d46309ac138791ac82a84ce5162abad2b2baee95",
+  "createdAt": "2026-09-09T23:13:10Z",
+  "goal": "在保留前驱不可变 archive 与 verification evidence 的前提下，重新验证当前治理 Contract、PR #170 合并身份与 develop 同步，并完成 successor 与前驱 Work Item close",
+  "intent": "补齐已完成 Daily Radar 修复的 successor 治理验证与关闭，不改变产品行为",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "实际日报生成",
+    "Telegram发送",
+    "GitHub Actions手动dispatch",
+    "Decision/Gate/Probe/RS/Leadership/Position Sizing/Execution/Runtime Integrity判定逻辑"
+  ],
+  "predecessorContractDigest": "sha256:f7c73af1abfc38d180519f04cc47c8955825ecb7db45428bee2701dde907850e",
+  "predecessorWorkItemId": "daily-radar-apt-source-fix",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-apt-source-fix.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:79b72f5457920e31b61b3d7b65a0445d87144178da40a25073ca81f4ed5d20c4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-apt-source-fix-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/171",
+    "worktree": "/private/tmp/sentinel-daily-radar-apt-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "daily-radar-apt-source-fix-finalization-recovery"
+}
