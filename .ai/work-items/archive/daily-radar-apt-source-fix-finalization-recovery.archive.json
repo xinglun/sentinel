@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-09T23:22:58Z",
+  "files": {
+    "contractDigest": "sha256:db92f12abebbc4306bd1dd82a68a96905bd02a0db2b8fd961eda5ee765603d89",
+    "contractPath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:c83e8f0a4f07a1926f7cee4ce73e329c0c91ec927dd66016ee4ea038782b86dd",
+    "eventsPath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:4f7c4e18d169c201984dca59c9d7d5e3bf7061fdf3884e7c9afcc34b25ab9c10",
+    "outcomePath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:a5fd778978970f2c6285b73d5aa3347c2071e371c66c8a7a0ead149dca3b7d07",
+    "summaryPath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:febab0089b6dc03bc2f233d46ff23543d6fd5e502e6459a776ff53c7e736d8df",
+    "taskReportMarkdownDigest": "sha256:e155344e4303f52a43dcb59c1de5cf6618037e0c8c8d8549a5d95c9a215cd152",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-apt-source-fix-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-apt-source-fix-finalization-recovery"
+}
