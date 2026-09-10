@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
   "contractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
-  "createdAt": "2026-09-10T04:19:04Z",
+  "createdAt": "2026-09-10T04:22:30Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 186133,
-      "executionElapsedMs": 185983,
+      "elapsedMs": 174067,
+      "executionElapsedMs": 173893,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,8 +25,8 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 186133,
-    "executionElapsedMs": 185983,
+    "elapsedMs": 174067,
+    "executionElapsedMs": 173893,
     "filesHashed": 5,
     "filesRead": 5,
     "gitCalls": 8,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 185983,
+      "executionElapsedMs": 173893,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:761174bea6c374251d0a381e9f5836381320ae610625b6c59061133d2185bf4d",
+        "outputDigest": "sha256:c36464689ddf9891fb7c577d9aca093d6a3a920206498c2ef14296f279534ee6",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
   },
-  "receiptDigest": "sha256:60e1bc6573f6d59dff07337f6999a66828e454ba230096515e70922ef2875d03",
+  "receiptDigest": "sha256:45d1a467ef32cc6865a511bf08e3eace422aa68a916331aac0f2608807440d00",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

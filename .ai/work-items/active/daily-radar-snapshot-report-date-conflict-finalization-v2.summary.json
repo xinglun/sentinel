@@ -68,7 +68,7 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
   "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
-  "preflightAt": "2026-09-10T04:19:11Z",
+  "preflightAt": "2026-09-10T04:22:37Z",
   "preflightContractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
