@@ -1,0 +1,27 @@
+{
+  "actor": "user",
+  "authoritySource": "direct-user-instruction:调查，修复；确认该设计，继续",
+  "decidedAt": "2026-09-10T00:45:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/active/daily-radar-packet-delivery-fix.outcome.json",
+    ".ai/evidence/daily-radar-packet-delivery-fix.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "predecessorEventsDigest": "sha256:eb3a9242a8fe27f6999901c4377a2fd1b4e01ce45807c64c81bdf14a2af3874d",
+  "predecessorOutcomeDigest": "sha256:ac2cec06b2198f1b2328510b9b5bd0b346ea2db72189cb91452cc7901c1f6b73",
+  "predecessorSummaryDigest": "sha256:3435c21f83de65d8851041caf33af8ab93250b5e36d7c40946acbade7adbd47c",
+  "predecessorWorkItemId": "daily-radar-packet-delivery-fix",
+  "reason": "首次 finish 因 required verification 声明与 Runtime receipt 映射不一致而失败；已收敛为 make quality 单一 required gate，并完成当前 Contract 的 fresh verification，按同一 Work Item retry，保留失败 Outcome 与证据。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "重新记录 make quality 的 current verification evidence，确认非 red preflight 后 retry finish。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-packet-delivery-fix"
+}

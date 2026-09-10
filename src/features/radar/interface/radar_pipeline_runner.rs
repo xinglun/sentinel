@@ -114,6 +114,20 @@ fn jst_offset() -> FixedOffset {
     FixedOffset::east_opt(9 * 60 * 60).expect("JST offset must be valid")
 }
 
+/// 正式 snapshot を保存できない run を failed として記録する。
+fn mark_snapshot_persistence_failure(
+    outcome: &mut crate::features::shared::application::run_status::RunOutcome,
+    date: chrono::NaiveDate,
+    reason: impl Into<String>,
+) {
+    let reason = reason.into();
+    outcome.date = date.to_string();
+    outcome.decisioning = DeliveryStatus::Failed {
+        reason: reason.clone(),
+    };
+    outcome.data_quality = reason;
+}
+
 #[cfg(test)]
 fn jst_date_from_utc(timestamp: DateTime<Utc>) -> chrono::NaiveDate {
     timestamp.with_timezone(&jst_offset()).date_naive()
@@ -311,7 +325,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         .await;
     let data_acquisition_summary = prepared_data.summary;
     let pipeline_plan = prepared_data.plan;
-    let mut should_persist_history = pipeline_plan.should_persist_history;
+    let should_persist_history = pipeline_plan.should_persist_history;
     let fetched_ticker_histories = prepared_data.successful_items;
     let ticker_histories = fetched_ticker_histories
         .iter()
@@ -923,10 +937,8 @@ pub(crate) async fn run_pipeline_for_report_date(
                 .validate_trading_day_snapshot_conflict(&snapshot_probe)
             {
                 let reason = error.to_string();
-                should_persist_history = false;
                 drop(history_write_transaction.take());
-                outcome.date = packet.date.to_string();
-                outcome.data_quality = reason.clone();
+                mark_snapshot_persistence_failure(&mut outcome, packet.date, reason.clone());
                 if let Some(integrity) = outcome.runtime_integrity.as_mut() {
                     integrity.status =
                         crate::features::shared::application::run_status::RuntimeIntegrityStatus::Degraded;
@@ -939,6 +951,9 @@ pub(crate) async fn run_pipeline_for_report_date(
                     integrity.diagnostics.push("SNAPSHOT_CONFLICT".to_string());
                     integrity.diagnostics.sort();
                 }
+                // 正式 snapshot を保存できない run は成功通知へ進めない。
+                runtime_services.persistence.save_run_status(&outcome)?;
+                return Ok(());
             }
         }
         if should_persist_history {
@@ -2616,6 +2631,7 @@ mod tests {
     use super::build_narrative_symbol_allowlist;
     use super::compact_reference_appendix_for_telegram;
     use super::derive_gray_rhino_escalated_from_daily_report;
+    use super::mark_snapshot_persistence_failure;
     use super::{price_volume_supply_context_from_event, price_volume_supply_event_is_active};
     use crate::config::{
         PriceVolumeSupplyConfidence, PriceVolumeSupplyDirection, PriceVolumeSupplyEventConfig,
@@ -2637,11 +2653,27 @@ mod tests {
     use crate::features::research::domain::gray_rhino_candidate::{
         GrayRhinoCandidateKind, GrayRhinoCandidateScope, GrayRhinoCandidateState,
     };
+    use crate::features::shared::application::run_status::{DeliveryStatus, RunOutcome};
     use crate::features::shared::domain::supply_event_context::{
         SupplyDirection, SupplyEventContextAvailability, SupplyEventType,
     };
     use crate::features::shared::interface::i18n::Language;
     use chrono::NaiveDate;
+
+    #[test]
+    fn snapshot_persistence_failure_marks_delivery_failed_before_notification() {
+        let date = NaiveDate::from_ymd_opt(2026, 9, 9).unwrap();
+        let mut outcome = RunOutcome::default();
+
+        mark_snapshot_persistence_failure(&mut outcome, date, "SNAPSHOT_CONFLICT");
+
+        assert_eq!(outcome.date, "2026-09-09");
+        assert_eq!(outcome.data_quality, "SNAPSHOT_CONFLICT");
+        assert!(matches!(
+            outcome.decisioning,
+            DeliveryStatus::Failed { ref reason } if reason == "SNAPSHOT_CONFLICT"
+        ));
+    }
 
     #[test]
     fn jst_date_rolls_over_at_utc_fifteen() {

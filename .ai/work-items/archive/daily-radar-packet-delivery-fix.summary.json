@@ -1,0 +1,158 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T00:16:59Z",
+  "checkpointContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:57d3bb1caa30ec83aa8362438b90b2d0321c0a1264050d93edd4e4aac86b4fa0",
+      "recorded": true,
+      "recordedAt": "2026-09-10T00:16:59Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:79b72f5457920e31b61b3d7b65a0445d87144178da40a25073ca81f4ed5d20c4",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-packet-delivery-fix"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:303fcf9f927bc22f25f9dfe740bbb4c6bf0f835bf61efaaae3e289baba22904b",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:57d3bb1caa30ec83aa8362438b90b2d0321c0a1264050d93edd4e4aac86b4fa0",
+      "previousContractHash": "sha256:57d3bb1caa30ec83aa8362438b90b2d0321c0a1264050d93edd4e4aac86b4fa0",
+      "reason": "検証済みのシナリオ証拠をContractへ反映し、before_edit checkpointを保持したまま再検証する",
+      "recorded": true,
+      "recordedAt": "2026-09-10T00:34:23Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-packet-delivery-fix"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:57d3bb1caa30ec83aa8362438b90b2d0321c0a1264050d93edd4e4aac86b4fa0",
+      "previousContractHash": "sha256:303fcf9f927bc22f25f9dfe740bbb4c6bf0f835bf61efaaae3e289baba22904b",
+      "reason": "Runtime の required verification 実行入口を make quality に収束し、同一 Work Item の失敗試行を current Contract で再検証する",
+      "recorded": true,
+      "recordedAt": "2026-09-10T00:43:45Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-packet-delivery-fix"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "createdAt": "2026-09-10T00:12:03Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户已确认该 bounded 修复设计并授权继续实现；当前实现仍在同一 Contract 范围内，未改变交易决策语义，仅修正 snapshot 持久化失败时的交付状态边界。",
+    "recordedAt": "2026-09-10T00:49:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+    "schemaVersion": 1,
+    "workItemId": "daily-radar-packet-delivery-fix"
+  },
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/daily-radar-packet-delivery-fix.contract.json",
+      "src/features/radar/interface/radar_pipeline_runner.rs",
+      ".github/workflows/daily_radar.yml"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-10T00:50:01Z",
+  "preflightContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "cargo test --lib snapshot_persistence_failure_marks_delivery_failed_before_notification",
+        "cargo test --test daily_radar_workflow_integration snapshot_conflict_stops_before_report_and_telegram_delivery",
+        "src/features/radar/interface/radar_pipeline_runner.rs"
+      ],
+      "reason": "回归测试确认 snapshot 持久化失败会先记录 failed 状态并结束流程，不进入报告与 Telegram 发送路径。",
+      "required": true,
+      "scenario": "Trading Day Snapshot 冲突时状态失败且不发送 Telegram",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "cargo test --lib",
+        "make test",
+        "src/features/radar/application/delivery_plan.rs"
+      ],
+      "reason": "现有正常/部分取数成功回归测试与全量测试通过，未改变正式输出持久化策略。",
+      "required": true,
+      "scenario": "正常和部分取数成功运行继续生成报告日绑定的正式输出",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "cargo test --lib full_fetch_failure_generates_report_without_persisting_history",
+        "make test",
+        "src/cli.rs"
+      ],
+      "reason": "既有全量取数失败回归测试通过，诊断报告语义保持不变。",
+      "required": true,
+      "scenario": "全量取数失败仍保持诊断报告且不生成正式 decision packet",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "cargo test --test daily_radar_workflow_integration",
+        "make quality",
+        ".github/workflows/daily_radar.yml"
+      ],
+      "reason": "workflow 集成测试和完整质量门禁通过，当前报告日正式输出缺失时仍 fail-closed。",
+      "required": true,
+      "scenario": "Daily Radar workflow 继续对当前报告日执行 fail-closed 输出校验",
+      "status": "verified"
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T00:50:05Z",
+  "verification": [
+    {
+      "check": "make quality",
+      "evidence": ".ai/evidence/daily-radar-packet-delivery-fix.verification.json",
+      "result": "passed"
+    },
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-packet-delivery-fix"
+}
