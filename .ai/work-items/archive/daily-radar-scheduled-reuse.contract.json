@@ -23,11 +23,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/daily-radar-noop-reuse",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/193",
     "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-noop-reuse"
   },
   "risk": "medium",

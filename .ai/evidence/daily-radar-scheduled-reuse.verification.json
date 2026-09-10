@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:c1572c49ac0532a65869a2735bbd39f2dd6076de424210a6a4a7021f2350549c",
-  "createdAt": "2026-09-10T18:52:30Z",
+  "contractDigest": "sha256:bc0374c17113cc29b6bd286b2e562e77e6cb09237cb5115db2c223ba1ac425b7",
+  "createdAt": "2026-09-10T18:58:24Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 167924,
-      "executionElapsedMs": 167757,
+      "elapsedMs": 145423,
+      "executionElapsedMs": 145283,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 167924,
-    "executionElapsedMs": 167757,
-    "filesHashed": 9,
-    "filesRead": 9,
+    "elapsedMs": 145423,
+    "executionElapsedMs": 145283,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -36,10 +36,7 @@
     "nodesReused": 0,
     "passed": true,
     "planReceipt": {
-      "affectedPaths": [
-        ".github/workflows/daily_radar.yml",
-        "tests/daily_radar_workflow_integration.rs"
-      ],
+      "affectedPaths": [],
       "assurance": "repository_verified",
       "baseRevision": "9f5c1c08704d7cffa25ad056946cab3f1f05b1ab",
       "dependencyConfidence": "unknown",
@@ -47,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 167757,
+      "executionElapsedMs": 145283,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -79,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:b40d40c0ec632ad46d48173efef840612e592be24d76e6389d39ea3febf15153",
+        "outputDigest": "sha256:1c6be65dcc2b7f974471e1c79affb8c163a85f3c60b40d238b8c98671b94b4b8",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -95,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "daily-radar-scheduled-reuse"
   },
-  "receiptDigest": "sha256:93503fcb34a4ec17da6f6e339bdb14dabbcd538926c03d419a7db236a329cb98",
+  "receiptDigest": "sha256:8c27838cd8dbaab5a46aaeec20fd9ef5a57330227ebc8b8861e2801d56011c38",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "repositorySnapshotDigest": "sha256:d0c09e153144f932e4c6337bcc45a6f6b18b5650b19a6d4700ba3bf51295c91b",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
