@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "48f5f585ce426e78c60abbf75e63cd8f9dfa3d9e",
+    "name": "codex/daily-radar-packet-delivery-fix-finalization-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:96520b48defdc97bd1013012a440a96fa21f8d465298a2deae8eb9c8735b65fa",
+  "operationId": "github-pr-177-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "17caa8ec7996f1e44d97d9c506d6c50ed225baf6",
+    "headRevision": "48f5f585ce426e78c60abbf75e63cd8f9dfa3d9e",
+    "mergeCommit": "9d14b072344756ec0e4de69d81a8f93a197e51fc",
+    "number": 177,
+    "url": "https://github.com/xinglun/sentinel/pull/177"
+  },
+  "reason": "PR #177 已通过全部 hosted checks 并合并到 develop；已确认 v2 branch/worktree 清理、develop 同步，并按用户授权完成精确删除。",
+  "receiptId": "daily-radar-packet-delivery-fix-finalization-v2-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-packet-delivery-fix-finalization-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/177",
+    "worktree": "/private/tmp/sentinel-daily-radar-packet-delivery-fix-finalization-v2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T01:42:31Z",
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-v2",
+  "worktree": {
+    "branch": "codex/daily-radar-packet-delivery-fix-finalization-v2",
+    "headRevision": "48f5f585ce426e78c60abbf75e63cd8f9dfa3d9e",
+    "path": "/private/tmp/sentinel-daily-radar-packet-delivery-fix-finalization-v2",
+    "worktreeId": "daily-radar-packet-delivery-fix-finalization-v2"
+  }
+}
