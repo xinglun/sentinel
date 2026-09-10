@@ -855,7 +855,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             .then(|| {
                 runtime_services
                     .persistence
-                    .begin_history_write_transaction(packet.date, &cycle_id)
+                    .begin_history_write_transaction(packet.date, market_data_date, &cycle_id)
             })
             .transpose()?;
         let build_snapshot_probe = |continuity: usize, degraded: bool| {

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T03:16:04Z",
+  "files": {
+    "contractDigest": "sha256:db97734e96e7b12bde9c49f2e05c406422554c28861a071f2ae90be0c28cbec1",
+    "contractPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json",
+    "eventsDigest": "sha256:03969a5fc359f76307d58f377fd86fc8b625a1fc708f8f1a1d2a694f1d1cf87b",
+    "eventsPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.events.jsonl",
+    "outcomeDigest": "sha256:9f95255d6a037b7d639a960781924922f398929a32e1c8df96a6160aaaf9b16e",
+    "outcomePath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.outcome.json",
+    "summaryDigest": "sha256:7b116c5a8d627c9d048a20bdc224caa340a9f513aece9555c069707357719d2f",
+    "summaryPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json",
+    "taskReportDigest": "sha256:4bfb927f1accc8b16521e6b48535eb7d5e97d175ad21ac6e5c095e13fcc6dc01",
+    "taskReportMarkdownDigest": "sha256:c57367be7e311b58a5966726cc70e7b44bb94dfbee00b0b31be92de6cf91e2ad",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-snapshot-report-date-conflict"
+}
