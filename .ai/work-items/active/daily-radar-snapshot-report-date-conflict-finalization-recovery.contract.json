@@ -30,11 +30,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/daily-radar-snapshot-date-key-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/182",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-recovery"
   },
   "risk": "normal",
@@ -46,6 +46,7 @@
   "sources": [
     "https://github.com/xinglun/sentinel/pull/180",
     "https://github.com/xinglun/sentinel/pull/181",
+    "https://github.com/xinglun/sentinel/pull/182",
     ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.archive.json",
     ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
   ],
