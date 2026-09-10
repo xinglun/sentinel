@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T19:00:40Z",
+  "files": {
+    "contractDigest": "sha256:a5d2a13e787cdfdd47bc0da3d3d044b7892f38b5f1527fa00d8f4af3fc590e62",
+    "contractPath": ".ai/work-items/archive/daily-radar-scheduled-reuse.contract.json",
+    "eventsDigest": "sha256:f8e56aca5339ac1ef7475aaf1a7bd67984da2453569c953a324b4a921c5ca929",
+    "eventsPath": ".ai/work-items/archive/daily-radar-scheduled-reuse.events.jsonl",
+    "outcomeDigest": "sha256:1139da06b1c067c3c795ba6fdef2488fb87a6a2958cc96ead780dba5805b1dec",
+    "outcomePath": ".ai/work-items/archive/daily-radar-scheduled-reuse.outcome.json",
+    "summaryDigest": "sha256:a7848ef0e5f22cbc7140a14fe8fa48f12edabe81612c45e4b7aa8855010326d3",
+    "summaryPath": ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json",
+    "taskReportDigest": "sha256:218bfedf581005ab8fd3b78ec5646176c9b7090d5dac90a9977b3228be92a699",
+    "taskReportMarkdownDigest": "sha256:f9cb9e89094912deb3a0cf3ed1a834227f53239c99396b8c2bb8c9f1000db46c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-scheduled-reuse.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-scheduled-reuse.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-scheduled-reuse"
+}

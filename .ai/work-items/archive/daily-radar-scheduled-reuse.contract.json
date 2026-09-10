@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "定时运行仅在报告日期匹配、run_status 的 decisioning 为 succeeded、且 packet/Markdown/Telegram HTML 都存在且非空时复用。",
+    "复用路径不执行 evidence collection、Radar generation、Telegram notification resend，也不覆盖或提交既有成果物。",
+    "缺少、日期不匹配、状态非 succeeded 或成果物无效时继续既有 Radar 生成路径；snapshot identity conflict 防护不变。",
+    "workflow_dispatch 的 generate 与 resend 路径保持现有语义。",
+    "通过集成测试和仓库质量门禁；完成 Work Item lifecycle，并以 reviewed PR 将变更同步到 remote main，最后本地 checkout 回 develop。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9f5c1c08704d7cffa25ad056946cab3f1f05b1ab",
+  "createdAt": "2026-09-10T18:42:33Z",
+  "goal": "定时运行检测到报告日匹配、decisioning 成功且成果物完整时复用现有报告并完成；否则继续原有生成路径",
+  "intent": "修复 Daily Decision Radar 在定时运行重试时因同一报告日已有成功成果物而失败的问题",
+  "mode": "code",
+  "outOfScope": [
+    "Rust レーダー計算、Gate、Execution、Action Matrix、Position Sizing、data ブランチの既存成果物、manual generate/resend の挙動、Secrets、通知内容の変更は対象外とする。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:f60167ab7ba35f50d0b88fcde54b32f7d08a83ec55edb08be344b1afa86b9dc4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-noop-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/193",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-noop-reuse"
+  },
+  "risk": "medium",
+  "scope": [
+    ".github/workflows/daily_radar.yml",
+    "tests/daily_radar_workflow_integration.rs"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/34510156987",
+      "reason": "定时重试在同一报告日已有成功成果物时因 snapshot identity 冲突终止，失败日志与 data 分支状态构成修复依据。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "确认报告日期解析、历史恢复、Evidence/Radar/通知、freshness 验证与 data 分支写回的现有顺序。"
+    },
+    {
+      "path": "tests/daily_radar_workflow_integration.rs",
+      "reason": "复用现有 workflow 静态和脚本集成测试边界，验证成功复用与无效成果物回退。"
+    }
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "daily-radar-scheduled-reuse"
+}
