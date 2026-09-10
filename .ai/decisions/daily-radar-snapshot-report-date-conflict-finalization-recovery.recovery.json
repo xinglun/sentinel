@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T04:02:30Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.summary.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.outcome.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.events.jsonl",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.archive.json",
+    ".ai/evidence/daily-radar-snapshot-report-date-conflict-finalization-recovery.verification.json",
+    "https://github.com/xinglun/sentinel/pull/182"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
+  "predecessorEventsDigest": "sha256:38d3a8118390f55f563da399e3876da5e638f6bcb64c251138d294497b3e54ef",
+  "predecessorOutcomeDigest": "sha256:9c539aeeb1d54c4a72fd334436a77e904f50cbc19cf9e34a8f35d140eac5c283",
+  "predecessorSummaryDigest": "sha256:958b267dd74d08f037fa4adc1a502aed0487a770578a29a57aab5777416892a4",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
+  "reason": "前驱 successor 的 archive outcome 因 Runtime raw Contract digest 与 verification canonical digest 的历史绑定差异而未能认可 verification，且归档字节必须保持 immutable。保留前驱 archive/evidence bytes，通过治理-only successor-v2 重新绑定最终 Contract 的 fresh verification，并完成 PR #182 的 finalization、cleanup 与 close。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "v2 不修改生产代码或任一前驱 archive/evidence；绑定 PR #182、merge commit 7a73de64、精确 branch/worktree cleanup，完成 fresh verification、preflight、finish、archive、finalize、finalize-verify，并关闭 v2 与全部前驱 Work Items。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2",
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+}
