@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T01:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.archive.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.outcome.json",
+    ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json",
+    "https://github.com/xinglun/sentinel/pull/176"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:ba9d52f9da7dddeccb30e9be407e1907bbee0ba32ed6fc94d269498f8559af4c",
+  "predecessorEventsDigest": "sha256:2c23ca3c9d1ccbc0b518f2a9347ce60514ee0091c3583719ceac10888cb1c17b",
+  "predecessorOutcomeDigest": "sha256:2b3c7bc4ad4f7eb27feb8f34e033edbd8cf65855398e7255a4d0b1ea8b9ab3a6",
+  "predecessorSummaryDigest": "sha256:5c319746075162d0fd298da699b0ac3c43a5dc20d97ad2bdda54eb9a631a0a2e",
+  "predecessorWorkItemId": "daily-radar-packet-delivery-fix-finalization-recovery",
+  "reason": "前驱 successor 的 resource context 绑定在 PR #174，但其 Contract base 已是 PR #174 merge 后的 ff8f6da2，因此无法合法完成 provider finalization。保留前驱 archive/evidence bytes，使用当前 develop=17caa8ec 建立新治理 successor，并绑定新的真实 reviewed PR，完成 finalization/close。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor-v2 中不修改生产代码或前驱 archive/evidence；绑定新的真实治理 PR、完成 hosted checks、finalize-plan、finalize、finalize-verify、close，并保持 develop/main 同步。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-radar-packet-delivery-fix-finalization-v2",
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}
