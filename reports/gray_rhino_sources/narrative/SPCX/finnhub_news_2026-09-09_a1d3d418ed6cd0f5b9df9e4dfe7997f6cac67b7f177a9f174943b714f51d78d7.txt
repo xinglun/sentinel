@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Major Market Top Sign: Insiders Are Cashing Out
+  summary: AI-driven IPO and capital markets activity in 2026 mirrors the late-stage exuberance of the 1999 Internet Boom and 2021 SPAC surge. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=ef30bc67ae21e0e297fa1a456d2c00caedadd7506d8153fabdf032478503cb82

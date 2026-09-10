@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Cloudflare Rallied Today
+  summary: Meta's new Muse agent could turbocharge web traffic and Cloudflare's revenue.
+  url: https://finnhub.io/api/news?id=e56fde949839472dc36469f632fee9dcd7aa5ecd43cc0f3d3bbe34a28fb84ef7

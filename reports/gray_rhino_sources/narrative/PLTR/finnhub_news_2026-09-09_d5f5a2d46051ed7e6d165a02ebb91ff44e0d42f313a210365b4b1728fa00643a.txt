@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sovereign AI Boost: Palantir Deal Sparks 8% Rise in Nebius Shares
+  summary: NBIS jumped 7.73% after Palantir selected its AI-native cloud, potentially expanding enterprise reach and strengthening its neocloud position.
+  url: https://finnhub.io/api/news?id=d5b512bbc471fa6e7a97f1dde50d07c4da56ca035e93e058ee79ed78fd454a16

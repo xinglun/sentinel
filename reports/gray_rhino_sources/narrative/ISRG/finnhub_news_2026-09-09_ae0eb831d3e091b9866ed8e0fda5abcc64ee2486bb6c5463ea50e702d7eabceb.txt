@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Can ISRG Stock Still Move Against You?
+  summary: Intuitive Surgical (ISRG) has handed its owners a hard year. The stock is down 25% over the trailing twelve months while the S&P 500 returned 19.3%, and it now trades about 41% below its 52-week high. After a fall like that the natural hope is that the big moves are behind you. Options priced a year out say they are not.
+  url: https://finnhub.io/api/news?id=1aa1e22c6ac3142237a0016f4299f278aafa537090db39915324d58d984718f3

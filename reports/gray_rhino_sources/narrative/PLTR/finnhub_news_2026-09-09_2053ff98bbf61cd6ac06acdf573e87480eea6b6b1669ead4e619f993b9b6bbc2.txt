@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Next Growth Phase Comes With A Catch (Rating Downgrade)
+  summary: Palantir Technologiesâ Q2 revenue surged 93%, while U.S. commercial revenue grew 149% and its Rule of 40 reached 155%. Read more on PLTR stock here.
+  url: https://finnhub.io/api/news?id=fde123b93e0814e669600edbd42ba7194bd64f307fa255a28a145752f65bdf4d

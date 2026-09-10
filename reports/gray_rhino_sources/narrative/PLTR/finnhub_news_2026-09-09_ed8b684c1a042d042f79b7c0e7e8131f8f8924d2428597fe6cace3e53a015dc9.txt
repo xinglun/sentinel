@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Is Buying Archer While Trimming Palantir
+  summary: ARK added $3.35 million of Archer while selling about $6.5 million of Palantir.
+  url: https://finnhub.io/api/news?id=12f372acebd35736ad3adf53fd3597df86c7702f30b2ee4e5d4a4357b0ae1452

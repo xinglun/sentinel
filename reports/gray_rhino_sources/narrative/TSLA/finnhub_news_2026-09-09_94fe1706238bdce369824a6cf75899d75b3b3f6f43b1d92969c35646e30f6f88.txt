@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Entrepreneurs could hold the key to Tesla's Cybercab plans
+  summary: Tesla's traditional do-it-yourself instinct could be tested by its nationwide robotaxi ambitions.
+  url: https://finnhub.io/api/news?id=f9b2373c28a981d0767214cb6368474b25e9704370e6fe7fb45532274df42c5d

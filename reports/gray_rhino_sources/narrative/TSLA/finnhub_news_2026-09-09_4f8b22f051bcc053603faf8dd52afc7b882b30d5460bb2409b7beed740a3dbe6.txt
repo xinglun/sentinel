@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Cybercab Strength Comes with Weakness in China: A Tale of Two Growth Stories
+  summary: The recent rollout of Tesla’s Cybercab robotaxis from Tesla Inc (NASDAQ:TSLA) marked a major step in the company’s autonomous vehicle ambitions. Unfortunately, one of the company’s other growth items saw a step back recently. • What’s the outlook for TSLA shares? Tesla’ China Sales Drop As one of the global leaders in electric vehicles, Tesla has dominated most markets it enters. One of the company’s key markets for years has been China. The Chinese electric vehicle market hasn’t been so kind to
+  url: https://finnhub.io/api/news?id=18d52df75ce17d22d939278a9f2936c80391cdcf5c4d8980abd4ca6d77608b30

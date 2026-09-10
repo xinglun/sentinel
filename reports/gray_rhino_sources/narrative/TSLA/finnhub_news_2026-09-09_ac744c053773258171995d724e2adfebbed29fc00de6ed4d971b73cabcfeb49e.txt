@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Dell passes Jeff Bezos to become world's third-richest person
+  summary: Dell's net worth rose $4.6 billion on Tuesday to $267.7 billion as Dell Technologies stock closed at an all-time high
+  url: https://finnhub.io/api/news?id=6afd2d25ca746853c60af982f3e9e356ea7b46cbc5aa6a28a86e16f92730c66b

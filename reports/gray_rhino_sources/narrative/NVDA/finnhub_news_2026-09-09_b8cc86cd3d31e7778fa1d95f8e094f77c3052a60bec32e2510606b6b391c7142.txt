@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Releases the iPhone 18 Pro Lineup and the Foldable iPhone Duo. Do These New Products Signal a Golden Age of Product Innovation Under CEO John Ternus?
+  summary: It's the first major product launch under new CEO John Ternus, who recently replaced former CEO Tim Cook, who has run the company since 2011.
+  url: https://finnhub.io/api/news?id=07e764c750f3dd8b21631c04b640f0636fcefa3a54f807830cd190ca9edc0bb9

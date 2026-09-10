@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the AI Software Stock That’s Crushing Palantir (Hint: It’s Significantly Cheaper)
+  summary: Snowflake stock has surged impressively in 2026 so far, and the growing demand for its AI software tools suggests it could continue to soar.
+  url: https://finnhub.io/api/news?id=e3cbf71595907e71b27f21bc8e179d1dcd84903e535217356328ed4b2159d0e4

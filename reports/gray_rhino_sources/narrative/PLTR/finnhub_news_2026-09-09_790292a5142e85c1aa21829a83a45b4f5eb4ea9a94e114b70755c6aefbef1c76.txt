@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can BigBear.ai Keep Expanding Its Government Customer Base?
+  summary: BBAI is widening its government reach with new contracts, secure AI capabilities and defense ties, though procurement risks could test further growth.
+  url: https://finnhub.io/api/news?id=dd6de75fff99c903bad27209a61b03c73df3f7a5c90dc9e44b50b9c695012890

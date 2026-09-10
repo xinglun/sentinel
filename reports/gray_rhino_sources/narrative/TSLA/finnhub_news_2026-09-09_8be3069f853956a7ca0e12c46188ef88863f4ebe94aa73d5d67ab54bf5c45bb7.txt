@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Tesla’s (TSLA) Cybercab Unlock a New Growth Driver?
+  summary: Tesla, Inc. (NASDAQ:TSLA) is moving further into the autonomous-driving market as it has started offering robotaxi rides using its Cybercab. The company hosted a Cybercab launch event in Austin on September 3. Following the event, Goldman Sachs maintained a Neutral rating on Tesla, Inc. (NASDAQ:TSLA). The bank has a 12-month price target of $360 on […]
+  url: https://finnhub.io/api/news?id=a1671c1bcf7dc8a60b3e4f81ab9a309161603863ff2b27e613393044c9f78e93

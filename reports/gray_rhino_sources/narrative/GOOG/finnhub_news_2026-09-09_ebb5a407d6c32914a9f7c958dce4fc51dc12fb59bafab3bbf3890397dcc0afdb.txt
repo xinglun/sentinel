@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This billionaire is now worth more than Jeff Bezos
+  summary: A tech billionaire just passed Jeff Bezos in Forbes' global wealth rankings, reaching No. 3 for the first time.
+  url: https://finnhub.io/api/news?id=14ff168478ab1fd26d9dc15f1ae845710b97c720dc4794d24c9121aa30f1c828

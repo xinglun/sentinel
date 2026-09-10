@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why's Everyone Talking About Bloom Energy Now?
+  summary: Everyone is chasing the companies building AI. But what if the bigger bottleneck is the power that powers them?
+  url: https://finnhub.io/api/news?id=a880d048b33b20d02286b8a165e7c3f362ac8ca6e0827c8bbcd5439c599710b6

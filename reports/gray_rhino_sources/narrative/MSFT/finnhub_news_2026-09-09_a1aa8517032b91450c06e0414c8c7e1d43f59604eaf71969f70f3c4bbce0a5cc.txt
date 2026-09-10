@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron, Visa, and Other Growth Stocks Look Ready for a Revival—Here Are the Signs
+  summary: Growth stocks have been down for months, but there are signals that it’s time for them to move higher again.
+  url: https://finnhub.io/api/news?id=4dc589ae9f117fa24140b3fb0156b8faeaf21c6bda24a1d20d001c9a31808079

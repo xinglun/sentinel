@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Executive Says The Company's U.S. Business, Accounting For ~60% Of Its Operations, Is Decelerating; Company's Growth Drivers Expected To Remain Broadly Consistent In 2026 YoY
+  summary: – Executive comments on conference call 
+  url: https://finnhub.io/api/news?id=d91863a51ed98d8e2c07ec6d003e8decf2a399c71afe8f748c2e3ca0f9e0ed55

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want in on Anthropic Before the IPO? Buy These 8 Stocks
+  summary: Retail investors can gain exposure to Anthropic before the IPO through other publicly traded companies like Amazon, Salesforce and more.
+  url: https://finnhub.io/api/news?id=51f3bd520822fb6e3bdcdea66ff3659cb09128f851b72b2fc0e0c6c753b548a0

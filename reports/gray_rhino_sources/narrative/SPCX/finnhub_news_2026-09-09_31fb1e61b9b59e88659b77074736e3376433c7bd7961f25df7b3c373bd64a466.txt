@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AT&T Becomes Amazon’s First Major Satellite Broadband Telecom Customer
+  summary: Amazon is skipping the enterprise sales grind and betting on a shortcut that puts its satellite internet into millions of business accounts overnight. Whether that move reshapes the carrier landscape or hands Starlink an opening depends on what happens next.
+  url: https://finnhub.io/api/news?id=c7ecb3a652ce52e4e95e8c1323f6f3a2f1d2b33ce785f4ce0ee33d8cb8d66b5b

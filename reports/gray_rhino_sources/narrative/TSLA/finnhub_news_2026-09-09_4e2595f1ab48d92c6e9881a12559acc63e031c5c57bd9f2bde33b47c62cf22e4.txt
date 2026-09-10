@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Slovenia's FSD Approval Bring Tesla Closer to EU-Wide Approval?
+  summary: TSLA's FSD approval in Slovenia marks another step toward a potential EU-wide rollout, with an approval vote possible as early as Oct. 6.
+  url: https://finnhub.io/api/news?id=cd58fceee60281633eb3572ac2fec535f33c9828253d985c1af73f06f4f853a0

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CFO Touts AI Stack, Azure Efficiency and Agent Growth at Goldman Conference
+  summary: Microsoft (NASDAQ:MSFT) Chief Financial Officer Amy Hood said the company’s broad technology stack, enterprise relationships and focus on trust position it to remain relevant as artificial intelligence reshapes software and cloud computing. Speaking at the Goldman Sachs Communacopia + Technology Co
+  url: https://finnhub.io/api/news?id=945bcbea9e766ac2534f5811dc639cbfdf20f037785d3c5fc14f448615ad178e

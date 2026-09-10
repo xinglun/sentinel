@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Multi-Category Presence Key To AI Visibility For Fintech Brands
+  summary: Fintech brands face greater challenges gaining visibility in AI-generated answers than brands in other sectors, but rank high when their product offerings span several categories.
+  url: https://finnhub.io/api/news?id=0870c01e5af14b8633b168976a3d382d20d3ee190d993efbe68691e3a6a10ecc

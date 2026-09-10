@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Treasury Is Losing Its Two-Front War
+  summary: Bessent is fighting on two fronts at once, defending the yen under 160 and holding down long Treasury yields. Click to read the full analysis here.
+  url: https://finnhub.io/api/news?id=7667f18b1f346f21a26640e7f3b98e43b48fbb6f1a029bd8fce567fd146aedcd

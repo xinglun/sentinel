@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Seagate Technology and Western Union have been highlighted as Zacks Bull and Bear of the Day
+  summary: Seagate Technology's AI-driven storage demand, rising earnings estimates and breakout setup support a bullish outlook despite recent volatility.
+  url: https://finnhub.io/api/news?id=a20cebd25726ec41e3803ba548270e9646a82f5c2cb6c849febea0f3a5097132

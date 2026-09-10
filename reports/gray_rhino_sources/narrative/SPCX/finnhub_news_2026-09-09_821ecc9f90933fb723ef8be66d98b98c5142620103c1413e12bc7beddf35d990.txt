@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cognition AI Hit $48B. The Real Story Is Who’s Already Deploying
+  summary: Forty-eight billion dollars. That’s what investors think Cognition AI is worth after its September 2026 Series E, a round that raised more than $2 billion led by Andreessen Horowitz and Accel. The number is eye-catching. But for anyone running engineering teams or managing software delivery, the more useful data point is what’s happening inside the […]
+  url: https://finnhub.io/api/news?id=bd87a19a24f2f8bf938bf4624ad8a8e0f5363813ab545cc30b82c5338d374887

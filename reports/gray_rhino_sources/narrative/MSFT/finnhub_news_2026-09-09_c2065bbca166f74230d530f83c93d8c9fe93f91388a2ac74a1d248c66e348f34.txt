@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Slips as AI Copyright Fight Reaches Judgment Stage
+  summary: A ruling on model training could alter the cost of feeding copyrighted material into commercial AI systems.
+  url: https://finnhub.io/api/news?id=4db874a6a75feaa9b46dd236711220b12b7e032f5e84ba81d058dc0039749ed7

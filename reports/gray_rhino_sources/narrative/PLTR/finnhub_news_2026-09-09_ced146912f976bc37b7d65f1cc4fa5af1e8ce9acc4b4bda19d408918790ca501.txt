@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget 5X ETFs. Nvidia, Tesla, SpaceX and Palantir Could Soon Get Hourly 2X Bets
+  summary: Defiance is planning 2X hourly-reset ETFs tied to Nvidia, Tesla and Palantir, taking leveraged ETF trading into shorter time windows.
+  url: https://finnhub.io/api/news?id=9be54d9bd58c9e7dc5accaa5f185b2a1d7c587a0d96692609577fe336349d6c0

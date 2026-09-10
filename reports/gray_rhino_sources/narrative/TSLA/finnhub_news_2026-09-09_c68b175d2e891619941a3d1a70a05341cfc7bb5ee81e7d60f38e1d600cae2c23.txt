@@ -1,0 +1,26 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Surge and Carry Trade Weigh On Stocks; Apple Bets Big On $2K Foldable iPhone
+  summary: 
+
+
+
+Oil Surge
+
+
+
+Please click here for an enlarged chart of United States Oil ETF (NYSE:USO).
+
+
+
+Note the following:
+
+
+
+
+The chart shows USO is approaching zone 1 (resistance).
+
+
+
+The chart shows oil was previously in
+  url: https://finnhub.io/api/news?id=3b8aa0eef3f6022629b7b3fb42dd501bfca3b979dcd008db751592c3f2bdd649

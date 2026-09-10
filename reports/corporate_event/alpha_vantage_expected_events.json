@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-08T18:03:07.924369971Z",
+  "fetched_at": "2026-09-10T02:21:23.092029430Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
@@ -11,6 +11,16 @@
     {
       "symbol": "ISRG",
       "expected_date": "2026-10-20",
+      "fiscal_period": null
+    },
+    {
+      "symbol": "PLTR",
+      "expected_date": "2026-11-02",
+      "fiscal_period": null
+    },
+    {
+      "symbol": "SPCX",
+      "expected_date": "2026-11-03",
       "fiscal_period": null
     },
     {

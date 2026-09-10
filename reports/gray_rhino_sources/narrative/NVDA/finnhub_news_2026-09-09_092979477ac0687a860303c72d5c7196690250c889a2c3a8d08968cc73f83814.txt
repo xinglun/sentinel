@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Is Loading Up on Ionis Pharmaceuticals (IONS) Stock. Here's the Bet She's Making.
+  summary: Ionis Pharmaceuticals is promising in multiple ways -- but it's not dirt cheap or without risks.
+  url: https://finnhub.io/api/news?id=d824389cfa7c80064244e84df4c1f60e58377230cd56332cfc832421fad99508

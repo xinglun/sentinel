@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (NASDAQ:PLTR) Displays High-Growth Leadership and Momentum on CAN SLIM Screen
+  summary: Palantir PLTR clears CAN SLIM screen: huge EPS and revenue growth, relative strength 80+, but rich valuation poses key risk.
+  url: https://finnhub.io/api/news?id=cd1a6b4b38611b0d888db328ab92abea6c3dbc1940bfec9d13071e910e671fa9

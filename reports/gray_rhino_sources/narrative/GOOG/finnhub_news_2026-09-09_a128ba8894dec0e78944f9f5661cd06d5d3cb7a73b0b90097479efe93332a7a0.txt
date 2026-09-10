@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRM Stock Dips 2% — Salesforce Is Reportedly In Talks To Acquire AI Research Firm Listen Labs For $2B
+  summary: Listen Labs operates an AI-driven market and customer research platform for marketing insights.
+  url: https://finnhub.io/api/news?id=002bc2e733ab6d729a67d9cb43c2f9a9135adbf64cf3db41aa5c55a8843d11f7

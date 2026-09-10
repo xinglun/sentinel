@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PayrollOrg Brings Payroll Leaders Together in San Antonio for 2026 Payroll Leaders Conference
+  summary: PayrollOrg®, the leader in payroll education, publications, and training, will bring payroll professionals together for the 2026 Payroll Leaders Conference (PLC), Sept. 14-16 in San Antonio, Texas. The three-day conference will prepare current and emerging payroll leaders to strengthen payroll operations, manage organizational change, and make more strategic business decisions.
+  url: https://finnhub.io/api/news?id=6a7eb4648f659a2fc132c1ffb1d46eaafc61d3227db206589d934f7cbdc27042

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX a Top Artificial Intelligence (AI) Stock Pick in September?
+  summary: SpaceX is spending big on its xAI platform to compete with more focused competitors.
+  url: https://finnhub.io/api/news?id=90601b765a748ee4fdbe72a4e9f57c90b637ad4eb2e5c4fe0a84eb08f483ee3b

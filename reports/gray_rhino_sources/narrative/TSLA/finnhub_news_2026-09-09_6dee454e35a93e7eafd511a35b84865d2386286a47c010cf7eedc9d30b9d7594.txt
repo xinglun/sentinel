@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 100,000 Reasons to Buy Ford Stock Now
+  summary: Ford’s ambitious plan to sell 100,000 Fathom electric trucks in its first year could transform its EV strategy and unlock a fresh growth opportunity for Ford stock.
+  url: https://finnhub.io/api/news?id=31110078e9c56b7d0099d226151bbc24ad586d872d34afd134f414b1341be594

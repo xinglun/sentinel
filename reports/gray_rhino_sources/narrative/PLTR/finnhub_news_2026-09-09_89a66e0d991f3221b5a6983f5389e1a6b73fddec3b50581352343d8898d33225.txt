@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Why Would Anyone Pay Such A Price
+  summary: Palantir (PLTR) beat big with 94% revenue growth and raised guidance, but trades at extreme multiples.
+  url: https://finnhub.io/api/news?id=c261e14b63e4bf53db9917445b68e8109ef333190166834c2f15d8be9969f73c

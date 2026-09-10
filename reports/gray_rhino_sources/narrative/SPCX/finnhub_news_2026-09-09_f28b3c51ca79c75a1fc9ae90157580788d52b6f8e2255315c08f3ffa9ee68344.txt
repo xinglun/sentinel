@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures: Oil Prices, Yields Hit Stocks, Apple Unfolds iPhone. Inflation Data Due.
+  summary: Oil prices and Treasury yields weighed on the indexes, But Meta, AMD were winners. Apple unveiled its foldable iPhone. Inflation data looms.
+  url: https://finnhub.io/api/news?id=e246f81492c8b86b3a9b20eb085588232fdf1ba9f3209a2ab8d0a9ac6ecb8686

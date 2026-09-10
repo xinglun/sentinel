@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Independence Realty Trust Stock Sank Today
+  summary: It's essentially acquiring a peer REIT.
+  url: https://finnhub.io/api/news?id=861a7514b05e4a39aee3aa8870a016e8d71962274ceec0259b21beb121a8f550

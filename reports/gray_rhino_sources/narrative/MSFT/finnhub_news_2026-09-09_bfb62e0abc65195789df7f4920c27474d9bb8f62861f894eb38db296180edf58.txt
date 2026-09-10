@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle’s Disruptive Nature is Very Compelling
+  summary: Oracle just posted contract backlog numbers that most cloud giants would envy, yet the stock sits 31% below its peak. Here is why one investor keeps adding shares while Wall Street looks the other way.
+  url: https://finnhub.io/api/news?id=c5b94b4dfcc242a16664c1243c5ed5607d1a12fff13c8269217b59d4b9f4885f

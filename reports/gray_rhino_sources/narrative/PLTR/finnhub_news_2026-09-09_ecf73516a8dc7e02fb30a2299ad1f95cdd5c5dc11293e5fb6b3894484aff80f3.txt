@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Charles Schwab’s Trading Data Shows Investors Dialing Back on Risk
+  summary: The company’s index that tracks investor behavior shows clients became more selective in August about stocks and sectors.
+  url: https://finnhub.io/api/news?id=18d3798f0d71d8b2d0731eec8bfbe050cbde883534a7522a888d42d9c6b20b6c

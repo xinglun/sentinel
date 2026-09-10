@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Built AI Data Centers So Fast, Some Ran Without Backup Power for Months. Now It Faces a $920 Million Deadline.
+  summary: SpaceX has run into some challenges in rapidly building out its AI infrastructure.
+  url: https://finnhub.io/api/news?id=01e138637ac1b1abb6a0002e05cc04a6d487ac73b172b1878a82e28a64dfaa4f

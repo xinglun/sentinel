@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Verizon Says Turnaround Is Gaining Speed as Broadband, AI Opportunities Expand
+  summary: Verizon Communications (NYSE:VZ) CEO Dan Schulman said the company is gaining momentum in its turnaround efforts through a customer-focused strategy, lower promotional spending, cost reductions and an expanding broadband and AI-infrastructure opportunity. Speaking at the Goldman Sachs Communacopia
+  url: https://finnhub.io/api/news?id=e30707021b226efe213f9eb6752b82a59d4400aa9aadcd54ff0df9d5da67967d

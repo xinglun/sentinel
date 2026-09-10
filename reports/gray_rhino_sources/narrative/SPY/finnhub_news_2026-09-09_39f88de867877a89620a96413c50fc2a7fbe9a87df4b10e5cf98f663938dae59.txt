@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UiPath Slips 3% Despite Citi Buy Initiation and $23 Target, Pegasystems and C3.ai Lag
+  summary: Citi just slapped a Buy rating on UiPath with a target nearly 70% above the current price, yet shares keep falling. Here is what the bull and bear camps are fighting over ahead of a high-stakes investor day that could flip the narrative.
+  url: https://finnhub.io/api/news?id=92731cf07c1cfb3c4fcaf55a59c8ff8267e4af6171c5ef38957d6790d53461d9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Labor Market Red Flags: June Layoffs Revised Up by 19,000 While Hires Sink by 16,000
+  summary: Newly revised data from the U.S. Bureau of Labor Statistics shows that June layoffs and discharges were revised up by 19,000 to 1.8 million, while June hires were revised down by 16,000 to 5.3 million. The updated Job Openings and...
+  url: https://finnhub.io/api/news?id=e8146d492f2a834456a9422b590c0be26776d1d9d9e84936afbf5a682eb65bd8

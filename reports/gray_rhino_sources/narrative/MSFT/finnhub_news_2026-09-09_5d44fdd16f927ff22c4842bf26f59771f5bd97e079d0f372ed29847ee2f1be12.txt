@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google and Microsoft Vet Says AGI Hype ‘Leaves Most of Humanity Out’
+  summary: A veteran of Google and Microsoft engineering just called out the AI industry for celebrating a definition of human-level intelligence that most humans would never recognize, and the financial stakes riding on that definition run into the trillions.
+  url: https://finnhub.io/api/news?id=96b82c0abf10f0db5fc9a6c5bd426916815698a896024988139831532fe1c03c

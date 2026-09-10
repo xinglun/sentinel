@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Barclays Sees S&P 500 at 7,950 in 2026: What Do Prediction Markets Say?
+  summary: Barclays raised its year-end S&P 500 target to 7,950 Wednesday, betting stronger earnings and continued artificial intelligence spending can keep the rally going. The bank lifted its target from 7,800 and raised its 2026 earnings-per-share forecast to $365 from $337,...
+  url: https://finnhub.io/api/news?id=2f03b6f7745d404e86ca16346f1a86c79172662444469f6bd74f4480da0ecc27

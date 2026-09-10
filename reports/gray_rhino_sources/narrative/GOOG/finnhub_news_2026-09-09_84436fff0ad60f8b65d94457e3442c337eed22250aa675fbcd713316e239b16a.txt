@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Alphabet Stock For The Chips It Now Sells?
+  summary: Alphabet (GOOGL) stock has drifted, returning negative 6.8% over the past three months while the S&P 500 returned 3.6%. The strongest evidence for upside from here is not in the advertising business that pays the bills. It sits in a revenue line the company only began recognizing in the second quarter of 2026: TPU system sales, shipped into customers' own data centers.
+  url: https://finnhub.io/api/news?id=0ec54131f1e34310a248bfc07ce8c00ead88cfdba1a3367338c72b3a020562b9

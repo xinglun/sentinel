@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Pulse Biosciences Stock Popped Today
+  summary: The medical device maker now has a new bull touting its growth potential.
+  url: https://finnhub.io/api/news?id=0037127c228c837b5a0fdf16b21cdf3846a79ada0afae46feaddb96b48f1c208

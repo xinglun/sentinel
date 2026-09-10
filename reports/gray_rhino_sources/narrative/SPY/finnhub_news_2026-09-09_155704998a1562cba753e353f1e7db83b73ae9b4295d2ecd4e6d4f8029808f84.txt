@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Called the Magnificent Seven Cheap but the Three Building AI Factories Are All Trailing the S&P
+  summary: Jim Cramer says buy the Magnificent Seven before the AI payoff hits, but one market strategist argues the group has already fractured into winners and losers, and the 2026 scoreboard is starting to prove him right.
+  url: https://finnhub.io/api/news?id=ba6f722e9f083b7789343e7aa59f2acc914fa8bab3dec9ef725aee2319c0d818

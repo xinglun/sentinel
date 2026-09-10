@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, Sept. 9: Meta Surges Over 6.5% on Muse AI Agent Launch
+  summary: Today, Sept. 9, 2026, investors are watching whether the autonomous agent can unlock a new revenue stream for the social platform.
+  url: https://finnhub.io/api/news?id=2c50c9c122ce361357da6c5f6f43119bb626ae70541fda74045942e1bcefff7f

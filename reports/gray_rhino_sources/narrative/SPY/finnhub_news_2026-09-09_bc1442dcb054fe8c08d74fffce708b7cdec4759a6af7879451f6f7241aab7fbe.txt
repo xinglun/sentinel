@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Memory Stocks Rally as Goldman Says the Worst May Be Over: SK Hynix Climbs 5%, SanDisk Advances 3%, Micron Gains 2%
+  summary: Goldman Sachs just flipped constructive on memory chips, sending SK Hynix, Micron, and SanDisk higher even as the broader market stumbles, but a major NAND supplier's warning about prices complicates the story.
+  url: https://finnhub.io/api/news?id=2a2f772375f30bb5c421e292a501701c5bb527cad99c636e7dfcc51f26b3b640

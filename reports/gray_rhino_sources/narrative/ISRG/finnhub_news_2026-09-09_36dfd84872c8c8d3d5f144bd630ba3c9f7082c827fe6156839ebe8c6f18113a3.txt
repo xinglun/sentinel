@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Exec Says Planned 2027 Extended-Use Instrument Program Could Provide Tailwind To Procedure Growth As Investors Weigh Slowing U.S. Growth; Bariatrics Is Just Over 2% Of Global da Vinci Procedures, With Its Incremental Impact Moderating Over Time
+  summary: -Conference Call. 
+  url: https://finnhub.io/api/news?id=f260d5a0b1ffebb76288c5d4d01e4e79904fbf7d624ea97204e642cf521677c2

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New meta-analysis shows statistically significant improvements in patient outcomes associated with da Vinci surgery versus laparoscopic and open surgery across 13 common benign conditions
+  summary: Largest comparative meta-analysis of its kind found da Vinci robotic-assisted surgery was associated with shorter hospital stays and a faster return to work compared with laparoscopic and open surgerySUNNYVALE, Calif., Sept. 08, 2026 (GLOBE NEWSWIRE) -- Intuitive (NASDAQ: ISRG), a global technology leader in minimally invasive care and the pioneer of robotic-assisted surgery, today announced the publication of a landmark systematic review and meta-analysis in the peer-reviewed Annals of Surgery
+  url: https://finnhub.io/api/news?id=fd54f80c06aa4a9a9658b7f6d663df2a994d6f921a2c7e17a591b1c308175632

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How it feels to handle Apple's foldable iPhone Duo
+  summary: Yahoo Finance Technology Editor Dan Howley joins Market Domination's host Josh Lipton from Cupertino, Calif., at Apple's (AAPL) headquarters to describe how it feels to use the newly unveiled foldable iPhone Duo and its features.
+  url: https://finnhub.io/api/news?id=c8f741e8080fe56b7eb4975e19152d2dc3ec2b99fd2e23cd44e718f8a80ef18a

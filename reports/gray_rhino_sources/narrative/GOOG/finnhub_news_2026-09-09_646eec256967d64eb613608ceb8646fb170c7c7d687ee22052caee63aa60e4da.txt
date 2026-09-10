@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Navan Acquires Leading AI-Powered Events Platform BoomPop, Expanding Offerings for Meetings and Events
+  summary: PALO ALTO, Calif., September 09, 2026--Navan (NASDAQ: NAVN), the global AI-powered business travel and expense platform, today announced it has acquired BoomPop, an AI-powered platform for meetings and events that has been recognized by Inc. as one of the fastest-growing private companies in America.
+  url: https://finnhub.io/api/news?id=4c2aa2c30f466f46a95654f3557c36bcd62160a9e8f7e69afa2d286e083b748d

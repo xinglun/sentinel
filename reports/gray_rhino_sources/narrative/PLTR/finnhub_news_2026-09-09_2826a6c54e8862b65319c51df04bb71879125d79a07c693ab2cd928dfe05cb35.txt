@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q2 Data Analytics Earnings Review: First Prize Goes to Palantir Technologies (NASDAQ:PLTR)
+  summary: Wrapping up Q2 earnings, we look at the numbers and key takeaways for the data analytics stocks, including Palantir Technologies (NASDAQ:PLTR) and its peers.
+  url: https://finnhub.io/api/news?id=546a5e7beb58bec416f949b83477d5119adf6d642db6e064e3d30bdad48ac0aa

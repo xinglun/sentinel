@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Commits €13B to Finland AI Infrastructure, Securing Its First Non-US Nuclear Deal
+  summary: Google Commits €13B to Finland AI Infrastructure, Securing Its First Non-US Nuclear Deal Google’s commitment of €13 billion toward AI infrastructure in Finland marks a definitive shift in the data centers strategy of hyperscalers. By anchoring its expansion to a 22-year power purchase agreement (PPA) with Fortum for output from the Loviisa nuclear plant, Google […]
+  url: https://finnhub.io/api/news?id=a29bf8e89f6758373947f59b69f9421f978df487722e86ca7aab54218452ec0c

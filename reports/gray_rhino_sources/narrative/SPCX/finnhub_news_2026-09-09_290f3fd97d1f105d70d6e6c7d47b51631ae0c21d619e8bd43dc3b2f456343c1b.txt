@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: An 'IPO stampede' is coming: Why one name will be an important test
+  summary: Anthropic (ANTH.PVT) may be shifting its IPO launch date to mid-October, according to Reuters. Neostellar Capital principal, Willy Lee, discusses other anticipated tech IPOs that could come in the meantime.
+  url: https://finnhub.io/api/news?id=dc436c9b70e58b443c9471cf26b1d961bce5e0bb7b6661e130841e2dabfaf3bf

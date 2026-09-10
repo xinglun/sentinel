@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Continue Shorting Such A Poor Investment
+  summary: Tesla, Inc. looks like a compelling short: auto growth is stalling, margins are falling, and AI/energy wonât justify valuation. Click for this TSLA update.
+  url: https://finnhub.io/api/news?id=e1c96036329c47111c7362daeae59eb28d53ec2683c5febb612230a44de2e518

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: As Anthropic's IPO Looms, This Small Financial Powerhouse Just Got Its First Underwriting Job
+  summary: This adds another market to its broad financial ecosystem.
+  url: https://finnhub.io/api/news?id=ba8394684ea82166b5cb9fa2df1690ab854e7555bdf3c11fcf406964ffdce836

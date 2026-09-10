@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Comcast Sinks 8%, Charter Drops 6%, T-Mobile Slips 3%: Is a Broadband Repricing Underway?
+  summary: Comcast and Charter are tanking in unison today with no fresh filings or analyst actions to explain the size of the moves, and the usual culprit of wireless competition does not quite fit either.
+  url: https://finnhub.io/api/news?id=96843027af7e3761703d9fcdbedf9c4808ff354c64f48ba722c7375a528ca09a

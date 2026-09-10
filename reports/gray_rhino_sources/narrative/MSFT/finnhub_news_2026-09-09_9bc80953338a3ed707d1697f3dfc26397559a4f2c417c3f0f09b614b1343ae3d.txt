@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ARPA-H Selects UpDoc to Lead Development of Autonomous Clinical AI System, in an Initiative Joined by Microsoft, OpenAI and NVIDIA
+  summary: UpDoc, an enterprise-ready clinical AI company developing physician-grade agentic AI, today announced it has been selected by the Advanced Research Projects Agency for Health (ARPA-H) as a lead performer in the Agentic AI-Enabled Cardiovascular Care Transformation (ADVOCATE) program, with an award of up to $9.2 million. Microsoft, OpenAI and NVIDIA join supporting the UpDoc-led team.
+  url: https://finnhub.io/api/news?id=2426a97864c506a24e8e2b2b15121ca1f29c5c2d5b0c403e452f55096470998a

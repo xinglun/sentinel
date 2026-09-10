@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Cloud Grew 82% Last Quarter -- Here's Why Amazon and Microsoft Investors Should Care
+  summary: Shareholders shouldering big expenses tend to demand a big payoff.
+  url: https://finnhub.io/api/news?id=810ef97349ea20bf45ac6145dbabede5d13ece39e80df2cf9c61d9c1c3fad2c0

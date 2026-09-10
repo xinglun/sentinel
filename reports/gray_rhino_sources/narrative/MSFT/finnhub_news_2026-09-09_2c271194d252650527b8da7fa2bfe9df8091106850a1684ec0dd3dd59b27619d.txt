@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today, Sept. 9: Apple Unveils iPhone Duo Foldable and iPhone 18 Pro with AI Upgrades
+  summary: On Sept. 9, 2026, the consumer electronics giant debuted its first foldable phone at $1,999 alongside new Pro models featuring a 2nm chip and Siri improvements.
+  url: https://finnhub.io/api/news?id=9dd6f77af6d75e57041ff7cee8092c7d12025e51237e1f236d61912aeb04e066

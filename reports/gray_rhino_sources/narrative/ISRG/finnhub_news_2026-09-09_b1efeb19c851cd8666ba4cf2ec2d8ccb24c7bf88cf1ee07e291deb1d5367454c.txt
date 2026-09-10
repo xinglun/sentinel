@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Isn't Talking About High-Yield Medtronic Stock -- Here's Why It Should Be
+  summary: Medtronic has a historically high 3% yield and is just two years away from becoming a Dividend King.
+  url: https://finnhub.io/api/news?id=e580521fe9b346c0853dddec242b2e0ecb5ff4d71e761fd71dde463ca78b3a1a

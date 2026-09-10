@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Exactly What Drove BYD's 30% Spike in Profits -- Is It Still a Smart Buy?
+  summary: After four quarters of declining net profit, BYD finally reversed the trend thanks to a surge in more profitable exports. Here's why it's still a smart buy.
+  url: https://finnhub.io/api/news?id=552fadc6fc542c5ea3a4de8150ed261ddd1cbca0e28035b674bbb1bfc43db732

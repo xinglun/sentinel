@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What CRM Shareholders Got Paid While The Stock Stood Still
+  summary: The company sent owners a fortune in cash, yet the stock went backward. Here is the accounting on what that trade-off actually bought, and what it means now.
+  url: https://finnhub.io/api/news?id=ad17d8c8833523230a4946eee40ecad5c33aa1f8519a01e929424c02a0b58f79

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Stock Trading at its Cheapest in 10 Years: Should You Buy Now?
+  summary: Intuitive Surgical trades at its cheapest valuation in 10 years as strong growth, innovation and procedure gains face rising costs and market pressures.
+  url: https://finnhub.io/api/news?id=b9329ff5e160b79a843e12abdf9a90229fb42776800743c29fe8b89668afd076

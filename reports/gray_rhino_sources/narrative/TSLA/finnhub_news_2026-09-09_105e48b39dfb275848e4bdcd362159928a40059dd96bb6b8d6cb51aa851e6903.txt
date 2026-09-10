@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Cybercab Event Fumble
+  summary: Tesla's Cybercab launch event disappointed, revealing limited operational scale and regulatory setbacks. Read more on TSLA stock here.
+  url: https://finnhub.io/api/news?id=2495668f8253333bcccf20783787e071f6b6e023a031fba17590ea6f1293d480

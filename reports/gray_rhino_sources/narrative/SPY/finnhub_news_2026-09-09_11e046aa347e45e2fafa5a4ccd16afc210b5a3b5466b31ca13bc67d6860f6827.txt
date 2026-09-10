@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Drone Stocks Slide as Risk-Off Sentiment Hits High-Beta Names: AeroVironment Sinks 4%, Red Cat Drops 3%, Ondas Eases
+  summary: Drone stocks are bleeding out on a day with zero company-specific news, raising a question that cuts to the heart of the sector: do record backlogs and billion-dollar bookings matter when risk-off flows decide to sell first and ask questions later?
+  url: https://finnhub.io/api/news?id=3f9a15f458f1bbe443a1c3d2c3fa5356154bfe65b1111fa53514d168f2c27d1d

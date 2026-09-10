@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ford Finally Runs Out Of EVs
+  summary: Ford's multibillion-dollar EV ambitions collapsed faster than almost anyone predicted, and the company's bold plan to rebuild from scratch raises more questions than it answers.
+  url: https://finnhub.io/api/news?id=fd7324c1f23a34128da2d4450f98f2fae92541f5d007cf17f39f4e250b5969cf

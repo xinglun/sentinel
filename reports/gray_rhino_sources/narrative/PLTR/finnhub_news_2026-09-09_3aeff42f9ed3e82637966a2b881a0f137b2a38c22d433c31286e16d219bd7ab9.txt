@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Compares Palantir (PLTR) to an NFL Wide Receiver
+  summary: During the Mad Money episode aired on September 8, Jim Cramer designated Palantir Technologies (NASDAQ:PLTR) as a portfolio wide receiver. Comparing the high-flying software maker to Cincinnati Bengals star wide receiver Ja’Marr Chase, he stated: How about some wide receivers? In terms of your stock portfolio, wide receivers are the equivalent of pure growth stocks. […]
+  url: https://finnhub.io/api/news?id=3629e6d404b4e1e46d7eaa6def72cd1d3f2ac69421ac34d8e0681718d8d15eae

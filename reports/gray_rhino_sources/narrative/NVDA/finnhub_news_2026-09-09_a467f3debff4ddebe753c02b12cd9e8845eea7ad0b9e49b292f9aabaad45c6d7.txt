@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What History Reveals When the S&P 500 Sends Its Rarest Warning Signal
+  summary: The Shiller CAPE Ratio just reached its highest level since the dot-com boom. But long-term investors don't have to worry.
+  url: https://finnhub.io/api/news?id=daab08f4c6f5460b6b0559c003e90251c65509480fd37298499224d5a39ff14b

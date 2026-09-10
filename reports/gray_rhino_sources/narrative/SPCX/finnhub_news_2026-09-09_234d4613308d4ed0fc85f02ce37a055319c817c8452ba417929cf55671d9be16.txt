@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Falls More Than 4% as 319 Million Shares Unlock
+  summary: Space Exploration Technologies Corp. (NASDAQ:SPCX) shares fell more than 4% Wednesday as up to 319 million previously locked-up shares became eligible for sale, more than erasing the stock’s gain a day earlier. The release is the latest stage of SpaceX’s...
+  url: https://finnhub.io/api/news?id=99f4d889163923733c34f652a97739d00c8b0199b64d638470448353f282c7b8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sergey Brin Takes Bigger Role as Google Fights to Regain AI Lead—From a ‘Microkitchen’
+  summary: Alphabet Inc. (NASDAQ:GOOGL) co-founder Sergey Brin is taking a bigger role in Google’s effort to regain the lead in artificial intelligence, using his founder-level influence to push Gemini forward from an unlikely base: a converted office microkitchen. Brin has become...
+  url: https://finnhub.io/api/news?id=0022a8efd118c81e53ef57196c59bc59194a943b9228297ae23905aa579e4a30

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Vs. Alphabet's Waymo: Battle Of The Robotaxi Behemoths Post Cybercab Launch
+  summary: As Tesla launches the Cybercab robotaxi in Austin, click to read a comparison of TSLA's progress to that of Alphabet's (GOOG) Waymo.
+  url: https://finnhub.io/api/news?id=e2d083ed0ad8a98ffd469429dce3233d8cab355a10d4d5a9c405abf2d338e353

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Legal AI leaders like Harvey are sprinting to scale while they still can
+  summary: As the big frontier model makers muscle into legal tech, venture dollars are consolidating around a select few leaders who have gone on acquisition sprees. Legal AI provider Harvey’s $550 million raise accounts for 16% of the $3.35 billion invested in legal tech companies globally so far in 2026, according to PitchBook data. Lightspeed and Diffusion co-led the round, which valued the company at $15.5 billion. Add Harvey’s previous $200 million fundraise in March, as well as competitor Legora‘s $
+  url: https://finnhub.io/api/news?id=16ce888180ee6f406becf953e187b4c252dd9d2405435b786d991f9ee68ac65d

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab: The Market Is Still Wrong About It
+  summary: Rocket Lab Corporation rated Buy with 24% upside: Neutron Q4 2026 launch, Iridium acquisition, and backlog growth boost revenue visibility. Click for an RKLB stock update.
+  url: https://finnhub.io/api/news?id=279acb01157a893f85263aa332f634adc5bc96b2503dc01852a0dd08751ac11a

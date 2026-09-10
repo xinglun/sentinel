@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bluecore Energy Raises $50M Seed Round To ‘Create And Deliver Zero-Emission Energy’
+  summary: Months after exiting stealth with $10 million in funding, Bluecore Energy has raised new funding to fuel its clean energy vision.
+  url: https://finnhub.io/api/news?id=7da1578eee876ddc8c7b62a25462231e1174da474cd95fd8a8143b5713ba9970

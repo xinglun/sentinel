@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Reports Thursday. Its Capital Budget Is More Than Twice the Cash Its Business Produces.
+  summary: The software giant plans to pay out about $70 billion in cash this fiscal year. Last year, its business produced $32 billion.
+  url: https://finnhub.io/api/news?id=9a0a6074224133694dcc57e2d033d109069e8b898dcd4643b33009273eaebe06

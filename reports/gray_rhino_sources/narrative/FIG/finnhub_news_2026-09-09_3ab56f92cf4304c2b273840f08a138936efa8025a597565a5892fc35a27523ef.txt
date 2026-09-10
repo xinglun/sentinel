@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma General Counsel Sells 109,000 Shares for $2.8 Million
+  summary: Brendan Mulligan disposed of 15% of his equity stake under a pre-scheduled Rule 10b5-1 trading plan adopted in May, retaining ~609,000 shares worth $13.9 million.
+  url: https://finnhub.io/api/news?id=91a5c43434156580a02534c60df6b3a1fd10379c596d47fd104d51aed575d789

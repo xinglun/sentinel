@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Brokers Suggest Investing in Intuitive Surgical (ISRG): Read This Before Placing a Bet
+  summary: Based on the average brokerage recommendation (ABR), Intuitive Surgical (ISRG) should be added to one's portfolio. Wall Street analysts' overly optimistic recommendations cast doubt on the effectiveness of this highly sought-after metric. So, is the stock worth buying?
+  url: https://finnhub.io/api/news?id=d7bea4d553b8b047f788b2b2fcbc3c27477ce62fc683d0269c258331c0ead8e9

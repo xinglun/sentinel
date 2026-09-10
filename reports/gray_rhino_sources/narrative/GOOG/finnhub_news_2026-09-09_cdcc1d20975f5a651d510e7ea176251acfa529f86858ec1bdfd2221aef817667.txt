@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta’s AI Agent for Consumers Has Arrived. Alphabet and Amazon Should Watch Out.
+  summary: Wall Street sees the Facebook parent in pole position to dominate the AI online shopping space.  Morgan Stanley analyst Brian Nowak on Wednesday wrote that Meta could “win” a substantial piece of the estimated $30 trillion consumer AI agent total addressable market.  Meta stock advanced 7% to $656.71 and was the best-performing component in the  for the trading session.
+  url: https://finnhub.io/api/news?id=5c624e85ccd34c84eed3eef82e0fe527cb98e6b61fdbe63f955002308481e0d5

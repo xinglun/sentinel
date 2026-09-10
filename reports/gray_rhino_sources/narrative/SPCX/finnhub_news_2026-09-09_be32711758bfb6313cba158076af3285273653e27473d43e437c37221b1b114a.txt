@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Grows Robinhood Stake; Sheds More AMD, Palantir
+  summary: Cathie Wood's firm ARK Invest added to its already sizable position in the trading platform Robinhood, which is back in a buy zone.
+  url: https://finnhub.io/api/news?id=358a0ef370860a3e059cef5e4b953f3c2a0388653934baf3228a54b1948d2582

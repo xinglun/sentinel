@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street’s Leveraged ETF Push Gets New Twist With Hourly Bets
+  summary: A corner of the ETF market drawing regulatory scrutiny is pushing for still shorter-term speculation.
+  url: https://finnhub.io/api/news?id=829102845a5eac2b2a2dba9df047b11ee76f2f6738f4d5f0b54ca5d09e8755b8

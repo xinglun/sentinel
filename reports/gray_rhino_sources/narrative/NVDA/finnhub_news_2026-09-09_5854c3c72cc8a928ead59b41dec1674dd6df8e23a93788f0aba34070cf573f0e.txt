@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Goldgroup Mining Stock Wilted Today
+  summary: It's floating a potentially rather dilutive issue of stock and warrants.
+  url: https://finnhub.io/api/news?id=1f44b1145bbe2c467e6af1291e91bac15e6a77e32ddc7b89f7a938f6a55d1498

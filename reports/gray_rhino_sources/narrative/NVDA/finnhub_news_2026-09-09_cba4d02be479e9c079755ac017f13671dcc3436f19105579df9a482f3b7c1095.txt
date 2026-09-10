@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Sasol Stock Soared Nearly 10% Higher Today
+  summary: An analyst at an American bank has become notably more bullish on the South African company's prospects.
+  url: https://finnhub.io/api/news?id=0360ff60f53dbc3fca2e69db036e363fb2692319a7d9113552d43cf807ae6f66

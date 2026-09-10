@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Changed The Number It Wants You To Judge It By
+  summary: Palantir Technologies (PLTR) used to report its total customer count on the quarterly earnings call. The latest call did not include it. In the count's place sits a bookings figure large enough to change what kind of business you are looking at, and the swap says more about what a holder owns than the headline growth rates do.
+  url: https://finnhub.io/api/news?id=744977225f7d1f6aea4493a76236af91e6781e0013581bb2c1437b30e2eebce1

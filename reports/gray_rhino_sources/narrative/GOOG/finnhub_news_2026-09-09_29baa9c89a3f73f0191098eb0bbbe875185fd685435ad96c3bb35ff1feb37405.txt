@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Do Amazon and Alphabet's Combined $420 Billion in Capital Expenditures Make Sense?
+  summary: Amazon and Alphabet are seeing results of their spending paying off.
+  url: https://finnhub.io/api/news?id=ff951a80c9793bdca05d94c4fe4ff878b33f0975aae72c736f349c009566553d

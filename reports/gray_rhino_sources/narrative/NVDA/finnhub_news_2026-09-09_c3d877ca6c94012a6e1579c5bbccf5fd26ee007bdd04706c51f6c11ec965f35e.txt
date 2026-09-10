@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron's Operating Margin Surged Past 80% for the First Time Ever. History Says This Is What's Coming Next.
+  summary: The memory chip market is cyclical, but this time may be different.
+  url: https://finnhub.io/api/news?id=df5ce0eceb1033ac512c63e53ec85c728a59df3555b65d8155e2d47521481f4f

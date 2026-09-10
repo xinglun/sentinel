@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Norwegian Slides 3% as Rising Oil Undercuts Fuel-Cost Relief Hopes; Carnival and Royal Caribbean Trail
+  summary: Cruise stocks are sinking midday as a surprise surge in oil prices flips the fuel-cost thesis that bulls were counting on, and Norwegian is absorbing the hit harder than its rivals for reasons tied directly to its balance sheet.
+  url: https://finnhub.io/api/news?id=605d2ca1c60d7bdf3ece07be32ff70cef88d3ffb0331805fde8f850c37aea909

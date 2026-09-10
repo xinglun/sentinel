@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Happening With CRWV Stock?
+  summary: CoreWeave (CRWV) stock closed Tuesday, September 8, 2026, at $99.83, up 11.7% on the session. A move that size usually follows something the company said or did. This one did not, and where it came from instead tells you more about what you own than the number does.
+  url: https://finnhub.io/api/news?id=d1e5e4710311757ce2243f4b6070cfcdcf5abaf7407b70b9363c5e280173e2c2

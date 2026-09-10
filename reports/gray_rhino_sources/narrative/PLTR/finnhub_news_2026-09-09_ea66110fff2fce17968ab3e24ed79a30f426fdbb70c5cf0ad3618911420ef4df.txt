@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defiance Politely Asks the SEC to Let It Sell An ETF 8-Ball
+  summary: Sixteen new Defiance ETFs would reset 2x leverage six times a session, which is more leverage than the SEC’s current 3x line in the sand
+  url: https://finnhub.io/api/news?id=d126258487209046e7df522af5cf9b34e47414c726f079ad471646e8b2ab2db8

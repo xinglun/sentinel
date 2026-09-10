@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chewy Sinks 11% as Free Cash Flow Miss Overshadows Raised Outlook; Petco Falls 6%, Freshpet Ticks Up
+  summary: Chewy beat revenue estimates and raised its full-year outlook, yet the stock cratered anyway while a rival fresh-food maker moved in the opposite direction. The reason behind that split reveals something important about where the pet industry is actually headed.
+  url: https://finnhub.io/api/news?id=5e9d29f4796ac626a229fc6e79f0dbae91214e5b8dd733c6886151c51addfd79

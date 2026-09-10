@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: QUICK SPARK: Michael Burry Sells All Nvidia, Palantir December 2026-Dated Puts
+  summary: Michael Burry exited his Nvidia and PLTR stock December 2026 puts, while trimming most other positions in an effort to reduce risk.
+  url: https://finnhub.io/api/news?id=7da060beecfe9b83bff6df848c002ac876d475d8fb28b7fb71b49ef760cf7bdc

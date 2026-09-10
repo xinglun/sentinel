@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Ford CEO Says Transportation Secretary Had ‘Basic Misunderstandings’ in Letter; Ford CEO Defends Jobs, China Tie-Ups; Ford CEO Says China Criticism By Transportation Secretary Unwarranted'- WSJ
+  summary: https://www.wsj.com/business/autos/ford-ceo-says-transportation-secretary-had-basic-misunderstandings-in-letter-34795840?mod=Searchresults&amp;pos=1&amp;page=1
+  url: https://finnhub.io/api/news?id=7220324a5e2a7d2e4bbabe050e3869dde2bdcdcd5ef73517114a15534b7214da

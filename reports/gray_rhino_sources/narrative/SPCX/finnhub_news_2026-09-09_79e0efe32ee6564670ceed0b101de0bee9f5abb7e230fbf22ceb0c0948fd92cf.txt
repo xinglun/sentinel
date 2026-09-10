@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Still Below Its Opening Price. Here's What to Watch Next.
+  summary: SpaceX needs its non-space divisions to continue excelling.
+  url: https://finnhub.io/api/news?id=0418b2748cc08603567b00bd869a3a2142d070cf9eb2d6559b1d5334c4b17665

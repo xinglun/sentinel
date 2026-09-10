@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma, Inc. (FIG) Presents at Goldman Sachs Communacopia + Technology Conference 2026 Transcript
+  summary: Figma, Inc. (FIG) Goldman Sachs Communacopia + Technology Conference 2026 September 8, 2026 5:25 PM EDTCompany ParticipantsDylan Field - CEO, President...
+  url: https://finnhub.io/api/news?id=5d067cf902166c00cef0351e685dfd7e035b3714cba2a436f7099a26e327e586

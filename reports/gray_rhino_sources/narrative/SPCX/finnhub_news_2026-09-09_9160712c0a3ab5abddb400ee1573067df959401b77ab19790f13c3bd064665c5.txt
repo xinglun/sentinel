@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ASTS Stock Declines 24.4% in Six Months: Time to be Cautious?
+  summary: AST SpaceMobile's 24.4% six-month slide reflects deployment, regulatory and capital risks despite strong liquidity, partnerships and broadband progress.
+  url: https://finnhub.io/api/news?id=191027b64fa32976fe6a0fc3bb09302931984ed5df93f6bde4b00799b79d8da0

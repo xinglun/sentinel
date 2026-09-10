@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SailPoint, Inc. Q2 2027 Earnings Call Summary
+  summary: Moby summary of SailPoint, Inc.'s Q2 2027 earnings call
+  url: https://finnhub.io/api/news?id=f22cac0e23fa19f0d3183735c218c5cb5d613a06822bd6fa49fcbe8dd4116458

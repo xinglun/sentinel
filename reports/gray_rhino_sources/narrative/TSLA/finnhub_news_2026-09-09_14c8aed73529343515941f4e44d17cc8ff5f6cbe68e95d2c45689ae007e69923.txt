@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs sends stark message to Tesla investors
+  summary: Tesla’s robotaxi ambitions are growing, but so are the questions surrounding one of Wall Street’s biggest bets.
+  url: https://finnhub.io/api/news?id=8aa96b0611041f2eb10e1ab86c10c14498054c5faca0de3b76ac428dd98a4d78

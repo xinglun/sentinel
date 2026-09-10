@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's ROIC Is Strong, but Is GOOGL Stock a Buy Now?
+  summary: GOOGL's high ROIC and surging Cloud growth stand out, but soaring AI capex is putting pressure on free cash flow and dulling the case for new buyers.
+  url: https://finnhub.io/api/news?id=53b0ffc9a6d9ca7987d33a5fdfd0bece498c5a619996c80151948de35f491800
