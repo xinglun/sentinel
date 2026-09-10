@@ -1,0 +1,69 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
+    ".ai/work-items/active/daily-radar-snapshot-report-date-conflict-finalization-recovery.contract.json",
+    ".ai/work-items/active/daily-radar-snapshot-report-date-conflict-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T03:44:46Z",
+  "checkpointContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ca10f6c619df253914c733192bd833cc74c76a9e77abc948760db53c041b7b92",
+      "recorded": true,
+      "recordedAt": "2026-09-10T03:44:46Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ca10f6c619df253914c733192bd833cc74c76a9e77abc948760db53c041b7b92",
+      "previousContractHash": "sha256:ca10f6c619df253914c733192bd833cc74c76a9e77abc948760db53c041b7b92",
+      "reason": "PR #182 已创建，现将 successor Contract 的 resourceContext 绑定到真实 GitHub PR、base、branch 与 worktree；前驱 PR #180、PR #181 和 archive/evidence 不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T03:50:40Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+  "createdAt": "2026-09-10T03:43:28Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict",
+  "preflightAt": "2026-09-10T03:53:40Z",
+  "preflightContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-10T03:44:46Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "verificationRecoveryReconciled": "sha256:fa59ffba166c5677f24635d99f8159568281f67ca5b76bf24d06e119f7ad59ba",
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+}

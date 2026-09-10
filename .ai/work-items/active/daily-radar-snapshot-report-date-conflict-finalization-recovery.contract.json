@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "当前 successor Contract 的验证证据与 recovery/close receipt 一致",
+    "PR #180 与 merge commit 537fe1ee 的身份可核验，且 PR #181 已将 develop 同步到 main",
+    "feature branch、feature worktree 已按精确 identity 清理，本地处于干净 develop",
+    "不改变产品代码或前驱 archive/evidence；不重复发送日报或调用 Telegram"
+  ],
+  "authority": "authorized",
+  "baseRevision": "537fe1ee8a2c98ac017ce98b66a25227a41915da",
+  "createdAt": "2026-09-10T03:43:28Z",
+  "goal": "在保留前驱不可变 archive 与 verification evidence 的前提下，重新验证当前治理 Contract、PR #180 合并身份、PR #181 的 develop 到 main 同步，并完成资源清理与 Work Item close",
+  "intent": "补齐已完成 Daily Radar 修复的 successor 治理验证与关闭，不改变产品行为",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "实际日报生成",
+    "Telegram发送",
+    "GitHub Actions手动dispatch",
+    "Decision/Gate/Probe/RS/Leadership/Position Sizing/Execution/Runtime Integrity判定逻辑"
+  ],
+  "predecessorContractDigest": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:818520d5bea5889d9f75e71ab7d37a320cdd5422239528cb808ec2b9ac4195e4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-snapshot-date-key-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/182",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/pull/180",
+    "https://github.com/xinglun/sentinel/pull/181",
+    "https://github.com/xinglun/sentinel/pull/182",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.archive.json",
+    ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "project-command-0"
+  ],
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+}
