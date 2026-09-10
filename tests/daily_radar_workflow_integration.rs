@@ -879,6 +879,37 @@ fn daily_radar_requires_current_report_and_fails_on_decisioning_failure() {
 }
 
 #[test]
+fn snapshot_conflict_stops_before_report_and_telegram_delivery() {
+    let runner_path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("src/features/radar/interface/radar_pipeline_runner.rs");
+    let runner = fs::read_to_string(runner_path).expect("failed to read radar pipeline runner");
+    let conflict_check = runner
+        .find("validate_trading_day_snapshot_conflict")
+        .expect("snapshot conflict check is missing");
+    let report_render = runner
+        .find("let mut report_context")
+        .expect("report rendering boundary is missing");
+    let notification = runner[report_render..]
+        .find("send_telegram_with_status")
+        .map(|offset| report_render + offset)
+        .expect("Telegram notification boundary is missing");
+    let conflict_path = &runner[conflict_check..report_render];
+
+    assert!(
+        conflict_path.contains("mark_snapshot_persistence_failure"),
+        "snapshot conflict must become a failed run"
+    );
+    assert!(
+        conflict_path.contains("save_run_status") && conflict_path.contains("return Ok(())"),
+        "snapshot conflict must persist failure and stop before report delivery"
+    );
+    assert!(
+        report_render < notification,
+        "Telegram notification must remain after report rendering"
+    );
+}
+
+#[test]
 fn daily_radar_snapshot_gate_uses_report_date_and_preserves_market_date() {
     let workflow_path =
         Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");

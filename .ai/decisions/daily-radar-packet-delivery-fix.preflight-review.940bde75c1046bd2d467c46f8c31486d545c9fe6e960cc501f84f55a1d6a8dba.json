@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "用户已确认该 bounded 修复设计并授权继续实现；当前实现仍在同一 Contract 范围内，未改变交易决策语义，仅修正 snapshot 持久化失败时的交付状态边界。",
+  "recordedAt": "2026-09-10T00:49:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-packet-delivery-fix"
+}

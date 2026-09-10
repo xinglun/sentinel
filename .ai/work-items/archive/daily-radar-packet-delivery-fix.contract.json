@@ -1,0 +1,125 @@
+{
+  "acceptanceCriteria": [
+    "Snapshot 冲突或其他导致正式决策包无法持久化的情况必须将指定日期的 decisioning 标记为 failed，并在发送 Telegram 前停止成功交付。",
+    "正常及部分取数成功运行继续生成与报告日一致的 decision_packet、run_status、Markdown 和 Telegram HTML 输出。",
+    "全量取数失败的诊断报告语义保持不变，不生成正式 decision packet。",
+    "新增回归测试证明持久化失败不会触发 Telegram 发送，并保留 workflow 对当前报告日输出的 fail-closed 校验。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "54024e47e83f6a0d12d8999801c4705088899e67",
+  "createdAt": "2026-09-10T00:12:03Z",
+  "goal": "当指定报告日的正式快照无法安全持久化时，运行必须在 Telegram 发送前持久化失败状态并停止交付；正常和部分取数成功运行仍必须生成日期绑定的决策包、运行状态和报告。",
+  "intent": "修复 Daily Decision Radar 在 Trading Day Snapshot 冲突时仍发送报告并以 succeeded 结束交付链的状态一致性缺陷。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 Decision、Gate、Execution、Trader、Action Matrix 或 Position Sizing 语义；不修改 Telegram 凭据或远端历史数据；不删除或重写已有 data 分支事实；不处理无关 workflow。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:79b72f5457920e31b61b3d7b65a0445d87144178da40a25073ca81f4ed5d20c4",
+  "requiredEvidenceClasses": ["verification"],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-report-packet-fix",
+    "provider": "github",
+    "pullRequest": "not_started",
+    "worktree": "/private/tmp/sentinel-daily-radar-report-packet-fix"
+  },
+  "risk": "high",
+  "scope": [
+    ".github/workflows/daily_radar.yml",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "tests/daily_radar_workflow_integration.rs",
+    "src/cli.rs",
+    ".ai/work-items/active/daily-radar-packet-delivery-fix.contract.json",
+    ".ai/work-items/active/daily-radar-packet-delivery-fix.summary.json",
+    ".ai/evidence"
+  ],
+  "sources": [
+    {
+      "path": "https://github.com/xinglun/sentinel/actions/runs/34419235404",
+      "reason": "Run Sentinel Radar 先发送 Telegram，随后因 reports/decision_packet_2026-09-09.json 缺失而失败，并报告 decisioning_failed_reason=succeeded。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "Trading Day Snapshot 冲突时将 should_persist_history 设为 false，但当前分支继续生成报告、发送 Telegram，并保留 succeeded 状态。"
+    },
+    {
+      "path": "src/features/radar/infrastructure/persistence.rs",
+      "reason": "正式快照冲突由 validate_trading_day_snapshot_conflict 以 SNAPSHOT_CONFLICT 拒绝写入。"
+    },
+    {
+      "path": ".github/workflows/daily_radar.yml",
+      "reason": "工作流要求报告日对应的 decision packet 和 run status 存在，并对 decisioning=succeeded 执行 fail-closed 校验。"
+    },
+    {
+      "path": "src/cli.rs",
+      "reason": "现有测试定义了全量取数失败不生成正式 decision packet、部分取数成功仍生成正式 packet 的边界。"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "Trading Day Snapshot 冲突时状态失败且不发送 Telegram",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib snapshot_persistence_failure_marks_delivery_failed_before_notification",
+        "cargo test --test daily_radar_workflow_integration snapshot_conflict_stops_before_report_and_telegram_delivery",
+        "src/features/radar/interface/radar_pipeline_runner.rs"
+      ],
+      "reason": "回归测试确认 snapshot 持久化失败会先记录 failed 状态并结束流程，不进入报告与 Telegram 发送路径。"
+    },
+    {
+      "scenario": "正常和部分取数成功运行继续生成报告日绑定的正式输出",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib",
+        "make test",
+        "src/features/radar/application/delivery_plan.rs"
+      ],
+      "reason": "现有正常/部分取数成功回归测试与全量测试通过，未改变正式输出持久化策略。"
+    },
+    {
+      "scenario": "全量取数失败仍保持诊断报告且不生成正式 decision packet",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --lib full_fetch_failure_generates_report_without_persisting_history",
+        "make test",
+        "src/cli.rs"
+      ],
+      "reason": "既有全量取数失败回归测试通过，诊断报告语义保持不变。"
+    },
+    {
+      "scenario": "Daily Radar workflow 继续对当前报告日执行 fail-closed 输出校验",
+      "required": true,
+      "status": "verified",
+      "evidence": [
+        "cargo test --test daily_radar_workflow_integration",
+        "make quality",
+        ".github/workflows/daily_radar.yml"
+      ],
+      "reason": "workflow 集成测试和完整质量门禁通过，当前报告日正式输出缺失时仍 fail-closed。"
+    }
+  ],
+  "unknowns": [],
+  "notCodable": false,
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": ""
+  },
+  "executionDecision": {
+    "status": "continue",
+    "reason": "用户已确认 bounded 修复设计；实现仅修复持久化失败与通知交付的状态边界，不改变交易决策语义。"
+  },
+  "state": "implementation_active",
+  "verification": [
+    {"check": "make quality", "required": true}
+  ],
+  "workItemId": "daily-radar-packet-delivery-fix"
+}
