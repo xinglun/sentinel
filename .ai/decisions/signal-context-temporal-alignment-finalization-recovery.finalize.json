@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "fe8e112703c8639886447a71b3bc9f09d7a03d65",
+    "name": "codex/signal-context-temporal-alignment-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:c0fb74bbf9e4728e54b8c886bd0d0c08279a12b687eb51b025a3af7d0d0f1ebb",
+  "operationId": "github-pr-190-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "bc5f76c585fc87e62261dcee264f143fe21ef473",
+    "headRevision": "fe8e112703c8639886447a71b3bc9f09d7a03d65",
+    "mergeCommit": "4388f2f5abd211445867ded35ba01f97904d9c6d",
+    "number": 190,
+    "url": "https://github.com/xinglun/sentinel/pull/190"
+  },
+  "reason": "PR #190 已通过全部 GitHub checks 并合并为 4388f2f5；按用户授权删除精确远端 branch、本地 branch 与对应 worktree。",
+  "receiptId": "signal-context-temporal-alignment-finalization-recovery-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-temporal-alignment-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/190",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-signal-context-temporal-alignment-finalization-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T07:30:33Z",
+  "workItemId": "signal-context-temporal-alignment-finalization-recovery",
+  "worktree": {
+    "branch": "codex/signal-context-temporal-alignment-finalization-recovery",
+    "headRevision": "fe8e112703c8639886447a71b3bc9f09d7a03d65",
+    "path": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-signal-context-temporal-alignment-finalization-recovery",
+    "worktreeId": "signal-context-temporal-alignment-finalization-recovery"
+  }
+}

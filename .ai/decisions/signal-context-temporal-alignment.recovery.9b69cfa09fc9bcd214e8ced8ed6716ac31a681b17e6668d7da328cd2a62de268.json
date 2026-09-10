@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T07:35:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/signal-context-temporal-alignment-finalization-recovery.contract.json",
+    ".ai/work-items/archive/signal-context-temporal-alignment-finalization-recovery.summary.json",
+    ".ai/decisions/signal-context-temporal-alignment.recovery.json",
+    ".ai/decisions/signal-context-temporal-alignment-finalization-recovery.close.json",
+    ".ai/decisions/signal-context-temporal-alignment-finalization-recovery.finalize.json",
+    "https://github.com/xinglun/sentinel/pull/189",
+    "https://github.com/xinglun/sentinel/pull/190"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:e65279313ce13a295dcdcf384f1b576f16fe5e1817080987ef64878745355fb8",
+  "predecessorContractDigest": "sha256:8ecc5396b6d394730085769aa812804c9cdd71d7779b505ff09a70eae82fb681",
+  "predecessorEventsDigest": "sha256:0fd4dc2b448bc5ad2fe7abc224ffd2171c29e572e65506a557257db3956ce98c",
+  "predecessorOutcomeDigest": "sha256:79b7c25a04b14d730884bcf2c92dc2fab704fce68935b7ca9c0bf9ccd0ab0d5a",
+  "predecessorSummaryDigest": "sha256:7e16dbc270461058692c351d342575ed25b6d9b01a9633e0a9feb6f8a7c51e41",
+  "predecessorWorkItemId": "signal-context-temporal-alignment",
+  "reason": "实现已由 PR #189 合并；治理 successor 已由 PR #190 合并，并完成 finalize、finalize-verify、精确 branch/worktree cleanup 与 close。前驱 archive/evidence bytes 保持不变，以显式 supersede 方式完成历史 Work Item 收尾。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "无需恢复；后续如需追加治理修复应创建独立 successor Work Item。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-temporal-alignment-finalization-recovery",
+  "workItemId": "signal-context-temporal-alignment"
+}
