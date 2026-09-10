@@ -1,0 +1,191 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d0c09e153144f932e4c6337bcc45a6f6b18b5650b19a6d4700ba3bf51295c91b",
+      "workItemId": "daily-radar-scheduled-reuse"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: tests/daily_radar_workflow_integration.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/daily-radar-scheduled-reuse.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.task-report.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-scheduled-reuse.task-report.md"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-scheduled-reuse.verification.json",
+            ".ai/decisions/daily-radar-scheduled-reuse.finalize.json",
+            "https://github.com/xinglun/sentinel/pull/193"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-10T19:17:35Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-scheduled-reuse.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "定时运行检测到报告日匹配、decisioning 成功且成果物完整时复用现有报告并完成；否则继续原有生成路径"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-scheduled-reuse.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-scheduled-reuse"
+  },
+  "finalReportDigest": "sha256:68d2230dfa9a865f38e14f9ce1b75c1edd518c6c915df1727cc48570f8fc4f73",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:1b5b5304af0d39e8ba466e0af220a1496303eba8118f0dda9900d8b1e4337dcd",
+  "resourceFinalizationHeadPath": ".ai/decisions/daily-radar-scheduled-reuse.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-10T19:17:35Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-scheduled-reuse.verification.json",
+      ".ai/decisions/daily-radar-scheduled-reuse.finalize.json",
+      "https://github.com/xinglun/sentinel/pull/193"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/cockpit/README.md"
+    ],
+    "reason": "PR #193 已通过 hosted checks 并合并到 develop；PR #194 已通过 hosted checks 并将 strict finalization receipt 纳入 develop；finalize-verify 已确认精确 feature branch/worktree cleanup。按用户授权关闭 Work Item。",
+    "resumeCondition": "完成 develop 到 main 的最终同步审计；不再修改本 Work Item archive/evidence 或日报交易逻辑。"
+  },
+  "timestamp": "2026-09-10T19:17:44Z",
+  "workItemId": "daily-radar-scheduled-reuse"
+}
