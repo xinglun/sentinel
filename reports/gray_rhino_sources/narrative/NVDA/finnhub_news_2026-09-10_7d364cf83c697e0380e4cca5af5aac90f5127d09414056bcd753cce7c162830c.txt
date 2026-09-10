@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Comcast Stock Plummeted on Wednesday
+  summary: Investors were concerned about some remarks made by the company's CFO in a conference.
+  url: https://finnhub.io/api/news?id=f6dbc96f4ec84a01e5281d9d503feb146e6e6120f1c919f2a9eb1508f70e2397

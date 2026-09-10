@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better eVTOL Stock: Archer Aviation vs. Joby Aviation
+  summary: Archer and Joby are taking flight across the U.S. as part of the eVTOL Integration Pilot Program.
+  url: https://finnhub.io/api/news?id=ddd3fd7051e7adcb5db412b9ef7f7a70ae3c344c7c47c71d8d3631d747287744

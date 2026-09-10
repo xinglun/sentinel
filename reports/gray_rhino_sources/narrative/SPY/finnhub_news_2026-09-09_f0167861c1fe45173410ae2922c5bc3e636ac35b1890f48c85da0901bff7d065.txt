@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Money Supply Growth Accelerated In July To A 59-Month High
+  summary: During July, year-over-year growth in the money supply was at 8.62 percent. Thatâs up from Juneâs year-over-year increase of 8.59 percent.
+  url: https://finnhub.io/api/news?id=a0c2c8a0e036eb704bf375da9a88c48d89a40942f29874d468ac64cce15d4183

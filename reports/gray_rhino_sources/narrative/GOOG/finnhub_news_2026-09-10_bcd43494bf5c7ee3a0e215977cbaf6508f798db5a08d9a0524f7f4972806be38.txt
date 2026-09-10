@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Warns 10%-15% of US Data Center Projects Could Be Cut as AI Boom Faces Political Backlash, Calls It the ‘Biggest Threat’
+  summary: While Wall Street focuses on capital expenditure, Yorkville Ives partner Dan Ives argues that growing political backlash against data center buildouts is the single biggest threat to the tech revolution, following his tour of Midwest infrastructure sites.The ‘Hearts and Lungs’...
+  url: https://finnhub.io/api/news?id=01344eed6869260b8a9e6f7af97d8fde8461e6323f182a4e6ceb4e06c6386e91

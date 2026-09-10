@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Get Paid To Wait For Palo Alto Networks To Slow Down?
+  summary: Palo Alto Networks (PANW) has returned 71.4% over the past year and trades about 15% below its 52-week high. You can be paid now for agreeing to buy the shares well below today's price, and you keep that payment either way. The catch: the stock has to fall a long way first, and the slowdown management has already guided to is in the growth measures, not in the company total.
+  url: https://finnhub.io/api/news?id=f4812382a75c8002754d7afceb08410fa9b15cd56cdbed42866b15ea010c5df2

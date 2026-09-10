@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: CoreWeave's Contracted Backlog Passes $150 Billion Before 2028
+  summary: Hitting the mark would take about a ninth of the growth rate the AI cloud provider just delivered.
+  url: https://finnhub.io/api/news?id=a075ac0df06fed9bc7176db6896fc1222e9dacbce615d53202b7d79b984806ee

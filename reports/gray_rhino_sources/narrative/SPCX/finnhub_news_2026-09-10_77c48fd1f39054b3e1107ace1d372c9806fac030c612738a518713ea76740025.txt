@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Rise: Oil Prices Keep Climbing But Market Hasn't Broken Yet. Inflation Data Due.
+  summary: Oil prices and Treasury yields weighed on the indexes, But Meta, AMD were winners. Apple unveiled its foldable iPhone. Inflation data looms.
+  url: https://finnhub.io/api/news?id=3f2eabb81e12ca66c570633d2e510a7bee2890f249c96920d77a56abaa28324f

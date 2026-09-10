@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AeroVironment Just Delivered Historic Results. Wall Street Says It's a Buy
+  summary: The defense technology specialist delivered a record-setting quarter.
+  url: https://finnhub.io/api/news?id=c3ac639ef11ff3670cfc0a0a4a4d02812dcd12b9a4f37c80a7189ba8ca7d50a3

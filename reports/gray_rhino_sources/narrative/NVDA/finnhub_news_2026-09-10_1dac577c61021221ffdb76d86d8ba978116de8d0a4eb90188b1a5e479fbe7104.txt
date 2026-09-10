@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is an IPO, and Should You Buy One? My Contrarian Take After 15 Years at The Fool.
+  summary: IPOs get a lot of buzz, but they don't often pan out for investors.
+  url: https://finnhub.io/api/news?id=3fbbe87031492236859b2088773b07cc72110a014e40cb7d6bec367cf8b7cb47

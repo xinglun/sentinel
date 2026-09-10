@@ -1,10 +1,10 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-09-09
+- 截至: 2026-09-10
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
-- 平均置信度: 61.1
+- 平均置信度: 61.8
 - 平均稳定度: 10.0
 - 趋势凝聚 ready 天数: 1
 
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-09-01: IGNITION -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-02: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-03: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-04: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-07: NEWBORN -> DATA_UNAVAILABLE | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-08: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-09: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-09-10: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -51,7 +51,7 @@
 - Information Content: MEDIUM
 - Primary Context: GEOPOLITICAL ESCALATION
 - Context Quality: MEDIUM
-- Event Fact: ECB set to hike as Iran war fuels fresh inflation fears - Reuters; ECB set to hike as Iran war fuels fresh inflation fears  Reuters
+- Event Fact: Multiple US military aircraft suffered damage in overnight strikes on Jordan air base, CBS says - Reuters; Multiple US military aircraft suffered damage in overnight strikes on Jordan air base, CBS says  Reuters
 - 观察到的市场反应:
   - US 10Y Treasury yield: latest 4.80; daily change +0.02
   - US 2Y Treasury yield: latest 4.39; daily change +0.02
@@ -109,7 +109,7 @@
   - 综合主导者: none
   - Current Leader: none
   - Previous Snapshot Leader: none
-  - Leader Absence Since: 2026-08-14
+  - Leader Absence Since: 2026-08-17
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
   - 领导评分: 0.0
@@ -132,10 +132,10 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-09-09
+- 最新观测日: 2026-09-10
 - 最新 Near-Term Supply 数量: 0
 - 最新 Future Queue 数量: 1
-- 7 日 Future Queue 最小值 / 最大值: 0 / 2
+- 7 日 Future Queue 最小值 / 最大值: 1 / 2
 - 已报道 / 已确认: 1 / 0
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
@@ -150,7 +150,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-09-09
+- 观测日: 2026-09-10
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16
