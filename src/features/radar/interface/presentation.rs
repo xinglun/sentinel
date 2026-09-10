@@ -2,7 +2,7 @@ use crate::features::radar::interface::display::{
     RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel,
 };
 use crate::features::research::interface::macro_event_observation::{
-    EvidenceRecord, MarketReaction,
+    EvidenceRecord, MarketReaction, TemporalBinding,
 };
 use crate::features::shared::application::run_status::{
     DataProvenanceBundle, ReportLifecycle, ReportRuntimeIdentity, RuntimeIntegrity,
@@ -544,6 +544,10 @@ impl Default for SignalContextCoverage {
 pub struct SignalContextItem {
     #[serde(rename = "type")]
     pub context_type: SignalContextType,
+    #[serde(default)]
+    pub event_id: String,
+    #[serde(default)]
+    pub accepted_at: String,
     pub title: String,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub symbol: Option<String>,
@@ -583,6 +587,14 @@ pub struct SignalContextV1 {
     pub context_quality: SignalContextQuality,
     pub coverage: SignalContextCoverage,
     pub observed_market_reactions: Vec<MarketReaction>,
+    #[serde(default)]
+    pub temporal_bindings: Vec<TemporalBinding>,
+    #[serde(default)]
+    pub report_run_at: Option<String>,
+    #[serde(default)]
+    pub observation_window_start: Option<String>,
+    #[serde(default)]
+    pub observation_window_end: Option<String>,
     pub event_time_utc: Option<String>,
     pub event_time_market_tz: Option<String>,
     pub report_generated_at: Option<String>,
@@ -609,6 +621,10 @@ impl Default for SignalContextV1 {
             context_quality: SignalContextQuality::Unavailable,
             coverage: SignalContextCoverage::default(),
             observed_market_reactions: Vec::new(),
+            temporal_bindings: Vec::new(),
+            report_run_at: None,
+            observation_window_start: None,
+            observation_window_end: None,
             event_time_utc: None,
             event_time_market_tz: None,
             report_generated_at: None,
