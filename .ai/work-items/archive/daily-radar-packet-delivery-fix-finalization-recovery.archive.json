@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T01:13:44Z",
+  "files": {
+    "contractDigest": "sha256:1df3a35ce4df15be0d9bc45d5034757e5e86f9bf2abd95cc3a9785fea0e56adb",
+    "contractPath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:2c23ca3c9d1ccbc0b518f2a9347ce60514ee0091c3583719ceac10888cb1c17b",
+    "eventsPath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:1933e56a12aa09548616ac74ce4ba6d4aca24669c9ae2603fbf1f1037a41ce67",
+    "outcomePath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:e91d43d5d8f7f4b38645c3f318d3d248322bd9db39acd9b06dfd99632f0f3889",
+    "summaryPath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:fedadb07e8d7d380eedcb8df4a93607fcacd7cda2f92d517c36efd627f989690",
+    "taskReportMarkdownDigest": "sha256:2e2a7cb6d818c059d4df7347837a86c37b9f64cff99514cb03751eccba7de24a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}

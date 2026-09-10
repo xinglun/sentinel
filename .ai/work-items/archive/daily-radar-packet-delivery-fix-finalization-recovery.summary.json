@@ -1,0 +1,45 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-radar-packet-delivery-fix.recovery.5284fe74f39e51414e222eddc9b52d6cddc7596e814bc686507e0ba2be5bcc30.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T01:05:16Z",
+  "checkpointContractDigest": "sha256:ba9d52f9da7dddeccb30e9be407e1907bbee0ba32ed6fc94d269498f8559af4c",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "createdAt": "2026-09-10T01:00:51Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:ba9d52f9da7dddeccb30e9be407e1907bbee0ba32ed6fc94d269498f8559af4c",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户已确认继续完成修复交付、develop 到 main 的同步以及精确清理；successor 仅补齐治理终态，不改变生产代码、数据或 Telegram 行为。",
+    "recordedAt": "2026-09-10T01:03:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+    "schemaVersion": 1,
+    "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+  },
+  "mode": "code",
+  "predecessorContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "predecessorWorkItemId": "daily-radar-packet-delivery-fix",
+  "preflightAt": "2026-09-10T01:13:33Z",
+  "preflightContractDigest": "sha256:ba9d52f9da7dddeccb30e9be407e1907bbee0ba32ed6fc94d269498f8559af4c",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-packet-delivery-fix.recovery.5284fe74f39e51414e222eddc9b52d6cddc7596e814bc686507e0ba2be5bcc30.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T01:13:40Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}

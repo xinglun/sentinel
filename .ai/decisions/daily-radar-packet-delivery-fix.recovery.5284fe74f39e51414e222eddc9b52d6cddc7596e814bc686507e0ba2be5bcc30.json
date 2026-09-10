@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T01:00:26Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.archive.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.contract.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.summary.json",
+    ".ai/work-items/archive/daily-radar-packet-delivery-fix.outcome.json",
+    ".ai/evidence/daily-radar-packet-delivery-fix.verification.json",
+    "https://github.com/xinglun/sentinel/pull/174"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "predecessorEventsDigest": "sha256:453997d721baa0d56f155e42de340b55e3cff5e3df8cb99cb01d28bd12456515",
+  "predecessorOutcomeDigest": "sha256:9d0c56bc0526a483972a209af16a8cdb1007953f466acab087fbffc32a4822b0",
+  "predecessorSummaryDigest": "sha256:20de44650109c1b41a5ba64d5a1c5d3cd59ae5aaadef57cf6b57c857b77d7f04",
+  "predecessorWorkItemId": "daily-radar-packet-delivery-fix",
+  "reason": "前駆 Work Item は PR 作成前に archive され、provisional な resource context のまま保存された。PR #174 は既に develop に merge 済みである。前駆 archive/evidence bytes を変更せず、治理-only successor で正確な PR 身份、main 同期、branch/worktree cleanup を再検証し、finalize-plan、finalize、finalize-verify、close を完了する。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 中不修改生产代码或前駆 archive/evidence；确认 PR #174、develop merge commit、develop 到 main 的同步 PR、远端 main 更新与精确 branch/worktree cleanup，完成治理验证并关闭 predecessor 与 successor。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-radar-packet-delivery-fix-finalization-recovery",
+  "workItemId": "daily-radar-packet-delivery-fix"
+}
