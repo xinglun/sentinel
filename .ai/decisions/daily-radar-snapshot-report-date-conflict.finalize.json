@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "a4cd47f03a65db9dd9595f0c57079117a14eb70f",
+    "name": "codex/daily-radar-snapshot-date-key",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:db97734e96e7b12bde9c49f2e05c406422554c28861a071f2ae90be0c28cbec1",
+  "operationId": "github-pr-180-merge-cleanup-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "537b680065a5efb90af1dea8d6ebcfb5fa95571f",
+    "headRevision": "a4cd47f03a65db9dd9595f0c57079117a14eb70f",
+    "mergeCommit": "537fe1ee8a2c98ac017ce98b66a25227a41915da",
+    "number": 180,
+    "url": "not_started"
+  },
+  "reason": "不可变 Contract 在归档时保留 pullRequest=not_started；其后真实 PR #180 已合并，且精确 feature branch 与 worktree 已清理。receipt 保留 Contract 资源身份，并以证据引用记录 PR #180，不改写不可变归档。",
+  "receiptId": "daily-radar-snapshot-report-date-conflict-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-snapshot-date-key",
+    "provider": "github",
+    "pullRequest": "not_started",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T04:56:00Z",
+  "workItemId": "daily-radar-snapshot-report-date-conflict",
+  "worktree": {
+    "branch": "codex/daily-radar-snapshot-date-key",
+    "headRevision": "a4cd47f03a65db9dd9595f0c57079117a14eb70f",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key",
+    "worktreeId": "sentinel-daily-radar-snapshot-date-key"
+  }
+}

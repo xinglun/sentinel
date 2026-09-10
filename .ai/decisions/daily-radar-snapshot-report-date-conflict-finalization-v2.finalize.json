@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "c657e497237d8d0fe5985f6de72faf1f1f196792",
+    "name": "codex/daily-radar-snapshot-date-key-finalization-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:28e2f3d1fcce129940897d35bb4c93b1acf7923c05918c927fbdffe5bf30322d",
+  "operationId": "github-pr-184-merge-cleanup-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "7e4a6814b335f7d5331bdfbf8468bf7bb96e801c",
+    "headRevision": "c657e497237d8d0fe5985f6de72faf1f1f196792",
+    "mergeCommit": "feddf11e11561e374bc078aab341139b8bd33ceb",
+    "number": 184,
+    "url": "https://github.com/xinglun/sentinel/pull/184"
+  },
+  "reason": "PR #184 已合并，精确 v2 feature branch 与 worktree 已清理；该 receipt 绑定真实 GitHub 合并事实，不改写不可变归档。",
+  "receiptId": "daily-radar-snapshot-report-date-conflict-finalization-v2-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-snapshot-date-key-finalization-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/184",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-v2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T04:39:04Z",
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2",
+  "worktree": {
+    "branch": "codex/daily-radar-snapshot-date-key-finalization-v2",
+    "headRevision": "c657e497237d8d0fe5985f6de72faf1f1f196792",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-v2",
+    "worktreeId": "sentinel-daily-radar-snapshot-date-key-finalization-v2"
+  }
+}
