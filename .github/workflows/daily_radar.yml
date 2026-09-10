@@ -247,6 +247,84 @@ jobs:
           echo "REPORT_DATE_JST=${REPORT_DATE_JST}" >> "$GITHUB_ENV"
           echo "✅ Resolved report date: ${REPORT_DATE_JST}"
 
+      - name: Reuse Existing Successful Daily Report
+        id: reuse_report
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          set -euo pipefail
+          DATE_JST="${REPORT_DATE_JST:?REPORT_DATE_JST must be resolved before reuse check}"
+          STATUS_PATH="reports/run_status_${DATE_JST}.json"
+          PACKET_PATH="reports/decision_packet_${DATE_JST}.json"
+          MARKDOWN_PATH="reports/${DATE_JST}.md"
+          TELEGRAM_REPORT_PATH="reports/telegram_report_${DATE_JST}.html"
+          export DATE_JST STATUS_PATH PACKET_PATH MARKDOWN_PATH TELEGRAM_REPORT_PATH
+
+          REUSE_REASON="$(python - <<'PY'
+          import json
+          import os
+          from datetime import datetime
+          from pathlib import Path
+
+          date_jst = os.environ["DATE_JST"]
+          try:
+              datetime.strptime(date_jst, "%Y-%m-%d")
+          except ValueError:
+              print("invalid_report_date")
+              raise SystemExit(0)
+
+          required_paths = [
+              Path(os.environ["STATUS_PATH"]),
+              Path(os.environ["PACKET_PATH"]),
+              Path(os.environ["MARKDOWN_PATH"]),
+              Path(os.environ["TELEGRAM_REPORT_PATH"]),
+          ]
+          missing_paths = [
+              str(path) for path in required_paths if not path.is_file() or path.stat().st_size == 0
+          ]
+          if missing_paths:
+              print("missing_artifact:" + ",".join(missing_paths))
+              raise SystemExit(0)
+
+          try:
+              status = json.loads(
+                  Path(os.environ["STATUS_PATH"]).read_text(encoding="utf-8")
+              )
+          except (OSError, json.JSONDecodeError):
+              print("invalid_status")
+              raise SystemExit(0)
+
+          if not isinstance(status, dict) or status.get("date") != date_jst:
+              print("status_date_mismatch")
+              raise SystemExit(0)
+
+          def succeeded(value):
+              return value == "succeeded" or (
+                  isinstance(value, dict)
+                  and (
+                      value.get("status") == "succeeded"
+                      or value.get("succeeded") is True
+                  )
+              )
+
+          if not succeeded(status.get("decisioning")):
+              print("decisioning_not_succeeded")
+              raise SystemExit(0)
+          if not succeeded(status.get("notification")):
+              print("notification_not_succeeded")
+              raise SystemExit(0)
+
+          print("reusable")
+          PY
+          )"
+
+          if [ "${REUSE_REASON}" = "reusable" ]; then
+            echo "reuse=true" >> "$GITHUB_OUTPUT"
+            echo "✅ Existing successful daily report reused: ${DATE_JST}; radar recalculation and notification were skipped."
+          else
+            echo "reuse=false" >> "$GITHUB_OUTPUT"
+            echo "ℹ️ Existing daily report is not reusable (${REUSE_REASON}); continuing the original generation path."
+          fi
+
       - name: Resend Existing Daily Report
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'resend' }}
         env:
@@ -530,7 +608,7 @@ jobs:
           echo "✅ Existing daily report was reused; radar recalculation was skipped."
 
       - name: Collect Evidence (non-blocking)
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.mode != 'resend') && steps.reuse_report.outputs.reuse != 'true' }}
         env:
           FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
           ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
@@ -609,7 +687,7 @@ jobs:
           fi
 
       - name: Run Sentinel Radar
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.mode != 'resend') && steps.reuse_report.outputs.reuse != 'true' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -783,7 +861,7 @@ jobs:
           PY
 
       - name: Freshness Gate and Output Validation
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}
+        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.mode != 'resend') && steps.reuse_report.outputs.reuse != 'true' }}
         run: |
           set -euo pipefail
           
@@ -932,6 +1010,7 @@ jobs:
           fi
 
       - name: Commit and Push to Data Worktree
+        if: ${{ success() && steps.reuse_report.outputs.reuse != 'true' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |

@@ -137,6 +137,44 @@ fn run_report_date_resolver(
     fs::read_to_string(github_env).expect("report date resolver did not write GITHUB_ENV")
 }
 
+fn run_reuse_report_probe(script: &str, status: &Value, include_artifacts: bool) -> String {
+    let tmp = tempfile::tempdir().expect("failed to create reuse probe fixture");
+    let reports = tmp.path().join("reports");
+    fs::create_dir_all(&reports).expect("failed to create reports directory");
+    fs::write(
+        reports.join("run_status_2026-09-10.json"),
+        serde_json::to_vec_pretty(status).expect("failed to serialize status fixture"),
+    )
+    .expect("failed to write status fixture");
+    if include_artifacts {
+        for path in [
+            "decision_packet_2026-09-10.json",
+            "2026-09-10.md",
+            "telegram_report_2026-09-10.html",
+        ] {
+            fs::write(reports.join(path), "fixture\n").expect("failed to write report fixture");
+        }
+    }
+
+    let script_path = tmp.path().join("reuse_report.sh");
+    let github_output = tmp.path().join("github_output");
+    fs::write(&script_path, script).expect("failed to write reuse report script");
+    let output = Command::new("bash")
+        .arg(&script_path)
+        .current_dir(tmp.path())
+        .env("REPORT_DATE_JST", "2026-09-10")
+        .env("GITHUB_OUTPUT", &github_output)
+        .output()
+        .expect("failed to run reuse report probe");
+    assert!(
+        output.status.success(),
+        "reuse report probe failed: stdout={} stderr={}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+    fs::read_to_string(github_output).expect("reuse report probe did not write GITHUB_OUTPUT")
+}
+
 #[test]
 fn daily_radar_protoc_install_ignores_third_party_apt_sources() {
     let workflow_path =
@@ -208,6 +246,39 @@ fn daily_radar_report_date_is_shared_by_generation_and_freshness_validation() {
     assert!(notification_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
     assert!(freshness_step.contains("DATE_JST=\"${REPORT_DATE_JST:?"));
     assert!(workflow.contains("REPORT_DATE_JST=\"${DATE_JST}\""));
+}
+
+#[test]
+fn daily_radar_scheduled_reuses_only_complete_successful_reports() {
+    let workflow_path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join(".github/workflows/daily_radar.yml");
+    let workflow = fs::read_to_string(&workflow_path).expect("failed to read daily_radar.yml");
+    let script = extract_step_script(&workflow_path, "Reuse Existing Successful Daily Report");
+
+    assert!(workflow.contains("id: reuse_report"));
+    assert!(workflow.contains("if: ${{ github.event_name == 'schedule' }}"));
+    assert!(workflow.contains("steps.reuse_report.outputs.reuse != 'true'"));
+    assert!(script.contains("reports/run_status_${DATE_JST}.json"));
+    assert!(script.contains("reports/decision_packet_${DATE_JST}.json"));
+    assert!(script.contains("reports/${DATE_JST}.md"));
+    assert!(script.contains("reports/telegram_report_${DATE_JST}.html"));
+    assert!(script.contains("decisioning"));
+    assert!(script.contains("notification"));
+
+    let successful = serde_json::json!({
+        "date": "2026-09-10",
+        "decisioning": "succeeded",
+        "notification": "succeeded"
+    });
+    assert!(run_reuse_report_probe(&script, &successful, true).contains("reuse=true"));
+
+    let failed = serde_json::json!({
+        "date": "2026-09-10",
+        "decisioning": {"failed": {"reason": "snapshot conflict"}},
+        "notification": "succeeded"
+    });
+    assert!(run_reuse_report_probe(&script, &failed, true).contains("reuse=false"));
+    assert!(run_reuse_report_probe(&script, &successful, false).contains("reuse=false"));
 }
 
 fn extract_embedded_python(script: &str) -> String {
@@ -419,9 +490,9 @@ fn daily_radar_manual_resend_reuses_archived_report_and_has_valid_shell_syntax()
     assert!(!script.contains("make radar-release"));
     assert!(
         workflow.contains(
-            "name: Freshness Gate and Output Validation\n        if: ${{ github.event_name != 'workflow_dispatch' || inputs.mode != 'resend' }}"
+            "name: Freshness Gate and Output Validation\n        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.mode != 'resend') && steps.reuse_report.outputs.reuse != 'true' }}"
         ),
-        "resend must skip freshness validation intended for newly generated reports"
+        "resend and scheduled reuse must skip freshness validation intended for newly generated reports"
     );
 }
 
