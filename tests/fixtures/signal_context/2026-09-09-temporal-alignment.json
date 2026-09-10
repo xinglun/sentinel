@@ -1,0 +1,133 @@
+{
+  "case_id": "2026-09-09-temporal-alignment",
+  "market_date": "2026-09-09",
+  "report_run_at": "2026-09-10T03:00:00Z",
+  "observation_window_start": "2026-09-09T19:15:00Z",
+  "observation_window_end": "2026-09-10T03:00:00Z",
+  "scheduled_macro": [],
+  "corporate_events": [],
+  "geopolitical_events": [
+    {
+      "type": "GEOPOLITICAL",
+      "event_id": "event-jordan-air-base",
+      "accepted_at": "2026-09-09T21:50:00Z",
+      "title": "Geopolitical escalation",
+      "information_content": "HIGH",
+      "market_relevance": "HIGH",
+      "evidence_quality": "HIGH",
+      "lifecycle": "ACTIVE_REPRICING",
+      "event_fact": "Jordan air base escalation headline was published at 21:42 ET.",
+      "observed_at": "2026-09-09T21:42:00Z",
+      "source_published_at": "2026-09-09T21:42:00Z",
+      "market_date": "2026-09-09",
+      "evidence": [
+        {
+          "source": "Structured News",
+          "source_url": "https://example.test/jordan-air-base",
+          "timestamp": "2026-09-09T21:42:00Z",
+          "source_published_at": "2026-09-09T21:42:00Z",
+          "event_type": "GEOPOLITICAL_ESCALATION",
+          "subject": "Jordan air base",
+          "importance": "HIGH"
+        }
+      ]
+    }
+  ],
+  "commodity_events": [],
+  "rates_credit_events": [],
+  "market_structure_events": [],
+  "coverage": {
+    "scheduled_macro": "HEALTHY",
+    "corporate": "HEALTHY",
+    "geopolitical": "HEALTHY",
+    "commodity": "HEALTHY",
+    "rates_credit": "HEALTHY",
+    "market_structure": "HEALTHY",
+    "overall": "HEALTHY"
+  },
+  "observed_market_reactions": [
+    {
+      "observation_id": "obs-spy-core",
+      "observed_at": "2026-09-09T19:15:00Z",
+      "session": "CORE",
+      "venue": "NYSE",
+      "instrument": "SPY",
+      "market_date": "2026-09-09",
+      "subject": "SPY",
+      "observation": "core session -0.1%",
+      "evidence": []
+    },
+    {
+      "observation_id": "obs-spy-overnight",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "session": "OVERNIGHT",
+      "venue": "CME",
+      "instrument": "SPY",
+      "market_date": "2026-09-09",
+      "subject": "SPY",
+      "observation": "overnight -0.4%",
+      "evidence": []
+    },
+    {
+      "observation_id": "obs-nq-futures",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "session": "OVERNIGHT",
+      "venue": "CME",
+      "instrument": "NQ",
+      "market_date": "2026-09-09",
+      "subject": "NQ futures",
+      "observation": "overnight -0.7%",
+      "evidence": []
+    },
+    {
+      "observation_id": "obs-brent-futures",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "session": "OVERNIGHT",
+      "venue": "ICE",
+      "instrument": "BRENT",
+      "market_date": "2026-09-09",
+      "subject": "Brent",
+      "observation": "overnight +1.8%",
+      "evidence": []
+    }
+  ],
+  "temporal_bindings": [
+    {
+      "event_id": "event-jordan-air-base",
+      "observation_id": "obs-spy-core",
+      "source_published_at": "2026-09-09T21:42:00Z",
+      "observed_at": "2026-09-09T19:15:00Z",
+      "temporal_eligible": false,
+      "reason": "source_published_at is after observed_at"
+    },
+    {
+      "event_id": "event-jordan-air-base",
+      "observation_id": "obs-spy-overnight",
+      "source_published_at": "2026-09-09T21:42:00Z",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "temporal_eligible": true,
+      "reason": "source_published_at is before or equal to observed_at"
+    },
+    {
+      "event_id": "event-jordan-air-base",
+      "observation_id": "obs-nq-futures",
+      "source_published_at": "2026-09-09T21:42:00Z",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "temporal_eligible": true,
+      "reason": "source_published_at is before or equal to observed_at"
+    },
+    {
+      "event_id": "event-jordan-air-base",
+      "observation_id": "obs-brent-futures",
+      "source_published_at": "2026-09-09T21:42:00Z",
+      "observed_at": "2026-09-10T02:00:00Z",
+      "temporal_eligible": true,
+      "reason": "source_published_at is before or equal to observed_at"
+    }
+  ],
+  "decision_weight": 0,
+  "trade_signal": false,
+  "gate_effect": "none",
+  "execution_effect": "none",
+  "position_sizing_effect": "none"
+}

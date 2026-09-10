@@ -531,6 +531,7 @@ pub(crate) async fn run_pipeline_for_report_date(
             let previous_macro_signal_context = crate::features::research::interface::macro_event_observation::load_macro_signal_context(
                 config_arc.as_ref(),
                 previous_packet_date,
+                report_run_at,
             )
             .await;
             let previous_gravity_observation =
@@ -586,6 +587,7 @@ pub(crate) async fn run_pipeline_for_report_date(
         let macro_signal_context = crate::features::research::interface::macro_event_observation::load_macro_signal_context(
             config_arc.as_ref(),
             packet.date,
+            report_run_at,
         )
         .await;
         let future_context = attach_corporate_event_evidence(
@@ -1751,9 +1753,10 @@ fn load_corporate_event_evidence(
 ) -> CorporateEventEvidenceResolution {
     let (enrichments, external_diagnostic) = match std::env::var("SENTINEL_SIGNAL_CONTEXT_JSON_PATH")
     {
-        Ok(path) => match crate::features::radar::interface::signal_context_coverage::load_external_signal_context_from_path(
+        Ok(path) => match crate::features::radar::interface::signal_context_coverage::load_external_signal_context_from_path_at(
             &path,
             market_date,
+            Some(&report_run_at.to_rfc3339()),
         ) {
             Ok(Some(context)) => (external_corporate_event_enrichments(&context), None),
             Ok(None) => (Vec::new(), None),

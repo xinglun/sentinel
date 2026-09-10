@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 
 /// 追跡可能なイベント事実の最小証拠レコード。
@@ -18,7 +18,15 @@ pub struct EvidenceRecord {
 /// 事件事实与市场反应分离后的观测结果。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct MarketReaction {
+    #[serde(default)]
+    pub observation_id: String,
     pub observed_at: String,
+    #[serde(default)]
+    pub session: String,
+    #[serde(default)]
+    pub venue: String,
+    #[serde(default)]
+    pub instrument: String,
     #[serde(default)]
     pub source_published_at: String,
     #[serde(default)]
@@ -28,14 +36,89 @@ pub struct MarketReaction {
     pub evidence: Vec<EvidenceRecord>,
 }
 
+/// MarketReaction の互換名。新規コードでは MarketObservation として扱う。
+pub type MarketObservation = MarketReaction;
+
+/// Event と MarketObservation の時間関係を保持する canonical read model。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct TemporalBinding {
+    pub event_id: String,
+    pub observation_id: String,
+    pub source_published_at: String,
+    pub observed_at: String,
+    pub temporal_eligible: bool,
+    pub reason: String,
+}
+
+/// report run と observation window の時間コンテキスト。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct SignalContextTemporalContext {
+    #[serde(default)]
+    pub report_run_at: Option<String>,
+    #[serde(default)]
+    pub observation_window_start: Option<String>,
+    #[serde(default)]
+    pub observation_window_end: Option<String>,
+}
+
+/// source 公開時刻と observation 時刻を UTC で比較する。parse 失敗は false にする。
+pub(crate) fn build_temporal_binding(
+    event_id: &str,
+    source_published_at: &str,
+    observation: &MarketObservation,
+) -> TemporalBinding {
+    let temporal_eligible = match (
+        parse_timestamp(source_published_at),
+        parse_timestamp(&observation.observed_at),
+    ) {
+        (Some(source_published_at), Some(observed_at)) => source_published_at <= observed_at,
+        _ => false,
+    };
+    let reason = if event_id.trim().is_empty() || observation.observation_id.trim().is_empty() {
+        "invalid event_id or observation_id".to_string()
+    } else if parse_timestamp(source_published_at).is_none()
+        || parse_timestamp(&observation.observed_at).is_none()
+    {
+        "invalid or missing timestamp".to_string()
+    } else if temporal_eligible {
+        "source_published_at is before or equal to observed_at".to_string()
+    } else {
+        "source_published_at is after observed_at".to_string()
+    };
+    TemporalBinding {
+        event_id: event_id.to_string(),
+        observation_id: observation.observation_id.clone(),
+        source_published_at: source_published_at.to_string(),
+        observed_at: observation.observed_at.clone(),
+        temporal_eligible,
+        reason,
+    }
+}
+
+/// accepted_at が report run までに確定しているかを検証する。
+pub(crate) fn event_visible_at(accepted_at: &str, report_run_at: &str) -> bool {
+    match (parse_timestamp(accepted_at), parse_timestamp(report_run_at)) {
+        (Some(accepted_at), Some(report_run_at)) => accepted_at <= report_run_at,
+        _ => false,
+    }
+}
+
+fn parse_timestamp(value: &str) -> Option<DateTime<Utc>> {
+    DateTime::parse_from_rfc3339(value)
+        .ok()
+        .map(|timestamp| timestamp.with_timezone(&Utc))
+}
+
 /// Research interface が同一 feature の ACL を呼び出す facade。
 pub(crate) async fn load_macro_signal_context(
     app_config: &crate::config::AppConfig,
     market_date: NaiveDate,
+    report_run_at: DateTime<Utc>,
 ) -> MacroSignalContextReadModel {
     crate::features::research::acl::macro_signal_context_provider_factory::load_macro_signal_context(
         app_config,
         market_date,
+        report_run_at,
     )
     .await
 }
@@ -44,6 +127,8 @@ pub(crate) async fn load_macro_signal_context(
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub(crate) struct MacroSignalContextReadModel {
     pub market_date: NaiveDate,
+    #[serde(default)]
+    pub temporal_context: SignalContextTemporalContext,
     pub rates_credit: MacroSignalContextSource,
     pub commodity: MacroSignalContextSource,
     pub geopolitical: MacroSignalContextSource,
@@ -91,6 +176,10 @@ pub(crate) enum MacroSignalContextLifecycle {
 /// Provider が観測した event fact。取引判断には渡さない。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub(crate) struct MacroSignalContextEvent {
+    #[serde(default)]
+    pub event_id: String,
+    #[serde(default)]
+    pub accepted_at: String,
     pub title: String,
     pub information_content: MacroSignalContextInformationLevel,
     pub market_relevance: MacroSignalContextInformationLevel,
@@ -109,7 +198,7 @@ pub(crate) struct MacroSignalContextEvent {
 
 #[cfg(test)]
 mod signal_context_v1_tests {
-    use super::{EvidenceRecord, MarketReaction};
+    use super::{build_temporal_binding, event_visible_at, EvidenceRecord, MarketReaction};
 
     #[test]
     fn evidence_record_serializes_traceability_fields() {
@@ -130,7 +219,11 @@ mod signal_context_v1_tests {
     #[test]
     fn market_reaction_keeps_evidence_as_a_separate_observation() {
         let reaction = MarketReaction {
+            observation_id: "obs-payroll".to_string(),
             observed_at: "2026-08-07T16:00:00Z".to_string(),
+            session: "CORE".to_string(),
+            venue: "NASDAQ".to_string(),
+            instrument: "NASDAQ".to_string(),
             source_published_at: "2026-08-07T16:00:00Z".to_string(),
             market_date: "2026-08-07".to_string(),
             subject: "Nasdaq".to_string(),
@@ -140,6 +233,45 @@ mod signal_context_v1_tests {
         let value = serde_json::to_value(reaction).unwrap();
         assert!(value.get("observation").is_some());
         assert!(value.get("event_fact").is_none());
+    }
+
+    #[test]
+    fn temporal_binding_allows_only_publication_before_observation() {
+        let reaction = MarketReaction {
+            observed_at: "2026-09-09T22:00:00Z".to_string(),
+            observation_id: "obs-spy-overnight".to_string(),
+            ..Default::default()
+        };
+        let binding = build_temporal_binding("event-jordan", "2026-09-09T21:42:00Z", &reaction);
+
+        assert!(binding.temporal_eligible);
+        assert_eq!(binding.event_id, "event-jordan");
+        assert_eq!(binding.observation_id, "obs-spy-overnight");
+    }
+
+    #[test]
+    fn temporal_binding_fails_closed_for_invalid_publication_or_observation() {
+        let reaction = MarketReaction {
+            observed_at: "not-a-timestamp".to_string(),
+            observation_id: "obs-invalid".to_string(),
+            ..Default::default()
+        };
+        let binding = build_temporal_binding("event-invalid", "", &reaction);
+
+        assert!(!binding.temporal_eligible);
+        assert!(binding.reason.contains("invalid"));
+    }
+
+    #[test]
+    fn accepted_at_is_a_report_visibility_boundary() {
+        assert!(event_visible_at(
+            "2026-09-09T21:42:00Z",
+            "2026-09-10T00:00:00Z"
+        ));
+        assert!(!event_visible_at(
+            "2026-09-10T00:00:01Z",
+            "2026-09-10T00:00:00Z"
+        ));
     }
 }
 

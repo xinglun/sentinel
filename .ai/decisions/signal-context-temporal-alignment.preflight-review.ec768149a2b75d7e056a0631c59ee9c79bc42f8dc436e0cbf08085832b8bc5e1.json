@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:2f2981a8148a798c1032186138d301996a9585216f33837acb6cf19de011432c",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:4df52d50ae26a2b63d4bc96a4c4e77420635bd7c6052c15eea4bd1862b7fb6a1",
+  "reason": "用户已确认 signal-context-temporal-alignment 的兼容优先架构、核心 invariant、验收边界与 observation-only 范围，并确认实现后的场景证据、质量门禁与残余风险均按当前 Contract 记录；授权继续进入验证、finish 与 archive。",
+  "recordedAt": "2026-09-10T06:30:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c26d0f50d9e041c3f9938fa67ee3c9405a1a0d8e042254766d5352f1be0c73e3",
+  "schemaVersion": 1,
+  "workItemId": "signal-context-temporal-alignment"
+}

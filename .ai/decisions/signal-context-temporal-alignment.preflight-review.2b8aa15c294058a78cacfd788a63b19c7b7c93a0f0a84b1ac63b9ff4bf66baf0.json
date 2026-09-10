@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8ecc5396b6d394730085769aa812804c9cdd71d7779b505ff09a70eae82fb681",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "reason": "用户已确认当前 signal-context-temporal-alignment 实现、验证结果与 observation-only 边界；Runtime verification 已通过，场景与验收证据均为 verified，授权在不改变范围和交易决策语义的前提下继续 finish 与 archive。",
+  "recordedAt": "2026-09-10T06:36:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c26d0f50d9e041c3f9938fa67ee3c9405a1a0d8e042254766d5352f1be0c73e3",
+  "schemaVersion": 1,
+  "workItemId": "signal-context-temporal-alignment"
+}

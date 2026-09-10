@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-10T06:37:26Z",
+  "files": {
+    "contractDigest": "sha256:bdb3d142b4126e1ee7faca341df6d09dbe87a4a651084ad12b98b4ce24cd09bc",
+    "contractPath": ".ai/work-items/archive/signal-context-temporal-alignment.contract.json",
+    "eventsDigest": "sha256:0fd4dc2b448bc5ad2fe7abc224ffd2171c29e572e65506a557257db3956ce98c",
+    "eventsPath": ".ai/work-items/archive/signal-context-temporal-alignment.events.jsonl",
+    "outcomeDigest": "sha256:f8bee0389b9142ddd58509df7cc4ca997271f0d25ab15e690ed69553006b00f4",
+    "outcomePath": ".ai/work-items/archive/signal-context-temporal-alignment.outcome.json",
+    "summaryDigest": "sha256:a4e0bb287ac5654db17f60fbc5da34735094bb12bdc4fd0b30e78e957faf6d6b",
+    "summaryPath": ".ai/work-items/archive/signal-context-temporal-alignment.summary.json",
+    "taskReportDigest": "sha256:ffe24554a083fd27a09ce1e7c0e656999b0d556f0c11ea57b77775b01820f730",
+    "taskReportMarkdownDigest": "sha256:75ce4315e1470497ed6041406db58be5e9dfb76aafce9e7df0a233d393b8c709",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-temporal-alignment.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-temporal-alignment.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-temporal-alignment"
+}

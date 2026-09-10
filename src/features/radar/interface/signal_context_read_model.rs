@@ -51,7 +51,8 @@ pub(crate) fn build_signal_context_assessment(
         derive_information_content(primary_context, &input.future_context, &v1);
     let context_quality = derive_context_quality(primary_context, &input.future_context, &v1);
     let event_fact = compose_event_fact(&input.future_context, &v1);
-    let market_reactions_value = format_market_reactions(&v1.observed_market_reactions);
+    let market_reactions_value =
+        format_market_reactions(&v1.observed_market_reactions, &v1.temporal_bindings);
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, &v1, input.language);
@@ -95,13 +96,47 @@ pub(crate) fn build_signal_context_assessment(
 
 fn format_market_reactions(
     reactions: &[crate::features::research::interface::macro_event_observation::MarketReaction],
+    bindings: &[crate::features::research::interface::macro_event_observation::TemporalBinding],
 ) -> String {
+    let eligible_observation_ids = bindings
+        .iter()
+        .filter(|binding| binding.temporal_eligible)
+        .map(|binding| binding.observation_id.as_str())
+        .collect::<BTreeSet<_>>();
     reactions
         .iter()
         .filter(|reaction| {
-            !reaction.subject.trim().is_empty() && !reaction.observation.trim().is_empty()
+            !reaction.subject.trim().is_empty()
+                && !reaction.observation.trim().is_empty()
+                && (bindings.is_empty()
+                    || eligible_observation_ids.contains(reaction.observation_id.as_str()))
         })
-        .map(|reaction| format!("{}: {}", reaction.subject, reaction.observation))
+        .map(|reaction| {
+            let provenance = [
+                (!reaction.session.trim().is_empty())
+                    .then(|| format!("session={}", reaction.session)),
+                (!reaction.venue.trim().is_empty()).then(|| format!("venue={}", reaction.venue)),
+                (!reaction.instrument.trim().is_empty())
+                    .then(|| format!("instrument={}", reaction.instrument)),
+            ]
+            .into_iter()
+            .flatten()
+            .collect::<Vec<_>>();
+            let timestamp = if reaction.observed_at.trim().is_empty() {
+                String::new()
+            } else {
+                format!(" @ {}", reaction.observed_at)
+            };
+            let metadata = if provenance.is_empty() {
+                String::new()
+            } else {
+                format!(" [{}]", provenance.join(", "))
+            };
+            format!(
+                "{}{}{}: {}",
+                reaction.subject, timestamp, metadata, reaction.observation
+            )
+        })
         .collect::<Vec<_>>()
         .join("\n")
 }
@@ -1208,23 +1243,23 @@ fn corporate_event_text(
     match language {
         Language::ZhCn => {
             if fact.is_empty() {
-                format!("{event_prefix_zh}：{title}。观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+                format!("{event_prefix_zh}：{title}。观测到的市场反应与该事件公开后的时间序列一致，但事件后的持续性尚未确认。信息含量：{info}。")
             } else {
-                format!("{event_prefix_zh}：{title}。事件事实：{fact} 观察到的市场反应可能受该事件驱动，但事件后的持续性尚未确认。信息含量：{info}。")
+                format!("{event_prefix_zh}：{title}。事件事实：{fact} 观测到的市场反应与该事件公开后的时间序列一致，但事件后的持续性尚未确认。信息含量：{info}。")
             }
         }
         Language::EnUs => {
             if fact.is_empty() {
-                format!("{event_prefix_en}: {title}. The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+                format!("{event_prefix_en}: {title}. The observed market reaction is temporally aligned with the event publication, but persistence after the event is not yet confirmed. Information content: {info}.")
             } else {
-                format!("{event_prefix_en}: {title}. Event fact: {fact} The observed market reaction may be event-driven, but persistence after the event is not yet confirmed. Information content: {info}.")
+                format!("{event_prefix_en}: {title}. Event fact: {fact} The observed market reaction is temporally aligned with the event publication, but persistence after the event is not yet confirmed. Information content: {info}.")
             }
         }
         Language::JaJp => {
             if fact.is_empty() {
-                format!("{event_prefix_ja}: {title}。観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+                format!("{event_prefix_ja}: {title}。観測された市場反応はこのイベント公開後の時間系列と整合するが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
             } else {
-                format!("{event_prefix_ja}: {title}。イベント事実: {fact} 観測された市場反応はこのイベントに起因する可能性があるが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
+                format!("{event_prefix_ja}: {title}。イベント事実: {fact} 観測された市場反応はこのイベント公開後の時間系列と整合するが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
             }
         }
     }
@@ -1349,7 +1384,9 @@ mod tests {
             assessment.information_content,
             SignalContextInformationContent::High
         );
-        assert!(assessment.interpretation.contains("可能受该事件驱动"));
+        assert!(assessment
+            .interpretation
+            .contains("与该事件公开后的时间序列一致"));
         assert!(assessment.interpretation.contains("持续性尚未确认"));
         assert!(assessment
             .source_diagnostics_summary
@@ -1755,7 +1792,9 @@ mod tests {
             signal_context_primary_context_label(assessment.primary_context),
             "Corporate Event"
         );
-        assert!(assessment.interpretation.contains("may be event-driven"));
+        assert!(assessment
+            .interpretation
+            .contains("temporally aligned with the event publication"));
         assert!(assessment.next_observation.contains("persistence"));
         assert!(!assessment
             .source_diagnostics_summary
@@ -2389,5 +2428,50 @@ mod tests {
             SignalContextQuality::Unavailable
         );
         assert!(assessment.interpretation.contains("UNAVAILABLE"));
+    }
+
+    #[test]
+    fn market_reaction_display_uses_only_temporal_eligible_observations() {
+        let reactions = vec![
+            crate::features::research::interface::macro_event_observation::MarketReaction {
+                observation_id: "obs-core".to_string(),
+                observed_at: "2026-09-09T19:15:00Z".to_string(),
+                session: "CORE".to_string(),
+                venue: "NYSE".to_string(),
+                instrument: "SPY".to_string(),
+                subject: "SPY".to_string(),
+                observation: "core -0.1%".to_string(),
+                ..Default::default()
+            },
+            crate::features::research::interface::macro_event_observation::MarketReaction {
+                observation_id: "obs-overnight".to_string(),
+                observed_at: "2026-09-10T02:00:00Z".to_string(),
+                session: "OVERNIGHT".to_string(),
+                venue: "CME".to_string(),
+                instrument: "SPY".to_string(),
+                subject: "SPY".to_string(),
+                observation: "overnight -0.4%".to_string(),
+                ..Default::default()
+            },
+        ];
+        let bindings = vec![
+            crate::features::research::interface::macro_event_observation::TemporalBinding {
+                observation_id: "obs-core".to_string(),
+                ..Default::default()
+            },
+            crate::features::research::interface::macro_event_observation::TemporalBinding {
+                observation_id: "obs-overnight".to_string(),
+                temporal_eligible: true,
+                ..Default::default()
+            },
+        ];
+
+        let value = format_market_reactions(&reactions, &bindings);
+
+        assert!(!value.contains("core -0.1%"));
+        assert!(value.contains("overnight -0.4%"));
+        assert!(value.contains("session=OVERNIGHT"));
+        assert!(value.contains("venue=CME"));
+        assert!(value.contains("instrument=SPY"));
     }
 }
