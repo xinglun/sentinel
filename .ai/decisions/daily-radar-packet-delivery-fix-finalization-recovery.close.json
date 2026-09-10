@@ -1,0 +1,153 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+      "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/daily-radar-packet-delivery-fix.recovery.5284fe74f39e51414e222eddc9b52d6cddc7596e814bc686507e0ba2be5bcc30.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/decisions/daily-radar-packet-delivery-fix-finalization-recovery.recovery.b89e199e90dd6cc6c74e04dcfa519a8f3742ca1c72aa5324aa5b9ef5ea16803e.json",
+            ".ai/decisions/daily-radar-packet-delivery-fix-finalization-v2.finalize.json",
+            ".ai/decisions/daily-radar-packet-delivery-fix-finalization-v2.close.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-10T01:49:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-packet-delivery-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "在保留前驱不可变 archive/evidence 的前提下，验证 PR #174、同步 develop 到 main、完成 branch/worktree cleanup，并完成 successor 与 predecessor 的 finalize、close"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-packet-delivery-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:afd3c29e2c2977ed53d9bc78411e3446f3edfb180a9d8a457886fdc4193f9b18",
+  "historicalArchiveIntegrity": {
+    "artifact": "taskReportMarkdown",
+    "assurance": "historical_low",
+    "manifestDigest": "sha256:6acd8440a00daafdfff3c8019cd50314c72c26c9370c246f45a9866711094cd1",
+    "reason": "optional archived Task Outcome Markdown bytes differ from the immutable manifest digest; bytes were preserved",
+    "state": "quarantined"
+  },
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-10T01:49:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/decisions/daily-radar-packet-delivery-fix-finalization-recovery.recovery.b89e199e90dd6cc6c74e04dcfa519a8f3742ca1c72aa5324aa5b9ef5ea16803e.json",
+      ".ai/decisions/daily-radar-packet-delivery-fix-finalization-v2.finalize.json",
+      ".ai/decisions/daily-radar-packet-delivery-fix-finalization-v2.close.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/cockpit/README.md"
+    ],
+    "reason": "PR #176 已合并；v2 successor 已完成 PR #177、finalization、finalize-verify 与 close，前驱以 supersede recovery 方式收尾，原始 archive/evidence bytes 保持不变。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-10T01:55:30Z",
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}
