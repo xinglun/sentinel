@@ -1,0 +1,35 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-10T03:41:44Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.outcome.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.events.jsonl",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.archive.json",
+    ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json",
+    "https://github.com/xinglun/sentinel/pull/180",
+    "https://github.com/xinglun/sentinel/pull/181"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+  "predecessorEventsDigest": "sha256:03969a5fc359f76307d58f377fd86fc8b625a1fc708f8f1a1d2a694f1d1cf87b",
+  "predecessorOutcomeDigest": "sha256:707b19313af91427e7f56615791f7438ab7ba83e3c15195b3179a9eee6038711",
+  "predecessorSummaryDigest": "sha256:0d37fc4df7289d5389734b98f280ddcf30cf1b98781828fd25cebe13c409a322",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict",
+  "reason": "前驱 Work Item 在 archive 前执行 finalize-plan 时 PR 尚未建立，immutable resource context 保留为 pullRequest=not_started；随后真实 PR #180 已合并到 develop，PR #181 已将 develop 同步到 main，且 10 号日报已在 main 上成功生成并发送。保留全部前驱 archive/evidence bytes，通过治理-only successor 补齐真实 finalization、branch/worktree cleanup 与 close。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 中不修改生产代码或前驱 archive/evidence；绑定 PR #180、PR #181、main/develop 同步与精确 feature branch/worktree 清理，完成 fresh verification、preflight、finish、archive、finalize-plan、finalize、finalize-verify，并关闭 successor 与前驱 Work Item。",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "successorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
+  "workItemId": "daily-radar-snapshot-report-date-conflict"
+}
