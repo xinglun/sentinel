@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-09-10T02:36:09Z",
+  "evidence": {
+    "assurance": "repository_verified",
+    "collectedAt": "2026-09-10T02:27:12Z",
+    "digest": "sha256:d8a35ddcc593c250f266cab585b1e1ddf1d9504621d6bb202297b17c4f18f742",
+    "origin": "https://github.com/xinglun/sentinel/actions/runs/34429193255",
+    "provider": "github-actions",
+    "rawEvidenceRef": ".ai/evidence/external/daily-radar-snapshot-report-date-conflict-run-34429193255.raw.txt",
+    "subject": "10号日报运行因跨日报日行情快照键冲突失败",
+    "validity": "valid"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-snapshot-report-date-conflict"
+}
