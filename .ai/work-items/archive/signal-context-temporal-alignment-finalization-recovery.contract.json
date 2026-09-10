@@ -33,11 +33,11 @@
     "verification"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/signal-context-temporal-alignment-finalization-recovery",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/190",
     "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-signal-context-temporal-alignment-finalization-recovery"
   },
   "risk": "normal",
