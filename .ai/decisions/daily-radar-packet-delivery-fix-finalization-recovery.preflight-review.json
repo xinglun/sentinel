@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:f5fceee786d7170060582b81e74c7dc89e5801e8b08e8dcd8d4a9c76c2661b46",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:334fb41293d838d4b7b102eb7c3f695066ad2572a0dfe9c9464b2e342626f6f2",
+  "reason": "用户已确认继续完成修复交付、develop 到 main 的同步以及精确清理；successor 仅补齐治理终态，不改变生产代码、数据或 Telegram 行为。",
+  "recordedAt": "2026-09-10T01:03:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "schemaVersion": 1,
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}

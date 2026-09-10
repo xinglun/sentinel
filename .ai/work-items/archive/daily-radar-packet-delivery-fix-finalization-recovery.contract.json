@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "PR #174 的 GitHub merge 身份与 develop 同步可核验",
+    "远端 main 已通过 reviewed PR 从 develop 同步，且本地 checkout 保持 develop",
+    "前驱 archive/evidence bytes 不变，successor 完成 finalize-plan、finalize、finalize-verify、close"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ff8f6da2b4995efbb92cec04c734f761dd435f8c",
+  "createdAt": "2026-09-10T01:00:51Z",
+  "goal": "在保留前驱不可变 archive/evidence 的前提下，验证 PR #174、同步 develop 到 main、完成 branch/worktree cleanup，并完成 successor 与 predecessor 的 finalize、close",
+  "intent": "补齐已合并 Daily Radar 修复的终态治理链，不改变产品代码或日报数据",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".github/workflows/**",
+    "data/**",
+    "reports/**",
+    "Telegram发送",
+    "日报执行",
+    "Decision/Gate/Execution/Position Sizing语义"
+  ],
+  "predecessorContractDigest": "sha256:bad8d137781ce83fb98fec6ba4217f9f06f933fcdc1772f5129b681a97b6cac2",
+  "predecessorWorkItemId": "daily-radar-packet-delivery-fix",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-packet-delivery-fix.recovery.5284fe74f39e51414e222eddc9b52d6cddc7596e814bc686507e0ba2be5bcc30.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c899e064bd2841d93ef15c5d9206c1c22b15296653b061b6c1bb7ac8b37a25ae",
+  "requiredEvidenceClasses": [
+    "verification",
+    "governance"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-report-packet-fix",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/174",
+    "worktree": "/private/tmp/sentinel-daily-radar-report-packet-fix"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --locked --workspace"
+  ],
+  "workItemId": "daily-radar-packet-delivery-fix-finalization-recovery"
+}
