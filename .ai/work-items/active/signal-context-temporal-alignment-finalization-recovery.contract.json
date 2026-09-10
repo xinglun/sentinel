@@ -1,0 +1,55 @@
+{
+  "acceptanceCriteria": [
+    "当前 successor Contract 的 verification evidence、recovery receipt 与 close receipt 身份一致",
+    "PR #189 与 merge commit bc5f76c585fc87e62261dcee264f143fe21ef473 的 GitHub 身份可核验，develop 与 origin/develop 同步",
+    "前驱 archive/evidence bytes 不变，successor 完成 finalize-plan、finalize、finalize-verify、close，并精确清理 branch/worktree",
+    "不修改生产代码、日报数据或交易决策语义，不发送日报，不调用 Telegram"
+  ],
+  "authority": "authorized",
+  "baseRevision": "bc5f76c585fc87e62261dcee264f143fe21ef473",
+  "createdAt": "2026-09-10T07:16:53Z",
+  "goal": "在保留前驱不可变 archive 与 verification evidence 的前提下，重新验证 PR #189、merge commit bc5f76c585fc87e62261dcee264f143fe21ef473 与 develop 同步，并完成 successor 与 predecessor close",
+  "intent": "补齐已合并 Signal Context Work Item 的 successor 治理验证与关闭，不改变产品行为",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".github/workflows/**",
+    "data/**",
+    "reports/**",
+    "Telegram发送",
+    "日报执行",
+    "Decision/Gate/RS/Leadership/Action Matrix/Execution/Position Sizing",
+    "前驱 archive 与 verification evidence"
+  ],
+  "predecessorContractDigest": "sha256:8ecc5396b6d394730085769aa812804c9cdd71d7779b505ff09a70eae82fb681",
+  "predecessorWorkItemId": "signal-context-temporal-alignment",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/signal-context-temporal-alignment.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:f60167ab7ba35f50d0b88fcde54b32f7d08a83ec55edb08be344b1afa86b9dc4",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "unknown",
+    "baseRemote": "unknown",
+    "branch": "codex/signal-context-temporal-alignment-finalization-recovery",
+    "provider": "unknown",
+    "pullRequest": "unknown",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-signal-context-temporal-alignment-finalization-recovery"
+  },
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "signal-context-temporal-alignment-finalization-recovery"
+}
