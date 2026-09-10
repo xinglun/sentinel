@@ -1,8 +1,9 @@
 use crate::config::AppConfig;
 use anyhow::{anyhow, Context, Result};
-use chrono::{DateTime, Duration, NaiveDate};
+use chrono::{DateTime, Duration, NaiveDate, Utc};
 use serde::Deserialize;
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 
 /// Research ACL に渡す前の provider 内部 read model。Radar の型を参照しない。
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -49,6 +50,8 @@ pub(crate) enum MacroSignalContextProviderLifecycle {
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub(crate) struct MacroSignalContextProviderEvent {
+    pub event_id: String,
+    pub accepted_at: String,
     pub title: String,
     pub information_content: MacroSignalContextProviderInformationLevel,
     pub market_relevance: MacroSignalContextProviderInformationLevel,
@@ -78,7 +81,11 @@ pub(crate) struct ProviderEvidenceRecord {
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub(crate) struct ProviderMarketReaction {
+    pub observation_id: String,
     pub observed_at: String,
+    pub session: String,
+    pub venue: String,
+    pub instrument: String,
     pub source_published_at: String,
     pub market_date: String,
     pub subject: String,
@@ -113,6 +120,16 @@ const GEOPOLITICAL_KEYWORDS: &[&str] = &[
     "war",
 ];
 
+fn stable_id(namespace: &str, parts: &[&str]) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(namespace.as_bytes());
+    for part in parts {
+        hasher.update([0]);
+        hasher.update(part.as_bytes());
+    }
+    format!("{namespace}:{:x}", hasher.finalize())
+}
+
 #[derive(Debug, Clone, PartialEq)]
 struct ParsedFredSeries {
     latest_date: NaiveDate,
@@ -142,6 +159,7 @@ struct FredSeriesResult {
 pub(crate) async fn load_macro_signal_context(
     app_config: &AppConfig,
     market_date: NaiveDate,
+    report_run_at: DateTime<Utc>,
 ) -> MacroSignalContextProviderReadModel {
     let client = match reqwest::Client::builder()
         .timeout(std::time::Duration::from_secs(20))
@@ -168,6 +186,7 @@ pub(crate) async fn load_macro_signal_context(
         FRED_SERIES_RATES,
         "RATES_CREDIT",
         rate_information_level,
+        report_run_at.to_rfc3339().as_str(),
     )
     .await;
     let commodity = load_fred_source(
@@ -180,6 +199,7 @@ pub(crate) async fn load_macro_signal_context(
         FRED_SERIES_COMMODITY,
         "COMMODITY_OIL",
         commodity_information_level,
+        report_run_at.to_rfc3339().as_str(),
     )
     .await;
     let geopolitical = load_finnhub_geopolitical_source(
@@ -189,6 +209,7 @@ pub(crate) async fn load_macro_signal_context(
             .as_ref()
             .map(|config| config.finnhub_api_key.as_str()),
         market_date,
+        report_run_at.to_rfc3339().as_str(),
     )
     .await;
     let observed_market_reactions = rates.1.iter().chain(commodity.1.iter()).cloned().collect();
@@ -208,6 +229,7 @@ async fn load_fred_source(
     series: &[(&'static str, &'static str)],
     event_type: &'static str,
     information_level: fn(&[FredSeriesResult]) -> MacroSignalContextProviderInformationLevel,
+    accepted_at: &str,
 ) -> (
     MacroSignalContextProviderSource,
     Vec<ProviderMarketReaction>,
@@ -247,7 +269,7 @@ async fn load_fred_source(
         MacroSignalContextProviderSourceStatus::Partial
     };
     let level = information_level(&results);
-    let event = build_fred_event(market_date, event_type, level, &results);
+    let event = build_fred_event(market_date, event_type, level, &results, accepted_at);
     let reactions = build_fred_reactions(market_date, event_type, &results);
     (
         MacroSignalContextProviderSource {
@@ -320,6 +342,7 @@ fn build_fred_event(
     event_type: &str,
     level: MacroSignalContextProviderInformationLevel,
     results: &[FredSeriesResult],
+    accepted_at: &str,
 ) -> MacroSignalContextProviderEvent {
     let category = if event_type == "RATES_CREDIT" {
         "US RATES / CREDIT"
@@ -344,6 +367,16 @@ fn build_fred_event(
         .map(|result| fred_evidence(market_date, event_type, level, result))
         .collect::<Vec<_>>();
     MacroSignalContextProviderEvent {
+        event_id: stable_id(
+            "fred-event",
+            &[
+                event_type,
+                &market_date.to_string(),
+                &published_at,
+                category,
+            ],
+        ),
+        accepted_at: accepted_at.to_string(),
         title: category.to_string(),
         information_content: level,
         market_relevance: level,
@@ -397,7 +430,17 @@ fn build_fred_reactions(
             };
             let evidence = fred_evidence(market_date, event_type, level, result);
             ProviderMarketReaction {
+                observation_id: stable_id(
+                    "fred-observation",
+                    &[
+                        result.series_id,
+                        &result.observation.latest_date.to_string(),
+                    ],
+                ),
                 observed_at: evidence.timestamp.clone(),
+                session: "DAILY".to_string(),
+                venue: "FRED".to_string(),
+                instrument: result.series_id.to_string(),
                 source_published_at: evidence.source_published_at.clone(),
                 market_date: market_date.to_string(),
                 subject: result.label.to_string(),
@@ -450,6 +493,7 @@ async fn load_finnhub_geopolitical_source(
     client: &reqwest::Client,
     api_key: Option<&str>,
     market_date: NaiveDate,
+    accepted_at: &str,
 ) -> (
     MacroSignalContextProviderSource,
     Vec<ProviderMarketReaction>,
@@ -489,7 +533,7 @@ async fn load_finnhub_geopolitical_source(
             )
         }
     };
-    match parse_finnhub_geopolitical_items(&raw, market_date) {
+    match parse_finnhub_geopolitical_items(&raw, market_date, accepted_at) {
         Ok((events, malformed_count)) => {
             let diagnostics = (malformed_count > 0).then(|| {
                 format!("Finnhub skipped {malformed_count} malformed escalation candidate(s)")
@@ -517,6 +561,7 @@ async fn load_finnhub_geopolitical_source(
 fn parse_finnhub_geopolitical_items(
     raw: &str,
     market_date: NaiveDate,
+    accepted_at: &str,
 ) -> Result<(Vec<MacroSignalContextProviderEvent>, usize)> {
     let items: Vec<Value> = serde_json::from_str(raw).context("invalid Finnhub JSON")?;
     let mut malformed_count = 0;
@@ -576,6 +621,8 @@ fn parse_finnhub_geopolitical_items(
                 importance: information_level_name(level).to_string(),
             };
             Some(MacroSignalContextProviderEvent {
+                event_id: stable_id("finnhub-event", &[source_url, &published_at, headline]),
+                accepted_at: accepted_at.to_string(),
                 title: "GEOPOLITICAL ESCALATION".to_string(),
                 information_content: level,
                 market_relevance: level,
@@ -676,6 +723,7 @@ mod tests {
         let (events, malformed) = parse_finnhub_geopolitical_items(
             news,
             NaiveDate::from_ymd_opt(2026, 9, 8).expect("valid date"),
+            "2026-09-08T23:00:00Z",
         )
         .expect("valid Finnhub response");
 
@@ -700,10 +748,12 @@ mod tests {
             FRED_SERIES_RATES,
             "RATES_CREDIT",
             super::rate_information_level,
+            "2026-09-08T23:00:00Z",
         )
         .await;
         let (geopolitical, geopolitical_reactions) =
-            load_finnhub_geopolitical_source(&client, None, market_date).await;
+            load_finnhub_geopolitical_source(&client, None, market_date, "2026-09-08T23:00:00Z")
+                .await;
 
         assert_eq!(
             rates.status,
@@ -797,6 +847,7 @@ mod tests {
             "RATES_CREDIT",
             MacroSignalContextProviderInformationLevel::High,
             &[rates_result.clone(), credit_result.clone()],
+            "2026-09-08T23:00:00Z",
         );
         assert_eq!(
             event.lifecycle,
@@ -829,6 +880,7 @@ mod tests {
         let (events, malformed) = parse_finnhub_geopolitical_items(
             news,
             NaiveDate::from_ymd_opt(2026, 9, 8).expect("valid date"),
+            "2026-09-08T23:00:00Z",
         )
         .expect("valid Finnhub response");
 

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import json
 import sys
 from pathlib import Path
@@ -33,6 +34,16 @@ def all_items(case: dict) -> list[dict]:
     return [item for name in names for item in case.get(name, []) if isinstance(item, dict)]
 
 
+def parse_timestamp(value: object) -> datetime | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        timestamp = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return timestamp if timestamp.tzinfo is not None else None
+
+
 def check_case(case: dict) -> list[str]:
     errors: list[str] = []
     info = case.get("overall_information_content")
@@ -42,6 +53,18 @@ def check_case(case: dict) -> list[str]:
     items = all_items(case)
     primary = case.get("primary_context")
     case_id = case.get("case_id", "unknown")
+    items_by_event_id = {
+        item.get("event_id"): item
+        for item in items
+        if isinstance(item.get("event_id"), str) and item.get("event_id")
+    }
+    observations_by_id = {
+        observation.get("observation_id"): observation
+        for observation in case.get("observed_market_reactions", [])
+        if isinstance(observation, dict)
+        and isinstance(observation.get("observation_id"), str)
+        and observation.get("observation_id")
+    }
 
     if case.get("decision_weight") != 0 or case.get("trade_signal") is not False:
         errors.append(f"{case_id}: decision boundary is not frozen")
@@ -49,6 +72,30 @@ def check_case(case: dict) -> list[str]:
         errors.append(f"{case_id}: effect must be none")
     if any(item.get("information_content") in {"HIGH", "MEDIUM"} and not item.get("evidence") for item in items):
         errors.append(f"{case_id}: HIGH/MEDIUM item lacks EvidenceRecord")
+    report_run_at = parse_timestamp(case.get("report_run_at"))
+    for item in items:
+        accepted_at = parse_timestamp(item.get("accepted_at"))
+        if report_run_at is not None and accepted_at is not None and accepted_at > report_run_at:
+            errors.append(f"{case_id}: Event accepted after report_run_at remains visible")
+    for binding in case.get("temporal_bindings", []):
+        if not isinstance(binding, dict):
+            errors.append(f"{case_id}: temporal binding must be an object")
+            continue
+        event = items_by_event_id.get(binding.get("event_id"))
+        observation = observations_by_id.get(binding.get("observation_id"))
+        source_published_at = parse_timestamp(binding.get("source_published_at"))
+        observed_at = parse_timestamp(binding.get("observed_at"))
+        eligible = binding.get("temporal_eligible") is True
+        if eligible and (event is None or observation is None):
+            errors.append(f"{case_id}: eligible temporal binding references an unknown record")
+        if eligible and (source_published_at is None or observed_at is None):
+            errors.append(f"{case_id}: eligible temporal binding has invalid timestamps")
+        if eligible and source_published_at is not None and observed_at is not None:
+            if source_published_at > observed_at:
+                errors.append(f"{case_id}: eligible binding violates publication <= observation")
+        if not eligible and source_published_at is not None and observed_at is not None:
+            if source_published_at <= observed_at and binding.get("reason") == "source_published_at is before or equal to observed_at":
+                errors.append(f"{case_id}: ineligible binding contradicts publication <= observation")
     if any(item.get("information_content") in {"HIGH", "MEDIUM"} for item in case.get("scheduled_macro", [])):
         if info == "LOW" or primary is None:
             errors.append(f"{case_id}: scheduled high/medium event was suppressed")

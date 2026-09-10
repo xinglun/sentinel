@@ -16,11 +16,13 @@ use crate::features::research::interface::macro_event_observation::MacroEventImp
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
 use crate::features::research::interface::macro_event_observation::{
-    EvidenceRecord, MacroSignalContextEvent, MacroSignalContextInformationLevel,
-    MacroSignalContextLifecycle, MacroSignalContextSourceStatus,
+    build_temporal_binding, event_visible_at, EvidenceRecord, MacroSignalContextEvent,
+    MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
+    MacroSignalContextSourceStatus, SignalContextTemporalContext, TemporalBinding,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 use serde_json;
+use sha2::{Digest, Sha256};
 use std::env;
 use std::fs;
 
@@ -43,9 +45,25 @@ pub(crate) struct SignalContextCoverageInput {
     pub event_time_utc: Option<String>,
     pub event_time_market_tz: Option<String>,
     pub report_generated_at: Option<String>,
+    pub temporal_context: SignalContextTemporalContext,
 }
 
 pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> SignalContextV1 {
+    let temporal_context = input.temporal_context.clone();
+    let scheduled_macro = normalize_event_items(input.scheduled_macro, &temporal_context);
+    let corporate_events = normalize_event_items(input.corporate_events, &temporal_context);
+    let geopolitical_events = normalize_event_items(input.geopolitical_events, &temporal_context);
+    let commodity_events = normalize_event_items(input.commodity_events, &temporal_context);
+    let rates_credit_events = normalize_event_items(input.rates_credit_events, &temporal_context);
+    let market_structure_events =
+        normalize_event_items(input.market_structure_events, &temporal_context);
+    let observed_market_reactions = normalize_observations(input.observed_market_reactions);
+    let scheduled_macro = visible_event_items(scheduled_macro, &temporal_context);
+    let corporate_events = visible_event_items(corporate_events, &temporal_context);
+    let geopolitical_events = visible_event_items(geopolitical_events, &temporal_context);
+    let commodity_events = visible_event_items(commodity_events, &temporal_context);
+    let rates_credit_events = visible_event_items(rates_credit_events, &temporal_context);
+    let market_structure_events = visible_event_items(market_structure_events, &temporal_context);
     let mut coverage = input.coverage;
     coverage.overall = aggregate_coverage([
         coverage.scheduled_macro,
@@ -56,12 +74,12 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
         coverage.market_structure,
     ]);
     let mut all = Vec::new();
-    all.extend(input.scheduled_macro.iter().cloned());
-    all.extend(input.corporate_events.iter().cloned());
-    all.extend(input.geopolitical_events.iter().cloned());
-    all.extend(input.commodity_events.iter().cloned());
-    all.extend(input.rates_credit_events.iter().cloned());
-    all.extend(input.market_structure_events.iter().cloned());
+    all.extend(scheduled_macro.iter().cloned());
+    all.extend(corporate_events.iter().cloned());
+    all.extend(geopolitical_events.iter().cloned());
+    all.extend(commodity_events.iter().cloned());
+    all.extend(rates_credit_events.iter().cloned());
+    all.extend(market_structure_events.iter().cloned());
 
     let primary_context = all
         .iter()
@@ -89,18 +107,26 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
 
     SignalContextV1 {
         market_date: input.market_date,
-        scheduled_macro: input.scheduled_macro,
-        corporate_events: input.corporate_events,
-        geopolitical_events: input.geopolitical_events,
-        commodity_events: input.commodity_events,
-        rates_credit_events: input.rates_credit_events,
-        market_structure_events: input.market_structure_events,
+        scheduled_macro,
+        corporate_events,
+        geopolitical_events,
+        commodity_events,
+        rates_credit_events,
+        market_structure_events,
         primary_context,
         secondary_contexts,
         overall_information_content,
         context_quality,
         coverage,
-        observed_market_reactions: input.observed_market_reactions,
+        observed_market_reactions: observed_market_reactions.clone(),
+        temporal_bindings: build_temporal_bindings(&all, &observed_market_reactions),
+        report_run_at: temporal_context.report_run_at.clone(),
+        observation_window_start: temporal_context
+            .observation_window_start
+            .or_else(|| observation_window_start(&observed_market_reactions)),
+        observation_window_end: temporal_context
+            .observation_window_end
+            .or(temporal_context.report_run_at),
         event_time_utc: input.event_time_utc,
         event_time_market_tz: input.event_time_market_tz,
         report_generated_at: input.report_generated_at,
@@ -108,10 +134,122 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
     }
 }
 
+fn normalize_event_items(
+    items: Vec<SignalContextItem>,
+    temporal_context: &SignalContextTemporalContext,
+) -> Vec<SignalContextItem> {
+    items
+        .into_iter()
+        .map(|mut item| {
+            if item.event_id.trim().is_empty() {
+                item.event_id = stable_identifier(
+                    "event",
+                    &[
+                        &item.title,
+                        &item.market_date,
+                        &item.source_published_at,
+                        item.symbol.as_deref().unwrap_or_default(),
+                    ],
+                );
+            }
+            if item.accepted_at.trim().is_empty() {
+                item.accepted_at = temporal_context
+                    .report_run_at
+                    .clone()
+                    .unwrap_or_else(|| item.source_published_at.clone());
+            }
+            item
+        })
+        .collect()
+}
+
+fn visible_event_items(
+    items: Vec<SignalContextItem>,
+    temporal_context: &SignalContextTemporalContext,
+) -> Vec<SignalContextItem> {
+    let Some(report_run_at) = temporal_context.report_run_at.as_deref() else {
+        return items;
+    };
+    items
+        .into_iter()
+        .filter(|item| event_visible_at(&item.accepted_at, report_run_at))
+        .collect()
+}
+
+fn normalize_observations(observations: Vec<MarketReaction>) -> Vec<MarketReaction> {
+    observations
+        .into_iter()
+        .map(|mut observation| {
+            if observation.observation_id.trim().is_empty() {
+                observation.observation_id = stable_identifier(
+                    "observation",
+                    &[
+                        &observation.observed_at,
+                        &observation.market_date,
+                        &observation.subject,
+                        &observation.instrument,
+                        &observation.observation,
+                    ],
+                );
+            }
+            observation
+        })
+        .collect()
+}
+
+fn build_temporal_bindings(
+    events: &[SignalContextItem],
+    observations: &[MarketReaction],
+) -> Vec<TemporalBinding> {
+    events
+        .iter()
+        .flat_map(|event| {
+            observations.iter().map(|observation| {
+                build_temporal_binding(&event.event_id, &event.source_published_at, observation)
+            })
+        })
+        .collect()
+}
+
+fn observation_window_start(observations: &[MarketReaction]) -> Option<String> {
+    observations
+        .iter()
+        .filter_map(|observation| {
+            DateTime::parse_from_rfc3339(&observation.observed_at)
+                .ok()
+                .map(|timestamp| timestamp.with_timezone(&Utc))
+        })
+        .min()
+        .map(|timestamp| timestamp.to_rfc3339())
+}
+
+fn temporal_context_from_snapshot(snapshot: &SignalContextV1) -> SignalContextTemporalContext {
+    SignalContextTemporalContext {
+        report_run_at: snapshot.report_run_at.clone(),
+        observation_window_start: snapshot.observation_window_start.clone(),
+        observation_window_end: snapshot.observation_window_end.clone(),
+    }
+}
+
+fn stable_identifier(namespace: &str, parts: &[&str]) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(namespace.as_bytes());
+    for part in parts {
+        hasher.update([0]);
+        hasher.update(part.as_bytes());
+    }
+    format!("{namespace}:{:x}", hasher.finalize())
+}
+
 pub(crate) fn build_v1_from_event_context(
     as_of_date: NaiveDate,
     event_context: &SignalContextEventReadModel,
 ) -> SignalContextV1 {
+    let temporal_context = event_context
+        .macro_signal_context
+        .as_ref()
+        .map(|context| context.temporal_context.clone())
+        .unwrap_or_default();
     let macro_context = apply_runtime_source_coverage(
         build_macro_v1_from_event_context(as_of_date, event_context),
         event_context.runtime_coverage.as_ref(),
@@ -134,9 +272,18 @@ pub(crate) fn build_v1_from_event_context(
     let external = env::var(EXTERNAL_SIGNAL_CONTEXT_PATH_ENV)
         .ok()
         .and_then(|path| {
-            load_external_signal_context_from_path(&path, as_of_date)
-                .ok()
-                .flatten()
+            let loaded = temporal_context
+                .report_run_at
+                .as_deref()
+                .map(|report_run_at| {
+                    load_external_signal_context_from_path_at(
+                        &path,
+                        as_of_date,
+                        Some(report_run_at),
+                    )
+                })
+                .unwrap_or_else(|| load_external_signal_context_from_path(&path, as_of_date));
+            loaded.ok().flatten()
         });
     build_v1_from_event_context_with_external(macro_context, external)
 }
@@ -195,6 +342,7 @@ fn apply_runtime_macro_signal_context(
             .into_iter()
             .chain(runtime_context.observed_market_reactions.iter().cloned())
             .collect(),
+        temporal_context: runtime_context.temporal_context.clone(),
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
@@ -223,6 +371,8 @@ fn runtime_macro_item(
     }
     Some(SignalContextItem {
         context_type,
+        event_id: event.event_id.clone(),
+        accepted_at: event.accepted_at.clone(),
         title: event.title.clone(),
         symbol: None,
         information_content: runtime_information_level(event.information_content),
@@ -343,6 +493,7 @@ fn apply_corporate_event_provider_context(
             corporate_events.push(item);
         }
     }
+    let temporal_context = temporal_context_from_snapshot(&snapshot);
     build_signal_context_v1(SignalContextCoverageInput {
         market_date: snapshot.market_date,
         scheduled_macro: snapshot.scheduled_macro,
@@ -356,6 +507,7 @@ fn apply_corporate_event_provider_context(
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
+        temporal_context,
     })
 }
 
@@ -385,6 +537,7 @@ fn apply_corporate_event_evidence_context(
     }
     let mut coverage = snapshot.coverage;
     coverage.corporate = canonical_corporate_coverage(resolution);
+    let temporal_context = temporal_context_from_snapshot(&snapshot);
     build_signal_context_v1(SignalContextCoverageInput {
         market_date: snapshot.market_date,
         scheduled_macro: snapshot.scheduled_macro,
@@ -398,6 +551,7 @@ fn apply_corporate_event_evidence_context(
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
+        temporal_context,
     })
 }
 
@@ -693,6 +847,11 @@ fn build_macro_v1_from_event_context(
         .filter(|entry| entry.event_date == as_of_date)
         .map(|entry| SignalContextItem {
             context_type: signal_context_type_for_calendar_kind(entry.kind),
+            event_id: stable_identifier(
+                "calendar-event",
+                &[&entry.event_name, &as_of_date.to_string(), &entry.source],
+            ),
+            accepted_at: format!("{}T00:00:00Z", as_of_date),
             title: entry.event_name.clone(),
             symbol: None,
             information_content: macro_information_level(entry),
@@ -804,6 +963,14 @@ pub(crate) fn load_external_signal_context_from_path(
     path: &str,
     as_of_date: NaiveDate,
 ) -> Result<Option<SignalContextV1>, String> {
+    load_external_signal_context_from_path_at(path, as_of_date, None)
+}
+
+pub(crate) fn load_external_signal_context_from_path_at(
+    path: &str,
+    as_of_date: NaiveDate,
+    report_run_at: Option<&str>,
+) -> Result<Option<SignalContextV1>, String> {
     let raw = fs::read_to_string(path).map_err(|error| error.to_string())?;
     let context =
         serde_json::from_str::<SignalContextV1>(&raw).map_err(|error| error.to_string())?;
@@ -813,7 +980,16 @@ pub(crate) fn load_external_signal_context_from_path(
             as_of_date, context.market_date
         ));
     }
-    let context = filter_external_context(context, as_of_date);
+    let report_run_at = report_run_at
+        .map(str::to_string)
+        .or_else(|| context.report_run_at.clone());
+    let temporal_context = SignalContextTemporalContext {
+        report_run_at: report_run_at.clone(),
+        observation_window_start: context.observation_window_start.clone(),
+        observation_window_end: context.observation_window_end.clone(),
+    };
+    let context = normalize_external_context_events(context, &temporal_context);
+    let context = filter_external_context(context, as_of_date, report_run_at.as_deref());
     if all_context_items(&context).iter().any(|item| {
         matches!(
             item.information_content,
@@ -829,7 +1005,21 @@ pub(crate) fn load_external_signal_context_from_path(
     }) {
         return Err("HIGH/MEDIUM context is missing EvidenceRecord fields".to_string());
     }
-    Ok(Some(context))
+    Ok(Some(build_signal_context_v1(SignalContextCoverageInput {
+        market_date: context.market_date,
+        scheduled_macro: context.scheduled_macro,
+        corporate_events: context.corporate_events,
+        geopolitical_events: context.geopolitical_events,
+        commodity_events: context.commodity_events,
+        rates_credit_events: context.rates_credit_events,
+        market_structure_events: context.market_structure_events,
+        coverage: context.coverage,
+        observed_market_reactions: context.observed_market_reactions,
+        event_time_utc: context.event_time_utc,
+        event_time_market_tz: context.event_time_market_tz,
+        report_generated_at: context.report_generated_at,
+        temporal_context,
+    })))
 }
 
 fn all_context_items(context: &SignalContextV1) -> Vec<&SignalContextItem> {
@@ -844,13 +1034,20 @@ fn all_context_items(context: &SignalContextV1) -> Vec<&SignalContextItem> {
         .collect()
 }
 
-fn filter_external_context(mut context: SignalContextV1, as_of_date: NaiveDate) -> SignalContextV1 {
+fn filter_external_context(
+    mut context: SignalContextV1,
+    as_of_date: NaiveDate,
+    report_run_at: Option<&str>,
+) -> SignalContextV1 {
     let keep = |item: &SignalContextItem| {
         item.market_date == as_of_date.to_string()
             && !matches!(
                 item.lifecycle,
                 crate::features::radar::interface::presentation::SignalContextLifecycle::Expired
             )
+            && report_run_at
+                .map(|report_run_at| event_visible_at(&item.accepted_at, report_run_at))
+                .unwrap_or(true)
     };
     context.scheduled_macro.retain(keep);
     context.corporate_events.retain(keep);
@@ -858,6 +1055,29 @@ fn filter_external_context(mut context: SignalContextV1, as_of_date: NaiveDate) 
     context.commodity_events.retain(keep);
     context.rates_credit_events.retain(keep);
     context.market_structure_events.retain(keep);
+    context.primary_context = context.primary_context.filter(keep);
+    context.secondary_contexts.retain(keep);
+    context
+}
+
+fn normalize_external_context_events(
+    mut context: SignalContextV1,
+    temporal_context: &SignalContextTemporalContext,
+) -> SignalContextV1 {
+    context.scheduled_macro = normalize_event_items(context.scheduled_macro, temporal_context);
+    context.corporate_events = normalize_event_items(context.corporate_events, temporal_context);
+    context.geopolitical_events =
+        normalize_event_items(context.geopolitical_events, temporal_context);
+    context.commodity_events = normalize_event_items(context.commodity_events, temporal_context);
+    context.rates_credit_events =
+        normalize_event_items(context.rates_credit_events, temporal_context);
+    context.market_structure_events =
+        normalize_event_items(context.market_structure_events, temporal_context);
+    context.primary_context = context
+        .primary_context
+        .map(|item| normalize_event_items(vec![item], temporal_context).remove(0));
+    context.secondary_contexts =
+        normalize_event_items(context.secondary_contexts, temporal_context);
     context
 }
 
@@ -865,6 +1085,20 @@ fn merge_external_context(
     macro_context: SignalContextV1,
     mut external: SignalContextV1,
 ) -> SignalContextV1 {
+    let temporal_context = SignalContextTemporalContext {
+        report_run_at: macro_context
+            .report_run_at
+            .clone()
+            .or_else(|| external.report_run_at.clone()),
+        observation_window_start: macro_context
+            .observation_window_start
+            .clone()
+            .or_else(|| external.observation_window_start.clone()),
+        observation_window_end: macro_context
+            .observation_window_end
+            .clone()
+            .or_else(|| external.observation_window_end.clone()),
+    };
     let provider_corporate_coverage = macro_context.coverage.corporate;
     let provider_corporate_events = macro_context.corporate_events;
     let external_has_corporate_events = !external.corporate_events.is_empty();
@@ -907,6 +1141,7 @@ fn merge_external_context(
         event_time_utc: external.event_time_utc,
         event_time_market_tz: external.event_time_market_tz,
         report_generated_at: external.report_generated_at,
+        temporal_context,
     })
 }
 
@@ -1749,6 +1984,7 @@ mod tests {
                 ..Default::default()
             },
             observed_market_reactions: Vec::new(),
+            temporal_context: Default::default(),
         };
         let event_context = crate::features::radar::interface::signal_context_event_read_model::attach_macro_signal_context(
             SignalContextEventReadModel::default(),
@@ -1774,9 +2010,10 @@ mod tests {
     fn high_information_fixture_keeps_geopolitical_oil_rates_and_reactions() {
         let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("tests/fixtures/signal_context/2026-09-08-high-information.json");
-        let context = load_external_signal_context_from_path(
+        let context = load_external_signal_context_from_path_at(
             path.to_str().unwrap(),
             NaiveDate::from_ymd_opt(2026, 9, 8).unwrap(),
+            Some("2026-09-08T23:00:00Z"),
         )
         .unwrap()
         .unwrap();
@@ -1787,6 +2024,58 @@ mod tests {
         assert_eq!(context.observed_market_reactions.len(), 2);
         assert_eq!(context.decision_weight, 0);
         assert!(!context.trade_signal);
+    }
+
+    #[test]
+    fn jordan_fixture_binds_only_post_publication_market_observations() {
+        let path = std::path::PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/signal_context/2026-09-09-temporal-alignment.json");
+        let context = load_external_signal_context_from_path_at(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 9, 9).unwrap(),
+            Some("2026-09-10T03:00:00Z"),
+        )
+        .unwrap()
+        .unwrap();
+
+        let eligible = context
+            .temporal_bindings
+            .iter()
+            .filter(|binding| binding.temporal_eligible)
+            .map(|binding| binding.observation_id.as_str())
+            .collect::<Vec<_>>();
+        assert!(!eligible.contains(&"obs-spy-core"));
+        assert!(eligible.contains(&"obs-spy-overnight"));
+        assert!(eligible.contains(&"obs-nq-futures"));
+        assert!(eligible.contains(&"obs-brent-futures"));
+        assert_eq!(context.decision_weight, 0);
+        assert!(!context.trade_signal);
+    }
+
+    #[test]
+    fn event_accepted_after_report_run_is_not_visible_to_temporal_projection() {
+        let mut event = item("Late event", SignalContextInformationLevel::High);
+        event.event_id = "event-late".to_string();
+        event.source_published_at = "2026-08-07T12:30:00Z".to_string();
+        event.accepted_at = "2026-08-07T13:00:01Z".to_string();
+        let observation = MarketReaction {
+            observation_id: "observation-after-event".to_string(),
+            observed_at: "2026-08-07T14:00:00Z".to_string(),
+            ..Default::default()
+        };
+        let snapshot = build_signal_context_v1(SignalContextCoverageInput {
+            market_date: "2026-08-07".to_string(),
+            scheduled_macro: vec![event],
+            observed_market_reactions: vec![observation],
+            temporal_context: SignalContextTemporalContext {
+                report_run_at: Some("2026-08-07T13:00:00Z".to_string()),
+                ..Default::default()
+            },
+            ..Default::default()
+        });
+
+        assert!(snapshot.scheduled_macro.is_empty());
+        assert!(snapshot.temporal_bindings.is_empty());
     }
 
     #[test]

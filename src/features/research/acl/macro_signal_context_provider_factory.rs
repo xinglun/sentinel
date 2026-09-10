@@ -2,22 +2,29 @@ use crate::config::AppConfig;
 use crate::features::research::interface::macro_event_observation::{
     EvidenceRecord, MacroSignalContextEvent, MacroSignalContextInformationLevel,
     MacroSignalContextLifecycle, MacroSignalContextReadModel, MacroSignalContextSource,
-    MacroSignalContextSourceStatus, MarketReaction,
+    MacroSignalContextSourceStatus, MarketReaction, SignalContextTemporalContext,
 };
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate, Utc};
 
 /// Radar composition root が research provider を読み込むための ACL 入口。
 pub(crate) async fn load_macro_signal_context(
     app_config: &AppConfig,
     market_date: NaiveDate,
+    report_run_at: DateTime<Utc>,
 ) -> MacroSignalContextReadModel {
     let context = crate::features::research::infrastructure::macro_signal_context_provider::load_macro_signal_context(
         app_config,
         market_date,
+        report_run_at,
     )
     .await;
     MacroSignalContextReadModel {
         market_date: context.market_date,
+        temporal_context: SignalContextTemporalContext {
+            report_run_at: Some(report_run_at.to_rfc3339()),
+            observation_window_start: None,
+            observation_window_end: Some(report_run_at.to_rfc3339()),
+        },
         rates_credit: map_source(context.rates_credit),
         commodity: map_source(context.commodity),
         geopolitical: map_source(context.geopolitical),
@@ -48,6 +55,8 @@ fn map_event(
     event: crate::features::research::infrastructure::macro_signal_context_provider::MacroSignalContextProviderEvent,
 ) -> MacroSignalContextEvent {
     MacroSignalContextEvent {
+        event_id: event.event_id,
+        accepted_at: event.accepted_at,
         title: event.title,
         information_content: map_information_level(event.information_content),
         market_relevance: map_information_level(event.market_relevance),
@@ -98,7 +107,11 @@ fn map_reaction(
     reaction: crate::features::research::infrastructure::macro_signal_context_provider::ProviderMarketReaction,
 ) -> MarketReaction {
     MarketReaction {
+        observation_id: reaction.observation_id,
         observed_at: reaction.observed_at,
+        session: reaction.session,
+        venue: reaction.venue,
+        instrument: reaction.instrument,
         source_published_at: reaction.source_published_at,
         market_date: reaction.market_date,
         subject: reaction.subject,
@@ -138,6 +151,7 @@ mod tests {
             actual_value: Some("4.80".to_string()),
             surprise: Some("+0.10".to_string()),
             reason: Some("Observed repricing".to_string()),
+            ..Default::default()
         };
         let source = provider::MacroSignalContextProviderSource {
             status: provider::MacroSignalContextProviderSourceStatus::Healthy,
@@ -178,6 +192,7 @@ mod tests {
             subject: "US 10Y Treasury yield".to_string(),
             observation: "latest 4.80; daily change +0.10".to_string(),
             evidence: vec![evidence],
+            ..Default::default()
         };
         let mapped_reaction = super::map_reaction(reaction);
         assert_eq!(mapped_reaction.subject, "US 10Y Treasury yield");

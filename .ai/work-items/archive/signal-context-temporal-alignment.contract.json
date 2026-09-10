@@ -1,0 +1,190 @@
+{
+  "acceptanceCriteria": [
+    "Event 具有稳定 event_id、source_published_at、accepted_at；source_published_at 缺失或非法时 fail-closed，不建立 temporal eligibility；accepted_at 晚于 report_run_at 的 Event 对本次报告不可见。",
+    "现有 MarketReaction 兼容演进为 MarketObservation 语义，新增 observation_id、observed_at、session、venue、instrument，并保留 market_date 与现有输出兼容。",
+    "TemporalBinding 是显式 read model/record；且 Event can explain MarketObservation iff source_published_at <= observed_at。renderer 不临时比较字符串。",
+    "只有 temporal_eligible=true 的 observation 才能出现在“该事件后的市场反应”语义下；输出只使用时间事实与弱因果边界，不声称事件导致市场变化。",
+    "新增 observation_window_start/end，但本阶段不改变 Daily Report domain identity；session/venue 仅作为 provenance metadata，不成为 hard gate。",
+    "Jordan regression fixture 覆盖 15:xx SPY core=false、22:xx SPY overnight=true、22:xx NQ futures=true、22:xx Brent=true，并保持 decision_weight=0、trade_signal=false、gate/execution/position_sizing effect=none。",
+    "通过 focused temporal tests、Signal Context consistency、make fmt-check、make test、make clippy 与 make quality。",
+    "仓库手写 Markdown 与 code comment 遵循日文规则；Contract、Summary、evidence 保留完整 intent/scope/unknowns/verification 追踪。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cf67fd411f9b8986bb6a55eaad746ceed3eb61e6",
+  "createdAt": "2026-09-10T05:47:41Z",
+  "goal": "在兼容现有 Daily Report、weekly、历史 snapshot 与 delivery contract 的前提下，引入 MarketObservation 与 TemporalBinding read model，固定 event-observation temporal alignment invariant，并保持 observation-only 交易边界。",
+  "intent": "将 Signal Context 从按 market_date 过滤升级为显式 Event 与 Market Observation 时间绑定；source_published_at 决定是否具备解释某个 observation 的资格，accepted_at 只决定本次 report_run_at 是否可见。",
+  "mode": "code",
+  "outOfScope": [
+    "Decision、Gate、RS、Leadership、Action Matrix、Execution、Position Sizing、Price-Volume、Supply、Gravity、Expectation 的判定、输入和权限语义",
+    "删除或重命名 market_date、latestTradingSession，或迁移 Daily Report 的 domain identity",
+    "一次性改造 weekly、历史 snapshot、delivery contract、24/7 venue calendar 或 causal attribution classifier",
+    "新增 provider、secret、credential、交易信号或强因果叙述",
+    "改写历史 Work Item archive、既有 reports、共享 data branch 或 global Agent/MCP 配置"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-temporal-alignment",
+    "provider": "local",
+    "pullRequest": "not-requested",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/.worktrees/sentinel-signal-context-temporal-alignment"
+  },
+  "risk": "high",
+  "scope": [
+    ".ai/work-items/active/signal-context-temporal-alignment.contract.json",
+    ".ai/work-items/active/signal-context-temporal-alignment.summary.json",
+    ".ai/decisions/signal-context-temporal-alignment.preflight-review.json",
+    ".ai/evidence/signal-context-temporal-alignment.verification.json",
+    "docs/superpowers/specs/2026-09-10-signal-context-temporal-alignment-design.md",
+    "docs/superpowers/plans/2026-09-10-signal-context-temporal-alignment.md",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_event_read_model.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "tests/fixtures/signal_context/2026-09-09-temporal-alignment.json",
+    "scripts/check_signal_context_consistency.py"
+  ],
+  "sources": [
+    {
+      "path": "AGENTS.md",
+      "reason": "仓库语言、AI Cockpit、Rust quality gate 与 observation-only 边界。"
+    },
+    {
+      "path": ".ai/README.md",
+      "reason": "安装版 Runtime、Work Item lifecycle 与 fail-closed 规则。"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-signal-context-coverage-design.md",
+      "reason": "现有 Signal Context、EvidenceRecord、MarketReaction、Coverage 与 decision_weight=0 设计。"
+    },
+    {
+      "path": "src/features/research/interface/macro_event_observation.rs",
+      "reason": "当前 Event、EvidenceRecord、MarketReaction 与 macro read model 类型。"
+    },
+    {
+      "path": "src/features/research/infrastructure/macro_signal_context_provider.rs",
+      "reason": "FRED/Finnhub 结构化 source 的时间字段、provider 解析与现有测试。"
+    },
+    {
+      "path": "src/features/radar/interface/signal_context_coverage.rs",
+      "reason": "SignalContextV1 聚合、外部输入 fail-closed 与 Primary Context 选择。"
+    },
+    {
+      "path": "src/features/radar/interface/radar_pipeline_runner.rs",
+      "reason": "report_run_at 与 Signal Context runtime 组装入口。"
+    },
+    {
+      "path": "tests/fixtures/signal_context/2026-09-08-high-information.json",
+      "reason": "现有高信息 Signal Context fixture 与 observation-only 断言基线。"
+    }
+  ],
+  "state": "implementation_active",
+  "scenarioCoverage": [
+    {
+      "scenario": "Event publication before a core MarketObservation",
+      "evidence": [
+        "src/features/research/interface/macro_event_observation.rs",
+        "src/features/research/infrastructure/macro_signal_context_provider.rs",
+        "src/features/research/interface/macro_event_observation.rs::tests",
+        "cargo test temporal --lib",
+        "make quality"
+      ],
+      "required": true,
+      "status": "verified",
+      "reason": "已通过 source_published_at <= observed_at 的相等与先后边界测试。"
+    },
+    {
+      "scenario": "Jordan event after core session and before overnight observations",
+      "evidence": [
+        "tests/fixtures/signal_context/2026-09-09-temporal-alignment.json",
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/radar/interface/signal_context_coverage.rs::tests",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "required": true,
+      "status": "verified",
+      "reason": "已通过 Jordan 回归 fixture，验证 core=false、overnight SPY/NQ/Brent=true。"
+    },
+    {
+      "scenario": "Event accepted after report_run_at",
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/signal_context_coverage.rs::tests",
+        "make quality"
+      ],
+      "required": true,
+      "status": "verified",
+      "reason": "已通过 accepted_at > report_run_at 的事件不进入本次报告或 TemporalBinding 的回归测试。"
+    },
+    {
+      "scenario": "Invalid or missing source_published_at",
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "scripts/check_signal_context_consistency.py",
+        "src/features/research/interface/macro_event_observation.rs::tests",
+        "make check-signal-context-consistency",
+        "make quality"
+      ],
+      "required": true,
+      "status": "verified",
+      "reason": "已通过公开时间缺失或非法时 fail-closed、不建立 temporal eligibility 的回归测试。"
+    },
+    {
+      "scenario": "Observation provenance remains metadata",
+      "evidence": [
+        "src/features/radar/interface/presentation.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "tests/fixtures/signal_context/2026-09-09-temporal-alignment.json",
+        "make quality"
+      ],
+      "required": true,
+      "status": "verified",
+      "reason": "已验证 session、venue、instrument 仅投影 provenance，decision_weight=0 且不改变交易决策或 gate。"
+    }
+  ],
+  "preReviewWarnings": [
+    "TemporalBinding 必须在 read model 中生成，renderer 不得临时比较时间字符串。",
+    "accepted_at 只控制本次 report_run_at 的可见性，不得被误用为因果边界。",
+    "MarketObservation 的 session、venue、instrument 是 provenance metadata，不是新的 hard gate。"
+  ],
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make check-signal-context-consistency",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "signal-context-temporal-alignment"
+}

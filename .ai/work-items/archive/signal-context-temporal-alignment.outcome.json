@@ -1,0 +1,147 @@
+{
+  "acceptanceResults": [
+    "Event 具有稳定 event_id、source_published_at、accepted_at；source_published_at 缺失或非法时 fail-closed，不建立 temporal eligibility；accepted_at 晚于 report_run_at 的 Event 对本次报告不可见。",
+    "现有 MarketReaction 兼容演进为 MarketObservation 语义，新增 observation_id、observed_at、session、venue、instrument，并保留 market_date 与现有输出兼容。",
+    "TemporalBinding 是显式 read model/record；且 Event can explain MarketObservation iff source_published_at <= observed_at。renderer 不临时比较字符串。",
+    "只有 temporal_eligible=true 的 observation 才能出现在“该事件后的市场反应”语义下；输出只使用时间事实与弱因果边界，不声称事件导致市场变化。",
+    "新增 observation_window_start/end，但本阶段不改变 Daily Report domain identity；session/venue 仅作为 provenance metadata，不成为 hard gate。",
+    "Jordan regression fixture 覆盖 15:xx SPY core=false、22:xx SPY overnight=true、22:xx NQ futures=true、22:xx Brent=true，并保持 decision_weight=0、trade_signal=false、gate/execution/position_sizing effect=none。",
+    "通过 focused temporal tests、Signal Context consistency、make fmt-check、make test、make clippy 与 make quality。",
+    "仓库手写 Markdown 与 code comment 遵循日文规则；Contract、Summary、evidence 保留完整 intent/scope/unknowns/verification 追踪。"
+  ],
+  "createdAt": "2026-09-10T06:37:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a1969bf5c29bbb5ac80c97f59b09a0285745576ff7b108754ea410c0347ae3a6",
+  "evidenceRefs": [
+    ".ai/evidence/signal-context-temporal-alignment.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-temporal-alignment.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-temporal-alignment.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c26d0f50d9e041c3f9938fa67ee3c9405a1a0d8e042254766d5352f1be0c73e3",
+      "workItemId": "signal-context-temporal-alignment"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-temporal-alignment.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-temporal-alignment.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-temporal-alignment.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-temporal-alignment.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-temporal-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-temporal-alignment.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-temporal-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-temporal-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-temporal-alignment.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-temporal-alignment.contract.json"
+          ],
+          "inference": false,
+          "text": "在兼容现有 Daily Report、weekly、历史 snapshot 与 delivery contract 的前提下，引入 MarketObservation 与 TemporalBinding read model，固定 event-observation temporal alignment invariant，并保持 observation-only 交易边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-temporal-alignment.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-temporal-alignment"
+  },
+  "taskReportDigest": "sha256:ffe24554a083fd27a09ce1e7c0e656999b0d556f0c11ea57b77775b01820f730",
+  "taskReportMarkdownDigest": "sha256:75ce4315e1470497ed6041406db58be5e9dfb76aafce9e7df0a233d393b8c709",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/signal-context-temporal-alignment.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "signal-context-temporal-alignment"
+}
