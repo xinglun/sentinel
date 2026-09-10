@@ -170,6 +170,55 @@ impl PersistenceLayer {
             || snapshot.observation_digest.is_some()
     }
 
+    fn trading_day_snapshot_legacy_path(
+        &self,
+        cycle_id: &str,
+        market_date: chrono::NaiveDate,
+    ) -> PathBuf {
+        self.save_dir
+            .join("snapshots")
+            .join(format!("{cycle_id}_{market_date}.json"))
+    }
+
+    fn trading_day_snapshot_report_path(&self, snapshot: &TradingDaySnapshot) -> PathBuf {
+        self.save_dir.join("snapshots").join(format!(
+            "{}_{}_{}.json",
+            snapshot.cycle_id, snapshot.report_date, snapshot.market_date
+        ))
+    }
+
+    fn trading_day_snapshot_legacy_matches_report_date(
+        &self,
+        snapshot: &TradingDaySnapshot,
+    ) -> Result<bool> {
+        let legacy_path =
+            self.trading_day_snapshot_legacy_path(&snapshot.cycle_id, snapshot.market_date);
+        if !legacy_path.exists() {
+            return Ok(false);
+        }
+        let existing: TradingDaySnapshot = serde_json::from_str(
+            &std::fs::read_to_string(&legacy_path)
+                .context("Failed to read legacy trading-day snapshot")?,
+        )
+        .context("Failed to deserialize legacy trading-day snapshot")?;
+        Ok(existing.report_date == snapshot.report_date)
+    }
+
+    fn trading_day_snapshot_write_path(&self, snapshot: &TradingDaySnapshot) -> Result<PathBuf> {
+        let legacy_path =
+            self.trading_day_snapshot_legacy_path(&snapshot.cycle_id, snapshot.market_date);
+        let report_path = self.trading_day_snapshot_report_path(snapshot);
+        if report_path.exists() {
+            Ok(report_path)
+        } else if snapshot.report_date == snapshot.market_date
+            || self.trading_day_snapshot_legacy_matches_report_date(snapshot)?
+        {
+            Ok(legacy_path)
+        } else {
+            Ok(report_path)
+        }
+    }
+
     fn trading_day_snapshot_conflicts(
         existing: &TradingDaySnapshot,
         candidate: &TradingDaySnapshot,
@@ -229,10 +278,11 @@ impl PersistenceLayer {
 
     pub(crate) fn begin_history_write_transaction(
         &self,
+        report_date: chrono::NaiveDate,
         market_date: chrono::NaiveDate,
         cycle_id: &str,
     ) -> Result<HistoryWriteTransaction> {
-        let date = market_date.to_string();
+        let date = report_date.to_string();
         let mut paths = vec![
             self.save_dir.join("decision_history.jsonl"),
             self.save_dir.join("state_transitions.csv"),
@@ -252,9 +302,10 @@ impl PersistenceLayer {
                 .join("timeline_snapshots")
                 .join(format!("{date}.json")),
             self.save_dir.join("observation_history_state.json"),
+            self.trading_day_snapshot_legacy_path(cycle_id, market_date),
             self.save_dir
                 .join("snapshots")
-                .join(format!("{cycle_id}_{date}.json")),
+                .join(format!("{cycle_id}_{report_date}_{market_date}.json")),
         ];
         if self.save_dir.is_dir() {
             for entry in
@@ -531,10 +582,7 @@ impl PersistenceLayer {
         let snapshot = Self::normalize_loaded_trading_day_snapshot(snapshot.clone());
         let dir = self.save_dir.join("snapshots");
         std::fs::create_dir_all(&dir).context("Failed to create trading-day snapshot directory")?;
-        let path = dir.join(format!(
-            "{}_{}.json",
-            snapshot.cycle_id, snapshot.market_date
-        ));
+        let path = self.trading_day_snapshot_write_path(&snapshot)?;
         let disposition = self.validate_trading_day_snapshot_conflict(&snapshot)?;
         let json = serde_json::to_string_pretty(&snapshot)
             .context("Failed to serialize trading-day snapshot")?;
@@ -548,10 +596,7 @@ impl PersistenceLayer {
         snapshot: &TradingDaySnapshot,
     ) -> Result<TradingDaySnapshotWriteDisposition> {
         let snapshot = Self::normalize_loaded_trading_day_snapshot(snapshot.clone());
-        let path = self.save_dir.join("snapshots").join(format!(
-            "{}_{}.json",
-            snapshot.cycle_id, snapshot.market_date
-        ));
+        let path = self.trading_day_snapshot_write_path(&snapshot)?;
         if path.exists() {
             let existing = Self::normalize_loaded_trading_day_snapshot(
                 serde_json::from_str(
@@ -586,7 +631,11 @@ impl PersistenceLayer {
                 )
                 .context("Failed to deserialize trading-day snapshot")?,
             );
-            let key = (snapshot.cycle_id.clone(), snapshot.market_date);
+            let key = (
+                snapshot.cycle_id.clone(),
+                snapshot.report_date,
+                snapshot.market_date,
+            );
             if let Some(existing) = snapshots.insert(key, snapshot.clone()) {
                 if Self::trading_day_snapshot_conflicts(&existing, &snapshot) {
                     bail!("SNAPSHOT_CONFLICT");
@@ -1375,7 +1424,7 @@ mod tests {
 
         {
             let _transaction = layer
-                .begin_history_write_transaction(date, "cycle-1")
+                .begin_history_write_transaction(date, date, "cycle-1")
                 .unwrap();
             fs::write(&history_path, "partial\n").unwrap();
             fs::create_dir_all(temp_dir.join("snapshots")).unwrap();
@@ -1388,6 +1437,32 @@ mod tests {
 
         assert_eq!(fs::read_to_string(history_path).unwrap(), "before\n");
         assert!(!temp_dir.join("snapshots/cycle-1_2026-07-27.json").exists());
+        fs::remove_dir_all(&temp_dir).unwrap();
+    }
+
+    #[test]
+    fn history_write_transaction_restores_report_date_snapshot_path() {
+        let temp_dir = std::env::temp_dir().join(format!(
+            "test_sentinel_history_report_date_transaction_{}",
+            Utc::now().timestamp_nanos_opt().unwrap_or_default()
+        ));
+        fs::create_dir_all(&temp_dir).unwrap();
+        let layer = PersistenceLayer::new(&temp_dir);
+        let report_date = NaiveDate::from_ymd_opt(2026, 7, 28).unwrap();
+        let market_date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
+        let snapshot_path = temp_dir
+            .join("snapshots")
+            .join("cycle-1_2026-07-28_2026-07-27.json");
+
+        {
+            let _transaction = layer
+                .begin_history_write_transaction(report_date, market_date, "cycle-1")
+                .unwrap();
+            fs::create_dir_all(snapshot_path.parent().unwrap()).unwrap();
+            fs::write(&snapshot_path, "partial").unwrap();
+        }
+
+        assert!(!snapshot_path.exists());
         fs::remove_dir_all(&temp_dir).unwrap();
     }
 
@@ -1405,6 +1480,7 @@ mod tests {
         {
             let _transaction = layer
                 .begin_history_write_transaction(
+                    NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
                     NaiveDate::from_ymd_opt(2026, 7, 27).unwrap(),
                     "cycle-1",
                 )
@@ -1435,7 +1511,7 @@ mod tests {
         let date = NaiveDate::from_ymd_opt(2026, 7, 27).unwrap();
         let history_path = temp_dir.join("decision_history.jsonl");
         let transaction = layer
-            .begin_history_write_transaction(date, "cycle-1")
+            .begin_history_write_transaction(date, date, "cycle-1")
             .unwrap();
         fs::write(&history_path, "committed\n").unwrap();
         transaction.commit();

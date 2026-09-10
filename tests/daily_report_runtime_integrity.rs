@@ -571,3 +571,100 @@ fn snapshot_digest_conflict_is_rejected_without_overwriting_existing_fact() {
         Some("sha256:data-1")
     );
 }
+
+#[test]
+fn distinct_report_dates_can_share_one_market_date_snapshot() {
+    let temp_dir = tempfile::tempdir().unwrap();
+    let layer = PersistenceLayer::new(temp_dir.path());
+    let market_date = NaiveDate::from_ymd_opt(2026, 9, 9).unwrap();
+    let first_report_date = NaiveDate::from_ymd_opt(2026, 9, 9).unwrap();
+    let second_report_date = NaiveDate::from_ymd_opt(2026, 9, 10).unwrap();
+    let first = TradingDaySnapshot {
+        schema_version: "1".to_string(),
+        market_date,
+        report_date: first_report_date,
+        as_of_date: market_date,
+        cycle_id: "cycle-1".to_string(),
+        snapshot_id: "cycle-1-2026-09-09".to_string(),
+        is_valid_trading_day: true,
+        source_status: "complete".to_string(),
+        market_state: "RANGE".to_string(),
+        decision_state: "OBSERVE".to_string(),
+        report_run_id: Some("run-1".to_string()),
+        git_commit_sha: Some("abc123".to_string()),
+        data_digest: Some("sha256:data-1".to_string()),
+        decision_packet_digest: Some("sha256:decision-1".to_string()),
+        observation_digest: Some("sha256:observation-1".to_string()),
+        ..Default::default()
+    };
+
+    assert_eq!(
+        layer.save_trading_day_snapshot(&first).unwrap(),
+        TradingDaySnapshotWriteDisposition::Created
+    );
+
+    let mut second = first.clone();
+    second.report_date = second_report_date;
+    second.run_id = "run-2".to_string();
+    second.report_run_id = Some("run-2".to_string());
+    second.git_commit_sha = Some("def456".to_string());
+    second.data_digest = Some("sha256:data-2".to_string());
+    second.decision_packet_digest = Some("sha256:decision-2".to_string());
+    second.observation_digest = Some("sha256:observation-2".to_string());
+
+    assert_eq!(
+        layer.save_trading_day_snapshot(&second).unwrap(),
+        TradingDaySnapshotWriteDisposition::Created
+    );
+
+    let mut report_dates = layer
+        .load_trading_day_snapshots()
+        .unwrap()
+        .into_iter()
+        .map(|snapshot| snapshot.report_date)
+        .collect::<Vec<_>>();
+    report_dates.sort_unstable();
+    assert_eq!(report_dates, vec![first_report_date, second_report_date]);
+}
+
+#[test]
+fn legacy_cross_report_snapshot_is_reused_for_same_report_rerun() {
+    let temp_dir = tempfile::tempdir().unwrap();
+    let layer = PersistenceLayer::new(temp_dir.path());
+    let market_date = NaiveDate::from_ymd_opt(2026, 9, 9).unwrap();
+    let report_date = NaiveDate::from_ymd_opt(2026, 9, 10).unwrap();
+    let snapshot = TradingDaySnapshot {
+        schema_version: "1".to_string(),
+        market_date,
+        report_date,
+        as_of_date: market_date,
+        cycle_id: "cycle-1".to_string(),
+        snapshot_id: "cycle-1-2026-09-09".to_string(),
+        is_valid_trading_day: true,
+        source_status: "complete".to_string(),
+        market_state: "RANGE".to_string(),
+        decision_state: "OBSERVE".to_string(),
+        report_run_id: Some("run-1".to_string()),
+        git_commit_sha: Some("abc123".to_string()),
+        data_digest: Some("sha256:data-1".to_string()),
+        decision_packet_digest: Some("sha256:decision-1".to_string()),
+        observation_digest: Some("sha256:observation-1".to_string()),
+        ..Default::default()
+    };
+    let legacy_path = temp_dir.path().join("snapshots/cycle-1_2026-09-09.json");
+    std::fs::create_dir_all(legacy_path.parent().unwrap()).unwrap();
+    std::fs::write(
+        &legacy_path,
+        serde_json::to_string_pretty(&snapshot).unwrap(),
+    )
+    .unwrap();
+
+    assert_eq!(
+        layer.save_trading_day_snapshot(&snapshot).unwrap(),
+        TradingDaySnapshotWriteDisposition::SameDayRerun
+    );
+    assert!(!temp_dir
+        .path()
+        .join("snapshots/cycle-1_2026-09-10_2026-09-09.json")
+        .exists());
+}

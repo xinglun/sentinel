@@ -1,0 +1,143 @@
+{
+  "acceptanceResults": [
+    "不同 report_date、同一 cycle_id、同一 market_date 的两个有效 TradingDaySnapshot 可同时持久化、加载并按 report_date 区分。",
+    "同一 report_date、同一 market_date 的重复运行在语义与身份一致时返回 SameDayRerun。",
+    "同一 report_date、同一 market_date 的语义或身份不一致仍返回 SNAPSHOT_CONFLICT，且不覆盖既有文件。",
+    "历史旧格式快照仍可读取，事务回滚覆盖新的快照路径。"
+  ],
+  "createdAt": "2026-09-10T03:15:59Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fdc89e8087fcb60358fa7de885c3ebca389c721cbd1d420e5f76ca41a8e84c09",
+  "evidenceRefs": [
+    ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json"
+          ],
+          "inference": false,
+          "text": "当两个不同 report_date 使用同一 market_date 时，Radar 能分别持久化并交付日报；同一 report_date 的不一致快照仍拒绝覆盖并记录 SNAPSHOT_CONFLICT。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "daily-radar-snapshot-report-date-conflict"
+  },
+  "taskReportDigest": "sha256:4bfb927f1accc8b16521e6b48535eb7d5e97d175ad21ac6e5c095e13fcc6dc01",
+  "taskReportMarkdownDigest": "sha256:c57367be7e311b58a5966726cc70e7b44bb94dfbee00b0b31be92de6cf91e2ad",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "daily-radar-snapshot-report-date-conflict"
+}

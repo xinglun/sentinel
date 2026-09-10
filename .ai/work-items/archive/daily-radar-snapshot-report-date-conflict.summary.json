@@ -1,0 +1,128 @@
+{
+  "changedPaths": [
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T02:33:06Z",
+  "checkpointContractDigest": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "recorded": true,
+      "recordedAt": "2026-09-10T02:33:06Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:54619367187216705f6c89399f527af3c0a495757efc3438e0231c483ca23935",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "previousContractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "reason": "将必要的 radar_pipeline_runner 调用方签名变更补入 Contract scope，随后重新执行 preflight 与 verify。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T02:56:04Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:9848e20b9edec96832ad46d876c91581716663eac0d0c28307a570217c564f0d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "previousContractHash": "sha256:54619367187216705f6c89399f527af3c0a495757efc3438e0231c483ca23935",
+      "reason": "将 scope 规范为可解析的仓库相对路径，保持三处实际变更文件的完整边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T02:56:38Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:d9be15485a6d2eb6e4a9dbebe5de79aaeb25d5435768273999b037592a68d519",
+      "invalidatedRequiredChecks": [
+        "make quality"
+      ],
+      "originalBeforeEditContractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "previousContractHash": "sha256:9848e20b9edec96832ad46d876c91581716663eac0d0c28307a570217c564f0d",
+      "reason": "按安装版 Runtime 协议将 requiredEvidenceClasses 固定为 verification，并将已执行的 make quality 设为唯一 required verification；保留失败运行与 data 快照作为 sources。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T03:01:51Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+      "invalidatedRequiredChecks": [
+        "project-command-0"
+      ],
+      "originalBeforeEditContractHash": "sha256:2bd7dd4a8a7fc50c17b98c4d67ac48e3d9c878529a83678c5ea52115a5e0e189",
+      "previousContractHash": "sha256:d9be15485a6d2eb6e4a9dbebe5de79aaeb25d5435768273999b037592a68d519",
+      "reason": "按 Runtime 执行节点绑定规则，将 required verification 从未匹配的 make quality 名称对齐到实际执行节点 project-command-0；该节点实际执行 make quality。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T03:12:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 1,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 1,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+  "createdAt": "2026-09-10T02:31:56Z",
+  "mode": "code",
+  "preflightAt": "2026-09-10T03:15:56Z",
+  "preflightContractDigest": "sha256:359d5ccec30c509a57ad08780c792c01694775a287dba29e3874007a8c3305ae",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T03:15:59Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "daily-radar-snapshot-report-date-conflict"
+}

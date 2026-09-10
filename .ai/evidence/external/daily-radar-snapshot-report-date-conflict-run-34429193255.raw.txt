@@ -1,0 +1,7 @@
+GitHub Actions run: https://github.com/xinglun/sentinel/actions/runs/34429193255
+Workflow: Daily Decision Radar
+Ref: main
+Report date: 2026-09-10
+Observed command: cargo run --release -- radar --date 2026-09-10
+Observed failure: Resolved report-date packet is missing: reports/decision_packet_2026-09-10.json (decisioning_failed_reason=SNAPSHOT_CONFLICT)
+Observed result: Run Sentinel Radar exited with code 1 before report and Telegram delivery steps.
