@@ -149,8 +149,8 @@
     "mode": "RESENT",
     "original_generation_revision": "7912953a2304007a8f4e551a1bb9b7ebdc8eb5b9",
     "original_report_run_id": "db75b5fe-5f4a-4fa9-bff3-6590d79380f1",
-    "resend_revision": "41348a93bdcc0f4be2e1b41099dbdb8dfaf1ddd8",
-    "resent_at": "2026-09-10T05:19:33.907433+00:00",
+    "resend_revision": "d9c16d05c63ca67de542505ca34897254d2cb901",
+    "resent_at": "2026-09-10T08:35:31.614197+00:00",
     "source": "data_branch_telegram_html_payload"
   },
   "notification_resend": {
@@ -160,6 +160,6 @@
     "payload_path": "reports/telegram_report_2026-09-10.html",
     "parse_mode": "HTML",
     "chunks": 7,
-    "sent_at": "2026-09-10T05:19:33.907433+00:00"
+    "sent_at": "2026-09-10T08:35:31.614197+00:00"
   }
 }
