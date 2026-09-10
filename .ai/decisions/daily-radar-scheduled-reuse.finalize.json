@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "4ce2c655bf55161c81e0bc5a3bfde609ad57b8a2",
+    "name": "codex/daily-radar-noop-reuse",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:a5d2a13e787cdfdd47bc0da3d3d044b7892f38b5f1527fa00d8f4af3fc590e62",
+  "operationId": "github-pr-193-merge-cleanup-20260911",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "9f5c1c08704d7cffa25ad056946cab3f1f05b1ab",
+    "headRevision": "4ce2c655bf55161c81e0bc5a3bfde609ad57b8a2",
+    "mergeCommit": "942c2c7374a0a7abfc14b58481abdb22adddcdf3",
+    "number": 193,
+    "url": "https://github.com/xinglun/sentinel/pull/193"
+  },
+  "reason": "PR #193 已通过 hosted checks 并合并到 develop；精确 feature branch、远端 branch 与 worktree 均已清理，未改写 Work Item archive/evidence。",
+  "receiptId": "daily-radar-scheduled-reuse-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-noop-reuse",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/193",
+    "worktree": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-noop-reuse"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T19:09:07Z",
+  "workItemId": "daily-radar-scheduled-reuse",
+  "worktree": {
+    "branch": "codex/daily-radar-noop-reuse",
+    "headRevision": "4ce2c655bf55161c81e0bc5a3bfde609ad57b8a2",
+    "path": "/Users/sei-rinn/dev/worktrees/sentinel-daily-radar-noop-reuse",
+    "worktreeId": "sentinel-daily-radar-noop-reuse"
+  }
+}
