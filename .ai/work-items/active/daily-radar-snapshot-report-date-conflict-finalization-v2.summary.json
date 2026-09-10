@@ -5,7 +5,7 @@
     ".ai/work-items/active/daily-radar-snapshot-report-date-conflict-finalization-v2.summary.json"
   ],
   "checkpointAt": "2026-09-10T04:10:35Z",
-  "checkpointContractDigest": "sha256:924192e1cff372ba366642637fb50bcba54abaa87bf1d591f2b2306773f51949",
+  "checkpointContractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -41,6 +41,26 @@
       "unknownCount": 0,
       "verificationStarted": false,
       "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7a04563cadcbf1211bc7b101a98ec879c2c2dcff8de3915053adada12a8471b8",
+      "previousContractHash": "sha256:924192e1cff372ba366642637fb50bcba54abaa87bf1d591f2b2306773f51949",
+      "reason": "PR #184 已创建，现将 v2 Contract resourceContext 绑定到真实 GitHub PR、develop 基线、v2 branch 与 v2 worktree；不改动前驱 archive/evidence。",
+      "recorded": true,
+      "recordedAt": "2026-09-10T04:15:51Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
     }
   ],
   "checkpointRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
@@ -48,8 +68,8 @@
   "mode": "code",
   "predecessorContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
   "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
-  "preflightAt": "2026-09-10T04:15:20Z",
-  "preflightContractDigest": "sha256:924192e1cff372ba366642637fb50bcba54abaa87bf1d591f2b2306773f51949",
+  "preflightAt": "2026-09-10T04:19:11Z",
+  "preflightContractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:e062f6ad5c71fc914fe7bcf25ea696a84f27694f274d3bc04b94810fcbc8a02e",
   "preflightState": "green",
@@ -64,6 +84,6 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:4896f70e0147b1b8a19d4bcaa62195b762f642453a399caec8e12fa89d18b68c",
+  "verificationRecoveryReconciled": "sha256:abae57276d8955d70e6c77ff2448a244c3e2c61f83acec5bdd381e972ed8d790",
   "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
 }
