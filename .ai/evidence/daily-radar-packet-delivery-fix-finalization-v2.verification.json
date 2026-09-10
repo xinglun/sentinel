@@ -1,7 +1,7 @@
 {
   "captureMode": "full_capture",
-  "contractDigest": "sha256:13e7f789b81ab0e984a0ce71e985a9a3b2d19c889647cd1ed8edf8d7889ab0de",
-  "createdAt": "2026-09-10T01:32:06Z",
+  "contractDigest": "sha256:b9dbde2bf74c84e04241685c832ea812e2ec5f7ba15adaa67986023a489804b5",
+  "createdAt": "2026-09-10T01:34:49Z",
   "evidenceSchemaVersion": 2,
   "passed": true,
   "protocolVersion": 1,
@@ -9,8 +9,8 @@
     "costObservation": {
       "advisoryOnly": true,
       "confidence": "complete",
-      "elapsedMs": 108518,
-      "executionElapsedMs": 108294,
+      "elapsedMs": 85701,
+      "executionElapsedMs": 85456,
       "maxConcurrentProcesses": 1,
       "nodesExecuted": 1,
       "nodesPlanned": 1,
@@ -25,10 +25,10 @@
       "schemaVersion": 1,
       "unknowns": []
     },
-    "elapsedMs": 108518,
-    "executionElapsedMs": 108294,
-    "filesHashed": 4,
-    "filesRead": 4,
+    "elapsedMs": 85701,
+    "executionElapsedMs": 85456,
+    "filesHashed": 5,
+    "filesRead": 5,
     "gitCalls": 8,
     "maxConcurrentProcesses": 1,
     "nodesExecuted": 1,
@@ -44,7 +44,7 @@
       "executedNodes": [
         "project-command-0"
       ],
-      "executionElapsedMs": 108294,
+      "executionElapsedMs": 85456,
       "finalTier": "T0",
       "initialTier": "T0",
       "planningElapsedMs": 0,
@@ -76,7 +76,7 @@
       {
         "action": "execute",
         "nodeId": "project-command-0",
-        "outputDigest": "sha256:f59830ef7a6d843718c75052274b9319479867d8bb474258a9cb687764c1da88",
+        "outputDigest": "sha256:613c75f00971c8b6a0f46881526ea273f0c694b1e8369a28877fc5d3399f02ea",
         "outputTruncated": true,
         "passed": true,
         "protected": false,
@@ -92,7 +92,7 @@
     "runtimeVersion": "0.2.87",
     "workItemId": "daily-radar-packet-delivery-fix-finalization-v2"
   },
-  "receiptDigest": "sha256:4e0d270f08ca3e9f35ec6b0b2fcbda19321b189cb97e59d4e8e2a6fe965855d4",
+  "receiptDigest": "sha256:ab9f21f2415e770a0edf1bfaf40811fae7c09790f2546cab2741db93bb0d0577",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "repositorySnapshotDigest": "sha256:406b58dcd09238a50b1cd4a34d6de31b50b869d759a44c7741e0d92c47e3f2c5",
   "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",

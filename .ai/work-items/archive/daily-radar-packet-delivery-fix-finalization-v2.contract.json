@@ -32,11 +32,11 @@
     "governance"
   ],
   "resourceContext": {
-    "baseBranch": "unknown",
-    "baseRemote": "unknown",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
     "branch": "codex/daily-radar-packet-delivery-fix-finalization-v2",
-    "provider": "unknown",
-    "pullRequest": "unknown",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/177",
     "worktree": "/private/tmp/sentinel-daily-radar-packet-delivery-fix-finalization-v2"
   },
   "risk": "normal",
