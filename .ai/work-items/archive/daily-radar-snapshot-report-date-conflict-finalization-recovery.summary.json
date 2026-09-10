@@ -1,8 +1,8 @@
 {
   "changedPaths": [
     ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
-    ".ai/work-items/active/daily-radar-snapshot-report-date-conflict-finalization-recovery.contract.json",
-    ".ai/work-items/active/daily-radar-snapshot-report-date-conflict-finalization-recovery.summary.json"
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.contract.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.summary.json"
   ],
   "checkpointAt": "2026-09-10T03:44:46Z",
   "checkpointContractDigest": "sha256:ee77581769bcb7028acb2a575381964396134d053e0b0df18e5f80adb77bb725",
@@ -56,14 +56,13 @@
   "protocolVersion": 1,
   "recoveryDecisionPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-10T03:44:46Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T04:00:08Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:fa59ffba166c5677f24635d99f8159568281f67ca5b76bf24d06e119f7ad59ba",
   "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
 }
