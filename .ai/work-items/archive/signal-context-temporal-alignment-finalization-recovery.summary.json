@@ -1,0 +1,32 @@
+{
+  "changedPaths": [
+    ".ai/decisions/signal-context-temporal-alignment.recovery.json",
+    ".ai/work-items/archive/signal-context-temporal-alignment-finalization-recovery.contract.json",
+    ".ai/work-items/archive/signal-context-temporal-alignment-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-10T07:18:38Z",
+  "checkpointContractDigest": "sha256:00a0b2b17dd3ffaa54619cc3c8cf10211a48215bdc1713186a86c737adb92a81",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:c26d0f50d9e041c3f9938fa67ee3c9405a1a0d8e042254766d5352f1be0c73e3",
+  "createdAt": "2026-09-10T07:16:53Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:8ecc5396b6d394730085769aa812804c9cdd71d7779b505ff09a70eae82fb681",
+  "predecessorWorkItemId": "signal-context-temporal-alignment",
+  "preflightAt": "2026-09-10T07:20:50Z",
+  "preflightContractDigest": "sha256:00a0b2b17dd3ffaa54619cc3c8cf10211a48215bdc1713186a86c737adb92a81",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:c26d0f50d9e041c3f9938fa67ee3c9405a1a0d8e042254766d5352f1be0c73e3",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/signal-context-temporal-alignment.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-10T07:21:04Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "signal-context-temporal-alignment-finalization-recovery"
+}
