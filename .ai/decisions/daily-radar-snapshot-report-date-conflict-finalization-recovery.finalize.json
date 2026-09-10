@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "2cc93d14d448eeb7695bf9d8308f1498d47a8a02",
+    "name": "codex/daily-radar-snapshot-date-key-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:210588891964ce3f0fd79148bd6331d6953658bd9e609aa6ae9c1f7e253a68cd",
+  "operationId": "github-pr-182-merge-cleanup-20260910",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "537fe1ee8a2c98ac017ce98b66a25227a41915da",
+    "headRevision": "2cc93d14d448eeb7695bf9d8308f1498d47a8a02",
+    "mergeCommit": "7a73de642179d408a98441ca0e783b21292cafab",
+    "number": 182,
+    "url": "https://github.com/xinglun/sentinel/pull/182"
+  },
+  "reason": "PR #182 已合并，精确 v1 recovery branch 与 worktree 已清理；该 receipt 绑定真实 GitHub 合并事实，不改写不可变归档。",
+  "receiptId": "daily-radar-snapshot-report-date-conflict-finalization-recovery-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/daily-radar-snapshot-date-key-finalization-recovery",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/182",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-recovery"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+  "runtimeVersion": "0.2.87",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-10T04:52:00Z",
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
+  "worktree": {
+    "branch": "codex/daily-radar-snapshot-date-key-finalization-recovery",
+    "headRevision": "2cc93d14d448eeb7695bf9d8308f1498d47a8a02",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-worktrees/daily-radar-snapshot-date-key-finalization-recovery",
+    "worktreeId": "sentinel-daily-radar-snapshot-date-key-finalization-recovery"
+  }
+}
