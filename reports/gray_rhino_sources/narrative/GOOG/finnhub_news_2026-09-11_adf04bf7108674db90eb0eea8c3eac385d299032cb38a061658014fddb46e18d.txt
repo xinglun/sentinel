@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Cloud Launches AI Agents for Banking, With Deutsche Bank as Its Proving Ground
+  summary: Alphabet Inc. (NASDAQ:GOOGL)’s Google Cloud officially launched Gemini Enterprise for Financial Services on August 25, expanding its agentic AI strategy into the highly regulated capital markets and corporate banking sectors. The platform, which is now available in preview, represents a deliberate bet on what Alphabet Inc. (NASDAQ:GOOGL) is positioning as a more governed, audit-ready play […]
+  url: https://finnhub.io/api/news?id=d009ba30bb5550d1d14e36843670859ba3ca27a9751e52c11edf2472c1c0a203

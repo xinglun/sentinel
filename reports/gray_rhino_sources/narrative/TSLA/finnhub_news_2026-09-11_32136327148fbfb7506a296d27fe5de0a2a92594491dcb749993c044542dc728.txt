@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: South Korean import sales rise 9% in August
+  summary: The segment has been lifted by strong demand for BEVs and problems at Hyundai.
+  url: https://finnhub.io/api/news?id=45a0b08bee1f7cc5ccffc3b7f5593c0b23e2887cedf141b058b69d46ec4aa92b

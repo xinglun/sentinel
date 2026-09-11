@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Semi Gets Boost From $6 Diesel; Morgan Stanley Says Earnings Potential 'Underappreciated'
+  summary: The new Tesla Semi truck is an "underappreciated driver of earnings growth" over the next 15 years, according to Morgan Stanley.
+  url: https://finnhub.io/api/news?id=f4c1695405efaa361bddbd5d5ff0a0c047fcefa4a2c90c2ee520928b96232717

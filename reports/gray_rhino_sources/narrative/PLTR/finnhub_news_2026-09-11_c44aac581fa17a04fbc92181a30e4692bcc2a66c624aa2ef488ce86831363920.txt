@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR Stock Wins Whether We’re In An AI Bubble Or Not? Wall Street Analyst Explains Why
+  summary: Palantir’s real-world AI exposure could help it weather both continued AI spending and a potential slowdown, according to D. A. Davidson’s Gil Luria.
+  url: https://finnhub.io/api/news?id=b699ab5851bb72d61ec48680353b32e9cdfcc5091bdfcff9c1aa3536f4e21e20

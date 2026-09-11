@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Axon beats Palantir by 36 Roundtable 100 spots
+  summary: The weekly technology ranking places Axon at No. 27 and Palantir at No. 63, one of its sharpest valuation calls.
+  url: https://finnhub.io/api/news?id=3958ad5787a2dbecdf32cd6a0b2e5907ca8c0463a9f5e6a1d0cc8087dfc5e020

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Outsold Tesla by Roughly 77,000 EVs Again in Q2. Can Tesla Close the Gap?
+  summary: The pathway to how Tesla might compete with BYD is more interesting than the competition itself.
+  url: https://finnhub.io/api/news?id=836351ddc917c0b2d1e5f2e48ea672d175e49d2e876de7d8ebe6c9ef4171a522

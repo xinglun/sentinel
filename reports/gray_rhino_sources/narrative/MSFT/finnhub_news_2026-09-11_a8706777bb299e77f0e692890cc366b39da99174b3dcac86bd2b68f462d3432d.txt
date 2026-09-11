@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cursor MCP Server Now Powered by ZoomInfo as the GTM Context Layer
+  summary: VANCOUVER, Wash., September 11, 2026--ZoomInfo (NASDAQ: GTM), the all-in-one AI GTM platform, today announced that its MCP Server is now listed on the Cursor Marketplace, giving developers and revenue teams a native way to bring ZoomInfo's verified GTM data into Cursor's AI coding agent.
+  url: https://finnhub.io/api/news?id=40fb2a9c484ca430617197ee28de88724c2b62242e18d5dcd70f1f637669b29b

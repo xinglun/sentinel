@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Looks Expensive And Waymo Is Pulling Away
+  summary: Tesla (TSLA) is a strong sell: overvalued amid tougher competition and regulation, with robotaxi lagging Waymo.
+  url: https://finnhub.io/api/news?id=b2cde67eb2050a754c0f839418fef3fc04be246a18ebb432507c852c8ec5f627

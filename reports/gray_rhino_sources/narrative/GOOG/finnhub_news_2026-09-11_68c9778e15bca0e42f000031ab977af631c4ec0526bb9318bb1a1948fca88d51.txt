@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Oracle Become A Weaker Business, Or Just A Cheaper Stock?
+  summary: Oracle (ORCL) made almost a quarter more operating profit in its last fiscal year. Yet when trading closed on September 10, the stock sat around 53% under the peak it reached a year before. Rising profit and a falling price point to one of two stories: trouble the results have not caught up with, or a sound company that has been repriced. The question is whether Oracle is turning into a weaker business, or has just become a cheaper stock.
+  url: https://finnhub.io/api/news?id=99cfefb61431c1649f87a2cb1939aa6331c87e5613b03d74ed3a0d69da344597

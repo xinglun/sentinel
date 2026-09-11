@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Snowflake Stock Keep Climbing On The Work Its AI Tools Bring In?
+  summary: Snowflake (SNOW) stock has returned about 37% over the past three months, against 4.8% for the S&P 500, and trades about 8% below its 52-week high. The stock has gained more than 30% in under two months on 10 occasions since 2020, most recently in 2026, and six of those gains topped 50%. The case for another leg rests on what sits behind three straight quarters of faster growth: Snowflake's AI tools are getting customers to use more of its core data platform.
+  url: https://finnhub.io/api/news?id=f430cf417cf1401531c3aed587e9654feea7260fb50f4d802a582a70771c1c6e

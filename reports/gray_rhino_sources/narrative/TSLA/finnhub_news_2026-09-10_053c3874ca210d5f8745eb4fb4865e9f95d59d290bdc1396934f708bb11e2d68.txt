@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Stock Pops After CEO Buys Shares Worth $10 Million
+  summary: Uber CEO Dara Khosrowshahi bought about $10 million of company stock on Thursday, sparking a rally in the shares.
+  url: https://finnhub.io/api/news?id=097a2291b2ef4c103c3199f1ed7fea9dbf492469a075b6e811f285ced72e1984

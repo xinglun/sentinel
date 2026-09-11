@@ -1,16 +1,26 @@
 {
-  "fetched_at": "2026-09-10T02:21:23.092029430Z",
+  "fetched_at": "2026-09-11T17:51:25.728669052Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
     {
+      "symbol": "FIG",
+      "expected_date": "2026-11-04",
+      "fiscal_period": null
+    },
+    {
       "symbol": "GOOG",
-      "expected_date": "2026-10-28",
+      "expected_date": "2026-11-04",
       "fiscal_period": null
     },
     {
       "symbol": "ISRG",
       "expected_date": "2026-10-20",
+      "fiscal_period": null
+    },
+    {
+      "symbol": "MSFT",
+      "expected_date": "2026-11-04",
       "fiscal_period": null
     },
     {
@@ -26,6 +36,11 @@
     {
       "symbol": "TSLA",
       "expected_date": "2026-10-28",
+      "fiscal_period": null
+    },
+    {
+      "symbol": "U",
+      "expected_date": "2026-11-04",
       "fiscal_period": null
     }
   ]

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSMC Price Prediction: One Number Could Define the Stock’s Next Move
+  summary: TSMC is up over 66% in the past year, AI customers are booking capacity years out, and the only foundry rival is hemorrhaging billions. So why does one critical number still cast doubt on how high this stock can actually go?
+  url: https://finnhub.io/api/news?id=cad5f41b0e3beb38e509b93847ab893861cfb3cecf827e37007c87a936498569

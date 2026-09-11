@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rallies On Surprise Inflation Data; Nvidia Rebounds, Oracle Jumps (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rallies Friday after a surprise CPI inflation report. Nvidia stock rebounded in morning trading.
+  url: https://finnhub.io/api/news?id=0cec32bafdfd377a5c526ec2b8fbd577ab81472a076cccebc07f8279b1c1c8f8

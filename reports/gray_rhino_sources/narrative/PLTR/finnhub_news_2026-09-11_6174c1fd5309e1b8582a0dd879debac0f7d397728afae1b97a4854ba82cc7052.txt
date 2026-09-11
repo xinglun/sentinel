@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says Software Stocks Just Got Their Clearest Buy Signal Yet
+  summary: Dan Ives says Oracle's earnings and a string of AI-fueled beats give software stocks their clearest signal yet.
+  url: https://finnhub.io/api/news?id=c7edb440d1a7c37f513dd3d499cbca7ce0146f53d45f042b9c7a9faa0edfff42

@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is AppLovin Stock Trading Near Its Low While Revenue Keeps Growing?
+  summary: AppLovin (APP) stock has lost about 55% since mid-December 2025, falling to $305 by September 9, 2026, while the S&P 500 gained 12.5%. The business did not shrink: second-quarter revenue grew 53% year over year. A single report cannot account for a nine-month slide, but the August one shows why growth that fast is hard to price. It arrives in steps the company cannot schedule.
+  url: https://finnhub.io/api/news?id=b80f790f14764eaccd32d6fca108444b0213b89caea71391dc48fc2bba6cbd53

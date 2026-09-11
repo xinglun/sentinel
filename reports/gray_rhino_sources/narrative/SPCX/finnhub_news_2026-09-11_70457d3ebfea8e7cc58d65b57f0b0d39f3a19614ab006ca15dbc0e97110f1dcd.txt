@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Fell 3.9% on Its Third Lockup Release Since the IPO. I'd Wait to Buy the Stock.
+  summary: Wednesday's 319 million-share release leaves billions more on the unlock calendar.
+  url: https://finnhub.io/api/news?id=186c9afcdf2d61c26b40f22ef4338f2eb2c92dff09799f2895025dad5a00ac00

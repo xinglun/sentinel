@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget the Capex Fears: Why Alphabet and Amazon Are Must-Buys
+  summary: Amazon and Alphabet are both seeing strong returns on their AI infrastructure investments.
+  url: https://finnhub.io/api/news?id=c0c41d56fd7298809dc9459f0cd02f7ec93686c645c5ebdd1f2ad0bc944d8816

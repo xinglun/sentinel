@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why National Beverage Stock Dropped, Then Popped
+  summary: National Beverage stock has lots of problems right now, and no good solutions.
+  url: https://finnhub.io/api/news?id=48a9fd511df2451bdfb848715ff82015be4d34c73f2cb2016ba3b8d1b1c9b14f

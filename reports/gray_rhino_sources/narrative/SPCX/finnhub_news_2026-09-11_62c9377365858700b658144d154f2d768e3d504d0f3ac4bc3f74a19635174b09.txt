@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Exec Says Starship Will Generate Revenue for First Time ‘Later This Month’
+  summary: Space Exploration Technologies Corp. (NASDAQ:SPCX) Chief Financial Officer Bret Johnsen says Starship will generate revenue for the first time later this month, as Elon Musk’s space company moves the giant rocket beyond demonstration flights. Flight 14 will carry production Starlink...
+  url: https://finnhub.io/api/news?id=935bed07e4641a8075c51f289d57c081024e0699495aa25705d3c6ae773cc193

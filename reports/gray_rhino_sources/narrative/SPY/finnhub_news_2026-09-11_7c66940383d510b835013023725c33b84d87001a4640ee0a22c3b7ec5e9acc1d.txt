@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NuScale Power Drops 5% as UBS Cuts to Sell on Timeline and Cash Burn, Oklo Slips
+  summary: UBS just slapped a Sell rating on NuScale Power and slashed its price target, citing a bear case built around a timeline the market had not fully priced in. Whether the company's unique regulatory standing and cash cushion are enough to hold the thesis together is the question investors are now scrambling to answer.
+  url: https://finnhub.io/api/news?id=243ab61b450c93436718b8b2dc5e5f139aa72a72eda643bbabba919ec4c1470b

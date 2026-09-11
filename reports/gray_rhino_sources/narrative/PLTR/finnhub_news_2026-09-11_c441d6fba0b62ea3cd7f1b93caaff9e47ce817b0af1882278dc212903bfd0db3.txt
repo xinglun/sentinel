@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fourth Red Session Runs Into a Foldable-Powered Apple as Oil Breaks $105 and Oracle Ships a $28.5 Billion AI Bill
+  summary: Wall Street closed in the red for a fourth session running on Thursday as Houthi forces took the Red Sea port of Mokha and pushed Brent past $105 a barrel, keeping the inflation trade firmly alive into Friday's CPI print.
+  url: https://finnhub.io/api/news?id=353e4ae02b79598186ded3dea272fb32a65f2f8712e0a0e9c1c4dcc2a3721420

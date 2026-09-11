@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kazakhstan-based ITS launches Prediction Market with event options linked to Bitcoin, SpaceX and central bank rates
+  summary: Kazakhstan-based international trading platform ITS has launched Prediction Market, a new product line that allows eligible investors to take positions on the outcomes of financial and economic events.Astana, Kazakhstan, Sept. 11, 2026 (GLOBE NEWSWIRE) -- Kazakhstan-based international trading platform ITS has launched Prediction Market, a new product line that allows eligible investors to take positions on the outcomes of financial and economic events. The first event options are linked to Bitc
+  url: https://finnhub.io/api/news?id=77206a69d17de9956c56fb5da540c3d0c19d225785f80e6f1acbd30c8b8c628a

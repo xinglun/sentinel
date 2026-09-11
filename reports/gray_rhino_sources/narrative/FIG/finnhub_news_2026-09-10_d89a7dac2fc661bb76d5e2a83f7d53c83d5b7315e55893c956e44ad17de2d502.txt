@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma: Down 69% And Still Not Cheap
+  summary: Figma is a Hold, reflecting strong 48% revenue growth and 136% net dollar retention but an extreme 79x forward earnings multiple. Click for more on FIG stock.
+  url: https://finnhub.io/api/news?id=c39272d22aede2fecb40773a8a1360056849d93413a82509757f31ef9a94f237

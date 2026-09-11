@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Anthropic Says US Adversaries Aimed Claude at Weapons Research' - Bloomberg
+  summary: https://www.bloomberg.com/news/articles/2026-09-11/anthropic-says-us-adversaries-aimed-claude-at-weapons-research
+  url: https://finnhub.io/api/news?id=5fc1a56340df39d6c92123efe6ed134a043d1fed56ea953ecda68da2a6c7bd3b

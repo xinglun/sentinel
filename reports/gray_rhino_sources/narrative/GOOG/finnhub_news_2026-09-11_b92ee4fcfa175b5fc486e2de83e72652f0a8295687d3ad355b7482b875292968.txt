@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google and Accenture Team Up to Accelerate Enterprise AI Adoption
+  summary: Alphabet Inc. (NASDAQ:GOOG)’s Google Cloud and Accenture plc (NYSE:ACN) have launched the Accenture Gemini Enterprise Business Group, a joint initiative designed to accelerate enterprise adoption of Google’s Gemini Enterprise platform. Google Cloud will help train up to 1,000 Accenture forward-deployed engineers (FDEs) who will work directly with customers to build and implement AI applications. The […]
+  url: https://finnhub.io/api/news?id=83f2e82762eb1b0a59d61d0c81afcef5283fc38283bfe9de2ac839d89e54e32d

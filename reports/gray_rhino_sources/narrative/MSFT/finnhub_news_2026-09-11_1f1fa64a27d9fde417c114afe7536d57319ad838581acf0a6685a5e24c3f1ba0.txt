@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Piper Sandler Says Marvell Could Be a Major AI Chip Winner
+  summary: Piper Sandler Has a Bullish Message for Marvell Investors: AI Growth Could Explode
+  url: https://finnhub.io/api/news?id=9c48b97ea58eff1944afc6d0c56a124305cec4bbc4e346594107b2de20c7e3e6

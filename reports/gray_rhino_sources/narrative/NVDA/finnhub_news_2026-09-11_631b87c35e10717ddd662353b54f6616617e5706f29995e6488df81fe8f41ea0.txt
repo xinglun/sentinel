@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If I Could Only Buy 1 Quantum Computing Stock, This Would Be It
+  summary: IonQ is leading the accuracy segment of the quantum computing race.
+  url: https://finnhub.io/api/news?id=04c756c090c51605d48113d27eb9df4f877f16d697a472cd4478305fef102f20

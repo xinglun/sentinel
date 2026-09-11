@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Earnings Put Narrow Robotics Rally to the Test
+  summary: Robotics rally narrows as AI, chip test, and machine vision suppliers lead while traditional names lag. Earnings could test this leadership.
+  url: https://finnhub.io/api/news?id=e8ed59ce5c0c6772120fe5becf0cd40a5c92e61ca1284b2895de7d7711952a4a

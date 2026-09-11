@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Dropped Last Month: A Wall Street Pro Says It’s Going to Provide 60% Returns
+  summary: Amazon's stock has fallen sharply even as AWS clocked its fastest growth in 18 quarters, and one Wall Street analyst now sits at a target so far above consensus it reframes the entire risk-reward picture.
+  url: https://finnhub.io/api/news?id=aae2330f3d8d14eda5d24a5667661338a4337e9e37f5b2a7fe3df1d35df25f67

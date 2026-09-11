@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Another 2019 Inflection Is Taking Shape - And The Market Hasn't Caught Up
+  summary: Tesla, Inc. shifts from manufacturing to autonomy execution as Cybercab advances Robotaxi commercialization, boosting AI/Optimus upside. Click for this TSLA update.
+  url: https://finnhub.io/api/news?id=9b151e614a977e23cfb11b546f06f0906a8553421195695b28eb924c4f0d98d4

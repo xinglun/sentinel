@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Inc. (GOOG) is Attracting Investor Attention: Here is What You Should Know
+  summary: Zacks.com users have recently been watching Alphabet (GOOG) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects.
+  url: https://finnhub.io/api/news?id=13a55fd9cd70ed3180b9bb76ba028e12dc49c0f96d7dd4b754503daaf9a80c7f

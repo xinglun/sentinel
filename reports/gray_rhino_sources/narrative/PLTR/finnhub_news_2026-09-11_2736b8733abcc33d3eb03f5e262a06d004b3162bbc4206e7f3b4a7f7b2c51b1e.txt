@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BigBear.ai Stock Dives 29% in the Past 3 Months: Hold or Fold?
+  summary: BBAI's AI demand and rising backlog offer growth potential, but persistent losses, modest growth and government-contract risks weigh on its outlook.
+  url: https://finnhub.io/api/news?id=33c757eb95337086c8a68c058c960a00e4c87c58e4a9d2648a33a86a27595951

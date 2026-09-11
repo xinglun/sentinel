@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy AppLovin Stock For Its Widening Margin?
+  summary: AppLovin (APP) stock trades at $312.01, at about 43% of its 52-week high, after a 44.6% fall over the past three months. After the June quarter, the market treated one light quarter of model improvement as the growth engine breaking, though year-over-year revenue growth had already slowed in each of the last three quarters. One number argues the operating business kept getting more profitable straight through it: an operating margin of 77.4% over the trailing twelve months, up from 69.6% a year
+  url: https://finnhub.io/api/news?id=690bf2faaec5cff88d3d66db552387083bfd8980a16341bf01171ffd4a4a0821

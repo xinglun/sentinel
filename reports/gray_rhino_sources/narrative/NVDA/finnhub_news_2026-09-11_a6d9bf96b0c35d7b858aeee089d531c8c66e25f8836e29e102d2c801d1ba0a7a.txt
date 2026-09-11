@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm’s AWS Deal Takes Aim at Nvidia, But Comes With Fine Print
+  summary: QUALCOMM Incorporated (NASDAQ:QCOM) has secured one of its strongest data center validations yet through a multi-generational silicon partnership with AWS, one of the world’s biggest AI infrastructure spenders. The announcement pushed shares higher, adding to the evidence that large cloud providers are backing Qualcomm’s push into custom compute. However, the structure of the deal makes […]
+  url: https://finnhub.io/api/news?id=6ae03f3aa2cf27bf64944edc0c724f62ad65a535cc1bd99a0ca07f2b3e5fcb34

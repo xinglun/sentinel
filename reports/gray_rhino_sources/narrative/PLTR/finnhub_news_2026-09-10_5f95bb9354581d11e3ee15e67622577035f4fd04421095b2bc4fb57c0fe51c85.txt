@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies Showcases Sovereign AI Wins With NVIDIA, Cisco and FAA
+  summary: Palantir Technologies (NASDAQ:PLTR) used its AIPCon event to highlight customer deployments of its Foundry, Ontology and Artificial Intelligence Platform products across supply chains, aviation safety, defense manufacturing, insurance, media, pharmaceuticals and industrial operations. Speakers repea
+  url: https://finnhub.io/api/news?id=ca5dfa845c2fc8ad6c69657740ce95cc87875accde629091606d1e92d759759b

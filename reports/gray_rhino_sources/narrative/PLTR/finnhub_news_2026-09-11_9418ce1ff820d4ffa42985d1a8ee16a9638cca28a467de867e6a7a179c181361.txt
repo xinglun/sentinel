@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Funds Aren't Fooling Around. Witness Massive Bets On CrowdStrike And Beyond.
+  summary: As the best mutual funds poured CrowdStrike and Marvell, Palantir also returned to this monthly screen for the first time this year.
+  url: https://finnhub.io/api/news?id=0b2e2b1f6a0d5ed4472f0aee47254686d1e304fcec20cdeee38c98aa99308c38

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Iran War, Inflation Fears Trigger $40 Billion Large-Cap Exodus — But VOO, QQQ Buck the Trend
+  summary: Iran war and $100 oil drive large-cap outflows, but investors keep buying VOO, QQQ and semiconductor ETFs.
+  url: https://finnhub.io/api/news?id=92453c592031dfefd15a13a7242f816aef42085e9b9a1a082cb96448f7219009

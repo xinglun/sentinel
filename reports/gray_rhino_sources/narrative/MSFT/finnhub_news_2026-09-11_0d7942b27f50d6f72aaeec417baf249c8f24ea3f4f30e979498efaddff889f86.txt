@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Micro Devices vs. Qualcomm: Which Technology Stock Is a Better Buy in 2026?
+  summary: AMD's data center momentum clashes with Qualcomm's valuation discount, but customer concentration and geopolitical risks complicate both bets.
+  url: https://finnhub.io/api/news?id=5522397336b39782fe3c897f04ea05e91b10aba863d11cb3064b3cbecaf98fff

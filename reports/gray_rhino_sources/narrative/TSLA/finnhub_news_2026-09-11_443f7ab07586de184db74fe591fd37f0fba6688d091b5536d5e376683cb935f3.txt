@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Drag on XLY Was Softened by Amazon’s Gain; QQQ Felt Almost Nothing
+  summary: Tesla is down on the year, yet two ETFs that both own the stock are having completely opposite experiences in 2026. The reason has nothing to do with the stock itself and everything to do with a single number buried in each fund's filing.
+  url: https://finnhub.io/api/news?id=7e352130308e398c902be2617def5fb7f8a1212ef836029354a8b8fbd6505ca7

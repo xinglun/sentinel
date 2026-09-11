@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Rival Enflame  Soars 206% in Shanghai Debut
+  summary: Investors rushed into China's latest AI-chip listing. Now the fundamentals have to catch up.
+  url: https://finnhub.io/api/news?id=255de72f24a65722d686f8ee229fde17557e5b5816ad12bad8d085acb6ea73bc

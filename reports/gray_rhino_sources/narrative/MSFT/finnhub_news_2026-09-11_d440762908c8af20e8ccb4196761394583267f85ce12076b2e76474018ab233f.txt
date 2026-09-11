@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DIVO: The Covered Call Machine Built To Outlast A Downturn
+  summary: Amplify CWP Enhanced Dividend Income ETF is back on the radar for income investors amid shifting markets. Read here for more on DIVO ETF.
+  url: https://finnhub.io/api/news?id=e6e297c2ca54512ca24c3a3a8e9829da5b7799c4dd10eb6ed3fefc1a6f691af7

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alex Karp Set Palantir a 134% Growth Target for the Whole Company. Here's What It Would Take to Hit It.
+  summary: The CEO tied the whole business to its hottest segment's pace for the next 18 months. Here's what that implies in dollars.
+  url: https://finnhub.io/api/news?id=203c8361114b64ebe36abd94f0f7eef561aaa2da4af9b37232e03dc31c003cb2

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta at $645: Recent Momentum Makes One Thing Very Clear
+  summary: Meta just outran a falling market by more than 7 points in a single month, yet the stock still trails the S&P 500 by nearly 13 points year to date and carries a capex bill that cratered free cash flow by over 90%. Something has to give.
+  url: https://finnhub.io/api/news?id=6c90fb7508a2e51b16e0aea2a9b83725a5b42242a436cf0340d810619fc1c262

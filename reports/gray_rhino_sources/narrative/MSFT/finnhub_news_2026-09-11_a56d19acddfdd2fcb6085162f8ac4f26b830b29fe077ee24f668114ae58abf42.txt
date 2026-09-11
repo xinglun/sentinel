@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Global AI MarTech Market Report 2026-2031; Market to Nearly Triple From $28B in 2025 to $74.3B by 2031 as Agentic AI, Platform Consolidation and Privacy-First Personalization Reshape Marketing Technology
+  summary: The global AI MarTech market is forecast to grow from USD 28.00 billion in 2025 to USD 74.30 billion by 2031 at a 17.66% CAGR. Growth is driven by agentic AI, first-party data, privacy-first personalization, multimodal content and platform consolidation. Software held about 73% of the market in 2025, while hybrid deployment is set to grow fastest. Retail and e-commerce leads by industry; North America held around 40%, and APAC will record the highest regional growth. Key vendors include Adobe, S
+  url: https://finnhub.io/api/news?id=7f1a349ca1842e6e06ccd5aa941647028524d609612df17bde08ec8c69f80c74

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Puts Its Momentum on Display. Can It Move the Stock?
+  summary: Palantir used its 11th customer forum on Thursday to showcase how it’s moving its AI development into production. It made an impression.
+  url: https://finnhub.io/api/news?id=d21d6448f322f8248d7458c79497c2c4aeeb70558de3ff86a03c64e1a04207c9

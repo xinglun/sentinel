@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can IBM's Latest Innovation Hub Advance Quantum Computing Ecosystem?
+  summary: International Business Machines is expanding its quantum footprint with a new ETH Zurich hub, bringing advanced computing to Swiss researchers and businesses.
+  url: https://finnhub.io/api/news?id=353cc757fddbfe38073d34d02ffc93790d9b5650ec8e067d224d728bfc06b56c

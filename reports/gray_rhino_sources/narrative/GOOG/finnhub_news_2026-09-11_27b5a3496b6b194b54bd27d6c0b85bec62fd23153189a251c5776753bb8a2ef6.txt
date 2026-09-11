@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX CFO Sends Bold Message to Investors After $1.11 Billion AI Deal
+  summary: SpaceX CFO Delivers Key Message to Investors as AI Revenue Takes Off
+  url: https://finnhub.io/api/news?id=c6c34dd74bfbfd53f052a0c09afeada6590856517d36e276c27f36061589185a

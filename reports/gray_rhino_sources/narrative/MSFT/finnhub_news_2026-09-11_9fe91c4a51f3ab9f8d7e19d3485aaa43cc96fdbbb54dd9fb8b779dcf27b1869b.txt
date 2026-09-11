@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius' Heavy CapEx Push: Can Customer Prepayments Ease the Strain?
+  summary: NBIS plans $20-$25B in 2026 capex, while more than $9B in customer prepayments could help fund its aggressive AI infrastructure expansion.
+  url: https://finnhub.io/api/news?id=9a98a142f3c8985702175801948ea987477b051a26159f4ae984725c2f8b01be

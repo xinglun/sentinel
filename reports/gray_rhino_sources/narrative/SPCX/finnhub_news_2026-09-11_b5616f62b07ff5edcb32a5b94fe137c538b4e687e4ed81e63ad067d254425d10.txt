@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Verizon vs. SpaceX: Which Stock Has Better Growth Prospects?
+  summary: VZ's 5G, broadband and fiber growth, stronger price performance and cheaper valuation make it better placed than SPCX despite slower 2026 sales growth.
+  url: https://finnhub.io/api/news?id=c149f8865c430bf8c0fb42dd7ac8e43f730551b33a042ffc41baee7eb3c757ba

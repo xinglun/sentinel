@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The New Policy Tightening Cycle Begins - The Fed Preview
+  summary: Fed tightening may start in Sept and run to Aug 2027. Click for a look at the latest data and what that may mean for interest rates this year and next.
+  url: https://finnhub.io/api/news?id=2010d32da31a54a6b200c4ae76d453031863e70d10486cb82e8495585c1d173e

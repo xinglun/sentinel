@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Advances 3% as First Foldable iPhone Arrives at Its Highest Price Ever; Skyworks Rallies 9%, Alphabet Ticks Up
+  summary: Apple just repriced the entire iPhone lineup from the top down, and the supplier shockwaves are already hitting the tape in ways that go beyond the usual launch-day noise.
+  url: https://finnhub.io/api/news?id=84c4c48c7dac3e3148e520f0e104cc0a7766295ade6f0c2389fed97f6078ae66

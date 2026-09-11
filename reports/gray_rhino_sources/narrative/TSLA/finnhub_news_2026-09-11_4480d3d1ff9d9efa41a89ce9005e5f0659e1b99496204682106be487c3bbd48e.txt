@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s gas turbines could shake up the backlogged sector
+  summary: Elon Musk reckons he specialises in converting the impossible to the merely late. That neatly encapsulates Tesla and SpaceX’s pursuit of electric...
+  url: https://finnhub.io/api/news?id=2893711b365af9f1732a46aae1204ef42cae3d66c67b646363c284ac8cde3519

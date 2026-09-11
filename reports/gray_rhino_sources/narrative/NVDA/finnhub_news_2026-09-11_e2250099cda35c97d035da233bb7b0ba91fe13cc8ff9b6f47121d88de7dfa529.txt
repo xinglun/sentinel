@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Mocks Nvidia ‘Circular Financing’ Fears: ‘If That Is, Let’s Do More of That’
+  summary: Nvidia Corp. (NASDAQ:NVDA) CEO Jensen Huang mocked concerns that the chip giant is fueling its own demand by financing companies and infrastructure projects that ultimately deploy Nvidia technology. "Is that circular? If that is, let’s do more of that," Huang...
+  url: https://finnhub.io/api/news?id=83aa9a12cc337935117e4b503789d2e23ba9ec90adf9d75351902030352791d2

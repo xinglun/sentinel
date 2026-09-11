@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Renishaw Gets a Semiconductor Upgrade
+  summary: The precision-engineering group climbed after Bank of America jumped from bearish to bullish, arguing that semiconductor, electronics and aerospace demand is running well ahead of expectations.
+  url: https://finnhub.io/api/news?id=727e6a2424a0020091611cef2697f9366a7a7dcfdde0801e691548e21a045d33

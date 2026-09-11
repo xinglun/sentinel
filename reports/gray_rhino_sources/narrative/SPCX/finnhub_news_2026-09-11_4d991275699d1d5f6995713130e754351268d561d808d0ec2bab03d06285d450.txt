@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: European SpaceX Rival Just Won a €760 Million Contract Days After Raising $450 Million to Build Its Own Rocket Engine
+  summary: A five-year-old European startup just pulled off a double that no company on the continent has managed before, and the ambition behind it points directly at the rocket architecture SpaceX bet everything on with Starship.
+  url: https://finnhub.io/api/news?id=4264a452d6aa15a4ab09fe66a3f635e5cec6fecd69614da6687d8835f4c36af8

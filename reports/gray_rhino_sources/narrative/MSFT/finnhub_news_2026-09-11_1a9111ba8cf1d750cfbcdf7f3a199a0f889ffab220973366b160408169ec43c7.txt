@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Vs. Alphabet: The Enterprise Fight No One Saw Coming
+  summary: Azure just crossed $100 billion and Google Cloud is growing at 82%, but the bigger story is where those enterprise seats are actually moving and which balance sheet can survive the spending war to find out.
+  url: https://finnhub.io/api/news?id=87739fd41c0b1ac2e06c4226acd36afefd2c370fed087f2a3466617efd64a647

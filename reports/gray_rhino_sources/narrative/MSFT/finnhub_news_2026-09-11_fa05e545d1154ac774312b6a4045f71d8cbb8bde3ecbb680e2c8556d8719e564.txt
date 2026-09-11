@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s AI Crunch Forced It to Turn Away Business, Now It Wants to Triple Computing Power
+  summary: Microsoft plans a massive AI data center expansion to 38GW by 2032 as cloud demand surges. Get MSFT stock, price, &amp; analyst outlook.
+  url: https://finnhub.io/api/news?id=a52803b114dd59ff9ad904de0b9c632d64d471c4fcb6fe5c2136ea19baeed851

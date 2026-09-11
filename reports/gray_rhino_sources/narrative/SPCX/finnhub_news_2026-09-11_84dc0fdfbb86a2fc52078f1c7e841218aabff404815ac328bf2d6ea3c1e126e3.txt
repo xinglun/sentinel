@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Has Something SpaceX Doesn’t. The Case to Buy the Stock.
+  summary: Friday, Raymond James analyst Brian Gesuale launched coverage of Rocket Lab stock with a Buy rating and $80 price target.
+  url: https://finnhub.io/api/news?id=406857a62a91eb9b2d10158eeaeedd0da135c29a8f0068e0014797fb135604f1

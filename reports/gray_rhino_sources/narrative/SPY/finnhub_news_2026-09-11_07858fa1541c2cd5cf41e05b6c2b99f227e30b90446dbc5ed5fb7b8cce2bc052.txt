@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: August CPI Just Made A Rate Hike Almost Certain
+  summary: August CPI boosts Fed rate hike odds as energy and travel lift inflation. Read the full analysis here.
+  url: https://finnhub.io/api/news?id=e522080c99095693e5e7c2777076331e9e6d07e87368fa2026c7732c121b5bc8

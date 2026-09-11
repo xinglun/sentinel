@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CPI +3.4%, as Expected: Wherefor Go Fed Rates?
+  summary: We're now looking at a 200 bps margin on PPI-CPI headlines, 240 bps on core.
+  url: https://finnhub.io/api/news?id=9c38d75881916fb0bf49fdb7918f0e1812835b3754aa63d742a52c0d45d65e84

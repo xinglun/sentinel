@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Electric Semi Could Win From High Diesel Prices
+  summary: Electric, autonomously driven big rigs are one solution to the shipping industry’s current diesel problem.  A gallon of diesel fuel is around $6, nearly double the year-ago level.  Crude oil prices aren’t up that much, but the fighting has taken so-called heavier crude off the market, which yields more diesel fuel per barrel, all else being equal.
+  url: https://finnhub.io/api/news?id=7011dd5a26ce053fabe042e071786faf0752a39ff3f052cfe1fc4c5092055372

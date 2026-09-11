@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Relatively unknown cloud provider gets Nvidia's stamp of approval
+  summary: Nvidia just backed a smaller cloud’s bet that regulated buyers care less about scale and more about who owns the outcome.
+  url: https://finnhub.io/api/news?id=1be376567cb962f4f74f61da152003e32110a1ed055c61c417f111fbe98cf44e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Zuckerberg’s $100-a-Month Muse Bet Signals Meta’s Desperate Pivot Away From Ads
+  summary: Meta just put a price tag on its AI ambitions, and the number reveals something uncomfortable about how dependent the company still is on a single revenue stream that has nothing to do with subscriptions.
+  url: https://finnhub.io/api/news?id=4650e1a1f64e66c629230f8fd70d7a7db9d0110200fe24224a738e61c7a342f4

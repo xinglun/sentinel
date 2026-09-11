@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX at $148: The Single Metric Investors Must Follow
+  summary: SpaceX has carved out a dominant position in launch, satellite internet, and AI, but bulls at $148 are betting everything on a single number that could either justify a sky-high multiple or expose the entire thesis as wishful thinking.
+  url: https://finnhub.io/api/news?id=313f4e5f38715779354883c5720f390ea13e1304f4760dd536b69b1933910a30

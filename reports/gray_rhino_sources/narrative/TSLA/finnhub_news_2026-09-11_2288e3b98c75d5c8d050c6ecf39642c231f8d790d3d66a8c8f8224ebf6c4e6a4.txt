@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Rises Premarket On Global Blitz — Cybercab In Japan, Hotter Model Y In China, Powershare In US
+  summary: Tesla launched China’s fifth and most expensive Model Y variant, with the Performance model starting at 369,000 yuan ($54,450).
+  url: https://finnhub.io/api/news?id=24bc7557f0650bfe6a005729f6a2f9adabe9cc92d55862514abbd6e84192de59

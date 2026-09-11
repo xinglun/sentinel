@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle is the most attractive AI cloud, analyst says
+  summary: D.A. Davidson Head of Technology Research Gil Luria joins Julie Hyman on Market Catalyst to break down why he believes Oracle (ORCL) is "by far the most attractive AI cloud."
+  url: https://finnhub.io/api/news?id=b9831b9fc7aca0298fee96c2e3cabb4c2884a5d6e9024d12dcba0364561f3250

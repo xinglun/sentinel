@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Social Buzz: Wallstreetbets Stocks Mixed Premarket Friday; Oracle to Rise, Adobe to Fall
+  summary: The most-talked-about stocks in the Reddit subforum Wallstreetbets were mixed hours before Friday's
+  url: https://finnhub.io/api/news?id=75b51ca54cd7bbaee5e0e63f4733fe9a48049e050ea05ad7d7617787d24bbe0d

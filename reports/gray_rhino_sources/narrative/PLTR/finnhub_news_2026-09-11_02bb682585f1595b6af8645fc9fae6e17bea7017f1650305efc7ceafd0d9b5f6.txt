@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang Calls NVIDIA the ‘World’s First and Only Growth Value Stock’
+  summary: NVIDIA (NVDA) targets 70% growth as CEO Jensen Huang forecasts up to $4T in AI spending. Read about NVDA’s partners and key constraints
+  url: https://finnhub.io/api/news?id=cefd639f747731c35b13e23056b7494208c566596fb5767d541d5d4cbc6db9fc

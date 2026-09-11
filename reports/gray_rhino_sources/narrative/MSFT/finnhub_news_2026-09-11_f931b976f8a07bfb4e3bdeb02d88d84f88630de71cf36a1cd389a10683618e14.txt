@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Doubles Down on Physical AI: Can CRWV Capture More Demand?
+  summary: CRWV is targeting physical AI with field engineering that helps industrial teams build, validate and deploy AI across workflows.
+  url: https://finnhub.io/api/news?id=f18e119e0b22774263a91c3ad82a28a0446f80ba1a1a62c649285494bc1d4f6c

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Slides as Nvidia Deal Meets a 55-Times Sales Price
+  summary: The partnership expands Palantir's commercial reach, but the valuation demands financially visible contracts.
+  url: https://finnhub.io/api/news?id=631a0a72316ab6b87e3fe2f8d5eea6331bc270ad452719dcd8f8dd67f26f6def

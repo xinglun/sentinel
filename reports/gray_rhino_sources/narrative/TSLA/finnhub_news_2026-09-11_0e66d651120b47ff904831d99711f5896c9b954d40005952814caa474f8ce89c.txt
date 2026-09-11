@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Kalshi Eyes 24/7 Leveraged Bets on TSLA, NVDA and AAPL With New Perpetual Futures Push: Report
+  summary: Prediction-market platform Kalshi reportedly plans to seek approval for the first regulated U.S. perpetual futures tied to individual stocks, including Tesla Inc. (NASDAQ:TSLA), Apple Inc. (NASDAQ:AAPL) and Nvidia Corp. (NASDAQ:NVDA).Kalshi Eyes 60 Stock And ETF PerpsAccording to people familiar with...
+  url: https://finnhub.io/api/news?id=b836e5173c73d60a924539ea4f2080fcdf76e8fdd237df1e9f4e2aab8060f509

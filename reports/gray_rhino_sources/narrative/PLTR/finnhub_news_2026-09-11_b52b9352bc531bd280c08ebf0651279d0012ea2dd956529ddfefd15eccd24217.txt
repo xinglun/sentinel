@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inovio Nears FDA Decision on INO-3107 as Oct. 30 PDUFA Date Looms
+  summary: Inovio Pharmaceuticals (NASDAQ:INO) said its biologics license application for INO-3107, an investigational DNA medicine for recurrent respiratory papillomatosis, or RRP, remains under U.S. Food and Drug Administration review, with a target action date of Oct. 30. President and CEO Jacqueline Shea
+  url: https://finnhub.io/api/news?id=2cd18270b36828702dd73b5dc227ed49913a52903672d4befab7356ae2f78a98

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 E Network Mikkeli AI Data Center Blueprint Targets NVIDIA Vera Rubin-Ready Infrastructure
+  summary: The Mikkeli project is being engineered for future NVIDIA Vera Rubin requirements while initial HGX and MGX clusters are intended to support nearer-term AI training and inference workloads. Key Investor Takeaways3 E Network (NASDAQ:MASK) unveiled the core engineering blueprint for its Mikkeli AI data center in Finland, with physical infrastructure designed around anticipated NVIDIA Vera Rubin architecture requirements.
+  url: https://finnhub.io/api/news?id=8c2bd84f03cdfde8ccd224ad7caa12c00e6708e738805bfda8b384c77fb7100b

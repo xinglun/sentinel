@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Targets 38GW Data Center Buildout as AI Capacity Crunch Bites
+  summary: Demand is so strong that Microsoft is planning to more than triple its computing capacity.
+  url: https://finnhub.io/api/news?id=9474ba17eace4ce534f6252d953661901ba75d67a03b23a7335d58437cefde15

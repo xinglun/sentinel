@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget AMD. Here's Who Nvidia Really Needs to Be Worried About.
+  summary: Broadcom's custom AI chips are becoming more popular with AI hyperscalers.
+  url: https://finnhub.io/api/news?id=beb264b996f64e43242920e4b6bcdaf50ec37236a0bdfe0881442ee4000e9016

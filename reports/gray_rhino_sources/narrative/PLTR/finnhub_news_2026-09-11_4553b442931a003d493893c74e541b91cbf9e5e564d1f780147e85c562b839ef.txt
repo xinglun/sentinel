@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Dumps NVDA, PLTR December Puts While Touting Fine Wine as a ‘Short’ on the Dollar
+  summary: Michael Burry sells his bearish Nvidia and Palantir tech puts, shifting his macro focus to &#34;shorting the dollar&#34; with physical fine wine.
+  url: https://finnhub.io/api/news?id=7cadc4c630ab00fe68ab668945573b1a6e6c828a70699b5cb4517b7863174efa

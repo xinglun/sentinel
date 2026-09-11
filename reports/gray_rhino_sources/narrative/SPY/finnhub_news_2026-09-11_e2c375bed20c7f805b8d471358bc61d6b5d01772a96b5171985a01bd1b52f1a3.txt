@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Rising Global Bond Yields A Warning Sign For Investors?
+  summary: Alexandra Gorewicz at TD Asset Management explains what the bond market is signaling and why it matters to investors. Read more here.
+  url: https://finnhub.io/api/news?id=c5d46a76d12d97ef74ddfd83afcba87c644efebcaa535b84d1362a9da3669b41

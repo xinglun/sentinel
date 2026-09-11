@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX CFO Touts New $13 Billion AI Deal, Upcoming Starship Milestones
+  summary: SpaceX CFO Bret Johnsen reveals a major new AI compute deal and upcoming Starship plans. SpaceX stock rises.
+  url: https://finnhub.io/api/news?id=aa97466c6d53545ab08d69948ef28d24b927b4a2b54fe6edae1bc7e11da2c4e6

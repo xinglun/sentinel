@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google helps deploy 25 electric trucks in Texas as part of alliance
+  summary: The tech giant is joining a coalition working to accelerate electric carrier Nevoya’s deployment on a Dallas and Houston lane.
+  url: https://finnhub.io/api/news?id=4399b84c658047ebc24388a77ac53392c4e40afe31822ec5349314e23838d767

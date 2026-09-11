@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ECB Puts Europe Back on the Rate-Hike Treadmill
+  summary: The central bank lifted rates another 25 basis points as the Middle East energy shock keeps inflation elevated, forcing European markets to rethink how high borrowing costs may have to go.
+  url: https://finnhub.io/api/news?id=c1b2c8bf13a4f85c1136e615ba4e189503728bf4b4e62d212f7ed6171a589aa5

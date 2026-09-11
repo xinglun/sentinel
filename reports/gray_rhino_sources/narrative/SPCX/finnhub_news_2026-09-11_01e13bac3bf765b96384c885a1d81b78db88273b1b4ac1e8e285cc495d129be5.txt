@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Undisclosed $13.3B Tenant: Who Is the Compute Landlord’s Largest New Customer?
+  summary: SpaceX is currently locking in $1.11 billion in monthly revenue from a single, undisclosed customer, a move that pushes the company’s annualized run rate for AI compute hosting to approximately $41 billion. This latest contract, confirmed by CFO Bret Johnsen at the Goldman Sachs Communacopia conference on September 10, 2026, places SpaceX firmly at the […]
+  url: https://finnhub.io/api/news?id=d7f72e9405a7ddced86eb36ece2156214aa8dd56d24e1efec482e0b0c8d298c6

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's Starlink Not a Threat to Wireless Carriers, Says T-Mobile CFO: ‘You Can Have a Million Satellites…’
+  summary: T-Mobile CFO Pete Osvaldik says Starlink can&#39;t replace wireless networks due to signal limits, though it may aid rural broadband.
+  url: https://finnhub.io/api/news?id=a8c477ab23a3696fff6f7c3d91a59e498aa57d482962631268705517774bd3a7

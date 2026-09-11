@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is Back Above $150. Here’s Where The Stock Could Be by the End of 2027
+  summary: Can SpaceX beat the market over the next year?
+  url: https://finnhub.io/api/news?id=771f75ddda54f56f0a67fb2a1eceaa71f42e6e6903970087e05c1bfa93932fd7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chewy Slides 6% on Second Downgrade in Two Days as JPMorgan Cuts Target to $24; Petco Stays Put, Freshpet Nudges Higher
+  summary: Two analyst downgrades in back-to-back sessions have Chewy stock cratering while the broader market climbs, and the reasoning behind both cuts points to a force that Chewy's own strong execution simply cannot overcome.
+  url: https://finnhub.io/api/news?id=691f165c7a071682a899ec25e7cc853dff7ecd2197e205514715c8f7b51c3bf6

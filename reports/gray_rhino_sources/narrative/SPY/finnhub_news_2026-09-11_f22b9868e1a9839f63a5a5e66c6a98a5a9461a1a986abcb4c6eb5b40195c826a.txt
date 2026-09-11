@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Should Know Exactly What to Do With Intel
+  summary: Intel stock has surged over 300% in a year while losing billions on a GAAP basis, and the next two earnings reports will determine whether $100 is a launchpad or the ceiling investors should have sold into.
+  url: https://finnhub.io/api/news?id=a3adf5c9513d499887e1599816e86ff1801543c6177d30994d9f9990cb08e478

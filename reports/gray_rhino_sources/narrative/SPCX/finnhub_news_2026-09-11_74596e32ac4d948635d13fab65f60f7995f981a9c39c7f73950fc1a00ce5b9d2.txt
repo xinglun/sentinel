@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Orbital AI Is Closer Than You Think and 4 Other Revelations From Its CFO
+  summary: Brett Johnsen met with investors at the Goldman Sachs Communacopia and Technology Conference. What we learned.
+  url: https://finnhub.io/api/news?id=bb4b64d948e4deb0edbc19e2a861e8ef636d7c4ba9afbf4eaa76e31514b69b11

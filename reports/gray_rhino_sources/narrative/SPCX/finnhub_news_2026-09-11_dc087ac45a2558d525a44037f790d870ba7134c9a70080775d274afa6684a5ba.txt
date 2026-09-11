@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX signs $1.1B-per-month AI computing deal in September 2026
+  summary: The agreement, valued at roughly $13 billion in annualized revenue, pushes SpaceX closer to its year-end $100 billion run-rate goal
+  url: https://finnhub.io/api/news?id=836065104c8ca21816d1aff2718bf98ed2a37b655ffef3b87989059429702cad

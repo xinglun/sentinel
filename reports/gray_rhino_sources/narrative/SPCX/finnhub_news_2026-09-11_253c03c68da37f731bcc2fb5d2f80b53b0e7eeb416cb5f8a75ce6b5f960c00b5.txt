@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Britain Just Admitted It Uses SpaceX’s Secret Military Network. The Contracts Already Top $6 Billion.
+  summary: Britain just went on the record as the first foreign government to confirm it uses SpaceX's classified military satellite network, and that admission quietly unlocks a question every defense ministry has been watching: who signs the next contract?
+  url: https://finnhub.io/api/news?id=19d657ae651677b411e219dd67ed1c64269193f7b131a4241be667103d235bc5

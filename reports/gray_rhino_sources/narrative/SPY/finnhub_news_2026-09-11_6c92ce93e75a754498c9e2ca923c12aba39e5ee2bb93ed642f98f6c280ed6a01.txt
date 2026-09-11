@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Climbs 4% as Ryan Cohen Buys One Million Shares, Take-Two and Roblox Hold Steady
+  summary: Ryan Cohen just spent his own money buying GameStop shares in the open market, a move that sent the stock surging while its gaming peers barely flinched. Whether that insider signal changes the math on a retailer still losing ground in its core business is a harder question.
+  url: https://finnhub.io/api/news?id=39625f5e363259993d528201136c63f97f56a2a895dc39cc8342115840e730e6

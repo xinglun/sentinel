@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Dumps Nvidia and Palantir Put Options in Fresh Risk Warning
+  summary: Burry Pulls the Trigger on Nvidia and Palantir Put Options as Market Risks Rise
+  url: https://finnhub.io/api/news?id=b141d636410a88a1ce54f7dca821f31d5ff3ef946df3567614080f1b64323148

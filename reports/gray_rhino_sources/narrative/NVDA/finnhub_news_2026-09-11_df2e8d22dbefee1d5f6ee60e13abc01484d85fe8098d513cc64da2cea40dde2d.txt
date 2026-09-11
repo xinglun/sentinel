@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech stocks rally as oil prices fall, inflation remains sticky: AlphaCheck
+  summary: Here's a check of the markets in the first few minutes of trading.
+  url: https://finnhub.io/api/news?id=d0f93da95666f1b0c406053edfaea41005f3e6de3112c74f0a4b035fb8523073

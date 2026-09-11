@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moderna Rallies 8% on 2026 Melt-Up Momentum Even While BioNTech and Merck Stay Flat
+  summary: Moderna just surged 8% on a morning when its closest cancer-vaccine peer barely budged and its own pipeline partner slipped into the red, and no announcement, trial readout, or analyst call explains why.
+  url: https://finnhub.io/api/news?id=9c28e90ce88d4870a13d7df5c21ab3737a9c3b83bc9b726f65702c45b7892fde

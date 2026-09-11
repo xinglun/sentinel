@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Sues Texas AG, Grimes County Over Terafab Project Information
+  summary: SpaceX is suing in Texas over Terafab info requests a month after SpaceX and Tesla announced they would invest $16.8B in the first phase of construction.
+  url: https://finnhub.io/api/news?id=a19d47d64a5b3e1694b117a52b64c412904bcb135bdbf537ef2940789a65d78f

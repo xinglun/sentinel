@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Capex Creates New Investment Cycle: NVIDIA & 2 Other Stocks to Buy
+  summary: AI capex is fueling a new infrastructure cycle, with NVIDIA, Arista Networks and Vertiv well-positioned across computing, networking and power.
+  url: https://finnhub.io/api/news?id=9f0e918dbca0d6b11e9960ae12253cbfe1ec4b8cadeaef1573d736682f2f1365

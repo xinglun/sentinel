@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Trucking Business Could Unlock A $17B Software Opportunity, Morgan Stanley Says
+  summary: Morgan Stanley says Tesla could generate between $12,000 and $18,000 in monthly software revenue per truck by 2040.
+  url: https://finnhub.io/api/news?id=0da09dba05933e6e3fe4b4e55caa89db418458135d5ed9ddb6a4a4c424f312f7

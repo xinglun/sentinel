@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy Climbs 7% as Fuel Cell Bid Spreads Beyond Its S&P 500 Add, FuelCell Energy Rises 4%, Plug Power Inches Higher
+  summary: Bloom Energy's S&P 500 addition triggered mechanical buying pressure, but rival fuel cell stocks with no connection to the rebalance are surging alongside it, pointing to a second, more powerful force at work in the sector.
+  url: https://finnhub.io/api/news?id=7c7bd4cf79d2d40131e37e487935b744a85c66c3302347c88aba1c430f9f020e

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Expect Microsoft to Be Anything But Slow For The Rest of September
+  summary: Microsoft has quietly shed ground over the past week even as its cloud backlog swells to a staggering size, and the tension between exploding capex and accelerating revenue growth makes September a pivotal moment for investors deciding whether to act or wait.
+  url: https://finnhub.io/api/news?id=eb5715082febee27222c250b4c95356d59931bb8041c209e83190898b9e721ce

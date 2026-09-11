@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Big Tech Winner Still On Sale
+  summary: Microsoft (MSFT) is a buy: Azure growth hits 43% with 45% guided, Copilot seats surge, and valuation looks discounted.
+  url: https://finnhub.io/api/news?id=a645bb3a1890ed7462654da580a062d6326938ffb9f0c889ba6489b3bf726f66

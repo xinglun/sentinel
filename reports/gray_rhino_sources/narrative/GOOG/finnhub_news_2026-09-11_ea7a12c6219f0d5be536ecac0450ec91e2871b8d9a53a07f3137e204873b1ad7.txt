@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What a Republican 'wipeout' in the midterm elections means for investors
+  summary: Veda Partners managing partner and director of economic policy Henrietta Treyz outlines the type of policy shifts that could affect investors most if the Republicans end up "wiping out" in the midterm elections.
+  url: https://finnhub.io/api/news?id=b868903605db27be8a89bc8794ed0228261d881956cbd26036ee0c4422fc8543

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Financial Stocks Advance Pre-Bell Friday
+  summary: Financial stocks were advancing pre-bell Friday, with the State Street Financial Select Sector SPDR
+  url: https://finnhub.io/api/news?id=d41b82e010e4fdd57c16c3ca52d4d75336f407afa187eb22a8f34d1ab2a560b7

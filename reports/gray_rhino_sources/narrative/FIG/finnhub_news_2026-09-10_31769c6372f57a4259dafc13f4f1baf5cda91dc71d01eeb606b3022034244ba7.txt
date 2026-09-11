@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma's AI Bet Is Paying Off, But The Easy Money Is Gone
+  summary: Figma Q2 revenue surged 48% YoY as AI monetization grows, but margins lag from SBC and AI costs.
+  url: https://finnhub.io/api/news?id=4c82a27155299b6642ba2d4f57410ecdbdccae6f16b53869d9a2656410766358

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron offers Taiwan workers up to 68-month bonuses as strike threat looms
+  summary: Micron (NASDAQ: MU), the world’s third-largest memory chipmaker, relies on Taiwan for roughly 60% of its global production capacity, including the high-bandwidth memory (HBM) chips powering AI servers sold to customers such as Nvidia, Google, and Microsoft. Any production disruption at its Taoyuan and Taichung facilities would ripple directly through global DRAM and HBM supply chains, making the resolution of this labor dispute a material risk for the stock.
+  url: https://finnhub.io/api/news?id=94a6076ec3f7d1907093836f040ba5e78211269d483c142cb7602a258d0a9262
