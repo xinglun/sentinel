@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk: I've been 'sounding the alarm' on AI for a while
+  summary: Leave it to Elon Musk to say, essentially, I've been right all along.
+  url: https://finnhub.io/api/news?id=5c18960f54533be9b4ca69252745e2d2e23f96cc3b3eab18e8bf284614c66a5c

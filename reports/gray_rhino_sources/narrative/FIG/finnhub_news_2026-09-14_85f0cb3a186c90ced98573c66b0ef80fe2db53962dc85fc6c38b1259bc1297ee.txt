@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Keybanc Initiates Coverage On Figma with Sector Weight Rating
+  summary: Keybanc  analyst Jackson Ader   initiates coverage on Figma (NYSE:FIG) with a Sector Weight rating.
+  url: https://finnhub.io/api/news?id=8fa9349e617353d1a9a444a018d23facfdab485640b2f3feda0464ca962a1c44

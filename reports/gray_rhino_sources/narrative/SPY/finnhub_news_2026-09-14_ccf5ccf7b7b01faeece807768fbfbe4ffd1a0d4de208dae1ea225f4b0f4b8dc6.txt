@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AeroVironment Rises 6% as Post-Earnings Recovery Outpaces Drone Group; Ondas Ticks Up, Red Cat Barely Budges
+  summary: AeroVironment is surging while its closest drone rivals barely move and the sector ETF sits flat, raising the question of whether today's bid is a genuine turning point or just noise in a stock still deep in the red for the year.
+  url: https://finnhub.io/api/news?id=db33881e138c91a6839457f7489637677b79b7fa857d9af631fd975180117ee8

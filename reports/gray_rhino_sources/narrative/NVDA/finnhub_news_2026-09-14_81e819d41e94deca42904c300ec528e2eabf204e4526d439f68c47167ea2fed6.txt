@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street hit by tech sell-off after AI bosses push for slowdown
+  summary: Tech stocks fell sharply on Monday after AI companies called for a slowdown in the development of the technology.
+  url: https://finnhub.io/api/news?id=f0b447e2e97d68639dcdba9458e8dd1b3fec5747a79adbd5adbb2a313626cd48

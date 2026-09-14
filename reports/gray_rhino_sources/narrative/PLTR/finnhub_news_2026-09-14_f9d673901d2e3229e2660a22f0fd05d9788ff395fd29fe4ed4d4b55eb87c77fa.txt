@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow vs. Palantir: I’d Rather Own This AI Stock
+  summary: ServiceNow and Palantir both posted jaw-dropping AI numbers in Q2, but their business models represent radically different bets on how enterprise AI actually wins. One valuation makes the choice obvious.
+  url: https://finnhub.io/api/news?id=12f7ef95e1966e228f42fd16945ecf2c2fd686701f7a6521358b37c154b8e55c

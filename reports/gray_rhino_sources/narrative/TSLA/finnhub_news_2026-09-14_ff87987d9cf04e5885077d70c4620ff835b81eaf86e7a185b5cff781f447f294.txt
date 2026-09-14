@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Enters Vietnam With a $3 Million Sales Unit — and No Announcement
+  summary: Tesla's Vietnam unit opens with just $3 million in capital, entering an EV market VinFast already dominates.
+  url: https://finnhub.io/api/news?id=184d2fb10eba2cd7137d88cc32a1d9b2fe765911157604fc79af0cff435f458f

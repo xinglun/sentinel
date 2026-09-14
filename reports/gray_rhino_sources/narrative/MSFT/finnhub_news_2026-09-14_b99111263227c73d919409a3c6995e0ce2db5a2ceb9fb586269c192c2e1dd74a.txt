@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Do AI CEOs’ safety warnings mean real regulation is coming?
+  summary: Yahoo Finance Tech Editor Dan Howley examines what Anthropic (ANTH.PVT) and OpenAI's (OPAI.PVT) respective warnings for pacing AI development means for future regulation.
+  url: https://finnhub.io/api/news?id=ff6070352e0088f06cc113b8a51f7d35ff3cbb7e967b20d53dae6e5bd334f408

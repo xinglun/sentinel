@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10-Year Treasury Yield Just Passed 5%, Here’s What Happened To The Market When The Same Thing Happened In 2007
+  summary: The bond market just flashed a signal it last sent in 2007, and what followed that time was not what investors expected. History offers a warning, but it is not the one most people think.
+  url: https://finnhub.io/api/news?id=7618814be55a5280b573dec92686d6aadb31d66c6a2eaa2b580401f58b20989e

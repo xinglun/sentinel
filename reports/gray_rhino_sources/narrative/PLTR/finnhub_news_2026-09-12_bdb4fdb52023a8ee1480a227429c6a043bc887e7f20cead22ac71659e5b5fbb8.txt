@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Growth Has Kept Accelerating, but Can the Rally Continue?
+  summary: The AI data analytics giant could run up against a wall in the near future.
+  url: https://finnhub.io/api/news?id=9b489e2c8f75ab5642c2b568a659573c464486759bb1e292737ef398b7961532

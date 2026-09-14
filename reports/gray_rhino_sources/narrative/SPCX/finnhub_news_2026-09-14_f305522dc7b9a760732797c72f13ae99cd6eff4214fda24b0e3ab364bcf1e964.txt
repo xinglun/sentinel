@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Correction: Update: US Equity Futures Lower Pre-Bell as Traders Assess Call for AI Advancement Slowdown, Upcoming Fed Decision
+  summary: (Corrects the oil price percentage change in the sixth paragraph.) US equity futures were edging
+  url: https://finnhub.io/api/news?id=0c3844e27efab820a73b20c9cd55b2cd59180a32aa0bf2690238e81e920682a0

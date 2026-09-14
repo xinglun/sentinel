@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Moves on Musk Comments; Oracle Drops on Ellison Plan | Stock Movers
+  summary: On this episode of Stock Movers: - Baldwin (BWIN) shares are moving as Michael Dell's family office and Sequence Holdings teamed up to acquire Baldwin Insurance Group Inc. in an all-cash deal valued at $7.7 billion. - SpaceX (SPCX) shares are moving after the Chief Executive Elon Musk said Sunday on social media platform X that he is "highly confident" the company will launch Nvidia's (NVDA) Vera Rubin NLV72 artificial intelligence computers in space next year. - Oracle (ORCL) shares are lower as Chairman Larry Ellison canceled his plan to sell as many as 50 million shares in the tech company, a holding worth $7.5 billion.
+  url: https://finnhub.io/api/news?id=ac7169e87ba369d164c3340f8b1c4058e3c6999fe3585c9b1e93430d893180fd

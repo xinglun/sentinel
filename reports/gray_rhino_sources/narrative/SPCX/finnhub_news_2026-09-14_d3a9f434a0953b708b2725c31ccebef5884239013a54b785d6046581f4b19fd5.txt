@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Anthropic's AI Slowdown Call Could Mean For Cloud Giants Amazon, Microsoft, Google
+  summary: Amazon stock was lower while Google and Microsoft were higher as investors digested Anthropic's AI slowdown call.
+  url: https://finnhub.io/api/news?id=d4cca1d9fadc50213ac953e397544b17e7901d32047c6989eb78cb61ba09917a

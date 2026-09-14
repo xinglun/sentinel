@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Posts On X "... We already have tremendous CRIMINAL and REGULATORY power over these companies! There is a SICK conspiracy going on against AI and Data Centers, and the only one that is happy about it is China. WHOEVER WINS AI, WINS! We are leading China, and all others, and will continue to do so. Conspiracy Theorists, Treasonists, Traitors, and Leakers, BEWARE!"
+  summary: https://truthsocial.com/@realDonaldTrump/posts/117269745153543631
+  url: https://finnhub.io/api/news?id=dfdec9faffbea0b0c6d4b38df21ce73efdf6dd07bc64f6a6487c6b9e8d598aaa

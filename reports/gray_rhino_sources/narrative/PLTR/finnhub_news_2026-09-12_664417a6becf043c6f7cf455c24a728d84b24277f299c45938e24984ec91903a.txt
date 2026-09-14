@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius And Palantir: Implications Of The New Partnership
+  summary: Nebius surged 8% after announcing a strategic AI infrastructure partnership with Palantir this week. Read why I reaffirm my Strong Buy rating for NBIS stock.
+  url: https://finnhub.io/api/news?id=7e64b016ea3de207f1f7a0fc1d9494659a8dad54373215c8245c70b56ceb00ec

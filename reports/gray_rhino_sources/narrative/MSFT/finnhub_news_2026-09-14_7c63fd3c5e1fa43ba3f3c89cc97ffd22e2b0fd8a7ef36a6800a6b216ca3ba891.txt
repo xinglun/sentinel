@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 at 7400 or 8000? Why the Future of Stocks Is So Murky.
+  summary: As the bond market continues its long summer slump, Wall Street is adjusting its year-end market calls.
+  url: https://finnhub.io/api/news?id=d7bb6300e1e74726a876acd6ce84feef26168b03d39b55926f59984b1739b78f

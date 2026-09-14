@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Get Paid To Wait For ISRG Stock To Go On Sale
+  summary: Intuitive Surgical (ISRG) trades near $370, about 38% below its 52-week high, after growth in its US robotic-surgery procedures slowed. Selling a put pays you now for agreeing to buy the shares much lower, and you keep the payment either way. The catch is it only works if you would want this business at that price.
+  url: https://finnhub.io/api/news?id=e37b9d7890526c4e0caed0883fb19c430e690fbd0d024abedd2bd40733d67921

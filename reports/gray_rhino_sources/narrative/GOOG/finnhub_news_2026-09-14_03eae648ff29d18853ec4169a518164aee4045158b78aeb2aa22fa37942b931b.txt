@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN falls 5% despite CEO's bullish AI supply warning
+  summary: Daniel Roberts says today's AI demand could outrun available infrastructure for years.
+  url: https://finnhub.io/api/news?id=539913635be4f18645eb3632e40fef6162475299d17e7ee72dab3ec38594b2b1

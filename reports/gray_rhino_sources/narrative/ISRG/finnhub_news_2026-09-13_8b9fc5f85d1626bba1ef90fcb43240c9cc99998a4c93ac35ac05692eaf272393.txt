@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robots Everywhere: Goldman Sachs Now Sees 6.5 Million Humanoid Robots by 2035
+  summary: A major bank just dropped a forecast that reframes the entire robotics industry, and the ripple effects are already moving stock prices across chips, foundries, and factory floors. Here is what the number means for long-term investors.
+  url: https://finnhub.io/api/news?id=22f4a830e839b259ddc3d13080195397b050d382ba253f927c2c4e56fd6dd661

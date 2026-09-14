@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CBRS Expands AI Inference Reach: Can It Challenge NVDA & GOOGL?
+  summary: Cerebras Systems is scaling AI inference with faster systems, hyperscaler partnerships and capacity expansion as NVIDIA and Alphabet intensify competition.
+  url: https://finnhub.io/api/news?id=fd21786b4605e05c39089d4ff40b89781f6560f383f6cdd2e692f76132eee11f

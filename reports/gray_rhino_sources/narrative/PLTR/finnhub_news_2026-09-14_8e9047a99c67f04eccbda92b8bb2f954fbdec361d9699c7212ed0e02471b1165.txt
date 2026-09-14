@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Simple ETFs Built for Long-Term Buy-and-Hold Investors
+  summary: These ETFs each offer a distinct strategy for creating long-term wealth.
+  url: https://finnhub.io/api/news?id=97a1e03f36528d142d3eb38ec37b2e52602a9285f886589bbdc03ea088db85bd

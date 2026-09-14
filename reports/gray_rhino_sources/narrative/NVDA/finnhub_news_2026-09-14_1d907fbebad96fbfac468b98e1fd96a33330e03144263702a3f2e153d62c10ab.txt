@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Palantir Pull Back From Anthropic Models Over Fears AI Could Expose Corporate Secrets
+  summary: Nvidia Corp. (NASDAQ:NVDA), Palantir Technologies Inc. (NASDAQ:PLTR) and Booz Allen Hamilton Holding Corp. (NYSE:BAH) are reportedly tightening their use of advanced AI models over concerns about exposing sensitive corporate information. The companies are demanding stronger guarantees or dropping some advanced...
+  url: https://finnhub.io/api/news?id=3bf731ca784c0ce781e89e90b8bb5f2a35f6249acb797170305b8c9be6432321

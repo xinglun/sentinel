@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Congresswoman Bets on Elon Musk, Warren Buffett: Here’s the Latest Stock Transactions
+  summary: Retail investors often monitor the trading activity of members of Congress. Investors may want to pay particular attention to recent trades from one member, with stocks connected to Elon Musk and Warren Buffett among the bets. Congresswoman Bets on Musk...
+  url: https://finnhub.io/api/news?id=b644069c5667aba7f2c51b160ef5074f2daa3c90f2b0ac69880d05f4a970d3e1

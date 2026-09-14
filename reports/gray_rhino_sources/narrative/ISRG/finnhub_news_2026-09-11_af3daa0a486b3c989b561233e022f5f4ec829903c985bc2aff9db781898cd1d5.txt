@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This AI ETF Is Missing the Biggest AI Winners
+  summary: The Global X Robotics & Artificial Intelligence ETF (BOTZ) has fallen more than 8% over five years due to heavy industrial automation exposure, concentration risk, and weak holdings like Tesla and Baidu.
+  url: https://finnhub.io/api/news?id=8ab2152e7d3cbaffcc7d9bb7ebf52532bf54cde8a2a32434a18db15773c38d2f

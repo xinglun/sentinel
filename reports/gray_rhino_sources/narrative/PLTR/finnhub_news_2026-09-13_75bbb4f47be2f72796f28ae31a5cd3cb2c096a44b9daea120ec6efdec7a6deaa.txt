@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks to Bet Against If You Want to Invest Like Michael Burry
+  summary: Michael Burry’s bearish positioning in these three names offers investors an opportunity to examine the risks behind some of the market’s closely watched AI stocks.
+  url: https://finnhub.io/api/news?id=2828a4fc22f3bc9048c86e721537d55a0d62f75027c995caa3e96665c2323c05

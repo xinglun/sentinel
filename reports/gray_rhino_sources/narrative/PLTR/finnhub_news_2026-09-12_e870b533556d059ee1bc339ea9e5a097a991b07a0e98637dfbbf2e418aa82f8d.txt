@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Faces A Huge Credibility Test
+  summary: Inflation and energy costs are lifting CPI ahead of the Fedâs key September rate decision and the ECB hike. Click here to learn more.
+  url: https://finnhub.io/api/news?id=36b0b151c8a3701439f50c049b652426517d1c99623b589455c21c009f92578b

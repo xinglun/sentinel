@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Corning Tumbles 12% on $2B At-the-Market Equity Offering; Coherent Sinks 11%, Lumentum Drops 9%, Fabrinet Slides 6%
+  summary: Shares of Corning Incorporated (NYSE:GLW) are down 12% to $145.61 in Monday afternoon trading after the company disclosed a $2 billion at-the-market equity distribution program. The selloff makes Corning the worst performer in the S&P 500 today, and it’s dragging a tight cluster of artificial intelligence (AI) optical connectivity peers sharply lower alongside it. Barron’s […]
+  url: https://finnhub.io/api/news?id=12a7d152d69368274062f1295fd27d17ab50c5b0392ff5563a0679785b3bd09a

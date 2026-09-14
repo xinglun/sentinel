@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Is Sitting at $515. Here Is What Most U.S. Investors Should Actually Do About It.
+  summary: AMD has surged over 200% in a year, locked in multi-gigawatt AI deals with OpenAI and Meta, and still has its entire senior leadership selling shares into the rally. One of those facts should give you serious pause before you touch this stock.
+  url: https://finnhub.io/api/news?id=648080a3966cb46825e3884ca18a0f32eaebe2893b5aa4aad4f0bef8c54b1c6a

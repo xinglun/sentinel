@@ -1,0 +1,58 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-09-14",
+  "report_date": "2026-09-14",
+  "as_of_date": "2026-09-14",
+  "generated_at": "2026-09-15T04:34:34.547088602+09:00",
+  "run_id": "23a5cfbf-6caf-44c5-beb4-0bc58815125e",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-14",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 70.0,
+  "breadth_classification": "BROAD_WITHIN_UNIVERSE",
+  "confidence": 66.52933621039018,
+  "supply_phase": "ACCUMULATING",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {},
+  "stability": 10.0,
+  "continuity": 15,
+  "cycle_length_days": 15,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "BROAD_WITHIN_UNIVERSE",
+      "down_count": 3,
+      "flat_count": 0,
+      "raw_percent": 70.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 7
+    },
+    "history": "HEALTHY",
+    "trend": "HEALTHY"
+  },
+  "report_run_id": "5dc86094-681c-4c43-89c2-eb87c1112ba7",
+  "git_commit_sha": "6516bc281cf882e3dbce3b6cbf48287c0fda0cde",
+  "data_digest": "sha256:804134c97976261416f7a01c9916c175db994007408ae39060114cbc7d029675",
+  "decision_packet_digest": "sha256:62a41a229b855017b70f83dbe024f94e613f43c856823ee8e97869dc8e0d564e",
+  "observation_digest": "sha256:bd2922d905a5ebc57ac74cdfcf0b5e12745688b64850c6448ae5bcd89cf8558c",
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  }
+}

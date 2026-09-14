@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix Climbs 4%, Alphabet Ticks Up, Amazon Barely Budges as New Streaming Policy Alliance Launches
+  summary: Shares of Netflix (NASDAQ:NFLX) are climbing Monday afternoon after the streaming giant helped launch a new policy coalition focused on how digital platforms compete for live entertainment and sports rights. Netflix stock is up 4% to $80.78, outpacing its sector benchmark by a comfortable margin. The move stands out because Netflix stock had entered the […]
+  url: https://finnhub.io/api/news?id=fade9e0faef0b0639f6398ea9e50dfffd2e862e25a6145ef9901dd9a9e1071a9

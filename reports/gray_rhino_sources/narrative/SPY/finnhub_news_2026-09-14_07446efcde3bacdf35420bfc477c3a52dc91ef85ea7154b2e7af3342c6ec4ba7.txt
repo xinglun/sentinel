@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Seagate Has Real Upside Left. That Does Not Mean It Deserves Your Money Right Now.
+  summary: Seagate's AI storage business is firing on all cylinders, nearline capacity is spoken for through 2027, and analysts keep raising targets. So why are the CEO, CFO, and CTO quietly selling shares at these prices?
+  url: https://finnhub.io/api/news?id=8e5de3319b11b28ed3d3afd1effd46206b029d12da514206d01ba7071dd1b6b4

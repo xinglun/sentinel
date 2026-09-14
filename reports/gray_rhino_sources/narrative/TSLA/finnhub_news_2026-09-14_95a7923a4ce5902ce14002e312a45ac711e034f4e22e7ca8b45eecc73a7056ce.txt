@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Fans, Don't Miss Oct. 1: Something Big Could Finally Happen
+  summary: Tesla Teases a Potential Oct. 1 Shock: New Roadster Could Finally Take Center Stage
+  url: https://finnhub.io/api/news?id=51d92dfe3abe1583752152ff447b4207c7629de33f182561c5a1080824450040

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Equities Fall Intraday Amid AI Safety Warnings
+  summary: (Updates with latest market prices and developments.) US benchmark equity indexes were lower intr
+  url: https://finnhub.io/api/news?id=dd57aa7de06fe70fa7be8807d8fe0bb542c0c3c9550d936c2bc1d71daf41ed61

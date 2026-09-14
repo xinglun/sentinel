@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Tries For A Gain, Trump Hits Out At AI Fears; This Fuel Play Clears Entry (Live Coverage)
+  summary: The Dow Jones index drops on the stock market today as oil prices surge. President Trump hits out amid AI leaders calls for a slowdown.
+  url: https://finnhub.io/api/news?id=79d38bc87ad6bdb302b2ea3901463f3864d6c1b4c136b230ca04d20b9523e219

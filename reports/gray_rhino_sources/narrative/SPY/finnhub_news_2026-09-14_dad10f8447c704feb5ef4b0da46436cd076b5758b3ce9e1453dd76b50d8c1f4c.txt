@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Analyst Says A Full Reversion to the Mean Would Take the S&P 500 From 7,000 to 2,500
+  summary: A veteran portfolio manager pulled out a century-long logarithmic chart and pointed to where the S&P 500 sits today, then explained why that picture changes everything about how you should think about risk depending on your age.
+  url: https://finnhub.io/api/news?id=c424328372014845c185e0dfa3561cff332d7d18ec07e17688ed80119d71517d

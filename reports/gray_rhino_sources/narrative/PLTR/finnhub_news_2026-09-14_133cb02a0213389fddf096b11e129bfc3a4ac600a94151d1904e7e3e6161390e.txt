@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reasons Why You Should Hold Docusign Stock in Your Portfolio
+  summary: DOCU shares jumped 40.2% in six months as AI-powered IAM adoption, revenue growth and rising buybacks strengthened its long-term growth story.
+  url: https://finnhub.io/api/news?id=63113252f4fa861c7c6ae1dc6cc020bc1a5e25d3ddefdfb4c5440e5a2dc2b193

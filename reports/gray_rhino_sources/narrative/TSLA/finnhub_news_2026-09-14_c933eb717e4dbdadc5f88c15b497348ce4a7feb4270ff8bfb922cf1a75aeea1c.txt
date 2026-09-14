@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Millions of Tesla Owners Are About to Get a Software Update That Lets The Car Intervene and Steer Even If They Never Turned on Full Self-Driving.
+  summary: Tesla's newest software update gives your car permission to grab the wheel and steer itself out of danger, even if you never once activated Full Self-Driving. The catch is that the CEO pushing this feature just endorsed slowing AI down.
+  url: https://finnhub.io/api/news?id=f41cbf9436621336ea23837e11678d75e95fc9f0fa6289d0bb12563a7dd8a900

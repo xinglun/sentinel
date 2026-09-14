@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Is No Off Switch for AI Capability Growth. Here Is Who Benefits Most From That.
+  summary: NVIDIA and Palantir both raised guidance and both accelerated, but they are capturing AI dollars at completely different layers of the stack. Which position actually earns the next trillion matters more than which stock looks cheaper.
+  url: https://finnhub.io/api/news?id=ff6475c7a46746fe61b38af3d44b831b13619229d4d5c15bc0dcb95947326337

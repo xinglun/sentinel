@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IDrive Adds Microsoft Entra ID Backup to Strengthen Identity and Access Protection for Microsoft 365 Organizations
+  summary: IDrive, a leading provider of cloud backup and storage solutions, today announced the addition of Microsoft Entra ID Backup to its IDrive Microsoft Office 365 Backup solution. The new capability helps organizations protect critical identity and access management data against accidental deletion, misconfiguration, unauthorized changes, and other incidents that can disrupt access to business-critical resources.
+  url: https://finnhub.io/api/news?id=a85f708cd9368468c45a25595520c3347cd3f01b91d19319babfd2f2d37d4893

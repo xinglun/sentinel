@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why CrowdStrike Stock Rocketed Higher Today
+  summary: Calls for a slowdown in AI development sent the cybersecurity specialist higher.
+  url: https://finnhub.io/api/news?id=2b34029fb8c6e8fa1bffcbaab396dbbfb63f343024bca6ac8488ef95d5dcaccc

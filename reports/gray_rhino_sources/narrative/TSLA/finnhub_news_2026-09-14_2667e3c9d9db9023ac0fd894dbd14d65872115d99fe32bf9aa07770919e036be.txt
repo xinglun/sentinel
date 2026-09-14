@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are You Buying Aurora Innovation's Trucks Or Its Story?
+  summary: Aurora Innovation (AUR) stock has gained about 54% over roughly nine months, from the middle of December 2025, against about 13% for the S&P 500. A run like that usually means the market fell for a technology story. This one is duller. Over those months Aurora put driverless trucks onto a production line and signed the carriers to run them.
+  url: https://finnhub.io/api/news?id=6a58e1561f2c63e627b8f5d2cafbc9c0049972e14e654a9fad36a96470f56bb7

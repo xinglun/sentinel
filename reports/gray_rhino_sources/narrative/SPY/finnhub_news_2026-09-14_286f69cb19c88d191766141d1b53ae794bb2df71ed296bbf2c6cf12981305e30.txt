@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: U.S. Household Wealth Explodes by Record $12.5 Trillion in Q2 — Largest Jump Ever Recorded
+  summary: American households just added more wealth in a single quarter than most countries produce in a year, yet consumer sentiment sits at recessionary levels. Two assets did all the heavy lifting, and the math only holds until it doesn't.
+  url: https://finnhub.io/api/news?id=21b030f87b1f6c823c8f0f71193e1c92580261617e76d10adc377d695abbc624

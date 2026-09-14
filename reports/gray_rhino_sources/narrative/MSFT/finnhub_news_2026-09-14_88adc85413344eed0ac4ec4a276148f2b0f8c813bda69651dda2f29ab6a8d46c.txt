@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry says AI slowdown warnings may hide a bigger problem
+  summary: The investor says warnings from OpenAI and Anthropic may have more to do with competition and growth than safety.
+  url: https://finnhub.io/api/news?id=99cc35100a3fb0da89a2cbd8bf13f418fa12278bad688a1203b2c1628578e5b2

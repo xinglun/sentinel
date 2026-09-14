@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons U is Risky and 1 Stock to Buy Instead
+  summary: Unity has been on fire lately. In the past six months alone, the company’s stock price has rocketed 110%, reaching $42.03 per share. This was partly due to its solid quarterly results, and the performance may have investors wondering how to approach the situation.
+  url: https://finnhub.io/api/news?id=b858e024998591afee1dd1a9074f93a6b8a7a9c224c2a83fbf917a19a4558946

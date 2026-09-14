@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Slips Nearly 2% as Musk's AI Caution Complicates the Autonomy Story
+  summary: Existing vehicle and energy deliveries provide operating evidence; future autonomous economics require their own measurements.
+  url: https://finnhub.io/api/news?id=a5b9ffa3c30a43db636ca097632c5933c1f7736b16bd87b604bf6fa2cc6d820a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's 2027 SpaceX plan gives Nvidia a new frontier
+  summary: Elon Musk says SpaceX could begin launching Nvidia-powered AI computers into orbit next year.
+  url: https://finnhub.io/api/news?id=998a29b862882dc27df79937e95298b3c46f91e466a393c5150700f3e03b257e

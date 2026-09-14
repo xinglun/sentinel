@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: The Cybercab Failure Is Worse Than You Think
+  summary: Tesla stays a Sell after Cybercab disappoints and scrutiny rises. Click here to read this latest analysis of TSLA stock.
+  url: https://finnhub.io/api/news?id=c77c5fa9fc8e78d2f6853da09d24e3b8a22eb67a4c739f8414ceda0c77f6c63b

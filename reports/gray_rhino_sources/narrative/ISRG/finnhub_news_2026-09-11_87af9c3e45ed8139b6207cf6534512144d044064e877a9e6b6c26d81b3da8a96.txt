@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Sees Procedure Growth Despite U.S. Slowdown and China Pressure
+  summary: Intuitive Surgical (NASDAQ:ISRG) executives said the company remains focused on global procedure growth, while acknowledging a recent deceleration in U.S. procedures and policy-related uncertainty affecting hospitals. Speaking at a Wells Fargo conference, Executive Vice President, CFO and Enterpris
+  url: https://finnhub.io/api/news?id=02bd95612ccbc6727f625d795c327601d9740f8061c8c60a998b7fba5af54190

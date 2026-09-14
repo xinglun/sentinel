@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI’s Sam Altman Says an IPO Won’t Happen This Year. Should This Make You Cautious About AI Stocks, or Is It Time to Pile Into Certain AI Bargains?
+  summary: Investors were expecting an OpenAI IPO this year.
+  url: https://finnhub.io/api/news?id=7ae54d838ece3132fd53fbc6747ae98ba2eba63350de87a814c256a4457f78f0

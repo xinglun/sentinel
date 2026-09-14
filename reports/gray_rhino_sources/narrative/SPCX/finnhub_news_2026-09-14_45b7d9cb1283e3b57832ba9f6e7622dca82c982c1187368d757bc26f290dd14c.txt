@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tech stocks fall after calls for AI development to slow
+  summary: The US’s tech-focused Nasdaq 100 index was down by about 1.2% on Monday.
+  url: https://finnhub.io/api/news?id=454e88febb1335ac3d85a18cb5b096518cadbc718709866eeff3bc00631163f8

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coinbase Jumps 6% on Compass Point Upgrade Ahead of Senate CLARITY Act Vote; Strategy Climbs 3%, MARA Slips
+  summary: A Senate floor vote on crypto market-structure legislation is splitting the sector in real time, lifting some names while a JPMorgan downgrade punishes a miner that Bitcoin's rally cannot save.
+  url: https://finnhub.io/api/news?id=ac88391fe2b0bb541f931d61ad36f0b53d12721bf53ee0717bf9f9fa1b3c5400

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Pacing The Frontier 'AI' Won't Work
+  summary: AI pacing calls lack enforcement amid US-China rivalry and open-source pushback. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=6c2a4918ed7279972164453304c282a6565b4001ca64af7a967bcfbc806e05f6

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Nvidia. Apple Could Be the AI Stock to Watch Next.
+  summary: Everyone knows Nvidia owns the AI trade, but a quieter giant with 2.5 billion active devices is building a monetization machine that could rewrite that assumption entirely.
+  url: https://finnhub.io/api/news?id=ca1e326934d25dd22b46f1a37464984b539453257b6505e5c41ebaa5c3985a41

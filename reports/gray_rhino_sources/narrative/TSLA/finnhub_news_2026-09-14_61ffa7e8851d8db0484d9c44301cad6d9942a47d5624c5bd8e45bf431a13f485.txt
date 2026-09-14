@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Could Be Building Its Next Trillion-Dollar Opportunity. Here’s Where Its Headed
+  summary: Tesla is quietly assembling pieces that go far beyond selling cars, and the question is whether the market has any idea how large the combined opportunity could get.
+  url: https://finnhub.io/api/news?id=3667580f89d93cf8dc00c8b98227f222c6213bd995776ef6120c8852bfa4483d

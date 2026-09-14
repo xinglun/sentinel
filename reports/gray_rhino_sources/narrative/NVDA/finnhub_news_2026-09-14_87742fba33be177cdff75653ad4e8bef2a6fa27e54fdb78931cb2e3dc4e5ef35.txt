@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Indexes Drop as Chip Stocks Take the Weekend's News Badly
+  summary: Nvidia fell, Microsoft rose, and both moves trace back to the same weekend essay. Meanwhile, oil prices are soaring again.
+  url: https://finnhub.io/api/news?id=4eee8ad28d8e25a31c15ceb435810c1d077c0fc52d56d83cd66528a77732e9c9

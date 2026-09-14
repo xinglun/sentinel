@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top dow jones movers in Monday's session
+  summary: Curious about the top performers within the dow jones index one hour before the close of the markets on Monday? Dive into the list of today's session's top gainers and losers for a comprehensive overview.
+  url: https://finnhub.io/api/news?id=a582f12a39d548a360c2fd563324d739fe0187dbabf02574fc36af5ad1f665b3

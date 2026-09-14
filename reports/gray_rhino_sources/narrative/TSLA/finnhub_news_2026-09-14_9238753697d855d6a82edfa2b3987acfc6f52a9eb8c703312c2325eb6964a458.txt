@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NIO vs. Tesla: Which EV Stock Has the Better Investment Case?
+  summary: Stronger deliveries, sharply higher vehicle margins and a path to positive cash flow make NIO the preferred EV stock over TSLA.
+  url: https://finnhub.io/api/news?id=fce268acb49bfd95cfe16ab707ae8b282740c50bd76c2978efabb243d6f2a8d9

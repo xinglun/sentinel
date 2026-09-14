@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘Whoever Wins, AI Wins’: Trump Brushes Aside Slowdown Calls as Ex-Senator Demands an AI IPO Freeze
+  summary: Trump told CNBC that slowing AI down is off the table, but a former senator wants an executive order freezing AI company IPOs before another chip gets trained. The calls to pump the brakes and the pressure to floor it landed on the same Monday morning.
+  url: https://finnhub.io/api/news?id=c7bc330142ebac53df3d42c3fa79f697c570d4eae7ff278dfb0774647bd3198a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Only at TechCrunch Disrupt 2026: What happens when OpenAI ships your roadmap?
+  summary: If you're building an AI company, the question isn't whether foundation models will continue to evolve. It's whether your company will continue creating value as they do. Don't miss this interactive session on the Builders Stage at TechCrunch Disrupt 2026.
+  url: https://finnhub.io/api/news?id=bc34614c1c86bc0c6b21f2c9aea3a148e4097100d517fb593c26c0d4d8d7c1a6

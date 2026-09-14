@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Adobe Stock Surge To $500?
+  summary: Adobe (ADBE) says its freemium creative apps now draw more than 100 million monthly active users, a base up over 70% in a year. Management chose to chase that growth rather than take the "short term relief" that pricing actions might have delivered. Over the same stretch, the shares lost 28% in the year to September 11. At 14 times net income for the four quarters through May, the stock sells for less than half its three-year average multiple of 30.8.
+  url: https://finnhub.io/api/news?id=1dc6b04b66999fdfbae3c592cfc0e95c376a4180e35cbc0045818d4df59afc66

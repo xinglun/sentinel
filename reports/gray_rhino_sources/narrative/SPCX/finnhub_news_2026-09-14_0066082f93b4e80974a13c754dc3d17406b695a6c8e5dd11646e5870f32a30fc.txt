@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump dismisses calls to slow AI development, blames 'conspiracy' against AI and data centers
+  summary: President Trump says there is no need to put guardrails on AI.
+  url: https://finnhub.io/api/news?id=a9532e9aed5f61dbbce4529d0644a041ddeefc0e8be7323206359ecaf934049e

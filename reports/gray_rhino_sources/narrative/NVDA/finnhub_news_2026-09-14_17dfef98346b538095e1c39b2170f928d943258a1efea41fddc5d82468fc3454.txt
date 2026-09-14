@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI’s Most Powerful Men Just Popped Their Own Bubble
+  summary: The men building America’s largest AI companies spent the weekend begging for regulation like a needy submissive afraid of their own desires
+  url: https://finnhub.io/api/news?id=0004b6c467874b40010967c74d3b1734a8cf770c0014103c1308750950f0a5d3

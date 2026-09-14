@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Costco Stock Before Sept. 24?
+  summary: The retailer is scheduled to release its fourth-quarter earnings later this month.
+  url: https://finnhub.io/api/news?id=7aa1ad6eece5bd474c0758e9ee4ee19d9883ff6d8e833977f5942c80a65c015b

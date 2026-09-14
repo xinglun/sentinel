@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Expands Into Vietnam as Competition Intensifies in China
+  summary: Tesla Inc. (NASDAQ:TSLA) is expanding into Vietnam, establishing a local subsidiary authorized to import, distribute and sell vehicles as competition intensifies in neighboring China. Tesla Motors Vietnam was registered in Ho Chi Minh City on Sept. 11 with roughly $3...
+  url: https://finnhub.io/api/news?id=d3f4fb2caa75ca6fef0d7cf1f44ded421a4fe07ba64419ccbe33092b48661476

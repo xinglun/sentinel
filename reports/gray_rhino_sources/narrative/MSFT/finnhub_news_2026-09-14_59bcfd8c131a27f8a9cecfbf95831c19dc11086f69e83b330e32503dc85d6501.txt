@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI doomsday warnings collide with a $7 trillion spending boom
+  summary: AI leaders are asking for caution just as the industry's infrastructure bill keeps climbing.
+  url: https://finnhub.io/api/news?id=1a5990a6089ee4817337e7e269c146fdcc27daee6a45a58101d7bc7ae73db91b

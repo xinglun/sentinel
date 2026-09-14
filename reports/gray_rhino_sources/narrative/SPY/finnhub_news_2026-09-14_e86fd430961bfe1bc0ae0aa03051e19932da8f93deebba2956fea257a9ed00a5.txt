@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hewlett Packard Enterprise Sinks 9% on Downgrade After Triple-Digit Run; Dell Falls 5%, Super Micro Drops 8%
+  summary: Hewlett Packard Enterprise (NYSE:HPE) stock is down 9% to $56.47 in early trading Monday after a Wall Street downgrade landed on top of a triple-digit run for the artificial intelligence (AI) server maker. The move places Hewlett Packard Enterprise stock at the front of a sector-wide unwind in AI hardware, and it’s coming from the […]
+  url: https://finnhub.io/api/news?id=e5356ad9390649441e256407ebf16244eeddfc6f9d768f79886eb1124f551d7f

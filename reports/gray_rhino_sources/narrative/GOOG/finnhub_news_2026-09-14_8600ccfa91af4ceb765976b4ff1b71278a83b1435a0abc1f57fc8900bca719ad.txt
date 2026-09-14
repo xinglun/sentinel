@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix, Amazon, YouTube form streaming lobbying coalition
+  summary: The Streaming Access and Choice Alliance, led by trade group TechNet, will push for policies on consumer access and sports broadcasting rights
+  url: https://finnhub.io/api/news?id=a1fad44027e9bed7e3109b649f1a49d1509ee8c19b1673c76e52c79af90735d2

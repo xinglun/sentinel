@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AI Leveling the Playing Field? Fintech AI Visibility Study Says Yes
+  summary: NP Digital data shows challenger brands like SoFi beating legacy brands in AI answersSan Diego, CA, Sept. 14, 2026 (GLOBE NEWSWIRE) -- NP Digital released the Fintech AI Visibility Index, a study analyzing more than 68,000 AI-generated answers to fintech prompts across ChatGPT, Gemini, Perplexity, Claude Sonnet 4, and Google AI Overviews. One comparison stands out: SoFi, a digital-first financial services company offering banking, lending and investing products, out-ranks Bank of America across
+  url: https://finnhub.io/api/news?id=a798995f490db62e9e396abf33a54562addd5baa3e1fe7d12e860920cedbf42e

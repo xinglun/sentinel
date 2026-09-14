@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Nvidia Are Building a Sovereign AI Stack. Who Captures More of the Economics?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) and NVIDIA Corporation (NASDAQ:NVDA) are pushing their partnership deeper into one of the most important emerging enterprise AI themes: keeping proprietary data and operational intelligence under customer control. On September 10, Palantir and Nvidia announced a sovereign AI architecture combining Nvidia’s Nemotron open models with Palantir Foundry and AIP. The first […]
+  url: https://finnhub.io/api/news?id=807963edbabb4de831d352c79aaa080e741e90be29a4ff8936f013349259e2b4

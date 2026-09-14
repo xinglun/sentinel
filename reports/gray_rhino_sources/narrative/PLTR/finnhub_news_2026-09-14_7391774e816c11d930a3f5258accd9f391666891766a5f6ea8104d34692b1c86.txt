@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Data retention concerns spark client pushback against Anthropic and OpenAI -report
+  summary: Investing.com -- Escalating concerns over corporate data privacy are driving major enterprise and defense clients to restrict their use of frontier artificial intelligence models, according to reporting from The Information. The pushback highlights a growing friction point for AI developers such as Anthropic (NASDAQ:ANTP) and OpenAI (NASDAQ:OAI), as prominent clients, including NVIDIA Corporation (NASDAQ:NVDA), Palantir Technologies Inc (NASDAQ:PLTR), and Booz Allen Hamilton Holding (NYSE:BAH),
+  url: https://finnhub.io/api/news?id=9fbe6aedb03c7d6ec238a40f6cafdfb2e4e6897f1c08f23e4d3558fc437c6bd0

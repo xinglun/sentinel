@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Benzinga Bulls and Bears: GameStop, Marvell, Robinhood
+  summary: Benzinga examined the prospects for many investors’ favorite stocks over the last week — here’s a look at some of our top stories.
+  url: https://finnhub.io/api/news?id=c987e90513f2009a6e40d0b26fde7f777018202469a42246a05b57e5d22fb332

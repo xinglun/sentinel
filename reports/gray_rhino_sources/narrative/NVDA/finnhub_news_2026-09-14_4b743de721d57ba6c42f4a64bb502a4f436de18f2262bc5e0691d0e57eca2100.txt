@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin Climbs as AI Slowdown Calls Sink Nvidia, Intel and Other Chip Stocks
+  summary: AI CEOs want the industry to pump the brakes on capability gains. Nvidia, Intel, and AMD didn't like the sound of that. Bitcoin didn't seem to mind.
+  url: https://finnhub.io/api/news?id=f6a78e6d955f6a37eecc480087ec33c613d0b97aa4364bffe7e673442af27b2c

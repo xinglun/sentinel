@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Consumer Stocks Advance Monday Afternoon
+  summary: Consumer stocks were higher Monday afternoon, with the State Street Consumer Staples Select Sector S
+  url: https://finnhub.io/api/news?id=edeef2b993df23a327f3d62afd3209879774805a0d66a6c6f74ceb40a6314283

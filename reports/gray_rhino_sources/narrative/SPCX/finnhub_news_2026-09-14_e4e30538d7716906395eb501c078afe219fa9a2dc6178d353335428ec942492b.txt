@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle, Corning, Alphabet, GE Vernova, CrowdStrike, SpaceX, and More Stocks That Explain Today’s Market
+  summary: Corning stock is the worst performer in the S&P 500 for the trading session while CrowdStrike stock is the best-performer in the index.
+  url: https://finnhub.io/api/news?id=93208e36b53f4fe0012ab92c61e4928863e38bd62eaeee76c5fd0b7cc4e708a3

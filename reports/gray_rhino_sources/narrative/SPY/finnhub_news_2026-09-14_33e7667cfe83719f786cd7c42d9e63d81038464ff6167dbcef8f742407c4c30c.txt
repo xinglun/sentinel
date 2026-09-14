@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EM Equities: Back To Overweight
+  summary: Higher global rates are raising the hurdle for returns but have not knocked us off a pro-risk stance. Higher rates and strong equities needn't be contradictory - what drives yields matters.
+  url: https://finnhub.io/api/news?id=7f0792cfcdc2b823d9d2f1e5c730e7ff6fde59ea6329ea2edc8c388ff25ce0c3

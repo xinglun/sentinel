@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Is Setting Limits for Its AI Models. It Isn’t Slowing Development.
+  summary: Microsoft stock rises even as the AI trade gets hit hard after the company releases its AI model code of conduct.
+  url: https://finnhub.io/api/news?id=69084ee806dfc0fc9b5f7451ae3ee5ed787b865595ca8cfe7fe8d7198e4595ad

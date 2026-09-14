@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does PLTR's One-Year Consolidation Offer a Buying Opportunity?
+  summary: Palantir's year-long consolidation, surging commercial AI demand, record bookings and exceptional profitability strengthen its case as a buying opportunity.
+  url: https://finnhub.io/api/news?id=611bc3b3cdc4790c70fed23152f63c1308aa787cc116ce90f9a62d3c44e844ce

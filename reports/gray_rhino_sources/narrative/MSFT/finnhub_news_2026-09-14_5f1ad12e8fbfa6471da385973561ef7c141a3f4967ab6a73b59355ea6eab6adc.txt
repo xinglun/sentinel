@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘They Don’t Call It an Extra Value Meal for Nothing’: McDonald’s Pitches $8 Big Macs as Diesel Hits $6.23
+  summary: McDonald's is slashing Big Mac meal prices to lure back customers at the same moment diesel costs shatter records, leaving franchisees caught between a value-hungry public and a supply chain bleeding money at every mile.
+  url: https://finnhub.io/api/news?id=8102eaae47dac65b7da2e0168428af00935b5e512765777f8a49c8371d6923e2

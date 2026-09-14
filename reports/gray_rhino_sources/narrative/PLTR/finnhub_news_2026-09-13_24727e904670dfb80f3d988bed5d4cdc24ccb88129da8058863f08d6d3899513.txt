@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock Stuck in Bear Market as Risks to Its Growth Story Build
+  summary: Nebius stock remains in a bear market despite its strong revenue growth as investors point to substantial risks, including its cash raises
+  url: https://finnhub.io/api/news?id=f3b21341093daeed8dba319bbad642d4e14e9f75badaa9655d382dd5852d9d02

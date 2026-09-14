@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Plans New Tesla Roadster Unveiling In October; The Stock Slips
+  summary: Tesla CEO Elon Musk announced an event showcasing the new Tesla Roadster would be held on Oct. 1, according to a social media post.
+  url: https://finnhub.io/api/news?id=cdd324a6316e9c20472ebf8e544ee1bf3f322e30a65cad514e3cb072c131c936

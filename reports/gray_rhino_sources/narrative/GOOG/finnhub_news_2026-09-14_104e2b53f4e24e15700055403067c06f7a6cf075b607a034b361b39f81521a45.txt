@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Whoever Spends Smarter Wins the Microsoft-Alphabet Cloud Fight. Here Is Who Is Ahead.
+  summary: Microsoft and Alphabet both posted monster cloud quarters and both are spending at a pace that would have seemed reckless two years ago, but only one of them is funding the buildout without going to the debt markets, and that gap may define the trade for 2027.
+  url: https://finnhub.io/api/news?id=deeeed8a2af58f60c595c3d92caa55f1f020967d3872e74c40703b5fb60a3824

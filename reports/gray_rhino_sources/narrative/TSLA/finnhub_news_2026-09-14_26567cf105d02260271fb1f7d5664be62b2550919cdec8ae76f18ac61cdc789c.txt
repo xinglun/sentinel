@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amy Witherite Asks: "What Is Tesla Hiding About Its Safety Failures?"
+  summary: DALLAS, September 14, 2026--Reports that Tesla withheld key details about a fatal Arizona crash involving its automated driving technology underscore the need for greater transparency from every company testing or operating these systems on public streets, according to traffic safety attorney Amy Witherite, founder of Witherite Law Group.
+  url: https://finnhub.io/api/news?id=363ac1ea43b596b63caa4816c08778b0d7b64f87cbe82ef80b7fb310834514f3

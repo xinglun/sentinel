@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Keeps Getting My Money. There Is One Reason and It Is Not Hype.
+  summary: A single line on a balance sheet keeps pulling one investor back to the same stock, and it has nothing to do with AI excitement or analyst ratings. The signal hiding in plain sight changes how this company funds its own growth.
+  url: https://finnhub.io/api/news?id=517fc5e2d41f1dbee5297e3759f77a6136b6f510033a1a2aa69916e5aaab0d68

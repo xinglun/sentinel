@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Nvidia, Booz Allen restrict Anthropic and OpenAI models
+  summary: The companies want guarantees that AI providers won't retain or learn from their proprietary data before they expand use of frontier models
+  url: https://finnhub.io/api/news?id=248b657ec28da438120b07529761197b455c0278d6b060333499f14124ef716e

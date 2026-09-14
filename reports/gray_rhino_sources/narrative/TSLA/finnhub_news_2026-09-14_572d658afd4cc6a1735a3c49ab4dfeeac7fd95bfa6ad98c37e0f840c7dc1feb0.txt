@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Just Supercharged Its Humanoid Robot Prediction 5X to 6.5 Million by 2035
+  summary: Artificial intelligence is moving out of the data center and into the physical world. Autonomous vehicles, warehouse robots, and increasingly capable machines are giving AI a body, creating what Goldman Sachs calls “physical AI.” The investment opportunity could be much larger than the market for humanoid robots themselves. Every machine needs processors, memory, sensors, motors, […]
+  url: https://finnhub.io/api/news?id=93897e63162e69d9e8cbfeb3efa296a83b4358b670ca0138b6a3a6c819e1d526

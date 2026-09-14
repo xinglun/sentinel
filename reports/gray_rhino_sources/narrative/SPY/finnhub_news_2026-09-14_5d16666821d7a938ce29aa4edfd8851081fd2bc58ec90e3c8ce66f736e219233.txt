@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Caterpillar Falls 4% While Deere Edges Higher: Is the Data Center Power Trade Unwinding?
+  summary: Two AI executives published essays over a weekend, and by Monday morning Caterpillar was selling off four times faster than the broader market while Deere climbed. The question is whether the order book that stretches into 2029 actually matters when sentiment turns this fast.
+  url: https://finnhub.io/api/news?id=bf77f1e813adcffba3e7ffa63652bfabc0b11679ccac621b9c6739865f0b9ba4

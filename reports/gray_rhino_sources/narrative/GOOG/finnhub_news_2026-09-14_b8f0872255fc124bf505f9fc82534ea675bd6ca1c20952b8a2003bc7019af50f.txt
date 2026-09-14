@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget the Magnificent 7. This Duo Says Broadcom, Not Nvidia, Wins the Next Leg of AI.
+  summary: Two finance podcast hosts just aired a live disagreement over where AI money flows next, and the stock they split on has already posted triple-digit revenue growth that most investors are pricing as if it will never repeat.
+  url: https://finnhub.io/api/news?id=1860686573830edc55e328c0cc8d45b2a43b5f130057ad6b815de60aaeb4621e

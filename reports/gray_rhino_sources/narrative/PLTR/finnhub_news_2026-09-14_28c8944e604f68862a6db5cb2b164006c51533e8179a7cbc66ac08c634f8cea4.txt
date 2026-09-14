@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: No OpenAI IPO in 2026, Altman Reportedly Says; Nvidia, Palantir Said to Restrict AI Usage Over Customer Data Fears
+  summary: All three major US stock indexes were down in late-morning trading Monday, as major artificial intel
+  url: https://finnhub.io/api/news?id=ecad046530589ffca94518c59ae1816dede69695229f539d18182ac3162a3074

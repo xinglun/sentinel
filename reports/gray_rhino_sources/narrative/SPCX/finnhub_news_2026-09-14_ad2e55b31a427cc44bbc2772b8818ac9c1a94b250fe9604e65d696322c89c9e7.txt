@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Focuses on Compute-Renting Model: Can It Make a Comeback?
+  summary: SPCX is betting on compute renting to drive growth, backed by a $13B annualized hosting deal and plans to expand capacity beyond 2 GW by year-end.
+  url: https://finnhub.io/api/news?id=77951e7507df7a8b0bc7d835ca4c021442650d72985c1a6d46a8ae0988083df0

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Labs Said Slow Down... The Market Sold Memory Stocks
+  summary: AI stock sell-off may be sentiment-driven, with hyperscaler capex steady and inference demand strong. Click to read what investors need to know.
+  url: https://finnhub.io/api/news?id=66419a963c72791067eb0f740c08dbeba2cdb09387f85b97c1e381ac909667f0

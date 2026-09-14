@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: History Suggests That You'll Regret Not Buying This Struggling Tech Stock
+  summary: The business is performing much better than its stock may suggest.
+  url: https://finnhub.io/api/news?id=446cbf4e7d5b3986c8d2dc1b377d3783e38d4dfe03ae237e36066da4254e42bc

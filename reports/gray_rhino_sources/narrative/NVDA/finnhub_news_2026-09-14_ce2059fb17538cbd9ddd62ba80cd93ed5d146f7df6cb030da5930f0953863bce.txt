@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Direxion Daily Semiconductor Bull 3X ETF Dropped Today
+  summary: What goes down fast can go back up just as quickly when sentiment recovers.
+  url: https://finnhub.io/api/news?id=6c715a69acf3ff2f46084db5b4babce9c6ea6cd44dbd3a60b9c6013a1186630d

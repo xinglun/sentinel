@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox Jumps 10% as Wedbush Lifts Target to $48 While Staying Neutral; Take-Two and GameStop Nudge Higher
+  summary: Wedbush raised its price target on Roblox but kept a neutral rating, and the stock immediately shot above that new target. Find out what the analyst said, what Roblox unveiled at its developer conference, and why the risk-reward equation still has Wall Street sitting on the sidelines.
+  url: https://finnhub.io/api/news?id=6b44ec33115d24c24b3a3e8db87c6fbdfc1dc5cd13ab48d6e29f49caf2be1bb7

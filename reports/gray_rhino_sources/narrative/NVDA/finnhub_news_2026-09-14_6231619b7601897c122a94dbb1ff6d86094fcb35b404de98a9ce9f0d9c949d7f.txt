@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cisco's New Splunk AI Package Targets Computing Inside the Customer's Walls
+  summary: The release combines infrastructure and software while leaving customers responsible for operating their own deployment.
+  url: https://finnhub.io/api/news?id=0aa9dc373edbad6f3998fbd5cfc54616bf97ed1ee23a05e143db6230483c1e1a

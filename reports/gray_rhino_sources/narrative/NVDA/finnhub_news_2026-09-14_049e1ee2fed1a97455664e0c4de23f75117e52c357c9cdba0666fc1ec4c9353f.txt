@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple's Foldable Phone Has Arrived. Here's Why I Don't Think It'll Send the Stock Soaring
+  summary: The stock's high valuation will likely put expectations incredibly high for the Duo.
+  url: https://finnhub.io/api/news?id=25afb1e8b766478dcb64490995c6b4ca7cb6621c26f47714c60ba54ecd6d1371
