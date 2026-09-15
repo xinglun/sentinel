@@ -1,0 +1,42 @@
+{
+  "dependencyFingerprint": "sha256:3bb38a4c187a5dcbf68a8d3fc38d49005472d177b3b953a53b5f795d4b169288",
+  "diffDigest": "sha256:9774a5dc81a2ddd914303e2a01744004b53301920437cf51239bc7cb84b5332a",
+  "observation": {
+    "buildSystems": [
+      "Cargo",
+      "Make"
+    ],
+    "cacheHit": false,
+    "ciSurfaces": [
+      ".github/workflows/daily_radar.yml",
+      ".github/workflows/develop_checks.yml",
+      ".github/workflows/weekly_backtest.yml"
+    ],
+    "criticalDomains": [
+      "production",
+      "release",
+      "security"
+    ],
+    "dependencyFingerprint": "sha256:3bb38a4c187a5dcbf68a8d3fc38d49005472d177b3b953a53b5f795d4b169288",
+    "filesRead": 2174,
+    "languages": [
+      "Python",
+      "Rust"
+    ],
+    "qualityCommands": [
+      {
+        "args": [
+          "test",
+          "--workspace"
+        ],
+        "program": "cargo",
+        "state": "detected"
+      }
+    ],
+    "snapshotDigest": "sha256:745f10a7ba0c9ced5039439bdc96841fe42cb2a04e3380f0e7b9bb0bfa16022c",
+    "testRoots": [
+      "tests/**"
+    ]
+  },
+  "treeDigest": "sha256:2f7a7296ea21e441a8faf0855274b6c9180f5561b7e09a41c5c60be80ae98415"
+}

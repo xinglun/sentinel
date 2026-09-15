@@ -104,21 +104,144 @@ const FRED_SERIES_COMMODITY: &[(&str, &str)] = &[
     ("DCOILBRENTEU", "Brent crude oil"),
     ("DCOILWTICO", "WTI crude oil"),
 ];
-const GEOPOLITICAL_KEYWORDS: &[&str] = &[
-    "attack",
-    "conflict",
-    "escalat",
+const GEOPOLITICAL_STRONG_KEYWORDS: &[&str] = &[
+    "air strike",
+    "air strikes",
+    "airstrike",
+    "armed conflict",
+    "bombing",
+    "ceasefire",
+    "drone attack",
     "energy facility",
+    "escalation",
+    "gaza",
+    "hezbollah",
+    "houthi",
+    "invasion",
+    "iran",
+    "israel",
+    "missile",
+    "military strike",
+    "refinery",
+    "saudi",
+];
+const GEOPOLITICAL_AMBIGUOUS_KEYWORDS: &[&str] = &["attack", "battle", "conflict", "strike", "war"];
+const GEOPOLITICAL_CONTEXT_KEYWORDS: &[&str] = &[
+    "air",
+    "armed",
+    "base",
+    "ceasefire",
+    "drone",
+    "escalate",
+    "escalated",
+    "escalates",
+    "escalating",
+    "escalation",
+    "facility",
+    "forces",
+    "foreign",
+    "gaza",
+    "hezbollah",
     "houthi",
     "iran",
     "israel",
     "military",
     "missile",
-    "refinery",
+    "nato",
+    "regional",
+    "russia",
     "saudi",
+    "ship",
+    "shipping",
+    "state",
+    "troops",
+    "ukraine",
+];
+const GEOPOLITICAL_HIGH_INFORMATION_KEYWORDS: &[&str] = &[
+    "air strike",
+    "air strikes",
+    "airstrike",
+    "attack",
+    "bombing",
+    "drone attack",
+    "invasion",
+    "military strike",
+    "missile",
     "strike",
     "war",
 ];
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+struct GeopoliticalClassification {
+    information_content: MacroSignalContextProviderInformationLevel,
+}
+
+/// 正規化した token の完全一致で lexical boundary を保証する。
+fn matches_geopolitical_keyword(text: &str, keyword: &str) -> bool {
+    let Some(text) = normalize_geopolitical_text(text) else {
+        return false;
+    };
+    let Some(keyword) = normalize_geopolitical_text(keyword) else {
+        return false;
+    };
+    let keyword_tokens = lexical_tokens(&keyword).collect::<Vec<_>>();
+    if keyword_tokens.is_empty() {
+        return false;
+    }
+    let text_tokens = lexical_tokens(&text).collect::<Vec<_>>();
+    text_tokens
+        .windows(keyword_tokens.len())
+        .any(|window| window == keyword_tokens.as_slice())
+}
+
+/// geopolitical 候補を lexical validity と最小限の文脈で決定する。
+fn classify_geopolitical_text(text: &str) -> Option<GeopoliticalClassification> {
+    let text = normalize_geopolitical_text(text)?;
+    let has_strong_match = GEOPOLITICAL_STRONG_KEYWORDS
+        .iter()
+        .any(|keyword| matches_geopolitical_keyword(&text, keyword));
+    let has_ambiguous_match = GEOPOLITICAL_AMBIGUOUS_KEYWORDS.iter().any(|keyword| {
+        matches_geopolitical_keyword(&text, keyword)
+            && GEOPOLITICAL_CONTEXT_KEYWORDS
+                .iter()
+                .any(|context| matches_geopolitical_keyword(&text, context))
+    });
+    if !has_strong_match && !has_ambiguous_match {
+        return None;
+    }
+
+    let high_information = GEOPOLITICAL_HIGH_INFORMATION_KEYWORDS
+        .iter()
+        .any(|keyword| matches_geopolitical_keyword(&text, keyword));
+    Some(GeopoliticalClassification {
+        information_content: if high_information {
+            MacroSignalContextProviderInformationLevel::High
+        } else {
+            MacroSignalContextProviderInformationLevel::Medium
+        },
+    })
+}
+
+fn normalize_geopolitical_text(text: &str) -> Option<String> {
+    let normalized = text.trim().to_lowercase();
+    if normalized.is_empty()
+        || normalized.contains('\u{fffd}')
+        || normalized
+            .chars()
+            .any(|character| character.is_control() && !character.is_whitespace())
+        || !normalized
+            .chars()
+            .any(|character| character.is_alphanumeric())
+    {
+        return None;
+    }
+    Some(normalized)
+}
+
+fn lexical_tokens(text: &str) -> impl Iterator<Item = &str> {
+    text.split(|character: char| !character.is_alphanumeric())
+        .filter(|token| !token.is_empty())
+}
 
 fn stable_id(namespace: &str, parts: &[&str]) -> String {
     let mut hasher = Sha256::new();
@@ -568,15 +691,14 @@ fn parse_finnhub_geopolitical_items(
     let events = items
         .into_iter()
         .filter_map(|item| {
-            let headline = item.get("headline").and_then(Value::as_str)?.trim();
+            let headline = item
+                .get("headline")
+                .and_then(Value::as_str)
+                .map(str::trim)
+                .filter(|headline| !headline.is_empty())?;
             let summary = item.get("summary").and_then(Value::as_str).unwrap_or("");
-            let text = format!("{headline} {summary}").to_lowercase();
-            if !GEOPOLITICAL_KEYWORDS
-                .iter()
-                .any(|keyword| text.contains(keyword))
-            {
-                return None;
-            }
+            let text = format!("{headline} {summary}");
+            let classification = classify_geopolitical_text(&text)?;
             let datetime = item
                 .get("datetime")
                 .and_then(Value::as_i64)
@@ -600,16 +722,7 @@ fn parse_finnhub_geopolitical_items(
                 malformed_count += 1;
                 return None;
             };
-            let level = if [
-                "attack", "strike", "missile", "war", "houthi", "escalat",
-            ]
-            .iter()
-            .any(|keyword| text.contains(keyword))
-            {
-                MacroSignalContextProviderInformationLevel::High
-            } else {
-                MacroSignalContextProviderInformationLevel::Medium
-            };
+            let level = classification.information_content;
             let published_at = datetime.to_rfc3339();
             let evidence = ProviderEvidenceRecord {
                 source: source.to_string(),
@@ -682,11 +795,12 @@ fn degraded_source(diagnostic: String) -> MacroSignalContextProviderSource {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_fred_event, build_fred_reactions, commodity_information_level,
-        information_level_name, load_finnhub_geopolitical_source, load_fred_source,
-        parse_finnhub_geopolitical_items, parse_fred_series_observations, rate_information_level,
-        FredSeriesResult, MacroSignalContextProviderInformationLevel,
-        MacroSignalContextProviderLifecycle, ParsedFredSeries, FRED_SERIES_RATES,
+        build_fred_event, build_fred_reactions, classify_geopolitical_text,
+        commodity_information_level, information_level_name, load_finnhub_geopolitical_source,
+        load_fred_source, matches_geopolitical_keyword, parse_finnhub_geopolitical_items,
+        parse_fred_series_observations, rate_information_level, FredSeriesResult,
+        MacroSignalContextProviderInformationLevel, MacroSignalContextProviderLifecycle,
+        ParsedFredSeries, FRED_SERIES_RATES,
     };
     use chrono::NaiveDate;
 
@@ -718,7 +832,7 @@ mod tests {
         let news = r#"[
             {"datetime": 1788825600, "headline": "Missile strike raises energy risk", "summary": "Oil facilities affected", "source": "Structured News", "url": "https://example.test/1"},
             {"datetime": 1788912000, "headline": "Future attack report", "summary": "not yet in market date", "source": "Structured News", "url": "https://example.test/2"},
-            {"datetime": 1788825600, "headline": "War headline without url", "summary": "", "source": "Structured News"}
+            {"datetime": 1788825600, "headline": "War in Iran headline without url", "summary": "", "source": "Structured News"}
         ]"#;
         let (events, malformed) = parse_finnhub_geopolitical_items(
             news,
@@ -735,6 +849,104 @@ mod tests {
             super::MacroSignalContextProviderInformationLevel::High
         );
         assert!(!events[0].evidence[0].source_url.is_empty());
+    }
+
+    #[test]
+    fn geopolitical_keyword_matching_respects_lexical_boundaries() {
+        for text in ["war", "war escalates", "war in Iran", "regional war"] {
+            assert!(matches_geopolitical_keyword(text, "war"), "{text}");
+        }
+        for text in ["Warsh", "forward", "reward", "inward"] {
+            assert!(!matches_geopolitical_keyword(text, "war"), "{text}");
+        }
+    }
+
+    #[test]
+    fn ambiguous_geopolitical_terms_require_plausible_context() {
+        for text in ["war", "strike", "attack", "conflict", "battle"] {
+            assert!(classify_geopolitical_text(text).is_none(), "{text}");
+        }
+        for text in ["war escalates", "war in Iran", "regional war"] {
+            assert!(classify_geopolitical_text(text).is_some(), "{text}");
+        }
+
+        for text in [
+            "Warsh faces tough battle at the Fed",
+            "Forward guidance remains unchanged",
+            "Reward points program expands",
+            "Workers strike over wages",
+            "Options strike price reset",
+            "Company attacks rising costs",
+        ] {
+            assert!(classify_geopolitical_text(text).is_none(), "{text}");
+        }
+
+        for text in [
+            "War in Iran escalates after missile strike",
+            "Israel launches air strikes",
+            "Drone attack hits oil facility",
+            "Missile strike hits military base",
+        ] {
+            assert!(classify_geopolitical_text(text).is_some(), "{text}");
+        }
+    }
+
+    #[test]
+    fn geopolitical_information_level_consumes_the_matcher_result() {
+        let news = r#"[
+            {"datetime":1788825600,"headline":"Warsh faces tough battle at the Fed","summary":"Expected interest rate hike","source":"Structured News","url":"https://example.test/warsh"},
+            {"datetime":1788825600,"headline":"Workers strike over wages","summary":"Labor negotiations continue","source":"Structured News","url":"https://example.test/labor"},
+            {"datetime":1788825600,"headline":"Missile strike hits military base","summary":"Regional security risk rises","source":"Structured News","url":"https://example.test/missile"}
+        ]"#;
+        let (events, malformed) = parse_finnhub_geopolitical_items(
+            news,
+            NaiveDate::from_ymd_opt(2026, 9, 8).expect("valid date"),
+            "2026-09-08T23:00:00Z",
+        )
+        .expect("valid Finnhub response");
+
+        assert_eq!(malformed, 0);
+        assert_eq!(events.len(), 1);
+        assert_eq!(events[0].title, "GEOPOLITICAL ESCALATION");
+        assert_eq!(
+            events[0].information_content,
+            MacroSignalContextProviderInformationLevel::High
+        );
+        assert_eq!(
+            events[0].evidence[0].subject,
+            "Missile strike hits military base"
+        );
+        assert_eq!(events[0].evidence[0].source, "Structured News");
+        assert_eq!(
+            events[0].evidence[0].source_url,
+            "https://example.test/missile"
+        );
+        assert_eq!(
+            events[0].evidence[0].source_published_at,
+            events[0].source_published_at
+        );
+    }
+
+    #[test]
+    fn geopolitical_matching_fails_closed_for_empty_or_malformed_text() {
+        for text in ["", "   ", "\u{0}", "\u{0} missile", "\u{fffd}"] {
+            assert!(classify_geopolitical_text(text).is_none(), "{text:?}");
+        }
+
+        let news = r#"[
+            {"datetime":1788825600,"headline":"","summary":"Missile strike hits military base","source":"Structured News","url":"https://example.test/empty-headline"},
+            {"datetime":1788825600,"headline":"Drone attack hits military base","summary":"","source":"","url":"https://example.test/missing-source"},
+            {"datetime":1788825600,"headline":"Missile strike hits military base","summary":"","source":"Structured News","url":""}
+        ]"#;
+        let (events, malformed) = parse_finnhub_geopolitical_items(
+            news,
+            NaiveDate::from_ymd_opt(2026, 9, 8).expect("valid date"),
+            "2026-09-08T23:00:00Z",
+        )
+        .expect("valid Finnhub response");
+
+        assert!(events.is_empty());
+        assert_eq!(malformed, 2);
     }
 
     #[tokio::test]

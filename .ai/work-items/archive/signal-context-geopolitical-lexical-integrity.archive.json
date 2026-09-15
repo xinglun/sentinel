@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-15T00:29:44Z",
+  "files": {
+    "contractDigest": "sha256:8216763b9d52ecf62e751840d400f906671b593ce540ba2e99b0da5d5ee8d3eb",
+    "contractPath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.contract.json",
+    "eventsDigest": "sha256:4159067c8955987428888a0bc3c6e149b18c8b20332591502a2140d6df252a3b",
+    "eventsPath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.events.jsonl",
+    "outcomeDigest": "sha256:5d1df2ac01116fa3cbd7bbb1ab7463412ab60dd9d3cddc2a7c4011ec906659af",
+    "outcomePath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.outcome.json",
+    "summaryDigest": "sha256:6d3efa201c74972ec0266fd6bf33df59415663889f0b7ce4c911bdd346ce9797",
+    "summaryPath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json",
+    "taskReportDigest": "sha256:6f3d5c5e69accd7b6ac8bbbbbd939a2de9329fc97f2ddc547334ae1de7502db5",
+    "taskReportMarkdownDigest": "sha256:2862afa90d19ca8d65b220172ed7cd8557ea0d1dfb6d6ab0bf61f3ae8ddac123",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-geopolitical-lexical-integrity"
+}
