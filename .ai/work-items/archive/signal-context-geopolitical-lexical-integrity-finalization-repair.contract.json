@@ -39,6 +39,14 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-geopolitical-lexical-integrity-finalization-repair",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/199",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-signal-context-geopolitical-lexical-integrity-finalization-repair"
+  },
   "risk": "normal",
   "scope": [
     ".ai/decisions/**",
