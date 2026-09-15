@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Hike Odds Hit 93%: 3 Things That Could Really Surprise Markets Wednesday
+  summary: Fed funds futures price a 93% chance of a rate hike Wednesday. The dot plot, the new inflation and growth forecasts, and Warsh&#39;s October answer.
+  url: https://finnhub.io/api/news?id=a4d2a870aff10359a4486a4656265bac0b202766d7e64b6826ce973f6dc10801

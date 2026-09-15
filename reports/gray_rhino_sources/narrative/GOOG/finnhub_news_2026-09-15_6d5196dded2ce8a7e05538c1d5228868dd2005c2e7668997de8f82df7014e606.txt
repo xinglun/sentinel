@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Alluvium Bought Copart (CPRT) Despite the Long-Term Autonomous Driving Risk
+  summary: Alluvium Asset Management, an asset management company, released its “Conventum – Alluvium Global Fund” second-quarter 2026 investor letter. The letter can be downloaded here. The second quarter reflected a sharp shift from geopolitical uncertainty and oil market volatility to a powerful equity rally led by semiconductor companies. Despite the broader market strength, the Fund declined […]
+  url: https://finnhub.io/api/news?id=6489689e06d3ead04e7dbd5aa02bab9f68d1b629fad50271b828344ec0a7082c

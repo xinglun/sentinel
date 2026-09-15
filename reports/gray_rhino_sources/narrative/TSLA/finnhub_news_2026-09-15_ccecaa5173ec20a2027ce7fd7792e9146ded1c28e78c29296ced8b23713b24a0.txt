@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Could Be The 11th Most Valuable Company in the World
+  summary: Anthropic is closing in on a public valuation that would place it among the most valuable companies on Earth, yet a single glaring vulnerability in its business model has investors questioning whether that number makes any sense at all.
+  url: https://finnhub.io/api/news?id=7e997efb8cece5f4ec65ecede36b4abc4c662e9511a680fb21999587704a106b

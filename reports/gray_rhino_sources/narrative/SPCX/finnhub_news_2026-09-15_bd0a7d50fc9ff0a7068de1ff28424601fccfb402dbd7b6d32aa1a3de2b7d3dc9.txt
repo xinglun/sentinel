@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Steve Eisman's 'Big Short' Partners Warn Anthropic, SpaceX IPOs Could Hurt Stocks
+  summary: Steve Eisman’s former “Big Short” partners are warning that the wave of giant IPOs could put pressure on stocks by flooding the market with new shares. Porter Collins and Vincent Daniel, who worked with Eisman at FrontPoint during the famous...
+  url: https://finnhub.io/api/news?id=a093a53d6fb9e4c9204abe9cb3d1dec8668b68749df1c05ec57d1f111eb159c6

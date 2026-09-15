@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Greg Abel Already Make His First Big Mistake as Berkshire Hathaway CEO?
+  summary: American Express could remain a top-three Berkshire Hathaway holding for decades to come.
+  url: https://finnhub.io/api/news?id=f88de3f58a307ca4db158868a458fb82d2621aaa7dc44783060b61992768ab7a

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Absurdly Cheap Growth Stocks to Buy Before the End of 2026
+  summary: These stocks have been struggling lately, but they could be underrated buys in the long run.
+  url: https://finnhub.io/api/news?id=66f3855963904bdb24793acbe8c257903117f3dccc8f637df622f0a4ff8eb598

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is SpaceX a Millionaire-Maker Stock?
+  summary: SpaceX is back near its IPO price. What comes next?
+  url: https://finnhub.io/api/news?id=ce2062ccac2d1ab5602b1c19696039ec0c3ef63b1a3000882ae4f135fdca345e

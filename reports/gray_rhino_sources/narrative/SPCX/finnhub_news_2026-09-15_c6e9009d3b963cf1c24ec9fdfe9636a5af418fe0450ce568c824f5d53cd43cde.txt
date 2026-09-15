@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk comments on AI slowdown amid his own big AI bets
+  summary: Elon Musk, CEO of Tesla Inc (NASDAQ:TSLA) and SpaceX Corp (NASDAQ:SPCX), has backed an argument for an AI slowdown, endorsing AI company Anthropic (Unlisted (US):ANTHRO) CEODario Amodei and his call for caution. Musk replied, “Dario is right,” on X and later said he had been “sounding the...
+  url: https://finnhub.io/api/news?id=4173f0e36fd8df9db595103d5c8507e7a5c279c48d8cc8488913eaf5210c4fb2

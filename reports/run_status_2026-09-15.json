@@ -1,0 +1,156 @@
+{
+  "date": "2026-09-15",
+  "timestamp": "2026-09-16T03:23:41.039065719+09:00",
+  "preflight": null,
+  "decisioning": "succeeded",
+  "evidence_collection": "succeeded",
+  "gray_rhino_collection": {
+    "status": "partial_failure",
+    "date": "2026-09-15",
+    "sec": {
+      "status": "partial_failure",
+      "accepted": 9,
+      "rejected": 1
+    },
+    "finnhub": {
+      "status": "succeeded",
+      "accepted": 150,
+      "rejected": 0
+    },
+    "fred": {
+      "status": "skipped",
+      "accepted": 0,
+      "rejected": 0
+    },
+    "failed_providers": [
+      "sec"
+    ]
+  },
+  "gray_rhino_rendering": "succeeded",
+  "archival": "skipped",
+  "notification": "succeeded",
+  "execution": "skipped",
+  "reconciliation": "skipped",
+  "reconciliation_report": null,
+  "state_machine": {
+    "from_state": "NEWBORN",
+    "to_state": "NEWBORN",
+    "reset_confirmed": false,
+    "reset_blocked": false,
+    "soft_reset_applied": false,
+    "duration_locked": false,
+    "defensive_override": false,
+    "core_breakdown": false,
+    "reconciliation_mismatch_count": 0,
+    "preflight_failed": false
+  },
+  "data_quality": "",
+  "execution_details": null,
+  "runtime_identity": {
+    "report_run_id": "d2b393e3-c12f-4b78-9cb8-4b1cdc2f0cd9",
+    "report_run_at": "2026-09-16T03:23:41.039065719+09:00",
+    "git_commit_sha": "1e5d16caca1c6671903b972f871731697b6cdafe",
+    "git_branch": "develop",
+    "binary_version": "0.1.0",
+    "decision_snapshot_version": "decision-v1",
+    "data_snapshot_id": "market-data-2026-09-15",
+    "data_snapshot_date": "2026-09-15",
+    "build_git_commit_sha": "1e5d16caca1c6671903b972f871731697b6cdafe",
+    "execution_git_commit_sha": "1e5d16caca1c6671903b972f871731697b6cdafe"
+  },
+  "data_provenance": {
+    "price_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-15",
+      "snapshot_id": "market-data-2026-09-15",
+      "snapshot_digest": "sha256:624194ce8197883f168b8f9b196630d5357bb4dd72e3751085722b54b6898f50",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "benchmark_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-15",
+      "snapshot_id": "market-data-2026-09-15",
+      "snapshot_digest": "sha256:624194ce8197883f168b8f9b196630d5357bb4dd72e3751085722b54b6898f50",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "relative_strength_input": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-15",
+      "snapshot_id": "market-data-2026-09-15",
+      "snapshot_digest": "sha256:624194ce8197883f168b8f9b196630d5357bb4dd72e3751085722b54b6898f50",
+      "record_count": 10,
+      "diagnostic": null
+    },
+    "leadership_history": {
+      "status": "AVAILABLE",
+      "source": "leader-observation-history",
+      "as_of": "2026-09-15",
+      "snapshot_id": "leadership-2026-09-15",
+      "snapshot_digest": "sha256:c3b1e51af672852b3048a5f42521a05ed89d5becd7cbe37327b77efc9017254a",
+      "record_count": 12,
+      "diagnostic": null
+    },
+    "market_change_baseline": {
+      "status": "AVAILABLE",
+      "source": "trading-day-snapshot",
+      "as_of": "2026-09-15",
+      "snapshot_id": "baseline-2026-09-15",
+      "snapshot_digest": null,
+      "record_count": 1,
+      "diagnostic": null
+    },
+    "corporate_event_evidence": {
+      "status": "UNAVAILABLE",
+      "source": "corporate-event-evidence",
+      "as_of": null,
+      "snapshot_id": null,
+      "snapshot_digest": null,
+      "record_count": 0,
+      "diagnostic": "not_persisted_in_runtime_identity"
+    },
+    "expectation_data": {
+      "status": "UNAVAILABLE",
+      "source": "expectation-layer",
+      "as_of": null,
+      "snapshot_id": null,
+      "snapshot_digest": null,
+      "record_count": 0,
+      "diagnostic": "not_persisted_in_runtime_identity"
+    },
+    "price_volume_history": {
+      "status": "AVAILABLE",
+      "source": "market-data-provider",
+      "as_of": "2026-09-15",
+      "snapshot_id": "market-data-2026-09-15",
+      "snapshot_digest": "sha256:624194ce8197883f168b8f9b196630d5357bb4dd72e3751085722b54b6898f50",
+      "record_count": 10,
+      "diagnostic": null
+    }
+  },
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  },
+  "report_lifecycle": {
+    "mode": "GENERATED",
+    "original_generation_revision": "1e5d16caca1c6671903b972f871731697b6cdafe",
+    "original_report_run_id": "d2b393e3-c12f-4b78-9cb8-4b1cdc2f0cd9",
+    "resend_revision": null,
+    "resent_at": null,
+    "source": "rust-radar-runner"
+  }
+}

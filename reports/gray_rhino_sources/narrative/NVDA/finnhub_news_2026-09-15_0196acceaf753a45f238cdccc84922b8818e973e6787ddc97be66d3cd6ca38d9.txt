@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Technologies (DELL) Rallies on Bullish RBC Outlook: Is the Stock a Buy?
+  summary: On September 11, Dell Technologies Inc. (NYSE:DELL) shares jumped more than 11% after RBC Capital Markets initiated coverage of the company with an Outperform rating and a price target of $640. The latest rally adds to an already strong year for Dell Technologies Inc. (NYSE:DELL), with the stock having gained over 300% so far in […]
+  url: https://finnhub.io/api/news?id=6db0d888df05bfc5a7a685b61c1656fed64f8a42d3db46c5adfb0efcb54d58ed

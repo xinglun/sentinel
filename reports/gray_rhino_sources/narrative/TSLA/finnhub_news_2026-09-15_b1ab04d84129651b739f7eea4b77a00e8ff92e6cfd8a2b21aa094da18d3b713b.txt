@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Makes Strongest Hint Yet About A Tesla-SpaceX Merger
+  summary: Tesla and SpaceX CEO Elon Musk made his strongest hints yet about the long-rumored merger between his two companies.
+  url: https://finnhub.io/api/news?id=da2f2145f193ffeba098896500ae24d126d835026e25c9be73d7c677e54fc4b3

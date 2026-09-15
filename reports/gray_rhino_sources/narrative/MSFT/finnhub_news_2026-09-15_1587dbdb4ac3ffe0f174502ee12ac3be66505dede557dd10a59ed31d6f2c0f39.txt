@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Happens To Alphabet Stock If Free Cash Flow Stays Negative?
+  summary: Alphabet (GOOGL) has returned about 46% over the past year. In the June quarter it spent more on AI capacity than its operations produced in cash, and free cash flow was negative $5.9 billion. Over the trailing twelve months free cash flow was still positive, at $53.3 billion, and management said in July that the pressure will continue. So what happens to the stock if one negative quarter becomes a negative year.
+  url: https://finnhub.io/api/news?id=023fb1b377234f01c269732a7d0c0e91df3a5c3ae2f8abf0790609439cd6d97b

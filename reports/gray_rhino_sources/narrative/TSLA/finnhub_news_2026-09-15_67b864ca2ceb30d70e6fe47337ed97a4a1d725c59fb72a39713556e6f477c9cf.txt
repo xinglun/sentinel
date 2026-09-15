@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “SpaceX Has To Buy It. Period. End Of Story.” Cramer’s Answer For Tesla, Down 19.97% This Year.
+  summary: Jim Cramer has a one-sentence fix for Tesla's brutal year, and it flips every assumption about the Musk empire on its head. The company most people assume is the buyer in any combination deal is not the one Cramer says should write the check.
+  url: https://finnhub.io/api/news?id=3ac63dd3e23fa753337d167524d5e4fd3b2acdf6ab5bc9758b3b0752e495e2b7

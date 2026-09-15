@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fastest-Growing AI Stock Looks Like a Brilliant Buy (It's Also a Nvidia Investment)
+  summary: Nebius is undergoing huge expansion, but it comes with a caveat.
+  url: https://finnhub.io/api/news?id=216e3adc603f21e8caa40a6689b8f455b5588bff7dd9f92553d5d05c5f1325b4

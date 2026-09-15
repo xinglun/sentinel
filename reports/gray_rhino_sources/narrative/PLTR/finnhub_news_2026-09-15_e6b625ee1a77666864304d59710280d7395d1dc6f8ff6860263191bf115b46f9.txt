@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Popular AI Stocks to Sell Before They Fall 53% and 58%, According to Wall Street Analysts
+  summary: Certain Wall Street analysts expect major losses for shareholders of Palantir and SpaceX.
+  url: https://finnhub.io/api/news?id=25cdf8f2c6e15d9f25a0161f340e1bc71e7ae106769eb17c64980455309a3462

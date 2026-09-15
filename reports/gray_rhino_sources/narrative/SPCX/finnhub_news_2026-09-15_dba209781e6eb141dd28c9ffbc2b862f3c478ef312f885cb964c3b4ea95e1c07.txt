@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk ‘Highly Confident’ SPCX Will Put NVDA AI Computers in Space in 2027
+  summary: Space Exploration Technologies Corp. CEO Elon Musk has reaffirmed that the commercial spaceflight company will put NVIDIA Corp‘s orbital AI computing system in space by next year. Elon Musk Is ‘Highly Confident’ On Sunday, user RyanFox.eth took to the social...
+  url: https://finnhub.io/api/news?id=6ce00b7dd6a8a663e9c1b4ec66f91b4623e273d7114fc2478f34d99fdd0a669c

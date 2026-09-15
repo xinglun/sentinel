@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is The Trade Desk's Cash Worth More Than Its Lost Growth?
+  summary: The Trade Desk (TTD) trades about 89% below its two-year high, a discount typically assigned to businesses confronting prolonged contraction. Yet its free cash flow over the last twelve months is 12.1% of market value, against a 4.4% median for the S&P 500.
+  url: https://finnhub.io/api/news?id=10a35634d2108db8a68f4e9987d04cd9b6b662800d111e600d21936fb3d763a1

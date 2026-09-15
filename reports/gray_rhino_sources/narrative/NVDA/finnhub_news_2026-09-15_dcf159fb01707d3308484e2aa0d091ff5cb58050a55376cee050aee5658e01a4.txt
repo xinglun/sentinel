@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Factory Raises $200 Million at a $5 Billion Valuation to Scale Self-Improving Software Development in the Enterprise
+  summary: SAN FRANCISCO, September 15, 2026--Factory, the global leader in self-improving software development, today announced a $200 million financing from Blackstone, Khosla Ventures, Sequoia Capital, Insight Partners, Evantic Capital, Sound Ventures, NEA, Mantis VC, Clearlake, and angel investors including Nico Rosberg, Brad Gerstner, and Marc Benioff. The round values the company at $5 billion, over triple its previous valuation of $1.5 billion in April, and brings its total funding to over $400 mill
+  url: https://finnhub.io/api/news?id=c4395b4dfcc6432a9e4061e2cca2c9734e72d7c915a4fd6f70f2d9fe30d81494

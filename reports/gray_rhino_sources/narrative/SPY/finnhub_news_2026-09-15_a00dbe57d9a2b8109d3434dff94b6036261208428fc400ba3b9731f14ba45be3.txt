@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oman News Agency Says Oman Foreign Minister, U.S. Secretary Of State Discuss Regional Developments In Phone Call; Oman, U.S. Discuss Efforts To De-Escalate Regional Tensions
+  summary: - Reuters Citing Oman News Agency
+  url: https://finnhub.io/api/news?id=921ba6510b234b84b98ff0c77ff2f7669d41da8bf0cdf2c4c7f183d02e87c94d

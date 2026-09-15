@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: Why The Palantir Partnership Is A Game Changer (Rating Upgrade)
+  summary: Nebius is upgraded to Buy as the Palantir partnership boosts sovereign AI infrastructure credibility & a potential $40B revenue path by '29. More on NBIS stock.
+  url: https://finnhub.io/api/news?id=9ec48787655365acc396d7e2a8cdc38231fe6f4c0bd63cecce88af2631d6362b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Pace Is Unlikely To Slow
+  summary: Anthropic's CEO Dario Amodei is calling to pace AI development, and both Altman and Musk agree. Read why we see opportunity in buying into the fear.
+  url: https://finnhub.io/api/news?id=2ff573ac057baa6f53a1cba3c1b249d973104406a09100d75faae40bcae9b1d7

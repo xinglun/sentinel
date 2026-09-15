@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Rebounds, but AI's $1.08 Trillion Boom Faces Its First Brake
+  summary: Industry safety warnings have not canceled orders, yet Nvidia's concentrated revenue leaves little tolerance for hesitation.
+  url: https://finnhub.io/api/news?id=ca2f580191a4509ac38bc1cfb5cfd2321a6a6fcb8e58a48ab49b2673d0bf5df2

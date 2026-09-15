@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Cash-Producing Stock with Exciting Potential and 2 That Underwhelm
+  summary: A company that generates cash isn’t automatically a winner. Some businesses stockpile cash but fail to reinvest wisely, limiting their ability to expand.
+  url: https://finnhub.io/api/news?id=7903d3e3c6bbeff41496323041a35a3bc845f6393b96d2a34afa3d4384b1e0c9

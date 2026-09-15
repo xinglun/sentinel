@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Readies For Starship Flight 14 Next Week, Musk Plans Ship Catch
+  summary: The FAA lists a date for SpaceX's Starship test flight 14, which could take off as early as next week. Elon Musk sets goals for Flight 15.
+  url: https://finnhub.io/api/news?id=2c3ee44fca6407fa84d2f0e709dac03b2e7c2696d25d982d67dad9a50fc96212

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Doomerism Unleashed: ‘Most Predictions Are Wrong’
+  summary: Will AI wipe out humanity or bring about a utopia? Predictions are flying about it and stocks are caught in the middle.
+  url: https://finnhub.io/api/news?id=55a48e1bce396ecb0d1a834347da9700714633a4c08c81c203144564fe694272

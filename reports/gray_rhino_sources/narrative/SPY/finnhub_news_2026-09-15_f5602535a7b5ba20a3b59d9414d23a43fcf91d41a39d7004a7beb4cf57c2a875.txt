@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BRICS Just Voted To De-Dollarize, The Dollar Went Up
+  summary: Any shift away from the dollar will be slow, incremental, and unlikely to materially impact U.S. investors. Read what the New Delhi Declaration focuses on.
+  url: https://finnhub.io/api/news?id=119b197ab382a7685c6f4c9882f8b6159c05ba7550fb21625ac74088578dbbbf

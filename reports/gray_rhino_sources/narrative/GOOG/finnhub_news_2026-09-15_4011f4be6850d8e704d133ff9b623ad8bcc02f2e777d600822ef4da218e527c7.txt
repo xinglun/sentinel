@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Meta’s $2.4 Billion Legal Tab Could Explode Into a National Regulatory Nightmare
+  summary: California just banned the design patterns that power Meta's ad engine for millions of young users, and the real question for shareholders is what happens when other states follow.
+  url: https://finnhub.io/api/news?id=5d72d95b9329f2f78fbfe1b1675882caeec92a4007752adee786052b14085667

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Former Google Researcher Issues Stark AI Warning
+  summary: A growing safety debate is reaching Silicon Valley's biggest labs
+  url: https://finnhub.io/api/news?id=ff3f79d344979679629c30d35a69fc291ef5137727bf18ce1a24315f42d368cc

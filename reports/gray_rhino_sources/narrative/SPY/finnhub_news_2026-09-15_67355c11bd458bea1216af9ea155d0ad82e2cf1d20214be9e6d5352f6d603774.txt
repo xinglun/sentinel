@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Harmful To Investors, Not Humanity; Anthropic Is Hyping IPO
+  summary: Anthropic CEO Amodeiâs âdoomsdayâ AI warning may be pre-IPO hype as token prices crash and AI CapEx risks grow. Click to learn the bubble risks and act now.
+  url: https://finnhub.io/api/news?id=39b0ba96c6383c6c63a2999ec75d14fd14668711ad72e99e225d93a52667048e

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Design & Manufacturing Montréal Returns Expanded Experiences and Initiatives
+  summary: Manufacturing by Informa’s biennial Canadian event is highlighting topics including industrial AI, electrification, and national security while also reinforcing the importance of packaging, plastics, automation and others.MONTRÉAL, Sept. 15, 2026 (GLOBE NEWSWIRE) -- Advanced Design & Manufacturing Montréal (ADM Montréal returns to Palais des congrès de Montréal from November 10-12. This comprehensive industry showcase brings together six advanced manufacturing areas (packaging, automation, plast
+  url: https://finnhub.io/api/news?id=6964d272e43b9b0521b8449b0109f02b9923650cd1cab7c4371e2d35662e1347

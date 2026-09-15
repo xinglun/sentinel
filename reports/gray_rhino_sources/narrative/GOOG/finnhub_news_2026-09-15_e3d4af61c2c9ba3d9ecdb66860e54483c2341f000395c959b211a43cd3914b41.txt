@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI acquires Glass Imaging camera startup for $300 million
+  summary: The deal values Glass Imaging, founded by two former Apple engineers, at more than triple its previous $100 million valuation
+  url: https://finnhub.io/api/news?id=c764597e8c9f63ce2cc2351407b3f133587dff293c9e1211f1db5212c326b706

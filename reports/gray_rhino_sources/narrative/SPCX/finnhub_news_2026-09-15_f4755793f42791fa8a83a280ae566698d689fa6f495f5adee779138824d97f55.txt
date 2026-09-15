@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX stock may need a major reset before this investor buys
+  summary: One highly ranked investor says the company remains compelling, but the stock may need a much lower entry point.
+  url: https://finnhub.io/api/news?id=0e2da645bd5f1c09d2bcadad714191c208c6c11c1438f41b7308cd4d540eb55b

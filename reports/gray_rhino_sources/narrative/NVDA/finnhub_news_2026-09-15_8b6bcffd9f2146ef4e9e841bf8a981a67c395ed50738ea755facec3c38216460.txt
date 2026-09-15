@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vera Bradley, Inc. Q2 2027 Earnings Call Summary
+  summary: Moby summary of Vera Bradley, Inc.'s Q2 2027 earnings call
+  url: https://finnhub.io/api/news?id=fea2faa82d0828a03376c1456b4e361d30615b0617d7adf193568cc5a9db32e6

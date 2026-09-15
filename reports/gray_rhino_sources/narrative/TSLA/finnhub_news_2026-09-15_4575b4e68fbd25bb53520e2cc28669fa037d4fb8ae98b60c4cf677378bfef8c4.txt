@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Rises To Key Level As Fed Rate-Decision Looms; Is Nvidia A Buy Now?
+  summary: Nvidia stock rises to its 50-day line after a five-day losing streak, ahead of the Fed's rate-setting meeting.
+  url: https://finnhub.io/api/news?id=6a3def9b7740edd6b30b4d22ec8fda438fa3fae76d204368e1a5e19972b2d617

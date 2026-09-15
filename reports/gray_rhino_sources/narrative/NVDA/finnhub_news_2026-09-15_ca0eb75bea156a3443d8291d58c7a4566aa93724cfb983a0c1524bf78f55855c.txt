@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Forever Portfolio: 3 Dividend-Paying Value Stocks That Are Too Cheap to Ignore.
+  summary: Altria, Realty Income, and Main Street Capital are all undervalued income plays.
+  url: https://finnhub.io/api/news?id=e43c410f2a381ef6eff9721f8a2356586692273bf9eb592f1533ea477d92319b

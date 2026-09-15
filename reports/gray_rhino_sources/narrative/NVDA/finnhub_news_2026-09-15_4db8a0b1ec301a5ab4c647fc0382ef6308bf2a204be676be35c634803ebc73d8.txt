@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Dives, Oil Play Tests New Entry; Bitcoin Falls Ahead Of Clarity Act Vote (Live Coverage)
+  summary: The Dow Jones index drops on the stock market today as yields and oil spike. Nvidia rises. Bitcoin and crypto stocks fall ahead of a key vote.
+  url: https://finnhub.io/api/news?id=d0e55a06719d75016cc5f55ca7ee7739c6274853200b90ecac0f07d6f4ff1684

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Treasury Secretary Scott Bessent Says Rising Bond Yields Are Due To 'Global Issues'
+  summary:  - Reuters
+  url: https://finnhub.io/api/news?id=63c766cd7afeac5760c7d5bc1099a6225afba0f2a8f76f81ffa3fb144af901be

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG's da Vinci Study Shows Better Outcomes Across 13 Common Conditions
+  summary: Intuitive Surgical's da Vinci meta-analysis across 14 million procedures found better perioperative outcomes versus laparoscopic and open surgery.
+  url: https://finnhub.io/api/news?id=e6db18273990311a74a0f34a7a246676cffd4c2e666850929af728888f6172b8

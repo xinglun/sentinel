@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bonds, AI, Crypto…It’s Make-or-Break Time for Markets
+  summary: The stock market AI selloff continues, bond yields soar, Bitcoin drops ahead of crucial Clarity Act vote, and more news to start your day.
+  url: https://finnhub.io/api/news?id=4d74825005c7fa6fb5297976639d9222c46b2c64dbf6268fba7e30a413b95ffd

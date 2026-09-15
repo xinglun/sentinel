@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ORCL vs. MSFT: Which Stock Should Value Investors Buy Now?
+  summary: ORCL vs. MSFT: Which Stock Is the Better Value Option?
+  url: https://finnhub.io/api/news?id=4f46c24847cfdc60d9f4fee7cbea368ed697538f8b5c5ee4ccfa4e3c53c46a83

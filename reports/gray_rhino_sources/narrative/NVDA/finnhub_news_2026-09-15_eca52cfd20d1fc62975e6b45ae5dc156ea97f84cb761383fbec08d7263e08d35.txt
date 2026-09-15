@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trustpilot Gets a One-Star Review From Investors
+  summary: The review platform plunged despite strong revenue and profit growth, as regulatory and tax charges pushed it into a first-half loss and unchanged guidance failed to meet elevated expectations.
+  url: https://finnhub.io/api/news?id=1fbe2e59d1323f57e455a28662fe43fc236083b421fa91041756a103b47ef00e

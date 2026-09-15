@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Far Could RGTI Stock Drop If the Broader Market Breaks?
+  summary: Rigetti Computing (RGTI) trades near $15, about 73% below the high it set inside the past year. No market shock did that: the S&P 500 returned 17% over the past twelve months while Rigetti lost 8.5%. The 73% is measured from a high set inside those same twelve months, so the stock ran up hard before it fell. A fall like that in a rising market says the price is a bet on a road map.
+  url: https://finnhub.io/api/news?id=4bfe46b54cdf3f7571d02d5a3b306addbace43a9c28a5e6008c8372490ce493f

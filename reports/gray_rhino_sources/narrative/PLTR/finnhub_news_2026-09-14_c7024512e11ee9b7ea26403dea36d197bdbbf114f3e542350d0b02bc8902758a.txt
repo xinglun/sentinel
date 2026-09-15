@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Keeps Buying Meta on Mark Zuckerberg's Muse Push, Dumps Amazon, AMD, Alphabet, Palantir Amid AI Slowdown Fears
+  summary: Ark Invest bought Meta on Muse AI optimism while dumping Amazon, AMD, Alphabet and Palantir amid AI slowdown fears on Monday, Sept. 14, 2026.
+  url: https://finnhub.io/api/news?id=264e16e9e47e43108cf1b29d265db2e760dd2ddbac6bcb592c8a250a77d0eefe

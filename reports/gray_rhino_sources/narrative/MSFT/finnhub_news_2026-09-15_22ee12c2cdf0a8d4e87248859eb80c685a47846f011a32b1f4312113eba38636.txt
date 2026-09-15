@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DG Matrix Appoints Daniel Doimo, MGE UPS Systems Co-Founder and Former Schneider Electric Executive Vice President, to Executive Advisory Board
+  summary: RALEIGH, N.C. & DURHAM, N.C., September 15, 2026--DG Matrix, the global leader in solid-state transformer solutions, today announced the appointment of Daniel Doimo, an executive who has built, merged and scaled some of the most important businesses in datacenter power, to its Executive Advisory Board.
+  url: https://finnhub.io/api/news?id=9b8d145aac63b3d62ac770804d569706de79cf47ecae07e0330f34aafb7a4800

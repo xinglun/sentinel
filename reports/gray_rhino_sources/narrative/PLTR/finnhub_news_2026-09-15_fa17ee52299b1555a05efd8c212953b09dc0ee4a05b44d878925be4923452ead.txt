@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CTO Warns AI Safety ‘Effective Altruists’ Are Attempting a ‘Coup’ — Says ‘Tiny Group of Technocrats’ Shouldn’t Decide for Everyone
+  summary: Palantir CTO Shyam Sankar blasts AI safety advocates, accusing Effective Altruists of trying to control the pace of AI development.
+  url: https://finnhub.io/api/news?id=766f2882db85b2cacdaa06e4f51aaf04de048e962867258af4a27129cd12c819

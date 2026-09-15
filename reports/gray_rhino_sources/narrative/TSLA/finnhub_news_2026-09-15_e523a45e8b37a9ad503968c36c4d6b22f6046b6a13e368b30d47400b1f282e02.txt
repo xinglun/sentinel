@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk's $1 Trillion Pay Package Needs Tesla to Hit an $8.5 Trillion Market Cap. Here's What That Means for Shareholders.
+  summary: It's an unprecedented pay package, but it also requires unprecedented performance.
+  url: https://finnhub.io/api/news?id=ee374ac3445607e39376e133b98180499be18a82748a59f292e57d68144ab9a7

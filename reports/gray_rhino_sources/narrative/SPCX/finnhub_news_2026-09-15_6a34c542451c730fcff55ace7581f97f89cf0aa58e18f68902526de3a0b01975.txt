@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Tesla Roadster Will ‘Blow People’s Minds’
+  summary: The new  Tesla  Roadster will be so cool that people might not believe early videos are not AI-generated, according to CEO Elon Musk.  Monday, Musk appeared on the All-In Podcast with  SpaceX  President Gwynne Shotwell.  The conversation was wide-ranging, touching on many topics including Starlink, Starship, AI, SpaceX and Tesla’s Terafab chip-making facility, and collaborations between the two companies.
+  url: https://finnhub.io/api/news?id=1ce1587d5363bbafe65c8facfac4d619ae941fdc13487f0fd0fce42375be8fbe

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: It's Getting Worse And Worse
+  summary: Nebius stays a Sell as debt interest and dilution risks rise amid insider selling; pricing power may fade by 2027â28. Click for more on NBIS stock.
+  url: https://finnhub.io/api/news?id=d0c93cfb82bb019dab562bb4a3305b72e7866432299c124b62be3eab1960107b

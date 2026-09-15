@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Computing Market Size, Share & Trends Analysis - Global Opportunity Analysis & Industry Forecast (2026-2036)
+  summary: The global quantum computing market is forecast to grow from USD 8.6 billion in 2026 to USD 86.4 billion by 2036, at a 26.0% CAGR. Growth is driven by Quantum-as-a-Service (QaaS), advances in qubit performance, cloud access, government investment, and demand for simulation, optimization, cryptography and AI. North America leads the market, while Asia-Pacific is set for the fastest growth. The report analyzes technologies, applications, regional trends and key companies, including IBM, Google, Mi
+  url: https://finnhub.io/api/news?id=c07210a300be5cc68beee046d5e436fb0bb7bbc40e05c386193c3a13ae7385c8

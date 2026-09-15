@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Set to Hike Rate: Are Consumer Discretionary ETFs in the Line of Fire?
+  summary: Fed rate-hike bets and rising borrowing costs put consumer discretionary ETFs under pressure, but select funds may offer resilience.
+  url: https://finnhub.io/api/news?id=49db2987262d522d42bb9678d9538946329557cffe088e9cc7069423047823bd

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Private Credit (Someone Out There Likes It, Besides Me)
+  summary: Private credit and BDCs are gaining share over the past year from media and banking competitors. Read why I favor BDCs and private credit funds for their yield.
+  url: https://finnhub.io/api/news?id=31ee0f03a2b12da853714ed81f25bfa6b81a63ef7b61c818a91ec470b3c290a9

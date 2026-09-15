@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top 3 Stocks Dan Ives Says Will Lead the Next Tech Boom
+  summary: Dan Ives reveals his top 3 stocks driving the AI revolution: NVDA, MSFT, and Palantir—the &#39;Messi of AI.&#39; Read his full market outlook.
+  url: https://finnhub.io/api/news?id=8c3cb3896869ee0db5f18370f1de3b960a2d16b920eb66d430514ba1f29ea174

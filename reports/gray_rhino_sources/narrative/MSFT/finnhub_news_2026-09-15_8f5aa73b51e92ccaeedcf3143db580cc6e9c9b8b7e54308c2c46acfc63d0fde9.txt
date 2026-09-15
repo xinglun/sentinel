@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Has 50% Upside and the Cheapest Multiple of the Big Six
+  summary: Alphabet trades at a multiple that would make sense for a company with no growth story, yet its Cloud backlog just hit half a trillion dollars. Something in that math is badly mispriced, and the window may not stay open long.
+  url: https://finnhub.io/api/news?id=302f138f8f8e7066a29b8f26ebbe96b990fb43f7c26957bdcc57d11469423dd6

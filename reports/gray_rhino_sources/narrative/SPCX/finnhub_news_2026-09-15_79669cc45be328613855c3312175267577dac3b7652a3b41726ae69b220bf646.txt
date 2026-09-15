@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Exploration Technologies (SPCX) Eyes Nvidia Launches, Is The Stock Overvalued?
+  summary: Space Exploration Technologies (SPCX) stock is back in focus after Elon Musk reiterated confidence in launching Nvidia’s Vera Rubin NVL72 AI computers into orbit, while the company’s Nasdaq 100 weight is projected to more than double. Space Exploration Technologies has been volatile since its June IPO. The current 1-month share price return of 5.82% sits against a 90-day share price decline of 26.59% and a year-to-date drop of 7.95%, as investors weigh Starship test milestones, large AI...
+  url: https://finnhub.io/api/news?id=337c0192f0da74fbe9268bd0bca9de3a68df8e2884e19af3109770d2896e149d

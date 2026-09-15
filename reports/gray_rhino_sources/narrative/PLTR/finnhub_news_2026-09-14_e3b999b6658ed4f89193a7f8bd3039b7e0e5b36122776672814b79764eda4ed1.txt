@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oklo Has Massive Potential Due to Artificial Intelligence, but the Stock Is Sinking. Here's What I'd Do
+  summary: The stock is trading near its 52-week low, but it may have significant upside in the long run.
+  url: https://finnhub.io/api/news?id=d8d59aaa194532a74ad936aeaf9d418686afedc7441c082e7494784ee54cfcf2

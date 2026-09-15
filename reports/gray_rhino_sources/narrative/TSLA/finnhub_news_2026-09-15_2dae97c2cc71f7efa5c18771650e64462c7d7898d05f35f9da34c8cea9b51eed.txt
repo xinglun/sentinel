@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk hints (again) at possible SpaceX, Tesla merger
+  summary: Elon Musk once again hinted at possible deepening collaboration, perhaps the possibility of a merger, between his two major companies: Tesla and SpaceX.
+  url: https://finnhub.io/api/news?id=651a18338c2b953a8c0a32690ba15ed2c55cb6aa239dec6c6efff35705fd5edd

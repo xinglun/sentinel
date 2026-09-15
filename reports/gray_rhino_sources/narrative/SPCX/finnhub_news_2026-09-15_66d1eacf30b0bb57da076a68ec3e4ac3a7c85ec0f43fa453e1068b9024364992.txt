@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Like SpaceX, But I'm Not Buying the Stock for One Simple Reason
+  summary: SpaceX could become one of the greatest companies of our time. But owning the stock today is not for the faint-hearted.
+  url: https://finnhub.io/api/news?id=c65b6becfa2bed11789e4db247b0f7c0bb4a54127fd94beb030205ccfc4bbc23

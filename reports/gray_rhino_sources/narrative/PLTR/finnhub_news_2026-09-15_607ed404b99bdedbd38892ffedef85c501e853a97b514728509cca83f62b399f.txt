@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Coinbase, Robinhood, Coherent, and More Stocks That Explain Today’s Market
+  summary: FEATURE  Stocks fell Tuesday as the yield reached its highest level in 19 years and investor fears over the selloff in artificial-intelligence stocks Monday began to ease. Chip and memory stocks edged higher, having taken a battering on Monday after several top executives called for a slowdown in AI development.
+  url: https://finnhub.io/api/news?id=9c6c0b4e59d22c46fd8e30f3a6a378d16ad6283d44520fde941e13be14c81f97

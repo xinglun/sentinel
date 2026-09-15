@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel, Sandisk, Palantir, Coinbase, and More Stocks That Explain Today’s Market
+  summary: FEATURE  Stock futures were falling on Tuesday as a rally in oil prices drove the yield to its highest level in more than 19 years. Chip and memory stocks were edging higher, having taken a battering on Monday after several top executives called for a slowdown in AI development.
+  url: https://finnhub.io/api/news?id=034f1d50cbfef79771d6ee9a5bab700c07ef421a9274d442addadc35258cedb2

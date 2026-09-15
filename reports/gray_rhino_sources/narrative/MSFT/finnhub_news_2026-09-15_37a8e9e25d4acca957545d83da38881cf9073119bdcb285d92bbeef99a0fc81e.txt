@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Meta Stock Still The Self-Funding Ad Business You Bought?
+  summary: If you bought Meta Platforms (META) for its advertising engine, the engine still runs: revenue rose 28% year over year in the June 2026 quarter, and its Advantage+ automated campaigns keep growing. What has changed is where the cash goes afterward. The question for a holder is whether Meta is still the business you bought.
+  url: https://finnhub.io/api/news?id=dac800c00d685c86bd1f136ad341e63a39207c7daedc1c8540d98c2acd4bccd5

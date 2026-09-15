@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Doom Is Viral and Alarming. The Big Lesson for the Stock Market.
+  summary: The world is obsessed with the idea that an AI doomsday is coming. Just look at the reaction to a viral blog post earlier this year.
+  url: https://finnhub.io/api/news?id=31ff86daead102d42ff51f8799ee214fa2e8c790277f5294fa78e8d06c409b5a

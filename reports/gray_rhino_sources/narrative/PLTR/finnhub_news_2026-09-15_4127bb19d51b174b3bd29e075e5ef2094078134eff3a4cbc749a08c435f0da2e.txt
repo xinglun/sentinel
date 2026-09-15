@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock Is a 'Pounding the Table' Buy Under $150, Says Top Market Strategist
+  summary: Futurum Equities&#39; Shay Boloor calls Nebius a &#34;pounding the table&#34; buy under $150 as the AI cloud turns its capacity pipeline into revenue.
+  url: https://finnhub.io/api/news?id=81705fe5874d5d44f755e1bbb86353cd9bc08e706d0a092681b56d1a59c803e2

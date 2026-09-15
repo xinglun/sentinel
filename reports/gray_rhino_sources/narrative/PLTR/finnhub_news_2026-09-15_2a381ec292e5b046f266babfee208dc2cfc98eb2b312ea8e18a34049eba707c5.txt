@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS Maintains Buy on Palantir Technologies, Raises Price Target to $250
+  summary: UBS  analyst Karl Keirstead   maintains Palantir Technologies (NASDAQ:PLTR) with a Buy and raises the price target from $220 to $250.
+  url: https://finnhub.io/api/news?id=c1d1bd715907ff2da0bb602a570ff70b752c9dd2fa747db22798b02d24b24b12

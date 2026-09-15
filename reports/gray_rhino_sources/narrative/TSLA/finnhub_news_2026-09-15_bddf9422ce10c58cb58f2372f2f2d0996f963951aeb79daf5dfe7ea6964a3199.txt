@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Takes Back America
+  summary: In mid-2025, Tesla’s (NASDAQ: TSLA) sales had collapsed. CEO Elon Musk’s relationship with President Trump had crippled sales and the company’s stock. Reuters reported that S&P Global Mobility Research found that “brand loyalty” had “plunged.” A year earlier, its customers were the most loyal among major US car companies. Tesla’s stock also plunged during that […]
+  url: https://finnhub.io/api/news?id=9a7b6d9782c3f4517342ba1ef259c2bdad96820a106953f00538aeb9d83d4c75

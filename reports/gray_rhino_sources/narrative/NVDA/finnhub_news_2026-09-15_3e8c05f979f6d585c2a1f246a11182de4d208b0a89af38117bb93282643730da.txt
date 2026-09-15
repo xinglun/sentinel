@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Will Still Beat AMD Through 2028. Here's the Data Behind My Conviction.
+  summary: The AI chipmaking leader will stay ahead of the resilient underdog.
+  url: https://finnhub.io/api/news?id=596e206a8275549b0287e1e47b8728205b97bb4f592b3c041de6b4c9daf673fd

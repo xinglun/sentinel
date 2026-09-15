@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave Imploded Over The Last Few Months: One High-Conviction Wall Street Pro Says 200% Gains Start Now
+  summary: CoreWeave has shed nearly half its value from recent highs while simultaneously reporting record revenue growth, and one Wall Street analyst sees a setup so lopsided it warrants a price target that would require the stock to triple from here.
+  url: https://finnhub.io/api/news?id=497e071d0df037f53d1f35bc4c98a1fcd3b8eca04a8272c0d553bf664f71088c

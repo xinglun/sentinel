@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Magnificent Seven Stock Could Outperform the Rest in 2026
+  summary: One Magnificent Seven stock is growing its cloud business faster than any rival while trading at a fraction of their valuations, and the gap between where it sits today and where the fundamentals say it belongs is the widest in the group.
+  url: https://finnhub.io/api/news?id=5808f0a00d31c88edb133a22a698868b4b13f67dc386c365b33745a434025196

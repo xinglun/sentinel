@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s Anthropic Investment: Securing AI Demand Amid Rising Competition
+  summary: On September 13, Reuters reported that Anthropic is in talks to bring NVIDIA Corporation (NASDAQ:NVDA) in as an anchor investor in what could become one of the largest IPOs in history, potentially raising as much as $100 billion at a valuation of around $2 trillion. Nvidia is reportedly considering an investment of up to $10 […]
+  url: https://finnhub.io/api/news?id=a1af1bb8840fa4ec9e52bcb0cfdbf24b92a5bbce79d7de7b21a45917a6db36f8

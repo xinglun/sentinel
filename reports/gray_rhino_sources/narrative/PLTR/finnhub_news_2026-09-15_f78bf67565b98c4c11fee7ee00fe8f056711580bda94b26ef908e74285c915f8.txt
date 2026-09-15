@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Attends FAA's Project Nexus eIPP Event, Reinforcing Its Position as the Commercial Platform for Advanced Air Mobility
+  summary: LOS ANGELES, September 15, 2026--Surf Air Mobility (NYSE: SRFM) ("Surf Air Mobility" or the "Company"), a leading air mobility platform, announced today that Company executives attended the launch meeting for Project Nexus on Thursday, September 10, at Alliance Field in Fort Worth, Texas (AFW). Project Nexus is the Federal Aviation Administration's eVTOL Integration Pilot Program (eIPP) initiative awarded to North Texas, bringing together a coalition of the industry's leading eVTOL manufacturers
+  url: https://finnhub.io/api/news?id=8597f0f01d8d3bf838d4dc142ac5126c7dc9ca49740dc0ca40e96e801f5c483d

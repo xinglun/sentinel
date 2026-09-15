@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk and Cramer Agree on One Thing About the AI Panic
+  summary: Elon Musk and Jim Cramer landed on the same suspicion about AI doom warnings within hours of each other, but the reasons behind their shared skepticism put them on a collision course with very different conclusions for investors holding Nvidia and Microsoft.
+  url: https://finnhub.io/api/news?id=9f6df648fb3ead524eb910922fe009dc4a9b593a6795dfe99ec7796dc435f3f3

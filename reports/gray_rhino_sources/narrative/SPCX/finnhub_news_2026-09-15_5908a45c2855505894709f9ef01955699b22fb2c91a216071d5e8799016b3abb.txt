@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Rises 3% on Iridium Deal Optimism; SpaceX and AST SpaceMobile Slip 1%
+  summary: Rocket Lab just closed a billion-dollar equity offering to fund its massive Iridium acquisition, but the financing solution comes with a trade-off that shareholders cannot ignore.
+  url: https://finnhub.io/api/news?id=93adb5ad49f6272377d83a7477c1207c3798eab66def8a6ccc64338773fad78a

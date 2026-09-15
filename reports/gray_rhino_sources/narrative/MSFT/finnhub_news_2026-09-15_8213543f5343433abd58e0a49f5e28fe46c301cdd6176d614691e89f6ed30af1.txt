@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Just Invited a Rival Chipmaker Into Its Own Racks. Here’s Why
+  summary: Nvidia is letting a rival chipmaker plug directly into its own racks, and the move only looks like a concession until you follow the money through every layer of the data center.
+  url: https://finnhub.io/api/news?id=561bdb0ff95aaab6d001add22053cba687c8cba994898113f88b8ab21fbefcbf

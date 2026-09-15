@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Falls as a DeepMind Exit Reprices AI's Safety Race
+  summary: One resignation does not establish a broad exodus, but it intensifies scrutiny around talent and development speed.
+  url: https://finnhub.io/api/news?id=3db053c134620fc36f88a11fba5c340c9bc18ea9c5e74520c9326a10ae0a94f4

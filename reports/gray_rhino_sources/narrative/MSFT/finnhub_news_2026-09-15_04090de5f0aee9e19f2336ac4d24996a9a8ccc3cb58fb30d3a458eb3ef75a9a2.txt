@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Slips After Drawing a Line Around Its Own AI
+  summary: The company published detailed behavioral limits, but its current models have not yet been trained on them.
+  url: https://finnhub.io/api/news?id=8dddcbc3fd759d7149f868fb214b1b2e122b6e6bc1b45657163fb20fe9dc51de

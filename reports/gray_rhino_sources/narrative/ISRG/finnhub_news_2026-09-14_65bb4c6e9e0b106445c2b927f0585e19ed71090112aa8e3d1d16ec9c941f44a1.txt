@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can AI Keep ISRG Ahead of Rising Robotic Surgery Competition?
+  summary: ISRG is using AI, software, data and advanced instruments to strengthen da Vinci 5 and stay ahead as robotic surgery competition intensifies.
+  url: https://finnhub.io/api/news?id=da7007a2eef121ee341522a7184dbecb559cae6bfae7ed6c3b45478eb0f5797c

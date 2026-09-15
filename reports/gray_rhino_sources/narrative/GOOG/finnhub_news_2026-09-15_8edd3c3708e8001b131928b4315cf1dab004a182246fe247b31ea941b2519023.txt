@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Broadens Alliances With Nvidia, Google Cloud, AWS for Enterprise AI Integration
+  summary: Salesforce (CRM) is expanding its partnerships with Nvidia (NVDA), Alphabet's (GOOG, GOOGL) Google C
+  url: https://finnhub.io/api/news?id=a0f13dd5872071e48126d8f286cf349883f0aa21324db1d5f38cc039ab90448d

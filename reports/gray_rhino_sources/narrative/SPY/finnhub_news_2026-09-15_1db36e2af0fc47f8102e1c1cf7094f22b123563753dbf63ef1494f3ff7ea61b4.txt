@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: There Are Plenty of Eli Lilly Bulls: Here’s What They Aren’t Telling You
+  summary: Eli Lilly's bulls are pointing at a 47% revenue surge and a pipeline loaded with blockbuster candidates, but there are a few uncomfortable details quietly buried in the earnings report that change how the story reads.
+  url: https://finnhub.io/api/news?id=77893712f2ded49d5b6cc68a5c9031db94962f1c1c74fe562f9d0e582f3cc56c

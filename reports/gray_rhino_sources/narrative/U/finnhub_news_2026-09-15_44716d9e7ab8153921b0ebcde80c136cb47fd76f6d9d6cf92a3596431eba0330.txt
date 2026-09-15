@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity (U) Stock Could Be Worth More Than Its Price Today
+  summary: Unity Software has seen its share price move around in recent years, and the latest US$43.45 close puts fresh attention on what investors are really paying for. The open question is whether that price lines up with the cash flows the business is expected to generate over time. Over the past 5 years, Unity Software shareholders have seen the stock fall 65.9%, which makes the current market value heavily dependent on what future cash generation can support. The company’s model of monetising...
+  url: https://finnhub.io/api/news?id=d0b1a8c5dc0a335d1e4ec6073136d082154cd094c757018eed03831ba11b6745

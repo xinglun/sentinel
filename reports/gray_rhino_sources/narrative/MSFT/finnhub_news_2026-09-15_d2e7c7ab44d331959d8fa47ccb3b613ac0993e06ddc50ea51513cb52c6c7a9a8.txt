@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Cloud AI - Bitdeer AI Expands With New AI Cloud Data Center
+  summary: Bitdeer AI has announced the securing of a 65.1MW AI Cloud data center facility, A202, at its Johor Bahru, Malaysia campus under a 10-year data center services agreement. This substantial addition is part of their strategy to expand AI cloud capacity up to 350MW by the first quarter of 2028, responding to strong market demand for liquid-cooled, rack-scale AI Cloud capacity. With this latest development, Bitdeer AI's total secured AI Cloud capacity now stands at approximately 206.5MW,...
+  url: https://finnhub.io/api/news?id=5fd4972db095df5b72f6c169e2b9c6e01bee0f87d32a4a314d1b8a6f3f164448

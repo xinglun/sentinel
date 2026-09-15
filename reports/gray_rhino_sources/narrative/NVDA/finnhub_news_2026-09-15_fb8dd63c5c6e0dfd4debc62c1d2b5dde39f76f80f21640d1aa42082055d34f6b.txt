@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Sees Strong AI Demand, Wider Enterprise Use Cases, UBS Says
+  summary: Palantir Technologies' (PLTR) software demand is running ahead of the company's ability to meet it,
+  url: https://finnhub.io/api/news?id=3762a5b91562ab4cf74fdaf1b9f2946e23fdbfa7ce91c1d7c57f816a3d1df067

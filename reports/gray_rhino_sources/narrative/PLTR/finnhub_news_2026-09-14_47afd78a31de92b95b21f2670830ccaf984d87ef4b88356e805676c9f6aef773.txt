@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Nvidia rethink AI use over a growing data risk
+  summary: Data concerns are pushing major AI customers to rethink where frontier models can be used.
+  url: https://finnhub.io/api/news?id=9e352c764d6430688b49bda6d055cc16caae9229abb11e3230e1b88e0552947d

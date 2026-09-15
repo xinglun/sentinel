@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba’s (BABA) Short-Term Capex Drag Creates a 30% Valuation Discount
+  summary: Alluvium Asset Management, an asset management company, released its “Conventum – Alluvium Global Fund” second-quarter 2026 investor letter. The letter can be downloaded here. The second quarter reflected a sharp shift from geopolitical uncertainty and oil market volatility to a powerful equity rally led by semiconductor companies. Despite the broader market strength, the Fund declined […]
+  url: https://finnhub.io/api/news?id=780c11e130303565ee0b87ac0bb14bc547a4614cba035601cb6ff38262412366

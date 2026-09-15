@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Word of Caution on NuScale Power Before You Buy the Dip
+  summary: Recent research estimating the operating costs of small modular reactors could complicate NuScale Power's bull case.
+  url: https://finnhub.io/api/news?id=7794f037715a63c331b3014a4d4498bff4dbac69b89352d21b2de877619c5659

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Talk: A September Rate Hike Would Be A Fool's Errand
+  summary: Fed rate hikes may not curb inflation from energy & fertilizer supply shocks; risk stagflation. Click for this preview of the Fed decision and the implications.
+  url: https://finnhub.io/api/news?id=73f6467fbf032f934fd57a8ea842ff8aaecf42b6fd817c49ceadcae2e80f6a96

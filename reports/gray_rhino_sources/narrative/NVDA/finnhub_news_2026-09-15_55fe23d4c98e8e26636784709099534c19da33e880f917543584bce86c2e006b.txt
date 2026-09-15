@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Selloff Is ‘Panic,’ Meta May Be The Best Stock To Buy, Joseph Carlson Says
+  summary: Anthropic CEO Dario Amodei’s call to slow frontier AI development has fueled “even bigger panic” among investors, according to investing commentator Joseph Carlson, who says Meta Platforms Inc. (NASDAQ:META) may have the best setup whether the slowdown happens or not....
+  url: https://finnhub.io/api/news?id=efef76fd182bc8e805747a5bb32d47d2c13ac93ec62e495941075ebb554a0439

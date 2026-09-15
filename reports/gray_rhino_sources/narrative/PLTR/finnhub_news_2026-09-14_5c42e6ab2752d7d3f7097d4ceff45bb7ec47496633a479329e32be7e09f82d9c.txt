@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did You Pay For Palantir's Guidance Or For Something Else?
+  summary: Palantir Technologies (PLTR) raised its 2026 revenue guidance in August, and the stock gained about 32% across the release. The easy read is that the market was paying for the bigger number. It was not. At the multiple the market was already paying, that raise is worth about $8 a share, and the tape handed over close to $40.
+  url: https://finnhub.io/api/news?id=c3974509279070742f85a17dc52cf35f3ccacec4f79c8067045cb4f8fe25d44d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CrowdStrike Stock Betting That Its Record Quarter Is The New Normal?
+  summary: CrowdStrike (CRWD) added $333 million of net new annual recurring revenue in fiscal Q2 2027, a record and 51% more than a year earlier. That figure is the case for a stock at its 52-week high, up 117% over the past year. It is also the number to worry about. At 44.5 times sales, the price looks built on that pace, and the company's own guide for fiscal Q3 2027 calls for a slower one.
+  url: https://finnhub.io/api/news?id=72d77a138417b8046497e08629a931fd1b6c7ff183644aab49bfaab909d54b05

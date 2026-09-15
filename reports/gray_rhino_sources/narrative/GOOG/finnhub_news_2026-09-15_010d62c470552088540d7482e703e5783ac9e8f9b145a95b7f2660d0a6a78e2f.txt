@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Broadcom Could Join the Next Trillion-Dollar Club
+  summary: Broadcom's AI revenue just exploded 221% year-over-year while its stock sits 17% below recent highs, and CEO Hock Tan says the company is barely getting started. The path to $550 per share is narrower than Wall Street thinks, but the math behind it is harder to dismiss than the skeptics admit.
+  url: https://finnhub.io/api/news?id=ffa85aab4646dfff73c140cfaf2bdbbd7dbae8b935f6be35651881a7c2e24275

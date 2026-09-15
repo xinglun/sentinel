@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Bought Alphabet Stock About a Year Ago. 3 Reasons It’s Still a Buy Today
+  summary: It is an excellent "forever stock" candidate.
+  url: https://finnhub.io/api/news?id=fc9f1a2f406e58f09b56576d6d108dea818de09ab6ff71d850a09bb631efd912

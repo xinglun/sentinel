@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Midday, Sept. 15: Stocks Slide on AI and Bond Jitters
+  summary: On Sept. 15, 2026, technology stocks face headwinds while rising crude weighs on industrials.
+  url: https://finnhub.io/api/news?id=efb947b86c74e4b3f958a76c0618c71f23ec4adae061e82cc70999cf65104a4f

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 3 Investments I Would Not Want To Retire Without In 2026
+  summary: Many popular forms of investing for retirement appear ill-suited to the current macro and market environment. Learn more about the 3 key investments here.
+  url: https://finnhub.io/api/news?id=b95c1e0edc3f38cac0ce3feb4cee301ecc5995a26c21ec49be661d3a6197cf7e

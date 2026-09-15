@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: AMD Could Be Closing the Gap in the AI Chip Race
+  summary: AMD has doubled in months on the back of an AI accelerator story finally winning over hyperscalers, but a stretched valuation and lurking execution risks put the bull thesis on a razor's edge.
+  url: https://finnhub.io/api/news?id=f13c1b7d15bb1efff41075c46e8dfd800549fc85dd8389ad9fafcfd2f0ae9413

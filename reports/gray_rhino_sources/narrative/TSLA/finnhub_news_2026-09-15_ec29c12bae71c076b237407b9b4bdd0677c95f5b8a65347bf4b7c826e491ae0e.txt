@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitcoin’s Correlation With Gold Just Hit a Six-Year High. Is BTC Finally Digital Gold?
+  summary: Bitcoin just posted behavior that gold bugs have claimed for years was impossible, and the bond market may be the reason why. Whether that makes BTC a true safe-haven asset or simply a temporary traveling companion for gold depends on what the Fed does next.
+  url: https://finnhub.io/api/news?id=c07bf2158171f4cd90c7639ac9d618da8cddc1ca34e8d3586e0764f9a9cbb6ff

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sunrise Technologies Achieves the 2026-2027 Microsoft AI Business Solutions Inner Circle Award
+  summary: Sunrise Technologies, a global Microsoft AI Business Solutions partner, has been selected for this AI Business Solution's 2026-2027 Microsoft Inner Circle membership. Participation within Inner Circle is based on sales achievements that rank Sunrise Technologies in the top echelon of Microsoft's AI Business Solutions global network of partners. It's widely acknowledged that Inner Circle members perform at a high-level by delivering valuable and innovative solutions that help organizations excel.
+  url: https://finnhub.io/api/news?id=625b95ac23f2dff8aeab715ab66db9ed1308592ed6219dae760b9e2b3b4a668c

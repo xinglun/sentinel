@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gary Black Explains Tesla’s US EV Market Share Surge, Points to Legacy Retreat, Model Y Rejig: ‘It’s Implausible…’
+  summary: Investor Gary Black says that Tesla Inc.‘s dominance over the U.S. domestic EV market could be attributed to a scaling down of EV efforts by legacy automakers, among other reasons. Model Y Rejig Drove Higher Sales In a post on...
+  url: https://finnhub.io/api/news?id=da8d59b7a2a3e01ff9543441a37de12f7bbd5d40db0e02e0d8d65cef50aba057

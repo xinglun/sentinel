@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Aiming for $1 Million by Retirement? Here's How Much to Invest Each Month Based on Age
+  summary: People in their 30s may need to invest less than $500 per month to be on track to retire with $1 million.
+  url: https://finnhub.io/api/news?id=3804a7793a939b3c69d7b70cf783980bd695e0de47817fde1b4d0ec8230c3b53

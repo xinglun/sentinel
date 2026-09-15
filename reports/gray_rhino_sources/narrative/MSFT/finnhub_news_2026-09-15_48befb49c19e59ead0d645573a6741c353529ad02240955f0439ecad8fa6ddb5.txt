@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Blykalla and Microsoft Collaborate to Advance AI-driven Nuclear Licensing for its Lead-Cooled Advanced Nuclear Reactor
+  summary: STOCKHOLM, September 15, 2026--Blykalla, a global leader in advanced nuclear technology, today announced a collaboration with Microsoft to apply artificial intelligence (AI) to one of the nuclear industry's most persistent bottlenecks: permitting and licensing. Blykalla has begun deploying Microsoft GenAI for Energy Permitting Solution Accelerator and agentic AI tools within its regulatory workflows, with the goal of accelerating licensing time required to bring its Swedish Advanced Lead Reactor
+  url: https://finnhub.io/api/news?id=402e8a1971cd01e8d80d87f19c751eb034ca31fa96778612d92e78e4ba7d4db0

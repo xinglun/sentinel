@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Fed System Monitoring Banks Suffered Outage Last Month For More Than 24 Hours Around Aug. 5; The Disruption Hit The National Information Center, A Data System Used By Regulators' - WSJ Exclusive
+  summary: https://www.wsj.com/finance/regulation/fed-system-monitoring-banks-suffered-outage-last-month-e5decdbd
+  url: https://finnhub.io/api/news?id=22c21874ca39d733e58f5c3dbfd5827be443577da6d6a8a2a7cd9909890d175c

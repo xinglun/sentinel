@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Smart Investors Are Watching This Metric As Coca-Cola Pushes Past All-Time Highs
+  summary: Coca-Cola just outpaced the S&P 500 by a wide margin and sits near all-time highs, but one operating metric buried beneath the EPS headlines will determine whether the rally holds or quietly falls apart.
+  url: https://finnhub.io/api/news?id=93b411f87675f12cc054028126ace20313fec4167b46c060cf011a04d3926b13

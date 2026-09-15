@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GE Vernova Is ‘Wired to Win,’ Analyst Says. What It Means for the Stock.
+  summary: GE Vernova  finds itself in a fight it didn’t pick, besieged on two fronts.  The stock been battered as investors fret that an industry-recommended AI development deceleration will hit growth.  On Friday, Jefferies backed Vernova stock, pointing out that as electricity demand grows, along with Vernova’s installed base of power equipment, so does its parts and service revenue.
+  url: https://finnhub.io/api/news?id=90f61af2e1aeff7d87bc8328cdf27daae784b9adc5c35d6900378572066441d7

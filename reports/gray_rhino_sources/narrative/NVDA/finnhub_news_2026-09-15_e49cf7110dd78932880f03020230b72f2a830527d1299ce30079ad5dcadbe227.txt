@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Analysts Think Green Thumb Industries Will Double Over the Next 12 Months. Here's Why They're Probably Wrong
+  summary: The cannabis stock has a bright future, but could it really double in price over the next three months?
+  url: https://finnhub.io/api/news?id=f2e804992612b467ac6ee6d42ba29cc7b65ab3ed2834e0b2a3d7fe79669f596f
