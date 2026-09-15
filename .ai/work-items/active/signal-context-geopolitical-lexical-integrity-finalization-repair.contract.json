@@ -1,0 +1,64 @@
+{
+  "acceptanceCriteria": [
+    "Successor is repository-bound to the exact immutable predecessor archive, contract, summary, outcome, and events digests; no predecessor archive or verification bytes change.",
+    "PR #197 and PR #198 identities, merge commits, and develop/main tree parity remain verified as recorded.",
+    "The actual successor GitHub PR exists before finalize-plan and is bound in the Contract to the exact PR URL, branch, worktree, base branch, and remote.",
+    "The declared workspace verification passes and the successor archive binds the actual provider context; hosted required checks pass before merge.",
+    "After merge, strict finalization binds the actual PR and merge commit plus exact deleted branch/worktree; finalize-verify passes before close.",
+    "A valid append-only supersede chain closes the earlier immutable governance records; no production, test, renderer, ranking, observation-time, evidence-provenance, or trading behavior changes."
+  ],
+  "authority": "authorized",
+  "baseRevision": "c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+  "createdAt": "2026-09-15T01:26:21Z",
+  "goal": "在 finalize-plan 与 verification 前建立真实 GitHub PR 并绑定其身份；完成验证、归档、合并后 strict finalization、finalize-verify 与 close，同时以 append-only supersede 收尾前驱记录。",
+  "intent": "修复 Signal Context 治理 lineage 的 PR/finalization 绑定顺序",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    "Makefile",
+    ".github/**",
+    "Decision",
+    "Gate",
+    "TemporalBinding",
+    "MarketObservation",
+    "RS",
+    "Leadership",
+    "Action Matrix",
+    "Execution",
+    "Position Sizing",
+    "Trading behavior"
+  ],
+  "predecessorContractDigest": "sha256:5cdb3a32128cf500d46cdf94be4bdcb4554a0004473f5951bf251bfbbf9dc4d7",
+  "predecessorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-recovery",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-recovery.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:8833e60ad0ae841712b3415eb33177269e0bf67bf1b0569f601c80b1ac90e882",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [
+    "explicit user authorization in the current task",
+    ".ai/README.md",
+    "AGENTS.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-recovery.archive.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-recovery.contract.json",
+    ".ai/decisions/signal-context-geopolitical-lexical-integrity.recovery.json",
+    "https://github.com/xinglun/sentinel/pull/197",
+    "https://github.com/xinglun/sentinel/pull/198"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair"
+}

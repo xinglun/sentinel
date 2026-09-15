@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "decidedAt": "2026-09-15T10:22:25+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-recovery.archive.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-recovery.contract.json",
+    ".ai/decisions/signal-context-geopolitical-lexical-integrity.recovery.json",
+    "https://github.com/xinglun/sentinel/pull/197",
+    "https://github.com/xinglun/sentinel/pull/198"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:5cdb3a32128cf500d46cdf94be4bdcb4554a0004473f5951bf251bfbbf9dc4d7",
+  "predecessorEventsDigest": "sha256:dbf98bfad7ceb5431f4bdd45b6cafc88535e495dce2b00c813a65624dc99bd18",
+  "predecessorOutcomeDigest": "sha256:acf45d1e741c5286ce3ac8c910020cfb6ddbd42a4609a29fefa4ed73e0185816",
+  "predecessorSummaryDigest": "sha256:5a8d83e88af6c93bd4b62d324e80e523da262df85ac61532271c91c985243eaf",
+  "predecessorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-recovery",
+  "reason": "The immutable governance-only recovery archive binds resourceContext.pullRequest=not-requested even though its acceptance requires real PR finalization. Runtime requires exact Contract-to-provider context equality. Create a bounded successor that opens its actual PR before finalize-plan and verification, preserving every predecessor archive byte.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Continue on this repository-bound successor and a dedicated branch based on latest origin/develop. Create its real provider PR before finalize-plan; bind the actual PR URL and revisions, then verify, finish, and archive. After required hosted checks and merge, clean only the exact branch/worktree, record strict finalization, pass finalize-verify, close this successor, and append supersede decisions for the earlier immutable governance lineage.",
+  "runtimeDigest": "sha256:38a449e101ba7eb23a80cd8102fc4f30751eb7c3ade933d1e09066f8ff3db916",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair",
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-recovery"
+}
