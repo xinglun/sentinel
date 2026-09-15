@@ -1,0 +1,27 @@
+{
+  "changedPaths": [
+    ".ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.recovery.json",
+    ".ai/locks/signal-context-geopolitical-lexical-integrity-finalization-repair.lifecycle.lock",
+    ".ai/work-items/active/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.contract.json",
+    ".ai/work-items/active/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+  ],
+  "checkpointAt": "2026-09-15T01:42:47Z",
+  "checkpointContractDigest": "sha256:28bf32e323150f9bdf195f22cdf6cab5ce1ecf42511d4cca8a4d7720a6471c38",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:8833e60ad0ae841712b3415eb33177269e0bf67bf1b0569f601c80b1ac90e882",
+  "createdAt": "2026-09-15T01:42:13Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:21db930653b2ddf59f35a7eb98892d7fc1ec992af0c2b8e82d020cd5c9525633",
+  "predecessorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair",
+  "preflightAt": "2026-09-15T01:42:46Z",
+  "preflightContractDigest": "sha256:28bf32e323150f9bdf195f22cdf6cab5ce1ecf42511d4cca8a4d7720a6471c38",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:8833e60ad0ae841712b3415eb33177269e0bf67bf1b0569f601c80b1ac90e882",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-15T01:42:47Z",
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+}
