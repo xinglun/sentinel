@@ -1,0 +1,32 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "decidedAt": "2026-09-15T10:41:46+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair.archive.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair.contract.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair.outcome.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair.summary.json",
+    ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair.verification.json",
+    "https://github.com/xinglun/sentinel/pull/199"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:21db930653b2ddf59f35a7eb98892d7fc1ec992af0c2b8e82d020cd5c9525633",
+  "predecessorEventsDigest": "sha256:3719eaca90aa0ad2f084d0a19ef310ff30c2b6433e128efb9767f67139c0ec7d",
+  "predecessorOutcomeDigest": "sha256:5beab67030fd4cc79b5b2052e62cc402ea2155345661ab04f47e31da2d180f3c",
+  "predecessorSummaryDigest": "sha256:7964599f93cce77cc99c7cb85b372f3d2a7f8ea10897c3531fd798a16a86b671",
+  "predecessorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair",
+  "reason": "The prior governance successor archive preserves a yellow outcome because its preflight was not refreshed after verification and its intentAlignment control was not recorded while active. Runtime does not permit mutating archived Summary bytes. Create a bounded successor that records intent alignment from actual Contract and verification evidence before finish/archive, binds its real PR before verification, and leaves all predecessor archive bytes unchanged.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Continue on the repository-bound v2 successor based on latest origin/develop. Create the real PR before finalize-plan, bind its exact identity, verify the declared workspace check, record resolved intentAlignment using the resulting verification evidence, refresh preflight to green, then finish and archive. After required hosted checks and merge, clean exact resources, record strict finalization, pass finalize-verify, close the v2 Work Item, then close earlier lineage through valid append-only supersede decisions without rewriting any predecessor bytes.",
+  "runtimeDigest": "sha256:38a449e101ba7eb23a80cd8102fc4f30751eb7c3ade933d1e09066f8ff3db916",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair"
+}

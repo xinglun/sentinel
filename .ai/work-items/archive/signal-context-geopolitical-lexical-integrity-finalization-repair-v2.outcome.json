@@ -1,0 +1,160 @@
+{
+  "acceptanceResults": [
+    "Successor recovery binds the exact archived predecessor digests and leaves all predecessor archive, verification, and close bytes unchanged.",
+    "PR #197 and PR #198 merge identities and develop/main tree parity are reverified against current provider state.",
+    "A real successor GitHub PR is created before finalize-plan and its exact URL, branch, worktree, base, and remote are bound in the Contract.",
+    "The declared workspace verification passes; intentAlignment is explicitly resolved using the actual Contract and verification evidence while user-visible benefit remains unknown.",
+    "Preflight is refreshed to green after evidence/control updates, then finish/archive bind the final Contract and verification.",
+    "After required hosted checks and merge, strict finalization binds actual PR/merge and exact deleted branch/worktree; finalize-verify and close pass.",
+    "Append-only supersede/close completes each predecessor lineage; no production, test, renderer, ranking, observation-time, evidence-provenance, or trading behavior changes."
+  ],
+  "createdAt": "2026-09-15T01:46:18Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4797055c3cd8ae77247a4bd36013a3e0adea9d6818a9de028dede05d7b903287",
+  "evidenceRefs": [
+    ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d0a02f99eb4d72483e69856b67b7c415a069651e7a1bf3d8ed6625516c77a97c",
+      "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-geopolitical-lexical-integrity-finalization-repair.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "在真实 PR 存在后绑定 provider context，执行 workspace verification，以实际 Contract/verification 证据记录 intentAlignment，刷新 preflight 至 green 后 finish/archive；合并后完成严格资源 finalization、finalize-verify、close，并依序 supersede 前驱。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+  },
+  "taskReportDigest": "sha256:88dbf110c9c8ccc08af1e62819682fc0e28e197d854562d22f272310b7c51a68",
+  "taskReportMarkdownDigest": "sha256:041bef793808992e7f1053ae5c7544722de25f7c0eb8af2e148ffd509dd3ec6e",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+}
