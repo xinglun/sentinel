@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "Warsh does not match war and cannot create a GEOPOLITICAL_ESCALATION candidate",
+    "Strong geopolitical terms require lexical boundary matching and complete evidence before candidate creation",
+    "Ambiguous terms war, strike, attack, conflict, and battle require contextual support and do not classify ordinary Fed, labor, options, or company-cost language",
+    "The same matcher result drives geopolitical information-level High/Medium classification; no information-level contains path remains",
+    "Empty, malformed, unsupported, or evidence-incomplete input fails closed without a geopolitical candidate",
+    "Existing evidence provenance source, source_url, source_published_at, headline, and provider data remains intact",
+    "decision_weight remains zero and no Decision, Gate, TemporalBinding, MarketObservation, ranking, or trading behavior is changed"
+  ],
+  "authority": "explicit user authorization: authorized",
+  "baseRevision": "6516bc281cf882e3dbce3b6cbf48287c0fda0cde",
+  "createdAt": "2026-09-15T00:13:29Z",
+  "goal": "同一の deterministic geopolitical keyword matcher を候補分類と information-level 判定で消費し、lexically valid AND contextually plausible AND evidence-backed の候補だけを観測専用 Signal Context に残す",
+  "intent": "Signal Context の geopolitical candidate classification における lexical integrity を修復し、Warsh のような substring collision を排除する",
+  "mode": "code",
+  "outOfScope": [
+    "Primary Context ranking; Information Content thresholds outside geopolitical candidate classification; Rates/Credit provider; Commodity provider; TemporalBinding; MarketObservation; observation_time_precision; renderer/presentation; Decision; Gate; NO TRADE; Probe; Ready; RS; Leadership; Breakout; Breadth; Action Matrix; Risk Adjustment; Execution; Trader; Position Sizing; Supply; Gravity; Expectation; Price-Volume; evidence provenance fields; global Agent/MCP configuration"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:fa0001587ce07c8d5a1df478dcdd83cb0d4cc9c3b713a9df1dc830bc0962eef0",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "src/features/research/infrastructure/macro_signal_context_provider.rs"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "signal-context-geopolitical-lexical-integrity"
+}

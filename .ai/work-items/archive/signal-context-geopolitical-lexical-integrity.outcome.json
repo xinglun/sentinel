@@ -1,0 +1,160 @@
+{
+  "acceptanceResults": [
+    "Warsh does not match war and cannot create a GEOPOLITICAL_ESCALATION candidate",
+    "Strong geopolitical terms require lexical boundary matching and complete evidence before candidate creation",
+    "Ambiguous terms war, strike, attack, conflict, and battle require contextual support and do not classify ordinary Fed, labor, options, or company-cost language",
+    "The same matcher result drives geopolitical information-level High/Medium classification; no information-level contains path remains",
+    "Empty, malformed, unsupported, or evidence-incomplete input fails closed without a geopolitical candidate",
+    "Existing evidence provenance source, source_url, source_published_at, headline, and provider data remains intact",
+    "decision_weight remains zero and no Decision, Gate, TemporalBinding, MarketObservation, ranking, or trading behavior is changed"
+  ],
+  "createdAt": "2026-09-15T00:29:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:cdf7522e3332446b4e50b6612e8f1aa4ff27454bf5b994807296abe894e4b79c",
+  "evidenceRefs": [
+    ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d0a02f99eb4d72483e69856b67b7c415a069651e7a1bf3d8ed6625516c77a97c",
+      "workItemId": "signal-context-geopolitical-lexical-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-geopolitical-lexical-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/macro_signal_context_provider.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "同一の deterministic geopolitical keyword matcher を候補分類と information-level 判定で消費し、lexically valid AND contextually plausible AND evidence-backed の候補だけを観測専用 Signal Context に残す"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-geopolitical-lexical-integrity"
+  },
+  "taskReportDigest": "sha256:6f3d5c5e69accd7b6ac8bbbbbd939a2de9329fc97f2ddc547334ae1de7502db5",
+  "taskReportMarkdownDigest": "sha256:2862afa90d19ca8d65b220172ed7cd8557ea0d1dfb6d6ab0bf61f3ae8ddac123",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "signal-context-geopolitical-lexical-integrity"
+}
