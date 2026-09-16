@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Retail Sales, Imports Come In Warm Ahead of FOMC Decision
+  summary: August prints on Retail Sales and Imports were higher than expected this morning. All eyes are on today's interest rate decision from the Fed.
+  url: https://finnhub.io/api/news?id=e45fa7cca66b91ab47e41c3edcac0f8191bbb107ab0a8b0518dfc46154a836f3

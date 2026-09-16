@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 31% of Berkshire Hathaway's Portfolio Is Riding on These 2 AI Stocks Under Greg Abel
+  summary: These two tech giants position Berkshire to prosper in AI.
+  url: https://finnhub.io/api/news?id=3c93a85467c3aad1773279abe5d3868c778e8d2e92e60095733db1c9525c6a71

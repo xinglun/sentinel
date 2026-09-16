@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Marvell Stock Rallied Today
+  summary: The chipmaker got a boost from a potential deal in the AI space.
+  url: https://finnhub.io/api/news?id=9b0eefacb5e0525c53abe3655c37bc48286169d32c9ea392ed262ba67849f904

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Calls SpaceX ‘Deep Value’ at 66x Sales
+  summary: Cathie Wood sees SpaceX as “deep value,” but SPCX trades at 66x sales as its stock tests key technical support.
+  url: https://finnhub.io/api/news?id=190a8432d798f12e67463233d114c3b4fff83d81284f1a880598aabac6addd8c

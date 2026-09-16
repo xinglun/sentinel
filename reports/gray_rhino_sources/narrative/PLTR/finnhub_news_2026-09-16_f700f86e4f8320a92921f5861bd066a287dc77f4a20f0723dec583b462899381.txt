@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Remains in the Red in 2026: One Senior Wall Street Analyst Says 50% Gains to Come
+  summary: Palantir's fundamentals are running hotter than any large-cap software peer this year, yet the stock keeps sliding while insiders cash out. One senior Wall Street analyst thinks the market has this badly mispriced, and her reasoning deserves a closer look.
+  url: https://finnhub.io/api/news?id=0b8779fc2149e2b8700904ff59515c205d6ffdb2c029006842435e2ad16e5cb8

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Unlocking The Potential Of Second-Life EV Batteries
+  summary: The second-life electric vehicle (EV) battery market is projected to experience significant growth, driven by increasing EV adoption and demand for cost-effective, stationary energy storage solutions. With applications in renewable energy storage, grid balancing, and EV charging, repurposing EV batteries can extend their operational life and mitigate environmental impacts. Supported by circular economy policies, automaker partnerships, and innovative technologies such as AI diagnostics, the...
+  url: https://finnhub.io/api/news?id=73c92e1e186245dff581f437f8e565ae022bca9a1c91cda4190e1cbeebe93299

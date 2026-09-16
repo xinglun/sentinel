@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Will $5,000 Invested in Tesla Stock Be Worth in 5 Years?
+  summary: Tesla is burning through cash at a historic rate while simultaneously betting its future on Robotaxis, humanoid robots, and an AI platform that may or may not reach scale before investor patience runs out. That tension shapes everything about what a five-year hold could return.
+  url: https://finnhub.io/api/news?id=f332b7652c6cd29a3f04c11b6eb819a366870e9812be084f56c9e4773bcedc4f

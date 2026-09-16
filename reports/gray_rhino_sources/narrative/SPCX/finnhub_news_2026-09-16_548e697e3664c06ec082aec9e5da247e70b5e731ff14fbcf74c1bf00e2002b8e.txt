@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Weighs Funding Round at $1.2 Trillion Valuation
+  summary: OpenAI is holding early talks with investors about a fresh funding round that would value the company at more than $1.2 trillion ahead of an initial public offering. Michelle Davis reports on "Bloomberg Open Interest."
+  url: https://finnhub.io/api/news?id=e4dce15b998a90d582f03e62aced53d2396043079bbf3767f19d7f0b546cb083

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 5 Largest Companies by Market Cap in 2026: Why I Think Nvidia Will Stay No. 1 by 2028
+  summary: Nvidia's growth will open up a huge gap by 2028.
+  url: https://finnhub.io/api/news?id=6c7ee6d512df33d0ae73f4e68c285a46f7bf5a9f4435e4567ac45fe8e58fa142

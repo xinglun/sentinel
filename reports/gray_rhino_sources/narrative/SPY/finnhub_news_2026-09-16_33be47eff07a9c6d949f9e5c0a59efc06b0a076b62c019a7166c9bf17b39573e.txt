@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: First Solar Retreats 5% After Dropping ITC Patent Case It Calls Procedural; Enphase Energy Slips, Sunrun Holds Steady
+  summary: First Solar dropped a high-stakes patent case at the ITC and called it procedural, but the stock is sliding 5% while the rest of the solar sector barely flinches, raising a pointed question about what management is not saying.
+  url: https://finnhub.io/api/news?id=9b21e131cedcba1f4c66067532d94abd4c1f3f95521784541acb024bb807e1cd

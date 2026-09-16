@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: American Express and IBM Drag the Dow
+  summary: Most stocks within the Dow Jones Industrial Average were trading higher. The blue-chip index was still trading lower. The Dow was down 0.2%, or 119 points, early in Wednesday's trading session. American Express was the index's largest drag, subtracting 43 points.
+  url: https://finnhub.io/api/news?id=b9df5dd42db6077b688cd3ed9c95f0a9162c7795d8faa43464cfc05f2f3c2cd6

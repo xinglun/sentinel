@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What the Anthropic IPO Means for Amazon and Alphabet Investors
+  summary: The IPO could break records and send profits at Amazon and Alphabet soaring.
+  url: https://finnhub.io/api/news?id=585e4b7f02f007b282c0b8ac7ed929c4683d791e027b025c58aa7096908698e7

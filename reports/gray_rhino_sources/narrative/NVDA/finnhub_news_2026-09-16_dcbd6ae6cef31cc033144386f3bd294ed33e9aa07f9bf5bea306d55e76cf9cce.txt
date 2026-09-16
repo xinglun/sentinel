@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cerebras Stock Has Been Cut in Half. It Still Costs About 145 Times Next Year's Estimated Earnings.
+  summary: After losing half its value, is the AI computing specialist's stock finally cheap enough to buy?
+  url: https://finnhub.io/api/news?id=feacee13376bb6192145f0801187dd2595c205dfebd398263eb20ca0194c0f24

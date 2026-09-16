@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Amazon Stock For The Demand AWS Cannot Yet Serve?
+  summary: Amazon.com (AMZN) stock has returned 8.9% over the past twelve months and trades about 13% below its 52-week high. Its cloud arm spent those months doing something the share price has not reflected. AWS growth sped up again in Q2 2026, and the contracts queued up behind it kept building. The upside case for the stock rests almost entirely on turning that queue into revenue.
+  url: https://finnhub.io/api/news?id=ad5b4028cebaf4a5631bb267f2b2a9d65ac41a16a03623c1032f1267d7e783eb

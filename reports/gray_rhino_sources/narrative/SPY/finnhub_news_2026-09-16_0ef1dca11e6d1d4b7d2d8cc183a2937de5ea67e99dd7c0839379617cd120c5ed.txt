@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Crypto Stocks Rise Despite Failed Clarity Act Vote: Coinbase, Strategy, and Robinhood Tick Up
+  summary: The Senate killed the crypto bill the industry spent years and hundreds of millions chasing, yet Coinbase, Strategy, and Robinhood are all ticking higher this morning. The reason why reframes everything investors thought Tuesday's selloff meant.
+  url: https://finnhub.io/api/news?id=aa6b79e5a24d366acb599defc99ce99b9c0bd4d193733e282612cdb95339c4b9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy Stock Jumps On 'Meaningful' Data-Center Catalyst
+  summary: Analyst sees another catalyst for BE stock as entry into S&P 500 looms. In 2026, Bloom Energy earnings are poised to more than triple.
+  url: https://finnhub.io/api/news?id=182e54a83513daa03852aa35a9c9148d33ce1ec791850d8f216ea97fa8c69495

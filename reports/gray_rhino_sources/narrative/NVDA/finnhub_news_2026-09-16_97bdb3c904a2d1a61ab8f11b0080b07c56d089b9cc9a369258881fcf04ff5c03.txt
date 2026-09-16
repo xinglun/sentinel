@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hock Tan Just Guided Broadcom's AI Revenue to Reach $230 Billion by 2028. Should You Believe Him?
+  summary: Broadcom's previous ambitious guidance turned out to underestimate its AI chip growth.
+  url: https://finnhub.io/api/news?id=7479728aeecc51178bfe5c1288f857aa3fd5cbf8cf29b6e9ded4d4a967134e72

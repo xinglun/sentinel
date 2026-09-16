@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Critical Metals Rallies 5% on Tanbreez Refinery Study Projecting Up to $2.2B in Annual Revenue; USA Rare Earth Inches Higher, MP Materials Unmoved
+  summary: A refinery study just gave Critical Metals investors a concrete dollar figure to argue over, and the stock is moving while its better-established peers barely flinch. Whether that gap reflects genuine rerating or a speculative overshoot depends on what happens at a shareholder meeting next month.
+  url: https://finnhub.io/api/news?id=c00cf867585a1222e8dc3b0f009c4c6ddffdd73aef808f80a5ae56fec845ae2c

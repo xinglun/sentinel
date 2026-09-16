@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoundHound AI Drops 4% as Selling Concentrates in Speculative Software Names; UiPath Falls 3%, C3.ai Dips
+  summary: Concentrated selling is hammering a thin slice of speculative software names even as the broader market climbs higher, and the divergence raises a pointed question about how much real support sits underneath these stocks when no news is doing the work.
+  url: https://finnhub.io/api/news?id=6192dad4e115794471ea44183b86741c4665578482a7ec7e1842b6877f45c142

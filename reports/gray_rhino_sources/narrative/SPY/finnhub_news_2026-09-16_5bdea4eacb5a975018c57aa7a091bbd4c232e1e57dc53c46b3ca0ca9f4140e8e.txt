@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The White House Thinks the Fed Is About to Hike Into a Slowdown
+  summary: The White House's top economist built a statistical case that inflation is already dead, presented it as a hypothetical dissenter's argument, then handed it to no one. Whether the Fed agrees tomorrow determines what the next chapter looks like for equity investors sitting on double-digit gains.
+  url: https://finnhub.io/api/news?id=3bc70c812e946b79366f59dd2dd3a696cf95002522bd7701a42d88216d4b285e

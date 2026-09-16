@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Calls the $1.75 Trillion SpaceX IPO a Bargain: Here's Why
+  summary: Cathie Wood says $10 trillion in Starship revenue would make the $1.75 trillion SpaceX IPO a deep value bargain.
+  url: https://finnhub.io/api/news?id=4fdbb3983ea4ed6036cc55a7d258ce3341ea4a156b75c44646334bf1b3dbd9be

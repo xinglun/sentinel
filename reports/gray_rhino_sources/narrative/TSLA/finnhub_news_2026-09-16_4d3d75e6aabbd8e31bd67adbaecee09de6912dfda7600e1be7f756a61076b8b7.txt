@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla must prove Cybercab is legal to sell, NHTSA says
+  summary: Tesla now has to prove to government regulators that its Cybercab — which has no steering wheel or pedals — is legal to sell, and safe for the road.
+  url: https://finnhub.io/api/news?id=7e90b16b207ae836550290e241525e59cc1c871b5c3aa6997353370c0d5a5ccf

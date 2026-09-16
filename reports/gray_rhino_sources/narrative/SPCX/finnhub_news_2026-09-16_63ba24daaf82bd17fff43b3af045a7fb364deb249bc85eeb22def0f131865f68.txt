@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How long can OpenAI stay private?
+  summary: OpenAI (OPAI.PVT) is reportedly weighing a new funding round that would value the company at $1.2 trillion. Yahoo Finance Breaking Business News Reporter Jake Conley chats with RBC Capital Markets head of derivatives strategy Amy Wu Silverman and Yahoo Finance Senior Autos Reporter Pras Subramanian about the company's upcoming IPO compared to Anthropic's (ANTH.PVT), especially in the aftermath of SpaceX's (SPCX) public debut.
+  url: https://finnhub.io/api/news?id=48963081fc94981a369bd9e7073fe84122f577eec485b431d5eddc2f06b4d0a4

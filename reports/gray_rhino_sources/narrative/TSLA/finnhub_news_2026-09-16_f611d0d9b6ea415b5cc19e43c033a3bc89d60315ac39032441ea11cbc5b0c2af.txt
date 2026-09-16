@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Investor Ron Baron Says, “The Time To Buy Tesla Stock Is Now,” On Predicted Rapid FSD Growth
+  summary: Ron Baron holds billions in Elon Musk bets and just told CNBC viewers exactly why Tesla shares deserve their money right now, while staying conspicuously silent about one merger question that could change everything.
+  url: https://finnhub.io/api/news?id=c999a88c627a8ad4ddac66c2bdcae20077d5ad77331c1697a854956e0c05b3cf

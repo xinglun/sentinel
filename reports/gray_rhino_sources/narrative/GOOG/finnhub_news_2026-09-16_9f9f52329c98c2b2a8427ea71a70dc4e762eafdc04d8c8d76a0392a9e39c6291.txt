@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Delays Thompson Center Opening To 2028, Releases New Renderings
+  summary: The tech giant had targeted early 2027 to move into the building but now plans to "officially open our doors to Googlers, tenants and the public in 2028."
+  url: https://finnhub.io/api/news?id=f5c5d42dcd827c0c2d61ee5d8ae8280bb9e97dadcc664de4b4e1350eba18b06b

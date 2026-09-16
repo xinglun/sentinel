@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ciena Climbs 4% as $10B Backlog Outlook Outweighs Month-Long Slide; Arista and Cisco Edge Higher
+  summary: Ciena (NYSE:CIEN) stock is climbing early Wednesday, up 4% to $347.60. The advance is a rebound rather than a breakout, since Ciena stock is down 19% over the past month. No fresh company news landed this morning, and the market is re-pricing disclosures Ciena made at the start of September, when the company reported record […]
+  url: https://finnhub.io/api/news?id=893ef5371e1043223310afb09d25847d8c53fbfb051705db91b4f3d83ae5167d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How worried should software, semiconductor stocks be about AI risks?
+  summary: SK hynix (SKHY) is reportedly in talks with Intel (INTC) to use the latter's facilities to manufacture memory chips in the US for the first time, according to Reuters. Yahoo Finance's Jake Conley and Pras Subramanian are joined by RBC Capital Markets head of derivatives strategy Amy Wu Silverman to examine how the software industry is reacting to AI headlines, comparing it to the internet booms of the past.
+  url: https://finnhub.io/api/news?id=ae3acb16696935f77bb043c6ef31877018047b2c803005898999bc6433c9e5bb

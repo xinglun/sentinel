@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Big Short’s Michael Burry Predicts a Possible 1987-Style Drop and is Betting Against AI Giants Nvidia and Palantir. Should You Follow?
+  summary: Burry gained fame after predicting the subprime market crash.
+  url: https://finnhub.io/api/news?id=77fc41009a7326a5c25bfbe001f7d4a79e97fe4b5126c5f2f6ceca3f6cce57f0

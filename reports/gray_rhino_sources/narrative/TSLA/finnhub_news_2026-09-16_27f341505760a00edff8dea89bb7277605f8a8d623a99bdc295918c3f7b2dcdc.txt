@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Slashes Tesla’s Q3 Delivery Forecast — Says Weaker Sales Across Largest Markets May Offset Export Strength
+  summary: Goldman said Southeast Asia, South America and Australia are showing strength on a year-over-year basis.
+  url: https://finnhub.io/api/news?id=78fcc0d2df6a23bf43b716a343e5a2f86d6d8276e2b07a8bbb08a92ec717ae2a

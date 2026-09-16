@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia Jumps 6% as AI-RAN Trials Expand Across Eight Operators; NVIDIA and Ericsson Tread Water
+  summary: Nokia stock is surging while rivals Ericsson and NVIDIA barely budge, and the reason comes down to a single announcement that reframes who actually wins when AI moves into mobile networks.
+  url: https://finnhub.io/api/news?id=e90a3a932022d9e66a556fd43ab56bd24142b1d441a782c1fe3b61568cfc84b5

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Secures Carbon Credit Deal With Google, Is It Still Overvalued?
+  summary: Mitti Labs’ new five-year carbon credit deal with Google gives Alphabet (GOOGL) a fresh climate-linked project that ties AI, agriculture and offsets together. Investors now need to weigh how this agreement fits into Alphabet’s wider capital priorities. Alphabet’s share price has been choppy this year, with a roughly 9.47% year to date share price return and a recent pullback over the past three months. However, the 37.71% 1 year total shareholder return and more than 150% gains over three and...
+  url: https://finnhub.io/api/news?id=096ea807178d1f83c267bc98a5ffd95d2f0a5d9ae1e167c341317f4d23a2ab0e

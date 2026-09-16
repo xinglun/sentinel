@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Webull Stock Dropped Today
+  summary: Don't worry about this stock sale. Worry more about the high stock price at Webull.
+  url: https://finnhub.io/api/news?id=2a041a7b2d37313cac152f0d5f4eae8ab025e284661a23741e30fe4a4eb10f8d

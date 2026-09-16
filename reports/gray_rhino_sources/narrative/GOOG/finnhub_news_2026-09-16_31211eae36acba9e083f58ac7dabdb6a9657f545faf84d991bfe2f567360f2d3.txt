@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Garbutt Joins Brandtech As Global CCO, Leads AI-Produced Advertising
+  summary: His brand experience includes Apple's Shot on iPhone and IBM's Smarter Cities.
+  url: https://finnhub.io/api/news?id=b6866bc068c380ee83232e07babfec5bc288e1ba776b7b3c7eba0d9a80b68543

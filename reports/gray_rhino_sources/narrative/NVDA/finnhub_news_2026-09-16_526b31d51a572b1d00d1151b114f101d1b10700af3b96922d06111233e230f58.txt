@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Falls 1.4% as AIforce Faces a $46 Billion Conversion Test
+  summary: The interface expands agent distribution, but consumption pricing makes productive usage the revenue gate.
+  url: https://finnhub.io/api/news?id=74a11599b9c8c1c583dee4dbf9891f5bb3b50039bd177d715ae177745f938d2f

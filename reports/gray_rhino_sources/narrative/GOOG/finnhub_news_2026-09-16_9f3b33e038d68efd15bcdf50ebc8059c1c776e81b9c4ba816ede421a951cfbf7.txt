@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Happens To Apple Stock If Its Margin Keeps Slipping?
+  summary: Apple (AAPL) reported a record June quarter, with revenue up 16%. The stock has returned 42% over the past year against 17% for the S&P 500. That is a price built on everything going right, and by Apple's own guide the margin behind it is already giving way.
+  url: https://finnhub.io/api/news?id=0078e1032fb647f22424aca113b33ff13e324bfa087dec12eebd65031470726b

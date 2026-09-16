@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ISRG Wins EU Nod to Expand da Vinci SP in Gynecologic Procedures
+  summary: Intuitive Surgical's CE mark expands da Vinci SP into transvaginal gynecology in Europe, opening a new women's health opportunity and growth runway.
+  url: https://finnhub.io/api/news?id=31b7b9378130cf9e9c52a19433ea20bcecd6c59da8e4e6fa8575f09ed3811998

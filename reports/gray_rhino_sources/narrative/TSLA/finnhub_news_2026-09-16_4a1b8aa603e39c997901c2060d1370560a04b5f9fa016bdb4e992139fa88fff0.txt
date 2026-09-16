@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says 'Excitement’ is Guaranteed at Tesla Roadster Reveal in October: Audience Would Need to ‘Vouch’ That 'This Is Not AI'
+  summary: Tesla Inc.‘s CEO Elon Musk said that the upcoming unveiling of the anticipated Roadster high-performance vehicle on Oct. 1 would far exceed expectations. Elon Musk Says the Event Is Not AI During his appearance on the All In Podcast via...
+  url: https://finnhub.io/api/news?id=831ca10a9788102915e4dfbeb3195601d5f8067adbb45fc3690d7a8b680fc4cf

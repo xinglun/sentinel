@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL) Faces Fresh AI Pressure After Industry Leaders Urge Slowdown
+  summary: Alphabet (NasdaqGS: GOOGL) is facing renewed scrutiny after major AI leaders urged a slowdown in advanced AI development in 2026. Executives from OpenAI and Anthropic, along with Elon Musk, publicly supported tighter safeguards on powerful AI systems that firms like Google are building. The coordinated appeal increases pressure on regulators to reassess how fast large tech platforms expand high impact AI capabilities. This industry wide call to slow advanced AI work is an important backdrop...
+  url: https://finnhub.io/api/news?id=3e5b8dc21fbcc230d7a34dcdf8ba32254561f5555d782ae84746d9b5f5f13c65

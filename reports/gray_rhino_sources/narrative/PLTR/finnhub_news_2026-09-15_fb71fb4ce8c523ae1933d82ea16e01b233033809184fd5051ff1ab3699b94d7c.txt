@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: The AI-Pocalypse Panic Is A Buying Opportunity
+  summary: Nebius stock stays a Buy on hyper-growth, higher 5GW capacity guidance, rising ACV/MW, and 41% EBITDA margin. Read here for more on NBIS stock.
+  url: https://finnhub.io/api/news?id=67235145e88a247675ac45f384917e5a36d0a58a9a8141b088d7f563cef1103a

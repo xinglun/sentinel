@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This AI Stock Could Be Worth Far More Than Investors Think
+  summary: Broadcom just posted AI revenue growth of 221% year over year and guided for even bigger numbers ahead, yet the stock sits well off its highs and trades at a fraction of its closest custom-chip rival's multiple. Something in that math does not add up.
+  url: https://finnhub.io/api/news?id=cb3a2d8f86dbf377efe06c5d0ee8caccd378740882cd101148e1ae45bc2f1d07

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s SpaceX Could Become A $15 Trillion Business, Says Rob Baron – Remains Skeptical Of Tesla’s Humanoid Robots
+  summary: In an interview with CNBC, the Baron Capital CEO said that his estimates were based on revenue and EBITDA projections.
+  url: https://finnhub.io/api/news?id=1eeb2f88e475ccb1d4955a7450b972796fb1f1e467a9fe2d269693ea59603a40

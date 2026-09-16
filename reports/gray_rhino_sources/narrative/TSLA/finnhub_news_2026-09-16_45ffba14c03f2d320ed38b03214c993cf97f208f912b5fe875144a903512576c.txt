@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Tanked This Year: One Of Tech’s Biggest Bulls Says 70% Are On The Horizon
+  summary: Tesla has shed more than 20% this year while the broader market climbs, yet one of Wall Street's loudest technology bulls just doubled down with a target that would require the stock to do something remarkable from here.
+  url: https://finnhub.io/api/news?id=d874f20f50f6f9725d0e57fc5d538df475e30f20b42fc522ca7271c70cc31993

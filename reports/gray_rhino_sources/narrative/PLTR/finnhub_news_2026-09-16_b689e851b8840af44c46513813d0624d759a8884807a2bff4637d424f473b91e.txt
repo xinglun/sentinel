@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: America's Richest Donors Are Tilting Republican — 16 of the Top 20 Billionaires Back GOP as Crypto, AI and Deregulation Shape Donations: Report
+  summary: Donald Trump and the GOP are drawing major support from America’s wealthiest donors as billionaires pour cash into the midterm battle.
+  url: https://finnhub.io/api/news?id=b88d43e161a1cc31490d3e13cb6de9ed6bb9c435b16f25c0405b95ab7c55d048

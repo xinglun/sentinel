@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rate Hike Shock: Can the S&P Hold?
+  summary: The S&P 500 faces a critical test today as investors brace for what is shaping up to be the most consequential Federal Open Market Committee (FOMC) meeting of the year.
+  url: https://finnhub.io/api/news?id=f675456d2a87dac19b5ef4a3870d7527d43d2f1632f13983a12ca2f8d065ccb9

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Targets AI’s Power Bottleneck With New Alliance With Google, Emerald AI — Flexible Data Center Could Respond To Grid Conditions
+  summary: The alliance will bring together AI companies, utilities, power producers and data center operators to develop common standards for grid-responsive computing facilities.
+  url: https://finnhub.io/api/news?id=77ed5c97e94d02be00227b95d1dfd09327aed1528c47a02da8613fbaa1c4da4e

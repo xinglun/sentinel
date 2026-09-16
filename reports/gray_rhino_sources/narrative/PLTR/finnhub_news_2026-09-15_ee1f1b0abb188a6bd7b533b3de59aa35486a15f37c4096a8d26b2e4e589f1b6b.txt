@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Nvidia Are Restricting Anthropic’s AI. Microsoft Could Win the Enterprise Trust War
+  summary: Palantir and Nvidia have reportedly tightened restrictions around Anthropic’s advanced AI models over data-retention concerns. Palantir has demanded irrevocable zero-data-retention guarantees before making the models available through its software, while Nvidia limits Claude to less-sensitive internal work. At Palantir Technologies Inc. (NASDAQ:PLTR), that lands inside its sovereign-AI pitch. At Microsoft Corporation (NASDAQ:MSFT), it creates an […]
+  url: https://finnhub.io/api/news?id=f4e1e9091623af3c7c8e7f844d59b0cde0578101ea393489e2049becfbca10eb

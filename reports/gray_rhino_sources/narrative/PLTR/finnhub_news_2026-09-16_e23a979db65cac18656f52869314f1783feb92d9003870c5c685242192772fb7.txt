@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Death of software 'greatly overstated' as sector flips the script on chip stocks: Chart of the Day
+  summary: Software stocks have outperformed over the past three months as the sector.
+  url: https://finnhub.io/api/news?id=81b58a9063a3b90ddba3e6074063e2cb6c12e1fc1839b8e297531b413a17a5c7

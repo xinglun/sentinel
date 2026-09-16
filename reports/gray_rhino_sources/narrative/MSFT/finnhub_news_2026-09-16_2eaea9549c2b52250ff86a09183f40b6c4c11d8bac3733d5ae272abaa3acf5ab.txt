@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon raises starting pay to $20 an hour and adds Whole Foods perks
+  summary: Amazon said it is increasing its minimum pay for operations workers by $1 an hour and adding grocery discounts for all U.S. employees.
+  url: https://finnhub.io/api/news?id=d8fc52fb2e71400bb9767bcd8f5a889baedeca0050f829530b1f5707453fef38

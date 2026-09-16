@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Strategy Is Buying Bitcoin Again. Here's What That Means for the Price of Bitcoin.
+  summary: Strategy is back to buying Bitcoin after a summer of sales. The headlines matter more than the coins.
+  url: https://finnhub.io/api/news?id=24ff0c910f242587d99b563c351e65213a5efd7c9c65d30fb6801529478c4ecc

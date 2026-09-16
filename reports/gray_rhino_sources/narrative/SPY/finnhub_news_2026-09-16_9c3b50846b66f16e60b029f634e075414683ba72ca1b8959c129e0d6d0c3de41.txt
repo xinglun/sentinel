@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cipher Digital Surges 9% on Conditional ERCOT Status for 3.2 GW of Texas Capacity; Core Scientific Rises 4%, IREN Nudges Higher
+  summary: Shares of Cipher Mining (NASDAQ:CIFR) are up 9% to $16.42 in early Wednesday trading after the Electric Reliability Council of Texas (ERCOT) disclosed conditional grid capacity covering 3.2 gigawatts across Cipher’s Texas projects. The disclosure came through the state grid operator’s Batch Zero process rather than through a company release, which is why the move […]
+  url: https://finnhub.io/api/news?id=a804106a17ca35fd36d0b7532866c3757d90f4c8172003e3189c793eeb41447a

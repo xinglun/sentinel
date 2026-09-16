@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Microsoft’s biggest warning gets real for AI stocks
+  summary: A long-running AI concern is becoming harder to ignore
+  url: https://finnhub.io/api/news?id=14c1e2078390422fca4e2fa88021031f98025dbf67eb4cb594379fa988dd3f08

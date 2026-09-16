@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS resets Palantir stock price target for the rest of 2026
+  summary: UBS just made a move on Palantir that most of Wall Street isn’t ready for.
+  url: https://finnhub.io/api/news?id=610e5060a7d2f0102f6d121f3e524a0f4f672735264e642b51bd48ae5227c09f

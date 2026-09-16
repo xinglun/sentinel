@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Microsoft’s Dividend Boost Ties Directly to Its AI Spending
+  summary: Microsoft  raised its quarterly dividend by a solid 8%, showing Wall Street it can both spend hundreds of billions on artificial intelligence and also reward investors with payouts from earnings growth.  The dividend yield is 0.78%.  While the size of the increase is less than Microsoft’s average dividend increase of 10% over the past five years, the move still illustrates that Microsoft can grow its dividend while also managing massive AI spending.
+  url: https://finnhub.io/api/news?id=5440789685541721172a821f675e84c4eb66a2e989de5d1919b40960034aa4ca

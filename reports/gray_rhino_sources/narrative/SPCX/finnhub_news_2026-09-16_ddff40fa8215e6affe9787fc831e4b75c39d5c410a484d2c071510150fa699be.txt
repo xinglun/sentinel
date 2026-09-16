@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Sets Launch Date for Starship’s Next Orbital Flight
+  summary: If all goes to plan,  SpaceX  will test its huge fully-reusable rocket, Starship, again on Sept. 22.  It will be the 14th test for Starship.  It will be the first time the upper stage enters a stable Earth orbit, completing six orbits on a 10-hour mission.
+  url: https://finnhub.io/api/news?id=c9fada97213c8a7141a2b7aedb30152c8a24603a45acd709698c43bfd176d2e7

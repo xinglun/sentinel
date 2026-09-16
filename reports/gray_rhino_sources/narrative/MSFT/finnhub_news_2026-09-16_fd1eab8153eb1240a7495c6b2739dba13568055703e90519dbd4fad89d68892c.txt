@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Happens To Microsoft Stock If Its AI Spending Keeps Climbing?
+  summary: Microsoft (MSFT) is reported to be planning about 38 gigawatts of data center capacity by 2032, more than triple what it runs today. Its capital spending has already climbed sharply over the past twelve months, and management said in July that it expects fiscal 2027 spending to grow again. So what happens to the stock if the spending simply keeps climbing.
+  url: https://finnhub.io/api/news?id=18a671785c3e07cd4f01f3a7005844ea0b106430b672600f98b82c5c33876828

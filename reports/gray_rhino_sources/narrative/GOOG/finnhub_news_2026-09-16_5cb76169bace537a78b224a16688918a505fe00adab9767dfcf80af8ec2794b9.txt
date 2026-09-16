@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Cybercab Is In Trouble
+  summary: Federal regulators have given Tesla less than two weeks to answer sworn questions about its Cybercab program, and the stakes go far beyond one automaker's ambitions.
+  url: https://finnhub.io/api/news?id=d482beeb474e179894b123a046b73bc22663aee97b28b03f648a00831a7abb7c

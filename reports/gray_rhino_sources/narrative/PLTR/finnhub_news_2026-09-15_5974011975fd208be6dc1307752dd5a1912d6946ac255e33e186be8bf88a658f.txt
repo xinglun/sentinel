@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Coinbase, Skyworks, Axon, Tesla, Applied Aerospace, and More Stocks That Explain Today’s Market
+  summary: FEATURE  Stocks declined Tuesday as the yield reached its highest level in 19 years. Investor fears over the selloff in artificial-intelligence stocks eased somewhat. AI-related stocks fared better Tuesday after taking a battering on Monday following calls for a slowdown in AI development.
+  url: https://finnhub.io/api/news?id=a2157e9f5a610237a2b186b1c0291e52b1bd430d39cc91638003ad02ecbdabe3

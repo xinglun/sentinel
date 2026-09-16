@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Rises 5% as Starship’s First Orbital Attempt Gets Launch Date; Rocket Lab and AST SpaceMobile Hold Steady
+  summary: SpaceX stock is surging on a firm date for Starship's most ambitious test yet, but whether the milestone justifies the valuation depends on a single high-stakes question the vehicle has never answered.
+  url: https://finnhub.io/api/news?id=bd7a6e5dfd921bcd325a9634cf2f89e5ddba9b2494802ab430bf34d52500b675

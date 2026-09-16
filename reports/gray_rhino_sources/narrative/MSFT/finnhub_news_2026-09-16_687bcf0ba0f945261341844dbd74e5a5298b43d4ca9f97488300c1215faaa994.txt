@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft raises its dividend 8% as cash returns keep climbing
+  summary: The latest dividend increase shows Microsoft's AI spending has not stopped cash from flowing back to investors.
+  url: https://finnhub.io/api/news?id=a6a2e7a2e42c133d46e072a0841837db7074c405eddaea35b839ce179bed57ea

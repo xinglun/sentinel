@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Intuitive Surgical (ISRG) Gaining From Its First CE Mark In Gynecology?
+  summary: Intuitive Surgical (NasdaqGS:ISRG) received the world's first CE mark for transvaginal gynecologic procedures using its da Vinci SP system. The approval expands the da Vinci SP platform's labeled use in Europe to include transvaginal access for gynecologic surgery. The CE mark positions Intuitive Surgical as an early mover in single port, natural orifice gynecologic procedures in the region. The new CE mark for transvaginal gynecologic use is only one part of the broader Intuitive Surgical...
+  url: https://finnhub.io/api/news?id=5da0481fd4199f848fdbec023c53210f275aa94f2cc6f5b86fad1a5dc186ca18

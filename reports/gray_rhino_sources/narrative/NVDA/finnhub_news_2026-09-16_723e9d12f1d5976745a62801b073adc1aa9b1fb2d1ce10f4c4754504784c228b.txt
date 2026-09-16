@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Worthington Enterprises Stock Jumped 10% Today
+  summary: Is Worthington an under-the-radar data center play?
+  url: https://finnhub.io/api/news?id=1bd04ea4a46e1fe72bb28248762851bf6fb770a50db2ba4c3e3ef4e3cc9bb094

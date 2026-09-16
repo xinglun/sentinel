@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 1 Metric That Separates Joby From Archer in the Race to FAA Certification
+  summary: Joby has a much lower price-to-sales ratio than Archer.
+  url: https://finnhub.io/api/news?id=cf902f471db8355986d89a19ac5ee8684a51f9272c8007cc9d6c3763c3bb11d0

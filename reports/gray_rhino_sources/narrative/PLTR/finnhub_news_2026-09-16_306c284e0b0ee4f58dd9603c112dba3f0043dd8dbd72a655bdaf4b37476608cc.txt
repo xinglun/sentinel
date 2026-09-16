@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (NASDAQ:PLTR): Strong Growth Paired With a Promising Technical Setup
+  summary: Palantir (PLTR) pairs strong revenue and EPS growth with a consolidating chart, making it a breakout candidate in this strong-growth screen.
+  url: https://finnhub.io/api/news?id=abbf53bbc02c657e11f37f2a4e0eb267e949c8a42a4a7c9317df9cb6270d84e3

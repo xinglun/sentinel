@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV Charging Stocks Climb as Small Caps Catch a Bid: Blink Charging Jumps 6%, ChargePoint Rises 4%, EVgo Ticks Up
+  summary: Three beaten-down EV charging stocks are climbing together Wednesday morning with no news, no analyst action, and no company announcement to explain the move, and that silence is exactly what makes the session worth paying attention to.
+  url: https://finnhub.io/api/news?id=3a5b0297dc655fd962bed8dc95af037ea90fe1f6841cc19d620e07471b775f5a

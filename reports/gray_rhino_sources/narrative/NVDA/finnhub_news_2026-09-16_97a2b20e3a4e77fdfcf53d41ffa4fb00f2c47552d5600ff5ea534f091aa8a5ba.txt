@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: LuxExperience B.V. Q4 2026 Earnings Call Summary
+  summary: Moby summary of LuxExperience B.V.'s Q4 2026 earnings call
+  url: https://finnhub.io/api/news?id=b48b0232033cce9db057efae700d575655e60d5198f7c561623ab177d29b66fe

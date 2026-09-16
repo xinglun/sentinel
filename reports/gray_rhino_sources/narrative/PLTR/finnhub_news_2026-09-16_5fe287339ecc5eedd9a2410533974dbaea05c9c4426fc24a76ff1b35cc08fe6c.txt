@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Just Said 7 Words Dismissing AI After Slowdown Fears: "There Is Nothing AI to Slow Down." Should Investors Trust His Nvidia and Palantir Shorts?
+  summary: Burry made a fortune by shorting the mortgage bond market ahead of the financial crisis.
+  url: https://finnhub.io/api/news?id=a52efd4d6f50652742b93398ab977a1c3d7b903f74e868b8a4514054b90eea9e

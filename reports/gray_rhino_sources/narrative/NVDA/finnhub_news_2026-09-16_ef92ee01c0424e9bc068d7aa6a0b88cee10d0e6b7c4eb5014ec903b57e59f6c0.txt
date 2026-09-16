@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Constellation Energy vs. Vistra: 2 Very Different Bets on the Same AI Power Boom. Here's Which One I'd Buy.
+  summary: These two independent power producers are both benefiting from the AI boom.
+  url: https://finnhub.io/api/news?id=676b001e69b853ae6cf18bf4adc6685da307b5e8bc4367f8900bca55e067dae2

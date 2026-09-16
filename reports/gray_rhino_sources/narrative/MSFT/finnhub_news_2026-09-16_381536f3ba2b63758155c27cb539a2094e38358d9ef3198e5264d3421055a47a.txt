@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Investors Love Microsoft (MSFT)
+  summary: Microsoft has had an impressive run over the past six months as its shares have beaten the S&P 500 by 10.9%. The stock now trades at $498.48, marking a 24.6% gain. This was partly thanks to its solid quarterly results, and the performance may have investors wondering how to approach the situation.
+  url: https://finnhub.io/api/news?id=9e56839dfbaa17f563011840d56364a1ff20918041ebbe686bfc8fa7e553c026

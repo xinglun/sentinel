@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo Is Scaling Robotaxis. But Consumer Cars Could Be The Real Prize.
+  summary: Google stock could gain as Waymo expands robotaxis, improves economics and explores licensing AV driving technology for consumer cars.
+  url: https://finnhub.io/api/news?id=bd50ee287d0d3644e0a82ae33c65ce2dbfc5c6b9864e993fdc21baf327b4838e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Is Worth $900 Billion, But That Could Change In A Day
+  summary: Elon Musk has crossed the trillion-dollar threshold before and watched it vanish in weeks. What keeps his fortune swinging by hundreds of billions at a time says a lot about how fragile that number really is.
+  url: https://finnhub.io/api/news?id=9b22d762976d577d5c4e90bfd98b0a75af9a2c8b44b19a3d851b0433bfb0e3c9

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Lessons Learned From SpaceX for Anthropic IPO Investors This October
+  summary: SpaceX's stock market debut tells us exactly what to expect from Anthropic's.
+  url: https://finnhub.io/api/news?id=7b4bf760ed4b3561795e0aba11f6ce21704cf3850a72b9ffbe95b6fc727f7332

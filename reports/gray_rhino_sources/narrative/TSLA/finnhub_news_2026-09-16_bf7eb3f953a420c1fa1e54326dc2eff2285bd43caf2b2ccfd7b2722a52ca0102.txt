@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Regulators Grill Tesla Over Cybercab Design
+  summary: Federal regulators are demanding answers about the Tesla Cybercab design and why the EV giant thinks it's compliant. Amazon's Zoox sought a waiver.
+  url: https://finnhub.io/api/news?id=708c8c357374ed44f136ca5d40951de7df1bdb050ccf685e0b0a0a1cb5b55741

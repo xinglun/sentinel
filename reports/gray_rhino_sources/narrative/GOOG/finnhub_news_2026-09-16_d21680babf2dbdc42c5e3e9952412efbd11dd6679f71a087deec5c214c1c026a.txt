@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce and Google Service Outages Strike on Day 2 of Dreamforce Conference
+  summary: Salesforce users ‘may experience severe delays, intermittent errors, or an inability to access some services,’ the company says.
+  url: https://finnhub.io/api/news?id=0f455504ef2bd3963b94377867265406ef246757a3e73c6cfbe64827f5112f44

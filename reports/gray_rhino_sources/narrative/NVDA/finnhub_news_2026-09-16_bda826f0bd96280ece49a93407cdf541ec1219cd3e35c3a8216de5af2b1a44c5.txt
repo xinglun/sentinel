@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Explore the top gainers and losers within the dow jones index in today's session.
+  summary: Curious about the top performers within the dow jones index in the middle of the day on Wednesday? Dive into the list of today's session's top gainers and losers for a comprehensive overview.
+  url: https://finnhub.io/api/news?id=a7f4a33ec0874d76807fce9f33e2df62237dd14cd3496691d1338c9a8a2f7b1a

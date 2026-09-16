@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Leads Gains As Fed News Looms; Oil Ship Stocks Sail North (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index wavers ahead of a likely Fed rate hike and Warsh's comments. Nvidia, Intel and SK Hynix jump.
+  url: https://finnhub.io/api/news?id=e7142057b9b646775442356cfc29a66a6aff0892cd86f5fe491799aadce26584

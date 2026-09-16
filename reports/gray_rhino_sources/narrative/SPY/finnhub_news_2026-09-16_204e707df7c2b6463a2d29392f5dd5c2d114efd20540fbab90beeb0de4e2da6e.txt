@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Optics Stocks Rally as Oversold Bounce Takes Hold: Coherent Jumps 6%, Lumentum Climbs 5%, Applied Optoelectronics Advances 3%
+  summary: Coherent, Lumentum, and Applied Optoelectronics are surging together this morning with no shared headline, no analyst upgrade, and no product news to explain it, and the reason behind the correlated pop reveals something more telling than a simple good day for optics stocks.
+  url: https://finnhub.io/api/news?id=89ba1fc92e48270cbd2d0e8b36308c53992dc7798c97682a2695ffa4a99caf17

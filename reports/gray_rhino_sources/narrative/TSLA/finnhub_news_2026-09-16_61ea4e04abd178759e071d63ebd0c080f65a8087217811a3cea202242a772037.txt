@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Cybercab Faces Safety Inquiry. What That Means for the Stock.
+  summary: Should cars that drive themselves have steering wheels?  The low-cost two-seat purpose-built robo-taxi doesn’t have pedals or a steering wheel.  It’s part of Tesla’s plan to grow and dominate the fledgling robo-taxi industry.
+  url: https://finnhub.io/api/news?id=8e5d132caaeb726aacbed4c9f036c62310f1c4397b30c166d6a7a9dbfb3ea424

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China, Russia Tell US to Halt Space Militarization After First Confirmation of Weapons in Orbit: ‘Stop Preparing for War’
+  summary: China and Russia urge the U.S. to halt space militarization after Washington confirms its first weapon deployment into orbit.
+  url: https://finnhub.io/api/news?id=be180b3d217348bf61c459633350fe208f08cc0541544ad64bd121ad5f43d1a4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Rises 5% Despite Fresh Silver Lake Share Sale Filings; Super Micro Climbs 3%, Hewlett Packard Enterprise Ticks Up
+  summary: Silver Lake just filed to sell more Dell shares into a session where the stock is surging, and the server complex is moving like the sponsor notices do not matter at all. Here is why buyers are ignoring the overhang and what the Fed could do to that confidence by afternoon.
+  url: https://finnhub.io/api/news?id=b591a854adf9ba58fece7eeb7c6a31abe5067ac589d1e9e6439904027e77510f

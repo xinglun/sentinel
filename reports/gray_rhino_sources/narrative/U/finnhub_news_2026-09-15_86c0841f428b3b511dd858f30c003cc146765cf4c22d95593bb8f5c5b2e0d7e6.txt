@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is AppLovin's Lead Over Its Peers Already In The Price?
+  summary: AppLovin (APP) grows revenue faster than any peer and earns the group's highest operating margin. It also carries the highest earnings multiple, and the premium is thin: 25.5 times earnings, against 24.9 for Meta Platforms (META), which grows at less than half AppLovin's pace. What holds the multiple up is a belief about where the growth comes from.
+  url: https://finnhub.io/api/news?id=80a982c6db42358fa502fdc2bf9441d8d370fc445a5303e72cd546e6aa72b53c

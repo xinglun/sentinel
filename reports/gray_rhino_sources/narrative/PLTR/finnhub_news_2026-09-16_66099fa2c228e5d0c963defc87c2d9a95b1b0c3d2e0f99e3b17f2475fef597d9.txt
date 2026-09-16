@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ondas: GATE Technologies Transforms The Profitability Timeline; Strong Buy
+  summary: Ondas is positioned as a rising force in autonomous weapons and multi-domain ISR/C-UAS platforms, driven by aggressive acquisitions. Click for more on ONDS.
+  url: https://finnhub.io/api/news?id=246744bbc88a4ab5f1d876f9ec9e0164f23dee09ee4696ce3b168594c941601f

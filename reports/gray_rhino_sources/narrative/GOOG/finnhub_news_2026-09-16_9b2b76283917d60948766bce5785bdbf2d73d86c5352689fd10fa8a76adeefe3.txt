@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DTE Is Sitting on an AI-Era Power Opportunity
+  summary: Michigan's largest utility just signed hyperscale data center deals that could rewrite its earnings story, but a recent sell-off near 52-week lows is raising questions about whether the opportunity is real or already priced in.
+  url: https://finnhub.io/api/news?id=9f2308db1411dc05a679bdca7399a021b044af283ecc6fb6c8b559f0a24cb92f

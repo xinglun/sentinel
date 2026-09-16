@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be SpaceX’s Stock Price by June 2027 (Hint: It Implies a Big Move)
+  summary: Blockbuster IPO stocks tend to perform poorly during their first year on the market.
+  url: https://finnhub.io/api/news?id=c80e708eb1b3ee2b32d228e4632a3169bebd848bcd5da0e3084153197414cee0

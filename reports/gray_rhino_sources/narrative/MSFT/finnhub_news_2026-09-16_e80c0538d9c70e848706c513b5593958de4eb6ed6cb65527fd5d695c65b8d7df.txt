@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Gain Wednesday Afternoon
+  summary: Tech stocks were higher Wednesday afternoon, with the State Street Technology Select Sector SPDR ETF
+  url: https://finnhub.io/api/news?id=4bcf1825de5549b624e89b64a8a7c7c17500d0ee77cd3ac6fb7c038a7af8f949

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September Effect: 3 AI Stocks to Buy on a Potential Market Pullback
+  summary: Palantir, Marvell, and Snowflake could be good buys on a pullback.
+  url: https://finnhub.io/api/news?id=1d348893a74db6b8c23d40c5555b4175fb9902873c78a5ce3682e3e7d45b0fe2

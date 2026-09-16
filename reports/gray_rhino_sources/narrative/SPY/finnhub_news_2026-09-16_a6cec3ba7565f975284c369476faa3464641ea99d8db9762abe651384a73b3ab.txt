@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Meeting Interest Rate Decision Preview: How Will Stocks React?
+  summary: A Federal Reserve rate hike is largely priced in for Wednesday, but JPMorgan says the S&P 500 could still swing anywhere from 1% higher to 2% lower depending on how Chair Kevin Warsh frames the move. A surprise decision to...
+  url: https://finnhub.io/api/news?id=6049150d1ae8c66798fb9656cc50759a499b5b6ff6e2ad79a48a4e5a6f1b3770

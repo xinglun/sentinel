@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Keep Buying Alphabet Hand Over Fist Becuase The Skeptics Are Wrong
+  summary: Every bear who called Google Search a dead business walking has watched the revenue numbers move in the opposite direction, and the reasons behind that gap explain why one investor keeps buying more shares.
+  url: https://finnhub.io/api/news?id=724bd98ca6f076a95d0d71456fa887ea9c15a03a051af3e4e4d773e6823098c9

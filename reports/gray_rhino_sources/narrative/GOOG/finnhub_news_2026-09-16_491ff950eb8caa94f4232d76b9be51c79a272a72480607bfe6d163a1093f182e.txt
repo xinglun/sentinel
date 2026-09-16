@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google signs biggest carbon removal deal with Terradot in Brazil
+  summary: The agreement with Terradot pairs methane cuts from rice farming with enhanced rock weathering to deliver combined megaton-scale climate impact by 2030
+  url: https://finnhub.io/api/news?id=2c35bb02e449984f64126cc67a6002adfa6f0e0698dcc4840989ed391b9cad96

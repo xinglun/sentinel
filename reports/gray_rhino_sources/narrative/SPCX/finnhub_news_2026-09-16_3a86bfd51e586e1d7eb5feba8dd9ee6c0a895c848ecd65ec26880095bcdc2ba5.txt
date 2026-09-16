@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Down 25%, Is Shopify Stock a Better Buy than SpaceX and the "Magnificent Seven" Stocks in September?
+  summary: Shopify leads in its niche, but it may not necessarily compare well to all the tech giants.
+  url: https://finnhub.io/api/news?id=b727f68ce23956d984fe7dc2f3383235d8cc3aef9b215a76c0cfb613515417d0

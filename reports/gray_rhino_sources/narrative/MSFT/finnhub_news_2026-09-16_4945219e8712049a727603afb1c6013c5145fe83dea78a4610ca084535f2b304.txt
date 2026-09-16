@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Asks Government Agencies to Commit Now, Deliver Features Later
+  summary: Federal agencies can sign contracts for Microsoft's new AI government tier starting October 1, but key features may not arrive until later. Whether that gap kills the deal before it starts reveals something uncomfortable about how Microsoft is betting on AI revenue.
+  url: https://finnhub.io/api/news?id=071de8f792669913f5517e1d371293824f12a0fdc421c774b20f7ea78c620d46

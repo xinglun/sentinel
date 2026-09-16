@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon's AI Bet Is Paying Off in Revenues: Why Isn't FCF Following?
+  summary: AMZN's AI spending is fueling faster AWS growth, but surging capex has pushed free cash flow negative and increased reliance on debt.
+  url: https://finnhub.io/api/news?id=db71570c880fadd28a80b0ed8667028fa4a9fccbba784f5bf7ee71b97a8e77d4

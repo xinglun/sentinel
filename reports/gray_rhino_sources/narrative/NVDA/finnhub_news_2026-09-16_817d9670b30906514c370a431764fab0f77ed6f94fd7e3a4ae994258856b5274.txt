@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ARM Stock Declines 39% in 3 Months: Is This a Buying Opportunity?
+  summary: Arm Holdings' 39% three-month slide contrasts with expanding cloud AI opportunities, but cyclicality and a 36.47X sales multiple temper upside.
+  url: https://finnhub.io/api/news?id=ebebcecb6292ba6e73f0cdb202382528d87cda2756f0dc6876962ceccf502438

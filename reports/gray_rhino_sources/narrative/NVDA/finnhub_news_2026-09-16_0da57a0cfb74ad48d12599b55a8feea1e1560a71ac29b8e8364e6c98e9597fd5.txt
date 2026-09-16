@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Dow, S&P 500, and Nasdaq Split Ahead of a Near-Certain Rate Hike
+  summary: The Fed is about to raise rates for the first time in three years. The dot plot matters more.
+  url: https://finnhub.io/api/news?id=b0e34f9fc2f511ba8bf01e27667dd0601c1cb63bc22c496a10b3a6dbfc3522cc

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Why U.S. Commercial Growth Justifies The Challenging Valuation
+  summary: Palantir (PLTR) is rated a buy, driven by explosive U.S. commercial revenue growth of 149% YoY and strong AI enterprise demand.
+  url: https://finnhub.io/api/news?id=7cf8f605a3c314f8bc90aa0bd637e14463acbb9d260790f46eddc049b143d939

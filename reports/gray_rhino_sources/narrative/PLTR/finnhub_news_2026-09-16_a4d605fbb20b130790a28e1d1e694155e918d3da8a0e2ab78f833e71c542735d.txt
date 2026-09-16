@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s Investment Case is Very Simple Now
+  summary: Palantir's multiple looks stretched on every traditional measure, yet the earnings math is quietly doing something that could make the valuation argument obsolete before most investors notice it.
+  url: https://finnhub.io/api/news?id=1fb3451db6a8d7ee69f5f0899db8bdc74d8919a366e5d97bdb0c13089f8996c1

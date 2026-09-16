@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Weapons Put SPCX in Market Spotlight: Should You Buy the Stock?
+  summary: SPCX's $8.05 billion in announced defense awards, Starshield contracts and Golden Dome role put its expanding military-space business in focus.
+  url: https://finnhub.io/api/news?id=a8de7588324c5779100e5cf9e1e5f49453eb0b86e8098f6993784f010d713ec9

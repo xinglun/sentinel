@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Debt-Financed AI Buildout Reshapes Hedge Fund Positioning in August, According to Data Insights
+  summary: ​NEW YORK & LONDON, September 16, 2026--AI remained a key theme for global hedge funds in August, as the financing of the AI infrastructure buildout increasingly shifted from equity toward debt-financed structures. As AI-related corporate debt issuance accelerated, companies relying more heavily on external financing for AI investment showed early signs of greater sensitivity than those funding growth through internal cash generation, according to Data Insights, the institutional hedge fund mark
+  url: https://finnhub.io/api/news?id=73b56eea91da6991408f914114d0f179922b7705aa95e2dba1d28468344f045e

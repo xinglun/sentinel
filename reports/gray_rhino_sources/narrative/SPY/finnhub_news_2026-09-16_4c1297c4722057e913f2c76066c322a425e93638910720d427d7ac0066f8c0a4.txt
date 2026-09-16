@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Red Cat Sinks 6% as Speculative Drone Names Extend Month-Long Slide; Unusual Machines Drops 4%, AeroVironment Barely Budges
+  summary: Something is breaking down inside the drone trade, and it is not hitting every name the same way. The split forming across the group this session points to a shift in how the market is pricing these stocks against each other.
+  url: https://finnhub.io/api/news?id=58540fda0a72f50e3cc5f416923a8f30916102e936079d059314e407b2eb276c

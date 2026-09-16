@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: May Mobility is going public in a $1.4B SPAC deal
+  summary: The deal could net the asset-light robotaxi company more than $300 million in funding.
+  url: https://finnhub.io/api/news?id=45ef9772b97bcd0b99444535a4ca215287002c34d56a9691f8e204dd10226b0d

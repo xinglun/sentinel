@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oil Producers Slide as Crude Retreats: EOG Resources Drops 6%, ConocoPhillips and Occidental Petroleum Fall 5%
+  summary: Crude prices retreated Wednesday and the pain landed squarely on exploration and production names, skipping refiners and midstream entirely. Here is why that mechanical link turned a commodity move into a sector-wide shakeout for some of the biggest names in the energy patch.
+  url: https://finnhub.io/api/news?id=ab3f7d9edef8e14bd321d4209459d750ee87289ac3e271ec1fe0f9c5c596f66b

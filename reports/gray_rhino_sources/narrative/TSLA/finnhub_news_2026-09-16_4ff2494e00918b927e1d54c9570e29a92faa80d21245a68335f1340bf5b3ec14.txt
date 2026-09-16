@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Tesla's Long-Awaited Roadster Debut With a Radical New Design?
+  summary: TSLA's long-awaited Roadster debuts on Oct. 1 with Cyber design cues and SpaceX thrusters, promising 0-60 mph acceleration in under one second.
+  url: https://finnhub.io/api/news?id=3ccf004702d724977fba8a3bce750bf771f187cc2931c31a03dff6ae695797ed
