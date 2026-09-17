@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Advanced Micro Devices vs. Texas Instruments: Which Tech Stock Is a Better Buy in 2026?
+  summary: AMD's data center momentum goes up against Texas Instruments' fortress balance sheet in a classic growth-versus-stability face-off.
+  url: https://finnhub.io/api/news?id=f859838e3d3e875549086eb00639b694704485400e9b069447dc1bcf9e980029

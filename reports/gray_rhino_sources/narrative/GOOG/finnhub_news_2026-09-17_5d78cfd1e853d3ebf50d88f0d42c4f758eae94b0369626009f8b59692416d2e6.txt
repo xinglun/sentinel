@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What's Happening With NBIS Stock?
+  summary: Nebius Group (NBIS) jumped over 6% in extended trading on September 16 following revised pricing strategies across its on-demand AI compute resources. Yet, the stock remains down roughly 22% over the trailing month due to balance sheet stress, equity dilution fears, and sector rotation. The central tension remains execution: can Nebius convert its massive backlog into revenue before heavy capital commitments squeeze liquidity.
+  url: https://finnhub.io/api/news?id=60cf3b5ef4d805d139cf33ca0fe1b4de517b3f0f6e4b8441477a8609d8bcd86b

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could SpaceX Buy Tesla? Ron Baron Says He Gave Elon Musk Reasons For And Against A Blockbuster Deal
+  summary: Musk’s companies generated about $30 billion of the $71 billion in profits Baron Capital has made for clients.
+  url: https://finnhub.io/api/news?id=d0d473dacbcd512d0baac43d7e5f3ac28667b22ac9e662be6eaf2b55b797ea3c

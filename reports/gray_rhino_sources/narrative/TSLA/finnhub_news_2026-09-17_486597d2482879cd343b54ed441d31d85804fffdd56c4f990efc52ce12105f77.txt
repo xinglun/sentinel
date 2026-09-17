@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Has a Potential Catalyst Wall Street Can’t Ignore
+  summary: Tesla just posted record deliveries and expanded Robotaxi to seven cities, yet the stock sits 20% in the red for the year. Something has to give, and one stacking set of catalysts could force Wall Street to completely rethink its math.
+  url: https://finnhub.io/api/news?id=7cff0bd6add3b1bd8a575714636ca71eb8dcd261a25d137537a06f01a963d15a

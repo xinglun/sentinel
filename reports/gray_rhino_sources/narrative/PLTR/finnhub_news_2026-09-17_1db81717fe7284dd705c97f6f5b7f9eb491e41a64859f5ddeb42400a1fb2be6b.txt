@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CMG Stock Ticks Up On AI Food Safety Bet With Palantir: Retail Bullish On ‘Ontological Burritos'
+  summary: Chipotle is adding AI-driven analytics to food safety as outbreaks, supply chain risks pressure industry.
+  url: https://finnhub.io/api/news?id=5d8d069475dec364439dd0392f8cb3487c2ec7b8652f5ae48893d54afbf9ada4

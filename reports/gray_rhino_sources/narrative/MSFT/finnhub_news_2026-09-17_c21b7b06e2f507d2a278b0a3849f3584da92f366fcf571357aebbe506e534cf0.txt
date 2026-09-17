@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Worth $2 Trillion. Why Does Its Stock Swing Like a Small-Cap?
+  summary: SpaceX is worth about $2 trillion, but its shares swing roughly 4.5% a day as a small float and heavy retail trading drive volatility.
+  url: https://finnhub.io/api/news?id=c199e2b30aa58bc7ada83ad306812fac546f8f9535dc1cbc79d70f3c0a0dc088

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RKLB Stock Eyes Ending 5-Week Slide: Iridium Deal Clears First FCC Hurdle, VC Backer Hails Solar Breakthrough
+  summary: Iridium shareholders will vote Sept.24 on the $8.1 billion deal, which is expected to close in mid-2027.
+  url: https://finnhub.io/api/news?id=5d2ee20a7d39d4743cce01ccdb4b1e34146037713a2efb22928601af0ecc9585

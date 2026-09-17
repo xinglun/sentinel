@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock and IREN Jump. AI Neoclouds Are Flexing Their Pricing Power.
+  summary: Nebius Group  was leading its fellow so-called neoclouds higher early Thursday.  There’s more evidence that computing power is in enormous demand and artificial-intelligence chips are holding their value.  Nebius recently informed customers that it will raise its on-demand rental prices for a range of AI chips, with the price for renting a number of  Nvidia  graphics-processing units increasing by about 20%, according to Shay Boloor, chief market strategist at Futurum Equities.
+  url: https://finnhub.io/api/news?id=a753dc5a4f4d819d3c0f93adcc0f39644efef079d556a56c228fdeef0f85d6d1

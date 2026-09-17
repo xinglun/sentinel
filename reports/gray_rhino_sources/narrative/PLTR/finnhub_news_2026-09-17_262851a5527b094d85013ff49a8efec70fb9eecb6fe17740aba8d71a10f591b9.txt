@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Signs Definitive Agreement With Sprintbach For OperatorOS, Surf Air Mobility's SurfOS Flight Operations Software For Part 135 Operators Powered By Palantir
+  summary: Definitive agreement marks official commercial launch of OperatorOS product and a step toward Surf Air Mobility&#39;s goal of five operators live on the platform by the end of 2026.Surf Air Mobility will earn a
+  url: https://finnhub.io/api/news?id=c6809f85e847c5a13a5f4ca09acc77b4fee653debbd262b0d4d68af8ad018dfa

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Earnings Drag and Geopolitical Headwinds Weigh on Lockheed Martin’s (LMT) Performance
+  summary: Alluvium Asset Management, an asset management company, released its “Conventum – Alluvium Global Fund” second-quarter 2026 investor letter. The letter can be downloaded here. The second quarter reflected a sharp shift from geopolitical uncertainty and oil market volatility to a powerful equity rally led by semiconductor companies. Despite the broader market strength, the Fund declined […]
+  url: https://finnhub.io/api/news?id=73e12dba546ef59f77e9756e020dfbb1d2f2768cbf0348efea7d8f2f145240a1

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla establishes import/distribution company in Vietnam
+  summary: The US automaker has yet to establish a dealer network in the country.
+  url: https://finnhub.io/api/news?id=c93f46dac6a6323d55bfa698f50c4246a4b8ee3e0b7fb78be85d9bbc93705899

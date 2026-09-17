@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Volatility Is Here, But Hold On For The Long Haul
+  summary: SpaceX is reaffirmed as a buy, with recent volatility presenting attractive entry points for long-term investors. Read more on SPCX stock here.
+  url: https://finnhub.io/api/news?id=f2a1d6e648e81d38f67342b189ce5e261ebec7e8d361449fa73e94f9ab6513d3

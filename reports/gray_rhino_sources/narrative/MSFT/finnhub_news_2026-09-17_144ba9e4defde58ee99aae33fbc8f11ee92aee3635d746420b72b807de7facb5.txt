@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia stock jumps as Microsoft AI data partnership expands
+  summary: Nokia Data Suite and Microsoft Fabric will be combined to help telecom operators access network data in minutes instead of weeks
+  url: https://finnhub.io/api/news?id=c6271a6244c1f14feff5be74018b603ef969939f89634e95d7d2336f9e179ff2

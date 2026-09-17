@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Tesla Stock Will Be Worth This Much in 2031
+  summary: Wherever the stock ends up, it will be a volatile ride.
+  url: https://finnhub.io/api/news?id=97b07305964d994b071aa61a3cdb0382caff51a1b89ff029452cb7dfe3105109

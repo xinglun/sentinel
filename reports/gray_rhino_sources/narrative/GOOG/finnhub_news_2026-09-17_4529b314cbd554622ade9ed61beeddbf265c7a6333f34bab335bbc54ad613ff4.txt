@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Biggest Catalyst for Alphabet Stock May Not Be Search
+  summary: Alphabet's Search dominance built the empire, but a fast-moving segment now dwarfs it in growth rate and commands a backlog larger than the company's entire annual revenue. Here is what that shift means for where the stock goes next.
+  url: https://finnhub.io/api/news?id=f7cab9bff59218343e1e95852ef58534a226c93709d20f820e46184d71a81f9b

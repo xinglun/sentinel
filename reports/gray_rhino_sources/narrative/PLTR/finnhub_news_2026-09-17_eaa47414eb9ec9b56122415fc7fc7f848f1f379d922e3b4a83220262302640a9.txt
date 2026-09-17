@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Real Moat Just Got Stronger
+  summary: Palantirâs Nvidia/Nebius partnerships boost its AI orchestration role, but a 108x forward P/E and customer risk loom. Click for more on PLTR stock.
+  url: https://finnhub.io/api/news?id=f28126ccbe2f4c1e8750744e9da88067726f0409544a7d4542effdbb426eb61f

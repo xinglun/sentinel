@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Could Deliver Another 6% by Year-End as JPMorgan Calls Bears an ‘Extinct Species’ — Polymarket Bettors Price 35% Odds
+  summary: JPMorgan Chase & Co. equity strategists project that the S&P 500 index will reach 8,000 by the end of 2026, calling the bears an extinct species. Polymarket (CRYPTO: POL) bettors also assign a 35% probability to the index closing above...
+  url: https://finnhub.io/api/news?id=eb904c8ee687853ece83e27ca38fef54d2da900c4c0bdec6f649c2003686a536

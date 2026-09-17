@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Macro Insights: Yield Surges Vs. Energy Shocks, And Navigating Market Chaos
+  summary: 
+  url: https://finnhub.io/api/news?id=b30c2044cd8ee2bc4d889d2de953ef5d1ce5e69e90f6f3e53de88d20a24000d0

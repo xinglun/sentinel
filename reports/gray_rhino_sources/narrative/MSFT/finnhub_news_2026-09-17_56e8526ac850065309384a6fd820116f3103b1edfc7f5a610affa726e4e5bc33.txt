@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia accelerates network automation through agentic, unified data foundation with Microsoft
+  summary: Nokia accelerates network automation through agentic, unified data foundation with Microsoft Multi-vendor, cross-domain solution integrates Nokia Data Suite with Microsoft Fabric.Faster access to trusted, unified data allows telecom providers to scale autonomous, AI-driven operations.Initial use cases focus on RAN optimization through autonomous VoNR assurance and geo-experience, which correlates subscriber, network and RF data.Collaboration enables intelligent, agent-based solutions across the
+  url: https://finnhub.io/api/news?id=400f99e80d3e2261ecc075528ec4aba8ffaa3dae8585e04d9c852a01dd5fe1d5

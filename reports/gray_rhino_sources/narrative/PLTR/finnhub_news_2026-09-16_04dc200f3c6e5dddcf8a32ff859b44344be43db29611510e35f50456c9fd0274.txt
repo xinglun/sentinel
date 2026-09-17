@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $1.5 Trillion Defense Budget That Isn't Priced In
+  summary: Explore MISL ETF for diversified aerospace & defense exposure amid surging U.S.
+  url: https://finnhub.io/api/news?id=70880b481486fb758b1d64ee6162fd271de88c0dbfdebe3bdcd93d8edc08a2dc

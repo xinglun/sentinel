@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Tesla And SpaceX Sue Nanotech Firm TERA-Print Over ‘Terafab’ Name For Planned $16.8 Billion Texas AI Chip Factory
+  summary: Tesla and SpaceX sued TERA-print over the Terafab name for their planned $16.8 billion Texas AI-chip complex, denying trademark confusion.
+  url: https://finnhub.io/api/news?id=09f08f543d7081a50f651faebafa85c630133292400e77f1ccebcc872337713c

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Foreign Minister Wang Yi Says China, U.S. Should Prepare For Next Stage Of High-Level Exchanges In Call With Rubio
+  summary:  - Reuters Citing Xinhua
+  url: https://finnhub.io/api/news?id=9e8c81db02ffe3ae4396ae77878a7434291d65a9ed0527a974192cfe96fc08a2

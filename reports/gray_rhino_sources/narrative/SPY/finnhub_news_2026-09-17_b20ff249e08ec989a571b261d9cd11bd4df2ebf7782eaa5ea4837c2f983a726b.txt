@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September FOMC Statement: Cases For And Against Further Rate Hikes
+  summary: The Fed delivered exactly as expected at the latest FOMC meeting, which concluded yesterday. Read why there are reasons to expect that the Fed will go soft.
+  url: https://finnhub.io/api/news?id=5e8c69991b9e1cbaf01fad609b27216c294a60a9671e3c4b96cdc621aa447791

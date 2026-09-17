@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wang Yi, Rubio Exchange Views On Middle East Situation In Phone Call
+  summary:  - Reuters Citing Xinhua
+  url: https://finnhub.io/api/news?id=633e136b08e7717d5502fc9335ff2dd88d345dd35ccdbd4934ebf787b31946a1

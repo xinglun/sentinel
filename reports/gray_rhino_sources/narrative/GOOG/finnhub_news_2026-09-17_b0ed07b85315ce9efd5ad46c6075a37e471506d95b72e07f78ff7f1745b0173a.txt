@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'OpenAI Is Close To Solving Another Millennium Prize Math Problem' - The Information
+  summary: https://www.theinformation.com/newsletters/ai-agenda/openai-close-solving-another-millennium-prize-math-problem
+  url: https://finnhub.io/api/news?id=ee76e1ec613787da73b9290f2b56af799e0b4799c09b69ea324e837e8ad1ebaa

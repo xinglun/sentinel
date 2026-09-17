@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If the Pace of AI Is Slowed, Investors Can Turn to Quantum Computing. 4 Quantum Stocks to Buy Now.
+  summary: These four quantum stocks are leading the way in the space.
+  url: https://finnhub.io/api/news?id=d50c705913a2c7da0a4c0be02e882f2e127999bdaaf8d1f52eafdab2be5b17a8

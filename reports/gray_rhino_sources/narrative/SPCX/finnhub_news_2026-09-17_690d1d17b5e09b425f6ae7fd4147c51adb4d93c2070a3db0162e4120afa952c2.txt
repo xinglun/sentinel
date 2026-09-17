@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq, S&P 500 Futures Rebound After Fed Rate Hike: NVDA, NBIS, SNAP, SPCX, BE, GNRC Stocks In Focus
+  summary: Retail sentiment on SPY and QQQ remained ‘bearish’, even as futures recovered.
+  url: https://finnhub.io/api/news?id=2e03ad0be88e69667d38883382e98ef7254b0fa9459b6efa93c492f0c06496af

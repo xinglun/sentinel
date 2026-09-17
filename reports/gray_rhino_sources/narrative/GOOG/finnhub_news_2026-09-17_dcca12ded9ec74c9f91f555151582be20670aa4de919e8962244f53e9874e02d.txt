@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Rotate to Telecom & Software ETFs Now?
+  summary: Telecom and software ETFs may offer a defensive AI opportunity as investors rotate away from rate-sensitive chip stocks toward cash-rich mega-cap platforms.
+  url: https://finnhub.io/api/news?id=73eb6ceda7da317bb33307df6e8c3a339d66c002e6db00fb5567c8492bf8f197

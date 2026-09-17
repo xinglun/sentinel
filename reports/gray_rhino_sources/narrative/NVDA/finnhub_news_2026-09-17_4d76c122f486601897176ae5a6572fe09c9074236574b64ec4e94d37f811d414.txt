@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman's Pershing Square Took a New Stake in Netflix in 2026, Years After a Money-Losing Bet on the Stock. Why He Says This Time Is Different.
+  summary: Ackman was right about Netflix, but he still lost money on his investment.
+  url: https://finnhub.io/api/news?id=6f962f6fc486fc7d539e57dbf56f6a4806be83a6b78af1e35379b3ebd9c281bc

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chipotle Turns to Palantir After a Summer of Outbreaks
+  summary: The platform scores stores on health inspections, pest incidents and employee illness
+  url: https://finnhub.io/api/news?id=b985c613f92f7e6ef7c87495628c6fa49457010e7c93c5a37fd047d8256daa2c

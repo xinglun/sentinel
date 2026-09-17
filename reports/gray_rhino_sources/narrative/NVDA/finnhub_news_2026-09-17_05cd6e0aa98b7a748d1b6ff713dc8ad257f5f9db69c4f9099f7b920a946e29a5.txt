@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius stock jumps 9% as reported compute price hikes boost AI cloud peers
+  summary: A reported pricing change lifted Nebius and its rivals as investors looked for signs that AI compute remains tight.
+  url: https://finnhub.io/api/news?id=d7a3d2a0bc6a3829a274a817f409735717d64b0b441073ae374abb49fe80b1cf

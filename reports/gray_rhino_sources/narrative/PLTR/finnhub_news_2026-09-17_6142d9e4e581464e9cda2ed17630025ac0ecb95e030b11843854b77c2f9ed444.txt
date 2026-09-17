@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Signs First OperatorOS Contract with Sprintbach Aviation
+  summary: LOS ANGELES, September 17, 2026--Surf Air Mobility Inc. (NYSE: SRFM) ("Surf Air Mobility" or the "Company") today announced that it has signed a definitive agreement with Sprintbach Aviation ("Sprintbach") for OperatorOS, Surf Air Mobility's SurfOS flight operations software for Part 135 operators powered by Palantir Technologies (NASDAQ: PLTR) ("Palantir"). This contract is the Company’s first commercial OperatorOS agreement and will contribute to the Company's goal of having five operators liv
+  url: https://finnhub.io/api/news?id=12220eed74e2f8a8bab42d876800573dfb6a637c2c8984f89206412306234aea

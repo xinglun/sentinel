@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Despite Hype, Broadcom Keeps Edging Sideways and Down: This Wall Street Analyst Says It Will Provide 75% Returns Soon
+  summary: Broadcom just posted its ninth consecutive earnings beat and guided AI revenue up 236% year-on-year, yet the stock keeps sliding while the rest of the sector holds firm. One top analyst thinks the selloff created a rare window that closes fast.
+  url: https://finnhub.io/api/news?id=618e749b92ba5ebb35884d35db4870ba5fae1d641a26a90fff36a3aa04717064

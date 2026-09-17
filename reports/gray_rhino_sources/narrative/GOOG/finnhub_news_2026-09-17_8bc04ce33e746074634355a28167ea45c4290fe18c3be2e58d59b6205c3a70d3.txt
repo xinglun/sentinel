@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lagging The S&P 500? I Don't Care, And Neither Should You
+  summary: This U.S. equities portfolio prioritizes long-term compounding and margin of safety over short-term benchmark outperformance. Click to read more in detail.
+  url: https://finnhub.io/api/news?id=38511e139416253ef546439f35b4217c6fbb4d237681ab3a96555c3fa10e6d00

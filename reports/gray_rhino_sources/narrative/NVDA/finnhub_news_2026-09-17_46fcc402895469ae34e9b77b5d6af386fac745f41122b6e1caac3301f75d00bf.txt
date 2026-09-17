@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce sets $63 billion revenue target as AI reshapes growth
+  summary: The company once seen as vulnerable to generative AI now expects the technology to help carry revenue beyond Wall Street's forecast.
+  url: https://finnhub.io/api/news?id=a8cd86d22e3cb1981a7e067c4b47081fcef61313918e7f4b9e72f5b39b764913

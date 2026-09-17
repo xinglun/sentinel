@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia Stock Jumps as Microsoft Deal Deepens Its AI Network Push
+  summary: Nokia AI Momentum builds as Microsoft expansion, AI-RAN trials and 800G rollout support Thursday’s stock gain.
+  url: https://finnhub.io/api/news?id=923603d25cfa7d03600fc77c29f0298c4247f0749898f0f4f43fb50fe3a537c4

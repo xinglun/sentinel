@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Cash-Heavy Stocks Walking a Fine Line
+  summary: A surplus of cash can mean financial stability, but it can also indicate a reluctance (or inability) to invest in growth. Some of these companies also face challenges like stagnating revenue, declining market share, or limited scalability.
+  url: https://finnhub.io/api/news?id=16994a2d0685c97111d1c43fa3a111b6cf0f91bb8ccce00239ce46992bc32c83

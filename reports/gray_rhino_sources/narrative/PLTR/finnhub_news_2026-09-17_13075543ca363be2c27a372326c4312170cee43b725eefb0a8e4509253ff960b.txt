@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Group (NBIS) Is Down 12.9% After Becoming Palantir’s Preferred Sovereign AI Cloud Partner – Has The Bull Case Changed?
+  summary: On 8 September 2026, Palantir Technologies and Nebius Group announced a partnership making Nebius Palantir's preferred sovereign AI infrastructure provider, integrating Nebius' AI-native cloud and inference endpoints into Palantir's commercial perimeter to give eligible customers more control over compute, data, and models. This alliance highlights Nebius' positioning as an AI-first cloud platform built specifically for demanding AI workloads, potentially broadening its reach through...
+  url: https://finnhub.io/api/news?id=c9ac88a8980c3cffa2dd992c74927f5cb2b9679287d0b947aff53ac48ee9a336

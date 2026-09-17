@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vitality and Google Expand Technology Partnership to Bring AI-Driven Health Platform to the United States to Incentivize Healthier Behaviors
+  summary: Vitality, a global leader in behavioral change across insurance and health plans, in partnership with Google, today announced the extension of Vitality AI into the United States. Built on Google Cloud and Gemini Enterprise, the platform is already delivering measurable results internationally addressing one of healthcare's most persistent challenges: helping people take meaningful action to improve their health.
+  url: https://finnhub.io/api/news?id=e8c22a81962b30d3c4c29e97d0451346c8f4144a1f4323806f36bd7421ec9238

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arm’s CEO Says Demand Is ‘Off the Charts.’ The Problem Is Nobody Can Build Chips Fast Enough
+  summary: Arm's CEO says order books are overflowing and demand has never been stronger, yet the company keeps missing its own targets. Whether that gap points to a broken supply chain or a broken story changes everything for investors holding a 247x earnings multiple.
+  url: https://finnhub.io/api/news?id=f46086f78b26ca4653489c57be690d52c9c36258ecad07adb12416985611277d

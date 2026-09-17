@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet’s Core Business Is Printing Cash Faster Than Regulators Can Write Fines
+  summary: Regulators keep throwing billion-dollar fines at Alphabet and the company barely notices, which raises a more interesting question about how you value a business that outgrows its own penalties every few weeks.
+  url: https://finnhub.io/api/news?id=8ea4b22479022b3bdac72e4ed7aa34d40dbe08ac11ecb6f778263a10d6866f45

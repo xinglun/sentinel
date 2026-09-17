@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10-year Treasury yield eases, oil falls to $100: AlphaCheck
+  summary: Here's a check of the markets in the first few minutes of trading.
+  url: https://finnhub.io/api/news?id=ff0975d5493a70beeb0ece2c57bb502fb6e36f4018b49349a2fb83fc447db0de

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons Not to Delay Retirement -- Even When Your Brain Keeps Telling You to Wait
+  summary: There may come a point when continuing to work just doesn't make sense.
+  url: https://finnhub.io/api/news?id=90a85331445eca7d2fd6b1ab2e98f333189b9711528e69362d07e08f50986163

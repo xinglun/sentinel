@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Greg Abel Has 75% of Berkshire Hathaway's Portfolio Invested in Just 8 Stocks. Is the 1 That's Lagging Behind the S&P 500 the Best Buy Now?
+  summary: American Express is an impeccable value for long-term investors.
+  url: https://finnhub.io/api/news?id=85e931fed36537e3ef5c943f2b9ae84b70e78abbe15f2a04f8c6df70109b91e5

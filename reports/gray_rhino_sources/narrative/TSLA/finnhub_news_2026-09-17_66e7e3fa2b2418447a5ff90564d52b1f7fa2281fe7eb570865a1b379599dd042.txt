@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forum Mobility Will Bring Additional 30 MW of Heavy-Duty EV Truck Charging Online with Four New California Depots, Cementing Its Position as One of the Largest HD Infrastructure Providers in the U.S.
+  summary: Forum Mobility, one of the nation's leading zero-emission trucking solutions providers, today announced that it will break ground on four new electric charging depots across California, bringing an additional 30 MW of heavy-duty charging capacity online and cementing Forum's position as one of the largest heavy-duty infrastructure players in the U.S.
+  url: https://finnhub.io/api/news?id=e2c27b52029a99e44d6339117fb237d66a053b0a98f48135084e8d74da9ff78d

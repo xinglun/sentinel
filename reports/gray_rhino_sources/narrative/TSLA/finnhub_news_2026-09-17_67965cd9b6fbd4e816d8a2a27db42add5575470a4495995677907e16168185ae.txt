@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Falling EV Deliveries Aren’t a Problem for Tesla Stock
+  summary: It’s time for Tesla investors to think about EVs again. The third quarter faces a difficult year-over-year comparison.
+  url: https://finnhub.io/api/news?id=b0efdc54b0192370dadb94c458c3240e25cc4c86a7b9dfc8849a3002dc5587f9

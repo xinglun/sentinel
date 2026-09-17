@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Flat - But Recent News Suggests Not For Long
+  summary: Palantir has been converting roughly 12% of its U.S. commercial RDV into revenue each quarter. Check out why PLTR stock is a strong buy.
+  url: https://finnhub.io/api/news?id=80c4a3fc4dfd5bf3d1a0c104ed77cdff3659612ee2a2e4c6bfba6f0df057ecb6

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Investors Own More Nvidia Stock Than Its Founder Jen-Hsun Huang
+  summary: Elon Musk owns 28% of Tesla — making him the largest shareholder. It's similar at Meta. What about Nvidia? Not even close.
+  url: https://finnhub.io/api/news?id=c8800b6c82c39e80e677a32f263d5b53d9233c3355d921e63570b772e34792b1

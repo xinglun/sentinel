@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Investors Just Got Some Bad News From Anthropic Founder Dario Amodei
+  summary: The pace of artificial intelligence (AI) development might be set for a slowdown.
+  url: https://finnhub.io/api/news?id=58923a5803894cf5828a2df0a1a42806f160f9b7b7441756b5734a0d7e17bf8d

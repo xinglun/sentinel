@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX CFO: New Compute Deal Puts Company Closer to $100B ARR Goal
+  summary: The company is closer to achieving its audacious goal than investors might think.
+  url: https://finnhub.io/api/news?id=74bbab340fc98ccb2f842112980dd25763a4acd371a2d207d4eee8f51dc9a95b

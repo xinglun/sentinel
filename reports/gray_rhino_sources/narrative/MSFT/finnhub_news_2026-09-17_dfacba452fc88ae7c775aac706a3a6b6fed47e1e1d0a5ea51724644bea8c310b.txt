@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Quantum Start-Up Just Sold a Computer in an Untapped Market
+  summary: Two months after its public listing, IQM has agreed to sell a system to a research institution in Brazil.
+  url: https://finnhub.io/api/news?id=4d437abdf20822b2dc217329edf187af350ecfc1804d81c076be6b0668d3f026

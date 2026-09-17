@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SRFM Lands First OperatorOS Customer As Palantir-Powered Platform Goes Commercial
+  summary: Surf Air Mobility has signed its first commercial OperatorOS agreement with Sprintbach Aviation, creating a revenue-sharing arrangement tied to flights managed through the software.
+  url: https://finnhub.io/api/news?id=8439e6ab165164f1958b4d0a18ba508ecf1c315f7e1a5746e090801c19eada12

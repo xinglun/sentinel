@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Battery Storage-Shift Pilot Demonstrates How Hourly Renewable Certificates Can Power the Next Phase of Corporate Clean-Energy Goals
+  summary: Quintrace, esVolta, and LevelTen Energy today announced the results of a battery storage pilot, sponsored by Google, that shows how batteries can capture surplus renewable energy and deliver it to the hours with greater fossil generation, opening up the first environmental revenue stream for battery assets. Using hourly, time-stamped Granular Certificates (GCs), the pilot allocated solar energy to grid-connected batteries and shifted it to hours when Google's energy consumption exceeded its rene
+  url: https://finnhub.io/api/news?id=c35c8748d7078429d28f80ce73dac09b2a80f0cb76fa1407607af882d2513501

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Synthio Labs Launches DOSE Benchmark: Leading Voice AI Models Mispronounce Up to One in Three Newly Approved Drug Names
+  summary: Synthio Labs, a clinical-grade voice and agentic AI company for pharma, today published DOSE (Drug-name Oral Synthesis Evaluation), the first public benchmark of how accurately text-to-speech (TTS) systems pronounce drug names. DOSE tests nine models on 274 drug names, 146 of them newly approved, each read inside a real clinical sentence. Read the full report here.
+  url: https://finnhub.io/api/news?id=b31b1d03c65bbb34344afed9754592556657839cb1b4f6e986137f6f16c39bfc

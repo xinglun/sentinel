@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity: This Forgotten AI Winner Is Firing On All Cylinders
+  summary: Unity (U) stock: AI-driven software & ads platform with accelerating revenue growth and margin expansion; management guides strong outlookâread now.
+  url: https://finnhub.io/api/news?id=054201351447e1edafffe124a1ad06bb974a4e5b9b754fbbb2a636b460b68874

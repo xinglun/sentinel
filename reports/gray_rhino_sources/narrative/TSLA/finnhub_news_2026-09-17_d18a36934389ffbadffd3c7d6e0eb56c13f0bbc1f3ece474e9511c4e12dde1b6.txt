@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Stock Could Nearly Double to $200 in 2 Years, Analyst Says — Potential Apple, Tesla, and AI Chip Deals Could Fuel the Rally
+  summary: Intel stock could double to $200 within two years as potential Apple and Tesla foundry deals and AI demand drive earnings growth.
+  url: https://finnhub.io/api/news?id=5f4ce671b50ebaa102ac50a24bad5212b70b6456b06fe521e79b0264e72e4e62

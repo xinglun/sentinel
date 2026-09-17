@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Does AppLovin Stock Do On Your Worst Days?
+  summary: AppLovin (APP) has climbed 6.2% over the last five trading days while the S&P 500 slipped 1.1%. With the stock about 55% below its 52-week high, a week like that pulls in bottom hunters. But next week is the wrong question. What matters to your money is what holding AppLovin does every time the market moves, because it travels far further than the index, and furthest on the way down.
+  url: https://finnhub.io/api/news?id=91a777d6c0fcf130371f98dfcb0422f166cfe46cdbc288875e3016884ace7f2d

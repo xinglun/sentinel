@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baron Technology ETF Q2 2026 Portfolio Activity
+  summary: As part of its record-breaking IPO, we acquired shares in Space Exploration Technologies Corp.
+  url: https://finnhub.io/api/news?id=2060f1dc5634fc9da72bf9ffeb4876ff7a3069d6c509e72a00c7cd9c52e5fa85

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: A $3.2 Trillion Inflection Is Closer Than It Looks
+  summary: SpaceX maintains a significant valuation premium post-IPO supported by resilient institutional confidence and a robust execution roadmap. Read more on SPCX.
+  url: https://finnhub.io/api/news?id=e59c4b8f9801ea000af134d61b1ba62c935cc0acdc7e49c4dc0d021740d99a09

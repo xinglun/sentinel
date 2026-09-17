@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Hands Investors $8.5 Billion In Shares Through In Kind Distribution
+  summary: Space Exploration Technologies (NasdaqGS: SPCX) backer Valor Equity Partners distributed about US$8.5b of SpaceX shares in kind to its limited partners. The distribution shifts a sizeable stake from a single early institutional holder to a wider base of Valor fund investors. Valor continues to retain a meaningful position in SpaceX after the transaction, keeping the firm involved as a long term shareholder. Valor Equity Partners' US$8.5b in kind SpaceX share distribution lands against wider...
+  url: https://finnhub.io/api/news?id=4d17a3cc403d607a7a06daf7f12fd13e1c125f393415777c45ab5d6197ae5b38

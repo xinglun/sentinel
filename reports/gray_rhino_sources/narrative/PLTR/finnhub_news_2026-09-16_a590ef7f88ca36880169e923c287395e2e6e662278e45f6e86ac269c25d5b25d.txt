@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zeta Live 2026: Expanded Lineup Featuring Kevin Hart, Lindsey Vonn, Russell Westbrook and Tiffany Haddish with Performances by Steve Aoki and Oz Pearlman
+  summary: NEW YORK, September 16, 2026--Zeta Live 2026: Expanded Lineup Featuring Kevin Hart, Lindsey Vonn, Russell Westbrook and Tiffany Haddish with Performances by Steve Aoki and Oz Pearl
+  url: https://finnhub.io/api/news?id=c453d6e5a34c491694127c1caeb878a0524e11b97466e86b33b40efbc9efce7e

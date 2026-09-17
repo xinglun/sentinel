@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Eyes Red Week: Ross Gerber Spots ‘Secret’ Waymo Army As Cybercab ‘Wastes Time’ Amid NHTSA Scrutiny
+  summary: Waymo operates over 4,000 vehicles across 15 U.S. cities and completes more than 500,000 weekly rides, far ahead of Tesla’s current robotaxi footprint.
+  url: https://finnhub.io/api/news?id=d14511a67e93b37625b75f892945f2351f259f71f09c2a1a23c5297e6675a9e0

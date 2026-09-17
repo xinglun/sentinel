@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Warns Rocket Startups: Don’t Try to Copy SpaceX’s Raptor 3 — ‘Very Complex Geometry’ Inside
+  summary: Elon Musk says Raptor 3’s simple exterior hides complex 3D-printed internals, warning rivals as Space Pioneer develops a comparable engine.
+  url: https://finnhub.io/api/news?id=c8feefe9ec2d84a1da3ce5489b04e698021b30f5acdf2cff122d7a589424a54d

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Veteran Analyst Doubles Down on Massive Palantir Stock Call
+  summary: Hypergrowth could support the thesis, but valuation remains demanding
+  url: https://finnhub.io/api/news?id=8dbed8a87d923f71bff9d36ba69935fe37610876c35e2c229f8bb970395d59a3

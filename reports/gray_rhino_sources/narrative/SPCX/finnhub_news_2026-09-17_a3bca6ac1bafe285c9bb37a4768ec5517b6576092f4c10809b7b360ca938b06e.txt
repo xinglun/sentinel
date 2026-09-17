@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Rises In Fed Aftermath; Generac, Nebius, Bloom, SpaceX Are Early Movers (Live Coverage)
+  summary: Futures rebounded with the Nasdaq and S&P 500 eyeing key support. Generac, Nebius, Bloom Energy, SpaceX were early winners.
+  url: https://finnhub.io/api/news?id=49d60463dfc18365c2ea7869c2b6ad825c2821bac2c6dfa5a649333d40193d1c

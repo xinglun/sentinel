@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO: AI companies have to be nationalized to cap their liability
+  summary: Alex Karp, Palantir co-founder and CEO, joins 'Squawk on the Street' to discuss the concerns around AI safety, what AI CEOs are after and much more.
+  url: https://finnhub.io/api/news?id=0c407ed99367389240b59dc979e4be1356a4a6980c547c287873e37517659d60

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Matlantis Accelerates Catalyst Discovery to Advance Materials Innovation With NVIDIA ALCHEMI
+  summary: AI-powered atomistic simulation enables ENEOS to screen approximately 100 million catalyst structures, cutting a discovery process from years to monthsCAMBRIDGE, Mass. and TOKYO, Sept. 17, 2026 (GLOBE NEWSWIRE) -- Matlantis, a leading provider of AI-powered atomistic simulation for industrial materials R&D, today announced that ENEOS Holdings Corporation (“ENEOS HD”) is using Matlantis PFP, the company’s general-purpose machine learning potential to accelerate the discovery of new catalyst mater
+  url: https://finnhub.io/api/news?id=564117f8d85821b516cd6e29c186ea01e2712d7148256dcc31afb593481f6840

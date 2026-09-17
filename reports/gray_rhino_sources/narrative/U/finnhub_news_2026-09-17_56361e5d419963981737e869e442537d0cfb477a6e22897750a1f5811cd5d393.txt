@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Corporation: Great Business, But External Headwinds Keep Me On The Sidelines
+  summary: AppLovin has transformed into an AI-driven ad tech provider with robust fundamentals and significant industry tailwinds. Find out why APP stock is a hold.
+  url: https://finnhub.io/api/news?id=fe6aad803a2e0b4782da038f135b9517582ea36c70fcb235644f15cc4042ba1b

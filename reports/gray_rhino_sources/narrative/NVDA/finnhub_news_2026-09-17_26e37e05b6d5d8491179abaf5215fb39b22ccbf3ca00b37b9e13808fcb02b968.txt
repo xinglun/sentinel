@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Would It Take for Investors to Pay More for Toast Stock?
+  summary: The market could be underestimating Toast stock right now.
+  url: https://finnhub.io/api/news?id=bde01a5da090ad57f51ebd982f38d0e3ab338674bfbc4cd21ce27cdedd7984d8

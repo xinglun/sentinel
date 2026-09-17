@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: History Says This Is the Amount of Yearly Dividend Income a $7,500 Investment in Realty Income Stock Could Generate by 2030
+  summary: This monthly dividend REIT offers steady income, but don't expect significant growth over the next four years.
+  url: https://finnhub.io/api/news?id=d526efd0ef9b847648e39e5f04a94f1d73ff0ad0d51943daa525f0281b794644

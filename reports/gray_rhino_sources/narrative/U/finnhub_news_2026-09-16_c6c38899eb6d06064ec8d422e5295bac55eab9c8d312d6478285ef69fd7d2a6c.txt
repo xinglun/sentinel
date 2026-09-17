@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: APP Stock Falls 36% in 3 Months: Is it a Buy After the Pullback?
+  summary: AppLovin's 36% three-month slide contrasts with 52% revenue growth and stronger Q3 guidance, but AI model timing and scaling risks cloud the rebound.
+  url: https://finnhub.io/api/news?id=550c03a835bc372bb2900dcd5aef434a79aaa2f101b420d0989437f5d122c689

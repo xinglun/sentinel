@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Most Arguments In Favor of Buying Meta Now Miss One Powerful Catalyst
+  summary: Most Meta bulls are building their case on the wrong foundation, and Zuckerberg's own words from the latest earnings call point to a business line that has never appeared on an income statement yet.
+  url: https://finnhub.io/api/news?id=c21735dbfcd7b85f016a9834dd2744bfd05d56896a196f7fa95e1155ffadd32a

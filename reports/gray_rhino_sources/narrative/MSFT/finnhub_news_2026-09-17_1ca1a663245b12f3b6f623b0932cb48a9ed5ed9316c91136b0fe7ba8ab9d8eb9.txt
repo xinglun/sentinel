@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nokia Extends Microsoft Tie-Up With AI Platform For Telecom Network Automation – NOK Stock Rises Premarket
+  summary: Nokia and Microsoft are combining their telecom data and analytics platforms to support agent-based network operations across multi-vendor environments.
+  url: https://finnhub.io/api/news?id=6cf85a577bb08242160807ee25d7c35c4acd4d2c5530d41100742cae1310481e

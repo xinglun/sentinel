@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XAR Vs. ROKT: Expanding To Space Is A Mistake
+  summary: ROKT holds 22% in space pure plays and 11% in subsea, while XAR holds 14% in drone, eVTOL and public safety. Read more on XAR and ROKT ETFs here.
+  url: https://finnhub.io/api/news?id=90386ea7bfe8f9ef947b38cb0bafe5f6fc333f3d27bf161a7552d5b69725c4ce

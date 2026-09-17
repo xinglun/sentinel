@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's $1 trillion valuation case is back in focus
+  summary: Palantir is already worth more than $400 billion, but Ives thinks the AI story could get much bigger.
+  url: https://finnhub.io/api/news?id=2c42d32541d72a6852a1ff7203f65a34ae712587be10a15eb0d39b697effa998

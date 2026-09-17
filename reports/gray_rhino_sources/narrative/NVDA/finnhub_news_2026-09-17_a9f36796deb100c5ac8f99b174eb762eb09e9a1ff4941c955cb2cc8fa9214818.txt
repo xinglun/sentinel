@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple: Reality Check Coming, But I'm Not Selling (Downgrade)
+  summary: Apple shows pricing power and AI-driven premium launches but trades at 36x forward earnings. Click here to read this AAPL stock update.
+  url: https://finnhub.io/api/news?id=2dd3fd2b95ccd0bc3aa7953041e37d82c839f8d2ecbfa1a5fe60f30ed2728f1b

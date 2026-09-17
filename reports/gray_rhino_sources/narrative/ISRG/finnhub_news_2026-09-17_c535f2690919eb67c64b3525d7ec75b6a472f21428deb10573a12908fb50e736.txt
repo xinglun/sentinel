@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Cash-Heavy Stocks to Research Further
+  summary: Companies with more cash than debt often have stronger financial flexibility, making them attractive in uncertain markets. With interest payments less of a worry, these businesses can invest more in growth, innovation, or buybacks and dividends.
+  url: https://finnhub.io/api/news?id=8f0c7282013984b0eb20339298fda6115088fecae09615502aae3f2553887384

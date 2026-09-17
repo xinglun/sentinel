@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Checkout Standards, 3% Adoption: The Protocol Proliferation Tax Killing Agent Commerce
+  summary: AI agents excel at product discovery, but they struggle to close the deal. While 132 million U.S. adults have used AI to assist in a retail purchase, according to PYMNTS Intelligence, the actual conversion rate for these autonomous systems remains stuck. Only 3% of transactions currently involve agents, revealing a massive chasm between finding an […]
+  url: https://finnhub.io/api/news?id=8af3c520e1c9aa129ccd5e7a2783c8abcbd5631cbc5ecd2c8931f85732d8c796

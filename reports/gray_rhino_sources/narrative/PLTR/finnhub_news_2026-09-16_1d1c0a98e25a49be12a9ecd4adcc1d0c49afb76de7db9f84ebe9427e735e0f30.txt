@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Palantir Stock Priced For A Swing This Wide After A Flat Year?
+  summary: Palantir Technologies (PLTR) trades near $172.56, and the options market has already drawn the year ahead in dollars. The one-year band runs from $96.77 at the floor to $307.69 at the ceiling. That is not a forecast. It is the size of the uncertainty you are holding, and it raises a question about position size rather than direction.
+  url: https://finnhub.io/api/news?id=2745b8f4bdbe8d3ed7c90f1eb0338faaea2fff0331be67e1d85702418078733b

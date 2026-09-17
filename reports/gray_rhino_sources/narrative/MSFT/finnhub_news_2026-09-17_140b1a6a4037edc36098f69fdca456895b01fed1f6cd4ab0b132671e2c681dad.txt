@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Could Threaten Nuclear Command Systems, Warn US-China Experts— Urge Human Control and Emergency Hotline
+  summary: US-China security experts urge AI safeguards for nuclear systems, cyberattacks and military escalation as AI risks grow.
+  url: https://finnhub.io/api/news?id=e27013626ab5837fb59cb27c6d152c79817225618c562b730a13a2a6f66fe0f6

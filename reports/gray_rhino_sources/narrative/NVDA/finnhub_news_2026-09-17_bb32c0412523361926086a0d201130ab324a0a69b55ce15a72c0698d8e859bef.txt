@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM and IonQ Stocks Rally on Fresh Quantum Computing Breakthroughs
+  summary: IBM Lands $1 Billion Quantum Award as IonQ Stock Rises on AI Breakthrough
+  url: https://finnhub.io/api/news?id=bb75741de20347cbd93888dd04636ec24ce1f2e46a9290263fe2f84447294914

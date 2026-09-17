@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lucid stock jumps on 25,000 robotaxi deal with Europe's Bolt
+  summary: Lucid stock jumped on Wednesday after the electric-vehicle maker signed a major partnership with European ride-hailing platform Bolt to deploy at least 25,000 autonomous vehicles across major European cities, extending Lucid's robotaxi push beyond the US for the first time.
+  url: https://finnhub.io/api/news?id=a0ff60c1bca66d9dcc49d24521bdbaa5ed7e865a1cb4df4318ab4f73a828bbad

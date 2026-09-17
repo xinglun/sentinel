@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle’s 2026 Cratering: This Pro Is Sure It Will Nearly Triple in the Next 12 Months
+  summary: Oracle just delivered a blowout quarter and its shares cratered anyway, but a handful of Wall Street analysts are calling the selloff the opportunity of the year with a price target that would nearly triple your money.
+  url: https://finnhub.io/api/news?id=dc2c9634a3fbc2361efb918f0b73df9baa621d16810dd0b656b6962b52f05918

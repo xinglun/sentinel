@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel: Too Expensive Despite The Fast Growth
+  summary: Intel (INTC) posts fastest growth in 15 years as Q2 revenue jumps 25% and margins expand; PC price hikes lift profit.
+  url: https://finnhub.io/api/news?id=e7f2e97b399ed9ca5f6b192f20fafd73d713b3d933a843c2cfb71397aa058803

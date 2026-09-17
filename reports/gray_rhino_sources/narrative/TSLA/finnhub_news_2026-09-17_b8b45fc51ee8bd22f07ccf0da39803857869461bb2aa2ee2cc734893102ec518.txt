@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla to Operate Megacharger Sites at Three Forum Mobility Depots in California
+  summary: Tesla (NASDAQ:TSLA) will operate public Megacharger facilities for heavy-duty electric trucks at three California depots being developed by Forum Mobility, as part of a 30-megawatt charging infrastructure expansion. Forum Mobility announced on Thursday that it is developing four electric truck charging depots across Northern and Southern California.
+  url: https://finnhub.io/api/news?id=f71cdd236f85bac47ec055f525ea6914f2d0d03ab0714fb943b742bee4b4677a

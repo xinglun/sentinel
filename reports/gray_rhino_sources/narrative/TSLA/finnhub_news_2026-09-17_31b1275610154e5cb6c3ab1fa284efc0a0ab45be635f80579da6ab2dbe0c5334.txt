@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Gets Sucked Further Into China's Price War -- Here's Why It Will Succeed Anyway
+  summary: Tesla is making a rare cut to its vehicle pricing in China, which could be the small boost it needs domestically to add to its export strategy.
+  url: https://finnhub.io/api/news?id=da98c14ef323a90422ae4e87082a55f635f1d7023bec3b02bda3842a57e256f7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Stock Jumps On Cloud Computing Price Hikes
+  summary: Nebius stock popped after the cloud computing specialist announced price hikes of around 20% effective Oct. 1.
+  url: https://finnhub.io/api/news?id=7ee30d2e981fec9257bea5fdd23fee43371a3394a875c5f79891f93ddff4ba3c

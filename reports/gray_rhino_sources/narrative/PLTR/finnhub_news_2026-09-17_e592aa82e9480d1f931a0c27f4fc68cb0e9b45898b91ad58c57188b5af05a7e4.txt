@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI needs to have 'reasonable guidelines,' Palantir's Karp tells CNBC
+  summary: Palantir CEO Alex Karp called for "reasonable guidelines" on artificial intelligence regulation as tech and policy leaders deliberate over the technology.
+  url: https://finnhub.io/api/news?id=75816882b7aa28a5e2fe50a83cf2baa820571ce97f08318bf8dd4425ed78d459

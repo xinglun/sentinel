@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warsh says AI’s hyperscalers are part of why your borrowing costs are rising: ‘The competition for capital is real’
+  summary: Hyperscalers issued $121 billion in bonds last year and are on pace for far more in 2026. Warsh says that's showing up in Treasury yields.
+  url: https://finnhub.io/api/news?id=cc61cf336b973c10846f0c51c34a71533713ff2b5bc39d6c826810b554d4ab43

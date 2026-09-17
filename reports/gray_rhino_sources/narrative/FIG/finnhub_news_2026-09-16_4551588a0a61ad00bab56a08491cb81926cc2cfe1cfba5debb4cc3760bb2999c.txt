@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce vs. Figma: Evaluating the Better High-Growth Software Stock to Buy in 2026
+  summary: Salesforce boasts an 18% net margin and $14.4 billion in free cash flow, while Figma races towards profitability at 41% revenue growth, a classic clash of proven cash generation versus explosive expansion.
+  url: https://finnhub.io/api/news?id=64c1d960abb185fc1c48f98f17a645dadade4d6fb34c9657b133d40bbd78598d

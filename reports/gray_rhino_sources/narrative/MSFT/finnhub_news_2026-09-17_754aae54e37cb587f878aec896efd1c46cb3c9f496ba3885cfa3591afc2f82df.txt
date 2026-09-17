@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why This European City is Becoming a Magnet for Tech and Wealth
+  summary: Wealthy families, tech innovators and private banks are migrating to Lisbon, Portugal. What makes it such an attractive destination — and could it work for you?
+  url: https://finnhub.io/api/news?id=2763b3b842650ad4e6309ca7657b3d93d57ef926c5f63a0fd9fcc3318d4ff59f

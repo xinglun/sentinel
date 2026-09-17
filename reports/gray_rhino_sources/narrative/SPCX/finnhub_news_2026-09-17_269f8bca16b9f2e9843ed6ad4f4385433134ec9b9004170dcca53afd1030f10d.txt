@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's First Orbital Starship Flight Is Targeted for Sept. 22. Here's What's Riding on It for the Stock.
+  summary: Starship's 14th test flight would be its first try at orbit -- and its first with a payload that makes money.
+  url: https://finnhub.io/api/news?id=11af245d6e439cc0c359d4d1f7d3f977b073ede0bc8982f1cec084ff166703ef

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Cybercab Under the Microscope: NHTSA Demands Answers to 21 Safety Questions by Month-End
+  summary: On Tuesday, the U.S. National Highway Traffic Safety Administration ordered Tesla Inc. to answer 21 detailed questions by Sept. 30 on how it self-certified its Cybercab robotaxi as compliant with federal safety standards. According to the order, NHTSA’s Chief Counsel,...
+  url: https://finnhub.io/api/news?id=fdea7701a4e06f8cb39babf83e8bb211c6bd0eea0e9dcc0cac409f28352dcdec

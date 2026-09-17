@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Markets Breathe Again, Work To Undo Post-Fed Pulldown
+  summary: Investors gain confidence in Fedâs fight against inflation. 10-year yield drops below critical 5%. Generac shares take off with Amazon deal. Read more here.
+  url: https://finnhub.io/api/news?id=f22a43224290c00a254c3ef2734943a304436a5a924a9b454245299c9b4804be

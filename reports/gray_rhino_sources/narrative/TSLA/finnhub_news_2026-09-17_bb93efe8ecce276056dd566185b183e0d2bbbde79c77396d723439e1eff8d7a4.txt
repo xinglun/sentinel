@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Humanoid Robots Are Getting Smarter and Capable — But Researchers Mull If Their ‘ChatGPT Moment’ Is Here?
+  summary: Citrini examines humanoid robotics progress in autonomy, hardware, real-world applications and the path toward commercialization.
+  url: https://finnhub.io/api/news?id=fe612d25e6fca02d72e8b6377275f1cacafae5bf810144fae65b4adcc033b29f

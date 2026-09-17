@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 22.4% of Billionaire Bill Ackman’s Pershing Square Capital Management Is Invested in These 2 Artificial Intelligence (AI) Stocks
+  summary: These AI stocks can be excellent core holdings for a well-diversified portfolio.
+  url: https://finnhub.io/api/news?id=6ed92433bdbd002888e13442151331b71c65ef947c8c5c9ac960f5f188a0efb5

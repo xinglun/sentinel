@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Lake Energy Bridges Real-World Assets With Digital Finance
+  summary: Lake Energy has launched a renewable energy Real-World Asset (RWA) platform to connect tangible energy assets, such as solar, wind, and energy storage, with broader investor bases. This development is significant in the context of energy transition, as it leverages the digital finance landscape to improve accessibility to renewable energy infrastructure, previously hindered by complex and lengthy investment processes. By incorporating actual renewable energy projects, the platform aims to...
+  url: https://finnhub.io/api/news?id=fac53a96c3a7d74ba0aa21597f83810af1e16e6d4d4769d2d780c4154fe51fcf

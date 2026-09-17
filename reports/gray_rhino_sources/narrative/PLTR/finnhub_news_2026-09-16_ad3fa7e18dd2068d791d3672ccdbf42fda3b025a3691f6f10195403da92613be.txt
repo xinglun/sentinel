@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Market Dipped But Palantir Technologies Inc. (PLTR) Gained Today
+  summary: Palantir Technologies Inc. (PLTR) reached $174.34 at the closing of the latest trading day, reflecting a +1.03% change compared to its last close.
+  url: https://finnhub.io/api/news?id=84726d35a2b95aa22f9ffbabcd19f839016f61e0a1be4f769307d861ba6f6f07

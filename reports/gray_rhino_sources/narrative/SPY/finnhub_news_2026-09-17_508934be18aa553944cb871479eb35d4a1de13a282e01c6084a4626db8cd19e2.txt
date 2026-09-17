@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 5 Things To Know About Yesterday's Rate Hike
+  summary: The Fed, as expected, raised short-term interest rates 25 basis points, with the new Fed Funds target 3.75-4%.
+  url: https://finnhub.io/api/news?id=617eb5e787fcfddd85ce2e9fd5223faeaa31b348cf5511ac148ce763a0ee1876

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Causaly is Now Available in Microsoft Copilot
+  summary: Causaly today announced an expansion of its collaboration with Microsoft that brings agentic scientific research directly into Microsoft Copilot. Enterprise life sciences R&D can now access Causaly from within their existing Microsoft 365 workflows, including the Copilot app and Microsoft Teams. Causaly adds the vertical scientific workflow layer to Copilot, orchestrating end-to-end research that surfaces prior science, reasons over biological mechanisms, and synthesizes evidence into cited answ
+  url: https://finnhub.io/api/news?id=48efff0b5ced10ad3a2e7408847a15fa3ad670267b31279a10d5c0a26d55d63a
