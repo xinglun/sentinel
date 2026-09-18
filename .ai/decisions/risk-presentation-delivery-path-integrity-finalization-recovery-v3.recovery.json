@@ -1,0 +1,26 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-message:继续之前没完的任务；授权",
+  "decidedAt": "2026-09-18T00:20:00Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:0f84f140bddda45c068450a0caf92bc2f9fe242408f4258bdee05467dd82926f",
+  "predecessorEventsDigest": "sha256:b7e6a46bfe709801b0c704e043a144e7d4f7317688d144582c0157eadd0e1cf5",
+  "predecessorOutcomeDigest": "sha256:ac3fac8ef5e30baf622dcd2277c288d4841a433df7e01badfae5c094ed16d292",
+  "predecessorSummaryDigest": "sha256:c4b17d0ae30ccd6d60524d716592ea184a5226fd8db81249a2c2b2eb5969f72e",
+  "predecessorWorkItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3",
+  "reason": "首次验证命令通过后，active verification evidence 因仓库快照继续变化被 Runtime 判定为 stale；按当前 Runtime retry protocol 重新绑定当前 Contract、Summary、Outcome、Events，再执行一次 fresh verification。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "retry marker 写入后，重跑当前 Runtime verification，确认 evidence 与 active repository snapshot 一致，再继续 finish。",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3"
+}
