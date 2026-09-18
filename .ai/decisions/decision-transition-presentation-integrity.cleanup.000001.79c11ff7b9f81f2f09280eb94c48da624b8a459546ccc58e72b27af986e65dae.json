@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:cd4a18d768eb7238d73eedc7cd9f31f88a5e5bd19ad33860c9ceaa0d841df69f",
+  "branchRef": "refs/heads/codex/decision-transition-presentation-integrity-impl",
+  "contractDigest": "sha256:39c0b8aff9dbb66b94ace7d9ec4d17703b00a632823f1f996b6ee447c8feaa96",
+  "headRevision": "6b50f24073764b59d0dcb5bedd05e082f1899c39",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T07:40:41Z",
+  "operationId": "sha256:52663950cf1704f7d6628f4deef3d5e3e469b7601b1090eb808f7ee008ecfb46",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "decision-transition-presentation-integrity",
+  "worktreeId": "sha256:abf8f7a97de7a8d21c3959f9742096ead7891000748b3c08bae9c1a613210dd0"
+}
