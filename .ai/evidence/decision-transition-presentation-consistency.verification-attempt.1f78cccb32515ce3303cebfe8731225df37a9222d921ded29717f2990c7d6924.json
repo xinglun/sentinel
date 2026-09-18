@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:1f78cccb32515ce3303cebfe8731225df37a9222d921ded29717f2990c7d6924",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "0ccbdb9bc82d9b13f37b9a6778bd86097316a63d",
+      "commandDigest": "sha256:65257b906920b7e6bf9d7b8b15b455d6171ff166c67316d03bbfa13330d57886",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 600
+    }
+  ],
+  "contractDigest": "sha256:2a9699ca5b96f55891fb48367d06a22fd23dc98dc2b659b496624272665a30a4",
+  "contractExecutionScopeDigest": "sha256:3323aef829ace3827b57999de191d374cd7f6bae18337b48f4922d5634f86e24",
+  "createdAt": "2026-09-18T11:04:06Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/decision-transition-presentation-consistency/sentinel/.ai/work-items/active/decision-transition-presentation-consistency.contract.json: verification preconditions are blocked: required_verification_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:1709792b7af5fb7b39cf54410dbbdbceecba7871cce48e1c7c24bec60a4bf61b",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "decision-transition-presentation-consistency"
+}

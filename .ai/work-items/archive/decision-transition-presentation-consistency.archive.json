@@ -1,0 +1,26 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T11:12:05Z",
+  "files": {
+    "approachDigest": "sha256:6d4d5e8a08ddb02e76da854c9858e39c0e45ce6b02d2364aac45efd943d0e390",
+    "approachPath": ".ai/work-items/archive/decision-transition-presentation-consistency.approach.json",
+    "contractDigest": "sha256:f765bf225dfa1f0331625f8a423c8d79fb14c64b0d74fa096a3a88602fc3cd4f",
+    "contractPath": ".ai/work-items/archive/decision-transition-presentation-consistency.contract.json",
+    "eventsDigest": "sha256:0c0630307d147beaaf2ae99d78cee81812731453b2b704b465cecea9db16c469",
+    "eventsPath": ".ai/work-items/archive/decision-transition-presentation-consistency.events.jsonl",
+    "intelligenceDigest": "sha256:1e5f8ae6be08238440aa50848e13487db14b8323778edabfb1a0c3aca19b3892",
+    "intelligencePath": ".ai/work-items/archive/decision-transition-presentation-consistency.intelligence.json",
+    "outcomeDigest": "sha256:350026fc69a8ce35184b2b069a06ed01f0dff2a860be02bacd0bf64f455726cf",
+    "outcomePath": ".ai/work-items/archive/decision-transition-presentation-consistency.outcome.json",
+    "summaryDigest": "sha256:1f22b764305c032e94190c5e4dcdecc6ad80b59073d0be73835064ea857b4169",
+    "summaryPath": ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json",
+    "taskReportDigest": "sha256:741f1d55c6f601300298571fd4d96ce63671c9942d58a11910264c9cc644e3c3",
+    "taskReportMarkdownDigest": "sha256:0e1890510d75411e48559e75ca682d208d6c937246739445688ba111887bb1fd",
+    "taskReportMarkdownPath": ".ai/work-items/archive/decision-transition-presentation-consistency.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/decision-transition-presentation-consistency.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "decision-transition-presentation-consistency"
+}
