@@ -17,8 +17,8 @@
 - Changed path: .ai/decisions/observer-snapshot.json
 - Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.586a534869f344c2cdeadd00f16c73c950914426068186936324a777690bb2e3.json
 - Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056.json
-- Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.contract.json
-- Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.summary.json
+- Changed path: .ai/work-items/archive/develop-main-sync-20260918-v5.contract.json
+- Changed path: .ai/work-items/archive/develop-main-sync-20260918-v5.summary.json
 
 ## Findings
 

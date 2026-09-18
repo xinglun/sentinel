@@ -3,8 +3,8 @@
     ".ai/decisions/observer-snapshot.json",
     ".ai/evidence/develop-main-sync-20260918-v5.verification-attempt.586a534869f344c2cdeadd00f16c73c950914426068186936324a777690bb2e3.json",
     ".ai/evidence/develop-main-sync-20260918-v5.verification-attempt.b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056.json",
-    ".ai/work-items/active/develop-main-sync-20260918-v5.contract.json",
-    ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+    ".ai/work-items/archive/develop-main-sync-20260918-v5.contract.json",
+    ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
   ],
   "checkpointAt": "2026-09-18T14:27:39Z",
   "checkpointContractDigest": "sha256:3fc24827df08b4dcf9f4b4035b94308ead2b22ab65251c5e99bf8017458aa1e7",
