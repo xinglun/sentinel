@@ -34,6 +34,8 @@ pub struct TopActionViewModel {
     pub primary_label: String,
     pub tags: Vec<String>,
     pub secondary_desc: String,
+    #[serde(default)]
+    pub candidate_label_allowed: bool,
     pub diagnostic: Option<String>,
     pub action_changed: bool,
     pub is_new: bool,
@@ -244,6 +246,7 @@ impl DisplayAdapter {
                 _ => &dict.asset_states.forming,
             }
             .to_string(),
+            candidate_label_allowed: context.is_candidate_only,
             diagnostic: None,
             action_changed: asset.action_changed,
             is_new: asset.prev_action.is_none(),

@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T12:21:49Z",
+  "files": {
+    "contractDigest": "sha256:a66d2c88fdddf00dffcc46de2ec8cf56c4ad7a1e233affe7181f86ea2695390a",
+    "contractPath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.contract.json",
+    "eventsDigest": "sha256:c383bf8d708269a7661d346824cdc453a448a2892a1cfcd4780a8088ffe42c50",
+    "eventsPath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.events.jsonl",
+    "outcomeDigest": "sha256:1831090ceeab8b4ed544d8e3d338b369cbab82c07139a7321644a2bccb082786",
+    "outcomePath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.outcome.json",
+    "summaryDigest": "sha256:ac13c8e445aa71beb8f700c273cfc9e0ed9ba625dea28c37eefe5013e24408ca",
+    "summaryPath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.summary.json",
+    "taskReportDigest": "sha256:daad0c62095b043dfe1fe095f721054563e92ac25e82fcbf3a9afd2186fa9413",
+    "taskReportMarkdownDigest": "sha256:0aaa820c32d6552ff5ceb686c7e3ddd87cda2a6817eb85ad3d983f44b426dad3",
+    "taskReportMarkdownPath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/risk-probe-candidate-label-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "risk-probe-candidate-label-integrity"
+}

@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "风险覆盖阻断时，展示不得使用“最优”“可交易”或等价夸大标签，必须保留候选/观察性质。",
+    "eligibility=false 时，展示不得将候选标记为可交易或合格标的。",
+    "risk allowed 且 eligibility=true 的既有合法展示保持不变。",
+    "Decision、Gate、交易输出和现有风险事实不变；presentation-only regression 明确覆盖边界。",
+    "malformed 或缺失 presentation facts 时 fail-closed，不猜测资格或最优性。"
+  ],
+  "authority": "explicit-user-authorization:继续，全部对应",
+  "baseRevision": "205a9767711f27b1520dd3da9d21fb514ec01232",
+  "createdAt": "2026-09-18T11:22:02Z",
+  "goal": "在 presentation-only 边界内，使风险覆盖阻断或候选不具备资格时不再显示会误导为可交易/最优的候选标签。",
+  "intent": "修复风险阻断或 eligibility=false 时候选标的展示标签夸大问题，保持展示语义与风险事实一致。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 eligibility、Gate、Decision、decision_weight、RS、Leadership、Action Matrix、Risk Adjustment、Execution、Trader、Position Sizing、provider/ranking、交易阈值、TemporalBinding、MarketObservation 或 evidence provenance；不改变候选选择或交易行为。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:ae5c1f60fd1fab4845f2c1419f1288152417c9d774e8b96afb9003323b467228",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅修改 Radar/Signal Context 的候选标签与说明展示，以及对应 focused regression tests；消费既有 risk snapshot、eligibility 和 decision presentation facts，不改变其计算。",
+    "src/features/radar/interface/display.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "sources": [
+    ".ai/README.md",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "risk-probe-candidate-label-integrity"
+}

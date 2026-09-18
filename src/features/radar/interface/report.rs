@@ -1084,7 +1084,11 @@ fn render_top_actions_section(
     for (i, vm) in pres.top_actions.iter().enumerate() {
         let no_trade_secondary_desc =
             if candidate_only && vm.secondary_desc == dict.asset_states.optimal {
-                format!("{} ({})", vm.secondary_desc, dict.asset_tags.candidate)
+                if vm.candidate_label_allowed {
+                    format!("{} ({})", vm.secondary_desc, dict.asset_tags.candidate)
+                } else {
+                    dict.asset_tags.blocked.clone()
+                }
             } else {
                 vm.secondary_desc.clone()
             };
