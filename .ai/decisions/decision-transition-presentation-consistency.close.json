@@ -1,0 +1,289 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1709792b7af5fb7b39cf54410dbbdbceecba7871cce48e1c7c24bec60a4bf61b",
+      "workItemId": "decision-transition-presentation-consistency"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/controls/decision-transition-presentation-consistency.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.1f78cccb32515ce3303cebfe8731225df37a9222d921ded29717f2990c7d6924.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.22c9896b45034147dd3ebac84a247d6602ac6f03c40e6421c7f793d061479616.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.28e426119b35773cb97c718169fbadc23a76d620a6b0809b66811ed533e8a350.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.6cf7ed329e54228436cde8d2f3ca43d8600d8a1eb119caad4eada562dc126861.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.7e3e70a390013cc0f963f0d0dd4b54b8522f9df5e5aca5419575b17bb5c6f802.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.80ad5683fec6f4826b9d9221e70af2c12d3dc936e7e1cf6ab8b3af85276f1a0b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.9d2439ab93e45322aeec5b70a968d6fc5ceda426a9e80e01d66ca9b1ae24fb65.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.a632f32d8a2ddd7726c5ce7f755f37b8f7ff46420cebd84df46f429d722f711f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.f1ae324a55df1b7f2fa624bfae934160f9842f1be9d8cac134035cf87bcf2e9f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/decision-transition-presentation-consistency.verification-attempt.f6af6fe92ac78913d7b0dec711f30a14ff3ed16cb799e691815da155c062fca0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/daily-radar-snapshot-report-date-conflict-finalization-recovery.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/daily-radar-snapshot-report-date-conflict-finalization-v2.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-geopolitical-lexical-integrity-finalization-recovery.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-geopolitical-lexical-integrity-finalization-repair.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/decision-transition-presentation-consistency.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/decision-transition-presentation-consistency.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/decision-transition-presentation-consistency.intelligence.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/decision-transition-presentation-consistency.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/decision-transition-presentation-consistency.verification.json",
+            ".ai/work-items/archive/decision-transition-presentation-consistency.archive.json",
+            "https://github.com/xinglun/sentinel/pull/215",
+            "git:205a9767711f27b1520dd3da9d21fb514ec01232",
+            ".ai/README.md"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization:继续，全部对应 at 2026-09-18T11:21:30Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/decision-transition-presentation-consistency.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "让 transition presentation 对同一结构化状态变化使用一致、可审计的展示语义，不修改阈值、Decision、Gate、RS、Leadership、Action Matrix、Execution 或 Position Sizing。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/decision-transition-presentation-consistency.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "decision-transition-presentation-consistency"
+  },
+  "finalReportDigest": "sha256:676d86fe2929bd61dee54b06185361edadf6ce957b098fefac04a320ebd1850f",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:9f68b5e221d110fe10685c4099141ae9a1f588a40831fc314f1f1e3c7a7e69fc",
+    "branch": "codex/decision-transition-presentation-consistency-20260918",
+    "branchRef": "refs/heads/codex/decision-transition-presentation-consistency-20260918",
+    "capturedAt": "2026-09-18T11:21:08Z",
+    "contractDigest": "sha256:2a9699ca5b96f55891fb48367d06a22fd23dc98dc2b659b496624272665a30a4",
+    "headRevision": "9223fd277e8bf5940638ffbeae7cd08878169216",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "decision-transition-presentation-consistency",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel1",
+    "worktreeId": "sha256:e5b584166075b4fda68ab497021bccab183a86ebd4a4552a9fde942a92ebbf7a",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/decision-transition-presentation-consistency/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:3840da0fb7b9d866d7e7ba7909a50b84317f51d890ff196c63f9bd736a3c264e",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization:继续，全部对应",
+    "decidedAt": "2026-09-18T11:21:30Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/decision-transition-presentation-consistency.verification.json",
+      ".ai/work-items/archive/decision-transition-presentation-consistency.archive.json",
+      "https://github.com/xinglun/sentinel/pull/215",
+      "git:205a9767711f27b1520dd3da9d21fb514ec01232",
+      ".ai/README.md"
+    ],
+    "policyRefs": [],
+    "reason": "PR #215 已通过 hosted checks 并合并至 develop；Runtime verification 已通过，归档证据保留。本 Work Item 仅修改 transition presentation 语义标签，不改变 Decision、Gate、阈值或交易逻辑。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T11:21:08Z",
+  "workItemId": "decision-transition-presentation-consistency"
+}
