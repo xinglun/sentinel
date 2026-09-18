@@ -1,0 +1,166 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+      "workItemId": "develop-main-ancestry-repair-20260918-v4"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "https://github.com/xinglun/sentinel/pull/208",
+            "https://github.com/xinglun/sentinel/pull/209",
+            "https://github.com/xinglun/sentinel/pull/210",
+            ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json",
+            "git:origin/main=1781bf6f11de224f92baf64697b1cdca58a88a07;origin/develop=b03b1c199439404716d6fd02931ff3ff6aba5ce8;tree=8e1125aa719576736f849d1051ac44bf267da72d;ancestor=0"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by human:repository-owner via explicit-user-authorization:继续之前没完的任务；授权 at 2026-09-18T09:45:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.contract.json"
+          ],
+          "inference": false,
+          "text": "使 origin/develop 成为 origin/main 的祖先，同时保持两个远端 ref 的 tree 完全一致，并完成受治理的 PR、验证、Runtime 生命周期和精确资源清理。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "develop-main-ancestry-repair-20260918-v4"
+  },
+  "finalReportDigest": "sha256:f14b474e4eb0173cf760381522320236b37955930cf4d12ddd7aae2724551015",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:2b4ad70fd252662000a66cd865920e0cf60db14c2a022f31454932cc03a0a0de",
+    "branch": "codex/develop-main-ancestry-repair-20260918-v4-close",
+    "branchRef": "refs/heads/codex/develop-main-ancestry-repair-20260918-v4-close",
+    "capturedAt": "2026-09-18T09:47:24Z",
+    "contractDigest": "sha256:f1056008b65efeda7f13055825a8a324fd77c7909a89d63b5c46f26ce647daa4",
+    "headRevision": "1781bf6f11de224f92baf64697b1cdca58a88a07",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "develop-main-ancestry-repair-20260918-v4",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/codex-v4-finalization",
+    "worktreeId": "sha256:e17d5452666c5c9a20b3f1851949d028a25d55353c3a0463ce0cd8a9faa64709",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-v4-finalization"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:71a00368fc35607e72f9a8c0f4c64c4dac32d7d58db47115a30437a4ebf51495",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization:继续之前没完的任务；授权",
+    "decidedAt": "2026-09-18T09:45:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      "https://github.com/xinglun/sentinel/pull/208",
+      "https://github.com/xinglun/sentinel/pull/209",
+      "https://github.com/xinglun/sentinel/pull/210",
+      ".ai/evidence/develop-main-ancestry-repair-20260918-v4.verification.json",
+      "git:origin/main=1781bf6f11de224f92baf64697b1cdca58a88a07;origin/develop=b03b1c199439404716d6fd02931ff3ff6aba5ce8;tree=8e1125aa719576736f849d1051ac44bf267da72d;ancestor=0"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      "AGENTS.md"
+    ],
+    "reason": "确认关闭：PR #208、#209、#210 已通过 hosted checks 并合并；origin/main 与 origin/develop tree 相同且 origin/develop 是 origin/main 祖先；v4 专用 branch 与 worktree 已精确清理；不修改 production、test、Decision、Gate、Execution 或 Position Sizing。user_visible_benefit_not_declared 保持显式 unknown，不作无证据推断。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T09:47:24Z",
+  "workItemId": "develop-main-ancestry-repair-20260918-v4"
+}
