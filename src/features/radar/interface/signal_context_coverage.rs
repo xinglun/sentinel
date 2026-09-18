@@ -355,7 +355,13 @@ fn apply_runtime_macro_signal_context(
             .into_iter()
             .chain(runtime_context.observed_market_reactions.iter().cloned())
             .collect(),
-        ai_policy_frontier_pacing_observation: snapshot.ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_observation: snapshot
+            .ai_policy_frontier_pacing_observation
+            .or_else(|| {
+                runtime_context
+                    .ai_policy_frontier_pacing_observation
+                    .clone()
+            }),
         ai_policy_frontier_pacing_linkage: snapshot.ai_policy_frontier_pacing_linkage,
         temporal_context: runtime_context.temporal_context.clone(),
         event_time_utc: snapshot.event_time_utc,
@@ -1506,6 +1512,8 @@ mod tests {
                 source_published_at: "2026-08-07T12:30:00Z".to_string(),
                 headline: "Policy frontier pacing remains gradual".to_string(),
                 provider: "fed".to_string(),
+                policy_type: "FRONTIER_PACING".to_string(),
+                policy_stage: "DISCUSSION".to_string(),
             }),
             ..Default::default()
         };
@@ -1557,6 +1565,8 @@ mod tests {
             source_published_at: "2026-08-07T12:30:00Z".to_string(),
             headline: "Policy frontier pacing remains gradual".to_string(),
             provider: "fed".to_string(),
+            policy_type: "FRONTIER_PACING".to_string(),
+            policy_stage: "DISCUSSION".to_string(),
         };
         let valid = SignalContextV1 {
             market_date: "2026-08-07".to_string(),
@@ -2172,6 +2182,17 @@ mod tests {
                 status: crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy,
                 ..Default::default()
             },
+            ai_policy_frontier_pacing_observation: Some(
+                crate::features::research::interface::macro_event_observation::AiPolicyFrontierPacingObservation {
+                    source: "Structured News".to_string(),
+                    source_url: "https://example.test/policy".to_string(),
+                    source_published_at: "2026-09-08T12:00:00Z".to_string(),
+                    headline: "Government enacts an advanced AI deployment restriction".to_string(),
+                    provider: "Finnhub".to_string(),
+                    policy_type: "DEPLOYMENT_RESTRICTION".to_string(),
+                    policy_stage: "ENACTED".to_string(),
+                },
+            ),
             observed_market_reactions: Vec::new(),
             temporal_context: Default::default(),
         };
@@ -2193,6 +2214,20 @@ mod tests {
         );
         assert_eq!(snapshot.decision_weight, 0);
         assert!(!snapshot.trade_signal);
+        assert_eq!(
+            snapshot
+                .ai_policy_frontier_pacing_observation
+                .as_ref()
+                .map(|observation| observation.policy_type.as_str()),
+            Some("DEPLOYMENT_RESTRICTION")
+        );
+        assert_eq!(
+            snapshot
+                .ai_policy_frontier_pacing_observation
+                .as_ref()
+                .map(|observation| observation.policy_stage.as_str()),
+            Some("ENACTED")
+        );
     }
 
     #[test]
