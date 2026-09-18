@@ -1,0 +1,43 @@
+{
+  "attemptId": "sha256:98fd4a5b461a519d92e1ac8abf574901edc7636f44ca24d030fd3c0b8ca29f29",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--workspace",
+        "--quiet"
+      ],
+      "baseCommit": "18154b2a83ec979924b5909de3bbc9ff5526fa6a",
+      "commandDigest": "sha256:b395c3650ae02f68e0d4dbc06bab6124003c0f7527b13fc0676d703d09927fae",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:39c0b8aff9dbb66b94ace7d9ec4d17703b00a632823f1f996b6ee447c8feaa96",
+  "contractExecutionScopeDigest": "sha256:835f5a42edc7f5fcf951c99488a93ad7947b724d499f63b9b9c5668697f4478a",
+  "createdAt": "2026-09-18T07:23:12Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-decision-transition-presentation-integrity-impl/.ai/work-items/active/decision-transition-presentation-integrity.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "decision-transition-presentation-integrity"
+}
