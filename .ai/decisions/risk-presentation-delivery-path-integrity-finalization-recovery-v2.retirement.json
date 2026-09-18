@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:ba03dcae9545686deec5d45b64818c549f22fddff9f2d179eb2dd066fbeaf0df",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:31acf75e2ae43e631774eb51787918fbe63c1627c8f8d92d775efa8418d0180e",
+      "path": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:72d4e48334b5151da87a3231d318c124f0fce93fb750e53de85528a2415cf903",
+      "path": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:aad1b9fa2c0728bb929a21cef10d3f0c57ab71d611b5086fdce8d2c98382ff08",
+      "path": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.summary.json"
+    }
+  },
+  "authoritySource": "user-message:继续之前没完的任务；授权",
+  "contractDigest": "sha256:4e6ee37bfa408a739483fe74db7a1a9b7afa8d7a502602a2bf13771b69561beb",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "PR #164 已经在 develop 合并；本 successor 仅用于当前 Runtime 的历史治理收束，不再需要独立产品验证。保留 successor 的原始 Contract、Summary 与所有 lifecycle bytes，不将 retirement 误报为 verification。",
+  "recordedAt": "2026-09-18T06:48:14Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:8833e60ad0ae841712b3415eb33177269e0bf67bf1b0569f601c80b1ac90e882",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:ee0fbe6ed5ea036792971d8f3b80fb83b2db3bdfde6cac3e66c779cb201b0155",
+  "verificationClaim": "not_verified",
+  "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v2"
+}

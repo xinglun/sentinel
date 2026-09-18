@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-18T06:48:14Z",
+  "files": {
+    "contractDigest": "sha256:31acf75e2ae43e631774eb51787918fbe63c1627c8f8d92d775efa8418d0180e",
+    "contractPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.contract.json",
+    "outcomeDigest": "sha256:72d4e48334b5151da87a3231d318c124f0fce93fb750e53de85528a2415cf903",
+    "outcomePath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.outcome.json",
+    "summaryDigest": "sha256:aad1b9fa2c0728bb929a21cef10d3f0c57ab71d611b5086fdce8d2c98382ff08",
+    "summaryPath": ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/risk-presentation-delivery-path-integrity-finalization-recovery-v2.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v2"
+}

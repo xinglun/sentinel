@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-message:继续之前没完的任务；授权",
+  "decidedAt": "2026-09-18T00:00:00Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/sentinel/pull/164",
+    ".ai/decisions/risk-presentation-delivery-path-integrity.finalize.json",
+    ".ai/work-items/archive/risk-presentation-delivery-path-integrity.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:b6917be65c1f9af2d2fae846c966d9aa2de14bdcf6e78b866e1e1e3603ed73da",
+  "predecessorContractDigest": "sha256:6ce822cff119e267f9dc79c17d4081406033572b9edd546526f8cdcb4c43c2a4",
+  "predecessorEventsDigest": "sha256:22342bfaa6cf57a615420ea0ce2b27d181054132cd733ad9a37a4b97fedd5142",
+  "predecessorOutcomeDigest": "sha256:ecdf6d7773c01daa10536b608161ddbb8491e82892b5f4e015931e2e6a22bd3e",
+  "predecessorSummaryDigest": "sha256:7f00f43ac18698b5ebea66e20c1182ebcc570a2bde7089b1858e02aa94a8c59a",
+  "predecessorWorkItemId": "risk-presentation-delivery-path-integrity",
+  "reason": "PR #164 已经合并，v2 successor 仅承担当前 Runtime 的历史治理收束；将原 predecessor 标记为 superseded，保留所有 archive、finalization、verification 和 close bytes，不重写产品实现或交易逻辑。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "保留 predecessor 不可变历史；完成 successor 的 integrated retirement 后，使用当前 Runtime 的 superseded close 决策关闭 predecessor。",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "successorWorkItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v2",
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}
