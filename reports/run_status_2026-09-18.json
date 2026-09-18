@@ -146,11 +146,20 @@
     ]
   },
   "report_lifecycle": {
-    "mode": "GENERATED",
+    "mode": "RESENT",
     "original_generation_revision": "23565aeb653572673642def90ad5eed3c5b9afef",
     "original_report_run_id": "b72337a7-5440-4267-b757-1a4d2931b2e9",
-    "resend_revision": null,
-    "resent_at": null,
-    "source": "rust-radar-runner"
+    "resend_revision": "d6bfb01db5219907e9775d1a571495d5a33250ef",
+    "resent_at": "2026-09-18T19:17:22.456058+00:00",
+    "source": "data_branch_telegram_html_payload"
+  },
+  "notification_resend": {
+    "status": "succeeded",
+    "source": "data_branch_telegram_html_payload",
+    "report_date": "2026-09-18",
+    "payload_path": "reports/telegram_report_2026-09-18.html",
+    "parse_mode": "HTML",
+    "chunks": 7,
+    "sent_at": "2026-09-18T19:17:22.456058+00:00"
   }
 }
