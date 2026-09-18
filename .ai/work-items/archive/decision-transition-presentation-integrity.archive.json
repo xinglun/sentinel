@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T07:24:54Z",
+  "files": {
+    "contractDigest": "sha256:1bac664d32b0ae0c99b8e0fd118e3d6bda6881b90ba8380dccd80454b2bcf2c8",
+    "contractPath": ".ai/work-items/archive/decision-transition-presentation-integrity.contract.json",
+    "eventsDigest": "sha256:f4b4745006b65a239a78f3cdc2f06978c9d913d698ab52f9bd7b331055ce63cb",
+    "eventsPath": ".ai/work-items/archive/decision-transition-presentation-integrity.events.jsonl",
+    "outcomeDigest": "sha256:fee884ea4b390867489bfc4661b880780056b56dab314b78c0a9d6e47b3a9e33",
+    "outcomePath": ".ai/work-items/archive/decision-transition-presentation-integrity.outcome.json",
+    "summaryDigest": "sha256:6ab102506d83eb7ce67245c0ee602052baa455a8b733d95efa7b77a527c998c7",
+    "summaryPath": ".ai/work-items/archive/decision-transition-presentation-integrity.summary.json",
+    "taskReportDigest": "sha256:56ea89bb22d146bd8ed4949317260d9d24154d8098a75225d6387254f135b597",
+    "taskReportMarkdownDigest": "sha256:53ce5b8543f12895ef7d68f7ec1b0bac7457ce0351749ef238cd714fb9f63b4d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/decision-transition-presentation-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/decision-transition-presentation-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "decision-transition-presentation-integrity"
+}

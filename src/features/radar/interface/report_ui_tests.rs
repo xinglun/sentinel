@@ -4909,6 +4909,70 @@ mod tests {
     }
 
     #[test]
+    fn leaderless_reconciliation_preserves_confirmed_trend_summary_when_gate_passed() {
+        let config = mock_config_with_language(Language::ZhCn);
+        let confirmed_trend = "趋势凝聚已形成（确认）".to_string();
+        let confirmed_state = "启动期（确认）".to_string();
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            decision_summary:
+                crate::features::radar::interface::presentation::DecisionSummaryViewModel {
+                    is_no_trade: false,
+                    gate_passed: true,
+                    trend_cohesion_value: confirmed_trend.clone(),
+                    trend_topology_value: "核心资产主导".to_string(),
+                    state_tag_value: confirmed_state.clone(),
+                    ..Default::default()
+                },
+            transition_evidence: Some(
+                crate::features::radar::interface::presentation::StateTransitionViewModel {
+                    strategic_context: vec!["市场结构模式: 核心资产主导期".to_string()],
+                    ..Default::default()
+                },
+            ),
+            ..Default::default()
+        };
+        let leadership_snapshot =
+            crate::features::radar::interface::presentation::LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leader_absence_duration: 9,
+                ..Default::default()
+            };
+
+        PresentationAssembler::reconcile_tactical_leadership_display(
+            &mut pres,
+            &leadership_snapshot,
+            Language::ZhCn,
+        );
+
+        assert_eq!(pres.decision_summary.trend_cohesion_value, confirmed_trend);
+        assert_eq!(pres.decision_summary.state_tag_value, confirmed_state);
+        assert_eq!(
+            pres.decision_summary.trend_topology_value,
+            "无确认领导 / 分散"
+        );
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &pres,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [
+            &report.markdown_body,
+            &report.telegram_html_body,
+            &report.archival_markdown,
+        ] {
+            assert!(body.contains("趋势凝聚已形成（确认）"));
+            assert!(body.contains("启动期（确认）"));
+            assert!(!body.contains("趋势凝聚：未确认"));
+            assert!(!body.contains("未确认启动期"));
+        }
+    }
+
+    #[test]
     fn leaderless_reconciliation_removes_raw_strength_loss_reason_from_all_report_bodies() {
         // 実運用で観測された組み合わせ: top_tier_symbols に候補は存在する
         // (is_leaderless() の候補選定レベルの判定は false になる) が、確定 Leader は

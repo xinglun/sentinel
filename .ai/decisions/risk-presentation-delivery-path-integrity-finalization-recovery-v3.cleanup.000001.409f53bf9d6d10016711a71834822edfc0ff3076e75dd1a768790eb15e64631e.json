@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:e3cbb513503229817e001e4a68430376acb60dbc90239c952363b85714b2e991",
+  "branchRef": "refs/heads/codex/decision-transition-presentation-integrity",
+  "contractDigest": "sha256:0f84f140bddda45c068450a0caf92bc2f9fe242408f4258bdee05467dd82926f",
+  "headRevision": "a333e1a04dd306a31c67a6f0846c253a0beb4be6",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-18T07:22:57Z",
+  "operationId": "sha256:2c5ae3380ff1e21fce8497651bf002ba5868542f32b584cf1d83e3c0983a9a3c",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3",
+  "worktreeId": "sha256:1dcba22f9c2ae7789d40fa10ea70daf72271d726c1bd5e1efdbfd88071eff0b4"
+}

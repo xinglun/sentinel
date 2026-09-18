@@ -49,12 +49,14 @@ impl PresentationAssembler {
         }
 
         let dict = get_dictionary(language);
-        presentation.decision_summary.trend_cohesion_value =
-            dict.trend_cohesion.current_no_confirmed_mainline.clone();
+        if !presentation.decision_summary.gate_passed {
+            presentation.decision_summary.trend_cohesion_value =
+                dict.trend_cohesion.current_no_confirmed_mainline.clone();
+            presentation.decision_summary.state_tag_value =
+                dict.decision.state_ignition_unconfirmed.clone();
+        }
         presentation.decision_summary.trend_topology_value =
             dict.trend_cohesion.topology_leaderless_fragmented.clone();
-        presentation.decision_summary.state_tag_value =
-            dict.decision.state_ignition_unconfirmed.clone();
         if let Some(evidence) = presentation.transition_evidence.as_mut() {
             strategic_context_read_model::apply_leaderless_market_structure_override(
                 &mut evidence.strategic_context,
