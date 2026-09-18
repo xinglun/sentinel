@@ -1,0 +1,87 @@
+{
+  "changedPaths": [
+    ".ai/decisions/develop-main-sync-20260918.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/locks/develop-main-sync-20260918.lifecycle.lock",
+    ".ai/work-items/archive/develop-main-sync-20260918.contract.json",
+    ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+  ],
+  "checkpointAt": "2026-09-18T07:52:53Z",
+  "checkpointContractDigest": "sha256:600c34440b778529aa7030f5a4ba0e85690f5303d00e63a5b9098269a9871e30",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:013f249e71ee71dea8e09d5a2de46448cfef1fa3b7cbbe15b327b775a376408f",
+      "recorded": true,
+      "recordedAt": "2026-09-18T07:52:53Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "develop-main-sync-20260918"
+    },
+    {
+      "acceptanceCount": 4,
+      "contractHash": "sha256:e52edd6938d8e33d2ddc863604b48cb007511c023a5f69e5fe9b93007aaa33fd",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:013f249e71ee71dea8e09d5a2de46448cfef1fa3b7cbbe15b327b775a376408f",
+      "previousContractHash": "sha256:013f249e71ee71dea8e09d5a2de46448cfef1fa3b7cbbe15b327b775a376408f",
+      "reason": "补充当前 main-base PR 的可审查 source，保留既有 verification 并为 late resource binding 建立显式 Contract amendment。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T08:01:51Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "develop-main-sync-20260918"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3e214a37ce44373bb3fb13e6624345c1d7332a6f9c2bb333ade3700a7eb8c1f3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:013f249e71ee71dea8e09d5a2de46448cfef1fa3b7cbbe15b327b775a376408f",
+      "previousContractHash": "sha256:e52edd6938d8e33d2ddc863604b48cb007511c023a5f69e5fe9b93007aaa33fd",
+      "reason": "补充 merge 后远端 ref/tree/ancestor 的直接验收，作为 late resource binding 的 Contract revalidation 变更。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T08:02:43Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "develop-main-sync-20260918"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+  "createdAt": "2026-09-18T07:52:51Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T08:08:44Z",
+  "preflightContractDigest": "sha256:600c34440b778529aa7030f5a4ba0e85690f5303d00e63a5b9098269a9871e30",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T08:14:33Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "develop-main-sync-20260918"
+}

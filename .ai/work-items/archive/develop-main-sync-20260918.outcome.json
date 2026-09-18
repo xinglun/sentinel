@@ -1,0 +1,165 @@
+{
+  "acceptanceResults": [
+    "PR 的 base 为 main，head 来自创建时最新 origin/develop，且全部必需 hosted checks 通过后合并。",
+    "合并后 origin/main 与 origin/develop 的 tree 完全一致，且 origin/develop 是 origin/main 的祖先。",
+    "同步 branch 与精确同步 worktree 均已删除，现有其他 worktree 不受影响。",
+    "当前同步 checkout 在收尾前保持 clean；主 checkout 中既有未关联 dirty evidence 原样保留并记录为 out-of-scope。",
+    "合并后必须以远端 ref、tree digest 与 merge-base 直接证明 origin/develop 已同步进入 origin/main；PR merge 状态本身不替代该验证。"
+  ],
+  "createdAt": "2026-09-18T08:14:33Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a86aee5a582d6f48099e4faa2ce9f829f4414278789b90c084f54cc6ffa8c6ca",
+  "evidenceRefs": [
+    ".ai/evidence/develop-main-sync-20260918.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/develop-main-sync-20260918.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/develop-main-sync-20260918.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+      "workItemId": "develop-main-sync-20260918"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/develop-main-sync-20260918.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/develop-main-sync-20260918.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260918.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260918.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/develop-main-sync-20260918.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.contract.json"
+          ],
+          "inference": false,
+          "text": "origin/main 与 origin/develop 的 tree 内容一致，且 develop 为 main 的祖先；不改变生产语义，并保留主 checkout 中既有未关联治理证据。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260918.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "develop-main-sync-20260918"
+  },
+  "taskReportDigest": "sha256:8697e6d312c27a132655ebf069d6a7c9f20ee35831f1b7e426dd79bc6d3bd9b8",
+  "taskReportMarkdownDigest": "sha256:4b071c5b3f7969af0485c93b2a0c691348efe0adbb930fc07c321511ad2de563",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/develop-main-sync-20260918.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "develop-main-sync-20260918"
+}
