@@ -1,0 +1,74 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/day-only-observation-precision.verification-attempt.000c5413ca4d93024154779553534a800a658370a9cac2a39339592d46b0e99f.json",
+    ".ai/evidence/day-only-observation-precision.verification-attempt.a3e465885f33a6772483326de1a051e773ee85bbf508837d8ce259f7869a1717.json",
+    ".ai/evidence/day-only-observation-precision.verification-attempt.de3ccaf120f3d6e442d8af3ab37ea49aee4b4a513ef85d6301f8eef49822debb.json",
+    ".ai/evidence/day-only-observation-precision.verification.json",
+    ".ai/work-items/active/day-only-observation-precision.contract.json",
+    ".ai/work-items/active/day-only-observation-precision.summary.json",
+    "docs/superpowers/plans/2026-09-18-day-only-observation-precision.md",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "checkpointAt": "2026-09-18T14:49:42Z",
+  "checkpointContractDigest": "sha256:9c1eaf21d57d8029f6faa0371036d14f1d49dbc78c75b8280794531404b38e6d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:3d22f849efe5832300cfd7cbac124106886a9ab9951d8bbd66dbffffbc678ca5",
+      "recorded": true,
+      "recordedAt": "2026-09-18T14:49:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:6d6c9a72ed9cfc3f0d30a9db36b16c6c58079d048cc18a61f987fbc7a0c2a111",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "day-only-observation-precision"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:9c1eaf21d57d8029f6faa0371036d14f1d49dbc78c75b8280794531404b38e6d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3d22f849efe5832300cfd7cbac124106886a9ab9951d8bbd66dbffffbc678ca5",
+      "previousContractHash": "sha256:3d22f849efe5832300cfd7cbac124106886a9ab9951d8bbd66dbffffbc678ca5",
+      "reason": "将实现中发现的 provider mapping 与精确文件边界补入 Contract，恢复 scope 可审计性并记录全部必需验证命令",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:00:14Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9c1df6576d55fec20fbd617e1899131e4edc624126d32c67d3e6adfd0581bbba",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "day-only-observation-precision"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9c1df6576d55fec20fbd617e1899131e4edc624126d32c67d3e6adfd0581bbba",
+  "createdAt": "2026-09-18T14:49:18Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T15:05:32Z",
+  "preflightContractDigest": "sha256:9c1eaf21d57d8029f6faa0371036d14f1d49dbc78c75b8280794531404b38e6d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9c1df6576d55fec20fbd617e1899131e4edc624126d32c67d3e6adfd0581bbba",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T15:05:37Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "day-only-observation-precision"
+}

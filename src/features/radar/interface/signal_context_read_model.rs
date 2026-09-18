@@ -14,6 +14,9 @@ use crate::features::research::application::corporate_event_evidence_resolver::{
     CorporateEventEvidenceLifecycle, CorporateEventEvidenceResolution,
 };
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
+use crate::features::research::interface::macro_event_observation::{
+    classify_observation_time_precision, ObservationTimePrecision,
+};
 use crate::features::shared::interface::i18n::Language;
 use chrono::{Datelike, NaiveDate};
 use std::collections::BTreeSet;
@@ -111,14 +114,25 @@ fn format_market_reactions(
     };
     let eligible_observation_ids = bindings
         .iter()
-        .filter(|binding| binding.temporal_eligible && binding.event_id.trim() == primary_event_id)
+        .filter(|binding| {
+            binding.temporal_eligible
+                && binding.event_id.trim() == primary_event_id
+                && binding.observation_time_precision != ObservationTimePrecision::DayOnly
+        })
         .map(|binding| binding.observation_id.as_str())
         .collect::<BTreeSet<_>>();
     reactions
         .iter()
         .filter(|reaction| {
+            let precision =
+                if reaction.observation_time_precision == ObservationTimePrecision::Unavailable {
+                    classify_observation_time_precision(&reaction.observed_at)
+                } else {
+                    reaction.observation_time_precision
+                };
             !reaction.subject.trim().is_empty()
                 && !reaction.observation.trim().is_empty()
+                && precision == ObservationTimePrecision::Timestamp
                 && eligible_observation_ids.contains(reaction.observation_id.as_str())
         })
         .map(|reaction| {
@@ -138,9 +152,29 @@ fn format_market_reactions(
                 format!(" @ {}", reaction.observed_at)
             };
             let metadata = if provenance.is_empty() {
-                String::new()
+                format!(
+                    " [precision={}]",
+                    if reaction.observation_time_precision == ObservationTimePrecision::Unavailable
+                    {
+                        classify_observation_time_precision(&reaction.observed_at)
+                    } else {
+                        reaction.observation_time_precision
+                    }
+                    .label()
+                )
             } else {
-                format!(" [{}]", provenance.join(", "))
+                let precision = if reaction.observation_time_precision
+                    == ObservationTimePrecision::Unavailable
+                {
+                    classify_observation_time_precision(&reaction.observed_at)
+                } else {
+                    reaction.observation_time_precision
+                };
+                format!(
+                    " [{}, precision={}]",
+                    provenance.join(", "),
+                    precision.label()
+                )
             };
             format!(
                 "{}{}{}: {}",
@@ -2485,6 +2519,7 @@ mod tests {
         assert!(value.contains("session=OVERNIGHT"));
         assert!(value.contains("venue=CME"));
         assert!(value.contains("instrument=SPY"));
+        assert!(value.contains("precision=TIMESTAMP"));
     }
 
     #[test]
@@ -2508,6 +2543,31 @@ mod tests {
 
         assert!(format_market_reactions(&reactions, &bindings, None).is_empty());
         assert!(format_market_reactions(&reactions, &[], Some("event-primary")).is_empty());
+    }
+
+    #[test]
+    fn market_reaction_display_does_not_promote_day_only_observation() {
+        let reactions = vec![
+            crate::features::research::interface::macro_event_observation::MarketReaction {
+                observation_id: "obs-day-only".to_string(),
+                observed_at: "2026-09-18".to_string(),
+                observation_time_precision: ObservationTimePrecision::DayOnly,
+                subject: "SPY".to_string(),
+                observation: "daily move".to_string(),
+                ..Default::default()
+            },
+        ];
+        let bindings = vec![
+            crate::features::research::interface::macro_event_observation::TemporalBinding {
+                event_id: "event-primary".to_string(),
+                observation_id: "obs-day-only".to_string(),
+                observation_time_precision: ObservationTimePrecision::DayOnly,
+                temporal_eligible: true,
+                ..Default::default()
+            },
+        ];
+
+        assert!(format_market_reactions(&reactions, &bindings, Some("event-primary")).is_empty());
     }
 
     #[test]

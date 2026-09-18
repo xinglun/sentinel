@@ -16,8 +16,8 @@ use crate::features::research::interface::macro_event_observation::MacroEventImp
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::MarketReaction;
 use crate::features::research::interface::macro_event_observation::{
-    build_temporal_binding, event_visible_at, EvidenceRecord, MacroSignalContextEvent,
-    MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
+    build_temporal_binding, classify_observation_time_precision, event_visible_at, EvidenceRecord,
+    MacroSignalContextEvent, MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
     MacroSignalContextSourceStatus, SignalContextTemporalContext, TemporalBinding,
 };
 use chrono::{DateTime, NaiveDate, Utc};
@@ -180,6 +180,8 @@ fn normalize_observations(observations: Vec<MarketReaction>) -> Vec<MarketReacti
     observations
         .into_iter()
         .map(|mut observation| {
+            observation.observation_time_precision =
+                classify_observation_time_precision(&observation.observed_at);
             if observation.observation_id.trim().is_empty() {
                 observation.observation_id = stable_identifier(
                     "observation",
@@ -1358,7 +1360,9 @@ mod tests {
         CorporateEventObservation, CorporateEventProviderHealth, CorporateEventProviderReadModel,
         CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
     };
-    use crate::features::research::interface::macro_event_observation::EvidenceRecord;
+    use crate::features::research::interface::macro_event_observation::{
+        EvidenceRecord, ObservationTimePrecision,
+    };
 
     fn finnhub_source(url: &str) -> CorporateEventSource {
         CorporateEventSource {
@@ -1383,6 +1387,33 @@ mod tests {
                 crate::features::radar::interface::presentation::SignalContextLifecycle::Released,
             ..Default::default()
         }
+    }
+
+    #[test]
+    fn signal_context_normalizes_day_only_observation_without_inventing_time() {
+        let snapshot = build_signal_context_v1(SignalContextCoverageInput {
+            market_date: "2026-09-18".to_string(),
+            observed_market_reactions: vec![MarketReaction {
+                observed_at: "2026-09-18".to_string(),
+                observation_id: "obs-day-only".to_string(),
+                subject: "SPY".to_string(),
+                observation: "daily move".to_string(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        });
+
+        let observation = &snapshot.observed_market_reactions[0];
+        assert_eq!(
+            observation.observation_time_precision,
+            ObservationTimePrecision::DayOnly
+        );
+        assert_eq!(observation.observed_at, "2026-09-18");
+        assert!(snapshot.temporal_bindings.is_empty());
+        assert_eq!(
+            serde_json::to_value(observation).unwrap()["observation_time_precision"],
+            "DAY_ONLY"
+        );
     }
 
     #[test]
