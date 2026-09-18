@@ -1,0 +1,54 @@
+{
+  "acceptanceCriteria": [
+    "existing news provider 的 AI Policy 候选经过 deterministic lexical/context matcher 后，可得到约定 policy_type：FRONTIER_PACING、TRAINING_COMPUTE_RESTRICTION、AI_SAFETY_COORDINATION、LEGISLATIVE_PROPOSAL、MODEL_RELEASE_RESTRICTION、DEPLOYMENT_RESTRICTION；无法确定时不分类。",
+    "policy_stage 可解析为 DISCUSSION、INDUSTRY_PROPOSAL、LEGISLATIVE_PROPOSAL、FORMAL_RULEMAKING、ENACTED、EFFECTIVE，并固定 discussion/proposal 不等于 effective/enacted。",
+    "source、source_url、source_published_at、headline、provider 任一缺失或时间/文本 malformed 时 fail-closed，不生成 AI Policy observation；有效 observation 保留全部 provenance。",
+    "正例覆盖 industry leaders call for slowing frontier AI development、lawmakers introduce bill to pause advanced AI development、government enacts an advanced AI deployment restriction；AI startup pauses hiring 不分类。",
+    "生成结果只进入 observation/read-model/report projection，decision_weight=0、trade_signal=false，且不改变 Decision/Gate/Primary Context ranking/TemporalBinding/MarketObservation/Position Sizing。",
+    "required verification 记录 focused AI Policy tests、cargo test --workspace、make fmt-check、make test、make clippy、make check-signal-context-consistency、make quality；既有 coverage threshold failure 必须如实保留为 residual risk。"
+  ],
+  "authority": "explicit-user-authorization:任务再开，需要我授权的，我授权给你，并写入contract",
+  "baseRevision": "87d6521b9e1dabc725ad9f1f2de14029cf58c79d",
+  "createdAt": "2026-09-18T19:21:28Z",
+  "goal": "将 existing news provider 输入稳定映射为结构化 AI Policy observation：policy_type 与 policy_stage 可确定、provenance 完整、未知输入 fail-closed，并保留 observation-only 边界。",
+  "intent": "重新开启并完成 AI Policy 自动发现/分类任务；复核现有实现是否真正达到 runtime-observable，若有缺口则在合同边界内修补。",
+  "mode": "code",
+  "outOfScope": [
+    "Decision、Gate、Probe、RS、Leadership、Breakout、Breadth、Action Matrix、Risk Adjustment、Execution、Trader、Position Sizing、Primary Context ranking、TemporalBinding、MarketObservation、observation_time_precision、provider API/secrets/config、LLM/NLP、大规模重构、既有 archive 改写、Telegram 交易动作。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "existing news provider candidate 输入、ai_policy_context matcher、policy_type/policy_stage resolver、AiPolicyFrontierPacingObservation projection、Signal Context/read-model/output 接线与对应 focused regression tests；只在当前 develop 基线的这些边界内补足自动发现/分类证据。"
+  ],
+  "sources": [
+    "/Users/sei-rinn/.codex/attachments/b7017bc6-e11b-42e1-afa1-8f0a6fa18f43/貼り付けたテキスト.txt",
+    ".ai/work-items/archive/ai-policy-source-classification.contract.json",
+    "docs/superpowers/plans/2026-09-19-ai-policy-source-classification.md",
+    "src/features/research/infrastructure/ai_policy_source_classifier.rs",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace",
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make check-signal-context-consistency",
+    "make quality"
+  ],
+  "workItemId": "ai-policy-source-classification-reopen"
+}

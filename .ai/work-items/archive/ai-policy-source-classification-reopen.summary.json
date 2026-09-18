@@ -1,0 +1,79 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification-attempt.1922aef03f389a24853e3803f4f139a2fe753a83aaaea4c14b5ef893ab4ead17.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification-attempt.3ca744ffc23acdfd8e58b1fc56897be9015c4cd8d939ad3e5a6cbe882b70570a.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification-attempt.4bed1c3ff733977e37fdce2ba00198698ce8695824c6dd262df6cc1dc4839404.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification-attempt.91b205acf36564d6e6ec4374bef4542b8ebeb138bb1ad5671b2e1cea515ce549.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification-attempt.a7b1430bf7a4892c215a263775ec16fc5d7406df64fc8b0581654a9d5699f36a.json",
+    ".ai/evidence/ai-policy-source-classification-reopen.verification.json",
+    ".ai/work-items/archive/ai-policy-source-classification-reopen.contract.json",
+    ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+  ],
+  "checkpointAt": "2026-09-18T19:21:55Z",
+  "checkpointContractDigest": "sha256:410abb6bc46827eb8b237656a5393dafc892edf2473aef26f9cc2f287204ab96",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:67778e0d503e68130742f801354c7e8faf28b82dd7d5b71b4c5d964fb624f374",
+      "recorded": true,
+      "recordedAt": "2026-09-18T19:21:55Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ai-policy-source-classification-reopen"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:410abb6bc46827eb8b237656a5393dafc892edf2473aef26f9cc2f287204ab96",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:67778e0d503e68130742f801354c7e8faf28b82dd7d5b71b4c5d964fb624f374",
+      "previousContractHash": "sha256:67778e0d503e68130742f801354c7e8faf28b82dd7d5b71b4c5d964fb624f374",
+      "reason": "用户已授权重新开启任务；将原验收要求中的完整验证命令和输出接线文件显式写入 successor Contract。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T19:22:25Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "ai-policy-source-classification-reopen"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "createdAt": "2026-09-18T19:21:28Z",
+  "intentAlignment": {
+    "evidence": [
+      "/Users/sei-rinn/.codex/worktrees/ai-policy-source-classification-reopen/sentinel/.ai/work-items/active/ai-policy-source-classification-reopen.contract.json",
+      "/Users/sei-rinn/.codex/worktrees/ai-policy-source-classification-reopen/sentinel/.ai/evidence/ai-policy-source-classification-reopen.verification.json"
+    ],
+    "reason": "Successor Work Item is explicitly authorized by the owner; the Contract records the authorization and bounds the revalidation to AI Policy source classification and observation-only projection.",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-18T19:28:07Z",
+  "preflightContractDigest": "sha256:410abb6bc46827eb8b237656a5393dafc892edf2473aef26f9cc2f287204ab96",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T19:33:37.342464+00:00",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ai-policy-source-classification-reopen"
+}
