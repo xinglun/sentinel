@@ -1,0 +1,173 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1709792b7af5fb7b39cf54410dbbdbceecba7871cce48e1c7c24bec60a4bf61b",
+      "workItemId": "holiday-market-context-semantic-fix-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/holiday-market-context-semantic-fix.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/holiday-market-context-semantic-fix.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json",
+            ".ai/decisions/holiday-market-context-semantic-fix-finalization-recovery.finalize.json",
+            "https://github.com/xinglun/sentinel/pull/161"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-18T12:02:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "保留 predecessor 的不可变 archive、finalization、verification、close bytes，验证 PR #161 的合并身份与资源清理边界，完成 successor 与 predecessor 的一对一治理收尾。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "holiday-market-context-semantic-fix-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:012ca4c02f2d003ddbf80fcd0d2b6dd8d147217ebca30e19fb6e51cb617845ac",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:1cd040aa9372af232709e301cd2c801e26830cd63de3c061f288975515245684",
+    "branch": "codex/holiday-market-context-semantic-fix-finalization-recovery-20260918",
+    "branchRef": "refs/heads/codex/holiday-market-context-semantic-fix-finalization-recovery-20260918",
+    "capturedAt": "2026-09-18T11:59:21Z",
+    "contractDigest": "sha256:726d8032856a6799d6ebc43c657ba3cc9459287ce4b0b4dd463901be87ee8ec9",
+    "headRevision": "fe408a359a511b3863b1ec9eda2fe62672766c2b",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "holiday-market-context-semantic-fix-finalization-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel3",
+    "worktreeId": "sha256:a190dc5ba12f6f7431c863eb1d5143c332bb9f214714fdf5d605335d00340852",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/holiday-market-context-semantic-fix-finalization-recovery/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:8f3aa2285409fb6bb5056c334fa5438da57937f737a942e9baebb6987f9e60ea",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-18T12:02:00Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/holiday-market-context-semantic-fix-finalization-recovery.verification.json",
+      ".ai/decisions/holiday-market-context-semantic-fix-finalization-recovery.finalize.json",
+      "https://github.com/xinglun/sentinel/pull/161"
+    ],
+    "policyRefs": [],
+    "reason": "PR #161 已合并到 develop；当前 Runtime verification、finalize、finalize-verify 均通过，successor 仅补齐治理终态并确认精确 branch/worktree 已清理。predecessor bytes 保持不变。",
+    "resumeCondition": "无需恢复；如需追加产品行为应创建独立 Work Item。"
+  },
+  "timestamp": "2026-09-18T11:59:21Z",
+  "workItemId": "holiday-market-context-semantic-fix-finalization-recovery"
+}
