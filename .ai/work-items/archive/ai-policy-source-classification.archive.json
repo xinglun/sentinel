@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T18:04:44Z",
+  "files": {
+    "contractDigest": "sha256:1000dddffd5c3bbeae4b583c042b981154fa0eb7b494211eb53e53f458990fa1",
+    "contractPath": ".ai/work-items/archive/ai-policy-source-classification.contract.json",
+    "eventsDigest": "sha256:d78bd0731927f74595d10585fffc8560a74e628cf59144c851703f5972b954c0",
+    "eventsPath": ".ai/work-items/archive/ai-policy-source-classification.events.jsonl",
+    "outcomeDigest": "sha256:3ec7d45119cf0c0c7bba302d81ba6653c94b109a4d82c3fee32d63c49b9226cf",
+    "outcomePath": ".ai/work-items/archive/ai-policy-source-classification.outcome.json",
+    "summaryDigest": "sha256:bebf01197fe93e3b59c2121b3b821f061fc3dfacc6decb56afbe5b0b53900344",
+    "summaryPath": ".ai/work-items/archive/ai-policy-source-classification.summary.json",
+    "taskReportDigest": "sha256:388fbb83b9ed36db22d38eba8d3e105113d8feb0b9dc2b02351c068760b9b071",
+    "taskReportMarkdownDigest": "sha256:69c4499f4ee56ddc08e55e605809e44d7e902a23298cbf6ba553b687021ca116",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ai-policy-source-classification.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ai-policy-source-classification.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ai-policy-source-classification"
+}

@@ -1,5 +1,5 @@
-pub(crate) mod alpha_vantage_earnings_calendar_provider;
 pub(crate) mod ai_policy_source_classifier;
+pub(crate) mod alpha_vantage_earnings_calendar_provider;
 pub(crate) mod capital_absorption_ipo_queue_store;
 pub(crate) mod capital_absorption_source_adapter;
 pub(crate) mod dependency_source_adapter;

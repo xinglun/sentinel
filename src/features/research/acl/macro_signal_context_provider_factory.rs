@@ -1,9 +1,9 @@
 use crate::config::AppConfig;
 use crate::features::research::interface::macro_event_observation::{
-    classify_observation_time_precision, EvidenceRecord, MacroSignalContextEvent,
-    MacroSignalContextInformationLevel, MacroSignalContextLifecycle, MacroSignalContextReadModel,
-    MacroSignalContextSource, MacroSignalContextSourceStatus, MarketReaction,
-    SignalContextTemporalContext,
+    classify_observation_time_precision, AiPolicyFrontierPacingObservation, EvidenceRecord,
+    MacroSignalContextEvent, MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
+    MacroSignalContextReadModel, MacroSignalContextSource, MacroSignalContextSourceStatus,
+    MarketReaction, SignalContextTemporalContext,
 };
 use chrono::{DateTime, NaiveDate, Utc};
 
@@ -29,11 +29,28 @@ pub(crate) async fn load_macro_signal_context(
         rates_credit: map_source(context.rates_credit),
         commodity: map_source(context.commodity),
         geopolitical: map_source(context.geopolitical),
+        ai_policy_frontier_pacing_observation: context
+            .ai_policy_frontier_pacing_observation
+            .map(map_ai_policy_observation),
         observed_market_reactions: context
             .observed_market_reactions
             .into_iter()
             .map(map_reaction)
             .collect(),
+    }
+}
+
+fn map_ai_policy_observation(
+    observation: crate::features::research::infrastructure::macro_signal_context_provider::ProviderAiPolicyObservation,
+) -> AiPolicyFrontierPacingObservation {
+    AiPolicyFrontierPacingObservation {
+        source: observation.source,
+        source_url: observation.source_url,
+        source_published_at: observation.source_published_at,
+        headline: observation.headline,
+        provider: observation.provider,
+        policy_type: observation.policy_type,
+        policy_stage: observation.policy_stage,
     }
 }
 

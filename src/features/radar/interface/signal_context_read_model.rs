@@ -2668,6 +2668,7 @@ mod tests {
                 },
                 commodity: Default::default(),
                 geopolitical: Default::default(),
+                ai_policy_frontier_pacing_observation: None,
                 observed_market_reactions: vec![
                     crate::features::research::interface::macro_event_observation::MarketReaction {
                         observation_id: "observation-primary".to_string(),
