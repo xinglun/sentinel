@@ -1,0 +1,31 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "decidedAt": "2026-09-15T10:09:04+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/signal-context-geopolitical-lexical-integrity.close.json",
+    ".ai/work-items/archive/signal-context-geopolitical-lexical-integrity.archive.json",
+    ".ai/evidence/signal-context-geopolitical-lexical-integrity.verification.json",
+    "https://github.com/xinglun/sentinel/pull/197",
+    "https://github.com/xinglun/sentinel/pull/198"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:cccff3705577f753567f9a984a1ea8f189f7735d7a1d18c6201cb4d1f662f288",
+  "predecessorEventsDigest": "sha256:4159067c8955987428888a0bc3c6e149b18c8b20332591502a2140d6df252a3b",
+  "predecessorOutcomeDigest": "sha256:02abc4fb73ea9051109e8f7509c83a55ea4503d287ef201b948ce2e42603a352",
+  "predecessorSummaryDigest": "sha256:2c6f70ccc9dd5effc84deeae3a2b7ea10bc1c4d1496d5895266f190302aae2aa",
+  "predecessorWorkItemId": "signal-context-geopolitical-lexical-integrity",
+  "reason": "The immutable predecessor was archived and closed before its reviewed PR was merged, and it has no pre-archive resource finalization plan. After verified PR #197 and develop-to-main PR #198 merges, use a repository-bound governance-only successor to append honest finalization and cleanup evidence without changing predecessor archive, verification, or close bytes.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Continue only on the repository-bound governance successor; preserve all predecessor archive and verification evidence bytes; verify the real PR merge identities and develop/main tree parity; complete finalize-plan, verification, finish, archive, provider finalization, finalize-verify, supersede recovery, and post-merge close using exact branch and worktree facts.",
+  "runtimeDigest": "sha256:38a449e101ba7eb23a80cd8102fc4f30751eb7c3ade933d1e09066f8ff3db916",
+  "runtimeVersion": "0.2.92",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-geopolitical-lexical-integrity-finalization-recovery",
+  "workItemId": "signal-context-geopolitical-lexical-integrity"
+}

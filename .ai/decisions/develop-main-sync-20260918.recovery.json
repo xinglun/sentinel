@@ -1,0 +1,21 @@
+{
+  "actor": "user",
+  "authoritySource": "authorized:user-message:我授权给你，按WI流程完成全部任务。",
+  "decidedAt": "2026-09-18T08:06:02Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/develop-main-sync-20260918.verification.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:3e214a37ce44373bb3fb13e6624345c1d7332a6f9c2bb333ade3700a7eb8c1f3",
+  "predecessorSummaryDigest": "sha256:874d40fe57bc2fd9c8e2cba3144949da593d245bbca28f5f6d9061200381a4b0",
+  "predecessorWorkItemId": "develop-main-sync-20260918",
+  "reason": "Runtime 已明确拒绝在 verification 之后直接绑定 PR #204；保留既有 verification 作为前次尝试事实，并按用户授权以同一 Work Item retry 恢复，绑定真实 PR 后重新执行 preflight、verify 与完整收尾链。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "使用 PR #204 的准确 resource context 运行 finalize-plan，重新通过 preflight 与 verification，然后完成 finish、archive、PR merge、精确 branch/worktree cleanup、finalize、finalize-verify 与 close。",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "workItemId": "develop-main-sync-20260918"
+}

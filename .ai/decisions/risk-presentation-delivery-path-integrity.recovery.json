@@ -1,0 +1,25 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-message:已合并WI废弃并一对一关闭",
+  "decidedAt": "2026-09-17T00:05:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    "https://github.com/xinglun/sentinel/pull/164",
+    ".ai/decisions/risk-presentation-delivery-path-integrity.finalize.json"
+  ],
+  "policyRefs": [],
+  "predecessorContractDigest": "sha256:6ce822cff119e267f9dc79c17d4081406033572b9edd546526f8cdcb4c43c2a4",
+  "predecessorEventsDigest": "sha256:22342bfaa6cf57a615420ea0ce2b27d181054132cd733ad9a37a4b97fedd5142",
+  "predecessorOutcomeDigest": "sha256:ecdf6d7773c01daa10536b608161ddbb8491e82892b5f4e015931e2e6a22bd3e",
+  "predecessorSummaryDigest": "sha256:7f00f43ac18698b5ebea66e20c1182ebcc570a2bde7089b1858e02aa94a8c59a",
+  "predecessorWorkItemId": "risk-presentation-delivery-path-integrity",
+  "reason": "PR #164 已合并；当前 Runtime 无法接受旧的非 canonical close token，使用治理专用 successor 完成历史 close lineage，不改写原有 archive、finalization 或 verification evidence。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "完成 successor 的当前 Runtime verification、finish、archive、close 后，再关闭 predecessor 并解除 scope blocker。",
+  "runtimeDigest": "sha256:d213a18babeb55068f01292493d004f427c9f2005645cc460f77054bebeb7b51",
+  "runtimeVersion": "0.2.93",
+  "schemaVersion": 1,
+  "successorWorkItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v2",
+  "workItemId": "risk-presentation-delivery-path-integrity"
+}

@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "Gate passed=true 时保留 canonical Trend Cohesion 与 decision summary state tag；仅更新 tactical leadership topology 与对应风险说明。",
+    "Gate passed=false 时保留现有未确认行为，并由同一 assembler 结果供所有 report body 使用。",
+    "新增 regression 覆盖 Gate passed=true 与既有 leaderless/gate-false 行为，且不改变 Decision/Gate/交易边界。",
+    "保持 observation-only、decision_weight=0、trade_signal/gate/execution/position sizing 既有边界；不改 TemporalBinding、MarketObservation 或 provenance。",
+    "验证成功后按 Runtime 生命周期 finish、archive、close；未声明的 benefit 保持 unknown。"
+  ],
+  "authority": "authorized:user-message:继续之前没完的任务；授权",
+  "baseRevision": "18154b2a83ec979924b5909de3bbc9ff5526fa6a",
+  "createdAt": "2026-09-16T23:48:24Z",
+  "goal": "在 presentation assembler 的单一输出路径中保持 canonical Trend Cohesion/decision summary 的语义一致，补充 Gate passed 与未通过两种边界的 focused regression；不改变任何 Decision、Gate、交易或观测计算。",
+  "intent": "修复 Decision transition presentation integrity：Gate 已通过时，tactical leadership reconciliation 不得覆盖 canonical Trend Cohesion 与 decision summary 的已确认值。",
+  "mode": "code",
+  "outOfScope": [
+    "Decision/Gate/NO TRADE/Probe/Ready/RS/Leadership 计算/Breakout/Breadth/Action Matrix/Risk Adjustment/Execution/Trader/Position Sizing",
+    "TemporalBinding/MarketObservation/Signal Context/provider/ranking/data/report persistence",
+    "renderer 分类、字符串判断、其他 Work Item、数据与 CI 规则"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:8833e60ad0ae841712b3415eb33177269e0bf67bf1b0569f601c80b1ac90e882",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "decision-transition-presentation-integrity"
+}
