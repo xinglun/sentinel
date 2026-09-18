@@ -1,0 +1,162 @@
+{
+  "attemptId": "sha256:d3d78c057c775d0f42b3a94cacaafb870980f5774259f552e3c6ae7c535d0b14",
+  "commands": [
+    {
+      "args": [
+        "--workspace"
+      ],
+      "baseCommit": "1fc83123528c32205049dc27a5b5369091677bf4",
+      "commandDigest": "sha256:f510a918e14996e8865e41ddc49bb67263f00ed0246b2f8db94e2015392e5630",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:04b2fb451787d99123a930358d42039db5c4021788e34c3db389b577a80df72e",
+  "contractExecutionScopeDigest": "sha256:52715dedd96e1f259dc053f142a9445e51fc257abe988fbb396ce107de003d12",
+  "createdAt": "2026-09-18T18:54:02Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:f510a918e14996e8865e41ddc49bb67263f00ed0246b2f8db94e2015392e5630",
+      "deadlineMs": 1789757942109,
+      "elapsedMs": 57,
+      "exitCode": 1,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": true,
+      "stderr": "6572726f723a20756e657870656374656420617267756d656e7420272d2d776f726b73706163652720666f756e640a0a55736167653a20636172676f205b2b746f6f6c636861696e5d205b4f5054494f4e535d205b434f4d4d414e445d0a20202020202020636172676f205b2b746f6f6c636861696e5d205b4f5054494f4e535d202d5a736372697074203c4d414e49464553545f52533e205b415247535d2e2e2e0a0a466f72206d6f726520696e666f726d6174696f6e2c2074727920272d2d68656c70272e0a",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 219,
+      "executionElapsedMs": 57,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "runtimeVersion": "0.2.98",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 219,
+    "executionElapsedMs": 57,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:f510a918e14996e8865e41ddc49bb67263f00ed0246b2f8db94e2015392e5630",
+        "deadlineMs": 1789757942109,
+        "elapsedMs": 57,
+        "exitCode": 1,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": true,
+        "stderr": "6572726f723a20756e657870656374656420617267756d656e7420272d2d776f726b73706163652720666f756e640a0a55736167653a20636172676f205b2b746f6f6c636861696e5d205b4f5054494f4e535d205b434f4d4d414e445d0a20202020202020636172676f205b2b746f6f6c636861696e5d205b4f5054494f4e535d202d5a736372697074203c4d414e49464553545f52533e205b415247535d2e2e2e0a0a466f72206d6f726520696e666f726d6174696f6e2c2074727920272d2d68656c70272e0a",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 3,
+    "filesRead": 3,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "1fc83123528c32205049dc27a5b5369091677bf4",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 57,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "develop-main-sync-20260919-v8"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:efa2bffb12c38a2ee5f1641330fb7f6e1c697896b4d392d1a2c83bf0a183b70e",
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "timeoutSeconds": 300,
+    "workItemId": "develop-main-sync-20260919-v8"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "develop-main-sync-20260919-v8"
+}
