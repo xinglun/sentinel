@@ -5,10 +5,10 @@ use crate::features::radar::interface::presentation::{
     StateTransitionViewModel,
 };
 use crate::features::radar::interface::signal_context_read_model::{
-    build_signal_context_assessment, signal_context_boundary,
-    signal_context_information_content_label, signal_context_lifecycle_label,
-    signal_context_primary_context_label, signal_context_quality_label, signal_context_type_value,
-    SignalContextReadModelInput,
+    build_signal_context_assessment, format_ai_policy_frontier_pacing_observation,
+    signal_context_boundary, signal_context_information_content_label,
+    signal_context_lifecycle_label, signal_context_primary_context_label,
+    signal_context_quality_label, signal_context_type_value, SignalContextReadModelInput,
 };
 use crate::features::research::application::capital_absorption::{
     CapitalAbsorptionAutoSnapshot, CapitalAbsorptionPotentialSupplyPressureLevel,
@@ -159,6 +159,15 @@ pub(crate) fn build_interpretation_layer_view_model(
             Language::JaJp => "観測された市場反応".to_string(),
         },
         signal_context_market_reactions_value: signal_context.market_reactions_value,
+        signal_context_ai_policy_frontier_pacing_label: match input.language {
+            Language::ZhCn => "AI Policy 前沿节奏观察".to_string(),
+            Language::EnUs => "AI Policy Frontier Pacing Observation".to_string(),
+            Language::JaJp => "AI Policy フロンティアペーシング観測".to_string(),
+        },
+        signal_context_ai_policy_frontier_pacing_value:
+            format_ai_policy_frontier_pacing_observation(
+                signal_context.v1.ai_policy_frontier_pacing_observation.as_ref(),
+            ),
         signal_context_source_diagnostics_label: interpretation
             .signal_context_source_diagnostics_label
             .clone(),

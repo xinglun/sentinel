@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T15:35:48Z",
+  "files": {
+    "contractDigest": "sha256:ca047a060d79cf244e3ff4c69769a110071a9e51ec45121694449ff2f790d550",
+    "contractPath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.contract.json",
+    "eventsDigest": "sha256:b198280de4b8688d2f09055611a732c819452ae58d17e3fd5fbdaa8ff0178805",
+    "eventsPath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.events.jsonl",
+    "outcomeDigest": "sha256:d9becb7bc3d9775a8b4bc6c322b630fbe132d05370bea0965a71d1bafde182ae",
+    "outcomePath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.outcome.json",
+    "summaryDigest": "sha256:6a04b0e41b8c15267deae8264f2d6948107d4840d0aebdf0110abc16ae8e7ca4",
+    "summaryPath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.summary.json",
+    "taskReportDigest": "sha256:330d99b179fc6db1375533d996a0e1aaf836d1e0a3df5ed02ba9ef4aa4af2e50",
+    "taskReportMarkdownDigest": "sha256:c5869161a282c3918aa0c58f79bb9401849f17db4c74f22bd1b958ba9ec6adc4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ai-policy-frontier-pacing-observation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ai-policy-frontier-pacing-observation"
+}

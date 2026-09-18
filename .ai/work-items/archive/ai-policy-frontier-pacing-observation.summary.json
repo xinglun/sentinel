@@ -1,0 +1,78 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/ai-policy-frontier-pacing-observation.verification-attempt.a9789c3890db56f70e109f94f312a28c1828362c8b2ee7d15e48220b5b4ad5ea.json",
+    ".ai/evidence/ai-policy-frontier-pacing-observation.verification-attempt.db4f98d452eec5b95c1a24e853b7e88f75927b1ebc05ff55bd94f6ccc088eaef.json",
+    ".ai/evidence/ai-policy-frontier-pacing-observation.verification-attempt.ea05ed178dd4a85d2fad3ac41ac1d0f54d7e06853c500da0d12c39e8ee234931.json",
+    ".ai/evidence/ai-policy-frontier-pacing-observation.verification.json",
+    ".ai/work-items/archive/ai-policy-frontier-pacing-observation.contract.json",
+    ".ai/work-items/archive/ai-policy-frontier-pacing-observation.summary.json",
+    "docs/superpowers/plans/2026-09-19-ai-policy-frontier-pacing-observation.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "checkpointAt": "2026-09-18T15:21:25Z",
+  "checkpointContractDigest": "sha256:ae03513978789cc80d17f6d1628ca27d0a22219ea2502c29aad22eb8980cf2e7",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d3bff3f60f8a8be2212b13807131b6fbea69a83d120ead1c61e6f6f67f5a5ab2",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:21:25Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cd91bfd8a766b2d8f0f5a52d807ca8e0bb5d59eabffee6e8a9a3199e8148fcb9",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ai-policy-frontier-pacing-observation"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ae03513978789cc80d17f6d1628ca27d0a22219ea2502c29aad22eb8980cf2e7",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d3bff3f60f8a8be2212b13807131b6fbea69a83d120ead1c61e6f6f67f5a5ab2",
+      "previousContractHash": "sha256:d3bff3f60f8a8be2212b13807131b6fbea69a83d120ead1c61e6f6f67f5a5ab2",
+      "reason": "将 5a 的专用报告回归测试与仓库质量门禁路径固化到当前 Contract",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:30:30Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:e82a4ca504137b984c4388b0ccc2fde9a8f5897e8c9dd7f8e7657f3487ead410",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "ai-policy-frontier-pacing-observation"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:e82a4ca504137b984c4388b0ccc2fde9a8f5897e8c9dd7f8e7657f3487ead410",
+  "createdAt": "2026-09-18T15:19:02Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T15:32:16Z",
+  "preflightContractDigest": "sha256:ae03513978789cc80d17f6d1628ca27d0a22219ea2502c29aad22eb8980cf2e7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e82a4ca504137b984c4388b0ccc2fde9a8f5897e8c9dd7f8e7657f3487ead410",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T15:35:05Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ai-policy-frontier-pacing-observation"
+}
