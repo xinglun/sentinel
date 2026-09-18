@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "Primary Event 存在且 event_id 有效时，market_reactions_value 仅包含 event_id 相同且 temporal_eligible=true 的 observation。",
+    "另一个事件的 temporal-eligible observation 不得出现在 Primary Event 的市场反应展示中；同一 observation_id 的匹配仍保持既有格式与 provenance。",
+    "TemporalBinding 的构造、时间比较、accepted_at 可见性与 observation-only 语义保持不变。",
+    "Primary Event 或绑定事实缺失/ malformed 时不扩大到其他事件的 observation；read model 维持空或不可用的 fail-closed 展示。",
+    "focused regression 覆盖 primary/secondary event binding、eligible/ineligible observation 与现有无绑定兼容行为。"
+  ],
+  "authority": "explicit-user-authorization:继续，全部对应",
+  "baseRevision": "65fc7283663e0deee0c4bb912db608f1bb705915",
+  "createdAt": "2026-09-18T12:40:57Z",
+  "goal": "在不改变 TemporalBinding 时间资格不变量、Decision 或交易行为的前提下，让 Primary Event scoped binding 成为 read model 的唯一展示筛选边界。",
+  "intent": "修复 Signal Context read model 将所有 temporal-eligible MarketObservation 混入 Primary Event 展示的问题，使市场观测仅按 Primary Event 的 event_id 绑定展示。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 TemporalBinding/build_temporal_binding 或 source_published_at <= observed_at invariant。",
+    "不实现 DAY_ONLY、observation_time_precision、4b 时间精度语义或 5a AI Policy frontier pacing observation。",
+    "不修改 Decision、Gate、decision_weight、RS、Leadership、Action Matrix、Risk Adjustment、Execution、Trader、Position Sizing、provider、ranking、evidence provenance 或交易阈值。",
+    "不修改 data branch、reports、Telegram 文案、外部 source adapter 或 schema；renderer 不新增分类/绑定判断。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9aaa21e7da692efa49a2ebf5304f3d38423199537b17bdf3e4510661973c1b90",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅修改 src/features/radar/interface/signal_context_read_model.rs 的 Primary Event scoped MarketObservation 展示聚合与同模块 focused regression tests；消费既有 SignalContextV1.primary_context、TemporalBinding.event_id、observation_id 与 temporal_eligible，不重算事件或观测事实。",
+    "src/features/radar/interface/signal_context_read_model.rs"
+  ],
+  "sources": [
+    ".ai/README.md",
+    ".ai/glossary.md",
+    ".ai/work-items/archive/signal-context-temporal-alignment.contract.json",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/presentation.rs"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "primary-event-scoped-binding"
+}

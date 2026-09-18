@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:361fbef9962c61b1bb9fc1fe33f0d8ec99e9e2ad755ff0d0982fbeb6aa96625d",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "205a9767711f27b1520dd3da9d21fb514ec01232",
+      "commandDigest": "sha256:15d3992e41e0cc2ea433f3c9410011c67964a38e2381b71ac686a40545fb3d64",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:25ab288803fe4bad6d4880320db1480950e47200d2db02f89d455bf2ec3fb352",
+  "contractExecutionScopeDigest": "sha256:533d44eff09220af9907d85dbd8c5e224024129a643d282a3c9d0c2803be3efc",
+  "createdAt": "2026-09-18T11:33:44Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/risk-probe-candidate-label-integrity/sentinel/.ai/work-items/active/risk-probe-candidate-label-integrity.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:29b984a18db0a5cd0d604f8811258161347cf3e25a96b5091889aea0af0b8505",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "risk-probe-candidate-label-integrity"
+}

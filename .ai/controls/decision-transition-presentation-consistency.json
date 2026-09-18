@@ -1,0 +1,77 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "同一 transition state 在 CLI、Markdown/报告和 audit presentation 使用同一展示语义与标签，不泄漏内部原始 blocker 结构。",
+      "evidence": [
+        "src/features/radar/interface/strategic_context_read_model.rs",
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/transition_evidence_read_model.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "presentation-only；Decision、Gate、decision_weight、交易结果与阈值的行为快照保持不变。",
+      "evidence": [
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "增加 focused regression tests，覆盖 transition changed/unchanged、NO TRADE 与正常状态，以及 zh/en/ja（如现有 renderer 支持）的输出一致性。",
+      "evidence": [
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "缺少状态或 malformed presentation input 时 fail-closed 为已有 unavailable/unknown 语义，不猜测。",
+      "evidence": [
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/transition_evidence_read_model.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "weekly transition snapshot と daily transition presentation 使用同一 localized semantic mapping，禁止 BroadExpansion 等内部 Debug enum 泄漏。",
+      "evidence": [
+        "src/features/radar/interface/strategic_context_read_model.rs",
+        "src/features/radar/interface/weekly_state_report.rs"
+      ],
+      "status": "verified"
+    }
+  ],
+  "scenarioCoverage": [
+    {
+      "scenario": "weekly transition snapshot: localized values and no raw enum strings",
+      "status": "verified",
+      "required": true,
+      "expected": "weekly snapshot uses localized semantic labels and never emits BroadExpansion-like Debug enum strings",
+      "verificationPlan": "focused weekly snapshot regression test",
+      "evidence": [
+        "src/features/radar/interface/weekly_state_report.rs"
+      ]
+    },
+    {
+      "scenario": "no transition evidence: existing N/A fallback preserved",
+      "status": "verified",
+      "required": true,
+      "expected": "absence of transition evidence remains unavailable/N/A and does not invent a transition",
+      "verificationPlan": "existing weekly read-model and full workspace tests",
+      "evidence": [
+        "src/features/radar/interface/weekly_state_report.rs",
+        "src/features/radar/interface/transition_evidence_read_model.rs"
+      ]
+    }
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "实现仅将 weekly transition snapshot 的内部 enum 展示改为既有 localized semantic mapping；未修改 Decision、Gate、交易阈值或 observation 行为。",
+    "evidence": [
+      ".ai/work-items/active/decision-transition-presentation-consistency.contract.json",
+      "src/features/radar/interface/strategic_context_read_model.rs",
+      "src/features/radar/interface/weekly_state_report.rs"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "attemptId": "sha256:b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056",
+  "commands": [
+    {
+      "args": [
+        "test",
+        "--workspace"
+      ],
+      "baseCommit": "9f260c7a974ed190930881d03cf9e57d30420831",
+      "commandDigest": "sha256:858c7c47c4b4c35948d624d3a9d46d509c7b98e90c73ddba01e8cb2938671f57",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:3fc24827df08b4dcf9f4b4035b94308ead2b22ab65251c5e99bf8017458aa1e7",
+  "contractExecutionScopeDigest": "sha256:f01f5b6697e536af8d96811b8b62749306a48ab5fdb7151467c6a115b137eb9d",
+  "createdAt": "2026-09-18T14:32:47Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/develop-main-sync-20260918-v5/sentinel/.ai/work-items/active/develop-main-sync-20260918-v5.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:33548f00a12d46c94ddc17f9ad17e4a9d3d7ce654779f86819e0b15d52fb6315",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "develop-main-sync-20260918-v5"
+}

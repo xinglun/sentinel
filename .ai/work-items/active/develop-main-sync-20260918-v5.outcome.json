@@ -1,0 +1,164 @@
+{
+  "acceptanceResults": [
+    "同步 PR 的 head 精确从 origin/develop 当前提交创建，base 为 main",
+    "托管检查通过并以普通 merge 合并，不使用 admin 绕过",
+    "合并后 origin/main 与 origin/develop 的提交树一致，且 origin/develop 是 origin/main 的祖先",
+    "同步分支、同步 Work Item 工作树和本地分支在完成后精确清理，保留 develop 主工作树为最终本地检出"
+  ],
+  "createdAt": "2026-09-18T14:34:11Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a3b57d2428320ea449d9ddeaaced97611d5607ac17c0313344f98f3211ef7553",
+  "evidenceRefs": [
+    ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:33548f00a12d46c94ddc17f9ad17e4a9d3d7ce654779f86819e0b15d52fb6315",
+      "workItemId": "develop-main-sync-20260918-v5"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.586a534869f344c2cdeadd00f16c73c950914426068186936324a777690bb2e3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260918-v5.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+          ],
+          "inference": false,
+          "text": "把 origin/develop 的最新治理与产品修复同步到 origin/main；仅处理分支同步、托管检查、合并、验证和精确清理，不改变产品行为"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "develop-main-sync-20260918-v5"
+  },
+  "taskReportDigest": "sha256:3b57c00b2d428eeb6e6bdc838bdc2f648f65077e85c3ad842b936d16372c0816",
+  "taskReportMarkdownDigest": "sha256:39e2a64426cfa9dfa7cdf75247e7502644ba6c8cdd81526b14ab7e8a8c6fb941",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/develop-main-sync-20260918-v5.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "develop-main-sync-20260918-v5"
+}

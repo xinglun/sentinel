@@ -1987,6 +1987,82 @@ mod tests {
     }
 
     #[test]
+    fn blocked_risk_and_ineligible_optimal_assets_use_observation_only_labels() {
+        for (risk_overlay, action, gate_passed) in [
+            (
+                RiskOverlay::BROKEN,
+                crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE,
+                false,
+            ),
+            (
+                RiskOverlay::DEFENSIVE,
+                crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE,
+                false,
+            ),
+            (
+                RiskOverlay::NORMAL,
+                crate::features::radar::domain::action_matrix::AssetAction::HOLD,
+                true,
+            ),
+        ] {
+            let packet = DecisionPacket {
+                date: Utc::now().date_naive(),
+                market_regime: MarketRegimeSnapshot {
+                    market_state: MarketState::IGNITION,
+                    risk_overlay,
+                    ..Default::default()
+                },
+                trend_cohesion:
+                    crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                        gate_passed,
+                        ..Default::default()
+                    },
+                assets: vec![AssetActionDecision {
+                    symbol: "SPY".into(),
+                    action,
+                    asset_state: AssetStateSnapshot {
+                        symbol: "SPY".into(),
+                        state: AssetState::OPTIMAL,
+                        ..Default::default()
+                    },
+                    position_intent: PositionIntent::HOLD,
+                    has_position_fact: false,
+                    ..Default::default()
+                }],
+                top_tier_symbols: vec!["SPY".into()],
+                ..Default::default()
+            };
+            let config =
+                mock_config_with_language(crate::features::shared::interface::i18n::Language::ZhCn);
+            let presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                crate::features::shared::interface::i18n::Language::ZhCn,
+            );
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+
+            for body in [
+                &report.telegram_html_body,
+                &report.markdown_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains("SPY · 风控隔离"), "{body}");
+                assert!(!body.contains("SPY · 最优"), "{body}");
+                assert!(!body.contains("SPY · Optimal"), "{body}");
+            }
+        }
+    }
+
+    #[test]
     fn test_no_trade_pullback_reason_avoids_core_priority_hint() {
         let packet = DecisionPacket {
             date: Utc::now().date_naive(),

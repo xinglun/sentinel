@@ -1,0 +1,60 @@
+{
+  "acceptanceCriteria": [
+    "同一 transition state 在 CLI、Markdown/报告和 audit presentation 使用同一展示语义与标签，不泄漏内部原始 blocker 结构。",
+    "presentation-only；Decision、Gate、decision_weight、交易结果与阈值的行为快照保持不变。",
+    "增加 focused regression tests，覆盖 transition changed/unchanged、NO TRADE 与正常状态，以及 zh/en/ja（如现有 renderer 支持）的输出一致性。",
+    "缺少状态或 malformed presentation input 时 fail-closed 为已有 unavailable/unknown 语义，不猜测。",
+    "weekly transition snapshot と daily transition presentation 使用同一 localized semantic mapping，禁止 BroadExpansion 等内部 Debug enum 泄漏。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "0ccbdb9bc82d9b13f37b9a6778bd86097316a63d",
+  "createdAt": "2026-09-18T10:30:28Z",
+  "goal": "让 transition presentation 对同一结构化状态变化使用一致、可审计的展示语义，不修改阈值、Decision、Gate、RS、Leadership、Action Matrix、Execution 或 Position Sizing。",
+  "intent": "修复 Decision transition 的展示语义一致性，保持观察与交易边界不变",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 Decision/Gate/NO TRADE 判定、RS、Leadership、Action Matrix、Risk Adjustment、Execution、Trader、Position Sizing、TemporalBinding、MarketObservation、Primary Event binding、数据源、交易阈值或第 2/4/5 项行为。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:91fef1281c52d62348c92213a8ca99abc6ebebf331a1af53541dbfefa8293127",
+  "requiredEvidenceClasses": [],
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "zh/en/ja outputs use the same semantic labels as daily transition presentation.",
+      "required": true,
+      "scenario": "weekly transition snapshot: localized values and no raw enum strings",
+      "status": "unverified",
+      "verificationPlan": "focused weekly snapshot test plus report/UI regression tests."
+    },
+    {
+      "evidence": [],
+      "expected": "absence of transition evidence remains unavailable/N/A and does not invent a transition.",
+      "required": true,
+      "scenario": "no transition evidence: existing N/A fallback preserved",
+      "status": "unverified",
+      "verificationPlan": "existing weekly read-model tests and full library tests."
+    }
+  ],
+  "scope": [
+    "仅限 Signal Context/Radar 的 transition presentation read model、renderer 及其 focused tests；允许增加日文 repository 文档/计划说明和展示 contract test。",
+    "docs/superpowers/plans/2026-09-18-signal-context-presentation-observation.md",
+    "src/features/radar/interface/strategic_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs"
+  ],
+  "sources": [
+    "user-authorized:继续，全部对应",
+    "table-scope:Decision transition 展示一致性"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "decision-transition-presentation-consistency"
+}

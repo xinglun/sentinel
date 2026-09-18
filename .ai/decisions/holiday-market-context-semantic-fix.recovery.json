@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-recovery",
+  "decision": "successor",
+  "workItemId": "holiday-market-context-semantic-fix",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "predecessorWorkItemId": "holiday-market-context-semantic-fix",
+  "predecessorContractDigest": "sha256:8b305a4f3c188ebdeb9695fe26dbc6a6f5f2c9dfc9e2cab2e355faa53e86503d",
+  "predecessorSummaryDigest": "sha256:fdfe75b75cd001b6e721c0b6b0f973537f1e3e565b9624f70fd391248d9a4667",
+  "predecessorOutcomeDigest": "sha256:8d4d360c171a199de4d05f0b8bed5d275fac3e4b1c982beef05396fd6b4846d4",
+  "predecessorEventsDigest": "sha256:0983b658cf5cbf91bce18ee267680b3599f46e3b37a22ac016006944da746ac1",
+  "successorWorkItemId": "holiday-market-context-semantic-fix-finalization-recovery",
+  "runtimeVersion": "0.2.98",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "旧 Work Item 的实际交付已通过 GitHub PR #161 合并到 develop；旧 Runtime 将其记录为 direct_merge_no_pr，当前 Runtime 拒绝把该历史 PR 记录重分类为新的 finalization receipt。按用户要求建立一对一治理 successor，绑定真实 PR 与合并提交，保留 predecessor archive、finalization、verification、close bytes 不变。",
+  "evidenceRefs": [
+    "https://github.com/xinglun/sentinel/pull/161",
+    ".ai/decisions/holiday-market-context-semantic-fix.finalize.json",
+    ".ai/work-items/archive/holiday-market-context-semantic-fix.archive.json",
+    ".ai/evidence/holiday-market-context-semantic-fix.verification.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "decidedAt": "2026-09-18T12:00:00Z",
+  "resumeCondition": "在 successor 中只做当前 Runtime 的治理验证与资源身份核验，不修改生产代码或 predecessor bytes；完成 verification、finish、archive、finalization、close 后，再按真实 PR #161 与精确 branch/worktree identity 关闭 predecessor。"
+}
