@@ -3,7 +3,8 @@
     "PR 的 base 为 main，head 来自创建时最新 origin/develop，且全部必需 hosted checks 通过后合并。",
     "合并后 origin/main 与 origin/develop 的 tree 完全一致，且 origin/develop 是 origin/main 的祖先。",
     "同步 branch 与精确同步 worktree 均已删除，现有其他 worktree 不受影响。",
-    "当前同步 checkout 在收尾前保持 clean；主 checkout 中既有未关联 dirty evidence 原样保留并记录为 out-of-scope。"
+    "当前同步 checkout 在收尾前保持 clean；主 checkout 中既有未关联 dirty evidence 原样保留并记录为 out-of-scope。",
+    "合并后必须以远端 ref、tree digest 与 merge-base 直接证明 origin/develop 已同步进入 origin/main；PR merge 状态本身不替代该验证。"
   ],
   "authority": "authorized:user-message:我授权给你，按WI流程完成全部任务。",
   "baseRevision": "2b2da038a58262fba31c437c74d88f2717e06942",
@@ -21,13 +22,22 @@
   "requiredEvidenceClasses": [
     "verification"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync-20260918",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/204",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-develop-main-sync-20260918"
+  },
   "risk": "normal",
   "scope": [
     "仅限于从最新 origin/develop 创建同步 branch/worktree、创建以 main 为 base 的 PR、等待必需 hosted checks、合并 PR、验证 origin/main 与 origin/develop 的 tree/祖先关系、删除该同步 branch 与专用 worktree，并记录当前 Work Item 的 Runtime 生命周期与 cleanup 证据。"
   ],
   "sources": [
     "https://github.com/xinglun/sentinel/pull/202",
-    "https://github.com/xinglun/sentinel/pull/203"
+    "https://github.com/xinglun/sentinel/pull/203",
+    "https://github.com/xinglun/sentinel/pull/204：本 Work Item 的真实 main-base 同步 PR；head 为 1e2969e55ec3a296e7dc298b159ec5b48c7804b。"
   ],
   "state": "implementation_active",
   "verification": [
