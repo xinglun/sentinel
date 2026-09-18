@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft: Don't Let The Smaller Dividend Hike Fool You - I See $600+ Long-Term
+  summary: Microsoft Corporation is a Buy despite CAPEX-driven margin pressure. Click for this MSFT update and see if it is the right stock for you after raising the dividend.
+  url: https://finnhub.io/api/news?id=fd1ee05d210a1517e80d05b2fdf87aa1657b4afa83aad4de37907a22730fc4c8

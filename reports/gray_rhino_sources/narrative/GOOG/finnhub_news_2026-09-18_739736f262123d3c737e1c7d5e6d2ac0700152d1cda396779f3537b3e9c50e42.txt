@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett's Successor, Greg Abel, Is Wagering Heavily on an AI-Driven Future
+  summary: This isn’t your grandparents’ Berkshire Hathaway anymore.
+  url: https://finnhub.io/api/news?id=daa6d8e27013dc54ee24bdca3571468a4eae82b951f5f1ab6b4286a984653845

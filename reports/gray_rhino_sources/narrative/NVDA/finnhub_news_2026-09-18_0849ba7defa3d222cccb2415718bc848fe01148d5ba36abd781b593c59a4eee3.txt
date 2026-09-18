@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dreamforce 2026: Business leaders say AI is moving too fast
+  summary: Attendees at Salesforce's annual conference say they're still catching up with existing AI tools, even as frontier models keep advancing
+  url: https://finnhub.io/api/news?id=c6196d5301bb19cd297677a25ddb9f03d78435c162c3a23512b96361f402d8fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Electric Vehicles - Subaru Partners With onsemi To Advance Power Architecture Integration
+  summary: Subaru has embarked on a strategic collaboration with onsemi to evaluate its Embedded Power Platform (EPP), marking a significant step towards integrating next-generation power architectures in future electric vehicles. This partnership aims to explore how a more integrated power system design can enhance vehicle performance, efficiency, and design flexibility, crucial elements as automakers expand their electrified vehicle offerings. By gaining early access to engineering samples and...
+  url: https://finnhub.io/api/news?id=19d4bd4de79e917b40ac382d8d28fcd55dd0254689fbe965219abbc00de6d142

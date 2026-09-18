@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s When Nividia’s Dominance Fades, Opening Broadcom’s Era of Dominance
+  summary: NVIDIA just posted triple-digit growth and Broadcom matched it with a custom chip story that has hyperscalers quietly betting billions against the GPU. Something has to give, and the timeline is closer than most investors realize.
+  url: https://finnhub.io/api/news?id=20247d906545b87ad0ff00906d5d206158c21068a623438c5e3701d9f556ee42

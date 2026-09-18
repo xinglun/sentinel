@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tempus AI Stock Surges as Revenue Optimism Boosts Winning Streak
+  summary: Clarity on how much revenue  Tempus AI  will bring in through Medicare reimbursements for two of its cancer screenings appeased investors this week as shares surged Thursday.  Tempus stock added 15% Thursday as part of a 36% advance over the last five sessions.  in which Tempus is the third-largest position behind  Tesla  and  SpaceX  rose 4.3%.
+  url: https://finnhub.io/api/news?id=17af29a9e4ba732dfb86961cd7a810ba07ac44f6c7742ebc8f38153a51dba622

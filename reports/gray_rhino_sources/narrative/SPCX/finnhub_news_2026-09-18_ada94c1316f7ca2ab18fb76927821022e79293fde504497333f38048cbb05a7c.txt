@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Is on a Good Run While Retail Investors Are Selling. What Gives?
+  summary: Elon Musk’s army of small, retail shareholders has helped prop up  Tesla  stock in the past.  Many of those same retail shareholders now hold  SpaceX.  Retail investors, however, have started selling SpaceX stock.
+  url: https://finnhub.io/api/news?id=3b8e7461152eb24000c8bacde585197127b5c1e7433b67cfffac8ce9ad587122

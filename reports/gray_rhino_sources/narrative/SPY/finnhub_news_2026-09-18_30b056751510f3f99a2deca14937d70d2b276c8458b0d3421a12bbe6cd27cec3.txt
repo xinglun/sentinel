@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Could Go Nowhere For A Decade
+  summary: Donât bank on 10% S&P 500 returnsârates, valuations, and inflation may cut gains. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=f8c372aee498779731e775ba2a1bbafec193d5db2f18ac8c564e41670df75eb7

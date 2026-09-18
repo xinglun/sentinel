@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Rises Again. AI Demand Isn’t Slowing Down.
+  summary: AI demand just isn’t slowing down, and  SpaceX  stock was up again early Thursday.  Shares of Elon Musk’s rocket and AI company were up 1.5% at $153.08 in premarket trading, while  and  futures were up 0.8% and 0.7%, respectively.  SpaceX scheduled the 14th test flight for its huge, fully reusable rocket, Starship, which might have helped.
+  url: https://finnhub.io/api/news?id=c7169a4408691ee3cb55b469fa49c8a17530a10dd69f5f459a198e9d2b60e94f

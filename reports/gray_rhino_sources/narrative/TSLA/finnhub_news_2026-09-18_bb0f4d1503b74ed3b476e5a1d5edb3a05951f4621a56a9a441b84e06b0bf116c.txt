@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Teases Deeper Integration And Roadster Reveal With New Chip Push
+  summary: Tesla (NasdaqGS:TSLA) CEO Elon Musk signalled closer operational ties with SpaceX, including potential corporate integration, during recent public comments. Musk highlighted a joint Terafab semiconductor manufacturing effort, aimed at supplying custom chips for Tesla vehicles and energy products. The upcoming Tesla Roadster reveal was teased as a showcase for new technology that could leverage SpaceX related engineering. The hinted Tesla SpaceX integration, Terafab chip effort, and Roadster...
+  url: https://finnhub.io/api/news?id=acf7480237a100a443aad4220cac1ad00d4ffb55f0ed5fc17a220f480977ccaf

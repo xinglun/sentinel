@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Says Anthropic Wants AI Nationalization to Simply Dodge Lawsuits
+  summary: Palantir CEO Alex Karp says AI labs like Anthropic are pushing nationalization to dodge liability, not for safety.
+  url: https://finnhub.io/api/news?id=6594eebed9bb0a6cafe530ea1ddd199b560e89d1b940078fceff0692654fc379

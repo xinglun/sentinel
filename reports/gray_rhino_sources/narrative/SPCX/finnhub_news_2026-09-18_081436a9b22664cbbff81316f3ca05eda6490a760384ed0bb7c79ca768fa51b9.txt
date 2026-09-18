@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ASTS Retail Sentiment Nears 1-Year Low As SpaceX Turns Up The Heat In Global Mobile Race
+  summary: SpaceX’s vertically integrated strategy increases pressure on AST, which serves 60 carrier partners covering about three billion subscribers.
+  url: https://finnhub.io/api/news?id=fde3b6591f293a5372addf6a4aa1357885792eeba70fccb6612e0788cf92d8ae

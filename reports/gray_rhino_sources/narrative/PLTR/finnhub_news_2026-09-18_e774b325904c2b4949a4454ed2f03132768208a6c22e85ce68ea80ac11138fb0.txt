@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) AI Deal Rush Meets A Fair Value Debate
+  summary: Palantir Technologies (PLTR) is back in focus after a cluster of AI focused partnerships with Method Security, NVIDIA and Nebius, raising fresh questions about how these deals might influence the stock’s long term narrative. Recent trading reflects that story taking hold. Palantir Technologies has a 7 day share price return of 6.22% and a 90 day share price return of 37.14%. However, the 1 year total shareholder return is slightly down at 0.45%, while the 3 year total shareholder return is...
+  url: https://finnhub.io/api/news?id=7bdd763c77ab5c55aca0ff665b3a5c4e07575aa00d82684230aa9a6ef236102b

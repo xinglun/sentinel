@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Watch 5 Stocks on Recent Dividend Hikes Amid Rising Rates & Volatility
+  summary: These five dividend stocks, including JPMorgan Chase, Microsoft and Argan, have raised payouts repeatedly, offering investors income amid market uncertainty.
+  url: https://finnhub.io/api/news?id=888983d0356f8be5101ec3291a21115ba64f8234d416f017f3ab2ab77ab8017e

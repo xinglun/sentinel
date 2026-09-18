@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cloud AI Update - Expanse Revolutionizes AI Efficiency With Precise Resource Allocation
+  summary: Expanse has secured $5.3 million in seed funding to advance its AI infrastructure software, which is designed to enhance resource allocation efficiency in AI workloads. The platform predicts the exact computational resources needed before AI tasks are executed, thereby minimizing over-allocation and optimizing GPU, CPU, and memory usage. This development addresses critical inefficiencies, as industry estimates indicate significant percentages of cloud expenditures are wasted due to...
+  url: https://finnhub.io/api/news?id=bf13ed483777f8b8aa099fca69696d497973d2285bb1f6835fdd2a78de7b0c1c

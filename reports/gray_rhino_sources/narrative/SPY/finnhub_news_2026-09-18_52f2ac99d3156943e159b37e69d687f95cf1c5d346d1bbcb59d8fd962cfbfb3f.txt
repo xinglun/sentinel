@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 24/7 Wall Street: Democratization Of Trading Vs. Behavioral Trap
+  summary: 
+  url: https://finnhub.io/api/news?id=99fb2dc16319f4062c50af706ae0e2fa1e2efbd9ae0a70dbea2c77634418ad79

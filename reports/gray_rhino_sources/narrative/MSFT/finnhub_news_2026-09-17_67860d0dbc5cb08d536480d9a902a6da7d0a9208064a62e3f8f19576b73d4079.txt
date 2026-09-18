@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy HP Stock For The Shares It Keeps Retiring?
+  summary: HP (HPQ) stock has run hard over the past six months, gaining about 78%, and it still trades roughly 8% below its 52-week high. The steadier story is the share count. HP retires a slice of its own stock every year, so earnings per share grow faster than profits do. The question is whether a rising memory bill breaks that.
+  url: https://finnhub.io/api/news?id=6228ca08ca949c4dceced79ae889be5331ebebd72b0081956fc160f55e6f0aea

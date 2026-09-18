@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Real Reason for the Stock Market’s Surprising Strength
+  summary: Warren Buffett steps down as Berkshire chairman, tech stocks and crypto assets are rising, oil prices fall, and more news to start your day.
+  url: https://finnhub.io/api/news?id=38a43d6e9a8e4ac73ea863c6ad7e9b060e2c84770886a3e158d3cc734cbc5516

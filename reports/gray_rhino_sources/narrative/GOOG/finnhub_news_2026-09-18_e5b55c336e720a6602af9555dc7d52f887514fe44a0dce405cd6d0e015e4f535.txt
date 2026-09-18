@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Meta Could Keep Surprising Wall Street
+  summary: Meta has clawed back nearly 20% in a single month, but the real question is whether the AI event on the horizon justifies pushing the stock even higher against a capex bill that crushed free cash flow by 90%.
+  url: https://finnhub.io/api/news?id=f4b133308e226cde0a572987734cc2d415f68719e5d424acc0a74721ce3e9d5e

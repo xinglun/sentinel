@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett Steps Down as Berkshire Hathaway Chair: ‘Father Time Always Wins’
+  summary: After 60 years at the helm of Berkshire Hathaway, Warren Buffett just made a move that reshapes who controls the culture and the cash at one of the world's most powerful companies.
+  url: https://finnhub.io/api/news?id=b7f2ce56e48cdcea6bc750ee2faab4fa32786e4dd17ec929518dde72ce6cae3a

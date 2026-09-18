@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Delivers Stunning Prediction About Chip Sales
+  summary: Nvidia CEO Drops Bold Prediction as Chip Sales Could Double Next Year
+  url: https://finnhub.io/api/news?id=da7fc36177a5bfa60708297fd2af13e809c7cd02869567a0127e84df2172b2f6

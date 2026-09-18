@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Breadth Rebounds Sharply, but the Market Is Not Repaired Yet
+  summary: U.S. breadth rebounded sharply on Sept. 17, but weak moving-average and monthly participation keep the breadth trend at 3/7.
+  url: https://finnhub.io/api/news?id=9297eb0e895634d3127e9899b5559e7498319fa35929eb91b4d1e4b92380d2f5

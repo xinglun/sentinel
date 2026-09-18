@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Under-the-Radar AI Stock Poised to Outgrow Nvidia
+  summary: GPUs are a great business. Optical lasers may be a better one.
+  url: https://finnhub.io/api/news?id=4d4063796374226712c68282f97881488281e551a4545f5119bb506d88518776

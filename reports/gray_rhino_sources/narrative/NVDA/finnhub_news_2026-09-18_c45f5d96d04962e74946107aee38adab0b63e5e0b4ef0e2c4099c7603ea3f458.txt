@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Is Where Nvidia Stock Could Be by the End of Next Year
+  summary: Nvidia shares have already delivered 900% over five years, but a specific multiple applied to a rising earnings estimate points to a price target that Wall Street has not yet penciled in. Here is the math behind the case for NVDA reaching a level that would shock most investors by late 2027.
+  url: https://finnhub.io/api/news?id=035567a326efdf5c5c693b7714fa844628accbd01f71161b0a95eeea6d106bea

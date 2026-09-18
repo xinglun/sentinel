@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The High-Stake Trump-Xi Meeting: Brace For Volatility
+  summary: The US-China rare earths export ban truce expires on November 10th. Read why a failure to make the deal could trigger a major systemic event
+  url: https://finnhub.io/api/news?id=27c7cea5d703dbe21c4aed113353262221afa10522279ac935763b57486396bb

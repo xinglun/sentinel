@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Estée Lauder Cos.’ Aude Gandon on Taking the Right Career Risks
+  summary: Just as the industries she has traversed throughout her career have evolved rapidly — from ads to beauty and beyond — so, too, has the executive.
+  url: https://finnhub.io/api/news?id=6316876cfae46502b53be504ebffe5bde443b4ab65323cb5e80b65cd5a129a34

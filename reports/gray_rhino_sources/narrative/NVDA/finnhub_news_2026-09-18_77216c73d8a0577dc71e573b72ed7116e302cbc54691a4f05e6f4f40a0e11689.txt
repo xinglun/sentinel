@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Chips Update - BrainChip Expands Edge AI Capabilities With New Development Card
+  summary: BrainChip Holdings Ltd. has launched the AKD1500 PCIe development card, designed to facilitate edge AI evaluation by enabling installation in standard PCIe slots of desktops and industrial PCs. This development offers broad accessibility for developers, allowing them to validate AI models using existing frameworks, and seamlessly transition from evaluation to deployment across various hardware forms. The AKD1500 card, part of BrainChip’s diverse product line, supports the rising demand for...
+  url: https://finnhub.io/api/news?id=f814dbddfddf2d2d25e38b07ccd46ac49c1f2c9eac310fa273678ff00fe79bc9

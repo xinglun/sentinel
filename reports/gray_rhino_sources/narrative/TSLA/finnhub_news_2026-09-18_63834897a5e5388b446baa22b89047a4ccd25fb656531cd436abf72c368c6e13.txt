@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The “Magnificent Seven” Stocks Have Seen Valuations Tumble. Stocks to Avoid or Once-in-a-Decade Buying Opportunity?
+  summary: Some members of the group look dirt cheap.
+  url: https://finnhub.io/api/news?id=c6e0bb84d12da2d2061a195b3987f21883cab0a4385568c3396148a4175c107e

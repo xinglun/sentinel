@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft (MSFT) Puts a Clock on Free Xbox Cloud Gaming
+  summary: On September 3, 2026, CNBC reported that Microsoft Corporation (NASDAQ:MSFT)’s Xbox division will impose monthly time limits on cloud gaming for Game Pass subscribers starting in November, ending years of unlimited access. Game Pass Ultimate subscribers are capped at 15 hours per month, Premium subscribers at 10 hours, and Essential subscribers at 5 hours. Microsoft […]
+  url: https://finnhub.io/api/news?id=ef97b64da4949d56f3ed2b7ff6ddcaaea5bc96dc008720be40858ab7c0ab1e08

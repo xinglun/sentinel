@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bulls Still Have The Edge, But The Margin Is Narrowing
+  summary: A review of several ETF-based market ratios continues to support the view that investors remain broadly constructive on the near-term outlook.
+  url: https://finnhub.io/api/news?id=8a71a00fc3d67109ae7f44e56b954c6e8c057b0310fc834361bd4ea38c5f1278

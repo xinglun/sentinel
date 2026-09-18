@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Smart Hospital Market by Medical Imaging Systems, Patient Monitoring Devices, Smart Beds, Electronic Health Records, Hospital Information Systems, Deployment & System Integration Services, and Managed & Support/Maintenance - Global Forecast to 2032
+  summary: The global smart hospital market is projected to grow from USD 134.69 billion in 2026 to USD 246.17 billion by 2032, registering a 10.6% CAGR. Growth is driven by AI-enabled healthcare, IoMT, cloud computing, robotics, connected medical devices, remote patient monitoring and digital health platforms. Cloud-based deployment will lead the market, while Wi-Fi remains a key connectivity technology. Asia Pacific is forecast to be the fastest-growing region. Leading players include Siemens Healthineer
+  url: https://finnhub.io/api/news?id=8a68fbd923437132d760de995061df2df67523b56e825f463416d7b2a9acbfe3

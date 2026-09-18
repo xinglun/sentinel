@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla vs SpaceX: Which Is the Better Elon Musk-Backed Stock to Buy?
+  summary: Tesla and SpaceX are both bets of the future.
+  url: https://finnhub.io/api/news?id=81a169b6fa10ead99565627cca62b1942a05022c9e7df26fae49fd8c9aab5bbd

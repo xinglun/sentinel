@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Stores Announces Changes to Board of Directors
+  summary: Ross Stores, Inc. (Nasdaq: ROST) announced the following changes to the composition of its Board of Directors effective October 1, 2026:
+  url: https://finnhub.io/api/news?id=27e0d12f64e410879382e5c1bf13addbc251446c2271bbc33ed8f16488777e4a

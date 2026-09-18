@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Underrated Investment Has Built More Wealth Than Most Investors Realize -- and History Says Now Is a Smart Time to Buy
+  summary: It's hard to compete with what has been a simple and effective approach in the stock market.
+  url: https://finnhub.io/api/news?id=a912695639c52b9972f27a0b463b48ee0305432f8bf7ff54cc5aacc929191820

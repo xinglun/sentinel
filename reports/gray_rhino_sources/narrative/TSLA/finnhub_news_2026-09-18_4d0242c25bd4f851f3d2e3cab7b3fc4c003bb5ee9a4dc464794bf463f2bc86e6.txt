@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Early Uber Investor Sees ‘All Car Companies’ Joining Robotaxi Gold Rush — Lucid And Baidu Take It Global
+  summary: Lucid’s European push comes amid Uber’s commitment to deploy at least 35,000 Lucid robotaxis equipped with Nuro tech.
+  url: https://finnhub.io/api/news?id=01a3dc7fe4d1ba4cab69a9f63286863b277451e2f045ceeee0def5b77e54ee29

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic Is Expected to Go Public in October. The Brokerages Get Paid Either Way.
+  summary: The two lead advisors generated record revenue in Q2, fueled by the SpaceX IPO. Will the Anthropic IPO have a similar impact?
+  url: https://finnhub.io/api/news?id=e473e03ae90bbf2ade61499f8dbcaba7f085db09f92c98dbc5389a6ba2758d5e

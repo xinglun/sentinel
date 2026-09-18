@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Game-Changing AI Stocks That Can Plunge 48% and 54%, According to Select Wall Street Analysts
+  summary: Despite popular belief, optimism about the artificial intelligence (AI) revolution isn’t universal on Wall Street.
+  url: https://finnhub.io/api/news?id=98f7e3745d1731726d1dbcda9e2ff197478a1640a685c3baecaf83a7dd70be59

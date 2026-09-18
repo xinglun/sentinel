@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Michael Burry's Short Thesis. Here's the Bull Case for Palantir He's Not Talking About.
+  summary: The famous investor sees consulting-industry-like risks in Palantir, but several of the company's operating metrics tell a different story.
+  url: https://finnhub.io/api/news?id=704dc0d3dce667bebdd87efaf9e42fe5dde16789bc3fcb7b012cc22ab39218c9

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang just gave Nvidia investors a massive 2027 signal
+  summary: Nvidia is already preparing investors for another unusually large jump in AI chip demand
+  url: https://finnhub.io/api/news?id=f2b9f4964bb2cb7be797fd6da07a62fbaa860e110cff1ce28fed983d460ca530

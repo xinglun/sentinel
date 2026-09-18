@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's How Google Advertising Antitrust Ruling Could Play Out
+  summary: Google stock edged up after the federal judge unsealed a detailed remedies decision in an advertising antitrust case.
+  url: https://finnhub.io/api/news?id=db17c6a1f0a2376c66703c6cdc817d074870cd786f0d3145252185f1c98c79a0

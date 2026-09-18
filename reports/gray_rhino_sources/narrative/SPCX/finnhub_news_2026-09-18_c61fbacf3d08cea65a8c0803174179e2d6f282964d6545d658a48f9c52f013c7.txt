@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RKLB, ASTS, VOYG, LUNR Steal SpaceX’s Thunder — Here’s What Lit Up Space Stocks This Week
+  summary: Rocket Lab raised $1.944 billion for its $8 billion Iridium acquisition, while advancing Neutron hardware testing in Virginia.
+  url: https://finnhub.io/api/news?id=f185401e0863c31bfb6a900f278d17b7b5db5ccb60e32cc8d389a89f2c1c01ab

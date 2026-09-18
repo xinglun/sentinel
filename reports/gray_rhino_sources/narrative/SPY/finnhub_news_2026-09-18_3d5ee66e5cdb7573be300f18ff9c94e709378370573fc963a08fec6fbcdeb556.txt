@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Hidden Winners Inside SCHD - September 2026
+  summary: Schwab US Dividend Equity ETF (SCHD) has outperformed SPY year-to-date, widening its lead during recent market volatility.
+  url: https://finnhub.io/api/news?id=2a57562e248a903fb341c7a0ca118e325b89de1403bfcc3bbb1a3200545a0235

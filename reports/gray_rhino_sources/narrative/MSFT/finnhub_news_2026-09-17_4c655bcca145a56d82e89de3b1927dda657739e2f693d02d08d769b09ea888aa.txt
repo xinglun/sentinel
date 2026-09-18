@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This eVTOL Stock Could Turn $1,000 Into $100,000
+  summary: Joby Aviation is flying high over a multitrillion-dollar opportunity.
+  url: https://finnhub.io/api/news?id=b502360fb34e94a234a1526e21a1d72df8669e1b46b9d2289701becf984fa600

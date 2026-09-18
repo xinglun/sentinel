@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dario Amodei Just Admitted "There Are Real Dangers" in AI, Right as Anthropic Nears a $2 Trillion IPO With Back-to-Back Profitable Quarters. Should That Change How Investors Value the Listing?
+  summary: Will fears of AI crush Anthropic's IPO valuation prospects?
+  url: https://finnhub.io/api/news?id=01e1a471a7b002987ca7184268a53e689c6a2e3d892ee84b5e2d15a99c3b5d34

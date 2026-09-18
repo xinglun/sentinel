@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Hires Former UK Labour Veteran With NHS Deal in Limbo
+  summary: Palantir Technologies Inc. has hired Tom Watson, a former Labour deputy leader, as a new executive in the UK, where it faces a barrage of criticism threatening a major contract.
+  url: https://finnhub.io/api/news?id=8a689a8a78d3d66b249170cea137b4538bf4d2fe64d463723cc6279665da7814

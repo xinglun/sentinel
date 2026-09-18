@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett's Top Advice for Protecting Your Portfolio Before a Market Crash
+  summary: The Oracle of Omaha offered priceless wisdom in 1986 that still makes sense today.
+  url: https://finnhub.io/api/news?id=3bb8eb9e79858997ad28c052baa9886baff1cc2e273bc4e5f623a3b45db63489

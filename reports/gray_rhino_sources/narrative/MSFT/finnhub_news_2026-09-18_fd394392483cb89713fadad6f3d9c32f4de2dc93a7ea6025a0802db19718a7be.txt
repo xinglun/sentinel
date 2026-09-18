@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft And Alphabet: Same Multiple Now, So The Forward Setup Decides
+  summary: Alphabet (GOOG) upgraded to Buy vs. Microsoft (MSFT) Hold: cloud margin expansion, faster growth, and TPU revenue upside. Read the full analysis now.
+  url: https://finnhub.io/api/news?id=3b9946fee357f049cf7ae90220e9e04941c63ae55e6a6fa0b68176c05285f1f3

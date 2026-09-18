@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Hit My Target. Now I'm Stepping Back (Rating Downgrade)
+  summary: Microsoft Q4 earnings beat lifts MSFT near $500 on Azure growth and Copilot demand; capex and margins pressure valuation.
+  url: https://finnhub.io/api/news?id=da1ab6699112adf76ee426c25edce057fb2dbda508ada2124f5debd2559a9a0e

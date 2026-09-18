@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway (BRK.A) Moved Today, What Is Drawing Fresh Attention?
+  summary: Berkshire Hathaway (BRK.A) is back in focus after Greg Abel, now running the operation, exited the Domino’s Pizza position in the first quarter of 2026. That portfolio move gives fresh clues about Berkshire’s evolving playbook. Recent moves under Greg Abel, including the Domino’s exit and heavier concentration in giants like Apple, American Express, and Alphabet, have arrived while Berkshire Hathaway’s share price has inched ahead. A 90 day share price return of 4.13% and a 5 year total...
+  url: https://finnhub.io/api/news?id=4bbe036889b99d73730495d924426fb7a3d82996c4051dd38b806fe938eb78a6

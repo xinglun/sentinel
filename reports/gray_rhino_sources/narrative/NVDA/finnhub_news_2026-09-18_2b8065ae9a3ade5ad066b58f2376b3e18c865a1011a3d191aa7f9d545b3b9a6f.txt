@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Karp Says AI Labs May Need Nationalizing to Escape Lawsuits
+  summary: Trump has called AI risks a hoax while Amodei, Altman and Musk want a slowdown
+  url: https://finnhub.io/api/news?id=a630fe82f36a321857f10837cfedd3dbfbe882c434cb353aab3ea1598791d4db

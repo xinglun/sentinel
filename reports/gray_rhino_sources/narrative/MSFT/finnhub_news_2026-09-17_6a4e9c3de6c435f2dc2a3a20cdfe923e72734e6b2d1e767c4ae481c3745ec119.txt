@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top 5 Tech Stocks Built to Weather Higher Interest Rates
+  summary: These five tech stocks are built to weather higher rates with strong balance sheets, robust cash flow, and financial flexibility.
+  url: https://finnhub.io/api/news?id=dce2326861c8b558d5f2ec3ae5249e80700a9458935108473334ca8ff63d563d

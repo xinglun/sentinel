@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Relief Rally: Wall Street Decides a Hawkish Fed It Understands Beats a Fed It Doesn't
+  summary: A day after the Federal Reserve's first rate hike in three years, US stocks rallied as yields eased and the tech names that had been sold hardest this week bounced back.
+  url: https://finnhub.io/api/news?id=ba02b2fc907acb035fced53dacc1e5cef6255a6e9bb64f62e530af3ea559ceb8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mark Cuban exposes a problem with how Meta and Google fund AI
+  summary: Cuban noted a major irony that nobody in the industry has called out.
+  url: https://finnhub.io/api/news?id=df62a695d899a9919a03e9e3a5077094e2e066cef93641ed080e6d3ff61e6849

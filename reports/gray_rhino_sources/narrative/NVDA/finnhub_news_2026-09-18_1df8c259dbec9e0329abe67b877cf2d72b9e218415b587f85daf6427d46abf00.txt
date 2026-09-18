@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA (NASDAQ:NVDA): High-Growth Leadership and Strong Momentum
+  summary: NVIDIA clears every CANSLIM hurdle with 111% EPS growth, strong fundamentals, and leadership. See the full breakout setup, risks, and key levels.
+  url: https://finnhub.io/api/news?id=b1cdd6c4cf40fa973147fcd5c8919a22f68e2178cacc9cf8f3dae63d41f1c770

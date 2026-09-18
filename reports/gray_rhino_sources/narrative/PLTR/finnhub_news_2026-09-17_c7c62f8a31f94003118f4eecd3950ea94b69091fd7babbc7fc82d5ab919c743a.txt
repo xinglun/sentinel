@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Gains as Europe Builds a Sovereign AI Counterweight
+  summary: Thales is pitching export-control independence against Maven, turning data sovereignty into a procurement variable.
+  url: https://finnhub.io/api/news?id=8dec7757b0ce69ea14ffdbf316930b147552df12903d27e0b694730e17a4bed2

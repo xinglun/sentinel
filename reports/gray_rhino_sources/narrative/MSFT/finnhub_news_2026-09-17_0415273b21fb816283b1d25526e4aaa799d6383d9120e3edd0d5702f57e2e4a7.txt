@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI PPT Maker and Slide Generator Presentations.AI Opens Its Presentation Agent to Developers and AI Agents Through API and MCP Server
+  summary: Applications and compatible AI agents can now delegate presentation work to Presentations.AI through a REST API and Model Context Protocol, returning branded, editable PowerPoint without building presentation generation themselves Presentations.AI API for Developers Presentations.AI Opens Its Presentation Agent to Developers and AI Agents Through API and MCP Server San Francisco, Sept. 17, 2026 (GLOBE NEWSWIRE) -- Presentations.AI today announced programmatic access to its Presentation Agent thr
+  url: https://finnhub.io/api/news?id=53d66495334b2860b2fd20f15a66931057745207892ddf0336b139c914637431

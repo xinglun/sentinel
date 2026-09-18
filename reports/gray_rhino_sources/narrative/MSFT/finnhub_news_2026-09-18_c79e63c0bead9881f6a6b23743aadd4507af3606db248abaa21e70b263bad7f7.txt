@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Traders Wary Of Rising AI Risks: Market Snapshot
+  summary: The global debate over artificial intelligence risks entered a new phase this week amid clashing views from tech executives over whether frontier labs should slow the development of the technology. Leaders of Anthropic, OpenAI, SpaceX and Google DeepMind put forward the need for self-regulation checks on growth that give AI models more control. Meanwhile, Microsoft, Amazon and Meta said they're developing tools to check, control and regulate AI risks as US President Donald Trump called the alerts a "hoax". The call for caution saw a rotation out of tech stocks at the start of the week as investors questioned whether there's a need to reprice the pace of the booming AI buildout.
+  url: https://finnhub.io/api/news?id=61c0ce8f7c906a8491d23582bc62e03f8eadb0e42ea0ad967f3c13c8b3936a18

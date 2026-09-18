@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA) Exceeds Market Returns: Some Facts to Consider
+  summary: Tesla (TSLA) concluded the recent trading session at $366.37, signifying a +2.32% move from its prior day's close.
+  url: https://finnhub.io/api/news?id=cc23e931881bb1cd151b05fb3dedfba8637b7379f99e2ad1b30546d20008fb50

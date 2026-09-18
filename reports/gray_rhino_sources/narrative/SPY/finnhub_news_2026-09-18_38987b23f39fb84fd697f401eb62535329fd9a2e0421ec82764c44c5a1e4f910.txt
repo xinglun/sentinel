@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Positioning For A Forth Quarter Rebound
+  summary: Stocks and bonds rally after the Fed hike as yields fall below 5% and oil eases.
+  url: https://finnhub.io/api/news?id=34a4bc38aed4ae1c09b499168019ef7920a6ff6e17d172534e4f9a46897f52a8

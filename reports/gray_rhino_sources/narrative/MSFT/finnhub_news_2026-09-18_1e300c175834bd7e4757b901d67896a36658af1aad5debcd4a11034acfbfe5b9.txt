@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology (MRVL) Deepens Its AI Infrastructure Footprint
+  summary: Marvell Technology (NasdaqGS:MRVL) announced new collaborations with GlobalFoundries, Microsoft and Utimaco focused on advanced connectivity and payment security. The GlobalFoundries partnership targets expanded production of advanced SiGe chips used in next generation optical links for AI data centers. Marvell is working with Microsoft and Utimaco to provide a cloud native payment security platform delivered through Microsoft Azure. These GlobalFoundries and Azure payment security deals...
+  url: https://finnhub.io/api/news?id=c69c2dad330498fe529473a9a0609a781ea81b9871c73edfaeaf1baf8d96ac84

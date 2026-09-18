@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: $500,000 Split Between VOO and QQQ Owns the Same Seven Stocks Twice, and Nobody Adds Up the Overlap
+  summary: Splitting a half-million dollars between two popular ETFs feels like textbook diversification, but a quiet look under the hood reveals something most investors never bother to check before their next contribution.
+  url: https://finnhub.io/api/news?id=0b898181b02e65154129436a08b5bb0389fde70af88bb2ffb900070c12263f51

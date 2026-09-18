@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Snaps Losing Streak; Nvidia Gains As This Stock Soars On Amazon Deal
+  summary: Stocks rebounded with the Nasdaq and S&P 500 jumping back above key support. Generac, Nebius, Bloom Energy, SpaceX were early winners.
+  url: https://finnhub.io/api/news?id=2d99a74ad23fe5ffd88bb593e9e1710d7f70f66ac74ff6b87ff9f4fa15fac74d

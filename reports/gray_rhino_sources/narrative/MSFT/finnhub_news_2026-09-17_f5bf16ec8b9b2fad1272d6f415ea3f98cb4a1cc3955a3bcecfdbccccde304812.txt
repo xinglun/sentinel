@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is IBM Stock Riskier Than Its Options Market Now Assumes?
+  summary: International Business Machines (IBM) shares trade near $237, and options price a one-year range around that from $161.75 to $348.69. That band is the calmer version of this stock. Over the past year IBM moved harder than its options now assume. The business question hanging over IBM comes from the second quarter of 2026: whether the software deals that slipped were delayed or lost.
+  url: https://finnhub.io/api/news?id=3481ed1f133bcd8af2809b9a6fa76b121a934f98d8124e13d0ff45c931831396

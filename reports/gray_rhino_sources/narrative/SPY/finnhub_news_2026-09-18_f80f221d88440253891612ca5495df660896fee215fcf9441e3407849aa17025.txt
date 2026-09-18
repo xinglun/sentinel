@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Two Hikes, Three Hikes, Or A New Tightening Cycle?
+  summary: The Fed raised the federal funds target range by 25 bp to 3.75â4.00% on September 16, the first increase since 2023, on a unanimous 12â0 vote.
+  url: https://finnhub.io/api/news?id=066918194d8a8b421eac4f686324fe28b9023a3ad37d48b2092cef3fcf52005c

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang forecasts Nvidia chip sales to double in 2027
+  summary: The Nvidia CEO made the projection at a summit convened by King Charles III in Scotland, citing AI demand across industries and economies
+  url: https://finnhub.io/api/news?id=e1c7e82cd0c5081bd8d2792e43d3e64c6a3d190429c216cf613bf79ea2c380a3

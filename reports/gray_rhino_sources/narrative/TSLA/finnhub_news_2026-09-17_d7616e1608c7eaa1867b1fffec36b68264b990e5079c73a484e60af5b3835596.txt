@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Reports Q3 Deliveries for the R2 SUV in October. Here's How Investors Should Prepare.
+  summary: Rivian's future relies on its new R2 SUV.
+  url: https://finnhub.io/api/news?id=5e0fe333ef5cf542df4670cc3c4660daab9a145c0146fab6c6d2c39f5702ded8

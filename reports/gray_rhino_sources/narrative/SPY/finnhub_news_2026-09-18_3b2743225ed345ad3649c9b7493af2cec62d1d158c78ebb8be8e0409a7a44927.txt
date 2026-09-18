@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Outlook And Oddities In Monetary Policy
+  summary: Fed under Kevin Warsh hikes rates 25 bps, signals higher-for-longer to fight inflation.
+  url: https://finnhub.io/api/news?id=6eb0f759232b1fbc0534c8a3644b0066923a07b67f9ed0c9e23f52694e6932c0

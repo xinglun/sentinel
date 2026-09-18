@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX Stock Inches Higher After-Hours: NASA Selects SpaceX To Provide Launch Services For StarBurst Mission
+  summary: NASA has awarded SpaceX a launch contract under its VADR program to deliver the StarBurst small satellite into orbit in 2028.
+  url: https://finnhub.io/api/news?id=443f4c9ad7ee7f6c2c1db93e85c69ed57c4a54ead3b86f5b0e69fcd844ab04be

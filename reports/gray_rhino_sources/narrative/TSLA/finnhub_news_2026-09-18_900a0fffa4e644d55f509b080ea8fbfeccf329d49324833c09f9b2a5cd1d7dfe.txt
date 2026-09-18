@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Under-the-Radar Stock Big Money Is Quietly Buying Up
+  summary: Institutional investors have long been interested in Ford's lucrative dividend, but now there could be new reasons for Wall Street's interest in Ford.
+  url: https://finnhub.io/api/news?id=ed3bbe3d9037b197cc7063d06dea1b6d9815ee9c9e2b80da9cc51172e3ab5951

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lemonade Targets First EBITDA-Positive Quarter as CFO Tim Bixby Transitions to Board
+  summary: Lemonade (NYSE:LMND) Chief Financial Officer Tim Bixby said the digital insurer expects to reach a significant profitability milestone in the fourth quarter, while continuing to prioritize growth, product expansion and technology-driven underwriting. Speaking at a company event, Bixby said he will
+  url: https://finnhub.io/api/news?id=c36d524deab4b9ca47cdca7ef8fcc91506b5c7eafbbca08e0c124ecb55bda7d3

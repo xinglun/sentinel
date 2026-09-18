@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Alphabet’s Best Days May Still Be Ahead
+  summary: Google Cloud is growing at a blistering pace, Gemini is everywhere, and Wall Street is almost universally bullish, yet the stock sits near its lowest valuation in years. Something about that gap does not add up.
+  url: https://finnhub.io/api/news?id=fc3aee8596a9cf2a71360f2920efceff82986905301b07bb84822f5f66aeb81d

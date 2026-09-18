@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reuters Events: Momentum AI Austin Brings Together More than 60 Speakers and Hundreds of Senior Executives to Discuss Scaling AI, Managing Risk, Driving Organizational Change and Unlocking Measurable Outcomes
+  summary: FTC Chairman Andrew Ferguson and Palantir Co-Founder Joe Lonsdale join senior leaders from Indeed, Phillips 66, BNY, Wells Fargo and Warner Bros. Discovery as enterprise AI moves from experimentation to executionAustin, Texas, Sept. 17, 2026 (GLOBE NEWSWIRE) -- Momentum AI Austin, welcomes FTC Chairman Andrew Ferguson, Palantir Co-Founder Joe Lonsdale, and senior leaders from Indeed, Phillips 66, BNY, Wells Fargo and Warner Bros. across two days of Reuters-led conversations on enterprise AI, tak
+  url: https://finnhub.io/api/news?id=139f55f2970daa598f9b1e76c168a9a0683424fda764f57974a00e9de371eef2

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Margin Debt Increases 2.6% In August
+  summary: 
+  url: https://finnhub.io/api/news?id=5e86e729be4a878fa7b7e906a81638979857b234350efb1deb6d39cb890913a6

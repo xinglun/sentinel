@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If QQQ Repeats Its Last Decade, $100,000 at 40 Could Hit $1 Million by 52
+  summary: QQQ turned $100,000 into a million dollars faster than most retirement plans dare to model, but the math depends entirely on which decade you believe comes next.
+  url: https://finnhub.io/api/news?id=d5d02d98b7786afbae544970c326a3775c2d608d15b5bde3e9628cb3d02ff463

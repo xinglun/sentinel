@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Predicts Solar Will Crush All Other Energy Sources to Below 0.1% Amid Texas Boom: ‘So Obviously the Future’
+  summary: Elon Musk doubled down on his solar thesis on Tuesday, predicting the technology will eventually dominate energy production, with Texas offering a real-world example of rapid adoption. Musk Sees Solar Dominating Future Energy "The solar power exponential will continue until...
+  url: https://finnhub.io/api/news?id=8ec1fe4dca4dad78d2970c220520152ada2c510d654440d99e3fc8e6fd9c4dc6

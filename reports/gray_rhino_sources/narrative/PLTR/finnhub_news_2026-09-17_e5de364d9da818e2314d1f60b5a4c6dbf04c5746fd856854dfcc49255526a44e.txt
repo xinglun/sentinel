@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPMO: Becoming A Memory Trade
+  summary: SPMO looks like a compelling buy ahead of its Sept. rebalanceâmomentum ETF exposure to AI, semiconductors & energy, returns/inflows, and risks. See more.
+  url: https://finnhub.io/api/news?id=a01c58a80a5059bc3276a9294d1550431b5ae18e1891eed73f67ac2f8038c643

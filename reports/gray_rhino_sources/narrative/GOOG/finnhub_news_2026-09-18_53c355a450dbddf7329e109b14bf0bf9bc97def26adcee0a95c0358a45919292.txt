@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Banks Suddenly Want Stablecoins, and Why It May Matter for You
+  summary: Banks are racing to issue stablecoins after fighting them for years. Payment experts from Triple-A, ChangeNOW, Infinia, and StraitsX explain what businesses actually gain.
+  url: https://finnhub.io/api/news?id=d7adeb6cf22a8e0eaf78b17aef2a82c9f4666a1336b56fc9f0281d1d6c97f404

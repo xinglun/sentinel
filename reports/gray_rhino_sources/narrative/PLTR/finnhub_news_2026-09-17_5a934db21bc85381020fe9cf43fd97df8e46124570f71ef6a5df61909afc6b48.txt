@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Disclosed Put Options Worth an Estimated $1.1 Billion Against Nvidia and Palantir Before Closing His Hedge Fund. Was That Bearish Bet Ahead of Its Time?
+  summary: Burry could have another "big short" in his portfolio.
+  url: https://finnhub.io/api/news?id=f7a76abae314f37eac75a54a1fb3d11198f0998a6769a65daa7efa6567af58f3

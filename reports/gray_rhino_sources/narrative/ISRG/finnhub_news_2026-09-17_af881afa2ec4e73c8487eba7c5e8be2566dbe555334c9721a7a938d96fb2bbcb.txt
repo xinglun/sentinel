@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is ISRG Stock Really As Expensive As It Looks?
+  summary: Intuitive Surgical (ISRG), maker of the da Vinci surgical robots, trades at about $382, some 36% below its 52-week high. Even so, you pay about 35.9 times trailing adjusted earnings. That is normalized net income with stock-based compensation added back, a basis meant to sit closer to the one analysts forecast on, though the two are not defined identically. Analysts' forecasts run to 2027, the year Intuitive plans to start lowering what customers pay per use on some instruments.
+  url: https://finnhub.io/api/news?id=918317c634d95773a3ef44595f66231fe9121b887305a96d9a1b211c14e235a2

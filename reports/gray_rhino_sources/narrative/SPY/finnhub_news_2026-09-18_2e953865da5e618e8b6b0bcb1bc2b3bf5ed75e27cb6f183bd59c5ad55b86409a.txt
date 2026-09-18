@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HQH: Over 10% Yield On This Healthcare Fund
+  summary: Discover why HQH (abrdn Healthcare Investors) could rebound as healthcare mean reverts.
+  url: https://finnhub.io/api/news?id=f6486a8719c75b5e809c13b89d73e07c443c12b42edf36769c840990887d441c

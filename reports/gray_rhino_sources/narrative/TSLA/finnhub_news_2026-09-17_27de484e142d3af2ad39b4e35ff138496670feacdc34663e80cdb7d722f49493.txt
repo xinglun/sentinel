@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Jumps 2% as 30 Megawatts Build a Semi Beachhead
+  summary: Three California depots expand freight infrastructure without revealing contract value, utilization or truck demand.
+  url: https://finnhub.io/api/news?id=c78fa44401ec023d91b4a5d433719c9b75b80e61e35b316288e2f2dd56218b1f

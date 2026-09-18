@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Generac, Nebius, CoreWeave, Nokia, Lucid, Paramount, and More Stocks That Explain Today’s Market
+  summary: Nebius gains as the so-called neocloud recently announced it would raise its on-demand rates for a range of AI chips.
+  url: https://finnhub.io/api/news?id=f75a51fb50dc3adb94742c4c64ffb21053489ac2b79635f6907a6f2ba98e399f

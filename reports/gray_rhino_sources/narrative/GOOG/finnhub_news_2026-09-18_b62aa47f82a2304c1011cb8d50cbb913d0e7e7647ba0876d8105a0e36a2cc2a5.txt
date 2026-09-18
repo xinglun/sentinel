@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Did Microsoft Tell You Before Its Stock Ran?
+  summary: Microsoft (MSFT) stock has returned about 32% since mid-June 2026. The S&P 500 returned about 3% over the same window, and peers moved in both directions: Alphabet fell 4.5% while Apple returned 14.0%. Neither came close to Microsoft, so this was not a sector tide. It was one company, and Microsoft had spent three quarters explaining out loud how internal capacity allocation decisions had constrained Azure's reported growth.
+  url: https://finnhub.io/api/news?id=aae908a06a0eb196c56678b6dd1361d5bb07deb93abe65b8701347d3eb3754db

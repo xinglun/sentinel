@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Reasons Lucid Stock Is Soaring
+  summary: Lucid stock jumped after the EV maker announced an autonomous-driving partnership with Bolt and its CEO said work with restructuring consultant AlixPartners had concluded.
+  url: https://finnhub.io/api/news?id=354646366dcc5c5a0aace30cc63150d4f934e6081f7a385b8c5ff61cde877051

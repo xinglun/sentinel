@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock: The AI Token Boom Is Hiding A Bigger Opportunity
+  summary: AI labsâ revenue rides token consumptionâyet uncontrolled use can waste spend. Click for what this means for Palantir Technologies Inc. and PLTR stock.
+  url: https://finnhub.io/api/news?id=a7c3a965b417831579c2e300db6fcb4cf5bd3b1d162242246505248f06a7b5a1

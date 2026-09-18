@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside Tesla’s Shanghai Gigafactory. What Its Largest Plant Means for the Stock.
+  summary: Barclays analyst Dan Levy recently visited Tesla’s largest, most productive plant located in Shanghai.
+  url: https://finnhub.io/api/news?id=84c2e64e30b74d2f5cb6ad018b883d183168acaba2b77cdeaa1b6847d4959f1a

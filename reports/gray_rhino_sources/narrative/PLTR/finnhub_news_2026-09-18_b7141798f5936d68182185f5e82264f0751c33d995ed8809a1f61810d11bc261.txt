@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price 1 Year From Now (Hint: It's a Bigger Move Than You Think)
+  summary: Palantir stock is flat on the year, but meaningful upside could be on the horizon.
+  url: https://finnhub.io/api/news?id=670f81445074ae8ec03c7c9f162c7a32d5ad6a03cdc66b9238d98b74e74f9076

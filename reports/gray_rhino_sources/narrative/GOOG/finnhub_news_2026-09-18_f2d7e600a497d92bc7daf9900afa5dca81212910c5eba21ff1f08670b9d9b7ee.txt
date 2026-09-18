@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Delays Thompson Center Opening to 2028 in Chicago
+  summary: Google pushed the Thompson Center opening to 2028 as redevelopment continues, with at least 600K SF planned for its Chicago workforce.
+  url: https://finnhub.io/api/news?id=34ba502f1949add7f3e73ff555ad26b88d8d27350e1c44dec4c8c32f27d67621

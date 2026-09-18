@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I Don't Plan to Claim Social Security at 62, but This 1 Thing Could Change My Mind
+  summary: My plans definitely aren't set in stone.
+  url: https://finnhub.io/api/news?id=b27f61ff939a4041b1637e6fc60d40237ade960807dd8aedc5eaa94d41f5984e

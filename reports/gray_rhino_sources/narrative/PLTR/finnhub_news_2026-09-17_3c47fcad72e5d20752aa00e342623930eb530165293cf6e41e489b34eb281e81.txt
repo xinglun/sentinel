@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, Rocket Lab among biggest climbers in power ranking
+  summary: Palantir climbs 30 places and Rocket Lab 34 places in the Roundtable 100 this week.
+  url: https://finnhub.io/api/news?id=f88c44269c1b2100d165894d7451190f4628f77eb0c2046b06748822589425f6

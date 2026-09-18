@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Tech Stock That's Too Good to Pass On as We Approach the Fourth Quarter
+  summary: Its performance this year has been underwhelming, but its long-term appeal is strong.
+  url: https://finnhub.io/api/news?id=51492d3a75ae13a6d0cc56a61b15ef7dfefcef823bfcad038383a2845ca1a3f4
