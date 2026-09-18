@@ -1,0 +1,79 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/ai-policy-frontier-pacing-hypothesis-linkage.verification-attempt.4ecdbe6f1883a7636b1a9cb9453b85a612208a36aeb8b45d61828536366b887d.json",
+    ".ai/evidence/ai-policy-frontier-pacing-hypothesis-linkage.verification-attempt.edd4924d19397a1514967dc2fc2c6135bc28c7444b42c29e4405654827eb5c07.json",
+    ".ai/evidence/ai-policy-frontier-pacing-hypothesis-linkage.verification-attempt.f3bf8f453a32e6bd4dc05fb02ffd1eaa7c3d3fb11a71787f521fd54f24e37809.json",
+    ".ai/evidence/ai-policy-frontier-pacing-hypothesis-linkage.verification-attempt.fe353dfab9b3cc9cddc192d26fa670c07d748d06442720d69db1058d2aa54210.json",
+    ".ai/evidence/ai-policy-frontier-pacing-hypothesis-linkage.verification.json",
+    ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.contract.json",
+    ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.summary.json",
+    "docs/superpowers/plans/2026-09-19-ai-policy-frontier-pacing-hypothesis-linkage.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "checkpointAt": "2026-09-18T15:49:09Z",
+  "checkpointContractDigest": "sha256:84970a002358ec72cf9ae401ab1bacc4d03e9eb10975197d5dc582aef713203d",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:6682222b3f48c81595556bf43a5d79625d9fd551ca89b181d951eca314a3a7db",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:49:09Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1e545528dc934e105af832d922a23e972e79894a079460982cb44b44d9b46151",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ai-policy-frontier-pacing-hypothesis-linkage"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:84970a002358ec72cf9ae401ab1bacc4d03e9eb10975197d5dc582aef713203d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:6682222b3f48c81595556bf43a5d79625d9fd551ca89b181d951eca314a3a7db",
+      "previousContractHash": "sha256:6682222b3f48c81595556bf43a5d79625d9fd551ca89b181d951eca314a3a7db",
+      "reason": "将 5b 的实现文件、专用回归测试与仓库质量门禁路径固化到当前 Contract",
+      "recorded": true,
+      "recordedAt": "2026-09-18T15:55:32Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:55fbb39066608ecb3225e7871b92bf93d882f445d87b6f67a32bc566ecb6d346",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "ai-policy-frontier-pacing-hypothesis-linkage"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:55fbb39066608ecb3225e7871b92bf93d882f445d87b6f67a32bc566ecb6d346",
+  "createdAt": "2026-09-18T15:47:26Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T15:59:02Z",
+  "preflightContractDigest": "sha256:84970a002358ec72cf9ae401ab1bacc4d03e9eb10975197d5dc582aef713203d",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
+  "preflightRepositorySnapshotDigest": "sha256:55fbb39066608ecb3225e7871b92bf93d882f445d87b6f67a32bc566ecb6d346",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T16:01:53Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ai-policy-frontier-pacing-hypothesis-linkage"
+}

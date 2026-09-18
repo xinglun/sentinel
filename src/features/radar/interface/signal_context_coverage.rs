@@ -17,8 +17,8 @@ use crate::features::research::interface::macro_event_observation::MacroEventSou
 use crate::features::research::interface::macro_event_observation::MarketReaction;
 use crate::features::research::interface::macro_event_observation::{
     build_temporal_binding, classify_observation_time_precision, event_visible_at,
-    AiPolicyFrontierPacingObservation, EvidenceRecord, MacroSignalContextEvent,
-    MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
+    AiPolicyFrontierPacingLinkage, AiPolicyFrontierPacingObservation, EvidenceRecord,
+    MacroSignalContextEvent, MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
     MacroSignalContextSourceStatus, SignalContextTemporalContext, TemporalBinding,
 };
 use chrono::{DateTime, NaiveDate, Utc};
@@ -44,6 +44,7 @@ pub(crate) struct SignalContextCoverageInput {
     pub coverage: SignalContextCoverage,
     pub observed_market_reactions: Vec<MarketReaction>,
     pub ai_policy_frontier_pacing_observation: Option<AiPolicyFrontierPacingObservation>,
+    pub ai_policy_frontier_pacing_linkage: Option<AiPolicyFrontierPacingLinkage>,
     pub event_time_utc: Option<String>,
     pub event_time_market_tz: Option<String>,
     pub report_generated_at: Option<String>,
@@ -63,6 +64,9 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
     let ai_policy_frontier_pacing_observation = input
         .ai_policy_frontier_pacing_observation
         .filter(|observation| observation.is_traceable());
+    let ai_policy_frontier_pacing_linkage = input
+        .ai_policy_frontier_pacing_linkage
+        .filter(|linkage| linkage.is_traceable(ai_policy_frontier_pacing_observation.as_ref()));
     let scheduled_macro = visible_event_items(scheduled_macro, &temporal_context);
     let corporate_events = visible_event_items(corporate_events, &temporal_context);
     let geopolitical_events = visible_event_items(geopolitical_events, &temporal_context);
@@ -125,6 +129,7 @@ pub(crate) fn build_signal_context_v1(input: SignalContextCoverageInput) -> Sign
         coverage,
         observed_market_reactions: observed_market_reactions.clone(),
         ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage,
         temporal_bindings: build_temporal_bindings(&all, &observed_market_reactions),
         report_run_at: temporal_context.report_run_at.clone(),
         observation_window_start: temporal_context
@@ -351,6 +356,7 @@ fn apply_runtime_macro_signal_context(
             .chain(runtime_context.observed_market_reactions.iter().cloned())
             .collect(),
         ai_policy_frontier_pacing_observation: snapshot.ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage: snapshot.ai_policy_frontier_pacing_linkage,
         temporal_context: runtime_context.temporal_context.clone(),
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
@@ -514,6 +520,7 @@ fn apply_corporate_event_provider_context(
         coverage,
         observed_market_reactions: snapshot.observed_market_reactions,
         ai_policy_frontier_pacing_observation: snapshot.ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage: snapshot.ai_policy_frontier_pacing_linkage,
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
@@ -559,6 +566,7 @@ fn apply_corporate_event_evidence_context(
         coverage,
         observed_market_reactions: snapshot.observed_market_reactions,
         ai_policy_frontier_pacing_observation: snapshot.ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage: snapshot.ai_policy_frontier_pacing_linkage,
         event_time_utc: snapshot.event_time_utc,
         event_time_market_tz: snapshot.event_time_market_tz,
         report_generated_at: snapshot.report_generated_at,
@@ -1027,6 +1035,7 @@ pub(crate) fn load_external_signal_context_from_path_at(
         coverage: context.coverage,
         observed_market_reactions: context.observed_market_reactions,
         ai_policy_frontier_pacing_observation: context.ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage: context.ai_policy_frontier_pacing_linkage,
         event_time_utc: context.event_time_utc,
         event_time_market_tz: context.event_time_market_tz,
         report_generated_at: context.report_generated_at,
@@ -1093,6 +1102,10 @@ fn normalize_external_context_events(
     context.ai_policy_frontier_pacing_observation = context
         .ai_policy_frontier_pacing_observation
         .filter(|observation| observation.is_traceable());
+    let observation = context.ai_policy_frontier_pacing_observation.clone();
+    context.ai_policy_frontier_pacing_linkage = context
+        .ai_policy_frontier_pacing_linkage
+        .filter(|linkage| linkage.is_traceable(observation.as_ref()));
     context
 }
 
@@ -1147,6 +1160,10 @@ fn merge_external_context(
         .ai_policy_frontier_pacing_observation
         .clone()
         .or_else(|| macro_context.ai_policy_frontier_pacing_observation.clone());
+    let ai_policy_frontier_pacing_linkage = external
+        .ai_policy_frontier_pacing_linkage
+        .clone()
+        .or_else(|| macro_context.ai_policy_frontier_pacing_linkage.clone());
     build_signal_context_v1(SignalContextCoverageInput {
         market_date: external.market_date,
         scheduled_macro: external.scheduled_macro,
@@ -1158,6 +1175,7 @@ fn merge_external_context(
         coverage: external.coverage,
         observed_market_reactions: external.observed_market_reactions,
         ai_policy_frontier_pacing_observation,
+        ai_policy_frontier_pacing_linkage,
         event_time_utc: external.event_time_utc,
         event_time_market_tz: external.event_time_market_tz,
         report_generated_at: external.report_generated_at,
@@ -1379,7 +1397,8 @@ mod tests {
         CorporateEventReleaseWindow, CorporateEventSource, CorporateEventSourceKind,
     };
     use crate::features::research::interface::macro_event_observation::{
-        AiPolicyFrontierPacingObservation, EvidenceRecord, ObservationTimePrecision,
+        AiPolicyFrontierPacingLinkageStatus, AiPolicyFrontierPacingObservation, EvidenceRecord,
+        ObservationTimePrecision,
     };
 
     fn finnhub_source(url: &str) -> CorporateEventSource {
@@ -1523,6 +1542,74 @@ mod tests {
         assert!(loaded_invalid
             .ai_policy_frontier_pacing_observation
             .is_none());
+        let _ = std::fs::remove_file(path);
+    }
+
+    #[test]
+    fn ai_policy_frontier_pacing_linkage_is_fail_closed_without_explicit_evidence() {
+        let path = std::env::temp_dir().join(format!(
+            "sentinel-ai-policy-frontier-pacing-linkage-{}.json",
+            std::process::id()
+        ));
+        let observation = AiPolicyFrontierPacingObservation {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            source_published_at: "2026-08-07T12:30:00Z".to_string(),
+            headline: "Policy frontier pacing remains gradual".to_string(),
+            provider: "fed".to_string(),
+        };
+        let valid = SignalContextV1 {
+            market_date: "2026-08-07".to_string(),
+            ai_policy_frontier_pacing_observation: Some(observation.clone()),
+            ai_policy_frontier_pacing_linkage: Some(AiPolicyFrontierPacingLinkage {
+                hypothesis_id: "hypothesis-fed-pacing-1".to_string(),
+                observation_id: "observation-fed-pacing-1".to_string(),
+                status: AiPolicyFrontierPacingLinkageStatus::Proposed,
+                evidence: vec![EvidenceRecord {
+                    source: "official_fed_statement".to_string(),
+                    source_url: "https://example.test/fed/statement".to_string(),
+                    timestamp: "2026-08-07T12:30:00Z".to_string(),
+                    source_published_at: "2026-08-07T12:30:00Z".to_string(),
+                    event_type: "AI_POLICY_FRONTIER_PACING".to_string(),
+                    subject: "Fed policy frontier".to_string(),
+                    importance: "MEDIUM".to_string(),
+                }],
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+        std::fs::write(&path, serde_json::to_vec(&valid).unwrap()).unwrap();
+        let loaded = load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            loaded
+                .ai_policy_frontier_pacing_linkage
+                .as_ref()
+                .map(|linkage| linkage.status),
+            Some(AiPolicyFrontierPacingLinkageStatus::Proposed)
+        );
+
+        let invalid = SignalContextV1 {
+            market_date: "2026-08-07".to_string(),
+            ai_policy_frontier_pacing_observation: Some(observation),
+            ai_policy_frontier_pacing_linkage: Some(AiPolicyFrontierPacingLinkage {
+                hypothesis_id: String::new(),
+                ..valid.ai_policy_frontier_pacing_linkage.unwrap()
+            }),
+            ..Default::default()
+        };
+        std::fs::write(&path, serde_json::to_vec(&invalid).unwrap()).unwrap();
+        let loaded_invalid = load_external_signal_context_from_path(
+            path.to_str().unwrap(),
+            NaiveDate::from_ymd_opt(2026, 8, 7).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+        assert!(loaded_invalid.ai_policy_frontier_pacing_linkage.is_none());
         let _ = std::fs::remove_file(path);
     }
 
