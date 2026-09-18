@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T16:12:45Z",
+  "files": {
+    "contractDigest": "sha256:eb24b01f7c995203220380728976de4f853688b5943db4565192d75e240bb5f5",
+    "contractPath": ".ai/work-items/archive/develop-main-sync-20260919-v6.contract.json",
+    "eventsDigest": "sha256:7a51f8ec18dec1e126674447a23d7987152f3e1fa9f3133d7c7b30dc1f05c66c",
+    "eventsPath": ".ai/work-items/archive/develop-main-sync-20260919-v6.events.jsonl",
+    "outcomeDigest": "sha256:ecbcfbbc6acd055b90029b2dc60a8d9058950c20db58f6c10afc70ed45dc611e",
+    "outcomePath": ".ai/work-items/archive/develop-main-sync-20260919-v6.outcome.json",
+    "summaryDigest": "sha256:a796bf0445e809dba57e873ee787f1042e96e35dc951bfb42c6921ae6648e5b9",
+    "summaryPath": ".ai/work-items/archive/develop-main-sync-20260919-v6.summary.json",
+    "taskReportDigest": "sha256:30ba3791497abc5de6fe3bb5ae9496276fb4613b48428b50dade659c25e786ce",
+    "taskReportMarkdownDigest": "sha256:12c7f8818ac75bcc6433b165c5ea313a6b0ca81420cd2dfd2b363545284974c0",
+    "taskReportMarkdownPath": ".ai/work-items/archive/develop-main-sync-20260919-v6.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/develop-main-sync-20260919-v6.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "develop-main-sync-20260919-v6"
+}
