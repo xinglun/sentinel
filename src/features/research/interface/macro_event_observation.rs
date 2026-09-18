@@ -15,12 +15,49 @@ pub struct EvidenceRecord {
     pub importance: String,
 }
 
+/// 観測時刻の入力精度。日付だけの事実へ時刻を推測してはならない。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ObservationTimePrecision {
+    Timestamp,
+    DayOnly,
+    #[default]
+    Unavailable,
+}
+
+impl ObservationTimePrecision {
+    pub const fn label(self) -> &'static str {
+        match self {
+            Self::Timestamp => "TIMESTAMP",
+            Self::DayOnly => "DAY_ONLY",
+            Self::Unavailable => "UNAVAILABLE",
+        }
+    }
+}
+
+/// observed_at の構文から精度だけを決定し、欠損時刻を補完しない。
+pub(crate) fn classify_observation_time_precision(value: &str) -> ObservationTimePrecision {
+    let value = value.trim();
+    if value.is_empty() {
+        return ObservationTimePrecision::Unavailable;
+    }
+    if DateTime::parse_from_rfc3339(value).is_ok() {
+        return ObservationTimePrecision::Timestamp;
+    }
+    if NaiveDate::parse_from_str(value, "%Y-%m-%d").is_ok() {
+        return ObservationTimePrecision::DayOnly;
+    }
+    ObservationTimePrecision::Unavailable
+}
+
 /// 事件事实与市场反应分离后的观测结果。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct MarketReaction {
     #[serde(default)]
     pub observation_id: String,
     pub observed_at: String,
+    #[serde(default)]
+    pub observation_time_precision: ObservationTimePrecision,
     #[serde(default)]
     pub session: String,
     #[serde(default)]
@@ -46,6 +83,8 @@ pub struct TemporalBinding {
     pub observation_id: String,
     pub source_published_at: String,
     pub observed_at: String,
+    #[serde(default)]
+    pub observation_time_precision: ObservationTimePrecision,
     pub temporal_eligible: bool,
     pub reason: String,
 }
@@ -67,11 +106,21 @@ pub(crate) fn build_temporal_binding(
     source_published_at: &str,
     observation: &MarketObservation,
 ) -> TemporalBinding {
+    let observation_time_precision = match observation.observation_time_precision {
+        ObservationTimePrecision::Unavailable => {
+            classify_observation_time_precision(&observation.observed_at)
+        }
+        precision => precision,
+    };
     let temporal_eligible = match (
         parse_timestamp(source_published_at),
         parse_timestamp(&observation.observed_at),
     ) {
-        (Some(source_published_at), Some(observed_at)) => source_published_at <= observed_at,
+        (Some(source_published_at), Some(observed_at))
+            if observation_time_precision == ObservationTimePrecision::Timestamp =>
+        {
+            source_published_at <= observed_at
+        }
         _ => false,
     };
     let reason = if event_id.trim().is_empty() || observation.observation_id.trim().is_empty() {
@@ -79,7 +128,13 @@ pub(crate) fn build_temporal_binding(
     } else if parse_timestamp(source_published_at).is_none()
         || parse_timestamp(&observation.observed_at).is_none()
     {
-        "invalid or missing timestamp".to_string()
+        match observation_time_precision {
+            ObservationTimePrecision::DayOnly => {
+                "observation time precision is DAY_ONLY; exact timestamp required".to_string()
+            }
+            ObservationTimePrecision::Unavailable => "invalid or missing timestamp".to_string(),
+            ObservationTimePrecision::Timestamp => "invalid or missing timestamp".to_string(),
+        }
     } else if temporal_eligible {
         "source_published_at is before or equal to observed_at".to_string()
     } else {
@@ -90,6 +145,7 @@ pub(crate) fn build_temporal_binding(
         observation_id: observation.observation_id.clone(),
         source_published_at: source_published_at.to_string(),
         observed_at: observation.observed_at.clone(),
+        observation_time_precision,
         temporal_eligible,
         reason,
     }
@@ -198,7 +254,30 @@ pub(crate) struct MacroSignalContextEvent {
 
 #[cfg(test)]
 mod signal_context_v1_tests {
-    use super::{build_temporal_binding, event_visible_at, EvidenceRecord, MarketReaction};
+    use super::{
+        build_temporal_binding, classify_observation_time_precision, event_visible_at,
+        EvidenceRecord, MarketReaction, ObservationTimePrecision,
+    };
+
+    #[test]
+    fn observation_time_precision_is_classified_without_time_inference() {
+        assert_eq!(
+            classify_observation_time_precision("2026-09-18"),
+            ObservationTimePrecision::DayOnly
+        );
+        assert_eq!(
+            classify_observation_time_precision("2026-09-18T15:30:00Z"),
+            ObservationTimePrecision::Timestamp
+        );
+        assert_eq!(
+            classify_observation_time_precision(""),
+            ObservationTimePrecision::Unavailable
+        );
+        assert_eq!(
+            classify_observation_time_precision("not-a-timestamp"),
+            ObservationTimePrecision::Unavailable
+        );
+    }
 
     #[test]
     fn evidence_record_serializes_traceability_fields() {
@@ -221,6 +300,7 @@ mod signal_context_v1_tests {
         let reaction = MarketReaction {
             observation_id: "obs-payroll".to_string(),
             observed_at: "2026-08-07T16:00:00Z".to_string(),
+            observation_time_precision: ObservationTimePrecision::Timestamp,
             session: "CORE".to_string(),
             venue: "NASDAQ".to_string(),
             instrument: "NASDAQ".to_string(),
@@ -260,6 +340,23 @@ mod signal_context_v1_tests {
 
         assert!(!binding.temporal_eligible);
         assert!(binding.reason.contains("invalid"));
+    }
+
+    #[test]
+    fn temporal_binding_preserves_day_only_precision_and_fails_closed() {
+        let reaction = MarketReaction {
+            observed_at: "2026-09-18".to_string(),
+            observation_id: "obs-day-only".to_string(),
+            ..Default::default()
+        };
+        let binding = build_temporal_binding("event-day-only", "2026-09-18T12:00:00Z", &reaction);
+
+        assert_eq!(
+            binding.observation_time_precision,
+            ObservationTimePrecision::DayOnly
+        );
+        assert!(!binding.temporal_eligible);
+        assert!(binding.reason.contains("DAY_ONLY"));
     }
 
     #[test]

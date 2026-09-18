@@ -1,8 +1,9 @@
 use crate::config::AppConfig;
 use crate::features::research::interface::macro_event_observation::{
-    EvidenceRecord, MacroSignalContextEvent, MacroSignalContextInformationLevel,
-    MacroSignalContextLifecycle, MacroSignalContextReadModel, MacroSignalContextSource,
-    MacroSignalContextSourceStatus, MarketReaction, SignalContextTemporalContext,
+    classify_observation_time_precision, EvidenceRecord, MacroSignalContextEvent,
+    MacroSignalContextInformationLevel, MacroSignalContextLifecycle, MacroSignalContextReadModel,
+    MacroSignalContextSource, MacroSignalContextSourceStatus, MarketReaction,
+    SignalContextTemporalContext,
 };
 use chrono::{DateTime, NaiveDate, Utc};
 
@@ -106,9 +107,11 @@ fn map_evidence(
 fn map_reaction(
     reaction: crate::features::research::infrastructure::macro_signal_context_provider::ProviderMarketReaction,
 ) -> MarketReaction {
+    let observation_time_precision = classify_observation_time_precision(&reaction.observed_at);
     MarketReaction {
         observation_id: reaction.observation_id,
         observed_at: reaction.observed_at,
+        observation_time_precision,
         session: reaction.session,
         venue: reaction.venue,
         instrument: reaction.instrument,
