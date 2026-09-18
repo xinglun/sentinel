@@ -2805,6 +2805,23 @@ fn render_signal_context_market_reactions(
     }
 }
 
+fn render_signal_context_ai_policy_frontier_pacing(
+    block: &mut String,
+    layer: &crate::features::radar::interface::presentation::InterpretationLayerViewModel,
+) {
+    if layer
+        .signal_context_ai_policy_frontier_pacing_value
+        .is_empty()
+    {
+        return;
+    }
+    block.push_str(&format!(
+        "    - {}: {}\n",
+        layer.signal_context_ai_policy_frontier_pacing_label,
+        layer.signal_context_ai_policy_frontier_pacing_value
+    ));
+}
+
 fn render_interpretation_section(
     layer: Option<&crate::features::radar::interface::presentation::InterpretationLayerViewModel>,
     language: Language,
@@ -2858,6 +2875,7 @@ fn render_interpretation_section(
                 ));
             }
             render_signal_context_market_reactions(&mut block, layer);
+            render_signal_context_ai_policy_frontier_pacing(&mut block, layer);
             if !layer.signal_context_source_diagnostics_value.is_empty() {
                 block.push_str(&format!(
                     "    - {}: {}\n",
@@ -2992,6 +3010,7 @@ fn render_interpretation_section(
                 ));
             }
             render_signal_context_market_reactions(&mut block, layer);
+            render_signal_context_ai_policy_frontier_pacing(&mut block, layer);
             if !layer.signal_context_source_diagnostics_value.is_empty() {
                 block.push_str(&format!(
                     "    - {}: {}\n",

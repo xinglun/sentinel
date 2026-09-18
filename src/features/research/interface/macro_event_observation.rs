@@ -15,6 +15,32 @@ pub struct EvidenceRecord {
     pub importance: String,
 }
 
+/// AI Policy frontier pacing の provenance 付き観測事実。仮説や売買判断を含めない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct AiPolicyFrontierPacingObservation {
+    #[serde(default)]
+    pub source: String,
+    #[serde(default)]
+    pub source_url: String,
+    #[serde(default)]
+    pub source_published_at: String,
+    #[serde(default)]
+    pub headline: String,
+    #[serde(default)]
+    pub provider: String,
+}
+
+impl AiPolicyFrontierPacingObservation {
+    /// 必須 provenance が揃い、公開時刻を厳密に解釈できる場合だけ事実とする。
+    pub(crate) fn is_traceable(&self) -> bool {
+        !self.source.trim().is_empty()
+            && !self.source_url.trim().is_empty()
+            && DateTime::parse_from_rfc3339(self.source_published_at.trim()).is_ok()
+            && !self.headline.trim().is_empty()
+            && !self.provider.trim().is_empty()
+    }
+}
+
 /// 観測時刻の入力精度。日付だけの事実へ時刻を推測してはならない。
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -256,7 +282,8 @@ pub(crate) struct MacroSignalContextEvent {
 mod signal_context_v1_tests {
     use super::{
         build_temporal_binding, classify_observation_time_precision, event_visible_at,
-        EvidenceRecord, MarketReaction, ObservationTimePrecision,
+        AiPolicyFrontierPacingObservation, EvidenceRecord, MarketReaction,
+        ObservationTimePrecision,
     };
 
     #[test]
@@ -293,6 +320,30 @@ mod signal_context_v1_tests {
         let value = serde_json::to_value(evidence).unwrap();
         assert_eq!(value["event_type"], "EMPLOYMENT");
         assert_eq!(value["importance"], "HIGH");
+    }
+
+    #[test]
+    fn ai_policy_frontier_pacing_requires_complete_provenance() {
+        let observation = AiPolicyFrontierPacingObservation {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            headline: "Policy frontier pacing remains gradual".to_string(),
+            provider: "fed".to_string(),
+        };
+        assert!(observation.is_traceable());
+
+        let missing_source_url = AiPolicyFrontierPacingObservation {
+            source_url: String::new(),
+            ..observation.clone()
+        };
+        assert!(!missing_source_url.is_traceable());
+
+        let malformed_published_at = AiPolicyFrontierPacingObservation {
+            source_published_at: "2026-09-18".to_string(),
+            ..observation
+        };
+        assert!(!malformed_published_at.is_traceable());
     }
 
     #[test]

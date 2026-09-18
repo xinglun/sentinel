@@ -15,7 +15,8 @@ use crate::features::research::application::corporate_event_evidence_resolver::{
 };
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::{
-    classify_observation_time_precision, ObservationTimePrecision,
+    classify_observation_time_precision, AiPolicyFrontierPacingObservation,
+    ObservationTimePrecision,
 };
 use crate::features::shared::interface::i18n::Language;
 use chrono::{Datelike, NaiveDate};
@@ -42,6 +43,22 @@ pub(crate) struct SignalContextAssessment {
     pub source_diagnostics_appendix: String,
     pub interpretation: String,
     pub next_observation: String,
+}
+
+pub(crate) fn format_ai_policy_frontier_pacing_observation(
+    observation: Option<&AiPolicyFrontierPacingObservation>,
+) -> String {
+    let Some(observation) = observation.filter(|observation| observation.is_traceable()) else {
+        return String::new();
+    };
+    format!(
+        "source={}; source_url={}; source_published_at={}; headline={}; provider={}",
+        observation.source,
+        observation.source_url,
+        observation.source_published_at,
+        observation.headline,
+        observation.provider,
+    )
 }
 
 pub(crate) fn build_signal_context_assessment(
