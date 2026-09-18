@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization:继续，要全部完成",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "d61354351e9731814abf892641069be16a9b4e73",
+    "name": "codex/ai-policy-source-classification",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "cb4475efd66d36349870e3592edc3f5e7888735a",
+  "contractDigest": "sha256:1000dddffd5c3bbeae4b583c042b981154fa0eb7b494211eb53e53f458990fa1",
+  "operationId": "github-pr-233-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "cb4475efd66d36349870e3592edc3f5e7888735a",
+    "headRevision": "d61354351e9731814abf892641069be16a9b4e73",
+    "mergeCommit": "252b8a2af9f36ccdfafff5796b7049627ad6a05c",
+    "number": 233,
+    "url": "https://github.com/xinglun/sentinel/pull/233"
+  },
+  "reason": "PR #233 已合并到 develop，精确的 feature branch 与 worktree 已核对并清理，按用户授权记录 provider finalization。",
+  "receiptId": "ai-policy-source-classification-github-pr-233-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/ai-policy-source-classification",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/233",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/ai-policy-source-classification/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-18T18:13:00Z",
+  "workItemId": "ai-policy-source-classification",
+  "worktree": {
+    "branch": "codex/ai-policy-source-classification",
+    "headRevision": "d61354351e9731814abf892641069be16a9b4e73",
+    "path": "/Users/sei-rinn/.codex/worktrees/ai-policy-source-classification/sentinel",
+    "worktreeId": "ai-policy-source-classification"
+  }
+}

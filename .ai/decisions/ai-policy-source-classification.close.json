@@ -1,36 +1,6 @@
 {
-  "acceptanceResults": [
-    "AI Policy candidate は完全な source/source_url/source_published_at/headline/provider provenance があり、source_published_at が RFC3339 の場合だけ observation を生成する。欠損・空・不正 timestamp・malformed text は geopolitical matcher と同じく fail-closed で no observation とする。",
-    "deterministic matcher は provider の既存 headline/body 候補から policy_type を FRONTIER_PACING、TRAINING_COMPUTE_RESTRICTION、AI_SAFETY_COORDINATION、LEGISLATIVE_PROPOSAL、MODEL_RELEASE_RESTRICTION、DEPLOYMENT_RESTRICTION のいずれかに解決し、未確定時は分類しない。",
-    "policy_stage は DISCUSSION、INDUSTRY_PROPOSAL、LEGISLATIVE_PROPOSAL、FORMAL_RULEMAKING、ENACTED、EFFECTIVE のいずれかに解決する。discussion != effective restriction、proposal != enacted を回帰テストで固定する。",
-    "正例として industry leaders call for slowing frontier AI development -> INDUSTRY_PROPOSAL、lawmakers introduce bill to pause advanced AI development -> LEGISLATIVE_PROPOSAL、government enacts an advanced AI deployment restriction -> ENACTED を受け入れる。AI startup pauses hiring -> no AI Policy observation とする。",
-    "生成された observation は既存 AiPolicyFrontierPacingObservation の source provenance を保持し、Signal Context、Markdown、Telegram HTML、weekly audit の既存 observation-only 出力へ接続する。renderer は候補分類を行わない。",
-    "classification は observation-only であり decision_weight=0 を維持し、Decision/Gate/Execution/Position Sizing/Primary Context ranking/TemporalBinding/MarketObservation の動作を変更しない。",
-    "verification は focused AI Policy tests、make fmt-check、make test、make clippy、make quality、make check-signal-context-consistency を実行し、既存 coverage threshold failure は成功として偽装せず residual risk/evidence として記録する。"
-  ],
-  "createdAt": "2026-09-18T18:03:52Z",
-  "decisionState": "green",
-  "evidenceDigest": "sha256:e27548b0a48fbb8ee58e37c9766c8c2718729d70a7e90e7e7b77167375be4d32",
-  "evidenceRefs": [
-    ".ai/evidence/ai-policy-source-classification.verification.json"
-  ],
-  "humanBenefitReport": {
-    "affectedUsers": [],
-    "evidenceRefs": [
-      ".ai/evidence/ai-policy-source-classification.verification.json"
-    ],
-    "state": "unknown",
-    "unknowns": [
-      "user_visible_benefit_not_declared"
-    ],
-    "userVisibleChanges": []
-  },
-  "protocolVersion": 1,
-  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-  "schemaVersion": 2,
-  "state": "finish_ready",
-  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
-  "taskOutcomeReport": {
+  "decisionState": "confirmed",
+  "finalReport": {
     "bindings": {
       "evidenceRefs": [
         ".ai/evidence/ai-policy-source-classification.verification.json"
@@ -175,7 +145,18 @@
         "user_visible_benefit_invented_from_implementation_facts"
       ],
       "forcedStops": [],
-      "humanDecisions": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "PR #233 已合并到 develop",
+            ".ai/evidence/ai-policy-source-classification.verification.json",
+            ".ai/decisions/ai-policy-source-classification.finalize.json",
+            "make quality 的既有 coverage 门槛失败记录"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization:继续，要全部完成 at 2026-09-18T18:17:14Z."
+        }
+      ],
       "interventions": [],
       "limitations": [],
       "nonRiskExplanations": [],
@@ -230,15 +211,42 @@
     "status": "verified",
     "workItemId": "ai-policy-source-classification"
   },
-  "taskReportDigest": "sha256:388fbb83b9ed36db22d38eba8d3e105113d8feb0b9dc2b02351c068760b9b071",
-  "taskReportMarkdownDigest": "sha256:61bb0d91d135f3ec2e66057c04d41797ff74fffe8f71f737f1ef3ad06d0d6ed4",
-  "unknowns": [
-    "user_visible_benefit_not_declared"
-  ],
-  "verification": {
-    "evidencePath": ".ai/evidence/ai-policy-source-classification.verification.json",
-    "required": true,
-    "status": "verified"
+  "finalReportDigest": "sha256:ead7fab48899001cc7ae61bb517b125c1cc1d84e8bedbabbb30e17f36e8a8eac",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:fd4db320c544470472ec3363768b916a4022685b87c0af68869604329f409dd1",
+    "branch": "codex/ai-policy-source-classification-governance",
+    "branchRef": "refs/heads/codex/ai-policy-source-classification-governance",
+    "capturedAt": "2026-09-18T18:17:15Z",
+    "contractDigest": "sha256:8cf26b1f1b00469dd496ddcc43c13fa85d96e5836799ac6086af93aa3ce794a4",
+    "headRevision": "6492384aec8c322ff47ded2e3b128580d9e5d759",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "ai-policy-source-classification",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel1",
+    "worktreeId": "sha256:978b5545a29bd9e811d356f01089c0bbb5e01791ebf4ae3da7be0d8c5eaff94d",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/ai-policy-source-classification-governance/sentinel"
   },
+  "ordinaryCleanupBindingDigest": "sha256:dc6840c927df3b154570966902f309baee0de7e42b2afc093f650db9f5c00bf8",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization:继续，要全部完成",
+    "decidedAt": "2026-09-18T18:17:14Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "PR #233 已合并到 develop",
+      ".ai/evidence/ai-policy-source-classification.verification.json",
+      ".ai/decisions/ai-policy-source-classification.finalize.json",
+      "make quality 的既有 coverage 门槛失败记录"
+    ],
+    "policyRefs": [],
+    "reason": "用户授权完成 AI Policy source classification Work Item 的实现、验证、合并、关闭与最终同步。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T18:17:15Z",
   "workItemId": "ai-policy-source-classification"
 }
