@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "PR 的 base 必须为 main，head 必须从当时最新 origin/develop 起步，且所有 required hosted checks 通过后才合并。",
+    "合并后 origin/main 与 origin/develop 的 tree digest 完全相同。",
+    "合并后 git merge-base --is-ancestor origin/develop origin/main 返回 0。",
+    "不产生 production、test、docs、CI 或交易语义文件差异；Work Item 专用 branch/worktree 在完成后精确删除。",
+    "保留原 Work Item 与本 successor 的 Runtime/PR/hosted verification evidence，不覆盖历史记录。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "ea010df77ff6f73e267da3188f36fc1dcd4787a5",
+  "createdAt": "2026-09-18T09:10:18Z",
+  "goal": "使 origin/develop 成为 origin/main 的祖先，同时保持两个远端 ref 的 tree 完全一致，并完成受治理的 PR、验证、Runtime 生命周期和精确资源清理。",
+  "intent": "修复已关闭的 develop-main 同步交付中未满足的祖先关系验收；将 origin/develop 通过受审 PR 纳入 main，不改变文件内容。",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 production code、test、docs、CI、Makefile、AI agent rules、provider registry、Signal Context、Decision semantics、data、secrets、credentials；不改动已关闭 Work Item 或其历史 evidence；不删除或改动其他 branch/worktree；不清理主 checkout 既有 dirty evidence。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:91fef1281c52d62348c92213a8ca99abc6ebebf331a1af53541dbfefa8293127",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅限于以最新 origin/develop 为 branch/worktree 基线，创建 base=main 的 ancestry merge PR，等待必需 hosted checks，通过后合并，直接验证远端 tree/祖先关系，并删除本 Work Item 的专用 branch/worktree。"
+  ],
+  "sources": [
+    "previous Work Item develop-main-sync-20260918 Contract and closure evidence",
+    "PR #206 main projection and PR #207 develop projection"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "develop-main-ancestry-repair-20260918-v4"
+}
