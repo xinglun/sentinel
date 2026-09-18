@@ -1,0 +1,194 @@
+{
+  "acceptanceResults": [
+    "existing news provider 的 AI Policy 候选经过 deterministic lexical/context matcher 后，可得到约定 policy_type：FRONTIER_PACING、TRAINING_COMPUTE_RESTRICTION、AI_SAFETY_COORDINATION、LEGISLATIVE_PROPOSAL、MODEL_RELEASE_RESTRICTION、DEPLOYMENT_RESTRICTION；无法确定时不分类。",
+    "policy_stage 可解析为 DISCUSSION、INDUSTRY_PROPOSAL、LEGISLATIVE_PROPOSAL、FORMAL_RULEMAKING、ENACTED、EFFECTIVE，并固定 discussion/proposal 不等于 effective/enacted。",
+    "source、source_url、source_published_at、headline、provider 任一缺失或时间/文本 malformed 时 fail-closed，不生成 AI Policy observation；有效 observation 保留全部 provenance。",
+    "正例覆盖 industry leaders call for slowing frontier AI development、lawmakers introduce bill to pause advanced AI development、government enacts an advanced AI deployment restriction；AI startup pauses hiring 不分类。",
+    "生成结果只进入 observation/read-model/report projection，decision_weight=0、trade_signal=false，且不改变 Decision/Gate/Primary Context ranking/TemporalBinding/MarketObservation/Position Sizing。",
+    "required verification 记录 focused AI Policy tests、cargo test --workspace、make fmt-check、make test、make clippy、make check-signal-context-consistency、make quality；既有 coverage threshold failure 必须如实保留为 residual risk。"
+  ],
+  "createdAt": "2026-09-18T19:33:21Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:fdd40d76d47e60afd9c29b9d382fb7b790de7c4bd6e16aaafb5def1998d18131",
+  "evidenceRefs": [
+    ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+      "workItemId": "ai-policy-source-classification-reopen"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification-attempt.1922aef03f389a24853e3803f4f139a2fe753a83aaaea4c14b5ef893ab4ead17.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification-attempt.3ca744ffc23acdfd8e58b1fc56897be9015c4cd8d939ad3e5a6cbe882b70570a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification-attempt.4bed1c3ff733977e37fdce2ba00198698ce8695824c6dd262df6cc1dc4839404.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification-attempt.91b205acf36564d6e6ec4374bef4542b8ebeb138bb1ad5671b2e1cea515ce549.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification-attempt.a7b1430bf7a4892c215a263775ec16fc5d7406df64fc8b0581654a9d5699f36a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification-reopen.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification-reopen.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification-reopen.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification-reopen.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.contract.json"
+          ],
+          "inference": false,
+          "text": "将 existing news provider 输入稳定映射为结构化 AI Policy observation：policy_type 与 policy_stage 可确定、provenance 完整、未知输入 fail-closed，并保留 observation-only 边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification-reopen.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "ai-policy-source-classification-reopen"
+  },
+  "taskReportDigest": "sha256:7fb8ba2aa8d8111668b8b5dee407a814b506b819d263001b02719b5e378b61b4",
+  "taskReportMarkdownDigest": "sha256:c664e4ce6515d4709c570c74ed2683b05f525eefac5c67950cc756b48a06838a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/ai-policy-source-classification-reopen.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "ai-policy-source-classification-reopen"
+}

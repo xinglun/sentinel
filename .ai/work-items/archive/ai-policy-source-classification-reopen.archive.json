@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T19:33:50Z",
+  "files": {
+    "contractDigest": "sha256:70d5574cc8597df0f713f38e154cf961f1b2c187344ae74fbe8da7b87a4bd130",
+    "contractPath": ".ai/work-items/archive/ai-policy-source-classification-reopen.contract.json",
+    "eventsDigest": "sha256:f45455999fd526b3bd0bbcd1b7e9261cfa732b4e17a1faef94a9d50209361655",
+    "eventsPath": ".ai/work-items/archive/ai-policy-source-classification-reopen.events.jsonl",
+    "outcomeDigest": "sha256:964005ffd96e800435475f799bc79d7f0ec9aa012fb814c30fca38966e4e4c17",
+    "outcomePath": ".ai/work-items/archive/ai-policy-source-classification-reopen.outcome.json",
+    "summaryDigest": "sha256:5687c122b3748ef23ce165e929138d208bef41dc58fd3b11968a161815c140c3",
+    "summaryPath": ".ai/work-items/archive/ai-policy-source-classification-reopen.summary.json",
+    "taskReportDigest": "sha256:7fb8ba2aa8d8111668b8b5dee407a814b506b819d263001b02719b5e378b61b4",
+    "taskReportMarkdownDigest": "sha256:c664e4ce6515d4709c570c74ed2683b05f525eefac5c67950cc756b48a06838a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ai-policy-source-classification-reopen.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ai-policy-source-classification-reopen.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ai-policy-source-classification-reopen"
+}
