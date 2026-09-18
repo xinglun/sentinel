@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T09:12:23Z",
+  "files": {
+    "contractDigest": "sha256:98ea21763c2a7c7cc871d0b15296055e7334e677ea59842e7a3b8d44ff191183",
+    "contractPath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.contract.json",
+    "eventsDigest": "sha256:a8563bc71b06e3790c152a206eeeada087c100d3ccc0de42c2eae0127bb9e5ee",
+    "eventsPath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.events.jsonl",
+    "outcomeDigest": "sha256:39f8be2ae97f4df2131725b55542402d1ec4f9609a6c3581caf9d7518996852a",
+    "outcomePath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.outcome.json",
+    "summaryDigest": "sha256:a2cbf07be2edf21d1f098f0f40e9e933684c9d4ef7aa9fa0833353e791dcf0a2",
+    "summaryPath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json",
+    "taskReportDigest": "sha256:c265d624ab190ab69af6dccb0aa9a210096792eec1be0aaaf356f8f2245a6d8d",
+    "taskReportMarkdownDigest": "sha256:9e72b98da2fe0d08f38050d04f30614ffb11651a22d66dfec73fdf9d105d69ed",
+    "taskReportMarkdownPath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "develop-main-ancestry-repair-20260918-v4"
+}
