@@ -3,8 +3,8 @@
     ".ai/decisions/develop-main-sync-20260918.recovery.json",
     ".ai/decisions/observer-snapshot.json",
     ".ai/locks/develop-main-sync-20260918.lifecycle.lock",
-    ".ai/work-items/active/develop-main-sync-20260918.contract.json",
-    ".ai/work-items/active/develop-main-sync-20260918.summary.json"
+    ".ai/work-items/archive/develop-main-sync-20260918.contract.json",
+    ".ai/work-items/archive/develop-main-sync-20260918.summary.json"
   ],
   "checkpointAt": "2026-09-18T07:52:53Z",
   "checkpointContractDigest": "sha256:600c34440b778529aa7030f5a4ba0e85690f5303d00e63a5b9098269a9871e30",
@@ -75,14 +75,13 @@
   "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-18T07:52:53Z",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T08:14:33Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:a86aee5a582d6f48099e4faa2ce9f829f4414278789b90c084f54cc6ffa8c6ca",
   "workItemId": "develop-main-sync-20260918"
 }
