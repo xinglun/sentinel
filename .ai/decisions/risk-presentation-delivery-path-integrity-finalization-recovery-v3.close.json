@@ -1,0 +1,297 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9c879c333fac95c1fa0e0262c4a411b54a24b6d565c28686ce0e6e06eaaf42dc",
+      "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-presentation-delivery-path-integrity-finalization-recovery-v2.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-presentation-delivery-path-integrity-finalization-recovery-v3.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-presentation-delivery-path-integrity.recovery.0c8c5f074e2b0e8683d41d84ee2eec9ade0258f65adb67c3ea18ea4d5f6399cc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-presentation-delivery-path-integrity.recovery.1a0181a072bb9887176bc008fd5fc95de3501702a4ea3bedc601efe4ca1fdc0a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-presentation-delivery-path-integrity.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification-attempt.09999a21707304c0982d9bbfd80f97e091d58d416dc388203967a67d4773e5b3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification-attempt.81e45e27fe4d1449b5874be7403ccbbff0e1b494a8773d69297cb34b9160700b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification-attempt.c0e750640e541960a96aedf3917a8ff141cadc0508bdebe8a2c41f8643ba91e4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/risk-presentation-delivery-path-integrity-finalization-recovery-v2.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/risk-presentation-delivery-path-integrity-finalization-recovery-v3.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/risk-presentation-delivery-path-integrity.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/decision-transition-presentation-integrity.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/decision-transition-presentation-integrity.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v2.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json",
+            ".ai/decisions/risk-presentation-delivery-path-integrity-finalization-recovery-v3.recovery.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'confirmed' by user via authorized:user-message:继续之前没完的任务；授权 at 2026-09-18T07:07:00Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改写 predecessor 或 v2 retirement bytes 的前提下，对 PR #164 已进入 develop 的 presentation 交付范围执行当前 Runtime verification，完成 successor 的 finish、archive、close，并让 predecessor lineage 可被状态投影安全收束。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-presentation-delivery-path-integrity-finalization-recovery-v3.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3"
+  },
+  "finalReportDigest": "sha256:dd73c444a0554696c3538b18332d916e49f74057178851c28b90c8a672bc9155",
+  "humanDecision": "confirmed",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:831874abf05bb8b1bcfdbc2f3279b13c129e60db1b40ff9fd7bb8e56c8ed3b0a",
+    "branch": "codex/decision-transition-presentation-integrity",
+    "branchRef": "refs/heads/codex/decision-transition-presentation-integrity",
+    "capturedAt": "2026-09-18T07:08:03Z",
+    "contractDigest": "sha256:0f84f140bddda45c068450a0caf92bc2f9fe242408f4258bdee05467dd82926f",
+    "headRevision": "a333e1a04dd306a31c67a6f0846c253a0beb4be6",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/codex-decision-transition-presentation-integrity",
+    "worktreeId": "sha256:1dcba22f9c2ae7789d40fa10ea70daf72271d726c1bd5e1efdbfd88071eff0b4",
+    "worktreePath": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-decision-transition-presentation-integrity"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:e3cbb513503229817e001e4a68430376acb60dbc90239c952363b85714b2e991",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "user",
+    "authoritySource": "authorized:user-message:继续之前没完的任务；授权",
+    "decidedAt": "2026-09-18T07:07:00Z",
+    "decision": "confirmed",
+    "evidenceRefs": [
+      ".ai/evidence/risk-presentation-delivery-path-integrity-finalization-recovery-v3.verification.json",
+      ".ai/decisions/risk-presentation-delivery-path-integrity-finalization-recovery-v3.recovery.json"
+    ],
+    "policyRefs": [],
+    "reason": "确认 successor 已由当前 Runtime 验证通过并完成 archive；不改写 predecessor 与 v2 retirement bytes。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T07:08:03Z",
+  "workItemId": "risk-presentation-delivery-path-integrity-finalization-recovery-v3"
+}
