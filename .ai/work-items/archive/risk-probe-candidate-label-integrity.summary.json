@@ -1,10 +1,10 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/risk-probe-candidate-label-integrity.contract.json",
-    ".ai/work-items/active/risk-probe-candidate-label-integrity.summary.json"
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/risk-probe-candidate-label-integrity.summary.json"
   ],
   "checkpointAt": "2026-09-18T11:22:18Z",
-  "checkpointContractDigest": "sha256:6c83dfb8933b07060a1837d41ec5ed6217f84b7015cb3f1bf25d44726db4182c",
+  "checkpointContractDigest": "sha256:ae201477331f975f312f563e5d59e763a0ce0538d0f9fc4c59c20fc40ee069d5",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -62,22 +62,23 @@
       "workItemId": "risk-probe-candidate-label-integrity"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:ae5c1f60fd1fab4845f2c1419f1288152417c9d774e8b96afb9003323b467228",
+  "checkpointRepositorySnapshotDigest": "sha256:29b984a18db0a5cd0d604f8811258161347cf3e25a96b5091889aea0af0b8505",
   "createdAt": "2026-09-18T11:22:02Z",
   "mode": "code",
-  "preflightAt": "2026-09-18T12:12:28Z",
+  "preflightAt": "2026-09-18T12:19:48Z",
   "preflightContractDigest": "sha256:ae201477331f975f312f563e5d59e763a0ce0538d0f9fc4c59c20fc40ee069d5",
-  "preflightDecisionDigest": "sha256:51050a6b8171bbf63fb8f3fece5e2e4dfe5675912ec9eabe47d3caf80ec0fe8e",
+  "preflightDecisionDigest": "sha256:20b4b742353bcc748008ea6dbb9f63bdf18a5136367959ab2a0ae37d53adb025",
   "preflightRepositorySnapshotDigest": "sha256:29b984a18db0a5cd0d604f8811258161347cf3e25a96b5091889aea0af0b8505",
-  "preflightState": "red",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-  "state": "checkpointed",
-  "updatedAt": "2026-09-18T11:22:18Z",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:ae201477331f975f312f563e5d59e763a0ce0538d0f9fc4c59c20fc40ee069d5",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-18T11:35:12Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T12:20:16Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "risk-probe-candidate-label-integrity"
 }
