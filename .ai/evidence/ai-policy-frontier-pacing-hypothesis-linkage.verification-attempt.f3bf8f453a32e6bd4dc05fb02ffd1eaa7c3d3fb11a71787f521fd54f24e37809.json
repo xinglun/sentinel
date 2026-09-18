@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:f3bf8f453a32e6bd4dc05fb02ffd1eaa7c3d3fb11a71787f521fd54f24e37809",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "99149ecbf7001a26464434091a790425cb0b53a6",
+      "commandDigest": "sha256:d5a2158131a59a1de16333d95b6e09aec02739ed918ca4ba184e327d716d2012",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6682222b3f48c81595556bf43a5d79625d9fd551ca89b181d951eca314a3a7db",
+  "contractExecutionScopeDigest": "sha256:8ac3d70226267fc136581301255a0f8e4523b639c2c75d39fd6a460e6a53c175",
+  "createdAt": "2026-09-18T15:55:10Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/ai-policy-frontier-pacing-hypothesis-linkage-20260919/sentinel/.ai/work-items/active/ai-policy-frontier-pacing-hypothesis-linkage.contract.json: verification requires a recorded non-red preflight result"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:55fbb39066608ecb3225e7871b92bf93d882f445d87b6f67a32bc566ecb6d346",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "ai-policy-frontier-pacing-hypothesis-linkage"
+}

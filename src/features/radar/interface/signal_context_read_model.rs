@@ -15,7 +15,8 @@ use crate::features::research::application::corporate_event_evidence_resolver::{
 };
 use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
 use crate::features::research::interface::macro_event_observation::{
-    classify_observation_time_precision, AiPolicyFrontierPacingObservation,
+    classify_observation_time_precision, AiPolicyFrontierPacingLinkage,
+    AiPolicyFrontierPacingLinkageStatus, AiPolicyFrontierPacingObservation,
     ObservationTimePrecision,
 };
 use crate::features::shared::interface::i18n::Language;
@@ -58,6 +59,32 @@ pub(crate) fn format_ai_policy_frontier_pacing_observation(
         observation.source_published_at,
         observation.headline,
         observation.provider,
+    )
+}
+
+pub(crate) fn format_ai_policy_frontier_pacing_linkage(
+    linkage: Option<&AiPolicyFrontierPacingLinkage>,
+    observation: Option<&AiPolicyFrontierPacingObservation>,
+) -> String {
+    let Some(linkage) = linkage.filter(|linkage| linkage.is_traceable(observation)) else {
+        return String::new();
+    };
+    let status = match linkage.status {
+        AiPolicyFrontierPacingLinkageStatus::Proposed => "PROPOSED",
+        AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman => "CONFIRMED_BY_HUMAN",
+        AiPolicyFrontierPacingLinkageStatus::RejectedByHuman => "REJECTED_BY_HUMAN",
+        AiPolicyFrontierPacingLinkageStatus::Expired => "EXPIRED",
+        AiPolicyFrontierPacingLinkageStatus::Unavailable => "UNAVAILABLE",
+    };
+    format!(
+        "hypothesis_id={}; observation_id={}; status={}; linked_event_id={}; decided_at={}; decision_source={}; evidence_count={}",
+        linkage.hypothesis_id,
+        linkage.observation_id,
+        status,
+        linkage.linked_event_id.as_deref().unwrap_or("UNAVAILABLE"),
+        linkage.decided_at.as_deref().unwrap_or("UNAVAILABLE"),
+        linkage.decision_source.as_deref().unwrap_or("UNAVAILABLE"),
+        linkage.evidence.len(),
     )
 }
 

@@ -404,6 +404,7 @@ fn build_weekly_signal_context(
         "event_fact": layer.signal_context_event_fact_value,
         "market_reactions": layer.signal_context_market_reactions_value,
         "ai_policy_frontier_pacing_observation": layer.signal_context_ai_policy_frontier_pacing_value,
+        "ai_policy_frontier_pacing_linkage": layer.signal_context_ai_policy_frontier_pacing_linkage_value,
         "source_diagnostics": layer.signal_context_source_diagnostics_value,
         "interpretation": layer.signal_context_interpretation_value
     })
@@ -548,6 +549,16 @@ fn push_weekly_signal_context_snapshot(
             "- {}: {}\n",
             layer.signal_context_ai_policy_frontier_pacing_label,
             layer.signal_context_ai_policy_frontier_pacing_value
+        ));
+    }
+    if !layer
+        .signal_context_ai_policy_frontier_pacing_linkage_value
+        .is_empty()
+    {
+        review.push_str(&format!(
+            "- {}: {}\n",
+            layer.signal_context_ai_policy_frontier_pacing_linkage_label,
+            layer.signal_context_ai_policy_frontier_pacing_linkage_value
         ));
     }
     review.push_str(&format!(

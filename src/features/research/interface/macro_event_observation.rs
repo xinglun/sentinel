@@ -41,6 +41,97 @@ impl AiPolicyFrontierPacingObservation {
     }
 }
 
+/// AI Policy frontier pacing observation と hypothesis の明示的な linkage 状態。
+/// 状態遷移はこの read model では実行せず、外部の明示的な入力だけを保持する。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum AiPolicyFrontierPacingLinkageStatus {
+    Proposed,
+    ConfirmedByHuman,
+    RejectedByHuman,
+    Expired,
+    #[default]
+    Unavailable,
+}
+
+/// AI Policy frontier pacing の仮説・event linkage。取引判断には渡さない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct AiPolicyFrontierPacingLinkage {
+    #[serde(default)]
+    pub hypothesis_id: String,
+    #[serde(default)]
+    pub observation_id: String,
+    #[serde(default)]
+    pub status: AiPolicyFrontierPacingLinkageStatus,
+    #[serde(default)]
+    pub linked_event_id: Option<String>,
+    #[serde(default)]
+    pub evidence: Vec<EvidenceRecord>,
+    #[serde(default)]
+    pub decided_at: Option<String>,
+    #[serde(default)]
+    pub decision_source: Option<String>,
+}
+
+impl AiPolicyFrontierPacingLinkage {
+    /// observation と証拠が揃い、status の metadata が整合する場合だけ保持する。
+    pub(crate) fn is_traceable(
+        &self,
+        observation: Option<&AiPolicyFrontierPacingObservation>,
+    ) -> bool {
+        let Some(observation) = observation.filter(|observation| observation.is_traceable()) else {
+            return false;
+        };
+        let _ = observation;
+        if self.hypothesis_id.trim().is_empty()
+            || self.observation_id.trim().is_empty()
+            || self.status == AiPolicyFrontierPacingLinkageStatus::Unavailable
+            || self.evidence.is_empty()
+            || self.evidence.iter().any(|evidence| {
+                evidence.source.trim().is_empty()
+                    || evidence.source_url.trim().is_empty()
+                    || DateTime::parse_from_rfc3339(evidence.timestamp.trim()).is_err()
+                    || DateTime::parse_from_rfc3339(evidence.source_published_at.trim()).is_err()
+                    || evidence.event_type.trim().is_empty()
+                    || evidence.subject.trim().is_empty()
+                    || evidence.importance.trim().is_empty()
+            })
+        {
+            return false;
+        }
+
+        match self.status {
+            AiPolicyFrontierPacingLinkageStatus::Proposed
+            | AiPolicyFrontierPacingLinkageStatus::Expired => {
+                self.decided_at.is_none() && self.decision_source.is_none()
+            }
+            AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman => {
+                self.linked_event_id
+                    .as_deref()
+                    .is_some_and(|event_id| !event_id.trim().is_empty())
+                    && self
+                        .decided_at
+                        .as_deref()
+                        .is_some_and(|value| DateTime::parse_from_rfc3339(value.trim()).is_ok())
+                    && self
+                        .decision_source
+                        .as_deref()
+                        .is_some_and(|source| !source.trim().is_empty())
+            }
+            AiPolicyFrontierPacingLinkageStatus::RejectedByHuman => {
+                self.decided_at
+                    .as_deref()
+                    .is_some_and(|value| DateTime::parse_from_rfc3339(value.trim()).is_ok())
+                    && self
+                        .decision_source
+                        .as_deref()
+                        .is_some_and(|source| !source.trim().is_empty())
+            }
+            AiPolicyFrontierPacingLinkageStatus::Unavailable => false,
+        }
+    }
+}
+
 /// 観測時刻の入力精度。日付だけの事実へ時刻を推測してはならない。
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
@@ -282,6 +373,7 @@ pub(crate) struct MacroSignalContextEvent {
 mod signal_context_v1_tests {
     use super::{
         build_temporal_binding, classify_observation_time_precision, event_visible_at,
+        AiPolicyFrontierPacingLinkage, AiPolicyFrontierPacingLinkageStatus,
         AiPolicyFrontierPacingObservation, EvidenceRecord, MarketReaction,
         ObservationTimePrecision,
     };
@@ -344,6 +436,52 @@ mod signal_context_v1_tests {
             ..observation
         };
         assert!(!malformed_published_at.is_traceable());
+    }
+
+    #[test]
+    fn ai_policy_frontier_pacing_linkage_requires_explicit_lifecycle_evidence() {
+        let observation = AiPolicyFrontierPacingObservation {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            headline: "Policy frontier pacing remains gradual".to_string(),
+            provider: "fed".to_string(),
+        };
+        let evidence = EvidenceRecord {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            timestamp: "2026-09-18T14:00:00Z".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            event_type: "AI_POLICY_FRONTIER_PACING".to_string(),
+            subject: "Fed policy frontier".to_string(),
+            importance: "MEDIUM".to_string(),
+        };
+        let proposed = AiPolicyFrontierPacingLinkage {
+            hypothesis_id: "hypothesis-fed-pacing-1".to_string(),
+            observation_id: "observation-fed-pacing-1".to_string(),
+            status: AiPolicyFrontierPacingLinkageStatus::Proposed,
+            linked_event_id: None,
+            evidence: vec![evidence.clone()],
+            decided_at: None,
+            decision_source: None,
+        };
+        assert!(proposed.is_traceable(Some(&observation)));
+
+        let confirmed_without_human_decision = AiPolicyFrontierPacingLinkage {
+            status: AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman,
+            ..proposed.clone()
+        };
+        assert!(!confirmed_without_human_decision.is_traceable(Some(&observation)));
+
+        let confirmed = AiPolicyFrontierPacingLinkage {
+            status: AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman,
+            linked_event_id: Some("event-fed-policy-1".to_string()),
+            decided_at: Some("2026-09-18T15:00:00Z".to_string()),
+            decision_source: Some("human:repository-owner".to_string()),
+            evidence: vec![evidence],
+            ..proposed
+        };
+        assert!(confirmed.is_traceable(Some(&observation)));
     }
 
     #[test]
