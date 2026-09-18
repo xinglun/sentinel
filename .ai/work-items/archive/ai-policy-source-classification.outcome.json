@@ -231,7 +231,7 @@
     "workItemId": "ai-policy-source-classification"
   },
   "taskReportDigest": "sha256:388fbb83b9ed36db22d38eba8d3e105113d8feb0b9dc2b02351c068760b9b071",
-  "taskReportMarkdownDigest": "sha256:69c4499f4ee56ddc08e55e605809e44d7e902a23298cbf6ba553b687021ca116",
+  "taskReportMarkdownDigest": "sha256:61bb0d91d135f3ec2e66057c04d41797ff74fffe8f71f737f1ef3ad06d0d6ed4",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
