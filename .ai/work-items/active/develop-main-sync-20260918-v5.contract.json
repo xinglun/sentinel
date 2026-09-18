@@ -1,0 +1,39 @@
+{
+  "acceptanceCriteria": [
+    "同步 PR 的 head 精确从 origin/develop 当前提交创建，base 为 main",
+    "托管检查通过并以普通 merge 合并，不使用 admin 绕过",
+    "合并后 origin/main 与 origin/develop 的提交树一致，且 origin/develop 是 origin/main 的祖先",
+    "同步分支、同步 Work Item 工作树和本地分支在完成后精确清理，保留 develop 主工作树为最终本地检出"
+  ],
+  "authority": "authorized",
+  "baseRevision": "9f260c7a974ed190930881d03cf9e57d30420831",
+  "createdAt": "2026-09-18T14:27:22Z",
+  "goal": "把 origin/develop 的最新治理与产品修复同步到 origin/main；仅处理分支同步、托管检查、合并、验证和精确清理，不改变产品行为",
+  "intent": "将已验证的 develop 当前提交通过受控 PR 同步到 main，并在合并后验证两条主线一致",
+  "mode": "audit",
+  "outOfScope": [
+    "任何生产代码、测试行为、配置密钥、data 分支、Decision、Gate、Execution、Position Sizing、历史未闭合 Work Item 的重写或绕过"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:6d6c9a72ed9cfc3f0d30a9db36b16c6c58079d048cc18a61f987fbc7a0c2a111",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "同步 origin/develop=9f260c7a974ed190930881d03cf9e57d30420831 到 main；允许产生同步 PR 及该 Work Item 的治理证据；不得修改生产代码、配置、数据分支或交易逻辑"
+  ],
+  "sources": [
+    "origin/develop:9f260c7a974ed190930881d03cf9e57d30420831",
+    "origin/main:05e330bbc385ff968563ce3e82941c35aec3004a",
+    "explicit-user-authorization:完成后检查清理并同步到 main"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace"
+  ],
+  "workItemId": "develop-main-sync-20260918-v5"
+}
