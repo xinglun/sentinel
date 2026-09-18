@@ -1,0 +1,220 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/day-only-observation-precision.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9c1df6576d55fec20fbd617e1899131e4edc624126d32c67d3e6adfd0581bbba",
+      "workItemId": "day-only-observation-precision"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/day-only-observation-precision.verification-attempt.000c5413ca4d93024154779553534a800a658370a9cac2a39339592d46b0e99f.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/day-only-observation-precision.verification-attempt.a3e465885f33a6772483326de1a051e773ee85bbf508837d8ce259f7869a1717.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/day-only-observation-precision.verification-attempt.de3ccaf120f3d6e442d8af3ab37ea49aee4b4a513ef85d6301f8eef49822debb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/day-only-observation-precision.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/day-only-observation-precision.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/day-only-observation-precision.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-18-day-only-observation-precision.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_coverage.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/macro_signal_context_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/macro_event_observation.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/day-only-observation-precision.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/day-only-observation-precision.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            "PR #226",
+            ".ai/evidence/day-only-observation-precision.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization:继续，要全部完成 at 2026-09-18T15:11:51Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/day-only-observation-precision.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/day-only-observation-precision.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/day-only-observation-precision.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.contract.json"
+          ],
+          "inference": false,
+          "text": "为日期精度观测建立可追溯的 observation_time_precision，不推测缺失时刻，不改变 TemporalBinding 资格规则或任何交易逻辑"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/day-only-observation-precision.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "day-only-observation-precision"
+  },
+  "finalReportDigest": "sha256:50b7414b5af5d77c669032486cb3713fda155539d712d7736e3c5e6a2d4942d3",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:bca04944937bbede02ad01ae089ca9b71a278177fc3a6c5da78ab747cf0faa18",
+    "branch": "codex/day-only-observation-precision-20260918",
+    "branchRef": "refs/heads/codex/day-only-observation-precision-20260918",
+    "capturedAt": "2026-09-18T15:12:58Z",
+    "contractDigest": "sha256:9c1eaf21d57d8029f6faa0371036d14f1d49dbc78c75b8280794531404b38e6d",
+    "headRevision": "dbbac50435e7145dde276b5eca20b1089603014f",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "day-only-observation-precision",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel1",
+    "worktreeId": "sha256:e0ed57f27f55ca3bf261357dd73f9242d9894feaf3b29991a60d03545ada7865",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/day-only-observation-precision-20260918/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:a121dc39982f30247f7edb9b1a0f7be9a44d0fa997df592316f8774eeec61568",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization:继续，要全部完成",
+    "decidedAt": "2026-09-18T15:11:51Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      "PR #226",
+      ".ai/evidence/day-only-observation-precision.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "用户授权完成 4b Work Item 的交付、合并、关闭与后续继续推进",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T15:12:58Z",
+  "workItemId": "day-only-observation-precision"
+}
