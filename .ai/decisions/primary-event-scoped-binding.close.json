@@ -1,0 +1,162 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/primary-event-scoped-binding.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1b2fb0bc33e882af05752ac4ca0994c231bc4d102c8a386533425bb87e071227",
+      "workItemId": "primary-event-scoped-binding"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/primary-event-scoped-binding.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/primary-event-scoped-binding.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/primary-event-scoped-binding.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/primary-event-scoped-binding.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/primary-event-scoped-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization:继续，全部对应 at 2026-09-18T13:06:38Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/primary-event-scoped-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/primary-event-scoped-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/primary-event-scoped-binding.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变 TemporalBinding 时间资格不变量、Decision 或交易行为的前提下，让 Primary Event scoped binding 成为 read model 的唯一展示筛选边界。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/primary-event-scoped-binding.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "primary-event-scoped-binding"
+  },
+  "finalReportDigest": "sha256:7e0ccebe60bf429c1d954a9c401eccc00c5322ed7585d8376f59c59089128e9e",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:056214294c05832c9330b081233114a6e8525b58acfad191a31e27d9021bbcb6",
+    "branch": "codex/primary-event-scoped-binding-20260918",
+    "branchRef": "refs/heads/codex/primary-event-scoped-binding-20260918",
+    "capturedAt": "2026-09-18T13:07:46Z",
+    "contractDigest": "sha256:cff6fe535f14b9f933bdef9a4c41da943a0e36a7a42795edb21dea69d88c1d49",
+    "headRevision": "994a9f8f934992bd55a0737ae190373f94a582c5",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "workItemId": "primary-event-scoped-binding",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel2",
+    "worktreeId": "sha256:b30ddefcd1ace31744080f36aee872de80fabda572b473a7e94fd2a06dad3904",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/primary-event-scoped-binding/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:24174f42ff246f9836e70936e4b5654edf3b848f69dd5ece4b18be20c1bbeacb",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization:继续，全部对应",
+    "decidedAt": "2026-09-18T13:06:38Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/primary-event-scoped-binding.verification.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #219 已通过 hosted checks 并合并到 develop；verification 已通过，改动仅限 Primary Event scoped MarketObservation 展示过滤，不改变 TemporalBinding、Decision、Gate 或交易行为。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-18T13:07:46Z",
+  "workItemId": "primary-event-scoped-binding"
+}
