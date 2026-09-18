@@ -1,0 +1,65 @@
+{
+  "predecessorReceiptDigest": "sha256:3c727fd7e27d0cde12f0c9687ba6c3f31e5600e5eda3694b92393a572927871d",
+  "receipt": {
+    "actor": "user",
+    "after": {
+      "branch": "deleted",
+      "pullRequest": "merged",
+      "worktree": "removed"
+    },
+    "authoritySource": "authorized:user-message:我授权给你，按WI流程完成全部任务。",
+    "before": {
+      "branch": "present",
+      "pullRequest": "merged",
+      "worktree": "clean"
+    },
+    "branch": {
+      "headRevision": "0ab56e5e18b77cf83fd665949a80fa3f09036431",
+      "name": "codex/develop-main-sync-20260918",
+      "remote": "origin"
+    },
+    "contractBaseRevision": "2b2da038a58262fba31c437c74d88f2717e06942",
+    "contractDigest": "sha256:cc84628e8add0f353ddc48a5da1ef69b06b34f1fc61b66d3d736d8be4b04064c",
+    "operationId": "1fc0ea97-e161-4528-ba04-f83c6ce7879f",
+    "provider": "github",
+    "pullRequest": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "baseRevision": "1a7dddc08cbea0cd70ab5aecbb5fc7534fcabc4d",
+      "headRevision": "0ab56e5e18b77cf83fd665949a80fa3f09036431",
+      "mergeCommit": "a7f27d9cb4cb07c4b8069384a3610b33433a5e5c",
+      "number": 204,
+      "url": "https://github.com/xinglun/sentinel/pull/204"
+    },
+    "reason": "PR #204 与 merge observation #205 已合并；已验证原始同步 worktree 与 remote branch 均精确删除，保留 merged PR 与审计证据。",
+    "receiptId": "9622beb5-b89a-45df-a51b-fe08457fea72",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "resourceContext": {
+      "baseBranch": "main",
+      "baseRemote": "origin",
+      "branch": "codex/develop-main-sync-20260918",
+      "provider": "github",
+      "pullRequest": "https://github.com/xinglun/sentinel/pull/204",
+      "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-develop-main-sync-20260918"
+    },
+    "result": {
+      "disposition": "deleted",
+      "failureCodes": [],
+      "unknownCodes": []
+    },
+    "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+    "runtimeVersion": "0.2.98",
+    "schemaVersion": 1,
+    "timestamp": "2026-09-18T08:44:01Z",
+    "workItemId": "develop-main-sync-20260918",
+    "worktree": {
+      "branch": "codex/develop-main-sync-20260918",
+      "headRevision": "0ab56e5e18b77cf83fd665949a80fa3f09036431",
+      "path": "/Users/sei-rinn/dev/workspace_rust/sentinel/.worktrees/codex-develop-main-sync-20260918",
+      "worktreeId": "codex-develop-main-sync-20260918"
+    }
+  },
+  "schemaVersion": 1,
+  "sequence": 2,
+  "transitionId": "1fc0ea97-e161-4528-ba04-f83c6ce7879f"
+}
