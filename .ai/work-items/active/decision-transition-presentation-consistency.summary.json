@@ -1,0 +1,83 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/decision-transition-presentation-consistency.contract.json",
+    ".ai/work-items/active/decision-transition-presentation-consistency.summary.json"
+  ],
+  "checkpointAt": "2026-09-18T10:30:42Z",
+  "checkpointContractDigest": "sha256:d0f8c82007e65d462ecbc7df9f4aaff1c2377c693878c3c6c81d0569922e4419",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d0f8c82007e65d462ecbc7df9f4aaff1c2377c693878c3c6c81d0569922e4419",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:30:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:91fef1281c52d62348c92213a8ca99abc6ebebf331a1af53541dbfefa8293127",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "decision-transition-presentation-consistency"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7683d21b3b86a2b528fbaa9acba0888cb2b9a7675594241338a0fa19a3d29281",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d0f8c82007e65d462ecbc7df9f4aaff1c2377c693878c3c6c81d0569922e4419",
+      "previousContractHash": "sha256:d0f8c82007e65d462ecbc7df9f4aaff1c2377c693878c3c6c81d0569922e4419",
+      "reason": "将实现后实际需要的展示一致性场景与项目质量门禁固化到 Contract",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:38:53Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b2d03be894e1c927a9c0c46d9a1827f3281592adc7e42ccc715797da2ea7276a",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "decision-transition-presentation-consistency"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:f62c04c9d68510e2346ab868dd231ba3bde38be7d447e1c8e254557df4122d5c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:d0f8c82007e65d462ecbc7df9f4aaff1c2377c693878c3c6c81d0569922e4419",
+      "previousContractHash": "sha256:7683d21b3b86a2b528fbaa9acba0888cb2b9a7675594241338a0fa19a3d29281",
+      "reason": "将本次实际代码、计划文档与 Runtime 证据路径固化到同一 Work Item scope",
+      "recorded": true,
+      "recordedAt": "2026-09-18T10:44:34Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1709792b7af5fb7b39cf54410dbbdbceecba7871cce48e1c7c24bec60a4bf61b",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "decision-transition-presentation-consistency"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:91fef1281c52d62348c92213a8ca99abc6ebebf331a1af53541dbfefa8293127",
+  "createdAt": "2026-09-18T10:30:28Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T10:52:53Z",
+  "preflightContractDigest": "sha256:f62c04c9d68510e2346ab868dd231ba3bde38be7d447e1c8e254557df4122d5c",
+  "preflightDecisionDigest": "sha256:6a2ff4a7c7d73864678023bd1b2ead11cc84f92f35d98a63c6f1477b5efbc6bb",
+  "preflightRepositorySnapshotDigest": "sha256:1709792b7af5fb7b39cf54410dbbdbceecba7871cce48e1c7c24bec60a4bf61b",
+  "preflightState": "red",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-18T10:30:42Z",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:f62c04c9d68510e2346ab868dd231ba3bde38be7d447e1c8e254557df4122d5c",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-18T10:44:34Z"
+  },
+  "workItemId": "decision-transition-presentation-consistency"
+}

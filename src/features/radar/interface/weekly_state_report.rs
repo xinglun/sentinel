@@ -3,7 +3,8 @@ use chrono::NaiveDate;
 use serde_json::json;
 use std::collections::BTreeMap;
 
-use crate::features::shared::interface::i18n::Language;
+use crate::features::radar::interface::{risk_taxonomy_read_model, strategic_context_read_model};
+use crate::features::shared::interface::i18n::{get_dictionary, Language};
 
 #[derive(Clone)]
 pub(crate) struct WeeklyReportContext {
@@ -83,6 +84,7 @@ pub(crate) fn persist_weekly_state_outputs(
         &context.capital_absorption_ipo_queue,
         &context.capital_dynamics_flow_layer,
         &context.expectation_layer,
+        pres_packet.language,
     );
     let state_machine_summaries =
         load_weekly_state_machine_summaries(save_dir, current_packet.date, current_state_machine);
@@ -313,19 +315,27 @@ fn build_weekly_latest_context(
     capital_absorption_ipo_queue: &serde_json::Value,
     capital_dynamics_flow_layer: &serde_json::Value,
     expectation_layer: &serde_json::Value,
+    language: Language,
 ) -> serde_json::Value {
-    let trend_breadth_mode = pres_packet
-        .transition_evidence
-        .as_ref()
-        .map(|evidence| format!("{:?}", evidence.trend_breadth_mode));
-    let market_cycle_position = pres_packet
-        .transition_evidence
-        .as_ref()
-        .map(|evidence| format!("{:?}", evidence.market_cycle_position));
-    let holding_efficiency = pres_packet
-        .transition_evidence
-        .as_ref()
-        .map(|evidence| format!("{:?}", evidence.holding_efficiency));
+    let dictionary = get_dictionary(language);
+    let trend_breadth_mode = pres_packet.transition_evidence.as_ref().map(|evidence| {
+        strategic_context_read_model::map_trend_breadth_mode(
+            evidence.trend_breadth_mode,
+            &dictionary,
+        )
+        .to_string()
+    });
+    let market_cycle_position = pres_packet.transition_evidence.as_ref().map(|evidence| {
+        risk_taxonomy_read_model::map_market_cycle_position(
+            evidence.market_cycle_position,
+            &dictionary,
+        )
+        .to_string()
+    });
+    let holding_efficiency = pres_packet.transition_evidence.as_ref().map(|evidence| {
+        risk_taxonomy_read_model::map_holding_efficiency(evidence.holding_efficiency, &dictionary)
+            .to_string()
+    });
     let strategic_context = pres_packet
         .transition_evidence
         .as_ref()
@@ -1638,6 +1648,56 @@ mod tests {
     }
 
     #[test]
+    fn weekly_transition_snapshot_uses_localized_semantics_instead_of_debug_enums() {
+        let packet = crate::features::radar::interface::presentation::PresentationPacket {
+            language: Language::ZhCn,
+            transition_evidence: Some(
+                crate::features::radar::interface::presentation::StateTransitionViewModel {
+                    trend_breadth_mode:
+                        crate::features::radar::interface::presentation::TrendBreadthMode::BroadExpansion,
+                    market_cycle_position:
+                        crate::features::radar::interface::presentation::MarketCyclePosition::EarlyFormation,
+                    holding_efficiency:
+                        crate::features::radar::interface::presentation::HoldingEfficiency::Efficient,
+                    ..Default::default()
+                },
+            ),
+            ..Default::default()
+        };
+        let empty = serde_json::json!({});
+        let latest = build_weekly_latest_context(
+            &packet,
+            &WeeklyReportContext {
+                macro_gravity: None,
+                research_attention_entries: 0,
+                asset_thesis_entries: 0,
+                capital_absorption_ipo_queue: empty.clone(),
+                capital_dynamics_flow_layer: empty.clone(),
+                expectation_layer: empty,
+            },
+            &serde_json::json!({}),
+            &serde_json::json!({}),
+            &serde_json::json!({}),
+            Language::ZhCn,
+        );
+        let dictionary = crate::features::shared::interface::i18n::get_dictionary(Language::ZhCn);
+
+        assert_eq!(
+            latest["trend_breadth_mode"],
+            dictionary.trend_recognition.trend_breadth_broad_expansion
+        );
+        assert_eq!(
+            latest["market_cycle_position"],
+            dictionary.trend_recognition.cycle_position_early
+        );
+        assert_eq!(
+            latest["holding_efficiency"],
+            dictionary.transition_evidence.holding_efficiency_efficient
+        );
+        assert_ne!(latest["trend_breadth_mode"], "BroadExpansion");
+    }
+
+    #[test]
     fn weekly_capital_absorption_review_section_keeps_observation_boundary() {
         let summary = serde_json::json!({
             "configured": true,
@@ -1935,6 +1995,7 @@ mod tests {
             &supply,
             &flow,
             &expectation,
+            Language::ZhCn,
         );
 
         assert_eq!(latest["capital_dynamics"]["supply_layer"], supply);

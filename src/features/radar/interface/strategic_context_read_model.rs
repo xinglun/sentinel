@@ -115,6 +115,19 @@ pub(crate) fn build_strategic_context(
     context
 }
 
+pub(crate) fn map_trend_breadth_mode(
+    breadth_mode: TrendBreadthMode,
+    dict: &DisplayDictionary,
+) -> &str {
+    let tr = &dict.trend_recognition;
+    match breadth_mode {
+        TrendBreadthMode::BroadExpansion => &tr.trend_breadth_broad_expansion,
+        TrendBreadthMode::NarrowLeadership => &tr.trend_breadth_narrow_leadership,
+        TrendBreadthMode::FragileRotation => &tr.trend_breadth_fragile_rotation,
+        TrendBreadthMode::StructuralDefense => &tr.trend_breadth_structural_defense,
+    }
+}
+
 pub(crate) fn format_macro_gravity_lines(
     macro_gravity: &MacroGravitySnapshot,
     dict: &DisplayDictionary,
