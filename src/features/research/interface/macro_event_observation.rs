@@ -28,6 +28,10 @@ pub struct AiPolicyFrontierPacingObservation {
     pub headline: String,
     #[serde(default)]
     pub provider: String,
+    #[serde(default)]
+    pub policy_type: String,
+    #[serde(default)]
+    pub policy_stage: String,
 }
 
 impl AiPolicyFrontierPacingObservation {
@@ -38,7 +42,33 @@ impl AiPolicyFrontierPacingObservation {
             && DateTime::parse_from_rfc3339(self.source_published_at.trim()).is_ok()
             && !self.headline.trim().is_empty()
             && !self.provider.trim().is_empty()
+            && valid_ai_policy_type(&self.policy_type)
+            && valid_ai_policy_stage(&self.policy_stage)
     }
+}
+
+fn valid_ai_policy_type(value: &str) -> bool {
+    matches!(
+        value.trim(),
+        "FRONTIER_PACING"
+            | "TRAINING_COMPUTE_RESTRICTION"
+            | "AI_SAFETY_COORDINATION"
+            | "LEGISLATIVE_PROPOSAL"
+            | "MODEL_RELEASE_RESTRICTION"
+            | "DEPLOYMENT_RESTRICTION"
+    )
+}
+
+fn valid_ai_policy_stage(value: &str) -> bool {
+    matches!(
+        value.trim(),
+        "DISCUSSION"
+            | "INDUSTRY_PROPOSAL"
+            | "LEGISLATIVE_PROPOSAL"
+            | "FORMAL_RULEMAKING"
+            | "ENACTED"
+            | "EFFECTIVE"
+    )
 }
 
 /// AI Policy frontier pacing observation と hypothesis の明示的な linkage 状態。
@@ -305,6 +335,8 @@ pub(crate) struct MacroSignalContextReadModel {
     pub rates_credit: MacroSignalContextSource,
     pub commodity: MacroSignalContextSource,
     pub geopolitical: MacroSignalContextSource,
+    #[serde(default)]
+    pub ai_policy_frontier_pacing_observation: Option<AiPolicyFrontierPacingObservation>,
     pub observed_market_reactions: Vec<MarketReaction>,
 }
 
@@ -422,6 +454,8 @@ mod signal_context_v1_tests {
             source_published_at: "2026-09-18T14:00:00Z".to_string(),
             headline: "Policy frontier pacing remains gradual".to_string(),
             provider: "fed".to_string(),
+            policy_type: "FRONTIER_PACING".to_string(),
+            policy_stage: "DISCUSSION".to_string(),
         };
         assert!(observation.is_traceable());
 
@@ -433,9 +467,15 @@ mod signal_context_v1_tests {
 
         let malformed_published_at = AiPolicyFrontierPacingObservation {
             source_published_at: "2026-09-18".to_string(),
-            ..observation
+            ..observation.clone()
         };
         assert!(!malformed_published_at.is_traceable());
+
+        let unsupported_policy_stage = AiPolicyFrontierPacingObservation {
+            policy_stage: "ENACTED_OR_PROPOSED".to_string(),
+            ..observation
+        };
+        assert!(!unsupported_policy_stage.is_traceable());
     }
 
     #[test]
@@ -446,6 +486,8 @@ mod signal_context_v1_tests {
             source_published_at: "2026-09-18T14:00:00Z".to_string(),
             headline: "Policy frontier pacing remains gradual".to_string(),
             provider: "fed".to_string(),
+            policy_type: "FRONTIER_PACING".to_string(),
+            policy_stage: "DISCUSSION".to_string(),
         };
         let evidence = EvidenceRecord {
             source: "official_fed_statement".to_string(),

@@ -1,4 +1,5 @@
 use crate::config::AppConfig;
+use crate::features::research::infrastructure::ai_policy_source_classifier::classify_ai_policy_text;
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, Duration, NaiveDate, Utc};
 use serde::Deserialize;
@@ -12,6 +13,7 @@ pub(crate) struct MacroSignalContextProviderReadModel {
     pub rates_credit: MacroSignalContextProviderSource,
     pub commodity: MacroSignalContextProviderSource,
     pub geopolitical: MacroSignalContextProviderSource,
+    pub ai_policy_frontier_pacing_observation: Option<ProviderAiPolicyObservation>,
     pub observed_market_reactions: Vec<ProviderMarketReaction>,
 }
 
@@ -77,6 +79,17 @@ pub(crate) struct ProviderEvidenceRecord {
     pub event_type: String,
     pub subject: String,
     pub importance: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct ProviderAiPolicyObservation {
+    pub source: String,
+    pub source_url: String,
+    pub source_published_at: String,
+    pub headline: String,
+    pub provider: String,
+    pub policy_type: String,
+    pub policy_stage: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -295,6 +308,7 @@ pub(crate) async fn load_macro_signal_context(
                 rates_credit: unavailable_source(format!("HTTP client unavailable: {err}")),
                 commodity: unavailable_source("HTTP client unavailable".to_string()),
                 geopolitical: unavailable_source("HTTP client unavailable".to_string()),
+                ai_policy_frontier_pacing_observation: None,
                 observed_market_reactions: Vec::new(),
             }
         }
@@ -325,7 +339,7 @@ pub(crate) async fn load_macro_signal_context(
         report_run_at.to_rfc3339().as_str(),
     )
     .await;
-    let geopolitical = load_finnhub_geopolitical_source(
+    let (geopolitical, ai_policy_frontier_pacing_observation) = load_finnhub_news_source(
         &client,
         app_config
             .finnhub
@@ -341,6 +355,7 @@ pub(crate) async fn load_macro_signal_context(
         rates_credit: rates.0,
         commodity: commodity.0,
         geopolitical: geopolitical.0,
+        ai_policy_frontier_pacing_observation,
         observed_market_reactions,
     }
 }
@@ -612,6 +627,7 @@ fn commodity_information_level(
     }
 }
 
+#[cfg(test)]
 async fn load_finnhub_geopolitical_source(
     client: &reqwest::Client,
     api_key: Option<&str>,
@@ -621,10 +637,30 @@ async fn load_finnhub_geopolitical_source(
     MacroSignalContextProviderSource,
     Vec<ProviderMarketReaction>,
 ) {
+    let (geopolitical, _) =
+        load_finnhub_news_source(client, api_key, market_date, accepted_at).await;
+    geopolitical
+}
+
+async fn load_finnhub_news_source(
+    client: &reqwest::Client,
+    api_key: Option<&str>,
+    market_date: NaiveDate,
+    accepted_at: &str,
+) -> (
+    (
+        MacroSignalContextProviderSource,
+        Vec<ProviderMarketReaction>,
+    ),
+    Option<ProviderAiPolicyObservation>,
+) {
     let Some(api_key) = api_key.filter(|key| !key.trim().is_empty()) else {
         return (
-            unavailable_source("Finnhub API key is not configured".to_string()),
-            Vec::new(),
+            (
+                unavailable_source("Finnhub API key is not configured".to_string()),
+                Vec::new(),
+            ),
+            None,
         );
     };
     let response = match client
@@ -636,27 +672,36 @@ async fn load_finnhub_geopolitical_source(
         Ok(response) => response,
         Err(_err) => {
             return (
-                degraded_source("Finnhub request failed".to_string()),
-                Vec::new(),
+                (
+                    degraded_source("Finnhub request failed".to_string()),
+                    Vec::new(),
+                ),
+                None,
             )
         }
     };
     if !response.status().is_success() {
         return (
-            degraded_source(format!("Finnhub returned {}", response.status())),
-            Vec::new(),
+            (
+                degraded_source(format!("Finnhub returned {}", response.status())),
+                Vec::new(),
+            ),
+            None,
         );
     }
     let raw = match response.text().await {
         Ok(raw) => raw,
         Err(err) => {
             return (
-                degraded_source(format!("Finnhub response body unavailable: {err}")),
-                Vec::new(),
+                (
+                    degraded_source(format!("Finnhub response body unavailable: {err}")),
+                    Vec::new(),
+                ),
+                None,
             )
         }
     };
-    match parse_finnhub_geopolitical_items(&raw, market_date, accepted_at) {
+    let geopolitical = match parse_finnhub_geopolitical_items(&raw, market_date, accepted_at) {
         Ok((events, malformed_count)) => {
             let diagnostics = (malformed_count > 0).then(|| {
                 format!("Finnhub skipped {malformed_count} malformed escalation candidate(s)")
@@ -678,7 +723,11 @@ async fn load_finnhub_geopolitical_source(
             degraded_source(format!("Finnhub JSON invalid: {err}")),
             Vec::new(),
         ),
-    }
+    };
+    let ai_policy = parse_finnhub_ai_policy_items(&raw, market_date)
+        .ok()
+        .and_then(|(observation, _)| observation);
+    (geopolitical, ai_policy)
 }
 
 fn parse_finnhub_geopolitical_items(
@@ -767,6 +816,72 @@ fn parse_finnhub_geopolitical_items(
     Ok((events, malformed_count))
 }
 
+fn parse_finnhub_ai_policy_items(
+    raw: &str,
+    market_date: NaiveDate,
+) -> Result<(Option<ProviderAiPolicyObservation>, usize)> {
+    let items: Vec<Value> = serde_json::from_str(raw).context("invalid Finnhub JSON")?;
+    let mut malformed_count = 0;
+    let mut latest: Option<(i64, ProviderAiPolicyObservation)> = None;
+    for item in items {
+        let Some(headline) = item
+            .get("headline")
+            .and_then(Value::as_str)
+            .map(str::trim)
+            .filter(|headline| !headline.is_empty())
+        else {
+            continue;
+        };
+        let summary = item.get("summary").and_then(Value::as_str).unwrap_or("");
+        let Some(classification) = classify_ai_policy_text(&format!("{headline} {summary}")) else {
+            continue;
+        };
+        let Some(datetime) = item
+            .get("datetime")
+            .and_then(Value::as_i64)
+            .and_then(|timestamp| DateTime::from_timestamp(timestamp, 0))
+        else {
+            malformed_count += 1;
+            continue;
+        };
+        if datetime.date_naive() > market_date {
+            continue;
+        }
+        let source = item
+            .get("source")
+            .and_then(Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty());
+        let source_url = item
+            .get("url")
+            .and_then(Value::as_str)
+            .map(str::trim)
+            .filter(|value| !value.is_empty());
+        let (Some(source), Some(source_url)) = (source, source_url) else {
+            malformed_count += 1;
+            continue;
+        };
+        let source_published_at = datetime.to_rfc3339();
+        let observation = ProviderAiPolicyObservation {
+            source: source.to_string(),
+            source_url: source_url.to_string(),
+            source_published_at,
+            headline: headline.to_string(),
+            provider: "Finnhub".to_string(),
+            policy_type: classification.policy_type.to_string(),
+            policy_stage: classification.policy_stage.to_string(),
+        };
+        if latest
+            .as_ref()
+            .map(|(timestamp, _)| datetime.timestamp() >= *timestamp)
+            .unwrap_or(true)
+        {
+            latest = Some((datetime.timestamp(), observation));
+        }
+    }
+    Ok((latest.map(|(_, observation)| observation), malformed_count))
+}
+
 fn information_level_name(level: MacroSignalContextProviderInformationLevel) -> &'static str {
     match level {
         MacroSignalContextProviderInformationLevel::High => "HIGH",
@@ -797,10 +912,10 @@ mod tests {
     use super::{
         build_fred_event, build_fred_reactions, classify_geopolitical_text,
         commodity_information_level, information_level_name, load_finnhub_geopolitical_source,
-        load_fred_source, matches_geopolitical_keyword, parse_finnhub_geopolitical_items,
-        parse_fred_series_observations, rate_information_level, FredSeriesResult,
-        MacroSignalContextProviderInformationLevel, MacroSignalContextProviderLifecycle,
-        ParsedFredSeries, FRED_SERIES_RATES,
+        load_fred_source, matches_geopolitical_keyword, parse_finnhub_ai_policy_items,
+        parse_finnhub_geopolitical_items, parse_fred_series_observations, rate_information_level,
+        FredSeriesResult, MacroSignalContextProviderInformationLevel,
+        MacroSignalContextProviderLifecycle, ParsedFredSeries, FRED_SERIES_RATES,
     };
     use chrono::NaiveDate;
 
@@ -1107,5 +1222,35 @@ mod tests {
             MacroSignalContextProviderLifecycle::Aftermath
         );
         assert_eq!(events[0].event_fact, "Iran talks affect energy market");
+    }
+
+    #[test]
+    fn finnhub_ai_policy_parser_keeps_provenance_and_rejects_unrelated_news() {
+        let news = r#"[
+            {"datetime":1788825600,"headline":"Industry leaders call for slowing frontier AI development","summary":"The group asks for a voluntary pause.","source":"Structured News","url":"https://example.test/policy"},
+            {"datetime":1788825600,"headline":"AI startup pauses hiring","summary":"The company reduces recruiting.","source":"Structured News","url":"https://example.test/business"},
+            {"datetime":1788825600,"headline":"Lawmakers introduce bill to pause advanced AI development","summary":"The bill is under debate.","source":"Structured News","url":"https://example.test/bill"},
+            {"datetime":1788825600,"headline":"Government enacts an advanced AI deployment restriction","summary":"The restriction is now law.","source":"Structured News","url":"https://example.test/enacted"},
+            {"datetime":1788825600,"headline":"Industry leaders call for slowing frontier AI development","summary":"Missing URL is not traceable.","source":"Structured News"},
+            {"headline":"Lawmakers introduce bill to pause advanced AI development","summary":"Missing publication time is malformed.","source":"Structured News","url":"https://example.test/malformed"}
+        ]"#;
+
+        let (observation, malformed) = parse_finnhub_ai_policy_items(
+            news,
+            NaiveDate::from_ymd_opt(2026, 9, 8).expect("valid date"),
+        )
+        .expect("valid Finnhub response");
+
+        let observation = observation.expect("latest valid policy observation");
+        assert_eq!(malformed, 2);
+        assert_eq!(observation.source, "Structured News");
+        assert_eq!(observation.source_url, "https://example.test/enacted");
+        assert_eq!(
+            observation.headline,
+            "Government enacts an advanced AI deployment restriction"
+        );
+        assert_eq!(observation.provider, "Finnhub");
+        assert_eq!(observation.policy_type, "DEPLOYMENT_RESTRICTION");
+        assert_eq!(observation.policy_stage, "ENACTED");
     }
 }

@@ -1,0 +1,244 @@
+{
+  "acceptanceResults": [
+    "AI Policy candidate は完全な source/source_url/source_published_at/headline/provider provenance があり、source_published_at が RFC3339 の場合だけ observation を生成する。欠損・空・不正 timestamp・malformed text は geopolitical matcher と同じく fail-closed で no observation とする。",
+    "deterministic matcher は provider の既存 headline/body 候補から policy_type を FRONTIER_PACING、TRAINING_COMPUTE_RESTRICTION、AI_SAFETY_COORDINATION、LEGISLATIVE_PROPOSAL、MODEL_RELEASE_RESTRICTION、DEPLOYMENT_RESTRICTION のいずれかに解決し、未確定時は分類しない。",
+    "policy_stage は DISCUSSION、INDUSTRY_PROPOSAL、LEGISLATIVE_PROPOSAL、FORMAL_RULEMAKING、ENACTED、EFFECTIVE のいずれかに解決する。discussion != effective restriction、proposal != enacted を回帰テストで固定する。",
+    "正例として industry leaders call for slowing frontier AI development -> INDUSTRY_PROPOSAL、lawmakers introduce bill to pause advanced AI development -> LEGISLATIVE_PROPOSAL、government enacts an advanced AI deployment restriction -> ENACTED を受け入れる。AI startup pauses hiring -> no AI Policy observation とする。",
+    "生成された observation は既存 AiPolicyFrontierPacingObservation の source provenance を保持し、Signal Context、Markdown、Telegram HTML、weekly audit の既存 observation-only 出力へ接続する。renderer は候補分類を行わない。",
+    "classification は observation-only であり decision_weight=0 を維持し、Decision/Gate/Execution/Position Sizing/Primary Context ranking/TemporalBinding/MarketObservation の動作を変更しない。",
+    "verification は focused AI Policy tests、make fmt-check、make test、make clippy、make quality、make check-signal-context-consistency を実行し、既存 coverage threshold failure は成功として偽装せず residual risk/evidence として記録する。"
+  ],
+  "createdAt": "2026-09-18T18:03:52Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:e27548b0a48fbb8ee58e37c9766c8c2718729d70a7e90e7e7b77167375be4d32",
+  "evidenceRefs": [
+    ".ai/evidence/ai-policy-source-classification.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/ai-policy-source-classification.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ai-policy-source-classification.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+      "workItemId": "ai-policy-source-classification"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification.verification-attempt.5f64ee31904b99b3a70dde3088e13bef62792bbc2a0e0fab55512e69229d9f54.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ai-policy-source-classification.verification-attempt.963ea736a175547bc2bc9b5a20ba67ed217da1cbb4a81b6a20704d88f5a00121.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/ai-policy-source-classification.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification.events.jsonl"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ai-policy-source-classification.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-19-ai-policy-source-classification.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_coverage.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/signal_context_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/macro_signal_context_provider_factory.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/ai_policy_source_classifier.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/macro_signal_context_provider.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/infrastructure/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/interface/macro_event_observation.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ai-policy-source-classification.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ai-policy-source-classification.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.contract.json"
+          ],
+          "inference": false,
+          "text": "既存 provider の headline/body と provenance から、決定論的かつ fail-closed に policy_type と policy_stage を解決し、AiPolicyFrontierPacingObservation として保存・表示できる状態にする。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ai-policy-source-classification.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "ai-policy-source-classification"
+  },
+  "taskReportDigest": "sha256:388fbb83b9ed36db22d38eba8d3e105113d8feb0b9dc2b02351c068760b9b071",
+  "taskReportMarkdownDigest": "sha256:61bb0d91d135f3ec2e66057c04d41797ff74fffe8f71f737f1ef3ad06d0d6ed4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/ai-policy-source-classification.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "ai-policy-source-classification"
+}

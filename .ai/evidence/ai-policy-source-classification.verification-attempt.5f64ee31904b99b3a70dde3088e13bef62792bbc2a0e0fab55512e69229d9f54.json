@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:5f64ee31904b99b3a70dde3088e13bef62792bbc2a0e0fab55512e69229d9f54",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "cb4475efd66d36349870e3592edc3f5e7888735a",
+      "commandDigest": "sha256:aec6328a8be7524be5620d606ffc0bfb739a873c3a0781ac29cb41a2000812ee",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:5f8e05f3885a3b507bf4d39c5bfc621b39a2a386f968ca3b9424f8d1888e83ea",
+  "contractExecutionScopeDigest": "sha256:2b637b3390a3c74b12e8cc0636eb771352fe203ee4d7353ec73b2bd84af85dc9",
+  "createdAt": "2026-09-18T17:52:18Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/ai-policy-source-classification/sentinel/.ai/work-items/active/ai-policy-source-classification.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:14ff0f73d48766ddc8f49b59934e789d91216a37e5d6ddaf16926c64a3d88677",
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "ai-policy-source-classification"
+}
