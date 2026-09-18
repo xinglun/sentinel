@@ -15,38 +15,38 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.586a534869f344c2cdeadd00f16c73c950914426068186936324a777690bb2e3.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+        "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260918-v5.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.summary.json"
+        "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260918-v5.summary.json"
       }
     ],
     "evidence": [
@@ -102,7 +102,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.contract.json"
         ],
         "inference": false,
         "text": "把 origin/develop 的最新治理与产品修复同步到 origin/main；仅处理分支同步、托管检查、合并、验证和精确清理，不改变产品行为"
@@ -111,7 +111,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/develop-main-sync-20260918-v5.contract.json"
+          ".ai/work-items/archive/develop-main-sync-20260918-v5.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

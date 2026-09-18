@@ -1,6 +1,6 @@
 # Task Outcome Report
 
-- Work Item: `develop-main-sync-20260918-v5`
+- Work Item: `develop-main-sync-20260919-v6`
 - Status: `verified`
 - Human status color: `green`
 
@@ -10,15 +10,14 @@
 
 ## Task overview
 
-- 把 origin/develop 的最新治理与产品修复同步到 origin/main；仅处理分支同步、托管检查、合并、验证和精确清理，不改变产品行为
+- 通过独立 reviewed PR 将 develop 快进同步到 main，并验证两条默认分支一致
 
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.586a534869f344c2cdeadd00f16c73c950914426068186936324a777690bb2e3.json
-- Changed path: .ai/evidence/develop-main-sync-20260918-v5.verification-attempt.b479d53d6cd6003287809e37df3c849e0650d75cb01b25c8cdd15d279b8d2056.json
-- Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.contract.json
-- Changed path: .ai/work-items/active/develop-main-sync-20260918-v5.summary.json
+- Changed path: .ai/evidence/develop-main-sync-20260919-v6.verification-attempt.bc3e5f81bd9d465db2bd2f7f78a9ed8f28cecb02deb60120f957ff308c3bed73.json
+- Changed path: .ai/work-items/archive/develop-main-sync-20260919-v6.contract.json
+- Changed path: .ai/work-items/archive/develop-main-sync-20260919-v6.summary.json
 
 ## Findings
 
@@ -66,5 +65,5 @@
 
 ## Evidence
 
-- .ai/evidence/develop-main-sync-20260918-v5.verification.json
+- .ai/evidence/develop-main-sync-20260919-v6.verification.json
 

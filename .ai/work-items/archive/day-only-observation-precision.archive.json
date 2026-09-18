@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T15:12:17Z",
+  "files": {
+    "contractDigest": "sha256:b1b3c50d11647957fff3e2d5d79b4cfeab46242953f9b94c7e9e1ffe8fa9d32c",
+    "contractPath": ".ai/work-items/archive/day-only-observation-precision.contract.json",
+    "eventsDigest": "sha256:48ec1e8b9e3cee1b5a0177e1e79397b05a4d031fe5e9390e55b40c74541b8048",
+    "eventsPath": ".ai/work-items/archive/day-only-observation-precision.events.jsonl",
+    "outcomeDigest": "sha256:f430cb90646cbe029a60f0f119010a1e4395de216d2ce725d5277ba0e97ce680",
+    "outcomePath": ".ai/work-items/archive/day-only-observation-precision.outcome.json",
+    "summaryDigest": "sha256:75f4e9b6c4626bd5fe42a7d41dff303b3f0ecfbffe4f56b88717b3922452081b",
+    "summaryPath": ".ai/work-items/archive/day-only-observation-precision.summary.json",
+    "taskReportDigest": "sha256:d072c4af4a43ad463a23afe4894cf7b91b3486440786ac13278b8caedb0845ec",
+    "taskReportMarkdownDigest": "sha256:80c8929d1fbd4796b36a6aeda814597f10355ca33659978a3d1ff46021649c30",
+    "taskReportMarkdownPath": ".ai/work-items/archive/day-only-observation-precision.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/day-only-observation-precision.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "day-only-observation-precision"
+}

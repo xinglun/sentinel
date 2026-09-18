@@ -1,0 +1,49 @@
+{
+  "acceptanceCriteria": [
+    "观测时间为 YYYY-MM-DD 时结构化为 DAY_ONLY；RFC3339 时结构化为 TIMESTAMP；empty 或 malformed 时为 UNAVAILABLE",
+    "DAY_ONLY 与 UNAVAILABLE 不推测具体时刻，TemporalBinding 保持 temporal_eligible=false，并给出可审计 reason",
+    "SignalContextV1 与 MarketReaction 保留 observation_time_precision；展示或审计输出明确精度标签，不把日期精度升级为可交易或时间合格事实",
+    "既有 RFC3339 temporal eligibility、Primary Event scoped binding、decision_weight=0 与 trade_signal=false 行为保持不变",
+    "focused tests、make fmt-check、make test、make clippy、make quality 与 signal-context consistency 结果进入 Runtime evidence"
+  ],
+  "authority": "authorized",
+  "baseRevision": "52f43fa529100bd375e81aa3f47c134d331fd8e9",
+  "createdAt": "2026-09-18T14:49:18Z",
+  "goal": "为日期精度观测建立可追溯的 observation_time_precision，不推测缺失时刻，不改变 TemporalBinding 资格规则或任何交易逻辑",
+  "intent": "将 Signal Context 的观测时间精度结构化为 DAY_ONLY、TIMESTAMP 或 UNAVAILABLE，并让展示与审计明确区分，保持既有 temporal eligibility fail-closed",
+  "mode": "code",
+  "outOfScope": [
+    "不修改 source provider 语义、market_observation_cutoff、accepted_at visibility、Primary Event binding 规则、Decision、Gate、decision_weight、RS、Leadership、Action Matrix、Risk Adjustment、Execution、Trader、Position Sizing、ranking、5a AI Policy observation 或 5b hypothesis/linkage lifecycle"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:6d6c9a72ed9cfc3f0d30a9db36b16c6c58079d048cc18a61f987fbc7a0c2a111",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "src/features/research/interface/macro_event_observation.rs；src/features/radar/interface/signal_context_coverage.rs；src/features/radar/interface/signal_context_read_model.rs；对应 focused tests；docs/superpowers/plans/2026-09-18-day-only-observation-precision.md",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "docs/superpowers/plans/2026-09-18-day-only-observation-precision.md"
+  ],
+  "sources": [
+    "docs/superpowers/plans/2026-09-18-signal-context-presentation-observation.md:4b DAY_ONLY observation precision",
+    "explicit-user-authorization:继续，要全部完成"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace",
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality",
+    "make check-signal-context-consistency"
+  ],
+  "workItemId": "day-only-observation-precision"
+}

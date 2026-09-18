@@ -7420,6 +7420,80 @@ mod tests {
     }
 
     #[test]
+    fn report_renders_ai_policy_frontier_pacing_as_observation_only() {
+        use crate::features::radar::interface::presentation::{
+            InterpretationLayerViewModel, PresentationPacket,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let config = mock_config_with_language(Language::EnUs);
+        let presentation = PresentationPacket {
+            language: Language::EnUs,
+            interpretation_layer: Some(InterpretationLayerViewModel {
+                signal_context_ai_policy_frontier_pacing_label:
+                    "AI Policy Frontier Pacing Observation".to_string(),
+                signal_context_ai_policy_frontier_pacing_value: "source=Federal Reserve; source_url=https://example.test/policy; source_published_at=2026-09-19T01:02:03Z; headline=Policy frontier pacing; provider=fed".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("AI Policy Frontier Pacing Observation"));
+            assert!(body.contains("source=Federal Reserve"));
+            assert!(body.contains("provider=fed"));
+            assert!(!body.contains("BUY"));
+            assert!(!body.contains("SELL"));
+        }
+    }
+
+    #[test]
+    fn report_renders_ai_policy_frontier_pacing_linkage_without_decision_language() {
+        use crate::features::radar::interface::presentation::{
+            InterpretationLayerViewModel, PresentationPacket,
+        };
+        use crate::features::shared::interface::i18n::Language;
+
+        let config = mock_config_with_language(Language::EnUs);
+        let presentation = PresentationPacket {
+            language: Language::EnUs,
+            interpretation_layer: Some(InterpretationLayerViewModel {
+                signal_context_ai_policy_frontier_pacing_linkage_label:
+                    "AI Policy Frontier Pacing Hypothesis Linkage (Observation Only)".to_string(),
+                signal_context_ai_policy_frontier_pacing_linkage_value: "hypothesis_id=hypothesis-fed-pacing-1; observation_id=observation-fed-pacing-1; status=PROPOSED; linked_event_id=UNAVAILABLE; decided_at=UNAVAILABLE; decision_source=UNAVAILABLE; evidence_count=1".to_string(),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+
+        let report = generate_refined_report(
+            &report_context(&config),
+            &presentation,
+            0.0,
+            &HashMap::new(),
+            &HashMap::new(),
+        )
+        .unwrap();
+
+        for body in [&report.markdown_body, &report.telegram_html_body] {
+            assert!(body.contains("Hypothesis Linkage (Observation Only)"));
+            assert!(body.contains("status=PROPOSED"));
+            assert!(body.contains("evidence_count=1"));
+            assert!(!body.contains("BUY"));
+            assert!(!body.contains("SELL"));
+        }
+    }
+
+    #[test]
     fn report_localizes_signal_context_fact_labels_in_markdown_and_html() {
         use crate::features::radar::interface::presentation::{
             InterpretationLayerViewModel, PresentationPacket,

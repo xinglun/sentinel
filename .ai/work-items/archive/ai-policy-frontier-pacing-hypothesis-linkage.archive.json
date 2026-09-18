@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T16:02:01Z",
+  "files": {
+    "contractDigest": "sha256:6e8b5fbfce920c53c8ec6b7f3f649f348fa2c8b0e0f5d70727289eeb3b537eb8",
+    "contractPath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.contract.json",
+    "eventsDigest": "sha256:aca04c842f99366c7c7c0b2bc77d522a3a279074d319d637272791a395e959a3",
+    "eventsPath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.events.jsonl",
+    "outcomeDigest": "sha256:225c11c3f649bd5edd988a9c53eb9fd98c8eec887dec888c7b4d45435b4745d6",
+    "outcomePath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.outcome.json",
+    "summaryDigest": "sha256:2bd4ebbb51ed1d3daf536ea6e4ac7e6ca10056864f790f02ef095dd04a197fe0",
+    "summaryPath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.summary.json",
+    "taskReportDigest": "sha256:cd03b13ab598ab853f176a74f82e135288916f9c2d30b63da397deb84213dc6c",
+    "taskReportMarkdownDigest": "sha256:cb596ab2f9b8ecb943a4a2667bfce5666421c81ec7c951e1c83c03241f1a8c5f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ai-policy-frontier-pacing-hypothesis-linkage.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ai-policy-frontier-pacing-hypothesis-linkage"
+}

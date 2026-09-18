@@ -15,12 +15,166 @@ pub struct EvidenceRecord {
     pub importance: String,
 }
 
+/// AI Policy frontier pacing の provenance 付き観測事実。仮説や売買判断を含めない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct AiPolicyFrontierPacingObservation {
+    #[serde(default)]
+    pub source: String,
+    #[serde(default)]
+    pub source_url: String,
+    #[serde(default)]
+    pub source_published_at: String,
+    #[serde(default)]
+    pub headline: String,
+    #[serde(default)]
+    pub provider: String,
+}
+
+impl AiPolicyFrontierPacingObservation {
+    /// 必須 provenance が揃い、公開時刻を厳密に解釈できる場合だけ事実とする。
+    pub(crate) fn is_traceable(&self) -> bool {
+        !self.source.trim().is_empty()
+            && !self.source_url.trim().is_empty()
+            && DateTime::parse_from_rfc3339(self.source_published_at.trim()).is_ok()
+            && !self.headline.trim().is_empty()
+            && !self.provider.trim().is_empty()
+    }
+}
+
+/// AI Policy frontier pacing observation と hypothesis の明示的な linkage 状態。
+/// 状態遷移はこの read model では実行せず、外部の明示的な入力だけを保持する。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum AiPolicyFrontierPacingLinkageStatus {
+    Proposed,
+    ConfirmedByHuman,
+    RejectedByHuman,
+    Expired,
+    #[default]
+    Unavailable,
+}
+
+/// AI Policy frontier pacing の仮説・event linkage。取引判断には渡さない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct AiPolicyFrontierPacingLinkage {
+    #[serde(default)]
+    pub hypothesis_id: String,
+    #[serde(default)]
+    pub observation_id: String,
+    #[serde(default)]
+    pub status: AiPolicyFrontierPacingLinkageStatus,
+    #[serde(default)]
+    pub linked_event_id: Option<String>,
+    #[serde(default)]
+    pub evidence: Vec<EvidenceRecord>,
+    #[serde(default)]
+    pub decided_at: Option<String>,
+    #[serde(default)]
+    pub decision_source: Option<String>,
+}
+
+impl AiPolicyFrontierPacingLinkage {
+    /// observation と証拠が揃い、status の metadata が整合する場合だけ保持する。
+    pub(crate) fn is_traceable(
+        &self,
+        observation: Option<&AiPolicyFrontierPacingObservation>,
+    ) -> bool {
+        let Some(observation) = observation.filter(|observation| observation.is_traceable()) else {
+            return false;
+        };
+        let _ = observation;
+        if self.hypothesis_id.trim().is_empty()
+            || self.observation_id.trim().is_empty()
+            || self.status == AiPolicyFrontierPacingLinkageStatus::Unavailable
+            || self.evidence.is_empty()
+            || self.evidence.iter().any(|evidence| {
+                evidence.source.trim().is_empty()
+                    || evidence.source_url.trim().is_empty()
+                    || DateTime::parse_from_rfc3339(evidence.timestamp.trim()).is_err()
+                    || DateTime::parse_from_rfc3339(evidence.source_published_at.trim()).is_err()
+                    || evidence.event_type.trim().is_empty()
+                    || evidence.subject.trim().is_empty()
+                    || evidence.importance.trim().is_empty()
+            })
+        {
+            return false;
+        }
+
+        match self.status {
+            AiPolicyFrontierPacingLinkageStatus::Proposed
+            | AiPolicyFrontierPacingLinkageStatus::Expired => {
+                self.decided_at.is_none() && self.decision_source.is_none()
+            }
+            AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman => {
+                self.linked_event_id
+                    .as_deref()
+                    .is_some_and(|event_id| !event_id.trim().is_empty())
+                    && self
+                        .decided_at
+                        .as_deref()
+                        .is_some_and(|value| DateTime::parse_from_rfc3339(value.trim()).is_ok())
+                    && self
+                        .decision_source
+                        .as_deref()
+                        .is_some_and(|source| !source.trim().is_empty())
+            }
+            AiPolicyFrontierPacingLinkageStatus::RejectedByHuman => {
+                self.decided_at
+                    .as_deref()
+                    .is_some_and(|value| DateTime::parse_from_rfc3339(value.trim()).is_ok())
+                    && self
+                        .decision_source
+                        .as_deref()
+                        .is_some_and(|source| !source.trim().is_empty())
+            }
+            AiPolicyFrontierPacingLinkageStatus::Unavailable => false,
+        }
+    }
+}
+
+/// 観測時刻の入力精度。日付だけの事実へ時刻を推測してはならない。
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
+pub enum ObservationTimePrecision {
+    Timestamp,
+    DayOnly,
+    #[default]
+    Unavailable,
+}
+
+impl ObservationTimePrecision {
+    pub const fn label(self) -> &'static str {
+        match self {
+            Self::Timestamp => "TIMESTAMP",
+            Self::DayOnly => "DAY_ONLY",
+            Self::Unavailable => "UNAVAILABLE",
+        }
+    }
+}
+
+/// observed_at の構文から精度だけを決定し、欠損時刻を補完しない。
+pub(crate) fn classify_observation_time_precision(value: &str) -> ObservationTimePrecision {
+    let value = value.trim();
+    if value.is_empty() {
+        return ObservationTimePrecision::Unavailable;
+    }
+    if DateTime::parse_from_rfc3339(value).is_ok() {
+        return ObservationTimePrecision::Timestamp;
+    }
+    if NaiveDate::parse_from_str(value, "%Y-%m-%d").is_ok() {
+        return ObservationTimePrecision::DayOnly;
+    }
+    ObservationTimePrecision::Unavailable
+}
+
 /// 事件事实与市场反应分离后的观测结果。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct MarketReaction {
     #[serde(default)]
     pub observation_id: String,
     pub observed_at: String,
+    #[serde(default)]
+    pub observation_time_precision: ObservationTimePrecision,
     #[serde(default)]
     pub session: String,
     #[serde(default)]
@@ -46,6 +200,8 @@ pub struct TemporalBinding {
     pub observation_id: String,
     pub source_published_at: String,
     pub observed_at: String,
+    #[serde(default)]
+    pub observation_time_precision: ObservationTimePrecision,
     pub temporal_eligible: bool,
     pub reason: String,
 }
@@ -67,11 +223,21 @@ pub(crate) fn build_temporal_binding(
     source_published_at: &str,
     observation: &MarketObservation,
 ) -> TemporalBinding {
+    let observation_time_precision = match observation.observation_time_precision {
+        ObservationTimePrecision::Unavailable => {
+            classify_observation_time_precision(&observation.observed_at)
+        }
+        precision => precision,
+    };
     let temporal_eligible = match (
         parse_timestamp(source_published_at),
         parse_timestamp(&observation.observed_at),
     ) {
-        (Some(source_published_at), Some(observed_at)) => source_published_at <= observed_at,
+        (Some(source_published_at), Some(observed_at))
+            if observation_time_precision == ObservationTimePrecision::Timestamp =>
+        {
+            source_published_at <= observed_at
+        }
         _ => false,
     };
     let reason = if event_id.trim().is_empty() || observation.observation_id.trim().is_empty() {
@@ -79,7 +245,13 @@ pub(crate) fn build_temporal_binding(
     } else if parse_timestamp(source_published_at).is_none()
         || parse_timestamp(&observation.observed_at).is_none()
     {
-        "invalid or missing timestamp".to_string()
+        match observation_time_precision {
+            ObservationTimePrecision::DayOnly => {
+                "observation time precision is DAY_ONLY; exact timestamp required".to_string()
+            }
+            ObservationTimePrecision::Unavailable => "invalid or missing timestamp".to_string(),
+            ObservationTimePrecision::Timestamp => "invalid or missing timestamp".to_string(),
+        }
     } else if temporal_eligible {
         "source_published_at is before or equal to observed_at".to_string()
     } else {
@@ -90,6 +262,7 @@ pub(crate) fn build_temporal_binding(
         observation_id: observation.observation_id.clone(),
         source_published_at: source_published_at.to_string(),
         observed_at: observation.observed_at.clone(),
+        observation_time_precision,
         temporal_eligible,
         reason,
     }
@@ -198,7 +371,32 @@ pub(crate) struct MacroSignalContextEvent {
 
 #[cfg(test)]
 mod signal_context_v1_tests {
-    use super::{build_temporal_binding, event_visible_at, EvidenceRecord, MarketReaction};
+    use super::{
+        build_temporal_binding, classify_observation_time_precision, event_visible_at,
+        AiPolicyFrontierPacingLinkage, AiPolicyFrontierPacingLinkageStatus,
+        AiPolicyFrontierPacingObservation, EvidenceRecord, MarketReaction,
+        ObservationTimePrecision,
+    };
+
+    #[test]
+    fn observation_time_precision_is_classified_without_time_inference() {
+        assert_eq!(
+            classify_observation_time_precision("2026-09-18"),
+            ObservationTimePrecision::DayOnly
+        );
+        assert_eq!(
+            classify_observation_time_precision("2026-09-18T15:30:00Z"),
+            ObservationTimePrecision::Timestamp
+        );
+        assert_eq!(
+            classify_observation_time_precision(""),
+            ObservationTimePrecision::Unavailable
+        );
+        assert_eq!(
+            classify_observation_time_precision("not-a-timestamp"),
+            ObservationTimePrecision::Unavailable
+        );
+    }
 
     #[test]
     fn evidence_record_serializes_traceability_fields() {
@@ -217,10 +415,81 @@ mod signal_context_v1_tests {
     }
 
     #[test]
+    fn ai_policy_frontier_pacing_requires_complete_provenance() {
+        let observation = AiPolicyFrontierPacingObservation {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            headline: "Policy frontier pacing remains gradual".to_string(),
+            provider: "fed".to_string(),
+        };
+        assert!(observation.is_traceable());
+
+        let missing_source_url = AiPolicyFrontierPacingObservation {
+            source_url: String::new(),
+            ..observation.clone()
+        };
+        assert!(!missing_source_url.is_traceable());
+
+        let malformed_published_at = AiPolicyFrontierPacingObservation {
+            source_published_at: "2026-09-18".to_string(),
+            ..observation
+        };
+        assert!(!malformed_published_at.is_traceable());
+    }
+
+    #[test]
+    fn ai_policy_frontier_pacing_linkage_requires_explicit_lifecycle_evidence() {
+        let observation = AiPolicyFrontierPacingObservation {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            headline: "Policy frontier pacing remains gradual".to_string(),
+            provider: "fed".to_string(),
+        };
+        let evidence = EvidenceRecord {
+            source: "official_fed_statement".to_string(),
+            source_url: "https://example.test/fed/statement".to_string(),
+            timestamp: "2026-09-18T14:00:00Z".to_string(),
+            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+            event_type: "AI_POLICY_FRONTIER_PACING".to_string(),
+            subject: "Fed policy frontier".to_string(),
+            importance: "MEDIUM".to_string(),
+        };
+        let proposed = AiPolicyFrontierPacingLinkage {
+            hypothesis_id: "hypothesis-fed-pacing-1".to_string(),
+            observation_id: "observation-fed-pacing-1".to_string(),
+            status: AiPolicyFrontierPacingLinkageStatus::Proposed,
+            linked_event_id: None,
+            evidence: vec![evidence.clone()],
+            decided_at: None,
+            decision_source: None,
+        };
+        assert!(proposed.is_traceable(Some(&observation)));
+
+        let confirmed_without_human_decision = AiPolicyFrontierPacingLinkage {
+            status: AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman,
+            ..proposed.clone()
+        };
+        assert!(!confirmed_without_human_decision.is_traceable(Some(&observation)));
+
+        let confirmed = AiPolicyFrontierPacingLinkage {
+            status: AiPolicyFrontierPacingLinkageStatus::ConfirmedByHuman,
+            linked_event_id: Some("event-fed-policy-1".to_string()),
+            decided_at: Some("2026-09-18T15:00:00Z".to_string()),
+            decision_source: Some("human:repository-owner".to_string()),
+            evidence: vec![evidence],
+            ..proposed
+        };
+        assert!(confirmed.is_traceable(Some(&observation)));
+    }
+
+    #[test]
     fn market_reaction_keeps_evidence_as_a_separate_observation() {
         let reaction = MarketReaction {
             observation_id: "obs-payroll".to_string(),
             observed_at: "2026-08-07T16:00:00Z".to_string(),
+            observation_time_precision: ObservationTimePrecision::Timestamp,
             session: "CORE".to_string(),
             venue: "NASDAQ".to_string(),
             instrument: "NASDAQ".to_string(),
@@ -260,6 +529,23 @@ mod signal_context_v1_tests {
 
         assert!(!binding.temporal_eligible);
         assert!(binding.reason.contains("invalid"));
+    }
+
+    #[test]
+    fn temporal_binding_preserves_day_only_precision_and_fails_closed() {
+        let reaction = MarketReaction {
+            observed_at: "2026-09-18".to_string(),
+            observation_id: "obs-day-only".to_string(),
+            ..Default::default()
+        };
+        let binding = build_temporal_binding("event-day-only", "2026-09-18T12:00:00Z", &reaction);
+
+        assert_eq!(
+            binding.observation_time_precision,
+            ObservationTimePrecision::DayOnly
+        );
+        assert!(!binding.temporal_eligible);
+        assert!(binding.reason.contains("DAY_ONLY"));
     }
 
     #[test]

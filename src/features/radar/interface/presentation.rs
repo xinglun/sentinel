@@ -2,7 +2,8 @@ use crate::features::radar::interface::display::{
     RiskOpportunityViewModel, TacticalBucketViewModel, TopActionViewModel,
 };
 use crate::features::research::interface::macro_event_observation::{
-    EvidenceRecord, MarketReaction, TemporalBinding,
+    AiPolicyFrontierPacingLinkage, AiPolicyFrontierPacingObservation, EvidenceRecord,
+    MarketReaction, TemporalBinding,
 };
 use crate::features::shared::application::run_status::{
     DataProvenanceBundle, ReportLifecycle, ReportRuntimeIdentity, RuntimeIntegrity,
@@ -587,6 +588,10 @@ pub struct SignalContextV1 {
     pub context_quality: SignalContextQuality,
     pub coverage: SignalContextCoverage,
     pub observed_market_reactions: Vec<MarketReaction>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ai_policy_frontier_pacing_observation: Option<AiPolicyFrontierPacingObservation>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ai_policy_frontier_pacing_linkage: Option<AiPolicyFrontierPacingLinkage>,
     #[serde(default)]
     pub temporal_bindings: Vec<TemporalBinding>,
     #[serde(default)]
@@ -621,6 +626,8 @@ impl Default for SignalContextV1 {
             context_quality: SignalContextQuality::Unavailable,
             coverage: SignalContextCoverage::default(),
             observed_market_reactions: Vec::new(),
+            ai_policy_frontier_pacing_observation: None,
+            ai_policy_frontier_pacing_linkage: None,
             temporal_bindings: Vec::new(),
             report_run_at: None,
             observation_window_start: None,
@@ -730,6 +737,14 @@ pub struct InterpretationLayerViewModel {
     pub signal_context_market_reactions_label: String,
     #[serde(default)]
     pub signal_context_market_reactions_value: String,
+    #[serde(default)]
+    pub signal_context_ai_policy_frontier_pacing_label: String,
+    #[serde(default)]
+    pub signal_context_ai_policy_frontier_pacing_value: String,
+    #[serde(default)]
+    pub signal_context_ai_policy_frontier_pacing_linkage_label: String,
+    #[serde(default)]
+    pub signal_context_ai_policy_frontier_pacing_linkage_value: String,
     pub signal_context_source_diagnostics_label: String,
     pub signal_context_source_diagnostics_value: String,
     pub signal_context_source_diagnostics_appendix_label: String,
