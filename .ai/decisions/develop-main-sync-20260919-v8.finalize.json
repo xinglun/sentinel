@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization:继续，要全部完成",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1fc83123528c32205049dc27a5b5369091677bf4",
+    "name": "codex/develop-main-sync-20260919-v8",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "1fc83123528c32205049dc27a5b5369091677bf4",
+  "contractDigest": "sha256:6df756395bbfee696fa92177b97d29de7e69eddbf58e2e87fd8d19fd9afb7486",
+  "operationId": "github-pr-238-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "53025ea77092b4e87eca05547d6cf01d59960438",
+    "headRevision": "1fc83123528c32205049dc27a5b5369091677bf4",
+    "mergeCommit": "1200edd8809417fde345f41558c2d659b594ed35",
+    "number": 238,
+    "url": "https://github.com/xinglun/sentinel/pull/238"
+  },
+  "reason": "PR #238 已合并到 main，develop-main-sync-20260919-v8 的精确 branch 与 worktree 已核对并清理，按用户授权记录 provider finalization。",
+  "receiptId": "develop-main-sync-20260919-v8-github-pr-238-finalization-receipt",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync-20260919-v8",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/238",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/develop-main-sync-20260919-v8/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:7a49278b2fed775668b4d42222702b66cefc10d57ec36fb476d35d2d4d7f0eeb",
+  "runtimeVersion": "0.2.98",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-18T19:02:47Z",
+  "workItemId": "develop-main-sync-20260919-v8",
+  "worktree": {
+    "branch": "codex/develop-main-sync-20260919-v8",
+    "headRevision": "1fc83123528c32205049dc27a5b5369091677bf4",
+    "path": "/Users/sei-rinn/.codex/worktrees/develop-main-sync-20260919-v8/sentinel",
+    "worktreeId": "develop-main-sync-20260919-v8"
+  }
+}
