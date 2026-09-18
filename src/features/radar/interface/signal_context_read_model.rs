@@ -51,8 +51,15 @@ pub(crate) fn build_signal_context_assessment(
         derive_information_content(primary_context, &input.future_context, &v1);
     let context_quality = derive_context_quality(primary_context, &input.future_context, &v1);
     let event_fact = compose_event_fact(&input.future_context, &v1);
-    let market_reactions_value =
-        format_market_reactions(&v1.observed_market_reactions, &v1.temporal_bindings);
+    let primary_event_id = v1.primary_context.as_ref().and_then(|item| {
+        let event_id = item.event_id.trim();
+        (!event_id.is_empty()).then_some(event_id)
+    });
+    let market_reactions_value = format_market_reactions(
+        &v1.observed_market_reactions,
+        &v1.temporal_bindings,
+        primary_event_id,
+    );
     let source_health = input.future_context.source_health;
     let (source_diagnostics_summary, mut source_diagnostics_appendix) =
         compose_source_diagnostics(input.as_of_date, &input.future_context, &v1, input.language);
@@ -97,10 +104,14 @@ pub(crate) fn build_signal_context_assessment(
 fn format_market_reactions(
     reactions: &[crate::features::research::interface::macro_event_observation::MarketReaction],
     bindings: &[crate::features::research::interface::macro_event_observation::TemporalBinding],
+    primary_event_id: Option<&str>,
 ) -> String {
+    let Some(primary_event_id) = primary_event_id else {
+        return String::new();
+    };
     let eligible_observation_ids = bindings
         .iter()
-        .filter(|binding| binding.temporal_eligible)
+        .filter(|binding| binding.temporal_eligible && binding.event_id.trim() == primary_event_id)
         .map(|binding| binding.observation_id.as_str())
         .collect::<BTreeSet<_>>();
     reactions
@@ -108,8 +119,7 @@ fn format_market_reactions(
         .filter(|reaction| {
             !reaction.subject.trim().is_empty()
                 && !reaction.observation.trim().is_empty()
-                && (bindings.is_empty()
-                    || eligible_observation_ids.contains(reaction.observation_id.as_str()))
+                && eligible_observation_ids.contains(reaction.observation_id.as_str())
         })
         .map(|reaction| {
             let provenance = [
@@ -2457,21 +2467,150 @@ mod tests {
         let bindings = vec![
             crate::features::research::interface::macro_event_observation::TemporalBinding {
                 observation_id: "obs-core".to_string(),
+                event_id: "event-primary".to_string(),
                 ..Default::default()
             },
             crate::features::research::interface::macro_event_observation::TemporalBinding {
                 observation_id: "obs-overnight".to_string(),
+                event_id: "event-primary".to_string(),
                 temporal_eligible: true,
                 ..Default::default()
             },
         ];
 
-        let value = format_market_reactions(&reactions, &bindings);
+        let value = format_market_reactions(&reactions, &bindings, Some("event-primary"));
 
         assert!(!value.contains("core -0.1%"));
         assert!(value.contains("overnight -0.4%"));
         assert!(value.contains("session=OVERNIGHT"));
         assert!(value.contains("venue=CME"));
         assert!(value.contains("instrument=SPY"));
+    }
+
+    #[test]
+    fn market_reaction_display_fails_closed_without_primary_event_scope() {
+        let reactions = vec![
+            crate::features::research::interface::macro_event_observation::MarketReaction {
+                observation_id: "obs-primary".to_string(),
+                subject: "SPY".to_string(),
+                observation: "primary reaction".to_string(),
+                ..Default::default()
+            },
+        ];
+        let bindings = vec![
+            crate::features::research::interface::macro_event_observation::TemporalBinding {
+                event_id: "event-primary".to_string(),
+                observation_id: "obs-primary".to_string(),
+                temporal_eligible: true,
+                ..Default::default()
+            },
+        ];
+
+        assert!(format_market_reactions(&reactions, &bindings, None).is_empty());
+        assert!(format_market_reactions(&reactions, &[], Some("event-primary")).is_empty());
+    }
+
+    #[test]
+    fn market_reaction_display_is_scoped_to_primary_event_binding() {
+        let market_date = NaiveDate::from_ymd_opt(2026, 9, 18).unwrap();
+        let evidence =
+            crate::features::research::interface::macro_event_observation::EvidenceRecord {
+                source: "official-source".to_string(),
+                source_url: "https://example.com/event".to_string(),
+                timestamp: "2026-09-18T14:00:00Z".to_string(),
+                source_published_at: "2026-09-18T14:00:00Z".to_string(),
+                event_type: "RATE_DECISION".to_string(),
+                subject: "Primary rate decision".to_string(),
+                importance: "HIGH".to_string(),
+            };
+        let future_context = crate::features::radar::interface::signal_context_event_read_model::attach_macro_signal_context(
+            future_context_unavailable(),
+            crate::features::research::interface::macro_event_observation::MacroSignalContextReadModel {
+                market_date,
+                temporal_context: Default::default(),
+                rates_credit: crate::features::research::interface::macro_event_observation::MacroSignalContextSource {
+                    status: crate::features::research::interface::macro_event_observation::MacroSignalContextSourceStatus::Healthy,
+                    events: vec![
+                        crate::features::research::interface::macro_event_observation::MacroSignalContextEvent {
+                            event_id: "event-primary".to_string(),
+                            title: "Primary rate decision".to_string(),
+                            information_content: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                            market_relevance: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                            evidence_quality: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::High,
+                            lifecycle: crate::features::research::interface::macro_event_observation::MacroSignalContextLifecycle::Released,
+                            event_fact: "Primary event fact".to_string(),
+                            observed_at: "2026-09-18T14:00:00Z".to_string(),
+                            source_published_at: "2026-09-18T14:00:00Z".to_string(),
+                            market_date: market_date.to_string(),
+                            evidence: vec![evidence.clone()],
+                            ..Default::default()
+                        },
+                        crate::features::research::interface::macro_event_observation::MacroSignalContextEvent {
+                            event_id: "event-secondary".to_string(),
+                            title: "Secondary rate decision".to_string(),
+                            information_content: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::Medium,
+                            market_relevance: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::Medium,
+                            evidence_quality: crate::features::research::interface::macro_event_observation::MacroSignalContextInformationLevel::Medium,
+                            lifecycle: crate::features::research::interface::macro_event_observation::MacroSignalContextLifecycle::Released,
+                            event_fact: "Secondary event fact".to_string(),
+                            observed_at: "2026-09-18T13:00:00Z".to_string(),
+                            source_published_at: "2026-09-18T13:00:00Z".to_string(),
+                            market_date: market_date.to_string(),
+                            evidence: vec![evidence],
+                            ..Default::default()
+                        },
+                    ],
+                    ..Default::default()
+                },
+                commodity: Default::default(),
+                geopolitical: Default::default(),
+                observed_market_reactions: vec![
+                    crate::features::research::interface::macro_event_observation::MarketReaction {
+                        observation_id: "observation-primary".to_string(),
+                        observed_at: "2026-09-18T15:00:00Z".to_string(),
+                        subject: "SPY".to_string(),
+                        observation: "primary reaction".to_string(),
+                        ..Default::default()
+                    },
+                    crate::features::research::interface::macro_event_observation::MarketReaction {
+                        observation_id: "observation-secondary".to_string(),
+                        observed_at: "2026-09-18T13:30:00Z".to_string(),
+                        subject: "SPY".to_string(),
+                        observation: "secondary reaction".to_string(),
+                        ..Default::default()
+                    },
+                ],
+            },
+        );
+
+        let assessment = without_external_fixture(|| {
+            build_signal_context_assessment(SignalContextReadModelInput {
+                as_of_date: market_date,
+                signal: signal(
+                    InterpretationExpectationQuality::Unavailable,
+                    InterpretationExpectationQualityReason::SystemUnavailable,
+                    InterpretationGravityDataQuality::Unavailable,
+                    false,
+                    None,
+                ),
+                future_context,
+                language: Language::EnUs,
+            })
+        });
+
+        assert_eq!(
+            assessment
+                .v1
+                .primary_context
+                .as_ref()
+                .map(|item| item.event_id.as_str()),
+            Some("event-primary")
+        );
+        assert!(assessment
+            .market_reactions_value
+            .contains("primary reaction"));
+        assert!(!assessment
+            .market_reactions_value
+            .contains("secondary reaction"));
     }
 }

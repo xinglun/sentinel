@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T12:53:31Z",
+  "files": {
+    "contractDigest": "sha256:a0a9c428d7332b86a576f1bf6e607751058e50c38719ed70feb2ff828bf2268a",
+    "contractPath": ".ai/work-items/archive/primary-event-scoped-binding.contract.json",
+    "eventsDigest": "sha256:512049741221e063829e17f64ba1ecf6bc7de1f34c0deda54df4b8a2812392b2",
+    "eventsPath": ".ai/work-items/archive/primary-event-scoped-binding.events.jsonl",
+    "outcomeDigest": "sha256:6a3e454d1a83734bc072309dfb5199f0785365f34e40a820aeadba52b105d0b7",
+    "outcomePath": ".ai/work-items/archive/primary-event-scoped-binding.outcome.json",
+    "summaryDigest": "sha256:170fa522b1a4c75cb97be4431c39727df682c70fb4af069be92ce8b7f7e9f613",
+    "summaryPath": ".ai/work-items/archive/primary-event-scoped-binding.summary.json",
+    "taskReportDigest": "sha256:e0bb813dd27d942e2b16598598fd32d6e053bc2bc3fd28ef16b65beea6112e39",
+    "taskReportMarkdownDigest": "sha256:2b7ff6ddc2469389996caf95fd71c5f1199b0c91d14117acc3c727a01216fb9f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/primary-event-scoped-binding.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/primary-event-scoped-binding.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "primary-event-scoped-binding"
+}
