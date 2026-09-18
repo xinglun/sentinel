@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.contract.json",
+    ".ai/work-items/archive/develop-main-ancestry-repair-20260918-v4.summary.json"
+  ],
+  "checkpointAt": "2026-09-18T09:10:37Z",
+  "checkpointContractDigest": "sha256:f1056008b65efeda7f13055825a8a324fd77c7909a89d63b5c46f26ce647daa4",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+  "createdAt": "2026-09-18T09:10:18Z",
+  "mode": "code",
+  "preflightAt": "2026-09-18T09:12:12Z",
+  "preflightContractDigest": "sha256:f1056008b65efeda7f13055825a8a324fd77c7909a89d63b5c46f26ce647daa4",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:e829d3b2a6c71dd2369e4af4b24e41dab9add53956b226ac9c5b547bd2d80c3c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-18T09:12:18Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "develop-main-ancestry-repair-20260918-v4"
+}
