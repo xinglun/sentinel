@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-18T11:55:57Z",
+  "files": {
+    "contractDigest": "sha256:ce388db2fa0999de343e1cd065c2ed79ffa3cdae8f007fc9aa925d1cb0df7f67",
+    "contractPath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.contract.json",
+    "eventsDigest": "sha256:0bdc9c282a7ab74f6db52423437af4c88eaede48ae351e00c3fa7cc7ad900268",
+    "eventsPath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.events.jsonl",
+    "outcomeDigest": "sha256:a185ce007375c6ed6b1c519b08ce4042c8116abf73205c09e4f3a446b7e3d5a2",
+    "outcomePath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.outcome.json",
+    "summaryDigest": "sha256:9d843a4bb36ac43d692f6ae90b763dd164a2663fd6f693f2edd5d38ef07b4812",
+    "summaryPath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.summary.json",
+    "taskReportDigest": "sha256:27318a74f8822f2581cf7465628a8c2945b9956683351f7563152a129e3455de",
+    "taskReportMarkdownDigest": "sha256:065c4bb84f02f90d64840c5e5931bf523a24ebd422b146332b546affcde82a15",
+    "taskReportMarkdownPath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/holiday-market-context-semantic-fix-finalization-recovery.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "holiday-market-context-semantic-fix-finalization-recovery"
+}

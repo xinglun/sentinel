@@ -636,6 +636,18 @@ impl PresentationAssembler {
         for (asset, context, intent) in selected_refs {
             let mut vm =
                 DisplayAdapter::derive_top_action_view_model(asset, &context, intent, &dict);
+            vm.candidate_label_allowed =
+                !matches!(risk, RiskOverlay::DEFENSIVE | RiskOverlay::BROKEN)
+                    && (decision_summary.is_no_trade || context.is_candidate_only);
+            if (decision_summary.is_no_trade
+                || matches!(
+                    final_execution_decision.participation_mode,
+                    crate::features::radar::interface::presentation::ParticipationMode::Probe
+                ))
+                && !vm.candidate_label_allowed
+            {
+                vm.tags = vec![dict.asset_tags.blocked.clone()];
+            }
             let reason = Self::derive_canonical_risk_presentation_reason(
                 asset,
                 !is_ready,

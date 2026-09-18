@@ -1,0 +1,144 @@
+{
+  "acceptanceResults": [
+    "风险覆盖阻断时，展示不得使用“最优”“可交易”或等价夸大标签，必须保留候选/观察性质。",
+    "eligibility=false 时，展示不得将候选标记为可交易或合格标的。",
+    "risk allowed 且 eligibility=true 的既有合法展示保持不变。",
+    "Decision、Gate、交易输出和现有风险事实不变；presentation-only regression 明确覆盖边界。",
+    "malformed 或缺失 presentation facts 时 fail-closed，不猜测资格或最优性。"
+  ],
+  "createdAt": "2026-09-18T12:20:16Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:bb65471ab91971468f5f7294eb12881a6e280c421cc64515287a73f988af5bb9",
+  "evidenceRefs": [
+    ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:29b984a18db0a5cd0d604f8811258161347cf3e25a96b5091889aea0af0b8505",
+      "workItemId": "risk-probe-candidate-label-integrity"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-probe-candidate-label-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-probe-candidate-label-integrity.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-probe-candidate-label-integrity.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-probe-candidate-label-integrity.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-probe-candidate-label-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "在 presentation-only 边界内，使风险覆盖阻断或候选不具备资格时不再显示会误导为可交易/最优的候选标签。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-probe-candidate-label-integrity.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-probe-candidate-label-integrity"
+  },
+  "taskReportDigest": "sha256:daad0c62095b043dfe1fe095f721054563e92ac25e82fcbf3a9afd2186fa9413",
+  "taskReportMarkdownDigest": "sha256:0aaa820c32d6552ff5ceb686c7e3ddd87cda2a6817eb85ad3d983f44b426dad3",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/risk-probe-candidate-label-integrity.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "risk-probe-candidate-label-integrity"
+}
