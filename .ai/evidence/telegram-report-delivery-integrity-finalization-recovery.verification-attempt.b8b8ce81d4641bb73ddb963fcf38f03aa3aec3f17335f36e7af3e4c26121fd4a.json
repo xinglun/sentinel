@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:b8b8ce81d4641bb73ddb963fcf38f03aa3aec3f17335f36e7af3e4c26121fd4a",
+  "commands": [
+    {
+      "args": [
+        "test"
+      ],
+      "baseCommit": "46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385",
+      "commandDigest": "sha256:d792c2ada4e21bee31da30ada7d8bafb08d1984a2f0286d052d8a8a2454ed2c8",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e49f9cf8cc7e636d75f95dc8f9e713eb555b238616ac443ed9528a2fcdf93e2d",
+  "contractExecutionScopeDigest": "sha256:cff39b1dfccb717fd2ca2d5280d69987618f52d427f96b30e3f5232ad71d72a5",
+  "createdAt": "2026-09-19T01:59:09Z",
+  "diagnostic": {
+    "code": "verification_plan",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/signal-context-quality-coverage-baseline/sentinel/.ai/policy.json: explicit verification timeout override 300s requires finite Contract or repository policy authorization"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "telegram-report-delivery-integrity-finalization-recovery"
+}

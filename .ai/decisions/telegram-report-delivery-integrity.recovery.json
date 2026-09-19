@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-19T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/decisions/telegram-report-delivery-integrity.finalize.json",
+    ".ai/decisions/telegram-report-delivery-integrity.close.json",
+    ".ai/evidence/telegram-report-delivery-integrity.verification.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity.archive.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md: AI Cockpit 强制协议",
+    ".ai/README.md"
+  ],
+  "predecessorContractDigest": "sha256:10f391a57d2b088954065b6098cd5c868a2b649f18da4c0150c57b19fcc4461b",
+  "predecessorEventsDigest": "sha256:85b22d26d73a442a613052cc0201fba62dcd9479644130071d61734d11e30a8d",
+  "predecessorOutcomeDigest": "sha256:a264c08b1d5ebadead831ef80a58576f7eb1b59b37fbae09df42ee6508153c41",
+  "predecessorSummaryDigest": "sha256:88f6952283269da906dbd4563ce1a005602d2ede85c2e0e72ef1fa562b293728",
+  "predecessorWorkItemId": "telegram-report-delivery-integrity",
+  "reason": "当前 Runtime 已确认前驱 direct-merge 记录需要一对一 successor recovery；保留前驱不可变 archive、finalize、close 与 verification，不改写历史治理事实。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "在唯一 successor 中重新完成当前 Runtime 的 Contract、preflight、verification、finish、archive、finalize 与 close。",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "successorWorkItemId": "telegram-report-delivery-integrity-finalization-recovery",
+  "workItemId": "telegram-report-delivery-integrity"
+}
