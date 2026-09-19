@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+  "schemaVersion": 1,
+  "decisionId": "contract-preflight-review",
+  "decision": "confirm_review",
+  "workItemId": "signal-context-acceptance-replay",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "contractDigest": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+  "recordedBy": "user",
+  "recordedAt": "2026-09-19T00:00:00+09:00",
+  "reason": "用户已明确批准 acceptance-replay 设计并授权按 Work Item/TDD/Runtime 流程继续；确认 immutable input、isolated output、zero canonical mutation、Warsh lexical regression 与 Decision isolation 作为本 Work Item 的 review 边界。"
+  }
+}

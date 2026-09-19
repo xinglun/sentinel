@@ -32,6 +32,7 @@ pub(crate) enum CliCommand {
     ConfigCheck,
     Daemon,
     Radar,
+    AcceptanceReplay,
     Review,
     AuditDaily,
     IngestEvidence,
@@ -83,6 +84,9 @@ pub(crate) struct CliOptions {
     pub evidence_arg_error: Option<String>,
     pub governance_evidence_file: Option<String>,
     pub research_notify: bool,
+    pub acceptance_replay_manifest: Option<String>,
+    pub acceptance_replay_output_dir: Option<String>,
+    pub acceptance_replay_revision: Option<String>,
     pub backtest_from_date: String,
     pub backtest_to_date: String,
     pub backtest_outcome_to_date: Option<String>,
@@ -128,6 +132,9 @@ impl CliOptions {
             evidence_arg_error: None,
             governance_evidence_file: None,
             research_notify: false,
+            acceptance_replay_manifest: None,
+            acceptance_replay_output_dir: None,
+            acceptance_replay_revision: None,
             backtest_from_date: "2024-01-01".to_string(),
             backtest_to_date: "2024-02-01".to_string(),
             backtest_outcome_to_date: None,
@@ -165,6 +172,10 @@ pub(crate) fn parse_cli_options(
             }
             "radar" => {
                 options.command = CliCommand::Radar;
+                command_explicit = true;
+            }
+            "acceptance-replay" => {
+                options.command = CliCommand::AcceptanceReplay;
                 command_explicit = true;
             }
             "review" => {
@@ -342,6 +353,27 @@ pub(crate) fn parse_cli_options(
             "--notify" => {
                 options.research_notify = true;
             }
+            "--input-manifest" if i + 1 < args.len() => {
+                options.acceptance_replay_manifest = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--input-manifest" => {
+                options.cli_arg_error = Some("Missing value for --input-manifest".to_string());
+            }
+            "--output-dir" if i + 1 < args.len() => {
+                options.acceptance_replay_output_dir = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--output-dir" => {
+                options.cli_arg_error = Some("Missing value for --output-dir".to_string());
+            }
+            "--revision" if i + 1 < args.len() => {
+                options.acceptance_replay_revision = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--revision" => {
+                options.cli_arg_error = Some("Missing value for --revision".to_string());
+            }
             "--source" if i + 1 < args.len() => {
                 options.evidence_source_provider = args[i + 1].to_lowercase();
                 i += 1;
@@ -383,5 +415,5 @@ pub(crate) fn parse_cli_options(
 }
 
 pub(crate) fn cli_usage(_language: Language) -> &'static str {
-    "Usage: stock-sentinel <command> [options]\n\nCommands:\n  config-check                  Validate config.toml without running reports\n  radar                         Run the daily radar pipeline\n  daemon | trade                Run the trading daemon mode\n  review                        Render the latest review\n  audit_daily                   Render transition audit summary\n  daily-calibration             Render daily cognitive calibration\n  official-calendar-smoke       Run official calendar live smoke and diagnostics\n  research-attention            Render research attention report\n  asset-thesis                  Render asset thesis registry\n  gray-rhino                    Render Gray Rhino Escalation monitor\n  discover-gray-rhino           Auto-discover Gray Rhino candidates from source text\n  collect-gray-rhino-sources    Collect SEC/Finnhub/FRED sources for Gray Rhino discovery\n  ingest-gray-rhino-governance  Ingest GovernanceConcentration evidence from JSON\n  ingest-gray-rhino-dependency  Ingest DependencyConcentration evidence from JSON\n  ingest-gray-rhino-institutional Ingest InstitutionalMaturity evidence from JSON\n  ingest-gray-rhino-redundancy  Ingest Redundancy evidence from JSON\n  collect-gray-rhino-governance Collect GovernanceConcentration evidence from source\n  collect-gray-rhino-dependency Collect DependencyConcentration evidence from source or URL\n  collect-gray-rhino-institutional Collect InstitutionalMaturity evidence from source\n  collect-gray-rhino-redundancy Collect Redundancy evidence from source\n  collect-gray-rhino-backfill   Run multi-category Gray Rhino dry-run manifest\n  ingest-evidence               Ingest manual evidence\n  ingest-evidence-url           Collect evidence from one URL\n  collect-evidence              Collect evidence from configured sources\n  backtest                      Run backtest\n  help                          Show this help\n\nOptions:\n  --help, -h                    Show this help\n  --notify                      Send supported sidecar report to Telegram\n  --provider <yahoo|futu>       Select market data provider\n  --date <YYYY-MM-DD>           Select audit/evidence date\n  --days <N>                    Select audit/evidence lookback days\n  --source <sec|finnhub|fred>   Select source provider for collection commands\n  --symbol <SYMBOL>             Select evidence collection subject\n  --symbols <A,B,C>             Select batch evidence collection subjects\n  --file <PATH>                 Read structured Gray Rhino evidence JSON or source document\n  --url <URL>                   Read live Gray Rhino dependency source URL\n\nSafety:\n  No command is executed by default. Use `radar` explicitly to run the radar pipeline."
+    "Usage: stock-sentinel <command> [options]\n\nCommands:\n  config-check                  Validate config.toml without running reports\n  radar                         Run the daily radar pipeline\n  acceptance-replay             Recompute immutable historical input in isolated output\n  daemon | trade                Run the trading daemon mode\n  review                        Render the latest review\n  audit_daily                   Render transition audit summary\n  daily-calibration             Render daily cognitive calibration\n  official-calendar-smoke       Run official calendar live smoke and diagnostics\n  research-attention            Render research attention report\n  asset-thesis                  Render asset thesis registry\n  gray-rhino                    Render Gray Rhino Escalation monitor\n  discover-gray-rhino           Auto-discover Gray Rhino candidates from source text\n  collect-gray-rhino-sources    Collect SEC/Finnhub/FRED sources for Gray Rhino discovery\n  ingest-gray-rhino-governance  Ingest GovernanceConcentration evidence from JSON\n  ingest-gray-rhino-dependency  Ingest DependencyConcentration evidence from JSON\n  ingest-gray-rhino-institutional Ingest InstitutionalMaturity evidence from JSON\n  ingest-gray-rhino-redundancy  Ingest Redundancy evidence from JSON\n  collect-gray-rhino-governance Collect GovernanceConcentration evidence from source\n  collect-gray-rhino-dependency Collect DependencyConcentration evidence from source or URL\n  collect-gray-rhino-institutional Collect InstitutionalMaturity evidence from source\n  collect-gray-rhino-redundancy Collect Redundancy evidence from source\n  collect-gray-rhino-backfill   Run multi-category Gray Rhino dry-run manifest\n  ingest-evidence               Ingest manual evidence\n  ingest-evidence-url           Collect evidence from one URL\n  collect-evidence              Collect evidence from configured sources\n  backtest                      Run backtest\n  help                          Show this help\n\nOptions:\n  --help, -h                    Show this help\n  --notify                      Send supported sidecar report to Telegram\n  --provider <yahoo|futu>       Select market data provider\n  --date <YYYY-MM-DD>           Select audit/evidence date\n  --revision <SHA>              Bind acceptance replay to the expected execution revision\n  --input-manifest <PATH>       Read the immutable acceptance replay manifest\n  --output-dir <PATH>           Write isolated acceptance replay receipt\n  --days <N>                    Select audit/evidence lookback days\n  --source <sec|finnhub|fred>   Select source provider for collection commands\n  --symbol <SYMBOL>             Select evidence collection subject\n  --symbols <A,B,C>             Select batch evidence collection subjects\n  --file <PATH>                 Read structured Gray Rhino evidence JSON or source document\n  --url <URL>                   Read live Gray Rhino dependency source URL\n\nSafety:\n  No command is executed by default. Use `radar` explicitly to run the radar pipeline."
 }

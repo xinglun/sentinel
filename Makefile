@@ -21,12 +21,13 @@ COVERAGE_MIN_FILE_LINES ?= 50
 COVERAGE_FILE_IGNORE_REGEX ?= src/adapters/mod.rs|src/adapters/futu/mod.rs|src/adapters/futu/protocol/mod.rs|src/adapters/futu/protocol/generated/|src/adapters/yahoo_provider.rs|src/features/backtest/(acl/radar_decision_engine|application|infrastructure)|src/features/radar/acl/market_data_provider_factory.rs|src/features/radar/application/runtime_mode.rs|src/features/radar/application/evidence_assembly.rs|src/features/radar/interface/display.rs|src/features/research/infrastructure/dependency_source_adapter.rs
 COVERAGE_FAIL_UNDER_ARGS ?= --fail-under-lines $(COVERAGE_MIN_LINES) --fail-under-functions $(COVERAGE_MIN_FUNCTIONS) --fail-under-regions $(COVERAGE_MIN_REGIONS) --fail-under-file-lines $(COVERAGE_MIN_FILE_LINES) --ignore-filename-regex '$(COVERAGE_FILE_IGNORE_REGEX)'
 
-.PHONY: fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-docs-metadata check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-radar-legacy-history-migration test-radar-cross-run-pipeline test-radar-workflow-contract test-radar-state-load-error test-radar-audit-history-errors test-radar-degraded-report-semantics test-data-history-retention prune-data-history test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links check-signal-context-consistency check-validation-epoch-freeze test-validation-epoch-freeze quality config-check radar radar-release daemon backtest backtest-release review audit-daily transition-audit-summary collect-evidence collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report
+.PHONY: fmt-check test clippy coverage coverage-html diff-check audit-docs check-doc-forbidden-terms check-docs-metadata check-doc-links check-doc-index check-architecture check-architecture-all check-gray-rhino-evidence-contract check-rust test-audit-daily test-capital-absorption-ipo-queue-persistence test-capital-absorption-weekly-alignment test-radar-legacy-history-migration test-radar-cross-run-pipeline test-radar-workflow-contract test-radar-state-load-error test-radar-audit-history-errors test-radar-degraded-report-semantics test-data-history-retention prune-data-history test-architecture-boundaries test-gray-rhino-evidence-contract test-doc-links check-signal-context-consistency check-acceptance-replay check-validation-epoch-freeze test-validation-epoch-freeze quality config-check radar acceptance-replay radar-release daemon backtest backtest-release review audit-daily transition-audit-summary collect-evidence collect-evidence-release research-attention daily-calibration gray-rhino-refresh gray-rhino-refresh-report
 
 help:
 	@printf '%s\n' 'Sentinel command entrypoints:'
 	@printf '%s\n' '  make config-check'
 	@printf '%s\n' '  make radar RADAR_ARGS="..."'
+	@printf '%s\n' '  make acceptance-replay ACCEPTANCE_REPLAY_ARGS="..."'
 	@printf '%s\n' '  make daemon DAEMON_ARGS="..."'
 	@printf '%s\n' '  make backtest'
 	@printf '%s\n' '  make review'
@@ -71,6 +72,9 @@ test-validation-epoch-freeze:
 
 test:
 	cargo test
+
+check-acceptance-replay:
+	cargo test --test acceptance_replay
 
 test-radar-legacy-history-migration:
 	cargo test migrate_legacy_history --lib
@@ -148,6 +152,9 @@ config-check:
 
 radar:
 	cargo run -- radar $(RADAR_ARGS)
+
+acceptance-replay:
+	cargo run -- acceptance-replay $(ACCEPTANCE_REPLAY_ARGS)
 
 ai-observation-replay:
 	@set -eu; \

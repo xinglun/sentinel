@@ -102,6 +102,12 @@ pub(crate) async fn run_pipeline(
     provider: Arc<dyn MarketDataProvider>,
     mode: crate::features::radar::application::runtime_mode::ExecutionMode,
 ) -> Result<()> {
+    if matches!(
+        mode,
+        crate::features::radar::application::runtime_mode::ExecutionMode::AcceptanceReplay
+    ) {
+        anyhow::bail!("ACCEPTANCE_REPLAY must use the isolated acceptance-replay runner");
+    }
     run_pipeline_for_report_date(app_config, provider, mode, jst_now().date_naive()).await
 }
 
@@ -239,6 +245,12 @@ pub(crate) async fn run_pipeline_for_report_date(
     _mode: crate::features::radar::application::runtime_mode::ExecutionMode,
     report_date: chrono::NaiveDate,
 ) -> Result<()> {
+    if matches!(
+        _mode,
+        crate::features::radar::application::runtime_mode::ExecutionMode::AcceptanceReplay
+    ) {
+        anyhow::bail!("ACCEPTANCE_REPLAY must use the isolated acceptance-replay runner");
+    }
     let parsed_rules = app_config.get_parsed_rules();
     let domain_rules = DomainParsedRules::from(&parsed_rules);
     let config_arc = Arc::new(app_config);

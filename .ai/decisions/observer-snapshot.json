@@ -1,6 +1,6 @@
 {
   "dependencyFingerprint": "sha256:85b8c04904b2361ff1b8ea7bfdd2a654f858485d1dfbac3c6d202a9f6d2e5baf",
-  "diffDigest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "diffDigest": "sha256:56e40cc376b2391a849d7f80188989a813ed005f355adefcbea1a73d13461a0c",
   "observation": {
     "buildSystems": [
       "Cargo",
@@ -8,6 +8,7 @@
     ],
     "cacheHit": false,
     "ciSurfaces": [
+      ".github/workflows/acceptance_replay.yml",
       ".github/workflows/daily_radar.yml",
       ".github/workflows/develop_checks.yml",
       ".github/workflows/weekly_backtest.yml"
@@ -18,7 +19,7 @@
       "security"
     ],
     "dependencyFingerprint": "sha256:85b8c04904b2361ff1b8ea7bfdd2a654f858485d1dfbac3c6d202a9f6d2e5baf",
-    "filesRead": 2476,
+    "filesRead": 2525,
     "languages": [
       "Python",
       "Rust"
@@ -33,10 +34,10 @@
         "state": "detected"
       }
     ],
-    "snapshotDigest": "sha256:cc1c5f22ab56105274aff46b2e03d83f6a444397fb017b161b5b29cf1f1e4eb9",
+    "snapshotDigest": "sha256:36450f93f75486a32c42d432a35d86aa514c96b0075f6be25fb2fcada91ef2ba",
     "testRoots": [
       "tests/**"
     ]
   },
-  "treeDigest": "sha256:455780633ac7b8933006732284d03ea052c013d15bf173532a04b0592665e15d"
+  "treeDigest": "sha256:ab7c7683cfd1193cf99256bb09cbf38259a8bcfcb6837fa4d32e435d0e26c470"
 }
