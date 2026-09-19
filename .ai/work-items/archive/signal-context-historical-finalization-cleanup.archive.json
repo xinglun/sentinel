@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-19T03:28:50Z",
+  "files": {
+    "contractDigest": "sha256:b4e7f99b1e6c424dc96e60f2317cc32a5d905336a957a8a995628f04eb5a4250",
+    "contractPath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.contract.json",
+    "eventsDigest": "sha256:e21d671dc44fb45a084f4fd2ef3b61463ac9610fb8f1ed82a87b00f95fdc3076",
+    "eventsPath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.events.jsonl",
+    "outcomeDigest": "sha256:03991160caf82ae7b7baed62bcfdaff707a068cb394a14b5b7a1e12487621d94",
+    "outcomePath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.outcome.json",
+    "summaryDigest": "sha256:98c70494048d94f468a044f59b4cddfd12cb96b6d551e213fe53a3b4aeb60233",
+    "summaryPath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json",
+    "taskReportDigest": "sha256:e4ac2b42b2739c74d7552ee7af1d3e6b95caae399c2a9805aa33470f5893cd1e",
+    "taskReportMarkdownDigest": "sha256:c197a1ae05fe3c8a3344839b3591c6a3f48d309f76fdea489ec342c84c0cbf59",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-historical-finalization-cleanup.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-historical-finalization-cleanup"
+}

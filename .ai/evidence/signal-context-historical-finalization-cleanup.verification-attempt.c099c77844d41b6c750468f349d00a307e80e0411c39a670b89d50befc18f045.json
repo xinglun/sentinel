@@ -1,0 +1,160 @@
+{
+  "attemptId": "sha256:c099c77844d41b6c750468f349d00a307e80e0411c39a670b89d50befc18f045",
+  "commands": [
+    {
+      "args": [],
+      "baseCommit": "3ab883c54b6342977b11906d753f51149caab3f2",
+      "commandDigest": "sha256:40964c2d5ddbd7a4c3ee0ed3c5f703ece227a771260d44045f4c46c6558cb4ff",
+      "nodeId": "project-command-0",
+      "program": "cargo test --workspace",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1251449101d95ea66f10fe490fb5ef223a45a571d1214dd2a8938e569b18acce",
+  "contractExecutionScopeDigest": "sha256:5faf5c8de9a0338affc730542a61df27c348933090c391b5ed30efe9876dc22e",
+  "createdAt": "2026-09-19T03:23:59Z",
+  "diagnostic": {
+    "code": "verification_execution",
+    "message": "one or more verification nodes failed"
+  },
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:40964c2d5ddbd7a4c3ee0ed3c5f703ece227a771260d44045f4c46c6558cb4ff",
+      "deadlineMs": 1789788539706,
+      "elapsedMs": 1,
+      "exitCode": null,
+      "nodeId": "project-command-0",
+      "passed": false,
+      "spawned": false,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 127,
+      "executionElapsedMs": 1,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": false,
+      "planningElapsedMs": 0,
+      "processesSpawned": 0,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "runtimeVersion": "0.2.99",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 127,
+    "executionElapsedMs": 1,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:40964c2d5ddbd7a4c3ee0ed3c5f703ece227a771260d44045f4c46c6558cb4ff",
+        "deadlineMs": 1789788539706,
+        "elapsedMs": 1,
+        "exitCode": null,
+        "nodeId": "project-command-0",
+        "passed": false,
+        "spawned": false,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 4,
+    "filesRead": 4,
+    "gitCalls": 8,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": false,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "3ab883c54b6342977b11906d753f51149caab3f2",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 1,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "signal-context-historical-finalization-cleanup"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 1,
+    "processesSpawned": 0,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": null,
+        "outputTruncated": false,
+        "passed": false,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "timeoutSeconds": 300,
+    "workItemId": "signal-context-historical-finalization-cleanup"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "execution_failed",
+  "workItemId": "signal-context-historical-finalization-cleanup"
+}
