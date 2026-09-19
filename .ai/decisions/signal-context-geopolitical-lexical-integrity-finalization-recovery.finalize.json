@@ -1,0 +1,71 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "authoritySource": "explicit user authorization in this task",
+  "before": {
+    "branch": "unknown",
+    "pullRequest": "merged",
+    "worktree": "unknown"
+  },
+  "branch": {
+    "headRevision": "e2c96e18605c580c15e1f6c46d2d667467e8a8fb",
+    "name": "codex/signal-context-geopolitical-lexical-integrity-finalization-recovery",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0319ccc0476dbf9da4872310e5da551e24d8b6ae8383b99f55bfc10a787682bc",
+  "historical": {
+    "assurance": "historical_low",
+    "baseRevision": "6516bc281cf882e3dbce3b6cbf48287c0fda0cde",
+    "contractBaseRevision": "c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+    "kind": "direct_merge_no_pr",
+    "mergeCommit": "c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+    "mergeParents": [
+      "6516bc281cf882e3dbce3b6cbf48287c0fda0cde",
+      "e2c96e18605c580c15e1f6c46d2d667467e8a8fb"
+    ]
+  },
+  "operationId": "historical-direct-merge-operation-c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+  "provider": "historical",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "6516bc281cf882e3dbce3b6cbf48287c0fda0cde",
+    "headRevision": "e2c96e18605c580c15e1f6c46d2d667467e8a8fb",
+    "mergeCommit": "c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+    "number": 0,
+    "url": "historical://direct-merge/c81b5a3d1b5b456db8e48ac186c58a8479455c16"
+  },
+  "reason": "Record the real merged implementation lineage c81b5a3 as historical direct-merge finalization evidence; no production or trading behavior changes and predecessor bytes remain immutable.",
+  "receiptId": "historical-direct-merge-signal-context-geopolitical-lexical-integrity-finalization-recovery-c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-geopolitical-lexical-integrity-finalization-recovery",
+    "provider": "historical",
+    "pullRequest": "historical://direct-merge/c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-signal-context-geopolitical-lexical-integrity-finalization-recovery"
+  },
+  "result": {
+    "disposition": "retained",
+    "failureCodes": [],
+    "unknownCodes": [
+      "historical_resource_state_unknown"
+    ]
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-19T11:46:00+09:00",
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-recovery",
+  "worktree": {
+    "branch": "codex/signal-context-geopolitical-lexical-integrity-finalization-recovery",
+    "headRevision": "e2c96e18605c580c15e1f6c46d2d667467e8a8fb",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-signal-context-geopolitical-lexical-integrity-finalization-recovery",
+    "worktreeId": "historical-direct-merge-c81b5a3d1b5b456db8e48ac186c58a8479455c16"
+  }
+}
