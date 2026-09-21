@@ -11,6 +11,7 @@ use crate::features::radar::interface::presentation::{
     MarketInterpretationViewModel, PresentationPacket, TrendBreadthMode,
 };
 use crate::features::shared::interface::i18n::{get_dictionary, Language};
+use chrono::NaiveDate;
 
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 struct ActionDistribution {
@@ -740,6 +741,7 @@ pub(crate) fn build_leader_persistence_view_model(
         result.first_observed_at = None;
         result.leader_state = LeaderState::Unavailable;
     }
+    let absence_baseline_status = absence_baseline_status(&result, input.formal_baseline);
 
     Some(LeaderPersistenceViewModel {
         title: leader_persistence_title(input.language).to_string(),
@@ -769,6 +771,11 @@ pub(crate) fn build_leader_persistence_view_model(
         leadership_snapshot_id: Some(format!("leadership-{}", input.current_packet.date)),
         previous_snapshot_id: input.baseline_date.map(|date| format!("leadership-{date}")),
         calculation_mode: result.calculation_mode.to_string(),
+        absence_baseline_status_label: leader_persistence_absence_baseline_status_label(
+            input.language,
+        )
+        .to_string(),
+        absence_baseline_status: absence_baseline_status.to_string(),
         first_observed_at_value: (result.history_coverage == "COMPLETE")
             .then_some(result.first_observed_at)
             .flatten()
@@ -938,6 +945,49 @@ fn leader_persistence_history_label(language: Language) -> &'static str {
         Language::ZhCn => "切换历史",
         Language::EnUs => "Switch History",
         Language::JaJp => "切替履歴",
+    }
+}
+
+fn leader_persistence_absence_baseline_status_label(language: Language) -> &'static str {
+    match language {
+        Language::ZhCn => "Leader absence 基线状态",
+        Language::EnUs => "Leader Absence Baseline Status",
+        Language::JaJp => "Leader absence 基線ステータス",
+    }
+}
+
+fn absence_baseline_from_snapshot(
+    snapshot: &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
+) -> Option<(Option<NaiveDate>, usize)> {
+    let value = snapshot.data_quality.get("leadership_absence")?;
+    let duration = value.get("duration")?.as_u64()? as usize;
+    let since = value
+        .get("since")
+        .and_then(serde_json::Value::as_str)
+        .and_then(|date| NaiveDate::parse_from_str(date, "%Y-%m-%d").ok());
+    Some((since, duration))
+}
+
+fn absence_baseline_status(
+    result: &LeaderPersistenceResult,
+    formal_baseline: Option<
+        &crate::features::radar::infrastructure::persistence::TradingDaySnapshot,
+    >,
+) -> &'static str {
+    if result.leader_absence_duration == 0 {
+        return "NOT_APPLICABLE";
+    }
+    if result.calculation_mode != "RECOMPUTED_FROM_PARTIAL_HISTORY" {
+        return "PERSISTED_FACT";
+    }
+
+    let Some(previous) = formal_baseline.and_then(absence_baseline_from_snapshot) else {
+        return "RECONSTRUCTED_FROM_PARTIAL_HISTORY";
+    };
+    if result.leader_absence_since != previous.0 || result.leader_absence_duration < previous.1 {
+        "REBASED_FROM_PARTIAL_HISTORY"
+    } else {
+        "RECONSTRUCTED_FROM_PARTIAL_HISTORY"
     }
 }
 
@@ -3314,6 +3364,71 @@ mod tests {
         assert!(view_model
             .change_from_yesterday_value
             .contains("GOOG -> none"));
+    }
+
+    #[test]
+    fn partial_history_rebase_is_explicit_when_absence_baseline_moves_backward() {
+        let current_date = NaiveDate::from_ymd_opt(2026, 9, 21).unwrap();
+        let persisted_observations = (3..=17)
+            .map(|day| LeaderObservation {
+                date: NaiveDate::from_ymd_opt(2026, 9, day).unwrap(),
+                leader: "none".to_string(),
+                confidence: Some(40.0),
+                breadth: Some(30.0),
+                relative_strength: None,
+                rotation_stability: Some(30.0),
+                sector_or_index_rotation: None,
+                supply_state: None,
+            })
+            .collect::<Vec<_>>();
+        let packet = DecisionPacket {
+            date: current_date,
+            ..Default::default()
+        };
+        let presentation = PresentationPacket {
+            leadership_snapshot: Some(LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leadership_confidence_value: "LOW".to_string(),
+                leader_absence_duration: 12,
+                leader_absence_since_value: Some("2026-09-03".to_string()),
+                ..Default::default()
+            }),
+            ..Default::default()
+        };
+        let formal_baseline =
+            crate::features::radar::infrastructure::persistence::TradingDaySnapshot {
+                market_date: NaiveDate::from_ymd_opt(2026, 9, 18).unwrap(),
+                primary_leader: Some("none".to_string()),
+                data_quality: serde_json::json!({
+                    "leadership_absence": {
+                        "since": "2026-08-26",
+                        "duration": 13,
+                        "status": "RECONSTRUCTED_FROM_PARTIAL_HISTORY"
+                    }
+                }),
+                ..Default::default()
+            };
+
+        let view_model = build_leader_persistence_view_model(LeaderPersistenceReadModelInput {
+            persisted_observations: &persisted_observations,
+            current_packet: &packet,
+            current_presentation: &presentation,
+            language: Language::EnUs,
+            baseline_date: Some(formal_baseline.market_date),
+            baseline_status: "AVAILABLE",
+            formal_baseline: Some(&formal_baseline),
+        })
+        .unwrap();
+
+        assert_eq!(
+            view_model.absence_baseline_status,
+            "REBASED_FROM_PARTIAL_HISTORY"
+        );
+        assert_eq!(
+            view_model.leader_absence_since_value.as_deref(),
+            Some("2026-09-03")
+        );
+        assert_eq!(view_model.leader_absence_duration, 12);
     }
 
     #[test]

@@ -1,0 +1,74 @@
+{
+  "acceptanceCriteria": [
+    "部分历史重算场景必须显式输出 corrected/rebased 状态，并保留当前 absence_since 与 absence_duration。",
+    "结构化 weekly JSON 与 Markdown/HTML 的 Leader Persistence 投影必须包含该状态，且不把它写成正常 persistence 增长。",
+    "Decision、Gate、Execution、Action Matrix、Position Sizing、decision_weight 与 trade_signal 不发生变化。",
+    "通过 make fmt-check、make test、make clippy、make check-signal-context-consistency 与 make quality。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "84aee3f31cf3ad306d07368943131f972f0c6439",
+  "createdAt": "2026-09-21T11:41:10Z",
+  "goal": "当 partial-history recomputation 改变 absence_since 或 absence_duration 基线时，报告与结构化输出必须标明 corrected/rebased，避免用户将历史回退误读为正常 persistence。",
+  "intent": "让部分历史重算导致的 Leader absence baseline 修正可追踪且显式呈现。",
+  "mode": "code",
+  "outOfScope": [
+    "FRED observation precision；breakout presentation semantic clarity；AI Policy/Finnhub classifier；交易状态、Gate、仓位、Telegram 发送、secrets、reports/data branch 和历史 Work Item archive。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [],
+      "expected": "When partial history changes absence_since or absence_duration relative to the prior baseline, the model exposes an explicit corrected/rebased status while retaining current values.",
+      "required": true,
+      "scenario": "partial-history recomputation changes absence baseline",
+      "status": "unverified",
+      "verificationPlan": "Add domain/read-model regression with prior baseline 2026-08-26/13 and recomputed baseline 2026-09-03/12."
+    },
+    {
+      "evidence": [],
+      "expected": "Leader Persistence Markdown, HTML, and weekly JSON expose the corrected/rebased status.",
+      "required": true,
+      "scenario": "corrected/rebased status reaches all observation projections",
+      "status": "unverified",
+      "verificationPlan": "Add report and weekly projection assertions for the corrected/rebased marker."
+    },
+    {
+      "evidence": [],
+      "expected": "The change remains observation-only and does not change Decision, Gate, Execution, Action Matrix, Position Sizing, decision_weight, or trade_signal.",
+      "required": true,
+      "scenario": "decision boundary remains unchanged",
+      "status": "unverified",
+      "verificationPlan": "Reuse existing observation-only regression and assert decision fields remain unchanged."
+    }
+  ],
+  "scope": [
+    "仅修改 leader persistence 的 baseline/reconstruction provenance、TradingDaySnapshot 兼容字段、LeaderPersistenceViewModel 及 Markdown/HTML/weekly JSON 投影，并补充对应 Rust 回归测试；保持 observation-only，不改变 Decision、Gate、Execution、Action Matrix、Position Sizing。",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/weekly_state_report.rs",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**"
+  ],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make check-signal-context-consistency",
+    "make quality"
+  ],
+  "workItemId": "leadership-absence-reconstruction-integrity"
+}

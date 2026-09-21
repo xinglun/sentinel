@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:8b00e58e9713995cd4fdaed68c1616a6902aecd927d1ee8554c2e9779371ffec",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "用户明确授权实施对应修复；当前 Work Item 将领导力 absence baseline reconstruction 独立限定为 observation-only，并保留 FRED 与 breakout 事项为独立范围。",
+  "recordedAt": "2026-09-21T11:43:00Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:4d3a87b3e289eefd03bdf838c0e6efa33ed37fc63698c57a7014605572be0f8c",
+  "schemaVersion": 1,
+  "workItemId": "leadership-absence-reconstruction-integrity"
+}

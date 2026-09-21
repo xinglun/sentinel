@@ -482,6 +482,7 @@ fn build_weekly_leader_persistence_context(
         "previous_snapshot_leader": layer.previous_snapshot_leader_value,
         "last_confirmed_leader": layer.last_confirmed_leader_value,
         "leader_absence_since": layer.leader_absence_since_value,
+        "absence_baseline_status": layer.absence_baseline_status,
         "tactical_leadership_structure": layer.tactical_leadership_structure_value,
         "leadership_score": layer.leadership_score,
         "state": layer.leader_state_value,
@@ -735,6 +736,15 @@ fn push_weekly_market_interpretation_snapshot(
         }
         if let Some(absence_since) = &leader_persistence.leader_absence_since_value {
             review.push_str(&format!("  - Leader Absence Since: {absence_since}\n"));
+        }
+        if !leader_persistence.absence_baseline_status.is_empty()
+            && leader_persistence.absence_baseline_status != "NOT_APPLICABLE"
+        {
+            review.push_str(&format!(
+                "  - {}: {}\n",
+                leader_persistence.absence_baseline_status_label,
+                leader_persistence.absence_baseline_status
+            ));
         }
         review.push_str(&format!(
             "  - Tactical Leadership Structure: {}\n",
@@ -1945,6 +1955,8 @@ mod tests {
                     leadership_snapshot_id: Some("leadership-2026-06-17".to_string()),
                     previous_snapshot_id: Some("leadership-2026-06-16".to_string()),
                     calculation_mode: "RECOMPUTED_FROM_PARTIAL_HISTORY".to_string(),
+                    absence_baseline_status_label: "Leader Absence Baseline Status".to_string(),
+                    absence_baseline_status: "RECONSTRUCTED_FROM_PARTIAL_HISTORY".to_string(),
                     leadership_score_label: "Leadership Score".to_string(),
                     leadership_score_value: "64.2".to_string(),
                     leadership_score: 64.2,
@@ -2055,6 +2067,10 @@ mod tests {
         assert_eq!(latest["leader_persistence"]["primary_leader"], "SPY");
         assert_eq!(latest["leader_persistence"]["persistence_days"], 3);
         assert_eq!(latest["leader_persistence"]["leadership_score"], 64.2);
+        assert_eq!(
+            latest["leader_persistence"]["absence_baseline_status"],
+            "RECONSTRUCTED_FROM_PARTIAL_HISTORY"
+        );
     }
 
     #[test]
