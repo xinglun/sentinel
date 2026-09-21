@@ -2454,6 +2454,17 @@ fn render_leader_persistence_section(
                     "  - absence_since and duration are estimated/reconstructed from partial history.\n",
                 );
             }
+            if !persistence.absence_baseline_status.is_empty()
+                && persistence.absence_baseline_status != "NOT_APPLICABLE"
+            {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.absence_baseline_status_label, persistence.absence_baseline_status
+                ));
+                if persistence.absence_baseline_status == "REBASED_FROM_PARTIAL_HISTORY" {
+                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; duration is not a monotonic continuation of the prior report.\n");
+                }
+            }
             if let Some(note) = &persistence.history_note {
                 block.push_str(&format!("  - {}\n", note));
             }
@@ -2558,6 +2569,17 @@ fn render_leader_persistence_section(
                 block.push_str(
                     "  - absence_since and duration are estimated/reconstructed from partial history.\n",
                 );
+            }
+            if !persistence.absence_baseline_status.is_empty()
+                && persistence.absence_baseline_status != "NOT_APPLICABLE"
+            {
+                block.push_str(&format!(
+                    "  - {}: {}\n",
+                    persistence.absence_baseline_status_label, persistence.absence_baseline_status
+                ));
+                if persistence.absence_baseline_status == "REBASED_FROM_PARTIAL_HISTORY" {
+                    block.push_str("  - Leader absence baseline was corrected/rebased from partial history; duration is not a monotonic continuation of the prior report.\n");
+                }
             }
             if let Some(note) = &persistence.history_note {
                 block.push_str(&format!("  - {}\n", note));

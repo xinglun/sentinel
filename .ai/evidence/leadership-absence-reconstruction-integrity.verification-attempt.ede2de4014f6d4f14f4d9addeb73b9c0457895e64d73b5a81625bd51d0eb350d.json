@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:ede2de4014f6d4f14f4d9addeb73b9c0457895e64d73b5a81625bd51d0eb350d",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "84aee3f31cf3ad306d07368943131f972f0c6439",
+      "commandDigest": "sha256:6aa39b97bbed65af562aacaa50a380a47e588ee1ba3080570ca363240f09b599",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:6dd3fb28d08ec76d4ba6a6757814c2e1308b942d749954c843100b01ff6abb13",
+  "contractExecutionScopeDigest": "sha256:64ef58eb6ef477be8b21a822126e7b256349a1adbf6f4d3c4bf16e29132501e6",
+  "createdAt": "2026-09-21T13:35:28Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/signal-context-9-21-observation-integrity/sentinel/.ai/work-items/active/leadership-absence-reconstruction-integrity.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "leadership-absence-reconstruction-integrity"
+}

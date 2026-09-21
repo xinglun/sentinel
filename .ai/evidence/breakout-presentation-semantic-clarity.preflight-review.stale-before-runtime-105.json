@@ -1,0 +1,13 @@
+{
+  "contractDigest": "sha256:677aad7e13d551036c8c419436637795a952be5f1c3d5f9aef7620856ca9a420",
+  "decision": "confirm_review",
+  "decisionId": "contract-preflight-review",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "reason": "用户在当前会话明确要求继续走完流程；确认按当前集成分支完成 breakout presentation 语义修复的 preflight、验证、finish、archive、PR 与同步，并保持 observation-only，不改变 Decision、Gate、Execution、Action Matrix、Position Sizing。",
+  "recordedAt": "2026-09-21T13:27:56Z",
+  "recordedBy": "user",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "schemaVersion": 1,
+  "workItemId": "breakout-presentation-semantic-clarity"
+}
