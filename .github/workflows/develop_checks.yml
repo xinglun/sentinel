@@ -13,7 +13,7 @@ on:
 jobs:
   validate:
     name: Build, Lint & Test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -23,6 +23,15 @@ jobs:
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
+
+      - name: Verify pinned Ubuntu runners
+        run: |
+          set -euo pipefail
+          forbidden_runner="ubuntu-$(printf '%s' latest)"
+          if grep -R -n -F --include='*.yml' --include='*.yaml' "$forbidden_runner" .github/workflows; then
+            echo 'The moving Ubuntu latest runner label is not permitted in GitHub Actions workflows.' >&2
+            exit 1
+          fi
 
       - name: Install Protoc (Required for Futu)
         run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
@@ -105,7 +114,7 @@ jobs:
 
   audit-daily-guard:
     name: Audit Daily Guard
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
