@@ -1,0 +1,38 @@
+{
+  "acceptanceCriteria": [
+    "develop 到 main 仅通过 reviewed PR 同步",
+    "PR hosted checks 通过且 merge commit 可验证",
+    "合并后 origin/main 与 origin/develop 内容一致",
+    "sync Work Item、分支与 worktree 完成治理清理"
+  ],
+  "authority": "authorized",
+  "baseRevision": "eb2193c188868a25a759626ce5e12c6df23b4dae",
+  "createdAt": "2026-09-21T19:47:42Z",
+  "goal": "验证 origin/develop 与 origin/main 的内容同步，仅变更治理证据并完成同步资源清理。",
+  "intent": "将已合并并验证的 develop 增量通过独立 reviewed PR 同步到 main。",
+  "mode": "code",
+  "outOfScope": [
+    "不新增代码或业务行为；不修改 Decision、Gate、交易逻辑、Secrets、历史债务或无关分支与 Work Item。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:07a3f459a2418e64a5347a54b8f4b6599f053fcd0293e136575fbd3b158b0c7a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "develop-to-main reviewed synchronization; hosted checks; post-merge branch parity; exact sync-resource cleanup"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "develop-main-sync-20260922-v1"
+}
