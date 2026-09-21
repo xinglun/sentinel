@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "07833ae6886897972aa297e8f106a7e6417232be",
+    "name": "codex/develop-main-sync-20260922-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:e5ffbb274ba78c0f763f5f3e8988833524b62d15903599c4a0e6525d1a69c89a",
+  "operationId": "github-pr-277-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "baseRevision": "860e88c2133c853631072788b4c5c2c047a99ef6",
+    "headRevision": "07833ae6886897972aa297e8f106a7e6417232be",
+    "mergeCommit": "85aaaac7b65b9b5c0378b9c12eede972dad86e75",
+    "number": 277,
+    "url": "https://github.com/xinglun/sentinel/pull/277"
+  },
+  "reason": "PR #277 已合并到 main，且已确认 develop-main-sync branch、remote branch 与 linked worktree 均按精确资源删除；保留完整 develop-to-main synchronization 证据。",
+  "receiptId": "develop-main-sync-20260922-v2-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync-20260922-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/277",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/develop-main-sync-20260922-v2/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-21T22:12:11Z",
+  "workItemId": "develop-main-sync-20260922-v2",
+  "worktree": {
+    "branch": "codex/develop-main-sync-20260922-v2",
+    "headRevision": "07833ae6886897972aa297e8f106a7e6417232be",
+    "path": "/Users/sei-rinn/.codex/worktrees/develop-main-sync-20260922-v2/sentinel",
+    "worktreeId": "develop-main-sync-20260922-v2"
+  }
+}
