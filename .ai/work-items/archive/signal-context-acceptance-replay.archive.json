@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T06:08:33Z",
+  "files": {
+    "contractDigest": "sha256:1a7535ebcf5c369a07e9bc02a57d5aa6e6a46c0561c60f20fc807af592de5cbe",
+    "contractPath": ".ai/work-items/archive/signal-context-acceptance-replay.contract.json",
+    "eventsDigest": "sha256:f7517575bca11785f77bb32fc15827f8754599ad0a4eef7fcaa56fef04cf8f30",
+    "eventsPath": ".ai/work-items/archive/signal-context-acceptance-replay.events.jsonl",
+    "outcomeDigest": "sha256:4577708dcdae48452f588fd5df989da7fb9bc5d1ca34866c5920ca869f8542e4",
+    "outcomePath": ".ai/work-items/archive/signal-context-acceptance-replay.outcome.json",
+    "summaryDigest": "sha256:36e575722ffbe9daa127535c240c36ae5d3c9bb30d3a3063ed3dd1343a2d7905",
+    "summaryPath": ".ai/work-items/archive/signal-context-acceptance-replay.summary.json",
+    "taskReportDigest": "sha256:869c410f6cc8712364b689f30dcb4041fe5b3fbaaf0682cea8f55aa66b37da5b",
+    "taskReportMarkdownDigest": "sha256:003be2b58160d9a5713930e4b500610b4cf9a50bee5337ac14c48a2858cd5f4f",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-acceptance-replay.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-acceptance-replay.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-acceptance-replay"
+}

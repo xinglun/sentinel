@@ -40,6 +40,22 @@ pub(crate) async fn load_macro_signal_context(
     }
 }
 
+/// Acceptance replay が immutable Finnhub input を現在の provider parser で再評価する ACL。
+pub(crate) fn parse_finnhub_geopolitical_items_for_replay(
+    raw: &str,
+    market_date: NaiveDate,
+    accepted_at: &str,
+) -> anyhow::Result<(
+    Vec<crate::features::research::infrastructure::macro_signal_context_provider::MacroSignalContextProviderEvent>,
+    usize,
+)>{
+    crate::features::research::infrastructure::macro_signal_context_provider::parse_finnhub_geopolitical_items(
+        raw,
+        market_date,
+        accepted_at,
+    )
+}
+
 fn map_ai_policy_observation(
     observation: crate::features::research::infrastructure::macro_signal_context_provider::ProviderAiPolicyObservation,
 ) -> AiPolicyFrontierPacingObservation {

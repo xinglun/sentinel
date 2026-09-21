@@ -1,0 +1,359 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "acceptance-replay is a first-class mode with immutable historical input, fresh computation, isolated output, optional notification, and zero canonical mutation",
+      "evidence": [
+        "src/features/radar/application/acceptance_replay.rs",
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "replay provenance records GENERATED, ACCEPTANCE_REPLAY, ISOLATED, canonical_write=false, execution revision, input manifest digest, and canonical before/after digests",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Warsh evidence cannot produce GEOPOLITICAL_ESCALATION while War in Iran with missile strike remains a valid geopolitical positive",
+      "evidence": [
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "replay fails closed when the matching immutable input manifest is absent or mismatched",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Decision, Gate, Action Matrix, Execution, Trader, Position Sizing projections and digests remain unchanged; decision_weight=0 and trade_signal=false",
+      "evidence": [
+        "src/features/radar/application/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "acceptance-replay cannot persist canonical snapshot, data branch, freshness marker, canonical promotion, or reuse archived daily payload",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "verification manifest produces machine-readable pass/fail receipt for lexical and isolation assertions",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "generate and resend semantics remain unchanged",
+      "evidence": [
+        ".github/workflows/daily_radar.yml",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/cli.rs"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "A repository-backed immutable replay fixture provides historical input, canonical reference state, and machine-readable assertions for an actual workflow dispatch.",
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json",
+        ".github/workflows/acceptance_replay.yml"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Replay provenance separates original_generation_revision from the current execution_git_commit_sha supplied by the CLI, so the receipt identifies both historical input origin and the code that performed the fresh computation.",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/daily-radar-snapshot-report-date-conflict.selected-successor-lineage-recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/signal-context-acceptance-replay.fixture-amendment-input.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review-input-v4.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review-input-v5.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review-input-v6.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review-input-v7.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review-input-v8.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review.3246524e052d96f6502be5e14d6115e8f1d8903037edc0121b18a391dac6bea1.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review.3959e6211bd72b4b347ecd031c0be117a48e1d2f1381315ac92c1a2471b73913.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review.633bdd975660c10eccfe62ff574e78616231fbb1c89833382b977f2156a5acb1.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review.b01b4a14876862b633fe131330eeecc1b2c81ad8761a5871dd7dde7ea711ad75.json",
+    ".ai/decisions/signal-context-acceptance-replay.preflight-review.fd97b9bd7366df417a2f9f89b2c69e5d1ae78d71b515d139eb972155afeed27b.json",
+    ".ai/decisions/signal-context-acceptance-replay.recovery.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.015f81a50c7061fd476c2273714473ddd413f5854f75f0d065903f4f878fa07a.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.0d4ed011b654c4d717f2352f5685c07789048a9ed88fdbac89ba5470fc282a17.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.2061a0130a8e44822a0879ce6504d7e30c98da096206c978485aecfb4ce72fbb.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.30be7ab5ddeb05bb8a835b9d915bd3d9c6ead0f64996cfd0e519b0aa4c794dff.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.3298dfbca7a901a8c76d9c1c84f270f872b2da7097b4d2a89092ca4f3e1a9807.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.406c71c85d6375a73b46ca6093040fb16a51dbd82338dc6693f749f4face20bc.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.48e8a4dda001a346061ac5d984f82faefc78b5b4e28d54391bff3bb7a81e816a.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.4ac44ca8311f359bb27d78e20a053f6dfe50e2609df51c672c6436411fcdaff4.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.506b58a377a339e6bcfeb44e88937900bf3703dab06e80266984178e9ec879ae.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.6becf667048e6fc962feb7abfdf41b7cd144e3953fd2a6cfde3769b958bf6cf5.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.6f2f0aad11804081d6b0f98a1a9444d54aff55922f8e14cb4b9f944c36d6e8c3.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.88be7b1a57ec8ef88b23d6da2f3309005fa3ea607b11c942153c35701bdbb24b.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.a78e6c6531614303fa82cfcc7d10ac18fb6801c312ca447f317dd4cd089a18da.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.a9e410abadb7dfc8ec4a9c46cf63dcc9e1b921eee400d017bc222c35e0d4cb02.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.c5e8b120075d8c4c80c3370981a57ef1a41bb8eed7ca8e6609874309837b2f7a.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.c653b05e7106a09b10cb67382111eb2e31da02bc3631841bf21e57686ef4882d.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.d0a798090135f668b7ba30072356dc3a591963bfc7ff22d6c5eb9643ffc1c75f.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification-attempt.e38a76f2c5b8923f3c61463d3f046d1e39dc9cefee26d7238e9423ee16874c52.json",
+    ".ai/evidence/signal-context-acceptance-replay.verification.json",
+    ".ai/locks/daily-radar-snapshot-report-date-conflict.lifecycle.lock",
+    ".ai/locks/freshness-gate-holiday-fix.lifecycle.lock",
+    ".ai/locks/signal-context-acceptance-replay.lifecycle.lock",
+    ".ai/work-items/archive/signal-context-acceptance-replay.contract.json",
+    ".ai/work-items/archive/signal-context-acceptance-replay.summary.json",
+    "docs/superpowers/specs/acceptance-replay.md",
+    "src/features/radar/interface/acceptance_replay.rs",
+    "tests/acceptance_replay.rs",
+    "tests/fixtures/acceptance_replay/2026-09-08/canonical/snapshot.json",
+    "tests/fixtures/acceptance_replay/2026-09-08/historical-finnhub.json",
+    "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json"
+  ],
+  "checkpointAt": "2026-09-18T22:58:58Z",
+  "checkpointContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+      "recorded": true,
+      "recordedAt": "2026-09-18T22:58:58Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "signal-context-acceptance-replay"
+    },
+    {
+      "acceptanceCount": 9,
+      "contractHash": "sha256:bd311786f11c9e4ff618b6a00cc562a9784031215eef4cc401a536b4eae6a917",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+      "previousContractHash": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+      "reason": "修正 architecture boundary：通过 research ACL/interface 暴露 immutable replay parser，避免 Radar interface 直接依赖 research infrastructure。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T23:23:27Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:618f944c4b549447025ecdebd32333995d34f0e8de34108b60dd086d45158aba",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "signal-context-acceptance-replay"
+    },
+    {
+      "acceptanceCount": 10,
+      "contractHash": "sha256:f7c2474c5e7b00b31fc39416e2fd94e1672085b0e4dac841a2d98c62fcebbdb1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+      "previousContractHash": "sha256:bd311786f11c9e4ff618b6a00cc562a9784031215eef4cc401a536b4eae6a917",
+      "reason": "补齐当前 acceptance-replay 实际使用的模块导出与 research infrastructure ACL 支撑文件；保持同一 bounded scope 与 architecture boundary。",
+      "recorded": true,
+      "recordedAt": "2026-09-18T23:36:07Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c906f9aaf5eb81e59f8247249bee270e111b33c600b7a210a220cf1684d6385b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "signal-context-acceptance-replay"
+    },
+    {
+      "acceptanceCount": 12,
+      "contractHash": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:21f92aac286297051e94295fa2949eaceb2040c6d82000aa94b5ceb2c470b9e8",
+      "previousContractHash": "sha256:f7c2474c5e7b00b31fc39416e2fd94e1672085b0e4dac841a2d98c62fcebbdb1",
+      "reason": "授权后补齐可实际发送的仓库内 immutable replay fixture，并分离历史输入生成 revision 与当前执行 revision",
+      "recorded": true,
+      "recordedAt": "2026-09-21T05:51:10Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c906f9aaf5eb81e59f8247249bee270e111b33c600b7a210a220cf1684d6385b",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "signal-context-acceptance-replay"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
+  "createdAt": "2026-09-18T22:50:43Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户已授权继续完成 acceptance-replay Work Item；当前实现已提交至 feature branch，确认按最新 Contract、Runtime verification receipts、immutable fixture、isolated replay 和观察-only交易边界继续 finish/PR 流程。",
+    "recordedAt": "2026-09-21T06:20:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
+    "schemaVersion": 1,
+    "workItemId": "signal-context-acceptance-replay"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "user:acceptance-replay-design-2026-09-19",
+      ".ai/work-items/active/signal-context-acceptance-replay.contract.json"
+    ],
+    "reason": "实现限定为 acceptance-replay 的隔离重算与可审计验收；不改变既有 generate/resend、TemporalBinding、MarketObservation 或交易决策语义。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T06:07:44Z",
+  "preflightContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "Warsh faces tough battle at the Fed does not produce GEOPOLITICAL_ESCALATION.",
+      "required": true,
+      "scenario": "Warsh lexical collision is rejected",
+      "status": "verified",
+      "verificationPlan": "Focused acceptance-replay assertion and geopolitical matcher regression test."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "War in Iran with missile strike, Israel air strikes, drone attack on a facility, and missile strike on a military base remain valid geopolitical positives.",
+      "required": true,
+      "scenario": "Real geopolitical war and missile semantics remain accepted",
+      "status": "verified",
+      "verificationPlan": "Focused acceptance-replay assertions backed by the existing lexical matcher."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "Missing, mismatched, malformed, or wrong-date immutable input fails closed with no fallback provider/current input.",
+      "required": true,
+      "scenario": "Immutable input manifest is required",
+      "status": "verified",
+      "verificationPlan": "Focused tests for manifest identity, digest, report date, and fail-closed errors."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "No canonical snapshot, data branch, freshness marker, canonical promotion, or archived daily payload write is reachable from acceptance-replay.",
+      "required": true,
+      "scenario": "Replay output is isolated and not publishable",
+      "status": "verified",
+      "verificationPlan": "Static boundary tests plus before/after canonical digest assertions."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "Generated report records ACCEPTANCE_REPLAY, ISOLATED, canonical_write=false, execution revision, input digest, and canonical before/after digests.",
+      "required": true,
+      "scenario": "Replay provenance is explicit",
+      "status": "verified",
+      "verificationPlan": "Provenance serialization and verification receipt assertions."
+    },
+    {
+      "evidence": [
+        "src/features/radar/application/acceptance_replay.rs",
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs"
+      ],
+      "expected": "Decision, Gate, Action Matrix, Execution, Trader, and Position Sizing digests are equal; decision_weight=0 and trade_signal=false.",
+      "required": true,
+      "scenario": "Decision surface remains unchanged",
+      "status": "verified",
+      "verificationPlan": "Projection digest comparison in the replay acceptance receipt."
+    },
+    {
+      "evidence": [
+        "src/cli.rs",
+        ".github/workflows/acceptance_replay.yml",
+        "src/features/radar/interface/acceptance_replay.rs"
+      ],
+      "expected": "Notification, when requested, is sourced from the fresh isolated generated payload and cannot publish canonical state.",
+      "required": true,
+      "scenario": "Optional notification uses generated isolated payload only",
+      "status": "verified",
+      "verificationPlan": "CLI/workflow contract and notification provenance implementation."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        ".github/workflows/daily_radar.yml",
+        "src/cli.rs"
+      ],
+      "expected": "Existing generate retains canonical persistence behavior and resend retains archived-payload-only behavior.",
+      "required": true,
+      "scenario": "Generate and resend semantics remain unchanged",
+      "status": "verified",
+      "verificationPlan": "Existing workflow and runner boundaries plus workspace tests."
+    },
+    {
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json",
+        ".github/workflows/acceptance_replay.yml"
+      ],
+      "expected": "The checked-in manifest resolves only to checked-in historical input and canonical reference files, and a workflow dispatch can execute it without provider fallback.",
+      "required": true,
+      "scenario": "Repository-backed immutable replay fixture is deliverable",
+      "status": "verified",
+      "verificationPlan": "Run the repository-backed fixture through the acceptance-replay CLI and then through the dispatchable GitHub Actions workflow."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T06:07:48Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "signal-context-acceptance-replay"
+}

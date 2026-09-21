@@ -730,7 +730,7 @@ async fn load_finnhub_news_source(
     (geopolitical, ai_policy)
 }
 
-fn parse_finnhub_geopolitical_items(
+pub(crate) fn parse_finnhub_geopolitical_items(
     raw: &str,
     market_date: NaiveDate,
     accepted_at: &str,

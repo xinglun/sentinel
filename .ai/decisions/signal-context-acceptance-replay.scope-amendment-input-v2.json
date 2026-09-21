@@ -1,0 +1,18 @@
+{
+  "scopeAppend": [
+    "src/features/radar/application/mod.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs"
+  ],
+  "sourcesAppend": [
+    "repository:src/features/radar/application/mod.rs",
+    "repository:src/features/radar/interface/mod.rs",
+    "repository:src/features/research/infrastructure/macro_signal_context_provider.rs"
+  ],
+  "verificationAppend": [
+    "make check-architecture-all"
+  ],
+  "acceptanceAppend": [
+    "Replay module exports and research infrastructure visibility remain limited to the existing research ACL/interface boundary."
+  ]
+}

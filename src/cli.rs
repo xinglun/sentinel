@@ -8,6 +8,9 @@ use crate::features::evidence::interface::cli_command_handler::run_evidence_comm
 use crate::features::radar::acl::market_data_provider_factory::{
     build_configured_market_data_provider, MarketDataProviderKind as ProviderType,
 };
+use crate::features::radar::interface::acceptance_replay::{
+    record_notification_status, resolve_output_dir, run_acceptance_replay_with_expectations,
+};
 use crate::features::radar::interface::audit_cli_handler::run_audit_daily;
 use crate::features::radar::interface::audit_daily_report::{
     audit_daily_usage, audit_error_parse_date,
@@ -64,6 +67,45 @@ pub async fn run() -> Result<()> {
                 "config.toml OK: {} watchlist entries",
                 app_config.watchlist.len()
             );
+        }
+        CliCommand::AcceptanceReplay => {
+            let manifest = options
+                .acceptance_replay_manifest
+                .as_deref()
+                .ok_or_else(|| anyhow!("acceptance-replay requires --input-manifest <PATH>"))?;
+            let output_dir = options
+                .acceptance_replay_output_dir
+                .as_deref()
+                .ok_or_else(|| anyhow!("acceptance-replay requires --output-dir <PATH>"))?;
+            let report_date = options
+                .audit_date_arg
+                .as_deref()
+                .ok_or_else(|| anyhow!("acceptance-replay requires --date <YYYY-MM-DD>"))?;
+            let revision = options
+                .acceptance_replay_revision
+                .as_deref()
+                .ok_or_else(|| anyhow!("acceptance-replay requires --revision <SHA>"))?;
+            let output_path = resolve_output_dir(
+                std::path::Path::new(manifest),
+                std::path::Path::new(output_dir),
+            );
+            let mut receipt = run_acceptance_replay_with_expectations(
+                std::path::Path::new(manifest),
+                &output_path,
+                options.research_notify,
+                Some(report_date),
+                Some(revision),
+            )?;
+            if options.research_notify {
+                let status =
+                    crate::features::shared::acl::notification_factory::send_telegram_with_status(
+                        app_config.telegram.as_ref(),
+                        &serde_json::to_string_pretty(&receipt)?,
+                    )
+                    .await;
+                receipt = record_notification_status(&output_path, &status)?;
+            }
+            println!("{}", serde_json::to_string_pretty(&receipt)?);
         }
         CliCommand::Backtest => {
             let provider = build_configured_market_data_provider(provider_kind, &app_config).await;

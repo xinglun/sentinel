@@ -1,0 +1,10 @@
+[
+  {"datetime":1788825600,"headline":"Warsh faces tough battle at the Fed","summary":"Expected interest rate hike","source":"Structured News","url":"https://example.test/warsh"},
+  {"datetime":1788825600,"headline":"War in Iran escalates after missile strike","summary":"Regional security risk rises","source":"Structured News","url":"https://example.test/war"},
+  {"datetime":1788825600,"headline":"Workers strike over wages","summary":"Labor negotiations continue","source":"Structured News","url":"https://example.test/workers"},
+  {"datetime":1788825600,"headline":"Options strike price reset","summary":"Derivatives pricing update","source":"Structured News","url":"https://example.test/options"},
+  {"datetime":1788825600,"headline":"Company attacks rising costs","summary":"Operating margin discussion","source":"Structured News","url":"https://example.test/company"},
+  {"datetime":1788825600,"headline":"Israel launches air strikes","summary":"Regional security risk rises","source":"Structured News","url":"https://example.test/israel"},
+  {"datetime":1788825600,"headline":"Drone attack hits oil facility","summary":"Regional security risk rises","source":"Structured News","url":"https://example.test/drone"},
+  {"datetime":1788825600,"headline":"Missile strike hits military base","summary":"Regional security risk rises","source":"Structured News","url":"https://example.test/missile"}
+]

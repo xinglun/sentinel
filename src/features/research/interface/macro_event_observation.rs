@@ -1,6 +1,40 @@
 use chrono::{DateTime, NaiveDate, Utc};
 use serde::{Deserialize, Serialize};
 
+/// Acceptance replay に渡す provider-neutral な geopolitical event projection。
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct GeopoliticalReplayEvent {
+    pub title: String,
+    pub event_fact: String,
+    pub evidence_subjects: Vec<String>,
+}
+
+/// immutable input を research ACL 経由で既存 parser に渡す。
+pub(crate) fn parse_finnhub_geopolitical_items_for_replay(
+    raw: &str,
+    market_date: NaiveDate,
+    accepted_at: &str,
+) -> anyhow::Result<(Vec<GeopoliticalReplayEvent>, usize)> {
+    let (events, malformed_count) = crate::features::research::acl::macro_signal_context_provider_factory::parse_finnhub_geopolitical_items_for_replay(
+        raw,
+        market_date,
+        accepted_at,
+    )?;
+    let events = events
+        .into_iter()
+        .map(|event| GeopoliticalReplayEvent {
+            title: event.title,
+            event_fact: event.event_fact,
+            evidence_subjects: event
+                .evidence
+                .into_iter()
+                .map(|record| record.subject)
+                .collect(),
+        })
+        .collect();
+    Ok((events, malformed_count))
+}
+
 /// 追跡可能なイベント事実の最小証拠レコード。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct EvidenceRecord {
