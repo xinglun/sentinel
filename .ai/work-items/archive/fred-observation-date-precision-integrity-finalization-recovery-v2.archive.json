@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T17:15:03Z",
+  "files": {
+    "contractDigest": "sha256:db7758b28d2817183f84146552742fe7e082a46b160029d2e342d3edc4495d18",
+    "contractPath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.contract.json",
+    "eventsDigest": "sha256:a62365752086236d2f3ad4c63f072bbca6d9933486561e17db574983aa171fa2",
+    "eventsPath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.events.jsonl",
+    "outcomeDigest": "sha256:c3808a2498d01d598b663c3454c011902e438f1055da70d26bf952243b27535a",
+    "outcomePath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.outcome.json",
+    "summaryDigest": "sha256:f0b81befc90ebdb411da85517ff6f0e5e6fbf4c7302130ce27c84fe65c7c444a",
+    "summaryPath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json",
+    "taskReportDigest": "sha256:cdc351704d90c65f34125569b6715a103d47aa2a97b7eec958c12027dad307ec",
+    "taskReportMarkdownDigest": "sha256:d0993d1175da9db16f1a6e03e1e12b685b38fea6c6ca02608e9e0d10e8392f64",
+    "taskReportMarkdownPath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+}

@@ -1,0 +1,70 @@
+{
+  "changedPaths": [
+    ".ai/decisions/fred-observation-date-precision-integrity-finalization-recovery-v2.recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/locks/fred-observation-date-precision-integrity-finalization-recovery-v2.lifecycle.lock",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.contract.json",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T16:52:24Z",
+  "checkpointContractDigest": "sha256:fa7edc9b25348e9810a96806e26ea3a2900d13da403c302550b7559d15da9295",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:170ad3c66b035e3ef72352910850c2356a408a31087d77781823a2a2607290cf",
+      "recorded": true,
+      "recordedAt": "2026-09-21T16:52:24Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:09b1de32caf9eb9fd9221b62a36bfd414ac61e731e4f9f6488213711e415d19d",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:170ad3c66b035e3ef72352910850c2356a408a31087d77781823a2a2607290cf",
+      "previousContractHash": "sha256:170ad3c66b035e3ef72352910850c2356a408a31087d77781823a2a2607290cf",
+      "reason": "补充真实 PR #264 的 hosted merge 与 Runtime finalization acceptance，保持业务 scope 与前驱历史证据不变。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T17:01:24Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "createdAt": "2026-09-21T16:52:23Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+  "predecessorWorkItemId": "fred-observation-date-precision-integrity",
+  "preflightAt": "2026-09-21T17:14:39Z",
+  "preflightContractDigest": "sha256:fa7edc9b25348e9810a96806e26ea3a2900d13da403c302550b7559d15da9295",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/fred-observation-date-precision-integrity.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T17:14:50Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+}
