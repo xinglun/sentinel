@@ -3,7 +3,8 @@
     "前驱 fred-observation-date-precision-integrity 的 archive、verification 与既有治理证据保持不可变。",
     "PR #262 已合并到 develop，merge commit aa931a6b727d09719d80206c3451eaada55ced7d 可由 hosted GitHub 与 Git ancestry 核验。",
     "successor 完成当前 Runtime verification、finish、archive、provider finalization、finalize-verify 与 close。",
-    "只清理本 successor 绑定的精确 branch/worktree；不删除其他工作。"
+    "只清理本 successor 绑定的精确 branch/worktree；不删除其他工作。",
+    "真实 PR #264 的 develop 绑定、合并状态、Runtime finalization 与 finalize-verify 必须分别由 hosted 与本地证据核验。"
   ],
   "authority": "authorized",
   "baseRevision": "aa931a6b727d09719d80206c3451eaada55ced7d",
@@ -25,6 +26,14 @@
     "verification",
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/fred-observation-date-precision-integrity-finalization-recovery-v5",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/264",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/fred-observation-date-precision-integrity-finalization-recovery-v5/sentinel"
+  },
   "risk": "normal",
   "scope": [],
   "sources": [],
