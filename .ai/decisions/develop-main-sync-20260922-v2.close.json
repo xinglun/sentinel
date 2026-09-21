@@ -1,0 +1,159 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+      "workItemId": "develop-main-sync-20260922-v2"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260922-v2.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/develop-main-sync-20260922-v2.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260922-v2.verification.json",
+            ".ai/decisions/develop-main-sync-20260922-v2.finalize.json",
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-21T23:04:35Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/develop-main-sync-20260922-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "验证 origin/develop 与 origin/main 内容一致，且本次 CI notice 修复已在 main 上可追溯。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/develop-main-sync-20260922-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "develop-main-sync-20260922-v2"
+  },
+  "finalReportDigest": "sha256:2a18bb633ebedf522520f1c53ac24aa743b507cffbb860f584d509369b81b9a3",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:007627714e5d2c71a3831a7e97e95a770ccd86561d2dcd5da819c0361c12feee",
+    "branch": "codex/ubuntu-runner-pinning-20260922-finalization-promote",
+    "branchRef": "refs/heads/codex/ubuntu-runner-pinning-20260922-finalization-promote",
+    "capturedAt": "2026-09-21T23:04:36Z",
+    "contractDigest": "sha256:2a3b4854920b9036c0d40a9c79d94610e91beadab6317378c78ca00a327deb62",
+    "headRevision": "485cef2e7159c887bf540915f8f157cd4289950b",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "develop-main-sync-20260922-v2",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel1",
+    "worktreeId": "sha256:61f1ac8a854e7a0e309ba8665e71a8eed2aa506b9ded76f784887e651e9c0647",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/ubuntu-runner-pinning-20260922-finalization-promote/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:225def90ce1072af8f95b87817aca2b385ee1ece34f4a1a31a835428045c3893",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T23:04:35Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/develop-main-sync-20260922-v2.verification.json",
+      ".ai/decisions/develop-main-sync-20260922-v2.finalize.json",
+      ".ai/work-items/archive/develop-main-sync-20260922-v2.archive.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #277 已合并到 main；provider finalization 与 finalize-verify 已通过，develop/main 同步证据已保留，按用户授权关闭同步 Work Item。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T23:04:36Z",
+  "workItemId": "develop-main-sync-20260922-v2"
+}
