@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "user-message:处理掉",
+  "decidedAt": "2026-09-22T00:00:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/governance-script-drift-cleanup.archive.json",
+    ".ai/decisions/governance-script-drift-cleanup.close.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:ce1bd62ac2bbb22366525ea8d9e292d12ec3d5d45b8397583a58bf245aebaac9",
+  "predecessorEventsDigest": "sha256:f4b149b44c8d4b0dffafe2d80cdd7d61f33482c5debe047e4f4e541ccc84419f",
+  "predecessorOutcomeDigest": "sha256:a6c4126ded0d4917490109affd0e81114c1fa0ae9be10860a3d069dbc812aeb1",
+  "predecessorSummaryDigest": "sha256:2d08cd1d07eb08b188befda27dcc59ad1fe4ce35fcc52726a1ed15f3bc9d26c8",
+  "predecessorWorkItemId": "governance-script-drift-cleanup",
+  "reason": "按用户授权，对已完成但旧 Runtime close decision 不符合当前 canonical vocabulary 的 governance-script-drift-cleanup Work Item 补齐 successor lineage 治理证据，保持 predecessor archive、finalization 与 close 不可变。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "successor 完成当前 Runtime 的验证、finish、archive、provider finalization 与 close，并使 predecessor 的历史 close 由 lineage evidence 解析。",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "governance-script-drift-cleanup-runtime-revalidation-v1",
+  "workItemId": "governance-script-drift-cleanup"
+}

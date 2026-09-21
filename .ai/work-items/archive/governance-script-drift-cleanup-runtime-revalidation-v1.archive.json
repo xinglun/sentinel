@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T18:58:01Z",
+  "files": {
+    "contractDigest": "sha256:e388cd793095206034ab27211acf1eb82ca9735644b55931680060cb24f19cad",
+    "contractPath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.contract.json",
+    "eventsDigest": "sha256:2ff5f83fc84e0a926f05fc50e006ef5118e99d9d4c5bee8282f3c2e2f67b0d34",
+    "eventsPath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.events.jsonl",
+    "outcomeDigest": "sha256:634cc82bdc08a54ae26e0e28a051f3f33d735f3cc72db52bdec5e4ca810e6b5a",
+    "outcomePath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.outcome.json",
+    "summaryDigest": "sha256:346cce6adf534a386b70a60c4df2d289f9ad8a4fdb4b9b5466b437cd80dd816b",
+    "summaryPath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.summary.json",
+    "taskReportDigest": "sha256:db312a7666bc5602418921dfe266def99838bb3cc41ae40dac7de73e5a07f616",
+    "taskReportMarkdownDigest": "sha256:ecb03b4b9573732c7c936a4fcc394e3697563a80ea2ffd98d0624dff9f68553a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "governance-script-drift-cleanup-runtime-revalidation-v1"
+}
