@@ -2831,7 +2831,9 @@ mod tests {
 
         assert!(report.markdown_body.contains("### 🚀 突破识别"));
         assert!(report.markdown_body.contains("GOOG · 突破萌芽"));
-        assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
+        assert!(report
+            .markdown_body
+            .contains("GOOG · 突破萌芽（候选年龄：第1天）"));
         assert!(report.markdown_body.contains("NVDA · 无确认突破"));
         assert!(report.markdown_body.contains("假突破风险"));
         assert!(report.markdown_body.contains("失败风险 82"));
@@ -2842,7 +2844,7 @@ mod tests {
         assert!(report.telegram_html_body.contains("GOOG · 突破萌芽"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · 突破萌芽（第1天）"));
+            .contains("GOOG · 突破萌芽（候选年龄：第1天）"));
         assert!(report.telegram_html_body.contains("NVDA · 无确认突破"));
         assert!(report.telegram_html_body.contains("假突破风险"));
         assert!(report.telegram_html_body.contains("失败风险 82"));
@@ -2925,7 +2927,7 @@ mod tests {
         assert!(report.markdown_body.contains("GOOG · Emerging Breakout"));
         assert!(report
             .markdown_body
-            .contains("GOOG · Emerging Breakout (Day 1)"));
+            .contains("GOOG · Emerging Breakout (Candidate age: Day 1)"));
         assert!(report
             .markdown_body
             .contains("NVDA · No Confirmed Breakout"));
@@ -2938,7 +2940,7 @@ mod tests {
             .contains("GOOG · Emerging Breakout"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · Emerging Breakout (Day 1)"));
+            .contains("GOOG · Emerging Breakout (Candidate age: Day 1)"));
         assert!(report
             .telegram_html_body
             .contains("NVDA · No Confirmed Breakout"));
@@ -3021,7 +3023,9 @@ mod tests {
         .unwrap();
 
         assert!(report.markdown_body.contains("GOOG · 突破初動"));
-        assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
+        assert!(report
+            .markdown_body
+            .contains("GOOG · 突破初動（候補年齢：1日目）"));
         assert!(report.markdown_body.contains("NVDA · 未確認ブレイクアウト"));
         assert!(report.markdown_body.contains("失敗リスク 82"));
         assert!(!report.markdown_body.contains("QQQ · 未確認ブレイクアウト"));
@@ -3029,7 +3033,7 @@ mod tests {
         assert!(report.telegram_html_body.contains("GOOG · 突破初動"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · 突破初動（1日目）"));
+            .contains("GOOG · 突破初動（候補年齢：1日目）"));
         assert!(report
             .telegram_html_body
             .contains("NVDA · 未確認ブレイクアウト"));
@@ -4692,6 +4696,8 @@ mod tests {
                 leadership_snapshot_id: Some("leadership-2026-07-07".to_string()),
                 previous_snapshot_id: Some("leadership-2026-07-06".to_string()),
                 calculation_mode: "RECOMPUTED_FROM_PARTIAL_HISTORY".to_string(),
+                absence_baseline_status_label: "Leader Absence Baseline Status".to_string(),
+                absence_baseline_status: "NOT_APPLICABLE".to_string(),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "82.4".to_string(),
                 leadership_score: 82.4,
@@ -4759,6 +4765,8 @@ mod tests {
                 leadership_snapshot_id: Some("leadership-2026-07-07".to_string()),
                 previous_snapshot_id: Some("leadership-2026-07-06".to_string()),
                 calculation_mode: "RECOMPUTED_FROM_PARTIAL_HISTORY".to_string(),
+                absence_baseline_status_label: "Leader Absence Baseline Status".to_string(),
+                absence_baseline_status: "REBASED_FROM_PARTIAL_HISTORY".to_string(),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "0.0".to_string(),
                 leadership_score: 0.0,
@@ -4792,6 +4800,10 @@ mod tests {
             assert!(body.contains("Previous Snapshot Leader: GOOG"));
             assert!(body.contains("Last Confirmed Leader: GOOG"));
             assert!(body.contains("Leader Absence Since: 2026-07-01"));
+            assert!(body.contains("Leader Absence Baseline Status: REBASED_FROM_PARTIAL_HISTORY"));
+            assert!(
+                body.contains("Leader absence baseline was corrected/rebased from partial history")
+            );
             assert!(!body.contains("Previous Leader: GOOG"));
             assert!(body.contains("Last Transition: GOOG -> none"));
             assert!(body.contains("History Coverage: PARTIAL"));
@@ -6746,7 +6758,7 @@ mod tests {
 
         assert!(html.contains("<b>🔄 状态转移证据</b>"));
         assert!(html.contains("侦察状态"));
-        assert!(html.contains("breakout 连续性: 1/3"));
+        assert!(html.contains("候选观察进度: 1/3"));
         assert!(html.contains("扩散: 无（单资产）"));
         assert!(html.contains("reset: 否"));
     }
@@ -6830,9 +6842,9 @@ mod tests {
         let html = report.telegram_html_body;
 
         assert!(html.contains("侦察状态"));
-        assert!(html.contains("breakout 连续性: multi-point"));
+        assert!(html.contains("候选观察进度: multi-point"));
         assert!(html.contains("扩散: 多点"));
-        assert!(!html.contains("breakout 连续性: 0/3"));
+        assert!(!html.contains("候选观察进度: 0/3"));
     }
 
     #[test]
@@ -6893,7 +6905,7 @@ mod tests {
         let html_en = report_en.telegram_html_body;
         assert!(html_en.contains("<b>🔄 State Transition Evidence</b>"));
         assert!(html_en.contains("Scout Status"));
-        assert!(html_en.contains("breakout continuity: 1/3"));
+        assert!(html_en.contains("candidate observation progress: 1/3"));
         assert!(html_en.contains("expansion: none (single asset)"));
         assert!(html_en.contains("reset: no"));
 
@@ -6916,7 +6928,7 @@ mod tests {
         let html_ja = report_ja.telegram_html_body;
         assert!(html_ja.contains("<b>🔄 状態遷移エビデンス</b>"));
         assert!(html_ja.contains("偵察状態"));
-        assert!(html_ja.contains("breakout 連続性: 1/3"));
+        assert!(html_ja.contains("候補観察進捗: 1/3"));
         assert!(html_ja.contains("拡散: なし（単一資産）"));
         assert!(html_ja.contains("reset: なし"));
     }
@@ -7044,10 +7056,12 @@ mod tests {
     fn test_no_trade_snapshot_breakout_age_displays_day_one_in_zh_cn() {
         let report =
             build_no_trade_report(crate::features::shared::interface::i18n::Language::ZhCn);
-        assert!(report.markdown_body.contains("GOOG · 突破萌芽（第1天）"));
+        assert!(report
+            .markdown_body
+            .contains("GOOG · 突破萌芽（候选年龄：第1天）"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · 突破萌芽（第1天）"));
+            .contains("GOOG · 突破萌芽（候选年龄：第1天）"));
     }
 
     #[test]
@@ -7056,20 +7070,22 @@ mod tests {
             build_no_trade_report(crate::features::shared::interface::i18n::Language::EnUs);
         assert!(report
             .markdown_body
-            .contains("GOOG · Emerging Breakout (Day 1)"));
+            .contains("GOOG · Emerging Breakout (Candidate age: Day 1)"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · Emerging Breakout (Day 1)"));
+            .contains("GOOG · Emerging Breakout (Candidate age: Day 1)"));
     }
 
     #[test]
     fn test_no_trade_snapshot_breakout_age_displays_day_one_in_ja_jp() {
         let report =
             build_no_trade_report(crate::features::shared::interface::i18n::Language::JaJp);
-        assert!(report.markdown_body.contains("GOOG · 突破初動（1日目）"));
+        assert!(report
+            .markdown_body
+            .contains("GOOG · 突破初動（候補年齢：1日目）"));
         assert!(report
             .telegram_html_body
-            .contains("GOOG · 突破初動（1日目）"));
+            .contains("GOOG · 突破初動（候補年齢：1日目）"));
     }
 
     #[test]

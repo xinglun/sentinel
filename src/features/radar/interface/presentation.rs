@@ -114,6 +114,10 @@ pub struct LeaderPersistenceViewModel {
     pub previous_snapshot_id: Option<String>,
     #[serde(default)]
     pub calculation_mode: String,
+    #[serde(default)]
+    pub absence_baseline_status_label: String,
+    #[serde(default)]
+    pub absence_baseline_status: String,
     pub first_observed_at_value: Option<String>,
     pub previous_leader_value: Option<String>,
     #[serde(default)]

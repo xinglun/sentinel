@@ -931,7 +931,16 @@ pub(crate) async fn run_pipeline_for_report_date(
                         "total_count": packet.market_features.total_count,
                         "universe_integrity": packet.market_features.universe_integrity,
                         "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
-                    }
+                    },
+                    "leadership_absence": pres_packet
+                        .leader_persistence
+                        .as_ref()
+                        .map(|persistence| serde_json::json!({
+                            "since": persistence.leader_absence_since_value,
+                            "duration": persistence.leader_absence_duration,
+                            "status": persistence.absence_baseline_status
+                        }))
+                        .unwrap_or_else(|| serde_json::json!({"status": "UNAVAILABLE"}))
                 }),
                 report_run_id: Some(report_run_id.clone()),
                 git_commit_sha: Some(runtime_identity.git_commit_sha.clone()),
@@ -1218,8 +1227,17 @@ pub(crate) async fn run_pipeline_for_report_date(
                             "down_count": packet.market_features.down_count,
                             "total_count": packet.market_features.total_count,
                             "universe_integrity": packet.market_features.universe_integrity,
-                        "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
-                        }
+                            "classification": pres_packet.signal_summary.breadth_semantic_value.clone()
+                        },
+                        "leadership_absence": pres_packet
+                            .leader_persistence
+                            .as_ref()
+                            .map(|persistence| serde_json::json!({
+                                "since": persistence.leader_absence_since_value,
+                                "duration": persistence.leader_absence_duration,
+                                "status": persistence.absence_baseline_status
+                            }))
+                            .unwrap_or_else(|| serde_json::json!({"status": "UNAVAILABLE"}))
                     }),
                     report_run_id: Some(report_run_id.clone()),
                     git_commit_sha: Some(runtime_identity.git_commit_sha.clone()),
@@ -3121,7 +3139,7 @@ Boundary: context only; no Gate input or trade instruction.
         presentation.breakout_summary.items.push(
             crate::features::radar::interface::presentation::BreakoutItemViewModel {
                 symbol: "U".to_string(),
-                status_label: "Emerging Breakout (Day 1)".to_string(),
+                status_label: "Emerging Breakout (Candidate age: Day 1)".to_string(),
                 ..Default::default()
             },
         );
@@ -3130,7 +3148,7 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(
             presentation.breakout_summary.items[0].status_label,
-            "Emerging Breakout (Day 1)"
+            "Emerging Breakout (Candidate age: Day 1)"
         );
         assert_eq!(
             presentation

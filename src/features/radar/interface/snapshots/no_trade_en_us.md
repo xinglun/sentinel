@@ -41,7 +41,7 @@
 
 ### 🚀 Breakout Detection
 
-- GOOG · Emerging Breakout (Day 1)
+- GOOG · Emerging Breakout (Candidate age: Day 1)
    Leadership-style breakout · Setup Strength 62 · Setup Quality 100
 
 ### 📉 Risk Handling

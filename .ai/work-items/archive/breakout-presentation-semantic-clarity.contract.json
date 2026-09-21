@@ -1,0 +1,71 @@
+{
+  "acceptanceCriteria": [
+    "中文、英文、日文的 RS Diffusion reason 在无确认 breakout 时明确写成没有确认 breakout，不再写成没有 breakout。",
+    "突破状态中的第 N 天明确标为候选年龄，状态转移中的 N/阈值明确标为连续确认或 confirmation streak，避免把两者都表达成持续时间。",
+    "上述修改只改变 presentation/i18n 文案；既有 breakout 数值、状态、Decision/Gate/Execution/Action Matrix/Position Sizing、decision_weight 与 trade_signal 不变。",
+    "通过 make fmt-check、make test、make clippy、make check-signal-context-consistency 与 make quality。",
+    "代码语义核验表明状态转移中的 N/阈值来自 scout_days_without_expansion / scout_abort_days，表示候选观察窗口进度而非已确认 breakout 的连续确认 streak；因此展示必须使用候选观察进度，不得声称为连续确认。",
+    "zh/en/ja 的候选年龄和候选观察进度在报告、HTML、snapshot 与对应 UI 回归测试中保持一致。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "84aee3f31cf3ad306d07368943131f972f0c6439",
+  "createdAt": "2026-09-21T12:16:44Z",
+  "goal": "在 zh/en/ja 的 observation/report projections 中，将缺失条件表述为没有确认 breakout，并把第 N 天标为候选年龄、N/阈值标为连续确认；不改变 Decision、Gate、Execution、Action Matrix、Position Sizing 或交易数值。",
+  "intent": "消除 breakout 事实与确认语义在报告中的矛盾，并明确候选年龄与连续确认的不同含义。",
+  "mode": "code",
+  "outOfScope": [
+    "FRED observation precision；leader absence reconstruction；AI Policy/Finnhub classifier；Decision、Gate、Execution、Action Matrix、Position Sizing、trade_signal、decision_weight、数据抓取与 Telegram 发送。",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter/**",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity/**",
+    ".ai/work-items/archive/leadership-absence-reconstruction-integrity/**"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+        "src/features/radar/interface/snapshots/no_trade_en_us.md",
+        "src/features/radar/interface/snapshots/no_trade_ja_jp.md"
+      ],
+      "expected": "RS reason 使用没有确认 breakout；Emerging Breakout 的 Day N 标为候选年龄；1/3 标为候选观察进度；zh/en/ja 与 Markdown/HTML/snapshot 一致。",
+      "required": true,
+      "scenario": "9/21 no-trade breakout presentation",
+      "status": "verified",
+      "verificationPlan": "focused presentation tests plus make test and make quality."
+    }
+  ],
+  "scope": [
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/shared/interface/i18n.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/snapshots/**"
+  ],
+  "sources": [
+    "用户对 2026-09-21 真实报告的审阅：将没有 breakout 改为没有确认 breakout，并明确候选年龄与连续确认的分层语义。",
+    "src/features/radar/interface/audit_daily_report.rs 与 src/features/radar/application/trend_recognition_service.rs 的字段语义核验：scout_days_without_expansion / scout_abort_days 是候选观察窗口字段。"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make check-signal-context-consistency",
+    "make quality"
+  ],
+  "workItemId": "breakout-presentation-semantic-clarity"
+}
