@@ -1424,7 +1424,15 @@ impl PresentationAssembler {
         use crate::features::radar::domain::breakout_detection::BreakoutStatus;
         match status {
             BreakoutStatus::NoBreakout => base_label.to_string(),
-            BreakoutStatus::EmergingBreakout | BreakoutStatus::ConfirmedBreakout => {
+            BreakoutStatus::EmergingBreakout => {
+                let day = breakout_age.max(1);
+                match lang {
+                    Language::ZhCn => format!("{}（候选年龄：第{}天）", base_label, day),
+                    Language::EnUs => format!("{} (Candidate age: Day {})", base_label, day),
+                    Language::JaJp => format!("{}（候補年齢：{}日目）", base_label, day),
+                }
+            }
+            BreakoutStatus::ConfirmedBreakout => {
                 let day = breakout_age.max(1);
                 match lang {
                     Language::ZhCn => format!("{}（第{}天）", base_label, day),
@@ -1880,7 +1888,7 @@ mod breakout_projection_tests {
             4,
             Language::EnUs,
         );
-        assert_eq!(label, "Emerging (Day 4)");
+        assert_eq!(label, "Emerging (Candidate age: Day 4)");
     }
 }
 

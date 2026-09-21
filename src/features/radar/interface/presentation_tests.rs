@@ -1465,7 +1465,10 @@ mod tests {
         assert_eq!(pres.breakout_summary.title, "🚀 Breakout Detection");
         assert_eq!(pres.breakout_summary.items.len(), 1);
         let item = &pres.breakout_summary.items[0];
-        assert_eq!(item.status_label, "Emerging Breakout (Day 1)");
+        assert_eq!(
+            item.status_label,
+            "Emerging Breakout (Candidate age: Day 1)"
+        );
         assert_eq!(item.reason, "Leadership-style breakout");
         assert_eq!(item.failed_risk_value.as_deref(), Some("61"));
     }
@@ -1619,7 +1622,7 @@ mod tests {
         assert_eq!(pres.breakout_summary.items[0].symbol, "GOOG");
         assert_eq!(
             pres.breakout_summary.items[0].status_label,
-            "突破萌芽（第1天）"
+            "突破萌芽（候选年龄：第1天）"
         );
         assert_eq!(pres.breakout_summary.items[1].symbol, "NVDA");
         assert_eq!(pres.breakout_summary.items[1].status_label, "无确认突破");
