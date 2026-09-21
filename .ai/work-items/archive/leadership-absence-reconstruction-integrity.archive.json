@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T14:04:21Z",
+  "files": {
+    "contractDigest": "sha256:0a935e4b99930ce8354d7461e5cca66be139ff781276c2d7357999f93d3fd68e",
+    "contractPath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.contract.json",
+    "eventsDigest": "sha256:d546c30462b9df889efa486faed7db8c8e4751576514f8f7a4e6916a3d41d0d7",
+    "eventsPath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.events.jsonl",
+    "outcomeDigest": "sha256:2e1b23743874b92fb4332ac91eab32e48778302834ec2fa438790c30a1024d1e",
+    "outcomePath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.outcome.json",
+    "summaryDigest": "sha256:6142e1ca6ec88c57dc286b66728d8e345c8d7f3050426a31fe3618f3aa3f98c6",
+    "summaryPath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.summary.json",
+    "taskReportDigest": "sha256:2bac39a74a68eafae83db630c791e80b99f5e039dbc77a7d7ec9fc27c6ca9e2f",
+    "taskReportMarkdownDigest": "sha256:e7415ee110ee81c95a0d275a0cbdf3fe1480e2cd242862b6aef9b64f88b0b908",
+    "taskReportMarkdownPath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/leadership-absence-reconstruction-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "leadership-absence-reconstruction-integrity"
+}

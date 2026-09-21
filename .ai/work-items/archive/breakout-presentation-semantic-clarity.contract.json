@@ -14,7 +14,10 @@
   "intent": "消除 breakout 事实与确认语义在报告中的矛盾，并明确候选年龄与连续确认的不同含义。",
   "mode": "code",
   "outOfScope": [
-    "FRED observation precision；leader absence reconstruction；AI Policy/Finnhub classifier；Decision、Gate、Execution、Action Matrix、Position Sizing、trade_signal、decision_weight、数据抓取与 Telegram 发送。"
+    "FRED observation precision；leader absence reconstruction；AI Policy/Finnhub classifier；Decision、Gate、Execution、Action Matrix、Position Sizing、trade_signal、decision_weight、数据抓取与 Telegram 发送。",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter/**",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity/**",
+    ".ai/work-items/archive/leadership-absence-reconstruction-integrity/**"
   ],
   "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
   "protocolVersion": 1,

@@ -1,10 +1,53 @@
 {
   "changedPaths": [
-    ".ai/work-items/active/fred-observation-date-precision-integrity.contract.json",
-    ".ai/work-items/active/fred-observation-date-precision-integrity.summary.json"
+    ".ai/decisions/breakout-presentation-semantic-clarity.contract-amendment.json",
+    ".ai/decisions/breakout-presentation-semantic-clarity.preflight-review-input.json",
+    ".ai/decisions/breakout-presentation-semantic-clarity.preflight-review.06554421a0c52cd6154a602077e74606a0c1ded01165600b2bc6982793f6d8a5.json",
+    ".ai/decisions/fred-observation-date-precision-integrity.preflight-review-input.json",
+    ".ai/decisions/fred-observation-date-precision-integrity.preflight-review.0fc481e20733045849644983fe428f935731979aeaf044ae50ca3c671080b71b.json",
+    ".ai/decisions/fred-observation-date-precision-integrity.preflight-review.3f4570e354a064ba88997a55489ce04401ec3e9f50bff5a2c2e54d8b7da4053b.json",
+    ".ai/decisions/fred-observation-date-precision-integrity.preflight-review.6e747cc26a557b41312e2c6e44072c24b4bc03b5b7f5eaf966a54dfb367ddde0.json",
+    ".ai/decisions/fred-observation-date-precision-integrity.preflight-review.e5821a75a85a459945cc12158bb197a665fd8195f2546154d37259398dd7e140.json",
+    ".ai/decisions/leadership-absence-reconstruction-integrity.contract-amendment.json",
+    ".ai/decisions/leadership-absence-reconstruction-integrity.preflight-review-input.json",
+    ".ai/decisions/leadership-absence-reconstruction-integrity.preflight-review.3a9ec12d262af3929efcbaf185ace165181c35ccfe9ed00a625a71648b7da56a.json",
+    ".ai/decisions/leadership-absence-reconstruction-integrity.preflight-review.cfc8d857986b6326c452a4a583bbb267ca70ea65f918fb9bccd459c9bdb0f8d8.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/breakout-presentation-semantic-clarity.preflight-review.stale-before-integration.json",
+    ".ai/evidence/breakout-presentation-semantic-clarity.preflight-review.stale-before-runtime-105.json",
+    ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.aa479dbcb8cb1034e6057338cf032bdbd9e168731b724f16dd4178b385392fc0.json",
+    ".ai/evidence/breakout-presentation-semantic-clarity.verification.stale-runtime-104.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.preflight-review.0fc481e20733045849644983fe428f935731979aeaf044ae50ca3c671080b71b.stale-before-runtime-105.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.preflight-review.6e747cc26a557b41312e2c6e44072c24b4bc03b5b7f5eaf966a54dfb367ddde0.stale-before-runtime-105.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.preflight-review.7ac9ea28c15bbe1ee075c8002599a1b3f80861821eee76c9f565cfe947dd19b5.stale-before-runtime-105.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.preflight-review.e5821a75a85a459945cc12158bb197a665fd8195f2546154d37259398dd7e140.stale-before-runtime-105.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.verification-attempt.0205b5cf4bd4526677a9dd061c23c9373e9a062177ae2cca6d5035c019734627.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.verification-attempt.d5998d233988192a792f9441e3daf7f358df312295d942478330a450ea9a072c.json",
+    ".ai/evidence/fred-observation-date-precision-integrity.verification.stale-runtime-104.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.preflight-review.3a9ec12d262af3929efcbaf185ace165181c35ccfe9ed00a625a71648b7da56a.stale-before-runtime-105.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.preflight-review.4b1fc8a16acd0ae14dc4c46f2332d5f4e745491b103f22e916809d7dd4d5377b.stale-before-runtime-105.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.preflight-review.b7025bc1beb2c84af27280baf2c3adc49be614eb76afd07cf40d48e7430ec7ad.stale-before-runtime-105.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.verification-attempt.deba26497598bde8b562cd9ee9eaec598a8ebadd32b9849818532d2b70013b85.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.verification-attempt.ede2de4014f6d4f14f4d9addeb73b9c0457895e64d73b5a81625bd51d0eb350d.json",
+    ".ai/evidence/leadership-absence-reconstruction-integrity.verification.stale-runtime-104.json",
+    ".ai/locks/fred-observation-date-precision-integrity.lifecycle.lock",
+    ".ai/work-items/active/breakout-presentation-semantic-clarity.contract.json",
+    ".ai/work-items/active/breakout-presentation-semantic-clarity.summary.json",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity.events.jsonl",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity.outcome.json",
+    ".ai/work-items/archive/fred-observation-date-precision-integrity.summary.json",
+    ".ai/work-items/active/leadership-absence-reconstruction-integrity.contract.json",
+    ".ai/work-items/active/leadership-absence-reconstruction-integrity.summary.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.archive.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.contract.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.events.jsonl",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.outcome.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.task-report.json",
+    ".ai/work-items/archive/quality-coverage-expectation-source-adapter.task-report.md"
   ],
   "checkpointAt": "2026-09-21T10:43:57Z",
-  "checkpointContractDigest": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+  "checkpointContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
   "checkpointCount": 1,
   "checkpointEvidence": [
     {
@@ -102,18 +145,18 @@
       "workItemId": "fred-observation-date-precision-integrity"
     }
   ],
-  "checkpointRepositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "checkpointRepositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
   "createdAt": "2026-09-21T10:37:21Z",
   "decisionEvidence": {
     "contractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-    "reason": "用户明确授权实施对应修复；当前 Work Item 的 scope、outOfScope、acceptance、observation-only 边界与高风险场景覆盖已复核。",
-    "recordedAt": "2026-09-21T11:00:00Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户在当前会话明确要求继续走完流程；确认按当前集成分支完成 FRED provenance 修复的 preflight、验证、finish、archive、PR 与同步，并保持 observation-only，不改变 Decision、Gate、Execution、Action Matrix、Position Sizing。",
+    "recordedAt": "2026-09-21T13:27:56Z",
     "recordedBy": "user",
     "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
-    "repositorySnapshotDigest": "sha256:667dc462c3b2032142702fec269bd4ab906cec315e2ba7ad1920ae76bdf8f0a0",
+    "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
     "schemaVersion": 1,
     "workItemId": "fred-observation-date-precision-integrity"
   },
@@ -124,11 +167,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-21T11:32:43Z",
+  "preflightAt": "2026-09-21T14:03:46Z",
   "preflightContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
-  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
-  "preflightRepositorySnapshotDigest": "sha256:667dc462c3b2032142702fec269bd4ab906cec315e2ba7ad1920ae76bdf8f0a0",
-  "preflightState": "yellow",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "scenarioCoverage": [
@@ -174,12 +217,13 @@
       "status": "verified"
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T11:33:22.983308+00:00",
-  "verificationInvalidatedByContractAmendment": {
-    "contractHash": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
-    "invalidatedRequiredChecks": [],
-    "recordedAt": "2026-09-21T11:19:26Z"
-  },
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T14:03:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
   "workItemId": "fred-observation-date-precision-integrity"
 }
