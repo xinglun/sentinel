@@ -25,6 +25,14 @@
     "verification",
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/governance-script-drift-revalidation-v1",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/268",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/governance-script-drift-revalidation-v1/sentinel"
+  },
   "risk": "normal",
   "scope": [
     ".ai/decisions/**",
