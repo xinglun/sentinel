@@ -1,0 +1,185 @@
+{
+  "changedPaths": [
+    ".ai/work-items/active/fred-observation-date-precision-integrity.contract.json",
+    ".ai/work-items/active/fred-observation-date-precision-integrity.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T10:43:57Z",
+  "checkpointContractDigest": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "recorded": true,
+      "recordedAt": "2026-09-21T10:43:57Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "fred-observation-date-precision-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1dec818f86ecf8bd17cbdfa5c82294a6f451fbe128badf1b754b567a46ffbe44",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "previousContractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "reason": "将按执行计划技能保存的日语实施计划加入当前 Work Item scope，不改变业务边界。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T10:44:46Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "fred-observation-date-precision-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:54e2aa73825a31b84a35e4c402a8676b7be05413e54370500cd28a238996c0f6",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "previousContractHash": "sha256:1dec818f86ecf8bd17cbdfa5c82294a6f451fbe128badf1b754b567a46ffbe44",
+      "reason": "将 Primary Event reaction exclusion 的实际 read model 文件纳入同一 FRED provenance 修复边界，不改变 outOfScope。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T11:17:43Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f8ca14389909488752343d192fc50bdd88305a312e007ac5944ec867b032e028",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "fred-observation-date-precision-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:e1c67cbb95b948ab71a52c9c24de421e0b0f5e7dfbedf166ec5c40c4d938f841",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "previousContractHash": "sha256:54e2aa73825a31b84a35e4c402a8676b7be05413e54370500cd28a238996c0f6",
+      "reason": "补充完整仓库相对路径，确保 Runtime scope matcher 识别 read model 实际变更文件。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T11:18:16Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f8ca14389909488752343d192fc50bdd88305a312e007ac5944ec867b032e028",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "fred-observation-date-precision-integrity"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:ed53cd42e245aebc14ef5ab7f80640ab5b62b4deb2117a70ff4c26eafda85c26",
+      "previousContractHash": "sha256:e1c67cbb95b948ab71a52c9c24de421e0b0f5e7dfbedf166ec5c40c4d938f841",
+      "reason": "将本次实际修改的 provider、ACL、interface、coverage 与 read model 路径逐一绑定到 Contract scope。",
+      "recorded": true,
+      "recordedAt": "2026-09-21T11:19:26Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:f8ca14389909488752343d192fc50bdd88305a312e007ac5944ec867b032e028",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "fred-observation-date-precision-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "createdAt": "2026-09-21T10:37:21Z",
+  "decisionEvidence": {
+    "contractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+    "decision": "confirm_review",
+    "decisionId": "contract-preflight-review",
+    "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+    "reason": "用户明确授权实施对应修复；当前 Work Item 的 scope、outOfScope、acceptance、observation-only 边界与高风险场景覆盖已复核。",
+    "recordedAt": "2026-09-21T11:00:00Z",
+    "recordedBy": "user",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "repositorySnapshotDigest": "sha256:667dc462c3b2032142702fec269bd4ab906cec315e2ba7ad1920ae76bdf8f0a0",
+    "schemaVersion": 1,
+    "workItemId": "fred-observation-date-precision-integrity"
+  },
+  "intentAlignment": {
+    "evidence": [
+      "用户明确授权实施 FRED observation date precision integrity 修复"
+    ],
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T11:32:43Z",
+  "preflightContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:667dc462c3b2032142702fec269bd4ab906cec315e2ba7ad1920ae76bdf8f0a0",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/infrastructure/macro_signal_context_provider.rs::tests::fred_reaction_preserves_daily_observation_date_and_day_only_precision"
+      ],
+      "required": true,
+      "scenario": "FRED observation date differs from report market_date",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/research/acl/macro_signal_context_provider_factory.rs::tests::maps_fred_reaction_precision_from_provider_fact"
+      ],
+      "required": true,
+      "scenario": "Provider-owned DAY_ONLY precision survives ACL mapping",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs::tests::signal_context_normalization_preserves_provider_observation_precision"
+      ],
+      "required": true,
+      "scenario": "Runtime normalization preserves explicit DAY_ONLY precision",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs::tests::fred_day_only_observation_is_not_rendered_as_primary_reaction"
+      ],
+      "required": true,
+      "scenario": "DAY_ONLY stale FRED reaction is excluded from Primary Event reaction",
+      "status": "verified"
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs::tests::runtime_macro_context_projects_three_observation_sources_without_trade_effect",
+        "src/features/radar/interface/presentation.rs::tests::signal_context_v1_serializes_all_context_groups_and_zero_decision_weight"
+      ],
+      "required": true,
+      "scenario": "Observation-only decision boundary remains unchanged",
+      "status": "verified"
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T11:33:22.983308+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-21T11:19:26Z"
+  },
+  "workItemId": "fred-observation-date-precision-integrity"
+}
