@@ -1,0 +1,15 @@
+{
+  "scopeAppend": [
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "sourcesAppend": [
+    "Architecture boundary checker requires cross-feature replay access through the research ACL/interface boundary."
+  ],
+  "verificationAppend": [
+    "make check-architecture-all"
+  ],
+  "acceptanceAppend": [
+    "Acceptance replay reaches the existing geopolitical parser only through research ACL/interface and passes architecture boundary checks."
+  ]
+}

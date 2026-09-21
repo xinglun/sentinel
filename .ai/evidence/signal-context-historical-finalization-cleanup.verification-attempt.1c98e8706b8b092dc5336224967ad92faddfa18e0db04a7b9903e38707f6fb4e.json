@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:1c98e8706b8b092dc5336224967ad92faddfa18e0db04a7b9903e38707f6fb4e",
+  "commands": [
+    {
+      "args": [
+        "test --workspace"
+      ],
+      "baseCommit": "3ab883c54b6342977b11906d753f51149caab3f2",
+      "commandDigest": "sha256:68700ecdd2acdbec3e590ac88902a4cba272e73fd668ff6c67f10da5457de4ab",
+      "nodeId": "project-command-0",
+      "program": "cargo",
+      "runner": "local",
+      "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1251449101d95ea66f10fe490fb5ef223a45a571d1214dd2a8938e569b18acce",
+  "contractExecutionScopeDigest": "sha256:5faf5c8de9a0338affc730542a61df27c348933090c391b5ed30efe9876dc22e",
+  "createdAt": "2026-09-19T03:23:28Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/signal-context-historical-finalization-cleanup/sentinel/.ai/work-items/active/signal-context-historical-finalization-cleanup.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "signal-context-historical-finalization-cleanup"
+}

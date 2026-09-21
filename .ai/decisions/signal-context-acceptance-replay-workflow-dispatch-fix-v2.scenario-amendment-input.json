@@ -1,0 +1,26 @@
+{
+  "scenarioCoverageAppend": [
+    {
+      "scenario": "Workflow dispatch reaches isolated replay without Cargo.lock",
+      "required": true,
+      "status": "unverified",
+      "expected": "The merged develop workflow starts cargo without requiring a tracked Cargo.lock and produces an isolated acceptance-replay receipt.",
+      "verificationPlan": "Dispatch .github/workflows/acceptance_replay.yml on the merged develop SHA and inspect the completed run and artifact receipt.",
+      "evidence": [
+        ".github/workflows/acceptance_replay.yml",
+        "https://github.com/xinglun/sentinel/actions/runs/35567755216"
+      ]
+    },
+    {
+      "scenario": "Workflow-only repair preserves replay and decision boundaries",
+      "required": true,
+      "status": "unverified",
+      "expected": "Only the cargo invocation changes; replay lexical, isolation, provenance, notification, and decision assertions remain unchanged.",
+      "verificationPlan": "Run focused acceptance-replay tests and compare the workflow diff against the Contract out-of-scope boundary.",
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "src/features/radar/interface/acceptance_replay.rs"
+      ]
+    }
+  ]
+}

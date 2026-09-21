@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "signal-context-acceptance-replay",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "contractDigest": "sha256:f7c2474c5e7b00b31fc39416e2fd94e1672085b0e4dac841a2d98c62fcebbdb1",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "repositorySnapshotDigest": "sha256:c906f9aaf5eb81e59f8247249bee270e111b33c600b7a210a220cf1684d6385b",
+    "recordedBy": "user",
+    "recordedAt": "2026-09-21T05:35:47Z",
+    "reason": "用户已授权继续完成 acceptance-replay Work Item；在 Runtime 0.2.104 retry recovery 后，确认按当前 immutable historical input、isolated output、zero canonical mutation 和观察-only交易边界重新执行受影响验证。"
+  }
+}

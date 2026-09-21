@@ -1,0 +1,15 @@
+{
+  "decisionEvidence": {
+    "schemaVersion": 1,
+    "decisionId": "contract-preflight-review",
+    "decision": "confirm_review",
+    "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "contractDigest": "sha256:0e9059a5b996679e5e1f8f58ec886a70d96b5e01d01ca6a1bae886b92055ed84",
+    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+    "repositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
+    "recordedBy": "user",
+    "recordedAt": "2026-09-21T16:26:18+09:00",
+    "reason": "用户已授权继续；合并后的 develop acceptance-replay 已以 immutable fixture 完成 lexical、隔离、decision projection 与 Telegram notification 验收，本次仍不改变 replay 计算或 Decision/Gate/Execution/Trader/Position Sizing 边界。"
+  }
+}

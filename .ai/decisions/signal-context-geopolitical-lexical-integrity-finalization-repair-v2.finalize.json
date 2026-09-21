@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit user authorization in this task",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "b78de3f8a86f5716f74bb63fef34500c03e75a07",
+    "name": "codex/signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:0b56b76e33520fb8c81d34b198eb5982df901f5efd0a369fd6c0ec707df026ad",
+  "operationId": "github-pr-200-finalize-current-runtime",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "c81b5a3d1b5b456db8e48ac186c58a8479455c16",
+    "headRevision": "b78de3f8a86f5716f74bb63fef34500c03e75a07",
+    "mergeCommit": "1e5d16caca1c6671903b972f871731697b6cdafe",
+    "number": 200,
+    "url": "https://github.com/xinglun/sentinel/pull/200"
+  },
+  "reason": "Record the exact merged PR #200 finalization under Runtime 0.2.99 without modifying predecessor archive or evidence bytes.",
+  "receiptId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2-finalization-current-runtime",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/200",
+    "worktree": "/Users/sei-rinn/dev/workspace_rust/sentinel-signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-19T11:46:30+09:00",
+  "workItemId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+  "worktree": {
+    "branch": "codex/signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+    "headRevision": "b78de3f8a86f5716f74bb63fef34500c03e75a07",
+    "path": "/Users/sei-rinn/dev/workspace_rust/sentinel-signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+    "worktreeId": "signal-context-geopolitical-lexical-integrity-finalization-repair-v2"
+  }
+}

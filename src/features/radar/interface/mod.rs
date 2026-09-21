@@ -1,3 +1,4 @@
+pub mod acceptance_replay;
 pub(crate) mod audit_cli_handler;
 pub(crate) mod audit_daily_report;
 pub mod display;

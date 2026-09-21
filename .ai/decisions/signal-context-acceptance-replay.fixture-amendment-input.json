@@ -1,0 +1,26 @@
+{
+  "scopeAppend": [
+    "tests/fixtures/acceptance_replay/**"
+  ],
+  "sourcesAppend": [
+    "user:acceptance-replay-real-delivery-requirement-2026-09-21",
+    "docs/superpowers/specs/acceptance-replay.md"
+  ],
+  "verificationAppend": [
+    "make check-acceptance-replay"
+  ],
+  "acceptanceAppend": [
+    "A repository-backed immutable replay fixture provides historical input, canonical reference state, and machine-readable assertions for an actual workflow dispatch.",
+    "Replay provenance separates original_generation_revision from the current execution_git_commit_sha supplied by the CLI, so the receipt identifies both historical input origin and the code that performed the fresh computation."
+  ],
+  "scenarioCoverageAppend": [
+    {
+      "scenario": "Repository-backed immutable replay fixture is deliverable",
+      "required": true,
+      "status": "unverified",
+      "expected": "The checked-in manifest resolves only to checked-in historical input and canonical reference files, and a workflow dispatch can execute it without provider fallback.",
+      "verificationPlan": "Run the repository-backed fixture through the acceptance-replay CLI and then through the dispatchable GitHub Actions workflow.",
+      "evidence": ["tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json", ".github/workflows/acceptance_replay.yml"]
+    }
+  ]
+}

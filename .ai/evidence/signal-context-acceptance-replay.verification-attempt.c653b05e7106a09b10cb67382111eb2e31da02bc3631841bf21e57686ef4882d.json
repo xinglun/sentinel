@@ -1,0 +1,158 @@
+{
+  "attemptId": "sha256:c653b05e7106a09b10cb67382111eb2e31da02bc3631841bf21e57686ef4882d",
+  "commands": [
+    {
+      "args": [
+        "check-architecture-all"
+      ],
+      "baseCommit": "46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385",
+      "commandDigest": "sha256:eade687730b65743151bdb7ca775be91d2cd78ac2c9293255012de3e073e7b79",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:f7c2474c5e7b00b31fc39416e2fd94e1672085b0e4dac841a2d98c62fcebbdb1",
+  "contractExecutionScopeDigest": "sha256:ce77edd4cd29bcd6cb0738b55e2255b52751b85d1c0dad8e9c29e27fc636892f",
+  "createdAt": "2026-09-21T05:45:11Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:eade687730b65743151bdb7ca775be91d2cd78ac2c9293255012de3e073e7b79",
+      "deadlineMs": 1789969806529,
+      "elapsedMs": 4823,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "707974686f6e3320736372697074732f636865636b5f6172636869746563747572655f626f756e6461726965732e70790ae29c852061726368697465637475726520626f756e6461727920636865636b207061737365640a707974686f6e3320736372697074732f61695f746573745f6172636869746563747572655f626f756e6461726965732e70790ae29c852061726368697465637475726520626f756e6461727920636865636b6572207465737473207061737365640a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 4937,
+      "executionElapsedMs": 4823,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "runtimeVersion": "0.2.104",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 4937,
+    "executionElapsedMs": 4823,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:eade687730b65743151bdb7ca775be91d2cd78ac2c9293255012de3e073e7b79",
+        "deadlineMs": 1789969806529,
+        "elapsedMs": 4823,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "707974686f6e3320736372697074732f636865636b5f6172636869746563747572655f626f756e6461726965732e70790ae29c852061726368697465637475726520626f756e6461727920636865636b207061737365640a707974686f6e3320736372697074732f61695f746573745f6172636869746563747572655f626f756e6461726965732e70790ae29c852061726368697465637475726520626f756e6461727920636865636b6572207465737473207061737365640a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 5,
+    "filesRead": 5,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [],
+      "assurance": "repository_verified",
+      "baseRevision": "46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 4823,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:c906f9aaf5eb81e59f8247249bee270e111b33c600b7a210a220cf1684d6385b",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "signal-context-acceptance-replay"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:7d87e0e150150266a9882c5bb3b25310dc49cd1d013b058cdb28da057a63b230",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+    "runtimeVersion": "0.2.104",
+    "timeoutSeconds": 300,
+    "workItemId": "signal-context-acceptance-replay"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:c906f9aaf5eb81e59f8247249bee270e111b33c600b7a210a220cf1684d6385b",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "signal-context-acceptance-replay"
+}

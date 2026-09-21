@@ -1,0 +1,30 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "decidedAt": "2026-09-19T11:50:00+09:00",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.archive.json",
+    ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.contract.json",
+    ".ai/decisions/daily-radar-snapshot-report-date-conflict.selected-successor-lineage-recovery.json",
+    "https://github.com/xinglun/sentinel/pull/184"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorContractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
+  "predecessorEventsDigest": "sha256:9739b3b42f62eb16cdc45efb7cd7ddfed3ec9091934498ce13eb090c48122fbc",
+  "predecessorOutcomeDigest": "sha256:3e2d9f61b8c5ff5dc8a54f84e469906a7af076b3ceb5e5be0192140b69e3473e",
+  "predecessorSummaryDigest": "sha256:2917ee219baed7dfa3cb070313744005d3df892a6a5dda2adcd29368296c4e69",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2",
+  "reason": "The daily v2 historical finalization still carries an older Runtime identity and cannot be rewritten. Bind a new bounded governance successor to complete append-only recovery and close the historical lineage without touching production or trading behavior.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "Complete the bounded governance cleanup successor, then close this historical predecessor through the valid append-only successor chain.",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-historical-finalization-cleanup",
+  "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
+}

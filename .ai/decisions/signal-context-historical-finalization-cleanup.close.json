@@ -1,0 +1,311 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+      "workItemId": "signal-context-historical-finalization-cleanup"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.daily-radar-snapshot-report-date-conflict-finalization-recovery.transition.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.daily-radar-snapshot-report-date-conflict-finalization-v2.successor.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.daily-radar-snapshot-report-date-conflict-finalization-v2.transition.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.signal-context-geopolitical-lexical-integrity-finalization-recovery.current.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.signal-context-geopolitical-lexical-integrity-finalization-recovery.supersede.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.signal-context-geopolitical-lexical-integrity-finalization-repair-v2.current.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.signal-context-geopolitical-lexical-integrity-finalization-repair.supersede.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/.signal-context-historical-finalization-cleanup.amend.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-recovery.selected-successor-lineage-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-v2.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-recovery.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-recovery.recovery.bb2f8ee3bbff3ee8e30c056a71a7568a386ded6384c8476a60f791172fdecacd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.finalize.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.close.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-geopolitical-lexical-integrity-finalization-repair.recovery.473bd879ca494ae94ad60f15ed8e24607d2001f36352bdbd0e6eb7dd16945e7b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-historical-finalization-cleanup.verification-attempt.1c98e8706b8b092dc5336224967ad92faddfa18e0db04a7b9903e38707f6fb4e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-historical-finalization-cleanup.verification-attempt.2415ddead507caca4fac15ac2e7e988d006e0ab197510e8168b426e079f91c6b.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-historical-finalization-cleanup.verification-attempt.c099c77844d41b6c750468f349d00a307e80e0411c39a670b89d50befc18f045.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-historical-finalization-cleanup.verification-attempt.f3ec1a5cba6477f9e2f3ef2413426f95784ce53cbed82ebb8a3b7a4193155d8d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-historical-finalization-cleanup.verification-attempt.f9a15167fdb886ae42ccd3a8bca19776b26961063354519e7371a9c83ff27dac.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/daily-radar-snapshot-report-date-conflict.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-historical-finalization-cleanup.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-historical-finalization-cleanup.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit user authorization in this task at 2026-09-19T12:05:00+09:00."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "仅通过 append-only successor、supersede、finalize-verify 与 close，完成 daily snapshot conflict 历史 lineage 的可审计收尾"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-historical-finalization-cleanup.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-historical-finalization-cleanup"
+  },
+  "finalReportDigest": "sha256:d3c4213bf8334c519e89af6a428fcc07a2015a20b994ce938ed707898db2471d",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:ab29e6898f167f229cd45833cbebb0094ca120d386353ab621a510c0b0af080b",
+    "branch": "codex/signal-context-historical-finalization-cleanup",
+    "branchRef": "refs/heads/codex/signal-context-historical-finalization-cleanup",
+    "capturedAt": "2026-09-19T03:30:06Z",
+    "contractDigest": "sha256:1251449101d95ea66f10fe490fb5ef223a45a571d1214dd2a8938e569b18acce",
+    "headRevision": "a59777bc17d22ccf48f63d4727a385d68e1570bd",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+    "runtimeVersion": "0.2.99",
+    "schemaVersion": 1,
+    "workItemId": "signal-context-historical-finalization-cleanup",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel5",
+    "worktreeId": "sha256:d877b0a8b9dae696699612dc6b037545281db1daba83f3373277f05053f1b411",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/signal-context-historical-finalization-cleanup/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:767ce8b31c59c477060b87e82af36d1c5af7c2d3f5e8f44118a5fc99f1e1f986",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit user authorization in this task",
+    "decidedAt": "2026-09-19T12:05:00+09:00",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-historical-finalization-cleanup.verification.json"
+    ],
+    "policyRefs": [
+      ".ai/README.md"
+    ],
+    "reason": "本 bounded Work Item 的治理收尾已完成；保留 immutable predecessor evidence，未修改 production code 或交易行为。",
+    "resumeCondition": "none"
+  },
+  "timestamp": "2026-09-19T03:30:06Z",
+  "workItemId": "signal-context-historical-finalization-cleanup"
+}

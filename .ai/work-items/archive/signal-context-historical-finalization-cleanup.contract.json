@@ -1,0 +1,58 @@
+{
+  "acceptanceCriteria": [
+    "Daily v2 predecessor is bound to this successor and closed through an append-only supersede decision after successor closure.",
+    "Historical predecessor archive, summary, outcome, events, verification, and close bytes remain unchanged.",
+    "All generated finalization/recovery/close receipts are verified by current Runtime 0.2.99 and no code or trading behavior changes occur.",
+    "历史 daily snapshot conflict lineage 通过当前 Runtime 的 append-only recovery / supersede / close 语义收敛。",
+    "所有 predecessor archive、summary、outcome、events、verification、close 字节保持不可变。",
+    "本 Work Item 不修改 production code、test code、report data、Decision、Gate 或 trading behavior。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "3ab883c54b6342977b11906d753f51149caab3f2",
+  "createdAt": "2026-09-19T03:04:23Z",
+  "goal": "仅通过 append-only successor、supersede、finalize-verify 与 close，完成 daily snapshot conflict 历史 lineage 的可审计收尾",
+  "intent": "收敛历史 Work Item finalization / close 的 Runtime 兼容性记录并保持 immutable governance evidence",
+  "mode": "code",
+  "outOfScope": [
+    "src/**",
+    "tests/**",
+    ".github/**",
+    "Makefile",
+    "data/**",
+    "reports/**",
+    "docs/**",
+    "Decision/Gate/TemporalBinding/MarketObservation/RS/Leadership/Action Matrix/Execution/Position Sizing/Trading behavior"
+  ],
+  "predecessorContractDigest": "sha256:dba5f40e15eabe385a65265d69f2afa79c2fb377a3630a41df10fb2c91114edd",
+  "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-v2.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a20ce488690945e1245bbc228abe14b7dfa1035c68e4730192a50024dd97da61",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/evidence/**",
+    ".ai/work-items/**",
+    ".ai/locks/**"
+  ],
+  "sources": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md",
+    ".ai/decisions/daily-radar-snapshot-report-date-conflict.selected-successor-lineage-recovery.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "cargo test --workspace",
+    "ai-cockpit work-item finalize-verify --repo . --id daily-radar-snapshot-report-date-conflict-finalization-v2",
+    "ai-cockpit work-item finalize-verify --repo . --id signal-context-geopolitical-lexical-integrity-finalization-recovery",
+    "ai-cockpit work-item finalize-verify --repo . --id signal-context-geopolitical-lexical-integrity-finalization-repair-v2",
+    "ai-cockpit status --repo . --json"
+  ],
+  "workItemId": "signal-context-historical-finalization-cleanup"
+}

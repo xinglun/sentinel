@@ -8,6 +8,8 @@ pub enum ExecutionMode {
     DryRun,
     /// 全ロジック、archive、live order dispatch を実行する。
     Live,
+    /// 不変入力を隔離出力へ再計算し、canonical state を変更しない。
+    AcceptanceReplay,
 }
 
 impl std::fmt::Display for ExecutionMode {
@@ -16,6 +18,7 @@ impl std::fmt::Display for ExecutionMode {
             ExecutionMode::Disabled => write!(f, "DISABLED"),
             ExecutionMode::DryRun => write!(f, "DRY-RUN"),
             ExecutionMode::Live => write!(f, "LIVE"),
+            ExecutionMode::AcceptanceReplay => write!(f, "ACCEPTANCE-REPLAY"),
         }
     }
 }

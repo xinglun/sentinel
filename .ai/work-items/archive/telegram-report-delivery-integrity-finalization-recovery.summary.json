@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    ".ai/decisions/daily-radar-snapshot-report-date-conflict.selected-successor-lineage-recovery.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/telegram-report-delivery-integrity.recovery.json",
+    ".ai/evidence/telegram-report-delivery-integrity-finalization-recovery.verification-attempt.b8b8ce81d4641bb73ddb963fcf38f03aa3aec3f17335f36e7af3e4c26121fd4a.json",
+    ".ai/locks/daily-radar-snapshot-report-date-conflict.lifecycle.lock",
+    ".ai/locks/telegram-report-delivery-integrity.lifecycle.lock",
+    ".ai/work-items/active/signal-context-quality-coverage-baseline.approach.json",
+    ".ai/work-items/active/signal-context-quality-coverage-baseline.contract.json",
+    ".ai/work-items/active/signal-context-quality-coverage-baseline.summary.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity-finalization-recovery.contract.json",
+    ".ai/work-items/archive/telegram-report-delivery-integrity-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-19T01:58:44Z",
+  "checkpointContractDigest": "sha256:e49f9cf8cc7e636d75f95dc8f9e713eb555b238616ac443ed9528a2fcdf93e2d",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "createdAt": "2026-09-19T01:54:23Z",
+  "mode": "code",
+  "predecessorContractDigest": "sha256:10f391a57d2b088954065b6098cd5c868a2b649f18da4c0150c57b19fcc4461b",
+  "predecessorWorkItemId": "telegram-report-delivery-integrity",
+  "preflightAt": "2026-09-19T02:00:33Z",
+  "preflightContractDigest": "sha256:e49f9cf8cc7e636d75f95dc8f9e713eb555b238616ac443ed9528a2fcdf93e2d",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:752f35134e702c293be97708930d6c043342545cd60b97d9f06e1782edeb5f6a",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/telegram-report-delivery-integrity.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-19T02:00:49Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "telegram-report-delivery-integrity-finalization-recovery"
+}

@@ -1,0 +1,67 @@
+name: Acceptance Replay
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: Historical report date bound by the immutable input manifest
+        required: true
+        type: string
+      revision:
+        description: Execution revision recorded in and checked against the manifest
+        required: true
+        type: string
+      input_manifest:
+        description: Path to the immutable replay manifest available in the checkout
+        required: true
+        type: string
+      output_dir:
+        description: Isolated output directory
+        required: true
+        default: acceptance-replay-output
+        type: string
+      notify:
+        description: Optionally deliver the generated isolated receipt to Telegram
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    env:
+      SENTINEL_EXECUTION_GIT_SHA: ${{ inputs.revision }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Install Protoc
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Run isolated acceptance replay
+        env:
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: >-
+          cargo run -- acceptance-replay
+          --date "${{ inputs.report_date }}"
+          --revision "${{ inputs.revision }}"
+          --input-manifest "${{ inputs.input_manifest }}"
+          --output-dir "${{ inputs.output_dir }}"
+          ${{ inputs.notify == true && '--notify' || '' }}
+
+      - name: Upload isolated receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-replay-${{ inputs.report_date }}-${{ inputs.revision }}
+          path: ${{ inputs.output_dir }}/acceptance-replay.receipt.json
+          if-no-files-found: error

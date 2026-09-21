@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:5bdba0522fb2b38f6ae0ad4ee565bda96f6be2642982b4accb738b4d717ed733",
+  "commands": [
+    {
+      "args": [
+        "check-acceptance-replay"
+      ],
+      "baseCommit": "71cfd7e4220891d7e36a5c97289cac61a5ac8d88",
+      "commandDigest": "sha256:01024b621a35a6e0e6533a698d236b46b6e2a22159b8f68d945171c4e0997091",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:eef5f0ad1a966b138fc7fc194ff9dd77b35e61479f6689d117451f5b57fc1f3a",
+  "contractExecutionScopeDigest": "sha256:59c884694a20b6943411f1190eaced82e182cc270ca425c1f3d078f439d540ad",
+  "createdAt": "2026-09-21T06:21:21Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/signal-context-acceptance-replay-workflow-fix/sentinel/.ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix.contract.json: verification preconditions are blocked: required_scenario_unverified, required_scenario_unverified, intent_alignment_missing"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d08e67379f934eb844ac39b0a32b8dc370aa5041dc022ade2b730e5c8f7e4e2e",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix"
+}

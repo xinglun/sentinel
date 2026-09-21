@@ -1,0 +1,24 @@
+{
+  "report_date": "2026-09-08",
+  "input_path": "historical-finnhub.json",
+  "input_manifest_digest": "sha256:978c862213ae76c555f1fda61614286f71c74e86acf1c44890e4d7b7bb573004",
+  "original_generation_revision": "fixture:structured-news-2026-09-08-v1",
+  "canonical_state_path": "canonical",
+  "decision_projection_digest": "sha256:decision-before-2026-09-08",
+  "gate_projection_digest": "sha256:gate-before-2026-09-08",
+  "position_sizing_projection_digest": "sha256:position-before-2026-09-08",
+  "assertions": {
+    "forbidden": [
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": "Warsh"},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": "Workers strike"},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": "Options strike"},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": "Company attacks"}
+    ],
+    "required": [
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": ["War", "Iran", "missile"]},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": ["Israel", "air strikes"]},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": ["Drone", "attack", "oil facility"]},
+      {"context": "GEOPOLITICAL_ESCALATION", "evidence_contains": ["Missile", "military base"]}
+    ]
+  }
+}

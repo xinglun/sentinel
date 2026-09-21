@@ -1,0 +1,83 @@
+{
+  "scenarioCoverage": [
+    {
+      "scenario": "Warsh lexical collision is rejected",
+      "required": true,
+      "status": "verified",
+      "expected": "Warsh faces tough battle at the Fed does not produce GEOPOLITICAL_ESCALATION.",
+      "verificationPlan": "Focused acceptance-replay assertion and geopolitical matcher regression test.",
+      "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Real geopolitical war and missile semantics remain accepted",
+      "required": true,
+      "status": "verified",
+      "expected": "War in Iran with missile strike, Israel air strikes, drone attack on a facility, and missile strike on a military base remain valid geopolitical positives.",
+      "verificationPlan": "Focused acceptance-replay assertions backed by the existing lexical matcher.",
+      "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Immutable input manifest is required",
+      "required": true,
+      "status": "verified",
+      "expected": "Missing, mismatched, malformed, or wrong-date immutable input fails closed with no fallback provider/current input.",
+      "verificationPlan": "Focused tests for manifest identity, digest, report date, and fail-closed errors.",
+      "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Replay output is isolated and not publishable",
+      "required": true,
+      "status": "verified",
+      "expected": "No canonical snapshot, data branch, freshness marker, canonical promotion, or archived daily payload write is reachable from acceptance-replay.",
+      "verificationPlan": "Static boundary tests plus before/after canonical digest assertions.",
+      "evidence": ["src/features/radar/interface/acceptance_replay.rs", "src/features/radar/interface/radar_pipeline_runner.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Replay provenance is explicit",
+      "required": true,
+      "status": "verified",
+      "expected": "Generated report records ACCEPTANCE_REPLAY, ISOLATED, canonical_write=false, execution revision, input digest, and canonical before/after digests.",
+      "verificationPlan": "Provenance serialization and verification receipt assertions.",
+      "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Decision surface remains unchanged",
+      "required": true,
+      "status": "verified",
+      "expected": "Decision, Gate, Action Matrix, Execution, Trader, and Position Sizing digests are equal; decision_weight=0 and trade_signal=false.",
+      "verificationPlan": "Projection digest comparison in the replay acceptance receipt.",
+      "evidence": ["src/features/radar/application/acceptance_replay.rs", "src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Optional notification uses generated isolated payload only",
+      "required": true,
+      "status": "verified",
+      "expected": "Notification, when requested, is sourced from the fresh isolated generated payload and cannot publish canonical state.",
+      "verificationPlan": "CLI/workflow contract and notification provenance implementation.",
+      "evidence": ["src/cli.rs", ".github/workflows/acceptance_replay.yml", "src/features/radar/interface/acceptance_replay.rs"]
+    },
+    {
+      "scenario": "Generate and resend semantics remain unchanged",
+      "required": true,
+      "status": "verified",
+      "expected": "Existing generate retains canonical persistence behavior and resend retains archived-payload-only behavior.",
+      "verificationPlan": "Existing workflow and runner boundaries plus workspace tests.",
+      "evidence": ["src/features/radar/interface/radar_pipeline_runner.rs", ".github/workflows/daily_radar.yml", "src/cli.rs"]
+    }
+  ],
+  "acceptanceEvidence": [
+    {"acceptance": "acceptance-replay is a first-class mode with immutable historical input, fresh computation, isolated output, optional notification, and zero canonical mutation", "status": "verified", "evidence": ["src/features/radar/application/acceptance_replay.rs", "src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "replay provenance records GENERATED, ACCEPTANCE_REPLAY, ISOLATED, canonical_write=false, execution revision, input manifest digest, and canonical before/after digests", "status": "verified", "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "Warsh evidence cannot produce GEOPOLITICAL_ESCALATION while War in Iran with missile strike remains a valid geopolitical positive", "status": "verified", "evidence": ["tests/acceptance_replay.rs"]},
+    {"acceptance": "replay fails closed when the matching immutable input manifest is absent or mismatched", "status": "verified", "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "Decision, Gate, Action Matrix, Execution, Trader, Position Sizing projections and digests remain unchanged; decision_weight=0 and trade_signal=false", "status": "verified", "evidence": ["src/features/radar/application/acceptance_replay.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "acceptance-replay cannot persist canonical snapshot, data branch, freshness marker, canonical promotion, or reuse archived daily payload", "status": "verified", "evidence": ["src/features/radar/interface/acceptance_replay.rs", "src/features/radar/interface/radar_pipeline_runner.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "verification manifest produces machine-readable pass/fail receipt for lexical and isolation assertions", "status": "verified", "evidence": ["src/features/radar/interface/acceptance_replay.rs", "tests/acceptance_replay.rs"]},
+    {"acceptance": "generate and resend semantics remain unchanged", "status": "verified", "evidence": [".github/workflows/daily_radar.yml", "src/features/radar/interface/radar_pipeline_runner.rs", "src/cli.rs"]}
+  ],
+  "intentAlignment": {
+    "state": "resolved",
+    "reason": "实现限定为 acceptance-replay 的隔离重算与可审计验收；不改变既有 generate/resend、TemporalBinding、MarketObservation 或交易决策语义。",
+    "evidence": ["user:acceptance-replay-design-2026-09-19", ".ai/work-items/active/signal-context-acceptance-replay.contract.json"]
+  }
+}
