@@ -9,7 +9,9 @@
     "verification manifest produces machine-readable pass/fail receipt for lexical and isolation assertions",
     "generate and resend semantics remain unchanged",
     "Acceptance replay reaches the existing geopolitical parser only through research ACL/interface and passes architecture boundary checks.",
-    "Replay module exports and research infrastructure visibility remain limited to the existing research ACL/interface boundary."
+    "Replay module exports and research infrastructure visibility remain limited to the existing research ACL/interface boundary.",
+    "A repository-backed immutable replay fixture provides historical input, canonical reference state, and machine-readable assertions for an actual workflow dispatch.",
+    "Replay provenance separates original_generation_revision from the current execution_git_commit_sha supplied by the CLI, so the receipt identifies both historical input origin and the code that performed the fresh computation."
   ],
   "authority": "authorized",
   "baseRevision": "46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385",
@@ -125,6 +127,17 @@
       "scenario": "Generate and resend semantics remain unchanged",
       "status": "unverified",
       "verificationPlan": "Existing workflow and runner regression tests plus full quality checks."
+    },
+    {
+      "evidence": [
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json",
+        ".github/workflows/acceptance_replay.yml"
+      ],
+      "expected": "The checked-in manifest resolves only to checked-in historical input and canonical reference files, and a workflow dispatch can execute it without provider fallback.",
+      "required": true,
+      "scenario": "Repository-backed immutable replay fixture is deliverable",
+      "status": "unverified",
+      "verificationPlan": "Run the repository-backed fixture through the acceptance-replay CLI and then through the dispatchable GitHub Actions workflow."
     }
   ],
   "scope": [
@@ -144,7 +157,8 @@
     "src/features/research/interface/macro_event_observation.rs",
     "src/features/radar/application/mod.rs",
     "src/features/radar/interface/mod.rs",
-    "src/features/research/infrastructure/macro_signal_context_provider.rs"
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "tests/fixtures/acceptance_replay/**"
   ],
   "sources": [
     "user:acceptance-replay-design-2026-09-19",
@@ -154,7 +168,9 @@
     "Architecture boundary checker requires cross-feature replay access through the research ACL/interface boundary.",
     "repository:src/features/radar/application/mod.rs",
     "repository:src/features/radar/interface/mod.rs",
-    "repository:src/features/research/infrastructure/macro_signal_context_provider.rs"
+    "repository:src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "user:acceptance-replay-real-delivery-requirement-2026-09-21",
+    "docs/superpowers/specs/acceptance-replay.md"
   ],
   "state": "implementation_active",
   "verification": [
@@ -163,7 +179,8 @@
     "make test",
     "make clippy",
     "make quality",
-    "make check-architecture-all"
+    "make check-architecture-all",
+    "make check-acceptance-replay"
   ],
   "workItemId": "signal-context-acceptance-replay"
 }

@@ -1,9 +1,46 @@
 {
-  "captureMode": "full_capture",
+  "attemptId": "sha256:409fe63a42bbeb1b506bfcff6878fc26017f9354577b4f925d20fad33454348e",
+  "commands": [
+    {
+      "args": [
+        "check-signal-context-consistency"
+      ],
+      "baseCommit": "46bfa1d93c2dd2b8dfc0d7cde7a630f697cc7385",
+      "commandDigest": "sha256:07f68a1cc7166c3055e03b0f9d2bbd6d83938d6f9a40e216569d45e96211d4cc",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
   "contractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+  "contractExecutionScopeDigest": "sha256:3b5976e7b166106a4ccc09d568d977bbcf3f71d35335c1f1595bd2eee0903d6e",
   "createdAt": "2026-09-21T06:00:45Z",
-  "evidenceSchemaVersion": 2,
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:07f68a1cc7166c3055e03b0f9d2bbd6d83938d6f9a40e216569d45e96211d4cc",
+      "deadlineMs": 1789970744753,
+      "elapsedMs": 136,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "707974686f6e3320736372697074732f636865636b5f7369676e616c5f636f6e746578745f636f6e73697374656e63792e70790ae29c85207369676e616c20636f6e7465787420636f6e73697374656e6379207061737365643a20313120666978747572652873290a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
   "passed": true,
+  "processesSpawned": 1,
   "protocolVersion": 1,
   "receipt": {
     "costObservation": {
@@ -118,10 +155,11 @@
     "timeoutSeconds": 300,
     "workItemId": "signal-context-acceptance-replay"
   },
-  "receiptDigest": "sha256:3952045871e1a21c475dea22e1e994596bc80fb121c626cabb4ecb59e031bbee",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "repositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
   "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
   "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "state": "execution_completed",
   "workItemId": "signal-context-acceptance-replay"
 }

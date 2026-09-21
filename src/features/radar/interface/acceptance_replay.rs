@@ -35,7 +35,10 @@ struct AcceptanceReplayManifest {
     report_date: String,
     input_path: PathBuf,
     input_manifest_digest: String,
-    execution_git_commit_sha: String,
+    #[serde(default)]
+    original_generation_revision: Option<String>,
+    #[serde(default)]
+    execution_git_commit_sha: Option<String>,
     canonical_state_path: PathBuf,
     decision_projection_digest: String,
     gate_projection_digest: String,
@@ -104,16 +107,22 @@ pub fn run_acceptance_replay_with_expectations(
             )));
         }
     }
-    if manifest.execution_git_commit_sha.trim().is_empty() {
-        return Err(AcceptanceReplayError::InvalidManifest(
-            "execution_git_commit_sha is empty".to_string(),
-        ));
-    }
-    if let Some(expected) = expected_revision {
-        if expected != manifest.execution_git_commit_sha {
+    let execution_git_commit_sha = expected_revision
+        .map(ToOwned::to_owned)
+        .or_else(|| manifest.execution_git_commit_sha.clone())
+        .filter(|revision| !revision.trim().is_empty())
+        .ok_or_else(|| {
+            AcceptanceReplayError::InvalidManifest(
+                "execution_git_commit_sha is required from the CLI or manifest".to_string(),
+            )
+        })?;
+    if let (Some(expected), Some(manifest_revision)) = (
+        expected_revision,
+        manifest.execution_git_commit_sha.as_deref(),
+    ) {
+        if expected != manifest_revision {
             return Err(AcceptanceReplayError::InvalidManifest(format!(
-                "execution_git_commit_sha does not match CLI expectation: expected {expected}, manifest {}",
-                manifest.execution_git_commit_sha
+                "execution_git_commit_sha does not match CLI expectation: expected {expected}, manifest {manifest_revision}"
             )));
         }
     }
@@ -192,7 +201,8 @@ pub fn run_acceptance_replay_with_expectations(
             "publication_scope": policy.publication_scope,
             "canonical_write": policy.canonical_write
         },
-        "execution_git_commit_sha": manifest.execution_git_commit_sha,
+        "original_generation_revision": manifest.original_generation_revision,
+        "execution_git_commit_sha": execution_git_commit_sha,
         "input_manifest_digest": manifest.input_manifest_digest,
         "canonical_snapshot_before": canonical_before,
         "canonical_snapshot_after": canonical_after,

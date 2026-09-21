@@ -48,7 +48,7 @@ AND evidence-backed
 
 `Warsh != war` を固定する。Warsh の headline は geopolitical context を生成せず、`War in Iran ... missile strike` は有効な positive とする。workers strike、option strike、company attacks rising costs などの曖昧な表現は fail-closed とする。
 
-入力 manifest は report date、入力 evidence digest、snapshot/input revision を持ち、実行時に対象日付と digest を厳密に照合する。manifest がない、壊れている、日付が違う、digest が違う、または encoding が扱えない場合は `ACCEPTANCE_REPLAY_INPUT_UNAVAILABLE` 相当で停止する。current provider response、latest snapshot、別日付の入力への fallback はしない。
+入力 manifest は report date、入力 evidence digest、original generation revision、snapshot/input revision を持ち、実行時に対象日付と digest を厳密に照合する。現在の実行 revision は CLI から受け取り、静的な historical manifest に埋め込まず receipt に記録する。manifest がない、壊れている、日付が違う、digest が違う、または encoding が扱えない場合は `ACCEPTANCE_REPLAY_INPUT_UNAVAILABLE` 相当で停止する。current provider response、latest snapshot、別日付の入力への fallback はしない。
 
 ## 出力と provenance
 
@@ -59,8 +59,9 @@ report_lifecycle.mode = GENERATED
 report_lifecycle.run_purpose = ACCEPTANCE_REPLAY
 report_lifecycle.publication_scope = ISOLATED
 report_lifecycle.canonical_write = false
-execution_git_commit_sha = <実行 revision>
 input_manifest_digest = <immutable manifest digest>
+original_generation_revision = <historical input origin revision>
+execution_git_commit_sha = <current replay execution revision>
 canonical_snapshot_before = <digest>
 canonical_snapshot_after = <digest>
 canonical_state_unchanged = true

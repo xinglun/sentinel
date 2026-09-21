@@ -5,7 +5,7 @@ use std::path::Path;
 use tempfile::tempdir;
 
 use stock_sentinel::features::radar::interface::acceptance_replay::{
-    run_acceptance_replay, AcceptanceReplayError,
+    run_acceptance_replay, run_acceptance_replay_with_expectations, AcceptanceReplayError,
 };
 
 fn sha256_bytes(bytes: &[u8]) -> String {
@@ -109,6 +109,58 @@ fn acceptance_replay_proves_warsh_negative_and_real_geopolitical_positive() {
         fs::read(tmp.path().join("canonical/snapshot.json")).unwrap()
     );
     assert!(output.join("acceptance-replay.receipt.json").is_file());
+}
+
+#[test]
+fn acceptance_replay_uses_current_cli_revision_and_preserves_input_origin_revision() {
+    let tmp = tempdir().unwrap();
+    let (manifest, output, _) = write_fixture(tmp.path());
+    let mut value: Value = serde_json::from_slice(&fs::read(&manifest).unwrap()).unwrap();
+    value["original_generation_revision"] = json!("fixture:structured-news-2026-09-08-v1");
+    value
+        .as_object_mut()
+        .unwrap()
+        .remove("execution_git_commit_sha");
+    fs::write(&manifest, serde_json::to_vec(&value).unwrap()).unwrap();
+
+    let receipt = run_acceptance_replay_with_expectations(
+        &manifest,
+        &output,
+        false,
+        Some("2026-09-08"),
+        Some("current-execution-revision"),
+    )
+    .unwrap();
+
+    assert_eq!(
+        receipt["original_generation_revision"],
+        "fixture:structured-news-2026-09-08-v1"
+    );
+    assert_eq!(
+        receipt["execution_git_commit_sha"],
+        "current-execution-revision"
+    );
+}
+
+#[test]
+fn repository_fixture_is_immutable_and_workflow_ready() {
+    let output = tempdir().unwrap();
+    let manifest = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json");
+
+    let receipt = run_acceptance_replay_with_expectations(
+        &manifest,
+        output.path(),
+        false,
+        Some("2026-09-08"),
+        Some("fixture-execution-revision"),
+    )
+    .unwrap();
+
+    assert_eq!(receipt["lexical_regression"]["warsh"], "PASS");
+    assert_eq!(receipt["lexical_regression"]["real_geopolitical"], "PASS");
+    assert_eq!(receipt["report_lifecycle"]["canonical_write"], false);
+    assert_eq!(receipt["publishable"], false);
 }
 
 #[test]
