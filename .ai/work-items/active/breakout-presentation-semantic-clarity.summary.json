@@ -1,0 +1,152 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "中文、英文、日文的 RS Diffusion reason 在无确认 breakout 时明确写成没有确认 breakout，不再写成没有 breakout。",
+      "evidence": [
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "代码语义核验表明状态转移中的 N/阈值来自 scout_days_without_expansion / scout_abort_days，表示候选观察窗口进度而非已确认 breakout 的连续确认 streak；因此展示必须使用候选观察进度，不得声称为连续确认。",
+      "evidence": [
+        "src/features/radar/interface/audit_daily_report.rs",
+        "src/features/radar/application/trend_recognition_service.rs",
+        "src/features/shared/interface/i18n.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "上述修改只改变 presentation/i18n 文案；既有 breakout 数值、状态、Decision/Gate/Execution/Action Matrix/Position Sizing、decision_weight 与 trade_signal 不变。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/presentation_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "zh/en/ja 的候选年龄和候选观察进度在报告、HTML、snapshot 与对应 UI 回归测试中保持一致。",
+      "evidence": [
+        "src/features/shared/interface/i18n.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+        "src/features/radar/interface/snapshots/no_trade_en_us.md",
+        "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+        ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/work-items/active/breakout-presentation-semantic-clarity.contract.json",
+    ".ai/work-items/active/breakout-presentation-semantic-clarity.summary.json",
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json",
+    "src/features/radar/interface/market_interpretation_read_model.rs",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/presentation_tests.rs",
+    "src/features/radar/interface/radar_pipeline_runner.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/snapshots/no_trade_en_us.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_en_us.md",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.html.txt",
+    "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+    "src/features/shared/interface/i18n.rs"
+  ],
+  "checkpointAt": "2026-09-21T12:17:22Z",
+  "checkpointContractDigest": "sha256:bb7d67494494c73bb251bdf0763dd93f2debbeda3879aec40d78dbc7d1d4014b",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:bb7d67494494c73bb251bdf0763dd93f2debbeda3879aec40d78dbc7d1d4014b",
+      "recorded": true,
+      "recordedAt": "2026-09-21T12:17:22Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "breakout-presentation-semantic-clarity"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:258a96a7cbe87ba51a7a9c30e31e7bfe57a247270d28afc48a467c064fbe2670",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:bb7d67494494c73bb251bdf0763dd93f2debbeda3879aec40d78dbc7d1d4014b",
+      "previousContractHash": "sha256:bb7d67494494c73bb251bdf0763dd93f2debbeda3879aec40d78dbc7d1d4014b",
+      "reason": "根据代码事实修正候选观察进度语义，并纳入已实际修改的 presentation 测试与 snapshots 路径",
+      "recorded": true,
+      "recordedAt": "2026-09-21T12:33:28Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:eaa3bc283d59f89b6e087265d4d0a364a055b2d2af2e0ce6578908fa506beb49",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "breakout-presentation-semantic-clarity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "createdAt": "2026-09-21T12:16:44Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/breakout-presentation-semantic-clarity.contract.json",
+      "src/features/radar/interface/market_interpretation_read_model.rs",
+      "src/features/radar/interface/presentation_assembler.rs",
+      "src/features/shared/interface/i18n.rs",
+      "src/features/radar/interface/report_ui_tests.rs"
+    ],
+    "reason": "修复报告中的确认语义矛盾；仅改变 observation/presentation 文案，不改变 Decision 或交易行为。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-21T12:34:55Z",
+  "preflightContractDigest": "sha256:258a96a7cbe87ba51a7a9c30e31e7bfe57a247270d28afc48a467c064fbe2670",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:eaa3bc283d59f89b6e087265d4d0a364a055b2d2af2e0ce6578908fa506beb49",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/market_interpretation_read_model.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/presentation_tests.rs",
+        "src/features/radar/interface/radar_pipeline_runner.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "src/features/radar/interface/snapshots/no_trade_zh_cn.md",
+        "src/features/radar/interface/snapshots/no_trade_en_us.md",
+        "src/features/radar/interface/snapshots/no_trade_ja_jp.md",
+        ".ai/evidence/breakout-presentation-semantic-clarity.verification-attempt.c450cb4e0168b8cb10eb70692bdabd03f6a08d21316132b5485d7da8238ddc18.json"
+      ],
+      "expected": "RS reason 使用没有确认 breakout；Emerging Breakout 的 Day N 标为候选年龄；1/3 标为候选观察进度；zh/en/ja 与 Markdown/HTML/snapshot 一致。",
+      "required": true,
+      "scenario": "9/21 no-trade breakout presentation",
+      "status": "verified",
+      "verificationPlan": "focused presentation tests plus make test and make quality."
+    }
+  ],
+  "state": "checkpointed",
+  "updatedAt": "2026-09-21T12:40:52.106580+00:00",
+  "verificationInvalidatedByContractAmendment": {
+    "contractHash": "sha256:258a96a7cbe87ba51a7a9c30e31e7bfe57a247270d28afc48a467c064fbe2670",
+    "invalidatedRequiredChecks": [],
+    "recordedAt": "2026-09-21T12:33:28Z"
+  },
+  "workItemId": "breakout-presentation-semantic-clarity"
+}

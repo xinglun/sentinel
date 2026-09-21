@@ -109,7 +109,7 @@ fn build_relative_strength_diffusion(
                 missing.push("没有确认 Leader");
             }
             if confirmed_breakout_symbols.is_empty() {
-                missing.push("没有 breakout");
+                missing.push("没有确认 breakout");
             }
             if accumulate_symbols.is_empty() {
                 missing.push("Action Matrix 未转强确认");
@@ -133,7 +133,7 @@ fn build_relative_strength_diffusion(
                 missing.push("no confirmed Leader");
             }
             if confirmed_breakout_symbols.is_empty() {
-                missing.push("no breakout");
+                missing.push("no confirmed breakout");
             }
             if accumulate_symbols.is_empty() {
                 missing.push("no Action Matrix strengthening confirmation");
@@ -159,7 +159,7 @@ fn build_relative_strength_diffusion(
                 missing.push("確認済み Leader なし");
             }
             if confirmed_breakout_symbols.is_empty() {
-                missing.push("breakout なし");
+                missing.push("確認済み breakout なし");
             }
             if accumulate_symbols.is_empty() {
                 missing.push("Action Matrix の強化確認なし");
@@ -2802,7 +2802,23 @@ mod tests {
         assert_eq!(result.diffusion_value, "EMERGING");
         assert_eq!(result.actionable_diffusion_value, "NOT_CONFIRMED");
         assert!(result.reason_value.contains("没有确认 Leader"));
-        assert!(result.reason_value.contains("没有 breakout"));
+        assert!(result.reason_value.contains("没有确认 breakout"));
+    }
+
+    #[test]
+    fn rs_diffusion_reason_uses_confirmed_breakout_wording_in_all_languages() {
+        for (language, expected) in [
+            (Language::ZhCn, "没有确认 breakout"),
+            (Language::EnUs, "no confirmed breakout"),
+            (Language::JaJp, "確認済み breakout なし"),
+        ] {
+            let result = build_relative_strength_diffusion(None, &[], &[], &[], language);
+            assert!(
+                result.reason_value.contains(expected),
+                "language={language:?}, reason={}",
+                result.reason_value
+            );
+        }
     }
 
     #[test]

@@ -3121,7 +3121,7 @@ Boundary: context only; no Gate input or trade instruction.
         presentation.breakout_summary.items.push(
             crate::features::radar::interface::presentation::BreakoutItemViewModel {
                 symbol: "U".to_string(),
-                status_label: "Emerging Breakout (Day 1)".to_string(),
+                status_label: "Emerging Breakout (Candidate age: Day 1)".to_string(),
                 ..Default::default()
             },
         );
@@ -3130,7 +3130,7 @@ Boundary: context only; no Gate input or trade instruction.
 
         assert_eq!(
             presentation.breakout_summary.items[0].status_label,
-            "Emerging Breakout (Day 1)"
+            "Emerging Breakout (Candidate age: Day 1)"
         );
         assert_eq!(
             presentation
