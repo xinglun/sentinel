@@ -1,0 +1,58 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "3a1d727c690baa4a7a412f4bb94dfba58b851c07",
+    "name": "codex/ubuntu-runner-pinning-20260922",
+    "remote": "origin"
+  },
+  "contractDigest": "sha256:cca465401d867ad96f529a8b1b3bdac94a1f8086f6fa8fab14a2fb541518c0e2",
+  "operationId": "github-pr-276-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "860e88c2133c853631072788b4c5c2c047a99ef6",
+    "headRevision": "3a1d727c690baa4a7a412f4bb94dfba58b851c07",
+    "mergeCommit": "b348b961ffad0831e4ad9ab0b12e07055369307d",
+    "number": 276,
+    "url": "https://github.com/xinglun/sentinel/pull/276"
+  },
+  "reason": "PR #276 已合并到 develop，且已确认 feature branch、remote branch 与 linked worktree 均按精确资源删除；保留完整 CI runner notice 修复和验证证据。",
+  "receiptId": "ubuntu-runner-pinning-20260922-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/ubuntu-runner-pinning-20260922",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/276",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/ubuntu-runner-pinning-20260922/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-21T22:12:11Z",
+  "workItemId": "ubuntu-runner-pinning-20260922",
+  "worktree": {
+    "branch": "codex/ubuntu-runner-pinning-20260922",
+    "headRevision": "3a1d727c690baa4a7a412f4bb94dfba58b851c07",
+    "path": "/Users/sei-rinn/.codex/worktrees/ubuntu-runner-pinning-20260922/sentinel",
+    "worktreeId": "ubuntu-runner-pinning-20260922"
+  }
+}
