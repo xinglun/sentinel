@@ -1,0 +1,156 @@
+{
+  "acceptanceResults": [
+    "只增加或调整测试覆盖，不改变 production behavior、数据契约或 observation-only 边界。",
+    "覆盖 unavailable credential、provider unavailable/no consensus、consensus available、margin ratio、revision/spread/pressure/confidence 与 formatting 的关键分支。",
+    "make fmt-check、make test、make clippy、make check-signal-context-consistency 与 make quality 全部通过。"
+  ],
+  "createdAt": "2026-09-21T13:01:26Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:8a23c73cbe62eeb448672ee7af7f7a3755306ce523f4baeae0c69d984b6619ef",
+  "evidenceRefs": [
+    ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:d52befaa1d6f0e28b41db286e353cf53eefc85cabc8ce01f6e30b93b2f91efb8",
+      "workItemId": "quality-coverage-expectation-source-adapter"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/quality-coverage-expectation-source-adapter.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/research/acl/expectation_source_adapter_factory.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.contract.json"
+          ],
+          "inference": false,
+          "text": "在不改变 expectation 生产行为与 observation-only 边界的前提下，使 expectation_source_adapter_factory.rs 达到文件级覆盖率门槛并恢复 make quality 通过"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/quality-coverage-expectation-source-adapter.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "quality-coverage-expectation-source-adapter"
+  },
+  "taskReportDigest": "sha256:88bef0a30fcb11ab31c29a4b3db66dbfafb277dbacb38fc7e5689bc08badc762",
+  "taskReportMarkdownDigest": "sha256:5a98b1d70b3c4c13dedf287326cb7143851794da862702e36a9e7c36d2aa690c",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/quality-coverage-expectation-source-adapter.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "quality-coverage-expectation-source-adapter"
+}

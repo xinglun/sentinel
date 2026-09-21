@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T13:02:57Z",
+  "files": {
+    "contractDigest": "sha256:3ef8ebd1f4d37958bdb92865507981cf76f5f3b8bf698263290db1866b3ed899",
+    "contractPath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.contract.json",
+    "eventsDigest": "sha256:63a1f1283ac7e288d51fe8ce42055812628e13cd0086c44472ce69f0599da37a",
+    "eventsPath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.events.jsonl",
+    "outcomeDigest": "sha256:f593ee02821afcfb01a93dc4e03c09c1e4308540411d2243574aba73b125e618",
+    "outcomePath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.outcome.json",
+    "summaryDigest": "sha256:795a8f624d0dbbb01ae5419ab21fbc60ddf5cc55c5037442491524d0d7e54605",
+    "summaryPath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.summary.json",
+    "taskReportDigest": "sha256:88bef0a30fcb11ab31c29a4b3db66dbfafb277dbacb38fc7e5689bc08badc762",
+    "taskReportMarkdownDigest": "sha256:5a98b1d70b3c4c13dedf287326cb7143851794da862702e36a9e7c36d2aa690c",
+    "taskReportMarkdownPath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/quality-coverage-expectation-source-adapter.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "quality-coverage-expectation-source-adapter"
+}
