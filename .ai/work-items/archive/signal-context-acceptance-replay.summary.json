@@ -65,6 +65,24 @@
         "src/cli.rs"
       ],
       "status": "verified"
+    },
+    {
+      "acceptance": "A repository-backed immutable replay fixture provides historical input, canonical reference state, and machine-readable assertions for an actual workflow dispatch.",
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json",
+        ".github/workflows/acceptance_replay.yml"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Replay provenance separates original_generation_revision from the current execution_git_commit_sha supplied by the CLI, so the receipt identifies both historical input origin and the code that performed the fresh computation.",
+      "evidence": [
+        "src/features/radar/interface/acceptance_replay.rs",
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json"
+      ],
+      "status": "verified"
     }
   ],
   "changedPaths": [
@@ -104,8 +122,8 @@
     ".ai/locks/daily-radar-snapshot-report-date-conflict.lifecycle.lock",
     ".ai/locks/freshness-gate-holiday-fix.lifecycle.lock",
     ".ai/locks/signal-context-acceptance-replay.lifecycle.lock",
-    ".ai/work-items/active/signal-context-acceptance-replay.contract.json",
-    ".ai/work-items/active/signal-context-acceptance-replay.summary.json",
+    ".ai/work-items/archive/signal-context-acceptance-replay.contract.json",
+    ".ai/work-items/archive/signal-context-acceptance-replay.summary.json",
     "docs/superpowers/specs/acceptance-replay.md",
     "src/features/radar/interface/acceptance_replay.rs",
     "tests/acceptance_replay.rs",
@@ -198,9 +216,9 @@
     "contractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "用户已授权继续完成 acceptance-replay Work Item；确认当前 repository snapshot 已通过 rustfmt 并包含 immutable replay fixture、execution revision provenance 分离与对应测试，继续保持 isolated output、zero canonical mutation、研究 ACL 边界和观察-only交易边界。",
-    "recordedAt": "2026-09-21T06:08:00Z",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户已授权继续完成 acceptance-replay Work Item；当前实现已提交至 feature branch，确认按最新 Contract、Runtime verification receipts、immutable fixture、isolated replay 和观察-only交易边界继续 finish/PR 流程。",
+    "recordedAt": "2026-09-21T06:20:00Z",
     "recordedBy": "user",
     "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
     "repositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
@@ -216,11 +234,11 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-21T06:00:45Z",
+  "preflightAt": "2026-09-21T06:07:44Z",
   "preflightContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
   "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:254e6d428a3e5172e495f79fb74d590ffa58d7a607bf8dc9f8b55c3fe77df19b",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "scenarioCoverage": [
@@ -317,22 +335,25 @@
       "verificationPlan": "Existing workflow and runner boundaries plus workspace tests."
     },
     {
-      "evidence": [],
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "tests/fixtures/acceptance_replay/2026-09-08/input-manifest.json",
+        ".github/workflows/acceptance_replay.yml"
+      ],
       "expected": "The checked-in manifest resolves only to checked-in historical input and canonical reference files, and a workflow dispatch can execute it without provider fallback.",
       "required": true,
       "scenario": "Repository-backed immutable replay fixture is deliverable",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run the repository-backed fixture through the acceptance-replay CLI and then through the dispatchable GitHub Actions workflow."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T05:58:54.141266+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T06:07:48Z",
   "verification": [
     {
       "check": "project-command-0",
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:d2d8876a3e259e8dd85469d6776cc8eb4de773ca719e153edeac16877727ed1d",
   "workItemId": "signal-context-acceptance-replay"
 }
