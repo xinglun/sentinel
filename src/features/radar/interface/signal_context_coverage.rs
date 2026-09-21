@@ -19,7 +19,8 @@ use crate::features::research::interface::macro_event_observation::{
     build_temporal_binding, classify_observation_time_precision, event_visible_at,
     AiPolicyFrontierPacingLinkage, AiPolicyFrontierPacingObservation, EvidenceRecord,
     MacroSignalContextEvent, MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
-    MacroSignalContextSourceStatus, SignalContextTemporalContext, TemporalBinding,
+    MacroSignalContextSourceStatus, ObservationTimePrecision, SignalContextTemporalContext,
+    TemporalBinding,
 };
 use chrono::{DateTime, NaiveDate, Utc};
 use serde_json;
@@ -191,8 +192,10 @@ fn normalize_observations(observations: Vec<MarketReaction>) -> Vec<MarketReacti
     observations
         .into_iter()
         .map(|mut observation| {
-            observation.observation_time_precision =
-                classify_observation_time_precision(&observation.observed_at);
+            if observation.observation_time_precision == ObservationTimePrecision::Unavailable {
+                observation.observation_time_precision =
+                    classify_observation_time_precision(&observation.observed_at);
+            }
             if observation.observation_id.trim().is_empty() {
                 observation.observation_id = stable_identifier(
                     "observation",
@@ -1456,6 +1459,30 @@ mod tests {
         assert_eq!(
             serde_json::to_value(observation).unwrap()["observation_time_precision"],
             "DAY_ONLY"
+        );
+    }
+
+    #[test]
+    fn signal_context_normalization_preserves_provider_observation_precision() {
+        let snapshot = build_signal_context_v1(SignalContextCoverageInput {
+            market_date: "2026-09-21".to_string(),
+            observed_market_reactions: vec![MarketReaction {
+                observed_at: "2026-09-21T00:00:00Z".to_string(),
+                observation_date: "2026-09-15".to_string(),
+                observation_id: "obs-fred-brent".to_string(),
+                observation_time_precision: ObservationTimePrecision::DayOnly,
+                subject: "Brent crude oil".to_string(),
+                observation: "latest 130.80; daily change +9.55".to_string(),
+                ..Default::default()
+            }],
+            ..Default::default()
+        });
+
+        let observation = &snapshot.observed_market_reactions[0];
+        assert_eq!(observation.observation_date, "2026-09-15");
+        assert_eq!(
+            observation.observation_time_precision,
+            ObservationTimePrecision::DayOnly
         );
     }
 

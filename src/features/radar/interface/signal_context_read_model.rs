@@ -2615,6 +2615,50 @@ mod tests {
     }
 
     #[test]
+    fn fred_day_only_observation_is_not_rendered_as_primary_reaction() {
+        let primary_event = SignalContextItem {
+            context_type: SignalContextType::ScheduledMacro,
+            event_id: "event-primary".to_string(),
+            title: "Iran diplomacy event".to_string(),
+            information_content: SignalContextInformationLevel::High,
+            market_relevance: SignalContextInformationLevel::High,
+            evidence_quality: SignalContextInformationLevel::High,
+            lifecycle:
+                crate::features::radar::interface::presentation::SignalContextLifecycle::Released,
+            event_fact: "Event published before the stale FRED observation projection".to_string(),
+            observed_at: "2026-09-15T12:00:00Z".to_string(),
+            source_published_at: "2026-09-15T12:00:00Z".to_string(),
+            market_date: "2026-09-21".to_string(),
+            ..Default::default()
+        };
+        let snapshot = crate::features::radar::interface::signal_context_coverage::build_signal_context_v1(
+            crate::features::radar::interface::signal_context_coverage::SignalContextCoverageInput {
+                market_date: "2026-09-21".to_string(),
+                scheduled_macro: vec![primary_event],
+                observed_market_reactions: vec![
+                    crate::features::research::interface::macro_event_observation::MarketReaction {
+                        observation_id: "obs-fred-brent".to_string(),
+                        observed_at: "2026-09-21T00:00:00Z".to_string(),
+                        observation_date: "2026-09-15".to_string(),
+                        observation_time_precision: ObservationTimePrecision::DayOnly,
+                        subject: "Brent crude oil".to_string(),
+                        observation: "latest 130.80; daily change +9.55".to_string(),
+                        ..Default::default()
+                    },
+                ],
+                ..Default::default()
+            },
+        );
+
+        assert!(format_market_reactions(
+            &snapshot.observed_market_reactions,
+            &snapshot.temporal_bindings,
+            Some("event-primary")
+        )
+        .is_empty());
+    }
+
+    #[test]
     fn market_reaction_display_is_scoped_to_primary_event_binding() {
         let market_date = NaiveDate::from_ymd_opt(2026, 9, 18).unwrap();
         let evidence =

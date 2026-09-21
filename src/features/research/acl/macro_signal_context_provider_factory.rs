@@ -1,9 +1,9 @@
 use crate::config::AppConfig;
 use crate::features::research::interface::macro_event_observation::{
-    classify_observation_time_precision, AiPolicyFrontierPacingObservation, EvidenceRecord,
-    MacroSignalContextEvent, MacroSignalContextInformationLevel, MacroSignalContextLifecycle,
-    MacroSignalContextReadModel, MacroSignalContextSource, MacroSignalContextSourceStatus,
-    MarketReaction, SignalContextTemporalContext,
+    AiPolicyFrontierPacingObservation, EvidenceRecord, MacroSignalContextEvent,
+    MacroSignalContextInformationLevel, MacroSignalContextLifecycle, MacroSignalContextReadModel,
+    MacroSignalContextSource, MacroSignalContextSourceStatus, MarketReaction,
+    ObservationTimePrecision, SignalContextTemporalContext,
 };
 use chrono::{DateTime, NaiveDate, Utc};
 
@@ -140,10 +140,23 @@ fn map_evidence(
 fn map_reaction(
     reaction: crate::features::research::infrastructure::macro_signal_context_provider::ProviderMarketReaction,
 ) -> MarketReaction {
-    let observation_time_precision = classify_observation_time_precision(&reaction.observed_at);
+    let observation_date = reaction
+        .observation_date
+        .map(|date| date.to_string())
+        .unwrap_or_default();
+    let observed_at = if observation_date.is_empty() {
+        reaction.observed_at
+    } else {
+        observation_date.clone()
+    };
+    let observation_time_precision = match reaction.observation_time_precision {
+        crate::features::research::infrastructure::macro_signal_context_provider::MacroSignalContextProviderObservationTimePrecision::DayOnly => ObservationTimePrecision::DayOnly,
+        crate::features::research::infrastructure::macro_signal_context_provider::MacroSignalContextProviderObservationTimePrecision::Unavailable => ObservationTimePrecision::Unavailable,
+    };
     MarketReaction {
         observation_id: reaction.observation_id,
-        observed_at: reaction.observed_at,
+        observed_at,
+        observation_date,
         observation_time_precision,
         session: reaction.session,
         venue: reaction.venue,
@@ -160,6 +173,7 @@ fn map_reaction(
 mod tests {
     use super::map_source;
     use crate::features::research::infrastructure::macro_signal_context_provider as provider;
+    use chrono::NaiveDate;
 
     #[test]
     fn maps_provider_status_event_and_reaction_to_research_read_model() {
@@ -233,6 +247,31 @@ mod tests {
         let mapped_reaction = super::map_reaction(reaction);
         assert_eq!(mapped_reaction.subject, "US 10Y Treasury yield");
         assert_eq!(mapped_reaction.evidence.len(), 1);
+    }
+
+    #[test]
+    fn maps_fred_reaction_precision_from_provider_fact() {
+        let reaction = provider::ProviderMarketReaction {
+            observed_at: "2026-09-21T00:00:00Z".to_string(),
+            observation_date: Some(NaiveDate::from_ymd_opt(2026, 9, 15).expect("valid date")),
+            observation_time_precision:
+                provider::MacroSignalContextProviderObservationTimePrecision::DayOnly,
+            source_published_at: "2026-09-15".to_string(),
+            market_date: "2026-09-21".to_string(),
+            subject: "Brent crude oil".to_string(),
+            observation: "latest 130.80; daily change +9.55".to_string(),
+            ..Default::default()
+        };
+
+        let mapped = super::map_reaction(reaction);
+
+        assert_eq!(mapped.observation_date, "2026-09-15");
+        assert_eq!(mapped.observed_at, "2026-09-15");
+        assert_eq!(
+            mapped.observation_time_precision,
+            crate::features::research::interface::macro_event_observation::ObservationTimePrecision::DayOnly
+        );
+        assert_eq!(mapped.market_date, "2026-09-21");
     }
 
     #[test]

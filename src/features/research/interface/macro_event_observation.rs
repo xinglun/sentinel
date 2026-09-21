@@ -238,6 +238,8 @@ pub struct MarketReaction {
     pub observation_id: String,
     pub observed_at: String,
     #[serde(default)]
+    pub observation_date: String,
+    #[serde(default)]
     pub observation_time_precision: ObservationTimePrecision,
     #[serde(default)]
     pub session: String,
@@ -565,6 +567,7 @@ mod signal_context_v1_tests {
         let reaction = MarketReaction {
             observation_id: "obs-payroll".to_string(),
             observed_at: "2026-08-07T16:00:00Z".to_string(),
+            observation_date: String::new(),
             observation_time_precision: ObservationTimePrecision::Timestamp,
             session: "CORE".to_string(),
             venue: "NASDAQ".to_string(),

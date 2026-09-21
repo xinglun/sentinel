@@ -1,0 +1,114 @@
+{
+  "acceptanceCriteria": [
+    "给定 report_date=2026-09-21、latestTradingSession=2026-09-18、FRED DCOILBRENTEU latest observation date=2026-09-15/value=130.80，provider 必须保留 observation_date=2026-09-15，不能生成 2026-09-21T00:00:00Z。",
+    "FRED observation 在 ACL 和 runtime normalization 后必须为 DAY_ONLY，不能由 RFC3339 字符串重新推断为 TIMESTAMP；Provider 的 provenance precision 是事实来源。",
+    "DAY_ONLY FRED observation 不得成为 Primary Event 的 temporal-eligible market reaction，报告不得渲染该 reaction 的 timestamp/precision 投影。",
+    "修复必须保持 observation-only：Decision、Gate、Execution、Action Matrix、Position Sizing、decision_weight 和 trade_signal 行为不变。",
+    "加入真实回归数据形状的 provider、ACL、runtime projection 测试；通过仓库要求的 fmt-check、test、clippy、quality 与 Signal Context consistency 检查。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "84aee3f31cf3ad306d07368943131f972f0c6439",
+  "createdAt": "2026-09-21T10:37:21Z",
+  "goal": "让 FRED observation date 与 report market_date 保持独立，真实 runtime 保留 DAY_ONLY 语义，并阻止 stale day-only observation 进入 Primary Event reaction。",
+  "intent": "修复 FRED 日频观察事实在 provider 到 Signal Context projection 中被合成 RFC3339 并误判为 TIMESTAMP 的 provenance 缺陷。",
+  "mode": "code",
+  "outOfScope": [
+    "leadership-absence-reconstruction-integrity；breakout-presentation-semantic-clarity；AI Policy classifier 行为；Finnhub matcher；交易状态、Gate、仓位、Telegram 文案、运行时 secrets、reports/data branch 和历史 Work Item archive。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/research/infrastructure/macro_signal_context_provider.rs",
+        "src/features/research/infrastructure/macro_signal_context_provider.rs::tests"
+      ],
+      "expected": "report_date=2026-09-21 with FRED latest date=2026-09-15 preserves observation_date=2026-09-15 and never emits synthetic report-date midnight.",
+      "required": true,
+      "scenario": "FRED observation date differs from report market_date",
+      "status": "unverified",
+      "verificationPlan": "Provider regression test with DCOILBRENTEU-shaped 2026-09-15 latest observation."
+    },
+    {
+      "evidence": [
+        "src/features/research/acl/macro_signal_context_provider_factory.rs",
+        "src/features/research/acl/macro_signal_context_provider_factory.rs::tests"
+      ],
+      "expected": "Mapped MarketReaction retains DAY_ONLY and date-only observed_at; ACL does not infer TIMESTAMP from syntax.",
+      "required": true,
+      "scenario": "Provider-owned DAY_ONLY precision survives ACL mapping",
+      "status": "unverified",
+      "verificationPlan": "ACL mapping regression asserts precision, observation_date, observed_at, evidence timestamp, and source_published_at."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/radar/interface/signal_context_read_model.rs"
+      ],
+      "expected": "Normalization does not overwrite provider-owned DAY_ONLY with syntax-derived TIMESTAMP.",
+      "required": true,
+      "scenario": "Runtime normalization preserves explicit DAY_ONLY precision",
+      "status": "unverified",
+      "verificationPlan": "Runtime projection test builds a primary event on 2026-09-21 and a FRED observation dated 2026-09-15."
+    },
+    {
+      "evidence": [
+        "src/features/research/interface/macro_event_observation.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "src/features/radar/interface/signal_context_coverage.rs"
+      ],
+      "expected": "Temporal binding is not eligible and format_market_reactions emits no FRED reaction for the 2026-09-21 primary event.",
+      "required": true,
+      "scenario": "DAY_ONLY stale FRED reaction is excluded from Primary Event reaction",
+      "status": "unverified",
+      "verificationPlan": "Focused temporal binding and renderer assertions with source event after the 2026-09-15 day-only observation."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs",
+        "src/features/radar/interface/signal_context_read_model.rs",
+        "tests/fixtures/signal_context/2026-09-08-high-information.json"
+      ],
+      "expected": "decision_weight remains 0, trade_signal remains false, and no Decision/Gate/Execution/Position Sizing fields change.",
+      "required": true,
+      "scenario": "Observation-only decision boundary remains unchanged",
+      "status": "unverified",
+      "verificationPlan": "Existing observation-only regression plus full quality gate."
+    }
+  ],
+  "scope": [
+    "仅修改 FRED observation provenance 与 temporal reaction projection：macro_signal_context_provider.rs、macro_signal_context_provider_factory.rs、必要的 macro_event_observation.rs 与 signal_context_coverage.rs，以及对应 Rust 回归测试和 acceptance replay guard；保持 observation-only，不改变 Decision、Gate、Execution、Trader、Action Matrix、Position Sizing。",
+    "docs/superpowers/plans/2026-09-21-fred-observation-date-precision-integrity.md",
+    "signal_context_read_model.rs 及其对应的 Primary Event reaction exclusion 回归测试",
+    "src/features/radar/interface/signal_context_read_model.rs 及其对应的 Primary Event reaction exclusion 回归测试",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "sources": [
+    "user-review:2026-09-21-fred-observation-date-precision-integrity",
+    "src/features/research/infrastructure/macro_signal_context_provider.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/radar/interface/signal_context_coverage.rs",
+    "docs/superpowers/plans/2026-09-21-fred-observation-date-precision-integrity.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make check-signal-context-consistency",
+    "make quality"
+  ],
+  "workItemId": "fred-observation-date-precision-integrity"
+}

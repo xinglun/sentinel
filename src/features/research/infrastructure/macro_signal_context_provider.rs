@@ -50,6 +50,13 @@ pub(crate) enum MacroSignalContextProviderLifecycle {
     Expired,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub(crate) enum MacroSignalContextProviderObservationTimePrecision {
+    DayOnly,
+    #[default]
+    Unavailable,
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub(crate) struct MacroSignalContextProviderEvent {
     pub event_id: String,
@@ -96,6 +103,8 @@ pub(crate) struct ProviderAiPolicyObservation {
 pub(crate) struct ProviderMarketReaction {
     pub observation_id: String,
     pub observed_at: String,
+    pub observation_date: Option<NaiveDate>,
+    pub observation_time_precision: MacroSignalContextProviderObservationTimePrecision,
     pub session: String,
     pub venue: String,
     pub instrument: String,
@@ -499,10 +508,10 @@ fn build_fred_event(
         })
         .collect::<Vec<_>>()
         .join("; ");
-    let published_at = format!("{}T00:00:00Z", results[0].observation.latest_date);
+    let published_at = results[0].observation.latest_date.to_string();
     let evidence = results
         .iter()
-        .map(|result| fred_evidence(market_date, event_type, level, result))
+        .map(|result| fred_evidence(event_type, level, result))
         .collect::<Vec<_>>();
     MacroSignalContextProviderEvent {
         event_id: stable_id(
@@ -536,17 +545,16 @@ fn build_fred_event(
 }
 
 fn fred_evidence(
-    market_date: NaiveDate,
     event_type: &str,
     level: MacroSignalContextProviderInformationLevel,
     result: &FredSeriesResult,
 ) -> ProviderEvidenceRecord {
-    let published_at = format!("{}T00:00:00Z", result.observation.latest_date);
+    let observation_date = result.observation.latest_date.to_string();
     ProviderEvidenceRecord {
         source: "FRED".to_string(),
         source_url: format!("https://fred.stlouisfed.org/series/{}", result.series_id),
-        timestamp: format!("{}T00:00:00Z", market_date),
-        source_published_at: published_at,
+        timestamp: observation_date.clone(),
+        source_published_at: observation_date,
         event_type: event_type.to_string(),
         subject: result.label.to_string(),
         importance: information_level_name(level).to_string(),
@@ -566,7 +574,7 @@ fn build_fred_reactions(
             } else {
                 commodity_information_level(std::slice::from_ref(result))
             };
-            let evidence = fred_evidence(market_date, event_type, level, result);
+            let evidence = fred_evidence(event_type, level, result);
             ProviderMarketReaction {
                 observation_id: stable_id(
                     "fred-observation",
@@ -576,6 +584,9 @@ fn build_fred_reactions(
                     ],
                 ),
                 observed_at: evidence.timestamp.clone(),
+                observation_date: Some(result.observation.latest_date),
+                observation_time_precision:
+                    MacroSignalContextProviderObservationTimePrecision::DayOnly,
                 session: "DAILY".to_string(),
                 venue: "FRED".to_string(),
                 instrument: result.series_id.to_string(),
@@ -943,6 +954,40 @@ mod tests {
     }
 
     #[test]
+    fn fred_reaction_preserves_daily_observation_date_and_day_only_precision() {
+        let report_date = NaiveDate::from_ymd_opt(2026, 9, 21).expect("valid report date");
+        let observation_date =
+            NaiveDate::from_ymd_opt(2026, 9, 15).expect("valid observation date");
+        let result = FredSeriesResult {
+            series_id: "DCOILBRENTEU",
+            label: "Brent crude oil",
+            observation: ParsedFredSeries {
+                latest_date: observation_date,
+                latest_value: 130.80,
+                previous_date: NaiveDate::from_ymd_opt(2026, 9, 12).expect("valid previous date"),
+                previous_value: 121.25,
+            },
+        };
+
+        let reaction = build_fred_reactions(report_date, "COMMODITY_OIL", &[result])
+            .into_iter()
+            .next()
+            .expect("one FRED reaction");
+
+        assert_eq!(reaction.observation_date, Some(observation_date));
+        assert_eq!(
+            reaction.observation_time_precision,
+            super::MacroSignalContextProviderObservationTimePrecision::DayOnly
+        );
+        assert_eq!(reaction.evidence[0].timestamp, "2026-09-15");
+        assert_eq!(reaction.source_published_at, "2026-09-15");
+        assert!(!reaction
+            .evidence
+            .iter()
+            .any(|evidence| evidence.timestamp == "2026-09-21T00:00:00Z"));
+    }
+
+    #[test]
     fn finnhub_escalation_parser_filters_future_news_and_requires_evidence() {
         let news = r#"[
             {"datetime": 1788825600, "headline": "Missile strike raises energy risk", "summary": "Oil facilities affected", "source": "Structured News", "url": "https://example.test/1"},
@@ -1182,6 +1227,8 @@ mod tests {
         );
         assert_eq!(event.evidence.len(), 2);
         assert!(event.event_fact.contains("US 10Y Treasury yield"));
+        assert_eq!(event.observed_at, "2026-09-08");
+        assert_eq!(event.source_published_at, "2026-09-08");
         let reactions = build_fred_reactions(market_date, "RATES_CREDIT", &[rates_result]);
         assert_eq!(reactions.len(), 1);
         assert_eq!(reactions[0].evidence.len(), 1);
