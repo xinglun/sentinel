@@ -1,0 +1,33 @@
+{
+  "actor": "human:repository-owner",
+  "archiveManifestDigest": "sha256:7093421bf55c718e651342114f32e87c0dd579dc19f0226ebe220b11359c23bc",
+  "artifacts": {
+    "contract": {
+      "digest": "sha256:7a803805f33fb33268bc26ac47cc63f9e76f8456d3119740d8eead90814a576e",
+      "path": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.contract.json"
+    },
+    "outcome": {
+      "digest": "sha256:709e44a0e44d5f59b19e9e050c05e6056e5c5fc6a5b6ecc606ea20a3e30ca4ec",
+      "path": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.outcome.json"
+    },
+    "summary": {
+      "digest": "sha256:99dcd123b94dc090c7a0637fb7efbd98371adcccf90f650490c93bdebccc4afa",
+      "path": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.summary.json"
+    }
+  },
+  "authoritySource": "explicit user authorization in this task",
+  "contractDigest": "sha256:7fe63478e497d5d77dc58b0b729b3deb65c5c8a347fb835dfb126a02b09705c5",
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "originalBytesPreserved": true,
+  "reason": "当前 v1 是 recovery 绑定建立前创建的重复 active projection；其 workflow-only 变更已由 Runtime recovery successor v2 继续承载。本次仅按 Runtime 的 retired/not_verified 路径保留并清理 v1 的原始 Contract/Summary/evidence，不宣称 v1 已验证、已交付或已合并。",
+  "recordedAt": "2026-09-21T06:41:53Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d08e67379f934eb844ac39b0a32b8dc370aa5041dc022ade2b730e5c8f7e4e2e",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "summaryDigest": "sha256:5c11df3a85e867c97681fd0f712e570c3b622ac2626cc05d7e6ac1c24bdec9ff",
+  "verificationClaim": "not_verified",
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix"
+}

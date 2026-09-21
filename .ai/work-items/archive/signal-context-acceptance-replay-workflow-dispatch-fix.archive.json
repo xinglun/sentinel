@@ -1,0 +1,19 @@
+{
+  "closeRequired": false,
+  "createdAt": "2026-09-21T06:41:53Z",
+  "files": {
+    "contractDigest": "sha256:7a803805f33fb33268bc26ac47cc63f9e76f8456d3119740d8eead90814a576e",
+    "contractPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.contract.json",
+    "outcomeDigest": "sha256:709e44a0e44d5f59b19e9e050c05e6056e5c5fc6a5b6ecc606ea20a3e30ca4ec",
+    "outcomePath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.outcome.json",
+    "summaryDigest": "sha256:99dcd123b94dc090c7a0637fb7efbd98371adcccf90f650490c93bdebccc4afa",
+    "summaryPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.summary.json"
+  },
+  "historicalEvidence": true,
+  "protocolVersion": 1,
+  "retirementDisposition": "integrated",
+  "retirementReceiptPath": ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.retirement.json",
+  "state": "retired",
+  "successorWorkItemId": null,
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix"
+}

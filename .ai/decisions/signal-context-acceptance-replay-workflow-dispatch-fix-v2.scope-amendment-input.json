@@ -1,0 +1,8 @@
+{
+  "scopeAppend": [
+    ".github/workflows/acceptance_replay.yml",
+    ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*",
+    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*",
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*"
+  ]
+}

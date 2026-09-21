@@ -1,0 +1,73 @@
+{
+  "acceptanceCriteria": [
+    "GitHub Actions acceptance_replay dispatch on merged develop succeeds without Cargo.lock and reaches isolated replay receipt.",
+    "Workflow does not require or generate a repository Cargo.lock as a tracked canonical artifact.",
+    "Receipt preserves lexical_regression.warsh=PASS, lexical_regression.real_geopolitical=PASS, canonical_state_unchanged=true, publishable=false, decision_weight=0, and notification.source=generated_report_payload when notify=true.",
+    "No production Decision/Gate/Execution/Trader/Position Sizing or replay computation semantics change."
+  ],
+  "authority": "authorized",
+  "baseRevision": "71cfd7e4220891d7e36a5c97289cac61a5ac8d88",
+  "createdAt": "2026-09-21T06:35:07Z",
+  "goal": "移除仅针对不存在 Cargo.lock 的 --locked 约束，保持 acceptance-replay 的 immutable input、isolated output、publishable=false、观察-only 与通知 provenance 不变。",
+  "intent": "修复 acceptance-replay workflow 的仓库构建入口，使已合并的隔离回放能够在不提交 Cargo.lock 的 Sentinel 仓库中实际运行并完成验收发送。",
+  "mode": "code",
+  "outOfScope": [
+    "Acceptance replay Rust computation semantics；canonical snapshot/data/freshness；Decision/Gate/Action Matrix/Execution/Trader/Position Sizing；provider/secret/config credential；Cargo.lock introduction；unrelated coverage threshold or modules；daily report generate/resend semantics。"
+  ],
+  "predecessorContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+  "predecessorWorkItemId": "signal-context-acceptance-replay",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/signal-context-acceptance-replay.recovery.a94036f0c3e5bb21a0b4d99f19065eadb789c39d4f2ed4e0ca245a780609fe66.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:4e9b55e1cf669d133ccedb8f8f9d22f177d8eefc6837832112f524ef7b196c03",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "high",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        ".github/workflows/acceptance_replay.yml",
+        "https://github.com/xinglun/sentinel/actions/runs/35567755216"
+      ],
+      "expected": "The merged develop workflow starts cargo without requiring a tracked Cargo.lock and produces an isolated acceptance-replay receipt.",
+      "required": true,
+      "scenario": "Workflow dispatch reaches isolated replay without Cargo.lock",
+      "status": "unverified",
+      "verificationPlan": "Dispatch .github/workflows/acceptance_replay.yml on the merged develop SHA and inspect the completed run and artifact receipt."
+    },
+    {
+      "evidence": [
+        "tests/acceptance_replay.rs",
+        "src/features/radar/interface/acceptance_replay.rs"
+      ],
+      "expected": "Only the cargo invocation changes; replay lexical, isolation, provenance, notification, and decision assertions remain unchanged.",
+      "required": true,
+      "scenario": "Workflow-only repair preserves replay and decision boundaries",
+      "status": "unverified",
+      "verificationPlan": "Run focused acceptance-replay tests and compare the workflow diff against the Contract out-of-scope boundary."
+    }
+  ],
+  "scope": [
+    ".github/workflows/acceptance_replay.yml 仅调整 cargo invocation；tests/acceptance_replay.rs 仅在需要时补充 workflow contract regression；AI Cockpit governance evidence。",
+    ".github/workflows/acceptance_replay.yml",
+    ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*",
+    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*",
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.*"
+  ],
+  "sources": [
+    "https://github.com/xinglun/sentinel/actions/runs/35567755216",
+    "https://github.com/xinglun/sentinel/pull/247",
+    "user:acceptance-replay-real-delivery-requirement-2026-09-21"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make check-acceptance-replay"
+  ],
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+}
