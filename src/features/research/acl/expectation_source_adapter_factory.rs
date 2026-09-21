@@ -587,11 +587,19 @@ fn quarter_label_from_date(date: NaiveDate) -> String {
 #[cfg(test)]
 mod tests {
     use super::{
-        build_expectation_layer_snapshot_for_market_date, has_consensus_center,
-        has_positive_consensus_center, unavailable_snapshot,
+        build_consensus_observation, build_expectation_layer_snapshot_for_market_date,
+        build_margin_observation, confidence_score, consensus_margin_observation,
+        consensus_observation, expectation_pressure, format_consensus_value, format_money,
+        format_percent, has_consensus_center, has_positive_consensus_center, metric_label,
+        no_consensus_reason, provider_unavailable_reason, quarter_label_from_date,
+        quarter_label_from_series, ratio_value, revision_direction, spread_ratio,
+        unavailable_observation, unavailable_snapshot, FinnhubConsensusMetric,
+        FinnhubExpectationSourceAdapter,
     };
     use crate::config::AppConfig;
-    use crate::features::research::domain::expectation::SourceHealth;
+    use crate::features::research::domain::expectation::{
+        ExpectationEventType, ExpectationPressure, RevisionDirection, SourceHealth,
+    };
     use crate::features::research::infrastructure::expectation_source_adapter::ConsensusSeries;
     use chrono::NaiveDate;
 
@@ -665,5 +673,253 @@ mod tests {
         assert!(reason.contains("Finnhub"));
         assert!(reason.contains("提供元を利用できず"));
         assert!(!reason.contains("取得される"));
+    }
+
+    fn valid_date() -> NaiveDate {
+        NaiveDate::from_ymd_opt(2026, 9, 21).expect("valid market date")
+    }
+
+    fn consensus_series() -> ConsensusSeries {
+        ConsensusSeries {
+            period: "2026-09-30".to_string(),
+            count: 15,
+            high: Some(3.0),
+            low: Some(2.0),
+            median: Some(2.4),
+            average: Some(2.5),
+            previous_average: Some(2.0),
+        }
+    }
+
+    fn missing_credential_adapter() -> FinnhubExpectationSourceAdapter<'static> {
+        let mut config: AppConfig = toml::from_str(include_str!("../../../../config.toml"))
+            .expect("repository config should parse");
+        config.finnhub = None;
+        let config = Box::leak(Box::new(config));
+        FinnhubExpectationSourceAdapter::new(config).expect("adapter should initialize")
+    }
+
+    #[test]
+    fn consensus_observation_projects_available_series_without_network_side_effects() {
+        let observation = build_consensus_observation(
+            "NVDA",
+            "earnings_usd_per_share",
+            ExpectationEventType::EarningsConsensus,
+            consensus_series(),
+            "$ EPS",
+            valid_date(),
+        );
+
+        assert_eq!(observation.period, "2026Q3");
+        assert_eq!(observation.expected_value, "$2.50 EPS");
+        assert_eq!(observation.estimate_high.as_deref(), Some("$3.00 EPS"));
+        assert_eq!(observation.estimate_low.as_deref(), Some("$2.00 EPS"));
+        assert_eq!(observation.revision_direction, RevisionDirection::Up);
+        assert_eq!(
+            observation.expectation_pressure,
+            ExpectationPressure::Extreme
+        );
+        assert_eq!(observation.source_health, SourceHealth::Succeeded);
+        assert_eq!(observation.observed_at, valid_date());
+    }
+
+    #[test]
+    fn margin_observation_projects_ratio_and_preserves_source_health() {
+        let gross_income = consensus_series();
+        let revenue = ConsensusSeries {
+            period: "2026-09-30".to_string(),
+            count: 12,
+            high: Some(12.0),
+            low: Some(8.0),
+            median: Some(9.0),
+            average: Some(10.0),
+            previous_average: Some(9.0),
+        };
+
+        let observation = build_margin_observation(
+            "PLTR",
+            ExpectationEventType::MarginConsensus,
+            gross_income,
+            revenue,
+            "gross_margin_pct",
+            valid_date(),
+        );
+
+        assert_eq!(observation.period, "2026Q3");
+        assert_eq!(observation.expected_value, "25.0%");
+        assert_eq!(observation.estimate_average.as_deref(), Some("25.0%"));
+        assert_eq!(observation.estimate_high.as_deref(), Some("37.5%"));
+        assert_eq!(observation.estimate_low.as_deref(), Some("16.7%"));
+        assert_eq!(observation.estimate_count, 12);
+        assert_eq!(observation.source_health, SourceHealth::Succeeded);
+    }
+
+    #[test]
+    fn missing_credential_consensus_paths_fail_closed_as_unavailable() {
+        let adapter = missing_credential_adapter();
+        let observation = consensus_observation(
+            &adapter,
+            "NVDA",
+            "earnings_usd_per_share",
+            ExpectationEventType::EarningsConsensus,
+            FinnhubConsensusMetric::Eps,
+            "$ EPS",
+            "not used",
+            "2026Q3",
+            valid_date(),
+        );
+        let margin = consensus_margin_observation(
+            &adapter,
+            "PLTR",
+            ExpectationEventType::MarginConsensus,
+            "gross_margin_pct",
+            "not used",
+            "2026Q3",
+            valid_date(),
+        );
+
+        for observation in [observation, margin] {
+            assert_eq!(observation.source_health, SourceHealth::Unavailable);
+            assert!(observation
+                .consensus_source
+                .starts_with("unavailable: Finnhub の"));
+            assert_eq!(observation.estimate_count, 0);
+        }
+    }
+
+    #[test]
+    fn unavailable_observation_preserves_fact_and_temporal_fields() {
+        let observation = unavailable_observation(
+            "TSLA",
+            "2026Q3",
+            ExpectationEventType::DeliveryConsensus,
+            "deliveries",
+            "source unavailable",
+            valid_date(),
+        );
+
+        assert_eq!(observation.subject, "TSLA");
+        assert_eq!(observation.period, "2026Q3");
+        assert_eq!(observation.as_of_date, valid_date());
+        assert_eq!(observation.observed_at, valid_date());
+        assert_eq!(observation.expected_value, "未対応");
+        assert_eq!(observation.source_health, SourceHealth::Unavailable);
+        assert_eq!(
+            observation.consensus_source,
+            "unavailable: source unavailable"
+        );
+    }
+
+    #[test]
+    fn metric_labels_and_reasons_cover_every_expectation_event_type() {
+        let cases = [
+            (
+                ExpectationEventType::DeliveryConsensus,
+                "delivery consensus",
+            ),
+            (
+                ExpectationEventType::EarningsConsensus,
+                "earnings consensus",
+            ),
+            (ExpectationEventType::RevenueConsensus, "revenue consensus"),
+            (ExpectationEventType::MarginConsensus, "margin consensus"),
+            (
+                ExpectationEventType::CloudGrowthConsensus,
+                "cloud growth consensus",
+            ),
+            (ExpectationEventType::CapexConsensus, "capex consensus"),
+            (
+                ExpectationEventType::ProductEventExpectation,
+                "product event expectation",
+            ),
+            (
+                ExpectationEventType::UserGrowthConsensus,
+                "user growth consensus",
+            ),
+            (
+                ExpectationEventType::ProcedureGrowthConsensus,
+                "procedure growth consensus",
+            ),
+        ];
+
+        for (event_type, label) in cases {
+            assert_eq!(metric_label(event_type), label);
+            assert!(provider_unavailable_reason(event_type).contains(label));
+            assert!(no_consensus_reason(event_type).contains(label));
+        }
+    }
+
+    #[test]
+    fn confidence_pressure_and_numeric_helpers_cover_boundaries() {
+        assert_eq!(expectation_pressure(20, 0.0), ExpectationPressure::Extreme);
+        assert_eq!(expectation_pressure(1, 0.18), ExpectationPressure::Extreme);
+        assert_eq!(expectation_pressure(12, 0.0), ExpectationPressure::High);
+        assert_eq!(expectation_pressure(1, 0.10), ExpectationPressure::High);
+        assert_eq!(expectation_pressure(6, 0.0), ExpectationPressure::Normal);
+        assert_eq!(expectation_pressure(1, 0.05), ExpectationPressure::Normal);
+        assert_eq!(expectation_pressure(5, 0.0), ExpectationPressure::Low);
+
+        assert!(confidence_score(20, 0.0) > confidence_score(1, 0.5));
+        assert_eq!(spread_ratio(Some(3.0), Some(1.0), Some(2.0)), 1.0);
+        assert_eq!(spread_ratio(Some(3.0), Some(1.0), Some(0.0)), 0.0);
+        assert_eq!(spread_ratio(None, Some(1.0), Some(2.0)), 0.0);
+        assert_eq!(ratio_value(Some(2.0), Some(4.0)), Some(0.5));
+        assert_eq!(ratio_value(Some(2.0), Some(0.0)), None);
+        assert_eq!(ratio_value(None, Some(4.0)), None);
+    }
+
+    #[test]
+    fn revision_and_formatting_helpers_cover_all_output_shapes() {
+        assert_eq!(
+            revision_direction(Some(1.0), Some(1.1)),
+            RevisionDirection::Up
+        );
+        assert_eq!(
+            revision_direction(Some(1.0), Some(0.9)),
+            RevisionDirection::Down
+        );
+        assert_eq!(
+            revision_direction(Some(1.0), Some(1.01)),
+            RevisionDirection::Stable
+        );
+        assert_eq!(
+            revision_direction(None, Some(1.0)),
+            RevisionDirection::Unknown
+        );
+
+        assert_eq!(format_consensus_value(2.5, "$ EPS"), "$2.50 EPS");
+        assert_eq!(
+            format_consensus_value(2_500_000_000.0, "$B revenue"),
+            "$2.5B revenue"
+        );
+        assert_eq!(format_consensus_value(12.34, " units"), "12.3 units");
+        assert_eq!(format_percent(0.257), "25.7%");
+        assert_eq!(format_money(2_000_000_000_000.0, "value"), "$2.0T value");
+        assert_eq!(format_money(2_000_000_000.0, "value"), "$2.0B value");
+        assert_eq!(format_money(2_000_000.0, "value"), "$2.0M value");
+        assert_eq!(format_money(-12.34, ""), "$-12.34");
+    }
+
+    #[test]
+    fn quarter_helpers_cover_date_series_and_fallback_paths() {
+        assert_eq!(
+            quarter_label_from_date(NaiveDate::from_ymd_opt(2026, 2, 1).unwrap()),
+            "2026Q1"
+        );
+        assert_eq!(
+            quarter_label_from_date(NaiveDate::from_ymd_opt(2026, 5, 1).unwrap()),
+            "2026Q2"
+        );
+        assert_eq!(
+            quarter_label_from_date(NaiveDate::from_ymd_opt(2026, 8, 1).unwrap()),
+            "2026Q3"
+        );
+        assert_eq!(
+            quarter_label_from_date(NaiveDate::from_ymd_opt(2026, 11, 1).unwrap()),
+            "2026Q4"
+        );
+        assert_eq!(quarter_label_from_series("2026-09-30"), "2026Q3");
+        assert_eq!(quarter_label_from_series("2026Q4"), "2026Q4");
+        assert_eq!(quarter_label_from_series("unknown"), "unknown");
     }
 }
