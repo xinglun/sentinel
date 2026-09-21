@@ -124,7 +124,7 @@
     "state": "resolved"
   },
   "mode": "code",
-  "preflightAt": "2026-09-21T11:24:13Z",
+  "preflightAt": "2026-09-21T11:32:43Z",
   "preflightContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
   "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
   "preflightRepositorySnapshotDigest": "sha256:667dc462c3b2032142702fec269bd4ab906cec315e2ba7ad1920ae76bdf8f0a0",
@@ -133,48 +133,49 @@
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "scenarioCoverage": [
     {
-      "evidence": [],
-      "expected": "report_date=2026-09-21 with FRED latest date=2026-09-15 preserves observation_date=2026-09-15 and never emits synthetic report-date midnight.",
+      "evidence": [
+        "src/features/research/infrastructure/macro_signal_context_provider.rs::tests::fred_reaction_preserves_daily_observation_date_and_day_only_precision"
+      ],
       "required": true,
       "scenario": "FRED observation date differs from report market_date",
-      "status": "unverified",
-      "verificationPlan": "Provider regression test with DCOILBRENTEU-shaped 2026-09-15 latest observation."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Mapped MarketReaction retains DAY_ONLY and date-only observed_at; ACL does not infer TIMESTAMP from syntax.",
+      "evidence": [
+        "src/features/research/acl/macro_signal_context_provider_factory.rs::tests::maps_fred_reaction_precision_from_provider_fact"
+      ],
       "required": true,
       "scenario": "Provider-owned DAY_ONLY precision survives ACL mapping",
-      "status": "unverified",
-      "verificationPlan": "ACL mapping regression asserts precision, observation_date, observed_at, evidence timestamp, and source_published_at."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Normalization does not overwrite provider-owned DAY_ONLY with syntax-derived TIMESTAMP.",
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs::tests::signal_context_normalization_preserves_provider_observation_precision"
+      ],
       "required": true,
       "scenario": "Runtime normalization preserves explicit DAY_ONLY precision",
-      "status": "unverified",
-      "verificationPlan": "Runtime projection test builds a primary event on 2026-09-21 and a FRED observation dated 2026-09-15."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "Temporal binding is not eligible and format_market_reactions emits no FRED reaction for the 2026-09-21 primary event.",
+      "evidence": [
+        "src/features/radar/interface/signal_context_read_model.rs::tests::fred_day_only_observation_is_not_rendered_as_primary_reaction"
+      ],
       "required": true,
       "scenario": "DAY_ONLY stale FRED reaction is excluded from Primary Event reaction",
-      "status": "unverified",
-      "verificationPlan": "Focused temporal binding and renderer assertions with source event after the 2026-09-15 day-only observation."
+      "status": "verified"
     },
     {
-      "evidence": [],
-      "expected": "decision_weight remains 0, trade_signal remains false, and no Decision/Gate/Execution/Position Sizing fields change.",
+      "evidence": [
+        "src/features/radar/interface/signal_context_coverage.rs::tests::runtime_macro_context_projects_three_observation_sources_without_trade_effect",
+        "src/features/radar/interface/presentation.rs::tests::signal_context_v1_serializes_all_context_groups_and_zero_decision_weight"
+      ],
       "required": true,
       "scenario": "Observation-only decision boundary remains unchanged",
-      "status": "unverified",
-      "verificationPlan": "Existing observation-only regression plus full quality gate."
+      "status": "verified"
     }
   ],
   "state": "checkpointed",
-  "updatedAt": "2026-09-21T11:24:43.102947+00:00",
+  "updatedAt": "2026-09-21T11:33:22.983308+00:00",
   "verificationInvalidatedByContractAmendment": {
     "contractHash": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
     "invalidatedRequiredChecks": [],
