@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/develop-main-sync-20260922-v2.contract.json",
+    ".ai/work-items/archive/develop-main-sync-20260922-v2.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T21:52:26Z",
+  "checkpointContractDigest": "sha256:2a3b4854920b9036c0d40a9c79d94610e91beadab6317378c78ca00a327deb62",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "createdAt": "2026-09-21T21:52:05Z",
+  "mode": "code",
+  "preflightAt": "2026-09-21T21:58:36Z",
+  "preflightContractDigest": "sha256:2a3b4854920b9036c0d40a9c79d94610e91beadab6317378c78ca00a327deb62",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T21:58:52Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "develop-main-sync-20260922-v2"
+}
