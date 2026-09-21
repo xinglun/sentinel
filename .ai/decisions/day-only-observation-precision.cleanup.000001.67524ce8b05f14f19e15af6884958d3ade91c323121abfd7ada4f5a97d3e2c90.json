@@ -1,0 +1,23 @@
+{
+  "bindingDigest": "sha256:a121dc39982f30247f7edb9b1a0f7be9a44d0fa997df592316f8774eeec61568",
+  "branchRef": "refs/heads/codex/day-only-observation-precision-20260918",
+  "contractDigest": "sha256:9c1eaf21d57d8029f6faa0371036d14f1d49dbc78c75b8280794531404b38e6d",
+  "headRevision": "dbbac50435e7145dde276b5eca20b1089603014f",
+  "observation": {
+    "branch": "removed",
+    "worktree": "removed"
+  },
+  "observedAt": "2026-09-21T09:09:36Z",
+  "operationId": "sha256:76424be00f2643461564fbd6fe8c28c9fcb1586e5dbe0ed9e614818f37f7d097",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "result": {
+    "failureCodes": [],
+    "state": "verified"
+  },
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "sequence": 1,
+  "workItemId": "day-only-observation-precision",
+  "worktreeId": "sha256:e0ed57f27f55ca3bf261357dd73f9242d9894feaf3b29991a60d03545ada7865"
+}

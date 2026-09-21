@@ -1,0 +1,42 @@
+{
+  "acceptanceCriteria": [
+    "六个 cleanup receipt 原样保留并绑定到本 Work Item。",
+    "四个 Work Item 的 branch/worktree cleanup 为 verified；两个 identity conflict 原样记录为 residual risk。",
+    "dirty 外部 worktree 不被删除或覆盖。",
+    "audit-only changes 通过 focused repository consistency check。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7069a8c3cd1e8aaad1c8849546f64d541c3815c3",
+  "createdAt": "2026-09-21T09:14:53Z",
+  "goal": "让 cleanup 证据进入受治理的 audit-only Work Item，同时保持 dirty 外部 worktree 与历史 evidence 不被破坏。",
+  "intent": "为六个已合并 Signal Context Work Item 保存当前 Runtime 0.2.104 的精确 cleanup receipt，并记录无法安全清理的历史 worktree identity conflict。",
+  "mode": "audit",
+  "outOfScope": [
+    "不修改 production code、测试逻辑、Decision、Gate、Execution、Position Sizing、reports、data branch、secrets、远端分支或其他 Work Item。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+  "requiredEvidenceClasses": [
+    "verification"
+  ],
+  "risk": "normal",
+  "scope": [
+    "仅包含六个 ordinary-cleanup receipt、当前 Runtime cleanup observation、相关分支/工作树事实和 audit evidence。"
+  ],
+  "sources": [
+    ".ai/cockpit/README.md",
+    ".ai/decisions/decision-transition-presentation-consistency.cleanup.000001.c18a8957abdd3996cfd83cb7e4832717d9c1257a247f5f4406d6784d823d783c.json",
+    ".ai/decisions/risk-probe-candidate-label-integrity.cleanup.000001.745f8177eca68162c9741296ca56e44f1bbe72d16695ea5afdae3840c7590f11.json",
+    ".ai/decisions/primary-event-scoped-binding.cleanup.000001.3d7c96e825e62cc09fae5dbfd735e03917ffa62e66bb33c5c88c11bd9800f088.json",
+    ".ai/decisions/day-only-observation-precision.cleanup.000001.67524ce8b05f14f19e15af6884958d3ade91c323121abfd7ada4f5a97d3e2c90.json",
+    ".ai/decisions/ai-policy-frontier-pacing-observation.cleanup.000001.880c07f973cc5967c1793abb5d719b0a5c40705aab56ba8d3f534f3ab3f980f8.json",
+    ".ai/decisions/ai-policy-frontier-pacing-hypothesis-linkage.cleanup.000001.53b1e97ce5655733c11cc6fd6b471ea7a532f44dda9c4170d84d911487bb30cc.json"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make check-signal-context-consistency"
+  ],
+  "workItemId": "signal-context-target-cleanup-reconciliation"
+}

@@ -1,0 +1,192 @@
+{
+  "acceptanceResults": [
+    "六个 cleanup receipt 原样保留并绑定到本 Work Item。",
+    "四个 Work Item 的 branch/worktree cleanup 为 verified；两个 identity conflict 原样记录为 residual risk。",
+    "dirty 外部 worktree 不被删除或覆盖。",
+    "audit-only changes 通过 focused repository consistency check。"
+  ],
+  "createdAt": "2026-09-21T09:15:44Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:ac1cde524c4946ae43ab95e97b953e14bb90771fcba050cc21c695d95e0ec998",
+  "evidenceRefs": [
+    ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:dfe72c6881525e3f8005e2e2bee6253c57146aa1c5be76863f806c5160af4042",
+      "workItemId": "signal-context-target-cleanup-reconciliation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/ai-policy-frontier-pacing-hypothesis-linkage.cleanup.000001.53b1e97ce5655733c11cc6fd6b471ea7a532f44dda9c4170d84d911487bb30cc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/ai-policy-frontier-pacing-observation.cleanup.000001.880c07f973cc5967c1793abb5d719b0a5c40705aab56ba8d3f534f3ab3f980f8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/day-only-observation-precision.cleanup.000001.67524ce8b05f14f19e15af6884958d3ade91c323121abfd7ada4f5a97d3e2c90.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/decision-transition-presentation-consistency.cleanup.000001.c18a8957abdd3996cfd83cb7e4832717d9c1257a247f5f4406d6784d823d783c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/primary-event-scoped-binding.cleanup.000001.3d7c96e825e62cc09fae5dbfd735e03917ffa62e66bb33c5c88c11bd9800f088.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-probe-candidate-label-integrity.cleanup.000001.745f8177eca68162c9741296ca56e44f1bbe72d16695ea5afdae3840c7590f11.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-target-cleanup-reconciliation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "让 cleanup 证据进入受治理的 audit-only Work Item，同时保持 dirty 外部 worktree 与历史 evidence 不被破坏。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-target-cleanup-reconciliation"
+  },
+  "taskReportDigest": "sha256:10c776a3f7fdc996396302c0a4a8ad04238b18ed73d89733a5113012ee4168f8",
+  "taskReportMarkdownDigest": "sha256:dadda2fd2d1be604b3602401a93809e86eb318d15d4eb69ed3f12dead38f36ac",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/signal-context-target-cleanup-reconciliation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "signal-context-target-cleanup-reconciliation"
+}
