@@ -4,81 +4,66 @@
       "acceptance": "GitHub Actions acceptance_replay dispatch on merged develop succeeds without Cargo.lock and reaches isolated replay receipt.",
       "evidence": [
         ".github/workflows/acceptance_replay.yml",
-        "https://github.com/xinglun/sentinel/actions/runs/35567755216"
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933",
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933/artifacts/10626324487"
       ],
-      "status": "unverified"
+      "status": "verified"
     },
     {
       "acceptance": "Workflow does not require or generate a repository Cargo.lock as a tracked canonical artifact.",
       "evidence": [
-        ".github/workflows/acceptance_replay.yml"
+        ".github/workflows/acceptance_replay.yml",
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933"
       ],
-      "status": "unverified"
+      "status": "verified"
     },
     {
       "acceptance": "Receipt preserves lexical_regression.warsh=PASS, lexical_regression.real_geopolitical=PASS, canonical_state_unchanged=true, publishable=false, decision_weight=0, and notification.source=generated_report_payload when notify=true.",
       "evidence": [
         "tests/acceptance_replay.rs",
-        "src/features/radar/interface/acceptance_replay.rs"
+        "src/features/radar/interface/acceptance_replay.rs",
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933/artifacts/10626324487"
       ],
-      "status": "unverified"
+      "status": "verified"
     },
     {
       "acceptance": "No production Decision/Gate/Execution/Trader/Position Sizing or replay computation semantics change.",
       "evidence": [
-        ".github/workflows/acceptance_replay.yml"
+        ".github/workflows/acceptance_replay.yml",
+        "https://github.com/xinglun/sentinel/pull/249",
+        "https://github.com/xinglun/sentinel/actions/runs/35570776845"
       ],
-      "status": "unverified"
+      "status": "verified"
     }
   ],
   "changedPaths": [
     ".ai/decisions/observer-snapshot.json",
     ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.controls.json",
     ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review-input.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.44443d3eb461408011257358201ebc466d8c62df6e242f95f4f3fa62bd7446c4.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.8e2fe5f0e15701e1cef13f29209cd3460b2f0afcc2c44e12b9c32dd1894af22d.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.scenario-amendment-input.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.scope-amendment-input.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.controls.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.preflight-review-input.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.preflight-review.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.recovery.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.retirement-input.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.retirement.json",
-    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.scope-amendment-input.json",
-    ".ai/decisions/signal-context-acceptance-replay.recovery.a94036f0c3e5bb21a0b4d99f19065eadb789c39d4f2ed4e0ca245a780609fe66.json",
-    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.6e2dcfc822e3609bf339c89c07a9e591f40c188b345e8d3d26a7f7587b46074c.json",
-    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix.verification-attempt.5bdba0522fb2b38f6ae0ad4ee565bda96f6be2642982b4accb738b4d717ed733.json",
-    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix.verification-attempt.eefb1192e17252dec1cef7cbefc6c88a159f486b63f48c4ab8542c355c13b6a3.json",
-    ".ai/locks/signal-context-acceptance-replay-workflow-dispatch-fix.lifecycle.lock",
-    ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json",
-    ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json",
-    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.archive.json",
-    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.contract.json",
-    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.outcome.json",
-    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.summary.json",
-    ".github/workflows/acceptance_replay.yml"
+    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.1fb050e255a6cf3551789fa6b6cf31c93f835d85fac23eae57984453556d70df.json",
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.05022928f4209a2cf8c43552f21743df4e4faf5fe3febcb55c5f0f9c4ed4d2b4.json",
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.f024dfc264d1c423dffa7386da9977b7e470e3ab9327c0cdd30c022258ae317e.json",
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json",
+    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
   ],
   "checkpointAt": "2026-09-21T06:50:31Z",
   "checkpointContractDigest": "sha256:0e9059a5b996679e5e1f8f58ec886a70d96b5e01d01ca6a1bae886b92055ed84",
   "checkpointCount": 1,
-  "checkpointRepositorySnapshotDigest": "sha256:1d970cdd9e728af3412867db0797a13f777886e485376b9e6a0f2e6cb4b4f7cd",
+  "checkpointRepositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
   "createdAt": "2026-09-21T06:35:07Z",
   "decisionEvidence": {
     "contractDigest": "sha256:0e9059a5b996679e5e1f8f58ec886a70d96b5e01d01ca6a1bae886b92055ed84",
     "decision": "confirm_review",
     "decisionId": "contract-preflight-review",
-    "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
-    "reason": "用户已授权继续；本次仍限定在 acceptance-replay workflow 交付边界，补齐 Telegram secrets 环境变量以完成真实通知验收，不改变 immutable input、isolated output、publishable=false、观察-only、notification provenance 与 Decision/Gate/Execution/Trader/Position Sizing 边界。",
-    "recordedAt": "2026-09-21T16:13:37+09:00",
+    "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+    "reason": "用户已授权继续；合并后的 develop acceptance-replay 已以 immutable fixture 完成 lexical、隔离、decision projection 与 Telegram notification 验收，本次仍不改变 replay 计算或 Decision/Gate/Execution/Trader/Position Sizing 边界。",
+    "recordedAt": "2026-09-21T16:30:53+09:00",
     "recordedBy": "user",
     "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
     "repositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
     "schemaVersion": 1,
     "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
   },
-  "failedGate": "finish.governance",
   "intentAlignment": {
     "evidence": [
       "user:acceptance-replay-real-delivery-requirement-2026-09-21",
@@ -88,44 +73,45 @@
     "state": "resolved"
   },
   "mode": "code",
-  "outcomeState": "blocked",
   "predecessorContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
   "predecessorWorkItemId": "signal-context-acceptance-replay",
-  "preflightAt": "2026-09-21T07:15:37Z",
+  "preflightAt": "2026-09-21T07:31:16Z",
   "preflightContractDigest": "sha256:0e9059a5b996679e5e1f8f58ec886a70d96b5e01d01ca6a1bae886b92055ed84",
-  "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
   "preflightRepositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
-  "preflightState": "yellow",
+  "preflightState": "green",
   "protocolVersion": 1,
-  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
   "recoveryDecisionPath": ".ai/decisions/signal-context-acceptance-replay.recovery.a94036f0c3e5bb21a0b4d99f19065eadb789c39d4f2ed4e0ca245a780609fe66.json",
   "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
   "scenarioCoverage": [
     {
       "evidence": [
         ".github/workflows/acceptance_replay.yml",
-        "https://github.com/xinglun/sentinel/actions/runs/35567755216"
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933",
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933/artifacts/10626324487"
       ],
       "expected": "The merged develop workflow starts cargo without requiring a tracked Cargo.lock and produces an isolated acceptance-replay receipt.",
       "required": true,
       "scenario": "Workflow dispatch reaches isolated replay without Cargo.lock",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Dispatch .github/workflows/acceptance_replay.yml on the merged develop SHA and inspect the completed run and artifact receipt."
     },
     {
       "evidence": [
         "tests/acceptance_replay.rs",
-        "src/features/radar/interface/acceptance_replay.rs"
+        "src/features/radar/interface/acceptance_replay.rs",
+        "https://github.com/xinglun/sentinel/pull/249",
+        "https://github.com/xinglun/sentinel/actions/runs/35572675933/artifacts/10626324487"
       ],
       "expected": "Only the cargo invocation changes; replay lexical, isolation, provenance, notification, and decision assertions remain unchanged.",
       "required": true,
       "scenario": "Workflow-only repair preserves replay and decision boundaries",
-      "status": "unverified",
+      "status": "verified",
       "verificationPlan": "Run focused acceptance-replay tests and compare the workflow diff against the Contract out-of-scope boundary."
     }
   ],
-  "state": "checkpointed",
-  "updatedAt": "2026-09-21T07:16:16.010176+00:00",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T07:31:21Z",
   "verification": [
     {
       "check": "project-command-0",
@@ -144,6 +130,5 @@
       "result": "passed"
     }
   ],
-  "verificationRecoveryReconciled": "sha256:892af0e8867c0152ab39b5367b12ef8f697caad97f1cbceaa7d756662d16ce92",
   "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
 }
