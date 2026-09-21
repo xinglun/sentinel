@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T07:31:43Z",
+  "files": {
+    "contractDigest": "sha256:fecfd82dbbce521879cd8d9e686ced7dae81b1061a78228dee6ac7a15e201250",
+    "contractPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json",
+    "eventsDigest": "sha256:fd67b615ad6fe3ca4b9c987731b44cd246c7706881512dbb1a4479cc04ff9c7c",
+    "eventsPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.events.jsonl",
+    "outcomeDigest": "sha256:5e2a9f0cb489955dce3ce1a31f9cd39fe72a018b0128d5d5dffff74dd36a2275",
+    "outcomePath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.outcome.json",
+    "summaryDigest": "sha256:f544b1df15d15740e1584a3ea2809eb2b60f806276ee72e1f8e3994cd1583a00",
+    "summaryPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json",
+    "taskReportDigest": "sha256:68e6df47c3472ab0fdf82ac5bf2b8472fd113820f8aeeba14a881a7c896dac06",
+    "taskReportMarkdownDigest": "sha256:e021b17e7868a19321cfa0cc4393db1150b9cff29f8b8962a9df3f2a2618fb53",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+}

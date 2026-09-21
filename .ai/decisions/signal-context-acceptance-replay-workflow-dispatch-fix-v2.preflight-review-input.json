@@ -9,7 +9,7 @@
     "preflightDecisionDigest": "sha256:1c6980110d6452fa8ff819865ad28ba9c0d175200442ec13f0e38346fde8e63f",
     "repositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
     "recordedBy": "user",
-    "recordedAt": "2026-09-21T16:13:37+09:00",
-    "reason": "用户已授权继续；本次仍限定在 acceptance-replay workflow 交付边界，补齐 Telegram secrets 环境变量以完成真实通知验收，不改变 immutable input、isolated output、publishable=false、观察-only、notification provenance 与 Decision/Gate/Execution/Trader/Position Sizing 边界。"
+    "recordedAt": "2026-09-21T16:26:18+09:00",
+    "reason": "用户已授权继续；合并后的 develop acceptance-replay 已以 immutable fixture 完成 lexical、隔离、decision projection 与 Telegram notification 验收，本次仍不改变 replay 计算或 Decision/Gate/Execution/Trader/Position Sizing 边界。"
   }
 }
