@@ -4692,6 +4692,8 @@ mod tests {
                 leadership_snapshot_id: Some("leadership-2026-07-07".to_string()),
                 previous_snapshot_id: Some("leadership-2026-07-06".to_string()),
                 calculation_mode: "RECOMPUTED_FROM_PARTIAL_HISTORY".to_string(),
+                absence_baseline_status_label: "Leader Absence Baseline Status".to_string(),
+                absence_baseline_status: "NOT_APPLICABLE".to_string(),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "82.4".to_string(),
                 leadership_score: 82.4,
@@ -4759,6 +4761,8 @@ mod tests {
                 leadership_snapshot_id: Some("leadership-2026-07-07".to_string()),
                 previous_snapshot_id: Some("leadership-2026-07-06".to_string()),
                 calculation_mode: "RECOMPUTED_FROM_PARTIAL_HISTORY".to_string(),
+                absence_baseline_status_label: "Leader Absence Baseline Status".to_string(),
+                absence_baseline_status: "REBASED_FROM_PARTIAL_HISTORY".to_string(),
                 leadership_score_label: "Leadership Score".to_string(),
                 leadership_score_value: "0.0".to_string(),
                 leadership_score: 0.0,
@@ -4792,6 +4796,10 @@ mod tests {
             assert!(body.contains("Previous Snapshot Leader: GOOG"));
             assert!(body.contains("Last Confirmed Leader: GOOG"));
             assert!(body.contains("Leader Absence Since: 2026-07-01"));
+            assert!(body.contains("Leader Absence Baseline Status: REBASED_FROM_PARTIAL_HISTORY"));
+            assert!(
+                body.contains("Leader absence baseline was corrected/rebased from partial history")
+            );
             assert!(!body.contains("Previous Leader: GOOG"));
             assert!(body.contains("Last Transition: GOOG -> none"));
             assert!(body.contains("History Coverage: PARTIAL"));
