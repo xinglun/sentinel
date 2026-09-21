@@ -29,8 +29,8 @@
     "baseBranch": "develop",
     "baseRemote": "origin",
     "branch": "codex/historical-finalization-recovery-v1",
-    "provider": "local",
-    "pullRequest": "not-requested",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/267",
     "worktree": "/Users/sei-rinn/.codex/worktrees/historical-finalization-recovery-v1/sentinel"
   },
   "risk": "normal",

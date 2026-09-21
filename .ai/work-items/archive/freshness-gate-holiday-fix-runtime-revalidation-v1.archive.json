@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T18:42:43Z",
+  "files": {
+    "contractDigest": "sha256:8bb4ce44d783255fc828beea91e2f14fc3c5dd641b94fc2bb3f2ca422bbfc134",
+    "contractPath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.contract.json",
+    "eventsDigest": "sha256:2f20a04f5108b5a8b4cc251187f08475fd3f1d22e18dd4bf26412c5c66842c77",
+    "eventsPath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.events.jsonl",
+    "outcomeDigest": "sha256:f36c47083d71f1588b339f7fdcdb08b352ce2ccfed8482407f974cbff1109595",
+    "outcomePath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.outcome.json",
+    "summaryDigest": "sha256:7b4b8f9eb3ffc85b7a6ef98a9ba299e3a78f7f2bfa0aaa5c9d43adf9b7eca595",
+    "summaryPath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json",
+    "taskReportDigest": "sha256:aa95f9527a6b2fbf05ad9814ffa23aeb36e22a946e5cbe79a331b3d7ca250ff1",
+    "taskReportMarkdownDigest": "sha256:b2f9d6df0b7270be9d32b0daad56e17aea9e58a1a5cb855d42265277ea63412a",
+    "taskReportMarkdownPath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "freshness-gate-holiday-fix-runtime-revalidation-v1"
+}

@@ -34,10 +34,10 @@
         "state": "detected"
       }
     ],
-    "snapshotDigest": "sha256:96bb8edaea7341f306362aa3d9b9b88f7732f753a90d14e6305737c7386a8b09",
+    "snapshotDigest": "sha256:7d646dd9284fbb02213580127b2f9244d3da78b40069f823343fb2ad469bc1d0",
     "testRoots": [
       "tests/**"
     ]
   },
-  "treeDigest": "sha256:80b9ddbdc6fe82d4ba0fab7e4985a42919c5971a6011fc2762a94af3db381e30"
+  "treeDigest": "sha256:83b47563194d86f1f63f93b86f07ee1bd37750a9590237f0cb44d78697c17b21"
 }
