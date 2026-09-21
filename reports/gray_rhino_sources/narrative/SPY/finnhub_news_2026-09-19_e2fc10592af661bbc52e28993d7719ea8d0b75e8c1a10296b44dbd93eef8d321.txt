@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PAPI: Differentiated Approach And Monthly Pay
+  summary: PAPI ETF offers a diversified, equal-weighted sector approach with a 7.55% TTM yield and monthly distributions. Read why PAPI is a Hold.
+  url: https://finnhub.io/api/news?id=9e942080cc14047a2d3891d0f6076f51f768c147b04fff8f0be22fba44f35190

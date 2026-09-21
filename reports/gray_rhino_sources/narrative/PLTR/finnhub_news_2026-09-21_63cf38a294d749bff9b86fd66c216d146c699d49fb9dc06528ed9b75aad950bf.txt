@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Sovereign AI? Inside Wall Street's Next Big AI Trade
+  summary: Sovereign AI, keeping control of your own data, is becoming Wall Street's next big AI trade for Nvidia and Palantir.
+  url: https://finnhub.io/api/news?id=82cde5246939879614ed0c846e73c5af521d4d0197b6b6e993ed2158573b2953

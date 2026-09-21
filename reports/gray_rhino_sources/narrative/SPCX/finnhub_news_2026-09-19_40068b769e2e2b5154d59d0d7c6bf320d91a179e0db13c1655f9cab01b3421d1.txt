@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX-Tesla Merger: Ron Baron Told Elon Musk 'Whatever You Decide... Is What I'm Going to Support'
+  summary: Baron Capital founder and CEO Ron Baron is a long-time investor in both Tesla Inc and SpaceX. When it comes to a potential merger of the two companies, Baron says CEO Elon Musk knows best. Ron Baron on SpaceX/Tesla Merger...
+  url: https://finnhub.io/api/news?id=f42007628d279d7de6cb2a405028d25206eedfb3705390fa580a3d197a13cb15

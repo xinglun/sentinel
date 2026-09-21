@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dividend Announcements: September 12-18, 2026
+  summary: Microsoft stands out for quality, low payout, and dividend safety, though its 0.79% yield is modest. Check out ten notable dividend raises this week.
+  url: https://finnhub.io/api/news?id=cf1ebfb63f5ce515b06f51743a86307ecc19f90b336bba07c158d83bc420791f

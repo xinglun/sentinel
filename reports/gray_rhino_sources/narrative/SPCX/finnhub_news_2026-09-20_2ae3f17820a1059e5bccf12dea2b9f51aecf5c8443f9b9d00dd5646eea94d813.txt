@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Howmet Aerospace (HWM) Stock Sees Modest Fair Value Lift As Analysts Raise Targets
+  summary: The fair value price target for Howmet Aerospace has shifted from US$325.93 to US$337.74 per share, based on updated modeling of the company. Recent analyst research, including new initiations and higher targets in the US$320 to US$375 range, links these changes to fresh views on execution, demand, and competitive developments tied to SpaceX and GE Aerospace. Read on to see how this evolving narrative might shape your own view of Howmet Aerospace over time. Stay updated as the Fair Value for...
+  url: https://finnhub.io/api/news?id=14117241c53326ff50e0775540b39af2e603555cd0c9b235206d2be1c37c45c2

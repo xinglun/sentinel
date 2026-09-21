@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Buying All Seven: The "Magnificent Seven" Stock Most Likely to Double by 2028
+  summary: I believe investors are underrating the potential of this compounding machine.
+  url: https://finnhub.io/api/news?id=e7c88893e45fbbc500a296482ce0c87e9709b092bc2dcd956c578f26ddcad785

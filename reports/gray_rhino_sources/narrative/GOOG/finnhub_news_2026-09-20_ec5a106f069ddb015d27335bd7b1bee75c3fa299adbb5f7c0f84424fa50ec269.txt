@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ross Gerber Says He Found ‘Secret’ Lot With Hundreds of Waymo Robotaxis: ‘Something Crazy Is About to Happen’
+  summary: Investor Ross Gerber says he may have found a "secret" lot containing hundreds of Waymo‘s autonomous vehicles in California, suggesting the Alphabet Inc.-backed robotaxi company could be preparing to scale its fleet. Waymo Fleet Expansion on the Horizon? In a...
+  url: https://finnhub.io/api/news?id=c3d1cfa2e588288c288325da37188cc45c2a3380570fc6b46d7ee5ff2eb1a45a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: One Vanguard ETF Is Betting Big on SpaceX, But Is 20% Too Big a Bet?
+  summary: One Vanguard ETF's SpaceX stake jumped 85.2% in two months, pushing concentration risk toward levels investors can't ignore.
+  url: https://finnhub.io/api/news?id=c3d2e5e8bf7c293d96b38afed2b37abacfb36997c3cb08015444e5fe845d00f0

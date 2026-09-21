@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon.com vs. Uber Technologies: Analyzing Recent Quarterly Revenue Trends Between Two Consumer Companies
+  summary: Amazon's revenue towers over Uber's across eight quarters, yet both companies posted double-digit operating margins in Q2 2026 — a rare efficiency metric worth watching.
+  url: https://finnhub.io/api/news?id=7493e8516572bd2f3948a0f8684f2a9b8dec52535f84aeafb4630348b7583f7e

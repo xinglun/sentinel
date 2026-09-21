@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Florida Car Dealer Family Spent $60 Million on a Paris Wedding. Here’s How Dealerships Make That Kind of Money
+  summary: A Florida car dealer family just threw a $60 million Paris wedding, and the fortune behind it traces back to a legal structure most Americans have never heard of that quietly turns local car lots into generational wealth machines.
+  url: https://finnhub.io/api/news?id=fdb383936a5e40bac16fc2a8e8b1e1fe1467bed1505e5f801976c530563e6731

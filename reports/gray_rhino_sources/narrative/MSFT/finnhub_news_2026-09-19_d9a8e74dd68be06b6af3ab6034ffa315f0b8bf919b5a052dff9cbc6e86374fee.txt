@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Made Execution Easier. It Also Changed the Founder’s Most Important Job.
+  summary: As execution becomes easier to automate, accountability, trust and discernment become even more valuable leadership skills.
+  url: https://finnhub.io/api/news?id=c2ca74138f86833a2c2c2b95c1adca37e29e8a0db5abb3ee8223fc838ead094a

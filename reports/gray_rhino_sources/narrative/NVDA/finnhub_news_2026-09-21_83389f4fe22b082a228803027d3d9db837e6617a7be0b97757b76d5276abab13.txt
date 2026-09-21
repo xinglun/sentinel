@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I've Studied Compound Interest for 10 Years. It's Still the Best Wealth Builder I Know.
+  summary: The media may hype up passive income, but buying and holding appreciating assets is the better move over the long haul.
+  url: https://finnhub.io/api/news?id=7693ba84b81705a745bd4856d2da8c76eb7fdeb36e83ef3b98efb933e706c0a7

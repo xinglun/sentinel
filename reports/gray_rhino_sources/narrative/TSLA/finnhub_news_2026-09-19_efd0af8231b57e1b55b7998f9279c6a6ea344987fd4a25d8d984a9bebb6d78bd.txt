@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Killed Its Solar Roof. Now Elon Musk Wants 100 GW of Solar
+  summary: Tesla Inc’s solar strategy is getting a much bigger test in Texas. Just a day before Elon Musk declared that "solar is so obviously the future," a Houston-area school board was preparing to vote on Tesla’s proposed $10.1 billion Project...
+  url: https://finnhub.io/api/news?id=d6339b7dc7aa1eb186ead7dc57355265d0e116f9c41c84c82fffd89e0e0fe9da

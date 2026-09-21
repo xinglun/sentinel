@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BofA cuts to the chase on AI data center demand
+  summary: Andrew Obin’s team came back from a key Washington conference with a new risk investors need to watch.
+  url: https://finnhub.io/api/news?id=ef216bc246daeab3d61359d8076032c5155eb8b99d20532e762695b71ab4d34c

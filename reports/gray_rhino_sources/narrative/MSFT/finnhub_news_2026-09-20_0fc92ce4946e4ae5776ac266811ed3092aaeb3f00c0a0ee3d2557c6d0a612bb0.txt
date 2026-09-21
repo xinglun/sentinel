@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Better Artificial Intelligence Stock: Advanced Micro Devices vs. SK Hynix
+  summary: SK Hynix boasts a 44% net margin and trades at 5.8x forward P/E, while AMD commands a 63x multiple despite stronger growth.
+  url: https://finnhub.io/api/news?id=c84e22fbe0e254393a24aaf0db3be974c990125346d29df5bca046dd5d66207b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market: Will S&P 500 Open Up or Down Today?
+  summary: U.S. stock futures are trending higher early Monday as investors digest a stark warning from President Donald Trump to Iran alongside cooling crude oil prices, while looking ahead to a week of key consumer retail earnings. The Polymarket (CRYPTO: POL)...
+  url: https://finnhub.io/api/news?id=5f5c1fbb8986cc9fc412e1f7579db4cadc0f9eacbf528f2f1b22f0e0b139de7f

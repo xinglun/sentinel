@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: History Says This Chip ETF Keeps Beating the S&P 500. It Has Trailed the Index Only Twice Since 2016.
+  summary: The fund's wins came by double-digit margins -- and its two losses were about twice as deep as the market's.
+  url: https://finnhub.io/api/news?id=abc0822de65150670408675e3326d0471a0ee41a7406bc69ce199fb61261074e

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-09-18",
+  "report_date": "2026-09-21",
+  "as_of_date": "2026-09-18",
+  "generated_at": "2026-09-21T17:58:39.355899607+09:00",
+  "run_id": "ca020710-a93f-405d-9416-abd5748fb7b4",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-18",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 70.0,
+  "breadth_classification": "BROAD_WITHIN_UNIVERSE",
+  "confidence": 67.21593010120316,
+  "supply_phase": "ACCUMULATING",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {
+    "U": {
+      "consecutive_days": 3,
+      "quality": 100.0,
+      "state": "BREAKOUT_EMERGING",
+      "strength": 100.0
+    }
+  },
+  "stability": 10.0,
+  "continuity": 17,
+  "cycle_length_days": 17,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "BROAD_WITHIN_UNIVERSE",
+      "down_count": 3,
+      "flat_count": 0,
+      "raw_percent": 70.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 7
+    },
+    "history": "HEALTHY",
+    "trend": "HEALTHY"
+  },
+  "report_run_id": "f5581cfa-df6a-4ee7-ba14-04731a1ad8c1",
+  "git_commit_sha": "7069a8c3cd1e8aaad1c8849546f64d541c3815c3",
+  "data_digest": "sha256:122900983d3ed85c6205c0ebe8759721089ea1a96797217d53001c973df96b8c",
+  "decision_packet_digest": "sha256:b41393b774e06266cf4f80e6538b526fa399c25bbad750a54b738846e2935174",
+  "observation_digest": "sha256:7f4beb39dbb336e2c3fcf941cbbe1cb0794291e41caa3f02ab04ce7014dfadbd",
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  }
+}

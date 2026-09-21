@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: The Business Is Delivering, But The Price Still Demands Too Much
+  summary: Palantir shows strong commercial growth, margins, and cash flow, but a premium valuation limits upside. Read why PLTR stock is a hold.
+  url: https://finnhub.io/api/news?id=de1259bc6bc747e4eed7eaa0cf95bac14f1cbc5205d901ad005a7eed62af2433

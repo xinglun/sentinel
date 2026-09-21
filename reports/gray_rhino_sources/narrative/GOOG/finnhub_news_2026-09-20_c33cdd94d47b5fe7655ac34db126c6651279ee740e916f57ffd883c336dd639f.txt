@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway: Warren Buffett Steps Down As Chairman While Higher Rates Turn The Cash Pile Into A Bigger Asset
+  summary: Berkshire Hathaway (BRK.B) looks undervalued: higher-rate tailwinds, strong float, BHE growth, and Greg Abelâs executionâget the key investment thesis now.
+  url: https://finnhub.io/api/news?id=8dd827e5ff1c2954ca43d4bfe9b3cb529d099c1a2ee055966d4a86162e08888b

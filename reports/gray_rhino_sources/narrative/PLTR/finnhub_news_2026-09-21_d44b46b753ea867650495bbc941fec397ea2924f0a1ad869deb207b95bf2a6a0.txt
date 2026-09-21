@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Unveils Alliance Push Across AI Supply Chains And Cyber Defense
+  summary: Palantir Technologies (NasdaqGS:PLTR) announced a series of new global alliances with Fujitsu, NVIDIA, Method Security and Nebius. The renewed Fujitsu agreement aims to expand Palantir software across international manufacturing and other sectors for digital operations projects. Palantir reported a new NVIDIA supply chain effort, Method Security's Cardinal cybersecurity program, and a preferred AI infrastructure role with Nebius. The fresh Fujitsu, NVIDIA, Method Security and Nebius deals...
+  url: https://finnhub.io/api/news?id=7c316f6f63914c00057ad30eb5475d546f6e2e560369ce7aeccda4d6a743d4c5

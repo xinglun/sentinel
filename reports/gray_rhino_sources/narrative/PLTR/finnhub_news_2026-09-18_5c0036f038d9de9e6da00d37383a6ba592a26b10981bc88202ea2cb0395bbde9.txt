@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Says AI Leaders Can't 'Stop The Elevator' With Meta In The 'Ferrari Left Lane' As AI Race Accelerates
+  summary: Ives pointed to Meta’s roughly 3.5 billion users, noting that companies with large existing user bases have an advantage in monetizing AI.
+  url: https://finnhub.io/api/news?id=168a0af4f1dc24cec815a9615c2b7d09ed2f3dedf74449661864169dd84d32d9

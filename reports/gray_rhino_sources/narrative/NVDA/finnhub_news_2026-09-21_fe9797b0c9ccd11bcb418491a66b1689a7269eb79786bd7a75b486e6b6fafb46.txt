@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CUbIQ Technologies and Coherent Corp. demonstrate scalable, physical-layer security for AI infrastructure
+  summary: A CV-QKD transceiver in a standard QSFP-28 pluggable runs alongside Coherent 200G FR4 optics tested over an NVIDIA DGX Spark host system via its ConnectX-7 interface, with no changes to the existing networkEINDHOVEN, Netherlands and MÁLAGA, Spain, Sept. 21, 2026 (GLOBE NEWSWIRE) -- CUbIQ Technologies, a Dutch pioneer in quantum-safe communications for AI infrastructure, and Coherent Corp. (NYSE: COHR), the global photonics leader, today announced a successful proof-of-concept (POC) quantum key d
+  url: https://finnhub.io/api/news?id=635315cc6c9ee18814731abea4189cca39fb41433e4fc68989182bd8c92ae26a

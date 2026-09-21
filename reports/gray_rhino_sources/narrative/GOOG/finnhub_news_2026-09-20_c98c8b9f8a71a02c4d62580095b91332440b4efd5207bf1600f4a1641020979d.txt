@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How small businesses should be deploying AI, according to Codie Sanchez
+  summary: Contrarian Thinking founder and CEO Codie Sanchez highlights the most direct way that small business owners should be utilizing AI to expand their customer base.
+  url: https://finnhub.io/api/news?id=fd7ff4a4ae345d610bd1a317d726d88262c4e1c975e14748149f3021ffbdbee3

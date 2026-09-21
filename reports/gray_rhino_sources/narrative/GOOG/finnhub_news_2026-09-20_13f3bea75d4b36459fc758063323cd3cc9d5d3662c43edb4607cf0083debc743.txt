@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tracking William Nygren's Harris Associates Portfolio - Q2 2026 Update
+  summary: Harris Associates' 13F portfolio rose to $75.42B in Q2 2026, with 30 core positions exceeding 1.25% each. Read more on the portfolio here.
+  url: https://finnhub.io/api/news?id=7cb8d912d7f4307bf0bc36e40cb4309796874675baa460e3d9bc3076acc5d41d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia CEO Jensen Huang Expects Chip Sales To Double Next Year as He Downplays AI Slowdown Calls: 'When a Product is Not Safe...'
+  summary: Nvidia Corporation CEO Jensen Huang expects the company to double its chip sales in the coming year. “I expect Nvidia to sell twice as many chips as this next year as we do this year,” Huang said at a summit...
+  url: https://finnhub.io/api/news?id=383f38f0b4b6a98e3eef0ef94199e8885f4261665c393e8f04dd63422c06535a

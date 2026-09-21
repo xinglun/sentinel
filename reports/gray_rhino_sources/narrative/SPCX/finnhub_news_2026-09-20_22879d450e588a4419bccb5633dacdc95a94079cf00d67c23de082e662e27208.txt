@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy SpaceX Stock Before Its Next Earnings Report?
+  summary: SpaceX stock has rebounded nicely since its prior sell-off, but can the momentum last until its next earnings report?
+  url: https://finnhub.io/api/news?id=f0e87b629eedcb1caf02c55d5d95f4d32b5a8e8aa63e82883d5633edbf39fb3b

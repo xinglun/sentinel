@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NOK Stock Rises Overnight: Nokia’s EURO STOXX 50 Index Return On Monday Adds To AI-Fueled Momentum
+  summary: Nokia will rejoin the top Eurozone index a year after it was dropped.
+  url: https://finnhub.io/api/news?id=59de802070fab17442b80fcbe7d16eebb625901192e8797e5a0cc0bddd8ae381

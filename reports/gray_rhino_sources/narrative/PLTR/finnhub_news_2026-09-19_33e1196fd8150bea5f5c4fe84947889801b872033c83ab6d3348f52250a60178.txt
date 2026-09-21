@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Is Officially Back From The Dead
+  summary: Software leaders are dispelling AI monetization fears as software emerges again; however, a return to peak valuation seems unreasonable. Click for this outlook.
+  url: https://finnhub.io/api/news?id=79864d8ff1482a82b1c4797df3ffc0888f44e474489fd2d8f0246a97db43880c

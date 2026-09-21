@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Palantir's Lead Over Its Peers Already Priced In?
+  summary: Palantir Technologies (PLTR) grew revenue faster over the past twelve months than every company in its peer group, and only one company in that group earns a wider operating margin. Palantir also carries the group's highest earnings multiple. Over those same twelve months the stock returned less than the S&P 500. The operational lead is evident, but current market valuations appear to price in much of that outperformance.
+  url: https://finnhub.io/api/news?id=57f9a3b6fc72eb72004070beb9320997935226a41fa261a3a9160d4d02974797

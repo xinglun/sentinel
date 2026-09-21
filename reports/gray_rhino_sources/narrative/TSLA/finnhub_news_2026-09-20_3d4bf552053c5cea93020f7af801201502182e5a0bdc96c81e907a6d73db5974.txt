@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nine Years, Eight Delays, and Now Rocket Thrusters: Tesla Finally Sets a Roadster Date
+  summary: Tesla, Inc. (NASDAQ:TSLA) has once again set a deadline for its second-generation Roadster. This time, the automaker says October 1 is real, and it’s accompanied by rocket-launch visuals and a technology package sourced directly from Elon Musk’s other company, SpaceX. A Nine-Year Wait The Roadster was first exhibited as a prototype in November 2017, with […]
+  url: https://finnhub.io/api/news?id=9b7d7a93902b250091f4bc8cc26265b9c404cbd034a2de9f3ec1d2440eb485b6

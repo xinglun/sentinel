@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Phase Transition Of AI Alpha
+  summary: AI investing shifts from GPU hoarding to agentic inference.
+  url: https://finnhub.io/api/news?id=91b0ebd6ca1ec4ade661dda8838493312b08b327606700f63683b04ad76e9f7b

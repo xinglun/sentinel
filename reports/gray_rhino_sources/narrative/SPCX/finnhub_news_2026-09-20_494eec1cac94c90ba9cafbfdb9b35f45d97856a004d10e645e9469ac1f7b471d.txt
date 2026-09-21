@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock: 3 Things to Watch Before the December Lock-Up Cliff
+  summary: SpaceX has been volatile since its IPO three months ago. That likely won't change anytime soon.
+  url: https://finnhub.io/api/news?id=46f749fef4b3501356dabd2f52b9a2930b5e27fad7a8f93f7261c6eb17a0a4cb

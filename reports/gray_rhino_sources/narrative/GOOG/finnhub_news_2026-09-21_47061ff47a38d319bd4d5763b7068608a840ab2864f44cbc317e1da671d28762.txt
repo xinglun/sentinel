@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Warns Hyperscalers Are Hiding $3 Trillion In AI Liabilities — And Wall Street Isn’t Looking: ‘When The Music’s Over…’
+  summary: Burry says the liabilities are growing more than the companies themselves.
+  url: https://finnhub.io/api/news?id=8d7c4a1cd9f4e21d9a5466b42840f5f4bb61c8a26df7a089476b5de79314066d

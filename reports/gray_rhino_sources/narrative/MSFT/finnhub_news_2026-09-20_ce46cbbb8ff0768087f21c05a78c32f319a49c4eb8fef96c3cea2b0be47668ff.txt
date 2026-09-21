@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Mitsui High-tec (TSE:6966)'s Upgraded 2026 Forecast and Dividend Hike Means For Shareholders
+  summary: Mitsui High-tec, Inc. has already reported half-year 2026 results showing sales of ¥130,672 million and net income of ¥9,943 million, alongside a second-quarter dividend of ¥6.00 per share payable from October 8, 2026. At the same time, the company raised its full-year forecasts for sales, profit and earnings per share, citing robust demand, cost controls and favorable foreign exchange movements. Next, we’ll examine how this upgraded full-year guidance, built on stronger-than-expected...
+  url: https://finnhub.io/api/news?id=43e640f173ac17f1903650caf9a0b8c17ab2b1f612eb8c743d284bbcfa2fb6e3

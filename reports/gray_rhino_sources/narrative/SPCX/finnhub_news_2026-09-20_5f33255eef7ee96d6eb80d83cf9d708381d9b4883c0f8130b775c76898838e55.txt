@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meet the Vanguard ETF That Increased Its SpaceX Holding by 39% in 1 Month and Shows No Signs of Slowing Down
+  summary: The unlocking of SpaceX shares is reshaping the communications sector.
+  url: https://finnhub.io/api/news?id=55053f0f29e4c504186942c5e9d2658c1bdfb1f2590edea186d87b7782fb60a2

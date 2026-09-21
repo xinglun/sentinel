@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Berkshire Hathaway's Favorite Artificial Intelligence (AI) Stock Looks Like a Genius Buy Now
+  summary: Warren Buffett started adding Alphabet to Berkshire Hathaway's stock portfolio before his long tenure as CEO ended.
+  url: https://finnhub.io/api/news?id=8b619b6cac8fc95683114599508de70e2f0b1b5d867c834492d832f1ba598237

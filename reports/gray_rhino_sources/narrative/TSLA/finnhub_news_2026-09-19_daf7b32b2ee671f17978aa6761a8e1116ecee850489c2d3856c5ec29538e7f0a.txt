@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Delivery Outlook Shows Tesla (TSLA)’s Core Business Under Pressure. Its Next Growth Engine Must Deliver
+  summary: Goldman Sachs has cut its delivery forecast for Tesla, Inc. (NASDAQ:TSLA) while citing weaker sales trends across the company’s most important markets. The investment bank slashed its Q3 delivery forecast to 435,000 vehicles from 490,000. It also lowered its Q4 delivery forecast to 475,000 vehicles from 515,000. The question now is whether Tesla’s demand weakness […]
+  url: https://finnhub.io/api/news?id=c78592ceb9c64dbea34fb176a24453197025e68b2424b4fcf29bde8eda01569e

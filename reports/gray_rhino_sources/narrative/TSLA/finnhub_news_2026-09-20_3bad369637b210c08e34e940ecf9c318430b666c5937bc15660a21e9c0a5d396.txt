@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Brace For Fuel Hike, Tesla Faces NHTSA Scrutiny and More: This Week in Mobility
+  summary: Airlines, Tesla, Waymo and China’s automakers dominated business headlines this week amid rising fuel costs and more.
+  url: https://finnhub.io/api/news?id=d6427cd5621ec9be19442523629638740a6446ae3ec204f96ba49db5fa6a02be

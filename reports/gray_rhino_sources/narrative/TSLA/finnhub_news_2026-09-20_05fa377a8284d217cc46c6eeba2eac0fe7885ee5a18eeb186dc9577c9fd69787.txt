@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dear Tesla Stock Fans, Mark Your Calendars for September 30
+  summary: Tesla’s Cybercab-related deadline could provide investors with a key update on the regulatory path for its ambitious Robotaxi strategy.
+  url: https://finnhub.io/api/news?id=8aa2e37d90ac8fac480dd1d66a0cb311a4ccb724e3d4eeff78397d14702972a9

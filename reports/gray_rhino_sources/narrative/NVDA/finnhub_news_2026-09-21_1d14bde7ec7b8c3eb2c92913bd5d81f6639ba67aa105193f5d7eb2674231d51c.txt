@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Top Cryptocurrencies Down 67% or More Worth Buying Right Now
+  summary: Don't let the prices of the past discourage you from today's opportunities.
+  url: https://finnhub.io/api/news?id=571891c9b9f80602ef234bc081068d387c8784aa5621be6e65aeda5d03c96497

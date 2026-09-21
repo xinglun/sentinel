@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Micron Will Earn More Profit Than Microsoft in Fiscal 2027
+  summary: Four quarters at the memory maker's guided pace would surpass what the software giant earned in its record fiscal 2026. Whether the pace holds hinges on memory prices.
+  url: https://finnhub.io/api/news?id=d6c3fe4f5b1cb419b67da8b90b79791eefc56ca85cd70a9df0f7efa6a393b907

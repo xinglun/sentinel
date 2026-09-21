@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Predicts Starlink Satellites Could Rewrite the Rules of Global Connectivity
+  summary: On the August 4, 2026 earnings call, SpaceX (NASDAQ:SPCX) chief executive Elon Musk predicted Starlink could carry the bulk of global internet traffic within 10 years, driven by a next-generation satellite that multiplies delivered bandwidth dramatically. This morning, in a post on X, he expanded on just how big that could be: “Connectivity per sat […]
+  url: https://finnhub.io/api/news?id=cb9119c7aaf71b3849ea87db1a0aa7633af27ceb9a71f280a51983b858e5991b

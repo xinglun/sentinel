@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: It Takes About $32,000 in This Dividend ETF to Collect $1,000 a Year
+  summary: The payout has grown every year since 2012 -- but the quarterly payments are uneven, and the growth has slowed.
+  url: https://finnhub.io/api/news?id=c816b757e4a328383f384e8015a368811de3c05e7fbec797b37bc1f995249288

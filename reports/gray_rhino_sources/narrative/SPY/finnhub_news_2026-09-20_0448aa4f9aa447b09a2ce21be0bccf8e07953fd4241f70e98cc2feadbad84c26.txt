@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How to Build $3,250 a Month in Dividend Income to Cover a Married Couple’s Social Security Checks, Starting From Zero
+  summary: Replacing a married couple's Social Security income with dividends sounds straightforward until you see how brutally the math punishes the wrong yield tier at the wrong time in retirement.
+  url: https://finnhub.io/api/news?id=3855d5011abc82bee5384cbab44a396167d08a3caf4ff06a23dfd1164ebe1887

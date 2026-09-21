@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Has Gone Nowhere Since Its First Day of Trading
+  summary: The stock sits below where it closed on day one, even though revenue nearly doubled last quarter.
+  url: https://finnhub.io/api/news?id=7bdf66924c48ffa5dcf43524251d55a4617f1eec5bedb35a05676a8b352a8a4d

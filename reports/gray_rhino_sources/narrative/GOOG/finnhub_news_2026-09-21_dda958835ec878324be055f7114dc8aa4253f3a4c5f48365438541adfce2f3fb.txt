@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Waymo is bringing driverless taxis to a fourth country
+  summary: Alphabet’s robotaxi unit found a government willing to admit what most regulators only mutter.
+  url: https://finnhub.io/api/news?id=9cdf05906a39a4fb7be8ee524900b52e7b63d56888ec332485b76ffc0259470e

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Higher For Longer And Longer
+  summary: Fedâs first hike since 2023 lifts Treasury yields and hits stocks, REITs, housing, and energy. Read more macroanalysis here.
+  url: https://finnhub.io/api/news?id=a6b9f314d368c0f85dd66ff9dc4d9a2ae7a0142fd937d1ef329f4e9be5d5a302

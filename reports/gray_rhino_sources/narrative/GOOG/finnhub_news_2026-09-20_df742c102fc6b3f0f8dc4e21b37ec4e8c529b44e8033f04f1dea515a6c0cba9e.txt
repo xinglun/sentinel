@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Brunch: U.S.-China Summit In Spotlight
+  summary: Trump and Xi meet with trade, tariffs and AI on deck. Trump pitches an AI Force while Google reveals a Gemini breach. Costco earnings put its sky-high valuation back in focus.
+  url: https://finnhub.io/api/news?id=e2972381010a8ed6329d7047e94f453e8c0e4121e4497cf8ad3a417c76f42666

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Under-Valued Dividend Growers: 8 Stocks Averaging A 10.2x P/E
+  summary: Screen U.S. dividend growth stocks (2â6% yields) for undervalued picks and build an 8-stock, 3.79% yield portfolio with strong growthâread now.
+  url: https://finnhub.io/api/news?id=61505f451a62ea69c403d5233c5c270c570fcde51e017c34a7c2d21ebded6c5a

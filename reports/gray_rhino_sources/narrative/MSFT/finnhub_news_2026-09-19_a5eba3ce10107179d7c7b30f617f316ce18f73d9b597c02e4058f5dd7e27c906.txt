@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DGRW Pays Dividends Every Month. Its Biggest Stocks Look Nothing Like a High-Yield ETF
+  summary: WisdomTree's DGRW distributes cash to shareholders every single month, yet its largest holdings read like a growth fund roster rather than an income portfolio. Whether that contradiction works for or against dividend investors depends entirely on what you actually need from a dividend ETF.
+  url: https://finnhub.io/api/news?id=6b832664e640eb589ca6b277d6432b2239002b4d689a91893ad9ef70f68f0dc5

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is BigBear.ai Finally Building a Higher-Quality Revenue Mix?
+  summary: BBAI's GenAI products lift second-quarter revenues by 13% and gross margin to 32.8%, but wider EBITDA losses show the revenue shift is still unproven.
+  url: https://finnhub.io/api/news?id=c1beba2f43067945e7fe750b2c8010d3d4b0c05cbfd4d1f1340ba2956684a9ee

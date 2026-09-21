@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Stock Jumped 8% Last Week. It Could Bring 325% More, Here’s How.
+  summary: Key TakeawaysSelloff Reversal: AMD stock sank as much as 5. 6% on Monday, September 14 after AI industry leaders called for slower model development, then clawed back the loss and closed the week at $560, an 8% weekly gain.
+  url: https://finnhub.io/api/news?id=2197af758c06801cb32619bf5b7914c15c1ac8453ecfbec19cff45b914d8f83f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Has Raised Its Dividend for 31 Years. Inflation Is Still Winning
+  summary: IBM has raised its dividend for three decades straight, but the latest increase fits on a penny. Before counting on that income to keep pace with rising costs, retirees should understand what the streak actually delivers.
+  url: https://finnhub.io/api/news?id=3c1f06dd43dfb92bc4580221c728e7d579d60bf1b6d31eeed7317cb274e178d5

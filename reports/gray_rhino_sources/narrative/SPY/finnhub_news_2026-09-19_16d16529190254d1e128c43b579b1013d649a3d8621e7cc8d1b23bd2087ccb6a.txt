@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 1-Minute Market Report September 19, 2026
+  summary: S&P 500 stays resilient amid Fed rate hikes and rising Treasury yields.
+  url: https://finnhub.io/api/news?id=de3323cb5505190d9a1ae4fa79c3f17242d7bad080f1177f209eb012aaa19971

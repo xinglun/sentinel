@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Puts Tesla-SpaceX Merger at 80% Odds: Will It Become the World's Biggest Company?
+  summary: Wedbush's Dan Ives says a Tesla-SpaceX merger has 80% odds by 2027, calling it a bid for the world's largest company.
+  url: https://finnhub.io/api/news?id=1b46a4fc45cc2d6f8b88040b7d97ec429c5beeabcfc93fcca43e4e8af337d2d4

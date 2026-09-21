@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla (TSLA)’s Autopilot Software Wins Over a Sixth European Country
+  summary: On September 8, 2026, Reuters reported that Slovenia approved Tesla, Inc. (NASDAQ:TSLA)’s FSD Supervised driver-assistance system for its roads. Slovenia became the sixth European country to clear the software ahead of a potential European Union-wide vote that Tesla expects as early as October 6. The Netherlands was the first EU country to provisionally approve FSD […]
+  url: https://finnhub.io/api/news?id=6c299577a2ac39f67b3715b8d606807addf2a810825d8aca229c67abe51c2f64

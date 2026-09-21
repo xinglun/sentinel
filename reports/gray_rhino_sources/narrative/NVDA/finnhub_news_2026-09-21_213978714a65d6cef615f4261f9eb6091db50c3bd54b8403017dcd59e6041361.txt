@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investing $150 per Month in This S&P 500 ETF Could Grow Into $300,000 Over 30 Years. Here's the Math.
+  summary: Stay consistent and let time do the heavy lifting for you.
+  url: https://finnhub.io/api/news?id=be0d2451e98b4010c757df2ce742e6d7d051b25b172b5455ecddda0805049a8b

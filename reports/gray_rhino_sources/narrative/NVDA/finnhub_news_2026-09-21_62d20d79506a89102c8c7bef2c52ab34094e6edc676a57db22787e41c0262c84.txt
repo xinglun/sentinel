@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperliquid Just Hit a New All-Time High of $92. How Hyped Should Investors Be For HYPE?
+  summary: Hyperliquid may be soaring, but how much longer can it hold on to its market-leading position?
+  url: https://finnhub.io/api/news?id=c10b3b48f1fb7498df68ce99758f10bb999146e2ee4e28eaf6c067b3891529b4

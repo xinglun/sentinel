@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The S&P 500 Is Flashing The Same Warning Signs Seen In 2018 And 2022
+  summary: Liquidity strains are building as market breadth weakens in stocks & high-yield bonds. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=e2c2e8df0bb45381de75b89aafff1f151aed55dc45676b07ac4d14d5d7b79976

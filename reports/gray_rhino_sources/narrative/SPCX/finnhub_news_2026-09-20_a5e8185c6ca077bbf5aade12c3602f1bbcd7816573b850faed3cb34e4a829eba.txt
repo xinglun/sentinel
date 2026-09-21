@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 notable business takes that flew under the radar this week
+  summary: Inside the latest chatter from important business leaders.
+  url: https://finnhub.io/api/news?id=26a36355c60b7b42160db535add1587f66efc1373c85577a48a75567b87fbbb0

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Neocloud Boom: Comparing Nebius, CoreWeave, & IREN
+  summary: Neocloud providers offer compelling "picks and shovels" investments, but not all are created equal.
+  url: https://finnhub.io/api/news?id=c8a64cf78447f54f77d93473dd3ba81422a54e2970cb107a4a8c68279e2d7399

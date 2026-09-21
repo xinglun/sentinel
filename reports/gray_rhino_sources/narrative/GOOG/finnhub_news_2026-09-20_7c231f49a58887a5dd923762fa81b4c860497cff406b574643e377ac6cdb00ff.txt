@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Anthropic's IPO Will Be a Big Winner for Alphabet and Amazon Investors
+  summary: Amazon and Alphabet will benefit in two big ways from Anthropic's IPO.
+  url: https://finnhub.io/api/news?id=1a5bdfb63a77adcad68dfd172e7790e18de33d671b9d5a1930ad5f60b63efcd2

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 3 Tech Laggards Are Top Stock Picks, UBS Says
+  summary: Palantir, AT&T, and Spotify have lagged the market in 2026, but UBS rates each of the stocks as strong buys.
+  url: https://finnhub.io/api/news?id=e12e8754eeda389625ddeb3444ae34188898207e97c319e77ceecd863a59098e

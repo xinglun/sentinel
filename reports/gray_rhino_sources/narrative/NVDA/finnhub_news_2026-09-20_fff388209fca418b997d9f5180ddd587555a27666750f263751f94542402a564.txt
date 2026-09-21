@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Goldman Sachs Stock After Its 26% Run-Up From Its 52-Week Low?
+  summary: The investment bank's stock is in a prime position to head higher.
+  url: https://finnhub.io/api/news?id=914f697be0912acb6c203d7c04a0324191aef76f4b038612d5ac888ba84d3bbc

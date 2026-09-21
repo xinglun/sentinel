@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Recent Moves Are Brilliant. Here's Why Robinhood Is the Most Important Player in Crypto Right Now.
+  summary: Robinhood appears to be rapidly stealing market share from one of the crypto sector's entrenched competitors.
+  url: https://finnhub.io/api/news?id=978d1d2f29a9a722a031a4cab0a2de918473e75b9a6e30993ddc1648436ff862

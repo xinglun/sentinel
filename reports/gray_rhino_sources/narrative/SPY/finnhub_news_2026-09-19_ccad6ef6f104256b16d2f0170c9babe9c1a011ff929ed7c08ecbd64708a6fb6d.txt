@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Hikes: Enhancing My 5.2% Yielding Fixed Income Portfolio
+  summary: Eight-fund CLO portfolio targets higher-for-longer rates, projecting 5.6%â5.8% TTM yield.
+  url: https://finnhub.io/api/news?id=30c9de78b8635a44fe55a8876443aeee6d4cb472adfe36f0545c97f40c88bb74

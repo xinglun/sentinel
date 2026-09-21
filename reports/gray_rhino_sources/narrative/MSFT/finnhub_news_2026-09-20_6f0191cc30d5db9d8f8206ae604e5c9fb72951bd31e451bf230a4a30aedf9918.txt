@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bill Ackman Built a $2.4 Billion Stake in Microsoft, Calling It a "Core Holding" Bought at a "Highly Compelling Valuation." Here's Why He's Betting Big on Big Tech.
+  summary: It's one of four key sector holdings in the company's portfolio.
+  url: https://finnhub.io/api/news?id=596aec6a30db280a627f885e4fc370738d976e03cc9c76c7e85b82f7d4896cec

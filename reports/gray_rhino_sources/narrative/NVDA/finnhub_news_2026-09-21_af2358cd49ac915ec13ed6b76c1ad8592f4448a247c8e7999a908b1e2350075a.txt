@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I'm Still Not Buying The Trade Desk Stock After a 90% Drop
+  summary: The stock trades near $14. The problem is what the business is guiding toward.
+  url: https://finnhub.io/api/news?id=5c78da905d0301224169518cd57e990c4bbf6db627bcbf07e068df9fa7bf7ba0

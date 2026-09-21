@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet (GOOGL)’s Google Bets on Finland’s Cold Weather and Nuclear Power for its Next AI Buildout
+  summary: On September 9, 2026, Reuters reported that Alphabet Inc. (NASDAQ:GOOGL)’s Google will invest at least €13 billion, or about $15.1 billion, in AI infrastructure in Finland over the next two years, its biggest European investment, including three new data centers and a 22-year deal for up to 50% of the output of one of Finland’s […]
+  url: https://finnhub.io/api/news?id=34a6ce19bbca6ed99288f4fc674fa3ea99dc1b7490cac9440b43e1d2434d64e0

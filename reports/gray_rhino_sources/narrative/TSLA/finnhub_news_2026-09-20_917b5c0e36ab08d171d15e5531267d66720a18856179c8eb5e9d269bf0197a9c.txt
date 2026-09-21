@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Tesla Vehicles Maintain Nearly 19% Junk Title Rate Across Age Groups, VIN Analysis Shows
+  summary: EpicVIN data shows Tesla has the highest EV junk-title rate at 18.5%, versus 1%-9.5% for leading legacy automaker EVs.
+  url: https://finnhub.io/api/news?id=eae097a43c89929061ffb1d44100fd97458fbc15b6e0a8db12c6e487f193b538

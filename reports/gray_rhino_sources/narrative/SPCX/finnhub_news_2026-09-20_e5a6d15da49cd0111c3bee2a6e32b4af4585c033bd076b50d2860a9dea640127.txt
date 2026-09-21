@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Analyst Has a $450 Price Target on SpaceX Stock. Does That Make it a Buy?
+  summary: Significant optimism is already baked into SpaceX stock.
+  url: https://finnhub.io/api/news?id=7aef7767a263167ade93e96de95e4a55e04b2e8b6ed0f76605d530f0b6a588b1

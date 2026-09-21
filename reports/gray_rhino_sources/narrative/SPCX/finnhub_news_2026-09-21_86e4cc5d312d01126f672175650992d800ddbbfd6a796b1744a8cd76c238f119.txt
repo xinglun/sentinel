@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA Stock Looks ‘Slightly Undervalued’ To This Analyst — But The Roadster Is Barely Part Of The Bull Case
+  summary: Morningstar expects only about 2,000 annual Roadster sales, versus nearly 1.8 million total Tesla deliveries in 2026.
+  url: https://finnhub.io/api/news?id=df64f1a1e68c8674c7477dc0688b0bce51af43e4b9f71a7c6d3c72bb579658af

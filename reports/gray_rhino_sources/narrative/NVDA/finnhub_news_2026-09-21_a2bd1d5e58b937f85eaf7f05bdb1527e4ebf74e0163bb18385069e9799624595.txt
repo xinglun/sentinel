@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Tim Draper Predicts Bitcoin Will Hit $250,000 Within 2 Years. Here's What Needs to Happen.
+  summary: Could Bitcoin really triple in value within just 24 months?
+  url: https://finnhub.io/api/news?id=1c698d4359ac8b74e27632969a35c8d24b812e17c3856fdfc9f2cc130943735c

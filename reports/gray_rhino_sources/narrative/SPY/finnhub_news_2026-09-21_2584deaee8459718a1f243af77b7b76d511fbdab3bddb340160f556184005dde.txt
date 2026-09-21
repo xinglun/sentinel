@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Biotech Week Ahead: XLV Beats The Market — Here Are The Stocks, Readouts And Events To Watch Next
+  summary: Novo Nordisk (NVO) will hold its 2026 Capital Markets Day in London on Monday.
+  url: https://finnhub.io/api/news?id=eae39742927113bd8d6213743a7ab096f60f2713d9f7c19d3ed61e454e120de3

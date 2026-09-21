@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Year Into the Microsoft Deal, IREN Is Delivering and a Rally May Follow Soon
+  summary: One year on from the $9.7 billion Microsoft deal, the company is finally delivering.
+  url: https://finnhub.io/api/news?id=c1baba00348242f866a38d57a26c206a6041303f1db6836a8f8523e7295e0ab2

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO offers surprising solution to AI threats that involves Washington, D.C.
+  summary: A fight over business secrets could reshape the AI debate
+  url: https://finnhub.io/api/news?id=588b90753e6884abf1d69d64ac85a31409db39e9fba2958605e1e5c2dfa83222

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Nokia Oyj (HLSE:NOKIA) Speed Up Telecom AI With Its New Data Push?
+  summary: Nokia Oyj (HLSE:NOKIA) expanded its partnership with Microsoft to transform telecom automation using unified, AI-driven data operations. The collaboration connects Nokia Data Suite directly with Microsoft Fabric to streamline network data access for global telecom operators. The combined platform is designed to shorten network data retrieval times and support multi-vendor AI use cases such as autonomous assurance and predictive maintenance. This Nokia and Microsoft AI data operations...
+  url: https://finnhub.io/api/news?id=982b341e553b39483d8c543df42b944e2656b2b183c54bdcfaa75d44194c34ba

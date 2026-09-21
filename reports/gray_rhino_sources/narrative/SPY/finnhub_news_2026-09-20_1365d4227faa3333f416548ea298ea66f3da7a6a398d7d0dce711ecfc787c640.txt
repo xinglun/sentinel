@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: Ready For A Melt Up (Technical Analysis)
+  summary: S&P 500 (SPY) technical update: key support held; break above 7710 may confirm an uptrend toward 7816/8010.
+  url: https://finnhub.io/api/news?id=fa3d5df7ccfe89dad635a743488b280d433a50de9763aff03a18bc879d8420fb

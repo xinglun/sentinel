@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jim Cramer Says His Palantir Technologies Inc. (NASDAQ:PLTR) Price Target Is $250
+  summary: Data analytics firm Palantir Technologies Inc. (NASDAQ:PLTR) used to be a regular feature on Jim Cramer’s radar in 2025. The CNBC TV host praised the firm with no end as he remained optimistic about its ability to help businesses reduce costs and also play a role in the Trump administration’s cost cutting efforts. Cramer also […]
+  url: https://finnhub.io/api/news?id=b0dc5f28980414fd54e6ef2f36ae9c4d475c0c73745c699ece7a37e77b28aa52

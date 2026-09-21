@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Fed Rate Hike Won't Fix The Inflation It Targets
+  summary: The 10-year Treasury yield pushed to roughly 5.01% around Wednesdayâs decision, a level not seen in 19 years, while the 30-year cleared 5.35%. Read more here.
+  url: https://finnhub.io/api/news?id=f9bfb9f1589215e53ca65973f9bc16ce3026946b4e9bf58d59c9b1b6c26fed32

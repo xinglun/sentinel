@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Investors Are Reacting To Ultragenyx Pharmaceutical (RARE) First-In-Disease Gene Therapy Approval For FAYUVI
+  summary: In September 2026, Ultragenyx Pharmaceutical received full U.S. FDA approval for FAYUVI (UX111), the first-ever treatment for pediatric patients with Sanfilippo syndrome Type A, along with a Priority Review Voucher. This approval not only addresses a previously untreated ultra-rare, fatal neurodegenerative disease but also expands Ultragenyx’s commercial gene therapy portfolio and manufacturing footprint in the U.S. We’ll now explore how FAYUVI’s first-in-disease approval and the associated...
+  url: https://finnhub.io/api/news?id=213e7ae3ec0eaf62c58e1a54b659021798684ad081ff6330bd28f07592bb8e19

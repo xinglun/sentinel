@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Nearly Doubled Its Revenue. Its Stock Stood Still. Is It Time to Buy the Stock?
+  summary: The software maker is growing faster than ever, yet its shares sit about where they were a year ago. So is the stock finally reasonably priced?
+  url: https://finnhub.io/api/news?id=a1be0ba270d37e86f0c50ae75bc4a60caedbe0901a3fbb802035fc022f39d416

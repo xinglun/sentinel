@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Intuitive Surgical Make Up For A Lower Price Per Surgery?
+  summary: Intuitive Surgical (ISRG) has lost about 12% over the past year, while the S&P 500 returned about 17%. Most of the debate has been about the U.S. procedure growth slowing. The number that should worry a holder more is the money the company collects on the instruments used in each operation. Intuitive plans to lower it.
+  url: https://finnhub.io/api/news?id=c58323c46e4e01ac4a2633f64ec83187dbc7222d3de7730edc229c70dbce0d1b

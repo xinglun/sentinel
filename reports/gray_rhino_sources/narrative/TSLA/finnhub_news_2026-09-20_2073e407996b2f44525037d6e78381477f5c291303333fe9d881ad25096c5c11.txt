@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ‘High on Coke’: Elon Musk stunned by Berkshire’s dividend payout. Learn how to build your own passive income stream now
+  summary: How investing in Buffett's favorite drink paid dividends.
+  url: https://finnhub.io/api/news?id=67cd02ae1663279c74ef77423218cb637adad379afc32febe601761a406f8a8d

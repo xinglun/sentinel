@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Borderlands Mexico: Tesla plans massive Texas distribution center
+  summary: This week in Borderlands Mexico: Tesla plans massive distribution center near Austin and Danfoss launches new production line in Mexico for North American market. The post Borderlands Mexico: Tesla plans massive Texas distribution center appeared first on FreightWaves.
+  url: https://finnhub.io/api/news?id=f9a38d9fffd0d1c4d7fad898743cd2960cb7c7d93e3c98b4d2a95c385d6c68a5

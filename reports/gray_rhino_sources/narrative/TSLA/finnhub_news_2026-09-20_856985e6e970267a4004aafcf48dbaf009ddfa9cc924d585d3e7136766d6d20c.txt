@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Here's What a $1,000 Investment in Tesla (TSLA) Stock Could Be Worth By 2036
+  summary: Tesla has grown at a torrential rate in the past, but it has slowed down recently.
+  url: https://finnhub.io/api/news?id=e83bcccd8aa7199394ea2f45952caa1b46cc4f8800ae908fcd18322067953cb3

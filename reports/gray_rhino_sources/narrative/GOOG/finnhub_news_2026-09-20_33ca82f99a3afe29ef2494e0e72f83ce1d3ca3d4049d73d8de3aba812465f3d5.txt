@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Streaming’s Biggest Rivals Just Became Allies in Washington
+  summary: Netflix, Inc. (NASDAQ:NFLX), Amazon.com, Inc. (NASDAQ:AMZN), and Alphabet Inc. (NASDAQ:GOOGL)’s YouTube compete aggressively for subscribers, ad revenue, and, increasingly, sports rights. On September 14, the three put aside their rivalry to form a new lobbying group aimed at representing the streaming industry as a single, undivided voice in Washington. The New Coalition The Streaming Access and […]
+  url: https://finnhub.io/api/news?id=0efe7b8d0cecb186392221cb1fc9d4e0a91a8a26f4dd72df43b7fd19be4f2a35

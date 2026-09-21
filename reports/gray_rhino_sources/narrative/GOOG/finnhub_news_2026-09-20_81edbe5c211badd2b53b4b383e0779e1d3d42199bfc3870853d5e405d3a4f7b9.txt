@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Years Later: 5 Low-Risk Stocks for the Next Year
+  summary: Looking back at how five stocks picked specifically to beat the market over just the next year have now fared 10 years later.
+  url: https://finnhub.io/api/news?id=d238cf149199dfb297c5c7a7ac8373648dcde4c35ada6fa278c7873e72806c98

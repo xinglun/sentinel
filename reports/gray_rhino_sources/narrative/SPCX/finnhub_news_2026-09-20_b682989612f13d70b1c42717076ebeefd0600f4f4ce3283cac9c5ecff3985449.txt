@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk Says NVIDIA (NVDA) AI Chips Are Headed to Space With SpaceX (SPCX) Next Year
+  summary: Elon Musk has never shied away from ambitious timelines, and his most recent one connects two companies directly together. In a post on X dated September 13, Musk stated that he is “highly confident” that Space Exploration Technologies Corp. (NASDAQ:SPCX) will transport NVIDIA Corporation (NASDAQ:NVDA) Vera Rubin NVL72 AI computers into orbit next year, repeating […]
+  url: https://finnhub.io/api/news?id=a3d42b6d7a8a55a22f4a742bc78ec2f0ae380123806a80c56d5336fedf296aec

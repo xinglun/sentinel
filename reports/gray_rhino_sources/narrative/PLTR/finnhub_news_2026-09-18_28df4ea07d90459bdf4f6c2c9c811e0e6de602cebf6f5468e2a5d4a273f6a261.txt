@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Palantir, And The $500 Billion Sovereign AI Opportunity
+  summary: This article explores Nvidia and Palantirâs sovereign AI partnership and why McKinsey sees it as a major AI opportunity. Click to read now.
+  url: https://finnhub.io/api/news?id=503e76d9642bebf1054ecde65be26d8779a41db4dce79ecee60a4578bcd56485

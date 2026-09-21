@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why You Should Avoid Palantir and Buy These 2 Defense Stocks Instead
+  summary: Palantir is in the AI defense spotlight, but a pair of hardware-focused rivals may offer a steadier way to play the same trend.
+  url: https://finnhub.io/api/news?id=8f9316959e49175d5a269885a5c8e8dfc7c7e5b76e4814c9aa943db72fdac021

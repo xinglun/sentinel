@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Inc. (U) Stock Slides as Market Rises: Facts to Know Before You Trade
+  summary: In the latest trading session, Unity Software Inc. (U) closed at $41.16, marking a -1.63% move from the previous day.
+  url: https://finnhub.io/api/news?id=fb902f0963b119bc8ea84a8d5e539b2d0267b0870af511ca74aa5e68226351aa

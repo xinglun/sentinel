@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Free Cash Flow Went Negative. It Still Has a $43.5 Billion Cash Cushion.
+  summary: The company's ability to fund an aggressive capital spending program might surprise some investors.
+  url: https://finnhub.io/api/news?id=51e8553624259d11000efb18270d263d20979d0d8e4f46f76e1895ac9cf2fba1

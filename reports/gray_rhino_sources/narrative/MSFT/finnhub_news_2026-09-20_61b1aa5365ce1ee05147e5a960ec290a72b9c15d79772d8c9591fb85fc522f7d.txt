@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Boom Has A New Problem: The Cost Of Capital
+  summary: Oracleâs AI capex surge is driving negative free cash flow and higher credit risk.
+  url: https://finnhub.io/api/news?id=fb7a8df50ed1e4718e83343cfa071364fd1ca69d459004f31f22fc1a24e51616

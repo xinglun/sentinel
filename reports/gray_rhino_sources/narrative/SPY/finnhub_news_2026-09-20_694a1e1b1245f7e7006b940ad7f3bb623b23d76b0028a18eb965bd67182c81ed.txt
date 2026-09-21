@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI's Power Bottleneck Is Here, Profiting Is The Hard Part
+  summary: AI power trade cooled in 2024 despite rising earnings.
+  url: https://finnhub.io/api/news?id=8b4a703d965de4e1fdcd81a5afcbb51a6339fcd086a966e5299153d2962d9f9c

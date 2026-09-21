@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Does Alphabet (GOOGL) Face In This New AI Safety Lawsuit?
+  summary: Alphabet (NasdaqGS:GOOGL) unit Google DeepMind has been named in a new class-action lawsuit targeting leading AI labs. The complaint challenges an industry-funded safety oversight body that would coordinate pre-release reviews of advanced AI models. Plaintiffs allege the joint safety structure could amount to coordinated action to slow AI development and distort competition. The class action over the proposed AI safety oversight body is an important new factor to weigh alongside our broader...
+  url: https://finnhub.io/api/news?id=2f477f9df7d48ce6c2938d97a9e0b8657f4b6cc381acdb2e28b068847fe834c3
