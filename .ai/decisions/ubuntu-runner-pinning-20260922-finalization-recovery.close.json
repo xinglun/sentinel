@@ -1,0 +1,159 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+      "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json",
+            ".ai/decisions/ubuntu-runner-pinning-20260922-finalization-recovery.finalize.json",
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-21T23:04:17Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 successor 的 fresh verification、finish、archive、provider finalization、finalize-verify 和 close，并通过 reviewed PR 将治理证据同步到 develop，随后同步到 main。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+  },
+  "finalReportDigest": "sha256:35f0ec8ffee82781a6cb6e0bf1ec1aeea5f2f9659638a3c258b160fe05a588f0",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:294add84e61e873a1e51411397a5a52f2cee122ff2bacc4a072cebab82ec5a3a",
+    "branch": "codex/ubuntu-runner-pinning-20260922-finalization-promote",
+    "branchRef": "refs/heads/codex/ubuntu-runner-pinning-20260922-finalization-promote",
+    "capturedAt": "2026-09-21T23:04:18Z",
+    "contractDigest": "sha256:3bf4ecbe259b526c352414f157000b2892683a7c363b7e0f98a6b36283d02e97",
+    "headRevision": "485cef2e7159c887bf540915f8f157cd4289950b",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+    "runtimeVersion": "0.2.105",
+    "schemaVersion": 1,
+    "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel1",
+    "worktreeId": "sha256:61f1ac8a854e7a0e309ba8665e71a8eed2aa506b9ded76f784887e651e9c0647",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/ubuntu-runner-pinning-20260922-finalization-promote/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:94af81046b103fc3d36023e90b9ef43110ec82a94a76f9e5e9bb2142a99995a2",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T23:04:17Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json",
+      ".ai/decisions/ubuntu-runner-pinning-20260922-finalization-recovery.finalize.json",
+      ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.archive.json"
+    ],
+    "policyRefs": [],
+    "reason": "PR #278 已合并到 develop；successor verification、provider finalization 与 finalize-verify 已通过；精确 branch/worktree 已清理，按用户授权关闭。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T23:04:18Z",
+  "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+}
