@@ -1,0 +1,157 @@
+{
+  "acceptanceResults": [
+    "predecessor 的 archive、finalization、close 与原始治理证据保持不可变",
+    "successor 以当前 Runtime 完成 fresh verification、finish、archive、provider finalization、finalize-verify 与 close",
+    "只清理本 successor 绑定的 branch/worktree；不删除其他工作",
+    "当前 provider context、verification receipt 与 finalization evidence 绑定同一 successor branch/worktree。"
+  ],
+  "createdAt": "2026-09-21T18:42:35Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:4602b72df138f2a623852749205ba74c6f35aab2e0c47611825fb9282404b36e",
+  "evidenceRefs": [
+    ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+      "workItemId": "freshness-gate-holiday-fix-runtime-revalidation-v1"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/freshness-gate-holiday-fix-runtime-revalidation-v1.finalize-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.contract.json"
+          ],
+          "inference": false,
+          "text": "在当前 develop 基线复核已合并实现，完成 successor 的当前 Runtime verification、finish、archive、provider finalization 与 close，并由 successor lineage 解除 predecessor 的历史 close 阻塞。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/freshness-gate-holiday-fix-runtime-revalidation-v1.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "freshness-gate-holiday-fix-runtime-revalidation-v1"
+  },
+  "taskReportDigest": "sha256:aa95f9527a6b2fbf05ad9814ffa23aeb36e22a946e5cbe79a331b3d7ca250ff1",
+  "taskReportMarkdownDigest": "sha256:b2f9d6df0b7270be9d32b0daad56e17aea9e58a1a5cb855d42265277ea63412a",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/freshness-gate-holiday-fix-runtime-revalidation-v1.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "freshness-gate-holiday-fix-runtime-revalidation-v1"
+}
