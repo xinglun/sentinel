@@ -1,0 +1,161 @@
+{
+  "edges": [
+    {
+      "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict",
+      "recoveryDigest": "sha256:5a7690c89353bf397d28db0cf2d6fb0847af79bfa376cab32fe0da7028405190",
+      "recoveryPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.recovery.json",
+      "sequence": 0,
+      "successorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+    },
+    {
+      "predecessorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery",
+      "recoveryDigest": "sha256:c1ec761348164735ae194589ff63f787bd0cfe68e219364804a8aa6fda166499",
+      "recoveryPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-recovery.recovery.7d0db3c94447977fd5db99c4e87af6ecfb8f94c0bdb908eeb8f2c5a96e6fae2f.json",
+      "sequence": 1,
+      "successorWorkItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
+    }
+  ],
+  "nodes": [
+    {
+      "archiveManifestDigest": "sha256:cc344a5c485ff2a790dd8c623bc36bdf5e028eaace8f2d4d838a51cd0aded32b",
+      "archiveManifestPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.archive.json",
+      "closeDigest": "sha256:7ee44a1758d4bdcadc39b663bdc60a4e5417b6576785f0168f4549998da4e9c0",
+      "closePath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.close.json",
+      "contractDigest": "sha256:db97734e96e7b12bde9c49f2e05c406422554c28861a071f2ae90be0c28cbec1",
+      "contractPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.contract.json",
+      "eventsDigest": "sha256:03969a5fc359f76307d58f377fd86fc8b625a1fc708f8f1a1d2a694f1d1cf87b",
+      "eventsPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.events.jsonl",
+      "finalizationDigest": "sha256:284f4cdfe332c63a4d972e65a5e7fabe55af21a306c894bae46484068dd44af5",
+      "finalizationPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict.finalize.json",
+      "finalizationProvider": "github",
+      "finalizationPullRequest": {
+        "baseBranch": "develop",
+        "baseRemote": "origin",
+        "baseRevision": "537b680065a5efb90af1dea8d6ebcfb5fa95571f",
+        "headRevision": "a4cd47f03a65db9dd9595f0c57079117a14eb70f",
+        "mergeCommit": "537fe1ee8a2c98ac017ce98b66a25227a41915da",
+        "number": 180,
+        "url": "not_started"
+      },
+      "finalizationRuntimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "finalizationRuntimeVersion": "0.2.87",
+      "humanDecision": {
+        "actor": "human:repository-owner",
+        "authoritySource": "explicit-user-authorization",
+        "decidedAt": "2026-09-19T00:00:00Z",
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json",
+          ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.archive.json"
+        ],
+        "policyRefs": [
+          ".ai/README.md"
+        ],
+        "reason": "historical governance evidence is retained without rewriting predecessor bytes",
+        "resumeCondition": "current Runtime accepts the retained selected successor lineage"
+      },
+      "outcomeDigest": "sha256:9f95255d6a037b7d639a960781924922f398929a32e1c8df96a6160aaaf9b16e",
+      "outcomePath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.outcome.json",
+      "summaryDigest": "sha256:7b116c5a8d627c9d048a20bdc224caa340a9f513aece9555c069707357719d2f",
+      "summaryPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict.summary.json",
+      "verificationDigest": "sha256:7b41e58832cc80053c719a282de87cbd64a9e4eec8de1f7da05bc2b598e2ce54",
+      "verificationPath": ".ai/evidence/daily-radar-snapshot-report-date-conflict.verification.json",
+      "workItemId": "daily-radar-snapshot-report-date-conflict"
+    },
+    {
+      "archiveManifestDigest": "sha256:1c28729f58987b68cd8cb2734c2ceb69e6a42ab187c8dac35fdbf50dfbb51d63",
+      "archiveManifestPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.archive.json",
+      "closeDigest": "sha256:15f45b7d21b4117f0aff37dd485154795717f55b44a2fe3f8d238b0348574b5e",
+      "closePath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-recovery.close.json",
+      "contractDigest": "sha256:210588891964ce3f0fd79148bd6331d6953658bd9e609aa6ae9c1f7e253a68cd",
+      "contractPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.contract.json",
+      "eventsDigest": "sha256:38d3a8118390f55f563da399e3876da5e638f6bcb64c251138d294497b3e54ef",
+      "eventsPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.events.jsonl",
+      "finalizationDigest": "sha256:bc222d6f609415caabf96d10ec65eecc3f8008c703aa58834a4a45664900925a",
+      "finalizationPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-recovery.finalize.json",
+      "finalizationProvider": "github",
+      "finalizationPullRequest": {
+        "baseBranch": "develop",
+        "baseRemote": "origin",
+        "baseRevision": "537fe1ee8a2c98ac017ce98b66a25227a41915da",
+        "headRevision": "2cc93d14d448eeb7695bf9d8308f1498d47a8a02",
+        "mergeCommit": "7a73de642179d408a98441ca0e783b21292cafab",
+        "number": 182,
+        "url": "https://github.com/xinglun/sentinel/pull/182"
+      },
+      "finalizationRuntimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "finalizationRuntimeVersion": "0.2.87",
+      "humanDecision": {
+        "actor": "human:repository-owner",
+        "authoritySource": "explicit-user-authorization",
+        "decidedAt": "2026-09-19T00:00:00Z",
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-snapshot-report-date-conflict-finalization-recovery.verification.json",
+          ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.archive.json"
+        ],
+        "policyRefs": [
+          ".ai/README.md"
+        ],
+        "reason": "historical governance evidence is retained without rewriting predecessor bytes",
+        "resumeCondition": "current Runtime accepts the retained selected successor lineage"
+      },
+      "outcomeDigest": "sha256:8e15f829cc60a23273e2b8e5174d3ab349e65898dfd4cb342f7df0e4081a22c3",
+      "outcomePath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.outcome.json",
+      "summaryDigest": "sha256:072146d14115033431f3e8e7b768df101d814b58abbbacdb051076a02b8f1266",
+      "summaryPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-recovery.summary.json",
+      "verificationDigest": "sha256:1f65579c3615e87ee2a9a83f2a60262b9c70484be486c3cece48d6d23fb6224f",
+      "verificationPath": ".ai/evidence/daily-radar-snapshot-report-date-conflict-finalization-recovery.verification.json",
+      "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-recovery"
+    },
+    {
+      "archiveManifestDigest": "sha256:d92000d4272a43a3c74056e70fe20d09d5aeba86eb4ea41f69f4ae997812b2d8",
+      "archiveManifestPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.archive.json",
+      "closeDigest": "sha256:5dfeb949aea967bc0c84b5fb10a279f8aa2e9ec717b35421e154054de607d33b",
+      "closePath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-v2.close.json",
+      "contractDigest": "sha256:28e2f3d1fcce129940897d35bb4c93b1acf7923c05918c927fbdffe5bf30322d",
+      "contractPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.contract.json",
+      "eventsDigest": "sha256:9739b3b42f62eb16cdc45efb7cd7ddfed3ec9091934498ce13eb090c48122fbc",
+      "eventsPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.events.jsonl",
+      "finalizationDigest": "sha256:8c56d4989a558ec9c89ee559701d90bcd3e879fa283f9cb9ed5623c516ea58d3",
+      "finalizationPath": ".ai/decisions/daily-radar-snapshot-report-date-conflict-finalization-v2.finalize.json",
+      "finalizationProvider": "github",
+      "finalizationPullRequest": {
+        "baseBranch": "develop",
+        "baseRemote": "origin",
+        "baseRevision": "7e4a6814b335f7d5331bdfbf8468bf7bb96e801c",
+        "headRevision": "c657e497237d8d0fe5985f6de72faf1f1f196792",
+        "mergeCommit": "feddf11e11561e374bc078aab341139b8bd33ceb",
+        "number": 184,
+        "url": "https://github.com/xinglun/sentinel/pull/184"
+      },
+      "finalizationRuntimeDigest": "sha256:9c3ef07ca3b0ff8a37d0fb6abbd85d179a316d6becb30f53465f874aa97aa7f9",
+      "finalizationRuntimeVersion": "0.2.87",
+      "humanDecision": {
+        "actor": "human:repository-owner",
+        "authoritySource": "explicit-user-authorization",
+        "decidedAt": "2026-09-19T00:00:00Z",
+        "evidenceRefs": [
+          ".ai/evidence/daily-radar-snapshot-report-date-conflict-finalization-v2.verification.json",
+          ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.archive.json"
+        ],
+        "policyRefs": [
+          ".ai/README.md"
+        ],
+        "reason": "historical governance evidence is retained without rewriting predecessor bytes",
+        "resumeCondition": "current Runtime accepts the retained selected successor lineage"
+      },
+      "outcomeDigest": "sha256:c90637eedd2b612586dc83e0ac9ceca17d83e96ea23afdee3251f22495080aee",
+      "outcomePath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.outcome.json",
+      "summaryDigest": "sha256:781e527d0b93ee292bbe4f17e7a82eebd873b55a6b2eebfac430c36242f8e0f8",
+      "summaryPath": ".ai/work-items/archive/daily-radar-snapshot-report-date-conflict-finalization-v2.summary.json",
+      "verificationDigest": "sha256:90558ee1f54a773e736807db037ba0a9908f2e270bf1c0de762f33ebc774295e",
+      "verificationPath": ".ai/evidence/daily-radar-snapshot-report-date-conflict-finalization-v2.verification.json",
+      "workItemId": "daily-radar-snapshot-report-date-conflict-finalization-v2"
+    }
+  ],
+  "receiptId": "selected-successor-lineage-recovery",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "rootWorkItemId": "daily-radar-snapshot-report-date-conflict",
+  "runtimeDigest": "sha256:fbcea95991456b13ed61b37d98985213751b1d700e7423bca6b2119f23d12a78",
+  "runtimeVersion": "0.2.99",
+  "schemaVersion": 1
+}
