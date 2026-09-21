@@ -1,0 +1,29 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+  ],
+  "checkpointAt": "2026-09-21T22:18:44Z",
+  "checkpointContractDigest": "sha256:3bf4ecbe259b526c352414f157000b2892683a7c363b7e0f98a6b36283d02e97",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "createdAt": "2026-09-21T22:18:19Z",
+  "mode": "code",
+  "preflightAt": "2026-09-21T22:21:46Z",
+  "preflightContractDigest": "sha256:3bf4ecbe259b526c352414f157000b2892683a7c363b7e0f98a6b36283d02e97",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T22:21:54Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+}

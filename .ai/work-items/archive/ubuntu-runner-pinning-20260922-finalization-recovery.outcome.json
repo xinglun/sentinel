@@ -1,0 +1,150 @@
+{
+  "acceptanceResults": [
+    "前驱 ubuntu-runner-pinning-20260922 的 archive、verification、finalize bytes 保持不可变。",
+    "successor 的 make quality Runtime verification 通过并生成 verification_receipt。",
+    "PR #276 的真实 provider identity 与精确 cleanup 证据完成 finalize-verify。",
+    "human close decision 记录后，successor 通过 reviewed PR 同步到 develop 与 main。"
+  ],
+  "createdAt": "2026-09-21T22:21:54Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:acbdf8f09221e009cf5a7ffe4e13d3138353d5152c3f6fa0c2173b6f2f64d8d9",
+  "evidenceRefs": [
+    ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+      "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "完成 successor 的 fresh verification、finish、archive、provider finalization、finalize-verify 和 close，并通过 reviewed PR 将治理证据同步到 develop，随后同步到 main。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+  },
+  "taskReportDigest": "sha256:0aca0ace30f03e9359cf61e557c9cc5122b500a256ad78b45e8b6ffcf8f94a56",
+  "taskReportMarkdownDigest": "sha256:2298d70f196cab93567029dd18f3d43c70586cb404706efd1048cc8a457e2e8b",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery"
+}
