@@ -1,0 +1,44 @@
+{
+  "acceptanceCriteria": [
+    "predecessor 的 archive、finalization、close 与原始治理证据保持不可变",
+    "successor 以当前 Runtime 完成 fresh verification、finish、archive、provider finalization 与 close",
+    "只清理本 successor 绑定的 branch/worktree；不删除其他工作",
+    "当前 provider context、verification receipt 与 finalization evidence 绑定同一 successor branch/worktree"
+  ],
+  "authority": "authorized",
+  "baseRevision": "cbcc187ba394f3e0a7be5413b07ff352ea16eced",
+  "createdAt": "2026-09-21T18:49:27Z",
+  "goal": "在当前 develop 基线复核已合并实现，完成 successor 的当前 Runtime verification、finish、archive、provider finalization 与 close，并由 successor lineage 解除 predecessor 的历史 close 阻塞。",
+  "intent": "为已完成但旧 Runtime close decision 不符合当前 canonical vocabulary 的 governance-script-drift-cleanup 历史 Work Item 补齐当前 Runtime 的 successor lineage 治理证据，不改写 predecessor archive、finalization 或 close。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**;tests/**;reports/**;Telegram;交易逻辑;Decision/Gate/Execution/Position Sizing;predecessor archive、finalization、close 与既有治理证据"
+  ],
+  "predecessorContractDigest": "sha256:ce1bd62ac2bbb22366525ea8d9e292d12ec3d5d45b8397583a58bf245aebaac9",
+  "predecessorWorkItemId": "governance-script-drift-cleanup",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/governance-script-drift-cleanup.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:07a3f459a2418e64a5347a54b8f4b6599f053fcd0293e136575fbd3b158b0c7a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    ".ai/decisions/**",
+    ".ai/work-items/active/governance-script-drift-cleanup-runtime-revalidation-v1.*",
+    ".ai/work-items/archive/governance-script-drift-cleanup-runtime-revalidation-v1.*"
+  ],
+  "sources": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "governance-script-drift-cleanup-runtime-revalidation-v1"
+}
