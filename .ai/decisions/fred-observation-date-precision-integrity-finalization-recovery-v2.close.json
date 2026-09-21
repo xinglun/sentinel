@@ -1,0 +1,163 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+      "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/fred-observation-date-precision-integrity-finalization-recovery-v2.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/fred-observation-date-precision-integrity-finalization-recovery-v2.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json",
+            ".ai/decisions/fred-observation-date-precision-integrity-finalization-recovery-v2.finalize.json",
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.archive.json"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit-user-authorization at 2026-09-21T17:28:46Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "绑定真实 PR #262、develop merge commit aa931a6b727d09719d80206c3451eaada55ced7d 与精确 feature branch/worktree，完成 successor verification、finish、archive、provider finalization、finalize-verify，并在资源清理后关闭前驱与 successor。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+  },
+  "finalReportDigest": "sha256:8cb4f11bba38f6e67c29fa50e4142a26755d78fee78de0af8b4a40cbe92da85c",
+  "humanDecision": "approved",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceFinalizationHeadDigest": "sha256:bffa7e0dda707564dabd7e3f3473c2ec5ea8785d08bcafdca8cebc1b12198e72",
+  "resourceFinalizationHeadPath": ".ai/decisions/fred-observation-date-precision-integrity-finalization-recovery-v2.finalize.json",
+  "resourceFinalizationSequence": 0,
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit-user-authorization",
+    "decidedAt": "2026-09-21T17:28:46Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/evidence/fred-observation-date-precision-integrity-finalization-recovery-v2.verification.json",
+      ".ai/decisions/fred-observation-date-precision-integrity-finalization-recovery-v2.finalize.json",
+      ".ai/work-items/archive/fred-observation-date-precision-integrity-finalization-recovery-v2.archive.json"
+    ],
+    "policyRefs": [
+      "AGENTS.md",
+      ".ai/README.md",
+      ".ai/cockpit/README.md"
+    ],
+    "reason": "PR #264 已合并到 develop；Runtime finalize-verify 已通过；原 feature branch 与 worktree 已按 exact resourceContext 删除；质量验证证据已归档；不宣称未声明的用户可见收益。",
+    "resumeCondition": "无需恢复；若 hosted 或 Runtime 重新报告不一致，仅基于现有不可变 receipt 复核。"
+  },
+  "timestamp": "2026-09-21T17:28:56Z",
+  "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+}

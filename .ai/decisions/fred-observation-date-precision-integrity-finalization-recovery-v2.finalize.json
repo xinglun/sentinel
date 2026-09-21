@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "fred-observation-date-precision-integrity-finalization-recovery-v2-finalization",
+  "operationId": "github-pr-264-finalize",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2",
+  "runtimeVersion": "0.2.105",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "provider": "github",
+  "pullRequest": {
+    "number": 264,
+    "url": "https://github.com/xinglun/sentinel/pull/264",
+    "headRevision": "47e52d0904105128506620055a343224899027b4",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "aa931a6b727d09719d80206c3451eaada55ced7d",
+    "mergeCommit": "154be12f2ca04a2c32a839b2deeb58abe4fa8780"
+  },
+  "branch": {
+    "name": "codex/fred-observation-date-precision-integrity-finalization-recovery-v5",
+    "remote": "origin",
+    "headRevision": "47e52d0904105128506620055a343224899027b4"
+  },
+  "worktree": {
+    "worktreeId": "fred-observation-date-precision-integrity-finalization-recovery-v2",
+    "path": "/Users/sei-rinn/.codex/worktrees/fred-observation-date-precision-integrity-finalization-recovery-v5/sentinel",
+    "branch": "codex/fred-observation-date-precision-integrity-finalization-recovery-v5",
+    "headRevision": "47e52d0904105128506620055a343224899027b4"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "PR #264 已通过全部 GitHub 检查并合并到 develop；已确认对应 feature branch 与 linked worktree 精确删除，保留 successor 的完整治理证据。",
+  "timestamp": "2026-09-21T17:24:24Z",
+  "contractDigest": "sha256:db7758b28d2817183f84146552742fe7e082a46b160029d2e342d3edc4495d18",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/fred-observation-date-precision-integrity-finalization-recovery-v5",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/264",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/fred-observation-date-precision-integrity-finalization-recovery-v5/sentinel"
+  }
+}

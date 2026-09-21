@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "freshness-gate-holiday-fix-runtime-revalidation-v1-finalization",
+  "operationId": "github-pr-267-finalize",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "workItemId": "freshness-gate-holiday-fix-runtime-revalidation-v1",
+  "runtimeVersion": "0.2.105",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "provider": "github",
+  "pullRequest": {
+    "number": 267,
+    "url": "https://github.com/xinglun/sentinel/pull/267",
+    "headRevision": "2ae7eef30cf66abd55c1e71c808bbaa7f414c069",
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "cbcc187ba394f3e0a7be5413b07ff352ea16eced",
+    "mergeCommit": "badc40e4d96afc51b39d261fcfd3736abc7f24af"
+  },
+  "branch": {
+    "name": "codex/historical-finalization-recovery-v1",
+    "remote": "origin",
+    "headRevision": "2ae7eef30cf66abd55c1e71c808bbaa7f414c069"
+  },
+  "worktree": {
+    "worktreeId": "freshness-gate-holiday-fix-runtime-revalidation-v1",
+    "path": "/Users/sei-rinn/.codex/worktrees/historical-finalization-recovery-v1/sentinel",
+    "branch": "codex/historical-finalization-recovery-v1",
+    "headRevision": "2ae7eef30cf66abd55c1e71c808bbaa7f414c069"
+  },
+  "before": {
+    "pullRequest": "merged",
+    "branch": "present",
+    "worktree": "clean"
+  },
+  "after": {
+    "pullRequest": "merged",
+    "branch": "deleted",
+    "worktree": "removed"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "reason": "PR #267 已通过全部 GitHub 检查并合并到 develop；已确认对应 feature branch 与 linked worktree 精确删除，保留 successor 的完整治理证据。",
+  "timestamp": "2026-09-21T19:00:19Z",
+  "contractDigest": "sha256:8bb4ce44d783255fc828beea91e2f14fc3c5dd641b94fc2bb3f2ca422bbfc134",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/historical-finalization-recovery-v1",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/267",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/historical-finalization-recovery-v1/sentinel"
+  }
+}

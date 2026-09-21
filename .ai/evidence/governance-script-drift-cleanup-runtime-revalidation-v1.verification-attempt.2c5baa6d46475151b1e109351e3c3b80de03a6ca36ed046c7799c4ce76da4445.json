@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:2c5baa6d46475151b1e109351e3c3b80de03a6ca36ed046c7799c4ce76da4445",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "cbcc187ba394f3e0a7be5413b07ff352ea16eced",
+      "commandDigest": "sha256:3348985b5510965b4230602d80b825040faacf37c1ecf02951be765ee2394427",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:d527b63f0f9b768d8e581d6ab2c40c4aab76ce6074e7357bc3628324431acd47",
+  "contractExecutionScopeDigest": "sha256:de8fe5d7308de13d9662586b74917c7c1a2e23835f607848cb8af95643a27d93",
+  "createdAt": "2026-09-21T18:55:04Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/governance-script-drift-revalidation-v1/sentinel/.ai/work-items/active/governance-script-drift-cleanup-runtime-revalidation-v1.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9e64a64b865f8deeb638a4cbdc2f7bb4e6225769cba9dd89e9407a50e2ce8776",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "governance-script-drift-cleanup-runtime-revalidation-v1"
+}

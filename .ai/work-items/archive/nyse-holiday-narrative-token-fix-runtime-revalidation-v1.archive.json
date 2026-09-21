@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T19:31:26Z",
+  "files": {
+    "contractDigest": "sha256:a4b039d48f1b8a538dcbc2aaadc6a5e65e4868a25c07447f4b0895dccc4a8d49",
+    "contractPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.contract.json",
+    "eventsDigest": "sha256:c18905bfb3b0bab5fa7f1b82e06e9a3c7c4b6329b1f0ec6e3f3f636a2936c23b",
+    "eventsPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.events.jsonl",
+    "outcomeDigest": "sha256:25f95329fd3e858dae5794a5e42f1cacf294c04158fd1123a29a86b3c4af6cb7",
+    "outcomePath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.outcome.json",
+    "summaryDigest": "sha256:652d4b506fd7a7e0d0a144fdae2cf317b20b84239bfe7f6bd2d84f20d7828abf",
+    "summaryPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.summary.json",
+    "taskReportDigest": "sha256:3f6e67cb48f15440b7ee51ec2fc6a62515a6c1cad99f5fa56d6af1d855225c68",
+    "taskReportMarkdownDigest": "sha256:f1e352f8f3c6124624bfd32de9e35b23b526a11d779452881aed1ba36646788d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "nyse-holiday-narrative-token-fix-runtime-revalidation-v1"
+}
