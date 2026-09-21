@@ -1,0 +1,201 @@
+{
+  "decisionState": "confirmed",
+  "finalReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:7d659bd0af798a89395c8ea47cd6e0e1acfc3427e998f6637b42bff1526e5f67",
+      "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.1fb050e255a6cf3551789fa6b6cf31c93f835d85fac23eae57984453556d70df.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.05022928f4209a2cf8c43552f21743df4e4faf5fe3febcb55c5f0f9c4ed4d2b4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.f024dfc264d1c423dffa7386da9977b7e470e3ab9327c0cdd30c022258ae317e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.archive.json",
+            ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.finalize.json",
+            "https://github.com/xinglun/sentinel/pull/250",
+            "https://github.com/xinglun/sentinel/pull/251",
+            "https://github.com/xinglun/sentinel/actions/runs/35572675933"
+          ],
+          "inference": false,
+          "text": "Human decision 'approved' by human:repository-owner via explicit user authorization in this task at 2026-09-21T07:50:42Z."
+        }
+      ],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "移除仅针对不存在 Cargo.lock 的 --locked 约束，保持 acceptance-replay 的 immutable input、isolated output、publishable=false、观察-only 与通知 provenance 不变。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+  },
+  "finalReportDigest": "sha256:91b1be20efc3b919a8d4a9f804af79b8a4b60d298a4bd103b5b1363a4c46fd37",
+  "humanDecision": "approved",
+  "ordinaryCleanupBinding": {
+    "archiveManifestDigest": "sha256:27700c2e4c6db89f36e9f43ef3a6a5fe53ac24533bf2fa8125dba4f084899483",
+    "branch": "codex/signal-context-acceptance-replay-finalization-evidence",
+    "branchRef": "refs/heads/codex/signal-context-acceptance-replay-finalization-evidence",
+    "capturedAt": "2026-09-21T07:50:54Z",
+    "contractDigest": "sha256:0e9059a5b996679e5e1f8f58ec886a70d96b5e01d01ca6a1bae886b92055ed84",
+    "headRevision": "40c0b87cb19beb6fee0cce7844e44b52d9ed493d",
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+    "runtimeVersion": "0.2.104",
+    "schemaVersion": 1,
+    "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2",
+    "worktreeGitDir": "/Users/sei-rinn/dev/workspace_rust/sentinel/.git/worktrees/sentinel7",
+    "worktreeId": "sha256:75789b5677302a9deef115359165d4aea27792ee71fc4e01de55888409359184",
+    "worktreePath": "/Users/sei-rinn/.codex/worktrees/signal-context-acceptance-replay-finalization-evidence/sentinel"
+  },
+  "ordinaryCleanupBindingDigest": "sha256:9f7923dc17bbeced797f3a67c6b8b0e1487df7dbca27178584a361e03397593c",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "closed",
+  "structuredDecision": {
+    "actor": "human:repository-owner",
+    "authoritySource": "explicit user authorization in this task",
+    "decidedAt": "2026-09-21T07:50:42Z",
+    "decision": "approved",
+    "evidenceRefs": [
+      ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.archive.json",
+      ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.finalize.json",
+      "https://github.com/xinglun/sentinel/pull/250",
+      "https://github.com/xinglun/sentinel/pull/251",
+      "https://github.com/xinglun/sentinel/actions/runs/35572675933"
+    ],
+    "policyRefs": [
+      ".ai/README.md",
+      "docs/reference/agent-workflow.md"
+    ],
+    "reason": "PR #250 与 PR #251 已合并且 hosted checks 全部通过；acceptance-replay 的实际通知、隔离 receipt、provider finalization 与 finalize-verify 均已由证据确认，现批准关闭该 successor Work Item。",
+    "resumeCondition": null
+  },
+  "timestamp": "2026-09-21T07:50:54Z",
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+}
