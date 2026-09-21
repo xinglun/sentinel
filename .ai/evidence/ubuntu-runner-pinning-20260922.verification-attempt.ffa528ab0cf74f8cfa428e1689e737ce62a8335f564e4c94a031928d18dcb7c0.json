@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:ffa528ab0cf74f8cfa428e1689e737ce62a8335f564e4c94a031928d18dcb7c0",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "860e88c2133c853631072788b4c5c2c047a99ef6",
+      "commandDigest": "sha256:8c4c9e0d47a12cd98fe2a4d584676e3e27818e6bf2f6399da3dbc5b1f0efc005",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:1cf83bf6b21563169086175018619d08a27b7b5745442ad3ed23ec5cf4b250cb",
+  "contractExecutionScopeDigest": "sha256:c146cfbbe94a651bec11b05eb51c37ab9e040dd42a338b689d71563f78c1e8e1",
+  "createdAt": "2026-09-21T21:40:22Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/.codex/worktrees/ubuntu-runner-pinning-20260922/sentinel/.ai/work-items/active/ubuntu-runner-pinning-20260922.summary.json: verification requires a preflight result for the current repository snapshot"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "ubuntu-runner-pinning-20260922"
+}

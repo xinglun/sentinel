@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T21:43:39Z",
+  "files": {
+    "contractDigest": "sha256:cca465401d867ad96f529a8b1b3bdac94a1f8086f6fa8fab14a2fb541518c0e2",
+    "contractPath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json",
+    "eventsDigest": "sha256:a060946b9ee1d6adfdb3e99403f846b7e41bd706fcd6217f1010ba70dd729aee",
+    "eventsPath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.events.jsonl",
+    "outcomeDigest": "sha256:b2e862a2f74c7488daab74b1711659f4e6d1f1fd7ba9c0e1252051000b503c4a",
+    "outcomePath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.outcome.json",
+    "summaryDigest": "sha256:ef967999a0f40e0733552113bb532faa9042334eb2cdd5d74bda81ac9abb241f",
+    "summaryPath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json",
+    "taskReportDigest": "sha256:c69c18d0981659aebefcade649f68c05a936164c808a165774c5697824999de5",
+    "taskReportMarkdownDigest": "sha256:8b0013a6410bc8cab590eec66b75cdcb623b1139e8d1e086e945934a60aef9c4",
+    "taskReportMarkdownPath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/ubuntu-runner-pinning-20260922.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "ubuntu-runner-pinning-20260922"
+}

@@ -1,0 +1,186 @@
+{
+  "acceptanceResults": [
+    "五个 workflow 的所有 job 使用 ubuntu-24.04，仓库内不再存在 ubuntu-latest runner 标签。",
+    "diff 只涉及声明的 GitHub Actions runner 与验证边界，不改变生产代码、交易逻辑、报告数据或 secrets。",
+    "本地 YAML/文本回归检查、make fmt-check、make test、make clippy、make quality 均通过，且 hosted PR checks 绑定到实际 head SHA。",
+    "PR 按 develop 合并，再将 develop 同步到 main；完成后删除本次 Work Item 的远端/本地分支和 worktree。",
+    "observer-snapshot.json は Runtime が生成した current-base evidence として保持され、手書きの製品コードや履歴 evidence は変更しない。"
+  ],
+  "createdAt": "2026-09-21T21:43:19Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:75fb003707f0766e94a720c6fb795661cc36a8e9829aa60fc58954bcd4b4d684",
+  "evidenceRefs": [
+    ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+      "workItemId": "ubuntu-runner-pinning-20260922"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/ubuntu-runner-pinning-20260922.verification-attempt.ffa528ab0cf74f8cfa428e1689e737ce62a8335f564e4c94a031928d18dcb7c0.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/acceptance_replay.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/daily_radar.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/develop_checks.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/weekly_backtest.yml"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json"
+          ],
+          "inference": false,
+          "text": "将 Sentinel 的所有 GitHub Actions job 固定到 ubuntu-24.04，并建立可重复检查，确保 ubuntu-latest 不会重新进入 workflow。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "ubuntu-runner-pinning-20260922"
+  },
+  "taskReportDigest": "sha256:c69c18d0981659aebefcade649f68c05a936164c808a165774c5697824999de5",
+  "taskReportMarkdownDigest": "sha256:8b0013a6410bc8cab590eec66b75cdcb623b1139e8d1e086e945934a60aef9c4",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "ubuntu-runner-pinning-20260922"
+}

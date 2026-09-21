@@ -1,0 +1,90 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/ubuntu-runner-pinning-20260922.verification-attempt.ffa528ab0cf74f8cfa428e1689e737ce62a8335f564e4c94a031928d18dcb7c0.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json",
+    ".github/workflows/acceptance_replay.yml",
+    ".github/workflows/daily_radar.yml",
+    ".github/workflows/develop_checks.yml",
+    ".github/workflows/weekly_backtest.yml"
+  ],
+  "checkpointAt": "2026-09-21T21:33:11Z",
+  "checkpointContractDigest": "sha256:1cf83bf6b21563169086175018619d08a27b7b5745442ad3ed23ec5cf4b250cb",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:7b2e66aa896436a92a324b2cf4d1c7904a430873d230c46341612ccc5b18326d",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:33:11Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:07a3f459a2418e64a5347a54b8f4b6599f053fcd0293e136575fbd3b158b0c7a",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "ubuntu-runner-pinning-20260922"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:b77c38246f3b14c8d54115272e66b7fb6300d0a7a2a01bd1da2218ef02cd4287",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7b2e66aa896436a92a324b2cf4d1c7904a430873d230c46341612ccc5b18326d",
+      "previousContractHash": "sha256:7b2e66aa896436a92a324b2cf4d1c7904a430873d230c46341612ccc5b18326d",
+      "reason": "Runtime lifecycle generated an observer snapshot change while recording the current repository identity; bind that governance evidence to the Work Item without expanding product scope.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:35:09Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cb7636aa69c49abdd373b877016636b7e6be255bee88babd83fd181052d444d7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "ubuntu-runner-pinning-20260922"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:1cf83bf6b21563169086175018619d08a27b7b5745442ad3ed23ec5cf4b250cb",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:7b2e66aa896436a92a324b2cf4d1c7904a430873d230c46341612ccc5b18326d",
+      "previousContractHash": "sha256:b77c38246f3b14c8d54115272e66b7fb6300d0a7a2a01bd1da2218ef02cd4287",
+      "reason": "Make the governed file boundary explicit for Runtime scope matching.",
+      "recorded": true,
+      "recordedAt": "2026-09-21T21:35:47Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cb7636aa69c49abdd373b877016636b7e6be255bee88babd83fd181052d444d7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "ubuntu-runner-pinning-20260922"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "createdAt": "2026-09-21T21:30:10Z",
+  "mode": "code",
+  "preflightAt": "2026-09-21T21:42:42Z",
+  "preflightContractDigest": "sha256:1cf83bf6b21563169086175018619d08a27b7b5745442ad3ed23ec5cf4b250cb",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T21:43:19Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ubuntu-runner-pinning-20260922"
+}

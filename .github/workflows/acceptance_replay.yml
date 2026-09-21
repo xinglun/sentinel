@@ -31,7 +31,7 @@ permissions:
 
 jobs:
   replay:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       SENTINEL_EXECUTION_GIT_SHA: ${{ inputs.revision }}
     steps:
