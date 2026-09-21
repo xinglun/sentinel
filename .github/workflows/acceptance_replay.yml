@@ -50,7 +50,7 @@ jobs:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: >-
-          cargo run --locked -- acceptance-replay
+          cargo run -- acceptance-replay
           --date "${{ inputs.report_date }}"
           --revision "${{ inputs.revision }}"
           --input-manifest "${{ inputs.input_manifest }}"

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "decisionId": "work-item-retirement",
+  "disposition": "integrated",
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "reason": "当前 v1 是 recovery 绑定建立前创建的重复 active projection；其 workflow-only 变更已由 Runtime recovery successor v2 继续承载。本次仅按 Runtime 的 retired/not_verified 路径保留并清理 v1 的原始 Contract/Summary/evidence，不宣称 v1 已验证、已交付或已合并。",
+  "repositoryId": null,
+  "contractDigest": null,
+  "summaryDigest": null,
+  "repositorySnapshotDigest": null
+}

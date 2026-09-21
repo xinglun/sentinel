@@ -1,0 +1,316 @@
+{
+  "acceptanceResults": [
+    "GitHub Actions acceptance_replay dispatch on merged develop succeeds without Cargo.lock and reaches isolated replay receipt.",
+    "Workflow does not require or generate a repository Cargo.lock as a tracked canonical artifact.",
+    "Receipt preserves lexical_regression.warsh=PASS, lexical_regression.real_geopolitical=PASS, canonical_state_unchanged=true, publishable=false, decision_weight=0, and notification.source=generated_report_payload when notify=true.",
+    "No production Decision/Gate/Execution/Trader/Position Sizing or replay computation semantics change."
+  ],
+  "decisionState": "red",
+  "evidenceRefs": [
+    ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+  ],
+  "failedGate": "finish.governance",
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "blocked",
+  "summary": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:1d970cdd9e728af3412867db0797a13f777886e485376b9e6a0f2e6cb4b4f7cd",
+      "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+    },
+    "failedGate": "finish.governance",
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "red",
+    "recoveryCondition": "Repair the Contract or governance projection, rerun preflight, and retry finish.",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.44443d3eb461408011257358201ebc466d8c62df6e242f95f4f3fa62bd7446c4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.8e2fe5f0e15701e1cef13f29209cd3460b2f0afcc2c44e12b9c32dd1894af22d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.scenario-amendment-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.scope-amendment-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.controls.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.preflight-review-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.preflight-review.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.retirement-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.retirement.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix.scope-amendment-input.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/signal-context-acceptance-replay.recovery.a94036f0c3e5bb21a0b4d99f19065eadb789c39d4f2ed4e0ca245a780609fe66.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification-attempt.6e2dcfc822e3609bf339c89c07a9e591f40c188b345e8d3d26a7f7587b46074c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix.verification-attempt.5bdba0522fb2b38f6ae0ad4ee565bda96f6be2642982b4accb738b4d717ed733.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix.verification-attempt.eefb1192e17252dec1cef7cbefc6c88a159f486b63f48c4ab8542c355c13b6a3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/signal-context-acceptance-replay-workflow-dispatch-fix.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.outcome.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/acceptance_replay.yml"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "A required evidence or identity control failed; remain stopped."
+        }
+      ],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "A lifecycle gate failed; completion is not claimed and the Work Item remains recoverable."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: lifecycle_gate_failed"
+        }
+      ],
+      "resolutions": [],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "移除仅针对不存在 Cargo.lock 的 --locked 约束，保持 acceptance-replay 的 immutable input、isolated output、publishable=false、观察-only 与通知 provenance 不变。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/signal-context-acceptance-replay-workflow-dispatch-fix-v2.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "unknown",
+    "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+  },
+  "unknowns": [
+    "lifecycle_gate_failed"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/signal-context-acceptance-replay-workflow-dispatch-fix-v2.verification.json",
+    "required": true,
+    "status": "blocked"
+  },
+  "workItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2"
+}
