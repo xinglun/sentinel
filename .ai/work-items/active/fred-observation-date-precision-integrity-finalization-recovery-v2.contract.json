@@ -1,0 +1,36 @@
+{
+  "acceptanceCriteria": [
+    "前驱 fred-observation-date-precision-integrity 的 archive、verification 与既有治理证据保持不可变。",
+    "PR #262 已合并到 develop，merge commit aa931a6b727d09719d80206c3451eaada55ced7d 可由 hosted GitHub 与 Git ancestry 核验。",
+    "successor 完成当前 Runtime verification、finish、archive、provider finalization、finalize-verify 与 close。",
+    "只清理本 successor 绑定的精确 branch/worktree；不删除其他工作。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "aa931a6b727d09719d80206c3451eaada55ced7d",
+  "createdAt": "2026-09-21T16:52:23Z",
+  "goal": "绑定真实 PR #262、develop merge commit aa931a6b727d09719d80206c3451eaada55ced7d 与精确 feature branch/worktree，完成 successor verification、finish、archive、provider finalization、finalize-verify，并在资源清理后关闭前驱与 successor。",
+  "intent": "为已通过 PR #262 交付的 FRED 观察精度修复补齐缺失的 Runtime finalization 与 cleanup 治理证据，不改写前驱 archive。",
+  "mode": "code",
+  "outOfScope": [
+    "src/**;tests/**;reports/**;Telegram;交易逻辑;Decision/Gate/Execution/Position Sizing;其他 Work Item archive 与既有治理证据"
+  ],
+  "predecessorContractDigest": "sha256:21d7b623e931bf9dea67705ed2694490ede22d7b1698671e7b45d1f8b7f1c4c1",
+  "predecessorWorkItemId": "fred-observation-date-precision-integrity",
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "recoveryDecisionPath": ".ai/decisions/fred-observation-date-precision-integrity.recovery.json",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:07a3f459a2418e64a5347a54b8f4b6599f053fcd0293e136575fbd3b158b0c7a",
+  "requiredEvidenceClasses": [
+    "verification",
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [],
+  "sources": [],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "fred-observation-date-precision-integrity-finalization-recovery-v2"
+}
