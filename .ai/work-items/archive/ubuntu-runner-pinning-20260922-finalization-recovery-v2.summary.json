@@ -1,0 +1,40 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/ubuntu-runner-pinning-20260922.recovery.json",
+    ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification-attempt.8524183ee20dab0eaa4ea96b0c69096815faaa226696ef93a8c7b885799bf574.json",
+    ".ai/evidence/ubuntu-runner-pinning-20260922-finalization-recovery.verification.json",
+    ".ai/locks/ubuntu-runner-pinning-20260922-finalization-recovery.lifecycle.lock",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery-v2.contract.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery-v2.summary.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.archive.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.contract.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.events.jsonl",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.outcome.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.summary.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.task-report.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922-finalization-recovery.task-report.md"
+  ],
+  "checkpointAt": "2026-09-21T22:39:52Z",
+  "checkpointContractDigest": "sha256:c90bff9d4a546c5594292ada4bc705ba1fd1a7f32827fd5e5c8e424f6e5838b7",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "createdAt": "2026-09-21T22:38:41Z",
+  "mode": "code",
+  "preflightAt": "2026-09-21T22:42:07Z",
+  "preflightContractDigest": "sha256:c90bff9d4a546c5594292ada4bc705ba1fd1a7f32827fd5e5c8e424f6e5838b7",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9acd2387d1fffedc916dd7602a755fad391a5ab7198196e56d0588178bef2f4e",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-21T22:42:14Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "ubuntu-runner-pinning-20260922-finalization-recovery-v2"
+}

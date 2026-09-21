@@ -1,0 +1,34 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit-user-authorization",
+  "decidedAt": "2026-09-21T22:30:00Z",
+  "decision": "successor",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.archive.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.contract.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.summary.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.outcome.json",
+    ".ai/work-items/archive/ubuntu-runner-pinning-20260922.events.jsonl",
+    ".ai/evidence/ubuntu-runner-pinning-20260922.verification.json",
+    ".ai/decisions/ubuntu-runner-pinning-20260922.finalize.json"
+  ],
+  "policyRefs": [
+    "AGENTS.md: AI Cockpit 强制协议",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:1cf83bf6b21563169086175018619d08a27b7b5745442ad3ed23ec5cf4b250cb",
+  "predecessorEventsDigest": "sha256:a060946b9ee1d6adfdb3e99403f846b7e41bd706fcd6217f1010ba70dd729aee",
+  "predecessorOutcomeDigest": "sha256:b9e79d40e5722fbca629033255573a03a179cd945b2603d3eb88176c72ff61b8",
+  "predecessorSummaryDigest": "sha256:5a324550bea8da5a898bddc3716a582effdc83e4ccf2af45aa9ee05a98462a71",
+  "predecessorWorkItemId": "ubuntu-runner-pinning-20260922",
+  "reason": "前驱实现已通过本地与 hosted quality，PR #276 已合并，但前驱 archive 后才补齐 provider finalization，当前 Runtime 不允许改写不可变前驱或直接 close。保留全部前驱 bytes，通过 append-only successor 补齐 fresh verification、真实 PR finalization、精确资源清理与 close。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "正式 successor v2 完成 fresh verification、PR #276 provider finalization/finalize-verify、close，并通过 reviewed PR 将治理证据同步到 develop 与 main。",
+  "runtimeDigest": "sha256:43a8ed731ac3187868e8d0c021be2a1a1b72986885d13bf3373f2ed5a0296b04",
+  "runtimeVersion": "0.2.105",
+  "schemaVersion": 1,
+  "successorWorkItemId": "ubuntu-runner-pinning-20260922-finalization-recovery-v2",
+  "workItemId": "ubuntu-runner-pinning-20260922"
+}
