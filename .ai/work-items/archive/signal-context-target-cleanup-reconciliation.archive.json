@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-21T09:16:00Z",
+  "files": {
+    "contractDigest": "sha256:321052c30a4ac53cdb1944f8a76c803c814c6168c3e4702fa06b8227c914f17a",
+    "contractPath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.contract.json",
+    "eventsDigest": "sha256:191a5ce28ddeb57129ea5a41b694a253f4a05d1d300f34a08b527cb937347b04",
+    "eventsPath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.events.jsonl",
+    "outcomeDigest": "sha256:7a2f4c802c8adf7546bd7059a891701fe32ea3f43b6e4bf692a5b90299b701bf",
+    "outcomePath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.outcome.json",
+    "summaryDigest": "sha256:ae3ea210984fd264d0d8f45ab62f570b249b990f6da3ba2fbdc86e9731e26b8c",
+    "summaryPath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.summary.json",
+    "taskReportDigest": "sha256:10c776a3f7fdc996396302c0a4a8ad04238b18ed73d89733a5113012ee4168f8",
+    "taskReportMarkdownDigest": "sha256:dadda2fd2d1be604b3602401a93809e86eb318d15d4eb69ed3f12dead38f36ac",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-target-cleanup-reconciliation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-target-cleanup-reconciliation"
+}
