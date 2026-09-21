@@ -1,0 +1,37 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task",
+  "decidedAt": "2026-09-21T08:04:13Z",
+  "decision": "supersede",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/work-items/archive/signal-context-acceptance-replay.archive.json",
+    ".ai/decisions/signal-context-acceptance-replay.recovery.a94036f0c3e5bb21a0b4d99f19065eadb789c39d4f2ed4e0ca245a780609fe66.json",
+    ".ai/work-items/archive/signal-context-acceptance-replay-workflow-dispatch-fix-v2.archive.json",
+    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.finalize.json",
+    ".ai/decisions/signal-context-acceptance-replay-workflow-dispatch-fix-v2.close.json",
+    "https://github.com/xinglun/sentinel/pull/247",
+    "https://github.com/xinglun/sentinel/pull/250",
+    "https://github.com/xinglun/sentinel/pull/251",
+    "https://github.com/xinglun/sentinel/pull/252",
+    "https://github.com/xinglun/sentinel/actions/runs/35572675933"
+  ],
+  "policyRefs": [
+    ".ai/README.md",
+    "docs/reference/agent-workflow.md"
+  ],
+  "predecessorArchiveManifestDigest": "sha256:c0e2d3726eef404386fbe18a6387a078387dd0d87586d754d0458bafc5ed5d78",
+  "predecessorContractDigest": "sha256:f8e5e1eef0f16a5e7371bb9d1b6de926f4f48e61811573c24bc15c22a8072554",
+  "predecessorEventsDigest": "sha256:f7517575bca11785f77bb32fc15827f8754599ad0a4eef7fcaa56fef04cf8f30",
+  "predecessorOutcomeDigest": "sha256:727105de55b0074569dfe26dc77ee981d64b1b31acf81323d04a3a7865d95c3c",
+  "predecessorSummaryDigest": "sha256:2d0469009fd6d80a52fdeb5de7c426216631bb24923e279811e3ea375f783437",
+  "predecessorWorkItemId": "signal-context-acceptance-replay",
+  "reason": "旧 successor recovery 的 Outcome digest 来自归档前 projection；现以当前 immutable archive bytes、已完成的 v2 successor、实际 acceptance-replay 通知和 provider finalization 追加 supersede recovery，保留所有历史 receipt，不重写 predecessor bytes。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "仅在当前已完成 successor 的终态证据保持有效、且原始 predecessor bytes 不被改写的前提下继续 close。",
+  "runtimeDigest": "sha256:c5a6fcf20f97e7a5c33b5e22ebda27aea0a6aa6658d63c6894c08c2d7566db1b",
+  "runtimeVersion": "0.2.104",
+  "schemaVersion": 1,
+  "successorWorkItemId": "signal-context-acceptance-replay-workflow-dispatch-fix-v2",
+  "workItemId": "signal-context-acceptance-replay"
+}
