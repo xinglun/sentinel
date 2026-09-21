@@ -22,6 +22,14 @@
     "verification",
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/nyse-holiday-narrative-token-fix-revalidation-v1",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/271",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/nyse-holiday-narrative-token-fix-runtime-revalidation-v1/sentinel"
+  },
   "risk": "normal",
   "scope": [
     ".ai/decisions/**",
