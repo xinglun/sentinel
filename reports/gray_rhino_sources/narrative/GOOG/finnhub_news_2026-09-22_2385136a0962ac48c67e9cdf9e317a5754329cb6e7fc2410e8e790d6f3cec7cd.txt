@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DeepSeek, Moonshot Reportedly Face China Scrutiny Over Anthropic Claims Ahead Of Trump-Xi AI Talks
+  summary: China’s Cyberspace Administration reportedly summoned representatives from all seven Chinese companies named in Anthropic’s report before narrowing its focus to DeepSeek and Moonshot.
+  url: https://finnhub.io/api/news?id=b0874e23be30ba67c6c00d37a832041b1f15c2454cbd41493dca1038a77f2493

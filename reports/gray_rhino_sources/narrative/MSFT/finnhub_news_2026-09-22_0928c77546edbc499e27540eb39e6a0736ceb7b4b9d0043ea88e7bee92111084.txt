@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Is Hollowing Out Software Jobs — But Paying Survivors a Fortune
+  summary: An Indeed Hiring Lab report published last week quantified what software workers have felt for two years: the people still getting hired earn far more, and there are far fewer of them. Advertised pay in the most AI-exposed US occupations has climbed roughly 46% since the start of 2021, compared with 25% for the least-exposed […]
+  url: https://finnhub.io/api/news?id=8345f6040119dc218d0cb225b180e14c83b8697095ec86c96110fa1745b6330c

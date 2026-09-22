@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Delivers Remarks At The UN General Assembly In New York; Says We Must Be United In Maintaining Pressure On Iran
+  summary: https://www.youtube.com/watch?v=Q5WyknJN3qY 
+  url: https://finnhub.io/api/news?id=ad2f250c5e39a5826b048febc78ddd2af12a622e815742ba8492f1aa72a70ade

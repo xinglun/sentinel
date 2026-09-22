@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 S&P 500 Stock with Exciting Potential and 2 We Ignore
+  summary: While the S&P 500 (^GSPC) includes industry leaders, not every stock in the index is a winner. Some companies are past their prime, weighed down by poor execution, weak financials, or structural headwinds.
+  url: https://finnhub.io/api/news?id=fee18e15306034892ca3afc97a697bf829ff2cdb7ca4328b001fb8a29035682e

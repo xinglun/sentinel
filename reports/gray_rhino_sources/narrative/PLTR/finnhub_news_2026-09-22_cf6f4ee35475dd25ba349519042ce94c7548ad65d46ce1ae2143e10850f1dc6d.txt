@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Horowitz Andreessen Academy Launches in San Francisco for the World's Most Ambitious Young Builders
+  summary: a16z-incubated school opens applications for its Founding Class Fellowship, backed by $42 million and Founding Partners including Anduril, Anthropic, Coinbase, Google, Meta, NVIDIA, OpenAI, Palantir, Replit, and StripeSAN FRANCISCO, Sept. 22, 2026 (GLOBE NEWSWIRE) -- Today, the Horowitz Andreessen Academy (The Academy), an in-person program for the world's most ambitious young builders, launches in San Francisco. Incubated by a16z, The Academy pairs operator-led instruction with real-world build
+  url: https://finnhub.io/api/news?id=ad702b71ac01fc4edc94eb17a8641f34c5fc58647471573e57c52b5100ba2c62

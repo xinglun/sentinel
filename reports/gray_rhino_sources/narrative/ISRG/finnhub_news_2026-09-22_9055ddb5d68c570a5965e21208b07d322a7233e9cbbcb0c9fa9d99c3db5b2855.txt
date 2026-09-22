@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Intuitive Surgical (ISRG) Is Up 6.5% After New da Vinci SP Transvaginal Approval – And What's Next
+  summary: Earlier this month, Intuitive Surgical received CE mark approval for using its da Vinci SP single-port robotic system in transvaginal gynecologic procedures, adding to its existing approvals for a range of endoscopic and natural-orifice surgeries across Europe. This world's-first indication for the SP platform deepens Intuitive’s position in minimally invasive, scarless surgery by broadening its clinically supported use in complex anatomical spaces. We’ll now examine how this expanded...
+  url: https://finnhub.io/api/news?id=f2fd9069c94664beb7b327f6b64a59d003c2300b4a7575009f5c3a404c86648b

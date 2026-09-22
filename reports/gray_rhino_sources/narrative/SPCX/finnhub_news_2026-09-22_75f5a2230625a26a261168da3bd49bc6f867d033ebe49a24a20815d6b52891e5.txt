@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Analyst Says There’s 80% Chance Could Put Tesla and SpaceX ‘Under One Hood’ by 2027 — ‘Golden Goose’ Could Create the ‘Biggest Company in the World’
+  summary: Tech analyst Dan Ives predicts an 80% chance Tesla and SpaceX will merge by late 2027 to build the &#34;golden goose&#34; of physical AI.
+  url: https://finnhub.io/api/news?id=ab6d78a12dc6c7fd31b1d35033b2b1b8d801cf2ce39b25dd4c6fb7ada2a71c11

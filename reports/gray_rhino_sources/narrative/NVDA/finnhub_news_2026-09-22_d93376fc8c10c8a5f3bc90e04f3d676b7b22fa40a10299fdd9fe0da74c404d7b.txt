@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Scorpio Tankers Stock Dropped Today
+  summary: Rumors that the Strait of Hormuz might reopen in a week are driving tanker stocks lower.
+  url: https://finnhub.io/api/news?id=70971f611bd57d20b80f6b0daa5ce9a9c91cb3c8ce803e9bf0568a93f99f321a

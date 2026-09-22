@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Energy Transition - Wind Energy Boom Challenges and Opportunities Ahead
+  summary: The global wind energy market is on track for significant expansion, aiming to reach around USD 287.9 billion by 2035, driven by increased demand for clean power, technological advancements, and substantial global investments. Key developments such as the deployment of offshore and utility-scale wind projects, enhanced turbine capacity, and supportive government policies are fostering new opportunities within the sector. As larger turbines and corporate renewable energy purchase agreements...
+  url: https://finnhub.io/api/news?id=8a1a04c354071b10970cb8692acc4d843811036a97f6ce15384d733697af84a6

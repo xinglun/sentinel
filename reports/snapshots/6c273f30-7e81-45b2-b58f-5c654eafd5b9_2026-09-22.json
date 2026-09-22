@@ -1,0 +1,70 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-09-22",
+  "report_date": "2026-09-22",
+  "as_of_date": "2026-09-22",
+  "generated_at": "2026-09-23T02:55:11.222976710+09:00",
+  "run_id": "5caafb6f-0461-4635-a83a-4a7da75b21cd",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-22",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 70.0,
+  "breadth_classification": "BROAD_WITHIN_UNIVERSE",
+  "confidence": 65.223615095111,
+  "supply_phase": "IDLE",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {
+    "U": {
+      "consecutive_days": 4,
+      "quality": 100.0,
+      "state": "BREAKOUT_EMERGING",
+      "strength": 100.0
+    }
+  },
+  "stability": 10.0,
+  "continuity": 17,
+  "cycle_length_days": 17,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "BROAD_WITHIN_UNIVERSE",
+      "down_count": 2,
+      "flat_count": 1,
+      "raw_percent": 70.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 7
+    },
+    "history": "HEALTHY",
+    "leadership_absence": {
+      "duration": 12,
+      "since": "2026-09-04",
+      "status": "RECONSTRUCTED_FROM_PARTIAL_HISTORY"
+    },
+    "trend": "HEALTHY"
+  },
+  "report_run_id": "c4333601-457e-4f14-bfb4-aa4e28489652",
+  "git_commit_sha": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+  "data_digest": "sha256:6771d139b6cdae605b92e21ec2c42248383887a697fb01d2f9828888d2aa0562",
+  "decision_packet_digest": "sha256:6b19c29181f2c7cfd1d2768447e6dfd099404f0376f822fc856433c583fef3b1",
+  "observation_digest": "sha256:fdf6d6512fa8333572a8a8e77f927c587909e2ea459fab271418064e17614637",
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  }
+}

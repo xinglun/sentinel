@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 3 Most Dangerous Investing Mistakes I Keep Seeing
+  summary: Many investors are becoming too complacent instead of adapting to a rapidly changing world. Read the three mistakes that a lot of investors make right now.
+  url: https://finnhub.io/api/news?id=64d367167015b117f4aaa9ed5b6145a3d13c44bad8b42e3c97e6fef3f4624240

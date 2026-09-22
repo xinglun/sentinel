@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Copart's Return To Growth Starts Now: Adair's $1.9B Bet On ACV Auctions
+  summary: Copart (CPRT) rated strong buy: ACV Auctions deal, CEO return, and growth catalysts drive upside as valuation hits multi-year lowsâread now.
+  url: https://finnhub.io/api/news?id=ea29f1561f7ce63de8531b9407b5f929cc18d7b41cca8853150306f6bcb03122

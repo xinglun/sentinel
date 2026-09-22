@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Drops as Three-Zone Hyderabad Region Goes Live
+  summary: A fourth Indian cloud region adds sovereign-ready capacity without disclosing site-level megawatts or revenue.
+  url: https://finnhub.io/api/news?id=f85675b430c50af82c05125f392941ba71f86732f7c6aa7188b5b6f20bbde2ba

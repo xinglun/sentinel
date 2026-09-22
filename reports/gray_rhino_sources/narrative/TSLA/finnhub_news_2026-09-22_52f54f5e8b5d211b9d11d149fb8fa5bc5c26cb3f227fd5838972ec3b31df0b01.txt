@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Slams Brakes on Humanoid Robot IPOs After Unitree’s 55% Plunge — Tesla Optimus Faces Commercialization Test
+  summary: China is slowing humanoid robot IPOs after Unitree’s 55% plunge as Tesla pushes Optimus toward commercialization.
+  url: https://finnhub.io/api/news?id=6269af3f61d89e1449150c55b36031e89315ca1ac4ea6477475a64ed4fffb1b3

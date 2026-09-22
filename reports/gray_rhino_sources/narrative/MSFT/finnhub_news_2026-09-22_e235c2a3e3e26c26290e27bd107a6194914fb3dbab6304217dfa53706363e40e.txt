@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vena and Acterys Recognized as Leaders in Info-Tech Research Group’s 2026 Enterprise Performance Management Data Quadrant Report
+  summary: TORONTO, September 22, 2026--Vena Solutions, the Microsoft-native platform for Orchestrated Planning, Decisioning and Close, today announced that both Vena and Acterys have been recognized as Leaders in Info-Tech Research's 2026 Enterprise Performance Management Data Quadrant Report, providing independent customer validation of Vena’s expanding capabilities in financial and operational planning across Excel, Power BI and the broader Microsoft ecosystem.
+  url: https://finnhub.io/api/news?id=6334cb4b0d9ae5d80c9c7745c721a47021df99462115375de8d16f53cf8a77b5

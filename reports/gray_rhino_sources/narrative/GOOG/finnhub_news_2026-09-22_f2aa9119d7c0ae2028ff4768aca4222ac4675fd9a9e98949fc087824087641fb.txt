@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Powerful Voice Just Reaffirmed My Confidence in My Non-Stop Alphabet Accumulation
+  summary: Berkshire Hathaway just made a jaw-dropping move into a stock I have been quietly stacking for months, and the timing reveals something important about where the biggest money thinks this AI cycle is actually headed.
+  url: https://finnhub.io/api/news?id=5c09143ae8d96565f277c6f8ff58cb9ffc7e40a20c1096e209b8385725f9b53d

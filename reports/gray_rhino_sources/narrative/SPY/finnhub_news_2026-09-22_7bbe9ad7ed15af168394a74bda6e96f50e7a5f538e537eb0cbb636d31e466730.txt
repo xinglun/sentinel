@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoFi Rises 5% After Getting Cut in Half: Is SOFI Stock Set to Double From Here?
+  summary: SoFi Technologies (NASDAQ:SOFI) shares are climbing in Tuesday morning trading, offering a rare green session for a stock that has spent most of the year sliding. With strong momentum, SoFi stock trended on social media and jumped 5% to $17.75 in the early hours. This begs the question of whether SOFI can double from here […]
+  url: https://finnhub.io/api/news?id=c1e2e0b0d47a3e122b803bb24211b6edeb13103e0575c7f64a041c663329b0c6

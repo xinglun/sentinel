@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD Holds Flat After Joining the $1 Trillion Club
+  summary: The valuation milestone prices complete-system execution, not merely a stronger GPU alternative.
+  url: https://finnhub.io/api/news?id=aca6c48f552a9639261e81be80a0412603bfc4bf03ae4c09439c566d0035c8ce

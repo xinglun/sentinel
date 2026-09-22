@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 2 Companies Are Quietly Powering the AI Boom. No, It's Not Nvidia or Palantir.
+  summary: The AI boom may be creating a new group of winners -- and they don't make AI chips or software.
+  url: https://finnhub.io/api/news?id=24ceba3c2037843fc99051f4ff2bfd8cd4a2bc677751e7073b8ddba42ecb9cbf

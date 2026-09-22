@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnificent Seven Hit All Time High
+  summary: After a brutal early 2026 selloff that left the most powerful stocks in the market looking finished, something shifted. The forces that once drove the biggest rally in stock market history may be waking back up.
+  url: https://finnhub.io/api/news?id=a913cdf163c8c09baefb91f680419d76351755fe62d422d48fc55bd386868565

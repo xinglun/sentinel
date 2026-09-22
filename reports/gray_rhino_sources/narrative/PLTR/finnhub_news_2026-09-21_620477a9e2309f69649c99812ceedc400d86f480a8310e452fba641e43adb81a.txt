@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp Says Only Washington Can Cap AI Liability: 'These Businesses Have to Be Nationalized'
+  summary: With President Donald Trump and Vice President J.D. Vance chiming in on potential AI regulation in recent days, Palantir Technologies CEO and co-founder Alex Karp took his turn to comment on the topic on Thursday in a TV interview. AI...
+  url: https://finnhub.io/api/news?id=c3ebce33b3f259ee0819d9e3da82cd5fc6e9772633e75acf1db49966846dc118

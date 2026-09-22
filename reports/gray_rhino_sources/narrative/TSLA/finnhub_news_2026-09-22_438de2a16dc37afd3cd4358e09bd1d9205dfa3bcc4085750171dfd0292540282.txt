@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla, Waymo, and Zoox are driving a nightmarish year for these 2 stocks
+  summary: It has not been a good year for the two ride-hailing giants.
+  url: https://finnhub.io/api/news?id=f27c4f75a0c66d8e63d15b36a42f304cc149c7e793099b1d4d0be7c53aa6a630

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trade Desk Falls 4% as Index-Removal Flows Keep Pressure On; Magnite Drops 3%, AppLovin Pulls Back
+  summary: Mechanical selling from an index rebalance is dragging Trade Desk lower, but the way its ad-tech peers are splitting tells a more specific story about which corner of programmatic advertising the market is actually repricing right now.
+  url: https://finnhub.io/api/news?id=7355c5ce438cf1a2ec810b1e786defea095762989f28a07f167eb204ba254c41

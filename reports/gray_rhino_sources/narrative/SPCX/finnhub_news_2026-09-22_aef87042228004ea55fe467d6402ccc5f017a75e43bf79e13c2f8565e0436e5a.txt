@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Index Funds Are Being Forced to Buy SpaceX Whether They Want It or Not
+  summary: A quarterly index formula just made millions of passive investors larger SpaceX shareholders, and none of them had a say in it. The mechanics behind that forced buying also set up a collision with an unlock schedule that cuts in the opposite direction.
+  url: https://finnhub.io/api/news?id=a47be136b85467d059371dab8f1f5fd2f195c32684743784b8751ca318d546cf

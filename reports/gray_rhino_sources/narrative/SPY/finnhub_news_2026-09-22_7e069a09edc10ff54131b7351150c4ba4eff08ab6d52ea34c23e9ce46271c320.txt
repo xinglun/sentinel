@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Delivers Remarks At The UN General Assembly Says Increased Stockpiles To Allow U.S. To Help Allies At Unprecedented Level
+  summary: https://www.youtube.com/watch?v=Q5WyknJN3qY 
+  url: https://finnhub.io/api/news?id=e6e7c60cc0f691d83328f80f3bcb0596837a017227ca51daa7ab4f650d46b00c

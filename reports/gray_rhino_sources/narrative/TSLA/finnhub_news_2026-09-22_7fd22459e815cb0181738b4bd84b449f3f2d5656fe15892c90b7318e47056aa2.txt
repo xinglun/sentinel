@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ClickHouse Appoints Mike Scarpelli, Former Snowflake and ServiceNow CFO, to Board of Directors
+  summary: SAN FRANCISCO, September 22, 2026--ClickHouse appoints former Snowflake and ServiceNow CFO Mike Scarpelli to its Board of Directors as run-rate revenue surpasses $350 million.
+  url: https://finnhub.io/api/news?id=86bf814edac81c7fa244f137cc94c2e651f2fd0a272ca6d5c0a1a48d4537ef9b

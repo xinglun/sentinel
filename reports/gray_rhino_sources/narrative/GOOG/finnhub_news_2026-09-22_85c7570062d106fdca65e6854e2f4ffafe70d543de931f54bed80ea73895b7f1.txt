@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Intel's Core Ultra Expansion With Googlebook Benefit the Stock?
+  summary: INTC extends its Core Ultra platform to new Googlebook laptops, bringing Series 3 processors, AI capabilities and advanced connectivity.
+  url: https://finnhub.io/api/news?id=aa2252f79e3be560623c08d524ff70690f7fc7a745c8e271c3b58a6ab95aecd1

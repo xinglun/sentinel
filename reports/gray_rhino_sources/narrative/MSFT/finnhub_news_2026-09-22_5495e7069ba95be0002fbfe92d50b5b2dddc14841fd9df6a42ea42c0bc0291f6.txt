@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Chatter: Big Software Firms Offer AI Discounts in Bid to Counter Anthropic, OpenAI
+  summary: Amazon (AMZN), Microsoft (MSFT), Figma (FIG), Workday (WDAY) and other big software firms are offeri
+  url: https://finnhub.io/api/news?id=29a53ae33de8771774513005f721aa88aeeea42e55257107f86456c24e8ec45a

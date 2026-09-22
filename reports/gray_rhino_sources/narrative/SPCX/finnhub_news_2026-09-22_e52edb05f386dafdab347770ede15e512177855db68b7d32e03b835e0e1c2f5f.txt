@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Trump Might Sink This Stock; Here's How
+  summary: Tesla faces mounting headwinds, including potential U.S. market entry by Chinese automakers and sharply reduced delivery forecasts. Click for this TSLA update.
+  url: https://finnhub.io/api/news?id=5169c158ccc9f9e7ca0b4588e66be64dda450599a969341ca0a0d23ce8e472e0

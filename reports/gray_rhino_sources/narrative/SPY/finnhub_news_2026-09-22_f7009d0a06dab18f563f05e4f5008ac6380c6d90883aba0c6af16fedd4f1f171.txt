@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Stock Market Is Running On Fumes
+  summary: The S&P 500âs Sept. 21 rally may be options-driven. Low VIX and gamma levels signal resistance near 7,800, and support at 7,500. Click for an updated market outlook.
+  url: https://finnhub.io/api/news?id=1d18fb806c0cb5cc930cc758e8b8304849033a6e4d749184242a70ad91bdb67b

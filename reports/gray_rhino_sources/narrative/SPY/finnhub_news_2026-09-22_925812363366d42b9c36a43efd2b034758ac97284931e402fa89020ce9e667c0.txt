@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Europe Entering Another Energy Crisis, Markets Might See A Repeat Of 2022 Selloff
+  summary: European gas inventories hit 2021 lows, raising 2022-style selloff risk amid a diesel crisis.
+  url: https://finnhub.io/api/news?id=2e23fdfe19b6115bc974ff301a43d67fc4d318c9d693b90b33ff4baccd4de9b4

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Jumps 4% as Ryan Cohen Buys 1.15 Million More Shares
+  summary: Ryan Cohen just bought another million-plus shares of GameStop at a higher price than his purchase two weeks ago, yet the stock is barely moving. That gap between what the CEO is signaling and how the market is responding tells a complicated story about where GameStop goes from here.
+  url: https://finnhub.io/api/news?id=0cdc99582f72f9b6ea7ad3472a99366da959e8d0117289dde2342885cfb24c7c

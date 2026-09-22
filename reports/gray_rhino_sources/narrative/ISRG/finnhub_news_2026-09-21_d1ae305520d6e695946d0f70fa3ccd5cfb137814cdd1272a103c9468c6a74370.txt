@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Far Could ISRG Stock Bounce From Here?
+  summary: Intuitive Surgical (ISRG) stock could climb 23.9% to the April high it last fell back from, and you would risk about 5% to find out. That looks like a surgical-robot leader on sale, but the price history disagrees. Over the last two years, none of its visits to this price range turned into a 20% gain before a 5% drop.
+  url: https://finnhub.io/api/news?id=9814c2e340f5ed70c2135541fc1ae4a50134f61b233f0f9fc7e3036367dc9339

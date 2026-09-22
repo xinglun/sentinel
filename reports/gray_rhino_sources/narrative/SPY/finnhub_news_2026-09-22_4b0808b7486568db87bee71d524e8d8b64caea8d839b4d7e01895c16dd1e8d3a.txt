@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “Market Has to Chew Through Indigestion”: Analyst Warns of 7000 Dip Before 8150 Target
+  summary: RBC's top equity strategist just named a price level that should make every S&P 500 investor uncomfortable, and she said it while defending a target most bulls would celebrate. The two positions are not contradictory, but reconciling them changes everything about how you hold this market.
+  url: https://finnhub.io/api/news?id=b53dd9734a20ab1329fb761abdd27b007b7494ee871f76baa044a17a57708678

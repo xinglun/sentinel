@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September Stagnation Marked By Record-Low Yields, High Duration Risk And High Valuations
+  summary: Over the first nine months of 2026, we have witnessed a fascinating macro paradox: a surging US stock market decoupling completely from the bond market. Read more here...
+  url: https://finnhub.io/api/news?id=74a295e0272eaa2289eae1407bd3c1768cb42f9d93519bf8ed4fefe16a90a4ab

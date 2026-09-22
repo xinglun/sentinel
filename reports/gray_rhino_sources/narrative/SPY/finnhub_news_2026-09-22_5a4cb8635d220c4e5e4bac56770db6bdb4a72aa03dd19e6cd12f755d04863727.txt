@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Vice Chair Philip Jefferson Says Discount Window Is Shock Absorber During Market Stress, Supports Short-Term Funding Markets And Treasury Liquidity
+  summary: https://www.newyorkfed.org/newsevents/events/markets/2026/0922-2026
+  url: https://finnhub.io/api/news?id=7acce5ca0240c1f8dbd4475ea2129222f0d7908c312fd13e9202226015c34299

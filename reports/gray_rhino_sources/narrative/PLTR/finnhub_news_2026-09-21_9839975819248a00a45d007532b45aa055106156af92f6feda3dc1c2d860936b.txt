@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Climbs as CEO Sends Blunt Message to AI Industry
+  summary: Palantir Stock Rises After Alex Karp's Stark Warning on AI Lawsuits
+  url: https://finnhub.io/api/news?id=bf34d234c46bd14846ad89a43c89162c32895d56c1f335171af73ef9fd0811be

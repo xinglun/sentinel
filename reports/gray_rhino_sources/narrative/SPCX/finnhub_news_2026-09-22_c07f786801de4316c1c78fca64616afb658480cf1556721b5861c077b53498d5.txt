@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Stock Looks Rich On Fresh Merger Speculation
+  summary: Space Exploration Technologies has climbed 10.9% over the past month, putting fresh attention on whether a book value lens still lines up with where the stock trades today. With the share price at US$151.85 and fresh headlines around contracts, AI ambitions and possible tie ups, the question for many investors is how much of the balance sheet is already priced in. The 10.9% gain over the last 30 days raises the stakes for anyone asking whether recent momentum in Space Exploration...
+  url: https://finnhub.io/api/news?id=8d3a8604e6519e8e86eedc313f19cd18dde84d650fc9d1f5bca033fa5a0b0332

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paramount Skydance Rises 4% on 12-State Settlement, Warner Bros. Discovery Holds Flat as $110B Deal Nears Its Close
+  summary: A 12-state antitrust settlement just removed the last legal wall blocking a $110 billion media megadeal, yet the company being acquired barely moved while the buyer surged. Understanding why reveals exactly where the real risk still sits.
+  url: https://finnhub.io/api/news?id=9fc7c2c7f18d80bdc3c892341dccdc7ef2a0e6e8167be0038db58a9370a7de61

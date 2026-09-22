@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman, Morgan Stanley Ride $17.2B China Tech Boom as AI Truce Odds Sit at 10%
+  summary: Goldman Sachs Group Inc. (NYSE:GS) and Morgan Stanley (NYSE:MS) are among the Wall Street banks riding a $17.2 billion Chinese tech fundraising boom as President Donald Trump and Chinese President Xi Jinping prepare to meet Thursday with AI expected on...
+  url: https://finnhub.io/api/news?id=52d32cd66946403a4b7c7e7802c2ca87a35fed13180af482630374400aa668c2

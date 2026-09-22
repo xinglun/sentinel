@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ambulatory Surgery Centers Are Becoming ISRG's New Growth Engine
+  summary: Intuitive Surgical is expanding robotic surgery in ASCs with lower-cost XiR systems, opening access to new customers and outpatient procedures.
+  url: https://finnhub.io/api/news?id=59dda8078a45a12151b3610719dd5ca94d272073b562dca557b4c4d3d847917e

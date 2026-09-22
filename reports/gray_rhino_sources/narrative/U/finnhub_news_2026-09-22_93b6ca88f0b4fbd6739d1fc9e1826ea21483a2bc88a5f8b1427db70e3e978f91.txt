@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Twilio, Datadog, Unity, Zscaler, and Elastic Shares Skyrocket, What You Need To Know
+  summary: A number of stocks jumped in the afternoon session after falling Treasury yields eased pressure on software stocks as signs of cooler U.S.–China tensions lifted risk appetite.
+  url: https://finnhub.io/api/news?id=569213658b77f877d5cce8831cc930e11db01e6e941d6a660296f6feae906515

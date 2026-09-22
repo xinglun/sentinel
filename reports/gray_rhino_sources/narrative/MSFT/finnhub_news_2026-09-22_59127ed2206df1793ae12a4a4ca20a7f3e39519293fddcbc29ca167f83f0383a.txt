@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump discloses more than 1,100 July trades, including up to $25 million sales of Microsoft and Amazon
+  summary: Trump sold tech stocks including Amazon and Microsoft when the Mag 7 stocks popped on July 20, adding $291 billion in market value in one day.
+  url: https://finnhub.io/api/news?id=079fddfd9ccd655b93dcafb9ee21e3dec55a12be54d6730bab1c85d4a5e739a3

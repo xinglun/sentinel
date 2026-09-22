@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's AI Business Is Booming. Here's How Much Analysts Expect It to Generate by 2030
+  summary: Artificial intelligence (AI) is the fastest-growing area of SpaceX's business, and it may not be too long before it becomes its largest segment.
+  url: https://finnhub.io/api/news?id=0c2e14301e2d6dd1e72d2012f2f880b3d889365ed52bb621f13e5b5fbcabf8c4

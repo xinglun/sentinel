@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TIME Turns to Kana's Agentic AI to Power the Next Era of Ad Sales and Campaign Delivery
+  summary: SAN FRANCISCO, September 22, 2026--Kana, the agentic marketing platform founded by the team behind Krux (acquired by Salesforce) and Rapt (acquired by Microsoft), today announced that the global media brand TIME has deployed two of Kana's agentic marketing applications across its advertising and sales organizations.
+  url: https://finnhub.io/api/news?id=d1d3077ee64e4a4b62c8cd0f67cd4985646bd139d16784cdfee882856a121943

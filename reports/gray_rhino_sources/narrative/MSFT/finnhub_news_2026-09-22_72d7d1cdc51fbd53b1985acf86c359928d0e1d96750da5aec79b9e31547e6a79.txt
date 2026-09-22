@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 Valuation Is Really A Mega-Cap Problem
+  summary: The Hennessy Funds portfolio manager argues that market-cap weighting can hide cheaper mid-cap stocks, but investors still need a process for weighing valuation, business improvement, and price confirmation.
+  url: https://finnhub.io/api/news?id=72a0fedf003bf423e6a3d7d3e575cbf3852e45d41314efe70f7673801e5da5f0

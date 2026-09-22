@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here’s What Nebius’ Top Line AI Compute Expansion Means for Prices
+  summary: Nebius just cleared a capacity auction at prices that stunned even its own projections, and the gap between what customers are willing to pay and what the stock currently reflects tells a more complicated story than the tripling share price suggests.
+  url: https://finnhub.io/api/news?id=33af761a332ba00fab94d17f48d67c1748dbc0cda7b2cb06c9ed0e166c572b91

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: Meta's Muse Teams With Shopify After Amazon Ban
+  summary: Shopify welcomes Meta's AI shopping agent after Amazon blocks it. Viking soars after its obesity drug delivers 22% weight loss. DoorDash admits it screwed up after drivers lost tips.
+  url: https://finnhub.io/api/news?id=3665d5b323edbf8872203b62b36e9f2ab9208a4db44a1befbdf8619fe26ec925

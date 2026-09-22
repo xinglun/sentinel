@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba Stock Rises on AI Breakthrough—How Its Plans Compare with U.S. Rivals
+  summary: Alibaba stock was rising on a flurry of AI announcements but that doesn’t mean it can close the U.S.-China gap.
+  url: https://finnhub.io/api/news?id=cd5804fed2951c3ab25d27bd515d3c1786d1818aca9a62541c7e0efc664d73b0

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: TSLA, SPCX, AAPL Could Be Next To ‘Rip’ After Meta’s Muse Rally, Analyst Says — Here Are The Catalysts
+  summary: Meta surged 11% as investors embraced its Muse AI agent, which surpassed 2.5 million downloads and briefly topped Apple’s U.S. App Store.
+  url: https://finnhub.io/api/news?id=58db7c94294a51aae6b99696a5e5030a3345e12f05e00d89eedf98071cadf731

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq Sees IPO Boom as AI, Tokenization and Fintech Fuel Growth
+  summary: Nasdaq (NASDAQ:NDAQ) CFO Sarah Youngwood said the company sees a constructive macroeconomic backdrop, citing investment in artificial intelligence and digital technologies, resilient consumers and corporate earnings that she said are supporting market valuations. Speaking at a fireside chat with an
+  url: https://finnhub.io/api/news?id=311b07e337c82a6917b406b85a9472cd1be091eb97eb870344a20395e9f0c3bb

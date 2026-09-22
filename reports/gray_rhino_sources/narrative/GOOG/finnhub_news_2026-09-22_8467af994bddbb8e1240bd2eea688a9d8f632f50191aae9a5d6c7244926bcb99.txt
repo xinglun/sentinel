@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is It Too Early To Buy Adobe Stock Before Its Free Users Pay Off?
+  summary: Adobe (ADBE) stock has lost about a third of its value over the past year, while the S&P 500 (SPY) gained about 18%. It has already bounced 28% in three months. Yet near $250 it still sits about 32% below its 52-week high. At current levels, multiple expansion appears largely contingent upon Adobe's ability to monetize its rapidly expanding freemium base before core top-line growth decelerates.
+  url: https://finnhub.io/api/news?id=ad1b0fda2504b8971e13b75f27b52fcfa229d9d0f6957564fd431383889cb319

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Alex Karp says AI's biggest names may never IPO — the play is telling Washington 'nationalize us, please'
+  summary: More government oversight could be better for humanity, but also serves to cover AI companies’ butts.
+  url: https://finnhub.io/api/news?id=daa33eb86584345e72a20db7f989b9c925ed43991fdecc9e1e85b52f9fb43dbb

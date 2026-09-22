@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Former SpaceX Engineer: ‘We All Rolled Our Eyes’ When Elon Musk Proposed Catching a Rocket With Chopsticks
+  summary: The engineers best positioned to judge whether SpaceX's most audacious launch tower idea was even physically possible all dismissed it immediately, and every single one of them turned out to be wrong.
+  url: https://finnhub.io/api/news?id=6d4ca61053cebfb1ab14f00e8ef52a5641bfd7b01c20a947b51592f02a0d0d69

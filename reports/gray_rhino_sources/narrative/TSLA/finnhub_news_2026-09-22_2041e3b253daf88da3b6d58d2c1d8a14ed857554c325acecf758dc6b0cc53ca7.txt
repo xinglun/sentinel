@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Move Over, Tesla: This Robotics Stock Already Has Paying Customers
+  summary: Symbotic is a robotics pure play, already in the commercialization stage.
+  url: https://finnhub.io/api/news?id=a6389586e5166e95a049a9b57a79ef5d4b5aa02792c3df86453f2446db5914ce

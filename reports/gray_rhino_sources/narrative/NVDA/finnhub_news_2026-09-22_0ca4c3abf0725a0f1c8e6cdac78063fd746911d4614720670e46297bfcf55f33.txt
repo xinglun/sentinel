@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Fears Are Reaching Fever Pitch But I’m Not Slowing Down My Nvidia Accumulation
+  summary: Every AI doom headline that crosses my feed makes me want to buy more Nvidia, not less, and the company's own numbers explain exactly why the fear and the fundamentals are pointing in opposite directions.
+  url: https://finnhub.io/api/news?id=268e9edb92e5efb4a187a24f06b7d11008678dd44dab0736581ff9f9565126b3

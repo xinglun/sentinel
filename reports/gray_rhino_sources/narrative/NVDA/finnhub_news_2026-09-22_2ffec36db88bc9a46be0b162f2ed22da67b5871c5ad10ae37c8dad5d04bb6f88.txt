@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fortinet Stock Jumps on Security Platform Demand: What's Ahead?
+  summary: FTNT shares hit a 52-week high as platform demand accelerates, with AI security expansion and raised 2026 guidance adding momentum.
+  url: https://finnhub.io/api/news?id=882ef1acf2ce2deb00236626907628ed7f2bd239db085142d58290d76f3a99c0

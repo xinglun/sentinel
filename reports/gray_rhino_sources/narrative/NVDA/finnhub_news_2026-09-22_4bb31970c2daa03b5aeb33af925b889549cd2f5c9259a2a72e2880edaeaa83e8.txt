@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Labcorp Holdings Stock Dropped Today
+  summary: The government thinks it's been overpaying Labcorp. They plan to stop doing that next year.
+  url: https://finnhub.io/api/news?id=29afb0d0da9a758635b415b21af875d0fd597d54c01f2d721169f070844a7f15

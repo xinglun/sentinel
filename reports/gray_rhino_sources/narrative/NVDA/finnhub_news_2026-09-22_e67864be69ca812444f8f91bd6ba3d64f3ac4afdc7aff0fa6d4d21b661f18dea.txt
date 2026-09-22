@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why DHT Holdings Stock Dropped Today
+  summary: Rumors that the Strait of Hormuz might reopen in seven days are driving tanker stocks lower.
+  url: https://finnhub.io/api/news?id=c3f13db598dd68e4b79a8b3c8cb6e0bac5fc7ce28602f50aa26826a7ba2c8c99

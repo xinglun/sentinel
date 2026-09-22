@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Time to Sound the Alarm on QuantumScape?
+  summary: The solid-state battery maker still hasn't commercialized any of its products yet.
+  url: https://finnhub.io/api/news?id=b33eca5e926a84094f1d37a0d0af58f03018dee47dee426b1eb2c41683b52b5f

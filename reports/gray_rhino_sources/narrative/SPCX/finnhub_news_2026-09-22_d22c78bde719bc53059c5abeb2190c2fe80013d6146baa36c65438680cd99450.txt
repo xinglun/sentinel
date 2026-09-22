@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s Grok 5 Could Be ‘The Most Useful Engineering Tool In History,’ Says Gene Munster: 'Will Be a Game Changer…'
+  summary: Gene Munster says Grok 5 could become history’s most useful engineering tool by training on SpaceX’s 25 years of data.
+  url: https://finnhub.io/api/news?id=cf51d75bc84de0d9d874a139bb6d32fd57ceb89d77d2f98e76a17cf9f86e7678

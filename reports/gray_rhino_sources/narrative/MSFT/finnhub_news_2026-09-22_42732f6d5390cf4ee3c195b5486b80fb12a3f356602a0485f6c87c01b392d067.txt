@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Everforth’s Strengthened Microsoft Partnership Brings AI Ambition to Life
+  summary: RICHMOND, Va., September 22, 2026--Everforth, Inc. (NYSE: EFOR), a leading technology and digital engineering company, today announced the enhanced reach of its Microsoft partnership, strengthening the Company's ability to accelerate AI readiness and modernize IT environments at enterprise scale. By aligning its commercial and federal capabilities through a unified go-to-market model, Everforth is bringing a broader portfolio of industry expertise, specialized solutions, and delivery resources t
+  url: https://finnhub.io/api/news?id=9e3738dab6525aeee1e2fa18c33571b164a5bdfc1a9960640afd7cdeddfbcac6

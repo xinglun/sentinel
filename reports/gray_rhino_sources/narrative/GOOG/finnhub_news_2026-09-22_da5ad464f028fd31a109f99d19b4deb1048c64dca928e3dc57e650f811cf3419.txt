@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta’s Muse Is a ‘Killer Product’. It Won’t, However, Be the Death of Shopify.
+  summary: Shopify stock rises for a second consecutive day as investors believe Meta’s Muse AI agent might be a very good thing for the company’s business.
+  url: https://finnhub.io/api/news?id=8baf1b750d8d7ff21373440841c10f327fa3dd951af280e77d931b90e00291e8

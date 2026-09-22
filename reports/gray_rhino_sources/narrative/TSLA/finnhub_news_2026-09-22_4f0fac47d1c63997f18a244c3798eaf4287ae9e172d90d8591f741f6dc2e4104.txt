@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Is Up. Elon Musk’s EV Maker Is Investment Grade.
+  summary: Tesla is a BBB credit, according to Fitch. Now, Fitch, Moody’s and S&P 500 have investment grade ratings for the EV maker’s debt.
+  url: https://finnhub.io/api/news?id=fcee403513d29415e8769752871a344740d806a415719348e23da2b8f959ae4e

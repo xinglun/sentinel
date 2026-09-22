@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's top priority gets a cold splash of reality from China
+  summary: Elon Musk’s $1 trillion pay package depends on Tesla getting this right.
+  url: https://finnhub.io/api/news?id=89eb94699ebe30c7ab0f5565787b3a0b66dc53128f1069ffe3b615a04baca367

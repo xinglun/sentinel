@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: On Holding Surges 13% as Investor Day Sets Ambitious Sales Target and $1B Buyback; Nike Ticks Up 2%
+  summary: On Holding just did something it has never done before, and the stock is repricing fast. Whether today's surge marks a turning point or a trap depends on what management actually promised investors in Zurich.
+  url: https://finnhub.io/api/news?id=0cafc11d3e871f37696ce3a473fd1cebd3a0d7dc5484ffca8bad949dc422114c

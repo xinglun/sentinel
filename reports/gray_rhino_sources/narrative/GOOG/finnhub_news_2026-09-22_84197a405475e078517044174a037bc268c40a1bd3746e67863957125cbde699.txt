@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Pushes ChromeOS Upmarket as Apple Moves Down
+  summary: Googlebook starts at $899, landing just above Apple's new $699 MacBook Neo
+  url: https://finnhub.io/api/news?id=7a161beb9c5844881c009217f5193683c4eecf20d5e1d02157421dfe3e2bb9fa

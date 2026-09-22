@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Qualcomm Slips as Googlebook Opens a New PC Lane
+  summary: Snapdragon gains another premium showcase, but Google disclosed neither unit commitments nor processor mix.
+  url: https://finnhub.io/api/news?id=5cb371e1a0cbd37aee215b2ce221be66fbbb6379fd7653214d5a1f0d61040e28

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Software Development Stocks Q2 Results: Benchmarking Bandwidth (NASDAQ:BAND)
+  summary: Looking back on software development stocks’ Q2 earnings, we examine this quarter’s best and worst performers, including Bandwidth (NASDAQ:BAND) and its peers.
+  url: https://finnhub.io/api/news?id=19e79b602a7adce680426ddae300d64e7ee087c27994ae94a602a2d5ca551e44

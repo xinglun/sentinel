@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Closer Look at the 'Big 3' Investing Styles
+  summary: Investors typically gravitate toward several market strategies, including income, growth, or value.
+  url: https://finnhub.io/api/news?id=06515fc5deb57dfa77d7800a87686791109c531843b4a7d755d8cda45062c003

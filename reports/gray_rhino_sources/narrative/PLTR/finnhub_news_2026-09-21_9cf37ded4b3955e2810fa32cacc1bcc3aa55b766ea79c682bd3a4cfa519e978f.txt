@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Makes a Big AI Bet and Cuts Bitcoin Exposure
+  summary: Ark Invest added nearly $25 million of CoreWeave as it trimmed several major AI and technology holdings
+  url: https://finnhub.io/api/news?id=87a1db9c600c746f45c0bd4ca875ad4cd8fd9221f84e45ddb5356495a8482270

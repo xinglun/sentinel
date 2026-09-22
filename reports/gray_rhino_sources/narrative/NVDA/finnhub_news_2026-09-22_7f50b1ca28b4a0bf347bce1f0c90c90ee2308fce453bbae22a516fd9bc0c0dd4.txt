@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Teekay Tankers Stock Dropped Today
+  summary: Rumors the Strait of Hormuz might reopen in a week are driving tanker stocks lower.
+  url: https://finnhub.io/api/news?id=915fdc3c1d4f094277fe7243864efefbaca2777dda61c26d0dfd29a678cfb908

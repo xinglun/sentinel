@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robotaxi competition revs up as Uber makes $10B investment in autonomous vehicles
+  summary: Waymo disrupted the ride-hailing space when it launched robotaxis in San Francisco. Uber, Zoox and Tesla are now on its tail.
+  url: https://finnhub.io/api/news?id=14596e35613c52bd2cdfacb79168e1c94a57962876400df46c4d95471dd3fe17

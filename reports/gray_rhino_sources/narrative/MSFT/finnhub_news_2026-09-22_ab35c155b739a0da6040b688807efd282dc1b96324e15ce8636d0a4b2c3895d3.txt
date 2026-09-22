@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons to Hold Alibaba Stock Despite Its High Premium P/S
+  summary: BABA's cloud and AI growth, resilient commerce engine and disciplined AI spending offer three reasons to hold despite its premium valuation.
+  url: https://finnhub.io/api/news?id=1a1032e469498f3b166ba767cedc0ea88cb8e9e68129613b37c96156fe4af5a9

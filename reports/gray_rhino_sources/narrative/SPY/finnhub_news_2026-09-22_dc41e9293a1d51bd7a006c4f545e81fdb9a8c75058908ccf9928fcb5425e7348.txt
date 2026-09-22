@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Eli Lilly’s Tough Month: One of The Biggest Global Banks Says 37% Gains Begin Soon
+  summary: Eli Lilly just posted a quarter that crushed estimates on every major metric, yet the stock has spent the past month getting punished anyway. One of Wall Street's biggest banks thinks the selloff created the most compelling entry point in the GLP-1 giant's recent history.
+  url: https://finnhub.io/api/news?id=77818d80c9fef784c013da07e9da212efeb4e79449220fa83d7fe710a3546d67

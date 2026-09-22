@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Cybercab Strategy Hinges on One Giant, Unanswered Question
+  summary: Tesla is courting Cybercab fleet buyers, but one key detail remains unclear: how revenue from each robotaxi ride will be split.
+  url: https://finnhub.io/api/news?id=51506a033462e7c5ede36bf5b7896e4eddadee166484c56849413150e45f58ee

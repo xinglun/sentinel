@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Gets a Bullish Options Signal as Shares Jump 2.7%
+  summary: Palantir's latest rally is being accompanied by a shift in options positioning that investors may want to watch.
+  url: https://finnhub.io/api/news?id=89e2f8fc8c9adb235303a16f8d5ce47d71a66b4151bbf0a76acd1a9fb65bd610

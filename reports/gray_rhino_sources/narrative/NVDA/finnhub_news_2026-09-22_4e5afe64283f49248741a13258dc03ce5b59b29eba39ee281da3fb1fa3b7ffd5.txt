@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Moderna Stock? Why Many Wall Street Analysts Say "No."
+  summary: Following last month's super rally, a growing number of analysts are now calling for caution.
+  url: https://finnhub.io/api/news?id=e871dbe1a33f8d091cbe642a5b3b90e29870727411459a5452164aa813be1701

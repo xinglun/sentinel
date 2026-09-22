@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Your Lunch Today Proves What The Fed Can't Really Fix
+  summary: Food inflation has many drivers. Read this investment guide for a 2027 commodity outlook on cattle cycles, El NiÃ±o, harvests & trade policies.
+  url: https://finnhub.io/api/news?id=febdcc01be94cc94aea9e81a7d95269df7b01b296f9712f62050f8316607d28b

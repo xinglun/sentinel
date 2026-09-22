@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Just Got a New Potential Boost for Azure
+  summary: BNP Paribas sees room for higher Azure pricing and a potential SpaceX cloud deal, but the impact may take time.
+  url: https://finnhub.io/api/news?id=144dcc2e4f44354697493624e7e1763a89aa3e0dbb690ea5cccf959b65fdd132

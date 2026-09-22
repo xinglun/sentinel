@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN Broadens Its AI Customer Base: Can Diversification Pay Off?
+  summary: IREN expands its AI Cloud customer base with new contracts, stronger pricing and a focus on reducing revenue concentration risk.
+  url: https://finnhub.io/api/news?id=a1dec2c88d2006ef312de9ee97e248149484abec8353c82b2881586eebcdc4be

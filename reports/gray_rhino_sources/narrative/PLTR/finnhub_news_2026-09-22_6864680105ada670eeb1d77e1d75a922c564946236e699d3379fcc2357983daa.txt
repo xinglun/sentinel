@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chipotle has 4,186 restaurants. Palantir is helping score the risk
+  summary: Palantir is bringing its data playbook to Chipotle’s kitchens.
+  url: https://finnhub.io/api/news?id=808e76b8936292abf5dec731179715a4ab01d89a1bd96d012b8785c72b93988f

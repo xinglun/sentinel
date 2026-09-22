@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy Top-Ranked DELL, SMCI & HPE to Form a Powerful AI-Server Portfolio
+  summary: DELL, SMCI and HPE are seeing surging AI-server demand, record backlogs and stronger guidance as data centers expand AI infrastructure.
+  url: https://finnhub.io/api/news?id=58d2dee4734c154bb86c1a84e730b5fd4fc7a36ea6ed57ad60ae9457e6af75be

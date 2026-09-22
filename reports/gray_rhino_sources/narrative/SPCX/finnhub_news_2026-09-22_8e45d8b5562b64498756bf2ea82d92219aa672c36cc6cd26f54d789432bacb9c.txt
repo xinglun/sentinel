@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has a Key Advantage in the AI Power Battle
+  summary: “SpaceX has a history of attacking whatever constrains scale most,” says Morgan Stanley’s Stephen Byrd.
+  url: https://finnhub.io/api/news?id=3449755bd6b60c4907711676fead1ef378cb21b079a95fd8f24a369ef9c9f345

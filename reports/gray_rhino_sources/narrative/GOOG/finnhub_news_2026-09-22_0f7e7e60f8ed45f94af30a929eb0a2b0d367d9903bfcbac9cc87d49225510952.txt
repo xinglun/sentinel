@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix downgraded, SanDisk initiated: Wall Street's top analyst calls
+  summary: Netflix downgraded, SanDisk initiated: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=29d2abd03bc37eebdfebb46cb3c48eeaaf26cbf04dca66035eef590d003c94f9

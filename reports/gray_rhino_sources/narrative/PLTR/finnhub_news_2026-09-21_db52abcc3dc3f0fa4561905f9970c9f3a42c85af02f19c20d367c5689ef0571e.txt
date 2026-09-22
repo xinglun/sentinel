@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Makes Big AI Bet, Trims Bitcoin ETF
+  summary: Ark is quietly reshuffling risk across high-growth assets
+  url: https://finnhub.io/api/news?id=33dfe7f83e072d2b4c6874a1acde365f8e445ff5b267a7c35fb3f4e252f6429c

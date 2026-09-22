@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Abbott Laboratories vs. Intuitive Surgical: Recent Quarterly Revenue Trends Reveal a Classic Investing Truth
+  summary: Abbott leads in absolute revenue, but Intuitive Surgical's growth rate tells a different story over the past eight quarters.
+  url: https://finnhub.io/api/news?id=49d7801003b62f6bb233559f1129990070d1ebd399c6f3c592aa1042cb77622c

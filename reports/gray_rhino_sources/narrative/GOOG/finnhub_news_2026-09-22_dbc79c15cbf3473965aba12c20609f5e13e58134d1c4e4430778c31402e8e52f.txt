@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Stock Gets Bold $750 Call as Muse AI Takes Off
+  summary: Mizuho Sends Bullish Message on Meta Stock as Muse Hits No. 1
+  url: https://finnhub.io/api/news?id=e7e2974d1d77b6f2ee74c171ab5fb29191970de1565983e49465bce7705a1a43

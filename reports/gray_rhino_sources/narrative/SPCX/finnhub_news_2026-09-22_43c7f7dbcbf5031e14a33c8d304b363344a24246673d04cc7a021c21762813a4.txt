@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Got a Major AI Vote of Confidence From Wall Street
+  summary: Morgan Stanley highlighted links between SpaceX and Tesla across AI, energy, connectivity and hardware.
+  url: https://finnhub.io/api/news?id=c53eec405983af38ae47eb2c1a394c81348f825738d2e68a0c63bc1c844b0f2a

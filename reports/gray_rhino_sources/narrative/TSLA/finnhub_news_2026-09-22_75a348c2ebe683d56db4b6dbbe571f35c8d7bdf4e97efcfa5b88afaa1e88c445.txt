@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robotaxi competition revs up, weighing on Uber and Lyft stocks
+  summary: Both rideshare giants Uber (UBER) and Lyft (LYFT) have underperformed in 2026 upon rising competition with autonomous vehicle and robotaxi services. Yahoo Finance Executive Editor Brian Sozzi shares her perspective on the two stocks.
+  url: https://finnhub.io/api/news?id=62f0ea68fd6bb2b6ab38bf5a8e0144627ea064d44df028dfb59c769b50af9c06

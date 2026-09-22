@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You're 60 Years Old, Here Are 3 Retirement Moves You Should Be Making Today
+  summary: It's a good time to check these key must-dos off your list.
+  url: https://finnhub.io/api/news?id=c02c695674eb0ef199ef046fc1277b5ae748948a0132b152691f3a85bae20d50

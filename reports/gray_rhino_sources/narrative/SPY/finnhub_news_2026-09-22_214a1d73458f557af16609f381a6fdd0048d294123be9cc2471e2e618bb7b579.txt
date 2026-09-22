@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Defense Stocks Fall While Oil Slides on Hormuz Reopening Report: Lockheed Martin and RTX Drop 3%, Boeing Dips
+  summary: Aerospace and defense shares are trading lower Tuesday morning after a Reuters report that Iran has offered to reopen the Strait of Hormuz within seven days if the U.S. takes initial steps toward easing military pressure. Crude oil is falling for a fourth session alongside the diplomatic signal, which suggests the market is compressing the […]
+  url: https://finnhub.io/api/news?id=e6ac32ea6c44f659ee8d460ce228bd95803a88be27c35e04657b02fd4751649c

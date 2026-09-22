@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could This Overlooked Vanguard ETF Make You a Millionaire? Here's What History Says
+  summary: Looking beyond the S&P 500 could present attractive opportunities over the next decade.
+  url: https://finnhub.io/api/news?id=66cf4a5dccc903fe6c5c1a850dcbdbe232d0bc4e2ffd11e6b2bddbe2f6021255

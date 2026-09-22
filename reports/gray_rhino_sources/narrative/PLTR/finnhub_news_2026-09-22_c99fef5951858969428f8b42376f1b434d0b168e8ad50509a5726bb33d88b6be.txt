@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street’s Palantir Price Targets Tell an Interesting Story
+  summary: Palantir has gone from ice cold to white hot in a matter of weeks, and Wall Street analysts cannot agree on what that rally is actually worth. The gap between the most bullish and most bearish targets reveals a fundamental disagreement about where this AI story goes from here.
+  url: https://finnhub.io/api/news?id=0653f2d32bfc5280fcb572164f30db69fa00c488b873deeeeaf8a83e84aa65b7

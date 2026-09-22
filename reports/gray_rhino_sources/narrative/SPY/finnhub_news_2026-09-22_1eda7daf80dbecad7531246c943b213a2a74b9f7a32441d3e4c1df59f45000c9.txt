@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SanDisk Jumps 6% as Rosenblatt Starts Coverage at Buy With $2,400 Target; Micron Rises 3%, Seagate Ticks Up
+  summary: Rosenblatt's initiation on SanDisk sent shares surging and lit up the entire memory sector Tuesday, but the analyst's own warning buried inside the note raises a real question about how long this rally can last.
+  url: https://finnhub.io/api/news?id=f2f4a83aec5af8c643497629c32fbaac3cc2cfe6a2cf468385aef853ba8fb193

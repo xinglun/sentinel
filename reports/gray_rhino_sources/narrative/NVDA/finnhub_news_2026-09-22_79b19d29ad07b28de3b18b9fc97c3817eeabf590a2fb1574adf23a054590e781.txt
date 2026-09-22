@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba Higher on Chip News; On Holdings Football Move | Stock Movers
+  summary: On this episode of Stock Movers: - Alibaba (BABA) shares are higher this morning after the company rolled out what it calls China's most powerful AI chip and announced plans to expand data center capacity in the coming years. - ON Holdings (ONON) is getting a boost as it expects sales growth in the high teens over the next few years as it moves into sports including golf and football. - Viking Therapeutics (VKTX) shares surged after the biotech released data from its VK2735-102 maintenance study showing VK2735, its experimental obesity drug, maintained up to 97% of weight loss versus 61% for placebo when subjects switched to every-other-week dosing. Leerink analysts said the "stellar" data strengthens the drug's competitive profile.
+  url: https://finnhub.io/api/news?id=4c8b63ea55a4f4026f8a9723cd6413782543ba684c0c17e5858d9dd2b63360d3

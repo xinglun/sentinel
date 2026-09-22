@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Alliances And Raised Targets Could Be A Game Changer For ServiceNow (NOW)
+  summary: Recent commentary highlights that ServiceNow is seeing strong demand for its workflow platform, benefiting from AI-focused partnerships, cross-selling success, and an expanded ecosystem that has led management to raise its 2026 subscription revenue midpoint. At the same time, ServiceNow is increasingly positioned as a key competitor in AI-driven, cloud-based enterprise software, facing off against players like Salesforce and Atlassian while leveraging collaborations with Microsoft and...
+  url: https://finnhub.io/api/news?id=36dc01bac8350463dcb6e7eb625a1508dd51c5f4bafd93eb1bb18e9c065a66cd

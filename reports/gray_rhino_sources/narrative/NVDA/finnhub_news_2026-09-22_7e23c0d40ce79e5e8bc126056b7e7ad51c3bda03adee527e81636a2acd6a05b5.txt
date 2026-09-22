@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang sends bold message to Nvidia shareholders
+  summary: The chipmaker’s CEO just signaled where AI demand is really heading
+  url: https://finnhub.io/api/news?id=270fc5d0ee62473cc8ed04e2316d1f61e945c037776c33609c662b48054b7335

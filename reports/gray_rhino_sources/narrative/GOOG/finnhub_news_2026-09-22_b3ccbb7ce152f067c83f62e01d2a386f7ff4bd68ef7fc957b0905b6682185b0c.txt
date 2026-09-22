@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should NextEra’s US$1.9 Billion Google-Backed Nuclear Restart Require Action From NextEra Energy (NEE) Investors?
+  summary: NextEra Energy disclosed that it secured a US$1.90 billion U.S. Department of Energy loan to restart the Duane Arnold nuclear plant in Iowa, which is targeted to return to service in early 2029 subject to regulatory approvals and backed by a 25-year power purchase agreement with Google. This federally supported nuclear restart aligns NextEra with fast-growing AI-driven power demand and deepens its long-term relationship with a major technology offtaker. Next, we’ll examine how the US$1.90...
+  url: https://finnhub.io/api/news?id=32c71325f25a23a654fa497484f41ab07e76a87ed9843f34678647762ef2307a

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CrowdStrike Stock A Buy Today As AI Threats Lift Demand?
+  summary: The popular view of CrowdStrike (CRWD) is that AI has made a fast-growing security company grow even faster. The stock returned 98% over the past year. The S&P 500 returned 18.5% over the same period. For that view to be right, two things must both be true. The faster growth has to last, and it has to turn into real profit. So far, only the first one clearly holds.
+  url: https://finnhub.io/api/news?id=89d4bbeeb2d0d03a735d0259c3816a4286a955d5a0cc38424a6f213ce9d54dc3

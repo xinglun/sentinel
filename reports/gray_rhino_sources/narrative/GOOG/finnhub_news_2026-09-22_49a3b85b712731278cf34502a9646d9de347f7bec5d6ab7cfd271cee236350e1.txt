@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix Faces Growing YouTube Threat As Viewer Share Hits Multi-Year Low, HSBC Says — Wells Fargo Flags Engagement Risk
+  summary: Analysts raised concerns around Netflix’s engagement trends as YouTube expands its living-room presence and Netflix heads into a potentially weaker second-half content slate.
+  url: https://finnhub.io/api/news?id=00ca0e9c417d4287aae57e00ec2bf02ad25245ba4e7bc35f1e7b39f9cdec401c

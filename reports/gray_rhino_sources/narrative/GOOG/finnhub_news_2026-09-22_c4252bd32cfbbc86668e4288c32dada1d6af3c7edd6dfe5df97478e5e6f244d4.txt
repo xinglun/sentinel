@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nextech3D.ai unveils AI-powered training platform KATE
+  summary: Nextech3D.AI (CSE:NTAR, OTCQX:NEXCF, FRA:1SS) has launched KATE, an AI-powered Training Intelligence platform that turns executives, trainers and subject-matter experts into AI-powered digital trainers while measuring training effectiveness in real time. The company also said it has initiated...
+  url: https://finnhub.io/api/news?id=d236056c6c64f34da835d9776e165f5c2f83924c7ad8973164e26863c41d8311

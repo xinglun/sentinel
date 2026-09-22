@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: Finally, Time To Say Enough Is Enough (Downgrade)
+  summary: Tesla, Inc. shifts toward an AI-driven future as auto margins compress. Click for this TSLA update and see if it is the right stock for your portfolio.
+  url: https://finnhub.io/api/news?id=463dc59bb9dc5be160ef2b21605a95ec6c6c1e16f8bc577105e6777a7d9a3432

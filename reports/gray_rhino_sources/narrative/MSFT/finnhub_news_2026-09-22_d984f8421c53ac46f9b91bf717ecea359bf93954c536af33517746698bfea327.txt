@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Magnificent 7 are back: Meta’s AI bet leads the charge
+  summary: Yahoo Finance Executive Editor and host of Sozzi Unleashed, Brian Sozzi, tees up the stories making waves across the markets. The Magnificent 7 are back in focus as megacap tech stocks help push markets higher, with Meta (META) leading the charge after its new Muse AI agent gained momentum and climbed to the top spot on Apple's (AAPL) App Store.
+  url: https://finnhub.io/api/news?id=71b88453fe42a2115e7278b0a383524336c44c88a3d27e9c32af96dab768b3d8

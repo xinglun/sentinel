@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Q2 Earnings Roundup: Intuitive Surgical (NASDAQ:ISRG) And The Rest Of The Surgical Equipment & Consumables - Specialty Segment
+  summary: Wrapping up Q2 earnings, we look at the numbers and key takeaways for the surgical equipment & consumables - specialty stocks, including Intuitive Surgical (NASDAQ:ISRG) and its peers.
+  url: https://finnhub.io/api/news?id=99797b3d79ca59ddc5a9bc77495b350b8427fb6e2dfb214dcb9d43d1c7b3f005

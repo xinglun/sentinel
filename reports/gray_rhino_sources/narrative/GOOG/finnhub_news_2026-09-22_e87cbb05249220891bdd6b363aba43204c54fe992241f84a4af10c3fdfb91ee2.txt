@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Jumps Over 1.7% as $899 Googlebooks Move Chrome Upmarket
+  summary: Google is asking Android users to pay premium prices for Gemini-centered continuity.
+  url: https://finnhub.io/api/news?id=73a4110140e4b5ccff71ae61d50669a884b7a371498cd91f2f59d2bda89e8540

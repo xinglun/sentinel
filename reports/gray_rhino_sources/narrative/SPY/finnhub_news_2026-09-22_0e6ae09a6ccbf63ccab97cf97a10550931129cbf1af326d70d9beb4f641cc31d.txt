@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: No Margin Account? This ETF Is the Most Popular Way to Short the S&P 500
+  summary: Shorting the S&P 500 without a margin account sounds like a loophole, but the most popular tool for doing it carries a hidden cost that turns a decade of bearish bets into a slow-motion wipeout.
+  url: https://finnhub.io/api/news?id=e2a2ac630f49906b47c7e97adc50b92cd2bbfa7ea3d75e1c40c3a8cc157ef3c6

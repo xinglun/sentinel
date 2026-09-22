@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Gains as Apple Pulls AI Off the Meter
+  summary: Local models can trim token demand without displacing Nvidia's training and data-center stronghold.
+  url: https://finnhub.io/api/news?id=0f3e2249080cb45434dcabf774b7c0917c8b512cc2c7c30464eb49761d7046b4

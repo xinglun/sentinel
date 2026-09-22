@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike vs. Palantir Technologies: Which Technology Stock Is a Better Buy in 2026?
+  summary: Palantir trades at a lower earnings multiple despite higher revenue valuation, while CrowdStrike battles reputational headwinds and profitability challenges.
+  url: https://finnhub.io/api/news?id=ed58d440b993a6073b6aac8d6061e633c123258f78f2751d58526d2c91acd80c
