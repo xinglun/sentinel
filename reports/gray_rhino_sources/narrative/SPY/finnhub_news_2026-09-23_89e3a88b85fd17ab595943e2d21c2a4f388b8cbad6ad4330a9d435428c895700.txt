@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IonQ Surges 11% as NVIDIA Research Center Deal Follows Error-Decoder Breakthrough; D-Wave Climbs 5%, Rigetti Rises 4%
+  summary: IonQ just dropped two back-to-back announcements that sent its stock surging while the broader quantum ETF slipped, and the reason one company is pulling so far away from the pack reveals something important about where the real quantum race is being run.
+  url: https://finnhub.io/api/news?id=2ab020bb1d0f32e7a11792b7dd1ba2aa2ce6db9e969dc61a5117d74d2d9a62eb

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX, OpenAI, and Anthropic Are Woth More Than Every Single IPO in the Last 45 Years
+  summary: Three companies tied to artificial intelligence now carry a combined valuation that dwarfs decades of American tech history, and the cash flow projections behind those numbers raise serious questions about who actually wins this bet.
+  url: https://finnhub.io/api/news?id=df4f3d9690b3dc5a1745a2bbe1ffc8f972e5131ac6e308a97c9f55c1d795a309

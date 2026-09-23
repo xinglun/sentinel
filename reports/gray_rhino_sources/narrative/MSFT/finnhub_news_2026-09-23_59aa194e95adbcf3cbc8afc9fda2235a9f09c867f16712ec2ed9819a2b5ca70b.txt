@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The One Neocloud I Keep Buying Again and Again Has a Secret
+  summary: One neocloud keeps earning repeat buys despite a GAAP operating loss, sky-high convertible debt, and three customers dominating its revenue. The reason sits inside a single contract detail that most investors scroll right past.
+  url: https://finnhub.io/api/news?id=7cce57e3ed9f86617763c4da0296eb7e9254f001cdb8680d658391dc7d5f2956

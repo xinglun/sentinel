@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba Falls 4% as Reported Beijing AI Probe Undercuts Chip Rally; Baidu Eases, JD.com Dips
+  summary: A regulatory probe into rival AI startups sent Alibaba sliding even though Beijing named no Alibaba products, and traders are now wrestling with how far the scrutiny could spread across China's model layer.
+  url: https://finnhub.io/api/news?id=1d596bcbe2be3b2e9032baeaa490c6a731279d901e24eda8aab9a02a525296b4

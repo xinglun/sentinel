@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This ETF Is Up 20% in 2026. Here's Why It Could Have More Room to Run.
+  summary: Invesco's QQQ Trust is still one of the easiest ways to beat the market.
+  url: https://finnhub.io/api/news?id=80bc51e55609311e4cb7c3a74dd158972b137da0d6d6eeef4e5f20be66ad68b8

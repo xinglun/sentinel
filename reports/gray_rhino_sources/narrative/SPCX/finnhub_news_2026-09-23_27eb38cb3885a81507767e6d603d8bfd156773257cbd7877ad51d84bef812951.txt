@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI magic sends markets higher, plus one-on-one with IBM vice chair
+  summary: Today on Sozzi Unleashed, we dive into the market's reaction to Meta's (META) Muse AI, Ray Dalio’s latest warning on a potential AI bubble, and Sozzi’s one-on-one conversation with IBM (IBM) Vice Chair and former US National Economic Council Director Gary Cohn.
+  url: https://finnhub.io/api/news?id=396890c4e13e40fe7a4960343263bdce20ac5fd3d1580f407c9312992ef0d4fc

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agentic Commerce Could Hurt Booking, Intuit While Helping Meta, Microsoft, Joseph Carlson Says
+  summary: AI agents that shop, book trips and transact could pressure Booking Holdings Inc. (NASDAQ:BKNG) and Intuit Inc. (NASDAQ:INTU) while benefiting Meta Platforms Inc. (NASDAQ:META) and Microsoft Corp. (NASDAQ:MSFT), according to investing commentator Joseph Carlson. "Automation is not the biggest risk...
+  url: https://finnhub.io/api/news?id=7eaa7c8373f6e6a6537a62745967c81917a61887543dee45b2522a77d48fbce6

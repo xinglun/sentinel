@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stays Flat After Cutting an AI Phishing Supply Chain
+  summary: A court-authorized operation removed infrastructure, but compromised-account economics remain attractive to criminals.
+  url: https://finnhub.io/api/news?id=6d513bec85b8c253e11d7f4af724da5ba5b3b06f664930a64000d5845074e4ff

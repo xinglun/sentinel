@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Americans Fear of Losing Their Job Is Highest in 13 Years
+  summary: Wall Street is booking record highs while Main Street workers, especially six-figure earners, are bracing for the worst job market anxiety in over a decade. The force driving that fear is reshaping where smart investors need to park their capital right now.
+  url: https://finnhub.io/api/news?id=cc91016a9b809116745133e929ca681b260b55982cad4c0a4048436a9baa24a5

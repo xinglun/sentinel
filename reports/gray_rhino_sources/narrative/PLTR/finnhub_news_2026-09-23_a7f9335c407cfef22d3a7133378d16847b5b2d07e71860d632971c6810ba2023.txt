@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, IBD Stock Of The Day, Flashes Buy Signal Amid Earnings, AI Momentum
+  summary: Palantir has rebounded since midyear, hitting a 2026 high Wednesday as the data analytics software giant delivers booming, AI-fueled growth.
+  url: https://finnhub.io/api/news?id=dfc2e6f5c68b41e3b38939f2bf2411d124951a667652fd974f5f8818824761b3

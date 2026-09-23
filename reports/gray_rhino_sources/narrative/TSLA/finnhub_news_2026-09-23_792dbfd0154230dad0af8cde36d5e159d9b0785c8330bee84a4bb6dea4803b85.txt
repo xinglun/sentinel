@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump’s State Dinner Makes Strange Bedfellows of Tesla CEO Elon Musk and GM’s Mary Barra
+  summary: Chinese President Xi is coming to America to visit U.S. President Donald Trump.  The two men will dine at the White House on Thursday evening with many U.S. business leaders in attendance, including  General Motors  CEO Mary Barra and  Tesla  CEO Elon Musk, according to Reuters.  GM and Tesla didn’t immediately respond to a request for comment about the dinner.
+  url: https://finnhub.io/api/news?id=0c1aabae963775ebae8dc5dcf94bba9575fc8dd6d5c29a115d733276b2e13e50

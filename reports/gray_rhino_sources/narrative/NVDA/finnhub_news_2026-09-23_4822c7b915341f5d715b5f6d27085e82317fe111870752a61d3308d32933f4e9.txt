@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell's AI Infrastructure Bet Gets a Fresh Wall Street Vote
+  summary: Seaport sees more room for growth as AI data-center demand lifts Marvell's custom silicon and interconnect businesses.
+  url: https://finnhub.io/api/news?id=1e7997f5f77be4b416a7c73822b795a166b269fa98c058d06865b7369c88f5d9

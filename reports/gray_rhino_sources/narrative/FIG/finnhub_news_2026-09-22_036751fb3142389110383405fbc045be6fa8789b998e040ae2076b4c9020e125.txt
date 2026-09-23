@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma (FIG) Stock May Be Near Fair Value On Cash Flow
+  summary: Figma has seen a steep share price reset, and the central issue now is whether the current market value still lines up with the cash flows investors expect the design platform to produce. With the stock under pressure, the focus naturally shifts to what the underlying cash generation can support over time. Over the past year the share price has fallen 62.5%, which puts the spotlight squarely on whether the underlying cash flows justify where Figma trades today. The business model is built...
+  url: https://finnhub.io/api/news?id=562b752a8d7124d772a88c02b7c59aae72c15b31cb923bf7ae059a8385e8290d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI IPO Collapse?
+  summary: OpenAI needs a staggering sum to survive through 2030, rival Anthropic is already turning a profit, and Chinese AI is undercutting American models on price. A failed IPO could detonate valuations across the entire tech industry.
+  url: https://finnhub.io/api/news?id=e9ed2de384e4f881e52a7d9fbc8efe1fd80fc5ee9cad31483d1b8abbb74741f0

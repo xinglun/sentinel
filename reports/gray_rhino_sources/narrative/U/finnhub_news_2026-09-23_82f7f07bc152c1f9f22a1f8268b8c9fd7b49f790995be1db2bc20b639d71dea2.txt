@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin drops 3% as Edgewater analyst warns of stalled market share growth
+  summary: Investing.com -- AppLovin (NASDAQ: APP) shares fell 3.5% after Edgewater Research analyst Joe Wittine cautioned that the mobile ad platform’s market share expansion has effectively stalled. Following fresh channel checks, Wittine set a materially lower bar for Wall Street, forecasting the company’s fourth-quarter revenue growth at just 8% to 9% quarter-over-quarter. Wittine concluded that the company’s share of wallet (SOW) and share of voice (SOV) metrics are no longer consistently growing from
+  url: https://finnhub.io/api/news?id=efa6a958856c51ad1782d829ca5f81da90a510b46aeda6bdcd515f5367cf0ac3

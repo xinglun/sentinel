@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Doubles Down Against Micron Stock
+  summary: One pillar of the semiconductor rally is coming under scrutiny
+  url: https://finnhub.io/api/news?id=d409581369af0b5ac7529df02e571405dafd4c24cb393082dddf0631035fa7fa

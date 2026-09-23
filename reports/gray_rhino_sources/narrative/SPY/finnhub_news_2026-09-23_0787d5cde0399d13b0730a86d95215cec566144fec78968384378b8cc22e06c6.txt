@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DraftKings Drops 4% as Prediction-Market Spending Plans Stir Margin Doubts; Flutter Entertainment Slips, Robinhood Ticks Up
+  summary: DraftKings CEO sketched out an aggressive spending push into prediction markets, and the stock is paying for it while a rival platform moves in the opposite direction on the exact same news.
+  url: https://finnhub.io/api/news?id=7d9e544db85b5060b42ad69797075963aa1ec890a15f787862d8687bd7c82f3e

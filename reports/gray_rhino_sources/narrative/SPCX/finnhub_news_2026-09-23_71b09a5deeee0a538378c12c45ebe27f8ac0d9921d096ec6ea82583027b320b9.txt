@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX vs Amazon: Which Is the Better Stock to Own Over the Next 10 Years
+  summary: Both stocks could merit being long-term investments.
+  url: https://finnhub.io/api/news?id=f81b58db282e8e79fd0b8c155db764415eddd4e1828668411c42f5034aef46a0

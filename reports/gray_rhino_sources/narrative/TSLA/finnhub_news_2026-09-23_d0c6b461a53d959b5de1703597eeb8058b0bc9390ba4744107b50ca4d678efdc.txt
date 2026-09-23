@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Registers Local Entity in Vietnam Ahead of Potential Market Expansion
+  summary: Key Stats for Tesla StockPrice change for Tesla stock in last 1 month: 8%$TSLA Stock Price as of Sep. 22: $37552-Week High: $499$TSLA Stock Price Target: $397What Happened?Tesla (TSLA) is taking its first real step into Vietnam.
+  url: https://finnhub.io/api/news?id=39f94fc86fe651ef67903abba69de6b5e065155cc0cc680684361cc24341be42

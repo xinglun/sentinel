@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Slips as Four Macs Attack Cloud Inference Economics
+  summary: Apple's local-AI pitch targets selected workloads, not Nvidia's dominant data-center training business.
+  url: https://finnhub.io/api/news?id=161bea74f1eee0cedb31fba6c59655c7d7db00ca85f2aa0169f34787c8322b33

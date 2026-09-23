@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Instacart Adds Another AI Partner to the List: Meta’s Muse
+  summary: Investors appeared disgruntled over  Instacart’s  growing tech footprint.  Maplebear  stock fell Wednesday, the day after the company said Instacart’s grocery ordering system will be connected to Meta’s artificial-intelligence agent Muse.  Shares of the grocery-ordering company slid 2.1% to $43.38, while  Meta Platforms  stock rose 1% Wednesday.
+  url: https://finnhub.io/api/news?id=45686f398cd5b9dbd06ceec12b587ed0b6f3b94ca8f689b6494e92abd53ea51b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why IonQ (IONQ) Stock Is Trading Up Today
+  summary: Shares of quantum computing company IonQ (NYSE:IONQ) jumped 4.8% in the morning session after the company announced an end-to-end real-time quantum error correction decoder that runs on a single standard central processing unit.
+  url: https://finnhub.io/api/news?id=68cee1e2131646c14dbf21ca864350549913458f544f7dc3ee33d443eddd0f31

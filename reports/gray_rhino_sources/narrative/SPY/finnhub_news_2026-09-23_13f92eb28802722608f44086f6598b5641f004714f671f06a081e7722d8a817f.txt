@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: McDonald’s Falls 4% as Investor Day Sets $8.5B Franchisee Support Plan; Wendy’s Dips, Yum! Brands Holds Steady
+  summary: McDonald's just handed franchisees a massive multi-year commitment, but the market is punishing the stock while rivals barely flinch. Here is why investors are reading the same plan two very different ways.
+  url: https://finnhub.io/api/news?id=7038dae4dbb67d6987b822942efa24a71e353ecccc6ca7604225a4bced2baf24

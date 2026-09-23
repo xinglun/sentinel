@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Just Sent a New Warning to AI Investors
+  summary: Burry added to short positions in Micron, Nebius, Palantir and the iShares Semiconductor ETF.
+  url: https://finnhub.io/api/news?id=3c03ecfba112fa5546c2bd8b08d486bcc5c8d8fe85496f95aac26772d266d500

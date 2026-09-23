@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Palantir Stock Popped Today
+  summary: Up 76% in 3 months, can Palantir stock keep powering higher?
+  url: https://finnhub.io/api/news?id=6bbee84b5fddff110d48f0c4e4e3f896204195d7131e77da513942305f189267

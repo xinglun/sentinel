@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Faces Another Share Unlock as Investors Watch Supply
+  summary: About 328 million SpaceX shares are set to become available for sale Sept. 24, adding another near-term variable for the recently listed company.
+  url: https://finnhub.io/api/news?id=d45102c1b97a8b7310eef407eabface57e3899daac5bd7d360128930879c1d86

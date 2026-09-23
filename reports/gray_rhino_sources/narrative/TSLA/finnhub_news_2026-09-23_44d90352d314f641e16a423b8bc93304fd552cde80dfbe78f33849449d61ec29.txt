@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Did Trump Snub Ford? The Stock Dips Ahead of Dinner With Xi.
+  summary: GM and Tesla CEOs are expected to attend a dinner with President Trump and President Xi. Ford, apparently, wasn’t invited.
+  url: https://finnhub.io/api/news?id=38346cecf5193ebb81e52fda2e8e5856a1480e7db1b1acda7cb95fed418471af

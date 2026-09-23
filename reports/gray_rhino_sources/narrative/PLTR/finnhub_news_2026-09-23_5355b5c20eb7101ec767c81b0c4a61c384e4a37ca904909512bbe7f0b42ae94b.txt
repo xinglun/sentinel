@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cybersecurity Stocks Rally While Large-Cap Tech Slides: CrowdStrike, Palo Alto, Okta, and Palantir Each Gain 4%
+  summary: While mega-cap tech names slide Wednesday morning, a tight cluster of cybersecurity stocks is breaking away from the pack in a move that has nothing to do with company earnings and everything to do with where investors are hiding.
+  url: https://finnhub.io/api/news?id=2401f59549f6dc5e3161f972089484183590ddc78650f70febdf139cb10d8587

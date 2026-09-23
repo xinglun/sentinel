@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 1 Industrials Stock with Impressive Fundamentals and 2 We Avoid
+  summary: Even if they go mostly unnoticed, industrial businesses are the backbone of our country. Still, their generally high capital requirements expose them to the ups and downs of economic cycles, and the industry’s six-month return of 4.9% has fallen short of the S&P 500’s 18% rise.
+  url: https://finnhub.io/api/news?id=e210d6b632bda3093723f9b03db839bf3a3b0abbe61d248e485e595bef56ab8f

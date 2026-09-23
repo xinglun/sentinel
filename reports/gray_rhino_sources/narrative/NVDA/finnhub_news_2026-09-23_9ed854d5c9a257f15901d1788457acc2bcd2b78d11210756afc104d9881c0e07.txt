@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Paychex Stock Dropped Today
+  summary: Paychex's GAAP profits were worse than its non-GAAP profits, and FCF was even worse than GAAP!
+  url: https://finnhub.io/api/news?id=02a7bbc3aa7c9b36ab98457b999e56d0b990ae756aeac518932e9f086eb4bc64

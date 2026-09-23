@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Just Bought This Quantum Computing Stock. Should You Follow Her In?
+  summary: Although Wood's company bought this stock, it may have had other motivations.
+  url: https://finnhub.io/api/news?id=5cd0f31f5e840b7c48b96cb5a7cf01482e7c0731a5a0c3fb97794ceadc40895c

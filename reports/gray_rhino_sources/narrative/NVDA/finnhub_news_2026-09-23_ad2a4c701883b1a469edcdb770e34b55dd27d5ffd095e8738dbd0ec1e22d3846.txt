@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If the US Slows Down on AI, China Wins, Says Ives
+  summary: Xi Jinping and Donald Trump will sit down this week to hash out a plethora of thorny issues from trade to Taiwan. One thing both sides agree on: neither can afford to tap the brakes on AI. Dan Ives, Partner and Senior Managing Director, Analyst at Yorkville Ives & Co. joins Paul and Scarlet to discuss.
+  url: https://finnhub.io/api/news?id=742d31b664dd96e6096882a59b30226125238106ecaf165002a1c6d25bed8dcf

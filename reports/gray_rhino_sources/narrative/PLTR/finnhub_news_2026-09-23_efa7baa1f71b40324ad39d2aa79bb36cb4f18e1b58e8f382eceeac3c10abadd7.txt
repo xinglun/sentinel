@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Gains 2%, Nebius Pulls Back, Micron Barely Budges as Michael Burry Adds to Shorts in All Three
+  summary: Michael Burry just disclosed short positions in Palantir, Nebius, and Micron, but the market is not reading his trade as a single unified bet, and at least one of his targets is moving in the wrong direction for him this morning.
+  url: https://finnhub.io/api/news?id=eba817938470fbf0685216d9abc754e25307e2c2fc464b6a85a44730f0e03184

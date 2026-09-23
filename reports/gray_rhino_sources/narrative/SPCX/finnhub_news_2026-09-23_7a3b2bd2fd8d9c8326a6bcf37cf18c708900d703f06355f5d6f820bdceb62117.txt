@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Says SpaceX Isn't Worth $1 Trillion. Its AI Business Could Prove Him Wrong.
+  summary: SpaceX has piled up some enormous AI computing contracts.
+  url: https://finnhub.io/api/news?id=13a4b1f47f6e9c5509b7eef912860b6acbd35519f239e13e3aa0240b620e08d8

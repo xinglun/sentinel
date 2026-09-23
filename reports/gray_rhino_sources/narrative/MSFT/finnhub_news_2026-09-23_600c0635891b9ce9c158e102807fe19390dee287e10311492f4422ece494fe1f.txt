@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Sends Stark Message to Xbox Workers
+  summary: Another round of cuts reveals where Microsoft is pulling back
+  url: https://finnhub.io/api/news?id=9f9ec99548f53180cec04ba9102b59658c13bc6c29f359735424a9586229dd8d

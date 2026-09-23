@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Verizon Seen Leading 2027 Spectrum Auction, With SpaceX Lurking
+  summary: Verizon could spend up to $20 billion in a 2027 spectrum auction, says analyst, while SpaceX participates cautiously amid Starlink expansion.
+  url: https://finnhub.io/api/news?id=ddc21d007ec2a39c172fb7a37b0b9e9b85581f4e9ee2ffd718e6a2895784563f

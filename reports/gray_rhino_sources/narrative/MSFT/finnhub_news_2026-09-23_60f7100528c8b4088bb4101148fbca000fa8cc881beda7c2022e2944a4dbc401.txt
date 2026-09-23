@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Analyst Has Stark Message for Microsoft Stock Investors
+  summary: Citizens Drops Bold $550 Target on Microsoft Stock Amid AI Push
+  url: https://finnhub.io/api/news?id=68fafea4d08586be5d8c63e9463777853c8f498adf5703c572425cbb96fff700

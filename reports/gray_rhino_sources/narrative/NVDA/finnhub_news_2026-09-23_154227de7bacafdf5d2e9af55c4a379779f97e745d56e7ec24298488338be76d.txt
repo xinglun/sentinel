@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Will Nvidia be allowed to sell more chips to China? This former Trump economic adviser has a hot take.
+  summary: Not so fast, Nvidia.
+  url: https://finnhub.io/api/news?id=bc186eb544a1d76e41aba48710025d6fb0cdefc620dc4481d86fb6af7e80c4e5

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Snowflake Buying Its Growth With Its Margin?
+  summary: Snowflake (SNOW) stock has gained about 50% since late December 2025, against 13% for the S&P 500. Microsoft, Amazon, and Alphabet all trailed the index over the same stretch. So this was not the cloud trade lifting everything at once. One number inside Snowflake moved, and management has already said what it costs to keep it moving.
+  url: https://finnhub.io/api/news?id=ff01db78b374de5a84e565e39f1c3b409ef7df8900c1a5b946f1ee3ae9c97057

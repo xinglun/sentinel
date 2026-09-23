@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet's Slips 2.8% as Claude Gets Cheaper
+  summary: Google Cloud gains a stronger external model while Anthropic lowers revenue available per identical workload.
+  url: https://finnhub.io/api/news?id=8d9896bf217c5774bb05bf2a4b578743a3473d75a09a8dd2a5b4fcea08bd5a28

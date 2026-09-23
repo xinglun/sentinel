@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Beaten-Down Stocks to Buy Before They Bounce Back
+  summary: The market may be underestimating these companies.
+  url: https://finnhub.io/api/news?id=fb76524347cfdc1ab2fb3ea777aff307de9ba5e06fe46ad736aaa240fc36a7cb

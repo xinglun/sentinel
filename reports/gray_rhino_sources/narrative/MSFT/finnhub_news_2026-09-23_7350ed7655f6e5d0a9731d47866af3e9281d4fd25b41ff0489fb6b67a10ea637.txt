@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Pilgrim's Pride (PPC)'s New Euro Debt to Fund Walkers Deal Means For Shareholders
+  summary: Pilgrim’s Pride Corporation and its UK subsidiary Pilgrim’s Europe Finance PLC previously priced an offering of €500 million in 4.750% senior notes due 2034 to fund general corporate purposes, including the Walkers Deli & Sausage Company acquisition, with the sale restricted to qualified institutional and certain non‑US investors. This euro‑denominated debt issue highlights Pilgrim’s Pride’s willingness to use its balance sheet to support expansion in higher‑value prepared foods and European...
+  url: https://finnhub.io/api/news?id=02d2df92a20bb0ad3ce5d66f5f13b126657e0cf300b6d79340bb0820a35feacb

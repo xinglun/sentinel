@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Meta's Muse is driving a magic moment for the stock market
+  summary: Yahoo Finance Executive Editor Brian Sozzi shares his thoughts on the impact of Meta's (META) Muse AI agent on the broader stock market.
+  url: https://finnhub.io/api/news?id=e8b93e51332758ddb727d87cf7efee7298e419968f77bd3f1ff425804e70a482

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Scores Winning Streak: Trump-Xi Meeting, China Sales Outlook In Focus
+  summary: Nvidia stock takes a breather after a six-day winning streak ahead of a key meeting between CEO Huang, President Trump and China's Xi Jinping.
+  url: https://finnhub.io/api/news?id=4f2add1c39fc69b51710acf86817701a4dd7fc91ed0b10fa8c6158f7926f58c7

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If a Recession Is Coming, This Dividend ETF Could Be the Smartest Long-Term Buy Right Now
+  summary: The State Street SPDR S&P Dividend ETF could be the ideal dividend fund if the U.S. economy cools.
+  url: https://finnhub.io/api/news?id=f3fdafb6eaf588ae9e88e67d6b915fcc9a4ef43afffa5725befc092fad3104f5

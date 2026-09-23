@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EV Assembly Market to Grow from USD 190.11 billion in 2026 to USD 291.39 billion by 2035, at a CAGR of 4.9% — MarketsandMarkets™
+  summary: Delray Beach, FL, Sept. 23, 2026 (GLOBE NEWSWIRE) -- MarketsandMarkets™ projects the EV Assembly Market is expected to reach USD 291.39 billion by 2035, from USD 190.11 billion in 2026, with a CAGR of 4.9%. Leading EV manufacturers are increasingly balancing vertical integration with strategic outsourcing to optimize production costs, supply chain control, and manufacturing flexibility. Companies such as Tesla and BYD have expanded in-house production of batteries, electric motors, power electro
+  url: https://finnhub.io/api/news?id=e0f496bbef5224f3f604187db513673dabd647316774a2b8cff029435e3a998d

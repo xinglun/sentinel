@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chipotle (CMG) Is Piloting Palantir (PLTR) for Food Safety. Does It Matter for Investors?
+  summary: Chipotle Mexican Grill Inc (NYSE:CMG) spent this summer doing damage control, including removing affected jalapeños from restaurants after they were linked to a salmonella outbreak, while the broader restaurant industry faced a cyclospora outbreak linked to iceberg lettuce, and navigating a landscape that’s seen over 12,800 illnesses caused by foodborne outbreaks in the US. Now […]
+  url: https://finnhub.io/api/news?id=d8b672088e2f37f1ae4c5a750a021468a84c8b60ddb1094462e0a45c820ac960

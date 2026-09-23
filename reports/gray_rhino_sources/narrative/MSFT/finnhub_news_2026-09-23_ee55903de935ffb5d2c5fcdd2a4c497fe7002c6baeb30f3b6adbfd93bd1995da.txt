@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlueVoyant Launches Solution to Accelerate Agentic Security Adoption of Microsoft's New Integrated Security Operations Center
+  summary: BlueVoyant, a leading cybersecurity company, today announced its Microsoft Defender XDR ISOC Deployment Service, one of the first deployment solutions in the market built to help enterprises adopt the newly announced Integrated Security Operations Center (ISOC) in Microsoft Defender. ISOC in Microsoft Defender brings security information and event management (SIEM) and extended detection and response (XDR) together in the Defender portal, providing a shared foundation of signals, context and con
+  url: https://finnhub.io/api/news?id=5992a633602a2905722affd9f371c9f04163af0ee3990102fb4269b86f948750

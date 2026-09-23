@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Bitcoin Stash Nears $1B as Short Squeeze Fuels Rally
+  summary: Tesla is approaching a psychologically significant $1 billion valuation for its Bitcoin holdings without changing its crypto position.
+  url: https://finnhub.io/api/news?id=4d8b0bf320c844a6fa312b4466e8854efea224e9a3b4c9b2aabd39020eb8147d

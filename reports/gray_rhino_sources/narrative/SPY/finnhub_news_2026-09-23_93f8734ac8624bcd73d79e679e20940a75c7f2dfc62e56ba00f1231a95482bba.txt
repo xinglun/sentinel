@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fastly Just Ripped 138% This Year but It’s Now Falling. Is It Time to Sell?
+  summary: Fastly (NASDAQ:FSLY) shares are falling in Wednesday morning trading, a second consecutive decline that began with the company’s own Investor Day. The stock is down 7% and trades at $24.25, giving back part of a run that still leaves the stock up 138% year to date (YTD). That advance dwarfs the broader cloud group. The […]
+  url: https://finnhub.io/api/news?id=524cf27bb944feb3269626b563e2dd5171170894b31d68f2352022e17fae2c47

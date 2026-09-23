@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Microsoft's Trailing Multiple Leaves Out
+  summary: Microsoft (MSFT) has returned about 33% over the past three months, though it is down 3.1% over the past twelve months. Near $500 a share, the stock carries a trailing price-to-earnings ratio of about 26.7 times adjusted earnings. Whether that multiple looks elevated or not, it is the wrong number to make the decision on, because the earnings analysts already expect are not in it.
+  url: https://finnhub.io/api/news?id=7f76af08f858b5f4e1fa1c6620df91a57f3a09871a277d10a20b50d0ed657d1c

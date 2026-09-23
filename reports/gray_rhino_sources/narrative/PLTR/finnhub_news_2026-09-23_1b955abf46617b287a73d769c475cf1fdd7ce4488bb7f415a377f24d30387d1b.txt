@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir, IonQ, Royal Caribbean, Paychex, McDonald’s, and More Stocks That Explain Today’s Market
+  summary: Stocks fell Wednesday as investors faced uncertainty with the lack of positive news on the war in Iran and as oil prices moved higher.  IonQ  gained 6.6% after the company said its latest quantum computer, Superion 256, will be the first system in  Nvidia’s   quantum research center.  The new device will act as a specialized co-processor alongside an Nvidia GPU cluster.
+  url: https://finnhub.io/api/news?id=c84535fec44d9f9e2c66ce3d6145e40c217347f1d0daef9f4a1b494e6fa4e5c5

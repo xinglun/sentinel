@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vanguard S&P 500 ETF Long-Term Outlook: What History Tells Investors
+  summary: The S&P 500 has been perhaps the greatest wealth generation machine of the past several decades.
+  url: https://finnhub.io/api/news?id=24715f2ce9c73049f790ca4fccc1febe82b081ef6547a1c9777dff77b43c5b0f

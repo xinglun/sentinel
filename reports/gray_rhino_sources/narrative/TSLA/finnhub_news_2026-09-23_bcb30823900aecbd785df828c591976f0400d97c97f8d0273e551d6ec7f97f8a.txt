@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber: Insider Buying and Selling Activity to Watch Amid Panic After Tesla Cybercab Rollout
+  summary: Alarm bells recently went off for Uber Technologies Inc. (NYSE:UBER) after videos showed Tesla Cybercabs hailing automatically. Bears say the Cybercab can eat into Uber’s market share, and reports suggest Tesla (NASDAQ:TSLA) driverless rides come in cheaper than Uber rides. The stock recently saw key insider buying and selling activity that you should not miss. […]
+  url: https://finnhub.io/api/news?id=35c2377bb6a10621178d7a0317b75c2afe1126595383a18cd2b51c3e46e02b3d

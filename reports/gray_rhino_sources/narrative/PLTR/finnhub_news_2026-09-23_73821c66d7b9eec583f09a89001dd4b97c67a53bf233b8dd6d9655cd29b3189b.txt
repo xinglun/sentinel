@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Shorts Micron, Palantir; Famed Investor Expects Chip 'Down Cycle'
+  summary: The famed investor added to bearish positions on Micron and other semiconductor stocks because he believes prices for AI chips will drop soon.
+  url: https://finnhub.io/api/news?id=2f28a7b24c2fb292ffa8a6a4c625c17869f40c6ef2478b15088f329e058481a3

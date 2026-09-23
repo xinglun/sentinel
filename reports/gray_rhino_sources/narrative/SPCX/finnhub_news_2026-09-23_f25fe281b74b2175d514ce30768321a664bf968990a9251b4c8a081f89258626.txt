@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Space Stocks Rally Looks Top-Heavy as Smaller Names Play Catch-Up
+  summary: Space industry stocks rally is narrow: one mega-cap drives gains while smaller unprofitable names catch up. Key risks, metrics, and trends.
+  url: https://finnhub.io/api/news?id=eebf62c6aaa2e4a8d50899e09344c9d97e0315433a6e559a6f0285ec11dd7203

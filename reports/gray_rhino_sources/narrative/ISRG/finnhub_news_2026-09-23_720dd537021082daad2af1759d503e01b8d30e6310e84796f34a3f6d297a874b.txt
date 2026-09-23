@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Minimally Invasive Robotic Surgical System Market Global Report 2026: Benchmark Intuitive Surgical, Johnson & Johnson, Medtronic, Stryker and Zimmer Biomet Now
+  summary: Players: Intuitive Surgical, Johnson & Johnson, Medtronic, Stryker, Zimmer Biomet. Profile covers competitors, segments, regional shares, trends and opportunities. Minimally Invasive Robotic Surgical System Market Minimally Invasive Robotic Surgical System Market Dublin, Sept. 23, 2026 (GLOBE NEWSWIRE) -- "Minimally Invasive Robotic Surgical System Market Global Report 2026" has been added to ResearchAndMarkets.com's offering. Minimally Invasive Robotic Surgical System Market to Reach $18.15 Bil
+  url: https://finnhub.io/api/news?id=9198a5ad194f4ee5a437a49200950a22ecb277d53aff7130928eb5450722f502

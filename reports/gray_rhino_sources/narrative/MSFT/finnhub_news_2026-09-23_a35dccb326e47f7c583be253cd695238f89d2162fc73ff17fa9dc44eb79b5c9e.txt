@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ADBE Expands AI Customer Experience Push With Jet2: What's Ahead?
+  summary: Adobe's Jet2 partnership expands its AI-powered customer-experience push as CX momentum strengthens amid rising competition.
+  url: https://finnhub.io/api/news?id=f1b2c247fec87dccbe1dea611d4e0a84374250016f0ca31431a19cada1deb879

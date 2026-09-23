@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: “Maybe Sooner”: Inside Elon Musk’s Aggressive Timeline to Unlock $370 Billion Opportunity for SpaceX
+  summary: Another day, another big revelation of how Elon Musk is thinking about a huge opportunity for SpaceX (SPCX): Space itself. (It’s in the name, after all.
+  url: https://finnhub.io/api/news?id=9aeda2d7c45e99225c9bdf0ee616c400726eb7b9e0eaace1c850219d8b3473da

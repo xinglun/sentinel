@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: I Believe In The Future. I Don't Believe In The Math
+  summary: Tesla, Inc. is downgraded from Sell to Strong Sell as the current valuation fully prices in ambitious AI, robotaxi, and FSD success. Learn more about TSLA stock here.
+  url: https://finnhub.io/api/news?id=7b963f2d6d3c3f712ff211aaa8db1e9522d186ed3b0ba717b7a0515c67fe904f

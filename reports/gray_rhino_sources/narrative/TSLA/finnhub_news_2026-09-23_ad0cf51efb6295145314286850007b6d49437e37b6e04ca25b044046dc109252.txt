@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Is Teasing a Tesla-SpaceX Merger Again. Terafab Shows Why AI Could Be the Logic
+  summary: Elon Musk has reopened a question investors have kicked around for years: why keep Tesla and SpaceX separate if more of their technology is beginning to converge? During the September 15 All-In Podcast, Musk joined SpaceX President Gwynne Shotwell for a discussion that explicitly included Terafab and the possibility of combining the two companies. Tesla, […]
+  url: https://finnhub.io/api/news?id=c8c57226d08c5fe9cae999e51690ed6fd9a3e5e031d1e191fdfd8e6d30022121

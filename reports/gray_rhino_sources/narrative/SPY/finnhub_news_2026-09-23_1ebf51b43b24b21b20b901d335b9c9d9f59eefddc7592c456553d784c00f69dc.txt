@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These 2 Stocks Are Bucking The Broader Market Selloff To Hit New Multi-Year Highs — Here’s What’s Driving The Enthusiasm
+  summary: Moderna and Twilio climbed to multi-year highs on Wednesday, fueled by optimism around Moderna’s broader mRNA pipeline and Twilio’s emerging opportunity from the rapid adoption of AI agents.
+  url: https://finnhub.io/api/news?id=b99c3da50eb2762f1f75c841babdbfef81ee5d40dbf1a25fb817ae6b038ec773

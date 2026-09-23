@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump's Latest Stock Disclosure Reveals a Surprising Trading Pattern
+  summary: Microsoft and Amazon sales were each valued at $5 million to $25 million.
+  url: https://finnhub.io/api/news?id=858ce5df8d29be6585bfa50657c2982282a2ac062a6bf8e510715b809babdc60

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Magnificent Seven Stock Could Soar 50% by 2027
+  summary: Alphabet's cloud backlog just crossed half a trillion dollars, Gemini is closing in on a billion users, and Wall Street has not issued a single sell rating on the stock. Here is what it would actually take to turn that momentum into a 50% gain by 2027.
+  url: https://finnhub.io/api/news?id=1f61ccf72d209a83efe44bc659b9e410eb1df6729a179e0c8a0e827099c0b334

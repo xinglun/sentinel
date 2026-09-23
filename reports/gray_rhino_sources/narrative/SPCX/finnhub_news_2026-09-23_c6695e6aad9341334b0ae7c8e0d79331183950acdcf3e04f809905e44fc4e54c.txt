@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SPCX, RKLB, LUNR, ASTS In Focus — Space Economy Investment Surges To $23B In Year Ending June, A Near 140% Jump
+  summary: Driven by late-stage growth rounds, mega-deals, and landmark public market events, private investment in the commercial SpaceTech sector reached an all-time trailing 12-month high of $23 billion.
+  url: https://finnhub.io/api/news?id=1919ec2dbf061fc499fcdaf857b657024135fea30542837726f75f805753c38a

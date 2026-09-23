@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Sends Fresh Warnings on Micron, Palantir Stocks
+  summary: Michael Burry Adds Fresh Shorts in Micron, Palantir as AI Boom Faces New Test
+  url: https://finnhub.io/api/news?id=5d61564f31fa4c3d2470205abb470fd32c7a292f1b1b6af8f79a3ce49e8e09ee

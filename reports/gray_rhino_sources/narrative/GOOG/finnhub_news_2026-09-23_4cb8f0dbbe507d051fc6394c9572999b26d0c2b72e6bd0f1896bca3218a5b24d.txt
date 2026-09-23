@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PayPal Just Got a Meta Partnership. Here’s What It Could Mean for the Stock
+  summary: PayPal just landed a checkout deal with Meta and another surprise partnership that sent shares jumping, but the stock is still down more than 20% over the past year and facing real headwinds that could define whether this rally sticks or fades.
+  url: https://finnhub.io/api/news?id=247f1bd3736c6f28023c859d0ad2c603cdcfbad294ba869fa165992841dd4238

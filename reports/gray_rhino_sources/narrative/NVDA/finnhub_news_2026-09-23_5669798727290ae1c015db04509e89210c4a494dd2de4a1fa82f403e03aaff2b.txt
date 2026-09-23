@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Warning Signs That Micron Investors Shouldn't Ignore
+  summary: The memory specialist looks like it will continue to be a major winner from the AI build-out, but three growing risks could give investors reason to pump the brakes.
+  url: https://finnhub.io/api/news?id=dea93c9c6597c3378e7dd74407697a673a45501b340d02126e2f43fb1cad5aa7

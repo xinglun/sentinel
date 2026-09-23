@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Could Be Big Winner as Air Traffic Control Goes AI. The Stock Is Rising.
+  summary: Palantir stock is slightly higher this year even as business growth accelerates. The FAA’s AI air traffic control system could be another revenue growth opportunity.
+  url: https://finnhub.io/api/news?id=a1bd0ea4421f4800cbca31038b3d6d986cc54fef29e01dddb852c01838a79516

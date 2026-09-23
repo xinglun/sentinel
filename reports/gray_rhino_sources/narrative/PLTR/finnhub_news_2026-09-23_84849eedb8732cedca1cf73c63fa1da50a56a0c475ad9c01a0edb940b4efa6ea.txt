@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Signs OperatorOS Contract with SkyDance Air
+  summary: LOS ANGELES, September 23, 2026--Surf Air Mobility Inc. (NYSE: SRFM) ("Surf Air Mobility" or the "Company") today announced that the Company has signed a definitive agreement with SkyDance Air ("SkyDance") for OperatorOS, Surf Air Mobility's SurfOS flight operations software for Part 135 operators powered by Palantir Technologies (NASDAQ: PLTR) ("Palantir"). This contract is the Company’s second commercial OperatorOS agreement and will contribute to the Company's goal of having five operators li
+  url: https://finnhub.io/api/news?id=9184c54a038694a7f6a41bf77fffdaff1908c620020d6c3c0c59bf35284e2a99

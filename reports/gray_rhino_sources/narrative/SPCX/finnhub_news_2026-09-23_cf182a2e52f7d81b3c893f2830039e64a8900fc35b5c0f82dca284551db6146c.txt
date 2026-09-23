@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want to Play Anthropic Before Its IPO? There Is an ETF for That.
+  summary: It’s an actively managed fund with big holdings in major chip companies las well as hyperscalers. In other words, the usual AI beneficiary suspects.
+  url: https://finnhub.io/api/news?id=835430df72c30163ddfb9716b0914eeea4cae00ce9402505f5a1a67d72c3ab2b

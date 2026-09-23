@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Says Tesla Has Offered FSD to Legacy Automakers, but ‘None’ Have Accepted So Far
+  summary: Tesla Inc. CEO Elon Musk has reaffirmed that the automaker has offered the Full Self-Driving (FSD) system to legacy manufacturers via licensing deals. FSD Licenses? In a post on X on Monday, Boom Supersonic CEO and founder Blake Scholl predicted...
+  url: https://finnhub.io/api/news?id=8640a3e695262baea8b4751bb7fa1627e1b57a2bc35dfcfa3d355e7d110e6c7d

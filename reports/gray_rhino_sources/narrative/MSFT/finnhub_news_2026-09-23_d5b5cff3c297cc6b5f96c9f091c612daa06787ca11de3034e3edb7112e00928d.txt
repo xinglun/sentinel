@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Wins Upgrade. Why This Analyst Sees 15% Upside.
+  summary: Microsoft stock momentum is expected to continue as OpenAI revenue contribution to Microsoft accelerates.
+  url: https://finnhub.io/api/news?id=e05741163a7f5f55fc8bfe0b79898def3ccc1e9cda83eec4a96331984559e298

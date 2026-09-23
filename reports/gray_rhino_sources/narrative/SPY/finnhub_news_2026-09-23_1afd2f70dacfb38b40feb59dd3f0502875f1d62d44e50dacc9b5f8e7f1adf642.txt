@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The ‘Warsh Volatility Effect’ Means It’s Time to Lock In Profits
+  summary: Risk aversion seems prudent as investors process what higher rates mean for equities, or if Republicans lose Congress, or if the Iran conflict lasts longer than expected.
+  url: https://finnhub.io/api/news?id=cb966f484222ad4d9b60fe9d1ea9beec7894586491d194088f61f495ae2ceef4

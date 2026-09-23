@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical vs. Stryker: Which MedTech Stock Is the Better Buy Now?
+  summary: ISRG's rapid procedure growth, expanding robotics ecosystem and recurring revenues highlight its growth path amid MedTech shifts.
+  url: https://finnhub.io/api/news?id=304bfcf3ef3590e93c0436f4c4e28334da2e41f0133bb8e1e0be047586ffdab8

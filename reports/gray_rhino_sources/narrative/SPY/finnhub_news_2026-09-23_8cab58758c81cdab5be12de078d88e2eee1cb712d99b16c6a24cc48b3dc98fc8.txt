@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Investors Are Underestimating A Major Risk Created By AI (It's Not The Bubble)
+  summary: AI is not a bubble, but its dominance is undermining traditional diversificationâ46% of the S&P 500 is AI-related. Click here to read the full analysis.
+  url: https://finnhub.io/api/news?id=63b23199eda6b379bba2da41bfabb67999567418a7ebdc48821e631807e4714c

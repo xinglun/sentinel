@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Commits More Than $10B To Middle East Through 2030 – What Investors Need To Know
+  summary: The tech giant is building out its regional presence across infrastructure, digital resilience, connectivity and AI workforce development.
+  url: https://finnhub.io/api/news?id=56a109a4fa938430b4f0ab5dc51c12b8a115fe437c86ad560f1490e4b0b7f66e

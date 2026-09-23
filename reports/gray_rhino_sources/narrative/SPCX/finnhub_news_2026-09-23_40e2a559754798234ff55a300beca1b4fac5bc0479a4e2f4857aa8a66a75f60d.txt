@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Loads Up On RKLB Stock — Cantor Pegs Iridium And Neutron As Major Catalysts For Rocket Lab
+  summary: Wood’s ARK Invest bought about $25.7 million of Rocket Lab shares across three funds.
+  url: https://finnhub.io/api/news?id=fd3aab745f8bc432ed1a50459500701e225b266fbc4980d45c39c78faa257581

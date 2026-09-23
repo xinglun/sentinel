@@ -1,0 +1,7 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10 Information Technology Stocks With Whale Alerts In Today’s Session
+  summary: This whale alert can help traders discover the next big trading opportunities.
+Whales are entities with large sums of money and we track their transactions here at Benzinga on our options activity scanner.
+Traders will
+  url: https://finnhub.io/api/news?id=762766956d29871d347476944c703762f5e9e92ebc2614946ef06d6e2434a3f5

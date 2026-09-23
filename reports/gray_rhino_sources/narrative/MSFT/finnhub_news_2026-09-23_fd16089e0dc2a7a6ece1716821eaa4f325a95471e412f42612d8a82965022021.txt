@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Deeper Azure and Copilot Adoption Across Regulated Industries Will Impact Microsoft (MSFT) Investors
+  summary: In recent days, partners including Marvell, Nokia, Causaly, Everforth and others have announced expanded collaborations that embed Microsoft Azure, Copilot and Fabric more deeply into financial services, telecom, life sciences and IT modernization workloads. Together with Microsoft’s latest dividend increase and fresh AI‑driven client wins, these moves reinforce how broadly the company’s cloud and AI platforms are being adopted across regulated, data‑intensive industries. Against this...
+  url: https://finnhub.io/api/news?id=8cd6a7eac7e579d01ca01d2975a196c771051b5a24fb2e4f0b15af3d1a859823

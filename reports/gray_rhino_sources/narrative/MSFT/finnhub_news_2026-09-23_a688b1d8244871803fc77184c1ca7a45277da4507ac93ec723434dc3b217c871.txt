@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Are Amazon Stock Bears Missing?
+  summary: Amazon designs its own computer chips. That business may now be big enough to matter by itself. You probably picture Amazon as a giant store with a cloud arm. And you probably assume it buys its chips from someone else. Two things must be true for these chips to change how you see the stock. The first is size. The second is that owning the chips earns a return on the money Amazon is spending. Start with size.
+  url: https://finnhub.io/api/news?id=e72448a7ed3b21abae4e95d0095ffeb5c0f9ba0440cc7364ef7250199d43ac98

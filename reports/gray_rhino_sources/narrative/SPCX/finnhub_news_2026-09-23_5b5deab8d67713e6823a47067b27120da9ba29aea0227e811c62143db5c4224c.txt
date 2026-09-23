@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Readies For Mission, Cathie Wood Buys $25 Million In Shares
+  summary: Cathie Wood's ARK Invest firm on Tuesday bought $25 million shares of Rocket Lab stock. Analyst praises revenue opportunities.
+  url: https://finnhub.io/api/news?id=bd48e81c55264cdbdd229607d449de50ec8e6e0cd8af10ffd6afcc431766482e

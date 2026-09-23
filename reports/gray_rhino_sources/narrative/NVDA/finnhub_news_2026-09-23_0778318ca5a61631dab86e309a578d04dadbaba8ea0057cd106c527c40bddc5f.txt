@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Director Is Cashing Out $300M. Should You Be Worried?
+  summary: A senior NVIDIA director just moved roughly $300 million worth of stock in a matter of days, with no prearranged plan on file. Whether that signals trouble at a $5.53 trillion company or simply a wealthy insider tidying up his portfolio is a question worth answering carefully.
+  url: https://finnhub.io/api/news?id=ae43a8bfdc41a368713d549de706097db621203a10094049e788cbf7c97517aa

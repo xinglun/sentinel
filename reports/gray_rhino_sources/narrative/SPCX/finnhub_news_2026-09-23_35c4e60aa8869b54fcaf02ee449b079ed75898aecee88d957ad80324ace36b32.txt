@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Has a Meta Muse, Too. A Lot of People Are Using It.
+  summary: Move over  Meta Platforms  —  SpaceX  has a consumer AI agent, too.  SpaceX didn’t respond to a request for comment about the numbers.  Meta stock jumped more than $75, or 11%, on Monday after its Muse AI agent topped app download charts.
+  url: https://finnhub.io/api/news?id=af9bf06a16ce058744c53157853ad10ca83fe780aad70053ca88dd1449376378

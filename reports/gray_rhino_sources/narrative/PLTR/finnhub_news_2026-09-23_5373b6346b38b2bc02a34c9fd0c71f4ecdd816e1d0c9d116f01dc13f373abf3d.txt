@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Got a Major Vote of Confidence From the FAA
+  summary: The FAA's new AI flight-management system gives Palantir another potential avenue to expand its government business.
+  url: https://finnhub.io/api/news?id=93cca0efb3d0cd361e0c0b6f927cfb174d41ae843a4dc4319c93445654e9feda

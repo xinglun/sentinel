@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Big A Swing Are You Carrying In Adobe Stock?
+  summary: Adobe (ADBE) trades at about $238 a share. Options that expire in about a year, 361 days out, imply an expected trading range running from $152 to $373 under standard lognormal market-pricing assumptions. The floor sits about 36% below today's price and the ceiling about 56% above. If you own the stock, that spread is what you are carrying.
+  url: https://finnhub.io/api/news?id=fa4aa3727c6be50c4352652786f9e8347410df275818101cba7e54ffc59931ba

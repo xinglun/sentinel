@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morningstar Completes Quarterly Reconstitution for Morningstar Market Indexes
+  summary: CHICAGO, September 23, 2026--Morningstar, Inc. (Nasdaq: MORN), a leading provider of independent investment insights, announced the completion of the third quarter reconstitution for the Morningstar Market Indexes.
+  url: https://finnhub.io/api/news?id=972b6ce28403ef4e8b5c87bf80e9296d34b3d4170e46e046b0554c6c6e0a6b8b

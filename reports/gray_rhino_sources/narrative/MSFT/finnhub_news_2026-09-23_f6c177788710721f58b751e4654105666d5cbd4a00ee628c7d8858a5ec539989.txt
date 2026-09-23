@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Agoro Carbon Issues Its First Soil Carbon Credits, Advancing First Delivery Under Microsoft Agreement
+  summary: TAMPA, Fla., September 23, 2026--Agoro Carbon today announced the first issuance of carbon credits to its U.S. cropland and pastureland projects, marking a major milestone in the company’s work to turn regenerative agricultural practices into independently verified soil carbon removals.
+  url: https://finnhub.io/api/news?id=015dbf12a90256979c5b7539452fa92e743b8af0a7e250c3455f85a29c6402d3

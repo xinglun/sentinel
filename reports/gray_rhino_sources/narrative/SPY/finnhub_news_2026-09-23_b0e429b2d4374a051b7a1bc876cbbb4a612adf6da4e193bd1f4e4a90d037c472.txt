@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fed Starts Tightening, But Monetary Policy Still Looks Accommodative
+  summary: The Fedâs first rate hike in three years signals a shift toward tighter policy, but monetary conditions remain modestly accommodative. Additional rounds of tightening are likely coming.
+  url: https://finnhub.io/api/news?id=3347fa31d1f6fb3666ab055632c4d13f7abbaded202cbda29eef016a7fe13232

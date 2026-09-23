@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Economy Is Booming, So the Market Indexes Fell. Go Figure.
+  summary: Business activity just hit a five-year high. Treasury yields hit a 19-year high. Guess which one stocks cared about.
+  url: https://finnhub.io/api/news?id=bfe0d2f7490dbcf46b71caa80a67d6c203758fd0c17cc21ea41862a4acdb2db9

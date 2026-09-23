@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: B2B Buying Starts 124 Days Before the CRM Sees a Deal, New Factors.ai Report Finds
+  summary: WILMINGTON, Del., September 23, 2026--Factors.ai today released findings from its report, From Benchmarks to Blueprints: The LinkedIn Revenue Engine for B2B.
+  url: https://finnhub.io/api/news?id=25537ea697be669d3fe130a9175cd12a11e1bb851005fa64e18e7d879cf2b48e

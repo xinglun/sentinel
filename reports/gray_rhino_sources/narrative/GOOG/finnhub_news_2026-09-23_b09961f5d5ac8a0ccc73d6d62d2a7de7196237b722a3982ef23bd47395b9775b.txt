@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Economist Justin Wolfers Warns AI Could Leave Workers Earning ‘Two Pennies an Hour’ While OpenAI Gets ‘Infinitely Rich’
+  summary: Economist Justin Wolfers warned that artificial intelligence could eventually eliminate most jobs, leaving workers competing for wages “two pennies an hour above subsistence” while a AI developers like OpenAI grow “infinitely rich” off the technology. ‘They Forgot to Ask’ Wolfers,...
+  url: https://finnhub.io/api/news?id=e7a0576699f11d4b9661c7db5e0c37b9e75fac4b823784696344c14b0e6df93c

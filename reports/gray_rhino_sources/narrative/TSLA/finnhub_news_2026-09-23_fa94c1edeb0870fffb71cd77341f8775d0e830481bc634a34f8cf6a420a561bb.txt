@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AutoZone Q4 Earnings Beat Estimates on Tariff Refunds, Sales Miss
+  summary: AZO's Q4 earnings beat estimates as gross margin gains lift profit, while sales fall short despite stronger commercial growth.
+  url: https://finnhub.io/api/news?id=a5606e383dfa8c18a9cf65f6588d368df45b000d09e8daecfc080952191f840a

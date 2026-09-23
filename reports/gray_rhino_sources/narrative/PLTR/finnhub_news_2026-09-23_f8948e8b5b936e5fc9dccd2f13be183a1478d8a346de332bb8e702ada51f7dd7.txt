@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry expands short bets on Micron, Palantir and semiconductor stocks
+  summary: Michael Burry has expanded his short positions in Micron Technology Inc (NASDAQ:MU), Palantir Technologies Inc (NYSE:PLTR), Nebius Group (NASDAQ: NBIS) and the iShares Semiconductor ETF (SOXX), deepening his bearish bets against parts of the artificial intelligence (AI) and semiconductor...
+  url: https://finnhub.io/api/news?id=b5dc47bec65ccba5f6d69007b9f8c594a5957c9ed23aea2a86dd154bde85e807

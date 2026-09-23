@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Consumer Lending Stocks Slide While Financials Barely Budge: Upstart and Affirm Drop 4%, SoFi Eases
+  summary: Upstart, Affirm, and SoFi are sliding in tandem on Wednesday while the broader financials sector sits nearly unchanged, and that gap between consumer lenders and everything else tells a story that goes beyond any single company's news.
+  url: https://finnhub.io/api/news?id=70cb171633a3160be1ca377b00461e4947d4aad42c6f82dc99f743c8dc702bf7

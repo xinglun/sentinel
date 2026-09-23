@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which S&P500 stocks are the most active on Wednesday?
+  summary: Looking for the most active stocks in the S&P500 index on Wednesday? Dive into today's session and discover the stocks that are dominating the trading activity and setting the pace for the market.
+  url: https://finnhub.io/api/news?id=77d40aed57071508e8157760e057cc6b6eaca73aff3c0b8aafb307643d38ccc0

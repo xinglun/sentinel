@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Rate Shock That Didn't Break REITs
+  summary: The 10-year Treasury reached 5%, yet REITs remain higher by roughly 7% in 2026 as the once-dominant rate correlation weakens further. Read what investors need to know.
+  url: https://finnhub.io/api/news?id=0ddb09062b9c039ba67a23b72c6d5f88ac3fba7cf52ca50eca88fed7aee514a6

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: THO Q4 Earnings Miss Estimates on North American Margin Pressure
+  summary: THOR Industries misses Q4 earnings estimates as North American margin pressure offsets resilient European sales and a 7.4% revenue beat.
+  url: https://finnhub.io/api/news?id=4f48dd883c2ed36e263d5073bb745aea562beb303480a53a1c34efa8dc2e9cf1

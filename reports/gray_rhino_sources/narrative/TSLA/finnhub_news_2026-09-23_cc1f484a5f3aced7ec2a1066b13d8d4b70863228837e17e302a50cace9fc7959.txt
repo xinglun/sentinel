@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Just Qualified Tesla and Vertiv Products for Its New AI-Factory Standard
+  summary: Nvidia is extending its influence beyond GPUs into the electrical and cooling equipment that determines whether an AI data center can actually run. On September 21, the company introduced its DSX Ready program and named Tesla, Inc. (NASDAQ:TSLA) among qualified battery-energy-storage suppliers and Vertiv Holdings Co (NYSE:VRT) among qualified cooling suppliers. NVIDIA Corporation (NASDAQ:NVDA) is […]
+  url: https://finnhub.io/api/news?id=cf0252f691bc6c7c9a1793484cd49be96f4630aa6279da270669b7073a70103d

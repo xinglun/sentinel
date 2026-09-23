@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Retain INSP Stock in Your Portfolio for Now
+  summary: Inspire Medical is navigating a major product transition as clinical evidence, patient access efforts and reimbursement progress support growth prospects.
+  url: https://finnhub.io/api/news?id=b94d4fee8f7f0d06a415cc64bb77032c32bfcf43424ae9b84cb6df9371533c18

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Electric Vehicles - Signal Transformers Drive Growth In Battery Management Market
+  summary: The global electric vehicle (EV) Battery Management System (BMS) Signal Transformer Market is experiencing significant growth, driven by the increasing adoption of high-voltage platforms and the demand for faster charging technologies. This market is projected to reach USD 2.19 billion by 2032, expanding at a compound annual growth rate (CAGR) of 17.77%. As electric vehicles integrate larger battery packs and more advanced charging features, the importance of signal transformers in ensuring...
+  url: https://finnhub.io/api/news?id=223bad74a71e01756f061a5e9e80bd187b222dc0d2ebbf0a582d4175f9a70bf7

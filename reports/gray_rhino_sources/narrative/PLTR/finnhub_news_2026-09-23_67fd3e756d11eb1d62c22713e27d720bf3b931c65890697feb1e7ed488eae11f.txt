@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Not Palantir. Not Micron. The $325 Billion Nvidia Partner That Jim Cramer Just Called a "Must Buy" Stock
+  summary: Jensen Huang recently described software vendor CrowdStrike as Nvidia's top cybersecurity partner.
+  url: https://finnhub.io/api/news?id=760d668893a505317221ce63d19c1571bdc333076723eb445a3ae2558eb68504

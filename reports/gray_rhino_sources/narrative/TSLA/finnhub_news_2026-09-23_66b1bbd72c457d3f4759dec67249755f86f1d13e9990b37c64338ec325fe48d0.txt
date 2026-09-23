@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Sunrun’s (RUN) Virtual Power Plant Strategy Changes Everything For Its Valuation
+  summary: Sunrun (NASDAQ:RUN) anchors the residential solar and distributed energy storage landscape through a vertically integrated asset-ownership and service model. By transforming rooftops into localized generation sites, the company addresses the structural shift toward decentralized power and grid resilience. Its core operational drivers rely on recurring customer contracts, long-term asset monetization, and high-margin hardware attachment rates […]
+  url: https://finnhub.io/api/news?id=985ecc2e505ece2487fd46d947f3d4cf76416dcec0302a4495425dea60eb44f8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Off 300; These Software Firms Are Beating Alphabet (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index falls Wednesday after the Nasdaq set new highs Tuesday. Micron and Sandisk drop.
+  url: https://finnhub.io/api/news?id=5b49d97a3780ff8848cf84d1343eccdce2bd97cbe1ff4248e9c16f7da6783322

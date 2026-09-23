@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Drops 4%, Meta Edges Higher as AI Rotation Splits Big Tech; Microsoft Holds Flat
+  summary: Meta is surging while Alphabet slides hard, yet Microsoft sits completely unmoved and the broad tech funds are barely lower. That three-way split points to something more specific than a sector selloff, and the fund figures tell a story the headlines are missing.
+  url: https://finnhub.io/api/news?id=edb0f7046997612816e75f6feea8294c0d71f08debb4c73f35491cdaae98b9b3

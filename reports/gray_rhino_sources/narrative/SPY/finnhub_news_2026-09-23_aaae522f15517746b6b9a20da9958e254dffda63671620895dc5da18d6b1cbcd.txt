@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Royal Caribbean Group Falls 5% on $3B Sandals Resorts Stake; Carnival and Norwegian Slide 3%
+  summary: Royal Caribbean Group (NYSE:RCL) shares are sliding in Wednesday morning trading after the cruise operator confirmed overnight that it has signed an agreement to buy a stake in Sandals and Beaches Resorts. Royal Caribbean Group stock is at $224.03, down 5%, extending a sharp Tuesday decline as the market gets its first session to trade […]
+  url: https://finnhub.io/api/news?id=077861102227ef3327b57efc4f11852aadc1a568f90aec1e1ebe2738d6714fa8

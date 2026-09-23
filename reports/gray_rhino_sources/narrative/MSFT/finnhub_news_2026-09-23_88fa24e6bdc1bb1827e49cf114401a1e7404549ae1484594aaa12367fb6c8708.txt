@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Can’t Hold $500 While the Nasdaq Hits a Record. What’s Going On?
+  summary: The Nasdaq keeps hitting records while Microsoft stalls below a key price level, and the reason has nothing to do with the job cuts making headlines. Three forces are quietly squeezing the multiple on one of the most fundamentally sound businesses in tech.
+  url: https://finnhub.io/api/news?id=6bc3bfb6950ad59a8fe0cc5dd2a84264b2eadc579941649657b9f3bd3ba4e374

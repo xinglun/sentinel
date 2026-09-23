@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Will $5,000 Invested in Alphabet Stock Be Worth in 5 Years?
+  summary: Alphabet has quietly built one of the most compelling AI growth stories among mega-cap stocks, but the real question is how much a $5,000 stake today could compound through 2031 across three very different scenarios.
+  url: https://finnhub.io/api/news?id=31cb8564a7448e14cd7ff0eb11f853b32880f33f87ea67741fe8b8ab9326240c

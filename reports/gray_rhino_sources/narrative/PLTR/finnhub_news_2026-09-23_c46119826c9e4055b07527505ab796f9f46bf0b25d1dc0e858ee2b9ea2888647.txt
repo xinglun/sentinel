@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Is Really Driving Palantir's Growth?
+  summary: Palantir Technologies (PLTR) is known for selling software to governments. Its fastest growth now comes from American companies. U.S. commercial revenue is what those American companies pay Palantir. That line reached $764 million in the latest quarter. It grew 149% from a year earlier. So what are American companies buying.
+  url: https://finnhub.io/api/news?id=20841415b59305f0a3982b4d731dcacc5ee1f8a327aaa79c7172d87f70f9f90d

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Trim Or Add To Your BlackBerry Position Now?
+  summary: BlackBerry (BB) sales over the past twelve months were roughly flat compared to a year earlier, yet its share price refused to sit still. So, does the valuation justify initiating a position, or should existing holders consider trimming gains? Part of the answer is clear: the stock price has outpaced sales growth. From here, future performance will largely hinge on execution across its software divisions business.
+  url: https://finnhub.io/api/news?id=0b0dda84551fe6e11eba9f4fcfd3490a2e7aa88a718a3b89938fcfd6e6c7221f
