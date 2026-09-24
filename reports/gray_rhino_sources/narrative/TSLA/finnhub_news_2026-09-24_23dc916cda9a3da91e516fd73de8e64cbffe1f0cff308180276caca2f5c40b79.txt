@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bentley debuts its first electric car. Starting price: $250,000.
+  summary: The 8:30 Hosts Julie Hyman, Jake Conley, and Pras Subramanian discuss Bentley (VWAGY) debuting its first electric car, the Torcal, an SUV with an estimated starting price of $250,000.
+  url: https://finnhub.io/api/news?id=8844a33d2010eff406d3c37ba88aaa7191fd9c6f7a6616852b85cfdb34a3f68c

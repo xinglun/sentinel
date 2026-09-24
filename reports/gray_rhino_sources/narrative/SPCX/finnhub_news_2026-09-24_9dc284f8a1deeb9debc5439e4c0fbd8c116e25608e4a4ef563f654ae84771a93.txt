@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Did SpaceX Stock Fall 4% Days Before Starship's Biggest Flight?
+  summary: SpaceX stock drops 4% as 328 million shares unlock ahead of Starship Flight 14, its first orbital and paying mission.
+  url: https://finnhub.io/api/news?id=3109964d5fca52cbb546c072b1e48cf277f4d4259a3f201e91744008fc04660b

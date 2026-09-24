@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AST SpaceMobile: The Moat SpaceX Can't Copy
+  summary: AST SpaceMobile has fallen roughly 55%, improving risk-reward while its long-term commercialization thesis remains fundamentally intact. Click for more on ASTS.
+  url: https://finnhub.io/api/news?id=7ea8af8e601ff296b2c2b63ca1fb2c46af761e251c3e169f6496bf058472ddba

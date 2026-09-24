@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Solar Stocks Slide as High Borrowing Costs Weigh on Project Financing: First Solar Sinks 8%, SolarEdge Falls 5%, Enphase Energy Drops 4%
+  summary: Rising borrowing costs are hitting solar stocks harder than almost anything else in the market Thursday, and the reasons behind the selloff reveal deeper vulnerabilities across the entire renewable energy sector.
+  url: https://finnhub.io/api/news?id=a49ff610236754680b4f780a141fddab7fa98a8ff09ff829e5dd45fa1642d1dd

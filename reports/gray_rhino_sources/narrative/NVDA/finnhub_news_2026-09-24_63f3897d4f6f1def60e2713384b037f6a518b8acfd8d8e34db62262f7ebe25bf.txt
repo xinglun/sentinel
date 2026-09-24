@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I'm Buying More Nvidia Stock Right Now. Here's Why.
+  summary: Nvidia stock is having a good year, but it hasn't been as strong as investors may have expected.
+  url: https://finnhub.io/api/news?id=859e17d773ab942beabd9d65bd1266eb487cf4d965c560be436d9f048dd299b6

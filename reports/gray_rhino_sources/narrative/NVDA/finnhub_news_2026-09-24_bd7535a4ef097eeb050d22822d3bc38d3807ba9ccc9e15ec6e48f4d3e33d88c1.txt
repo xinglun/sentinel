@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Bill Ackman’s Pershing Square Capital Management Has 12.7% of Its Portfolio Invested in This Beaten-Down Stock
+  summary: Is it a great long-term pick?
+  url: https://finnhub.io/api/news?id=1ae1ba459c5434e7f5bd994215c626e1dd5fd324d1a1590b150724a00faab2f2

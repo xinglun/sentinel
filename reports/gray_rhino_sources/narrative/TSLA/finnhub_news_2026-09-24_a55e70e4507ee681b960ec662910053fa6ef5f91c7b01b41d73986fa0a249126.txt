@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Biggest Semi Deal Yet: Is TSLA Stock a Buy Now?
+  summary: TSLA's record Semi deal boosts commercial momentum, but shrinking margins, heavy spending and a rich valuation keep execution risks in focus.
+  url: https://finnhub.io/api/news?id=6b9375a6f0b8f7e0f1d1d36031115267e58f0bba59d1ec521b0294241ce46b5e

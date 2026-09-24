@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Stock Surges Nearly 5% Overnight On Meta’s New VR, AI Hardware Push
+  summary: Meta’s latest device launches could broaden the developer ecosystem around its immersive computing platform.
+  url: https://finnhub.io/api/news?id=47821a6231301742deedc99230c4b2f634ccf1f362256747c685ed05016c7883

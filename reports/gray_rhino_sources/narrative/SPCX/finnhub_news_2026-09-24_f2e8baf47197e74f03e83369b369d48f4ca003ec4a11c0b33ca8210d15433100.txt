@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Retail Investor Fleecing Marches On: Another 319 Million SpaceX Shares Unlock Today, Sept. 24
+  summary: Nearly $49 billion in potential insider selling pressure could hit the tape today.
+  url: https://finnhub.io/api/news?id=16fb41139facffec15a25399ac2e84649b4e7b8b24bdde656033b8cbeccc7205

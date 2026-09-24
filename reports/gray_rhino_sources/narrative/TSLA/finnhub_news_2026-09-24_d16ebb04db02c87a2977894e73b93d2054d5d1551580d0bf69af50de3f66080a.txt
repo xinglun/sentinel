@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget Doomsday: These 4 Real-World Risks Could Derail the AI Stock Rally
+  summary: To state the obvious, the trillion-dollar, or near-trillion-dollar, valuations of  SpaceX  Anthropic, and OpenAI aren’t built on current sales or earnings.  Demand for AI applications and agents needs to grow—fast—or else the entire  has a problem.  Shortly after its initial public offering, SpaceX stock traded for about 900 times its estimated 2027 earnings, according to FactSet.
+  url: https://finnhub.io/api/news?id=93a9faff716c357328f407c036acd854c0fbced0273f2a10a69784e96484d0cc

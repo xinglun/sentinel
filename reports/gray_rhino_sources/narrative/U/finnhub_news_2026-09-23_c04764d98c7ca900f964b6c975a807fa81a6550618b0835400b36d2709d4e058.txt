@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Stock Falls as Edgewater Sees Growth Hitting a Ceiling
+  summary: Channel checks point to stalled market share and rising pressure from Unity
+  url: https://finnhub.io/api/news?id=2e4aaefa7e4e64749b76df6df9f6c850bcdc03a0dbf8c996dbfcd9a2e71768c8

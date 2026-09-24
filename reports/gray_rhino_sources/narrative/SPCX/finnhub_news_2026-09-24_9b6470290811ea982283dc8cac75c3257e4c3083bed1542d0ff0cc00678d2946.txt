@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Peugeots’ Investment Firm Gets Boost From SpaceX
+  summary: The billionaire Peugeot family’s investment firm got a boost from its exposure to SpaceX, partially offsetting a deep slump in the value of its stake in automaker Stellantis NV.
+  url: https://finnhub.io/api/news?id=12470d960d9a36040c689a763f6f9c771516c5a3f1a6e430985ae96c49247989

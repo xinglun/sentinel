@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy 3 AI-Powered Medical Stocks to Strengthen Your Portfolio in Q4
+  summary: AI adoption is reshaping medical devices, with ISRG, TEM and TMO leveraging AI to advance precision medicine and drug development.
+  url: https://finnhub.io/api/news?id=6a272da4299dbdd38ecc1f05f9aea0440ad19c5b994b479014c02f7cbb1f1f1d

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS Says This Bargain Stock Is the "Best AI Enabler in the Market" and Sees Shares Surging 30%+
+  summary: UBS analyst Karl Keirstead just put a $250 price target on Palantir stock.
+  url: https://finnhub.io/api/news?id=d2334931e151c59e4ffb4ee7ab2f8d51828138e4c01ad9b3a2e7ab6e0f069ff2

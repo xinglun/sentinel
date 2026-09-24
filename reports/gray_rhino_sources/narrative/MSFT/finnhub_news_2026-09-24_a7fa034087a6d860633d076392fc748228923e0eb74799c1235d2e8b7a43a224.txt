@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CRWV's Harell Data Partnership Expands Its AI Training Opportunities
+  summary: CoreWeave's Harell Data partnership brings proprietary datasets and AI infrastructure together, opening another potential growth avenue amid fierce cloud competition.
+  url: https://finnhub.io/api/news?id=23702f388ebd413f373025b59800c9f0bd61283de5510e956f0c09fd12b75337

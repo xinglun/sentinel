@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intuitive Surgical Stock Has Plunged 29% This Year. Is the Market Overreacting?
+  summary: Wall Street thinks that this robotic surgical systems leader's sell-off is overdone.
+  url: https://finnhub.io/api/news?id=5f76ba72aeebc504c3922930d3403b30174fda18678807b4c9c37c44831ded12

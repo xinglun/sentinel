@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump, XI, and the Future of the AI Trade
+  summary: The best AI models are made by U.S. companies but lower-cost, open-weight options from China are increasingly competitive.
+  url: https://finnhub.io/api/news?id=0014b4b621c5894901d62f21a1dba5d69390a1f2a874504910014c2104d6ccff

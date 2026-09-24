@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lovable’s annualized revenue crosses $600M as vibe coding takes off
+  summary: Lovable co-founder Fabian Hedin said that apps created on the platform are getting nearly a billion monthly views each month.
+  url: https://finnhub.io/api/news?id=7b8628e15f5aff320efa3742f17c5121eb88b766838bacd57057475c36f68f99

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir's Stock Price by the End of 2028 as Commercial Sales Accelerate
+  summary: Palantir is growing at an impressive rate, but Wall Street doesn't think it can keep it up.
+  url: https://finnhub.io/api/news?id=4cf43daee064083c74cab5749530f11f696a20b52b23c88a96949522c1129fdf

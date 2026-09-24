@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock’s Big Test: Delivering on a $678 Billion Backlog
+  summary: Microsoft's next phase of growth may depend less on new customers than on serving the ones it has. The stock has run hard, returning 37% over three months against 5.0% for the S&P 500. At a market value of about $3.7 trillion, any new business must be large to move the shares. Will new data center capacity arrive fast enough to serve the demand Microsoft (MSFT) has already won.
+  url: https://finnhub.io/api/news?id=3e319a25739cd6136cd0c9b85b4be63234f8451caef743d9b5d3bde80d5019e8

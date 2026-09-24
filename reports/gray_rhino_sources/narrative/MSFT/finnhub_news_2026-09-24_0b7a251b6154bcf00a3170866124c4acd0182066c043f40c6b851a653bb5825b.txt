@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Or Meta: Whose AI Build Would You Rather Fund?
+  summary: If you own Alphabet (GOOGL) or Meta Platforms (META), you own the same idea: AI makes an advertising machine earn more, and both companies are spending heavily on computing capacity. The fork is where the money comes back from. Alphabet already has outside customers under contract through Google Cloud. Alphabet already sells directly to enterprise customers under contract through Google Cloud, whereas Meta is in the earlier stages of commercializing enterprise access to its AI models.
+  url: https://finnhub.io/api/news?id=9ff12295daf3d56a9b20d74bc91682c95dcc4b21cd95d3d1ae6f51786a655aaa

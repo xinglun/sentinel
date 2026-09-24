@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s In-House Battery Plant Could Give Cybercab a Major Edge
+  summary: Tesla’s  battery cathode plant in Texas is up and running.  Battery makers, including Tesla, assemble completed batteries, but they often source cathode material from suppliers in China, Korea, Japan, and elsewhere.  Tesla built the plant to improve efficiency, localize supply of key components, and secure its supply chain.
+  url: https://finnhub.io/api/news?id=9d9e53f864af14c7cb63276f561c16c9b67cf42d0a7097c722533aa7f0427fb7

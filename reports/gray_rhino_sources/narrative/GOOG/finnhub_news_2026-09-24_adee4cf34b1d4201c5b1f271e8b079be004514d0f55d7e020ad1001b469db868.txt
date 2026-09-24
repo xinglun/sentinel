@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock: How The Bears In Options Trading Can Take Advantage Of This Search Giant
+  summary: Alphabet just crossed below its 50-day moving average. That kind of bearish action calls for this particular options play.
+  url: https://finnhub.io/api/news?id=d8ec42789b4f86cb8e90ed330a2374e93d26de7462cb449a2ddd26426de3374e

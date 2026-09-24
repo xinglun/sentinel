@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Google and SpaceX Are Testing AI in Orbit: The Earthly Grid Can’t Keep Up.
+  summary: Google’s test launch with SpaceX will evaluate how its Tensor Processing Unit chips perform in space.
+  url: https://finnhub.io/api/news?id=820686b03c82daf58dd3e618057407d2f5794bc2ca2c183ca85a8fa8c65667c0

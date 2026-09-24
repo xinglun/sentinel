@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe Rises 24% in 3 Months: Should You Buy, Sell or Hold the Stock?
+  summary: ADBE shares jump 24.4% in three months as AI monetization, user growth and a raised fiscal 2026 outlook boost operating momentum.
+  url: https://finnhub.io/api/news?id=0f9d8fa0a0b4a06a8eca8db255927ceadbfbe54cc73974692c04a6f54be6a297

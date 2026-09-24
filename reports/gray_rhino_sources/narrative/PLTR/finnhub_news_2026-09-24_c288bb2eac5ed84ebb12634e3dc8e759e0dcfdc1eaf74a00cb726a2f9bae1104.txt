@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir: Expect Another Leg Higher
+  summary: Palantir Technologies remains a 'Buy' as its recovery rally is just beginning, with significant upside potential over the next 12-24 months. Learn more about PLTR stock here.
+  url: https://finnhub.io/api/news?id=3e20001f41b7d4e095e8c591cdb5cc28e985d3dfddf49d070cf9f49d00844889

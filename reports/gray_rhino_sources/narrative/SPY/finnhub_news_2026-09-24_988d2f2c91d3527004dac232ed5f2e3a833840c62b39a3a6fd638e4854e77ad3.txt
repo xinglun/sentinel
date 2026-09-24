@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fastly Sinks 8% as Selling After Investor Day Cuts Into a 164% YTD Run; Cloudflare Holds Flat
+  summary: Fastly stock carved out one of the sharpest runs in mid-cap software this year, then held an Investor Day that handed sellers exactly the moment they were waiting for. Here is what the peer group's calm tape reveals about where the pressure is really coming from.
+  url: https://finnhub.io/api/news?id=6dd6824f8505fbfeca4427e1b3ac2d0ee6ad7d5acf8166458ca1de404e61b311

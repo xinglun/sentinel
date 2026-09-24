@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Parloa to Unveil What's Next in Agentic Customer Experience at WAVE 2026 Berlin
+  summary: Parloa, the leading agentic CX company for enterprise customer service, today announced new details for WAVE 2026, its flagship AI and customer experience conference taking place October 7-8, 2026 at Wilhelm Studios in Berlin.
+  url: https://finnhub.io/api/news?id=760024b64218d7bc487b13cd6944ae34e14522c0202047a9a74a6c5288127639

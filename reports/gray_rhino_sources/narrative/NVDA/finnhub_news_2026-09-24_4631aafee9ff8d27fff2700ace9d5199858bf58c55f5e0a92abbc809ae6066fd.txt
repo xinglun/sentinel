@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Caterpillar the Best Industrials Stock to Buy Right Now?
+  summary: The demand from the AI build-out has helped diversify Caterpillar's business.
+  url: https://finnhub.io/api/news?id=e9b43cffc5aa175fbb0a81780e7edf48c2bdfa9dcb6b96ea9feca15c8d3047aa

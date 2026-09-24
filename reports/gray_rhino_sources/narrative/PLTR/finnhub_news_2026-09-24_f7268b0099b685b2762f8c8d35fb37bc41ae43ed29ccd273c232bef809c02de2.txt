@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Just Hit a One-Year High. Here's What's Driving It
+  summary: New contracts and expanding government work are adding to the momentum behind Palantir's sharp stock rally.
+  url: https://finnhub.io/api/news?id=bef3e46965c2e5ccdb559cc7227e053337607449bb685b04177c8d53423cc904

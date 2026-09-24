@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is One of the ‘Most Hyped’ Stocks. It’s a Double-Edged Sword.
+  summary: A recent  JPMorgan  report helped quantify just how much.  Wednesday evening, JPMorgan analyst Arun Jain published his list of “most hyped stocks on social media.”  SpaceX checked in at number four, behind  Lithium Americas Boyd Gaming  and  Advanced Micro Devices Insight Digital Partners II Rocket Lab Meta Platforms Kodiak  AI,  Atlas Energy Solutions  and  Micron Technology  rounded out the top 10.
+  url: https://finnhub.io/api/news?id=cf961711ca6a05fbcfc62fe105c3cc017999ca0c2730452813d9242ab191bf04

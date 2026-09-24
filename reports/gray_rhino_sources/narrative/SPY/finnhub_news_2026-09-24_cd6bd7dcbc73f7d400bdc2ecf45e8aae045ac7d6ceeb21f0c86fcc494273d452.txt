@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gold And Silver Face Significant Declines As Rates And The Dollar Surge
+  summary: Gold and silver face headwinds from rising real yields and a stronger dollar. Key support: gold $4,275, silver $63. Click for this update look at precious metals.
+  url: https://finnhub.io/api/news?id=aafef78f10ade7f0a22a3f2369dbafbab321e02a4dfdee126186eb2eb570de3a

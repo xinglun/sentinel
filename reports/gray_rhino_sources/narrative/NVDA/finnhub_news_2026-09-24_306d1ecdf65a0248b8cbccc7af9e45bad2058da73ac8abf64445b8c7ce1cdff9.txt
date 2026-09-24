@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Stock Gets a Big Wall Street Boost Ahead of Earnings
+  summary: Higher prices and strong demand are setting Micron up for a massive quarter.
+  url: https://finnhub.io/api/news?id=d59dfba9a588392500d4251a7bc9164d1f50fa0ba7070acbc6f7a78737a1c7aa

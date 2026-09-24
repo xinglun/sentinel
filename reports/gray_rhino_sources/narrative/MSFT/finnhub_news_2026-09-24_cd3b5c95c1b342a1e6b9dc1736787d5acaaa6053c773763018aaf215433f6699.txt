@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Update: Market Chatter: OpenAI Agent Hacked Government Health Portal, Says Australia Prime Minister
+  summary: (Clarifies the headline and first paragraph, adds detail and OpenAI's response in the fourth and fi
+  url: https://finnhub.io/api/news?id=faba9a44bcd94bbc63d963c0c674646f308f3a9c3174f065d8b8e40d0d730172

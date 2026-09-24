@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MGM Resorts International Sinks 10% as Barry Diller Withdraws $48.30-a-Share Buyout Offer; Caesars Entertainment Barely Moves
+  summary: Barry Diller just pulled a blockbuster buyout offer for one of Las Vegas's biggest casino operators, and the market is punishing the stock hard while leaving rivals completely unscathed. Find out what his next move signals for MGM shareholders.
+  url: https://finnhub.io/api/news?id=e46323be8a511860f2f5eee559ca4bec0f0a95ab446647ee8dc7b901f2507df0

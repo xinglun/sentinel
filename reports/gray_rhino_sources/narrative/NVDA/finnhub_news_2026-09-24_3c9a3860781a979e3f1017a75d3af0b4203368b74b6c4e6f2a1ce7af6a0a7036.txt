@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian vs. the S&P 500: Which Investment Wins Through 2030?
+  summary: The electric vehicle maker looks undervalued, but it has a lot to prove.
+  url: https://finnhub.io/api/news?id=595307288663f652c3b2e2c9dd653024a025ffe97d2e9ebee609d3ce5f8d5639

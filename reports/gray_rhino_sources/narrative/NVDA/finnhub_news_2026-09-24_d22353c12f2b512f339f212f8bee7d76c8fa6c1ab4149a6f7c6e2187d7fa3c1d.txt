@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Smartest S&P 500 Dividend Stock to Buy With $1,000 Right Now
+  summary: Realty Income is still an attractive dividend play in this messy market.
+  url: https://finnhub.io/api/news?id=51e277ead94c4c1d99a96e8697bcde676f8430786faf1de8608f6b71b99c39e7

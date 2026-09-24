@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wells Fargo Says the AI Spending Math Breaks in 2028 and Just Cut Its S&P 500 Target to 7,700
+  summary: Wells Fargo's chief equity strategist sees a spending cliff forming inside the AI buildout, and the arithmetic he uses to locate it points to a very specific year when the math stops working for hyperscaler earnings.
+  url: https://finnhub.io/api/news?id=b82e5a8087a9175aa61dc7b802b84ae62b312b94e26d1c3ccc119ccbbd66fba5

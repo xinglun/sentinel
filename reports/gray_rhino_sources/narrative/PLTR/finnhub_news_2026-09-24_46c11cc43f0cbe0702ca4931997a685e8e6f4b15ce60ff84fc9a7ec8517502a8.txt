@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Venture Capital and PE: A California Perspective on Governance: 2nd LA CorpGov Forum
+  summary: CorpGov hosted the second LA CorpGov Forum on Sept. 18, 2026, at The Huntington Library in San Marino, California. This event brought together members of the financial community from both LA and beyond in panels focused on the finance of entertainment and media, sports, along with capital markets and shareholder activism. Panel: Venture Capital and […] The post Venture Capital and PE: A California Perspective on Governance: 2nd LA CorpGov Forum appeared first on CorpGov.
+  url: https://finnhub.io/api/news?id=49b74febe4335e83ddcd54b304bbf528d667853855da8cd5a6066f2eda1e740d

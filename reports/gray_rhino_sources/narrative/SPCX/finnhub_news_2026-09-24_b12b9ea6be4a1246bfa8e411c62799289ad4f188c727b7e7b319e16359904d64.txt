@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock: Bull vs. Bear Scenarios
+  summary: SpaceX is pursuing several revolutionary growth initiatives.
+  url: https://finnhub.io/api/news?id=dca6bba69d4ea22a5f28ac80a9f218a38fd250d6dd3337a9e1c41bae414fb35d

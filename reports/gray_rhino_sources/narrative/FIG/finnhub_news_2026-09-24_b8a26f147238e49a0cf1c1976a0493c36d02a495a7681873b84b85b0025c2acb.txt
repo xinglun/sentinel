@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Citrini’s New Short List: 90 Subscription Stocks at Risk From The ‘Agentic Cancellation Wave’
+  summary: Citrini&#39;s short list targets 90 subscription stocks, from Planet Fitness to Comcast and Sirius XM, as AI agents cancel and renegotiate.
+  url: https://finnhub.io/api/news?id=f7dd3debf60157d7974e22c1e4d36aa493d36b885da00a0e37bac074dc6e219f

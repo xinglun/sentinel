@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fervo Energy Stock Rises. The Google Partner Hits a Geothermal Milestone.
+  summary: Fervo Energy stock rises after the company’s geothermal development delivers power to the gid for the first time.
+  url: https://finnhub.io/api/news?id=5cb5816b985d5992e00dbddbc8254f8e16654fcc1d7bfa443eecd4cb75b37d4d

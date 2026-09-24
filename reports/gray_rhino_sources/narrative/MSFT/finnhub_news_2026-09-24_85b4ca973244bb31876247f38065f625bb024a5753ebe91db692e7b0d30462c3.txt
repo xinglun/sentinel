@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave vs. QuantumScape: Which Stock Is a Better Investment, the AI Giant or the EV Battery Upstart?
+  summary: CoreWeave is profitable-adjacent but debt-heavy with customer concentration risk; QuantumScape has zero revenue but fortress-like balance sheet strength.
+  url: https://finnhub.io/api/news?id=e3f5f1e28335e72b1e203db81138927718447f359921aefbc46867d96dad8be2

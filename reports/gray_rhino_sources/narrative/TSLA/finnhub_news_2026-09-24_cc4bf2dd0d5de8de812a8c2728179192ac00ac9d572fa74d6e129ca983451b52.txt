@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Semi Joins Parade Of New Model Showcases; Stock Falls
+  summary: Tesla will have product demos for the Cybercab, Semi and new Roadster planned within the span of a month. The stock edged lower Thursday.
+  url: https://finnhub.io/api/news?id=427a565934156a2cc6cf87bc4c495f475c003f4bd2e96c812c72f393f1329250

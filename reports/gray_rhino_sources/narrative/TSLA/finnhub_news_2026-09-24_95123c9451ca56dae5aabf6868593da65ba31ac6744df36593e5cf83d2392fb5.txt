@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Not-So-Hidden Threats to the AI Stock Rally
+  summary: To state the obvious, the trillion-dollar, or near-trillion-dollar, valuations of  SpaceX  Anthropic, and OpenAI aren’t built on current sales or earnings.  Demand for AI applications and agents needs to grow—fast—or else the entire  has a problem.  Shortly after its initial public offering, SpaceX stock traded for about 900 times its estimated 2027 earnings, according to FactSet.
+  url: https://finnhub.io/api/news?id=01af9e27d77876d0e70c215bdc0f90dbc4efaca5fb9ae8d46e7b57c4c57cf1ed

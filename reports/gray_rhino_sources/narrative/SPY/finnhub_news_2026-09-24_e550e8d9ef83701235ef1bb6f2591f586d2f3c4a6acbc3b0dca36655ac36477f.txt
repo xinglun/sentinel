@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Viking Therapeutics Sinks 15% After Pricing Upsized $500M Offering; Jaguar Health Tumbles 25%
+  summary: Two biotech stocks are getting crushed while the sector benchmark climbs, and the reasons behind each selloff could not be more different. Understanding what separates a deliberate corporate move from pure micro-cap chaos is the key to reading both situations correctly.
+  url: https://finnhub.io/api/news?id=8aac685980aec9635768581e3f203fb9e85959e4933af99ce60f24d6d4e7970a

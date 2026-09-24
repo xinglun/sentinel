@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Medical Robots Market Forecasts Growth from $20.6B (2026) to $41.7B by 2031, Profiling Intuitive Surgical, Stryker, Zimmer Biomet & Medtronic
+  summary: The global medical robots market is projected to grow from USD 20.6 billion in 2026 to USD 41.7 billion by 2031, at a 15.1% CAGR. Growth is driven by demand for minimally invasive surgery, healthcare automation, precision procedures, and advances in AI-powered surgical, rehabilitation, radiosurgery, hospital, and pharmacy robots. Robotic systems will hold the largest market share, while surgical robots will lead by type. Ambulatory surgery centers are set for the fastest end-user growth, and Asi
+  url: https://finnhub.io/api/news?id=79dd7f01c6ecef2740e3a6268b02c082b383afae7fc17168d71498774b5d6f8d

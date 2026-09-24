@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surviving Mark Zuckerberg's intense founder era: Fmr Meta CTO
+  summary: Yahoo Finance Executive Editor Brian Sozzi sits down with former Meta CTO and Gigascale Capital founding partner Mike Schroepfer to discuss the massive energy demands of artificial intelligence and why nuclear fusion could be the ultimate economic solution to power the grid.
+  url: https://finnhub.io/api/news?id=7cb250bebd1fab7d50c0367d53bd67738e7e4df76d8a83f3dd4cbaa7d30bbc96

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: COO Unveils New Innovation Hub & Lens Launch Plans to Aid CooperVision
+  summary: The Cooper Companies opens a global innovation hub in England and unveils six contact lens programs to support sustainable long-term growth.
+  url: https://finnhub.io/api/news?id=a323105b776fdaab6265a82d006aa851bdca893958c3e9c6d01c51d5ad58928f

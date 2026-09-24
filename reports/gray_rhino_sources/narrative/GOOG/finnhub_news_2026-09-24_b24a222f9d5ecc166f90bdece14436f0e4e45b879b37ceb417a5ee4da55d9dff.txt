@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Camus Energy Joins AI Energy Management Alliance to Accelerate Data Center Power Integration
+  summary: Key Takeaways: Camus Energy has joined the newly formed AEMA alongside tech industry leaders like Google and NVIDIA to advance data center grid integration.The partnership focuses on flexible interconnection strategies and intelligent energy orchestration to align growing data center power demand with grid reliability.As an AMEA member, Camus will help shape technical standards, market definitions, and public policy for integrating large-scale data center loads into the grid. SAN FRANCISCO, Sept
+  url: https://finnhub.io/api/news?id=b643de43eb42d27c7ada414f6d9216f1d48801108f9c5b14a481f08fa48f3a5c

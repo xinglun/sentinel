@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can IBM's New Innovation Initiative With Marist University Advance AI?
+  summary: International Business Machines expands its Marist University partnership with an AI Innovation Incubator, bringing mainframe, quantum computing and enterprise expertise to campus.
+  url: https://finnhub.io/api/news?id=cecfaf499bd69ac0740980018cfe2c9c6d2ec34f8bba82f4d48c41baba358787

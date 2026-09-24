@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Price Prediction: Why Our Target Sits Above Wall Street’s
+  summary: Wall Street has already written Apple off as a stock with nowhere left to go, but a fresh look at the numbers tells a very different story about where shares could head over the next 12 months.
+  url: https://finnhub.io/api/news?id=87c60e68d3c8403b8ce875853c5265108b935cefdefaa9320870cdf21f236b90

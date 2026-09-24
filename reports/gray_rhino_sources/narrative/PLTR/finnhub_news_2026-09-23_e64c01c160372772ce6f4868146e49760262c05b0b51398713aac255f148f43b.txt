@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Hits Yearly High at $190. What’s Driving the Price?
+  summary: Palantir Technologies Inc. stock tops $190 for the first time in nearly a year. Here are the three key catalysts.
+  url: https://finnhub.io/api/news?id=b4921f5d9dd237b1661c0d1c045391170bea9984b5bd58577ce51831a22b4a43

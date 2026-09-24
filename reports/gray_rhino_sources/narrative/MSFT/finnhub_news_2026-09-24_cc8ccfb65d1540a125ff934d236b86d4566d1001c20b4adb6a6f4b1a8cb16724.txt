@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Palantir Stock Make Your Bad Market Days Worse?
+  summary: Palantir Technologies (PLTR) stock has climbed 10.0% over the last five trading days, while the S&P 500 rose 2.0%. A run like that invites you to chase it. But one week is not the question. The question is what Palantir does to your money when the market moves, because it travels further than the index both ways and further still on the way down.
+  url: https://finnhub.io/api/news?id=767c826944bd30de5b97f1744b9cccdecc8d14e8ace6f2a649b1b93cf52cbf93

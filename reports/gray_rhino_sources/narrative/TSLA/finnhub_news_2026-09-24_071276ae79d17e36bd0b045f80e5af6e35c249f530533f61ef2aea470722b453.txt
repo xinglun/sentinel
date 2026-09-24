@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla to open doors of its Nevada Semi truck factory
+  summary: The 8:30 Hosts Julie Hyman, Jake Conley, and Pras Subramanian discuss Tesla (TSLA) opening the doors to its new Semi factory in Sparks, Nev., in a showing to boost investor confidence in its electric Semi truck.
+  url: https://finnhub.io/api/news?id=0d179fd37f4494e9925888df635f67c7fa410d90184c798951dd9755f84f0429

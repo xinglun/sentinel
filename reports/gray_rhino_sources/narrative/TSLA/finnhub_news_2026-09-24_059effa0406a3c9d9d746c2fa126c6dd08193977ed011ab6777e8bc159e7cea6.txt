@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s EU Registrations Jump Nearly 53% In August – But Chinese EV Rivals Grow Much Faster
+  summary: While Tesla’s EU registrations surged in August, growth across the broader EU, EFTA and UK market was much slower at 4%.
+  url: https://finnhub.io/api/news?id=fa5a5bbfd13f8fd0167ff788568b1baa965d80155a13830a7773eed891224ab6

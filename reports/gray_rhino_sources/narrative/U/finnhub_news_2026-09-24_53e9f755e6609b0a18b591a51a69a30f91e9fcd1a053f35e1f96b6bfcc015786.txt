@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 5% Wall: Treasury Yields Take the Air Out of Wall Street's Muse Rally
+  summary: The 10-year Treasury yield climbed back above 5% on Wednesday and pulled all three major indices lower. A hawkish Fed governor, hot PMI data and a rebound in oil did the damage, while Meta's Muse agent hit travel stocks and McDonald's slid on a sobering investor day.
+  url: https://finnhub.io/api/news?id=0518a6ef61f86a74163e1b534a000dc6875b5aad3965135408a293d3293d3fcb

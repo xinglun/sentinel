@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AppLovin Drops 5% as Edgewater Warns Market Share Growth Has Stalled; Magnite Slips, Trade Desk Slips 3%
+  summary: Edgewater Research just raised a warning that AppLovin's growth engine may be hitting a wall, but Citi's latest data tells a very different story about where the company's next opportunity could come from.
+  url: https://finnhub.io/api/news?id=fb61333b78c37d54b045fb23514231cd98e0e20c577b950740536226d4c2b290

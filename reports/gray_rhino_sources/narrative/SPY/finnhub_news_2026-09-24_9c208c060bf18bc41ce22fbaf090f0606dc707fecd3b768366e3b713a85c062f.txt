@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Klarna Falls 3% as Selling Persists Weeks After Its Guidance Cut; Affirm Advances 2%
+  summary: Klarna keeps sliding weeks after a guidance cut rattled investors, while Affirm moves in the opposite direction as traders rally around its AI underwriting push. The widening gap between two of fintech's biggest names raises a pointed question about which side of this trade holds up.
+  url: https://finnhub.io/api/news?id=8d0bc68a3c70edaa79b66578ac99abee01fe0069f6214bff7bf0e4419f413bc9

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NEAR Crypto Tokenized Stock Launch Puts Distribution Ahead of Scale
+  summary: NEAR crypto and Ondo Finance have launched access to tokenized U.S. stocks and ETFs on near.com, opening with 20 assets including Nvidia, Tesla, Apple, Microsoft, Amazon, SPY and QQQ. Eligible users fund their accounts with stablecoins or other supported crypto from more than 30 networks, with NEAR Intents acting as ...
+  url: https://finnhub.io/api/news?id=d7e60a4b07676ad9a4c01b7e5aa8a56ac5a68af64db9b5695383566690159fa4

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Is Poised to Reclaim a $190 Share Price by the End of 2026
+  summary: If 2027 revenue expectations keep rising, share price gains could follow.
+  url: https://finnhub.io/api/news?id=1a15ba011f19152045612e098de69bf3158f08c5cc55284cb26b3c71cb86c165

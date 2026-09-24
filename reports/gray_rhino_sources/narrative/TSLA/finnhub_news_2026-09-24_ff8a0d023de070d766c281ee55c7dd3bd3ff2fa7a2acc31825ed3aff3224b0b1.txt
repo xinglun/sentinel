@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: European Union Car Registrations Rise 4.5% in August; Tesla's Figures Up 53% Year Over Year
+  summary: European Union new car registrations jumped 4.5% year-over-year to 708,211 in August amid rising ene
+  url: https://finnhub.io/api/news?id=bdf0549221f243a4fc5469daf4eca53cede97c53540b7703d3c3889424b6a505

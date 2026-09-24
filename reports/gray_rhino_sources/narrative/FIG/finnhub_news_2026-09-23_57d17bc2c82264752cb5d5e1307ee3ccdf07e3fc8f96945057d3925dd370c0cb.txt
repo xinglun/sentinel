@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma (FIG) Could Be 3% Undervalued Following Its Recent Pullback
+  summary: Figma (FIG) has come into focus after recent trading left the share price at US$21.80, with the stock down 2.4% on the day and roughly 19.6% lower over the past month. For context, Figma’s 1 day share price return of down 2.37% and 7 day share price return of down 8.71% sit on top of a 30 day share price return of down 19.56%. The 90 day share price return of up 16.95% suggests that the recent slide is a pullback within a recovering trend, and the 1 year total shareholder return of down 62.5%...
+  url: https://finnhub.io/api/news?id=24723fc97a65353789d773c32eb155cb370f2cf3f93685a8ee503dda39d95dc9

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ONDS Stock Set To Snap 4-Week Slide — Retail Bulls See Palantir-Style Play In Fresh Defense Deals
+  summary: Ondas acquired three defense businesses for $56 million upfront, with up to $32 million in earnouts.
+  url: https://finnhub.io/api/news?id=2418ce6556b61dfa8502d59db928117e2b256d1d9c68a19dc2910be4511492ba

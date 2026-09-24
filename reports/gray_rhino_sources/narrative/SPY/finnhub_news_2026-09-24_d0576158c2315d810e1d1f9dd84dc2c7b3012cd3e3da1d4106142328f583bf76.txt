@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bloom Energy Sinks 6% as Traders Take Profits on a 190% YTD Run; Generac and Cummins Pull Back
+  summary: After a 190% run in a single year, Bloom Energy is sliding hard while the broader market barely flinches, and the real question is whether today's session is a routine shakeout or the first crack in a historic growth story.
+  url: https://finnhub.io/api/news?id=da027e5896af555910154eaee66da7a8b2d3cdb3f5046796254b48e97692c7b4

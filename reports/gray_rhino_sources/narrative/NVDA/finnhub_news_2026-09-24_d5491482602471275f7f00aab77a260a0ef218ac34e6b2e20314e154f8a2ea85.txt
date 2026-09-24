@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Market Indexes Fall Again as the 30-Year Yield Hits a 2004 High
+  summary: Trump and Xi met on Thursday. China wanted three years of trade peace and got two months.
+  url: https://finnhub.io/api/news?id=ffa8fc903953ebe7d9a8642c8a31eac1274f9dac9dd79666cdcd14253d1085af

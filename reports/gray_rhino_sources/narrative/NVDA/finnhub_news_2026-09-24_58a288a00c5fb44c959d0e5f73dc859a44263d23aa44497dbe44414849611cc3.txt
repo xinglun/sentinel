@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Want Reliable Dividend Income? These 2 Industrial Stocks Deliver
+  summary: The industrial sector isn't the highest-yielding group on the market, but it's home to some steady payout raisers, including Illinois Tool Works and Waste Management.
+  url: https://finnhub.io/api/news?id=6bb29cf183bc7334b152e92dc9a2b74b5d559fcf9cc640918514001baa32ea44

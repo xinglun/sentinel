@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Is What a $1,000 Investment in Apple Will Be Worth by 2030
+  summary: Apple stock still looks like a long-term winner.
+  url: https://finnhub.io/api/news?id=2f42a91f4f2418cec78a73ed269d7fcf008ea78b495fd98db50cfd382fd3c2fa

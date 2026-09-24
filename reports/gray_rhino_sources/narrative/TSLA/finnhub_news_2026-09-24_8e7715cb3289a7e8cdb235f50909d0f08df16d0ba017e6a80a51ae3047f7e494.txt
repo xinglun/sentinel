@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla: The Windshield Is Bigger Than The Rearview Mirror
+  summary: Upgrade Tesla, Inc. to Strong Buy: FSD adoption, strong safety data & key 2026 EU approval vote could drive growth despite rich valuationâclick for a TSLA update.
+  url: https://finnhub.io/api/news?id=17179923ab188a04522e5d5342df5cd16337ddcd20b3ab5e5202b28f7df68c69

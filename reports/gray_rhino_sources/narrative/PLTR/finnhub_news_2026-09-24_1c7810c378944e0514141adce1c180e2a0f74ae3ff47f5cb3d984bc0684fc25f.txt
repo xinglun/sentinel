@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Has a Growth Story Few Companies Can Match
+  summary: Palantir is posting revenue growth that most software companies only dream about, while somehow staying GAAP-profitable, but the valuation number sitting above it all raises a question that every serious investor needs to answer before buying.
+  url: https://finnhub.io/api/news?id=26979e7b1a09afce504b496ac30c37ccf0ee21232d0036558177812bbdf323bd

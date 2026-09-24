@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: An S&P 500 Index Fund Already Owns These Financial Stocks. Here's Whether to Own More.
+  summary: Do you really need more financial stocks?
+  url: https://finnhub.io/api/news?id=633805f7e568f1f0d5e108399e7582fc424f162b118438416e18eb7c6abae34e

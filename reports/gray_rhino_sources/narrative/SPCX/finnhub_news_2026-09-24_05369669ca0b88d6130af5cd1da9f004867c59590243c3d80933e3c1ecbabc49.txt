@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Bought SpaceX Stock Weeks After the IPO, Filing Shows
+  summary: A federal disclosure quietly buried inside a batch of monthly trades reveals the president holds a stake in one of his administration's most powerful contractors, raising a question investors cannot yet price.
+  url: https://finnhub.io/api/news?id=792381c87dbd77c9bf1d1ccc48e3b69038f2b8413721e1c95ffa62d7568b4ee8

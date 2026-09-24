@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Utility Stocks With Reliable Dividends and a Massive New Growth Engine
+  summary: Data centers are quietly reshaping which utility stocks deserve a spot in an income portfolio, and four regulated electric companies just locked in contracts that could rewrite their dividend growth stories for the next decade.
+  url: https://finnhub.io/api/news?id=37a6943c23f269a691e1b4f36e24c28a0ed452f80fbba9e848ff724e3b9b8f55

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley says Tesla robotics strengthens SpaceX’s $300 AI case
+  summary: Enterprise AI accounts for $165 of the bank’s SpaceX valuation, while rockets contribute only $8. The model depends on compute, connectivity and Tesla’s physical-AI capabilities.
+  url: https://finnhub.io/api/news?id=de677bb731eb93c81b31f0a4480207e3285ff5cef20f71dfd45804aee4d1e10c

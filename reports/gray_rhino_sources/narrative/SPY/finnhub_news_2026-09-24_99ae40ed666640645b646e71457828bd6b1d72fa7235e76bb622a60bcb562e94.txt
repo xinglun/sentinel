@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inflation Is Back: Why the S&P 500 Is Vulnerable
+  summary: If you thought the Federal Reserve was about to usher in an era of easy money and send the S&P 500 (SPY) on a smooth victory lap, think again. The market is walking straight into an uncomfortable reality check. Geopolitical headlines gave investors brief relief over the summer, but underlying price metrics did not follow the script. Instead of preparing for rate cuts, Wall Street must now confront persistent price pressures, climbing yields, and a Fed forced back into an active tightening stance
+  url: https://finnhub.io/api/news?id=610c5c7ea65950c47dd45bb459903dae94f8976bb064558bba309a760680c289

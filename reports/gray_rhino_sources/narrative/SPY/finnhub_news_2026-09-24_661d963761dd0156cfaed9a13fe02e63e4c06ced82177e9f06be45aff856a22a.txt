@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy SPY Or QQQ, Hold Software, And Sell Semiconductors
+  summary: SOXXâs AI-driven valuation premium looks excessive vs IGV and SPY/QQQ.
+  url: https://finnhub.io/api/news?id=a3b8660d5fa27a9289f5455e045388abd0be089089b2fd91592374cf787aad77

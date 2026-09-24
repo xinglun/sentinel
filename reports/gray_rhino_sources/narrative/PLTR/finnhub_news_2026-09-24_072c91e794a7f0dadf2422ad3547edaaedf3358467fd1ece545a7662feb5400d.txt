@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Futures Fall After Soaring Yields Hit Stocks, But Palantir Flashes Buy Signal; Trump-Xi On Tap
+  summary: The stock market fell as Treasury yields skyrocketed and oil prices rose, but Palantir and Palo Alto flashed buy signals.
+  url: https://finnhub.io/api/news?id=118c30e7f0c2409f02a6b8ada7b3e6d9f11d2a762681f0acb19b7e98ccc64c9b

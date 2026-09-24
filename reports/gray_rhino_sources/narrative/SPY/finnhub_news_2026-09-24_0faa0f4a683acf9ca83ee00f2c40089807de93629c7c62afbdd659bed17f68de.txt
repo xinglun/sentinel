@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: From Gaming Chips to AI Dominance: $1,000 in Nvidia Outpaced the S&P 500 by 54x
+  summary: Nvidia's decade-long transformation from gaming chip maker to AI infrastructure backbone rewrote the rules of semiconductor investing, but the real question is whether the next $1,000 faces the same odds as the last one.
+  url: https://finnhub.io/api/news?id=dbe276f7d4c29c43f6d85cec67be5246992c2f2d3660212e3fdccd5b9a709cfa

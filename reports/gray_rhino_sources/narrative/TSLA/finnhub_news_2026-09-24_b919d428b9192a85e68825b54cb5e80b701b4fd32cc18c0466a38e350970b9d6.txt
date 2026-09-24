@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Semi event puts the spotlight on trucking as busy month for EV maker rolls on
+  summary: Tesla will open the doors to its new Semi factory in Sparks, Nevada on Thursday, just as investors look for proof that the long-delayed electric Semi is finally ready to scale.
+  url: https://finnhub.io/api/news?id=3a570647fd5ed284322551a7b733e56cb43c628dc1c3eb872fdf6e8db958c3bd

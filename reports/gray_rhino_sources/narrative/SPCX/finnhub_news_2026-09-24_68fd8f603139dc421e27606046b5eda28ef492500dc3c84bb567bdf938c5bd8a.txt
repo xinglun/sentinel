@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Faces Another Wave of Insider Shares
+  summary: SpaceX’s staggered lockup releases up to 328.4 million shares on Thursday, while COO Gwynne Shotwell plans a $52 million sale.
+  url: https://finnhub.io/api/news?id=168c891f44af56a170e08c681380d37ad3752d5df37a91b16bfd43e4246b7b7a

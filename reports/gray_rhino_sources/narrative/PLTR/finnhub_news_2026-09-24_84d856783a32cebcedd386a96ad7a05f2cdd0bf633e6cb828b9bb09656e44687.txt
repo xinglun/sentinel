@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: This Will Be Palantir Technologies’ Stock Price by the End of 2028
+  summary: The recent rally in software stocks has been a tailwind for Palantir, and investors shouldn't rule out more upside over the next couple of years.
+  url: https://finnhub.io/api/news?id=03a8152739fea15861fa1fe387b9d35c27308d717333067a7af55b245e0af3cc

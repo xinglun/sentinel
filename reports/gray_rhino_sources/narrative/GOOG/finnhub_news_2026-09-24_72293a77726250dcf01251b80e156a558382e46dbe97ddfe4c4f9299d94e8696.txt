@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Cathie Wood Is Trimming the World’s Biggest Tech Stock to Bet on a Space Company
+  summary: ARK Invest just rotated out of the world's most valuable company to load up on a loss-making space startup trading at 58 times sales. The reasoning reveals something important about how ARK thinks the next decade of infrastructure gets built.
+  url: https://finnhub.io/api/news?id=7e7489e594c033b57aa4a409553d618842d8b18842a78520f318dfb1c2ff4028

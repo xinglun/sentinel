@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lowe's launches drone delivery pilot with DoorDash and Wing
+  summary: The home improvement retailer says orders of roughly 2.5 pounds can reach eligible customers near a Charlotte-area store in as fast as 20 minutes
+  url: https://finnhub.io/api/news?id=87252df0741ef929f2c63353e82a4783175278de1419cfc62efae9cc8c437f86

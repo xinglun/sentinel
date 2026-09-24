@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's EV Dominance Masks Broad Weakness in Pure-Play Stocks
+  summary: EV sector rally is misleading: Tesla flatters weighted averages while most pure-play EV makers post losses, high debt and steep declines.
+  url: https://finnhub.io/api/news?id=cd05fd74c498e0b780f626040bf62aeec0299a981736feb5c25b04bdb2919661

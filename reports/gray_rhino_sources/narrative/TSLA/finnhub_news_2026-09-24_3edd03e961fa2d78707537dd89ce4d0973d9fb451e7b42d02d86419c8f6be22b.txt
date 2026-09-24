@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: The Biggest Opportunity for Tesla Stock May Be Just Ahead
+  summary: Tesla shares are down sharply in 2026, yet a surge of catalysts is quietly building beneath the surface that could flip the story entirely before next year ends.
+  url: https://finnhub.io/api/news?id=4cb2664c5e9988561305925f719851bbba012ff1f3e41857392c606216d8749e

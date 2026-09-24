@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry says $3 trillion in off-balance-sheet AI commitments could blow a hole in Big Tech's revenue
+  summary: The famed short seller says the companies leading the AI boom are amassing trillions in financial commitments that aren’t reflected in their balance sheets.
+  url: https://finnhub.io/api/news?id=20d11fa1a3a4aa947da8fff3475b28d5fc8a8ac61f566fe40be39cc465798048

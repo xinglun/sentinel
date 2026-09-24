@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Vistry’s Homebuilding Reset Gets More Expensive
+  summary: The U.K. homebuilder tumbled after a wider-than-expected first-half loss, rising debt and weaker cash guidance exposed the scale of the turnaround facing its new chief executive.
+  url: https://finnhub.io/api/news?id=f43f2ce6edad38babd560788503c1799eb9a668da2b99cdc43e8a423ad8ba80d

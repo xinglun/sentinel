@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI and Anthropic Almost Agreed to Test Each Other’s AI. Then the Deal Quietly Died.
+  summary: OpenAI and Anthropic quietly killed a deal to probe each other's AI models after it reached the contracts stage, and the reason it collapsed reveals a structural trap that no voluntary safety agreement can escape.
+  url: https://finnhub.io/api/news?id=5efcbb7a78088f5bbf24c0950f1c4478a41b6707aa705f39c6a1251b50fec499

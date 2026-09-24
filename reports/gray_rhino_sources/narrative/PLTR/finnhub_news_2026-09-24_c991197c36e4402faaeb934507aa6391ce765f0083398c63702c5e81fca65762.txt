@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: You Can't permission your way out of Surveillance at Scale
+  summary: Permuta Technologies today published the 3rd in a Series of Whitepapers focused on AI and government, "You Can't Permission Your Way Out of Surveillance at Scale," examining the structural risks of AI enabled, government facing data fusion at national scale. The whitepaper responds to Palantir's "Institutional Sovereignty in the Age of AI" framing by arguing that while protections like zero data retention, model agnostic architecture, granular permissions, and continuous audit logging are import
+  url: https://finnhub.io/api/news?id=b93c0e81cdfbac3b5c2ad169753e68710fce0d457ea325246eb0f8a267a0892b

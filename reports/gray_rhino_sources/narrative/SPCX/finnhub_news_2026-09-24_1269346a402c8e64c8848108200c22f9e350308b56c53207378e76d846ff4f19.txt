@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Lockup Expiry: Mizuho Reiterates ‘Outperform’ Rating As More Than 328M Shares Become Eligible For Trading
+  summary: At SpaceX’s closing price on Wednesday, the newly eligible shares are worth about $48.7 billion.
+  url: https://finnhub.io/api/news?id=c253066204c00f5275e2de6041b369d0379130aff94197631118308dd9840a93

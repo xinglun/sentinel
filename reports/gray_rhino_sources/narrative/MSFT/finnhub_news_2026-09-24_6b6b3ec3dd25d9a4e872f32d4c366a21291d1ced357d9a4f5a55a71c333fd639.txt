@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Okta Agentic AI Security Opportunity Could Drive Platform Demand, RBC Says
+  summary: Okta (OKTA) could see stronger demand for its identity platform as companies adopt tools to secure a
+  url: https://finnhub.io/api/news?id=d2de990f15fdc84ddd964a0bcb408e816b1976567b1398b48ee0b9976134ea15

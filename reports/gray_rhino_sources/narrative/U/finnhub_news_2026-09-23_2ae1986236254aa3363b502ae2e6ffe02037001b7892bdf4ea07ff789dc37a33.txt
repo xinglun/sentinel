@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Should One Number Worry AppLovin Stock Holders?
+  summary: The number that should worry a holder of AppLovin (APP) stock is its revenue growth. Revenue rose 53% from a year earlier in the fiscal second quarter of 2026. That was the third quarter in a row of slower growth. The pace is still fast. But the stock is priced for growth to stay fast, which is why the slowdown matters.
+  url: https://finnhub.io/api/news?id=30345e7ebd9db077268e750a4797f8ecf42278d87a1778e1ef35fe11252fa7e1

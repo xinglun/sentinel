@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX and Nvidia Just Deepened Their Compute Alliance. 1 Stock Offers Far Greater Upside Before 2028.
+  summary: Jensen Huang and Elon Musk have expanded their relationship.
+  url: https://finnhub.io/api/news?id=201de22553dbabe838aafa86fa99e1c92afde7986684828c5df16c60394249cb

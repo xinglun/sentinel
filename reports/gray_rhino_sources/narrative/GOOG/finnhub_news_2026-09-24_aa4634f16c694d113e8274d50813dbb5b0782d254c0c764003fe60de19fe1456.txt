@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A New Brand Of Inflation Slams This Smartphone Segment
+  summary: Still healing from sticker shock after Apple's latest launch? You may want to look away. A variation on the force driving up even the price of year-old iPhones — to say nothing of $3,000-plus models — is chomping away at budget phones. While high-end iPhones run atop bestseller lists, they're still outnumbered by a vast array of alternatives — from...
+  url: https://finnhub.io/api/news?id=57c523a1d62e8f80d94307da169ae40c7945c3b7b6824b785f9855c7dfe9cc95

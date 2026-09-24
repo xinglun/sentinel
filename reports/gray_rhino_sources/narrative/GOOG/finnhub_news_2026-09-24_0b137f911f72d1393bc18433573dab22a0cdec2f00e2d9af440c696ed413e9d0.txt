@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NVIDIA Is Buying Hugging Face for $13 Billion. Here’s the Strategy Behind It
+  summary: Key Stats for NVIDIA StockCurrent Price: $225. 51Target Price (Mid): ~$660Street Target: ~$328Potential Total Return: ~193%Annualized IRR: ~28% / yearWhat Happened?NVIDIA (NVDA) is paying nearly $13 billion for a company with about $150 million in revenue.
+  url: https://finnhub.io/api/news?id=b17ecd667804e7d3bf62b1dd57887e8b9aa17f379d30283f31a49a8ad8d4d246

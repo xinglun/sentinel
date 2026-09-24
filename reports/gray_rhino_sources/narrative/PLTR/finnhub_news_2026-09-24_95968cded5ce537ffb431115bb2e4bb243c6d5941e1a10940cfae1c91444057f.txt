@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zelenskyy Warns AI Could ‘Decide’ Battlefield Outcomes by 2027 as Autonomous Weapons Advance: ‘We Need Peace Before We Reach That Point’
+  summary: Zelenskyy warns AI could make battlefield decisions by 2027 as Ukraine expands combat AI, urging peace and safeguards.
+  url: https://finnhub.io/api/news?id=2a9a0d286ecbb6881f6cdd942a44d41dbfde7ccefac22bedd59cc5933c403f00

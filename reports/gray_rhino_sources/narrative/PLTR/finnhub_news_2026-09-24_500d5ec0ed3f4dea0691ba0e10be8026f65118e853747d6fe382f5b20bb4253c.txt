@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir faces a $330 million test U.S. investors should watch closely
+  summary: Palantir’s government boom just hit a political roadblock
+  url: https://finnhub.io/api/news?id=a82a26a75f2898ff4c3775d41af458dd81f8fa1c5e47004741ea8b544792c168

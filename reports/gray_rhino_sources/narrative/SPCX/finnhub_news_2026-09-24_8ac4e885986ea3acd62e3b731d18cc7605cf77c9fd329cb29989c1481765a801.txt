@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk-led SpaceX's Starlink Faces New Military Connectivity Alternative as Boeing Drone Unit Tests Gogo Link
+  summary: Boeing Co.’s drone subsidiary Insitu and Gogo Inc. successfully tested an Integrator military drone using satellite communications on Tuesday, giving defense customers another option as governments look to reduce reliance on Elon Musk-led Space Exploration Technologies Corp.’s Starlink network. Integrator...
+  url: https://finnhub.io/api/news?id=0542f7fe50670a565022e48360c4fa289d784a5987cde69709350910e1a9ea90

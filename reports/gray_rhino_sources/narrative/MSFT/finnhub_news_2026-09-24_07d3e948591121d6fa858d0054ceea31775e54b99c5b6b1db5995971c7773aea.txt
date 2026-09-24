@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia leads tech stocks lower as Treasury yields surge: AlphaCheck
+  summary: Here's a check of the markets in the first few minutes of trading.
+  url: https://finnhub.io/api/news?id=b28f9183740fb1ee2bbf275bf8252dd2a04078165a0a1a73b9dc8392a033f2e2

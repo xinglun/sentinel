@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billions Behind the Autonomous Machine Boom as Unmanned Ground Vehicles Disrupts the Defense Industry
+  summary: Platinum Trade Alerts News Commentary - Unmanned Ground Vehicles (UGVs) are quickly becoming much more than experimental military robots. They are being developed to do the jobs people often don't want—or shouldn't have—to do. On the battlefield, that can mean scouting dangerous areas, carrying supplies, detecting mines, handling explosives, monitoring perimeters or supporting troops without putting another person directly in harm's way. The opportunity also extends well beyond defense. Mining c
+  url: https://finnhub.io/api/news?id=a81f004ec5bfd3fdacaa4112fd71935b46131ef52d9fcc66188ed2b3136dd233

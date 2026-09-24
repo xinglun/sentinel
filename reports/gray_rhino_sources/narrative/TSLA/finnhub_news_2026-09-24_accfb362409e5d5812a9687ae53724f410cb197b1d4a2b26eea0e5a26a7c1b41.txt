@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's FSD Just Hit a Major Roadblock Ahead of EU Review
+  summary: New road tests in Brussels found Tesla's driver-assistance system repeatedly exceeded posted limits and attempted prohibited overtakes.
+  url: https://finnhub.io/api/news?id=a08dd2701ac8e2fff0a76e1c4f3a1f323677ac40dd4591620a162a642a115e9c

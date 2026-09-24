@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Arm Is Our Top Pick With 83% Upside Driven by Data Center Royalty Boom
+  summary: Arm's IP now sits inside the AI hardware powering every major hyperscaler, yet the market may still be treating it like a chip company from the smartphone era. Here is why that disconnect creates one of the more compelling setups in semiconductors right now.
+  url: https://finnhub.io/api/news?id=a7f6c51230d0671e7ab2025e39e0d72c7eddde8d4980932e5f67e7a113b8977e

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Just Blew Past Wall Street’s $750 Target. Where Does It Go Now?
+  summary: Meta just shattered Wall Street's consensus price target on the back of a 37% monthly surge, but with free cash flow collapsing 91% and capex ballooning toward $145 billion, the real debate is whether the AI spending spree pays off before it breaks the stock.
+  url: https://finnhub.io/api/news?id=9370c997ba6bf1afc8de4da6b4ce6bac915a9d73ff396a158f9b32909cf7ae8f

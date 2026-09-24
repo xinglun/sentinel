@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UBS Loses a Big Round in Switzerland’s Capital Fight
+  summary: Swiss senators backed a requirement for 90% CET1 backing of foreign subsidiaries, moving much closer to the government’s tough post-Credit Suisse proposal than UBS had hoped.
+  url: https://finnhub.io/api/news?id=1184efac15ff1bd4f0719f57cf134288f8df222fa3cb44f344ba029b61a84098

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta’s new Tamagotchi-style ‘Charm’ can run your life for you – from a keychain
+  summary: Meta is making a Tamagotchi-style device that can run your life for you, chief executive Mark Zuckerberg has announced.  The device, called the Muse Charm, is a small gadget that can be worn on a string and used to speak to Meta’s newly viral AI agent.  Muse was launched in early September and Meta has pushed it as a way of letting artificial intelligence run people’s lives – booking appointments, writing emails and buying things on their behalf.
+  url: https://finnhub.io/api/news?id=63cfb6de4c28acf059adea0dddb4cc98427e54c93ebea91400c2bb7f1699dbaa

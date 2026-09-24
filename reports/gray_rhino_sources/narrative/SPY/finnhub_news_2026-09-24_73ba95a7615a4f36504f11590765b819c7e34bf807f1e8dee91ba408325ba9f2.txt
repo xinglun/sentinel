@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Webull Drops 6% as Selling Outlasts Its Insider-Sale Headlines; Robinhood and Interactive Brokers Dip 2%
+  summary: Webull just posted blockbuster revenue growth, yet its stock keeps sliding as insider-sale filings pile up and drag Robinhood and Interactive Brokers down with it. Here is what is driving the disconnect between strong earnings and relentless selling pressure.
+  url: https://finnhub.io/api/news?id=33aba761480678780a73a35778f8959ad9b7f6117e98f7f9ba217a559934c22a

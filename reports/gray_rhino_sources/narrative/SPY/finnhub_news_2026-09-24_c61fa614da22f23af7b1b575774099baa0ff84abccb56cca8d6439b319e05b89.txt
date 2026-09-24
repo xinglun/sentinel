@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond Vigilantes Crash The Party: This Could Get Uglier
+  summary: Treasury yields surge (10Y 5.13%) as stocks slide; learn whatâs driving the bond selloff, risks for semis/QQQ, and why raising cash may helpâread now.
+  url: https://finnhub.io/api/news?id=44397b7245949d2af29b78e3b8e74211f59c3504bd78a2f92b67c6f6e37f1056

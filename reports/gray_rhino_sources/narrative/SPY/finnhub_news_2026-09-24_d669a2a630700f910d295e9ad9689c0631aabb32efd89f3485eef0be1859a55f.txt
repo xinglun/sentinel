@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fuel Cell Stocks Slide as High Treasury Yields Pressure Clean Energy Financing: FuelCell Drops 6%, Plug Power Falls 4%, Bloom Energy Sinks 8%
+  summary: Surging Treasury yields just gave fuel cell investors a painful reminder that clean energy ambitions come with a price tag, and not every company in the sector is equally equipped to handle it.
+  url: https://finnhub.io/api/news?id=264e43d235c43499c815847a7219adb443cde60a27a990010b6fd79ecae9b000

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Retain Baxter Stock in Your Portfolio for Now
+  summary: BAX's portfolio reset and growth in connected care and advanced surgery support prospects, but margins, Novum IQ and China pricing remain risks.
+  url: https://finnhub.io/api/news?id=fac52144dbf3a1921369819886515d383ec1e44ae006b63f82bbac7afd4455d2

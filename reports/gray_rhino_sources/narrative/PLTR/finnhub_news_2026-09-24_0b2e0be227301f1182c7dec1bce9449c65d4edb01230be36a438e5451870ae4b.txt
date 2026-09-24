@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Inside the $600 Billion Sovereign AI Gold Rush -- and Why Palantir Is Positioned to Win
+  summary: McKinsey anticipates that sovereign AI could capture up to 40% of future artificial intelligence spending through 2030.
+  url: https://finnhub.io/api/news?id=2ea4302e22571db5a24149be6601a6d1d1ca43b06a56c7392bcb65b9b8a92418
