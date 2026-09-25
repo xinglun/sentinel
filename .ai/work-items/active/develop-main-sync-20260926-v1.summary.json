@@ -1,0 +1,24 @@
+{
+  "changedPaths": [
+    ".ai/decisions/risk-candidate-close-evidence-promotion.close.json",
+    ".ai/decisions/risk-candidate-close-evidence-promotion.finalize.json",
+    ".ai/work-items/active/develop-main-sync-20260926-v1.contract.json",
+    ".ai/work-items/active/develop-main-sync-20260926-v1.summary.json"
+  ],
+  "checkpointAt": "2026-09-25T21:45:52Z",
+  "checkpointContractDigest": "sha256:301b2fc042f2b679a9012edf376d5b230d15651dd31df75f0c29eb81feb0e107",
+  "checkpointCount": 1,
+  "checkpointRepositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+  "createdAt": "2026-09-25T21:45:51Z",
+  "mode": "code",
+  "preflightAt": "2026-09-25T21:46:06Z",
+  "preflightContractDigest": "sha256:301b2fc042f2b679a9012edf376d5b230d15651dd31df75f0c29eb81feb0e107",
+  "preflightDecisionDigest": "sha256:e9e022bbd2c0b69d457c9c3ccefbf06df78d3a68482834dab0d3d03275e3c04d",
+  "preflightRepositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+  "preflightState": "yellow",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "checkpointed",
+  "updatedAt": "2026-09-25T21:45:52Z",
+  "workItemId": "develop-main-sync-20260926-v1"
+}

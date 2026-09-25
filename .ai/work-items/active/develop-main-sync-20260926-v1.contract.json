@@ -1,0 +1,47 @@
+{
+  "acceptanceCriteria": [
+    "origin/develop の同期元 commit と origin/main の PR base を記録し、専用 branch/worktree から main 向け reviewed PR を作成する。",
+    "required hosted checks がすべて成功した後に PR を merge し、merge commit と最新 PR 状態を確認する。",
+    "merge 後に origin/main と origin/develop の tree object が同一であることを確認する。",
+    "同期用 PR branch、local branch、worktree のみを cleanup し、GitHub PR/archive/history は保持する。",
+    "この Work Item は製品動作を変更しない。ユーザー可視製品便益は主張しない。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "7f6aca7ddb687b6a147af7b3bd262747ac5e8d1e",
+  "createdAt": "2026-09-25T21:45:51Z",
+  "goal": "PR #281 と PR #282 を含む現在の develop 内容を main に安全に反映し、PR 検証、merge、tree parity、対象 branch/worktree の精密な lifecycle cleanup を完了する",
+  "intent": "最新 origin/develop の内容を reviewed PR で origin/main に同期し、main と develop の tree 一致を検証する",
+  "mode": "code",
+  "outOfScope": [
+    "Decision、Gate、Execution、action matrix、position sizing、候補データ、reports、Telegram、secrets、既存 archive、main/develop の外にある unrelated branches/worktrees を変更しない",
+    "main 同期とは独立した production behavior の追加、他の defect 修正、release/publish"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "origin/develop を source、origin/main を target とする dedicated branch/worktree 上の reviewed GitHub PR 同期と必須 hosted checks",
+    "merge 後の origin/main/origin/develop の tree equivalence 検証、正確な PR/branch/worktree evidence、当該同期資源だけの cleanup",
+    "Runtime が生成する本 Work Item の Contract/Summary/Outcome/verification/archive/lifecycle records"
+  ],
+  "sources": [
+    "AGENTS.md: AI Cockpit 強制プロトコルと user authorization",
+    ".ai/README.md と .ai/glossary.md: Work Item と同期境界",
+    "origin/develop@7f6aca7ddb687b6a147af7b3bd262747ac5e8d1e",
+    "origin/main@add716e9f1cbddd5d641e504a50b444249cf4147",
+    "merged PR #281: https://github.com/xinglun/sentinel/pull/281",
+    "merged evidence promotion PR #282: https://github.com/xinglun/sentinel/pull/282",
+    "previous develop-to-main Work Item .ai/work-items/archive/develop-main-sync-20260922-v2.contract.json",
+    "previous synchronization PR #277: https://github.com/xinglun/sentinel/pull/277"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "develop-main-sync-20260926-v1"
+}
