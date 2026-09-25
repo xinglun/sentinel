@@ -23,6 +23,14 @@
   "requiredEvidenceClasses": [
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "main",
+    "baseRemote": "origin",
+    "branch": "codex/develop-main-sync-20260926",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/283",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/develop-main-sync-20260926/sentinel"
+  },
   "risk": "normal",
   "scope": [
     "origin/develop を source、origin/main を target とする dedicated branch/worktree 上の reviewed GitHub PR 同期と必須 hosted checks",
