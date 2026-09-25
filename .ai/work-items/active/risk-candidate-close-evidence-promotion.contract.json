@@ -1,0 +1,41 @@
+{
+  "acceptanceCriteria": [
+    "source Work Item の finalization/close JSON は primary worktree の記録と SHA-256 が一致し、内容を編集しない。",
+    "PR は develop を base として対象2ファイルと本 Work Item のガバナンス記録だけを含み、required hosted checks がすべて成功する。",
+    "PR merge と develop 上の両 receipt の存在を確認し、当該 PR branch/local branch/worktree のみを provider finalization 後に cleanup する。",
+    "production code、reports、data、他の archive や branch は変更しない。",
+    "PR merge 後、実際の GitHub PR/merge commit と exact branch/worktree identity を provider finalization receipt に記録し、finalize-verify の成功後、明示済みユーザー権限に基づく close decision を記録する。"
+  ],
+  "authority": "authorized",
+  "baseRevision": "382cf874fb4718b8382149580f3fabcb64959d00",
+  "createdAt": "2026-09-25T21:04:16Z",
+  "goal": "source Work Item の厳密な provider finalization receipt と human close decision を変更せず reviewed PR で develop に保存し、続く独立 Work Item による main 同期へ引き継ぐ",
+  "intent": "risk-candidate-canonical-reason-regression の確定済み finalization/close 証拠を develop に追跡可能な形で登録する",
+  "mode": "code",
+  "outOfScope": [
+    "production code、Decision/Gate/Execution/Position Sizing、reports/data/snapshots、元 Work Item の immutable archive、source receipt の内容変更、他 Work Item/branch/worktree の cleanup。develop から main への同期は別 Work Item として実施。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scope": [
+    "追加対象は .ai/decisions/risk-candidate-canonical-reason-regression.finalize.json と .ai/decisions/risk-candidate-canonical-reason-regression.close.json のみ。Work Item 自身の active/archive contract、summary、events、verification evidence、archive/outcome records と lifecycle receipt は標準生成物として含む。develop への reviewed PR、required hosted checks、当該 branch/worktree の exact cleanup まで。",
+    ".ai/decisions/observer-snapshot.json（Runtime が本 Work Item の lifecycle 状態を投影する生成記録）"
+  ],
+  "sources": [
+    "source-close-receipt:.ai/decisions/risk-candidate-canonical-reason-regression.close.json",
+    "source-finalization-receipt:.ai/decisions/risk-candidate-canonical-reason-regression.finalize.json",
+    "source-archive:.ai/work-items/archive/risk-candidate-canonical-reason-regression.archive.json",
+    "merged-source-PR:https://github.com/xinglun/sentinel/pull/281"
+  ],
+  "state": "implementation_active",
+  "verification": [
+    "make quality"
+  ],
+  "workItemId": "risk-candidate-close-evidence-promotion"
+}
