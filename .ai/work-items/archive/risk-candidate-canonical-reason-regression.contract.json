@@ -1,0 +1,139 @@
+{
+  "acceptanceCriteria": [
+    "Leadership reconciliation後のLEADERLESS / FRAGMENTED候補はRisk Opportunityと同一のcanonical risk presentation reasonを表示し、zh-CN/en-US/ja-JPで旧StrengthLoss語彙をCandidate/Watchlist ViewModel・Markdown・Telegram HTML・Archive Markdownへ漏らさない。",
+    "RECOVERY_WATCHがあるStrengthLoss候補は三言語で既存canonical recovery wordingを維持し、通常のleader-confirmed StrengthLoss raw wordingは本修正だけを理由に置換しない。",
+    "Candidate表示はcanonical risk ViewModelだけを参照し、同一のcandidate labelを重複表示しない。canonical risk factが欠落した場合はraw reasonを表示しない。",
+    "positionなし・eligible=falseの巡航候補は三言語で既存のobservation-only wordingを使い、「持有为主」等の実行含意がある表現を使わない。",
+    "既存Risk Summary / Portfolio Risk / Top Actions canonical表示を保持する。Decision、Gate、Probe、Eligibility、Action Matrix、Risk Adjustment、Exit State、Position Sizing、decision_weight=0 / trade_signal=falseの出力意味を変更しない。",
+    "production-like回帰がPresentationAssemblerからgenerate_refined_reportまでを通り、Markdown・Telegram HTML・Archive Markdownすべてで同じcanonical意味を検証する。"
+  ],
+  "agentCapability": {
+    "blockedReason": null,
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false
+  },
+  "authority": "authorized",
+  "baseRevision": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+  "createdAt": "2026-09-25T19:11:14Z",
+  "executionDecision": {
+    "reason": "ユーザーが候補 canonical risk reason の回帰修正を依頼し、対象・除外範囲・受け入れ条件・検証方法を提示した。実装は presentation boundary に限定でき、指定テストで局所検証可能。",
+    "status": "continue"
+  },
+  "goal": "最終LeadershipがLEADERLESS / FRAGMENTEDと確定したとき、Candidate/Watchlist診断が同じPresentationPacket内のcanonical risk presentation reasonを使うようにし、未保有かつ候補対象外の巡航説明を既存の観測文言に揃える。Decision/Gate/Eligibility/Execution/Position Sizingの意味は変えない。",
+  "intent": "候補/Watchlist表示におけるraw StrengthLoss理由の漏出を修正する",
+  "mode": "code",
+  "notCodable": false,
+  "outOfScope": [
+    "Decision、Gate、NO TRADE/Probe/Ready、Probe budget、Eligibility calculation、Action Matrix、Risk Adjustment calculation、Exit State calculation、RS、Leadership calculation、Breakout、Breadth、Execution、Trader、Position Sizing、Supply、Gravity、Expectation、TemporalBinding、Signal Context ranking、threshold、candidate selection、domain risk calculation、i18n辞書の新設、production data/report artifact、Archiveの既存履歴、CI/Make入口の改変。"
+  ],
+  "preReviewWarnings": [
+    "Leaderless の最終確定は初期 PresentationAssembler の後段で行われるため、候補診断と risk summary の再構成タイミングを同時に確認する。",
+    "Risk reason の修正は Candidate 表示だけに適用し、confirmed leader の raw StrengthLoss 文言と Decision / Gate / Probe 出力を維持する。"
+  ],
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:cb7636aa69c49abdd373b877016636b7e6be255bee88babd83fd181052d444d7",
+  "requiredEvidenceClasses": [
+    "verification_receipt"
+  ],
+  "risk": "normal",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate risk reason equals same-symbol canonical Risk Opportunity wording in zh-CN/en-US/ja-JP; old StrengthLoss wording is absent from ViewModel, Markdown, Telegram HTML and archival Markdown.",
+      "required": true,
+      "scenario": "late-final-leaderless-candidate-strength-loss",
+      "status": "unverified",
+      "verificationPlan": "report_ui regression exercises PresentationAssembler, final Leadership reconciliation and generate_refined_report across all three localized surfaces."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "StrengthLoss plus RECOVERY_WATCH retains existing localized canonical recovery wording on Candidate and risk presentation.",
+      "required": true,
+      "scenario": "leaderless-recovery-watch-candidate",
+      "status": "unverified",
+      "verificationPlan": "production-like report_ui regression checks canonical recovery wording and absence of legacy raw phrase in the ViewModel and each report surface."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate diagnostic is omitted or neutral and never falls back to raw StrengthLoss reason when a valid same-symbol canonical risk fact is unavailable.",
+      "required": true,
+      "scenario": "candidate-canonical-risk-fact-missing-or-malformed",
+      "status": "unverified",
+      "verificationPlan": "report_ui regression invokes leaderless reconciliation with missing and malformed matching risk facts and checks the candidate consumer."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "A confirmed leader remains eligible to use the existing raw StrengthLoss wording; the leaderless presentation fix does not blanket-rewrite it.",
+      "required": true,
+      "scenario": "confirmed-leader-strength-loss-control",
+      "status": "unverified",
+      "verificationPlan": "localized report_ui control case starts with confirmed Leadership and checks existing reason semantics."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/shared/interface/i18n.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "With no position and candidate eligibility false, READY/Probe candidate explanation uses the existing observation-only wording in all three languages and never says hold-first.",
+      "required": true,
+      "scenario": "unheld-ineligible-cruise-candidate",
+      "status": "unverified",
+      "verificationPlan": "report_ui regression renders the assembled candidate and checks localized Markdown, Telegram HTML and archival Markdown outputs."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate label appears once and remains separate from risk reason; Decision/Gate/Probe/Eligibility/Action Matrix/Risk Adjustment/Exit State/Position Sizing outputs are unchanged.",
+      "required": true,
+      "scenario": "candidate-label-and-trading-boundary",
+      "status": "unverified",
+      "verificationPlan": "report output assertions check a single candidate label and compare decision-facing fields before and after presentation reconciliation."
+    }
+  ],
+  "scope": [
+    "変更対象は src/features/radar/interface/presentation_assembler.rs（最終Leadership反映時に候補診断をcanonical risk ViewModelへ同期し、未保有かつ候補対象外の汎用巡航診断を既存の観測文言へ揃える）、src/features/radar/interface/report.rs（Candidate表示内で同一のcandidate labelを二重表示しない）、src/features/radar/interface/report_ui_tests.rs（Assembler→Leadership reconciliation→generate_refined_report→Markdown/Telegram HTML/archiveのproduction-like回帰）、docs/superpowers/plans/2026-09-26-risk-candidate-canonical-reason-regression.md（本WIの実装計画）。",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "docs/superpowers/plans/2026-09-26-risk-candidate-canonical-reason-regression.md",
+    ".ai/work-items/active/risk-candidate-canonical-reason-regression.*",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.*"
+  ],
+  "sources": [
+    "user-request:/Users/sei-rinn/.codex/attachments/9e0d94f9-d149-45b6-946b-15aeb0e77a20/貼り付けたテキスト.txt",
+    "base:origin/develop@eb0986172e17e845bfba499a20d12fa9987e05e7",
+    "existing-canonicalizer:src/features/radar/interface/presentation_assembler.rs@eb0986172e17e845bfba499a20d12fa9987e05e7",
+    "canonical-risk-consumers:src/features/radar/interface/report_ui_tests.rs@f9fa7f5c"
+  ],
+  "state": "implementation_active",
+  "unknowns": [],
+  "verification": [
+    "cargo test risk --lib",
+    "cargo test candidate --lib",
+    "cargo test report_ui --lib",
+    "make fmt-check",
+    "make test",
+    "make clippy",
+    "make quality"
+  ],
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}
