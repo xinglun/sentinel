@@ -15,52 +15,38 @@
     "deliveredChanges": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         ],
         "inference": false,
         "text": "Changed path: .ai/decisions/observer-snapshot.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.close.json"
+        "text": "Changed path: .ai/decisions/risk-candidate-close-evidence-promotion.recovery.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.finalize.json"
+        "text": "Changed path: .ai/locks/risk-candidate-close-evidence-promotion.lifecycle.lock"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification-attempt.f9681fab6005c8bde2f249fee02ad0b7c01967625cf966a7d0efb8a5f88abdd2.json"
+        "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
       },
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         ],
         "inference": false,
-        "text": "Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
-      },
-      {
-        "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
-        ],
-        "inference": false,
-        "text": "Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+        "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
       }
     ],
     "evidence": [
@@ -116,7 +102,7 @@
     "taskOverview": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
         ],
         "inference": false,
         "text": "source Work Item の厳密な provider finalization receipt と human close decision を変更せず reviewed PR で develop に保存し、続く独立 Work Item による main 同期へ引き継ぐ"
@@ -125,7 +111,7 @@
     "warnings": [
       {
         "evidenceRefs": [
-          ".ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
+          ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
         ],
         "inference": false,
         "text": "User-visible benefit is not declared by the Work Item owner."

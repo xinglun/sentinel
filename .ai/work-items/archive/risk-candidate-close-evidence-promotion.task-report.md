@@ -15,12 +15,10 @@
 ## Delivered changes
 
 - Changed path: .ai/decisions/observer-snapshot.json
-- Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.close.json
-- Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.finalize.json
-- Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification-attempt.f9681fab6005c8bde2f249fee02ad0b7c01967625cf966a7d0efb8a5f88abdd2.json
-- Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification.json
-- Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json
-- Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json
+- Changed path: .ai/decisions/risk-candidate-close-evidence-promotion.recovery.json
+- Changed path: .ai/locks/risk-candidate-close-evidence-promotion.lifecycle.lock
+- Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json
+- Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json
 
 ## Findings
 

@@ -6,9 +6,9 @@
     "production code、reports、data、他の archive や branch は変更しない。",
     "PR merge 後、実際の GitHub PR/merge commit と exact branch/worktree identity を provider finalization receipt に記録し、finalize-verify の成功後、明示済みユーザー権限に基づく close decision を記録する。"
   ],
-  "createdAt": "2026-09-25T21:16:03Z",
+  "createdAt": "2026-09-25T21:32:57Z",
   "decisionState": "green",
-  "evidenceDigest": "sha256:3f897a447d194e2be362d0b3990f8b5c30ed94fdda39af0b94fa771f04f3cd16",
+  "evidenceDigest": "sha256:a514e26c676e900d3d96ca41c504086b2021114784cc6372776a5fac7e4ca418",
   "evidenceRefs": [
     ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
   ],
@@ -45,52 +45,38 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/decisions/observer-snapshot.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.close.json"
+          "text": "Changed path: .ai/decisions/risk-candidate-close-evidence-promotion.recovery.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/decisions/risk-candidate-canonical-reason-regression.finalize.json"
+          "text": "Changed path: .ai/locks/risk-candidate-close-evidence-promotion.lifecycle.lock"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification-attempt.f9681fab6005c8bde2f249fee02ad0b7c01967625cf966a7d0efb8a5f88abdd2.json"
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
-        },
-        {
-          "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
-          ],
-          "inference": false,
-          "text": "Changed path: .ai/work-items/active/risk-candidate-close-evidence-promotion.summary.json"
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
         }
       ],
       "evidence": [
@@ -146,7 +132,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
           ],
           "inference": false,
           "text": "source Work Item の厳密な provider finalization receipt と human close decision を変更せず reviewed PR で develop に保存し、続く独立 Work Item による main 同期へ引き継ぐ"
@@ -155,7 +141,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json"
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -165,8 +151,8 @@
     "status": "verified",
     "workItemId": "risk-candidate-close-evidence-promotion"
   },
-  "taskReportDigest": "sha256:c943955ed38284b80f541eb44f13a046fe8b0e2d9d7bc4e846b5c24084569cab",
-  "taskReportMarkdownDigest": "sha256:c10e8902f94fde11a7220f3d3b4e200e540052bd6394c65844f11e3d6fe4b572",
+  "taskReportDigest": "sha256:58524308e04606a8575071aa5fb83f8c348584edab6663910f5150a2ba30896b",
+  "taskReportMarkdownDigest": "sha256:6a7a78cedecb1a4c3618968982c34ab2db74dbd7a91b38fc08856c4f436bc35d",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],

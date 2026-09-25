@@ -22,16 +22,26 @@
   "requiredEvidenceClasses": [
     "verification_receipt"
   ],
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-candidate-close-record-promotion",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/282",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/risk-candidate-close-record-promotion/sentinel"
+  },
   "risk": "normal",
   "scope": [
     "追加対象は .ai/decisions/risk-candidate-canonical-reason-regression.finalize.json と .ai/decisions/risk-candidate-canonical-reason-regression.close.json のみ。Work Item 自身の active/archive contract、summary、events、verification evidence、archive/outcome records と lifecycle receipt は標準生成物として含む。develop への reviewed PR、required hosted checks、当該 branch/worktree の exact cleanup まで。",
-    ".ai/decisions/observer-snapshot.json（Runtime が本 Work Item の lifecycle 状態を投影する生成記録）"
+    ".ai/decisions/observer-snapshot.json（Runtime が本 Work Item の lifecycle 状態を投影する生成記録）",
+    "PR #282 が実在する draft 状態になった後、Runtime work-item finalize-plan で PR URL、base、branch、worktree の resourceContext を Contract に束縛し、その Contract で preflight と required verification を再実行してから archive する。"
   ],
   "sources": [
     "source-close-receipt:.ai/decisions/risk-candidate-canonical-reason-regression.close.json",
     "source-finalization-receipt:.ai/decisions/risk-candidate-canonical-reason-regression.finalize.json",
     "source-archive:.ai/work-items/archive/risk-candidate-canonical-reason-regression.archive.json",
-    "merged-source-PR:https://github.com/xinglun/sentinel/pull/281"
+    "merged-source-PR:https://github.com/xinglun/sentinel/pull/281",
+    "provider-draft-PR:https://github.com/xinglun/sentinel/pull/282@e2f816e86568c368d142f5b285d38c5906d2f1f8"
   ],
   "state": "implementation_active",
   "verification": [
