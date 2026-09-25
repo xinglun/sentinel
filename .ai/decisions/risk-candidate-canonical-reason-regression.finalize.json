@@ -1,0 +1,59 @@
+{
+  "actor": "human:repository-owner",
+  "after": {
+    "branch": "deleted",
+    "pullRequest": "merged",
+    "worktree": "removed"
+  },
+  "authoritySource": "explicit-user-authorization",
+  "before": {
+    "branch": "present",
+    "pullRequest": "merged",
+    "worktree": "clean"
+  },
+  "branch": {
+    "headRevision": "1d61b3b2cb9101aa329c65f1bc31aa503f6c0317",
+    "name": "codex/risk-candidate-canonical-reason-regression",
+    "remote": "origin"
+  },
+  "contractBaseRevision": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+  "contractDigest": "sha256:2d954101e17493bc940c64c8fe5f06313645f04f88dfb48eb8ea03f3a9fc8f5c",
+  "operationId": "github-pr-281-finalize",
+  "provider": "github",
+  "pullRequest": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "baseRevision": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+    "headRevision": "1d61b3b2cb9101aa329c65f1bc31aa503f6c0317",
+    "mergeCommit": "382cf874fb4718b8382149580f3fabcb64959d00",
+    "number": 281,
+    "url": "https://github.com/xinglun/sentinel/pull/281"
+  },
+  "reason": "PR #281 已合并到 develop（merge commit 382cf874）；经 GitHub、origin/local refs 与 worktree list 复核，精确 feature branch 和 linked worktree 已删除。按用户明确授权记录资源 finalization。",
+  "receiptId": "risk-candidate-canonical-reason-regression-finalization",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-candidate-canonical-reason-regression",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/281",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/risk-candidate-canonical-reason-regression/sentinel"
+  },
+  "result": {
+    "disposition": "deleted",
+    "failureCodes": [],
+    "unknownCodes": []
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "timestamp": "2026-09-25T20:58:00Z",
+  "workItemId": "risk-candidate-canonical-reason-regression",
+  "worktree": {
+    "branch": "codex/risk-candidate-canonical-reason-regression",
+    "headRevision": "1d61b3b2cb9101aa329c65f1bc31aa503f6c0317",
+    "path": "/Users/sei-rinn/.codex/worktrees/risk-candidate-canonical-reason-regression/sentinel",
+    "worktreeId": "risk-candidate-canonical-reason-regression"
+  }
+}

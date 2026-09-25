@@ -1,0 +1,29 @@
+{
+  "actor": "human:repository-owner",
+  "authoritySource": "explicit user authorization in this task to complete the development instructions, merge the PR to develop, clean up, and synchronize main",
+  "decidedAt": "2026-09-25T21:25:55Z",
+  "decision": "retry",
+  "decisionId": "work-item-recovery",
+  "evidenceRefs": [
+    ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json",
+    ".ai/work-items/active/risk-candidate-close-evidence-promotion.outcome.json",
+    "https://github.com/xinglun/sentinel/pull/282"
+  ],
+  "policyRefs": [
+    "AGENTS.md",
+    ".ai/README.md",
+    ".ai/cockpit/README.md"
+  ],
+  "predecessorContractDigest": "sha256:d30ee368c055ccaf3b5ae0afd9979f831be51f7c1ae28c834c9070ba6523aa4e",
+  "predecessorEventsDigest": "sha256:4810e89c1bd27489b288ec8ebce9c735283822c27017f94b5c7ec3b41da48138",
+  "predecessorOutcomeDigest": "sha256:821c606d16f8469e6603b0793b5dc4ed07dcae2ed447ec0a6214398aaebcd0ad",
+  "predecessorSummaryDigest": "sha256:38e5cf848a6b4e16fc3c5d95860056d3ce2924252d0700b6fb9245c37cfd7262",
+  "predecessorWorkItemId": "risk-candidate-close-evidence-promotion",
+  "reason": "Runtime 拒绝在 finish_ready/既有 verification cycle 后直接绑定 PR #282 resourceContext。保留既有 verification 与 Outcome 作为历史尝试，依照同仓库 PR #204 的 retry 先例，在同一未归档 Work Item 内重新绑定真实 PR、运行 fresh preflight/verification，再完成 finish/archive、PR merge、精确资源清理、finalize-verify 与 close。用户已明确授权完成 PR 合并、清理及 main 同步。",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resumeCondition": "通过 work-item retry 恢复当前 Work Item；使用 PR #282 的准确 base/branch/worktree/provider context 运行 finalize-plan；对 resourceContext 绑定后的 Contract fresh preflight 与 make quality 验证；完成 finish/archive，required hosted checks 与 develop merge，删除精确分支/worktree，完成 finalization、finalize-verify、close；随后继续独立的 develop-to-main Work Item。",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "risk-candidate-close-evidence-promotion"
+}
