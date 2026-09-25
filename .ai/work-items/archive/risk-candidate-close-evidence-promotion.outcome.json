@@ -1,0 +1,165 @@
+{
+  "acceptanceResults": [
+    "source Work Item の finalization/close JSON は primary worktree の記録と SHA-256 が一致し、内容を編集しない。",
+    "PR は develop を base として対象2ファイルと本 Work Item のガバナンス記録だけを含み、required hosted checks がすべて成功する。",
+    "PR merge と develop 上の両 receipt の存在を確認し、当該 PR branch/local branch/worktree のみを provider finalization 後に cleanup する。",
+    "production code、reports、data、他の archive や branch は変更しない。",
+    "PR merge 後、実際の GitHub PR/merge commit と exact branch/worktree identity を provider finalization receipt に記録し、finalize-verify の成功後、明示済みユーザー権限に基づく close decision を記録する。"
+  ],
+  "createdAt": "2026-09-25T21:32:57Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:a514e26c676e900d3d96ca41c504086b2021114784cc6372776a5fac7e4ca418",
+  "evidenceRefs": [
+    ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "workItemId": "risk-candidate-close-evidence-promotion"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/risk-candidate-close-evidence-promotion.recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/risk-candidate-close-evidence-promotion.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "source Work Item の厳密な provider finalization receipt と human close decision を変更せず reviewed PR で develop に保存し、続く独立 Work Item による main 同期へ引き継ぐ"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-candidate-close-evidence-promotion"
+  },
+  "taskReportDigest": "sha256:58524308e04606a8575071aa5fb83f8c348584edab6663910f5150a2ba30896b",
+  "taskReportMarkdownDigest": "sha256:6a7a78cedecb1a4c3618968982c34ab2db74dbd7a91b38fc08856c4f436bc35d",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "risk-candidate-close-evidence-promotion"
+}

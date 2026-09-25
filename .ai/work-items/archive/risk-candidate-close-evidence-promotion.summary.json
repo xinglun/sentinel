@@ -1,0 +1,98 @@
+{
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/decisions/risk-candidate-close-evidence-promotion.recovery.json",
+    ".ai/locks/risk-candidate-close-evidence-promotion.lifecycle.lock",
+    ".ai/work-items/archive/risk-candidate-close-evidence-promotion.contract.json",
+    ".ai/work-items/archive/risk-candidate-close-evidence-promotion.summary.json"
+  ],
+  "checkpointAt": "2026-09-25T21:05:35Z",
+  "checkpointContractDigest": "sha256:e823bed45d02202c02a3b8b3e41489870b8ccc1fce756e83d06228fa8038a655",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:c027f8b3885f16dadfde492441771406c6d81bb9518646ff19496967a3efd0f5",
+      "recorded": true,
+      "recordedAt": "2026-09-25T21:05:35Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "risk-candidate-close-evidence-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:821b3521df40904e848ac4625b69242933a17bc3486a1d4570e9e4e24659cf0e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c027f8b3885f16dadfde492441771406c6d81bb9518646ff19496967a3efd0f5",
+      "previousContractHash": "sha256:c027f8b3885f16dadfde492441771406c6d81bb9518646ff19496967a3efd0f5",
+      "reason": "Runtime Outcome が指摘した provider finalization 宣言不足を明示し、Runtime 生成 observer snapshot を exact scope に加える。既存 checkpoint は保持する。",
+      "recorded": true,
+      "recordedAt": "2026-09-25T21:11:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-candidate-close-evidence-promotion"
+    },
+    {
+      "acceptanceCount": 5,
+      "contractHash": "sha256:d30ee368c055ccaf3b5ae0afd9979f831be51f7c1ae28c834c9070ba6523aa4e",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:c027f8b3885f16dadfde492441771406c6d81bb9518646ff19496967a3efd0f5",
+      "previousContractHash": "sha256:821b3521df40904e848ac4625b69242933a17bc3486a1d4570e9e4e24659cf0e",
+      "reason": "PR #282 が実際に存在するため source と scope を追加し、Runtime resourceContext binding を required verification より先に行う。現行 checkpoint は保持し、古い verification cycle は再実行する。",
+      "recorded": true,
+      "recordedAt": "2026-09-25T21:21:42Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": 0,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": true,
+      "workItemId": "risk-candidate-close-evidence-promotion"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+  "createdAt": "2026-09-25T21:04:16Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/risk-candidate-close-evidence-promotion.contract.json",
+      ".ai/evidence/risk-candidate-close-evidence-promotion.verification.json",
+      ".ai/decisions/risk-candidate-canonical-reason-regression.finalize.json",
+      ".ai/decisions/risk-candidate-canonical-reason-regression.close.json",
+      "https://github.com/xinglun/sentinel/pull/282"
+    ],
+    "reason": "本 Work Item は source Contract が要求する finalization/close records を変更せず develop に昇格する。Runtime verification は通過し、production code、report、data を変更していない。これは意図との整合確認であり、ユーザー可視の製品便益を主張しない。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-25T21:32:45Z",
+  "preflightContractDigest": "sha256:e823bed45d02202c02a3b8b3e41489870b8ccc1fce756e83d06228fa8038a655",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-09-25T21:32:57Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "risk-candidate-close-evidence-promotion"
+}

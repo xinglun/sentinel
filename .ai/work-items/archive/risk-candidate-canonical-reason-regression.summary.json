@@ -1,0 +1,390 @@
+{
+  "acceptanceEvidence": [
+    {
+      "acceptance": "Leadership reconciliation後のLEADERLESS / FRAGMENTED候補はRisk Opportunityと同一のcanonical risk presentation reasonを表示し、zh-CN/en-US/ja-JPで旧StrengthLoss語彙をCandidate/Watchlist ViewModel・Markdown・Telegram HTML・Archive Markdownへ漏らさない。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test report_ui --lib",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "RECOVERY_WATCHがあるStrengthLoss候補は三言語で既存canonical recovery wordingを維持し、通常のleader-confirmed StrengthLoss raw wordingは本修正だけを理由に置換しない。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test report_ui --lib",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "Candidate表示はcanonical risk ViewModelだけを参照し、同一のcandidate labelを重複表示しない。canonical risk factが欠落した場合はraw reasonを表示しない。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test candidate --lib",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "positionなし・eligible=falseの巡航候補は三言語で既存のobservation-only wordingを使い、「持有为主」等の実行含意がある表現を使わない。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/shared/interface/i18n.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test candidate --lib",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "既存Risk Summary / Portfolio Risk / Top Actions canonical表示を保持する。Decision、Gate、Probe、Eligibility、Action Matrix、Risk Adjustment、Exit State、Position Sizing、decision_weight=0 / trade_signal=falseの出力意味を変更しない。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test risk --lib",
+        "make test",
+        "make quality"
+      ],
+      "status": "verified"
+    },
+    {
+      "acceptance": "production-like回帰がPresentationAssemblerからgenerate_refined_reportまでを通り、Markdown・Telegram HTML・Archive Markdownすべてで同じcanonical意味を検証する。",
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs",
+        "cargo test report_ui --lib",
+        "make quality"
+      ],
+      "status": "verified"
+    }
+  ],
+  "changedPaths": [
+    ".ai/decisions/observer-snapshot.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.003caf0f7b7394b316b023e04c54ee9d3673023149cda4d9ef4a1c53a60c2cdc.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.08b7d42751b98746441c8086f2129d3cfee4f621b12ac44079c0858bf1b7e793.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.0d55458844c045e5791159cff53b36d79e15fd908ee43d41f4320753182ce209.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.1ee66ccdf92666c443997cb670a426b2eac10dd948683402ccc61a10d0ebe793.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.1f61cbbfb790337a423c37361bda2803d4ffd418b84c2560dfe4a26e15621acf.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.2d8a1b8b1f08129eb131f4668a45e522adfe0e85e5a011a3a50a516ee723ccac.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.2dc550e9e258473d7302cb7dc1ae47a84fa39df6fc2fcf9978481006f4e15c73.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.30c0a23f24c4580215b112a294e1a909108628fe38bffea2a96834b1520c2ece.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.3fa00011ba6499e1d41ef4e5b9e329ab95f4f29ef55bc24c4bdf4748f37d343d.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.5d0b689bf175765cc0637e32265072886ec29b4bf2f767118c5a72e84a47cd3e.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.613fd457b0814fe28847ce25e48cf26c449a060e94016d3b96d2497dc08a9595.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.62e33cd96b70de28f97551389d5bf1f299d9d27d98d5940a37ef24e34f19513e.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.653f9fd6e1909b4177b34d77eec869523c5c4e13f81e87c62bd0818c67b87a0d.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.811056f1e26b3b3eb8f7abc46d41a3e74644ab2b75226db6703eec608667ea95.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.8e167867cece55035601527d89decf9d72e4005707328f68fb7cc6706e628f93.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.99da2559d5422b361c5dd5be8b9cabec118c5b27cf3c2c49554a6d72308c32dd.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.b0bd45ebebe12a273990cd90c4b3791ffd76e6a9129f705a59b0dfba001c0d22.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.b6d097b4b20e417f63fe92b3250d40630396b1c7ca4ec6526fd2527cfc20a085.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.d5d19211be222170efb6b1733b45712a49f2712fd342a148cd28a71b2111be10.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.d68832d6f29e51fb5946e8cbfe5084d5e3ff1b0057a71790e2ae502ab218df6c.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.dc0b40a54e60dbae61822e02bfd26b5fc7353ce8c77c3b6c7c196fe1adc4c5d2.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.dcaf237a271fa6684e55468916e11d6fd5781b841877d213bf9876867ce1aa5d.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.e2161436690f9cd80e9be502ebcae38fefb938510a62c31bc1577aae3904e041.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.f6ad059a4e884da35b69de05170693dc72491ce13e1ca81cd93d001ec7877350.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.fed38d827fba6b1fe1b03ce1773b489286b4ea32073881f046b13d5cbc386e0a.json",
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json",
+    ".ai/knowledge/ai-policy-frontier-pacing-hypothesis-linkage.json",
+    ".ai/knowledge/ai-policy-frontier-pacing-observation.json",
+    ".ai/knowledge/ai-policy-source-classification-reopen.json",
+    ".ai/knowledge/ai-policy-source-classification.json",
+    ".ai/knowledge/alpha-vantage-earnings-calendar-provider.json",
+    ".ai/knowledge/breakout-presentation-semantic-clarity.json",
+    ".ai/knowledge/ci_installed_ai_cockpit_route.json",
+    ".ai/knowledge/ci_installed_ai_cockpit_route_recovery.json",
+    ".ai/knowledge/corporate-event-evidence-resolver.json",
+    ".ai/knowledge/corporate-event-provider-discovery-recovery.json",
+    ".ai/knowledge/corporate-event-provider-discovery-runtime-recovery.json",
+    ".ai/knowledge/corporate-event-provider-discovery.json",
+    ".ai/knowledge/corporate-event-provider-neutralization.json",
+    ".ai/knowledge/corporate-event-signal-context.json",
+    ".ai/knowledge/daily-radar-apt-source-fix-finalization-recovery.json",
+    ".ai/knowledge/daily-radar-apt-source-fix.json",
+    ".ai/knowledge/daily-radar-packet-delivery-fix-finalization-recovery.json",
+    ".ai/knowledge/daily-radar-packet-delivery-fix-finalization-v2.json",
+    ".ai/knowledge/daily-radar-packet-delivery-fix.json",
+    ".ai/knowledge/daily-radar-reliability-fix-finalization-recovery.json",
+    ".ai/knowledge/daily-radar-reliability-fix.json",
+    ".ai/knowledge/daily-radar-scheduled-reuse.json",
+    ".ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-recovery.json",
+    ".ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-v2.json",
+    ".ai/knowledge/daily-radar-snapshot-report-date-conflict.json",
+    ".ai/knowledge/daily-report-observation-integrity-finalization-recovery.json",
+    ".ai/knowledge/daily-report-observation-integrity.json",
+    ".ai/knowledge/daily-report-runtime-integrity.json",
+    ".ai/knowledge/day-only-observation-precision.json",
+    ".ai/knowledge/decision-transition-presentation-consistency.json",
+    ".ai/knowledge/decision-transition-presentation-integrity.json",
+    ".ai/knowledge/develop-main-ancestry-repair-20260918-v4.json",
+    ".ai/knowledge/develop-main-sync-20260918-v5.json",
+    ".ai/knowledge/develop-main-sync-20260918.json",
+    ".ai/knowledge/develop-main-sync-20260919-v6.json",
+    ".ai/knowledge/develop-main-sync-20260919-v7.json",
+    ".ai/knowledge/develop-main-sync-20260919-v8.json",
+    ".ai/knowledge/develop-main-sync-20260922-v1.json",
+    ".ai/knowledge/develop-main-sync-20260922-v2.json",
+    ".ai/knowledge/develop-main-sync.json",
+    ".ai/knowledge/fred-observation-date-precision-integrity-finalization-recovery-v2.json",
+    ".ai/knowledge/fred-observation-date-precision-integrity.json",
+    ".ai/knowledge/freshness-gate-holiday-fix-runtime-revalidation-v1.json",
+    ".ai/knowledge/freshness-gate-holiday-fix.json",
+    ".ai/knowledge/governance-script-drift-cleanup-runtime-revalidation-v1.json",
+    ".ai/knowledge/governance-script-drift-cleanup.json",
+    ".ai/knowledge/holiday-market-context-semantic-fix-finalization-recovery.json",
+    ".ai/knowledge/holiday-market-context-semantic-fix.json",
+    ".ai/knowledge/index.json",
+    ".ai/knowledge/leadership-absence-reconstruction-integrity.json",
+    ".ai/knowledge/macro-geopolitical-high-information-context.json",
+    ".ai/knowledge/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.json",
+    ".ai/knowledge/nyse-holiday-narrative-token-fix.json",
+    ".ai/knowledge/primary-event-scoped-binding.json",
+    ".ai/knowledge/quality-coverage-expectation-source-adapter.json",
+    ".ai/knowledge/remove-repo-secret-config.json",
+    ".ai/knowledge/risk-presentation-canonicalization-finalization-recovery.json",
+    ".ai/knowledge/risk-presentation-canonicalization.json",
+    ".ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v2.json",
+    ".ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v3.json",
+    ".ai/knowledge/risk-presentation-delivery-path-integrity.json",
+    ".ai/knowledge/risk-probe-candidate-label-integrity.json",
+    ".ai/knowledge/sec-edgar-official-disclosure-provider.json",
+    ".ai/knowledge/sec-edgar-real-run-validation.json",
+    ".ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix-v2.json",
+    ".ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix.json",
+    ".ai/knowledge/signal-context-acceptance-replay.json",
+    ".ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-recovery.json",
+    ".ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.json",
+    ".ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair.json",
+    ".ai/knowledge/signal-context-geopolitical-lexical-integrity.json",
+    ".ai/knowledge/signal-context-historical-finalization-cleanup.json",
+    ".ai/knowledge/signal-context-target-cleanup-reconciliation.json",
+    ".ai/knowledge/signal-context-temporal-alignment-finalization-recovery.json",
+    ".ai/knowledge/signal-context-temporal-alignment.json",
+    ".ai/knowledge/telegram-report-delivery-integrity-finalization-recovery.json",
+    ".ai/knowledge/telegram-report-delivery-integrity.json",
+    ".ai/knowledge/telegram-report-delivery-resend-gate-finalization-repair.json",
+    ".ai/knowledge/telegram-report-delivery-resend-gate-finalization.json",
+    ".ai/knowledge/telegram-report-delivery-resend-gate.json",
+    ".ai/knowledge/telegram-report-payload-archive-repair.json",
+    ".ai/knowledge/telegram-report-payload-archive.json",
+    ".ai/knowledge/telegram-report-recovery-finalization-recovery.json",
+    ".ai/knowledge/telegram-report-recovery.json",
+    ".ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery-v2.json",
+    ".ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery.json",
+    ".ai/knowledge/ubuntu-runner-pinning-20260922.json",
+    ".ai/knowledge/uninstall_python_ai_cockpit.json",
+    ".ai/knowledge/universe-breadth-semantic-reconciliation.json",
+    ".ai/work-items/archive/risk-candidate-canonical-reason-regression.approach.json",
+    ".ai/work-items/archive/risk-candidate-canonical-reason-regression.contract.json",
+    ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json",
+    "docs/superpowers/plans/2026-09-26-risk-candidate-canonical-reason-regression.md",
+    "src/features/radar/interface/presentation_assembler.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs"
+  ],
+  "checkpointAt": "2026-09-25T19:12:37Z",
+  "checkpointContractDigest": "sha256:b9338f30bb896604879075cd00a9160ea9fab36c0c23935e9057e8490b1389b3",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "recorded": true,
+      "recordedAt": "2026-09-25T19:12:37Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:cb7636aa69c49abdd373b877016636b7e6be255bee88babd83fd181052d444d7",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:7be6fa7419fc9d32a2b40b0728150173c969eb20f1f8e81b3bb869e744ad1e2a",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "previousContractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "reason": "明示化された受け入れシナリオをContractへ追加し、三言語・全レポート面・決定境界の検証を追跡する。既存scopeは変更しない。",
+      "recorded": true,
+      "recordedAt": "2026-09-25T19:18:51Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:697e267d0118ba5ef8f9843ba791fb6b39e09f44f7fb3b8a04f5f0c64d0e837c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:17528eb37d845be5fce3fa2eff3797b36cd32ad9990bba99f3f68a2e86ad7f4c",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "previousContractHash": "sha256:7be6fa7419fc9d32a2b40b0728150173c969eb20f1f8e81b3bb869e744ad1e2a",
+      "reason": "Runtime scope validation requires explicit repository paths; append the already user-authorized files and this Work Item evidence directory. No behavioral scope is added.",
+      "recorded": true,
+      "recordedAt": "2026-09-25T19:21:03Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:697e267d0118ba5ef8f9843ba791fb6b39e09f44f7fb3b8a04f5f0c64d0e837c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:72541bcecaeb623c7899691c1320ecf289e9571b6d8b71e7152c29bdafa2af38",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "previousContractHash": "sha256:17528eb37d845be5fce3fa2eff3797b36cd32ad9990bba99f3f68a2e86ad7f4c",
+      "reason": "ContractにRuntime scaffoldで未設定だったunknowns、notCodable、agentCapability、executionDecision、preReviewWarningsをユーザー指定範囲から明示し、追加scenarioと明示path scopeも含めて再検証する。",
+      "recorded": true,
+      "recordedAt": "2026-09-25T19:22:03Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:697e267d0118ba5ef8f9843ba791fb6b39e09f44f7fb3b8a04f5f0c64d0e837c",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    {
+      "acceptanceCount": 6,
+      "contractHash": "sha256:b9338f30bb896604879075cd00a9160ea9fab36c0c23935e9057e8490b1389b3",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:3c3b5933648a3a6f0b64ea54379e9ba032acc678bceefbd7808ab3f8028ea993",
+      "previousContractHash": "sha256:72541bcecaeb623c7899691c1320ecf289e9571b6d8b71e7152c29bdafa2af38",
+      "reason": "Runtime が検証前提を拒否した試行の専用証拠と正式検証証拠をWork Item範囲内に保持するため。",
+      "recorded": true,
+      "recordedAt": "2026-09-25T19:33:53Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:5c6cc8d9921cf098b54f2e713a19847ec48c6f38490b55176dfe9e694db20345",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+  "createdAt": "2026-09-25T19:11:14Z",
+  "intentAlignment": {
+    "evidence": [
+      ".ai/work-items/active/risk-candidate-canonical-reason-regression.contract.json",
+      "src/features/radar/interface/presentation_assembler.rs",
+      "src/features/radar/interface/report.rs",
+      "src/features/radar/interface/report_ui_tests.rs"
+    ],
+    "reason": "候補 risk reason を確定 Leadership と一致させることで、risk 状態を誤解なく読めるようにする。未保有・eligible=falseの候補では保有指示と読める表現を避ける。実装は表示境界に限定し、取引判断意味を維持する。",
+    "state": "resolved"
+  },
+  "mode": "code",
+  "preflightAt": "2026-09-25T20:26:37Z",
+  "preflightContractDigest": "sha256:b9338f30bb896604879075cd00a9160ea9fab36c0c23935e9057e8490b1389b3",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "scenarioCoverage": [
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate risk reason equals same-symbol canonical Risk Opportunity wording in zh-CN/en-US/ja-JP; old StrengthLoss wording is absent from ViewModel, Markdown, Telegram HTML and archival Markdown.",
+      "required": true,
+      "scenario": "late-final-leaderless-candidate-strength-loss",
+      "status": "verified",
+      "verificationPlan": "report_ui regression exercises PresentationAssembler, final Leadership reconciliation and generate_refined_report across all three localized surfaces."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "StrengthLoss plus RECOVERY_WATCH retains existing localized canonical recovery wording on Candidate and risk presentation.",
+      "required": true,
+      "scenario": "leaderless-recovery-watch-candidate",
+      "status": "verified",
+      "verificationPlan": "production-like report_ui regression checks canonical recovery wording and absence of legacy raw phrase in the ViewModel and each report surface."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate diagnostic is omitted or neutral and never falls back to raw StrengthLoss reason when a valid same-symbol canonical risk fact is unavailable.",
+      "required": true,
+      "scenario": "candidate-canonical-risk-fact-missing-or-malformed",
+      "status": "verified",
+      "verificationPlan": "report_ui regression invokes leaderless reconciliation with missing and malformed matching risk facts and checks the candidate consumer."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "A confirmed leader remains eligible to use the existing raw StrengthLoss wording; the leaderless presentation fix does not blanket-rewrite it.",
+      "required": true,
+      "scenario": "confirmed-leader-strength-loss-control",
+      "status": "verified",
+      "verificationPlan": "localized report_ui control case starts with confirmed Leadership and checks existing reason semantics."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/shared/interface/i18n.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "With no position and candidate eligibility false, READY/Probe candidate explanation uses the existing observation-only wording in all three languages and never says hold-first.",
+      "required": true,
+      "scenario": "unheld-ineligible-cruise-candidate",
+      "status": "verified",
+      "verificationPlan": "report_ui regression renders the assembled candidate and checks localized Markdown, Telegram HTML and archival Markdown outputs."
+    },
+    {
+      "evidence": [
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "expected": "Candidate label appears once and remains separate from risk reason; Decision/Gate/Probe/Eligibility/Action Matrix/Risk Adjustment/Exit State/Position Sizing outputs are unchanged.",
+      "required": true,
+      "scenario": "candidate-label-and-trading-boundary",
+      "status": "verified",
+      "verificationPlan": "report output assertions check a single candidate label and compare decision-facing fields before and after presentation reconciliation."
+    }
+  ],
+  "state": "finish_ready",
+  "updatedAt": "2026-09-25T20:35:10Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}
