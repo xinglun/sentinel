@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:b0d522c37aef616e5a190d66a311aa4d47d60dba50c8d35acfff94980ca6ce86",
+  "contractDigest": "sha256:2d954101e17493bc940c64c8fe5f06313645f04f88dfb48eb8ea03f3a9fc8f5c",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-09-25T20:41:51Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/risk-candidate-canonical-reason-regression",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/281",
+    "worktree": "/Users/sei-rinn/.codex/worktrees/risk-candidate-canonical-reason-regression/sentinel"
+  },
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}
