@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why this early Uber investor would short OpenAI
+  summary: OpenAI isn't even a public company yet, and there's already one prominent venture capitalist who would short the stock if it were public.
+  url: https://finnhub.io/api/news?id=fe6ecd8c5f3e501bccd48b268caffa1837724c5c7d40822470ee9fa014de3be5

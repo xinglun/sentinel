@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Synopsys Stock Popped, Then Dropped
+  summary: Synopsys is doing great -- but its non-GAAP earnings aren't quite as good as they look.
+  url: https://finnhub.io/api/news?id=f16c194be52d5533b7bfb31e15d2e39a632c704ea4764e3ad2f4e08f890fc003

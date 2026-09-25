@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Akamai Surges 15% on $11.6B Anthropic Cloud Deal; CoreWeave and Cloudflare Tick Up
+  summary: Anthropic just signed a multibillion-dollar cloud deal with a company Wall Street has never thought of as an AI infrastructure player, and the stock reaction is raising a bigger question about who really wins the AI compute race.
+  url: https://finnhub.io/api/news?id=246e8d6099a1d23533e7be09cec5d7d1cd64b6525d85c93b3c5509ae63c5c0c3

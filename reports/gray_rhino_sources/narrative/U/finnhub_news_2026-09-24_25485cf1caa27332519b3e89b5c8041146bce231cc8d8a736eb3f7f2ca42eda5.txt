@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gaming stocks fall after Meta unveils AI game-building tools
+  summary: Investing.com -- Unity Software Inc. (NYSE:U) fell 5%, while Roblox Corporation and AppLovin each dropped 1% after Meta announced new AI-powered game creation tools at its Connect conference.
+  url: https://finnhub.io/api/news?id=7254c3a607a6e6e23d1a7334fcb4a2eebfbf0bb8e426fde04a2a27c10a38e781

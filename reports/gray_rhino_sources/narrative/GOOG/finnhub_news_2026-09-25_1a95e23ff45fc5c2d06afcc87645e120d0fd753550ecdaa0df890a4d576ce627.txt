@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why now might be a good time to invest in Alphabet
+  summary: Google is getting into the space business. Yahoo Finance Executive Editor Brian Sozzi discusses what jumps out at him from Alphabet's (GOOG, GOOGL) Project Suncatcher launch.
+  url: https://finnhub.io/api/news?id=a83edcb9b6c3d3c4c5e9fba4864ed751f36aa52b5c8496057d2e165d8a8aaa4d

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could OpenAI and Anthropic going public backfire?
+  summary: Tusk Ventures Founder and CEO Bradley Tusk joins Yahoo Finance Executive Editor Brian Sozzi to make the case on why top AI companies like OpenAI and Anthropic are overvalued and the pressures of becoming a public company amid fears of AI safety.
+  url: https://finnhub.io/api/news?id=06f89668c2a8632f080771c1a38cd63d231dd7f56533c20efb0f69c26c43487f

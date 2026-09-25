@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: RVTY Launches New Kit in Europe for Newborn Type 1 Diabetes Detection
+  summary: Revvity launches a CE-IVDR-certified automated T1D screening kit for children, expanding its GSP platform from newborn screening into early childhood.
+  url: https://finnhub.io/api/news?id=a9ff4d3ba263b75cc7992bb9bb5763803e41a2e984ca6e0e139ac9d5b22bbd62

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Starts Semi Deliveries. Here's The Final Production Target — With No Timeline
+  summary: Tesla will start shipping its new Semi truck to customers this week, company executives said at an event on Thursday.  With the launch of the Semi, Tesla is pushing into a new category of EVs beyond its current passenger sedans and SUVs.  Despite much of the focus on Tesla's efforts to develop Optimus robots, Cybercabs and self-driving tech, the production-line Semi is the first new EV from Elon Musk's company since the Cybertruck's release in late 2023.
+  url: https://finnhub.io/api/news?id=40ed75d5e3cb85b21d50386fcb95ec5ecfb779d335ba132a6b28a5a4d3ce00e4

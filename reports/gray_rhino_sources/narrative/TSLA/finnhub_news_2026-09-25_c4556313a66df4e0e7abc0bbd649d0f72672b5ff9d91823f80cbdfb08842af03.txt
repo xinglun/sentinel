@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Semi: Diesel's surge gives the electric truck an opening as high prices improve the math for fleets
+  summary: Call it a victory lap rather than an official launch event for the Tesla Semi. And while not a lot of new information was revealed, there were a few tidbits of note.
+  url: https://finnhub.io/api/news?id=d219c7eb71455b8025168b31188894056b8562f6b074c601c28077813ecbf56d

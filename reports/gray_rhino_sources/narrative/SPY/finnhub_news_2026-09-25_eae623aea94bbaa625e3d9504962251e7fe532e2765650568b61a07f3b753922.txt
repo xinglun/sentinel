@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Muse-Apocalypse: 5 Stocks To Buy For The Agentic AI Era
+  summary: Metaâs Muse fuels agentic AI that searches, browses & transacts. Explore picks: Fastly, Cloudflare, AMD, Datadog & Micronâand who may lose.
+  url: https://finnhub.io/api/news?id=d632dd99cd01decdbf58d59434d91a545235eb7b00d8e651c0e26ac6303786bb

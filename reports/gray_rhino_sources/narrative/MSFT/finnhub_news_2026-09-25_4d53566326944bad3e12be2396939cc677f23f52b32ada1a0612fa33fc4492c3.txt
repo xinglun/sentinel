@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: US tech giants could spark a European nuclear revival
+  summary: JP Morgan believes the scramble by US technology giants for reliable power could push up European energy prices and hasten a long-awaited revival in nuclear power. Phil Buller, who covers European capital goods and utilities for the bank, said the trend was underappreciated by investors...
+  url: https://finnhub.io/api/news?id=bbd5724ac0b1d966f9374db358d6f143e8f3565a4400ed1d7566eb4787e84e22

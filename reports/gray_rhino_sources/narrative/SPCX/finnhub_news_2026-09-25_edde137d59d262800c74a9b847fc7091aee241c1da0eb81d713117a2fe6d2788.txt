@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Launches the Semi Truck. The New Roadster Is Up Next.
+  summary: Tesla  held a Semi Truck launch event in Nevada.  The Semi is a 10-ton behemoth Tesla hopes will disrupt shipping amid sky-high diesel costs.  Tesla plans to make 50,000 Semi Trucks annually, which represents roughly 10% of the trucks sold each year in the U.S. and Europe.
+  url: https://finnhub.io/api/news?id=cad3ea27bec14c3e7458087235eef01e68014ef4409e39c8cd66f0ef1533eced

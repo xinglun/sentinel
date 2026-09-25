@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Strong September Labor Market Report To Crush Stocks And Bonds
+  summary: A stronger September jobs report may lift wages and inflation, pushing rates higher and risking a stock market correction. Click for this latest analysis.
+  url: https://finnhub.io/api/news?id=221c7ecfad2ea26c2a10612f21ee898b4f2d991891db97ae612040de3dd243da

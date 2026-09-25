@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GM and Ford Just Got a Troubling New Signal From U.S. Car Buyers
+  summary: GM and Ford are projected to post the steepest U.S. market-share declines among automakers in 2026.
+  url: https://finnhub.io/api/news?id=54faca3eea60bce86d2de08c15607017db6bc8f73367fe4846312bfe8e2827ab

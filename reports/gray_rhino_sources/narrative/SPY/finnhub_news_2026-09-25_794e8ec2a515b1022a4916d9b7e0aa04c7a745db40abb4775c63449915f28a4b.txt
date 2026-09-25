@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bond Market Alarm Bells Are Ringing, But Mohamed El-Erian Says Psychology May Be Fueling the Fear More Than Fundamentals
+  summary: Mohamed El-Erian noted that the rise in bond yields stems from government borrowing and Fed signaling, but added that the yield surge relies on long-evident fundamentals rather than any sudden market shock. Market Compares Yields to 2007 Crisis The entire...
+  url: https://finnhub.io/api/news?id=811ad441a4a72461d0e1324bb6a1fb1a31c5ea4136ae7b372978f3f4f56874ce

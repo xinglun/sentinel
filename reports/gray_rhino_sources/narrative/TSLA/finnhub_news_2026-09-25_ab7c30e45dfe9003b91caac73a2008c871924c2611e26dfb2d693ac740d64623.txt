@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Starts Semi Deliveries Nearly Nine Years After Unveiling
+  summary: The long-range version can travel 500 miles on a single charge when loaded
+  url: https://finnhub.io/api/news?id=9963ab15ecfabc5cc015bdc49e43dee430242f7624fded2bdee847bfc7a1db92

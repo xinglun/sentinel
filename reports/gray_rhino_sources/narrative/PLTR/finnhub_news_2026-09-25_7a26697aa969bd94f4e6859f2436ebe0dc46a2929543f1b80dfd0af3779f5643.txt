@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Slowdown Push 'Unrealistic,' Says Palo Alto Networks CEO, AI Firms Trying to Seek Regulatory 'Sympathy'
+  summary: Palo Alto Networks CEO Nikesh Arora calls AI slowdown efforts a “Ninja Move” and says safety measures could shield firms from liability.
+  url: https://finnhub.io/api/news?id=6999e9e25697b23895628fab53aefc922cd28adec2560c403acc40672dab6751

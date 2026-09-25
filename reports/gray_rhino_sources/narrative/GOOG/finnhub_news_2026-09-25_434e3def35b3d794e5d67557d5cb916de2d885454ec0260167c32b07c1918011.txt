@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: META Strengthens VR Portfolio: Can It Stay Ahead of AAPL and GOOGL?
+  summary: Meta Platforms expands its VR push with lightweight AI-powered glasses, immersive content, and productivity tools as Apple and Alphabet step up the competition.
+  url: https://finnhub.io/api/news?id=2c764646c26a0fdf6d0a2313664aaab037c280dd98778d1216c6f2b765dafd90

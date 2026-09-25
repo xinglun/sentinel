@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Ignores AI Cheers and Hunts for Mispriced Risk
+  summary: Burry remains skeptical of the AI celebration without publicly identifying a new trade in his free post.
+  url: https://finnhub.io/api/news?id=d9ea26cc9cc8fbc8ae13bfd3ff620ab42236a753ec089006821f197dbf5db782

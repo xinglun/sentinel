@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CoreWeave Stock Making Your Portfolio's Bad Days Worse?
+  summary: CoreWeave (CRWV) has climbed 12.8% over the last five trading days, while the S&P 500 added 0.9%. The run coincided with a sale of convertible senior notes, and it stirs the urge to chase. But where CoreWeave goes next week is not the question for your money. What matters is how far it travels each time the market moves, and it travels furthest on the way down.
+  url: https://finnhub.io/api/news?id=a96166b07efe4619d5673e2f54c99a871d330f7c2e51d5b4039f5308e7cc9120

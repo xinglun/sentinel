@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma vs. ServiceNow: Which Technology Stock Is a Better Buy in 2026?
+  summary: Figma is growing fast and finding its footing as a newly public company. ServiceNow is generating substantial free cash flow and deepening its grip on enterprise operations. The gap in financial maturity tells the whole story.
+  url: https://finnhub.io/api/news?id=15f10f9ad8d10d9099bea0ab0b090dd249c49bb2eb8efe378ecd1ff587bc9013

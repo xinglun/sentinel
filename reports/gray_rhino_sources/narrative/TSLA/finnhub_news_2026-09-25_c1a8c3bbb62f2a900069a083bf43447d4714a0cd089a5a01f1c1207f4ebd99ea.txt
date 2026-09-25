@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The "Magnificent Seven" Stocks: Here's the 1 I'm Buying Hand Over Fist Right Now
+  summary: It's too good a value to pass up on right now.
+  url: https://finnhub.io/api/news?id=cd464a04d71a8232c71c2f8ced510af2b9d2d4cec53e66a1be586745bca88dbb

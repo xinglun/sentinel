@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX AI Will Be Better Than Anthropic and OpenAI in 6 Months, Musk Says. What It Means for the Stock.
+  summary: SpaceX’s  lead in the space race is enormous—and it wants to win the AI race, too.  Thursday, CEO Elon Musk reviewed where his AI company started, where it is, and where it is going.  “Our AI efforts are only 3 years old, versus six and 10 years old for Anthropic and OpenAI,” he tweeted on X. “If our second derivative remains strong, SpaceX will reach pole position in about 6 months.”
+  url: https://finnhub.io/api/news?id=8e86c9dcf06bf36c4f5a0049db5003d55bb337200bec80d7f1611d723bbbd002

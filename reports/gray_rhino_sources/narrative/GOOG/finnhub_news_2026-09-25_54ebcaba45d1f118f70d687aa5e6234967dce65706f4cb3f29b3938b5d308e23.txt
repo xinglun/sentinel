@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A forgotten tech giant makes a quiet comeback
+  summary: A fallen tech icon is quietly rebuilding its empire
+  url: https://finnhub.io/api/news?id=bf78e0998cd3b8eecd60d14fd7c98622368f908d8f5ba67f6fc2dfe1cbd9ed04

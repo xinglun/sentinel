@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Paychex Stock Slumped This Week
+  summary: Revenue continued to grow for Paychex, but at a much slower rate than last year.
+  url: https://finnhub.io/api/news?id=f2027f2e88f549c2568b152893a111f8b885b07b57865ac0cd21eec1e8be1402

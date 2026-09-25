@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Videogame Stocks Fall After Meta Announces AI Game Tool. Don’t Be Spooked Yet.
+  summary: Videogame stocks took a hit Thursday afternoon after  Meta Platforms  announced new artificial intelligence tools that can build mobile games.  Gaming investors shouldn’t be concerned just yet.  Meta  announced during the second day of its Connect conference that it was launching two new tools—Horizon Create and Horizon Studio—that enable creators to turn ideas into complete 2-D and 3-D mobile games.
+  url: https://finnhub.io/api/news?id=26f075147bac1b28ca41cc9e3673feeeb1d0f8440fcab985fa577d4a2119af78

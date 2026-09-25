@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Crashed Back Toward Earth for 3 Months: This Analyst Says It’s About to Double
+  summary: One Wall Street analyst has broken ranks with a target that would nearly double Rocket Lab's battered stock, but execution on a single make-or-break milestone stands between bulls and that payoff.
+  url: https://finnhub.io/api/news?id=8b55b8f9176342e7f692593bacc3cdd30805ee302a2c563dd36e2f949684f2ce

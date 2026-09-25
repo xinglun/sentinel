@@ -1,0 +1,124 @@
+{
+  "schema_version": "1",
+  "market_date": "2026-09-25",
+  "report_date": "2026-09-25",
+  "as_of_date": "2026-09-25",
+  "generated_at": "2026-09-26T03:50:54.066334631+09:00",
+  "run_id": "10fafc25-829e-4d7e-9284-7bb7fc39a71b",
+  "cycle_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9",
+  "snapshot_id": "6c273f30-7e81-45b2-b58f-5c654eafd5b9-2026-09-25",
+  "is_valid_trading_day": true,
+  "source_status": "complete",
+  "market_state": "NEWBORN",
+  "decision_state": "OBSERVE",
+  "new_position_limit": 100000.0,
+  "breadth": 70.0,
+  "breadth_classification": "BROAD_WITHIN_UNIVERSE",
+  "confidence": 66.62565305893455,
+  "supply_phase": "ACCUMULATING",
+  "risk_state": "NORMAL",
+  "primary_leader": "none",
+  "secondary_leaders": [],
+  "breakouts": {
+    "FIG": {
+      "consecutive_days": 0,
+      "quality": 36.0,
+      "state": "NO_BREAKOUT",
+      "strength": 0.0
+    },
+    "GOOG": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 12.0
+    },
+    "ISRG": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 0.0
+    },
+    "MSFT": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 98.0
+    },
+    "NVDA": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 44.0
+    },
+    "PLTR": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 100.0
+    },
+    "SPCX": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 70.0
+    },
+    "SPY": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 34.0
+    },
+    "TSLA": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 0.0
+    },
+    "U": {
+      "consecutive_days": 0,
+      "quality": 100.0,
+      "state": "NO_BREAKOUT",
+      "strength": 100.0
+    }
+  },
+  "stability": 10.0,
+  "continuity": 18,
+  "cycle_length_days": 18,
+  "reset_event": null,
+  "data_quality": {
+    "breadth_observation": {
+      "classification": "BROAD_WITHIN_UNIVERSE",
+      "down_count": 2,
+      "flat_count": 1,
+      "raw_percent": 70.0,
+      "total_count": 10,
+      "universe_integrity": 1.0,
+      "up_count": 7
+    },
+    "history": "HEALTHY",
+    "leadership_absence": {
+      "duration": 13,
+      "since": "2026-09-09",
+      "status": "REBASED_FROM_PARTIAL_HISTORY"
+    },
+    "trend": "HEALTHY"
+  },
+  "report_run_id": "6d1384ec-b174-432c-948e-03cf15d621e8",
+  "git_commit_sha": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+  "data_digest": "sha256:515079e5d66c81e6d1cf72e69e9b15a45188d10cd2f70c209a870dd0d8683a0d",
+  "decision_packet_digest": "sha256:134736c222f38bcc23c18d22bf34552c8a025f35862e72f34e4dd7891799a59a",
+  "observation_digest": "sha256:a2dc2c0f1f1f36000d1b63e7c419e7a21d199b9985aaded3d82491cfedc0f780",
+  "runtime_integrity": {
+    "status": "DEGRADED",
+    "decision_weight": 0,
+    "code_revision_known": true,
+    "data_snapshot_known": true,
+    "decision_snapshot_known": true,
+    "rs_input_consistent": true,
+    "leadership_snapshot_consistent": false,
+    "report_artifact_matches_run": true,
+    "diagnostics": [
+      "LEADERSHIP_SNAPSHOT_DEGRADED"
+    ]
+  }
+}

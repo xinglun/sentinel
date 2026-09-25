@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Semi Is Finally Moving Into a Bigger Test
+  summary: Tesla has started delivering its electric Semi to customers as it targets annual production capacity of 50,000 trucks at its Nevada plant.
+  url: https://finnhub.io/api/news?id=a92011babd79a317ade904a1cd69341b797e8837256b0fbad23ebed7ce6bf8b9

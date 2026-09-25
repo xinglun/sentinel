@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invest $500 a Month in Nvidia Starting Now, This is What You’d Have in 2030
+  summary: Nvidia sits at the heart of a $2 trillion cloud backlog, and a simple monthly contribution strategy could turn that tailwind into a dramatically different number by 2030. The spread between the best and worst case scenarios tells a very different story about the risk hiding inside the opportunity.
+  url: https://finnhub.io/api/news?id=98617cadad5a9bee6a76ac206a6bc8168f82ba5c86f1f21dcc73b5121bbcd4ab

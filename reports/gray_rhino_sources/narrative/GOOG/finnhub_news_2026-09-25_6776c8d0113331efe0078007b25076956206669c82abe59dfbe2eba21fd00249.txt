@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell’s 203% YTD Surge Sets High Bar but We See More Runway Ahead
+  summary: After a 200-plus percent run this year, Marvell sits at a crossroads where one upcoming investor day could either justify its stretched valuation or expose a critical flaw at the heart of its AI growth story.
+  url: https://finnhub.io/api/news?id=d85e8e0969bd6e4f4c09395e170f78ee2f48aa2405fa5512bd17578458bb5cc6

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coinbase Tokenized Stocks Added as Collateral for USDC Loans on Aave
+  summary: Coinbase’s (NASDAQ: $COIN) tokenized versions of seven major U.S. stocks can now be used as collateral to bor...
+  url: https://finnhub.io/api/news?id=07d74815a898acdbdbbd402ac498064f823b4dd99aa0a9aa4f90991146a6abb1

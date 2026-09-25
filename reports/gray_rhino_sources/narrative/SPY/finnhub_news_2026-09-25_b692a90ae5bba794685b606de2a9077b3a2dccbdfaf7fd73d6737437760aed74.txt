@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: DraftKings Dips as Adjusted Data Narrows Kalshi’s 76% Prediction-Market Lead; Robinhood and Flutter Entertainment Slip
+  summary: DraftKings (NASDAQ:DKNG) stock is falling 2% to $20.77 as fresh sports volume figures from investment bank Needham focus the debate over who is winning prediction markets. Needham’s data showed Kalshi captured 76% of sports prediction-market volume in the opening week of the National Football League (NFL) season, while DraftKings’ own exchange, DKeX, took 3%. That […]
+  url: https://finnhub.io/api/news?id=31a236882b68da4ba7d3a4860687963684e41a1fc3229b77f8b00240daf60e18

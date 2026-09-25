@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Q1 2026 earnings: Nvidia chip launch benefit may be delayed
+  summary: A Susquehanna analyst says Micron's November quarter outlook should satisfy investors, but the full benefit of an Nvidia product ramp may come later
+  url: https://finnhub.io/api/news?id=460160402f7a10882d1e925f4b0f4e761d763dcc615c39b170ba6ec1254c6c33

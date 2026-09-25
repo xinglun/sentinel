@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Wouldn’t Be Doing What It’s Doing if AI Capex Was Going to Fail
+  summary: Andy Jassy just committed roughly $200 billion in capital expenditures for 2026, and the logic behind that number reveals something most investors are missing about where AWS demand is actually coming from.
+  url: https://finnhub.io/api/news?id=4bed683095584e03297cf6b07a420c249da56baad41a3418ee695e706c48666b

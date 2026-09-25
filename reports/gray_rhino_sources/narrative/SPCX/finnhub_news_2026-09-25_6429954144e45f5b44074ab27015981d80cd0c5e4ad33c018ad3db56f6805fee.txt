@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Over 30 CEOs scored an invite to the US-China state dinner — and these 4 got a spot at the head table
+  summary: President Trump touted Thursday's long-awaited state dinner at the White House as a tough ticket, and while the Chinese business delegation was notably absent, the glittering event featured a wide array of US CEOs.
+  url: https://finnhub.io/api/news?id=aaa4abeecf55de2129fe8d03d664d7cd7af1b9dc610d9da2d110b3730ea53f61

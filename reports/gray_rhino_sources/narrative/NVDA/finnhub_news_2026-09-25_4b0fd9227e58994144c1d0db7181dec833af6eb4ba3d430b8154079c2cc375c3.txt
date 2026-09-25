@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: These 4 Stocks Will 4x in the Next 10 Years
+  summary: Opendoor, NIO, and Strategy could quadruple over the next decade.
+  url: https://finnhub.io/api/news?id=d7fabdf1dce0003afa0118132806ca87fc3cfaac305214f54c456b287bae6bfe

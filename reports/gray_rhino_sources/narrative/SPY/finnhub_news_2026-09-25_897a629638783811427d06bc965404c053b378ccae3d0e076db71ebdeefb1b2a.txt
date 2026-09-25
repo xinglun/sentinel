@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Rises 7% as Morgan Stanley Lifts Odds on $756 Bull Case; Hewlett Packard Enterprise Edges Higher
+  summary: Morgan Stanley just raised the odds it assigns to its $756 bull-case scenario for Dell Technologies (NYSE:DELL), and buyers are responding in force. Dell stock is up 7% to $573.03 in the current session, powered by the revised odds on the upside path. The rally extends a year-to-date gain of 359% for Dell shares. Hewlett […]
+  url: https://finnhub.io/api/news?id=7e51c37641ffc655633f214c48cb4b9fb9bb9fc4f9844489110dedc30daf8716

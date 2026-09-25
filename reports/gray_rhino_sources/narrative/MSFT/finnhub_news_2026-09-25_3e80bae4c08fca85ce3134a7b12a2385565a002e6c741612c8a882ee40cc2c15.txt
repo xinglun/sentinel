@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oppenheimer resets Microsoft stock price target after HQ visit
+  summary: One analyst left Microsoft’s home turf with a bigger number and a phrase that reaches into your office and your 401(k).
+  url: https://finnhub.io/api/news?id=4d5c8112564b6b5602d1ace7fb1e44a4252db7c403d2a018516a37a1cb415ce8

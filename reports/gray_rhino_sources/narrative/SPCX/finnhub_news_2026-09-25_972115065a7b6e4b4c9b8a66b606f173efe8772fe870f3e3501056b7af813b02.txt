@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How to fix overvalued AI companies and a McDonald's market play
+  summary: Market Hang's panel discusses why AI companies such as OpenAI and Anthropic cannot be cleanly valued and proposes focusing on future products and innovation, and offers a possible play with McDonald's (MCD). Today's Market Hang panel consists of Host Turney Duff, Yahoo Finance Executive Editor Brian Sozzi, financial advisor and YouTuber Kevin Paffrath, Fundstrat Economic Strategist Hardika Singh, and Matt Cerminaro, Ritholtz Wealth Management Research Associate and Exhibit A Co-Founder.
+  url: https://finnhub.io/api/news?id=49fea019b16dc160de6929beb18c0e28fa698c8ba6793055f4818ac8b4adf549

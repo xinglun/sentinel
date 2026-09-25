@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Technology Stocks Are Back, Because Nothing Else Is
+  summary: A month ago, only seven technology stocks appeared in the IBD 50 and none in the top 25, as the outlook for artificial intelligence dimmed.  Today, tech stocks are back in force with the likes of Nvidia, Advanced Micro Devices, Palantir and Taiwan Semiconductor showing up on the list.  In fact, Technology and Communications Services are the only two S&P sectors higher in September, while others nurse losses of about 2% to 6%.
+  url: https://finnhub.io/api/news?id=2ceca6f5497e9ba0533e2d84b20ad649714a8bec8e8d8087db06e34cb93b21e4

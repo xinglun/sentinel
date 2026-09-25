@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Falls as Karp Puts Liability Before IPOs
+  summary: Karp's argument distinguishes deployment platforms from model laboratories, but Palantir carries AI liability too.
+  url: https://finnhub.io/api/news?id=a3eb0090c22961d3c7c5588ee7c400c0b4aeee6c8540187c1df471e43329b268

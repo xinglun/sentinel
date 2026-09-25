@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (PLTR) Ties Aviation AI Push To Fresh Short Seller Pressure
+  summary: Palantir Technologies (NasdaqGS:PLTR) is back in focus as Surf Air Mobility appoints former Palantir executive Barrett Brown as President of SurfOS, a Palantir-powered platform for commercial aviation software. SurfOS is positioned as Surf Air Mobility's operating system for airline and aircraft partners, with Palantir's software underpinning its data and AI capabilities. Investor Michael Burry has expanded short positions that include exposure to Palantir, which signals prominent skepticism...
+  url: https://finnhub.io/api/news?id=0cd119729327a1c8a77ccf57d4c5fa82f4a09255daa09c9a2f71c8f12f6a64f3

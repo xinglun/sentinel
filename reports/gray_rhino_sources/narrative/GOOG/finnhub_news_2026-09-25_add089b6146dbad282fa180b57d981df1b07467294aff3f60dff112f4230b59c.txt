@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google Plans To Launch Mini Data Center Into Space Next Week As Part Of Project Suncatcher’s Bid For A Market Projected To Hit $28.16 Billion
+  summary: Google is about to launch a refrigerator-sized data center into orbit, but its own engineers admit it will be years before the technology is remotely useful. So why launch it at all?
+  url: https://finnhub.io/api/news?id=5fdd251266a2446bdd65522663a0f3bb3a3d0cdbcf57dcd46c2c2f136f14cc54

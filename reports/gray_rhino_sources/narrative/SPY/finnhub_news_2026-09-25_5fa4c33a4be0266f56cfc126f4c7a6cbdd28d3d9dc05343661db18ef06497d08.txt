@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron at $1080: The Street Loves What It Sees Underneath The Headlines
+  summary: Wall Street analysts see 40% upside in Micron, yet the stock just dropped sharply after a blowout earnings beat. Something underneath the headline numbers explains why the bull case may be stronger now than before the selloff.
+  url: https://finnhub.io/api/news?id=0050fb7812a68077e3de25c2ab2ffe8a1b10ccf934f13334532b0f6323240152

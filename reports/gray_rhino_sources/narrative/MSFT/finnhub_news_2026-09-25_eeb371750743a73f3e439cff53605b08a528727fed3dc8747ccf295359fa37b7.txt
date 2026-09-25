@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Jumps Nearly 3.6% as Copilot Becomes a Digital Coworker
+  summary: Code generation, Office integration and controlled agent identities expand Copilot's addressable workload--and its governance burden.
+  url: https://finnhub.io/api/news?id=b97ea2b7c69173e0b89e1479cebfccc12f19596e8eda376b42709b30d3ff1481

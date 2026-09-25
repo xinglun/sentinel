@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Mizuho Delivers Bold SpaceX Stock Call as New $1.11 Billion Monthly Deal Emerges
+  summary: Mizuho Makes Stunning SpaceX Stock Call as Compute Prices Could Stay Elevated
+  url: https://finnhub.io/api/news?id=68278ce799313e52e02795343e063ba797501bd328fee3aec92d65c0595a48c8

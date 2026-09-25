@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Moved Higher as TPUs Chase Power Beyond Earth
+  summary: Project Suncatcher tests radiation, cooling and launch survival before orbital computing can address terrestrial power constraints.
+  url: https://finnhub.io/api/news?id=b55d9c0bc75b136fcf23e2df01156687330191313ad074573e6dbcd765fc98a8

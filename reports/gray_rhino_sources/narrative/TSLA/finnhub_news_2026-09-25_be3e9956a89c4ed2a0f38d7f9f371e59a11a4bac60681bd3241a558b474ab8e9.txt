@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Sighs At EU-Wide FSD Approval Delay — TSLA Stock Slips
+  summary: An official draft agenda for an Oct. 6 meeting of the EU Technical Committee on Motor Vehicles now lists only further talks, not a vote.
+  url: https://finnhub.io/api/news?id=ba474ef2de8505474a8c3c419c664d21f4c86748c3e22ad84ab06355b5bf9610

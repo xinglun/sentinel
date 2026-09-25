@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Being Picky With Stocks More Important Than Ever
+  summary: Julia Ostian, Kenio Fontes, and Jack Bowman talk treasurys, patience, AI and quantum defense, and their top stocks.
+  url: https://finnhub.io/api/news?id=bf472f7453f7c37d53adb31334c76b7de73692922f9a2f40bdd747addd16baeb

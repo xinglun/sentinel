@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Is on Pace for Its Highest Close in More Than 10 Months. Here’s Why.
+  summary: Shares of  Microsoft  rose Friday and were on pace for their highest closing price in more than 10 months after the company introduced new capabilities for its artificial-intelligence assistant tool.  Microsoft stock advanced 3.2% to $513.77 on Friday and was on pace for its highest closing price since Nov. 4, 2025, according to Dow Jones Market Data.  Microsoft in a blog post Friday introduced new capabilities for CoPilot, its AI assistant, that will connect different tools to build, customize, and scale AI across work flows.
+  url: https://finnhub.io/api/news?id=571348ef1123beabb4290439ac39086fe92f39b7306d90b924f62ff1b9012a0c

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 8:30: Trump-Xi summit takeaways, an interview with Microsoft CEO Satya Nadella
+  summary: The 8:30 Hosts Julie Hyman, Pras Subramanian, and Jake Conley break down the biggest market and business stories driving the day's conversation. From the latest updates from President Trump's summit with Xi Jinping to Costco's (COST) latest earnings, The 8:30 panel delivers the essential headlines and market context you need to start your day informed. Deirdre Bosa also comes on to discuss her recent interview with Microsoft (MSFT) CEO Satya Nadella.
+  url: https://finnhub.io/api/news?id=96faf258040b3f62ee6f5c2eea28efc778e4cd9a8ae7f9227342a08663804108

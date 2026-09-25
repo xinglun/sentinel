@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry keeps pointing at unloved stocks for a reason
+  summary: While shorting the market’s favorites, he’s quietly going all in on names most investors have written off.
+  url: https://finnhub.io/api/news?id=46e2870515e2ed1ba613b3921dd85801bfcf5e20d1c7fea93657957cb2944552

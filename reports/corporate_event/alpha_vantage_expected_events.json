@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-09-24T18:35:16.718447297Z",
+  "fetched_at": "2026-09-25T18:50:59.002320320Z",
   "provider": "alpha_vantage",
   "schema_version": 1,
   "records": [
@@ -21,6 +21,11 @@
     {
       "symbol": "MSFT",
       "expected_date": "2026-11-04",
+      "fiscal_period": null
+    },
+    {
+      "symbol": "NVDA",
+      "expected_date": "2026-11-18",
       "fiscal_period": null
     },
     {

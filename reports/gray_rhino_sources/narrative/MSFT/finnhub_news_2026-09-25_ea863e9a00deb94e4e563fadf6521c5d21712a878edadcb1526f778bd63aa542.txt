@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO Satya Nadella on AI: 'Trust is going to be the biggest issue for us'
+  summary: Microsoft CEO Satya Nadella says user trust will be the biggest issue for the company's AI efforts.
+  url: https://finnhub.io/api/news?id=e794d7b85006bc4c23deeee605cb77965a330df2505acda9bcec8983a093eb50

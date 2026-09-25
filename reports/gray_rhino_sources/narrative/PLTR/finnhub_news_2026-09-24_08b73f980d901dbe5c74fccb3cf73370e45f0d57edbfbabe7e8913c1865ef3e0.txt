@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Slips as Karp Puts Liability Before AI Listings
+  summary: Karp's nationalization argument distinguishes frontier labs, while Palantir's own filing acknowledges AI liability.
+  url: https://finnhub.io/api/news?id=616ada69aa60dd257c09bcaa547e8331ba2f568c0e35bd3da36bd24762cdfae7

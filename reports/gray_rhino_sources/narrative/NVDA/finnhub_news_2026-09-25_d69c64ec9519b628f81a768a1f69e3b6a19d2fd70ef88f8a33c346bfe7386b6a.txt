@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: When Is It Too Late in Life to Start Investing? History Offers a Resounding Answer.
+  summary: It's rarely too late to improve your future financial security.
+  url: https://finnhub.io/api/news?id=b4fee3945b9ef18390d8777331ccab38cb3043989f95dc9f1f48e0011f4ad1ce

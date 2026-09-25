@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Joby Aviation Is Flying Routes Across Dallas-Fort Worth. Here's How Close It Is to Paying Passengers.
+  summary: Joby's Texas flight demonstrations have begun. Could passengers be next?
+  url: https://finnhub.io/api/news?id=c08b5cf0cfbc9a8fc1dd7184eb81472581777a8e4fd1d312fbfef5dd2f559235

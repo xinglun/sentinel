@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Tests Key Level Amid Trump-Xi Talks, China Challenge
+  summary: Nvidia stock is hovering at a key level after a six-day winning streak and a rebound from its 50-day moving average.
+  url: https://finnhub.io/api/news?id=40e0a5419f73de85c40c02b9d2392c923fe49fb6285d52fb7f8093c86499dcdd

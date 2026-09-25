@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Quantum Isn’t Yet Ready for Prime Time. Microsoft and Amazon Want to Own the Ecosystem Anyway.
+  summary: Microsoft and Amazon are expanding their footprint in quantum computing, even as a commercial breakout remains years away.
+  url: https://finnhub.io/api/news?id=4896417abe30e843c58192386b2a9447f57e3040032c69c47ad06605b2d0dff9

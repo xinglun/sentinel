@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stock Moves Lower as Einride Scales Physical AI
+  summary: Einride targets up to 2,000 trucks by 2028, but Nvidia's content and revenue remain undisclosed.
+  url: https://finnhub.io/api/news?id=dacc1c2e3dea186a0d58daea220cbc4258e46630ec85082b44c8ef55ad0d9fc6

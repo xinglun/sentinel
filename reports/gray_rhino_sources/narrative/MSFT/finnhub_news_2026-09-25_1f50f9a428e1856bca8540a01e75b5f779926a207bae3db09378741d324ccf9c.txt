@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft, IBD Stock Of The Day, Makes Bullish Move As Software Giant Launches AI Super-App
+  summary: Microsoft rose Friday after the announcing a revamped version of its Copilot artificial intelligence tool.
+  url: https://finnhub.io/api/news?id=749cc10f9e71bb1671b04eef6eedecc0cbe7114c381421b0964dc97976935ee9

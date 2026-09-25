@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Does a 65-Year-Old Need Invested to Collect $6,250 a Month for Life?
+  summary: Six funds, fixed weights, and a blended yield that keeps monthly checks arriving even when the Fed cuts rates or volatility dries up. The math behind funding a $75,000 annual draw starts with one uncomfortable number most retirees underestimate.
+  url: https://finnhub.io/api/news?id=f1997ab01e9b4e6ca9202dbf450d06cd6be1362da291e2f12a8746394b81c367

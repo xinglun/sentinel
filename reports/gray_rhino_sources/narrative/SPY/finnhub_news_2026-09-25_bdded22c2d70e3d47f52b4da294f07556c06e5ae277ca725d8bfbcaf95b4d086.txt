@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Datadog Climbs 6%, Approaches 52-Week High While Software Group Slips; Oracle and Cloudflare Decline
+  summary: Datadog (NASDAQ:DDOG) stock is up 6% to $272.50, a sharp gain for the observability and monitoring company. That strength arrives against a weaker software group, giving Datadog stock a move that belongs to it alone. Across software, the iShares Expanded Tech-Software Sector ETF (NYSEARCA:IGV) is down 0.4%, which puts Datadog stock on the opposite side […]
+  url: https://finnhub.io/api/news?id=e78f69d3ee39a5f9cbffb86b5deb1d790fb5202f932d13e6b3eee1a05267b96e

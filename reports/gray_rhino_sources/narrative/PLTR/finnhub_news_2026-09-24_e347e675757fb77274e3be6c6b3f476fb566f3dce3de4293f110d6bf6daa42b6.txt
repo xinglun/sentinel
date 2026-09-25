@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Palantir (PLTR)’s Partnership with Nebius Group (NBIS) Accelerate its AI Growth?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) and Nebius Group N.V. (NASDAQ:NBIS) announced a strategic partnership on September 8 to bring Nebius’s AI-native compute infrastructure into Palantir’s commercial platform. Palantir designated Nebius as its preferred sovereign AI infrastructure partner, integrating Nebius compute and inference endpoints directly inside the Palantir enterprise perimeter. The alliance allows commercial clients to deploy […]
+  url: https://finnhub.io/api/news?id=8340565a33a599194669ac3155e56f3b39034a34cababffa72a1b0bccd8e65b8

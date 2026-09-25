@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Humana Jumps 7% on Barclays Upgrade and $515 Target; UnitedHealth Nudges Higher
+  summary: Barclays just broke its silence on Humana with a conviction call that sent shares surging well past anything the broader health care sector is doing today, raising the question of whether this upgrade signals the start of something bigger or a rally built on a single opinion.
+  url: https://finnhub.io/api/news?id=0d41d472a3c61877a78173ca1812c78e13c4a7ab5ff1180522c81f12f81fe3e9

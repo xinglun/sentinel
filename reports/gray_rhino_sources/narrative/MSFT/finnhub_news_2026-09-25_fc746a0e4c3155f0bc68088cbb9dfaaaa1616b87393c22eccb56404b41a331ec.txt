@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Climbs 4% as Oppenheimer Lifts Target to $570 on Copilot Enterprise Pivot; Alphabet Ticks Up
+  summary: Oppenheimer just raised its Microsoft target and investors are cheering, but the company's dramatic Copilot overhaul trades predictable subscription revenue for a usage meter that rises and falls with customer behavior. Whether that bet pays off depends on a question Microsoft has not yet answered.
+  url: https://finnhub.io/api/news?id=d77fe060581bb214f49385c003e60f33684748ccf451d71036e69e1227042963

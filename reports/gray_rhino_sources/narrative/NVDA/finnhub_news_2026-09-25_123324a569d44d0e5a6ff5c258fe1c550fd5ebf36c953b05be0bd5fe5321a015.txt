@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nscale secures $3.36 billion pre-IPO round as public debut looms
+  summary: Investing.com -- London-based Nscale Limited has secured $3.36 billion in a pre-IPO convertible financing round as the artificial intelligence data center operator prepares for a public debut. The capital raise follows the company’s recent initial public offering filing, which could seek as much as $3 billion in new equity, according to people familiar with the matter cited in Bloomberg reporting.
+  url: https://finnhub.io/api/news?id=047eb0cd2b7bbfccdac07644d1776427d64b24a0401d83b2a3f3a1af221828fd

@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike vs. Figma: Which Technology Stock Is a Better Buy in 2026?
+  summary: CrowdStrike trades at a premium valuation despite lingering reputational damage, while Figma's growth outpaces profitability by a wide margin.
+  url: https://finnhub.io/api/news?id=d995b61cec7a40c205c0f2ffc6844f1687253be0d888acb903dec146bacce5f0

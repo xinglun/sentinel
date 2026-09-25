@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic proposes supervoting shares to give co-founders majority control -report
+  summary: Investing.com -- Anthropic (NASDAQ:ANTP) is seeking shareholder approval for a dual-class share structure that would hand its seven co-founders majority voting control ahead of a highly anticipated initial public offering, according to a report from The Information. Under the proposed terms, Chief Executive Officer Dario Amodei and his co-founding team would secure a combined 50.1% voting stake in most corporate matters, mirroring a collective-control framework famously deployed by Palantir Tech
+  url: https://finnhub.io/api/news?id=0b95dd30d9fdb4ec4b3714b614b3797f4174c3aebda486820120ea2b24f398e1

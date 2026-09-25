@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Palantir’s AI moat survive the competition?
+  summary: Meta Platforms (META) has seemingly brought new value to the AI trade with the release of its Muse AI chatbot this week. Can Palantir Technologies' (PLTR) own AI compete with growing competition in the space? Today's Market Hang panel consists of Host Turney Duff, Yahoo Finance Executive Editor Brian Sozzi, Ritholtz Wealth Management research associate Matt Cerminaro, Fundstrat economic strategist Hardika Singh, and Kevin Paffrath.
+  url: https://finnhub.io/api/news?id=e8eb7d27d81b786003101aad1202aa7f0915e1082c7bd061f29f6810825ee0d0

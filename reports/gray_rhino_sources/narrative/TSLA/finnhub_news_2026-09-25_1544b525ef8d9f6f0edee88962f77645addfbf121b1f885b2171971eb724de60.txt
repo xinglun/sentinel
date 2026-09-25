@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bentley set to challenge Tesla and Ferrari after huge new launch
+  summary: Bentley just sent a message to two of the most powerful names in the car business.
+  url: https://finnhub.io/api/news?id=82579646177670d1d1ded16f39dd6e5f06f2a871131fdbe16e0a80971027c822

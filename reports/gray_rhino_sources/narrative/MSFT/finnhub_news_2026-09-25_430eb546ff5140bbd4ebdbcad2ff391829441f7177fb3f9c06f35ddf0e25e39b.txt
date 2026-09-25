@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Stock: Is AI Capex Outrunning the Payback?
+  summary: Amazon.com (AMZN) management now leads its calls with AI. It plans about $220 billion of 2026 capital spending. The easy reading is that the stores run themselves while the cloud arm takes the spending. That reading holds only if two things are true. The stores must keep getting cheaper to run, and the cloud arm must earn back what it spends. Did the stores stop getting cheaper to run, or did management just stop leading with them.
+  url: https://finnhub.io/api/news?id=412affd2ab1171c66b0098c8e3996d9315f347635974a43ee8e9fb10eb9ccbe7

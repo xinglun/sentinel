@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's big semi truck bet is officially in motion
+  summary: Yahoo Finance's Senior Autos Reporter Pras Subramanian and The 8:30 panel with Julie Hyman and Jake Conley break down Tesla's (TSLA) opening of its Nevada factory for semi trucks.
+  url: https://finnhub.io/api/news?id=57795f75b59b834a3f08a886ba8cd0f2079d0814aba9a5e2bc9f47a349053234

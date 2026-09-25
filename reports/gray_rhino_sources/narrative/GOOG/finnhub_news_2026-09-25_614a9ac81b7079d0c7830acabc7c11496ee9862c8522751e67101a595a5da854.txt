@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dell Stock Jumps 3.5% as Gemini Enters the XPS Franchise
+  summary: A $999 AI laptop gives Dell premium consumer optionality without disclosed sales or margin commitments.
+  url: https://finnhub.io/api/news?id=dc50a1b98e34010c0fea69006fc8de80d44e05ec080865d25cc802dcd3f6e3aa

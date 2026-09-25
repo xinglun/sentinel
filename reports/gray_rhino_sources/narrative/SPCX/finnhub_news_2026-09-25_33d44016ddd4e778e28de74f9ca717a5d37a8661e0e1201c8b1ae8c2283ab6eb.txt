@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk’s ‘Zuckerberg moment,’ mortgage rates, and Google’s space bet
+  summary: In this episode on Sozzi Unleashed, Yahoo Finance Executive Editor Brian Sozzi breaks down what mortgage rate surges mean for home improvement stocks, why Elon Musk may be the next leader to have a 'Mark Zuckerberg moment,' and what Alphabet's (GOOGL, GOOG) venture into space could mean for the business.
+  url: https://finnhub.io/api/news?id=aea2883691b984b350fcbe67d35655a2261d282085819cdc32a07997fbf1739c

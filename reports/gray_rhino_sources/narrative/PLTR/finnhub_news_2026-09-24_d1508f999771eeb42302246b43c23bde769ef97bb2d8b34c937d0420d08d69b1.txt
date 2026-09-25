@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Reddit Stock And 2 More Quality Stocks
+  summary: Bond yields near two decade highs are forcing weaker borrowers to pay up for capital, while companies with strong cash generation and low debt have more room to breathe. That creates a clear opening for investors who want resilient businesses rather than stories built on cheap money. This article walks through three stocks with sturdy finances and high return on equity that fit that brief. The three companies covered next are only a small sample of what fits this quality filter. The full...
+  url: https://finnhub.io/api/news?id=99435e7fe7c1f50b07893feaffcf73dc5015cd20ef9df243ac36c526d5cb8e80

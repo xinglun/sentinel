@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft shares rise over 3% after expanded Copilot release
+  summary: Microsoft Corp (NASDAQ:MSFT) shares rose over 3% in morning trading Friday after the software company unveiled an expanded version of its Copilot artificial intelligence (AI) assistant. Microsoft introduced three new Copilot features, Home, Code and Autopilot, which are designed to give users...
+  url: https://finnhub.io/api/news?id=d344c9d00620db4cf397c2acbbcdf0689680be3111565ce090e4f76c240968d8

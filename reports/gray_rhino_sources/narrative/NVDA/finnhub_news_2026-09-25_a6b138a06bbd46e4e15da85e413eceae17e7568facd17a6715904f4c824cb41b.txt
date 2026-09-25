@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO: We 'have to earn that permission' to build data centers from communities
+  summary: Microsoft CEO Satya Nadella says companies need to work to get permission to build data centers in communities.
+  url: https://finnhub.io/api/news?id=54dc124f4721978bf66124fdc4e6b489da76d59b9565af35e1e6f4fbbec03a65

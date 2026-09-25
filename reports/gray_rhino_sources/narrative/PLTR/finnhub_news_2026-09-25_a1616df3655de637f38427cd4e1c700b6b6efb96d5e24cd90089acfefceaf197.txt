@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should Investors Worry About Michael Burry's Big AI Stock Shorts
+  summary: The man behind "The Big Short" is now short Nvidia, Micron, and Palantir.
+  url: https://finnhub.io/api/news?id=66992a2a57d429080f218de1356c59b614c501d7d0cc05f810009c5cedaa50fe

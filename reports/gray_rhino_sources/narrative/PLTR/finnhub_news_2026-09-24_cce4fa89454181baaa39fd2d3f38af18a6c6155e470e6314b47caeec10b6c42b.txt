@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Does Palantir (PLTR) Have a Moat Strong Enough to Protect Its AI Dominance?
+  summary: Palantir Technologies Inc. (NASDAQ:PLTR) has become one of the most closely watched AI software companies over the last few years. As a result, it is not exactly cheap. Its enormous valuation raises a fundamental question: Does Palantir have an economic moat strong enough to protect its growth? The company trades at about 82.6x forward earnings, […]
+  url: https://finnhub.io/api/news?id=f6b14c860bb22780fe0720a64469c1886d48b41d8e88522aa325093a9399b14a

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pre-Markets Higher Despite Increasing Bond Yields
+  summary: Futures are up on lower oil prices this morning. Meanwhile, the 30-year bond yield is at a 20+ year high.
+  url: https://finnhub.io/api/news?id=89dfb8540ec9a4cf68aceebfc961f00dcbb38ab4ff061e7b0271421de2d68b75

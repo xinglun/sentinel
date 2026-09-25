@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The 10-Year Treasury Yield Just Hit 5%, and It Creates a Dilemma S&P 500 Investors Haven't Faced in Nearly 20 Years
+  summary: Should investors lock in a 5% yield for the next decade or take the chance on greater returns from stocks?
+  url: https://finnhub.io/api/news?id=e0e60a64a76fd34108a550651e4ca9675a843980330a4adaa169a37ed67ddb76

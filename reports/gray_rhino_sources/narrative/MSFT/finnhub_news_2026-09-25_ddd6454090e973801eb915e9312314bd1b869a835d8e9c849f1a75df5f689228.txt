@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Stock Outlook: Our Target Leaves Wall Street Behind
+  summary: Wall Street has Apple pegged at one price target, but our proprietary model lands somewhere else entirely, and the gap between the two tells a story about where this stock may be headed after a record-breaking June quarter.
+  url: https://finnhub.io/api/news?id=7131fb245d238733c598359958c1ab6626a84864f7640114fdb57866f504dabe

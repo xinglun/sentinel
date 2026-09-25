@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can This Number Push ISRG Stock Higher?
+  summary: Intuitive Surgical (ISRG) shares fell 10.4% in the past year, while the S&P 500 returned 16.5%. Much of the market has focused on moderating U.S. procedure growth. The more telling number is 144 trade-ins in fiscal Q2 2026, up from 83 a year earlier. Most came from customers moving to the new da Vinci 5 robot. Those trade-ins matter most if upgrades continue and each surgery also earns more. Is that number a blip, or are customers still trading up.
+  url: https://finnhub.io/api/news?id=ada4e79b8d60c72f2fd08b95f47d426e44168ce5ba5b5c138c70ee676f8688f2

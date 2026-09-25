@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software (U) Opens Day One VR Glasses Tools For Next Hardware Launch
+  summary: Unity Software (NYSE:U) said it will offer day one engine support for Meta's next-generation VR Glasses. The toolkit lets creators build launch experiences using advanced rendering features and direct integration with Meta's AI assistants and workflows. Developers can begin preparing titles ahead of the headset release using updated Unity plugins aligned with Meta's latest VR and mixed reality APIs. Unity's day one support for Meta's new VR Glasses is an important factor to weigh in the...
+  url: https://finnhub.io/api/news?id=eee037fb99b810f9fa92732e7072fe73fd5b67ba626142e7ac0d0b2fcafd4d32

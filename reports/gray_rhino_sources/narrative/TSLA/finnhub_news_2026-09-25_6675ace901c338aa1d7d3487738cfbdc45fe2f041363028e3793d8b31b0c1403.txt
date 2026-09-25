@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Consumer Stocks Advance Friday Afternoon
+  summary: Consumer stocks rose Friday afternoon with the State Street Consumer Staples Select Sector SPDR ETF
+  url: https://finnhub.io/api/news?id=f3ba2a3d0dec186abd801b2ec31b09548cd8807e172f18ab18d47b737c00eb9d

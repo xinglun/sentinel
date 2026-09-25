@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperscaler Stocks Could Rebound In This 2027 Scenario, Says Goldman Sachs
+  summary: Hyperscaler stocks could rebound in 2027, according to a Goldman Sachs scenario for capital spending, revenue growth and free cash flow.
+  url: https://finnhub.io/api/news?id=3593a3db750cdabaa3a92486ea0bd9c84330742fd3c87a9447d235af14196c8d

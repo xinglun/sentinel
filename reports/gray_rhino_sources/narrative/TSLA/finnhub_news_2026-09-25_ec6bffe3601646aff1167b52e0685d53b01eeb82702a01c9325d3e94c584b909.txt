@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD CEO Lisa Su is having a September to remember
+  summary: AMD CEO Lisa Su is getting her due after years of flying under the radar.
+  url: https://finnhub.io/api/news?id=cee04198c2f7ea7fecea7cde0acfac189004b0ba34545fa8944663a524d29f38

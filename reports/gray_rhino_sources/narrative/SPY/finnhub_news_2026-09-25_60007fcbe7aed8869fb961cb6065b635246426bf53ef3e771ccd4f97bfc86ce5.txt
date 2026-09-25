@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jaguar Health Soars 32% as Rare-Disease Pipeline News Meets Thin Post-Split Float
+  summary: Jaguar Health is surging on a float so thin that a handful of trades can swing the price wildly, while a rare pediatric disease program edges closer to a pivotal regulatory filing that could either validate the rally or expose how fragile it really is.
+  url: https://finnhub.io/api/news?id=ce31199e07cbec079b2eb14db132c99626980e2b06e2d16293134b6a7b39f2c8

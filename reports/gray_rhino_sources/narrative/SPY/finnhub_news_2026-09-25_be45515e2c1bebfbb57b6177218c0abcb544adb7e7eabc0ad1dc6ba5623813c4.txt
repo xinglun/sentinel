@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Comcast Slips as KeyBanc Cuts to Underweight on Broadband Share Losses; AT&T and Verizon Hold Steady
+  summary: KeyBanc just slapped an Underweight rating on Comcast with a price target that implies further pain ahead, and the stock is already down 20% this year as fiber rivals keep stealing its most valuable customers.
+  url: https://finnhub.io/api/news?id=9bfaf3076d5aa79b73d3102e7ebb6f4e67ac669b570730cefff436ef9bd5316a

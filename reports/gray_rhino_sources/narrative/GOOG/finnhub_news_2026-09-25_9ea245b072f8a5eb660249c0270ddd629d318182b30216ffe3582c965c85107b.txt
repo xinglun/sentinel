@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cybersecurity Stocks Pare Early-Week Gains — Analysts See AI Security Demand Building, But Valuations Raise The Bar
+  summary: Cybersecurity stocks are pulling back after a sharp early-week surge fueled by mounting AI safety concerns, while analysts say underlying security demand remains strong even as valuations have rerated higher.
+  url: https://finnhub.io/api/news?id=08e3f798157a867cb29fc71f3c208fc6f7c86edaa16974ced3928305292a87ac

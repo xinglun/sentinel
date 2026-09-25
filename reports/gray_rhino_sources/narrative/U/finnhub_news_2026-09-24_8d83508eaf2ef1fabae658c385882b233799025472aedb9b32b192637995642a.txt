@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Delivers Day-One Support for Meta VR Glasses - Empowering Developers to Reach a New Audience in VR
+  summary: SAN FRANCISCO, September 24, 2026--Unity (NYSE: U), the world’s leading game engine, today announced day one engine support for Meta VR Glasses, Meta's next-generation VR device unveiled yesterday at Meta Connect. Unity's support is available immediately, giving developers months to build and test experiences ahead of the device's retail launch in spring 2027. Studios behind launch titles including Cardmada, Dragon Grove, Phoenix Wright™: Ace Attorney™ Dual Destinies VR, Dice Throne Digital, Sto
+  url: https://finnhub.io/api/news?id=48ed9760493e043165ee02a00a0daba387d0c780a6beea7ac4d196c7448fec57

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia GPU Demand Is So Extreme, Even Bad Cloud Infrastructure Is Selling, SemiAnalysis Says
+  summary: Demand for NVIDIA Corp. (NASDAQ:NVDA) GPUs has become so intense that even cloud providers with badly functioning infrastructure can still find customers willing to pay healthy margins, according to SemiAnalysis. “If you’ve got GPUs,” buyers will pay, researcher Sam Harshe...
+  url: https://finnhub.io/api/news?id=02d4cb5cfdc7d9e4f15bb2ca4e7d6fe59e21a8aac8bb89942917110a09bff280

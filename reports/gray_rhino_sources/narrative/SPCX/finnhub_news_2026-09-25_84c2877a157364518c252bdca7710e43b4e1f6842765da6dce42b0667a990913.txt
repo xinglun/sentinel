@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Robinhood and Coinbase Are Changing How Investors Buy IPO Stocks
+  summary: Coinbase customers can request shares in Oura’s IPO, while Robinhood has joined the offering as an underwriter. Neither role guarantees investors an allocation.
+  url: https://finnhub.io/api/news?id=1d5e984f779110b6a23c6fa9f9d1f456bb350895d2ae3ba7d11f9784d6fdc06b

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Nvidia Can Benefit from Musk’s SpaceX Chip Surprise
+  summary: Nvidia stock was reacting after Elon Musk outlined how many chips will be installed at SpaceX’s Colossus data-center campus in the coming months.
+  url: https://finnhub.io/api/news?id=0ba942c7130e40ea7f10c1df7e6d15977e42630086e3d9655b1e48108f1f42a8

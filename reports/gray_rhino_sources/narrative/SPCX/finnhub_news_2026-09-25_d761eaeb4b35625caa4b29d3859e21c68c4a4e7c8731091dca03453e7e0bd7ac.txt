@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stake Helps Drives 37.3% Return for Washington University
+  summary: An investment in Elon Musk’s rocket company almost a decade ago helped add more than $2 billion in value to Washington University’s endowment, turning a relatively small bet into one of the biggest contributors to the school’s investment gains this year.
+  url: https://finnhub.io/api/news?id=6c2ca32ee72010781ebce34e6de22a62b27a9b00cdc7a93532558e9b3b41af9a

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla finally moves to electrify trucking after a decade of work and delays
+  summary: Tesla's Semi truck, with a 500-mile range, is about to hit the road in big numbers, with the company saying it plans to make 50,000 units a year.
+  url: https://finnhub.io/api/news?id=f7846f33239000332b0cdae5e53caf2d3bacbd79b5cda7644e3d41ae1a78314d

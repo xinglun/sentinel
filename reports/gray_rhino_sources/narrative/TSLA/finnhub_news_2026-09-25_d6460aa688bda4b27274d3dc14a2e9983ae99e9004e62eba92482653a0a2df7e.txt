@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Elon Musk could be the next tech leader to have a 'Mark Zuckerberg moment'
+  summary: Yahoo Finance Executive Editor Brian Sozzi explains why he thinks Tesla (TSLA) and CEO Elon Musk are currently having a "massive moment."
+  url: https://finnhub.io/api/news?id=7d5a59036621924f22e76f8f678d908b4415348a2195cd009c002cae58e4ff02

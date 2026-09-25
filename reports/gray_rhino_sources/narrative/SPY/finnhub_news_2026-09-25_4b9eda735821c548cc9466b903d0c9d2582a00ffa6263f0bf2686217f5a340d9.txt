@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Zscaler Sinks 9% on Chief Revenue Officer Exit, Fastly Drops 6% as Citi Questions AI Traffic Payoff
+  summary: Zscaler is bleeding sales leadership at the worst possible moment, and Fastly is sitting on a massive rally that one analyst thinks rests on a faulty assumption about how AI traffic actually pays the bills.
+  url: https://finnhub.io/api/news?id=4240467cf8575e6102438779426f93f816537070fbf81ccf1df6ed4117e2eaed

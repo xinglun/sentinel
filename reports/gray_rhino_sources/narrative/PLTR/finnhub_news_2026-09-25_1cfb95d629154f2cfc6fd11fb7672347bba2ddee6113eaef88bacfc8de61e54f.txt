@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Administration Joins Elon Musk Against EU’s $137 Million Fine on X, Accuses Brussels of Regulatory Overreach
+  summary: The Trump administration backs Elon Musk&#39;s X in a $137M EU fine case, accusing Brussels of overstepping its regulatory authority.
+  url: https://finnhub.io/api/news?id=c975e13bd3abc3df543d4a3ce8e8ac66eaced33d9214b848ed05fdc34ccd0f77

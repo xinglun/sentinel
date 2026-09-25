@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rosenblatt Has Message For Palantir Stock Investors
+  summary: A modest aviation contract could become something much larger
+  url: https://finnhub.io/api/news?id=581f6a218c7693296c465b2960c39c40bb7ee873a497de43edb97d9f30f9565e

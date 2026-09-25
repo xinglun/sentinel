@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will Nvidia Be in 5 Years?
+  summary: From AI agent chips to robotics and orbital data centers, here's how Nvidia's strategy could reshape its future.
+  url: https://finnhub.io/api/news?id=35a49146725bbd5e489cbf6e59d29aa6f40b3d22970baf7212ebaef5ca457a22

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cognition AI hits $1 billion run rate amid demand for coding software - Bloomberg
+  summary: Investing.com -- Cognition AI Inc. is on track to hit $1 billion in annualized revenue based on its performance this month, according to a report from Bloomberg, marking a swift doubling of the artificial intelligence startup’s sales run rate in roughly four months. The sharp acceleration underscores accelerating demand for the company's flagship Devin platform, an autonomous tool designed to streamline software development and debugging for commercial enterprise clients.
+  url: https://finnhub.io/api/news?id=7d6289d0a4179aa6d5f6974c2f4e7c9ad1257a3a8024f9908ed3dfe71a10bc68
