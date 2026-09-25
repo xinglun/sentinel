@@ -1092,6 +1092,16 @@ fn render_top_actions_section(
             } else {
                 vm.secondary_desc.clone()
             };
+        let displayed_candidate_tag =
+            if candidate_only && vm.secondary_desc == dict.asset_states.optimal {
+                if vm.candidate_label_allowed {
+                    Some(dict.asset_tags.candidate.as_str())
+                } else {
+                    Some(dict.asset_tags.blocked.as_str())
+                }
+            } else {
+                None
+            };
         match mode {
             RenderMode::Markdown => {
                 if candidate_only {
@@ -1128,7 +1138,15 @@ fn render_top_actions_section(
                 row2_parts.push(tag.clone());
             }
         } else if !vm.tags.is_empty() {
-            row2_parts.extend(vm.tags.clone());
+            row2_parts.extend(
+                vm.tags
+                    .iter()
+                    .filter(|tag| {
+                        *tag != &no_trade_secondary_desc
+                            && Some(tag.as_str()) != displayed_candidate_tag
+                    })
+                    .cloned(),
+            );
         }
         if let Some(ref diag) = vm.diagnostic {
             row2_parts.push(diag.clone());

@@ -1,0 +1,24 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-09-25T20:35:39Z",
+  "files": {
+    "approachDigest": "sha256:9c3eaf1e0bee32ac6bfa1f68113e1530ef7085128844102e18cc4d209803e0a0",
+    "approachPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.approach.json",
+    "contractDigest": "sha256:2d954101e17493bc940c64c8fe5f06313645f04f88dfb48eb8ea03f3a9fc8f5c",
+    "contractPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.contract.json",
+    "eventsDigest": "sha256:b21a3cc0529e9cf11c2cca0da46a54331c51d1a25a1307bc47e743f254f1f839",
+    "eventsPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.events.jsonl",
+    "outcomeDigest": "sha256:2f584bb4e6494c8144ed6284edaf33260f29d27d79637ab4dd79b7654ca24df5",
+    "outcomePath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.outcome.json",
+    "summaryDigest": "sha256:8cd8fa07ad2dc613d49204d649a392feeb85dced70f47a0bc00ec1f7ae627cfc",
+    "summaryPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json",
+    "taskReportDigest": "sha256:2f7b17bc398159f18aa6fd04425362aba9ffbea03477579a3f5016aacbea0f24",
+    "taskReportMarkdownDigest": "sha256:c3d34ea88637df0ea3af2bd6ef227efa9423691b9312eef815d02a55cc3da3aa",
+    "taskReportMarkdownPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/risk-candidate-canonical-reason-regression.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}

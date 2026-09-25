@@ -1,0 +1,163 @@
+{
+  "attemptId": "sha256:2d8a1b8b1f08129eb131f4668a45e522adfe0e85e5a011a3a50a516ee723ccac",
+  "commands": [
+    {
+      "args": [
+        "fmt-check"
+      ],
+      "baseCommit": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+      "commandDigest": "sha256:84c2e4810f037148e6b7f3af8fe01c5e851219359c19f7adb0ed1cb544ad2865",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:b9338f30bb896604879075cd00a9160ea9fab36c0c23935e9057e8490b1389b3",
+  "contractExecutionScopeDigest": "sha256:0b6a9f4d14abc6ab7f944223340cfc11cb7812553c80aa6c177a0be3c3499d70",
+  "createdAt": "2026-09-25T20:23:12Z",
+  "executionRecords": [
+    {
+      "commandDigest": "sha256:84c2e4810f037148e6b7f3af8fe01c5e851219359c19f7adb0ed1cb544ad2865",
+      "deadlineMs": 1790368092157,
+      "elapsedMs": 563,
+      "exitCode": 0,
+      "nodeId": "project-command-0",
+      "passed": true,
+      "spawned": true,
+      "stderr": "",
+      "stderrTruncated": false,
+      "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+      "stdoutTruncated": false,
+      "timedOut": false,
+      "timeoutSeconds": 300
+    }
+  ],
+  "kind": "verification_attempt",
+  "passed": true,
+  "processesSpawned": 1,
+  "protocolVersion": 1,
+  "receipt": {
+    "costObservation": {
+      "advisoryOnly": true,
+      "confidence": "complete",
+      "elapsedMs": 675,
+      "executionElapsedMs": 563,
+      "maxConcurrentProcesses": 1,
+      "nodesExecuted": 1,
+      "nodesPlanned": 1,
+      "nodesReused": 0,
+      "passed": true,
+      "planningElapsedMs": 0,
+      "processesSpawned": 1,
+      "protectedNodesExecuted": 0,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+      "runtimeVersion": "0.2.113",
+      "schemaVersion": 1,
+      "unknowns": []
+    },
+    "elapsedMs": 675,
+    "executionElapsedMs": 563,
+    "executionRecords": [
+      {
+        "commandDigest": "sha256:84c2e4810f037148e6b7f3af8fe01c5e851219359c19f7adb0ed1cb544ad2865",
+        "deadlineMs": 1790368092157,
+        "elapsedMs": 563,
+        "exitCode": 0,
+        "nodeId": "project-command-0",
+        "passed": true,
+        "spawned": true,
+        "stderr": "",
+        "stderrTruncated": false,
+        "stdout": "636172676f20666d74202d2d616c6c202d2d202d2d636865636b0a",
+        "stdoutTruncated": false,
+        "timedOut": false,
+        "timeoutSeconds": 300
+      }
+    ],
+    "filesHashed": 13,
+    "filesRead": 13,
+    "gitCalls": 6,
+    "maxConcurrentProcesses": 1,
+    "nodesExecuted": 1,
+    "nodesPlanned": 1,
+    "nodesReused": 0,
+    "passed": true,
+    "planReceipt": {
+      "affectedPaths": [
+        "docs/superpowers/plans/2026-09-26-risk-candidate-canonical-reason-regression.md",
+        "src/features/radar/interface/presentation_assembler.rs",
+        "src/features/radar/interface/report.rs",
+        "src/features/radar/interface/report_ui_tests.rs"
+      ],
+      "assurance": "repository_verified",
+      "baseRevision": "eb0986172e17e845bfba499a20d12fa9987e05e7",
+      "dependencyConfidence": "unknown",
+      "escalations": [],
+      "executedNodes": [
+        "project-command-0"
+      ],
+      "executionElapsedMs": 563,
+      "finalTier": "T0",
+      "initialTier": "T0",
+      "planningElapsedMs": 0,
+      "policyRefs": [],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "requiredAssurance": null,
+      "requiredTier": null,
+      "reusedNodes": [],
+      "savedExecutions": 0,
+      "schemaVersion": 1,
+      "selectionReasons": [
+        "cli_route_stage_explicit"
+      ],
+      "sharedNodes": [],
+      "stage": "task",
+      "timeoutSeconds": 300,
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    "planningElapsedMs": 0,
+    "processSpawnFailures": 0,
+    "processesSpawned": 1,
+    "protectedNodesExecuted": 0,
+    "protectedNodesSkipped": 0,
+    "receiptCandidates": [],
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "rerunStale": 0,
+    "rerunUnknown": 0,
+    "results": [
+      {
+        "action": "execute",
+        "nodeId": "project-command-0",
+        "outputDigest": "sha256:4dcff2d714ebf4b385540696487a9daaaa0566a8e454d565aeebeafcfd96f552",
+        "outputTruncated": false,
+        "passed": true,
+        "protected": false,
+        "reason": "reuse_not_configured",
+        "receiptId": null,
+        "reused": false,
+        "satisfiedBy": "execution",
+        "state": "not_applicable",
+        "timedOut": false
+      }
+    ],
+    "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+    "runtimeVersion": "0.2.113",
+    "timeoutSeconds": 300,
+    "workItemId": "risk-candidate-canonical-reason-regression"
+  },
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+  "runtimeDigest": "sha256:c85632062eb5ef8f8b39f6154b765c9e2543fe6b7ca3f54e107a59c174843686",
+  "runtimeVersion": "0.2.113",
+  "schemaVersion": 1,
+  "state": "execution_completed",
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}

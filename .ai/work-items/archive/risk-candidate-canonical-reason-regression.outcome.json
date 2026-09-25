@@ -1,0 +1,992 @@
+{
+  "acceptanceResults": [
+    "Leadership reconciliation後のLEADERLESS / FRAGMENTED候補はRisk Opportunityと同一のcanonical risk presentation reasonを表示し、zh-CN/en-US/ja-JPで旧StrengthLoss語彙をCandidate/Watchlist ViewModel・Markdown・Telegram HTML・Archive Markdownへ漏らさない。",
+    "RECOVERY_WATCHがあるStrengthLoss候補は三言語で既存canonical recovery wordingを維持し、通常のleader-confirmed StrengthLoss raw wordingは本修正だけを理由に置換しない。",
+    "Candidate表示はcanonical risk ViewModelだけを参照し、同一のcandidate labelを重複表示しない。canonical risk factが欠落した場合はraw reasonを表示しない。",
+    "positionなし・eligible=falseの巡航候補は三言語で既存のobservation-only wordingを使い、「持有为主」等の実行含意がある表現を使わない。",
+    "既存Risk Summary / Portfolio Risk / Top Actions canonical表示を保持する。Decision、Gate、Probe、Eligibility、Action Matrix、Risk Adjustment、Exit State、Position Sizing、decision_weight=0 / trade_signal=falseの出力意味を変更しない。",
+    "production-like回帰がPresentationAssemblerからgenerate_refined_reportまでを通り、Markdown・Telegram HTML・Archive Markdownすべてで同じcanonical意味を検証する。"
+  ],
+  "createdAt": "2026-09-25T20:35:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:df807503723c9ecbd7cfb56ff8586dee53324f04bdacee7c2d995e3418d85b17",
+  "evidenceRefs": [
+    ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:abc86380d6638c57681f4f0a19a7412a308677e5a48b2e50ea53e0dea1f8109c",
+      "workItemId": "risk-candidate-canonical-reason-regression"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/decisions/observer-snapshot.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.003caf0f7b7394b316b023e04c54ee9d3673023149cda4d9ef4a1c53a60c2cdc.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.08b7d42751b98746441c8086f2129d3cfee4f621b12ac44079c0858bf1b7e793.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.0d55458844c045e5791159cff53b36d79e15fd908ee43d41f4320753182ce209.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.1ee66ccdf92666c443997cb670a426b2eac10dd948683402ccc61a10d0ebe793.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.1f61cbbfb790337a423c37361bda2803d4ffd418b84c2560dfe4a26e15621acf.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.2d8a1b8b1f08129eb131f4668a45e522adfe0e85e5a011a3a50a516ee723ccac.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.2dc550e9e258473d7302cb7dc1ae47a84fa39df6fc2fcf9978481006f4e15c73.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.30c0a23f24c4580215b112a294e1a909108628fe38bffea2a96834b1520c2ece.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.3fa00011ba6499e1d41ef4e5b9e329ab95f4f29ef55bc24c4bdf4748f37d343d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.5d0b689bf175765cc0637e32265072886ec29b4bf2f767118c5a72e84a47cd3e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.613fd457b0814fe28847ce25e48cf26c449a060e94016d3b96d2497dc08a9595.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.62e33cd96b70de28f97551389d5bf1f299d9d27d98d5940a37ef24e34f19513e.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.653f9fd6e1909b4177b34d77eec869523c5c4e13f81e87c62bd0818c67b87a0d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.811056f1e26b3b3eb8f7abc46d41a3e74644ab2b75226db6703eec608667ea95.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.8e167867cece55035601527d89decf9d72e4005707328f68fb7cc6706e628f93.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.99da2559d5422b361c5dd5be8b9cabec118c5b27cf3c2c49554a6d72308c32dd.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.b0bd45ebebe12a273990cd90c4b3791ffd76e6a9129f705a59b0dfba001c0d22.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.b6d097b4b20e417f63fe92b3250d40630396b1c7ca4ec6526fd2527cfc20a085.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.d5d19211be222170efb6b1733b45712a49f2712fd342a148cd28a71b2111be10.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.d68832d6f29e51fb5946e8cbfe5084d5e3ff1b0057a71790e2ae502ab218df6c.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.dc0b40a54e60dbae61822e02bfd26b5fc7353ce8c77c3b6c7c196fe1adc4c5d2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.dcaf237a271fa6684e55468916e11d6fd5781b841877d213bf9876867ce1aa5d.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.e2161436690f9cd80e9be502ebcae38fefb938510a62c31bc1577aae3904e041.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.f6ad059a4e884da35b69de05170693dc72491ce13e1ca81cd93d001ec7877350.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification-attempt.fed38d827fba6b1fe1b03ce1773b489286b4ea32073881f046b13d5cbc386e0a.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-frontier-pacing-hypothesis-linkage.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-frontier-pacing-observation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-source-classification-reopen.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ai-policy-source-classification.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/alpha-vantage-earnings-calendar-provider.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/breakout-presentation-semantic-clarity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ci_installed_ai_cockpit_route.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ci_installed_ai_cockpit_route_recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-evidence-resolver.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery-runtime-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-discovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-provider-neutralization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/corporate-event-signal-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-apt-source-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-apt-source-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix-finalization-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-packet-delivery-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-reliability-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-reliability-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-scheduled-reuse.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict-finalization-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-radar-snapshot-report-date-conflict.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-observation-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-observation-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/daily-report-runtime-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/day-only-observation-precision.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/decision-transition-presentation-consistency.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/decision-transition-presentation-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-ancestry-repair-20260918-v4.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260918-v5.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260918.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v6.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v7.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260919-v8.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260922-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync-20260922-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/develop-main-sync.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/fred-observation-date-precision-integrity-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/fred-observation-date-precision-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/freshness-gate-holiday-fix-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/freshness-gate-holiday-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/governance-script-drift-cleanup-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/governance-script-drift-cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/holiday-market-context-semantic-fix-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/holiday-market-context-semantic-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/index.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/leadership-absence-reconstruction-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/macro-geopolitical-high-information-context.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/nyse-holiday-narrative-token-fix-runtime-revalidation-v1.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/nyse-holiday-narrative-token-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/primary-event-scoped-binding.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/quality-coverage-expectation-source-adapter.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/remove-repo-secret-config.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-canonicalization-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-canonicalization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity-finalization-recovery-v3.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-presentation-delivery-path-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/risk-probe-candidate-label-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/sec-edgar-official-disclosure-provider.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/sec-edgar-real-run-validation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay-workflow-dispatch-fix.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-acceptance-replay.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity-finalization-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-geopolitical-lexical-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-historical-finalization-cleanup.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-target-cleanup-reconciliation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-temporal-alignment-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/signal-context-temporal-alignment.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-integrity-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-integrity.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate-finalization-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate-finalization.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-delivery-resend-gate.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-payload-archive-repair.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-payload-archive.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-recovery-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/telegram-report-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery-v2.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922-finalization-recovery.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/ubuntu-runner-pinning-20260922.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/uninstall_python_ai_cockpit.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/knowledge/universe-breadth-semantic-reconciliation.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-canonical-reason-regression.approach.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-canonical-reason-regression.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/2026-09-26-risk-candidate-canonical-reason-regression.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "最終LeadershipがLEADERLESS / FRAGMENTEDと確定したとき、Candidate/Watchlist診断が同じPresentationPacket内のcanonical risk presentation reasonを使うようにし、未保有かつ候補対象外の巡航説明を既存の観測文言に揃える。Decision/Gate/Eligibility/Execution/Position Sizingの意味は変えない。"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/archive/risk-candidate-canonical-reason-regression.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "risk-candidate-canonical-reason-regression"
+  },
+  "taskReportDigest": "sha256:2f7b17bc398159f18aa6fd04425362aba9ffbea03477579a3f5016aacbea0f24",
+  "taskReportMarkdownDigest": "sha256:c3d34ea88637df0ea3af2bd6ef227efa9423691b9312eef815d02a55cc3da3aa",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/risk-candidate-canonical-reason-regression.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "risk-candidate-canonical-reason-regression"
+}

@@ -79,30 +79,46 @@ impl PresentationAssembler {
         language: Language,
     ) {
         let raw = dict.reasons.exit_strength_loss.clone();
-        let canonical = match language {
-            Language::ZhCn => "结构性减仓信号仍有效".to_string(),
-            Language::EnUs => "Structural trim signal remains active.".to_string(),
-            Language::JaJp => "構造的な縮小シグナルは有効です。".to_string(),
-        };
-        let mut changed = false;
+        let canonical = Self::leaderless_strength_loss_reason(language, false);
+        let recovery = Self::leaderless_strength_loss_reason(language, true);
+        let mut risk_reason_changed = false;
         for item in presentation.risk_opportunities.iter_mut() {
             if item.reason == raw {
                 item.reason = canonical.clone();
-                changed = true;
+                risk_reason_changed = true;
             }
         }
-        if !changed {
-            return;
+
+        for candidate in &mut presentation.top_actions {
+            let Some(diagnostic) = candidate.diagnostic.as_deref() else {
+                continue;
+            };
+            if diagnostic != raw.as_str()
+                && diagnostic != canonical.as_str()
+                && diagnostic != recovery.as_str()
+            {
+                continue;
+            }
+            let canonical_reason = presentation
+                .risk_opportunities
+                .iter()
+                .find(|item| item.symbol == candidate.symbol && item.kind == dict.decision.risk)
+                .map(|item| item.reason.as_str())
+                .filter(|reason| *reason == canonical.as_str() || *reason == recovery.as_str());
+            candidate.diagnostic = canonical_reason.map(str::to_string);
         }
-        let risk_items = presentation
-            .risk_opportunities
-            .iter()
-            .filter(|item| item.kind == dict.decision.risk)
-            .collect::<Vec<_>>();
-        let risk_value = Self::summarize_primary_risk(&risk_items, dict);
-        presentation.risk_opportunity_summary.risk_value = risk_value.clone();
-        presentation.risk_opportunity_summary.portfolio_risk_value = risk_value.clone();
-        presentation.decision_summary.risk_snapshot_value = risk_value;
+
+        if risk_reason_changed {
+            let risk_items = presentation
+                .risk_opportunities
+                .iter()
+                .filter(|item| item.kind == dict.decision.risk)
+                .collect::<Vec<_>>();
+            let risk_value = Self::summarize_primary_risk(&risk_items, dict);
+            presentation.risk_opportunity_summary.risk_value = risk_value.clone();
+            presentation.risk_opportunity_summary.portfolio_risk_value = risk_value.clone();
+            presentation.decision_summary.risk_snapshot_value = risk_value;
+        }
     }
 
     /// DecisionPacket から PresentationPacket を生成する。
@@ -648,14 +664,22 @@ impl PresentationAssembler {
             {
                 vm.tags = vec![dict.asset_tags.blocked.clone()];
             }
-            let reason = Self::derive_canonical_risk_presentation_reason(
-                asset,
-                !is_ready,
-                Self::is_systemic_collapse(packet),
-                packet,
-                lang,
-                &dict,
-            );
+            let reason = if !context.has_position
+                && !context.is_candidate_only
+                && asset.asset_state.state == AssetState::CRUISE
+                && asset.exit_decision.asset_exit_state == AssetExitState::None
+            {
+                dict.reasons.state_cruise_restrained.clone()
+            } else {
+                Self::derive_canonical_risk_presentation_reason(
+                    asset,
+                    !is_ready,
+                    Self::is_systemic_collapse(packet),
+                    packet,
+                    lang,
+                    &dict,
+                )
+            };
             vm.diagnostic = (!reason.is_empty()).then_some(reason);
             top_vms.push(vm);
         }
@@ -1841,28 +1865,31 @@ impl PresentationAssembler {
         }
 
         if Self::is_relative_strength_recovering(packet, &asset.symbol) {
-            return match language {
-                Language::ZhCn => {
-                    "结构性减仓信号仍有效；短期 RS 恢复中（RECOVERY_WATCH）".to_string()
-                }
-                Language::EnUs => {
-                    "Structural trim signal remains active; short-term RS is recovering (RECOVERY_WATCH).".to_string()
-                }
-                Language::JaJp => {
-                    "構造的な縮小シグナルは有効です。短期相対強度は回復中です（RECOVERY_WATCH）。".to_string()
-                }
-            };
+            return Self::leaderless_strength_loss_reason(language, true);
         }
 
         if Self::is_leaderless(packet) {
-            return match language {
-                Language::ZhCn => "结构性减仓信号仍有效".to_string(),
-                Language::EnUs => "Structural trim signal remains active.".to_string(),
-                Language::JaJp => "構造的な縮小シグナルは有効です。".to_string(),
-            };
+            return Self::leaderless_strength_loss_reason(language, false);
         }
 
         raw_reason
+    }
+
+    fn leaderless_strength_loss_reason(language: Language, recovery_watch: bool) -> String {
+        match (language, recovery_watch) {
+            (Language::ZhCn, false) => "结构性减仓信号仍有效".to_string(),
+            (Language::EnUs, false) => "Structural trim signal remains active.".to_string(),
+            (Language::JaJp, false) => "構造的な縮小シグナルは有効です。".to_string(),
+            (Language::ZhCn, true) => {
+                "结构性减仓信号仍有效；短期 RS 恢复中（RECOVERY_WATCH）".to_string()
+            }
+            (Language::EnUs, true) => {
+                "Structural trim signal remains active; short-term RS is recovering (RECOVERY_WATCH).".to_string()
+            }
+            (Language::JaJp, true) => {
+                "構造的な縮小シグナルは有効です。短期相対強度は回復中です（RECOVERY_WATCH）。".to_string()
+            }
+        }
     }
 
     fn is_leaderless(packet: &DecisionPacket) -> bool {

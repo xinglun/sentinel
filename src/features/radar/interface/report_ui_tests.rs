@@ -7709,4 +7709,543 @@ mod tests {
             assert!(body.contains("结构性减仓信号仍有效"));
         }
     }
+
+    fn leaderless_candidate_packet(recovery_watch: bool) -> DecisionPacket {
+        DecisionPacket {
+            date: NaiveDate::from_ymd_opt(2026, 9, 25).unwrap(),
+            market_regime: MarketRegimeSnapshot {
+                market_state: MarketState::IGNITION,
+                risk_overlay: RiskOverlay::NORMAL,
+                ..Default::default()
+            },
+            trend_cohesion: crate::features::radar::domain::trend_cohesion::TrendCohesionSnapshot {
+                gate_passed: true,
+                topology: crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::SingleLeader,
+                ..Default::default()
+            },
+            assets: vec![AssetActionDecision {
+                symbol: "GOOG".to_string(),
+                action: crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE,
+                asset_state: AssetStateSnapshot {
+                    symbol: "GOOG".to_string(),
+                    state: AssetState::OPTIMAL,
+                    ..Default::default()
+                },
+                exit_decision: ExitDecision {
+                    position_intent: PositionIntent::TRIM,
+                    asset_exit_state: AssetExitState::StrengthLoss,
+                    ..Default::default()
+                },
+                position_intent: PositionIntent::TRIM,
+                has_position_fact: false,
+                ..Default::default()
+            }],
+            top_tier_symbols: vec!["GOOG".to_string()],
+            current_relative_strength_observations: if recovery_watch {
+                vec![crate::features::radar::domain::current_relative_strength::CurrentRelativeStrengthObservation {
+                    symbol: "GOOG".to_string(),
+                    benchmark_symbol: "SPY".to_string(),
+                    relative_1d_vs_benchmark: Some(2.92),
+                    relative_5d_vs_benchmark: Some(7.31),
+                    trend_slope: Some(1.0),
+                    price_position: Some(1.0),
+                    volume_participation: Some(1.0),
+                    state: crate::features::radar::domain::current_relative_strength::RelativeStrengthState::Improving,
+                    recovery_strength: crate::features::radar::domain::current_relative_strength::RecoveryStrength::Strong,
+                    health: "AVAILABLE".to_string(),
+                    diagnostic: None,
+                    boundary: "Observation only".to_string(),
+                }]
+            } else {
+                Vec::new()
+            },
+            ..Default::default()
+        }
+    }
+
+    #[test]
+    fn final_leaderless_candidate_renders_the_canonical_risk_reason() {
+        use crate::features::radar::interface::presentation::{
+            ExecutionWindow, LeadershipSnapshotViewModel, ParticipationMode,
+        };
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        for (language, expected) in [
+            (Language::ZhCn, "结构性减仓信号仍有效"),
+            (Language::EnUs, "Structural trim signal remains active."),
+            (Language::JaJp, "構造的な縮小シグナルは有効です。"),
+        ] {
+            let config = mock_config_with_language(language);
+            let packet = leaderless_candidate_packet(false);
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            let final_execution_before =
+                serde_json::to_value(&presentation.final_execution_decision).unwrap();
+            let exit_summary_before = serde_json::to_value(&presentation.exit_summary).unwrap();
+            let decision_boundary_before = (
+                presentation.decision_summary.gate_passed,
+                presentation.decision_summary.is_no_trade,
+                presentation.decision_summary.action_status_value.clone(),
+                presentation.decision_summary.state_tag_value.clone(),
+                presentation.decision_summary.action_tag_value.clone(),
+                presentation.decision_summary.behavior_mode_value.clone(),
+                presentation.decision_summary.exposure_value.clone(),
+                presentation.decision_summary.entry_cap_value.clone(),
+                presentation.decision_summary.hard_rule_note.clone(),
+                presentation.decision_summary.summary.clone(),
+            );
+            let top_action_semantics_before = presentation
+                .top_actions
+                .iter()
+                .map(|item| {
+                    let mut value = serde_json::to_value(item).unwrap();
+                    value.as_object_mut().unwrap().remove("diagnostic");
+                    value
+                })
+                .collect::<Vec<_>>();
+            let execution_before = (
+                presentation.final_execution_decision.execution_window,
+                presentation.final_execution_decision.participation_mode,
+                presentation.final_execution_decision.eligible_asset_count,
+                presentation.decision_summary.gate_passed,
+            );
+
+            assert_eq!(execution_before.0, ExecutionWindow::Limited);
+            assert_eq!(execution_before.1, ParticipationMode::Probe);
+            assert_eq!(execution_before.2, 0);
+            assert!(execution_before.3);
+            assert_eq!(
+                packet.assets[0].action,
+                crate::features::radar::domain::action_matrix::AssetAction::ACCUMULATE
+            );
+            assert_eq!(
+                packet.assets[0].exit_decision.asset_exit_state,
+                AssetExitState::StrengthLoss
+            );
+            assert!(!packet.assets[0].has_position_fact);
+
+            let leadership_snapshot = LeadershipSnapshotViewModel {
+                primary_leader_value: "none".to_string(),
+                leader_absence_duration: 13,
+                ..Default::default()
+            };
+            PresentationAssembler::reconcile_tactical_leadership_display(
+                &mut presentation,
+                &leadership_snapshot,
+                language,
+            );
+
+            let candidate = presentation
+                .top_actions
+                .iter()
+                .find(|item| item.symbol == "GOOG")
+                .expect("the ineligible candidate remains visible");
+            assert_eq!(
+                presentation.risk_opportunities[0].reason, expected,
+                "risk presentation remains canonical"
+            );
+            assert_eq!(candidate.diagnostic.as_deref(), Some(expected));
+            assert_eq!(
+                (
+                    presentation.final_execution_decision.execution_window,
+                    presentation.final_execution_decision.participation_mode,
+                    presentation.final_execution_decision.eligible_asset_count,
+                    presentation.decision_summary.gate_passed,
+                ),
+                execution_before,
+                "presentation reconciliation does not change execution permission"
+            );
+            assert_eq!(
+                serde_json::to_value(&presentation.final_execution_decision).unwrap(),
+                final_execution_before,
+                "execution range, actionability, and rationale remain unchanged"
+            );
+            assert_eq!(
+                serde_json::to_value(&presentation.exit_summary).unwrap(),
+                exit_summary_before,
+                "exit state and portfolio action summary remain unchanged"
+            );
+            assert_eq!(
+                (
+                    presentation.decision_summary.gate_passed,
+                    presentation.decision_summary.is_no_trade,
+                    presentation.decision_summary.action_status_value.clone(),
+                    presentation.decision_summary.state_tag_value.clone(),
+                    presentation.decision_summary.action_tag_value.clone(),
+                    presentation.decision_summary.behavior_mode_value.clone(),
+                    presentation.decision_summary.exposure_value.clone(),
+                    presentation.decision_summary.entry_cap_value.clone(),
+                    presentation.decision_summary.hard_rule_note.clone(),
+                    presentation.decision_summary.summary.clone(),
+                ),
+                decision_boundary_before,
+                "decision-facing summary remains unchanged"
+            );
+            let top_action_semantics_after = presentation
+                .top_actions
+                .iter()
+                .map(|item| {
+                    let mut value = serde_json::to_value(item).unwrap();
+                    value.as_object_mut().unwrap().remove("diagnostic");
+                    value
+                })
+                .collect::<Vec<_>>();
+            assert_eq!(
+                top_action_semantics_after, top_action_semantics_before,
+                "candidate identity, eligibility labels, and action tags remain unchanged"
+            );
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            let dictionary = get_dictionary(language);
+            let raw_reason = dictionary.reasons.exit_strength_loss;
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains(expected), "{body}");
+                assert!(!body.contains(&raw_reason), "{body}");
+            }
+            let blocked = &get_dictionary(language).asset_tags.blocked;
+            assert!(report
+                .markdown_body
+                .contains(&format!("- GOOG · {blocked}\n   *{expected}*")));
+            assert!(report
+                .telegram_html_body
+                .contains(&format!("• GOOG · {blocked}\n  <i>{expected}</i>")));
+            assert!(report
+                .archival_markdown
+                .contains(&format!("- GOOG · {blocked}\n   *{expected}*")));
+        }
+    }
+
+    #[test]
+    fn recovery_watch_survives_final_leaderless_reconciliation() {
+        use crate::features::radar::interface::presentation::LeadershipSnapshotViewModel;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        for (language, expected_recovery) in [
+            (
+                Language::ZhCn,
+                "结构性减仓信号仍有效；短期 RS 恢复中（RECOVERY_WATCH）",
+            ),
+            (
+                Language::EnUs,
+                "Structural trim signal remains active; short-term RS is recovering (RECOVERY_WATCH).",
+            ),
+            (
+                Language::JaJp,
+                "構造的な縮小シグナルは有効です。短期相対強度は回復中です（RECOVERY_WATCH）。",
+            ),
+        ] {
+            let config = mock_config_with_language(language);
+            let packet = leaderless_candidate_packet(true);
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            PresentationAssembler::reconcile_tactical_leadership_display(
+                &mut presentation,
+                &LeadershipSnapshotViewModel {
+                    primary_leader_value: "none".to_string(),
+                    leader_absence_duration: 13,
+                    ..Default::default()
+                },
+                language,
+            );
+
+            let candidate = presentation
+                .top_actions
+                .iter()
+                .find(|item| item.symbol == "GOOG")
+                .expect("the candidate remains visible");
+            assert_eq!(candidate.diagnostic.as_deref(), Some(expected_recovery));
+            assert_eq!(
+                presentation.risk_opportunities[0].reason,
+                expected_recovery
+            );
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            let raw_reason = get_dictionary(language).reasons.exit_strength_loss;
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(body.contains(expected_recovery), "{body}");
+                assert!(!body.contains(&raw_reason), "{body}");
+            }
+        }
+    }
+
+    #[test]
+    fn leaderless_candidate_fails_closed_without_a_valid_canonical_risk_fact() {
+        use crate::features::radar::interface::presentation::LeadershipSnapshotViewModel;
+        use crate::features::shared::interface::i18n::Language;
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            for initially_leaderless in [false, true] {
+                for malformed in [false, true] {
+                    let config = mock_config_with_language(language);
+                    let mut packet = leaderless_candidate_packet(false);
+                    if initially_leaderless {
+                        packet.trend_cohesion.topology = crate::features::radar::domain::trend_cohesion::TrendCohesionTopology::NoLeader;
+                    }
+                    let mut presentation = PresentationAssembler::assemble(
+                        &packet,
+                        &domain_rules(&config),
+                        &HashMap::new(),
+                        vec![],
+                        language,
+                    );
+                    if malformed {
+                        presentation.risk_opportunities[0].reason =
+                            "malformed canonical risk fact".into();
+                    } else {
+                        presentation.risk_opportunities.clear();
+                    }
+
+                    PresentationAssembler::reconcile_tactical_leadership_display(
+                        &mut presentation,
+                        &LeadershipSnapshotViewModel {
+                            primary_leader_value: "none".to_string(),
+                            leader_absence_duration: 13,
+                            ..Default::default()
+                        },
+                        language,
+                    );
+
+                    let candidate = presentation
+                        .top_actions
+                        .iter()
+                        .find(|item| item.symbol == "GOOG")
+                        .expect("the candidate remains visible");
+                    assert_eq!(candidate.diagnostic, None);
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn unheld_ineligible_cruise_candidate_uses_observation_wording() {
+        use crate::features::radar::domain::action_matrix::AssetAction;
+        use crate::features::radar::domain::exit::PositionIntent;
+        use crate::features::radar::interface::presentation::LeadershipSnapshotViewModel;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let mut packet = leaderless_candidate_packet(false);
+            assert!(!packet.assets[0].has_position_fact);
+            packet.assets[0].action = AssetAction::OBSERVE;
+            packet.assets[0].asset_state.state = AssetState::CRUISE;
+            packet.assets[0].exit_decision.asset_exit_state = AssetExitState::None;
+            packet.assets[0].exit_decision.position_intent = PositionIntent::HOLD;
+            packet.assets[0].position_intent = PositionIntent::HOLD;
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            assert_eq!(
+                presentation.final_execution_decision.eligible_asset_count,
+                0
+            );
+
+            let candidate_before = presentation
+                .top_actions
+                .iter()
+                .find(|item| item.symbol == "GOOG")
+                .expect("the unqualified candidate remains visible");
+            assert!(!candidate_before.candidate_label_allowed);
+            let dictionary = get_dictionary(language);
+            assert_eq!(
+                candidate_before.diagnostic.as_deref(),
+                Some(dictionary.reasons.state_cruise_restrained.as_str())
+            );
+            assert!(!candidate_before
+                .diagnostic
+                .as_deref()
+                .unwrap()
+                .contains(&dictionary.reasons.state_cruise));
+
+            PresentationAssembler::reconcile_tactical_leadership_display(
+                &mut presentation,
+                &LeadershipSnapshotViewModel {
+                    primary_leader_value: "none".to_string(),
+                    leader_absence_duration: 13,
+                    ..Default::default()
+                },
+                language,
+            );
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            let candidate_after = presentation
+                .top_actions
+                .iter()
+                .find(|item| item.symbol == "GOOG")
+                .expect("the unqualified candidate remains visible after reconciliation");
+            assert!(!candidate_after.candidate_label_allowed);
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                assert!(
+                    body.contains(&dictionary.reasons.state_cruise_restrained),
+                    "{body}"
+                );
+                assert!(!body.contains(&dictionary.reasons.state_cruise), "{body}");
+            }
+        }
+    }
+
+    #[test]
+    fn confirmed_leader_keeps_the_raw_strength_loss_reason() {
+        use crate::features::radar::interface::presentation::LeadershipSnapshotViewModel;
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let packet = leaderless_candidate_packet(false);
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            PresentationAssembler::reconcile_tactical_leadership_display(
+                &mut presentation,
+                &LeadershipSnapshotViewModel {
+                    primary_leader_value: "GOOG".to_string(),
+                    ..Default::default()
+                },
+                language,
+            );
+            let candidate = presentation
+                .top_actions
+                .iter()
+                .find(|item| item.symbol == "GOOG")
+                .expect("candidate remains visible");
+            let raw_reason = get_dictionary(language).reasons.exit_strength_loss;
+            assert_eq!(candidate.diagnostic.as_deref(), Some(raw_reason.as_str()));
+
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            assert!(report.markdown_body.contains(&raw_reason));
+            assert!(report.telegram_html_body.contains(&raw_reason));
+            assert!(report.archival_markdown.contains(&raw_reason));
+        }
+    }
+
+    #[test]
+    fn eligible_probe_candidate_label_is_not_repeated_on_the_second_row() {
+        use crate::features::radar::domain::exit::PositionIntent;
+        use crate::features::radar::interface::presentation::{
+            LeadershipSnapshotViewModel, ParticipationMode,
+        };
+        use crate::features::shared::interface::i18n::{get_dictionary, Language};
+
+        for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+            let config = mock_config_with_language(language);
+            let mut packet = leaderless_candidate_packet(false);
+            packet.assets[0].exit_decision.asset_exit_state = AssetExitState::None;
+            packet.assets[0].exit_decision.position_intent = PositionIntent::ADD;
+            packet.assets[0].position_intent = PositionIntent::ADD;
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                language,
+            );
+            assert_eq!(
+                presentation.final_execution_decision.participation_mode,
+                ParticipationMode::Probe
+            );
+            assert_eq!(
+                presentation.final_execution_decision.eligible_asset_count,
+                1
+            );
+
+            PresentationAssembler::reconcile_tactical_leadership_display(
+                &mut presentation,
+                &LeadershipSnapshotViewModel {
+                    primary_leader_value: "none".to_string(),
+                    leader_absence_duration: 13,
+                    ..Default::default()
+                },
+                language,
+            );
+            let report = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            let dictionary = get_dictionary(language);
+            let candidate_label = dictionary.asset_tags.candidate;
+            for body in [
+                &report.markdown_body,
+                &report.telegram_html_body,
+                &report.archival_markdown,
+            ] {
+                let lines = body.lines().collect::<Vec<_>>();
+                let section_index = lines
+                    .iter()
+                    .position(|line| line.contains(&dictionary.decision.candidate_watchlist))
+                    .expect("candidate section renders");
+                let row_index = lines
+                    .iter()
+                    .enumerate()
+                    .find_map(|(index, line)| {
+                        (index > section_index && line.contains("GOOG ·")).then_some(index)
+                    })
+                    .expect("candidate row renders");
+                let candidate_row = lines[row_index];
+                let detail_row = lines[row_index + 1];
+                assert_eq!(candidate_row.matches(&candidate_label).count(), 1, "{body}");
+                assert!(!detail_row.contains(&candidate_label), "{body}");
+            }
+        }
+    }
 }
