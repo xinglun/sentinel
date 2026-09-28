@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Is Up 77% Since June. A $1,344 Target Says the Run Is Early.
+  summary: Key TakeawaysPalantir stock has climbed 77% since late June, with the sharpest leg arriving after Q2 revenue grew 93% YoY to $1. 94B.
+  url: https://finnhub.io/api/news?id=254d885163c0a20ab46008346508ee451707824a54c166f2fb5d8a0a1ccfa609

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Makes Startling AI Boom Call on Trump
+  summary: The AI buildout now carries much bigger economic stakes
+  url: https://finnhub.io/api/news?id=afe2b0fdade60ff0fd4e01c40107b3f69455e12ab437af0510dbd9fa0cc2adb8

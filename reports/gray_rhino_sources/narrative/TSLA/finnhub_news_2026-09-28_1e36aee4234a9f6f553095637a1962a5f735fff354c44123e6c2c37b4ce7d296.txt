@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could This Be the Catalyst That Supercharges Tesla Stock Before the End of 2026?
+  summary: Tesla has begun delivering its Semi trucks to customers.
+  url: https://finnhub.io/api/news?id=7a87ff5576b2c6bb596b1ea8a23c3f9991303abed3f3a24ba650f3d5408eab18

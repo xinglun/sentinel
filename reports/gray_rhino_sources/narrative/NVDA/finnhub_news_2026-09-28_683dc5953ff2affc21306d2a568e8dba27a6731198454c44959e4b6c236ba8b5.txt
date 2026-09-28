@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Micron Stock Dropped Today
+  summary: Is Micron's run done? Wall Street doesn't think so.
+  url: https://finnhub.io/api/news?id=c49648854df3c8dce1e49dbbf9a86fef8d1f382b7912bd89bbba92ab6bb6c081

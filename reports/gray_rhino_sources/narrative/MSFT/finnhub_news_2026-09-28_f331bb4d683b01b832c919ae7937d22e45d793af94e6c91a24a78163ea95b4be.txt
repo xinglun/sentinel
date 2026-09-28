@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia launches new tool to keep AI agents from going rogue
+  summary: Chipmaker Nvidia said Monday it is introducing a new software platform to address concerns about artificial intelligence agents that have “gone rogue” and operated outside the control of humans. AI researcher Andrew Yoon joins CNN News Central.
+  url: https://finnhub.io/api/news?id=8d6dd0fbf65164a03fa22a56156d02ed93d98cc6cf660ed8eb58c2b3e20352ed

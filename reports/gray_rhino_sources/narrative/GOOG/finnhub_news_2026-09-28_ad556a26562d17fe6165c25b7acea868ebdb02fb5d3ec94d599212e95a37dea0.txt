@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: An Ex-Google Researcher Says AI Could “Kill Us All.” Should Alphabet Investors Care?
+  summary: Warnings about artificial intelligence don’t get much more extreme than this. Bilal Chughtai, a former Google DeepMind research engineer who worked on AGI safety and alignment research, said he believes AI has the potential to “kill us all” and that time may be running out to prevent such an outcome. For Alphabet Inc. (NASDAQ:GOOG), the […]
+  url: https://finnhub.io/api/news?id=1f258b58781950b449a3c1116ccdc331952fdc5fc5cfba89d215d64f42997509

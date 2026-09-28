@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stocks slip as bond yields rise, but Nvidia stock is rising: AlphaCheck
+  summary: Stocks fell on Monday as long-dated bond yields continued to climb amid surging oil prices, raising concerns that the Federal Reserve will need to hike rates at its policy meeting next week.
+  url: https://finnhub.io/api/news?id=e8fc9188a1ee12ae0d8289cdeb5cb0d3977cc14a1cd692f85d3b2484a4233d8f

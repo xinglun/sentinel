@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Baseten Names Sheila Vashee Chief Marketing Officer
+  summary: SAN FRANCISCO, September 25, 2026--Sheila Vashee joins Baseten as CMO after 3 years as CMO at Figma.
+  url: https://finnhub.io/api/news?id=1dbacf34578e00d3ce5d91f61a18bdd9a3617923e2bd83354079f78e211dec29

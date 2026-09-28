@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft, Oracle Stocks Tumble After Meta Unveils New AI Enterprise Push
+  summary: Meta's push into enterprise software sparked a broad selloff among major technology companies with established business software operations
+  url: https://finnhub.io/api/news?id=fa4b31da79369802a23149d17949c1b35fc26df836a110b1826b683de48a82e9

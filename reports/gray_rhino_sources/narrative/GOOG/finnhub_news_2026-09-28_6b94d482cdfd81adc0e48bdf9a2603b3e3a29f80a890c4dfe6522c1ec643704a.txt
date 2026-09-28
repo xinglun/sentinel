@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Technology (MRVL) Starts Custom AI Chip Shipments And Eyes Higher Forecasts
+  summary: Marvell Technology (NasdaqGS:MRVL) plans to lift its AI revenue outlook after deepening its custom silicon partnership with Alphabet's Google. The firm has begun shipping custom Compute Express Link chips to Google as part of its newest AI hardware programs. Management expects large-scale custom AI inference silicon programs with Google to ramp through 2028, pointing to a multi-year engagement. This ramp in Google focused custom AI silicon sits within a wider picture that our research on...
+  url: https://finnhub.io/api/news?id=6321b389feeea42b5304a13c5afabd765e0d27c0a24cfe0a4b7ac720dcbcb56d

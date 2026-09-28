@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft's Autopilot opens new AI revenue path, Jefferies writes
+  summary: Microsoft Corp (NASDAQ:MSFT) has opened new ways to earn usage-based revenue with its latest Copilot tools, according to analysts at Jefferies, although the broker expects enterprise adoption to build gradually. The launch includes Home, a unified starting point for Chat and Cowork that...
+  url: https://finnhub.io/api/news?id=72d20a3bbc00c7da1f5d16044f7314b01b422f0f92c90bb399771b8f104e50d6

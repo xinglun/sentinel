@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AT&T’s Price Hikes May Have Helped Tip the Fed Into Its First Rate Hike Since 2023. Here’s Where the Stock Could Go
+  summary: Key Stats for AT&T StockCurrent Price: $25. 38Target Price (Mid): ~$41Street Target: ~$29Potential Total Return: ~61%Annualized IRR: ~12% / yearWhat Happened?Economists at Bank of America, Barclays, and Pantheon Macroeconomics flagged plan changes at AT&T (T) and T-Mobile (TMUS) as likely culprits.
+  url: https://finnhub.io/api/news?id=d13616d6f069453ea66d49d206fe07c6d0c890775f9d5a29eb8b65a5b35974d9

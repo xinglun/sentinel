@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft cuts hundreds more jobs as restructuring deepens
+  summary: Just three months after its last workforce reduction, the eliminated positions span several job types in the company’s home region.
+  url: https://finnhub.io/api/news?id=f46a03ac471aad41e413a51ceb786ca3b627eb5e6f946506ba5e8ea6784c3b88

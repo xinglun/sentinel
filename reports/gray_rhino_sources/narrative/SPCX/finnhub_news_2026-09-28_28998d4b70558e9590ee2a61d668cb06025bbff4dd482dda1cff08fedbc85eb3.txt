@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Starship Launched Today. This Test Is Different.
+  summary: Starship lost an upper-stage engine after launch on its 14th test flight, but it was still able to pass a major milestone.
+  url: https://finnhub.io/api/news?id=37d2830f840292be67405535a138aa03102b1c190582f86f5ceacbf628c62672

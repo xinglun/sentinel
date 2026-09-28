@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Marvell Likely to Lift Fiscal 2029 AI Revenue Estimate by at Least $2 Billion Largely Due to Google Deal, RBC Says
+  summary: Marvell Technology (MRVL) is expected to raise its fiscal 2029 artificial intelligence revenue forec
+  url: https://finnhub.io/api/news?id=c804aef6298659af277e6e94cb682346f4ad33fb5789c7f25467c0af7a8ca6d8

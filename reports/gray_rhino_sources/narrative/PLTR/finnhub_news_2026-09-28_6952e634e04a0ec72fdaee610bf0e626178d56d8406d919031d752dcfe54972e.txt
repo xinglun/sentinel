@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft’s AI Gains Can Push the Stock Higher. That’s Good News for Software Peers.
+  summary: Microsoft’s Azure business has cleared $100 billion in annual revenue and its stock is on a run. How high can it go?
+  url: https://finnhub.io/api/news?id=0250c33fb868ecca1ef1133306002340aee1f87ce4ee8d1affba0d64b1f75238

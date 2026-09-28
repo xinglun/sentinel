@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Heads to Trial in California. Should Investors Be Worried?
+  summary: Tesla (NASDAQ:TSLA) investors already have plenty to keep track of, from vehicle deliveries to the company’s expansion into AI and autonomous driving. This week adds something very different to that list. A lawsuit brought by the California Civil Rights Department in 2022 is heading to trial in Oakland, with the state agency alleging that Black […]
+  url: https://finnhub.io/api/news?id=2df04f9c1da902d9bf23c75ac511087e069d8ae8223846121fe8a7931fba6825

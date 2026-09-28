@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX: Inflated Expectations That Will Pop Like A Balloon
+  summary: SpaceX rated Sell: unsustainable valuation and accelerating cash burn. Click for more on SPCX stock.
+  url: https://finnhub.io/api/news?id=9a71a0b7c012058601c563118d1c2b9e64e638d8042de3c236489658675f8953

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Adobe’s Rollercoaster Ride Continues: Who’s Buying?
+  summary: Adobe keeps beating earnings estimates while its stock collapses, leaving investors to wonder whether Wall Street is pricing in a threat that may never materialize or a disruption that already has.
+  url: https://finnhub.io/api/news?id=31f73f8f5813733f897790d6e0b163b6f76d64981a7836f7836e15b9eeabe911

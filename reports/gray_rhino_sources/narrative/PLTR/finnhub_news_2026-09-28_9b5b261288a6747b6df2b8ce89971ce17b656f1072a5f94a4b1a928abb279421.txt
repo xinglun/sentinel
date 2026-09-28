@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bull of the Day: Palantir Technologies (PLTR)
+  summary: Palantir has been strong results thanks to the AI boom, with its software increasingly being deployed across both the commercial and government landscapes.
+  url: https://finnhub.io/api/news?id=7e7baac702bbbb99e2413e90a3553cc5d12ef555e71c502053648ea6d412a5d9

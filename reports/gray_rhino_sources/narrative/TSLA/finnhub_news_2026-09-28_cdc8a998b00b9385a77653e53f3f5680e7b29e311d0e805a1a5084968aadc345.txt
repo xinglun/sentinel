@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia boosts stock buyback program, how AI will change the advertising landscape
+  summary: Yahoo Finance Executive Editor Brian Sozzi shares his takes on the day's biggest market stories, including Nvidia's (NVDA) $150 billion extension to its stock buyback program and the state of Nike's turnaround strategy. Sozzi also sits down with Sir Martin Sorrell to discuss the impact AI will have on the advertising industry.
+  url: https://finnhub.io/api/news?id=ad4968126d6902b385b6541ecadfca9e618a215ca6d30dd3fa466fe823ef652e

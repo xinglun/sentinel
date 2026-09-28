@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Where Will the S&P 500 Be in 30 Years? History Offers a Clear Answer for Investors.
+  summary: The most important takeaway is that investors need to put money to work early and let compounding do the trick.
+  url: https://finnhub.io/api/news?id=1fe60917cfcb889e2464fa45584438ea19cd5d034b3d73295435124d3a8a09e9

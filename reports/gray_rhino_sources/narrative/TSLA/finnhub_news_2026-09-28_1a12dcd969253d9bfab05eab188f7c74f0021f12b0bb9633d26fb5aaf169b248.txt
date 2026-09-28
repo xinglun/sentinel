@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: My Tesla Stock Price Prediction Hinges on One Massive Opportunity
+  summary: Tesla is trading like an AI company, not a carmaker, and one emerging business line will either justify that premium or expose it as fantasy. Here is what the numbers actually say about where the stock goes from here.
+  url: https://finnhub.io/api/news?id=6d8ce4caca518eeab1b6afddbcbaed505d3e9950500071a476ca0d02136919d1

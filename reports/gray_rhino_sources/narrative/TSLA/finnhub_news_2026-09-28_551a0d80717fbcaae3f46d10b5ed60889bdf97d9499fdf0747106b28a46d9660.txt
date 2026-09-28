@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 AI Stocks With Revenue Growth Up To 41%
+  summary: Record share repurchases at Nvidia, with a US$235b buyback authorization tied to heavy AI infrastructure spending, highlight how some fast growing businesses are doubling down on their own futures. When insiders also hold meaningful stakes, their incentives line up squarely with yours. This article walks through 3 high growth stocks with significant insider ownership, showing where executives are choosing to keep their own capital at work. The stocks covered below are only a small sample, and...
+  url: https://finnhub.io/api/news?id=d97772865df68b199336cc03f00afa86fc3e83aa53674fb5d181290f6058c578

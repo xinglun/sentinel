@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China Weighs Letting ByteDance and Alibaba Buy New Nvidia (NVDA) Chips
+  summary: NVIDIA Corporation (NASDAQ:NVDA) may be allowed to sell part of its chip range in China again. Officials there have asked ByteDance and Alibaba Group Holding Limited (NYSE:BABA) to report their plans for buying its RTX PRO 5500 processors, according to The Information. Governments ask for purchase plans for one reason. They are deciding whether to […]
+  url: https://finnhub.io/api/news?id=9bac95dfd79af16029906c000a354adaa28f8c269572db4ecc71e24a80d0c6a1

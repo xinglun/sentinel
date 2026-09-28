@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Faraday Chairman Warns Cutting China Out of US Robot Supply Chain Too Fast Could Backfire
+  summary: Faraday Future (NASDAQ:FFAI) Global Executive Chairman Jerry Wang says the U.S. could slow its own robotics industry if it cuts off Chinese hardware before American suppliers are ready to replace it. Wang told Benzinga that Faraday can currently source only...
+  url: https://finnhub.io/api/news?id=d936d70c23741beb926332c05be300d1d8b8c51505eafb787a4dd2cd3bba708d

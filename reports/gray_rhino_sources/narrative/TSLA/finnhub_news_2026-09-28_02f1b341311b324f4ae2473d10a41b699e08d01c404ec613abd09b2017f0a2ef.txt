@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Drops Over 3% Before Cybercab's Federal Answers Come Due
+  summary: NHTSA's September 30 deadline tests certification discipline before autonomous vehicles reach greater scale.
+  url: https://finnhub.io/api/news?id=46e0875621e2fd187a512423ac7323d77d7ecf27fc5d45af60ac53c0e0a7abec

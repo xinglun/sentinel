@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Figma vs. UiPath: Which Technology Stock Is a Better Buy in 2026?
+  summary: Figma is growing fast but faces AI-disruption risk and has yet to achieve consistent profitability. UiPath has solved its profitability problem and is trading at depressed valuations, but spent years testing investor patience to get here.
+  url: https://finnhub.io/api/news?id=11cc39352b6b186ceafb5f7531854acd2fb392981d7e07e1a994dec286751391

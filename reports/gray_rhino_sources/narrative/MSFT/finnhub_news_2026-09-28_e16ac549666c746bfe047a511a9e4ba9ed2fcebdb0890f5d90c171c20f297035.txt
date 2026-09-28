@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top software application stocks to watch, according to Oppenheimer
+  summary: Investing.com -- Oppenheimer analysts say the artificial intelligence transition in software has moved beyond experimentation and into a phase where companies must demonstrate measurable returns on investment. Enterprise AI spending remains strong, but customers and investors now focus on business outcomes rather than adoption metrics alone. AI is becoming a recurring operating expense, with chief financial officers evaluating investments alongside labor costs and demanding clear returns.
+  url: https://finnhub.io/api/news?id=4cf45a9efb77233fcf62170a79961044ca39beaeb00a2349be62bc26d17d2cd2

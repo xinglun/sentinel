@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoundHound vs. BigBear.ai: Which AI Stock Is the Better Buy Now?
+  summary: SOUN's faster growth, improving loss estimates and expanding OASYS footprint strengthen its upside case despite a richer valuation and integration risks.
+  url: https://finnhub.io/api/news?id=50872f13f4227f309f574c91507652c892f61f48de8c7f2f8d476a019fd363a1

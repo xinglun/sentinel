@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Acer's CEO Has a Warning for Micron Technology Investors
+  summary: The price of memory products is likely to continue going up, but perhaps not for as long as Micron investors may hope.
+  url: https://finnhub.io/api/news?id=b7dcc07dfd5d2beac79de2d44069de698520c8a639b17929c6eedf273853e73c

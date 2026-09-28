@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Veteran marketer defends controversial Sydney Sweeney jeans ad campaign: The publicity was 'worth billions'
+  summary: Veteran marketer Mark Penn has no regrets about signing off on the viral Sydney Sweeney American Eagle Outfitters jeans ad.
+  url: https://finnhub.io/api/news?id=d8eb5a7b5d294a252dc3734818a6c34505314ab8b2cf3a79b4e0ee6d98997f6c

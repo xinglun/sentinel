@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This AI Infrastructure Stock Is Flying Under the Radar
+  summary: Marvell has already tripled this year while most investors are still focused elsewhere, and the company just locked in a deal with Google that could reshape its entire revenue mix. The question is whether the stock's sky-high multiple leaves room for another leg up or sets the stage for a painful correction.
+  url: https://finnhub.io/api/news?id=a92e2886098c45fea2920c4eab1cdaa610855b4dd6dc40848332ef4bec217a96

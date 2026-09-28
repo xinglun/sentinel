@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Top Ethereum Rival Has More Than Doubled in Two Weeks. But Is It a Buy?
+  summary: NEAR's focus on AI agents and its upcoming ETF are generating a lot of buzz.
+  url: https://finnhub.io/api/news?id=714e17f77f04408ca5add64e124c1d97d2defa6c1e32cfec584f76c07111c4ff

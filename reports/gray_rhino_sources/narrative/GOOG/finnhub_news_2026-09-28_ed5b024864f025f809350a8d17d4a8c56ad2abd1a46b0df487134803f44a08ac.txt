@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hyperscaler Bang for Buck: The AI Capex ROI Has Two Clear Winners
+  summary: Alphabet and Meta both poured tens of billions into AI data centers last quarter, but only one has customers writing checks in return. The gap between their payback stories is wider than the spending numbers suggest.
+  url: https://finnhub.io/api/news?id=d6f40062686077614e503946960672614171a90282ca738e3921626422aa3ef3

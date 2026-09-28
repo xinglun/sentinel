@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Did Not Win the FAA Contract for SMART. Time to Buy the Stock Anyway?
+  summary: The company will not be building an AI system for the FAA, but that may not hurt investors.
+  url: https://finnhub.io/api/news?id=c0e16a7e2236ea5bedd337cd3cda61d4a74bf319e28d5c93e33234d9d81d9f37

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bro's built a $85K/month website widget for mechanics:
+  summary: Meet Tom. He built Avenue, a simple embed that lets customers of electricians, mechanics and repair shops book or buy without ever picking up the phone.No coding background. No fancy funnel. He got his first customers by walking door to door with an iPad, showing tradies the product on their own branding.
+  url: https://finnhub.io/api/news?id=ff0f965d2fec94748d318d84a61fa519194aa975e64bcda84efdf53d319846c1

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's Stock Is Up Over 50% Since Reporting Earnings. Is It Heading for a New All-Time High?
+  summary: Investors are bullish on Palantir's stock due to not only the company's strong growth but also a convincing vision from CEO Alex Karp.
+  url: https://finnhub.io/api/news?id=6e1bffd43d78074b1409ae101b154a70e04d49fa1a3a7e9b90f821de4d8eaa44

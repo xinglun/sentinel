@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Tesla’s Delivery Numbers May Take a Backseat to Its Roadster Unveiling
+  summary: Tesla sold almost 500,000 EVs in the third quarter of 2025. Analysts expected a year over year decline in Q3 2026.
+  url: https://finnhub.io/api/news?id=8b39afdc569c9face03d1bb627eb2d30d055a9e455960267253840cd34ff01e9

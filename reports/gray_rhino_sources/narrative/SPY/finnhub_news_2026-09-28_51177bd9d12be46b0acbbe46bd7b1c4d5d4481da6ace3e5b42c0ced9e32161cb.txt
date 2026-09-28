@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MP Materials Just Sank 21% in a Month. Is It Time to Sell, or Is This a Prime Buying Opportunity?
+  summary: Rare earth stocks just shed a fifth of their value while the broad market barely budged, leaving MP Materials shareholders facing a decision that the numbers alone cannot resolve.
+  url: https://finnhub.io/api/news?id=dd0d066fc9602525af9f34dc502024984bbba80a94df4c0eaa025c8a31672475

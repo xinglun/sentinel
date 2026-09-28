@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Historic Day For SpaceX Stock
+  summary: SpaceX Starship Hits Major Milestone, Reaches Orbit and Deploys 26 Satellites
+  url: https://finnhub.io/api/news?id=874b3e4142195a71c405b6340c686d33715459a3d5749fe6aff668b6ff31eee3

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Drops 2.2% as AI Adoption Gap Reaches 12.6 Points
+  summary: Usage reached 28.8% in the Global North against 16.2% across the Global South.
+  url: https://finnhub.io/api/news?id=b526d67bd72f43a206fd30cc8c6dafd2481c3e6e2ac9e02fecfce48f01e2a181

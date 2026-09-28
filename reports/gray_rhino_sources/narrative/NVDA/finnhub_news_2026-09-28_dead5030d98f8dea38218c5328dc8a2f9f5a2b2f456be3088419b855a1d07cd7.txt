@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Monster Beverage Is Already Huge. Can It Keep Growing?
+  summary: Monster Beverage is already an $8 billion-plus revenue company, but it still has the ingredients to keep growing.
+  url: https://finnhub.io/api/news?id=8690e8bd5e50471e859cea5735789553989ac26605df5d778697beb255ac9f1a

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Stock Slips Before Its First Orbital TPU Test
+  summary: Project Suncatcher will test AI chips in space without establishing commercial capacity, cost or customer demand.
+  url: https://finnhub.io/api/news?id=78bfda732bea9f3197f1694c633215ea8451a43e02dcbf54d39c554953588f03

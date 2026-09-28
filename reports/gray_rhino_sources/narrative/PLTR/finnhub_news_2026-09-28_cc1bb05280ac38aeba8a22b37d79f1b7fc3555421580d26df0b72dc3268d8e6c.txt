@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The $1 Trillion Question Facing Palantir Stock
+  summary: Palantir just posted growth numbers that humiliated Wall Street estimates, yet the stock still needs to more than double before it touches a trillion-dollar valuation. Here is what the math actually says about whether that gap ever closes.
+  url: https://finnhub.io/api/news?id=8ece174597658893ae1a4dbf55514e4224a1d8e914422d6661973920e69fde48

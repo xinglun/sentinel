@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Nvidia a Sleeper Dividend Giant?
+  summary: Nvidia's growing dividend is just one reason to buy the stock.
+  url: https://finnhub.io/api/news?id=a76214474d963003c80fa462229b489315fc1ee6de26e19f6c60366abde28e00

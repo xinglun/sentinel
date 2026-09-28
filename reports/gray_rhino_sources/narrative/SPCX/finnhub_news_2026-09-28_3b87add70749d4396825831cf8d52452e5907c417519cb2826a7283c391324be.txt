@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Starship Splashes Down in Pacific Ocean
+  summary: SpaceX's Starship reached orbit for the first time Monday morning, but the mission was cut short after an engine failed. The ship successfully deployed 26 satellites into orbit. Elon Musk's massive rocket then splashed down in the Pacific Ocean near Hawaii around three hours into the mission.
+  url: https://finnhub.io/api/news?id=c81910ce080270f5a222737025370f635a5992c8d96668d295417c4b68863db1

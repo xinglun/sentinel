@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IREN’s Yearlong Downward Trend Continues: A Prominent Wall Street Firm Says It Will Double and Then Some
+  summary: IREN has shed 42% from its peak while rivals like TeraWulf and Cipher Mining kept their yearly gains, yet a prominent Wall Street analyst just slapped a $100 price target on the stock. Whether that gap signals a rare opportunity or a trap depends entirely on one make-or-break quarter.
+  url: https://finnhub.io/api/news?id=790ae10a47c5069405b6ff375c0997daefabfc41ab8a1ec4b6447ed5cd257970

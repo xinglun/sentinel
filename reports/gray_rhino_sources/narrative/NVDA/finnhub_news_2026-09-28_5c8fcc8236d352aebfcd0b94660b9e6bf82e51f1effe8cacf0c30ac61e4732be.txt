@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Drops Massive Number on Anthropic AI Spending
+  summary: One infrastructure number changes the Nvidia demand debate
+  url: https://finnhub.io/api/news?id=a196ababba6aa59da53bb9a26ff882d7e5b2f7ba14de51f0f27e3e192fdc9fa7

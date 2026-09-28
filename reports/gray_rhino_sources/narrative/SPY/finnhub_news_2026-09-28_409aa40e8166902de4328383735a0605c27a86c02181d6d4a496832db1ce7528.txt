@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Optics Stocks Slide Despite Citi’s $11B Switching Forecast: Coherent and Applied Optoelectronics Drop 5%, Corning Falls 3%
+  summary: Optics and photonics stocks are sliding together in afternoon trading, even as the freshest research on the group reads as a strong endorsement from Citi. Coherent (NYSE:COHR) stock is down 5% to $280.80, part of a retreat that has the look of crowded positions being trimmed after a big run. Also, Corning (NYSE:GLW) stock is […]
+  url: https://finnhub.io/api/news?id=39a5d3d951572aea61539a92379df8cf2f2d81ac7a36c1e78b3a4add3860877c

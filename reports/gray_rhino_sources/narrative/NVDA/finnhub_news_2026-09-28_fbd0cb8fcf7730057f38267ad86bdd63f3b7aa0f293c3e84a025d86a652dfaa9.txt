@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Stocks Fall Over 2% While Agent Identity Becomes Infrastructure
+  summary: HashiCorp Vault and IBM Agent Identity give OpenShell agents verified credentials and restricted access.
+  url: https://finnhub.io/api/news?id=79d5670ae1a3a208cddf288ffd29f08605d5deb8497d12436a545d3839abead5

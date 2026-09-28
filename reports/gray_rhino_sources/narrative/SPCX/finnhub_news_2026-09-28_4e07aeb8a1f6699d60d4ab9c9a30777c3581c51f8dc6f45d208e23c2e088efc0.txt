@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Launches Starship for First Orbital Mission
+  summary: The Starship rocket carried 26 satellites that SpaceX added to its current constellation, which delivers internet service to customers around the world.
+  url: https://finnhub.io/api/news?id=ae721b6b83fc3e16be0bbc90f206f729d291e523a2dff21dcb4c4c75ddb7cec5

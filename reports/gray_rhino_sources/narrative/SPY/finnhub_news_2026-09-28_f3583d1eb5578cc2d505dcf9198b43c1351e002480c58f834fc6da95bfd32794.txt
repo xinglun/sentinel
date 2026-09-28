@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Equities Unfazed By Spike In Rates Volatility
+  summary: US bond yields climbed to a two-decade high last week, yet reaction in the cross-asset vol market was mixed.
+  url: https://finnhub.io/api/news?id=a1399668d9da739c377be08765c02a5ff38f44374dbf0403c11abe44aea58aa9

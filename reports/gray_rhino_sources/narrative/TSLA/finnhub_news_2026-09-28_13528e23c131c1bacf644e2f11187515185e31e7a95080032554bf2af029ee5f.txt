@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Deliveries Are Coming but the Stock Has a Bigger Catalyst First
+  summary: Tesla sold almost 500,000 EVs in the third quarter of 2025. Analysts expected a year over year decline in Q3 2026.
+  url: https://finnhub.io/api/news?id=7b378ea88482810787fb80e74601850eeae65956c9f7685c2ee886dd5ab20094

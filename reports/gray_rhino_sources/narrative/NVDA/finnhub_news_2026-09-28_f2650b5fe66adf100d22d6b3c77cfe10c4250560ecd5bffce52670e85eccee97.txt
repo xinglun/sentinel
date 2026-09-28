@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Shares of Perpetua Resources Are Falling Today
+  summary: News of the company's project in the Gem State isn't glittering brightly in investors' eyes.
+  url: https://finnhub.io/api/news?id=8aeba5459d58172d3d1a0f50acea530aa79740016fe933b1b99bd03cf07b893b

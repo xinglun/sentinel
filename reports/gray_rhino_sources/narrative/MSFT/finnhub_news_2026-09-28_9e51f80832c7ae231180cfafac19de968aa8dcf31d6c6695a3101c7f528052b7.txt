@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Just Put Microsoft, Salesforce and ServiceNow on Notice
+  summary: Meta is taking its AI technology deeper into corporate software with a new enterprise platform led by MongoDB's outgoing CEO.
+  url: https://finnhub.io/api/news?id=59712a9ddd8cd7e00656028eb5c06225cc700502bba51ed67c2bb7619350262b

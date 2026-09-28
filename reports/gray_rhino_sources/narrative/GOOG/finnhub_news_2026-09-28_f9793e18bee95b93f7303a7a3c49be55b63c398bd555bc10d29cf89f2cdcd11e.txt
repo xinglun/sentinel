@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google’s €403 Million Privacy Fine Keeps Alphabet’s EU Regulatory Risk in Focus
+  summary: Alphabet Inc. (NASDAQ:GOOGL)’s Google has been hit with another major European regulatory penalty, this time over how it historically processed users’ location data. Ireland’s Data Protection Commission (DPC), the lead EU privacy regulator for many of the largest U.S. technology companies, fined Google €403 million ($463 million) after finding that the company infringed the European […]
+  url: https://finnhub.io/api/news?id=ed22390073d186221c5181e4e63e111884fff40d002cd79c454f30f7c1e246f1

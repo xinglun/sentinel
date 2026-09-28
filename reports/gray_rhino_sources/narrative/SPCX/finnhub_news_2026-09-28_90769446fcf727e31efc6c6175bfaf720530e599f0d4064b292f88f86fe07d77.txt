@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Goldman Sachs Flags SpaceX Stock in Unusual Growth Screen
+  summary: Revenue uncertainty may be where differentiated returns emerge
+  url: https://finnhub.io/api/news?id=bdc16368f15bb4602d6f741fab2dbaf3e2e770ac1248f4ba95b8333244731bb6

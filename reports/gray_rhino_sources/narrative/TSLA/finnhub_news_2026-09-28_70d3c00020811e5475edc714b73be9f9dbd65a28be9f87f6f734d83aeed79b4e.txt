@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can This Number Push Tesla Stock Higher?
+  summary: Nearly 1.5 million Tesla (TSLA) customers have paid for Full Self-Driving (FSD), the company's driver-assistance software. You might expect the Cybercab or the new Semi truck to matter more for the stock. FSD already reaches the cars Tesla sells. Yet the stock has lost ground: a $10,000 holding bought a year ago is worth about $8,400 today. How many new Tesla buyers now start with this software.
+  url: https://finnhub.io/api/news?id=6d21c53d5fe410a0168c59b2a32f40a55b38d21ec2d0c6730eb9f92e5ca3a2c1

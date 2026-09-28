@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Gilead vs. Intuitive Surgical: Which Healthcare Stock Offers the Better Risk-Adjusted Upside?
+  summary: At first glance, Gilead Sciences, Inc. (NASDAQ:GILD) and Intuitive Surgical, Inc. (NASDAQ:ISRG) don’t make for the most obvious comparison. One sells medicines led by a massive HIV franchise, while the other has built its business around robotic surgery. Yet both have given investors a similar reason to pay attention this year, which is that growth […]
+  url: https://finnhub.io/api/news?id=c1a29e6923dd60319cf3d8cf5214d780ef3c4e0ca7128a19e93e684c9184dcf8

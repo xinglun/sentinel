@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: China: Up The Value Chain
+  summary: AI was a key topic when Trump met Xi Jinping, underscoring Chinaâs move up the manufacturing value chain into advanced tech. We're neutral Chinese equities but see value in physical AI.
+  url: https://finnhub.io/api/news?id=88a66afb56f7939c6647dfbc3331b2e7180e718db3d0adad72bfa3e637957468

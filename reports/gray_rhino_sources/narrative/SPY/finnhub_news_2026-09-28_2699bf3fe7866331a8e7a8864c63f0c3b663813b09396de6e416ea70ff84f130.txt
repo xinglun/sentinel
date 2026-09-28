@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Roblox Sinks 6% as Jefferies Cuts to Underperform With $38 Price Target; Take-Two Holds Flat, GameStop Dips
+  summary: A Jefferies downgrade is landing directly on Roblox (NYSE:RBLX) while the rest of the video game group barely budges. Roblox stock is down 6% to $43.72 after Jefferies cut its rating to Underperform. The SPDR S&P 500 ETF Trust (NYSEARCA:SPY) is down 0.52%, so the overall market is offering only a moderate drag against a […]
+  url: https://finnhub.io/api/news?id=d5e0844779d349f0f2ecbe535876f6cb271bed4b0e4ac637456275f28020d1e7

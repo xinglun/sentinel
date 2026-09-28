@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Preps Roadster Unveil Ahead Of Q3 Delivery Release; Stock Drops
+  summary: Shares are down around 20% in 2026, as investors hold out hope for an AI breakthrough. Can this week's two big releases rescue Tesla stock?
+  url: https://finnhub.io/api/news?id=f38b2f35aa57731244f9039b1ed69742b4a49e1c2cce582ac416c20dca444898

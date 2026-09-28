@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk’s big week faces a reality check from Wall Street
+  summary: Yahoo Finance Executive Editor Brian Sozzi gives a rundown of the big week for SpaceX (SPCX) and Tesla (TSLA) CEO Elon Musk, with a Starship flight launched, an upcoming Falcon 9 mission, and the unveiling of the Tesla Roadster. However, Tesla's upcoming delivery report and JPMorgan cutting Tesla's earnings estimates for 2026 and 2027 may be concerning for investors.
+  url: https://finnhub.io/api/news?id=bf22aa500c81340ad4607ae9efa94f1017904072b2e9d20828916453f5328559

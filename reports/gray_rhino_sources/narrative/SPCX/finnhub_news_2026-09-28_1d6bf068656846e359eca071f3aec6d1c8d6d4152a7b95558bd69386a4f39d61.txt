@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Postpones Roadster Unveil Ahead Of Q3 Delivery Release; Stock Drops
+  summary: Tesla was supposed to the showcase the new version of the Roadster this week — almost a decade after it was first announced.
+  url: https://finnhub.io/api/news?id=5ab519aaa7a2991bc868acf27c737166293ea5042e2cb2dd9b0ba9468b2526fd

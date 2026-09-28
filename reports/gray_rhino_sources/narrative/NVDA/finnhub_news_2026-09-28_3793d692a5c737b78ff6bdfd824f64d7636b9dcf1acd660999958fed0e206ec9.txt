@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Sends Wake-Up Call on AI Safety
+  summary: The next AI battleground may extend far beyond chips
+  url: https://finnhub.io/api/news?id=4a655937cceba08e47f709a41c9a96ad109324164f2c8dd375dcd06aecabff24

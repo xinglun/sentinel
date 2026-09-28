@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September Changed The Market Narrative, And Hopefully Taught Apple A Big Lesson
+  summary: As the tech trade peaked earlier this year, the equal-weighted S&P 500 and IWM moved higher, while SMH moved lower. With ample warning, the RSP and IWM peaked in Aug and broke down in Sept.
+  url: https://finnhub.io/api/news?id=1124a523904e2b64fa9e7dc6c3d0cfc0c7a5234d3845fef3fc8346ca94e18b1e

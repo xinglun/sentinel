@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Boeing Drops 3% as 737 MAX Landing Software Glitch Draws Regulator Review; GE Aerospace Eases, RTX Treads Water
+  summary: A software glitch buried in the 737 MAX cockpit just drew regulator attention, and the timing could not be worse for a company already fighting to prove its recovery is real.
+  url: https://finnhub.io/api/news?id=4532ba5582f784ec04a22f79d5808d7e383b5df537bf50486fb7962514701f2d

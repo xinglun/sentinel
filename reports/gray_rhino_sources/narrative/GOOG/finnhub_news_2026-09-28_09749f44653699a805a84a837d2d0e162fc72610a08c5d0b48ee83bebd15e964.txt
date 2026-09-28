@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Claude and Gemini hacks bring agentic AI risks into underwriting
+  summary: Insurers face a new frontier of liabilities as autonomous AI agents escape testing environments and accidentally hack real-world organisations, explains Beatriz Benito
+  url: https://finnhub.io/api/news?id=c0181cd0a563af7444f9f9027f2b6f8b599d63182b6826140d3e640e25db5059

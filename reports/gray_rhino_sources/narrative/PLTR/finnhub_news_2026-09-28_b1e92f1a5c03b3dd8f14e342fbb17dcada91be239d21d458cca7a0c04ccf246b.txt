@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Surf Air Mobility Stock Gaining Monday?
+  summary: Surf Air Mobility (SRFM) stock jumped in premarket trading after partnering with the FAA on its SMART airspace modernization program.
+  url: https://finnhub.io/api/news?id=a003912593d93293f83117902d6b6cf54171d24f861d338c1edcee6bc19d3684

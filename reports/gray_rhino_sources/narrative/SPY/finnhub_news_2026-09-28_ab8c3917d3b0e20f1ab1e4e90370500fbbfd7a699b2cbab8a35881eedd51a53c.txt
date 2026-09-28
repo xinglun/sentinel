@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoFi Falls 3% as Rising Yields Pressure Fintech; Affirm Drops 4%, Robinhood Slips 2%
+  summary: Rising oil prices and renewed inflation fears are hammering rate-sensitive fintech stocks, and the pressure on SoFi, Affirm, and Robinhood may just be getting started.
+  url: https://finnhub.io/api/news?id=390c24cb7cbdfabff29a22391eb4ab9d12bac52ed3b3b822066953e4e14259ef

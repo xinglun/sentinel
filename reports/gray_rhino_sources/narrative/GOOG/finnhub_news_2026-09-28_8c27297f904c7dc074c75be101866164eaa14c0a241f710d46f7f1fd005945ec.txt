@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Arm Stock Sinks 7.6% as Agent Security Expands Its Compute Role
+  summary: OpenShell supports Arm-based processors, while separate infrastructure processors can monitor and isolate autonomous workloads.
+  url: https://finnhub.io/api/news?id=14cfe04bb33f7e6b6ab27a1cd4937f5a15982cf737eb015a833e32c1386770f2

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Stock Leader Arista Eyes Latest Buy Point With RS Line At New Highs
+  summary: Arista Stock: The AI stock leader is approaching a new buy point despite Monday's market weakness. Its RS line hit a new high last week.
+  url: https://finnhub.io/api/news?id=2b8501c088e3f5c03813b94aff37c9b645ae5c19307b3b91f7ce4cb71e1c88f1

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Up 37%: Was It The Muse App Or The Ad Machine?
+  summary: Meta Platforms (META) stock returned 37% in the three months to September 25, 2026. A $10,000 holding at the start of that window was worth about $13,670 at the end. The run came as Meta's ad sales kept growing, and news reports tied the surge to a new AI agent called Muse. Part of that story was public well before the shares moved.
+  url: https://finnhub.io/api/news?id=d23051e704fa21bc5f8fe7248db748637cc0287762f88c0965adaa829773e0f5

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Behind the AI Mask, There’s a Stealth Bear Market Lurking Under Those Record Highs
+  summary: Big Tech is once again doing the market’s heavy lifting. That has more than a few on Wall Street very worried.
+  url: https://finnhub.io/api/news?id=201688aa88b37f52d1a58f32dc3f43630860336ee2d249e834144e8662b3c262

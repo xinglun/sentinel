@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Be Careful With Coca-Cola Right Now
+  summary: Coca-Cola has beaten earnings estimates ten quarters in a row, raised its dividend for the 63rd straight year, and outpaced the S&P 500 by a wide margin. So why might right now be exactly the wrong moment to buy?
+  url: https://finnhub.io/api/news?id=5d02edd3fe1bc703c2f11d834c5363aaeba6ce7100eebfda8a2a12c03701c213

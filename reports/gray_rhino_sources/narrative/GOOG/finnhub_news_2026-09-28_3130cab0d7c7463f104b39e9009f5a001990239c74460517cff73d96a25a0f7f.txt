@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta: More Cautious Than Before, More Bullish Than Ever
+  summary: Meta Platforms is a Buy because AI agents unlock massive revenue opportunities, and enterprise solutions target a $155B market. Read more on META stock here.
+  url: https://finnhub.io/api/news?id=e4d92d416785fddb9b31471a4239420b575ff58ee472ff5f2861919fdf56a24d

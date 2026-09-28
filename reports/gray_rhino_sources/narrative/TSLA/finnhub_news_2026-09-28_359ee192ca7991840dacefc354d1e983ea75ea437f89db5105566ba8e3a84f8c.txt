@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Rivian Stock Riskier Than It Looks?
+  summary: Rivian Automotive (RIVN) shares trade at 3.5 times the company's revenue, above the S&P 500's 3.1. Investors pay that premium for a carmaker that lost $3.2 billion over the past twelve months. The price appears to assume the new R2 SUV ramps up on time and lets Rivian sell cars above their cost. If the R2 stalls, that valuation is what you have at risk. So what could stall the R2.
+  url: https://finnhub.io/api/news?id=da2a6cda41518aa70391dc76b047f0c61681d3578e9a90b667d79a4848313832

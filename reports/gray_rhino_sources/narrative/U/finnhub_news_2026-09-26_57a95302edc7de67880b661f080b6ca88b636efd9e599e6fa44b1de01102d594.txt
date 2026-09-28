@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Unveiled an AI Game Builder. Roblox’s Q3 Guidance Shows What the AI Race Costs
+  summary: Key Stats for Roblox StockCurrent Price: $46. 44Target Price (Mid): ~$86Street Target: ~$49Potential Total Return: ~85%Annualized IRR: ~15.
+  url: https://finnhub.io/api/news?id=59b14cbef024812c0d5cb7084683bcd176306c3c91b16fbae8f361346bbfa187

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Meta's Muse May Support The AI Bull Market
+  summary: Muse's early success is a reminder that the cyclical backdrop may face headwinds, but the structural growth underpinning this bull market remained very much intact. Read more here...
+  url: https://finnhub.io/api/news?id=b68e75fd8d03113a2dc3e5c47cb0ef600dc79f9954d81fff6359503904b4ffd4

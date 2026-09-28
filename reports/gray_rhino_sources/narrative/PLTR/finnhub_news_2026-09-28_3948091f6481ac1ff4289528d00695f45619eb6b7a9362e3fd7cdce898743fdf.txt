@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's latest AI move reveals a much bigger ambition
+  summary: Palantir sees opportunity in a divided AI market
+  url: https://finnhub.io/api/news?id=486efe1f95faa277fe96e4cfc1adf3b0e4632d6a275ca93221048c8007e83e5d

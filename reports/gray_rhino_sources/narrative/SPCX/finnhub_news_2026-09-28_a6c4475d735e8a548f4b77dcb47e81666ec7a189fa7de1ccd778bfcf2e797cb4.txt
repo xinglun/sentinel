@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX vs. Tesla: Which Elon Musk Stock Is the Better Buy for the Next 5 Years?
+  summary: Both could deliver outstanding returns, but there are good reasons to be cautious.
+  url: https://finnhub.io/api/news?id=f5768e7377628f5a563dd28a7c1194e44ead46e91850b8bb75d00da90f144c94

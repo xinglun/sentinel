@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMC Spikes 13% as Refinancing Rally Extends; Cinemark and IMAX Edge Higher
+  summary: AMC stock is surging on a multibillion-dollar refinancing package while its theater peers barely budge, and the gap between them points to a high-stakes bet that hinges on terms the company has yet to reveal.
+  url: https://finnhub.io/api/news?id=a506c3a0ff3a0c5894f37b6419524fc8e9b5b203cb6c15f2a3dcb548fa72e3d1

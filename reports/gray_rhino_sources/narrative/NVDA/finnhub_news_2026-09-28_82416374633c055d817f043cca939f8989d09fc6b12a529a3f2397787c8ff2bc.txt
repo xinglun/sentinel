@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Does the Price of Bitcoin Keep Going Up? The Answer Might Surprise You.
+  summary: It's easy to explain Bitcoin's upward ascent in terms of ETF inflows and interest rates. But that doesn't tell the full story.
+  url: https://finnhub.io/api/news?id=ed3f3a0a7ad1796f8ffdba237798eb195adbf2738dac86a6cdfb6f846a3696ea

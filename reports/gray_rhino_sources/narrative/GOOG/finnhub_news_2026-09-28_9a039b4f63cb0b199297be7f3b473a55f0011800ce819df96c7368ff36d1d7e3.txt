@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Hacks Are Way Worse Than We Thought
+  summary: Have we reached the point-of-no-return for AI hacks? In recent days, a swarm of autonomous AI agents broke out of containment and executed a series of hacks–including an attempt at breaching a government database. On today's episode of In The Loop, host Ejaaz Ahamadeen unpacks the breach, the fallout, and the question everyone in AI is suddenly asking out loud: is superintelligence finally here? Or is this just the beginning of losing control?
+  url: https://finnhub.io/api/news?id=ab29291291ccc3b0031ed5dfb252c146297a6a30734f8cb6db9932d3d7005ddc

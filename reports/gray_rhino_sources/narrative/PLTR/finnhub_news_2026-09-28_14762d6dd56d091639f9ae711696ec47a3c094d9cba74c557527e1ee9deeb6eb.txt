@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir and Tyson Foods have been highlighted as Zacks Bull and Bear of the Day
+  summary: PLTR's AI-driven growth contrasts with TSN's beef-market pressures, while MU and NVDA show strong momentum from rising AI infrastructure demand.
+  url: https://finnhub.io/api/news?id=a17400512e400cbc5a2775974a476c50b852b418055d6a25f055c8f7b7aa57ce

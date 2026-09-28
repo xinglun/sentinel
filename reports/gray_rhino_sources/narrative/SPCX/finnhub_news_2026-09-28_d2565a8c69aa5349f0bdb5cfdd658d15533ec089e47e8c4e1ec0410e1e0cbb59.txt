@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starship Reached Orbit for the First Time. The Stock Is Falling.
+  summary: SpaceX shares turned lower after an early gain, even as Starship reached orbit and CLSA initiated coverage of the company with a Buy rating.
+  url: https://finnhub.io/api/news?id=75c2f940a7e9ff546e463f9f7b09a22085ac1d32dd9ee88f99cb531bb8cf8e41

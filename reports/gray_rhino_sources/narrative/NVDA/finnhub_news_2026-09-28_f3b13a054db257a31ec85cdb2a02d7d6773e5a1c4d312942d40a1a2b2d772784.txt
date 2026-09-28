@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Dow Off Lows After Iran Report; Leisure Play Tests Entry, MongoDB Dives (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index was off lows Monday after a new Iran report. Oil prices jump but Nvidia gains on a buyback.
+  url: https://finnhub.io/api/news?id=70264a29e24365fb5c6be9aec79d18e27480789e8f75419c4829c491d4c98ba7

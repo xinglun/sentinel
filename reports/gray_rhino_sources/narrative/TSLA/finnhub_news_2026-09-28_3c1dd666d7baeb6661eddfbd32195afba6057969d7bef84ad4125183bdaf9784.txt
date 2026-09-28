@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The minivan renaissance: Why SUV sales are falling behind
+  summary: Turney Duff chats with Barron's associate editor Al Root, Kelly Intelligence founder and CEO Kevin Kelly, Cleo Capital managing director Sarah Kunst, and Yahoo Finance Senior Autos Reporter Pras Subramanian about the rising popularity of minivans.
+  url: https://finnhub.io/api/news?id=aaf00bb55e975364e6d3d91e3a0ce4a437f4d920fe1c2f49d2227c41b48271f5

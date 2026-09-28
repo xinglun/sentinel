@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX launches Starship to orbit for first time – before it explodes in the ocean
+  summary: Mission was hit by technical problems as it flew around Earth
+  url: https://finnhub.io/api/news?id=4862ec48f63f8c4df604de77d9a8b8836365f7adcd1862ed030dc77d061f5ba8

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What You Actually Pay To Join The AAPL Run
+  summary: The tech giant’s stock is running hard on the back of a phenomenal business, but the price of admission is steep and real-world constraints are closing in.
+  url: https://finnhub.io/api/news?id=7a4b28316080efcbe63195b99f0df409702348b5978c1c104fa6ee9c4925e553

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Signs MoU With The FAA To Participate In The Agency’s Strategic Management Of Airspace, Routes, And Trajectories Program
+  summary: Under the agreement, Surf Air Mobility will serve as a Participating Airspace User in the FAA’s evaluation of new tools designed to modernize how the National Airspace System is managed.SMART is a component of the FAA’s
+  url: https://finnhub.io/api/news?id=093821078180314014259d44fa6b74ff2f8290bfb97c28dee98c952105381bad

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft CEO names one key concern with its AI
+  summary: The company that bet everything on AI has a message for the businesses signing up to use it.
+  url: https://finnhub.io/api/news?id=9a590a4e946ed56bbd5080b3972baa1651d9601fc36a4c3cf58bc036bb0bf0e1

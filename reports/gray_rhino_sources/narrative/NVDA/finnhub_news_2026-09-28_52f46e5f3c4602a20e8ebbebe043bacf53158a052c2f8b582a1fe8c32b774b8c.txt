@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Stocks Jump Over 3% as Agent Safety Moves Into Silicon
+  summary: OpenShell governs agent actions while BlueField-based Sentry watches for violations outside the agent's operating environment.
+  url: https://finnhub.io/api/news?id=42a6abdf9a3e07296569b42ee7a84f151c1f5964c63aa9e0799e01ab8e997bad

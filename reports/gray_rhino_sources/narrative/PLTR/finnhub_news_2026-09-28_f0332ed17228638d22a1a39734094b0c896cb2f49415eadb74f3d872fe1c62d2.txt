@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Falls as Sovereign AI Gains an External Guardrail
+  summary: Nvidia's runtime complements Palantir governance, but today's announcement contains no customer contract.
+  url: https://finnhub.io/api/news?id=f010fbeb00d1d2410fa63e81ab68cc041783321e6c6ada4eafeefb1145b7dd04

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These Experts Say These 3 Software Stocks Are ‘AI Winners’
+  summary: Oppenheimer has ideas about how to play an expected wave of fresh support for software stocks.
+  url: https://finnhub.io/api/news?id=349c05fe679820d261ae1862652e44b3815769b731e6031b13e16ec5bca56044

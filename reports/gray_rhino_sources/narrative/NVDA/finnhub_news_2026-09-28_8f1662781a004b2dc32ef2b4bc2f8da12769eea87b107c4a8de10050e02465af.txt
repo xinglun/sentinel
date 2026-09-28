@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SAP Stocks Drop 3.2% as Joule Gets a Security Boundary
+  summary: SAP supplies business permissions and audit context above OpenShell's technical containment layer.
+  url: https://finnhub.io/api/news?id=97a0ca5b07845368546c7c8ba2220de0a71bfb7433ff2a18e335567b9ca9ed84
