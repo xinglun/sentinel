@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Dividend Stock Yielding More Than 4x the Nasdaq-100 Looks Like a Buy Right Now
+  summary: One of the "other" Coke stocks, Coca-Cola Europacific Partners, may be an underappreciated dividend name.
+  url: https://finnhub.io/api/news?id=1e3865aa1bd0bf3f52ac4e0eb265598ef526cf9fb86a2801b2b9121f3415c7a0

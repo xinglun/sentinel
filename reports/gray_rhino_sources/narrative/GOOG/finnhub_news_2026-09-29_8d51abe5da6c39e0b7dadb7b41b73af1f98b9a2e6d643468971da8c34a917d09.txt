@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Beyond Advertising': Analysts Align on Meta Muse as a Multi-Billion Dollar Growth Catalyst
+  summary: Meta Platforms Inc‘s (NASDAQ:META) Muse platform is giving investors new reasons to value the company beyond its core advertising business. Early adoption and potential subscription revenue helped propel the Facebook parent company’s shares to double-digit gains over the last five sessions. BNP Paribas analyst Nick Jones, analyst Gene Munster and CNBC’s Jim Cramer each highlighted different paths through which Muse could create additional value for the tech giant. BNP Sees Early Traction, Longer
+  url: https://finnhub.io/api/news?id=b85e93dbd0d43e99d7957b8410f18e06c0467b44c40b87e80c4206934e3106d2

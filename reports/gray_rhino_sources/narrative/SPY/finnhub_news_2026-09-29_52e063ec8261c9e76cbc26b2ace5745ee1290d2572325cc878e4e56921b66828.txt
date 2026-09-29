@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Examine Sandisk Carefully Before You Jump in on The Buyback News
+  summary: Sandisk just expanded its buyback by $14 billion after a 1,663% one-year run, but the same pricing cycle that fueled the rally could just as easily unwind it. Before you chase the headline, there are a few things worth examining closely.
+  url: https://finnhub.io/api/news?id=3cc48e861d7c3c2c1d057705a3509c28f173382f35ac060783f49339fe1436ae

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Stocks to Buy Now Before Wall Street Catches On
+  summary: The AI infrastructure trade has quietly shifted away from chips toward two scarce resources that hyperscalers cannot conjure fast enough, and three under-the-radar companies control the chokepoints.
+  url: https://finnhub.io/api/news?id=a3395c5efa5c1520f18254736c3e1cb49720b1913504d01e267e2832e917ae31

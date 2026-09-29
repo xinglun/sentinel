@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IBM Stock Moves Higher as Nvidia Partnership Puts Identity Around Agents
+  summary: Agent security connects IBM software, Red Hat and infrastructure to Nvidia's emerging governance platform.
+  url: https://finnhub.io/api/news?id=c0ff6aa090dfa2d6401a5f1f4f865452cbf70f12df5b03bbb15d8ee187ff2bd4

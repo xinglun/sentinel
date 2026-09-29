@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMC Sinks 7%, Gives Back Part of Sharp Rally; Cinemark and IMAX Dip
+  summary: AMC stock is bleeding out a big chunk of its prior-session surge while Cinemark and IMAX barely flinch, and that split tells you something important about who is actually driving the selling.
+  url: https://finnhub.io/api/news?id=85a0f25f5b646fb5a03c5473b40bdb2d71a47825d76380ec3b853b1572c5b4f3

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: The Next Phase of Amazon’s Growth Could Be Its Most Profitable Yet
+  summary: AWS is growing faster and minting higher margins than almost any business Amazon has ever built, yet the stock sits well below what that trajectory implies. Here is why the gap between today's price and where this goes next may be wider than Wall Street admits.
+  url: https://finnhub.io/api/news?id=821263dc76c1dfdab75b1a92820cfe88d95e21ad9fa92e92de7e50ae3e8af769

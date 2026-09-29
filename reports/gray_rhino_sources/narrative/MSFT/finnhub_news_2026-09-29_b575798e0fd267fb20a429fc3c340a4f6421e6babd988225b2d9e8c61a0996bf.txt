@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uncover the latest developments among dow jones stocks in today's session.
+  summary: Get insights into the dow jones index performance on Tuesday. Explore the top gainers and losers within the dow jones index in today's session.
+  url: https://finnhub.io/api/news?id=362a7fa3a08b5b82f86e238a015d29e47e2b1662bb86ae269c887a259e761117

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius: Strong Buy As Palantir Unlocks A New Growth Engine
+  summary: 
+  url: https://finnhub.io/api/news?id=a25d0c98c9d5e1a2e7b49c9be04b7846025391b18afa6ddd570dca5a85a4f16f

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Atomic Raises $12.5M to Build the AI Control System for Physical Goods Companies
+  summary: Atomic, the AI-native supply chain planning platform, today announced a $12.5 million Series A led by Klass Capital and Madrona. Adrian Schauer of Klass Capital and Matt McIlwain of Madrona join Atomic's board.
+  url: https://finnhub.io/api/news?id=97519bc1d94b4ef3402c6bb5dcb704a8f03b23c65e704f1bbd7610d334bcb266

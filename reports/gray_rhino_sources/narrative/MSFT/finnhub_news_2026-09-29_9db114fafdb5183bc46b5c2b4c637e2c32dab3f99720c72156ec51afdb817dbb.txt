@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ProSearch Appoints Donovan Bell as Director of AI Delivery Transformation
+  summary: Newly Created Leadership Role Strengthens ProSearch’s Investment in AI-Enabled Delivery Innovation and Operational Excellence Donovan Bell, Director of AI Delivery Transformation ProSearch LOS ANGELES, Sept. 29, 2026 (GLOBE NEWSWIRE) -- ProSearch today announced that Donovan Bell has joined the company as director of AI delivery transformation, a newly created role focused on advancing the organization’s AI delivery capabilities, operational transformation initiatives, and innovation strategy. B
+  url: https://finnhub.io/api/news?id=50b0009c9bcb06e65d071fb8e6034881ee7b379682aa4a9f98619fb52fe7591b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Galaxy CEO Mike Novogratz Warns AI Could End Humanity
+  summary: Galaxy Digital Inc. (NASDAQ:GLXY) CEO Mike Novogratz warned artificial intelligence could pose an existential threat to humanity, even as his company expands the data-center infrastructure powering the AI boom. "The American public is really scared of this," Novogratz said on...
+  url: https://finnhub.io/api/news?id=4e7a893703cc72c8bab3531d37462a50b88992e83402017a05e92899f41ea141

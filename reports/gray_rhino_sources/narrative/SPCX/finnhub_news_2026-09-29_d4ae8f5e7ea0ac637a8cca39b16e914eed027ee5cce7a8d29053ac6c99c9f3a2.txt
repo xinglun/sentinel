@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk: “First Orbital Flight Successful” as SpaceX’s Starship Reaches Orbit on Flight 14
+  summary: SpaceX's Starship just cleared a milestone that directly funds its most profitable business, but the flight also exposed how much the company still needs to prove before investors can trust its biggest numbers.
+  url: https://finnhub.io/api/news?id=626d748c2de13a72310c4dafb1a7f9a807225a4c2596c6b69f7e130493371c79

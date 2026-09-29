@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic’s S-1 Is Here. The $518 Billion Commitment Is the Real Story.
+  summary: The arrival of Anthropic’s S-1 prospectus, as reported by Reuters on September 28, 2026, signals an ambition that defies conventional market logic. While the document has not yet appeared on the SEC’s EDGAR database—a delay that has kept the market waiting since the confidential filing on June 1—the details circulating describe a company aiming for […]
+  url: https://finnhub.io/api/news?id=0f65e767ff59bb1470074320c1273d8ab83905f25e91824fd75e04c1e992a61b

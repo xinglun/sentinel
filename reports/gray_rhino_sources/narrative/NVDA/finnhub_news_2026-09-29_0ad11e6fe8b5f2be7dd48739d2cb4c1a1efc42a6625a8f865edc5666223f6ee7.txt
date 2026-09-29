@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Investing Moves I'm Making Right Now to Protect My Portfolio Against a Recession
+  summary: While a recession doesn't appear to be imminent, things can change quickly.
+  url: https://finnhub.io/api/news?id=472ab40df6cac77490a87c53fec8f0ad9cd0777b7437e8968714ed2da5dc36cc

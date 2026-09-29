@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: FFLC: The 2022 Outperformance Is Hiding An Important Detail
+  summary: FFLCâs Feb 2024 strategy shift may erase past gains vs SPY.
+  url: https://finnhub.io/api/news?id=6724ec2499839dcffc427dd32295311cd71539874d914cc00384602c2a62c921

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 'Elon Musk, CEOs Of Palantir, Amazon, Service Now, Altimeter To Attend White House Meeting On AI; Microsoft CEO Satya Nadella To Attend White House Meeting On AI' - Axios
+  summary: https://www.axios.com/2026/09/29/trump-ai-meeting-list-ceos-johnson
+  url: https://finnhub.io/api/news?id=4fda70305f10d3f436cca49ea15859e6a3ddc38d8300d47bff9f58ff2f3c3405

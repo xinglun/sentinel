@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Is Watching Nvidia. I’m Watching Credo. Here’s My 2027 Price Target
+  summary: Nvidia gets the headlines, but the company quietly linking all those GPUs together just posted 115% revenue growth and added optics as a second major growth engine. Here is the case for a 2027 price target that leaves Wall Street's consensus in the dust.
+  url: https://finnhub.io/api/news?id=88f37918a25062efcb25a842a6bec99382e81d68aad24fe4d4d96e6154eac4c1

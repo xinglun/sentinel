@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nio Slides 4% as Geely Takes 30% Stake in Nio Power Unit; XPeng Drops 4%, Tesla Slips
+  summary: Chinese electric-vehicle maker Nio (NYSE:NIO) signed a partnership that extends its battery-swap reach, yet the news is weighing on Nio shares. Nio stock is down 4% to $3.43, a reaction to a deal that changes ownership of the company’s most distinctive asset. In the agreement Nio announced, Geely Holding Group receives a 30% stake in […]
+  url: https://finnhub.io/api/news?id=bdac685f8dd2c70394588b4ae746891c310d0579dafd0ce0b11acec78b6c3198

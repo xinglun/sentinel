@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CData Launches Connect AI Gateway, One Control Point Between AI and the Systems That Run the Business
+  summary: CData Software, the data layer for AI, today launched CData Connect AI Gateway, the next evolution of the Connect AI platform designed to give organizations a single control point for the models, tools, data and actions used by AI agents and the individuals who work with them. The Gateway connects agents and individuals to enterprise systems through governed tools, applies company context at every step, enforces permissions down to the record and routes each request to the most efficient model f
+  url: https://finnhub.io/api/news?id=7cfc008ca497aae79e39f2206b986c3055c1f5a235a57cad2a536b5be20d6a5e

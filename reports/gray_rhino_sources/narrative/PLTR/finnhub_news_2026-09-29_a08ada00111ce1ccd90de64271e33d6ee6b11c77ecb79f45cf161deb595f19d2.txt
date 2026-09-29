@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's AI Playbook Is Catching On. But Gartner Warns Of A Costly Trap.
+  summary: An innovative AI sales strategy has boosted Palantir stock. But Gartner warns that software rivals may struggle copying the model.
+  url: https://finnhub.io/api/news?id=392f6a2c77b189746d2514b214b720e679c32d4998be180eae0dbcdcf0f90e67

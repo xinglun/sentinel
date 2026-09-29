@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Earnings Loom as Valuation Divide Takes Center Stage
+  summary: AI stocks face earnings test as valuation gap widens; AMD, Palantir, Salesforce, and Snowflake results expose growth vs. profitability divides.
+  url: https://finnhub.io/api/news?id=457ef15b1f290eaab61e16399bd7427865b3d5119e26c6ded99a411c45976599

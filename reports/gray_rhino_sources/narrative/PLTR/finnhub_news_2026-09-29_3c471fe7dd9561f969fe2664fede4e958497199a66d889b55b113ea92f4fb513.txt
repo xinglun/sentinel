@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Did Snowflake Stock Investors Miss Before The Run?
+  summary: Snowflake (SNOW) stock returned 115% in the six months to September 28, 2026. A $10,000 holding at the start of that window was worth about $21,470 at the end. The run was about revenue growth that sped up for three straight quarters, with help from Snowflake's AI products. Part of that faster revenue growth was on the record before the shares moved, so what did investors miss.
+  url: https://finnhub.io/api/news?id=521f461ed6cd7fd1612b65f813307d6b8a08b43f25d9f10cf0e68949bf88ad7d

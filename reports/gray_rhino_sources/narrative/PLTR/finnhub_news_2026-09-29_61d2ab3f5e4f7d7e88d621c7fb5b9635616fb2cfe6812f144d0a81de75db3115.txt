@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AI Jitters, Oil, Bond Outlooks Cap Wall Street Pre-Bell; Asia Off, Europe Up
+  summary: Wall Street futures were muted pre-bell Tuesday as traders awaited clarity on the AI sector, and wei
+  url: https://finnhub.io/api/news?id=f6f2f17101bdb622fe3f101dec72beed040124ed751866882136c7637a4ea89f

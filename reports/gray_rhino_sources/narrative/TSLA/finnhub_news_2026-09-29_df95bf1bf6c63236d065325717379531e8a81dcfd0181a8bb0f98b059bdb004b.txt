@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Gets FSD Green Light In Croatia Days After EU-Wide Decision Is Postponed By 2 Months
+  summary: Croatia becomes the seventh European country to authorize supervised FSD.
+  url: https://finnhub.io/api/news?id=52b4d5a789269128b6a09816a8fe16e4b0853f1a1349644f8985e75dc3984cec

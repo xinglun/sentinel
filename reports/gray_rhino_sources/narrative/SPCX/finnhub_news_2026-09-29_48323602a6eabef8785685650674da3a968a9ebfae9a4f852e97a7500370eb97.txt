@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic’s IPO comes with a stark AI safety warning
+  summary: Yahoo Finance Executive Editor and Sozzi Unleashed host Brian Sozzi shares his thoughts on Anthropic (ANTH.PVT) in The Last Word. The AI company is positioning itself for what could be one of the largest IPOs in history, but its prospectus also highlights significant risks tied to the technology it is developing. Anthropic warns that increasingly advanced AI could pose “catastrophic or existential risks to humanity,” underscoring the safety concerns investors will need to consider.
+  url: https://finnhub.io/api/news?id=11cfff004fe2c006963169cee32c1b9da75f3fb20823168f5648849687e6e421

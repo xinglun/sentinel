@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta is looking beyond consumers to turn its massive AI investment into profits.
+  summary: Meta is increasingly looking beyond consumers as it seeks to eventually turn its massive AI investment into a profitable business.
+  url: https://finnhub.io/api/news?id=84825a24505ba0db6f260edb85e358fec1c41a96fbaa17e69206f1df5af80b3b

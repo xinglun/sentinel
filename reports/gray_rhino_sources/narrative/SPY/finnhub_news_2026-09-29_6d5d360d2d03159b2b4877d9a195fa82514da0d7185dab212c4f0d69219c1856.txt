@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nebius Climbs 4% Despite Michael Burry’s Bigger Bearish Bet; CoreWeave Ticks Up, Cloudflare Slips
+  summary: Famous “Big Short” investor Michael Burry has apparently hardened his stance against Nebius Group (NASDAQ:NBIS), and Nebius stock is climbing anyway. Nebius stock is up 4% to $241.80 early in the session, leaving NBIS shares up 189% year to date. That rally runs in the opposite direction from how a larger, more leveraged position from […]
+  url: https://finnhub.io/api/news?id=f2b670a47da24bc41dd177d91daebb01f34d610a69d8cfa9e21ff3f21692d296

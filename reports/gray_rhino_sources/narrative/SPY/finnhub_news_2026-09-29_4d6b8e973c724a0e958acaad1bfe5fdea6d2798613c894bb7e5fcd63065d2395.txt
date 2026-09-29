@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Pre-Markets Rebound Moderately After Monday's Selloff
+  summary: "Jobs Week" kicks off after the open with the Juiy JOLTS report.
+  url: https://finnhub.io/api/news?id=9d925d4230cd065d2b17c6acd79b444a453ce2b07d9b944b6ebe5a89ec995fd0

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Hivelocity Brings GPU-Accelerated Local AI Capabilities to Its Bare Metal Bundles
+  summary: Dedicated, single-tenant servers give small language models and other inference workloads a private home, with NVIDIA L4 acceleration now available in US data centersTAMPA, Fla., Sept. 29, 2026 (GLOBE NEWSWIRE) -- Hivelocity today announced GPU acceleration is available across several of its Tier 3 bare metal bundles, giving customers a dedicated place to run small language models and local AI tools in production. The addition is aimed at a shift Hivelocity sees across its customer base. Teams t
+  url: https://finnhub.io/api/news?id=e3bc28cc31e95213fc9938bc0625682437e0f818674bdf8ca8d851024234f7e6

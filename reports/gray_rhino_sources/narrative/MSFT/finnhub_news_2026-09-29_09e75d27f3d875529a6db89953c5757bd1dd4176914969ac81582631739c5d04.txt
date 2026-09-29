@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Desktop Virtualization Market Report 2026: Capitalize on the $29.51 Billion Market by 2030 as DaaS, Zero Trust and Hybrid Work Disrupt IT — Benchmark Citrix, VMware, Microsoft, AWS and Nutanix to Secure Share at 13% CAGR
+  summary: Citrix, VMware, Microsoft, Cisco and IBM. Profiled: desktop virtualization offerings, market share, segments, trends, opportunities and regional presence.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "Desktop Virtualization Market Report 2026" has been added to ResearchAndMarkets.com's offering. Desktop Virtualization Market to Reach $29.51 Billion by 2030 as Hybrid Work and Cloud Adoption Accelerate The global desktop virtualization market is experiencing rapid growth as organizations prioritize s
+  url: https://finnhub.io/api/news?id=3ebf5d12721723d9067011edcf6eaafc91e208fb6204b313f18811ae2b17bdac

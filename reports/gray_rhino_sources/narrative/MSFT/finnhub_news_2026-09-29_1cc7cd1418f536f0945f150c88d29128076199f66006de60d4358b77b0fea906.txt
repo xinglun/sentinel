@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IT BFSI Market Report 2026: Capitalize on the $171.25 Billion Revenue Surge to $359.2 Billion by 2030 as AI, Cloud and Cybersecurity Disrupt Competition Across Microsoft, AWS, Accenture, IBM and Oracle
+  summary: Boost ROI via cloud migration, managed IT, AI automation and fraud detection, platform modernization, and local infrastructure that reduces risk and operating costs.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "IT BFSI Market Report 2026" has been added to ResearchAndMarkets.com's offering. The global IT BFSI market is experiencing rapid expansion as banks, financial services providers, and insurance companies modernize their technology infrastructure. The market is projected to grow from $187.95
+  url: https://finnhub.io/api/news?id=c1d993d0b38ee0f254a3aa4a91e3ffaae40c90846ddb2852aee8ff079a05c7c2

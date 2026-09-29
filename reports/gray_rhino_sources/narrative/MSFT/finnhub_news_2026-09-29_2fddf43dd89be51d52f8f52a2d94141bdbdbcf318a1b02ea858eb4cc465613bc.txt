@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IT Operations Analytics Market Report 2026: Capitalize on the AI-led rebound from $23.43 billion in 2026 to $30.13 billion by 2030 as Microsoft, IBM, Cisco, Oracle and Splunk reshape automated incident management and hybrid-cloud performance
+  summary: Boost ROI with AI/ML auto-remediation, predictive analytics and real-time monitoring; adopt cloud tools, optimize deployments and use local solutions to reduce costs.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "IT Operations Analytics Market Report 2026" has been added to ResearchAndMarkets.com's offering. The global IT operations analytics market is undergoing a period of adjustment before returning to sustained growth. The market is projected to decline from $24.53 billion in 2025 to $23.43 bil
+  url: https://finnhub.io/api/news?id=601af9b982495e557472e06e8aeaddd24f1d8f046829f7166377e351fcae8203

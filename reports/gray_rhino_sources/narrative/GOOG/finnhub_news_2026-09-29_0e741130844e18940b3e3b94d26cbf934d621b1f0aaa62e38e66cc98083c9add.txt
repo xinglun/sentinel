@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Next Generation Computing Market Report 2026: Capitalize on the $486 Billion Revenue Surge to $811.85 Billion by 2030 as Microsoft, AWS, NVIDIA, IBM and Intel Accelerate AI, Quantum and Edge Computing Disruption
+  summary: AWS, Alphabet, Google, Microsoft and Alibaba are profiled, covering market share, segments, trends, opportunities, technologies, deployments and end users.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "Next Generation Computing Market Report 2026" has been added to ResearchAndMarkets.com's offering. The global next-generation computing market is experiencing rapid expansion, driven by rising demand for advanced data processing, high-performance infrastructure and energy-efficient computing systems.
+  url: https://finnhub.io/api/news?id=91fb73dffa21ff5d80fdaf7d34a2d0b476d482388a30e3c4850260c6ce25fe8e

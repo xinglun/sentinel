@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia's next 'holy grail' is physical AI: Dan Ives
+  summary: Next year will be when we see physical AI manifesting in Nvidia’s financial statements.
+  url: https://finnhub.io/api/news?id=91be7aa2077c374a67d8a1515fc817cb6e2f9ba68fc827c31a815dd8d7d58882

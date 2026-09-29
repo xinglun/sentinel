@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Volatile Stocks We Steer Clear Of
+  summary: A highly volatile stock can deliver big gains - or just as easily wipe out a portfolio if things go south. While some investors embrace risk, mistakes can be costly for those who aren’t prepared.
+  url: https://finnhub.io/api/news?id=d25e9ac10f324fdbea3705ed1e90a390a226aadfa9fe1d7562f04c8e757ee086

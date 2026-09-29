@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CarMax Jumps 6% as Quarterly Earnings Hit $1.16 per Share and Buybacks Set to Resume; Carvana Rises 3%, Lithia Motors Ticks Up
+  summary: CarMax just posted a quarter strong enough to move rivals like Carvana and Lithia Motors higher, but skeptics are questioning whether the real driver was shoppers returning or a set of one-time finance items that may not repeat.
+  url: https://finnhub.io/api/news?id=6c1837d0a28cdfef458cdf48a3b5d1af3d574479b5fd9286509bc5f0207840f6

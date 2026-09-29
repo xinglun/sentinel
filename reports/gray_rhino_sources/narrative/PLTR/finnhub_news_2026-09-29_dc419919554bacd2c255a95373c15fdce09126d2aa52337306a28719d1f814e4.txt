@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Said AI Bursts in 2028. One Weekend of Research Changed That
+  summary: Michael Burry swaps Micron, Nebius, and chip ETF shorts for puts, betting the AI bubble could burst sooner rather than later.
+  url: https://finnhub.io/api/news?id=18b6edf8b6cb325876d06b874189f906a0bd0d17b83362a95b36d84738964841

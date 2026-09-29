@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here's Why You Should Retain Revvity Stock in Your Portfolio for Now
+  summary: RVTY's diagnostics growth, AI-driven demand and life sciences expansion support its outlook, though China and margin pressures pose near-term challenges.
+  url: https://finnhub.io/api/news?id=b99b47066bf1db0d53f43dfd46ad34ae8002db612643d2fa307c56c3e05fdaf9

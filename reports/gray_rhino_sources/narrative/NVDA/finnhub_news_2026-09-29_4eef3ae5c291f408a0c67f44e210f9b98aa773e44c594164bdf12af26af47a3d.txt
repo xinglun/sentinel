@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here Are My Top 2 High-Yield Healthcare Stocks to Buy Now
+  summary: Pfizer and Bristol Myers Squibb pair big dividends with growing drug pipelines, a rare combination for income-focused pharma investors.
+  url: https://finnhub.io/api/news?id=c8d8f4e81edd7b59660f888999a6796d6a5cde9437dc254aefeab9dab2621342

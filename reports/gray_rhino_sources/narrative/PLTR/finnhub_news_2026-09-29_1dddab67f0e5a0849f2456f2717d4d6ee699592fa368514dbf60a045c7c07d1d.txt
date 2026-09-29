@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Says Jensen Huang Is 'Becoming A Bit Like' Palantir's Alex Karp After Nvidia CEO's Media Blitz
+  summary: Burry questions Nvidia’s capital allocation and communications strategy as AI skepticism persists.
+  url: https://finnhub.io/api/news?id=f936f4c2567c18ddd80e621a9e8f85a24684324b5329f50a7a630b37736366ed

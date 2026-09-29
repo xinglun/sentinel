@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Lumentum Stock: I Bought It At $800; 2027 Could Change The Story
+  summary: Lumentum Holdings rises with the tech rally as laser demand surges and AI CapEx tightens supply. Click to know why LITE is rated a Strong Buy.
+  url: https://finnhub.io/api/news?id=7a223c39c5dd9b033b379985885bd4a7bd985d6f3df536ea54387da38b311859

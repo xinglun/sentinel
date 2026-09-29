@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Application Integration Market Report 2026: Capitalize on the $60.73 Billion Market by 2030 as iPaaS, Multi-Cloud and Cybersecurity Disrupt Enterprise IT—Benchmark Microsoft, IBM, Oracle, SAP and Salesforce to Secure Share at 21.1% CAGR
+  summary: Boost ROI with standards-based integration, automated policies, API standardization, multi-cloud support, real-time monitoring and local development to reduce complexity and costs.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "Application Integration Market Report 2026" has been added to ResearchAndMarkets.com's offering. The global application integration market is experiencing exponential growth as enterprises prioritize connected digital ecosystems, automated workflows and seamless data exchange
+  url: https://finnhub.io/api/news?id=ddca7cad2266a2468f5052b477c488963f2994d219dbcc23983db43e82564051

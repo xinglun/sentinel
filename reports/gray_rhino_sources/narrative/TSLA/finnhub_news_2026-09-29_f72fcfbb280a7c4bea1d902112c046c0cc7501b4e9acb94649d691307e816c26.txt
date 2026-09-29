@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Tesla (TSLA) Facing A Bigger Test On Deliveries And Management Focus?
+  summary: Tesla (NasdaqGS:TSLA) faces renewed criticism from investor Ross Gerber over its lack of advertising despite high gasoline prices. Gerber has publicly questioned management's focus on autonomous driving and robotics projects relative to near-term car demand and brand investment. Analysts and traders are watching Tesla's upcoming vehicle delivery report, with market expectations pointing to a year-on-year decline. The concerns around Tesla's advertising choices and focus on autonomy are...
+  url: https://finnhub.io/api/news?id=23165b44626b02e8b0a07221be554977ba5e319634194c3b0f6df3351d0dbc04

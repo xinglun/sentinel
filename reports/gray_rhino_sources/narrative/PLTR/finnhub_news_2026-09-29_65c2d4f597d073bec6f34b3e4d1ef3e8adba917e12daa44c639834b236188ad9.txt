@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CEOs arrive at the White House for AI luncheon with President Trump
+  summary: CNBC's Eamon Javers reports on meetings between the CEOs of AI-focused companies and President Trump as regulatory uncertainty remains.
+  url: https://finnhub.io/api/news?id=51e52ed74d7cbfc6ccbf0df4c10cb1dcd3ff76a607e854290ccb303bd4acb7c4

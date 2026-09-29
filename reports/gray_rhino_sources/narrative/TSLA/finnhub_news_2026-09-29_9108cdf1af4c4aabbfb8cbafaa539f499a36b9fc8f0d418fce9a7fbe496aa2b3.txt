@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ConnectDER Hires Chad Conway, Former Tesla & SPAN Leader, As VP of Product
+  summary: ConnectDER, the leading manufacturer of meter socket adapters (MSAs), or meter collars, for solar, home battery, and EV charging installations, today announced the hiring of Chad Conway as VP of Product amid rapid installer adoption of its devices. Conway will oversee product strategy and development across ConnectDER's suite of hardware solutions, focusing on advancing the company's flagship IslandDER™ product line, launched in 2025 to unlock seamless whole-home backup.
+  url: https://finnhub.io/api/news?id=a826cc7888dfa48a238e7880d572a8a36d3d613ddb9b42db4fd00e04b9c55d30

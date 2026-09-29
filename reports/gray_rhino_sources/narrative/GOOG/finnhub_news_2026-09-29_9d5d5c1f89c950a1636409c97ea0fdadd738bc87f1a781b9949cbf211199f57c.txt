@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Apple Falls 2% as Bank of America Flags Meta’s Shopping Agent; Alphabet Slips, Microsoft Holds Steady
+  summary: Bank of America just flagged a Meta shopping agent that could quietly drain the most profitable part of Apple's business, and the gap between Apple's stock drop and the broader tech market suggests investors are taking the warning seriously.
+  url: https://finnhub.io/api/news?id=079983d534993d813acc1a04372fd4576a566e907c6daf552a7fd3919d8b8148

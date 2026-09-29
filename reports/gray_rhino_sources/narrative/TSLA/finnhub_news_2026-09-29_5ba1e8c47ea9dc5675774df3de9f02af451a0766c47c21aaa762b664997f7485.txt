@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Another Roadster Delay - But Tesla's Real Story Is Finally Turning
+  summary: Both the reason for this delay and the broader backdrop are more encouraging than the headline suggests.
+  url: https://finnhub.io/api/news?id=c312fd4e703fa771c8ec11932071da72146fd29db8bd19e30978a9b1de67927d

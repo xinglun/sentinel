@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Wins Analyst Praise, Buy Ratings After Starship Flight 14
+  summary: Wall Street analysts react to the outcome of SpaceX's Starship flight 14 mission on Monday, eye potential for future launches.
+  url: https://finnhub.io/api/news?id=c433aba453013d3e8cebcba217e4ed9d9379872bcd2c3e9ad0ef71fb7088a6ec

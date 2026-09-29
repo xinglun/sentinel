@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Here is What to Know Beyond Why Intuitive Surgical, Inc. (ISRG) is a Trending Stock
+  summary: Zacks.com users have recently been watching Intuitive Surgical (ISRG) quite a bit. Thus, it is worth knowing the facts that could determine the stock's prospects.
+  url: https://finnhub.io/api/news?id=7313c22c19f7d84efce7320e029d1e9cce003eeddf05e02e4feefc658c1ffc3b

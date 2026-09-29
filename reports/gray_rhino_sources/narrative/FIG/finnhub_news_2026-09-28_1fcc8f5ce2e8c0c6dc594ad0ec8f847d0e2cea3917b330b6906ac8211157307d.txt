@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Platform Takes Aim at Salesforce, ServiceNow With AI Push
+  summary: A new AI competitor just entered enterprise software
+  url: https://finnhub.io/api/news?id=229aa2b9355327039cf2f2e2e96663aa67d0a4843e679db9133dab49be5437cb

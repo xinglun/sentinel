@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bitmine Continues to Load Up on Ethereum, Now Owns 4.9% of all ETH in Circulation. Is BMNR Stock a Buy?
+  summary: Bitmine has gone all in on Ethereum, the second-largest cryptocurrency in the world.
+  url: https://finnhub.io/api/news?id=3c2ef957de3cfe6bbff357cf818fbfb4e342a25280eb634a4d4df41bc792ff4d

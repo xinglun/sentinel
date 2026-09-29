@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic says its AI models pose ‘existential risk to humanity’ in leaked IPO filing: report
+  summary: Anthropic says its AI models could pose a “catastrophic or existential risk to humanity” and can “resist shutdown,” according to an initial public offering prospectus obtained by Reuters.
+  url: https://finnhub.io/api/news?id=acd586cb5a354931ea98e1b5444be74272eac045fb7dda89dd3bc3ee7a49f46a

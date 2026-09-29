@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Trade Desk Stock Slides 18% Over 9 Straight Down Days
+  summary: A nine-day slide has erased a significant chunk of the company's value.
+  url: https://finnhub.io/api/news?id=68eba80ce85d90bf4bab87ae7a2a9f27c2fb713c7ec946fbb900bd2671ae616e

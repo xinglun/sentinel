@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Starship Breakthrough Came With an Expensive Catch
+  summary: Starship reached orbit and deployed satellites for the first time, but a Raptor engine failure is putting SpaceX's NASA timeline back under scrutiny.
+  url: https://finnhub.io/api/news?id=b8732e502c226109aac5b24a8305926634b1f57ef9036e4836011e956df7f85e

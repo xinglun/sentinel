@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Dividend Growth Stocks That Have Recently Hit New 52-Week Lows
+  summary: These stocks are good value buys, with safe-looking dividends yielding between 2.7% and 3.8%.
+  url: https://finnhub.io/api/news?id=b81d16c3a4a9b90f4371b490df1697dae126b72a5edba40d66a01c09c2471556

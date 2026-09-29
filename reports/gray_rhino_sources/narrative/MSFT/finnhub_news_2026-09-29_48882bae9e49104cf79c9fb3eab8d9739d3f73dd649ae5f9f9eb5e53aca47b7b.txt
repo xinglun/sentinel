@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Mixed Tuesday Afternoon
+  summary: Tech stocks were mixed Tuesday afternoon, with the State Street Technology Select Sector SPDR ETF (X
+  url: https://finnhub.io/api/news?id=cef83c32344ea6fc5d24d5d28e2827f2a60e403652a25ab8eb9bfa59ca0d3d3e

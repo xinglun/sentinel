@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fair Isaac, Carnival, Bloom Energy, SpaceX, Iovance, and More Stocks That Explain Today’s Market
+  summary: Stocks slipped Tuesday as the 30-year Treasury yield hit its highest level in over 24 years, while technology stocks bounced back following the broader selloff from Monday.  Nvidia  advanced 0.8%, building on the previous day’s gains when it announced a $150 billion expansion to its stock buyback plan and software to tackle the problem of AI safety.  The company announced Monday it had agreed to buy AI research company World Labs in an $8.2 billion all stock deal.
+  url: https://finnhub.io/api/news?id=695fe2c195af79d3131b1048ffb4411838b029483f459e23b247349dabc74b2c

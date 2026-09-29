@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OneMeta Expands VerbumCall to Amazon Connect, Targeting Q1 2027 Readiness
+  summary: VerbumCall integration is in development, with Q1 2027 targeted for readiness; AWS for Startups is supporting the work.SALT LAKE CITY, UT / ACCESS Newswire / September 29, 2026 / OneMeta Inc.
+  url: https://finnhub.io/api/news?id=e8e615adfb34d3634d4d212c649e4961d58b02d010d32c05e80fe8bb608aef39

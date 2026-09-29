@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir's September Shift Changes The $200 Debate
+  summary: 
+  url: https://finnhub.io/api/news?id=43f88dee2886f682b24c4c16304b0867a38db45fb50e462c5911c79d100edf5b

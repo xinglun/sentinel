@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fresenius Medical Care Reshapes China Portfolio for Long-Term Growth
+  summary: FMS refines its China strategy around advanced dialysis and critical-care technologies, with 110M euros in one-time costs.
+  url: https://finnhub.io/api/news?id=1f4a0b40b41f881361a7d7e90676bcbbe6769d68285e3f37420b19676c4f9960

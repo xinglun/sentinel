@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Digital Transformation Market Report 2026: Capitalize on the $2.47 Trillion Revenue Surge to $5.01 Trillion by 2030 as Microsoft, Google, IBM, Accenture and Oracle Accelerate AI, Cloud and Automation Disruption
+  summary: Boost ROI with cloud migration, automation, AI, real-time analytics and digital customer experiences to cut costs, streamline operations and improve efficiency.Dublin, Sept. 29, 2026 (GLOBE NEWSWIRE) -- "Digital Transformation Market Report 2026" has been added to ResearchAndMarkets.com's offering. The global digital transformation market is experiencing exponential growth as organizations modernize operations, adopt cloud-based platforms and invest in data-driven business models. The market is
+  url: https://finnhub.io/api/news?id=dbf169ae7e7a6e63f914b2b8ebd494377b20d76375560a69f136a10eba4dc481

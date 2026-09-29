@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Great AI Dilemma: How to Invest When Extinction Warnings Meet Market Highs
+  summary: AI is the engine of this stock market, but Anthropic’s own IPO registration document raises the possibility that AI could, well, wipe out humanity.  Or should they go all in on AI, fatalistically believing there is little they can do about how AI will develop or impact the global economy?  Selling can seem like the right choice, or even the moral choice, but there is a cost to underperforming the stock market, especially if this time is not different and a more benign AI outcome, with relatively safe AI agents enhancing productivity, becomes reality.
+  url: https://finnhub.io/api/news?id=ad31e8b4c8ef1e5234432375c3a976941146c6ca6185c98b153bad14ed4232ba

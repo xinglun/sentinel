@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnite Surges 6% as a 53% YTD Gain Separates It From Ad-Tech Peers; Trade Desk and AppLovin Tread Water
+  summary: One ad-tech stock has quietly broken away from two of its biggest peers in a year that has punished the sector, and the reasons behind that split reveal something important about where digital advertising is heading.
+  url: https://finnhub.io/api/news?id=89a01d8be99b5bed98e3c8bad2a583aea8b9b33f91839dba9c0d3ab6a78880c1

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AMD: Why I Say 80x Forward P/E Doesn't Matter This Time
+  summary: Advanced Micro Devices, Inc. stock outlook: why analysts keep a Buy despite high valuation. Click for this updated look at why I remain bullish on AMD prospects.
+  url: https://finnhub.io/api/news?id=5eeced434eb4afdec75c105278aadbf9e41db3b9b154602247e6799878cca549

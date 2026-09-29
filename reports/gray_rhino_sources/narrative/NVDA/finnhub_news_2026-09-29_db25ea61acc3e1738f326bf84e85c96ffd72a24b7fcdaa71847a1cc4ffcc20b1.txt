@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Big Short’s Michael Burry Delivers His Bluntest Warning Yet Regarding AI Stocks. Should You Listen?
+  summary: Burry gained fame for a winning market prediction several years ago.
+  url: https://finnhub.io/api/news?id=5c0f4e690f83861c151ee6791154376b100ca2b2e33dfbcbd53ec10d01f2016b

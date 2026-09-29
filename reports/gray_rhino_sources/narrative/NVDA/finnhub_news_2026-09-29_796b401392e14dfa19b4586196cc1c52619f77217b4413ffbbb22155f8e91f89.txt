@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Bloom Energy Stock Is Powering Higher Today
+  summary: One firm is reading the tea leaves and sees this fuel cell stock flying higher.
+  url: https://finnhub.io/api/news?id=f15b348567a5f7a78c31106fd624553103205f27f772b6c7da3aceea52733108

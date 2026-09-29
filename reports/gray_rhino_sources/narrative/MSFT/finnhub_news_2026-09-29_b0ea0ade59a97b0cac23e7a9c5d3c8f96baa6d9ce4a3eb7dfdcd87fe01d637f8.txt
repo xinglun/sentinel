@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI Revenue Growth Report Boosts Oracle Stock; DevDay On Deck
+  summary: Oracle stock jumped following a report that OpenAI's annualized revenue rate jumped to $70 billion.
+  url: https://finnhub.io/api/news?id=c1e3652c64b5fea8d638a55ec347226fac21d86a05b93579e9b87b1d4994d182

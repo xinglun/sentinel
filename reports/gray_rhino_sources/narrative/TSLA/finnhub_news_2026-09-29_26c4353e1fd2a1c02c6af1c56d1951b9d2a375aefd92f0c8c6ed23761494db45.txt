@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla's Q3 deliveries loom large as the Roadster slips again
+  summary: Tesla will release highly anticipated third quarter delivery numbers at the end of this week. The report comes after the company delayed its Roadster EV reveal.
+  url: https://finnhub.io/api/news?id=e7c694b43d3f6cefe37732dbb081203f13c657cc25bd19641252d3e16088b1ff

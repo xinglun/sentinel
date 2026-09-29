@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Salesforce Is Down Double Digits This Year. Our Model Sees 48% Upside
+  summary: Salesforce shares have shed double digits this year while Wall Street quietly revised its earnings estimates sharply higher, creating a gap between price and fundamentals that few investors are watching closely enough.
+  url: https://finnhub.io/api/news?id=fdfe6bf2e81889e87fa185db02af8ee1ed196f049c50e2eaf61fead2eb8aa122

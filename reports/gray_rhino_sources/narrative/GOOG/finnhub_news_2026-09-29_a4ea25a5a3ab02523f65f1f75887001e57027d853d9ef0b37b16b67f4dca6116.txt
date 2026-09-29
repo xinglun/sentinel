@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Forget ‘Market Uncertainty.’ Here’s the Real Issue Behind Oura’s Halted IPO.
+  summary: Health technology company Oura, the maker of smart rings, said despite strong demand it will suspend its plans to go public over market uncertainties.
+  url: https://finnhub.io/api/news?id=0169961a89566f8629c4f291828c6edea68108372fd7145e91c39ba768432482

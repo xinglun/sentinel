@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If You Invest $1,000 in Palantir Each Month Starting Now, This is What You’d Have in 5 Years
+  summary: Palantir has already made some investors rich, but the next five years come with wildly different outcomes depending on which scenario plays out. Here is how a simple monthly plan stacks up against each one.
+  url: https://finnhub.io/api/news?id=3e365a0e8f3b7ade956b9c4bd4e901247099900dffb1e68a5cd96e31a714130a

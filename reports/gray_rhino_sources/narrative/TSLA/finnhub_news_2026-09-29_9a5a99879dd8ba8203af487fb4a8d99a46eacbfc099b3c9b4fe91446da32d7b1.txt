@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: New Utilize Coalition Paper Offers Framework for Measuring Grid Utilization as States Move Toward Implementation
+  summary: Utilize Coalition, a nonprofit supported by Carrier, Google, Tesla, and other energy industry leaders, today released Beyond Peak: Defining, Measuring, and Optimizing Grid Utilization, a new policy paper proposing a common framework for measuring how effectively transmission and distribution infrastructure is used over time.
+  url: https://finnhub.io/api/news?id=d1e6f7fdd85a3833e9c12cd3f516c92c4675032aa13c671d70ba8ba16b4b8e64

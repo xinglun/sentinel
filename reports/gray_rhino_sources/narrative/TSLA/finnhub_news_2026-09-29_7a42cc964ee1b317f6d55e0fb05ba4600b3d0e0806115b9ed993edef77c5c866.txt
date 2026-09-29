@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is FLNC's Long-Term Agreement on Battery Supply a Game Changer?
+  summary: Fluence Energy's EVE Power battery deal aims to boost supply resilience, cost visibility and scalability for its growing energy storage business.
+  url: https://finnhub.io/api/news?id=616c79aa61703d0ff402a252b78491b2fed426917d6d285c79069d0358607aa6

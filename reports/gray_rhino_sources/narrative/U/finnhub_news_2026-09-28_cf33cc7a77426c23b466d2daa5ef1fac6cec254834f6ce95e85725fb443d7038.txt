@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Infobird Says On May 7 Xiangyang Wen Was Appointed As CEO
+  summary: 
+  url: https://finnhub.io/api/news?id=c5d207509784b765cec72073ad583a923bd3dc21788c91082cff4fac80b1b8d0

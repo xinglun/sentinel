@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX (SPCX) Reached Orbit And Deployed 26 Satellites For The First Time
+  summary: Space Exploration Technologies (NasdaqGS: SPCX) reported that its Starship vehicle reached orbit and deployed satellites for the first time. The mission included an initial operational satellite payload for the Starlink network following earlier test flights focused on launch system performance. Starship completed a controlled splashdown after reentry, with recovery teams dispatched to collect vehicle data and hardware. The first orbital satellite deployment and controlled splashdown by...
+  url: https://finnhub.io/api/news?id=95472f65e4427466211f1b700022a6a248943a0f05e348c257b33b1becf2d4c5

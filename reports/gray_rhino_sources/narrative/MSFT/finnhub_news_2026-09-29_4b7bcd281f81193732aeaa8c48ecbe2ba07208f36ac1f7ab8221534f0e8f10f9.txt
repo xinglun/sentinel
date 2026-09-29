@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Slips 1.2% Although Copilot Super-App Expands Paid Workflows
+  summary: Home, Code and Autopilot broaden Copilot while mixing subscriptions with potentially volatile usage charges.
+  url: https://finnhub.io/api/news?id=bec0240fb3764bf0ee3174682ca49293abf7848a505613900314516e98332485

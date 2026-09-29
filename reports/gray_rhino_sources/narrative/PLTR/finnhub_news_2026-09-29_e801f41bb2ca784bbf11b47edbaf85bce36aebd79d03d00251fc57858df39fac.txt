@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can You Justify Buying Palantir Stock Today?
+  summary: Palantir Technologies (PLTR) stock trades at 73 times its sales over the last twelve months, against about 3 times for the S&P 500. Revenue is growing fast, but buyers at this price are paying for years of profit Palantir has not earned yet. So can you justify buying Palantir stock today.
+  url: https://finnhub.io/api/news?id=bc13de573a63b2a1555c72b4c654cb1f369fec34e9225403166680dc2951af42

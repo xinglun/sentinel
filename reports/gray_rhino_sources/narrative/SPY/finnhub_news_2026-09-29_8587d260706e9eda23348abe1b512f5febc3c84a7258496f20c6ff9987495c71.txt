@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stellantis Falls 4% With Canadian Labor Standoff Unresolved; Ford and General Motors Dip
+  summary: A Canadian labor standoff remains unresolved at Stellantis N.V. (NYSE:STLA), and Stellantis stock is taking a far heavier hit than shares of its Detroit rivals. Stellantis stock is down 5% to $4.44 in morning trading, a move that leaves the shares down 60% year to date (YTD). For Stellantis, the drop adds fresh strain to […]
+  url: https://finnhub.io/api/news?id=c48f20b25c677f7496db69a8a565af8aa381202f0710ec840624c632b582f81e

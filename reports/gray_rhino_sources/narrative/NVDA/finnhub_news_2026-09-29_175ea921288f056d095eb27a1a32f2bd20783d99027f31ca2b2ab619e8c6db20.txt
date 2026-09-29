@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Starship, Starlink, or xAI: Which Part of SpaceX Could Move the Stock Most in 2027?
+  summary: Starlink is the one to watch, for now.
+  url: https://finnhub.io/api/news?id=a3db51574fbf1c0295509b62b3a84380b06cf32918935d97afbeca9ae6e830cc

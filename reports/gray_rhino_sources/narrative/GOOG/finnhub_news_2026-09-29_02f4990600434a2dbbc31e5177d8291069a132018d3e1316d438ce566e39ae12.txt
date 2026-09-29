@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Magnite's Growth Outlook Improves 'Considerably' After Google Court Ruling, BofA Says
+  summary: Magnite's (MGNI) growth outlook has "improved considerably" with the anticipated advertising spendin
+  url: https://finnhub.io/api/news?id=b96c896e47d0c8718a9b3eb85fcd4337a8cba8b0c5f606abea44abb3562478ea

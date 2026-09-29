@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Has Costco Stock Become the New Recession-Resilient Retail King?
+  summary: Costco has been outperforming Walmart both operationally and in the stock market.
+  url: https://finnhub.io/api/news?id=3e29efa268486ed32b74afc3d05bec9fb005a0507f7a5cd2014f1ea78f28f6d2

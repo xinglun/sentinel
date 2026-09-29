@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Rises 2% After Starship’s First Orbital Satellite Deployment; Rocket Lab Falls 3%, AST SpaceMobile Drops 3%
+  summary: Starship just carried a working payload to orbit for the first time, yet the rest of the space sector sold off hard in response. Whether that split rewards SpaceX investors or signals a warning depends on one propulsion detail analysts cannot stop flagging.
+  url: https://finnhub.io/api/news?id=0e465b7e1119b95683bf52069794b7fb7ed0677603e1afaeebc1d27abc470c19

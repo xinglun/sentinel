@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: European Equities Decline in Tuesday Trading; BlackRock, Vanguard Face Pressure as European Banks Launch ETFs
+  summary: European stock markets closed lower in Tuesday trading with the Stoxx 600 down 0.2%, Germany's DAX f
+  url: https://finnhub.io/api/news?id=32b19da0d88a4b345aa42d5edef6f0dc4bee6585b18d11df41b31010ad06dff6

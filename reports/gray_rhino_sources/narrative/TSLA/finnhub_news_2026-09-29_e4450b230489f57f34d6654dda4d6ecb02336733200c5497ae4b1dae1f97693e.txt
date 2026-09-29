@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Wants To Build 20,000 Optimus Robots A Week. There’s Just One Problem, Tesla Still Can’t Get The Hands To Work
+  summary: Tesla is racing toward a production goal that sounds like science fiction, but a single component smaller than your palm is quietly derailing the entire timeline. The gap between Elon Musk's ambitions and what the factory floor can actually deliver has never been wider.
+  url: https://finnhub.io/api/news?id=2398788a41d8a489a5455a082d8eda387c19189d0b2218772b0c7efc56647212

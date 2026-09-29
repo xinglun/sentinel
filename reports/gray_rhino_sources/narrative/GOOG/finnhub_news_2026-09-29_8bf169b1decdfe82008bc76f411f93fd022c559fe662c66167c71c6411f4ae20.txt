@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Muse Got Here First But This Agentic AI Will Supercede It Soon
+  summary: Meta launched its agentic AI model before Google did, yet one structural advantage in Google's stack could quietly erase that head start before Meta ever collects a dollar from enterprise customers.
+  url: https://finnhub.io/api/news?id=d7376aada61fd3f1e344df10185cbe0d12aeb711d1dd884a14d55469ecaf9b18

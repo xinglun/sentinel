@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Is Spending Big on Buybacks. Why Apple Is the Only Mag 7 Rival Joining In.
+  summary: Nvidia has the largest buyback program in the stock market. Outside of Nvidia and Apple, capital returns aren’t large at any of the Mag Seven stocks.
+  url: https://finnhub.io/api/news?id=65aad0f38b34f2481e4750ad38b8692fce951cda07046159db6c44b354b53f3e

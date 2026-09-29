@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Netflix upgraded, Carvana downgraded: Wall Street's top analyst calls
+  summary: Netflix upgraded, Carvana downgraded: Wall Street's top analyst calls
+  url: https://finnhub.io/api/news?id=12810ddfc2801a0050626ba1f4d6a6db1d430a552e4659dc0f4e9d02a662eeda

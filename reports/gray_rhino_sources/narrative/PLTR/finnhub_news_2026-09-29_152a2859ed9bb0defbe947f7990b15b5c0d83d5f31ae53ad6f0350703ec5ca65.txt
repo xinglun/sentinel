@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia, Anthropic CEOs to Attend Trump Meeting on AI Risks
+  summary: Nvidia Corp. Chief Executive Officer Jensen Huang, Anthropic PBC head Dario Amodei and Palantir Technologies Inc. CEO Alex Karp are slated to attend a lunch with US President Donald Trump to discuss artificial intelligence risks.
+  url: https://finnhub.io/api/news?id=33b724d277da5e785fc6065179b24cf5163b0244b2b3495a77a292804b3ed2bf

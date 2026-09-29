@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Here's What $1,000 Invested in Nike Stock Could Be Worth by 2030
+  summary: What comes next for this iconic footwear and athletic apparel brand?
+  url: https://finnhub.io/api/news?id=2eff2650ab03ec203291903cbe812d4883fe774c885e928c3d150bb2eda3e740

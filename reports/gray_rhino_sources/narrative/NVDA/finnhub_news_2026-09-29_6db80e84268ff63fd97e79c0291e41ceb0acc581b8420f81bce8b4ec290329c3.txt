@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia - $235 billion for share buybacks. Good news?
+  summary: Three announcements in as many weeks: a record-breaking share buyback program, a partnership with Palantir, and the rollout of a security platform for AI agents.
+  url: https://finnhub.io/api/news?id=b05264ab2a46a408b4dc748abe2c83e1d82afb2c0478132dc827364a9e638428

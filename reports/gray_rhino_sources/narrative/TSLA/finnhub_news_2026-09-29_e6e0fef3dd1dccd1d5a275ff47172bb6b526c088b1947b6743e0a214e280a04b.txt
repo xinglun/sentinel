@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Stock Moves Lower as Delivery Week Tightens the Volume Test
+  summary: JPMorgan's reduced estimate remains barely above second-quarter deliveries, increasing pressure on pricing and product mix.
+  url: https://finnhub.io/api/news?id=f3ac6cb289bc440c49bd70514f3f399cd35c204eb81dcad3e5345b2ca83625cb

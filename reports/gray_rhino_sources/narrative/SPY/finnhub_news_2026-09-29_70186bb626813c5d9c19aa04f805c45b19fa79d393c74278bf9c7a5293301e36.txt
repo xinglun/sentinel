@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paramount Skydance Falls 3% as $44.4B Bond Sale for Warner Deal Reaches Investors; Netflix Ticks Up, Warner Bros. Discovery Holds Flat
+  summary: Paramount Skydance (NASDAQ:PSKY) stock is at $9.97, down 3% this afternoon. The slide arrives as Paramount Skydance brings a massive debt package for its pending purchase of Warner Bros. Discovery (NASDAQ:WBD) to credit investors, and the buyer and the target are trading on very different terms. Warner Bros. Discovery stock is at $30.86, down 0.1%, […]
+  url: https://finnhub.io/api/news?id=7dc19d787ab5b8bd56b1830b6760ef5d8551eaed0056bc64c9041a902a44c4be

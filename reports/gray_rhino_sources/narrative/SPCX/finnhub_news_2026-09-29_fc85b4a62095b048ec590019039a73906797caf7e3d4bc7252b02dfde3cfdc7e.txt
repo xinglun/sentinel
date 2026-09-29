@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Could Deliver A Q3 Beat, Says UBS — Here’s What’s Expected To Drive Growth
+  summary: UBS expects strong growth in SpaceX’s AI and connectivity businesses to help Q3 revenue climb 7% above Wall Street estimates.
+  url: https://finnhub.io/api/news?id=34978410a64c4a17007971f605669d26bb21d9e26627730bc4b9f521409df80c

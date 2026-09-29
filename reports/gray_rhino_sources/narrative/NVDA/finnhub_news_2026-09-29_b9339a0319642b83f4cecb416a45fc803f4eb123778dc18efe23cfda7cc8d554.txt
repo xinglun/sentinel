@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What is a stock buyback? Everything shareholders need to know.
+  summary: Learn how stock buybacks work, why companies repurchase shares, and how they affect investors.
+  url: https://finnhub.io/api/news?id=dfcc7e3a06dad387581cdd063ab676f8d80ffcdff9fa10d1372347c746d7212c

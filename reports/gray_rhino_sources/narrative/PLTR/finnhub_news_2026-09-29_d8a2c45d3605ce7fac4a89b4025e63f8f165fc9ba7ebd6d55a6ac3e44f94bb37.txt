@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: KEEL Stock Up 27.7% Y/Y: Can the Momentum Last Throughout 2026?
+  summary: Keel Infrastructure's HPC strategy gains traction as permitting advances, tenant talks progress and $819 million in liquidity supports site development.
+  url: https://finnhub.io/api/news?id=dbfea3c8ad099b22170c6ceeb0f43463fbe82952cf8ff7ad4e28c10a9a82421d

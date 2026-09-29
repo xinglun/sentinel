@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Roadster Speed Bump: Does It Dent TSLA's Investment Thesis?
+  summary: Tesla's latest Roadster demo delay renews timeline concerns as margins thin, capex rises and key growth bets remain years from proving financial returns.
+  url: https://finnhub.io/api/news?id=ae3b771e748c3eb354527ac24e56eacbe2817c940c3bf76726a150bed9383ec5

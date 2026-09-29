@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CrowdStrike vs. Figma: Comparing Revenue Trends Between Two High-Growth Tech Companies
+  summary: CrowdStrike leads in absolute revenue, but Figma's faster growth rate is narrowing the gap — a key tension for long-term investors.
+  url: https://finnhub.io/api/news?id=78d74a1ed2bc859fcfd020e456c42f72545fb2db59155980ff81792cdcfbda1b

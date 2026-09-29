@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: September Has Been One of the S&P 500’s Weakest Months. What History Says About Q4
+  summary: September has a nasty reputation on Wall Street, but the calendar alone never explains when markets actually fall apart. Two specific years in the last quarter century reveal exactly what has to go wrong for Q4 to follow a weak September into real damage.
+  url: https://finnhub.io/api/news?id=fdcfa1be162ac5375b1ef45f1fcc079eaf82ce0e7bf624b88d3df0aff60b81cf

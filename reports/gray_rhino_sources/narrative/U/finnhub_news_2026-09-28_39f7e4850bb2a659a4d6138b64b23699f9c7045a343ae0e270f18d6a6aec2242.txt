@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: HubSpot, ServiceNow, Asana, BILL, and Unity Stocks Trade Down, What You Need To Know
+  summary: A number of stocks fell in the afternoon session after a deepening Treasury selloff and higher oil prices pushed the benchmark 10-year yield to 5.218%, reinforcing expectations of further Federal Reserve rate hikes.
+  url: https://finnhub.io/api/news?id=ee997b639141e3c4363a68aeaedefb1f7bcc14e2679f2e76202fe19a1da095e6

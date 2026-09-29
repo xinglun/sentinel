@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Weight Watchers and Google Health Launch Weight Health Collaboration for Employers and Payers
+  summary: Weight Watchers and Google Health Enterprise have launched a collaboration combining wearable technology, health insights and behavioral weight management, expanding Weight Watchers’ offering for employers, health plans and other payers. Key Investor TakeawaysWeight Watchers (NASDAQ:WW) is integrating Google Health Enterprise technology into select Weight Watchers for Business client programs.
+  url: https://finnhub.io/api/news?id=8aaa612a3725a29b0bfd9b3230f90d355c99d0fd7bc5538c6abe6b016c0cc1fe

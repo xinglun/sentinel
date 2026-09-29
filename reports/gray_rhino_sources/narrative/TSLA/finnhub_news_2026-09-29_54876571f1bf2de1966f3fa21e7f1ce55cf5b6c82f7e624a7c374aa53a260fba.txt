@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Uber Technologies: Buy The Robotaxi Panic
+  summary: Uber reiterated Buy with a $94 target (+38%). Learn why AV fears are overdone, the Delivery Hero deal is accretive, and valuation looks cheapâread more on UBER stock.
+  url: https://finnhub.io/api/news?id=e3d245fd49b8f6e14f21906f52b22fce9ef2adff40b5311a78a49bef22af72b5

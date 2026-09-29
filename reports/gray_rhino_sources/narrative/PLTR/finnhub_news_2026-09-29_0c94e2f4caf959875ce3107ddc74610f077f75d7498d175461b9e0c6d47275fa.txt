@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nasdaq Futures Tread Water After Monday Rout: MU, NVTS, NVO, KOD, SMMT, ASTS Stocks In Focus
+  summary: On Stocktwits, retail sentiment toward SPY and QQQ stayed ‘bullish.’
+  url: https://finnhub.io/api/news?id=3fb77e4d547670f6b571016b191d39b52d945a2d8a497bb86bb5b78594e6701a

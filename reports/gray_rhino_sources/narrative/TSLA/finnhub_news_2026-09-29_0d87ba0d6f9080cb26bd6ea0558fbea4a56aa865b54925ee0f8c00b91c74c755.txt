@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Wins FSD Approval in Croatia. Is the Rest of Europe Next?
+  summary: FSD is Tesla’s driver assistance product, which can do most of the driving most of the time.  FSD approval in Europe can be significant for Tesla stock, but Croatia is relatively small.  Investors hope an EU-wide FSD rollout will happen soon.
+  url: https://finnhub.io/api/news?id=33142dd8f5fea6ad7fed75dbe49ff454d3db6c0b3fc2655493523152411fb8a6
