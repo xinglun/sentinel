@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Midday Stories: Fed's Preferred Inflation Gauge Rises as Expected in August; AI Companies Sign White House Accord
+  summary: All three major US stock indexes were up in late-morning trading Wednesday after the latest reading
+  url: https://finnhub.io/api/news?id=c51fe03761bdf6a695ea9c95b6ae8be182927ca0959f6e0ca8872796207e1991

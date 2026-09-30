@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Piper Sandler Raises Microsoft Target, Sees Billions in Potential From E7 and AI
+  summary: Piper Sandler just set one of Wall Street's boldest Microsoft targets, and the reasoning goes well beyond last quarter's blowout earnings. The case hinges on a new enterprise licensing tier that two months in is already reshaping how Microsoft charges its biggest customers.
+  url: https://finnhub.io/api/news?id=ec814ddc45d29bd4a70d6d3f62d73041df1e9bc13e7c52a1fe41d78d6af7a3c7

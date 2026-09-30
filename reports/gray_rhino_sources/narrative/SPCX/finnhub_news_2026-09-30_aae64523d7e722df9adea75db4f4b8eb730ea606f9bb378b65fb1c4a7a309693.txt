@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bull and bear case for Anthropic's IPO
+  summary: Anthropic already was going to be the defining IPO story for Q4, but now takes on greater significance as other companies postpone or scrap their offerings due to "market conditions."
+  url: https://finnhub.io/api/news?id=2faa74e2a57966dc4350b1946c52887490849ba67bd7f7d9fc6a8f1a30b2fc51

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: I've Covered Palantir for 5 Years. Here's How to Know if the Artificial Intelligence (AI) Stock Is Overvalued.
+  summary: After covering Palantir for several years, arguments over the company's valuation always seem to rise to the surface.
+  url: https://finnhub.io/api/news?id=cd7e4b72c0da063d663a0f4fef188bcc7b66f2363034f5fc031c8d81d69b9eab

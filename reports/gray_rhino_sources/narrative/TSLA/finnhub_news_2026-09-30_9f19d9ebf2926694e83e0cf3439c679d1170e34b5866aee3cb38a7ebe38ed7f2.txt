@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Secures $30 Billion Credit Facility to Fund AI Infrastructure Expansion
+  summary: Key Stats for Tesla StockPrice change for Tesla stock in last 1 year: -21%$TSLA Stock Price as of Sep. 29: $35352-Week High: $499$TSLA Stock Price Target: $396What Happened?Tesla (NASDAQ: TSLA:NASDAQ) has signed credit agreements worth $30 billion, according to a regulatory filing on Tuesday.
+  url: https://finnhub.io/api/news?id=dc34bf222fe15f2741812ad4355b5f1051378b7b8db9a76b3f720334cbe13d78

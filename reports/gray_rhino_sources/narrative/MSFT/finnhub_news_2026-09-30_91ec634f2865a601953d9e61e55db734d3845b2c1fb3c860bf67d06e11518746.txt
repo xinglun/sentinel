@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The AI Revolution Could Be Microsoft’s Next Trillion-Dollar Opportunity
+  summary: Azure's explosive backlog and Copilot's paid seat growth have bulls eyeing targets near $700, but a capex surge that outpaced free cash flow by a wide margin could threaten the entire AI thesis before it pays off.
+  url: https://finnhub.io/api/news?id=eae9b312e71ee662f58c3d5de5d579c5c2a9ec52b72e7ea4125d2d519ac0d804

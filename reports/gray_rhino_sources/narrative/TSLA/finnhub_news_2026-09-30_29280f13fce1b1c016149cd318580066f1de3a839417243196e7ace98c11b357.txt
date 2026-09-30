@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla’s Cash Crunch Has Arrived—Blame Its AI Ambitions
+  summary: Tesla  is set to borrow a lot more money as it invests heavily in its AI ambitions.  Tuesday, the EV maker entered into $25 billion in new credit facilities, including a $20 billion three-year delayed draw facility, an $8 billion senior unsecured revolving credit facility, and a $2 billion senior unsecured 364-day facility.  “The proceeds of loans under the Facilities, and letters of credit issued under the Five-Year Revolving Facility, may be used for general corporate purposes or for any other purpose not otherwise prohibited by the applicable Credit Agreement,” reads part of Tesla’s filings.
+  url: https://finnhub.io/api/news?id=9efb840b11ddd394ed456d819e3a684383f1af6239ac99719c87aef2ae2f0f02

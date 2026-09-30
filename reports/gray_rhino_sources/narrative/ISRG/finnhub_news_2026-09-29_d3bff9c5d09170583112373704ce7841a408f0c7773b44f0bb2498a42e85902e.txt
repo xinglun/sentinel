@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Stock Reports for Visa, Intuitive Surgical & Williams Companies
+  summary: Visa, Intuitive Surgical and Williams Companies headline today's research, with growth opportunities balanced by margin, valuation and execution risks.
+  url: https://finnhub.io/api/news?id=c90912ca5bb2377d5974d578c1398bfff33b4c5e2b6ff026fd15a4cfb26a52a3

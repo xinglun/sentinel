@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: President Trump Says Will Be Naming AI Czar In Next Three Or Four Days
+  summary: https://www.youtube.com/watch?v=CqlX1TZwdVE 
+  url: https://finnhub.io/api/news?id=c4fe75c7bf2568411d03c3d0bad0502d3f92fa1673b290c07f9ef0b13b5f2032

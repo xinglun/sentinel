@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Anthropic's Potential $2 Trillion-Plus IPO Supports Robust AI Infrastructure Spending, Wedbush Says
+  summary: Anthropic's planned initial public offering, which could potentially value the company at more than
+  url: https://finnhub.io/api/news?id=b434a17ccb2c7f7936d3027a2909200170461ab19281eca3b1e3cbe0f252d078

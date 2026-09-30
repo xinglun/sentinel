@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Remember Siri? In the Muse and Dots era, Apple needs to pick it up.
+  summary: Yahoo Finance Executive Editor Brian Sozzi sounds the alarm about Apple's (AAPL) Siri as new AI assistants from Meta (META), OpenAI (OPAI.PVT), and Salesforce (CRM) flood the market.
+  url: https://finnhub.io/api/news?id=5f62921f3a4198511b8c8fc571690cfa63fda26d18efa7576f3fe5329bd6b45b

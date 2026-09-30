@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: GameStop Pops 4% on Ryan Cohen’s Buying Binge; Take-Two Interactive and Roblox Advance 3%
+  summary: Ryan Cohen keeps reaching into his own pocket to buy GameStop shares, and his conviction is pulling the entire gaming sector along for the ride. Here is what the insider buying pattern reveals about where GME could be headed.
+  url: https://finnhub.io/api/news?id=7567507f5e5bae248adb934a7a7a840be23eeb9486d31be00cf4dc6e1ba0ae61

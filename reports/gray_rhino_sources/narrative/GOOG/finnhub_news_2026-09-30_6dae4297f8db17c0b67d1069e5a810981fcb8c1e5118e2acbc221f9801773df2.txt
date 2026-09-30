@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Everyone Ignoring Adobe Stock's High Cash Yield?
+  summary: Adobe (ADBE) stock now trades about 58% below its two-year high, set in December 2024. Free cash flow is the cash left after running costs and spending on equipment. At that price, Adobe's yearly free cash flow equals 11.5% of its market value. The median S&P 500 company's free cash flow equals 4.5% of its market value. A double-digit yield typically signals either a bargain or a business facing structural headwinds. For Adobe, the discount reflects a specific market worry: that prioritizing fre
+  url: https://finnhub.io/api/news?id=f45e42f631f6470e4e76311c55ac70b4439eb09c755f44c7506fe85300c74a74

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dan Ives Calls Physical AI Nvidia’s 'Holy Grail' — This ETF Is Already in the Trade
+  summary: Dan Ives calls physical AI Nvidia’s “holy grail,” pointing to a potential robotics boom. See how BOTZ offers exposure to Nvidia and the automation trade.
+  url: https://finnhub.io/api/news?id=62c061737f0549f4dce08907cca3f67a4a8d873a3f0ed03dea93f20ea08b8c44

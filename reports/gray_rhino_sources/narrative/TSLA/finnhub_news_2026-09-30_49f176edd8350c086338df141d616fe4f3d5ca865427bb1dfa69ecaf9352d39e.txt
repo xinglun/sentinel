@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trucking fleets repurpose diesel tractors with swappable electric batteries
+  summary: New businesses such as powertrain converter Janus Electric are moving farther into U.S. markets, including California and Texas.
+  url: https://finnhub.io/api/news?id=2252a781a27fbe66600cc7462af3959b8ef41a37a70c857d6d424331832528fa

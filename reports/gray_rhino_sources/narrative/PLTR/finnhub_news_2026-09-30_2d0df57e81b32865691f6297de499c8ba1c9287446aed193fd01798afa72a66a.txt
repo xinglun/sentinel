@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Billionaire Israel Englander Buys 2 Artificial Intelligence (AI) Stocks Up 405% and 575% in 2 Years
+  summary: Israel Englander bought stock in Palantir and Astera Labs in the second quarter.
+  url: https://finnhub.io/api/news?id=76d8c333d882f13505eebc41ee7f403aa8388f52cafea1fc4121f80b02d6a2db

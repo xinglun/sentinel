@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: IonQ Jumps 4% on BoA Buy Rating; Rigetti and D-Wave Quantum Gain 2%
+  summary: Bank of America just placed a bold bet on the largest pure-play quantum stock by revenue, and the ripple effect lifted the entire sector. Here is what the analyst sees that has other investors scrambling to reassess their positions.
+  url: https://finnhub.io/api/news?id=4fd83419199420ebba85c05c5e565fdc818764bab68efbf3d79c269db01717ff

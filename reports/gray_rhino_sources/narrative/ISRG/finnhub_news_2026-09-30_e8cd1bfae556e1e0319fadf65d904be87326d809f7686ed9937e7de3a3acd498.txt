@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Move Over Tesla: Intuitive Surgical Shows Why Robotics Could Be Bigger Than Humanoids
+  summary: Tesla’s Optimus is chasing general-purpose robotics, but Intuitive Surgical shows how specialized robots can build massive businesses.
+  url: https://finnhub.io/api/news?id=68f9383451dfc12a55a62e1731bd2dc387a79c4c3bfbfeb57b9cea4976d528ec

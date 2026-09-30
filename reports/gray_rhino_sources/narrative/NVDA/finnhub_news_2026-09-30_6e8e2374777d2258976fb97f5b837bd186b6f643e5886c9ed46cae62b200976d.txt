@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why HPE Stock Is on Pace for a Closing High Today
+  summary: HPE stock advances after the company outlines long-term revenue growth projections for its networking business.
+  url: https://finnhub.io/api/news?id=84b45e848f598af6caf5e25a84156c19868a2ec1c1e757518a06ac87a41671d1

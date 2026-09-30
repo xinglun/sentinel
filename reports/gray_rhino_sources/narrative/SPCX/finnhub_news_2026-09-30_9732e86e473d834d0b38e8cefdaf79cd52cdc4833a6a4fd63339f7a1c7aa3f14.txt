@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX just proved why Starship matters to its $2 trillion valuation
+  summary: SpaceX just made Starship harder for investors to ignore.
+  url: https://finnhub.io/api/news?id=c7e0de69d38f394437af15065b862563c751b0a7b06c10b513054db2de71285f

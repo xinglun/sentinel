@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top 10 AI Stocks To Buy On The Seasonal Dip
+  summary: The best AI stocks to buy on seasonal dips are positioned for growth and post-midterm performance trends. Click here to see the top 10 stocks.
+  url: https://finnhub.io/api/news?id=a3e22694d92fd988d036f92e065fdbc41c2b6a8c7b19fab3e5258cff030b31fd

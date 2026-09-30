@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Musk vs Altman sparring continues, now their AI agents are joining the fight
+  summary: In The Loop host Ejaaz Ahamadeen breaks down the latest chapter in the ongoing feud between Tesla (TSLA) CEO Elon Musk and OpenAI (OPAI.PVT) CEO Sam Altman. Following OpenAI’s introduction of its new “dots” agents, Ahamadeen points out an interesting twist: typing “dot.com” redirects users to a webpage for Grok, the AI chatbot owned by Musk’s xAI.
+  url: https://finnhub.io/api/news?id=acc9f97de395d977c64b411fefe18bc0084af76f5a76c59c38082356c8f27c35

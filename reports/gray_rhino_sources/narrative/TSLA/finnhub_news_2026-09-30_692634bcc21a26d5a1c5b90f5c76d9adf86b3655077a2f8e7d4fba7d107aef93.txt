@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Expects A 7% Drop In Tesla Q3 Deliveries; The Stock Keeps Falling
+  summary: Tesla will release third-quarter delivery numbers on Friday, Oct. 2. The stock is down about 5.5% this week in the lead up to the report.
+  url: https://finnhub.io/api/news?id=efe988c9db822e48c97bb05fa94c7c095428ef6af56177a86132111452c523c0

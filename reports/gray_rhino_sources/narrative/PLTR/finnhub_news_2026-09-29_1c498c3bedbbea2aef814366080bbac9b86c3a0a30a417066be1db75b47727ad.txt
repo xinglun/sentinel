@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Falls as Karp Enters Washington's AI Guardrail Fight
+  summary: Government rules could reward governed deployment while increasing Palantir's compliance and contractual exposure.
+  url: https://finnhub.io/api/news?id=8bb3ce459cbb5de06828d4b7eb92176ac8094d04f69cb6138ff5b77301d46bbf

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Rallies 3% as Traders Weigh White House Safety Accord; Apple Gains 2.5%, Meta Platforms Treads Water
+  summary: A White House lunch brought together the biggest names in AI to sign a voluntary safety accord that Trump called morally binding, and the market reaction split sharply across Alphabet, Apple, and Meta Platforms in ways that reveal who traders trust most with the AI era.
+  url: https://finnhub.io/api/news?id=e78302ba4b7d703ab42b3af3dca61ad71ef6c56cff4412ccefb1a4af1f1ce767

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moderna Sinks 6% on Citi Downgrade; Merck and Pfizer Stay Flat
+  summary: Citigroup just slapped a Sell rating on one of 2026's most explosive biotech stocks, warning that soaring investor hopes around a cancer vaccine partnership with Merck have carried the valuation into dangerous territory.
+  url: https://finnhub.io/api/news?id=ce2eba22449a0950f1937137a8d491338f3c95da529f8f44a9d9078f6136566f

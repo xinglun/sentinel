@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What we know about Trump's meeting with Alex Karp, Jensen Huang, & other AI leaders
+  summary: President Trump met with several AI leaders at the White House on Tuesday, including Nvidia (NVDA) CEO Jensen Huang and Anthropic (ANTH.PVT) CEO Dario Amodei. Yahoo Finance Washington Correspondent Ben Werschkul outlines the details.
+  url: https://finnhub.io/api/news?id=67e08d454a277d7cec8c7c39f23a4940fa032ecc87f930f6b0b2d280ca99ef3b

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Meta Stock Could Be Worth Much More If Its AI Strategy Pays Off
+  summary: Meta is riding a 25% monthly rally while simultaneously pouring over $130 billion into AI and watching free cash flow crater. Whether that gamble transforms the ad giant into something far more valuable depends on a few critical variables analysts are split on.
+  url: https://finnhub.io/api/news?id=017b1425c9698e9d16834379721f56834544526d5c497d09abdbdc16b98b86c2

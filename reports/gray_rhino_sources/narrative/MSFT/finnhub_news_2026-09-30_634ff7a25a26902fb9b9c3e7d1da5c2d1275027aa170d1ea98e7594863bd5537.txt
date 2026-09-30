@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is CrowdStrike Stock Paying You Enough For The Swings?
+  summary: You may own CrowdStrike (CRWD), a cybersecurity company whose shares rose 5.1% in five sessions as the S&P 500 fell 1.2%. You likely hold it beside an index fund, and your whole account swings more when one holding jumps. Have the gains on CrowdStrike been big enough to pay for those swings.
+  url: https://finnhub.io/api/news?id=3b1ce86d6a5a6ec27a855140d43c0c1efa159ba482de8fbac8d67d462daf838a

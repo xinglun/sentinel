@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How This Beaten-Down Quantum Stock Could Rise 154%
+  summary: Needham starts coverage of Pasqal at Buy, with analyst David Williams pointing to the quantum developer’s commercial traction and strong balance sheet.
+  url: https://finnhub.io/api/news?id=5b8685c2f5ab0b3a48819d6014788068ef7f8b653e1aa2e9d7906e35c7b181cd

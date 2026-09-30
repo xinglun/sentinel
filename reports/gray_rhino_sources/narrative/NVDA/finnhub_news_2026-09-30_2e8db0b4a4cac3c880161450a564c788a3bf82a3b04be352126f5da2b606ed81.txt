@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Nvidia’s Big Win at Trump’s AI Lunch Will Help the Stock
+  summary: Nvidia  CEO Jensen Huang just got a big win in the debate about artificial-intelligence regulation.  The stakes were high at the big AI lunch at the White House on Tuesday.  Proponents of stricter curbs on the technology—such as Anthropic CEO Dario Amodei—were set to clash with those like Huang who have insisted the industry should police itself.
+  url: https://finnhub.io/api/news?id=bdd7dda05b6129a584f19eceff9cecafd64921a99c8b303c68972e153e61b6bc

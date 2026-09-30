@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BlackBerry Advances 5% on Continued QNX Momentum; Palo Alto Networks Gains 4%, CrowdStrike Edges Up 2%
+  summary: BlackBerry (NYSE:BB) stock advanced 5% to $9.14 on Wednesday, supported by continued momentum in its QNX automotive software business. Palo Alto Networks (NASDAQ:PANW) shares gained 4% to $403.01, while CrowdStrike Holdings (NASDAQ:CRWD) stock edged up 2% to $267.60. Cybersecurity and software names broadly participated as investors tracked design wins and raised guidance at BlackBerry. The […]
+  url: https://finnhub.io/api/news?id=ab3b4f001e09d50079ff1e269cc21476bdca3d878f6cbb1cdbba631f5ab6dfba

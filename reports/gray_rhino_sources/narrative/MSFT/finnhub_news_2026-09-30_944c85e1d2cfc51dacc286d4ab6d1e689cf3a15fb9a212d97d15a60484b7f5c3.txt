@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Jensen Huang's biggest Q3 moves, Rubrik CEO talks tech & cybersecurity
+  summary: Yahoo Finance Executive Editor Brian Sozzi takes a look at the biggest stories as the trading day kicks off, weighing in on Micron (MU), SanDisk (SNDK), Jensen Huang's big third quarter, and more.Rubrik (RBRK) CEO Bipul Sinha sits down with Sozzi for a conversation about the state of tech and cybersecurity.
+  url: https://finnhub.io/api/news?id=93c2707e2f0a9186fdc9d902e22d99166b282dd6cefb5bab97000b1450b46872

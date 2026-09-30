@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chevron Has More Going for It Than Higher Oil Prices
+  summary: Wall Street sees modest upside for Chevron, but a seven-quarter streak of earnings beats, a 20-year AI power deal, and a valuation well below the broader market suggest analysts are still underestimating what this stock can do.
+  url: https://finnhub.io/api/news?id=f4566796d635353a972bf99ba9caade8d029a454d612b5c6ef868989da73828e

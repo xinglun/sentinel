@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Swapped Shorts for Micron Puts Struck Near Half the Share Price
+  summary: Michael Burry just swapped unlimited-horizon short positions for expiring put contracts on Micron, accepting a hard deadline to be right before a stock up 550% in a year reports earnings in hours.
+  url: https://finnhub.io/api/news?id=01ee82e91d421e88e50e35c2cf3b3e71999be53abd88bb502fbf15da1dd7190f

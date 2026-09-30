@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Reasons to Buy Grail (GRAL) Hand Over Fist in October
+  summary: The cancer blood test maker could have a bright future.
+  url: https://finnhub.io/api/news?id=3442ad5dccdc18b12c7094f7e556449b5cf9fe900976a1868b7c683b697272e5

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Trump Hosts AI Leaders at White House
+  summary: Artificial intelligence industry leaders met with President Donald Trump to discuss growing concerns over threats posed by the technology. Trump has said he doesn't want to stifle innovation by using too much regulation. Palantir Technologies CEO Alex Karp was among those at the meeting and he spoke to Bloomberg's Tyler Kendall.
+  url: https://finnhub.io/api/news?id=612574b1693110dff51a955b430306f509972b4913266e382da8445bfb97a784

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy Tesla Stock Before Oct. 2?
+  summary: Tesla is expected to published Q3 deliveries on Friday, Oct. 2.
+  url: https://finnhub.io/api/news?id=c386a7afa735560921df1ee9ba19df33dc5d3950049d72ddb53f34c821559461

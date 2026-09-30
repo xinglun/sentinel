@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Alphabet (GOOGL) Signing A White House AI Safety Accord?
+  summary: Alphabet (NasdaqGS:GOOGL) CEO Sundar Pichai signed a White House accord on voluntary AI safety standards and oversight commitments. The agreement includes pledges for independent audits of advanced AI systems, alongside similar commitments by other major US AI developers. The accord signals direct engagement between Alphabet and the US administration on AI governance at the federal level. Pichai's White House pledge on voluntary AI safety standards and audits is important, but it should not...
+  url: https://finnhub.io/api/news?id=f90fb96c3b847c79d559ba217e3a60e3a1de767642d03648f9ca2b4f38e91ad4

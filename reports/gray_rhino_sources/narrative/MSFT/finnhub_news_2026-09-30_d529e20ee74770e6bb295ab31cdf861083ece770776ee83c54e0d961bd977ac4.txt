@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft Stock Is Having Its Best Quarter Since 1991
+  summary: Microsoft shares have surged 39% this quarter, and Wall Street analysts see more upside as the company expands its AI offerings.
+  url: https://finnhub.io/api/news?id=1307627daaeb7c9a1014c3885999548700afdad6a0c686899e4413309f029d2e

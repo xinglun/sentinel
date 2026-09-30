@@ -1,12 +1,12 @@
 # 周度状态复盘（自动草稿）
 
-- 截至: 2026-09-29
+- 截至: 2026-09-30
 - 状态: 使用当前市场判断
 - 最新摘要: 启动期 | 无交易窗口
 - 分析天数: 7
 - 平均置信度: 66.7
 - 平均稳定度: 10.0
-- 趋势凝聚 ready 天数: 3
+- 趋势凝聚 ready 天数: 4
 
 ## 市场状态计数
 - NEWBORN: 7
@@ -21,13 +21,13 @@
 - 核心破坏 / 对账不一致: 0 / 0
 
 ## 日度状态机时间线
-- 2026-09-21: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-22: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-23: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-24: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-25: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-28: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 2026-09-29: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
+- 2026-09-30: NEWBORN -> NEWBORN | reset C/B false / false | soft_reset false | duration_lock false | defensive_override false | mismatch 0
 - 边界: 仅为审计事实；不生成评分、建议或交易判断。
 
 ## 战略上下文快照
@@ -48,12 +48,12 @@
 - 边界: 仅为快照；不生成评分、建议或交易判断。
 
 ## Signal Context（信息质量上下文）
-- Information Content: MEDIUM
+- Information Content: HIGH
 - Primary Context: GEOPOLITICAL ESCALATION
 - Context Quality: MEDIUM
-- Event Fact: Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack - Reuters; Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack  Reuters
+- Event Fact: Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack - reuters.com; Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack  reuters.com
 - Source Diagnostics: 已加载外部企业事件上下文：GEOPOLITICAL ESCALATION。
-- Interpretation: 市场正在等待重要事件，当前价格信息含量处于中等水平，尚不足以直接定义为高信息量事件。
+- Interpretation: 今天识别到高信息量宏观事件: Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack - reuters.com; Using old election playbook, Netanyahu projects image as Israel's protector despite Hamas attack  reuters.com。观察到的市场反应可能与新的宏观信息重新定价一致。信息含量: HIGH。
 - 边界: Signal Context 仅作周度追溯沉淀；不接入 Gate、Execution、Trader、READY / EXECUTE 或 Position Sizing。
 
 ## Market Interpretation Snapshot
@@ -65,8 +65,8 @@
   - 当前综合排序领先为 UNAVAILABLE；支持结构为 UNAVAILABLE。当前没有 Read Model 标记的突破观察，整体属于当前截面观察。
   - 继续观察 GEOPOLITICAL ESCALATION 的后续市场反应与利率/商品/风险定价是否持续；这只是上下文观测，不改变交易权限。
   - 没有观察到新的急剧恶化，但市场仍处于缺乏主导者、扩散不足的脆弱结构中（Leader absence: 12 trading days）。
-  - 短期相对强度开始在 MSFT 等个别资产恢复，尚不足以构成新的 Leadership。
-  - RS Recovery Breadth：1/9 非基准资产改善；Strong/Moderate Recovery：1/9 强/中等恢复；RS Diffusion：NOT_CONFIRMED。Actionable Diffusion：NOT_CONFIRMED
+  - 短期相对强度开始在 MSFT / GOOG / SPCX / NVDA 等个别资产恢复，尚不足以构成新的 Leadership。
+  - RS Recovery Breadth：4/9 非基准资产改善；Strong/Moderate Recovery：4/9 强/中等恢复；RS Diffusion：EMERGING。Actionable Diffusion：NOT_CONFIRMED
   - Reason：没有确认 Leader、没有确认 breakout、Action Matrix 未转强确认。
   - 动作分布：观察 1 / 持有 0 / 收缩 9。
 - Leadership Confidence: LOW
@@ -105,7 +105,7 @@
   - 综合主导者: none
   - Current Leader: none
   - Previous Snapshot Leader: none
-  - Leader Absence Since: 2026-09-14
+  - Leader Absence Since: 2026-09-15
   - Leader absence 基线状态: REBASED_FROM_PARTIAL_HISTORY
   - Tactical Leadership Structure: LEADERLESS / FRAGMENTED
   - 连续领导天数: 0 天
@@ -129,11 +129,11 @@
 - 边界: Capital Dynamics 仅作 Observation shell，Current decision weight 为 0%，不接入 Gate、Execution、Trader、Action Matrix 或 Position Sizing。
 
 ### 6.1 Supply Layer（Capital Absorption）
-- 最新观测日: 2026-09-29
+- 最新观测日: 2026-09-30
 - 最新 Near-Term Supply 数量: 1
-- 最新 Future Queue 数量: 1
-- 7 日 Future Queue 最小值 / 最大值: 0 / 1
-- 已报道 / 已确认: 1 / 1
+- 最新 Future Queue 数量: 0
+- 7 日 Future Queue 最小值 / 最大值: 0 / 3
+- 已报道 / 已确认: 0 / 1
 - 潜在供给压力: NORMAL
 - 边界: 仅为潜在未来供给观察；不生成市场结论、风险升级或交易信号。
 
@@ -147,7 +147,7 @@
 - 边界: 认知校准只管理注意力和命题复核；不生成交易信号。
 
 ## Expectation Layer（市场预期观测）
-- 观测日: 2026-09-29
+- 观测日: 2026-09-30
 - decision_weight: 0%
 - trade_signal: false
 - observation_count: 16

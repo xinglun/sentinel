@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Plug Power Advances 4% on Electrolyzer Supply Agreement; Bloom Energy Sinks 3%, FuelCell Energy Treads Water
+  summary: A three-year engineering partnership just turned into a major contract win for one struggling hydrogen stock, while its closest rivals sat out the rally entirely.
+  url: https://finnhub.io/api/news?id=961b5c46d85744084abaa32a14c74c16c6f9edb0c7b1cff60aca51d61d79f61a

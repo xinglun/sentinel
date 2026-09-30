@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MP Materials Surges 6% as Traders Weigh Critical Minerals Growth Story; USA Rare Earth Rises 3%, Critical Metals Stays Flat
+  summary: MP Materials (NYSE:MP) stock surged 6% to $48.29 on Wednesday as traders weighed the company’s critical minerals growth story. USA Rare Earth (NASDAQ:USAR) shares rose 3% to $14.44, while Critical Metals (NASDAQ:CRML) stock stayed essentially flat, up 0.1% to $7.39. Rare-earth names showed selective strength after a recent sector pullback. The VanEck Rare Earth and […]
+  url: https://finnhub.io/api/news?id=cbb6a5389802bf3e3514b690b713a99d8b7627f6122bfd8de59533fb1cc37ed6

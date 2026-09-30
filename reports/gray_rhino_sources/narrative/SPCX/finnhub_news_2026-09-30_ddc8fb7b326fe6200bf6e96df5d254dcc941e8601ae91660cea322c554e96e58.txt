@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Stock Doesn't Pay A Dividend. Use This Strategy To Create One.
+  summary: SpaceX stock pays no dividend. But traders can craft a trade in the options market that could generate a big annualized yield.
+  url: https://finnhub.io/api/news?id=6cb659fa5708cd996043f1c37996a19ba92dfbdd978169b9c4caad4d4225f171

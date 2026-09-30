@@ -1,0 +1,5 @@
+Finnhub narrative source for FIG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Prediction: Figma Stock Set for 25% Upside
+  summary: Figma shares sit near a 52-week low even as revenue growth keeps accelerating, leaving a glaring gap between price and fundamentals that either signals a rare buying opportunity or a warning investors are missing something critical.
+  url: https://finnhub.io/api/news?id=22b0678a52e4b482628c5a5e77651df8aba158dfe4bbc2ad37e4f1125c59a5e2

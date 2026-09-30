@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sector Update: Tech Stocks Mixed Wednesday Afternoon
+  summary: Tech stocks were mixed Wednesday afternoon, with the State Street Technology Select Sector SPDR ETF
+  url: https://finnhub.io/api/news?id=ccbe097de06ad01327ecc5b99b64da6fd9ca720ded6a86d8a33569539bba93de

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: Nasdaq Leads Rise; AI Giant Microsoft Tests A New Entry (Live Coverage)
+  summary: Stock Market Today: The Dow Jones index rises Wednesday on surprise inflation data. Micron earnings are due after the close.
+  url: https://finnhub.io/api/news?id=bdf695d8ec59f60c9c792ad96f4f917a700d182be709eb34dd52b4ee23a6cc54

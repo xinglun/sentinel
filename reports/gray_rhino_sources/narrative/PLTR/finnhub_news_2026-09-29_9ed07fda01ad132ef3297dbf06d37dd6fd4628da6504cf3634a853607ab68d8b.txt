@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Dow Jones Software Leader Microsoft, Palantir, Micron, Palo Alto In Or Near Buy Zones
+  summary: Dow Jones software giant Microsoft, along with Palantir, Micron and Palo Alto, are in or near buy zones in the current stock market.
+  url: https://finnhub.io/api/news?id=26ef2ae04b5bef6d0001e41dd011eb044a16d1e00842877449d82fe6bd25262b

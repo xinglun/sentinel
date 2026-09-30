@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX Just Got a Little Closer to a Tesla Merger
+  summary: Tesla is changing the voting rules for retail shareholders, which would make it easier to pass board-approved recommendations.
+  url: https://finnhub.io/api/news?id=3a4b7e470a32232a01e81d047cb736bde27cc37fd4a6e59faaf087b0338eefb4

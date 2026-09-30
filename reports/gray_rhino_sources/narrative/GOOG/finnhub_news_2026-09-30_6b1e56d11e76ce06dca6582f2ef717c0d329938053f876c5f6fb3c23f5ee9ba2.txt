@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Fujifilm Expands Consumer Photo Printing Capabilities with the Introduction of "Fujifilm for Google Photos Print Store"
+  summary: VALHALLA, N.Y., September 30, 2026--FUJIFILM North America Corporation, Imaging Division, announced today the launch of 'Fujifilm for Google Photos Print Store,' a new, integrated print storefront designed to bring high-quality physical photo products directly to Google Photos users. Fujifilm will assume leadership and responsibility for the photo printing functionality of the popular Google Photos platform and plans to roll out new features and a more robust user experience.
+  url: https://finnhub.io/api/news?id=d1619a2b7681312b8e8982764a8aaf3142b46b4765ce355fa3fdc15122da6edd

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Expands Cybercab Fleet to Strengthen Robotaxi Operations
+  summary: TSLA doubles its Cybercab fleet in Austin to 125 vehicles, expanding driverless rides and potentially easing wait times as Robotaxi operations grow.
+  url: https://finnhub.io/api/news?id=fc8db6fe8ad3bcf0599376903d48fd590780f7f851dff2285ef4265d78e14cad

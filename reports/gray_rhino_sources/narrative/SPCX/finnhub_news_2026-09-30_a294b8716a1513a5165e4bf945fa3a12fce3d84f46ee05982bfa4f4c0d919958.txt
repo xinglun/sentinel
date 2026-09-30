@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Reveals Massive New Goal for SpaceX
+  summary: Starship's next chapter goes far beyond traditional space exploration.
+  url: https://finnhub.io/api/news?id=93b03e5c2173b008b80856ed527a4d578b118366b37407b861411fd40204c2ff

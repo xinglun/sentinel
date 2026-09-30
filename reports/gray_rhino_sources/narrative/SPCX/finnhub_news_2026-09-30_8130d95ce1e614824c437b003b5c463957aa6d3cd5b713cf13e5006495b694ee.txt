@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Space Stocks to Buy in October
+  summary: SpaceX has cooled off, but these three space stocks still offer real upside, from launch infrastructure to profitable defense components.
+  url: https://finnhub.io/api/news?id=2759e491fbbad0507f8cdf053f7ecd6454200a82d25da6155d27d5f8086ad958

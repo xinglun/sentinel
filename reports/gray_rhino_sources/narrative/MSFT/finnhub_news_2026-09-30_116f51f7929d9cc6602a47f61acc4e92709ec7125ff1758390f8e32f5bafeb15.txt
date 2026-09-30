@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Buy The Dip In UiPath Stock?
+  summary: UiPath (PATH) is down about a third from its late-August high, including a fall after a DA Davidson downgrade over its AI pricing. A price that much lower can tempt you to buy, but a stock that falls this fast can also keep falling. So should you buy UiPath stock on this drop, or expect further losses.
+  url: https://finnhub.io/api/news?id=8a943aec54281917e0e336bfb8fd68b298a7a70c920914913457e7f4c1378401

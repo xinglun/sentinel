@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ackman Says Markets Are Narrowly Focused on Big IPOs
+  summary: Pershing Square CEO and founder Bill Ackman says markets are narrowly focused on big initial public offerings. Ackman says Anthropic is one of the greatest business stories he's ever seen, but would not say if it's a company he would invest in. The Claude developer is expected to go public this year. Ackman speaks on "Bloomberg Deals."
+  url: https://finnhub.io/api/news?id=9e98cdeec4acceb1044b3ca7f0efc33cecc5393f4ef1831855ad1c18f14f8502

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Big Tech's equally big debt pile is raising concerns about the AI boom
+  summary: The total capital raised by AI hyperscaler, data center, and neo-cloud companies from high-grade debt sales has doubled from $172 billion in 2025 to $346 billion in 2026 year-to-date, according to Barclays strategist Venu Krishna. Yahoo Finance Executive Editor Brian Sozzi reacts to Krishna's findings and what it means for the AI ecosystem, especially as major companies prepare to go public.
+  url: https://finnhub.io/api/news?id=43bce7fb64f0459dd6ac0e705a6aae8340998c354362638057e7ccb8215722fc

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp quietly purchased 37,000 acres of forests in Sweden—and locals found out when hunters lost leases to use the property
+  summary: Cladonia Skog AB, a newly registered company owned by Karp, said it would use the land for “forestry and other related activities.”
+  url: https://finnhub.io/api/news?id=8cd3b7549beeebbde6fda7d0e8c56bcfa525cbdbf2e1087bfca5c11df7cd5ff1

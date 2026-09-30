@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Just Bought More Tesla as a Bear Sounds a $30 Billion Warning
+  summary: Tesla says it has no plans to tap its new credit facilities this year, but its massive AI and manufacturing spending is putting future cash needs under scrutiny.
+  url: https://finnhub.io/api/news?id=76433ac7bcb976ba99b727a545e025adde0e40930cf4132115c0092f987daac2

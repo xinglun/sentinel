@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Buying Constellation Energy Today Set You Up for Life?
+  summary: Will the power producer deliver even bigger gains over the long term?
+  url: https://finnhub.io/api/news?id=658839c5fcf180103d60c10c4cc8bea118d4f020862a906f0107e7d90cd7326d

@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Donald Trump, Cathie Wood Bet on the Same 32 Stocks – Some Might Surprise You
+  summary: A look at the stocks that are owned by Cathie Wood&#39;s Ark Invest and Donald Trump.
+  url: https://finnhub.io/api/news?id=d045ab6b0c4376bf4a2ea7aa473ff0560d74d081f9b6d94301e57de6a14ea47f

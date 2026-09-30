@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Lines Up $30 Billion to Borrow With Spending on Rise
+  summary: Tesla Inc. has lined up $30 billion of new loans and credit lines, as the electric-car maker dials up investments in artificial intelligence and robotics.
+  url: https://finnhub.io/api/news?id=ca191408be9ae8a45df6905619e75652ac4d25f2d53bbc2060838860dcbeb3e7

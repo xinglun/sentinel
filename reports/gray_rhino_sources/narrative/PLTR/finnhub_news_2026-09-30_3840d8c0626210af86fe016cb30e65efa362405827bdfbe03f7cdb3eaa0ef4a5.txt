@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry sends fresh warning on Nvidia stock
+  summary: A huge buyback meets a familiar skeptic with financial stakes
+  url: https://finnhub.io/api/news?id=812c9e8975289692308263689b921c9de390ad0f87a57e0dd377850325b071dd

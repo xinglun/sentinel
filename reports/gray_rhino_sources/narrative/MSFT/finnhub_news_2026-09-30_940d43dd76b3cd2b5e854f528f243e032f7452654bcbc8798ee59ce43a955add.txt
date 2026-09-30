@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alibaba's AI Spending Ramps Up: Is the Investment Paying Off?
+  summary: BABA's AI spending is pressuring cash flow and earnings, but surging cloud revenues and EBITA offer early signs the investment may be gaining traction.
+  url: https://finnhub.io/api/news?id=20cb4bc09f23055cd20853987c0a455565c3794c3f99815a35701bcc11674174

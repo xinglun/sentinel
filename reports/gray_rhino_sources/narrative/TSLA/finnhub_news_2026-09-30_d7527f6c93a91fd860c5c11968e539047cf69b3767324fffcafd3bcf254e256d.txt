@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rivian Vs. Tesla: At Least The Market Treats Rivian as What It Really Is
+  summary: Tesla just posted record deliveries and still trades at 344 times earnings while Rivian bleeds cash but actually gets valued like a car company. The gap between those two realities reveals something uncomfortable about what investors think they are actually buying.
+  url: https://finnhub.io/api/news?id=1f2b5b8f3210a521c796fcde6bc7ec41eced29dddeb73064af1eb6e7880e0b98

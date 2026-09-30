@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Delta-SpaceX Feud Just Escalated. Investors Beware.
+  summary: The spat between  SpaceX  CEO Elon Musk and  Delta Air Lines  CEO Ed Bastian is escalating.  Delta passed on Starlink in the spring, opting for  Amazon.com’s  space-based broadband product, called Amazon Leo.  Delta now uses T-Mobile, with the help of Viasat, and will roll out Leo in 2028.
+  url: https://finnhub.io/api/news?id=768fe23697c7740bde246991dab9aa249229177d5cd651e3bb14ae6e4de2a8a5

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI's Dots agents will matter for crypto investors. Here's why.
+  summary: Scott Melker explains how OpenAI's (OPAI.PVT) new, always-on AI agent Dots will eventually have an impact on the crypto landscape.
+  url: https://finnhub.io/api/news?id=d92477f3db2a05b5f901c4b453b9ec6d49534ad0e40885ea0d6b239e9a74d9c4

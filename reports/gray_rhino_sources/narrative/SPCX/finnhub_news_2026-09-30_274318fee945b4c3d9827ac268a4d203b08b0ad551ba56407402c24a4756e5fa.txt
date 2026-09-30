@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Goes Bargain Hunting: 3 Stocks She Just Bought
+  summary: The widely followed growth investor made some big market purchases on Tuesday.
+  url: https://finnhub.io/api/news?id=adedfb6f0c5fced9f6636809db6f526be014ebe5124e10a8789313519d8885af

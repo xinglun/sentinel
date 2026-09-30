@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 32 Analysts Say Hold on Intel. Here’s What the Numbers Actually Show
+  summary: Wall Street has overwhelmingly parked Intel in hold territory, but the stock just posted a 212% gain this year while simultaneously losing billions in its foundry division. Something in those conflicting signals deserves a closer look before you decide what to do with your shares.
+  url: https://finnhub.io/api/news?id=69fd4720968b35922efdfc322e11676026256837b41605de39ab6876df096874

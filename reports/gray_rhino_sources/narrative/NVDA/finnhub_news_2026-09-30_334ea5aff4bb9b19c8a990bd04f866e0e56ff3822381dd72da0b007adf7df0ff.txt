@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX's Pullback From $225 Sets Up a Classic Buy the Dip Case for Long-Term Investors
+  summary: SpaceX reached a major milestone just this week.
+  url: https://finnhub.io/api/news?id=7e2ec743042dfb3d587828e37927238b942e5590b31242a01a4448d0f8a0c937

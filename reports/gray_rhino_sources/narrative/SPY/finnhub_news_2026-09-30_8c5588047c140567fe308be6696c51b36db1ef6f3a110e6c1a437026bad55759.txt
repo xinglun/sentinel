@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: UiPath and Snowflake Jump 5% on UiPath’s BDO and Snowflake Updates; Salesforce Moves Up 3%
+  summary: UiPath (NYSE:PATH) stock jumped 5% to $12.90 on Wednesday after the company announced expanded work with BDO USA and a deeper integration with Snowflake. Snowflake (NYSE:SNOW) shares also advanced 5% to $347.38, while Salesforce (NYSE:CRM) stock moved up 3% to $232.68. Software and data-platform names found support as investors digested the latest partnership updates. The […]
+  url: https://finnhub.io/api/news?id=9e10aa50bad845e874b50c391e60bdc747e11b0fecc8f4332070b887231abffb

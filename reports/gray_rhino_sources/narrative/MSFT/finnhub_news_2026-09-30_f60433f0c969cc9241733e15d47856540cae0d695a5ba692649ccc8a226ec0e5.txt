@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Much Upside Is Left In Microsoft Stock?
+  summary: Microsoft (MSFT) shares returned 37% over the past three months, against 2.6% for the S&P 500. Even so, Microsoft's P/E, the price divided by a year of profit, is 28.3. That is below 31.8, the stock's average at the last twelve quarter-ends, leaving out readings above 100. A run that big makes buyers wary, but the shares cost less per dollar of profit than usual. So how much upside is left in Microsoft stock at today's price.
+  url: https://finnhub.io/api/news?id=3926ec6233fba3eba3a55e9bef398e1d8eec69d336d1aace4a5c08fa28389b73

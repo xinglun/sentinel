@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10x Genomics Begins Atera Shipments as Spatial Biology Demand Rises
+  summary: TXG begins Atera shipments as orders top 40 systems, highlighting strong early demand and broad research interest in its spatial biology platform.
+  url: https://finnhub.io/api/news?id=8cca48fbe430bc36a7d774e02dac8dc457221328e1ffabebf1c2c888711d55bd

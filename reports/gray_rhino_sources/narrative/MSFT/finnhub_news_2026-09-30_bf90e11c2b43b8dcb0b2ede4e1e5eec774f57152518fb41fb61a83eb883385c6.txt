@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Microsoft vs. Johnson & Johnson: Which Dividend Will Pay You More in 10 Years?
+  summary: Key TakeawaysMicrosoft just raised its quarterly dividend 8% to $0. 98, and Johnson & Johnson raised its payout for the 64th straight year in April.
+  url: https://finnhub.io/api/news?id=b9e62c6dd166b4d53c41db5e8ee402ad21f2709afe1da730f06ef2a0a3ad8766

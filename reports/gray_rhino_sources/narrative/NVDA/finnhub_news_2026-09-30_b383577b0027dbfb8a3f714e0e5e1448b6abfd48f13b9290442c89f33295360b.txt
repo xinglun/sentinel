@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CoreWeave or Nebius? Here’s How to Play Neocloud Stocks.
+  summary: CoreWeave stock or Nebius is a raging debate in the neocloud sector. William Blair analysts have a solution.
+  url: https://finnhub.io/api/news?id=60638838828355faa10d90d276261076384856443fe6c07995edfd89f3e978aa

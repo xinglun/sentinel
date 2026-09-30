@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood Sold $110 Million of AMD and Bought Nvidia Instead
+  summary: Cathie Wood just dumped one of this year's biggest AI winners to load up on a stock that has barely moved, and the reasoning behind that swap reveals a lot about where she thinks the real opportunity still sits.
+  url: https://finnhub.io/api/news?id=cdbb7a9f9754ac4a1fa8117541473efd88fd7f1c3ea5c279c062f2649f5d0509

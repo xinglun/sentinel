@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Are Space ETFs on Track to Rally or Is It Just a Temporary Blip?
+  summary: Space ETFs are set to regain momentum as Starship succeeds and space investment surges, but volatility clouds the sector's outlook.
+  url: https://finnhub.io/api/news?id=033fbbee6c0241de8aab5a34c66067be7644cdb1856195e797aa7cd76f9d6dd8

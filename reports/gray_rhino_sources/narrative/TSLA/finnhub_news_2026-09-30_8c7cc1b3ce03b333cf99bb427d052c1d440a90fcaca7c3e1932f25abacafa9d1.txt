@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: CarMax Q2 Earnings Beat Estimates on Strong Unit Sales, CAF Growth
+  summary: KMX Q2 earnings beat estimates as strong unit sales, pricing and CAF growth lift results, while cost control supports margins.
+  url: https://finnhub.io/api/news?id=3d21cf3dd0666675771bb88f3c1404291ee5457cd9c7263b176186a732a4e811

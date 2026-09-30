@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accenture on Pace to More Than Double Bookings With Emerging Alliances, UBS Says
+  summary: Accenture (ACN) is on track to more than double bookings with its emerging alliances with Nvidia (NV
+  url: https://finnhub.io/api/news?id=2ba996adfb003a382bf92e8e1afda1cc99e6efd93ea5a0e8cf0d9df9a9f6ca16

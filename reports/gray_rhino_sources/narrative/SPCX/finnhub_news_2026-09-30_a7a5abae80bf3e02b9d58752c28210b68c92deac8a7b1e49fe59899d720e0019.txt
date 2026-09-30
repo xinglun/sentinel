@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ultrafast mode: How OpenAI pulled off what Anthropic, Meta, & SpaceX couldn't
+  summary: OpenAI (OPAI.PVT) made several announcements at its Dev Day on Tuesday, including its new "Ultrafast" mode. In The Loop host Ejaaz Ahamadeen explains everything you need to know in the video above.
+  url: https://finnhub.io/api/news?id=7014831bb41a142e256f7b1efaca7c87be4c14dc28434b7a025c01608ceb3d86

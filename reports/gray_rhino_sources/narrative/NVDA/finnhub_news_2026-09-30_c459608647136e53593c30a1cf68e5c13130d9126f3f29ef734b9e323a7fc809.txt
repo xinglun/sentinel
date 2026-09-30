@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BAG Ventures Closes Inaugural Fund I on the Strength of 150+ Operators Supporting Enterprise AI Founders
+  summary: Google and CapitalG Entrepreneurs-in-Residence Debut Firm, Focused on Accelerating Founder TrajectorySan Francisco, CA, Sept. 30, 2026 (GLOBE NEWSWIRE) -- BAG Ventures, an early-stage venture firm that partners with enterprise AI founders from first check through growth, today announced the final close of its $11.3 million inaugural Fund I. The fund is backed by 150 LPs (85% senior leaders and over 25% technical experts in AI, engineering, and security) from titans such as Google, Snowflake, Gen
+  url: https://finnhub.io/api/news?id=da5f10c3b0a4cc943080feea146bfcd6555437dd41947cecf4a93f2a84673c00

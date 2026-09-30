@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: NuScale Power Rises 4% Despite Dilution Concerns; Uranium Energy Advances 4%, Oklo Gains 2%
+  summary: NuScale Power climbed Wednesday even as a fresh $750 million share-sale program keeps dilution fears alive, while Oklo and Uranium Energy rode the same nuclear wave for very different reasons.
+  url: https://finnhub.io/api/news?id=d159a91993f85495eedf3d855bd70f5cf395aad7be92c5c6451b2cdb207e3ff5

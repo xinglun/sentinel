@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: This Week In Electric Vehicles - Spain's EV Market Poised For Remarkable Growth By 2030
+  summary: The electric vehicle market in Spain is projected to experience significant growth, reaching a market value of approximately US$110 million by 2030. Driven by an annual growth rate of 4.8% from 2026 onwards, this expansion is bolstered by increasing investments in charging infrastructure and advancements in electric mobility. Comprehensive market intelligence reports highlight over 100 key performance indicators, providing insights into vehicle sales, market penetration, and technological...
+  url: https://finnhub.io/api/news?id=8ba9de99b693241735e3f19ec94bf809dd30297087cd319d296b83befaea390d

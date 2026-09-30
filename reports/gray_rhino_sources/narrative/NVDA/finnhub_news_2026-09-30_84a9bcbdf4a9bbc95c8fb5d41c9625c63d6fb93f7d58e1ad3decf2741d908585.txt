@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia Supplier FormFactor’s Stock Surges After Deutsche Bank Says It’s a Buy
+  summary: FormFactor is Nvidia’s second-biggest supplier of chip-testing equipment. Deutsche Bank says the stock is a Buy.
+  url: https://finnhub.io/api/news?id=da996aab99e37fa61106f4e1d778d5ed81cd50d778304f7d0e8f33e060dbc357

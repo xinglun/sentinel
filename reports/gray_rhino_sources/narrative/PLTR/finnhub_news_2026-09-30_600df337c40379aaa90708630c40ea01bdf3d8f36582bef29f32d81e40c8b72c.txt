@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Alex Karp buys 37,000 acres of Swedish forest
+  summary: Karp made the purchase through a newly registered company for $22 million; local hunters learned of the deal when their leases were canceled
+  url: https://finnhub.io/api/news?id=d7d8a8f7fa216bbcff4b4fdf15ba4fba92af19774dc7988f8900947f5dfa4e35

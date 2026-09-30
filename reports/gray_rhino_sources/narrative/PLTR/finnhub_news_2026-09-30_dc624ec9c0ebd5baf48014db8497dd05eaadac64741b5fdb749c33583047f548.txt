@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Tech Stocks That Could Be in Trouble if There's an Artificial Intelligence (AI) Slowdown
+  summary: These stocks have been hot buys in large part due to expectations of continued strong growth driven by artificial intelligence (AI).
+  url: https://finnhub.io/api/news?id=a740a7f00e6397f6f96a4cfa3fddef7528497225506566c113842a4c598218ed

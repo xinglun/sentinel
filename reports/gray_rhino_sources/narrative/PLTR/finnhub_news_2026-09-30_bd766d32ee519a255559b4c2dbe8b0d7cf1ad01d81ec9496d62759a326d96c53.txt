@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Is Worth About as Much as Oracle on Less Than a Tenth of Oracle's Revenue
+  summary: The two software businesses today cost around the same. So which stock's price is harder to live up to?
+  url: https://finnhub.io/api/news?id=55c85eea021a4b3f2a0b284ca1d7725e4ba06fc63dd71f261aa5f190bd22eed4

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Locks In $30 Billion Credit Line To Fund Soaring AI Spending
+  summary: The $30 billion in loans Tesla secured will likely be used to fund its AI development and infrastructure projects.
+  url: https://finnhub.io/api/news?id=9badb4e2ca504f6af82c35a99b2182cbf8e643843c5995e2f525952ed6992551

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morningstar leases 275K sf at Google’s Thompson Center
+  summary: Morningstar CEO Kunal Kapoor and founder Joe Mansueto with the James R. Thompson Center at 100 West Randolph Street (Morningstar, ajay_suresh - James R. Thompson Center, CC BY 2.0 - via Wikimedia Commons)Morningstar announced intentions to move into Google’s revamped Thompson Center with the largest downtown office lease signed this year. The investment research firm announced that they’re taking over 275,000 square feet of Google’s 400,000 square feet available on the building’s upper floors, a
+  url: https://finnhub.io/api/news?id=12ee7f510423304c3d0d52e7a34cd8212df2e98c2935f66a1e60f6376e3c2ccb

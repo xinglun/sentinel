@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir (PLTR) Stock Looks Fully Valued Following Fresh AI Adoption News
+  summary: Palantir Technologies has seen its share price move sharply over the past few years, and the latest burst of AI related headlines keeps attention firmly on the stock. With that backdrop, the key issue for investors is whether the current market value lines up with the cash flows that Palantir can realistically produce over time. Over the past 3 years the stock has logged a very large gain, which raises the stakes on whether that kind of share price change is supported by the company’s...
+  url: https://finnhub.io/api/news?id=c467b5e3e16506ec28ee43c18ce1ff3e356187ca7da4c0ac901e1ca7804e47b2

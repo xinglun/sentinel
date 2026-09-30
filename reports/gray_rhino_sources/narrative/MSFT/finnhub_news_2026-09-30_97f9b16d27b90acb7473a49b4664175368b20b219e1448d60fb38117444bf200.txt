@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Gabelli Bought Microsoft Corporation (MSFT) Near Its 52-Week Lows
+  summary: Gabelli Investment Management Firm recently released its “Dividend Growth Fund” second-quarter 2026 investor letter. A copy of the letter can be downloaded here. The Fund faced a second quarter in which a dramatic stock-market rebound was led by semiconductor and industrial shares, while the Fund’s more defensive positioning and limited exposure to the strongest AI […]
+  url: https://finnhub.io/api/news?id=c437ac83055b258fa5ce5069a03b9527248e3ae84b6df10d9339f1417a8e10d7

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500: Rule of 20 Relevance Returns
+  summary: The Rule of 20 is poised to regain relevance for S&P 500 valuation by 2027 given key ongoing market forces. Read full analysis here.
+  url: https://finnhub.io/api/news?id=c34e39946217a7922adc28eb41a4d14c14dc5fdd25e62051ac902b10e81829bd

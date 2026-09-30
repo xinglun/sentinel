@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Do You Really Understand ISRG Stock's Risk?
+  summary: Look at the breakdown of Intuitive Surgical's revenue streams—Instruments and Accessories alone generate roughly 60% of the top line on a per-procedure basis. That tight link between surgery volume and cash flow explains why investors reacted so sharply when Intuitive noted in its fiscal Q2 2026 call that U.S. procedure growth had slowed. With recurring earnings visibility clouded, how much downside risk is the market actually pricing in.
+  url: https://finnhub.io/api/news?id=b7aefda6af86efa466ea2fde124e932a93ad648c7f108df32edd6414e45b701f

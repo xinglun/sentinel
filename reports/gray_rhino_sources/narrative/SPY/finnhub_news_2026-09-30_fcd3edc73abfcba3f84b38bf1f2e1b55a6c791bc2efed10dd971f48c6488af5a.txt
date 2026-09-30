@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Intel Rises 3% as Chip Contender Caps Off Surprisingly Strong September; NVIDIA Ticks Up, AMD Slips
+  summary: Intel closed out September with a move that has investors debating whether the chip giant's turnaround is finally gaining real traction or whether the rally has already run ahead of the fundamentals.
+  url: https://finnhub.io/api/news?id=4bcd5a5cd8da8dd27f905adce97cf90beb0d7209180c08583789f727f5171568

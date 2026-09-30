@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Bond Market May Be on the Verge of Sending a Recession Warning. Here's What the Smartest Investors Are Doing.
+  summary: The yield curve is flattening and could invert, a signal that a recession may be coming.
+  url: https://finnhub.io/api/news?id=b70eb1422df1f029dcdadfe068188d4d04a40f08df6de10b86d08dc793e1943c

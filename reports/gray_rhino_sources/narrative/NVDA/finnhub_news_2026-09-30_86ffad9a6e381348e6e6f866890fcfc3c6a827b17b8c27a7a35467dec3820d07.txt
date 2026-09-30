@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 2 Outstanding Dividend Stocks to Buy and Hold for a Decade
+  summary: There is probably no dividend cut on the horizon for these healthcare companies.
+  url: https://finnhub.io/api/news?id=f496bf2a81d5dc6623fc202d50eaf5f7406170ca337578f1f207acaa57167f5c

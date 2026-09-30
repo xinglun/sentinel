@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ChargePoint Jumps 7% as Electric September Run Persists; EVgo Falls 3%, Blink Charging Slips
+  summary: ChargePoint surged while its closest rivals slipped, raising a pointed question about whether one company is pulling ahead in the EV charging race or simply running a sprint the rest of the sector will eventually join.
+  url: https://finnhub.io/api/news?id=4c395eaf01591b0712a7571fb2d671cc038eaed4946ac309c13a231b2a74f845

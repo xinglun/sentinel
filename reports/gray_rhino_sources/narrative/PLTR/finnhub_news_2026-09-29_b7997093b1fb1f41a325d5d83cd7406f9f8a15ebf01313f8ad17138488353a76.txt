@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: PLTR vs. COHR: Which AI-Driven Tech Stock is a Better Buy?
+  summary: Palantir's commercial AI momentum, scalable software model, strong profitability and cash generation give it an edge over Coherent despite its higher valuation.
+  url: https://finnhub.io/api/news?id=4cd43521faa640dda4ef0ce3cd9782bad9f17a24a9b91b3d68493a82b7e106b8

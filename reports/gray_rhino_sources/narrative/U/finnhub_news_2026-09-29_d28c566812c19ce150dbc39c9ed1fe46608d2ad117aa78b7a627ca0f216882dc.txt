@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Should You Sell Your Roblox Stock Now?
+  summary: Roblox (RBLX) holders have one worry: the stock has lost most of its value over the past year and may fall further. A $10,000 holding bought a year ago is worth about $3,170 today. The shares fell 9.9% on September 28, the day Roblox was downgraded to underperform by Jefferies. A fall this deep is worth holding through only if the business is still healthy. So is Roblox's business breaking, or are its players just spending less than the company expected.
+  url: https://finnhub.io/api/news?id=e5618b6b02de0690f55adab9a71f048deafc0b8ad55457fd0969f1b6d5874ca2

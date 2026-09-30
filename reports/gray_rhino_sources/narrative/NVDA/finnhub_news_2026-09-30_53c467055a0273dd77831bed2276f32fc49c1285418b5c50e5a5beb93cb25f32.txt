@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: AbbVie Stock: Buy, Sell, or Hold in October?
+  summary: The pharmaceutical giant still looks like a stable long-term investment.
+  url: https://finnhub.io/api/news?id=3708b38ab40282a8ceb0ded2061e018c6747d0fc1616ece434791f7aac72513e

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry just named who can't afford an AI crash, and his bearish bets tell a different story
+  summary: The famous housing short seller’s warning points to one force that could keep AI stocks propped up for now.
+  url: https://finnhub.io/api/news?id=76fa5f5fa31b49a7c8d306f6ed8bee3e9a7ac1f6d9617f911ee66134d489b32a

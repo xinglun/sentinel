@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Could Amazon Stock Survive AI Spending Outrunning Its Cash?
+  summary: Amazon now spends more on building its business than the business brings in as cash. On its July 2026 earnings call, management raised its 2026 spending plan to about $220 billion. Most of the prior $200 billion budget had been allocated toward AI and AWS. Management has not said when the spending will slow, though it noted on the call that Amazon has already issued debt this year and cited further borrowing among its options to cover any shortfall. So could Amazon keep paying for the build-out
+  url: https://finnhub.io/api/news?id=cf26d14d1d6279ddbbdadae9810d248328028cbc74fadb362302fc47a9fb2754

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cipher Digital Slips 3% Despite 20-year Barber Lake Lease Extension; TeraWulf Retreats 2%, IREN Limited Treads Water
+  summary: Cipher Digital locked in a blockbuster long-term deal at its Texas campus, yet the stock still fell. Here is why investors are not convinced the timing worked in the company's favor.
+  url: https://finnhub.io/api/news?id=9ebc114132e24f238987668647e3c25e015bc8b3b569438e5ef3243b145641c9
