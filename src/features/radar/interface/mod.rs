@@ -26,3 +26,5 @@ pub(crate) mod weekly_state_report;
 mod presentation_tests;
 #[cfg(test)]
 mod report_ui_tests;
+
+pub mod signal_information_evidence;

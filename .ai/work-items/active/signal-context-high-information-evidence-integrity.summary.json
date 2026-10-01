@@ -1,0 +1,109 @@
+{
+  "changedPaths": [
+    ".ai/decisions/probe-eligibility-conversion-observation.close.json",
+    ".ai/decisions/probe-eligibility-conversion-observation.finalize.json",
+    ".ai/evidence/signal-context-high-information-evidence-integrity.contract-amendments/00000001.committed.json",
+    ".ai/evidence/signal-context-high-information-evidence-integrity.contract-amendments/00000001.prepared.json",
+    ".ai/locks/signal-context-high-information-evidence-integrity.lifecycle.lock",
+    ".ai/work-items/active/signal-context-high-information-evidence-integrity.contract.json",
+    ".ai/work-items/active/signal-context-high-information-evidence-integrity.summary.json",
+    "Makefile",
+    "docs/superpowers/plans/signal-context-high-information-evidence-integrity.md",
+    "src/features/radar/interface/interpretation_read_model.rs",
+    "src/features/radar/interface/mod.rs",
+    "src/features/radar/interface/presentation.rs",
+    "src/features/radar/interface/report.rs",
+    "src/features/radar/interface/report_ui_tests.rs",
+    "src/features/radar/interface/signal_context_read_model.rs",
+    "src/features/radar/interface/signal_information_evidence.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/research/interface/macro_event_observation.rs"
+  ],
+  "checkpointAt": "2026-10-01T00:35:50Z",
+  "checkpointContractDigest": "sha256:b4bd6ea3d9f65b06a6ec828f0218bac59156dfd5a661b23364d1ad155fd0e8f2",
+  "checkpointCount": 1,
+  "checkpointEvidence": [
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+      "recorded": true,
+      "recordedAt": "2026-10-01T00:35:50Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+      "requiredChecks": 0,
+      "requiredChecksPassed": 0,
+      "schemaVersion": 1,
+      "stage": "before_edit",
+      "unknownCount": 0,
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    },
+    {
+      "acceptanceCount": 1,
+      "contractHash": "sha256:a6e8b33332558151f1e21d499e3f984688d06e79e4d479cc2dc4ffaa6d022d85",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+      "previousContractHash": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+      "reason": "ユーザー指定の code mode と4個の品質ゲートを型付き Contract に確定",
+      "recorded": true,
+      "recordedAt": "2026-10-01T00:36:13Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    },
+    {
+      "acceptanceCount": 2,
+      "contractHash": "sha256:b4bd6ea3d9f65b06a6ec828f0218bac59156dfd5a661b23364d1ad155fd0e8f2",
+      "invalidatedRequiredChecks": [],
+      "originalBeforeEditContractHash": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+      "previousContractHash": "sha256:a6e8b33332558151f1e21d499e3f984688d06e79e4d479cc2dc4ffaa6d022d85",
+      "reason": "独立レビューで発見した証拠契約の3境界を acceptance に固化",
+      "recorded": true,
+      "recordedAt": "2026-10-01T00:49:28Z",
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:b9c54ac1f3c51aaedb7f1b29973268008b0622291462d647b7afffcc2d17ec1e",
+      "requiredChecks": 4,
+      "requiredChecksPassed": 0,
+      "requiredChecksPassedAtAmendment": null,
+      "schemaVersion": 1,
+      "stage": "contract_amendment_revalidation",
+      "unknownCount": 0,
+      "verificationStarted": false,
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    }
+  ],
+  "checkpointRepositorySnapshotDigest": "sha256:9ba8d91f8ba76285f5c0b753a7373f960c80083149ed4f67ca62c07ed397b1c1",
+  "createdAt": "2026-10-01T00:35:49Z",
+  "intentAlignment": {
+    "evidence": [
+      "docs/superpowers/plans/signal-context-high-information-evidence-integrity.md",
+      "src/features/radar/interface/signal_context_read_model.rs",
+      "src/features/research/interface/macro_event_observation.rs"
+    ],
+    "reason": "分類・抽出・取引判断を保ち、HIGH の証拠と repricing prose を presentation read model で制約する。",
+    "state": "resolved"
+  },
+  "mode": "implementation",
+  "preflightAt": "2026-10-01T00:53:11Z",
+  "preflightContractDigest": "sha256:b4bd6ea3d9f65b06a6ec828f0218bac59156dfd5a661b23364d1ad155fd0e8f2",
+  "preflightDecisionDigest": "sha256:87984c0a1a26d0916db4f2c1b13f031eb89189e9b24d41497391ad35de9cf55e",
+  "preflightRepositorySnapshotDigest": "sha256:9ba8d91f8ba76285f5c0b753a7373f960c80083149ed4f67ca62c07ed397b1c1",
+  "preflightState": "green",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "state": "finish_ready",
+  "updatedAt": "2026-10-01T00:53:36Z",
+  "verification": [
+    {
+      "check": "project-command-0",
+      "result": "passed"
+    }
+  ],
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}

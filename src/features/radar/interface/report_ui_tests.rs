@@ -539,7 +539,7 @@ mod tests {
                 &HashMap::new(),
             )
             .unwrap();
-            assert!(report.markdown_body.contains("Information Content: HIGH"));
+            assert!(report.markdown_body.contains("Information Content: MEDIUM"));
             assert!(report
                 .markdown_body
                 .contains("Primary Context: NVIDIA EARNINGS"));
@@ -554,6 +554,173 @@ mod tests {
             assert!(!report
                 .markdown_body
                 .contains("No high-information event identified"));
+        }
+    }
+
+    #[test]
+    fn information_evidence_all_channels_languages_preserve_decision_and_archive_proof() {
+        use crate::features::research::interface::macro_event_observation::*;
+        for route in [
+            "NONE",
+            "STRUCTURED_MARKET_REACTION",
+            "EXPLICIT_SURPRISE_EVENT",
+        ] {
+            for language in [Language::ZhCn, Language::EnUs, Language::JaJp] {
+                let date = NaiveDate::from_ymd_opt(2026, 9, 30).unwrap();
+                let packet = no_trade_snapshot_packet();
+                let packet_before = serde_json::to_vec(&packet).unwrap();
+                let config = mock_config_with_language(language);
+                let mut pres = PresentationAssembler::assemble(
+                    &packet,
+                    &domain_rules(&config),
+                    &HashMap::new(),
+                    vec![],
+                    language,
+                );
+                let before = decision_surface(&pres);
+                let publication = "2026-09-30T12:00:00Z";
+                let mut source = MacroSignalContextSource {
+                    status: MacroSignalContextSourceStatus::Healthy,
+                    ..Default::default()
+                };
+                source.events.push(MacroSignalContextEvent {
+                    event_id: "audit-event".into(),
+                    accepted_at: publication.into(),
+                    title: "Geopolitical context".into(),
+                    information_content: MacroSignalContextInformationLevel::High,
+                    market_relevance: MacroSignalContextInformationLevel::High,
+                    evidence_quality: MacroSignalContextInformationLevel::High,
+                    lifecycle: MacroSignalContextLifecycle::ActiveRepricing,
+                    event_fact: "Structured event source".into(),
+                    observed_at: publication.into(),
+                    source_published_at: publication.into(),
+                    market_date: date.to_string(),
+                    evidence: vec![EvidenceRecord {
+                        source: "official".into(),
+                        source_url: "https://example.org/action".into(),
+                        timestamp: publication.into(),
+                        source_published_at: publication.into(),
+                        event_type: if route == "EXPLICIT_SURPRISE_EVENT" {
+                            "FORMAL_ACTION"
+                        } else {
+                            "POLITICAL_POSITIONING"
+                        }
+                        .into(),
+                        subject: "source fact".into(),
+                        importance: if route == "EXPLICIT_SURPRISE_EVENT" {
+                            "MATERIAL_NEW_ACTION"
+                        } else {
+                            "HIGH"
+                        }
+                        .into(),
+                    }],
+                    ..Default::default()
+                });
+                let reactions = if route == "STRUCTURED_MARKET_REACTION" {
+                    ["commodity", "rates"]
+                        .into_iter()
+                        .map(|dimension| MarketReaction {
+                            observation_id: dimension.into(),
+                            instrument: dimension.into(),
+                            observed_at: "2026-09-30T14:00:00Z".into(),
+                            observation_date: date.to_string(),
+                            observation_time_precision: ObservationTimePrecision::Timestamp,
+                            subject: dimension.into(),
+                            observation: "measured change".into(),
+                            structured_reaction: Some(StructuredMarketReaction {
+                                reaction_dimension: dimension.into(),
+                                magnitude: "3".into(),
+                                baseline: "100".into(),
+                                direction: "UP".into(),
+                                significant_magnitude: "2".into(),
+                                unit: "percent_change".into(),
+                                measurement_method: "session versus prior close".into(),
+                                source: "feed".into(),
+                                source_url: "https://example.org/market".into(),
+                            }),
+                            ..Default::default()
+                        })
+                        .collect()
+                } else {
+                    Vec::new()
+                };
+                let future_context = SignalContextEventReadModel {
+                    macro_signal_context: Some(MacroSignalContextReadModel {
+                        market_date: date,
+                        temporal_context: SignalContextTemporalContext {
+                            report_run_at: Some("2026-09-30T20:00:00Z".into()),
+                            observation_window_start: Some(publication.into()),
+                            observation_window_end: Some("2026-09-30T20:00:00Z".into()),
+                        },
+                        geopolitical: source,
+                        rates_credit: Default::default(),
+                        commodity: Default::default(),
+                        ai_policy_frontier_pacing_observation: None,
+                        observed_market_reactions: reactions,
+                    }),
+                    ..Default::default()
+                };
+                let dict = get_dictionary(language);
+                pres.interpretation_layer = Some(build_interpretation_layer_view_model(
+                    InterpretationLayerReadModelInput {
+                        as_of_date: date,
+                        subjects: &[],
+                        signal: InterpretationNarrativeSignal::default(),
+                        future_context,
+                        decision_summary: Some(&pres.decision_summary),
+                        language,
+                        dict: &dict,
+                    },
+                ));
+                let layer = pres.interpretation_layer.as_ref().unwrap();
+                let evidence = layer.signal_information_evidence.as_ref().unwrap();
+                assert_eq!(evidence.high_information_route, route);
+                assert_eq!(
+                    layer.signal_context_information_content_value,
+                    if route == "NONE" { "MEDIUM" } else { "HIGH" }
+                );
+                assert_eq!(
+                    evidence.reaction_evidence_count,
+                    if route == "STRUCTURED_MARKET_REACTION" {
+                        2
+                    } else {
+                        0
+                    }
+                );
+                let report = generate_refined_report(
+                    &report_context(&config),
+                    &pres,
+                    0.0,
+                    &HashMap::new(),
+                    &HashMap::new(),
+                )
+                .unwrap();
+                for body in [
+                    &report.markdown_body,
+                    &report.telegram_html_body,
+                    &report.archival_markdown,
+                ] {
+                    assert!(body.contains(route));
+                    assert!(body.contains("NOT_ESTABLISHED"));
+                    assert!(body.contains("decision_weight=0; trade_signal=false"));
+                    assert!(body.contains(match language {
+                        Language::ZhCn => "信息证据",
+                        Language::EnUs => "Information Evidence",
+                        Language::JaJp => "情報証拠",
+                    }));
+                }
+                assert!(report
+                    .archival_markdown
+                    .contains("\"high_information_evidence\""));
+                if route == "STRUCTURED_MARKET_REACTION" {
+                    assert!(report
+                        .archival_markdown
+                        .contains("\"temporal_eligible\": true"));
+                    assert!(report.archival_markdown.contains("\"magnitude\": \"3\""));
+                }
+                assert_eq!(before, decision_surface(&pres));
+                assert_eq!(packet_before, serde_json::to_vec(&packet).unwrap());
+            }
         }
     }
 
@@ -4362,7 +4529,9 @@ mod tests {
         .unwrap();
         assert!(report.telegram_html_body.contains("Macro Event"));
         assert!(report.telegram_html_body.contains("Information Content"));
-        assert!(report.telegram_html_body.contains("HIGH"));
+        assert!(report
+            .telegram_html_body
+            .contains("Information Content: MEDIUM"));
         assert!(report.telegram_html_body.contains("Event Fact"));
         assert!(report
             .telegram_html_body
@@ -4375,7 +4544,7 @@ mod tests {
         );
         assert_eq!(
             signal_context.signal_context_information_content_value,
-            "HIGH"
+            "MEDIUM"
         );
         assert_eq!(
             signal_context.signal_context_event_fact_value,
@@ -4391,7 +4560,7 @@ mod tests {
         assert!(signal_context
             .signal_context_interpretation_value
             .to_lowercase()
-            .contains("macro information"));
+            .contains("insufficient market reaction evidence"));
         let lower = signal_context
             .signal_context_interpretation_value
             .to_lowercase();
@@ -5954,32 +6123,28 @@ mod tests {
             build_interpretation_layer_view_model, InterpretationLayerReadModelInput,
             InterpretationNarrativeSignal,
         };
-        use crate::features::radar::interface::presentation::SignalContextQuality;
-        use crate::features::radar::interface::signal_context_event_read_model::{
-            SignalContextEventReadModel, SignalContextEventSlot, SignalContextEvidence,
-            SignalContextEvidenceSource,
-        };
-        use crate::features::research::interface::macro_event_observation::MacroEventSourceHealth;
         use crate::features::shared::interface::i18n::{get_dictionary, Language};
 
         let signal = InterpretationNarrativeSignal::default();
 
-        let future_context = SignalContextEventReadModel {
-            source_health: MacroEventSourceHealth::Succeeded,
-            macro_event: SignalContextEventSlot::Loaded(Some(SignalContextEvidence {
-                detected: true,
-                quality: SignalContextQuality::High,
-                source: SignalContextEvidenceSource::Calendar,
-                summary: "CPI Release".to_string(),
-            })),
-            ..Default::default()
-        };
+        let date = NaiveDate::from_ymd_opt(2026, 6, 18).unwrap();
+        let calendar = MacroEventCalendarReadModel::from_observations(
+            date,
+            "inline".into(),
+            vec![macro_event_observation(date)],
+        );
+        let future_context =
+            build_signal_context_event_read_model(SignalContextEventReadModelInput {
+                as_of_date: date,
+                expectation_snapshot: None,
+                future_calendar: Some(&calendar),
+            });
 
         let dict = get_dictionary(Language::JaJp);
         let subjects = vec!["TSLA".to_string()];
 
         let view_model = build_interpretation_layer_view_model(InterpretationLayerReadModelInput {
-            as_of_date: chrono::NaiveDate::from_ymd_opt(2026, 6, 15).unwrap(),
+            as_of_date: date,
             subjects: &subjects,
             signal,
             future_context,

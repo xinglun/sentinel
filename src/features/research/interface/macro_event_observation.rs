@@ -231,9 +231,25 @@ pub(crate) fn classify_observation_time_precision(value: &str) -> ObservationTim
     ObservationTimePrecision::Unavailable
 }
 
+/// 数値反応の監査契約。significant_magnitude は同一 unit の観測有意性基準であり取引閾値ではない。
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub struct StructuredMarketReaction {
+    pub reaction_dimension: String,
+    pub magnitude: String,
+    pub baseline: String,
+    pub direction: String,
+    pub significant_magnitude: String,
+    pub unit: String,
+    pub measurement_method: String,
+    pub source: String,
+    pub source_url: String,
+}
+
 /// 事件事实与市场反应分离后的观测结果。
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 pub struct MarketReaction {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub structured_reaction: Option<StructuredMarketReaction>,
     #[serde(default)]
     pub observation_id: String,
     pub observed_at: String,
@@ -565,6 +581,7 @@ mod signal_context_v1_tests {
     #[test]
     fn market_reaction_keeps_evidence_as_a_separate_observation() {
         let reaction = MarketReaction {
+            structured_reaction: None,
             observation_id: "obs-payroll".to_string(),
             observed_at: "2026-08-07T16:00:00Z".to_string(),
             observation_date: String::new(),
