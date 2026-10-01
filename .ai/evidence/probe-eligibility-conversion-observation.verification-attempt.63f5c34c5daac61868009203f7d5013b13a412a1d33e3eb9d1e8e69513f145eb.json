@@ -1,0 +1,41 @@
+{
+  "attemptId": "sha256:63f5c34c5daac61868009203f7d5013b13a412a1d33e3eb9d1e8e69513f145eb",
+  "commands": [
+    {
+      "args": [
+        "quality"
+      ],
+      "baseCommit": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+      "commandDigest": "sha256:6df07e73eeb7b24cfe113305430be44cd8fab0e1faaed1402e97f26950ee1588",
+      "nodeId": "project-command-0",
+      "program": "make",
+      "runner": "local",
+      "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+      "scope": [
+        "**"
+      ],
+      "stage": "task",
+      "timeoutSeconds": 300
+    }
+  ],
+  "contractDigest": "sha256:e389093c90459305daeb7d75765b746663da92897692645755a6d3810d1a8302",
+  "contractExecutionScopeDigest": "sha256:a2593ada84651d58e48c413e6161b6b879354680d674b242251ecefbf93c4a49",
+  "createdAt": "2026-10-01T00:15:08Z",
+  "diagnostic": {
+    "code": "verification_preconditions",
+    "message": "repository protocol state error at /Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel/.ai/work-items/active/probe-eligibility-conversion-observation.summary.json: repository protocol state error at /Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel/.ai/work-items/active/probe-eligibility-conversion-observation.summary.json: current action admission rejected requested action \"run_verification\": admission=Allowed, blockers=[], safeActions=[\"record_governance_controls\", \"refresh_status\"], nextAction=Some(\"record_governance_controls\"), admissionDigest=sha256:f1594b1ab9732ffb1995f61e3d2b52ac1a1e1fdea4882ea3721ed031c6a9104c, issues=[\"user_visible_benefit_not_declared\", \"verification_action_preconditions_blocked\", \"verification_evidence_missing\"]; additional verification precondition: repository protocol state error at /Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel/.ai/work-items/active/probe-eligibility-conversion-observation.contract.json: verification preconditions are blocked: intent_ali…"
+  },
+  "executionRecords": [],
+  "kind": "verification_attempt",
+  "passed": false,
+  "processesSpawned": 0,
+  "protocolVersion": 1,
+  "receipt": null,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:d968bf98f8e33509bc0435dc382a74f62c68442b5c8d5b901b6fd8245868c375",
+  "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "state": "precondition_rejected",
+  "workItemId": "probe-eligibility-conversion-observation"
+}

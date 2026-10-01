@@ -1,0 +1,277 @@
+{
+  "acceptanceResults": [
+    "Probe observation only; decision_weight=0; trade_signal=false; canonical facts only; UNKNOWN excluded; partial history explicit; contiguous run and conversion milestone separate; 20/60/all sessions; zh/en/ja; Markdown/Telegram/Archive; decision semantic equivalence",
+    "連続 Probe run 全体を episode とし、最初の Eligible 到達は終了ではなく milestone とする。",
+    "UNKNOWN permission と欠損 trading session は episode を censor する。左端切断 episode は completed denominator に含めない。既知 Probe・不明 Eligible は excluded_unknown_eligibility_days として除外する。",
+    "20/60/all window、平均 episode 日数、median latency、fallback rate と escalation rate を保持する。",
+    "同日 revision は report_run_id と provenance を保存し、衝突は UNKNOWN とする。週末と NYSE 祝日は数えない。"
+  ],
+  "createdAt": "2026-10-01T00:24:10Z",
+  "decisionState": "green",
+  "evidenceDigest": "sha256:afb313cea932f5cf173cc12c11ca8c955baa1676eb46234ed5694a4ccbd1b72d",
+  "evidenceRefs": [
+    ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+  ],
+  "humanBenefitReport": {
+    "affectedUsers": [],
+    "evidenceRefs": [
+      ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+    ],
+    "state": "unknown",
+    "unknowns": [
+      "user_visible_benefit_not_declared"
+    ],
+    "userVisibleChanges": []
+  },
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "schemaVersion": 2,
+  "state": "finish_ready",
+  "summary": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner.",
+  "taskOutcomeReport": {
+    "bindings": {
+      "evidenceRefs": [
+        ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+      ],
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:fe7ea03d4d06c1df99fce7dae459f39aa7c1dc7844c2c40443adbf9ff606a7f1",
+      "workItemId": "probe-eligibility-conversion-observation"
+    },
+    "format": "ai-cockpit.task-outcome",
+    "humanStatusColor": "green",
+    "schemaVersion": 1,
+    "sections": {
+      "avoidedImpact": [],
+      "deliveredChanges": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.contract-amendments/00000001.committed.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.contract-amendments/00000001.prepared.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.verification-attempt.63f5c34c5daac61868009203f7d5013b13a412a1d33e3eb9d1e8e69513f145eb.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.verification-attempt.66b933d40fb8ef55792b59b21279d4e3763a25a65b410145497e72cb37402f07.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/locks/probe-eligibility-conversion-observation.lifecycle.lock"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: .github/workflows/develop_checks.yml"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: Makefile"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: docs/superpowers/plans/probe-eligibility-conversion-observation.md"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/domain/probe_eligibility_observation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/infrastructure/persistence.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/infrastructure/persistence/probe_observation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/mod.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/probe_eligibility_read_model.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/radar_pipeline_runner.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report.rs"
+        },
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          ],
+          "inference": false,
+          "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
+        }
+      ],
+      "evidence": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+          ],
+          "inference": false,
+          "text": ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+        }
+      ],
+      "findings": [],
+      "forbiddenClaims": [
+        "merge_authorized_without_human_decision",
+        "release_published_without_release_evidence",
+        "provider_or_enterprise_approval_inferred_from_local_records",
+        "user_visible_benefit_invented_from_implementation_facts"
+      ],
+      "forcedStops": [],
+      "humanDecisions": [],
+      "interventions": [],
+      "limitations": [],
+      "nonRiskExplanations": [],
+      "outcomeSummary": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Verification evidence passed; human-visible benefit remains explicitly unknown unless declared by the Work Item owner."
+        }
+      ],
+      "recurrencePrevention": [],
+      "residualRisks": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "Remaining unknown: user_visible_benefit_not_declared"
+        }
+      ],
+      "resolutions": [
+        {
+          "evidenceRefs": [
+            ".ai/evidence/probe-eligibility-conversion-observation.verification.json"
+          ],
+          "inference": false,
+          "text": "The current verification evidence is valid for this repository and Work Item."
+        }
+      ],
+      "risks": [],
+      "taskOverview": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "canonical fact のみを使う20/60/all session KPI と監査記録を追加し、取引判断を変えない"
+        }
+      ],
+      "warnings": [
+        {
+          "evidenceRefs": [
+            ".ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+          ],
+          "inference": false,
+          "text": "User-visible benefit is not declared by the Work Item owner."
+        }
+      ]
+    },
+    "status": "verified",
+    "workItemId": "probe-eligibility-conversion-observation"
+  },
+  "taskReportDigest": "sha256:060e85583c47f97b9e5e6b8be72a9904f5fc12a6f1de2c17faca6255d5b1a0c6",
+  "taskReportMarkdownDigest": "sha256:6f26b108fd55e0a16808f50d59c30b75ec0509552d54891aa1016b4b404a6862",
+  "unknowns": [
+    "user_visible_benefit_not_declared"
+  ],
+  "verification": {
+    "evidencePath": ".ai/evidence/probe-eligibility-conversion-observation.verification.json",
+    "required": true,
+    "status": "verified"
+  },
+  "workItemId": "probe-eligibility-conversion-observation"
+}

@@ -1011,6 +1011,9 @@ pub struct HypothesisFailureRiskViewModel {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
+    #[serde(default)]
+    pub probe_eligibility_observation:
+        Option<super::probe_eligibility_read_model::ProbeObservationWindows>,
     pub date_str: String,
     #[serde(default = "default_language")]
     pub language: Language,
