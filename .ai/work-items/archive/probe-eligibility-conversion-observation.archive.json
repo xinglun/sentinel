@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-01T00:25:21Z",
+  "files": {
+    "contractDigest": "sha256:9628f93025f7bd29bbcf207c2c4415de77e4f565c9211f8fba19e051d6ba6d68",
+    "contractPath": ".ai/work-items/archive/probe-eligibility-conversion-observation.contract.json",
+    "eventsDigest": "sha256:e894b3846ac00833b9ffe524a949f6114c09b8e0826383d4cc8bb61a730a064d",
+    "eventsPath": ".ai/work-items/archive/probe-eligibility-conversion-observation.events.jsonl",
+    "outcomeDigest": "sha256:0db115a3443f7c6644f268f15c8abb923ffa4bf8b610616cbf79920aa2218f15",
+    "outcomePath": ".ai/work-items/archive/probe-eligibility-conversion-observation.outcome.json",
+    "summaryDigest": "sha256:539b2033733d6c73711e7bdda95755040dd7e565676316d77823749f82d70d9e",
+    "summaryPath": ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json",
+    "taskReportDigest": "sha256:54154861a1e111626404b65128e0cc239ceea39480881cb0127f88c2cb790ada",
+    "taskReportMarkdownDigest": "sha256:83ed108c553401c6066b010b26b13de439d6d1a0efd6d951b3ab565125401a8e",
+    "taskReportMarkdownPath": ".ai/work-items/archive/probe-eligibility-conversion-observation.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/probe-eligibility-conversion-observation.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "probe-eligibility-conversion-observation"
+}

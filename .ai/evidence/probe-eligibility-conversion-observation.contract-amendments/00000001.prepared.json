@@ -1,0 +1,184 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "probe-eligibility-conversion-observation",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-1536323cb07e4d4c3e3af89c55a4a4714d6ed05d7d10209323b1fdc0b6c98949",
+      "expectedContractDigest": "sha256:61924fb18ce8e096f4d69a5545474aacbe501629d5c7a4ae732baefa859b261f",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user:Sentinel-development-instructions"
+        }
+      ]
+    },
+    "requestDigest": "sha256:8d0cbf9cefec87defb444ad05e190e3f775217e035b3bf9f79c7bf5683a44aeb",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "Probe observation only; decision_weight=0; trade_signal=false; canonical facts only; UNKNOWN excluded; partial history explicit; contiguous run and conversion milestone separate; 20/60/all sessions; zh/en/ja; Markdown/Telegram/Archive; decision semantic equivalence"
+      ],
+      "authority": "authorized",
+      "baseRevision": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+      "createdAt": "2026-09-30T23:59:16Z",
+      "goal": "canonical fact のみを使う20/60/all session KPI と監査記録を追加し、取引判断を変えない",
+      "intent": "Probe permission の転換効率を観測する",
+      "mode": "implementation",
+      "outOfScope": [
+        "Decision",
+        "Gate",
+        "thresholds",
+        "Eligibility calculation",
+        "Execution",
+        "Trader",
+        "Position Sizing",
+        "Risk Adjustment",
+        "Action Matrix",
+        "other repositories",
+        ".ai/work-items/archive/**",
+        ".ai/decisions/risk-candidate-close-evidence-promotion*"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "src/features/radar/interface/**",
+        "src/features/radar/infrastructure/persistence/**",
+        "src/features/radar/application/**",
+        "src/features/radar/domain/probe_eligibility_observation.rs",
+        "src/features/radar/domain/mod.rs",
+        "src/shared/interface/i18n.rs",
+        "tests/**",
+        "docs/**",
+        "Makefile",
+        ".github/workflows/develop_checks.yml"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "probe-eligibility-conversion-observation"
+    },
+    "previousContractDigest": "sha256:61924fb18ce8e096f4d69a5545474aacbe501629d5c7a4ae732baefa859b261f",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "Probe observation only; decision_weight=0; trade_signal=false; canonical facts only; UNKNOWN excluded; partial history explicit; contiguous run and conversion milestone separate; 20/60/all sessions; zh/en/ja; Markdown/Telegram/Archive; decision semantic equivalence"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "868f11bc97a9ec1daa2f5c44ec4fb6b4844ff34a",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-09-30T23:59:16Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "canonical fact のみを使う20/60/all session KPI と監査記録を追加し、取引判断を変えない",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "Probe permission の転換効率を観測する",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Decision",
+        "Gate",
+        "thresholds",
+        "Eligibility calculation",
+        "Execution",
+        "Trader",
+        "Position Sizing",
+        "Risk Adjustment",
+        "Action Matrix",
+        "other repositories",
+        ".ai/work-items/archive/**",
+        ".ai/decisions/risk-candidate-close-evidence-promotion*"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/interface/**",
+        "src/features/radar/infrastructure/persistence/**",
+        "src/features/radar/application/**",
+        "src/features/radar/domain/probe_eligibility_observation.rs",
+        "src/features/radar/domain/mod.rs",
+        "src/shared/interface/i18n.rs",
+        "tests/**",
+        "docs/**",
+        "Makefile",
+        ".github/workflows/develop_checks.yml"
+      ],
+      "sources": [
+        "user:Sentinel-development-instructions"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make fmt-check",
+        "make test",
+        "make clippy",
+        "make quality"
+      ],
+      "workItemId": "probe-eligibility-conversion-observation"
+    },
+    "newContractDigest": "sha256:435fff7ab4e4d85362f7c823de68b0b61363ef7ec52ad7716bed81d7e6e0b214",
+    "previousSummaryDigest": "sha256:854541457df51c81fe457d41dc0efd0db4e87e89e55a642da765db90be531bc6",
+    "repositorySnapshotDigest": "sha256:bb5c2a147debaefbd8a3a744bb9379c036ec30ea33c08e63c9433c5b3c000138",
+    "environmentObservationDigest": "sha256:efc55226148cc30570d64b609f46d8399b1f73ee59aa396e72b3cb413341d3cd",
+    "runtime": {
+      "runtimeVersion": "1.0.0",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:1536323cb07e4d4c3e3af89c55a4a4714d6ed05d7d10209323b1fdc0b6c98949",
+    "preparedAt": "2026-09-30T23:59:17Z"
+  },
+  "preparedDigest": "sha256:dfe19b044905b094ab8328c0cc999adbc9d137ae59aab0d553ef691a068172d0"
+}

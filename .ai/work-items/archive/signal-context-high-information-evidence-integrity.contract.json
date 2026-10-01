@@ -1,0 +1,116 @@
+{
+  "acceptance": null,
+  "acceptanceCriteria": [
+    "HIGH requires structured evidence route; two independent temporally eligible significant reaction dimensions OR structured explicit surprise/material new action; coverage is not reaction; commentary requires reaction route; DAY_ONLY excluded; causal attribution independent; observation only flags 0/false; zh/en/ja Markdown/Telegram/Archive consistent; decision semantic equivalent",
+    "独立 review の3項目を同一 WI で修正: instrument 次元衝突は順序独立、Route B 観測窓も検証、accepted proof は検証済み record のみに限定。"
+  ],
+  "adoptionBootstrapPaths": [],
+  "agentCapability": {
+    "canImplement": true,
+    "canVerify": true,
+    "needsHumanDecision": false,
+    "blockedReason": null
+  },
+  "archiveSequence": null,
+  "authority": "authorized",
+  "authorityEvidence": null,
+  "baseCommit": null,
+  "baseRevision": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+  "baselineDirtyPaths": [],
+  "checkpointPolicy": null,
+  "concurrencyBoundary": null,
+  "contractVersion": null,
+  "createdAt": "2026-10-01T00:35:49Z",
+  "destructiveChangePolicy": null,
+  "documentationImpact": null,
+  "executionDecision": {
+    "status": "continue",
+    "reason": "ユーザーの明示的な observation-only 実装指示と reviewed merge 許可。"
+  },
+  "goal": "classification を保ち、read model と全 presentation の HIGH と repricing narrative を監査可能にする",
+  "governancePolicy": null,
+  "governanceProfile": null,
+  "guidelines": [],
+  "humanDecisionPoints": null,
+  "implementationSurface": null,
+  "intent": "HIGH information を正向証拠契約に結び付ける",
+  "mode": "code",
+  "notCodable": false,
+  "operation": null,
+  "outOfScope": [
+    "Decision",
+    "Gate",
+    "thresholds",
+    "Eligibility calculation",
+    "Execution",
+    "Trader",
+    "Position Sizing",
+    "Risk Adjustment",
+    "Action Matrix",
+    "geopolitical matcher",
+    "AI Policy matcher",
+    "event candidate extraction",
+    "other repositories",
+    ".ai/work-items/archive/**",
+    ".ai/decisions/risk-candidate-close-evidence-promotion*"
+  ],
+  "performanceImpact": null,
+  "preReviewWarnings": [],
+  "problemStatement": null,
+  "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+  "protocolVersion": 1,
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+  "requestedOperation": null,
+  "requiredEvidenceClasses": [],
+  "requiredRuntimeCapabilities": [
+    "work-item-contract-amendment",
+    "work-item-environment-drift"
+  ],
+  "residualRiskExpectation": null,
+  "restrictedWriteApproval": null,
+  "resumeHistory": [],
+  "risk": "normal",
+  "riskAssessment": null,
+  "rollbackNote": null,
+  "rollbackPlan": null,
+  "scenarioCoverage": null,
+  "scope": [
+    "src/features/radar/interface/**",
+    "src/features/research/interface/macro_event_observation.rs",
+    "src/features/research/acl/macro_signal_context_provider_factory.rs",
+    "src/features/shared/interface/i18n.rs",
+    "tests/**",
+    "scripts/check_signal_context_consistency.py",
+    "Makefile",
+    "docs/superpowers/plans/signal-context-high-information-evidence-integrity.md"
+  ],
+  "sources": [
+    "user:Sentinel_cdf01c1aead48191a284f8545639cba3",
+    "user:Sentinel_ffcf8c8897388191bcdf167b21d55033"
+  ],
+  "state": "implementation_active",
+  "synchronizationCheckpoint": null,
+  "synchronizationHistory": [],
+  "title": null,
+  "unknowns": [],
+  "verification": [
+    {
+      "check": "make fmt-check",
+      "required": true
+    },
+    {
+      "check": "make test",
+      "required": true
+    },
+    {
+      "check": "make clippy",
+      "required": true
+    },
+    {
+      "check": "make quality",
+      "required": true
+    }
+  ],
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}

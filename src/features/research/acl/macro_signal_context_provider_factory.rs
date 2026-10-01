@@ -154,6 +154,7 @@ fn map_reaction(
         crate::features::research::infrastructure::macro_signal_context_provider::MacroSignalContextProviderObservationTimePrecision::Unavailable => ObservationTimePrecision::Unavailable,
     };
     MarketReaction {
+        structured_reaction: None,
         observation_id: reaction.observation_id,
         observed_at,
         observation_date,

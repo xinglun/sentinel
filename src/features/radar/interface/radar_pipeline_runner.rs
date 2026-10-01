@@ -1338,6 +1338,17 @@ pub(crate) async fn run_pipeline_for_report_date(
             runtime_services.persistence.save_daily_packet(&packet)?;
         }
 
+        // 取引と配信の判断が確定した後の一方向観測。I/O 失敗は取引判断へ戻さない。
+        pres_packet.probe_eligibility_observation =
+            Some(super::probe_eligibility_read_model::observe_after_decision(
+                &runtime_services.persistence,
+                &pres_packet.final_execution_decision,
+                market_data_date,
+                &report_run_id,
+                &radar_context.timestamp,
+                should_persist_history,
+            ));
+
         let mut report_context = build_report_render_context(config_arc.as_ref());
         report_context.observation_timeline = runtime_services
             .persistence

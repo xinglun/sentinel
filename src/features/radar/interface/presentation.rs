@@ -579,6 +579,8 @@ pub struct SignalContextItem {
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 #[serde(default)]
 pub struct SignalContextV1 {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub information_evidence: Option<super::signal_information_evidence::SignalInformationEvidence>,
     pub market_date: String,
     pub scheduled_macro: Vec<SignalContextItem>,
     pub corporate_events: Vec<SignalContextItem>,
@@ -617,6 +619,7 @@ pub struct SignalContextV1 {
 impl Default for SignalContextV1 {
     fn default() -> Self {
         Self {
+            information_evidence: None,
             market_date: String::new(),
             scheduled_macro: Vec::new(),
             corporate_events: Vec::new(),
@@ -720,6 +723,9 @@ pub enum InterpretationQuality {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct InterpretationLayerViewModel {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub signal_information_evidence:
+        Option<super::signal_information_evidence::SignalInformationEvidence>,
     pub title: String,
     pub notice: String,
     pub current_decision_weight_label: String,
@@ -1011,6 +1017,9 @@ pub struct HypothesisFailureRiskViewModel {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct PresentationPacket {
+    #[serde(default)]
+    pub probe_eligibility_observation:
+        Option<super::probe_eligibility_read_model::ProbeObservationWindows>,
     pub date_str: String,
     #[serde(default = "default_language")]
     pub language: Language,

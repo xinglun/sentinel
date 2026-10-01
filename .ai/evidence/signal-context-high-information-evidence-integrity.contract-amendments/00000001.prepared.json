@@ -1,0 +1,186 @@
+{
+  "prepared": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "signal-context-high-information-evidence-integrity",
+    "sequence": 1,
+    "request": {
+      "schemaVersion": 1,
+      "changeId": "legacy-b64b04db6609901e4f6e20c78a294df64182a3afd688d6b60b9e6a94cde4eebe",
+      "expectedContractDigest": "sha256:6fa97e7822e7e0f1ae1af9bb352635b6575191c8f79ef96eee9814bc14cf1eca",
+      "reason": "record source references supplied with the prepared Work Item start",
+      "changes": [
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user:Sentinel_cdf01c1aead48191a284f8545639cba3"
+        },
+        {
+          "path": "/sources",
+          "operation": "add",
+          "value": "user:Sentinel_ffcf8c8897388191bcdf167b21d55033"
+        }
+      ]
+    },
+    "requestDigest": "sha256:fb3e9eb088955dc8dd2d2be1314b143bd9bec61e2124a06f181079ab82cb7935",
+    "previousContract": {
+      "acceptanceCriteria": [
+        "HIGH requires structured evidence route; two independent temporally eligible significant reaction dimensions OR structured explicit surprise/material new action; coverage is not reaction; commentary requires reaction route; DAY_ONLY excluded; causal attribution independent; observation only flags 0/false; zh/en/ja Markdown/Telegram/Archive consistent; decision semantic equivalent"
+      ],
+      "authority": "authorized",
+      "baseRevision": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+      "createdAt": "2026-10-01T00:35:49Z",
+      "goal": "classification を保ち、read model と全 presentation の HIGH と repricing narrative を監査可能にする",
+      "intent": "HIGH information を正向証拠契約に結び付ける",
+      "mode": "implementation",
+      "outOfScope": [
+        "Decision",
+        "Gate",
+        "thresholds",
+        "Eligibility calculation",
+        "Execution",
+        "Trader",
+        "Position Sizing",
+        "Risk Adjustment",
+        "Action Matrix",
+        "geopolitical matcher",
+        "AI Policy matcher",
+        "event candidate extraction",
+        "other repositories",
+        ".ai/work-items/archive/**",
+        ".ai/decisions/risk-candidate-close-evidence-promotion*"
+      ],
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+      "requiredEvidenceClasses": [],
+      "risk": "normal",
+      "scope": [
+        "src/features/radar/interface/**",
+        "src/features/research/interface/macro_event_observation.rs",
+        "src/features/research/acl/macro_signal_context_provider_factory.rs",
+        "src/features/shared/interface/i18n.rs",
+        "tests/**",
+        "scripts/check_signal_context_consistency.py",
+        "Makefile",
+        "docs/superpowers/plans/signal-context-high-information-evidence-integrity.md"
+      ],
+      "sources": [],
+      "state": "implementation_active",
+      "verification": [
+        "make quality"
+      ],
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    },
+    "previousContractDigest": "sha256:6fa97e7822e7e0f1ae1af9bb352635b6575191c8f79ef96eee9814bc14cf1eca",
+    "newContract": {
+      "acceptance": null,
+      "acceptanceCriteria": [
+        "HIGH requires structured evidence route; two independent temporally eligible significant reaction dimensions OR structured explicit surprise/material new action; coverage is not reaction; commentary requires reaction route; DAY_ONLY excluded; causal attribution independent; observation only flags 0/false; zh/en/ja Markdown/Telegram/Archive consistent; decision semantic equivalent"
+      ],
+      "adoptionBootstrapPaths": [],
+      "agentCapability": null,
+      "archiveSequence": null,
+      "authority": "authorized",
+      "authorityEvidence": null,
+      "baseCommit": null,
+      "baseRevision": "0cb2d5ba6203ee6a7567dc8f1fd5cf0a331a7e49",
+      "baselineDirtyPaths": [],
+      "checkpointPolicy": null,
+      "concurrencyBoundary": null,
+      "contractVersion": null,
+      "createdAt": "2026-10-01T00:35:49Z",
+      "destructiveChangePolicy": null,
+      "documentationImpact": null,
+      "executionDecision": null,
+      "goal": "classification を保ち、read model と全 presentation の HIGH と repricing narrative を監査可能にする",
+      "governancePolicy": null,
+      "governanceProfile": null,
+      "guidelines": [],
+      "humanDecisionPoints": null,
+      "implementationSurface": null,
+      "intent": "HIGH information を正向証拠契約に結び付ける",
+      "mode": "implementation",
+      "notCodable": null,
+      "operation": null,
+      "outOfScope": [
+        "Decision",
+        "Gate",
+        "thresholds",
+        "Eligibility calculation",
+        "Execution",
+        "Trader",
+        "Position Sizing",
+        "Risk Adjustment",
+        "Action Matrix",
+        "geopolitical matcher",
+        "AI Policy matcher",
+        "event candidate extraction",
+        "other repositories",
+        ".ai/work-items/archive/**",
+        ".ai/decisions/risk-candidate-close-evidence-promotion*"
+      ],
+      "performanceImpact": null,
+      "preReviewWarnings": [],
+      "problemStatement": null,
+      "projectProfileDigest": "sha256:bed0ec9765e18f771cdd3b24633a36b96f85d11929199d375972851e9347b240",
+      "protocolVersion": 1,
+      "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+      "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+      "requestedOperation": null,
+      "requiredEvidenceClasses": [],
+      "requiredRuntimeCapabilities": [
+        "work-item-contract-amendment",
+        "work-item-environment-drift"
+      ],
+      "residualRiskExpectation": null,
+      "restrictedWriteApproval": null,
+      "resumeHistory": [],
+      "risk": "normal",
+      "riskAssessment": null,
+      "rollbackNote": null,
+      "rollbackPlan": null,
+      "scenarioCoverage": null,
+      "scope": [
+        "src/features/radar/interface/**",
+        "src/features/research/interface/macro_event_observation.rs",
+        "src/features/research/acl/macro_signal_context_provider_factory.rs",
+        "src/features/shared/interface/i18n.rs",
+        "tests/**",
+        "scripts/check_signal_context_consistency.py",
+        "Makefile",
+        "docs/superpowers/plans/signal-context-high-information-evidence-integrity.md"
+      ],
+      "sources": [
+        "user:Sentinel_cdf01c1aead48191a284f8545639cba3",
+        "user:Sentinel_ffcf8c8897388191bcdf167b21d55033"
+      ],
+      "state": "implementation_active",
+      "synchronizationCheckpoint": null,
+      "synchronizationHistory": [],
+      "title": null,
+      "unknowns": [],
+      "verification": [
+        "make quality"
+      ],
+      "workItemId": "signal-context-high-information-evidence-integrity"
+    },
+    "newContractDigest": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+    "previousSummaryDigest": "sha256:4128bcb964a25805f50d3869dcba08d2bc703f6def4a21f3ebf7f5e358a3a07b",
+    "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+    "environmentObservationDigest": "sha256:de992ccdd24ec0ae8634512ddd5c16a3c52abe457cd24f3a8575aaf702d430e0",
+    "runtime": {
+      "runtimeVersion": "1.0.0",
+      "protocolVersion": 1,
+      "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54"
+    },
+    "verificationStarted": false,
+    "checkpointed": false,
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "policyReviewRequirements": [],
+    "legacyInputDigest": "sha256:b64b04db6609901e4f6e20c78a294df64182a3afd688d6b60b9e6a94cde4eebe",
+    "preparedAt": "2026-10-01T00:35:50Z"
+  },
+  "preparedDigest": "sha256:841dc29fc822d97d910eae06822844853ac649d209846499301d0cdea8496929"
+}

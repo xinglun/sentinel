@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:9c0291739d97c09c6c453bca80e73c5348cca380cd721fd4376487831dea50a0",
+  "contractDigest": "sha256:9628f93025f7bd29bbcf207c2c4415de77e4f565c9211f8fba19e051d6ba6d68",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-01T00:26:11Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/probe-eligibility-conversion-observation",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/285",
+    "worktree": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel"
+  },
+  "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "workItemId": "probe-eligibility-conversion-observation"
+}

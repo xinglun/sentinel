@@ -225,6 +225,14 @@ fn generate_markdown_report(
     if let Some(note) = &d.candidate_only_note {
         card.push_str(&format!("\n> {}\n", note));
     }
+    if let Some(observation) = &pres.probe_eligibility_observation {
+        card.push_str(&super::probe_eligibility_read_model::render(
+            observation,
+            pres.language,
+            false,
+            detailed_transition,
+        ));
+    }
     card.push_str(&render_market_change_log_section(
         pres.market_change_log.as_ref(),
         RenderMode::Markdown,
@@ -484,6 +492,14 @@ fn generate_telegram_html_report(
         is_no_trade,
         RenderMode::Html,
     ));
+    if let Some(observation) = &pres.probe_eligibility_observation {
+        card.push_str(&super::probe_eligibility_read_model::render(
+            observation,
+            pres.language,
+            true,
+            false,
+        ));
+    }
     card.push_str(&render_market_change_log_section(
         pres.market_change_log.as_ref(),
         RenderMode::Html,
@@ -2931,6 +2947,13 @@ fn render_interpretation_section(
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
                 ));
             }
+            if let Some(evidence) = &layer.signal_information_evidence {
+                block.push_str(&super::signal_information_evidence::render(
+                    evidence,
+                    language,
+                    include_appendix,
+                ));
+            }
             render_signal_context_market_reactions(&mut block, layer);
             render_signal_context_ai_policy_frontier_pacing(&mut block, layer);
             render_signal_context_ai_policy_frontier_pacing_linkage(&mut block, layer);
@@ -3065,6 +3088,13 @@ fn render_interpretation_section(
                 block.push_str(&format!(
                     "    - {}: {}\n",
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if let Some(evidence) = &layer.signal_information_evidence {
+                block.push_str(&super::signal_information_evidence::render(
+                    evidence,
+                    language,
+                    include_appendix,
                 ));
             }
             render_signal_context_market_reactions(&mut block, layer);

@@ -8,6 +8,7 @@ pub(crate) mod market_interpretation_read_model;
 pub mod presentation;
 pub mod presentation_assembler;
 pub(crate) mod price_volume_structure_report;
+pub(crate) mod probe_eligibility_read_model;
 pub mod radar_pipeline_runner;
 pub mod report;
 pub(crate) mod risk_taxonomy_read_model;
@@ -25,3 +26,5 @@ pub(crate) mod weekly_state_report;
 mod presentation_tests;
 #[cfg(test)]
 mod report_ui_tests;
+
+pub mod signal_information_evidence;

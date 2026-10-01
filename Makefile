@@ -260,3 +260,11 @@ gray-rhino-refresh:
 
 gray-rhino-refresh-report:
 	cargo run -- daily-calibration $(GRAY_RHINO_REFRESH_DAILY_ARGS)
+
+.PHONY: test-probe-eligibility-observation
+test-probe-eligibility-observation:
+	cargo test probe_ --lib
+
+.PHONY: test-signal-information-evidence
+test-signal-information-evidence:
+	cargo test information_evidence --lib
