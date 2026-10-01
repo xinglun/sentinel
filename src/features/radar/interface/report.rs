@@ -2947,6 +2947,13 @@ fn render_interpretation_section(
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
                 ));
             }
+            if let Some(evidence) = &layer.signal_information_evidence {
+                block.push_str(&super::signal_information_evidence::render(
+                    evidence,
+                    language,
+                    include_appendix,
+                ));
+            }
             render_signal_context_market_reactions(&mut block, layer);
             render_signal_context_ai_policy_frontier_pacing(&mut block, layer);
             render_signal_context_ai_policy_frontier_pacing_linkage(&mut block, layer);
@@ -3081,6 +3088,13 @@ fn render_interpretation_section(
                 block.push_str(&format!(
                     "    - {}: {}\n",
                     layer.signal_context_event_fact_label, layer.signal_context_event_fact_value
+                ));
+            }
+            if let Some(evidence) = &layer.signal_information_evidence {
+                block.push_str(&super::signal_information_evidence::render(
+                    evidence,
+                    language,
+                    include_appendix,
                 ));
             }
             render_signal_context_market_reactions(&mut block, layer);

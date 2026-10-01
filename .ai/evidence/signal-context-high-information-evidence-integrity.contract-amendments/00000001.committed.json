@@ -1,0 +1,58 @@
+{
+  "sequence": 1,
+  "preparedDigest": "sha256:841dc29fc822d97d910eae06822844853ac649d209846499301d0cdea8496929",
+  "receipt": {
+    "schemaVersion": 1,
+    "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+    "workItemId": "signal-context-high-information-evidence-integrity",
+    "sequence": 1,
+    "changeId": "legacy-b64b04db6609901e4f6e20c78a294df64182a3afd688d6b60b9e6a94cde4eebe",
+    "requestDigest": "sha256:fb3e9eb088955dc8dd2d2be1314b143bd9bec61e2124a06f181079ab82cb7935",
+    "reason": "record source references supplied with the prepared Work Item start",
+    "legacyInputDigest": "sha256:b64b04db6609901e4f6e20c78a294df64182a3afd688d6b60b9e6a94cde4eebe",
+    "changedValues": [
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [],
+        "newValue": [
+          "user:Sentinel_cdf01c1aead48191a284f8545639cba3"
+        ]
+      },
+      {
+        "path": "/sources",
+        "operation": "add",
+        "oldValue": [
+          "user:Sentinel_cdf01c1aead48191a284f8545639cba3"
+        ],
+        "newValue": [
+          "user:Sentinel_cdf01c1aead48191a284f8545639cba3",
+          "user:Sentinel_ffcf8c8897388191bcdf167b21d55033"
+        ]
+      },
+      {
+        "path": "/requiredRuntimeCapabilities",
+        "operation": "set",
+        "newValue": [
+          "work-item-contract-amendment",
+          "work-item-environment-drift"
+        ]
+      }
+    ],
+    "previousContractDigest": "sha256:6fa97e7822e7e0f1ae1af9bb352635b6575191c8f79ef96eee9814bc14cf1eca",
+    "newContractDigest": "sha256:0f0ba08870c1f2573a3a182e59f93b308b9284381f1787608ece0abad0fc281c",
+    "repositorySnapshotDigest": "sha256:a28677191cc4b71acf1cd5936e16d8f06e853dba76f902ba90420d8a0cf10993",
+    "environmentObservationDigest": "sha256:de992ccdd24ec0ae8634512ddd5c16a3c52abe457cd24f3a8575aaf702d430e0",
+    "runtimeVersion": "1.0.0",
+    "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+    "verificationStarted": false,
+    "checkpointed": false,
+    "invalidatedRequiredChecks": [],
+    "invalidatedEvidence": [],
+    "policyReviewRequired": false,
+    "policyReviewRequirements": [],
+    "previousJournalDigest": "sha256:46c7c558a1114c0a33ebc03079f0b88587e32e5fae8d2592de175141b0aa96dc",
+    "journalDigest": "sha256:7b78d87e68e447f19b574362b434b8b90b13f8fc390d95388368f577c56ac1b6",
+    "recordedAt": "2026-10-01T00:35:50Z"
+  }
+}

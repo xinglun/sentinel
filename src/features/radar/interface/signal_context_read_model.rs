@@ -92,10 +92,14 @@ pub(crate) fn build_signal_context_assessment(
     input: SignalContextReadModelInput,
 ) -> SignalContextAssessment {
     let _signal = input.signal;
-    let v1 = build_v1_from_event_context(input.as_of_date, &input.future_context);
+    let mut v1 = build_v1_from_event_context(input.as_of_date, &input.future_context);
     let primary_context = derive_primary_context(input.as_of_date, &input.future_context, &v1);
     let information_content =
-        derive_information_content(primary_context, &input.future_context, &v1);
+        derive_proposed_information_content(primary_context, &input.future_context, &v1);
+    let information_evidence =
+        super::signal_information_evidence::evaluate(&v1, information_content);
+    let information_content = information_evidence.information_level;
+    v1.information_evidence = Some(information_evidence);
     let context_quality = derive_context_quality(primary_context, &input.future_context, &v1);
     let event_fact = compose_event_fact(&input.future_context, &v1);
     let primary_event_id = v1.primary_context.as_ref().and_then(|item| {
@@ -375,7 +379,7 @@ fn derive_primary_context(
     SignalContextPrimaryContext::None
 }
 
-fn derive_information_content(
+fn derive_proposed_information_content(
     primary_context: SignalContextPrimaryContext,
     future_context: &SignalContextEventReadModel,
     v1: &SignalContextV1,
@@ -1265,36 +1269,37 @@ fn macro_event_text(
         .filter(|fact| !fact.trim().is_empty())
         .or_else(|| future_context.detected_primary_evidence_summary())
         .unwrap_or_default();
+    let _ = context_quality;
+    let info = signal_context_information_content_label(information_content);
+    let has_reaction = v1
+        .information_evidence
+        .as_ref()
+        .is_some_and(|e| e.reaction_evidence_count > 0);
     match language {
-        Language::ZhCn => {
-            let _ = context_quality;
-            let info = signal_context_information_content_label(information_content);
-            if event_fact.is_empty() {
-                format!(
-                    "今天识别到高信息量宏观事件；如有同步市场反应，该反应可能与新的宏观信息重新定价一致。信息含量: {info}。"
-                )
+        Language::ZhCn => format!(
+            "宏观事件: {event_fact}。信息含量: {info}。{}",
+            if has_reaction {
+                "观察到的市场反应可能与新的宏观信息重新定价一致；因果归因尚未建立。"
             } else {
-                format!("今天识别到高信息量宏观事件: {event_fact}。观察到的市场反应可能与新的宏观信息重新定价一致。信息含量: {info}。")
+                "当前事件具备上下文重要性，但尚无充分市场反应证据支持重新定价判断；因果归因尚未建立。"
             }
-        }
-        Language::EnUs => {
-            let _ = context_quality;
-            let info = signal_context_information_content_label(information_content);
-            if event_fact.is_empty() {
-                format!("A high-information macro event was identified today. Observed market reactions, when available, are consistent with repricing the new macro information. Information content: {info}.")
+        ),
+        Language::EnUs => format!(
+            "Macro event: {event_fact}. Information content: {info}. {}",
+            if has_reaction {
+                "Observed market reactions may be consistent with repricing new macro information; causal attribution is not established."
             } else {
-                format!("A high-information macro event was identified today: {event_fact}. Observed market reactions may be consistent with repricing the new macro information. Information content: {info}.")
+                "The event has contextual importance, but there is insufficient market reaction evidence to support a repricing assessment; causal attribution is not established."
             }
-        }
-        Language::JaJp => {
-            let _ = context_quality;
-            let info = signal_context_information_content_label(information_content);
-            if event_fact.is_empty() {
-                format!("今日は高情報量のマクロイベントが識別された。観測された市場反応があれば、新しいマクロ情報の再価格付けと整合的である可能性がある。情報含量: {info}。")
+        ),
+        Language::JaJp => format!(
+            "マクロイベント: {event_fact}。情報含量: {info}。{}",
+            if has_reaction {
+                "観測された市場反応は新しいマクロ情報の再価格付けと整合する可能性があるが、因果帰属は未確立。"
             } else {
-                format!("今日は高情報量のマクロイベントが識別された: {event_fact}。観測された市場反応は新しいマクロ情報の再価格付けと整合的である可能性がある。情報含量: {info}。")
+                "イベントは文脈上の重要性を持つが、再価格付け判断を支持する市場反応証拠は不十分であり、因果帰属は未確立。"
             }
-        }
+        ),
     }
 }
 
@@ -1328,28 +1333,14 @@ fn corporate_event_text(
                 "中情報量の企業イベントが識別された",
             )
         };
+    let has_reaction = v1
+        .information_evidence
+        .as_ref()
+        .is_some_and(|e| e.reaction_evidence_count > 0);
     match language {
-        Language::ZhCn => {
-            if fact.is_empty() {
-                format!("{event_prefix_zh}：{title}。观测到的市场反应与该事件公开后的时间序列一致，但事件后的持续性尚未确认。信息含量：{info}。")
-            } else {
-                format!("{event_prefix_zh}：{title}。事件事实：{fact} 观测到的市场反应与该事件公开后的时间序列一致，但事件后的持续性尚未确认。信息含量：{info}。")
-            }
-        }
-        Language::EnUs => {
-            if fact.is_empty() {
-                format!("{event_prefix_en}: {title}. The observed market reaction is temporally aligned with the event publication, but persistence after the event is not yet confirmed. Information content: {info}.")
-            } else {
-                format!("{event_prefix_en}: {title}. Event fact: {fact} The observed market reaction is temporally aligned with the event publication, but persistence after the event is not yet confirmed. Information content: {info}.")
-            }
-        }
-        Language::JaJp => {
-            if fact.is_empty() {
-                format!("{event_prefix_ja}: {title}。観測された市場反応はこのイベント公開後の時間系列と整合するが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
-            } else {
-                format!("{event_prefix_ja}: {title}。イベント事実: {fact} 観測された市場反応はこのイベント公開後の時間系列と整合するが、イベント後の持続性はまだ確認されていない。情報含量: {info}。")
-            }
-        }
+        Language::ZhCn => format!("{event_prefix_zh}：{title}。事件事实：{fact} {}，事件后的持续性尚未确认。信息含量：{info}。因果归因尚未建立。", if has_reaction { "观测到的市场反应与该事件公开后的时间序列一致" } else { "缺少充分市场反应证据，时间关联尚未得到支持" }),
+        Language::EnUs => format!("{event_prefix_en}: {title}. Event fact: {fact}. {}; persistence is not yet confirmed. Information content: {info}. Causal attribution is not established.", if has_reaction { "The observed market reaction is temporally aligned with the event publication" } else { "There is insufficient market reaction evidence to support temporal association" }),
+        Language::JaJp => format!("{event_prefix_ja}: {title}。イベント事実: {fact}。{}。持続性はまだ確認されていない。情報含量: {info}。因果帰属は未確立。", if has_reaction { "観測された市場反応はイベント公開後の時間系列と整合する" } else { "市場反応証拠が不十分であり、時間的関連は未確認" }),
     }
 }
 
@@ -1428,7 +1419,7 @@ mod tests {
     }
 
     #[test]
-    fn provider_earnings_is_rendered_as_high_corporate_context_with_weak_causality() {
+    fn provider_earnings_without_positive_proof_is_medium() {
         let market_date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
         let future_context = crate::features::radar::interface::signal_context_event_read_model::SignalContextEventReadModel {
             corporate_event_provider: CorporateEventProviderReadModel {
@@ -1470,11 +1461,9 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::High
+            SignalContextInformationContent::Medium
         );
-        assert!(assessment
-            .interpretation
-            .contains("与该事件公开后的时间序列一致"));
+        assert!(assessment.interpretation.contains("缺少充分市场反应证据"));
         assert!(assessment.interpretation.contains("持续性尚未确认"));
         assert!(assessment
             .source_diagnostics_summary
@@ -1874,7 +1863,7 @@ mod tests {
         assert_eq!(primary_event.title, "NVIDIA EARNINGS");
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::High
+            SignalContextInformationContent::Medium
         );
         assert_eq!(
             signal_context_primary_context_label(assessment.primary_context),
@@ -1882,7 +1871,7 @@ mod tests {
         );
         assert!(assessment
             .interpretation
-            .contains("temporally aligned with the event publication"));
+            .contains("insufficient market reaction evidence"));
         assert!(assessment.next_observation.contains("persistence"));
         assert!(!assessment
             .source_diagnostics_summary
@@ -2290,7 +2279,7 @@ mod tests {
     }
 
     #[test]
-    fn official_macro_event_today_returns_macro_event_high() {
+    fn information_evidence_official_label_without_positive_proof_is_medium() {
         let observation = macro_event_observation(
             NaiveDate::from_ymd_opt(2026, 6, 18).unwrap(),
             MacroEventImportance::Critical,
@@ -2317,7 +2306,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::High
+            SignalContextInformationContent::Medium
         );
         assert_eq!(assessment.context_quality, SignalContextQuality::Medium);
         assert_eq!(assessment.event_fact, "CPI Release / 2026-06-18 / BLS");
@@ -2327,7 +2316,7 @@ mod tests {
             .contains("COVERAGE: UNAVAILABLE"));
         assert!(assessment
             .interpretation
-            .contains("high-information macro event"));
+            .contains("insufficient market reaction evidence"));
         assert!(assessment.next_observation.contains("Today:"));
         assert!(assessment.next_observation.contains("CPI"));
     }
@@ -2426,7 +2415,7 @@ mod tests {
     }
 
     #[test]
-    fn high_information_macro_event_wins_over_quarter_end_if_same_day() {
+    fn macro_classification_wins_over_quarter_end_without_implying_high() {
         let mut observation = macro_event_observation(
             NaiveDate::from_ymd_opt(2026, 6, 30).unwrap(),
             MacroEventImportance::Critical,
@@ -2454,7 +2443,7 @@ mod tests {
         );
         assert_eq!(
             assessment.information_content,
-            SignalContextInformationContent::High
+            SignalContextInformationContent::Medium
         );
     }
 

@@ -1,0 +1,19 @@
+{
+  "archiveManifestDigest": "sha256:99ea04bec148de596bb4a526c1da981530e4bb50b1b53f67794d99534f2839a7",
+  "contractDigest": "sha256:e2f24d87fc712205b7e38201ace2c3d27661c9a1a60176176fd749e4005c59a1",
+  "operation": "resource_context_binding",
+  "recordedAt": "2026-10-01T00:54:52Z",
+  "repositoryId": "sha256:77b40b1960f2a5251724cfa3b5591e58f15e1439153e8e6cb2610232a709f350",
+  "resourceContext": {
+    "baseBranch": "develop",
+    "baseRemote": "origin",
+    "branch": "codex/signal-context-high-information-evidence-integrity",
+    "provider": "github",
+    "pullRequest": "https://github.com/xinglun/sentinel/pull/286",
+    "worktree": "/Users/sei-rinn/Documents/Codex/2026-10-01/task/sentinel-signal"
+  },
+  "runtimeDigest": "sha256:6254eaaedfbb955d1748b7b9c9163aa037368e55a76a74752b11a6608b995b54",
+  "runtimeVersion": "1.0.0",
+  "schemaVersion": 1,
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}

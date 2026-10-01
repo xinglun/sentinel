@@ -115,6 +115,7 @@ pub(crate) fn build_interpretation_layer_view_model(
         current_decision_weight_label: interpretation.current_decision_weight_label.clone(),
         current_decision_weight_value: "0%".to_string(),
         signal_context_label: interpretation.signal_context_label.clone(),
+        signal_information_evidence: signal_context.v1.information_evidence.clone(),
         signal_context_information_content_label: interpretation
             .signal_context_information_content_label
             .clone(),
@@ -1983,14 +1984,11 @@ mod tests {
         });
         let explanation_high =
             build_todays_explanation(&signal_macro_high, &signal_context_high, Language::EnUs);
-        assert!(explanation_high
+        // label だけでは HIGH の証拠にならず、既存 trend が説明の primary を保つ。
+        assert!(!explanation_high
             .primary_driver_value
             .contains("High-information macro event"));
-        // トレンドは Primary をマクロに譲り、Secondary に回る
-        assert!(explanation_high
-            .secondary_drivers
-            .iter()
-            .any(|s| s.contains("Trend stable, secondary.")));
+        assert_eq!(signal_context_high.information_content, crate::features::radar::interface::presentation::SignalContextInformationContent::Unknown);
 
         // 3. gravity unavailable moves to ignored_today
         // 重力が不可用の時に Ignored Today に入る
