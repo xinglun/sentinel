@@ -45,147 +45,147 @@
       "deliveredChanges": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.contract-amendments/00000001.committed.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.contract-amendments/00000001.prepared.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.verification-attempt.63f5c34c5daac61868009203f7d5013b13a412a1d33e3eb9d1e8e69513f145eb.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/evidence/probe-eligibility-conversion-observation.verification-attempt.66b933d40fb8ef55792b59b21279d4e3763a25a65b410145497e72cb37402f07.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .ai/locks/probe-eligibility-conversion-observation.lifecycle.lock"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+          "text": "Changed path: .ai/work-items/archive/probe-eligibility-conversion-observation.contract.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
-          "text": "Changed path: .ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+          "text": "Changed path: .ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: .github/workflows/develop_checks.yml"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: Makefile"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: docs/superpowers/plans/probe-eligibility-conversion-observation.md"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/domain/mod.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/domain/probe_eligibility_observation.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/infrastructure/persistence.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/infrastructure/persistence/probe_observation.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/mod.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/presentation.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/presentation_assembler.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/probe_eligibility_read_model.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/radar_pipeline_runner.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/report.rs"
         },
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.summary.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.summary.json"
           ],
           "inference": false,
           "text": "Changed path: src/features/radar/interface/report_ui_tests.rs"
@@ -244,7 +244,7 @@
       "taskOverview": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.contract.json"
           ],
           "inference": false,
           "text": "canonical fact のみを使う20/60/all session KPI と監査記録を追加し、取引判断を変えない"
@@ -253,7 +253,7 @@
       "warnings": [
         {
           "evidenceRefs": [
-            ".ai/work-items/active/probe-eligibility-conversion-observation.contract.json"
+            ".ai/work-items/archive/probe-eligibility-conversion-observation.contract.json"
           ],
           "inference": false,
           "text": "User-visible benefit is not declared by the Work Item owner."
@@ -263,8 +263,8 @@
     "status": "verified",
     "workItemId": "probe-eligibility-conversion-observation"
   },
-  "taskReportDigest": "sha256:060e85583c47f97b9e5e6b8be72a9904f5fc12a6f1de2c17faca6255d5b1a0c6",
-  "taskReportMarkdownDigest": "sha256:6f26b108fd55e0a16808f50d59c30b75ec0509552d54891aa1016b4b404a6862",
+  "taskReportDigest": "sha256:54154861a1e111626404b65128e0cc239ceea39480881cb0127f88c2cb790ada",
+  "taskReportMarkdownDigest": "sha256:83ed108c553401c6066b010b26b13de439d6d1a0efd6d951b3ab565125401a8e",
   "unknowns": [
     "user_visible_benefit_not_declared"
   ],
