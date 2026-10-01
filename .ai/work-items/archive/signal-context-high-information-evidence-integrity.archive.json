@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-01T00:54:52Z",
+  "files": {
+    "contractDigest": "sha256:e2f24d87fc712205b7e38201ace2c3d27661c9a1a60176176fd749e4005c59a1",
+    "contractPath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.contract.json",
+    "eventsDigest": "sha256:22609813ecc50875827cdcac424169acd6a6f68d714270f1f4a5ab9bfff12362",
+    "eventsPath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.events.jsonl",
+    "outcomeDigest": "sha256:ed5ae0038b96a1cd41a2899e9c2162c9a9cc344e09e64d5a8e4d8d0854b5e06d",
+    "outcomePath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.outcome.json",
+    "summaryDigest": "sha256:37d19d7640cb4627759dfae53cb8e39d8ba52bca08632b8242915937d8b1beea",
+    "summaryPath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.summary.json",
+    "taskReportDigest": "sha256:edf9573bfe616173fb20647b8e4931405f62f4bf305e1176e65afe3700c42126",
+    "taskReportMarkdownDigest": "sha256:06dc3783b65bca39801f743f804a3db2ec8b5bc0c31e9630dabeb499ea1c4dfc",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-high-information-evidence-integrity.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-high-information-evidence-integrity"
+}
