@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Lowers Starship Expectations, Rocket Lab Surges On Electron Deal
+  summary: SpaceX CEO Elon Musk this week slashed expectations for the number of Starship launches next year following the flight 14 mission.
+  url: https://finnhub.io/api/news?id=e7c69a0bc11cfdc93d7a2959528e9ca03ef6e2bc969a2eb0d234ac855f918d1b

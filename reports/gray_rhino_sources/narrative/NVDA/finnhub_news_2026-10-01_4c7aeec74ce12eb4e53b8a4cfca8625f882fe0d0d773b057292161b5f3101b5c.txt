@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron's Next Big AI Opportunity Could Have 2 Legs
+  summary: Micron's growth window may extend long past the AI infrastructure build-out.
+  url: https://finnhub.io/api/news?id=94f1cb31ce41dd91c78542c65501aedc06a9cb8fd304e1fa80b2e99fe96f8f00

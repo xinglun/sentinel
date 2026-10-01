@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron CFO: No 'line of sight' for when memory shortage will end
+  summary: Micron says there's no end in sight to the memory shortage.
+  url: https://finnhub.io/api/news?id=2e113e39a9afd6883b4a9eca2b37c2f8a65a8b9db59159963c3ba95967ec789a

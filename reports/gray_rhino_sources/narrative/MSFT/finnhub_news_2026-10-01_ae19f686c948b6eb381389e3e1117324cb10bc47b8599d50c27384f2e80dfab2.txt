@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle’s Negative Free Cash Flow Exposes the Uncomfortable Truth About AI’s Financing Game
+  summary: Bloomberg's Odd Lots and Jim Cramer reached opposite conclusions about AI spending within 12 hours of each other, and Oracle's balance sheet sits at the center of the disagreement. One side says the boom is already paying off, the other says the financing has quietly gone off the rails.
+  url: https://finnhub.io/api/news?id=119689c2b2e10598031b9355e0d285992edfc7b6c8bbb130fae2194c332d876b

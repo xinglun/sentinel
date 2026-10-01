@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Canadian company to build country's first rocket engine test facility
+  summary: The full journey from startup launch to rocket launch is estimated to take seven years and cost over US$600 million
+  url: https://finnhub.io/api/news?id=6be25742a8c37c22925afc59f9f012971448a9b791751f88395d6d262f273f55

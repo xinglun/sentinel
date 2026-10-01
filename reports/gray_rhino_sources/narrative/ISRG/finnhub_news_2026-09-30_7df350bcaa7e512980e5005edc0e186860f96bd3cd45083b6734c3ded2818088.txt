@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What You Need To Know Ahead of Intuitive Surgical's Earnings Release
+  summary: Intuitive Surgical is expected to announce its third-quarter earnings in October, and Wall Street expects the company’s EPS to increase by a single-digit percentage.
+  url: https://finnhub.io/api/news?id=489b08f91cd7e3799bac635257a1fd296e3387c2f511a2bdefc8ea2e612e6e0f

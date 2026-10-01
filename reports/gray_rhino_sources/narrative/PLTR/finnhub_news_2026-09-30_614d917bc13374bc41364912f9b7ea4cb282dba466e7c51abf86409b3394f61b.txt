@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: ServiceNow vs. Palantir Technologies: Which Tech Stock Is a Better Buy in 2026?
+  summary: Palantir's hypergrowth and profitability are rare at this scale, while ServiceNow offers the kind of steady, compounding enterprise platform that rewards patient investors over time.
+  url: https://finnhub.io/api/news?id=798e106826e9de2192270e05537827876be12e9f21ed313169722199fe0ca1de

@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accenture Stock Is Heading for Its Best Day Ever. AI Isn’t the Threat Everyone Thought.
+  summary: Accenture stock jumps after the company posts stronger-than-expected earnings, brushing off AI disruption concerns.
+  url: https://finnhub.io/api/news?id=b23bce95d0a77dbf195dad01f39c96ea446994edc49b23ffaf9cfa527258d918

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Oklo and NuScale Power Survive a Stock Market Crash? (Hint: Yes, but It's Complicated)
+  summary: SMR stocks provide plenty of upside potential, but they're not without risk.
+  url: https://finnhub.io/api/news?id=3ecf084ea71467e9798cea98fda1f617ab6e89ab39f2e5889b9ed003fbae72fc

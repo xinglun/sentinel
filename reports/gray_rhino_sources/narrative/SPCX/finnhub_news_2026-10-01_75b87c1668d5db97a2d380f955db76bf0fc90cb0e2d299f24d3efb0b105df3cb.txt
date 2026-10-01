@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Alphabet (GOOGL) Answers the AI ROI Question
+  summary: Cambiar Opportunity Fund, managed by Cambiar Investors, published its Q2 2026 investor letter. The letter can be downloaded here. U.S. equity markets experienced a significant rebound in Q2, with the S&P 500 rising 15.2% and the Russell 2000 up 21.5%. Growth stocks outperformed value, although value retained a year-to-date lead. The market’s rise was fueled […]
+  url: https://finnhub.io/api/news?id=048cc935bd5a504abd4c7a4374f8a37db311839b1f7b2f29cdf00b44ef0bd38b

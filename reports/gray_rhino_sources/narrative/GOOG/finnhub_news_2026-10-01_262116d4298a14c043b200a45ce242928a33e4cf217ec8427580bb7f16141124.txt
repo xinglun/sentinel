@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Google unveils Gemini 4 Argon, its first flagship AI model since February
+  summary: Alphabet Inc (NASDAQ:GOOG)'s Google has unveiled Gemini 4 Argon, its first flagship model release since February, saying the model leads benchmarks in long-horizon coding, finance, legal work and video understanding. Access is initially limited to select cyber defenders and Google's internal...
+  url: https://finnhub.io/api/news?id=eb1607a1837cc968a7a417dea4c940c0e52fd38bba4b17274aced3fcc9582739

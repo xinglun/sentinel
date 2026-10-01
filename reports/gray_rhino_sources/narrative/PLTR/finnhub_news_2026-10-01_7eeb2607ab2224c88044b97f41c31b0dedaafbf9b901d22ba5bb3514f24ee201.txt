@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SoundHound's Agentic Voice AI Launches in India With Kia Sorento
+  summary: SOUN expands its global automotive AI reach as Kia deploys its voice and generative AI technology in the Sorento in India.
+  url: https://finnhub.io/api/news?id=02a5510b6b96489dc157b3bc32ea75060633d1567144b0676d8d0a2331f9d141

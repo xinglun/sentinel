@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet vs. Amazon vs. Microsoft: Which "Magnificent Seven" Stock Is the Better Buy Right Now?
+  summary: If you can look past all the noise and self-serving rhetoric, it's clear that one of these companies is better positioned to thrive in the current environment than the other two.
+  url: https://finnhub.io/api/news?id=9c49f56fa2c33e5bfa9bc0912241d0a962a5ae595f2d1ad5be48f0ce101c3e16

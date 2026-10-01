@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Could Derail AppLovin Stock?
+  summary: AppLovin (APP) holders have been through a rough stretch. The shares lost 54% over the past year, while the S&P 500 gained 16.8%. A $10,000 holding from a year ago is now worth about $4,560. In September, law firms began announcing a securities class action over what AppLovin told investors. For you, the bigger issue is a business problem, not the legal fight. So what is the biggest risk for AppLovin stock from here.
+  url: https://finnhub.io/api/news?id=d788ef14cab400bf3ea80c677861ca11035b249e00c63f1ce479d68f854cf3f0

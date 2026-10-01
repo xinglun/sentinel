@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unusual Machines Tumbles 8% Despite Pentagon’s Autonomous Warfare Push; AeroVironment Eases, Red Cat Pulls Back
+  summary: The Pentagon handed drone suppliers the autonomous warfare announcement they craved, yet one stock with a 75% year-to-date gain is tumbling while its rivals barely flinch. The gap between winners and losers inside the drone sector reveals something the policy headlines are not saying outright.
+  url: https://finnhub.io/api/news?id=e04e0552fe8f5dabbf097aa8ea3aafa0f9cbaa3d3c83e2bd810e7d7902fe9416

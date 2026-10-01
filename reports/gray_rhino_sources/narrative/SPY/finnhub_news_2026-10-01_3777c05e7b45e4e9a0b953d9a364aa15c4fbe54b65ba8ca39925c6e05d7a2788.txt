@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moderna Climbs 3% Despite Citigroup’s Downgrade to Sell; BioNTech Inches Higher, Pfizer Treads Water
+  summary: Citigroup just told investors to sell Moderna and the stock responded by climbing 3%, raising one pointed question about whether pipeline optimism has fully broken free from Wall Street's valuation warnings.
+  url: https://finnhub.io/api/news?id=8f361b2eb02af46d7061280f4e60d7ffa0b2f309294d3963a2bdce903cc74845

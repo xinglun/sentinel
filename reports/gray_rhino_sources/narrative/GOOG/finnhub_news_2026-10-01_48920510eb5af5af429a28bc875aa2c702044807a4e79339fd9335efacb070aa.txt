@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Adobe Stock A Real Bargain?
+  summary: Adobe (ADBE) stock trades at 13 times its earnings over the last twelve months, against 21.4 for the median S&P 500 company. The stock has lost 33% in twelve months, while the S&P 500 returned 16.2%. A price that low can mean investors have turned too gloomy, or that the business is getting weaker. So is Adobe stock a real bargain at this low price.
+  url: https://finnhub.io/api/news?id=ec0e16d3f4ab8736c321f92c68e53e0aef41de8544a472460e92792ce1bff695

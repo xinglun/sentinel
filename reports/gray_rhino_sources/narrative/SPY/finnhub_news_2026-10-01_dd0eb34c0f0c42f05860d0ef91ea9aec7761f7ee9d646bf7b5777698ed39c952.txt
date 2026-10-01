@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Climbs 5% as Largest-Ever Electron Deal Lifts Backlog Past 100 Missions; AST SpaceMobile Ticks Up, SpaceX Holds Flat
+  summary: Rocket Lab just landed its biggest Electron contract ever and a fresh Wall Street initiation on the same morning, sending shares surging while rivals barely moved. Here is what the deal leaves unsaid that every investor should know before acting.
+  url: https://finnhub.io/api/news?id=c0fa7dd6dac99e6f7b92216f9408ae657bb3037a90602953dd13dab478424d06

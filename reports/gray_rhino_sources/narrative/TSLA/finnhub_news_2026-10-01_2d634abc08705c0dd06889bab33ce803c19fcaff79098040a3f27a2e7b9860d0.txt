@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla European Car Registrations Surge Across Key Markets in September Rebound
+  summary: Key Stats for Tesla StockPrice change for Tesla stock in last 6 months: -7%$TSLA Stock Price as of Sep. 30: $35552-Week High: $499$TSLA Stock Price Target: $396What Happened?Tesla (TSLA:NASDAQ) saw new car registrations rise in several European markets in September.
+  url: https://finnhub.io/api/news?id=6cea7b45bb7402e3185acd85949b872abb3df7f7797b00a199aff7304b16c2c4

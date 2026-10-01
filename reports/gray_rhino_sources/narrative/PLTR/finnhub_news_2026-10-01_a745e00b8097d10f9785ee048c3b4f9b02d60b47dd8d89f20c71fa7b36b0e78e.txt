@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Shifts To Long-Dated AI Bets As SOXX Suffers Its Worst Quarter Since 2025
+  summary: Michael Burry shifts from shorting SOXX to long-dated puts as the $750B AI spending boom faces scrutiny over chip demand.
+  url: https://finnhub.io/api/news?id=0046c524e37a160ad01ff008bf565fdada2bd851a4b74b9a4449b4872242128c

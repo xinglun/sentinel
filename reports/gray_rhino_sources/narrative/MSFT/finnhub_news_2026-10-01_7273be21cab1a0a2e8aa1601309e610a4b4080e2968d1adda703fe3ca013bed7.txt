@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: What Needs To Be True To Buy Meta Stock Now?
+  summary: Meta Platforms (META) launched its Muse personal AI agent app on September 8, 2026. Meta stock rose 27% over the past month, while the S&P 500 slipped 0.3.
+  url: https://finnhub.io/api/news?id=dacc42a663bd0ff7e15e3396ba22c1b293363a981f3ca990a0206d10c06f548d

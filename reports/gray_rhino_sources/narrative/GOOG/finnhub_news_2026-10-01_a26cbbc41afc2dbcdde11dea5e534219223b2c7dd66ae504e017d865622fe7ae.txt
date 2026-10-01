@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Alphabet Slips After Gemini 4 Argon Launch as Tech Sector Rises; Microsoft Holds Steady, Amazon Dips
+  summary: On Wednesday, Alphabet‘s (NASDAQ:GOOGL) Google unit unveiled Gemini 4 Argon, a frontier AI model aimed directly at enterprise work, and the market is declining to pay up for the announcement. Shares of Alphabet are slipping 2% to $338.85 as the session unfolds, a move that runs against a stronger technology sector. To measure how isolated […]
+  url: https://finnhub.io/api/news?id=11c7537e6686b271eb579ad83c3fd9904ab61164c2f9627049fcb3bc53531c11

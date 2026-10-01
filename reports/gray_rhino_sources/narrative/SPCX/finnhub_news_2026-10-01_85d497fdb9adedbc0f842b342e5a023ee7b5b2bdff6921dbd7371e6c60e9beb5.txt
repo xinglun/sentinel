@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Rocket Lab Stock Rises on Record Electron Launch Deal and Citi Buy Rating
+  summary: Rocket Lab secures 20 additional launches for Synspective, while Citi initiates coverage with a Buy rating and $105 price target.
+  url: https://finnhub.io/api/news?id=5bd3e70935312c6b0c2d523507e6a1026d44d9468500115891e92095c96d37de

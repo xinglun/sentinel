@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: askpolly Now Integrated With Microsoft Copilot Cowork to Connect Social Insights With Sales Data
+  summary: Companies can combine statistically valid social insights and their own sales data without uploading sensitive information to the cloud. OTTAWA, ON / ACCESS Newswire / October 1, 2026 / , the first company capable of turning organic social media conversations into statistically valid market research, today announced that its platform is integrated with Microsoft Copilot Cowork.
+  url: https://finnhub.io/api/news?id=bd9e350dbb3ffe05d7e29cd68ddacc6b79a3c46defd3b569929bf86ffcd05444

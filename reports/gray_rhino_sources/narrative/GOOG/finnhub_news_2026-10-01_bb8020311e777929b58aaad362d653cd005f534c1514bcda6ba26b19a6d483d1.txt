@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron, Accenture, Google, IBM, Fair Isaac, Synopsys, and More Stocks That Explain Today’s Market
+  summary: FEATURE  Stocks fell Thursday as bond yields continued to rise after notching their largest quarterly gain since 1994.  Micron dropped 1.9% after the company posted a stellar fiscal fourth-quarter earnings report.
+  url: https://finnhub.io/api/news?id=40f43c5bdd8cb0f0f971cfb34654a6ba67e41599411f4865bc4fac9de53682ca

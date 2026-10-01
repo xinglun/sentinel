@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Capitalizing on Defense and Aviation Spending: The Thesis for Holding Honeywell Aerospace (HONA)
+  summary: Cambiar Opportunity Fund, managed by Cambiar Investors, published its Q2 2026 investor letter. The letter can be downloaded here. U.S. equity markets experienced a significant rebound in Q2, with the S&P 500 rising 15.2% and the Russell 2000 up 21.5%. Growth stocks outperformed value, although value retained a year-to-date lead. The market’s rise was fueled […]
+  url: https://finnhub.io/api/news?id=84d7a0ce0345f711ddc117d4c8ef333c9aa389b724d09832a9980d920320c5ae

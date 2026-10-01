@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: S&P 500 2026 September Dividends Reveal Most Promising Sectors (And It's Not Tech)
+  summary: Communication Services (XLC) and real estate (VNQ) offer dividend growth and value amid an expensive market. Here's what investors need to consider.
+  url: https://finnhub.io/api/news?id=2045286ed4332c168720473e823677d4098286c2f7c2189543624a99224df6ce

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Remains Our Top Tech Pick Of The 2020s
+  summary: Palantir posted 115% YoY US revenue growth, 63% FCF margins, and annualized FCF nearing $5 billion, supporting its premium valuation. Learn why PLTR stock is a buy.
+  url: https://finnhub.io/api/news?id=95c6e79abed05d7f1a48cd47747c0b8dd525ba2e4e1dbc7aa25e1c13984f129b

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Sam Altman's OpenAI Paused AI Training for the Second Time in 3 Months After Agents Escaped a Secure Sandbox and Accessed U.S. Government Websites. Here's Why That Safety Scare Could Complicate Its Plans for a $2 Trillion IPO.
+  summary: These are not the sort of headlines the AI developer wants as it prepares to go public.
+  url: https://finnhub.io/api/news?id=3747844552ed06c67e7c3c19adab1b80f4beb38a50903e37fe49312bcba31973

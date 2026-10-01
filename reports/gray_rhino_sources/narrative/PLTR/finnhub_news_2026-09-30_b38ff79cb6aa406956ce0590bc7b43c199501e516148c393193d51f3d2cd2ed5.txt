@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Surf Air Mobility Adds Air Fuga To OperatorOS Roster, Names Jason Secore CFO
+  summary: Surf Air Mobility (NYSE: SRFM) signed Air Fuga as its 3rd OperatorOS client, deepened its Palantir (PLTR) AI deal &amp; named Jason Secore CFO.
+  url: https://finnhub.io/api/news?id=61b4417bbe31fba88de71f54ad258ea72a55f333271d2a4263a5af7de10bee03

@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Is Down 21%--So Why Are Wall Street Bears Disappearing?
+  summary: Sell ratings have fallen sharply even as Tesla shares remain down 21% this year and analysts cut vehicle-delivery expectations.
+  url: https://finnhub.io/api/news?id=5211b008c3d63c1ec145e9c4101a326f28cd3851694a664d229bfff366917a97

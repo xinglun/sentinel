@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD, Leapmotor Continue EV Sales Streak; Tesla Deliveries On Deck
+  summary: BYD and Leapmotor continue to look abroad to offset their struggling electric vehicle business at home in China.
+  url: https://finnhub.io/api/news?id=43ba0fc41c27a7133596fdc6320fc6715a0a033342d8817a9c2d954088550a87

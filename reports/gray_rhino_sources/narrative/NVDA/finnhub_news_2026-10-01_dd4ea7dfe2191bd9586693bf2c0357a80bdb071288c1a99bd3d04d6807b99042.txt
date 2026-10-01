@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Can Shiba Inu Reach $1 In the Next 12 Months?
+  summary: It would take a miracle (and then some) for the meme token to hit what would be an incredible milestone.
+  url: https://finnhub.io/api/news?id=def6e16751bcda7fe8379ebf20617ff082f016c91138b31464c835a00ae469aa

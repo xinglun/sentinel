@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Making sense of Anthropic's massive AI spending plans
+  summary: In The Loop host Ejaaz Ahamadeen takes a closer look at Anthropic's (ANTH.PVT) projected AI capital expenditures over the next decade.
+  url: https://finnhub.io/api/news?id=43af21e276cbc35a56030b290dbb3170cea842916672b9a3e4602d4f318908a6

@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nu Holdings Jumps 3% After Ruling Out Monzo Deal; SoFi and Robinhood Sit Out the Rally
+  summary: Nu Holdings stock surged while SoFi and Robinhood barely flinched, and the reason comes down to a single statement the Brazilian fintech issued about a deal it never confirmed in the first place.
+  url: https://finnhub.io/api/news?id=d39dd8bdbf75742161a3170cc65bcaeae05b039a7153aa21713eae098b133098

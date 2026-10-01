@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Tesla Entry Points Show the Milestones Investors Cheered Were Not Always the Best Times to Buy
+  summary: Tesla investors who celebrated the biggest milestones in company history did not always walk away with the biggest gains, and the gap between some of those entry points is staggering enough to reframe how investors think about riding hype.
+  url: https://finnhub.io/api/news?id=6d50808aae53e8ade272db5372d545c672df701729cd1849ede5e79d8468cc26

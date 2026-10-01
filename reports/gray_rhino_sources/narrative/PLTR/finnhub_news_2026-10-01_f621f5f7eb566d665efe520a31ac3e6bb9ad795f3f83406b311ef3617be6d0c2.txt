@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Top Big Data Stocks to Tap the Growing AI Analytics Opportunity
+  summary: NVIDIA, Palantir and Dell are expanding AI infrastructure and data tools as Big Data demand grows across industries.
+  url: https://finnhub.io/api/news?id=9a410989e5fe6a7f1599bdd644b5c0a773e8eb24c07ba0eb94f4ab6df3bff1b3

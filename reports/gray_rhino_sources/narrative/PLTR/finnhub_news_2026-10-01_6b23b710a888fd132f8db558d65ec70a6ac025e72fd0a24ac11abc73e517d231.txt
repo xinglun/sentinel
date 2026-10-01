@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Technologies (NASDAQ:PLTR): A High-Growth Momentum Leader
+  summary: Palantir (PLTR) passes CANSLIM with explosive growth, high relative strength, low debt, and a bull flag setup; valuation remains the key risk.
+  url: https://finnhub.io/api/news?id=1dd1ecee55ee091a6573d1c158d35a11f7b9929b4eac0899a762eaeb415ecf31

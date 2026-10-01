@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Focused Funds Can Help You Navigate a Top-Heavy Market
+  summary: From January 1926 through December 2025, just 46 stocks—out of 29,754 common stocks listed on the public U.S. stock markets over that period—accounted for half of the $91 trillion in net wealth creation, according to a study published in March titled “One Hundred Years in the U.S. Stock Markets.” Worse, the median buy-and-hold return for all those stocks was minus 6.9%.  Then again, if you look at Vanguard 500 from Dec. 31, 2009, until today, it gained 832% versus Yacktman’s 569%.
+  url: https://finnhub.io/api/news?id=57399450463f679fd3b7cdd3944660c291c7b057f3ec3c83a4dec7c502050731

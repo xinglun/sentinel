@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Broadcom to provide Anthropic with up to $42 billion in financing, Reuters reports
+  summary: Broadcom Inc (NASDAQ:AVGO, XETRA:1YD) has agreed to provide Anthropic (Unlisted (US):ANTHRO) with up to $42 billion in financing tied to its AI infrastructure buildout, according to the Claude developer's IPO prospectus seen by Reuters. The facility could cover roughly one-third of...
+  url: https://finnhub.io/api/news?id=96626ce12fabea8001bdf684ade014d23a63b239c9eb7e3c0887d89bd545711a

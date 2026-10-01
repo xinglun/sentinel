@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Warren Buffett's Successor Has Billions Invested in These 2 Tech Stocks. Here's the Better Buy.
+  summary: Apple and Alphabet are two major cornerstones of Berkshire's portfolio.
+  url: https://finnhub.io/api/news?id=a7146ab146c7259e4459879b8303fed7a0c278b1599c1e18eb2a7832fae441fa

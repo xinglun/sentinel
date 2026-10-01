@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Micron Says Humanoid Robots Could Become Its Next Big Memory Driver — Analyst Sees ‘Server-Level Memory’ Powering Millions of Machines Outside Data Centers (UPDATED)
+  summary: Micron said humanoid robots could become a major driver of memory demand, a shift analyst Shay Boloor sees as a turning point.
+  url: https://finnhub.io/api/news?id=d65c5c2a4944ac4c9d4e45a2fc0777e6c2f2a7b406739ea6c777e0e0d7487961

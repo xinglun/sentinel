@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Latest News In Energy Transition - Wind Power's Surge: Driving Global Renewable Energy Growth
+  summary: The global wind power market is experiencing significant growth, driven by the adoption of renewable energy, grid modernization, and offshore wind development. Technological advancements, including larger turbines and real-time monitoring systems, are optimizing electricity output and reducing costs, placing wind energy at the forefront of the energy transition. Moreover, supportive government policies and corporate renewable energy procurement are enhancing project feasibility and investing...
+  url: https://finnhub.io/api/news?id=8ceb2f38aeee0d06ef2afc975b25b94c01768f85c9ac85239c380c3d178c874c

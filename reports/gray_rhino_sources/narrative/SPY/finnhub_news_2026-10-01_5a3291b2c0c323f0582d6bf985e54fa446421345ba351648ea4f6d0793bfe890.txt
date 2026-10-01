@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bonds Are Breaking, But I'm Not Worried (For Now)
+  summary: Bond yields have surged to multi-decade highs, yet the U.S. economy remains resilient, with nominal growth outpacing borrowing costs. Read full analysis here.
+  url: https://finnhub.io/api/news?id=403632300eb1d2fb0ab8a1707d92a0e9cb6a2b7e3a601fbbfa793e12560f70e0

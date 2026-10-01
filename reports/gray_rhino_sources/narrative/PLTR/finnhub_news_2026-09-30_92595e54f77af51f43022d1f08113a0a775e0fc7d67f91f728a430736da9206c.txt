@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Washington Refuses To Regulate AI
+  summary: The White House AI summit backs self-regulationâbullish for hyperscalers. Learn state-level risks to data center CapEx & top AI trades like Mag 7, MAGS & AIHY.
+  url: https://finnhub.io/api/news?id=bd6dcad00dcb357187fce1e7713a91d262f823f473d2ce2e7cd252cfb7d2d8b8

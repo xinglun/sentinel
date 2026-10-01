@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy 3 AI-Powered Momentum Stocks for October After a Mixed September
+  summary: DELL's AI server demand, PWR's backlog and FPS' data center growth fuel momentum into October.
+  url: https://finnhub.io/api/news?id=514c899badbd453e4cfc9227914a009f32b48bf940837c42477aa6edd447953f

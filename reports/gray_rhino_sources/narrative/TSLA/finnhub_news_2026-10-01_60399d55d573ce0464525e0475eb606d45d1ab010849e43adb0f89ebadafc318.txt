@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: A Giant Awaits Tesla in Its Newest Move to Boost Global Sales
+  summary: Tesla will have a challenge to win over domestic consumers in rapidly growing Vietnam.
+  url: https://finnhub.io/api/news?id=6bbead99fe1c5cb9234e06d1fb626299040155974efa2b303cde9fb73983ab9f

@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Ryan Roslansky leaving Microsoft amid executive departures
+  summary: Ryan Roslansky, who led LinkedIn for six years, will stay through year-end as an advisor before departing over his reluctance to relocate
+  url: https://finnhub.io/api/news?id=4d6245a9fbfb793c6d02e385c9278d5e3d3959bf15a0931e0bc2a3d69c88b64d

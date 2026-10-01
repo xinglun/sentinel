@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Is Everyone Ignoring Snap Stock's High Cash Yield?
+  summary: Snap (SNAP) stock is 58% below its two-year high. At that price, Snap's free cash flow equals 8.1% of its market value, against 4.5% for the median S&P 500 company. With Snap's debt counted, that cash yield is 6.2%. A yield that high means a business on sale, or one the market expects to shrink. So why are investors paying so little for Snap's cash.
+  url: https://finnhub.io/api/news?id=ed72bdd809f404312f7414837e0b00bd97453e4fae8dbb948cb69d2d803ac14b

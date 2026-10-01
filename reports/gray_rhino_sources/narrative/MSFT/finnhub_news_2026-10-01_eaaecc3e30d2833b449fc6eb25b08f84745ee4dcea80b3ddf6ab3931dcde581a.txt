@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Oracle Has the Biggest Upside of Any Megacap Right Now: 54%
+  summary: Oracle's cloud business is growing faster than it has in years, yet the stock has been cut nearly in half. Our model finds a jarring disconnect between what the business is doing and what the market is pricing in.
+  url: https://finnhub.io/api/news?id=01c89afac64ca61a9c088c7c1bbd2cbc154abb9ace43f53e65f9a3d9fa532d98

@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Chip stocks set for $229 billion payday before Nvidia ships a GPU
+  summary: Long before an AI chip earns a dollar, someone has to buy the machines that make it.
+  url: https://finnhub.io/api/news?id=15bb0a0687f6409fb08cbafc503aa7053cb7c966070cc64845e8806833d80a52

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Michael Burry Buys Put Options on Nvidia, Micron, and Palantir as "The Big Short" Investor Predicts a 1987-Style Market Crash
+  summary: Michael Burry of "The Big Short" is bearish on artificial intelligence (AI) stocks.
+  url: https://finnhub.io/api/news?id=9492ddaf1ebf8b5188dbade72a048aaa131dc8af262455e1ac02b8f15bee24c9

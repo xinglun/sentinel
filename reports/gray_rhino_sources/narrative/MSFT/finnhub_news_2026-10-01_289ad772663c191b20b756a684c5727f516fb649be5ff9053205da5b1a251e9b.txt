@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Amazon Inks $1B SNPS Deal to Power AWS Custom Chips: Should You Hold?
+  summary: AMZN's $1B+ Synopsys deal boosts custom chips and AWS growth, but heavy capex, competition and valuation temper the near-term outlook.
+  url: https://finnhub.io/api/news?id=30d6d418bbbb5eea6132492b84f76c844f71a99c6fc59bdc6dfbca91e94995c1

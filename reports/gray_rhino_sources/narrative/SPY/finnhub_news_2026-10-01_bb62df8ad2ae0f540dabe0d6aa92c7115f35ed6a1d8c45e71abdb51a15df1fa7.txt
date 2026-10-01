@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elevated equity positioning, leverage could challenge stocks in Q4: JPMorgan
+  summary: Investing.com -- JPMorgan said in a note Thursday that excesses in equity positioning and leverage have returned, which could act as a headwind for stocks in the fourth quarter.
+  url: https://finnhub.io/api/news?id=46a98f0f03d109f67b6b88299ecde49800c93895b640ec38461921ec8af1347d

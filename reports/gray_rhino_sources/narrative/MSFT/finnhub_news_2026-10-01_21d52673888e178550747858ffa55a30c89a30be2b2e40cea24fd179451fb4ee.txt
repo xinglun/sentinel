@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Which Dates Could Move Microsoft Stock Most?
+  summary: Microsoft (MSFT) stock has gained about 34% in three months, and you may wonder whether it can hold that gain. Management expects about $175 billion of capital spending in calendar 2026 and has said the spending may lower operating margins. A few dated events will show whether that spending is paying off. Below are the earnings reports and other dates most likely to move Microsoft stock over the next six months.
+  url: https://finnhub.io/api/news?id=1ae3c28c5ec20eeb048befda771504bd5f36e2dcc083d7911189c603e391eef3

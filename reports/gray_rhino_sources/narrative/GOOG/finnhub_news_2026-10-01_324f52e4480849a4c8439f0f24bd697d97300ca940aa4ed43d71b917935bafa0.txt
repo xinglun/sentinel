@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Stock Market Today: S&P 500 Breaks Key Level As Micron Falls; Lumentum Soars (Live Coverage)
+  summary: The Dow Jones index fell Thursday even as Treasury yields started to sink. Micron stock dropped on earnings.
+  url: https://finnhub.io/api/news?id=b572b029a14cbdf551967efff15828f1bcf6fc7eaa92e91a65052e9dcf464f01

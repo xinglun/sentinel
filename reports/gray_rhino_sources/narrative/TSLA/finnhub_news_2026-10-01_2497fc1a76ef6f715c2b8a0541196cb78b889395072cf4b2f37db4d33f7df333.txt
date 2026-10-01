@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Bears Retreat as Musk's AI Strategy Gains Traction
+  summary: Wall Street is getting less bearish without turning fully bullish
+  url: https://finnhub.io/api/news?id=354eb3e19ee4c827117bf1c94570223bd388eb16a869ddf758ce2e0b570da34f

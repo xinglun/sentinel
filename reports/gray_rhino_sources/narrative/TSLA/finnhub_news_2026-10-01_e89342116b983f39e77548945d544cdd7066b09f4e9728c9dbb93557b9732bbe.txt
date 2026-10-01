@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: BYD Proves Lead Over Tesla Won’t Stop
+  summary: The EU is the world’s third-largest car market. Car makers sell about 13 million cars there a year, behind America’s 16 million and China’s 34 million. However, it has a distinction. It is the only large market in which all the world’s major car companies compete. The US blocks Chinese car sales. China’s highly successful […]
+  url: https://finnhub.io/api/news?id=13b000e9657105a3af8c28d48c994bbb9b0ee1034718b850990bd54e6cdfd310

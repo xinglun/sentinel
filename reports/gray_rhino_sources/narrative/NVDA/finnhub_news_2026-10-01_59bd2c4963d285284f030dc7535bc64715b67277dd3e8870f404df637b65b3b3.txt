@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Firefly Aerospace Is the Space Stock Nobody Is Talking About
+  summary: Revenue is surging as Firefly expands deeper into space.
+  url: https://finnhub.io/api/news?id=733311271ac7f6c31f5c153d42a10531d3ed90d86791037ea7eff05a953e3bb2

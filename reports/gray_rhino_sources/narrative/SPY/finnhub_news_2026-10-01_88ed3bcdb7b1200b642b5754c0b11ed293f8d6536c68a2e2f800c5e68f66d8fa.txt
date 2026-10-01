@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Moody’s Mark Zandi Warns Wall Street is 'Too Optimistic' About the American Consumer: 'I Am Getting More Nervous...'
+  summary: Moody’s Analytics Chief Economist Mark Zandi cautioned that forecasts for consumer spending lack solid fundamentals, stating his growing unease over wage stagnation, dwindling savings, and rising borrowing costs. Pushback on Consumer Resilience During the latest Inside Economics podcast, Zandi challenged...
+  url: https://finnhub.io/api/news?id=364afd06edd078db6dcea1e3b6469e578adfb225044c23250b23d95158df4822

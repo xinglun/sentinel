@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Bears Retreat as Sell Ratings Hit 3-Year Low: 'Don't Bet Against Musk'
+  summary: Tesla Inc. (NASDAQ:TSLA) shares are down about 19% this year, its auto business remains under pressure and Elon Musk’s biggest bets on robotaxis and humanoid robots are still largely unproven. Wall Street is nevertheless becoming increasingly reluctant to recommend selling...
+  url: https://finnhub.io/api/news?id=33cf0cbb8741a6f1ac19d9d76600b7c9be144137d2c85f77f4516aff6209779a

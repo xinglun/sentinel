@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI, Google and Meta pledge outside AI audits under voluntary White House deal
+  summary: OpenAI, Google, Meta and three other AI giants signed a voluntary White House pact to bring in outside auditors for their safety controls, which Trump called "morally binding." The move follows a string of crypto security breaches this year where frontier AI is suspected of helping attackers find and exploit code. CoinDesk's Uyen Truong hosts "CoinDesk Daily."
+  url: https://finnhub.io/api/news?id=413b48f81fdfa2d52e9913635e6ccb7062e2986e85c90df4799126b3bafafe6a

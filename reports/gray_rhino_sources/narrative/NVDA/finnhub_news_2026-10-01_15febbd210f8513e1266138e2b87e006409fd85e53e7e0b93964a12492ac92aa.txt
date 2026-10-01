@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Cathie Wood buys $81.5 million of surging semiconductor stock
+  summary: Cathie Wood’s latest moves include a big bet on a popular chip stock.
+  url: https://finnhub.io/api/news?id=5f1c250403b4cad7af807a9525e13d144ca9a43abf615b0286df9a8397916427

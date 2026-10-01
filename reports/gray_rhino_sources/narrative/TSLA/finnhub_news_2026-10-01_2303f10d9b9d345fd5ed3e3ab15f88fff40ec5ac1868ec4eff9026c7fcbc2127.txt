@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why the Tesla Roadster Event Was Delayed—and What It Means for the Stock
+  summary: Tesla  was set up for a big week.  Today was the day Tesla was going to show off its new Roadster at an event in Texas.  Late Monday, however, Tesla moved it to Oct. 15, citing severe weather conditions.
+  url: https://finnhub.io/api/news?id=7f9dc2ff500116288a994860dde22ab88b1b63f2e45d2d8995e0f2ab9ec6c866

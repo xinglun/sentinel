@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: SpaceX’s Starlink Just Got More Powerful, and Cable Giants Comcast, Charter May Feel the Heat
+  summary: Space Exploration Technologies Corp. could pose a growing threat to terrestrial broadband providers, particularly in rural and lower-density markets, MoffettNathanson analyst Craig Moffett said Tuesday as Starlink begins deploying higher-capacity V3 satellites. Starlink Poses Bigger Threat to Comcast and Charter...
+  url: https://finnhub.io/api/news?id=c32167c8638876e61845e9e16521e758eae5338f3a246f4c1f598c6c852000dd

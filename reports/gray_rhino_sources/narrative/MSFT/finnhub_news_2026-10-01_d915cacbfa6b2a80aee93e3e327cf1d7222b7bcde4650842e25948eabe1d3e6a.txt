@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: MSFT Stock Lands On Wells Fargo’s Q4 ‘Tactical Ideas List’ – Analyst Sees A 41% Upside Potential
+  summary: Wells Fargo said momentum is shifting back to Microsoft among mega-cap technology companies due to its AI monetization and a balanced investment approach.
+  url: https://finnhub.io/api/news?id=4374cfe9051455c4145868f4da5a8d1cb67a3d82834cad5f79393ab28bc4a0f3

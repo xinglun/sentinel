@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir’s CEO Bought 37,000 Acres of Swedish Forestland and Hunting Leases Vanished. Five Years of Rent Can Count as $0 Toward Social Security’s Earnings Test
+  summary: When Palantir's CEO quietly bought 37,000 acres of Swedish forest and shut out local hunters, it revealed something most landowners never consider: a single hunting lease can hit three separate government clocks at once, and the order you get paid changes everything.
+  url: https://finnhub.io/api/news?id=c28b18d887d69e5aa9abb30d0f47068ec5cb024d5ff94eb2ffd9f8543cbf175c

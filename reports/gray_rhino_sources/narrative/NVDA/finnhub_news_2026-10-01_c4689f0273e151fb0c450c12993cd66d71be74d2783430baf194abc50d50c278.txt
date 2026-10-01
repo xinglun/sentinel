@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Royalty Pharma Owns a Piece of 16 Blockbuster Drugs -- Is the Stock a Buy?
+  summary: Investors are catching on to this rare gem among pharmaceutical stocks, but thanks to promising growth and a low valuation, further upside remains.
+  url: https://finnhub.io/api/news?id=dc3ca778b72b7b75c1ff515223595ab85a6618695d7d1bfe161d45963213f208

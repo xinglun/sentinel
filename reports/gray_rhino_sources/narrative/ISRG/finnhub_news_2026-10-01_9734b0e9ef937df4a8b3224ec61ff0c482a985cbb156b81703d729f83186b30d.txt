@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Is Wall Street Dead Wrong About Intuitive Surgical? Here's My Honest Answer.
+  summary: Analysts think this beaten-down healthcare stock will rebound.
+  url: https://finnhub.io/api/news?id=0f46fd3991b6034c5e32178cada89682379b8b97f273d838e33a0f9bc7cce035

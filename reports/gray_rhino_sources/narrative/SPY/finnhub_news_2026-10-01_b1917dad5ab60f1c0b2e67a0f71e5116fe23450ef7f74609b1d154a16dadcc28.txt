@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Buy Any Marvell Technology Pullbacks When They Happen
+  summary: Marvell just posted record revenue and raised guidance, yet its stock sits nearly 20% off its highs while AI sentiment drags it lower. Three upcoming catalysts could determine whether this gap closes or widens.
+  url: https://finnhub.io/api/news?id=b9c2d95eda7185245dcef5cbc6f94102a42686bfb4ed473bdfb21908187effe5

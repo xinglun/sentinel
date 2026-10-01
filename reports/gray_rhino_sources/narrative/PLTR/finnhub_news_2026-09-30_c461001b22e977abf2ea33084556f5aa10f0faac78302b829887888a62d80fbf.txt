@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir CEO Karp drops "Warfighter" hot take before super intelligence meeting at White House
+  summary: Karp’s latest remarks put Palantir’s AI promise under scrutiny.
+  url: https://finnhub.io/api/news?id=222aed307a295ec902c3560abffbcae19d7f6c84dbc8ed0052cf2da166da090b

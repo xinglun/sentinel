@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Bank Stocks Slide as Money-Center Names Lead Financials Lower: Citigroup Falls 4%, Bank of America Drops 3%, JPMorgan Chase Slips
+  summary: Selling across financial stocks is landing hardest on some of the biggest U.S. banks, and Citigroup (NYSE:C) shares are leading the money-center names lower as traders pull back from the group. Citigroup stock is down 4% to $123.81, posting the largest decline among the large banks. Meanwhile, Bank of America (NYSE:BAC) stock is down 3% […]
+  url: https://finnhub.io/api/news?id=b809af6afaab5533431068521d54957ac4bb145d64dc23907329ab067f46e1e4

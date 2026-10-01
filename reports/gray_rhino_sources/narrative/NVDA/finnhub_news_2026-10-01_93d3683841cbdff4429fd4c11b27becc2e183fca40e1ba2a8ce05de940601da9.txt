@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 High-Yield Financial Stocks to Buy in October
+  summary: Ares Capital, Brookfield Asset Management, and Strategy's Strife shares still look attractive.
+  url: https://finnhub.io/api/news?id=afa5a1ca851b797dda5c167881dc047ce0a77a152038bb766eed4852e4c40f8f

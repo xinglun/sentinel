@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tesla Trades at 350 Times Earnings. Here's What Has to Be True for That to Make Sense.
+  summary: Tesla shares trade at a huge premium to other EV stocks.
+  url: https://finnhub.io/api/news?id=082b1c3ff0fd11f6b719264621ea3aa5c5d4de16f42d8a038dbc89bf437dc98e

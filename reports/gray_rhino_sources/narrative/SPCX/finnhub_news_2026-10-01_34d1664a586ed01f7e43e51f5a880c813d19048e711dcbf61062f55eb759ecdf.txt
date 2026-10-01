@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Morgan Stanley gives SpaceX a B+ grade after Flight 14
+  summary: SpaceX’s Starship Flight 14 primary objective was to achieve the first successful Earth-orbit test flight and deploy 26 operational Starlink V3 satellites.
+  url: https://finnhub.io/api/news?id=934e96d7970ac0671a1f0fedea2ec6de0de89f75265d2311a09665d70a788e43

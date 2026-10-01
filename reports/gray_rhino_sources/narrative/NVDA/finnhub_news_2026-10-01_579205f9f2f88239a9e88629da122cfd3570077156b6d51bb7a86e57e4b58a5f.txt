@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why Synopsys Stock Soared on Thursday
+  summary: Should you use GAAP or non-GAAP earnings to value Synopsys stock?
+  url: https://finnhub.io/api/news?id=6d1efa3cb77aeb5fd0210307122cf78ed85335dec1255975bac742d4bf3a5a45

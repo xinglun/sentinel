@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 3 Rate Sensitive Software Stocks Investors May Want On Their Watchlist
+  summary: Cooling August inflation has given interest rate watchers fresh material, with 3.4% headline and 3.0% core readings easing some pressure but not solving the Fed’s 2% problem. That gap keeps rate expectations in play and leaves rate sensitive growth stocks on a tighter leash. This article explains how that tension feeds into opportunities and risks, then highlights 3 stocks exposed to this inflation story that may be worth a closer look. The three growth stocks below are a small sample, and...
+  url: https://finnhub.io/api/news?id=ee1b433a8f57fd653d37a6d10321471169fb8eacd944510ee00ccc3c9ec4a47a

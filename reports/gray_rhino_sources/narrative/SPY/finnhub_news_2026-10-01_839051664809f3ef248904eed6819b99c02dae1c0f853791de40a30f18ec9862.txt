@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Accenture Soars 23% as Record Bookings Dispel AI Demand Fears; Infosys Jumps 8%, IBM Climbs 5%
+  summary: A record year of bookings has handed Accenture (NYSE:ACN) hard evidence against the fear that artificial intelligence (AI) would hollow out demand for consulting work. Accenture shares are jumping 23% to $225.59 this morning as the market reprices the stock on the numbers. Other information technology services names are catching the read-across from a results […]
+  url: https://finnhub.io/api/news?id=307822390b24d40317ddf244d847243f2dd10849a27473ca713a96c59633553c

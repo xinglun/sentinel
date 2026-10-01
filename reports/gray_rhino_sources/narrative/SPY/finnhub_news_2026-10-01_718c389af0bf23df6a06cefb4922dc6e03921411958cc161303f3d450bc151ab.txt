@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Paramount Skydance Falls 5% Despite Antitrust Clearance and $41.4B Debt Pricing, Warner Bros. Discovery Holds Flat; Netflix Eases
+  summary: A federal judge just cleared the final legal hurdle for one of Hollywood's biggest mergers, yet the buyer's stock is sinking fast. The reason comes down to a financing package that dwarfs the company's own market cap.
+  url: https://finnhub.io/api/news?id=79bb9807904e78cbc0804382c2b7b1c7433457b43de71f8db0d68fec5f011a04

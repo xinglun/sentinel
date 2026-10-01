@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: If The S&P 500 Doesn’t Hit 10,000, This ETF Is Going To Zero
+  summary: Roundhill just launched an ETF that pays off big or goes to zero, with everything riding on a single index level on a single date four years away. Whether the math even makes sense for most investors is a different question entirely.
+  url: https://finnhub.io/api/news?id=91c602a2874be1c1ce30fa5b8005948794cb70635596d6318e16ecd37b931e39

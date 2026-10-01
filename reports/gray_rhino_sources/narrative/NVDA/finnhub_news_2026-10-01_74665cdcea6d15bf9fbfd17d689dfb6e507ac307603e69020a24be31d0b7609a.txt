@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tavus Introduces Griffin, the First Face-to-Face Human Interaction Model, Unlocking the Future of Conversational AI
+  summary: SAN FRANCISCO, October 01, 2026--Tavus launches new Human Interaction Model, Griffin
+  url: https://finnhub.io/api/news?id=bf20374bf007cc2468c09dd6a2c9ea5ed8fd0069dec1dc2595c982c71e602b71

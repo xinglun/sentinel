@@ -1,0 +1,5 @@
+Finnhub narrative source for ISRG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: The Top HealthTech Questions Landing On Our Desks
+  summary: Strong performance across the healthtech sector over the past two quarters has sparked renewed market interest in medical innovation.
+  url: https://finnhub.io/api/news?id=7d6465b472d118677c03014527a5f47cd568772afebdfde05f26b16e70df37cb

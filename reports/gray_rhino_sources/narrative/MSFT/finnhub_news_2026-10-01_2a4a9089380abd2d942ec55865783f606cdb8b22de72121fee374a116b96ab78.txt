@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: OpenAI CFO Accidentally Calls Dots as Muse Giving Meta's AI Agent an Unexpected Shoutout in Faux Pas Moment — Shay Boloor Takes a Dig at 'Brand Differentiation'
+  summary: Futurum Equities‘ chief market strategist Shay Boloor highlighted a branding faux pas by OpenAI CFO Sarah Friar, who mistakenly referred to OpenAI’s AI agent “Dots” as Meta Platforms Inc. “Muse.” In an interview with CNBC on Tuesday, Friar incorrectly referred...
+  url: https://finnhub.io/api/news?id=eea54742ab69bf056eab444915648b98195308052efbf999a646de3d4d0c94c3

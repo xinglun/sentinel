@@ -1,0 +1,5 @@
+Finnhub narrative source for U
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Unity Software Surges 5% as Traders Weigh Meta Platforms VR Glasses Support; Adobe Rises 3%, Intuit Adds 2%
+  summary: Unity Software jumped after announcing day-one support for Meta's next-generation VR headset, but a timely product catalyst and a struggling business are not the same thing, and traders now face the harder question of which one matters more.
+  url: https://finnhub.io/api/news?id=a571eadbd7b858c4a9ca351a9362202b5572279496a1a79e459f15b7ec16c8e0

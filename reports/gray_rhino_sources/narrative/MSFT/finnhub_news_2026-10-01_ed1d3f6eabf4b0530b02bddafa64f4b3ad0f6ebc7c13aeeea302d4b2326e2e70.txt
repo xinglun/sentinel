@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 10-Year Treasury yield touches highest level since 2002: AlphaCheck
+  summary: Here's the market action in the first few minutes of trading.
+  url: https://finnhub.io/api/news?id=2d12d96a5b99d24180135a42b729568261bc3050e501355e6c1500bbc02736fa

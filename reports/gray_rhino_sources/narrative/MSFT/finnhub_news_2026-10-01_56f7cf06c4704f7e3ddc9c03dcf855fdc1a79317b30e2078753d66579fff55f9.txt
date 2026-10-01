@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Lunch: All About AI
+  summary: Why today's news out of Constellation Energy is really all about AI. Oracle getting away from being incredibly reliant on OpenAI. Micron's outstanding numbers.
+  url: https://finnhub.io/api/news?id=db58c796b35a6006df0cd273f755633fed3a0d316ff99b89a5839ee7b7d4264b

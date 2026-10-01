@@ -1,0 +1,5 @@
+Finnhub narrative source for NVDA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: These dow jones stocks are moving in today's session
+  summary: Let's have a look at the top dow jones gainers and losers one hour before the close of the markets of today's session.
+  url: https://finnhub.io/api/news?id=593aa07a576d9a104d35417a4de50cd4023685048bcb784bbe5f867fa4a98c43

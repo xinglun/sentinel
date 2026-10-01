@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Wall Street Sees 40% Upside For Microsoft as AI Monetization Finally Pays Off
+  summary: Wells Fargo just added Microsoft to its Q4 Tactical Ideas list and pushed its price target well above Wall Street consensus, betting that Azure and Copilot are about to prove the skeptics wrong.
+  url: https://finnhub.io/api/news?id=5921f6132863575cd490beaabe8fae0b73128ab64e69742001dbcf49061d08e0

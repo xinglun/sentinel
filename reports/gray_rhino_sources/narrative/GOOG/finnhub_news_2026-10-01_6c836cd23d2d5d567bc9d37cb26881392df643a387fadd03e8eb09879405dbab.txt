@@ -1,0 +1,5 @@
+Finnhub narrative source for GOOG
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: All or nothing: Why Anthropic is a big bet and a big risk for IPO buyers
+  summary: In The Loop host Ejaaz Ahamadeen breaks down Anthropic's IPO prospectus and explains why buyers of its IPO should expect significant risk, with concerns over user adoption, massive capital expenditure commitments, and intense competition.
+  url: https://finnhub.io/api/news?id=054fa9ea75efb933f8b4c91d89f1fa895550b9e4254a15ed8182590ad7f94824

@@ -1,0 +1,5 @@
+Finnhub narrative source for PLTR
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Palantir Stock Soars 60% in Q3 After First-Half Rout: Can Earnings Keep the Rally Going?
+  summary: Palantir (NASDAQ: PLTR) stock rose 60.32% to $187.05 in Q3 2026. See Q2 results, company guidance, analyst ratings and what to watch on Nov. 2.
+  url: https://finnhub.io/api/news?id=da58aa10852dd125a924989fcf34ff1056b016fe581747bed1fd33ea48c24e85

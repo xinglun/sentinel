@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Tokenized Assets Hit $34 Billion As Stocks Move Onchain
+  summary: The value of tokenized assets has reached $34 billion U.S. as a growing number of stocks move onchain. ...
+  url: https://finnhub.io/api/news?id=427187d522ba80fd7a2b377e8a153b03665dfac645e509fe5dd2bdba7ae001e0

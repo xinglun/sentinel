@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Coherent Jumps 10% on PhotonLink Push and Bernstein’s Outperform Start; Lumentum Rises 9%, Corning Advances 3%
+  summary: Coherent's PhotonLink platform and a fresh Wall Street initiation sent optics stocks surging well ahead of the broader market, raising the question of whether this rally signals a durable AI infrastructure trade or another sentiment-driven spike.
+  url: https://finnhub.io/api/news?id=72ec07f2140aeddfbe59695e12cebaab7fcccc923c7f8016c8914c2f6339d522

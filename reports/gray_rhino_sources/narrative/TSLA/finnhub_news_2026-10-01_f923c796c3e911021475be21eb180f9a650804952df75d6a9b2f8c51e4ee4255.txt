@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: 4 Experts Weigh In on How Tesla's Next Chapter Could Make or Break the Stock
+  summary: Tesla stock remains one of Wall Street's hottest debates. Experts reveal the risks, growth drivers and AI bets investors should watch closely.
+  url: https://finnhub.io/api/news?id=db39e39c0dfebf689d55e7a14251e482ebac7204f5f7173bdd8e5c466dea11b7

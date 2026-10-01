@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Nvidia’s Hyperscaler Revenue Could Reach $401B In 2027, Says Analyst: SpaceX Could Push Barclays’ ‘Napkin Math’ Higher
+  summary: The math is based on Nvidia’s chart showing its share of IT capex at the five largest cloud service providers.
+  url: https://finnhub.io/api/news?id=b0c724b51aaec98ad0a4cd38ced09d25ef3660d86af9a2cea8bf21746e87fa2d

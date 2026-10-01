@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Elon Musk Predicts US GDP Growth Will Top 3.3% in 2027 — Tesla CEO Says Economy Could Accelerate More Than 50% From This Year's Pace (UPDATED)
+  summary: Elon Musk expects U.S. GDP growth to surge more than 50% next year after the economy grew at a 2.2% annual rate in the second quarter.
+  url: https://finnhub.io/api/news?id=74fdbb107be2b6f503903ce22278925317f452b0d165cab55ba5cc3011bec13f

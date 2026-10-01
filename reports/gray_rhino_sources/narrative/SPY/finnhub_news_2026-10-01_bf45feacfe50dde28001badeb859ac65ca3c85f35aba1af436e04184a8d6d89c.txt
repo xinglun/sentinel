@@ -1,0 +1,5 @@
+Finnhub narrative source for SPY
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: Why I Made Gold A Full Position In My Portfolio
+  summary: Buy the dip in SPDR Gold Shares ETF as high yields, U.S. debt, and potential Fed action could spark a gold bull run. Click to review gold risks and upside now.
+  url: https://finnhub.io/api/news?id=ce01cccc853cfe840a08bce5565eb8eeb5aef1ef10f10ceef62e38cbc7a1a081

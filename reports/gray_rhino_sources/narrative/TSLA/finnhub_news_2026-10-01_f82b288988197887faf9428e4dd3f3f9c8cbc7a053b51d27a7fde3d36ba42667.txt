@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EVgo Eyes 17,000 Stalls by 2030 as Tesla Deal Expands Its EV Charging Reach
+  summary: EVgo (NASDAQ:EVGO) Chief Executive Officer Badar Khan outlined the fast-charging operator’s network expansion, Tesla partnership and long-term profitability targets during the Lytham Partners Fall 2026 Investor Conference. Khan said EVgo is the third-largest fast-charging operator in the United Sta
+  url: https://finnhub.io/api/news?id=3a63222c186b439ced309be7ecaebe892dcb6eb28c76732809554545a5e03135

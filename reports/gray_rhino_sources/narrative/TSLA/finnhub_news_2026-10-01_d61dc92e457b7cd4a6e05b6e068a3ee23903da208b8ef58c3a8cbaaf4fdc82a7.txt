@@ -1,0 +1,5 @@
+Finnhub narrative source for TSLA
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: XPENG to Launch Its Next-Gen AI Flagship G9L SUV and Showcase Its Physical AI Lineup at the 2026 Paris Motor Show
+  summary: XPeng Inc. ("XPENG" or the "Company," NYSE: XPEV; HKEX: 9868), a leading global Physical AI company, will make a major appearance at the 2026 Paris Motor Show from October 12 to 18, bringing its latest advances in intelligent mobility, robotics and future transportation to one of Europe's most prominent automotive stages. At the show, XPENG will make the global launch of its Next-Gen AI Flagship SUV, the G9L, marking another milestone in the company's expansion in Europe.
+  url: https://finnhub.io/api/news?id=8be383e57639b22f04d28270099d27a496dc76c953f13f1c364fc259f1026fc0

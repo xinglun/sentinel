@@ -1,0 +1,5 @@
+Finnhub narrative source for SPCX
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: EXCLUSIVE: Space Insurer on What Starship’s First Orbital Flight Means for SpaceX and the Space Economy
+  summary: SpaceX put Starship into orbit for the first time Monday, but the real economic breakthrough will come if it can return from orbit and rapidly fly again, Andrew Bonwick of specialty insurer Relm Insurance told Benzinga. "The really big thing...
+  url: https://finnhub.io/api/news?id=bd541fdcf2f4ba62709f08283da52fc38ca4d86769eb5b92b1173fe8141a89da

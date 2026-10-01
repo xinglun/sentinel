@@ -1,0 +1,5 @@
+Finnhub narrative source for MSFT
+Purpose: normalize one company news article for structural-risk discovery.
+- headline: How Has Microsoft's Story Changed In A Year?
+  summary: Microsoft's management stressed Copilot and AI agents on its fiscal Q4 2026 call. The stock has returned 34% in three months, against 2.5% for the S&P 500. Microsoft (MSFT) needs fast Azure growth and revenue from Copilot's paid seats to justify that gain. A year ago management led with a different topic, tied to a large part of Microsoft. What was it exactly.
+  url: https://finnhub.io/api/news?id=5a5986f25f64b803b9a08fadf94072c7bbf430a64c082281012b1c9c6afb9202
