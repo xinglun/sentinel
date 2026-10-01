@@ -16,6 +16,7 @@ pub mod observation_timeline;
 pub mod portfolio_policy;
 pub mod position_intent;
 pub(crate) mod price_volume_structure;
+pub mod probe_eligibility_observation;
 pub mod rules;
 pub mod transition_log;
 pub mod trend_cohesion;

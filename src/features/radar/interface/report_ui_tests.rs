@@ -558,6 +558,61 @@ mod tests {
     }
 
     #[test]
+    fn probe_success_and_io_failures_preserve_full_decision_surface() {
+        use crate::features::radar::infrastructure::persistence::PersistenceLayer;
+        use crate::features::radar::interface::probe_eligibility_read_model::observe_after_decision;
+        for failure in ["none", "read", "fact_write", "archive_write"] {
+            let dir = std::env::temp_dir().join(format!(
+                "sentinel-probe-invariance-{}",
+                uuid::Uuid::new_v4()
+            ));
+            std::fs::create_dir_all(&dir).unwrap();
+            if failure == "read" {
+                std::fs::create_dir_all(dir.join("probe_observations")).unwrap();
+                std::fs::write(dir.join("probe_observations/bad.json"), b"broken").unwrap();
+            }
+            if failure == "fact_write" {
+                std::fs::write(dir.join("probe_observations"), b"blocked").unwrap();
+            }
+            if failure == "archive_write" {
+                std::fs::write(dir.join("probe_observation_archives"), b"blocked").unwrap();
+            }
+            let packet = no_trade_snapshot_packet();
+            let before_packet = serde_json::to_vec(&packet).unwrap();
+            let config = mock_config();
+            let mut presentation = PresentationAssembler::assemble(
+                &packet,
+                &domain_rules(&config),
+                &HashMap::new(),
+                vec![],
+                Language::EnUs,
+            );
+            let before = decision_surface(&presentation);
+            let observation = observe_after_decision(
+                &PersistenceLayer::new(&dir),
+                &presentation.final_execution_decision,
+                NaiveDate::from_ymd_opt(2026, 9, 30).unwrap(),
+                "run-1",
+                "2026-09-30T21:00:00Z",
+                true,
+            );
+            assert_eq!(observation.history_read_failed, failure != "none");
+            presentation.probe_eligibility_observation = Some(observation);
+            let _ = generate_refined_report(
+                &report_context(&config),
+                &presentation,
+                0.0,
+                &HashMap::new(),
+                &HashMap::new(),
+            )
+            .unwrap();
+            assert_eq!(before_packet, serde_json::to_vec(&packet).unwrap());
+            assert_eq!(before, decision_surface(&presentation));
+            std::fs::remove_dir_all(dir).unwrap();
+        }
+    }
+
+    #[test]
     fn corporate_event_context_does_not_change_decision_surface() {
         let mut packet = no_trade_snapshot_packet();
         packet.date = NaiveDate::from_ymd_opt(2026, 8, 27).unwrap();
@@ -4933,6 +4988,7 @@ mod tests {
     fn leaderless_reconciliation_reaches_all_report_bodies_without_erasing_long_term_context() {
         let config = mock_config_with_language(Language::ZhCn);
         let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
             decision_summary:
                 crate::features::radar::interface::presentation::DecisionSummaryViewModel {
                     is_no_trade: true,
@@ -5002,6 +5058,7 @@ mod tests {
         let confirmed_trend = "趋势凝聚已形成（确认）".to_string();
         let confirmed_state = "启动期（确认）".to_string();
         let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
             decision_summary:
                 crate::features::radar::interface::presentation::DecisionSummaryViewModel {
                     is_no_trade: false,
@@ -5073,6 +5130,7 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let raw_reason = "📉 主线掉队: 连续转弱触发结构性减仓".to_string();
         let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
             risk_opportunities: vec![
                 crate::features::radar::interface::display::RiskOpportunityViewModel {
                     kind: "风险".to_string(),
@@ -5157,6 +5215,7 @@ mod tests {
         let config = mock_config_with_language(Language::ZhCn);
         let packet = DecisionPacket::default();
         let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
             interpretation_layer: Some(Default::default()),
             tactical_buckets: vec![
                 crate::features::radar::interface::display::TacticalBucketViewModel {
@@ -5246,6 +5305,7 @@ mod tests {
                 Language::JaJp => "ASSET3 / ASSET4 などの資産で相対強度に初期改善が見られますが、回復はまだ確認できません。",
             };
             let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
                 language,
                 interpretation_layer: Some(Default::default()),
                 current_relative_strength: Some(
@@ -5505,6 +5565,7 @@ mod tests {
         );
 
         let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            probe_eligibility_observation: None,
             date_str: "2026-06-18".to_string(),
             language: Language::EnUs,
             macro_display: Default::default(),
@@ -8247,5 +8308,74 @@ mod tests {
                 assert!(!detail_row.contains(&candidate_label), "{body}");
             }
         }
+    }
+}
+
+#[test]
+fn probe_observation_all_channels_share_values_and_preserve_decision() {
+    use crate::features::radar::interface::probe_eligibility_read_model::build_windows;
+    use crate::features::shared::interface::i18n::Language;
+    for (language, title) in [
+        (Language::EnUs, "Probe Effectiveness Observation"),
+        (Language::ZhCn, "Probe 有效性观察"),
+        (Language::JaJp, "Probe 有効性観測"),
+    ] {
+        let mut pres = crate::features::radar::interface::presentation::PresentationPacket {
+            language,
+            ..Default::default()
+        };
+        let before = serde_json::to_vec(&pres.final_execution_decision).unwrap();
+        let date = NaiveDate::from_ymd_opt(2026, 9, 29).unwrap();
+        use crate::features::radar::domain::probe_eligibility_observation::{
+            Permission, ProbeFact,
+        };
+        let facts = [
+            (24, Permission::NoTrade, 0),
+            (25, Permission::Probe, 0),
+            (28, Permission::Probe, 1),
+            (29, Permission::NoTrade, 0),
+        ]
+        .into_iter()
+        .map(|(day, permission, count)| ProbeFact {
+            market_date: NaiveDate::from_ymd_opt(2026, 9, day).unwrap(),
+            permission,
+            eligible_asset_count: Some(count),
+            report_run_id: format!("run-{day}"),
+            observed_at: format!("2026-09-{day}T21:00:00Z"),
+            provenance: "canonical-final-execution-v1".into(),
+        })
+        .collect::<Vec<_>>();
+        pres.probe_eligibility_observation = Some(build_windows(&facts, date, None, false));
+        let context = ReportRenderContext {
+            compact_transition_in_no_trade: true,
+            compact_stability_threshold: "0".into(),
+            compact_continuity_threshold: "0".into(),
+            observation_timeline: None,
+        };
+        let result =
+            generate_refined_report(&context, &pres, 0.0, &HashMap::new(), &HashMap::new())
+                .unwrap();
+        for text in [
+            &result.telegram_html_body,
+            &result.markdown_body,
+            &result.archival_markdown,
+        ] {
+            assert!(text.contains(title));
+            assert!(text.contains("PARTIAL"));
+            assert!(text.contains("50.0% (1/2)"));
+            assert!(text.contains(match language {
+                Language::EnUs => "Statistical Quality",
+                Language::ZhCn => "统计质量",
+                Language::JaJp => "統計品質",
+            }));
+            assert!(text.contains("100.0%"));
+            assert!(text.contains("decision_weight=0"));
+            assert!(text.contains("trade_signal=false"));
+        }
+        assert_eq!(
+            before,
+            serde_json::to_vec(&pres.final_execution_decision).unwrap()
+        );
+        assert!(result.archival_markdown.contains("60"));
     }
 }

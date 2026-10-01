@@ -65,7 +65,7 @@ jobs:
 
       - name: Install AI Cockpit Runtime
         env:
-          AI_COCKPIT_VERSION: "0.2.33"
+          AI_COCKPIT_VERSION: "1.0.0"
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
@@ -109,8 +109,7 @@ jobs:
             --stage pr \
             --base-revision "${AI_BASE_COMMIT}" \
             --command make \
-            --args quality \
-            --workers 2
+            --args quality
 
   audit-daily-guard:
     name: Audit Daily Guard

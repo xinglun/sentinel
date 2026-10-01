@@ -1,6 +1,7 @@
 mod atomic;
 mod migration;
 mod model;
+mod probe_observation;
 
 use atomic::{write_file_atomically, HistoryWriteTransaction};
 pub(crate) use model::PriceVolumeObservationRecord;

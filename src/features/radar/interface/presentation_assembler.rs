@@ -685,6 +685,7 @@ impl PresentationAssembler {
         }
 
         let presentation = PresentationPacket {
+            probe_eligibility_observation: None,
             date_str,
             language: lang,
             macro_display,
