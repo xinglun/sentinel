@@ -1,0 +1,22 @@
+{
+  "closeRequired": true,
+  "createdAt": "2026-10-02T23:30:38Z",
+  "files": {
+    "contractDigest": "sha256:0651ea89847df2eabd464ec0044609b2093048625aafb300340c6977e6e1ea4a",
+    "contractPath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.contract.json",
+    "eventsDigest": "sha256:368c3389d4f632259d7f2fac8aeb3dc9c73a50187c0b6b3e2193f9ea8fca6f20",
+    "eventsPath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.events.jsonl",
+    "outcomeDigest": "sha256:884c0f0031046efaf3330c5937eea454f5f54d279fb6d244eb03c8cc27aff822",
+    "outcomePath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.outcome.json",
+    "summaryDigest": "sha256:733e72fa6dd3ca305b1d34620c37a3c7ec87f421231a4440177f8e3a4fd9868f",
+    "summaryPath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.summary.json",
+    "taskReportDigest": "sha256:e9964fe2dfa13be3384716fa9b8912cae549a554adfa26ce060a6e4decdf09e5",
+    "taskReportMarkdownDigest": "sha256:8e59fe4cf87ed64a48e7b855354e97609feedb96dbbd3891e2ffd060df220a2d",
+    "taskReportMarkdownPath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.task-report.md",
+    "taskReportPath": ".ai/work-items/archive/signal-context-read-model-rustfmt-drift.task-report.json"
+  },
+  "historicalArtifacts": [],
+  "protocolVersion": 1,
+  "state": "archived",
+  "workItemId": "signal-context-read-model-rustfmt-drift"
+}
